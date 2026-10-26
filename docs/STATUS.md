@@ -9,7 +9,7 @@
 
 - **2026-10-26 CET：3b A批次1 G2离线基线（待复核）。** 规则dom-marker-mutation@2同步全部id引用，12保存页真实Chromium对照8 PASS、4诚实退化，无错误声明；TableCheck两日历原页已未知，PASS不证明查位。固定test:dom-change加入额外清单，G3要求PASS且不得抹掉原页已知事实。产品/Guard/Recorder/Prompt/Schema/State未改，新增真实调用0。ADR（对话 B 起草，待批准）统一维护用户两原则；G1只交CANDIDATE候选，回放另切片。0027ed84五门禁全绿（默认1101/Chromium166）、额外G2 4/4通过且各项前后净树；未合main。[报告](../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 
-- **2026-10-26 CET：3b A批次1待复核。** G2分支42dc6ef1已推：12保存页8 PASS/4诚实退化，五门禁1101/166及固定G2绿；G1分支8bd6bb8c已推：30题全部CANDIDATE，49摘录核对通过、无人工Gold先NOT_READY，五门禁1104/163绿。回放本分支修离线原动作临时ref绑定，普通stale仍拒；历史snapshot3窄窗口红绿完成。整份旧F5在新main首语义Prompt23/Schema3对25/4不兼容，仍INCOMPLETE（0/94），不改旧输出或产品合同，等复核安排。静态资格19/94不变，方案仅草案；五门禁待执行，新增真实调用0，不合main。[报告](../.eval-artifacts/phase3b/replay-completion/report.md)。
+- **2026-10-26 CET：3b A批次1待复核。** G2分支42dc6ef1已推：12保存页8 PASS/4诚实退化，五门禁1101/166及固定G2绿；G1分支8bd6bb8c已推：30题全部CANDIDATE，49摘录核对通过、无人工Gold先NOT_READY，五门禁1104/163绿。回放本分支修离线原动作临时ref绑定，普通stale仍拒；历史snapshot3窄窗口红绿完成。整份旧F5在新main首语义Prompt23/Schema3对25/4不兼容，仍INCOMPLETE（0/94），不改旧输出或产品合同，等复核安排。静态资格19/94不变，方案仅草案；f3fdfd9c五门禁1103/163全绿、逐项前后净树，新增真实调用0，不合main。[报告](../.eval-artifacts/phase3b/replay-completion/report.md)。
 
 - **2026-10-26 CET：3a′带缺口签收，3a完成（用户决定）。** 3a′保留四项缺口：F5例01未达成，转3b店名解析G4与F6 Live验证；网站适配器3,847行，未达≤3,591，L1/L4/L5转3b查位改造G3；测试集变快但未变小；真实录制尚不能完整回放，转3b对话A。3a①推荐与查位边界已合入（ADR-0044 revision1.1、语义Prompt@25、Gold@4）；3a②使用条款按用户提供的日本律师咨询结论“当前做法没有问题”结束。运行规范照旧：节奏控制、不进入robots禁止的预约流程路径、遇到限流或繁忙页面就退避。额度终值：3a′ Live **8/8**、真实模型 **334/400**、环境重跑 **3/4**；3a边界真实模型单列 **93/144**。本批只改文档，新增真实调用0；不开始3b或F6 Live。签收annotated tag：`phase3a-prime-signoff`。[完整收尾记录](history/DEVLOG.md#dev-2026-10-26-phase3a-prime-signoff)。
 
@@ -115,7 +115,7 @@
 
 - **2026-10-24 CEST F5停止点2交付收敛：** 共享层实现、正常地区圆心／入口控制、跨readRunId集合拒绝及持久化已齐。最终代码d771aa51五门禁全绿（默认1038／Chromium138），每项前后工作区均干净；两个站点目录3864行及source-packs473行逐字节不变。冻结脚本后例01公开GET仅2次，当前Dengana距冻结圆心约202m、类别相符、2026-11-04 19:00两人空位见证通过；间隔5.010秒，响应／SHA与账本齐。例03 Kudanshita仅人工800m口径，环带未核对、可选GET0。模型／Google／Live新增0；推实现分支后停在2等复核，F5Live仍须F2①／F2④a合main及用户另批。[完整报告](../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
 
-- **2026-10-24 CEST F5批次2实现／冻结（历史起点）：** 已在新main/f42715c2建立实现分支。仅共享层实现Accepted ADR0043，临时入口可取样并从已观察集合直接纠正一次；状态21／定义19，Browser上下文3／wire12／Prompt20。R1有效红灯与绿灯、四页零恢复真实Chromium、真实Router／Reducer和N1–N4定向通过。适用五门禁待执行；例01公开GET认证脚本及两例日期变体先冻结提交，当前新增外部调用0。停在停止点2前补齐结果，不运行Live，不合并main。[报告](../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
+- **2026-10-24 CEST F5批次2实现／冻结（历史起点）：** 已在新main/f42715c2建立实现分支。仅共享层实现Accepted ADR0043，临时入口可取样并从已观察集合直接纠正一次；状态21／定义19，Browser上下文3／wire12／Prompt20。R1有效红灯与绿灯、四页零恢复真实Chromium、真实Router／Reducer和N1–N4定向通过。适用f3fdfd9c五门禁1103/163全绿、逐项前后净树；例01公开GET认证脚本及两例日期变体先冻结提交，当前新增外部调用0。停在停止点2前补齐结果，不运行Live，不合并main。[报告](../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-F5-REBASE:** 用户通过停止点1c，授权进入批次2实现＋Live准备。分析分支已将三提交重放到main/f42715c2，冲突保留F1/F1b及F5全部记录；分析摘要和Accepted ADR0043逐字节不变，生产代码差异0。原停止点60d02686用annotated tag保留固定Git输入可达性。仅推分析分支后，从新main建立codex/fix-phase3a-prime-f5-provisional-entrance；本记录不表示实现或Live已运行。新增模型/Google/网站/Live0。[重放核验](../.eval-artifacts/phase3a-prime/f5-analysis/rebase-20261024.json)。
 

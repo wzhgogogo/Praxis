@@ -25,7 +25,7 @@
 
 ## 2026-10-26 CET：回放引用有效红绿及全包合同停止
 
-299f3682在typecheck通过后，真实Chromium＋ModelBrowserReadActionDecision＋Executor断言COMPLETED实际NO_SAFE_ACTION，诊断STALE_OR_UNKNOWN_TARGET_REF；修后同窗口到A1322，RAW旧ref仍拒。歧义/改href/改目标/跨source或flow/URL冒充/旧Prompt拒绝。原始39决策与HAR保留，OS禁网完整回放在语义23/3对25/4处NE，0页/0真实调用；不把外部临时路径Guard错误或预期exit1当红灯。五门禁待执行；DOM六页可读不升回放资格。[报告](../../.eval-artifacts/phase3b/replay-completion/report.md)。
+299f3682在typecheck通过后，真实Chromium＋ModelBrowserReadActionDecision＋Executor断言COMPLETED实际NO_SAFE_ACTION，诊断STALE_OR_UNKNOWN_TARGET_REF；修后同窗口到A1322，RAW旧ref仍拒。歧义/改href/改目标/跨source或flow/URL冒充/旧Prompt拒绝。原始39决策与HAR保留，OS禁网完整回放在语义23/3对25/4处NE，0页/0真实调用；不把外部临时路径Guard错误或预期exit1当红灯。f3fdfd9c五门禁1103/163全绿、逐项前后净树；DOM六页可读不升回放资格。[报告](../../.eval-artifacts/phase3b/replay-completion/report.md)。
 
 <a id="test-2026-10-26-f6-implemented"></a>
 
