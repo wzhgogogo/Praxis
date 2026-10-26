@@ -40,3 +40,5 @@ Evidence status：current executable（窄引用绑定修复）＋draft / not in
 f3fdfd9c五门禁全绿，收据在[verification](verification/)：typecheck0.430s、arch0.199s、默认1103/1103 27.620s、build0.397s、Chromium163/163 98.328s，每项前后status为空；43份冻结输入SHA再核对通过。生产/站点/Pack/Recorder零差异已复核；有效红绿、负例、严格旧合同控制及DOM方案探针分别记录。产品、站点、source-packs、Prompt/Schema/State、Recorder脱敏相对main零差异；不读取、不暂存.env。共享3b账本保留G2/G1条目并加本项零计数。工作分支推送供复核，不合main；当前完整旧录制仍未完成，等待复核者安排版本边界。
 
 验证收尾时间：2026-10-26T23:58:57.232185+01:00（Europe/Vienna CET）。G2、G1与回放三分支分别验证，未把未合入的其他切片代码叠入本分支。
+
+文档归档复核：2026-10-27T00:01:05.541813+01:00（CET）。已还原一处批量替换误触的2026-10-24历史STATUS门禁文字；各分支历史正文与main基线对照，无本批结果回写历史。此修正只有文档，不改已验证代码或冻结输入。

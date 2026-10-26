@@ -115,7 +115,7 @@
 
 - **2026-10-24 CEST F5停止点2交付收敛：** 共享层实现、正常地区圆心／入口控制、跨readRunId集合拒绝及持久化已齐。最终代码d771aa51五门禁全绿（默认1038／Chromium138），每项前后工作区均干净；两个站点目录3864行及source-packs473行逐字节不变。冻结脚本后例01公开GET仅2次，当前Dengana距冻结圆心约202m、类别相符、2026-11-04 19:00两人空位见证通过；间隔5.010秒，响应／SHA与账本齐。例03 Kudanshita仅人工800m口径，环带未核对、可选GET0。模型／Google／Live新增0；推实现分支后停在2等复核，F5Live仍须F2①／F2④a合main及用户另批。[完整报告](../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
 
-- **2026-10-24 CEST F5批次2实现／冻结（历史起点）：** 已在新main/f42715c2建立实现分支。仅共享层实现Accepted ADR0043，临时入口可取样并从已观察集合直接纠正一次；状态21／定义19，Browser上下文3／wire12／Prompt20。R1有效红灯与绿灯、四页零恢复真实Chromium、真实Router／Reducer和N1–N4定向通过。适用f3fdfd9c五门禁1103/163全绿、逐项前后净树；例01公开GET认证脚本及两例日期变体先冻结提交，当前新增外部调用0。停在停止点2前补齐结果，不运行Live，不合并main。[报告](../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
+- **2026-10-24 CEST F5批次2实现／冻结（历史起点）：** 已在新main/f42715c2建立实现分支。仅共享层实现Accepted ADR0043，临时入口可取样并从已观察集合直接纠正一次；状态21／定义19，Browser上下文3／wire12／Prompt20。R1有效红灯与绿灯、四页零恢复真实Chromium、真实Router／Reducer和N1–N4定向通过。适用五门禁待执行；例01公开GET认证脚本及两例日期变体先冻结提交，当前新增外部调用0。停在停止点2前补齐结果，不运行Live，不合并main。[报告](../.eval-artifacts/phase3a-prime/f5-implementation/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-F5-REBASE:** 用户通过停止点1c，授权进入批次2实现＋Live准备。分析分支已将三提交重放到main/f42715c2，冲突保留F1/F1b及F5全部记录；分析摘要和Accepted ADR0043逐字节不变，生产代码差异0。原停止点60d02686用annotated tag保留固定Git输入可达性。仅推分析分支后，从新main建立codex/fix-phase3a-prime-f5-provisional-entrance；本记录不表示实现或Live已运行。新增模型/Google/网站/Live0。[重放核验](../.eval-artifacts/phase3a-prime/f5-analysis/rebase-20261024.json)。
 
