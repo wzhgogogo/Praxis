@@ -1,0 +1,15 @@
+✔ health deadline accepts the last completed ready snapshot when the final snapshot is 220ms late (1011.243375ms)
+✔ health deadline keeps its hard bound and never infers readiness without a completed ready snapshot (1817.468125ms)
+✔ Live source health checks both sources and waits five minutes before each of at most three attempts (6.251542ms)
+✔ Live source health rejects saved busy/challenge/403 pages and does not mistake numeric restaurant copy for an HTTP error (0.180333ms)
+{"stage":"SOURCE_HEALTH_PREFLIGHT","classification":"ENV_FAILURE","formalRunStarted":false,"modelCalls":0,"googleRequests":0,"liveRuns":0,"artifactPath":"/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/live-source-health/1792977125390-h001/source-health.json"}
+✔ actual Hybrid Live Runner stops before provider calls or a formal run after three unhealthy source checks (153.67125ms)
+✔ Live source health uses real Guard and observes a busy error arriving after visible results; 403/challenge never start a Live (3066.032083ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3431.40825

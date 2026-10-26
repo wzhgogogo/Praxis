@@ -1,0 +1,18 @@
+✖ W12 Live Persistent run keeps the semantic-started deadline through a blocking provider read (3096.56848ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4132.132392
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:1:49883
+✖ W12 Live Persistent run keeps the semantic-started deadline through a blocking provider read (3096.56848ms)
+  Error: Timed out waiting for W12 source search to start
+      at Timeout.<anonymous> (/home/wangzhour.guest/praxis-f3-small-fixes/src/server/local-web-server.test.ts:294:41)
+      at listOnTimeout (node:internal/timers:608:17)
+      at process.processTimers (node:internal/timers:543:7)

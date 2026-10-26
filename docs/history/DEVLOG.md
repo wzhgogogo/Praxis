@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.311
+- Document revision: 4.312
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -4796,3 +4796,7 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-26-F3-A-STOP
 
 保持原合同与核验，按批准的证据不足延期条款处理九项，未把估算306记作已实现。仅原TableCheck parser合并重复计算；全量时序清单逐条处理，保留检错。另记录范围外post-exit catalog路径静态接线问题，未修改或运行Live。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/report.md)。
+
+## DEV-2026-10-26-F3-REVIEW-SMALL-FIXES
+
+与批准main70a7eb1f集成无冲突，A仅修改两个eval基础设施实现及三份所属测试；目录引用不再允许任意artifact路径，读取固定HEAD catalog blob并核对SHA。W12保留20/55ms逻辑截止，真实DB/HTTP条件等待有界；健康普通状态以独立时钟推进，slow精确真实时序保留。用户复核通过L7/L10/前轮时序卫生，行数目标不再本批继续；退出条件6 NOT_MET，3847/3591、Pack473，L1/L4/L5转3b，其他六项延期保留。 [报告](../../.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/report.md)。

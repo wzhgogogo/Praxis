@@ -1,0 +1,47 @@
+{
+  "id": "second",
+  "status": "EVALUATED",
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "exitedAtCET": "2026-10-26T02:52:23.413+01:00",
+  "evaluationStartedAtCET": "2026-10-26T02:52:23.413+01:00",
+  "finishedAtCET": "2026-10-26T02:52:23.430+01:00",
+  "exitToEvaluationStartMs": 0.01812500000005457,
+  "s0": {
+    "S0_DECLARATION": {
+      "status": "PRESENT",
+      "reasons": [
+        "Displayed offer party 9 conflicts with frozen Gold 2"
+      ],
+      "evidenceRefs": [
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-discovery:d1517a4aea6df68a47777234]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-entity:d1517a4aea6df68a47777234]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:google-facts:7bc400a9bbfb90e521516edb]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-entity-match:2108c41ce216d936ee5f136e]",
+        "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tablecheck-availability:eb1167a474520ee9a7f27b22]",
+        "finalSnapshot.domainState.availability[praxis:restaurant:f16d05ec6b29248d2c61adb1][id=offer:tablecheck:praxis:restaurant:f16d05ec6b29248d2c61adb1:2026-10-30:19:00:2]",
+        "browserTrace[sequence=44]"
+      ]
+    },
+    "S0_BOUNDARY": {
+      "status": "ABSENT",
+      "reasons": [
+        "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+      ],
+      "evidenceRefs": [
+        "src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json#sha256=99729a1758691d1077995571cca1ae8c0ae81e00e98b9c03c38a67e3f3be7b61",
+        "docs/decisions/0036-generic-public-read-network-policy.md",
+        "docs/decisions/0035-browser-read-network-boundary.md"
+      ],
+      "gaps": []
+    }
+  },
+  "sourceArtifact": {
+    "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-g9xWaA/second/run-eNVf0x/.eval-artifacts/restaurant-hybrid-live-read/2026-10-26T01-52-21-982Z-445c3434-8477-443c-a5aa-3c1bddc9cdb9.result.json",
+    "sha256": "678a06bafe12be97a7c864d59c4df2479f91d09995a939c299bd51098f8f792a"
+  },
+  "reviewedReadsSha256": "99729a1758691d1077995571cca1ae8c0ae81e00e98b9c03c38a67e3f3be7b61",
+  "evaluationPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/post-exit-batch-g9xWaA/second/run-eNVf0x/.eval-artifacts/restaurant-hybrid-live-read/2026-10-26T01-52-21-982Z-445c3434-8477-443c-a5aa-3c1bddc9cdb9.result.evaluation.36-1792979543429.json"
+}

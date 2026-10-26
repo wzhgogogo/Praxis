@@ -1,0 +1,36 @@
+{
+  "sourceCommit": "8badf91d16113a0f926ae88d85a00c3331845012",
+  "allValid": true,
+  "results": [
+    {
+      "id": "W12-shared-semantic-deadline-not-held",
+      "sourceCommit": "8badf91d16113a0f926ae88d85a00c3331845012",
+      "originalSha256": {
+        "src/server/local-web-server.test.ts": "67f1619809580e5434573702bcedfcafba5c7cfae3125751e4a2b2dc27f5c5ce"
+      },
+      "generatedSha256": {
+        "challenge.test.ts": "29b978596f708fa184d2dacdd3cd21143fc6cc115101a468353575e017637f7a"
+      },
+      "testNamePattern": "W12 Live Persistent run keeps",
+      "exitCode": 1,
+      "validContractRed": true,
+      "logSha256": "60a1ca8c8a3cc41a5b6cf5c1cc26fbaccc751b234510484fa0b8d1f5f9097094"
+    },
+    {
+      "id": "health-cannot-accept-first-visible-results",
+      "sourceCommit": "8badf91d16113a0f926ae88d85a00c3331845012",
+      "originalSha256": {
+        "src/eval/restaurant/agent-loop/live-source-health.ts": "54145a230fe45f67cd58e01a6a20ffd5f39730814e1a1138733ba189d487eb27",
+        "src/harness/browser/live-source-health.test.ts": "f6eb724fd326c74f6e47f84cf3b3ff080119497f1b7b53d1eff73ef9415b3a34"
+      },
+      "generatedSha256": {
+        "challenge.test.ts": "ab6127af34f991e61e58d6ba3fec3ba0580cc190ac64b5e8c6e1f77bea5098ba",
+        "live-source-health.ts": "3606455c5ca4ea28d9a0e4b0d719302bf9ab899e96e4249572443e431315a6e3"
+      },
+      "testNamePattern": "Live source health uses real Guard",
+      "exitCode": 1,
+      "validContractRed": true,
+      "logSha256": "0c9997ff6f1302d422af062ec0ce235030a101815bf576964113bac05157dfaf"
+    }
+  ]
+}

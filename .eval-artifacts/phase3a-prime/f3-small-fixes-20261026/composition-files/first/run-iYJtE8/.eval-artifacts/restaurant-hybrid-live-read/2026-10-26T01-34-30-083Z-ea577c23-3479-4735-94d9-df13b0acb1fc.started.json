@@ -1,0 +1,48 @@
+{
+  "mode": "HYBRID_LIVE_READ",
+  "caseId": "interruption-fixture",
+  "scorerStatus": "FULL_RUBRIC_NOT_INTEGRATED",
+  "diagnosticEvaluator": {
+    "version": "restaurant-hybrid-read-diagnostic-evaluator@36",
+    "rubricVersion": "restaurant-hybrid-read-diagnostic-rubric@31"
+  },
+  "runtimeContext": {
+    "browserEngine": "LOCAL_CHROMIUM",
+    "mode": "OFFLINE_SYNTHETIC_SOURCE",
+    "realModelCalls": 0,
+    "preflight": {
+      "reviewedReadsPath": "src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json",
+      "reviewedReadsSha256": "99729a1758691d1077995571cca1ae8c0ae81e00e98b9c03c38a67e3f3be7b61"
+    }
+  },
+  "safety": {
+    "policy": "READ_ONLY_CODE_PATH",
+    "externalSideEffectCount": "NOT_MEASURED"
+  },
+  "requestedRunCeilings": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 100,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  },
+  "schemaVersion": "1",
+  "runId": "ea577c23-3479-4735-94d9-df13b0acb1fc",
+  "startedAt": "2026-10-26T01:34:30.083Z",
+  "status": "STARTED"
+}

@@ -1,0 +1,33 @@
+{
+  "status": "COMPLETED_STOPPED_FOR_REVIEW",
+  "timeCET": "2026-10-26T02:36:55.193104+01:00",
+  "sourceTestedCommit": "0dcf150c2a949d54abe154c353a1b99114d3fe8b",
+  "sourceUnchangedAfterGates": true,
+  "macos": {
+    "defaultTests": 1060,
+    "browserTests": 162,
+    "browserSeconds": 99.684504
+  },
+  "linux": {
+    "cpus": 2,
+    "fullFiveGateRounds": 3,
+    "defaultPassEachRound": 1060,
+    "browserPassEachRound": 162,
+    "browserSeconds": [
+      103.371544,
+      103.07081,
+      102.930896
+    ],
+    "browserMedianSeconds": 103.07081,
+    "network": "unprivileged network namespace, lo only, no external route"
+  },
+  "siteLines": 3847,
+  "packLines": 473,
+  "exitCondition6": "NOT_MET_ACCEPTED_CARRY_TO_3B",
+  "realCalls": {
+    "model": 0,
+    "googleApi": 0,
+    "restaurantWebsite": 0,
+    "live": 0
+  }
+}

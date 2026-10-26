@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.318
+- Document revision: 4.319
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -5516,3 +5516,7 @@ c041b234 的隔离 option/value 核验变异为有效 AssertionError 红灯；45
 ## TEST-2026-10-26-F3-A-STOP
 
 H0新main组合、L7、L10各五门禁严格全绿：默认1060/1060、Chromium161/161，耗时106.433/106.290/106.473秒，逐门git status为空，输入与脚本预先冻结；各红灯真实AssertionError。不同源码样本不混算中位数。行数统一物理口径3847（Pack473），九项延期不标通过；维也纳CET。 [报告](../../.eval-artifacts/phase3a-prime/f3-implementation-20261026/report.md)。
+
+## TEST-2026-10-26-F3-REVIEW-SMALL-FIXES
+
+未修路径反例NOT_EVALUATED、2核旧W12原始超时红灯、丢hold和晚busy专属故障红灯均有效；修后原正负及独立评价通过。Mac五门禁1075/162；2核Linux三轮完整五门禁均1075/162，真实Chromium耗时[102.307707, 102.445508, 102.472459]秒，中位102.446秒，每门前后净树、冻结输入SHA一致、无跳过或豁免。loopback-only测试网络，无生产外部调用；维也纳CET。 [报告](../../.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/report.md)。
