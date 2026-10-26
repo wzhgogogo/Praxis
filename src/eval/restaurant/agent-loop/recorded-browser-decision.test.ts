@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
+import { mkdtemp, rm } from "node:fs/promises";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { rebindRecordedBrowserDecision, type CapturedDecision } from "./runners/recorded-browser-decision.js";
+import { runRecordedRead, type RecordedReadInput } from "./runners/run-recorded-read.js";
 import type { ModelRequest } from "../../../core/model/contracts.js";
 import { type BrowserReadDecisionInput } from "../../../infrastructure/browser/browser-action-decision.js";
 
@@ -47,4 +51,20 @@ test("recorded region reference uses this flow's observed collection and rejects
   }
   const empty = structuredClone(current); empty.regionCorrection!.entrances = [];
   assert.throws(() => rebindRecordedBrowserDecision(record, request(record, empty)), { code: "REPLAY_REGION_TARGET_MISSING_OR_AMBIGUOUS" });
+});
+
+test("an intentional old-contract Replay stop returns a bounded incomplete receipt without upgrading its output", async () => {
+  // Actual F5 recording. No browser or model transport can start: its first
+  // recorded semantic contract is incompatible with the signed-off main.
+  const config = JSON.parse(readFileSync(new URL("../../../../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/inputs/config.json", import.meta.url), "utf8")) as RecordedReadInput;
+  const directory = await mkdtemp(join(tmpdir(), "f5-replay-contract-"));
+  let summary: Awaited<ReturnType<typeof runRecordedRead>> | undefined;
+  try {
+    await assert.doesNotReject(async () => { summary = await runRecordedRead(config, directory); }, "An intentional incomplete Replay must retain its reason instead of losing the receipt in the Runner exception");
+    assert.equal(summary!.status, "REPLAY_INCOMPLETE");
+    assert.equal(summary!.consumedPages, 0); assert.equal(summary!.replayedDecisionCount, 0);
+    assert.equal(summary!.modelTransportCalls, 0);
+    assert.equal(summary!.decisionMismatch?.recordedSequence, 1);
+    assert.deepEqual(summary!.decisionMismatch?.recorded, { purpose: "restaurant_semantic_interpret", promptVersion: "v23", outputSchema: { name: "restaurant-semantic-proposal", version: "3" } });
+  } finally { await rm(directory, { recursive: true, force: true }); }
 });
