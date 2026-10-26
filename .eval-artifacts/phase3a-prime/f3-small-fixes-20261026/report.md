@@ -50,3 +50,5 @@ path红灯、修复源码/输入、Linux安装/外层三轮脚本和各次隔离
 最终组合的执行artifact、子进程内评价和父进程独立评价原字节保存在integrated/composition-files，原路径→保留路径及SHA映射在integrated/composition-provenance.json；复制前后核对执行SHA与独立评价sourceArtifact.sha一致，受控第二槽的人数矛盾只由父独立评价检出。
 
 原未修代码的反例、修复后的真实组合调用链产物及独立评价/S0正常和矛盾控制在runner-post-exit测试中通过；执行产物和评价分开。门禁后目录干净，随后按授权合main。合入/远端核对SHA见integration.local.json和答复，避免自引用；若该收据在Git外，则报告中的代码SHA与各历史日志仍可独立复现。
+
+临时VM已停止并删除，本任务Lima实例为空；关闭/删除回执和清理记录在integrated/。归档证据已复制并验SHA后清理，宿主和产品时钟未改。
