@@ -1,12 +1,11 @@
 {
   "schema": "phase3b-budget@1",
-  "approval": "User 3b batch1; total caps approved, batch1 zero real calls",
-  "timezone": "Europe/Vienna CET UTC+1",
+  "timezone": "Vienna CET UTC+1",
   "limits": {
     "fullLive": 18,
     "realModelCalls": 1000,
     "environmentReruns": 4,
-    "publicGET": 40
+    "evaluationPublicGET": 40
   },
   "entries": [
     {
@@ -73,12 +72,53 @@
       "publicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-c-batch1-offline",
+      "conversation": "C",
+      "batch": 1,
+      "status": "PREPARING_OFFLINE",
+      "recordedAtCET": "2026-10-26T22:28:47+01:00",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "Zero new real calls authorized for batch1; standalone allocation from3a/3a-prime; union entries by id, never replace others"
+    },
+    {
+      "id": "phase3b-b-batch1-g1-offline-start",
+      "conversation": "B",
+      "batch": 1,
+      "recordedAtCET": "2026-10-26T22:42:12.384823+01:00",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "本批离线核心与Proposed ADR；原A/C条目按id原样并集，禁止同id异内容覆盖。"
     }
   ],
   "cumulative": {
     "fullLive": 0,
     "realModelCalls": 0,
     "environmentReruns": 0,
-    "publicGET": 0
-  }
+    "evaluationPublicGET": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0
+  },
+  "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
+  "sourceSnapshots": [
+    {
+      "conversation": "A",
+      "sourceSha256": "4141432424d9b944aeb0a849706d024615f4b03d6a5f46fc9bc6aded16ae77e3"
+    },
+    {
+      "conversation": "C",
+      "sourceSha256": "80ada1b65b2e51b3575620c520030ea156c708edc36774dd8883fdfc59cf8d55"
+    }
+  ],
+  "asOfCET": "2026-10-26T22:42:12.384823+01:00"
 }
