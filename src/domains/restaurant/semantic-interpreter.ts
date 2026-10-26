@@ -207,14 +207,15 @@ TARGET records the delivery goal for this request. For a new restaurant request,
 emit TARGET even when the user does not name a particular restaurant.
 RECOMMENDATION is an exploratory request: the user can be helped by directions,
 places, suitability, and applicable hours without a current table claim.
-When the request has no visit date or time at all, use RECOMMENDATION; do not
-invent visit inputs to create an availability request.
-When a visit date or time is expressed, two anchors require AVAILABILITY:
+Two anchors require AVAILABILITY:
 - BOOKING_WORDING: the user explicitly asks to book, reserve, find a table, or
-  confirm open tables or availability.
+  confirm open tables or availability, even when no visit date or time is given.
+  Missing visit inputs are clarified later; candidate discovery can start first.
 - SPECIFIC_TIME_MEAL: a sit-down meal at an explicit clock time or numeric clock
   range, with a known or inferable party. A closed encounter may supply the
   count; it need not be a user-written numeral.
+When the request has neither a visit date/time nor booking wording, use
+RECOMMENDATION. Do not invent missing visit inputs.
 For all other requests, use JUDGMENT: decide whether the user currently expects
 confirmed seating. A broad period plus a party is not an automatic availability
 rule. Relative offsets such as "in about 30 minutes" also belong to this judgment
@@ -228,6 +229,8 @@ quote the prior draft, a prior message, or invented text as the current message.
 Code checks quote occurrence, not whether your rationale or goal is reasonable.
 For a correction that does not introduce a new TARGET, omit TARGET and preserve
 the authoritative prior goal (CONTEXT_CARRY); do not manufacture a new basis.
+Supplying missing visit date/time for an existing booking request is such a
+continuation; keep its AVAILABILITY goal without re-emitting TARGET.
 
 Do not classify mechanically from a single verb or party-size alone. TARGET.query
 is a short faithful summary of the requested outcome, including requested comparison or information topics and any named restaurants. Preserve these requested information topics in TARGET.query so subsequent investigation can read them; they are not venue-selection criteria.

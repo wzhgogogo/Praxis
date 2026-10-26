@@ -6,8 +6,8 @@ import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/se
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import {
   restaurantSemanticRegressionTurnCount,
-  restaurantSemanticRegressionV3,
-} from "../fixtures.js";
+  restaurantSemanticRegression,
+} from "../dataset.js";
 import { runRestaurantSemanticRegression } from "../regression.js";
 import {
   requireRealModelEvalConfiguration,
@@ -38,7 +38,7 @@ const report = await runRestaurantSemanticRegression(
   {
     mode: "REAL_MODEL_MOCK_WORLD",
     attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
-    dataset: restaurantSemanticRegressionV3,
+    dataset: restaurantSemanticRegression,
   },
 );
 const evaluationClassification = {
@@ -46,12 +46,12 @@ const evaluationClassification = {
   contaminationStatus: "PROMPT_AND_RESULT_EXPOSED",
   baselineEligible: false,
   reason:
-    "The static restaurant-semantic-regression@3 labels are used for current architecture and prompt development.",
+    "The static restaurant-semantic-regression@4 labels are used for current architecture and prompt development.",
 } as const;
 const artifactDirectory = resolve(".eval-artifacts", "restaurant-semantic");
 const artifactPath = resolve(
   artifactDirectory,
-  `${new Date().toISOString().replace(/[:.]/g, "-")}-restaurant-semantic-regression-3.json`,
+  `${new Date().toISOString().replace(/[:.]/g, "-")}-restaurant-semantic-regression-4.json`,
 );
 await mkdir(artifactDirectory, { recursive: true });
 await writeFile(

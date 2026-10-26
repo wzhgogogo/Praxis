@@ -4,8 +4,8 @@ import { resolve } from "node:path";
 
 import type { RestaurantGoalBoundaryExpectation } from "./scorer.js";
 
-export const RESTAURANT_GOAL_BOUNDARY_ANNOTATIONS = "restaurant-goal-boundary-annotations@1";
-const sourcePath = "src/eval/restaurant/semantic/fixtures.ts";
+export const RESTAURANT_GOAL_BOUNDARY_ANNOTATIONS = "restaurant-goal-boundary-annotations@2";
+const sourcePath = "src/eval/restaurant/semantic/cases/restaurant-semantic-regression.gold4.json";
 const annotationPath = "src/eval/restaurant/semantic/cases/goal-boundary-annotations.json";
 const hash = (text: string | Buffer) => createHash("sha256").update(text).digest("hex");
 
@@ -30,14 +30,15 @@ interface Annotation {
   sessionId: string;
   turnId: string;
   messageSha256: string;
-  category: "A" | "B" | "NO_TIME" | "GRAY";
+  category: "A" | "B" | "NO_TIME" | "GRAY" | "CONTEXT_CARRY";
   contextCarry: boolean;
 }
 
 const annotations: Annotation[] = manifest.turns.map(value => {
   const row = record(value, ["sessionId", "turnId", "messageSha256", "category", "contextCarry"]);
   if (![row.sessionId, row.turnId, row.messageSha256].every(value => typeof value === "string" && value.length > 0)
-    || !["A", "B", "NO_TIME", "GRAY"].includes(String(row.category)) || typeof row.contextCarry !== "boolean") {
+    || !["A", "B", "NO_TIME", "GRAY", "CONTEXT_CARRY"].includes(String(row.category)) || typeof row.contextCarry !== "boolean"
+    || (row.category === "CONTEXT_CARRY" && row.contextCarry !== true)) {
     throw new Error("Invalid goal-boundary annotation value");
   }
   return row as unknown as Annotation;

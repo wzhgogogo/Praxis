@@ -17,10 +17,8 @@ import {
 } from "../../../domains/restaurant/semantic-interpreter.js";
 import { restaurantBookingTaskDefinition } from "../../../domains/restaurant/task-definition.js";
 import { FakeClock } from "../../../harness/fake-clock.js";
-import {
-  type RestaurantSemanticRegressionDataset,
-  restaurantSemanticRegressionV3,
-} from "./fixtures.js";
+import type { RestaurantSemanticRegressionDataset } from "./fixtures.js";
+import { restaurantSemanticRegression } from "./dataset.js";
 import {
   equalRestaurantIntentPatches,
   equalRestaurantSemanticProposals,
@@ -60,7 +58,7 @@ export interface RestaurantSemanticRegressionTurnResult {
   proposal?: unknown;
   compiledPatch?: unknown;
   goalBoundary?: RestaurantGoalBoundaryEvaluation;
-  oldGoldGoal?: "RECOMMENDATION" | "AVAILABILITY" | null;
+  goldGoal?: "RECOMMENDATION" | "AVAILABILITY" | null;
 }
 
 export interface RestaurantSemanticRegressionReport {
@@ -101,7 +99,7 @@ export async function runRestaurantSemanticRegression(
     };
   },
 ): Promise<RestaurantSemanticRegressionReport> {
-  const dataset = input.dataset ?? restaurantSemanticRegressionV3;
+  const dataset = input.dataset ?? restaurantSemanticRegression;
   const clock = new FakeClock(dataset.referenceTime);
   const compile = input.dependencies?.compile ?? compileRestaurantSemanticProposal;
   const results: RestaurantSemanticRegressionTurnResult[] = [];
@@ -155,7 +153,7 @@ export async function runRestaurantSemanticRegression(
       }
 
       const snapshot = runtime.snapshot(taskId);
-      const annotation = dataset.id === restaurantSemanticRegressionV3.id
+      const annotation = dataset.id === restaurantSemanticRegression.id
         ? restaurantSemanticGoalAnnotation(turn.message, turn.id, session.id) : undefined;
       const goalBoundary = annotation ? { ...annotation, ...(snapshot.domainState.intentDraft?.target ? { previousGoal: snapshot.domainState.intentDraft.target.goal } : {}) } : undefined;
       const proposalForComparison = (proposal: RestaurantSemanticProposal) => goalBoundary
@@ -304,7 +302,7 @@ export async function runRestaurantSemanticRegression(
       });
       const goalEvaluation = goalBoundary ? {
         goalBoundary: evaluateRestaurantSemanticGoal({ proposal: interpreted.proposal, ...(compiledState.intentDraft?.target ? { actualGoal: compiledState.intentDraft.target.goal } : {}), expectation: goalBoundary }),
-        oldGoldGoal: turn.expectedDraft.target?.goal ?? null,
+        goldGoal: turn.expectedDraft.target?.goal ?? null,
       } : {};
       if (score.status === "FAIL") {
         results.push(

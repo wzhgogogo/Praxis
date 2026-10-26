@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.416
+- Document revision: 4.417
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-PHASE3A-BOUNDARY-CORRECTION-PREP:** 用户停止点3批准规则修正；ADR0044@1.1、Prompt25、sidecar2：无时间订位A→AVAILABILITY，SR02补时间CARRY；Gold4只改SR03-T02目标，Gold3原字节保留。整合main/7e2425b7，State22/TaskDefinition20由主线带入、本工作不升版；双方历史与3a′账本保留。定向12与静态15轮通过，新外层4×9控制通过；五门禁及九个真实逻辑轮待冻结后执行。独立累计84/144、余60，3a′400扣0；非目标差异只记录。三项[3b前置](../.eval-artifacts/phase3a-boundary/review-correction/3b-prerequisites.md)本批不处理。[切片](../.eval-artifacts/phase3a-boundary/review-correction/plan.md)。
 
 - **2026-10-26-F3-A-STOP:** F3 A停止等复核：时序卫生完成；11范围中L7/L10净减17，九项因等价替代观察不足延期；站点3847、Pack473，≤3591目标未达（差256）。已实施批次五门禁全绿并推main，新增真实调用0。 [报告](../.eval-artifacts/phase3a-prime/f3-implementation-20261026/report.md)。
 

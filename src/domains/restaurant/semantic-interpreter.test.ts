@@ -65,7 +65,10 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v24");
+  assert.equal(request.promptVersion, "v25");
+  assert.match(request.messages[0]!.content, /even when no visit date or time is given/);
+  assert.match(request.messages[0]!.content, /neither a visit date\/time nor booking wording/);
+  assert.match(request.messages[0]!.content, /keep its AVAILABILITY goal without re-emitting TARGET/);
   assert.match(request.messages[0]!.content, /Every descriptive qualifier in a condition must correspond to words the user actually supplied/);
   assert.deepEqual(request.outputSchema, {
     name: "restaurant-semantic-proposal",

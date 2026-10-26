@@ -1,13 +1,17 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.316
+- Document revision: 4.317
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-PREP
+
+CET。离线定向12/12、静态开发Regression15/15与typecheck通过；新外层4×9正常/错人数/错目标/无效输出控制及额度控制通过，0真实模型/来源/Google/Live。外层预检曾因漏传taskId失败，已在付费调用前修复；不属于产品或模型失败。五门禁将在干净冻结提交执行；九逻辑轮真实重跑尚未启动。结果/完整严格诊断与非目标值观察分别保留，独立审查脚本也在运行前冻结。 [切片](../../.eval-artifacts/phase3a-boundary/review-correction/plan.md)。
 
 <a id="test-2026-10-26-f3-script-read"></a>
 

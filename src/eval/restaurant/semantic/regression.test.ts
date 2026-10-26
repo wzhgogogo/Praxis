@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 
 import { RestaurantSemanticRegressionFixtureInterpreter } from "./fixture-interpreter.js";
+import { restaurantSemanticRegression } from "./dataset.js";
 import { restaurantSemanticRegressionV3 } from "./fixtures.js";
 import { runRestaurantSemanticRegression } from "./regression.js";
 import { compileRestaurantSemanticProposal } from "../../../domains/restaurant/semantic-compiler.js";
@@ -13,7 +16,7 @@ test("semantic regression runs Proposal, Compiler, and Runtime/Reducer in order"
   const report = await runRestaurantSemanticRegression(interpreter, {
     mode: "FIXTURE",
     attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
-    dataset: restaurantSemanticRegressionV3,
+    dataset: restaurantSemanticRegression,
   });
 
   assert.equal(report.status, "COMPLETED");
@@ -31,13 +34,32 @@ test("semantic regression runs Proposal, Compiler, and Runtime/Reducer in order"
   assert.equal(report.evaluatorVersion, "4");
   assert.equal(report.turns.every(turn => turn.goalBoundary?.status === "SATISFIED"), true);
   const namedFollowup = report.turns.find(turn => turn.turnId === "SR03-T02")!;
-  assert.equal(namedFollowup.oldGoldGoal, "RECOMMENDATION");
+  assert.equal(namedFollowup.goldGoal, "AVAILABILITY");
   assert.equal(namedFollowup.actualDraft?.target?.goal, "AVAILABILITY");
   assert.equal(namedFollowup.goalBoundary?.category, "B");
-  assert.equal(restaurantSemanticRegressionV3.sessions[2]?.turns[1]?.expectedDraft.target?.goal, "RECOMMENDATION", "old Gold remains frozen for stop 3");
+  assert.equal(restaurantSemanticRegression.sessions[2]?.turns[1]?.expectedDraft.target?.goal, "AVAILABILITY", "user approved Gold@4 at stop 3");
   assert.equal(JSON.stringify(namedFollowup.actualDraft).includes("goalBasis"), false);
   assert.ok(namedFollowup.proposal, "passing static results retain the actual proposal and basis");
-  for (const id of ["SR01-T02", "SR08-T02", "SR09-T02"]) assert.equal(report.turns.find(turn => turn.turnId === id)?.goalBoundary?.category, "CONTEXT_CARRY");
+  const booking = report.turns.find(turn => turn.turnId === "SR02-T01")!;
+  assert.equal(booking.goalBoundary?.category, "A");
+  assert.equal(booking.actualDraft?.target?.goal, "AVAILABILITY");
+  assert.equal(booking.actualDraft?.date, undefined);
+  assert.equal(booking.actualDraft?.timeWindow, undefined);
+  const completedBooking = report.turns.find(turn => turn.turnId === "SR02-T02")!;
+  assert.equal(completedBooking.actualDraft?.target?.goal, "AVAILABILITY");
+  assert.equal(completedBooking.proposal && JSON.stringify(completedBooking.proposal).includes('"TARGET"'), false);
+  for (const id of ["SR01-T02", "SR02-T02", "SR08-T02", "SR09-T02"]) assert.equal(report.turns.find(turn => turn.turnId === id)?.goalBoundary?.category, "CONTEXT_CARRY");
+});
+
+test("Gold@4 changes only the approved SR03-T02 goal and preserves frozen Gold@3", () => {
+  const oldSource = readFileSync("src/eval/restaurant/semantic/fixtures.ts");
+  assert.equal(createHash("sha256").update(oldSource).digest("hex"), "fa4a8e52a82806af6d507a06f4ba16426e6c28376936363c777c4e981cf3ca72");
+  assert.equal(restaurantSemanticRegressionV3.sessions[2]?.turns[1]?.expectedDraft.target?.goal, "RECOMMENDATION");
+  const expected = structuredClone(restaurantSemanticRegressionV3);
+  expected.id = "restaurant-semantic-regression-v4";
+  expected.version = "4";
+  expected.sessions[2]!.turns[1]!.expectedDraft.target!.goal = "AVAILABILITY";
+  assert.deepEqual(restaurantSemanticRegression, expected);
 });
 
 test("development attribution stops at Compiler before Reducer", async () => {
@@ -47,8 +69,8 @@ test("development attribution stops at Compiler before Reducer", async () => {
       mode: "FIXTURE",
       attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
       dataset: {
-        ...restaurantSemanticRegressionV3,
-        sessions: [restaurantSemanticRegressionV3.sessions[3]!],
+        ...restaurantSemanticRegression,
+        sessions: [restaurantSemanticRegression.sessions[3]!],
       },
       dependencies: {
         compile(proposal) {
@@ -79,8 +101,8 @@ test("invalid model JSON is attributed to Proposal Contract and blocks downstrea
       mode: "FIXTURE",
       attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
       dataset: {
-        ...restaurantSemanticRegressionV3,
-        sessions: [restaurantSemanticRegressionV3.sessions[0]!],
+        ...restaurantSemanticRegression,
+        sessions: [restaurantSemanticRegression.sessions[0]!],
       },
     },
   );
@@ -107,8 +129,8 @@ test("development attribution accepts a semantically equivalent Proposal with re
       mode: "FIXTURE",
       attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
       dataset: {
-        ...restaurantSemanticRegressionV3,
-        sessions: [restaurantSemanticRegressionV3.sessions[3]!],
+        ...restaurantSemanticRegression,
+        sessions: [restaurantSemanticRegression.sessions[3]!],
       },
     },
   );

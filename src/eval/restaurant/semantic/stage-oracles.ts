@@ -164,7 +164,7 @@ export function restaurantSemanticRegressionProposalFor(
   result.facts.unshift({ field: "TARGET", operation: namedFollowup ? "CORRECT" : "ASSERT", value: {
     kind: "TARGET", goal: annotation.category === "A" || annotation.category === "B" ? "AVAILABILITY" : "RECOMMENDATION",
     query: priorTarget?.kind === "TARGET" ? priorTarget.query : namedFollowup ? "Sushi Dai" : "restaurant search",
-    goalBasis: { type: annotation.category === "B" ? "SPECIFIC_TIME_MEAL" : "JUDGMENT", reason: "Controlled frozen development interpretation.", quotes: [message] },
+    goalBasis: { type: annotation.category === "A" ? "BOOKING_WORDING" : annotation.category === "B" ? "SPECIFIC_TIME_MEAL" : "JUDGMENT", reason: "Controlled frozen development interpretation.", quotes: [message] },
   } });
   return result;
 }

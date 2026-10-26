@@ -1,0 +1,256 @@
+{
+  "schema": "phase3a-boundary-review-inputs@1",
+  "classification": "frozen regression / exposed development / not Clean Baseline",
+  "selection": "Original NO_TIME turns plus SR02 session, deduplicated, each x3",
+  "datasetId": "restaurant-semantic-regression-v4",
+  "datasetVersion": "4",
+  "logicalTurns": 9,
+  "sessions": [
+    {
+      "id": "SR02-incremental-completion-review-1",
+      "originalSessionId": "SR02-incremental-completion",
+      "repetition": 1,
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "SR02-T01",
+          "message": "I need a table in Shinjuku for two people.",
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "area": {
+              "query": "Shinjuku"
+            },
+            "criteria": []
+          },
+          "expectedDecision": {
+            "type": "ASK_USER",
+            "missingRequiredFields": [
+              "date",
+              "timeWindow"
+            ]
+          },
+          "category": "A"
+        },
+        {
+          "id": "SR02-T02",
+          "message": "Tomorrow between 19:00 and 19:30.",
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "date": "2026-08-06",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:30"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "Shinjuku"
+            },
+            "criteria": []
+          },
+          "expectedDecision": {
+            "type": "SEARCH"
+          },
+          "category": "CONTEXT_CARRY"
+        }
+      ]
+    },
+    {
+      "id": "SR03-NO_TIME-review-1",
+      "originalSessionId": "SR03-named-target-then-complete",
+      "repetition": 1,
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "SR03-T01",
+          "message": "I want Sushi Dai.",
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "RECOMMENDATION",
+              "query": "Sushi Dai"
+            },
+            "criteria": []
+          },
+          "expectedDecision": {
+            "type": "ASK_USER",
+            "missingRequiredFields": [
+              "date",
+              "timeWindow",
+              "partySize",
+              "area"
+            ]
+          },
+          "category": "NO_TIME"
+        }
+      ]
+    },
+    {
+      "id": "SR02-incremental-completion-review-2",
+      "originalSessionId": "SR02-incremental-completion",
+      "repetition": 2,
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "SR02-T01",
+          "message": "I need a table in Shinjuku for two people.",
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "area": {
+              "query": "Shinjuku"
+            },
+            "criteria": []
+          },
+          "expectedDecision": {
+            "type": "ASK_USER",
+            "missingRequiredFields": [
+              "date",
+              "timeWindow"
+            ]
+          },
+          "category": "A"
+        },
+        {
+          "id": "SR02-T02",
+          "message": "Tomorrow between 19:00 and 19:30.",
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "date": "2026-08-06",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:30"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "Shinjuku"
+            },
+            "criteria": []
+          },
+          "expectedDecision": {
+            "type": "SEARCH"
+          },
+          "category": "CONTEXT_CARRY"
+        }
+      ]
+    },
+    {
+      "id": "SR03-NO_TIME-review-2",
+      "originalSessionId": "SR03-named-target-then-complete",
+      "repetition": 2,
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "SR03-T01",
+          "message": "I want Sushi Dai.",
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "RECOMMENDATION",
+              "query": "Sushi Dai"
+            },
+            "criteria": []
+          },
+          "expectedDecision": {
+            "type": "ASK_USER",
+            "missingRequiredFields": [
+              "date",
+              "timeWindow",
+              "partySize",
+              "area"
+            ]
+          },
+          "category": "NO_TIME"
+        }
+      ]
+    },
+    {
+      "id": "SR02-incremental-completion-review-3",
+      "originalSessionId": "SR02-incremental-completion",
+      "repetition": 3,
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "SR02-T01",
+          "message": "I need a table in Shinjuku for two people.",
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "area": {
+              "query": "Shinjuku"
+            },
+            "criteria": []
+          },
+          "expectedDecision": {
+            "type": "ASK_USER",
+            "missingRequiredFields": [
+              "date",
+              "timeWindow"
+            ]
+          },
+          "category": "A"
+        },
+        {
+          "id": "SR02-T02",
+          "message": "Tomorrow between 19:00 and 19:30.",
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "date": "2026-08-06",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:30"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "Shinjuku"
+            },
+            "criteria": []
+          },
+          "expectedDecision": {
+            "type": "SEARCH"
+          },
+          "category": "CONTEXT_CARRY"
+        }
+      ]
+    },
+    {
+      "id": "SR03-NO_TIME-review-3",
+      "originalSessionId": "SR03-named-target-then-complete",
+      "repetition": 3,
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "SR03-T01",
+          "message": "I want Sushi Dai.",
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "RECOMMENDATION",
+              "query": "Sushi Dai"
+            },
+            "criteria": []
+          },
+          "expectedDecision": {
+            "type": "ASK_USER",
+            "missingRequiredFields": [
+              "date",
+              "timeWindow",
+              "partySize",
+              "area"
+            ]
+          },
+          "category": "NO_TIME"
+        }
+      ]
+    }
+  ]
+}
