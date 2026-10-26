@@ -163,3 +163,30 @@ test("P2-0 an unrecognized persisted failure cannot default to business", async(
   const {restaurantReadStopIsSystem}=await import("../domains/restaurant/read-loop-termination.js");
   assert.equal(restaurantReadStopIsSystem("NO_PROGRESS","unclassified persisted code" as import("../domains/restaurant/failure-codes.js").RestaurantFailureCode),true);
 });
+
+// Fixed pre-action Live checkpoint, reconstructed locally; not a website replay.
+// The actual coordinator/context/Validator/Router/Reducer decide what is legal.
+test('F6 slot3 26.596 seconds blocks the original availability action and ends honestly',async()=>{
+ const f=JSON.parse(await readFile(new URL('./fixtures/f6-slot3-read-state.json',import.meta.url),'utf8'));
+ const observedContexts:import('../domains/restaurant/agent-context.js').RestaurantAgentContext[]=[];let sourceCalls=0;
+ const start=Date.parse(f.referenceTime),instant=start+f.maxAutomaticMs-f.remainingMs;
+ const localClock={now:()=>new Date(instant)};
+ const currentState:RestaurantTaskState={...f.state,schemaVersion:definition.initialState({}).schemaVersion};
+ let current:TaskSnapshot<RestaurantTaskState,RestaurantOutcome>={id:'f6-slot3',runId:'f6-slot3',taskType:definition.type,definitionVersion:definition.version,version:8,lifecycleState:definition.getLifecycleState(currentState),domainState:currentState,outcome:definition.evaluateOutcome(currentState),createdAt:f.referenceTime,updatedAt:localClock.now().toISOString()};
+ const events:RestaurantEvent[]=[];const trajectories=new InMemoryRestaurantAgentTrajectoryStore();
+ const router=new RestaurantExecutionRouter({executionRoute:'STRUCTURED_ADAPTER',async search(){throw Error('No search expected');}},
+  {executionRoute:'STRUCTURED_ADAPTER',async check(request){sourceCalls++;return {offers:[],evidence:[],availabilityChecks:Object.fromEntries(request.candidateIds.map(id=>[id,{status:'UNKNOWN' as const,checkedAt:localClock.now().toISOString(),evidenceIds:[]}])),metadata:{provider:'FIXTURE',route:'STRUCTURED_ADAPTER',latencyMs:0}};}},{structuredReadTimeoutMs:8000,browserReadTimeoutMs:500000});
+ const scripted=new ScriptedRestaurantAgentDecisionPort([f.action,f.action,f.action]);
+ const decision:RestaurantAgentDecisionPort={decide:async input=>{observedContexts.push(input.context);return scripted.decide(input);}};
+ const coordinator=new RestaurantAgentLoopCoordinator({snapshot:async()=>current,dispatch:async(envelope,version)=>{
+  assert.equal(version,current.version);const changed=definition.transition(current.domainState,envelope.event,{taskId:current.id,runId:current.runId,now:envelope.occurredAt,createId:p=>p});events.push(envelope.event);
+  current={...current,domainState:changed.state,version:current.version+1,lifecycleState:definition.getLifecycleState(changed.state),outcome:definition.evaluateOutcome(changed.state),updatedAt:envelope.occurredAt};return {snapshot:current,commands:[],duplicateEvent:false};
+ }},decision,router,trajectories,localClock,{maxSteps:4,maxRejectedActions:3,timeoutMs:f.maxAutomaticMs,remainingModelCalls:()=>f.remainingModelCalls});
+ await coordinator.run(current.id,undefined,new Date(start+f.maxAutomaticMs));
+ assert.equal(sourceCalls,0,'the original slot3 CHECK_AVAILABILITY must never start with only 26.596 seconds');
+ assert.deepEqual(observedContexts[0]?.legalActions.checkAvailability,[],'real code-derived context removes the unaffordable action');
+ assert.equal(current.domainState.phase,'NO_VERIFIED_RESULT');assert.equal(current.domainState.presentedResults,undefined);
+ assert.ok(current.domainState.noVerifiedResult?.remainingGaps.some(gap=>/time|reserve|未|UNKNOWN|NOT_CHECKED/i.test(gap)));
+ assert.equal(current.domainState.searchContinuation?.exhausted,f.state.searchContinuation?.exhausted,'closure cannot manufacture source exhaustion');
+ assert.equal(events.filter(e=>e.type==='AVAILABILITY_CHECKED').length,0);
+});
