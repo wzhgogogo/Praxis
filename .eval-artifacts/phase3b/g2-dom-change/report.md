@@ -33,7 +33,7 @@ Evidence status：current executable / exposed development baseline，非Clean B
 
 ## 红绿灯与检错
 
-有效红灯b089717f复用F3 class-only操作，在真实Chromium里旧id仍存在（1 != 0），目标覆盖断言失败；`marker-red.log`保留。完整变异后ID/data覆盖、全ARIA多值/label目标路径、CSS/SVG、悬空引用、脚本保留、确定种子控制通过。分类器的本地构造矛盾/未知变已知反例必须FAIL；这些反例不是来源S0事件。
+有效红灯b089717f复用F3 class-only操作，在真实Chromium里旧id仍存在（1 != 0），目标覆盖断言失败；`marker-red.log.gz`保留。完整变异后ID/data覆盖、全ARIA多值/label目标路径、CSS/SVG、悬空引用、脚本保留、确定种子控制通过。分类器的本地构造矛盾/未知变已知反例必须FAIL；这些反例不是来源S0事件。
 
 正常动作控制为本地构造公开链接；模型替身只从当前观察label选择OPEN_LINK，实际Executor导航与完成，原/改名两版均完成。它证明动作引用能跨私有标记变化，不能代替真实模型或网站的端到端验收。初稿使用未获合法动作许可的构造输入/按钮，正确返回NO_SAFE_ACTION，已改为现有合法观察链接；未修改产品放行按钮。
 
@@ -58,3 +58,5 @@ Evidence status：current executable / exposed development baseline，非Clean B
 ## 验证与交付
 
 五门禁、额外固定检查与净树回执已在[verification](verification/)归档：typecheck 0.437s、arch 0.202s、默认1101/1101 27.862s、build 0.422s、Chromium166/166 105.774s；每项前后净树。固定G2 4/4 21.294s、最终12页留证15.737s，同样前后净树。所有输入SHA再次核对通过，源码冻结f671d950；完整最终映射/悬空及脚本位置见[capture](capture/)。产品、站点、source-packs、Prompt/Schema/State相对基线零差异。`.env`未读取、未暂存。工作分支推送供复核，不合main。G1候选与回放另从最新main独立分支开展；本报告不能作为其通过记录。
+
+归档修正：b538ac65的原始HTML/日志行尾空白使diff-check失败，命令串未阻断后续提交；保留该历史，不改原字节，改为gzip存储并记录压缩/解压双SHA。fixture存储读取相应改为gzip，规则/页面/公开语义不变；输入重新冻结后五门禁重跑，不沿用旧门禁认证新读取路径。

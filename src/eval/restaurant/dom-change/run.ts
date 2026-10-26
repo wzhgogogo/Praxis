@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { gunzipSync } from "node:zlib";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
@@ -74,7 +75,7 @@ export async function runDomChange(output?: string) {
   try {
     for (const spec of manifest.pages) {
       if (!/^[a-z0-9-]+$/.test(spec.id)) throw new Error("INVALID_DOM_CASE_ID");
-      const bytes = await readFile(resolve(spec.path));
+      const bytes = gunzipSync(await readFile(resolve(spec.path)));
       if (sha(bytes) !== spec.sha256) throw new Error("SAVED_PAGE_SHA_MISMATCH");
       let page: Page | undefined;
       const intercepted: Array<{ url: string; result: "FIXTURE" | "BLOCKED_NO_TRANSPORT" }> = [];
