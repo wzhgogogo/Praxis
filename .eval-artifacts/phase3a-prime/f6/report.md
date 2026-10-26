@@ -60,4 +60,18 @@ PGlite还暴露一次取消既写诊断又写完成行，使用同一trajectory�
 
 首次干净候选85f8c234的typecheck/arch通过；默认1099/1100，一项旧Search Eval fixture仍用30秒整单预算，尚未读取即进入预留，导致原成功断言无候选。已同步该实际fixture调用方至500秒，原3项业务断言保留。首次build/Chromium未运行；将在修正后的干净候选上重新依次执行五门禁，每项前后git status必须为空；最终结果以下方收据为准。
 
+最终干净候选`bcdd5cf12f56bd4ac70a95e451a4ac140228f9d3`五门禁全部PASS，原始收据见[gates.json](gates/gates.json)。每一项前后status为空，最终仍为空；`git diff --check`通过。归档后仅追加文档和日志，source tree保持`079fc3be96ac5a1707c176909f6455c9b1a5a3d0`，不重新运行真实调用。
+
+| 门禁 | 结果 | 秒 | 日志 |
+| --- | --- | ---: | --- |
+| `npm run typecheck` | PASS | 0.508 | [typecheck.log](gates/typecheck.log) |
+| `npm run arch:check` | PASS | 0.2 | [arch-check.log](gates/arch-check.log) |
+| `npm run test` | PASS 1100/1100 | 28.511 | [test.log](gates/test.log) |
+| `npm run build` | PASS | 0.46 | [build.log](gates/build.log) |
+| `npm run test:browser:fixture` | PASS 162/162 | 99.892 | [test-browser-fixture.log](gates/test-browser-fixture.log) |
+
+首轮门禁的1099/1100失败和未运行两项在[gates-attempt1](gates-attempt1/gates.json)原样保留；不是最终结果。重放后的局部复验曾漏一个主线新ADR0044普通fixture的5秒预算，原失败保留于[rebase-focused](rebase-focused.log)，已修配置且默认完整回归全绿。两轮五门禁均未污染工作树。
+
+[验证摘要](verification.json)。按用户授权快进合main并推送工作分支与main；最终提交SHA由发布时的ls-remote和本次回复给出。完成后停止，F6真实Live未运行。
+
 [范围核对](protected-check.json)：相对main起点116个保护文件字节相同，包括两站点目录、page-parser/query-controls和source-packs；预算账本SHA未变。网站非测试3847行、Pack473行。`git diff --check`在提交前核对，发布后用ls-remote核对工作分支和main。按用户授权合main并推送后停止，不运行Live。

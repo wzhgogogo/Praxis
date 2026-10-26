@@ -1,6 +1,6 @@
 # ADR-0045：有界只读调查的收尾时间预留
 
-- Status: Accepted（用户停止点5于2026-10-26 CET批准修订稿；本分支已接线，离线验收结果单列）
+- Status: Accepted（用户停止点5于2026-10-26 CET批准修订稿；已实施共享层，离线五门禁全绿；Live未重跑）
 - Document revision: 1.1
 - Last updated: 2026-10-26（Europe/Vienna CET；复核编号20261026）
 - Source of truth for: F6动作耗时中位数准入、固定收尾预留与取消时完整子结果保留

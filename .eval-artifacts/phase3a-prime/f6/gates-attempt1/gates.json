@@ -1,0 +1,32 @@
+{
+  "candidate": "85f8c234ec21a5221c2f649c1eef00d34a931024",
+  "branch": "codex/feat-phase3a-prime-f6-bounded-conclusion",
+  "mode": "OFFLINE_ONLY",
+  "timeCET": "2026-10-26T08:12:14.984580+01:00",
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "elapsedSeconds": 0.437,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "typecheck.log"
+    },
+    {
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "elapsedSeconds": 0.207,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "arch-check.log"
+    },
+    {
+      "command": "npm run test",
+      "exitCode": 1,
+      "elapsedSeconds": 28.055,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "test.log"
+    }
+  ]
+}

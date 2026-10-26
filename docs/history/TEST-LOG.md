@@ -13,7 +13,7 @@
 
 ## 2026-10-26 CET：F6固定收尾预留获准实施
 
-离线先红后绿：搜索旧556bd14c两来源SEARCH_FAILED；槽3旧19558e09在目标0次断言实际3次；Web旧bab6e9b6在语义开始第480秒未取消。修后核心28、退出27、Web3与真实Chromium本地P21均绿。新时序使用手动时钟/计时器；普通行为fixture改用充足预算，原分类/资格断言保留。五门禁将对干净提交执行；真实模型/网站/Google/Live均0。 证据见[报告](../../.eval-artifacts/phase3a-prime/f6/report.md)。
+离线先红后绿：搜索旧556bd14c两来源SEARCH_FAILED；槽3旧19558e09在目标0次断言实际3次；Web旧bab6e9b6在语义开始第480秒未取消。修后核心28、退出27、Web3与真实Chromium本地P21均绿。新时序使用手动时钟/计时器；普通行为fixture改用充足预算，原分类/资格断言保留。最终干净bcdd5cf1五门禁全部通过：typecheck0.508s、arch0.200s、默认1100/1100 28.511s、build0.460s、Chromium162/162 99.892s；各项前后status为空。首次1099/1100为旧Search Eval预算配置，修正后业务断言保留；原始失败收据并存。真实模型/网站/Google/Live均0。 证据见[报告](../../.eval-artifacts/phase3a-prime/f6/report.md)。
 
 ## TEST-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-COMPLETE
 

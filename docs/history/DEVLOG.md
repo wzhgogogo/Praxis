@@ -13,7 +13,7 @@
 
 ## 2026-10-26 CET：F6固定收尾预留获准实施
 
-批准ADR0045修订后实施F6共享层。先冻结Native/Google完整子结果丢失的有效红灯，再修原SEARCH_COMPLETED交接；槽3剩26.596秒读取红转绿，中位数100秒正常控制及完整A/未知B、原资格和迟到控制补齐。Web检查另得语义时间未继承红灯、PGlite重复trajectory主键失败；均按同一切片修复。实际对象State23/TaskDefinition21、Context16/Prompt28，活动fixture更新，无兼容路径；来源/Pack/预算不改。五门禁待运行，真实调用0，Live不运行。 证据见[报告](../../.eval-artifacts/phase3a-prime/f6/report.md)。
+批准ADR0045修订后实施F6共享层。先冻结Native/Google完整子结果丢失的有效红灯，再修原SEARCH_COMPLETED交接；槽3剩26.596秒读取红转绿，中位数100秒正常控制及完整A/未知B、原资格和迟到控制补齐。Web检查另得语义时间未继承红灯、PGlite重复trajectory主键失败；均按同一切片修复。实际对象State23/TaskDefinition21、Context16/Prompt28，活动fixture更新，无兼容路径；来源/Pack/预算不改。五门禁在重放新main/50b70fa6并保留双方历史后，于干净bcdd5cf1通过（1100默认/162Chromium及type/arch/build，逐项前后净树）；按授权合main并推送后停止。真实调用0，Live不运行。 证据见[报告](../../.eval-artifacts/phase3a-prime/f6/report.md)。
 
 ## DEV-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-COMPLETE
 

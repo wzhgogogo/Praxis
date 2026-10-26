@@ -5,7 +5,7 @@
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
 
-- **2026-10-26-F6-OFFLINE-CANDIDATE：** ADR0045已Accepted并接线：20秒固定预留、20秒+中位数准入，Native/Google搜索取消保留完整候选；Web继承语义开始原截止，PGlite取消完成行重复主键缺陷已关闭。State23/TaskDefinition21、Context16/Agent Prompt28；新真实调用0。核心28项、本地Chromium及Web控制通过，五门禁待干净候选执行。F5例01已知限制保留；3a′退出条件6未达成，站点3847行，L1/L4/L5转3b，其余延期清单保留。[报告](../.eval-artifacts/phase3a-prime/f6/report.md)。
+- **2026-10-26-F6-OFFLINE-COMPLETE：** ADR0045已Accepted并接线：20秒固定预留、20秒+中位数准入，Native/Google搜索取消保留完整候选；Web继承语义开始原截止，PGlite取消完成行重复主键缺陷已关闭。State23/TaskDefinition21、Context16/Agent Prompt28；新真实调用0。五门禁在干净候选bcdd5cf1全绿：默认1100/1100、Chromium162/162、type/arch/build；每项前后净树，Web/PGlite及核心控制通过。F5例01已知限制保留；3a′退出条件6未达成，站点3847行，L1/L4/L5转3b，其余延期清单保留。[报告](../.eval-artifacts/phase3a-prime/f6/report.md)。
 - **2026-10-26-F3-REVIEW-SMALL-FIXES:** F3复核后三项小修完成：退出后评价固定已提交catalog并按SHA绑定，W12/健康fixture注入时钟，Mac与2核Linux三轮五门禁全绿（1075/162；Linux Chromium中位102.446秒）。退出条件6在3a′记未达成：3847，转3b；L1/L4/L5并入基于证据查位核对/页面结构变化告警，其余延期保留。新增真实调用0。 [报告](../.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/report.md)。
 
 - **2026-10-26-PHASE3A-BOUNDARY-CORRECTION-COMPLETE:** 用户复核修正已完成：ADR0044@1.1、Prompt25、sidecar2（SR02首轮A、补时间CARRY），Gold4仅SR03-T02目标改AVAILABILITY，旧版原样保留。aa64c0b3冻结611项后宿主五门禁1075/161全绿、逐项净树；指定去重9逻辑轮全部完成，目标/引用/沿用9/9、非目标请求值9/9，原严格评分0/9通过、差异完整另列。新增9调用，独立累计93/144余51，3a′400扣0；Google/来源/Live0，私有Holdout未读。灰区接受3/3观察但仍灰区，三项[3b前置](../.eval-artifacts/phase3a-boundary/review-correction/3b-prerequisites.md)本批不修。主线已有State22/TaskDefinition20不变；本批完成并按授权整合交付，远端结果以Git回执核对。[报告](../.eval-artifacts/phase3a-boundary/report.md)。
