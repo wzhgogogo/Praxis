@@ -58,6 +58,7 @@ test("an intentional old-contract Replay stop returns a bounded incomplete recei
   // recorded semantic contract is incompatible with the signed-off main.
   const config = JSON.parse(readFileSync(new URL("../../../../.eval-artifacts/phase3a-prime/replay-url-qualification-20261025/inputs/config.json", import.meta.url), "utf8")) as RecordedReadInput;
   const directory = await mkdtemp(join(tmpdir(), "f5-replay-contract-"));
+  const priorExitCode = process.exitCode;
   let summary: Awaited<ReturnType<typeof runRecordedRead>> | undefined;
   try {
     await assert.doesNotReject(async () => { summary = await runRecordedRead(config, directory); }, "An intentional incomplete Replay must retain its reason instead of losing the receipt in the Runner exception");
@@ -66,5 +67,5 @@ test("an intentional old-contract Replay stop returns a bounded incomplete recei
     assert.equal(summary!.modelTransportCalls, 0);
     assert.equal(summary!.decisionMismatch?.recordedSequence, 1);
     assert.deepEqual(summary!.decisionMismatch?.recorded, { purpose: "restaurant_semantic_interpret", promptVersion: "v23", outputSchema: { name: "restaurant-semantic-proposal", version: "3" } });
-  } finally { await rm(directory, { recursive: true, force: true }); }
+  } finally { process.exitCode = priorExitCode; await rm(directory, { recursive: true, force: true }); }
 });
