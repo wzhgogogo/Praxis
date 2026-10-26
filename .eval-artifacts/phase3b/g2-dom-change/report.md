@@ -60,3 +60,5 @@ Evidence status：current executable / exposed development baseline，非Clean B
 五门禁、额外固定检查与净树回执已在[verification](verification/)归档：typecheck 0.437s、arch 0.202s、默认1101/1101 27.862s、build 0.422s、Chromium166/166 105.774s；每项前后净树。固定G2 4/4 21.294s、最终12页留证15.737s，同样前后净树。所有输入SHA再次核对通过，源码冻结f671d950；完整最终映射/悬空及脚本位置见[capture](capture/)。产品、站点、source-packs、Prompt/Schema/State相对基线零差异。`.env`未读取、未暂存。工作分支推送供复核，不合main。G1候选与回放另从最新main独立分支开展；本报告不能作为其通过记录。
 
 归档修正：b538ac65的原始HTML/日志行尾空白使diff-check失败，命令串未阻断后续提交；保留该历史，不改原字节，改为gzip存储并记录压缩/解压双SHA。fixture存储读取相应改为gzip，规则/页面/公开语义不变；输入重新冻结后五门禁重跑，不沿用旧门禁认证新读取路径。
+
+最终存储修正验证：0027ed84五门禁全绿：typecheck0.452s、arch0.201s、默认1101/1101 27.669s、build0.408s、Chromium166/166 105.479s；额外固定G2 4/4 21.305s，最终留证12页15.685s。全部命令前后净树，输入原始字节及SHA不变，最终mapping/observations与gzip输入manifest对应；旧f671d950收据保留作修正前历史。完整分支`git diff cc127320 --check`通过。

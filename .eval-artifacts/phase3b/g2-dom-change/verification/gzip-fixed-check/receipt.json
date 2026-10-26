@@ -1,0 +1,32 @@
+{
+  "candidate": "0027ed84d08c96be1c5efd3ece610c51d3e30bdb",
+  "runs": [
+    {
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 21.305,
+      "statusBefore": "",
+      "statusAfter": ""
+    },
+    {
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/dom-change/run.ts",
+        "--out",
+        "/private/tmp/phase3b-g2-gzip-capture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 15.685,
+      "statusBefore": "",
+      "statusAfter": ""
+    }
+  ]
+}

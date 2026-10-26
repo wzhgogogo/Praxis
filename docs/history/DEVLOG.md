@@ -13,7 +13,7 @@
 
 ## 2026-10-26 CET：3b A批次1 G2 DOM变异切片
 
-时间2026-10-26T23:11:24.545847+01:00（CET）。从main cc127320独立工作分支，新增ADR0046（用户两原则）与共享3b零调用账本。规则2全id映射及引用目标逐项自检；12保存页8 PASS/4 DEGRADED_HONEST/0 FAIL，TC未知边界保留；无产品代码改动。固定G2命令与G3严格模式已建立；f671d950五门禁1101/166及额外G2 4/4全绿，逐项净树。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
+时间2026-10-26T23:11:24.545847+01:00（CET）。从main cc127320独立工作分支，新增ADR0046（用户两原则）与共享3b零调用账本。规则2全id映射及引用目标逐项自检；12保存页8 PASS/4 DEGRADED_HONEST/0 FAIL，TC未知边界保留；无产品代码改动。固定G2命令与G3严格模式已建立；0027ed84五门禁1101/166及额外G2 4/4全绿，逐项净树。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 
 <a id="dev-2026-10-26-phase3a-prime-signoff"></a>
 
