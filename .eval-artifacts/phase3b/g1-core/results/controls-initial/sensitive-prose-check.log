@@ -1,0 +1,75 @@
+▶ G1 sensitive questions only repeat source words with confirmation advice; model yes/no prose is discarded
+  ✖ allergy (2.193667ms)
+  ✖ religious diet (0.208542ms)
+  ✖ accessibility (0.1755ms)
+✖ G1 sensitive questions only repeat source words with confirmation advice; model yes/no prose is discarded (2.868875ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 116.468417
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:6650
+✖ allergy (2.193667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANSWERED'
+  - 'UNVERIFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:189:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:183:6)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANSWERED',
+    expected: 'UNVERIFIED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:6650
+✖ religious diet (0.208542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANSWERED'
+  - 'UNVERIFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:189:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:183:6)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANSWERED',
+    expected: 'UNVERIFIED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:6650
+✖ accessibility (0.1755ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANSWERED'
+  - 'UNVERIFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:189:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:183:6)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANSWERED',
+    expected: 'UNVERIFIED',
+    operator: 'strictEqual'
+  }

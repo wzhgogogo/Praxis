@@ -1,0 +1,41 @@
+✔ G1 answers a payment question outside the original request conditions with an exact source quotation (5.753208ms)
+✔ G1 reuses current-run bound pages without opening a new session; whitespace is the only quote normalization (0.167667ms)
+✔ G1 an asynchronous model reply cannot attach a quotation to a subsequently mutated cache page (0.135333ms)
+▶ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment
+  ✔ fabricated quotation (0.121ms)
+  ✔ negation removed (0.084375ms)
+  ✔ other document (0.078625ms)
+  ✔ uncited answer (0.080875ms)
+  ✔ URL override (0.091583ms)
+✔ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment (0.872083ms)
+✔ G1 same name is not the same outlet: existing identity reader rejects the other branch before model answering (0.418875ms)
+✔ G1 native page observer preserves the old fact result and only emits after existing same-outlet verification (2.775917ms)
+▶ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots
+  ✔ other run (0.057209ms)
+  ✔ old read (0.041166ms)
+  ✔ old identity (0.032792ms)
+  ✔ other candidate (0.034125ms)
+  ✔ weak identity (0.028042ms)
+  ✔ unbound source (0.027666ms)
+  ✔ non-page provider (0.027709ms)
+  ✔ redirect mismatch (0.027916ms)
+  ✔ loading (0.059916ms)
+  ✔ truncated line (0.046542ms)
+✔ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots (0.601708ms)
+▶ G1 sensitive questions only repeat source words with confirmation advice; model yes/no prose is discarded
+  ✔ allergy (0.10225ms)
+  ✔ religious diet (0.06575ms)
+  ✔ accessibility (0.058458ms)
+✔ G1 sensitive questions only repeat source words with confirmation advice; model yes/no prose is discarded (0.318916ms)
+✔ G1 reception mode comes from explicit source text without inventory; time-sensitive source statements retain read time (0.159625ms)
+✔ G1 each quotation keeps its own page and read time; bounded excerpts cannot establish page silence (0.214875ms)
+✔ G1 saved merchant fragment is quoted in place with provenance; it is not a live or identity-validation claim (4.494916ms)
+✔ G1 propagates shared model-budget exhaustion and cancellation instead of inventing an answer (0.276291ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 130.721083

@@ -1,13 +1,24 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.320
+- Document revision: 4.321
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-26-phase3b-g1-stop1"></a>
+
+## 2026-10-26 CET：3b B G1离线核心与Proposed ADR／停止点1
+
+最终测试提交d4be4a7a，614文件及外层脚本先提交冻结，macOS26.6.2 ARM64／Node24.4.1：typecheck、arch:check、npm test **1130/1130**、build、真实本地Chromium文件并发4 **162/162**全部PASS；每门禁前后git status为空、restore0、skip/fail/cancel0。Chromium单次98.130秒，不是三次中位数；本批Linux NOT_RUN。随后源码原字节恢复的三个反事实控制exit1，G1 30/30全绿；相关旧事实+G1合计64/64。保存片段原地读取并核SHA，身份负例通过既有reader逻辑，fixture BrowserSession不冒充G1真实浏览器E2E。
+
+有效红灯：0cbe826f旧HARD-only链路不能回答信用卡追问；95a95b50异步缓存把原引文配上other-branch URL；移除引用/HIGH身份/敏感自由输出三控制均AssertionError。均对应绿灯。首个门禁外层NameError发生在typecheck PASS之后，未算全绿，保留原记录；修外层后完整1129/162通过，缓存修复后再次完整1130/162通过。没有放宽断言、跳过或已知失败豁免。
+
+G1仅未接入口核心；真实模型语义/相关性、Agent/Web结果及Live均NOT_RUN，不推导Live S0=0。新增真实模型/Google/餐厅网站/Live/公开GET/环境重跑0；两站3847/Pack473不变，A/C源码与共享版本不改，等用户批准ADR0047后再接入与G3。证据、冻结SHA、原始日志和预算并集见[报告](../../.eval-artifacts/phase3b/g1-core/report.md)。
+
 
 <a id="test-2026-10-26-f6-implemented"></a>
 

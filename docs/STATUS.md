@@ -1,9 +1,12 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.421
+- Document revision: 4.422
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-PHASE3B-B-G1-STOP1（draft / not integrated）：** 对话B批次1完成停等复核；ADR0047保持Proposed（A已有0046草稿，编号由复核统一），观察清单52组及F3原38映射。G1未接入口核心复用原fact reader/身份/原文核对，可回答非criteria问题，敏感仅引文+确认、未说明附查页，缓存引用元数据错配红转绿。最终d4be4a7a冻结614项后五门禁1130默认/162本地Chromium全绿，各项前后净树；真实调用0，站点3847/Pack473不变。未改Agent/Web/Guard/共享版本，G3未开始，只推工作分支不合main。[报告](../.eval-artifacts/phase3b/g1-core/report.md)／[ADR](decisions/0047-observation-driven-sites-and-cited-questions.md)。
+
 
 - **2026-10-26 CET：3a′带缺口签收，3a完成（用户决定）。** 3a′保留四项缺口：F5例01未达成，转3b店名解析G4与F6 Live验证；网站适配器3,847行，未达≤3,591，L1/L4/L5转3b查位改造G3；测试集变快但未变小；真实录制尚不能完整回放，转3b对话A。3a①推荐与查位边界已合入（ADR-0044 revision1.1、语义Prompt@25、Gold@4）；3a②使用条款按用户提供的日本律师咨询结论“当前做法没有问题”结束。运行规范照旧：节奏控制、不进入robots禁止的预约流程路径、遇到限流或繁忙页面就退避。额度终值：3a′ Live **8/8**、真实模型 **334/400**、环境重跑 **3/4**；3a边界真实模型单列 **93/144**。本批只改文档，新增真实调用0；不开始3b或F6 Live。签收annotated tag：`phase3a-prime-signoff`。[完整收尾记录](history/DEVLOG.md#dev-2026-10-26-phase3a-prime-signoff)。
 
