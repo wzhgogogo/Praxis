@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.421
+- Document revision: 4.422
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-PHASE3B-C-BATCH1-PREP:** 对话C从签收main/cc127320新开codex/fix-phase3b-identity-and-named-target；本批仅保存数据离线复算、身份方案、具名店fixture红灯定位与Gold待确认清单，新增真实调用全0，禁读.env/私有Holdout。八份F5均纳入：六份Akabane含Dengana，两份其他请求标不适用；不把历史12/29冒充当前复算。身份规则不放宽、Gold不修改，Prompt或文件/版本争用按用户停止规则先报告。[切片](../.eval-artifacts/phase3b/c-batch1/plan.md)。
 
 - **2026-10-26 CET：3a′带缺口签收，3a完成（用户决定）。** 3a′保留四项缺口：F5例01未达成，转3b店名解析G4与F6 Live验证；网站适配器3,847行，未达≤3,591，L1/L4/L5转3b查位改造G3；测试集变快但未变小；真实录制尚不能完整回放，转3b对话A。3a①推荐与查位边界已合入（ADR-0044 revision1.1、语义Prompt@25、Gold@4）；3a②使用条款按用户提供的日本律师咨询结论“当前做法没有问题”结束。运行规范照旧：节奏控制、不进入robots禁止的预约流程路径、遇到限流或繁忙页面就退避。额度终值：3a′ Live **8/8**、真实模型 **334/400**、环境重跑 **3/4**；3a边界真实模型单列 **93/144**。本批只改文档，新增真实调用0；不开始3b或F6 Live。签收annotated tag：`phase3a-prime-signoff`。[完整收尾记录](history/DEVLOG.md#dev-2026-10-26-phase3a-prime-signoff)。
 

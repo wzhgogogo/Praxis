@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.314
+- Document revision: 4.315
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-10-26-PHASE3B-C-BATCH1-PREP
+
+按用户自包含3b对话C批次1准备。来源为签收main/cc127320、tag指向相同提交；新工作分支已建，不合main。共享预算上限18Live/1000模型/4环境重跑/40评测GET，C独立id零调用条目与已有条目并集保存。范围及停止规则见计划；不需要Claude项目复核文件。 [切片](../../.eval-artifacts/phase3b/c-batch1/plan.md)。
 
 <a id="dev-2026-10-26-phase3a-prime-signoff"></a>
 

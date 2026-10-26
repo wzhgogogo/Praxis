@@ -1,13 +1,17 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.320
+- Document revision: 4.321
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-26-PHASE3B-C-BATCH1-PREP
+
+验证计划：保存的29份基准与8份F5逐一复算，fixture模型仅替代传输，其余Interpreter/Compiler/Runtime真实组合。先提交输入SHA及脚本后执行，五门禁在干净候选上逐项检查。尚未运行复算/红灯/门禁；所有新增真实调用0，.env与私有Holdout不读取。 [切片](../../.eval-artifacts/phase3b/c-batch1/plan.md)。
 
 <a id="test-2026-10-26-f6-implemented"></a>
 
