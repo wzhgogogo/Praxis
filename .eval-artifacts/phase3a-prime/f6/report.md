@@ -58,6 +58,6 @@ PGlite还暴露一次取消既写诊断又写完成行，使用同一trajectory�
 
 ## 五门禁、范围和发布
 
-待在提交干净候选上依次运行typecheck、arch:check、npm test、build、真实本机Chromium；每项前后git status必须为空。门禁结果尚未在本报告填写。失败或未运行不得记PASS。
+首次干净候选85f8c234的typecheck/arch通过；默认1099/1100，一项旧Search Eval fixture仍用30秒整单预算，尚未读取即进入预留，导致原成功断言无候选。已同步该实际fixture调用方至500秒，原3项业务断言保留。首次build/Chromium未运行；将在修正后的干净候选上重新依次执行五门禁，每项前后git status必须为空；最终结果以下方收据为准。
 
 [范围核对](protected-check.json)：相对main起点116个保护文件字节相同，包括两站点目录、page-parser/query-controls和source-packs；预算账本SHA未变。网站非测试3847行、Pack473行。`git diff --check`在提交前核对，发布后用ls-remote核对工作分支和main。按用户授权合main并推送后停止，不运行Live。
