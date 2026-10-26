@@ -1178,10 +1178,10 @@ test("W12 Live Persistent run keeps the semantic-started deadline through a bloc
     const boundedModel = new RunBoundedModelGateway({ async complete(request) {
       if (request.purpose === "restaurant_semantic_interpret") {
         announceSemantic();
-        await new Promise<void>(resolve => setTimeout(resolve, 20_000));
+        await new Promise<void>(resolve => setTimeout(resolve, 20));
       }
       return fixtureModel.complete(request);
-    } }, 50, 55_000);
+    } }, 50, 55);
     const running = await startServer(database, clock, {
       mode: "LIVE_READ", restaurant, model: boundedModel, modelRunBudget: boundedModel,
     });
@@ -1193,10 +1193,10 @@ test("W12 Live Persistent run keeps the semantic-started deadline through a bloc
       t.mock.timers.enable({ apis: ["Date", "setTimeout"], now: 0 });
       const creation = createCase(running.baseUrl, cookie, "web-whole-read-deadline");
       await withinTestTimeout(semanticStarted, "W12 semantic transport to start");
-      t.mock.timers.tick(20_000);
+      t.mock.timers.tick(20);
       const created = await withinTestTimeout(creation, "W12 HTTP response after semantic work");
       await withinTestTimeout(restaurant.started, "W12 source search to start");
-      t.mock.timers.tick(34_999);
+      t.mock.timers.tick(34);
       assert.equal(restaurant.aborted, false, "source read remains valid before the original deadline");
       t.mock.timers.tick(1);
       assert.equal(restaurant.aborted, true, "semantic time must consume the same deadline, without renewing it at source entry");
