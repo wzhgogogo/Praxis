@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "04fe8fcb-7a5a-4483-bf63-78e61abea8d7",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Table for two in Shinjuku\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User asks for a table, i.e. booking wording\", \"quotes\": [\"I need a table\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shinjuku\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2127,
+    "providerRequestId": "e1677b99-82f9-4b7f-bd08-f49e90160ecd",
+    "usage": {
+      "inputTokens": 6883,
+      "outputTokens": 226,
+      "totalTokens": 7109
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "04fe8fcb-7a5a-4483-bf63-78e61abea8d7",
+      "taskId": "boundary-review:SR02-incremental-completion-review-3",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v25",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2127,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6883,
+        "outputTokens": 226,
+        "totalTokens": 7109
+      },
+      "providerRequestId": "e1677b99-82f9-4b7f-bd08-f49e90160ecd"
+    }
+  ],
+  "atCET": "2026-10-26T02:18:00.879+01:00"
+}

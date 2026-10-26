@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.310
+- Document revision: 4.311
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-COMPLETE
+
+停止点3用户完整消息批准规则修正，Claude项目文件无需本地取得。ADR1.1/Prompt25/sidecar2：订位措辞无时间仍AVAILABILITY，SR02补时间CARRY；Gold4仅SR03-T02目标，Gold3 SHA原样保留。main/7e2425b7先整合，双方记录/3a′累计保留；goalBasis不入State、State22/TaskDefinition20不升版。冻结aa64c0b3后九轮真实完成，非目标问题、query丢名与CONFIRM拒绝仅列3b，灰区保持灰区。新9调用累计93/144余51、prime400扣0，无新网站/Google/Live。提交证据后依授权推分支并快进main，远端最终SHA以实际Git回执为准。 [报告](../../.eval-artifacts/phase3a-boundary/review-correction/report.md)。
 
 ## DEV-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-PREP
 

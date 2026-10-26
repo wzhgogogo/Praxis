@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.417
+- Document revision: 4.418
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-PHASE3A-BOUNDARY-CORRECTION-COMPLETE:** 用户复核修正已完成：ADR0044@1.1、Prompt25、sidecar2（SR02首轮A、补时间CARRY），Gold4仅SR03-T02目标改AVAILABILITY，旧版原样保留。aa64c0b3冻结611项后宿主五门禁1075/161全绿、逐项净树；指定去重9逻辑轮全部完成，目标/引用/沿用9/9、非目标请求值9/9，原严格评分0/9通过、差异完整另列。新增9调用，独立累计93/144余51，3a′400扣0；Google/来源/Live0，私有Holdout未读。灰区接受3/3观察但仍灰区，三项[3b前置](../.eval-artifacts/phase3a-boundary/review-correction/3b-prerequisites.md)本批不修。主线已有State22/TaskDefinition20不变；本批完成并按授权整合交付，远端结果以Git回执核对。[报告](../.eval-artifacts/phase3a-boundary/report.md)。
 
 - **2026-10-26-PHASE3A-BOUNDARY-CORRECTION-PREP:** 用户停止点3批准规则修正；ADR0044@1.1、Prompt25、sidecar2：无时间订位A→AVAILABILITY，SR02补时间CARRY；Gold4只改SR03-T02目标，Gold3原字节保留。整合main/7e2425b7，State22/TaskDefinition20由主线带入、本工作不升版；双方历史与3a′账本保留。定向12与静态15轮通过，新外层4×9控制通过；五门禁及九个真实逻辑轮待冻结后执行。独立累计84/144、余60，3a′400扣0；非目标差异只记录。三项[3b前置](../.eval-artifacts/phase3a-boundary/review-correction/3b-prerequisites.md)本批不处理。[切片](../.eval-artifacts/phase3a-boundary/review-correction/plan.md)。
 

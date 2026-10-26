@@ -1,0 +1,313 @@
+{
+  "schema": "phase3a-boundary-independent-review@1",
+  "sourceCommit": "aa64c0b32109277c2e841a8a0577af8fd3646af3",
+  "evaluatedAtCET": "2026-10-26T02:24:36.125546+01:00",
+  "executionSha256": "2ca73d773639522427a2db0872537a03e4551ceae44c3648723c83abd7cc31be",
+  "unit": "logical turn",
+  "planned": 9,
+  "completed": 9,
+  "goalSatisfied": 9,
+  "nonGoalValuesSatisfied": 9,
+  "newRealCalls": 9,
+  "cumulativeRealCalls": 93,
+  "remainingAllowance": 51,
+  "configuredModel": "deepseek-v4-flash",
+  "reportedModels": {
+    "deepseek-flash": 9
+  },
+  "usage": {
+    "inputTokens": 62076,
+    "outputTokens": 1579,
+    "totalTokens": 63655
+  },
+  "providerLatencyMsSum": 19107,
+  "findings": [
+    {
+      "sessionId": "SR02-incremental-completion-review-1",
+      "turnId": "SR02-T01",
+      "category": "A",
+      "expectedGoal": "AVAILABILITY",
+      "actualGoal": "AVAILABILITY",
+      "goalStatus": "SATISFIED",
+      "errors": [],
+      "nonGoalValueDifferences": [],
+      "fullGoldDraftDifferences": [
+        {
+          "path": ".partySizeSource",
+          "expected": null,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": ".target",
+          "expected": null,
+          "actual": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "rowFileSha256": "61c5921e500ad34b65716689c0a0c078ea3b6c99e9c6d48bc081e00c53163247"
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-1",
+      "turnId": "SR02-T02",
+      "category": "CONTEXT_CARRY",
+      "expectedGoal": "AVAILABILITY",
+      "actualGoal": "AVAILABILITY",
+      "goalStatus": "SATISFIED",
+      "errors": [],
+      "nonGoalValueDifferences": [],
+      "fullGoldDraftDifferences": [
+        {
+          "path": ".partySizeSource",
+          "expected": null,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": ".target",
+          "expected": null,
+          "actual": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "path": ".temporalResolution",
+          "expected": null,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      ],
+      "rowFileSha256": "6d6055f43c4c5cfdc69a83be931ced8adb9480c251343fd70727917042c5de39"
+    },
+    {
+      "sessionId": "SR03-NO_TIME-review-1",
+      "turnId": "SR03-T01",
+      "category": "NO_TIME",
+      "expectedGoal": "RECOMMENDATION",
+      "actualGoal": "RECOMMENDATION",
+      "goalStatus": "SATISFIED",
+      "errors": [],
+      "nonGoalValueDifferences": [],
+      "fullGoldDraftDifferences": [
+        {
+          "path": ".target.selectionScope",
+          "expected": null,
+          "actual": "SPECIFIC_OUTLET"
+        }
+      ],
+      "rowFileSha256": "a6094f50d44eab7d703b2db0150cd30f4cc0bebbf94bab05174a303534600f42"
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-2",
+      "turnId": "SR02-T01",
+      "category": "A",
+      "expectedGoal": "AVAILABILITY",
+      "actualGoal": "AVAILABILITY",
+      "goalStatus": "SATISFIED",
+      "errors": [],
+      "nonGoalValueDifferences": [],
+      "fullGoldDraftDifferences": [
+        {
+          "path": ".partySizeSource",
+          "expected": null,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": ".target",
+          "expected": null,
+          "actual": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "rowFileSha256": "3c6379c5f6adbad35b7d285d3e8cbd13c9f65c19c8a73245de6d4cdb64159844"
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-2",
+      "turnId": "SR02-T02",
+      "category": "CONTEXT_CARRY",
+      "expectedGoal": "AVAILABILITY",
+      "actualGoal": "AVAILABILITY",
+      "goalStatus": "SATISFIED",
+      "errors": [],
+      "nonGoalValueDifferences": [],
+      "fullGoldDraftDifferences": [
+        {
+          "path": ".partySizeSource",
+          "expected": null,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": ".target",
+          "expected": null,
+          "actual": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "path": ".temporalResolution",
+          "expected": null,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      ],
+      "rowFileSha256": "44f16f47b5a6939dde907ad0d5b4c31225f9db5f29a5e0606dfcefc12b6e9869"
+    },
+    {
+      "sessionId": "SR03-NO_TIME-review-2",
+      "turnId": "SR03-T01",
+      "category": "NO_TIME",
+      "expectedGoal": "RECOMMENDATION",
+      "actualGoal": "RECOMMENDATION",
+      "goalStatus": "SATISFIED",
+      "errors": [],
+      "nonGoalValueDifferences": [],
+      "fullGoldDraftDifferences": [
+        {
+          "path": ".target.selectionScope",
+          "expected": null,
+          "actual": "SPECIFIC_OUTLET"
+        }
+      ],
+      "rowFileSha256": "3fb58cb50c139520bc4fd014986865aedb84653475c1d0ff4f4857a0e55ddad1"
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-3",
+      "turnId": "SR02-T01",
+      "category": "A",
+      "expectedGoal": "AVAILABILITY",
+      "actualGoal": "AVAILABILITY",
+      "goalStatus": "SATISFIED",
+      "errors": [],
+      "nonGoalValueDifferences": [],
+      "fullGoldDraftDifferences": [
+        {
+          "path": ".partySizeSource",
+          "expected": null,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": ".target",
+          "expected": null,
+          "actual": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "rowFileSha256": "6a1a728243de7966c0ae74d21e0d57cd9a1734f8b1de66871e6a9c585abacd54"
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-3",
+      "turnId": "SR02-T02",
+      "category": "CONTEXT_CARRY",
+      "expectedGoal": "AVAILABILITY",
+      "actualGoal": "AVAILABILITY",
+      "goalStatus": "SATISFIED",
+      "errors": [],
+      "nonGoalValueDifferences": [],
+      "fullGoldDraftDifferences": [
+        {
+          "path": ".partySizeSource",
+          "expected": null,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": ".target",
+          "expected": null,
+          "actual": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "path": ".temporalResolution",
+          "expected": null,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      ],
+      "rowFileSha256": "3b731d7b3210285c2059754ae5bf2f0472fa6971edf17f930b7d3547ef5b1281"
+    },
+    {
+      "sessionId": "SR03-NO_TIME-review-3",
+      "turnId": "SR03-T01",
+      "category": "NO_TIME",
+      "expectedGoal": "RECOMMENDATION",
+      "actualGoal": "RECOMMENDATION",
+      "goalStatus": "SATISFIED",
+      "errors": [],
+      "nonGoalValueDifferences": [],
+      "fullGoldDraftDifferences": [
+        {
+          "path": ".target.selectionScope",
+          "expected": null,
+          "actual": "SPECIFIC_OUTLET"
+        }
+      ],
+      "rowFileSha256": "4de55ee41b48b4e1bc95f499d0927fb52c621e2ef87f20bc57241154aa7209cc"
+    }
+  ],
+  "localAuthorityChecks": "SATISFIED: saved transitions contain no commands/basis persistence/downstream goal mutation",
+  "productE2E": "NOT_EVALUATED",
+  "sourceDeliveryS0toS4": "NOT_EVALUATED: semantic-only; no source/delivery execution",
+  "grayResults": "Previously accepted 3/3 observations, annotations remain gray; not rerun",
+  "privateHoldout": "NOT_READ"
+}

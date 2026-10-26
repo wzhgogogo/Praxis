@@ -1,7 +1,7 @@
 {
   "schema": "phase3a-boundary-budget@1",
-  "status": "STOP_3_COMPLETE_REVIEW_REQUIRED",
-  "asOf": "2026-10-25T23:59:41+01:00",
+  "status": "CORRECTION_COMPLETE",
+  "asOf": "2026-10-26T02:23:43+01:00",
   "timezone": "CET UTC+01:00",
   "limits": {
     "realModelCalls": 144,
@@ -9,7 +9,7 @@
     "googleRequests": 0,
     "restaurantWebsiteRequests": 0
   },
-  "approval": "User stop-1 approval 2026-10-25; independent 144 real model calls; batch2 offline only; stop2 review required before batch3; user stop2 review passed; batch3 real semantic regression authorized, same total ceiling144",
+  "approval": "User stop-1 approval 2026-10-25; independent 144 real model calls; batch2 offline only; stop2 review required before batch3; user stop2 review passed; batch3 real semantic regression authorized, same total ceiling144; user stop3 review 2026-10-26 authorized Prompt25 correction, Gold4 single goal change, nine-turn rerun and main merge/push after five gates",
   "entries": [
     {
       "slice": "batch1 Proposed ADR and inventories",
@@ -92,10 +92,19 @@
       "completedControlLogicalTurns": 11,
       "primarySchemaRetryRequests": 1,
       "remainingCumulativeAllowance": 60
+    },
+    {
+      "slice": "stop3 approved no-time booking correction / Prompt25",
+      "sourceCommit": "aa64c0b32109277c2e841a8a0577af8fd3646af3",
+      "realModelCalls": 9,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "status": "REVIEW_CORRECTION_RERUN_COMPLETE"
     }
   ],
   "cumulative": {
-    "realModelCalls": 84,
+    "realModelCalls": 93,
     "fullLive": 0,
     "googleRequests": 0,
     "restaurantWebsiteRequests": 0
@@ -103,5 +112,17 @@
   "chargedToPhase3aPrime400": false,
   "approvedBatch3LogicalTurns": 72,
   "approvedControlLogicalTurnsMaximum": 15,
-  "approvedLogicalMaximumIncludingControls": 87
+  "approvedLogicalMaximumIncludingControls": 87,
+  "reviewCorrection": {
+    "approval": "Direct user stop3 review 2026-10-26 CET",
+    "logicalTurnsApproved": 9,
+    "logicalTurnsCompleted": 9,
+    "providerRequestsApprovedMaximum": 18,
+    "priorCumulativeCalls": 84,
+    "newRealCalls": 9,
+    "cumulativeRealCalls": 93,
+    "remainingAllowance": 51,
+    "sourceCommit": "aa64c0b32109277c2e841a8a0577af8fd3646af3",
+    "report": ".eval-artifacts/phase3a-boundary/review-correction/report.md"
+  }
 }

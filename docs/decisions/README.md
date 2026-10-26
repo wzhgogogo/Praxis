@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.20
+- Document revision: 1.21
 - Last updated: 2026-10-26
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
@@ -59,7 +59,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 | [0042](0042-agent-planned-discovery-and-search-availability-hints.md) | Accepted; 用户批准 2026-10-17 | Agent有界检索规划与搜索级空位线索；P2-1a离线实施，来源实测与P2-1b待后续 |
 | [0043](0043-provisional-directory-entrance-coordinate-check.md) | Accepted | 临时入口、两样本与共享一次纠正；机制已Live验证，例01能力未达成并转已知限制 |
 
-| [0044](0044-recommendation-availability-boundary.md) | Accepted; 用户批准 2026-10-25，批次 2 实施中 | 推荐/查位两个语义锚点、灰区模型判断与 goalBasis 当前消息引用核验；仅提议保存依据，不升 State/TaskDefinition |
+| [0044](0044-recommendation-availability-boundary.md) | Accepted; revision1.1，用户停止点3修正 2026-10-26 | 推荐/查位两个语义锚点、灰区模型判断与 goalBasis 当前消息引用核验；仅提议保存依据，不升 State/TaskDefinition |
 
 ## 规则
 
@@ -75,4 +75,4 @@ Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) ad
 - [ADR-0036脚本类型与预检补充](0036-script-request-types-and-preflight-draft.md)：第1–7条Accepted并离线实施；地点类型关联项未批准，留3f。当前来源reserve永久拒绝不变。
 
 以下仅草案，不改变当前Accepted合同或权限：
-- [ADR-0045收尾时间预留](0045-bounded-read-conclusion-reserve.md)：Draft0.2，20s加动作中位数及完整子结果交接细节待批准，未实施。0044在并行架构分支占号，本目录不补造其批准状态。
+- [ADR-0045收尾时间预留](0045-bounded-read-conclusion-reserve.md)：Draft0.2，20s加动作中位数及完整子结果交接细节待批准，未实施。ADR-0044的批准与revision1.1修正已按用户直接确认整合，见上表。

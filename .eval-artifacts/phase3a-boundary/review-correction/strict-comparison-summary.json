@@ -1,0 +1,126 @@
+[
+  {
+    "turn": "SR02-T01",
+    "proposal": [
+      {
+        "path": "facts",
+        "expected": [
+          {
+            "field": "AREA",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "AREA",
+              "query": "Shinjuku"
+            }
+          },
+          {
+            "field": "PARTY_SIZE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "PARTY_SIZE",
+              "value": 2
+            }
+          }
+        ],
+        "actual": [
+          {
+            "field": "AREA",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "AREA",
+              "query": "Shinjuku"
+            }
+          },
+          {
+            "field": "PARTY_SIZE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "PARTY_SIZE",
+              "value": 2,
+              "source": "EXPLICIT"
+            }
+          }
+        ]
+      }
+    ],
+    "patch": [
+      {
+        "path": "partySizeSource",
+        "expected": null,
+        "actual": "EXPLICIT"
+      }
+    ]
+  },
+  {
+    "turn": "SR02-T02",
+    "proposal": [
+      {
+        "path": "facts",
+        "expected": [
+          {
+            "field": "DATE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "DATE",
+              "value": "2026-08-06",
+              "raw": "2026-08-06"
+            }
+          },
+          {
+            "field": "TIME_WINDOW",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TIME_WINDOW",
+              "earliest": "19:00",
+              "latest": "19:30",
+              "raw": "19:00-19:30"
+            }
+          }
+        ],
+        "actual": [
+          {
+            "field": "DATE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "DATE",
+              "relativeDay": "TOMORROW",
+              "raw": "Tomorrow"
+            }
+          },
+          {
+            "field": "TIME_WINDOW",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TIME_WINDOW",
+              "earliest": "19:00",
+              "latest": "19:30",
+              "raw": "between 19:00 and 19:30"
+            }
+          }
+        ]
+      }
+    ],
+    "patch": [
+      {
+        "path": "temporalResolution.date.expression",
+        "expected": "2026-08-06",
+        "actual": "Tomorrow"
+      },
+      {
+        "path": "temporalResolution.date.basis",
+        "expected": "EXPLICIT_DATE",
+        "actual": "TOMORROW"
+      },
+      {
+        "path": "temporalResolution.timeWindow.expression",
+        "expected": "19:00-19:30",
+        "actual": "between 19:00 and 19:30"
+      }
+    ]
+  },
+  {
+    "turn": "SR03-T01",
+    "proposal": [],
+    "patch": []
+  }
+]

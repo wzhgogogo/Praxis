@@ -1,0 +1,187 @@
+{
+  "sessionId": "SR02-incremental-completion-review-3",
+  "repetition": 3,
+  "turnId": "SR02-T01",
+  "input": {
+    "taskId": "boundary-review:SR02-incremental-completion-review-3",
+    "message": "I need a table in Shinjuku for two people.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo"
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "goalBasis": {
+              "type": "BOOKING_WORDING",
+              "reason": "User asks for a table, i.e. booking wording",
+              "quotes": [
+                "I need a table"
+              ]
+            },
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "Shinjuku"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2,
+            "source": "EXPLICIT"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "04fe8fcb-7a5a-4483-bf63-78e61abea8d7",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v25",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2127,
+        "usage": {
+          "inputTokens": 6883,
+          "outputTokens": 226,
+          "totalTokens": 7109
+        },
+        "providerRequestId": "e1677b99-82f9-4b7f-bd08-f49e90160ecd"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Table for two in Shinjuku",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "area": {
+        "query": "Shinjuku"
+      },
+      "partySize": 2,
+      "partySizeSource": "EXPLICIT"
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [],
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "Table for two in Shinjuku",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "partySize": 2,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Shinjuku"
+    }
+  },
+  "transitions": [
+    {
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "area": {
+            "query": "Shinjuku"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT"
+        }
+      },
+      "commands": [],
+      "domainState": {
+        "schemaVersion": "22",
+        "phase": "UNDERSTANDING",
+        "searchRevision": 0,
+        "investigationRevision": 1,
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Shinjuku"
+          }
+        },
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "factChecks": {},
+        "readEvidence": []
+      }
+    }
+  ],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "partySize": 2,
+    "area": {
+      "query": "Shinjuku"
+    },
+    "criteria": []
+  },
+  "category": "A",
+  "evaluation": {
+    "goal": {
+      "category": "A",
+      "status": "SATISFIED",
+      "actualGoal": "AVAILABILITY",
+      "basis": {
+        "type": "BOOKING_WORDING",
+        "reason": "User asks for a table, i.e. booking wording",
+        "quotes": [
+          "I need a table"
+        ]
+      },
+      "errors": []
+    },
+    "nonGoalDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+    }
+  },
+  "logicalIndex": 7,
+  "attemptNumbers": [
+    91
+  ]
+}
