@@ -1,13 +1,17 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.321
+- Document revision: 4.322
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-26-PHASE3B-C-BATCH1-CANDIDATE
+
+原005/006坏提议fixture→生产Interpreter/Compiler/TaskRuntime有效红灯，query在Compiler前已泛化；保留店名的反事实下游控制通过。旧Prompt25 wire缺跨goal保名指令红灯，新26定向8/8绿；覆盖补时/人数、换店、撤销点名。固定坏响应仍不是修复后模型成功，真实模型验证留后续。Gold4 SHA96a3dbd7不变，身份规则/源码与main相同。旧基准来源流量缺证保留，不把29份0错认当总体S0已评。所有新增真实调用0，.env/私有Holdout未读；完整五门禁待干净提交后执行。 [报告](../../.eval-artifacts/phase3b/c-batch1/report.md)。
 
 ## TEST-2026-10-26-PHASE3B-C-BATCH1-PREP
 

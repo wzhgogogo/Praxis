@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.422
+- Document revision: 4.423
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-PHASE3B-C-BATCH1-CANDIDATE:** C完成离线候选：当前保存页parser/resolver复算12/29正确、0错认；14空检索、1身份采集遗漏、1字段冲突、1检索未决；八F5中六Dengana/两其他请求，时限原因逐项保存。身份/检索仅方案不实施。SR03坏提议在模型层先丢名；已报告后仅Semantic Prompt25→26，合法fixture与wire8/8绿，原坏响应并未变为模型成功；Schema4/State23/TaskDefinition21不变。15项Gold标签建议只列清单、Gold4原SHA未变；ADR0047记录3b两个原则及未实现边界。A/B/C零调用条目并集，新增真实调用0。五门禁待干净冻结候选验证，停点1不合main。[报告](../.eval-artifacts/phase3b/c-batch1/report.md)。
 
 - **2026-10-26-PHASE3B-C-BATCH1-PREP:** 对话C从签收main/cc127320新开codex/fix-phase3b-identity-and-named-target；本批仅保存数据离线复算、身份方案、具名店fixture红灯定位与Gold待确认清单，新增真实调用全0，禁读.env/私有Holdout。八份F5均纳入：六份Akabane含Dengana，两份其他请求标不适用；不把历史12/29冒充当前复算。身份规则不放宽、Gold不修改，Prompt或文件/版本争用按用户停止规则先报告。[切片](../.eval-artifacts/phase3b/c-batch1/plan.md)。
 

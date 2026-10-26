@@ -1,13 +1,17 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.315
+- Document revision: 4.316
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-10-26-PHASE3B-C-BATCH1-CANDIDATE
+
+从main/cc127320准备四项。0895a3b7冻结745输入后，29保存页当前纯parser/resolver复算12正确/17未接纳/0错认；14明确空、2正确详情未过身份、1宽召回无Gold。Dengana八原件全查，六适用两其他请求，导航/模型/提交/检索漂移/父超时逐步计时；@2只修WEBSITE辅助活动的误删失观察，旧输出保留。方案不实施/不放宽，15项Gold候选只列清单。SR03先在模型提议丢名，下游忠实复制；预先报告后7521c94d只改Semantic Prompt26和C同文件测试。ADR0047记录用户两原则，不声明G1/G2/G3已实现。 [报告](../../.eval-artifacts/phase3b/c-batch1/report.md)。
 
 ## DEV-2026-10-26-PHASE3B-C-BATCH1-PREP
 
