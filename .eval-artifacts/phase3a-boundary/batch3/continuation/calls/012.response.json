@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "3d4c3b26-117e-460d-8be2-46ee3b7113e3",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"CRITERION\", \"operation\": \"NEGATE\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"omakase\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"CONFIRM\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"sushi\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2133,
+    "providerRequestId": "6f3ec195-476b-4511-a5e3-ff34cb62e3e0",
+    "usage": {
+      "inputTokens": 6967,
+      "outputTokens": 158,
+      "totalTokens": 7125
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "3d4c3b26-117e-460d-8be2-46ee3b7113e3",
+      "taskId": "boundary-continuation:SR08-criterion-removal",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2133,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6967,
+        "outputTokens": 158,
+        "totalTokens": 7125
+      },
+      "providerRequestId": "6f3ec195-476b-4511-a5e3-ff34cb62e3e0"
+    }
+  ],
+  "atCET": "2026-10-25T23:39:26.385+01:00"
+}

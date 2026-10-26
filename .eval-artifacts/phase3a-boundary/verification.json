@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "mode": "OFFLINE_EXISTING_CONTRACTS",
+  "frozenCommit": "7db6ecc3c22e7342b2572a7afa329ff667131cc4",
+  "inputManifestSha256": "062d4e46c597a607651274010642f7273cdbd2ef556fe5ab553d1604fd8dfa6b",
+  "startedAtVienna": "2026-10-25T10:00:24.207+01:00",
+  "timezone": "CET UTC+01:00",
+  "realModelCalls": 0,
+  "googleRequests": 0,
+  "restaurantWebsiteRequests": 0,
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtVienna": "2026-10-25T10:00:24.207+01:00",
+      "finishedAtVienna": "2026-10-25T10:00:28.241+01:00",
+      "durationSeconds": 4.034,
+      "exitCode": 0,
+      "gitStatusAfter": "",
+      "cleanAfter": true,
+      "log": ".eval-artifacts/phase3a-boundary/gates/typecheck.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtVienna": "2026-10-25T10:00:28.241+01:00",
+      "finishedAtVienna": "2026-10-25T10:00:28.514+01:00",
+      "durationSeconds": 0.273,
+      "exitCode": 0,
+      "gitStatusAfter": "",
+      "cleanAfter": true,
+      "log": ".eval-artifacts/phase3a-boundary/gates/arch.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtVienna": "2026-10-25T10:00:28.514+01:00",
+      "finishedAtVienna": "2026-10-25T10:00:49.411+01:00",
+      "durationSeconds": 20.897,
+      "exitCode": 0,
+      "gitStatusAfter": "",
+      "cleanAfter": true,
+      "log": ".eval-artifacts/phase3a-boundary/gates/test.log",
+      "logSha256": "697ad5d0e680fd5372051943fc4e6b772ae5c3cf24d719e6cb9c23cabb4620c0"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtVienna": "2026-10-25T10:00:49.412+01:00",
+      "finishedAtVienna": "2026-10-25T10:00:49.836+01:00",
+      "durationSeconds": 0.424,
+      "exitCode": 0,
+      "gitStatusAfter": "",
+      "cleanAfter": true,
+      "log": ".eval-artifacts/phase3a-boundary/gates/build.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtVienna": "2026-10-25T10:00:49.837+01:00",
+      "finishedAtVienna": "2026-10-25T10:02:23.700+01:00",
+      "durationSeconds": 93.863,
+      "exitCode": 0,
+      "gitStatusAfter": "",
+      "cleanAfter": true,
+      "log": ".eval-artifacts/phase3a-boundary/gates/browser.log",
+      "logSha256": "4d667cf2c1b61dbd98cee0e9579f555b62446f8aed612b6cd8b0ac88783928bd"
+    }
+  ],
+  "finishedAtVienna": "2026-10-25T10:02:23.700+01:00"
+}

@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "ec051974-1ad6-4283-bfda-82ab44f577bd",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Sushi restaurant in Ginza for dinner tonight, not omakase\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"User states a meal plan and preferences but does not ask to book or confirm a table\", \"quotes\": [\"Tonight at dinner in Ginza for two\", \"I need sushi, but not omakase\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TODAY\", \"raw\": \"Tonight\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"EVENING\", \"raw\": \"Tonight at dinner\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Ginza\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"sushi\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"omakase\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3429,
+    "providerRequestId": "2727e917-d5cf-41b0-bc74-473082c1fdc7",
+    "usage": {
+      "inputTokens": 6849,
+      "outputTokens": 441,
+      "totalTokens": 7290
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "ec051974-1ad6-4283-bfda-82ab44f577bd",
+      "taskId": "boundary-continuation:SR08-criterion-removal",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3429,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6849,
+        "outputTokens": 441,
+        "totalTokens": 7290
+      },
+      "providerRequestId": "2727e917-d5cf-41b0-bc74-473082c1fdc7"
+    }
+  ],
+  "atCET": "2026-10-25T23:39:24.206+01:00"
+}

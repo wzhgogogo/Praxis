@@ -1,0 +1,31 @@
+{
+  "schema": "phase3a-boundary-continuation-config@1",
+  "status": "frozen regression / exposed development / not Clean Baseline",
+  "model": "deepseek-v4-flash",
+  "primaryPrompt": "v24",
+  "primarySchema": "4",
+  "controlPrompt": "v23",
+  "controlSchema": "3",
+  "primaryLogicalTurns": 72,
+  "priorRealCalls": 1,
+  "reusePriorMainTurn": "SR01-T01",
+  "maximumControlLogicalTurns": 15,
+  "plannedLogicalMaximum": 87,
+  "hardRealCallCeiling": 144,
+  "primaryOutputAttemptsMaximum": 2,
+  "controlOutputAttemptsMaximum": 1,
+  "stopOnly": [
+    "infrastructure including credential/network/runner failure",
+    "cumulative model ceiling reached",
+    "S0 boundary violation"
+  ],
+  "nonGoalDifferencesStop": false,
+  "goalMismatchesStop": false,
+  "context": "Validated current proposal advances through unchanged production Compiler with trusted frozen Tokyo reference and Task Runtime/Reducer even when comparison fails; invalid proposals produce the existing failure event and retain prior Draft for later turns; prior001 is replayed offline for SR01-T02 context",
+  "scoring": "Keep original scorer@4 strict diagnostics. Separately record non-target request-value comparisons (date/window/party/area/criteria/budget and annotated target non-goal fields), with diagnostic provenance and raw representation changes listed separately. No production scorer or Gold modification. Select v23 controls only from the15 development turns with non-target value difference or non-target compile conflict.",
+  "controlParity": "Use the exact recorded primary message, referenceTime, timezone and pre-turn currentDraft; one historicalPrompt23/Schema3 request; exclude controls from primary rule pass counts",
+  "grayRate": "Only the extra3 per group; context carry marked; invalid and missing separately; newWednesday remains development notGold",
+  "privateHoldout": "NOT_READ",
+  "sourceOrGoogleRequests": 0,
+  "resumeUnknownDispatch": false
+}

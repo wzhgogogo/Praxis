@@ -1,0 +1,523 @@
+{
+  "schema": "phase3a-boundary-pending-gold-review@1",
+  "status": "draft / not integrated; no Gold changes approved or applied in batch3",
+  "principle": "All source Gold and historical evaluations remain immutable; approved updates would require a separately versioned successor, never an overwrite to make this run pass.",
+  "mandatorySR03T02": {
+    "turnId": "SR03-T02",
+    "oldGoldGoal": "RECOMMENDATION",
+    "proposedGoal": "AVAILABILITY",
+    "category": "B",
+    "actualRun": "NOT_REACHED",
+    "basisForCandidate": "Accepted ADR-0044 and explicit user stop1 deferral to stop3, not a fresh observation",
+    "decision": "PENDING_INDIVIDUAL_CONFIRMATION"
+  },
+  "graySuccessorAnnotations": [
+    {
+      "group": "G017",
+      "caseId": "p2l-kf-h003-20261106",
+      "oldGoal": "AVAILABILITY",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+          "pointer": "document/2",
+          "caseId": "p2l-kf-h003-20261106",
+          "oldGoal": "AVAILABILITY"
+        },
+        {
+          "path": ".eval-artifacts/p2-live-set-20261019/variants.yaml",
+          "pointer": "document/2",
+          "caseId": "p2l-kf-h003-20261106",
+          "oldGoal": "AVAILABILITY"
+        }
+      ]
+    },
+    {
+      "group": "G023",
+      "caseId": "p1f-kf-h003-20261023",
+      "oldGoal": "AVAILABILITY",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+          "pointer": "document/2",
+          "caseId": "p1f-kf-h003-20261023",
+          "oldGoal": "AVAILABILITY"
+        },
+        {
+          "path": ".eval-artifacts/p1-f-20261011/variants.yaml",
+          "pointer": "document/2",
+          "caseId": "p1f-kf-h003-20261023",
+          "oldGoal": "AVAILABILITY"
+        },
+        {
+          "path": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+          "pointer": "document/2",
+          "caseId": "p1f-kf-h003-20261023",
+          "oldGoal": "AVAILABILITY"
+        }
+      ]
+    },
+    {
+      "group": "G024",
+      "caseId": "p1f-kf-h004-20261019",
+      "oldGoal": "RECOMMENDATION",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+          "pointer": "document/3",
+          "caseId": "p1f-kf-h004-20261019",
+          "oldGoal": "RECOMMENDATION"
+        },
+        {
+          "path": ".eval-artifacts/p1-f-20261011/variants.yaml",
+          "pointer": "document/3",
+          "caseId": "p1f-kf-h004-20261019",
+          "oldGoal": "RECOMMENDATION"
+        }
+      ]
+    },
+    {
+      "group": "G030",
+      "caseId": "p1f-kf-h004-20261027",
+      "oldGoal": "RECOMMENDATION",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+          "pointer": "document/3",
+          "caseId": "p1f-kf-h004-20261027",
+          "oldGoal": "RECOMMENDATION"
+        }
+      ]
+    },
+    {
+      "group": "G053",
+      "caseId": "h003",
+      "oldGoal": "AVAILABILITY",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+          "pointer": "document/2",
+          "caseId": "h003",
+          "oldGoal": "AVAILABILITY"
+        },
+        {
+          "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+          "pointer": "document/2",
+          "caseId": "h003",
+          "oldGoal": "AVAILABILITY"
+        },
+        {
+          "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+          "pointer": "document/2",
+          "caseId": "h003",
+          "oldGoal": "AVAILABILITY"
+        }
+      ]
+    },
+    {
+      "group": "G054",
+      "caseId": "h004",
+      "oldGoal": "RECOMMENDATION",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+          "pointer": "document/3",
+          "caseId": "h004",
+          "oldGoal": "RECOMMENDATION"
+        },
+        {
+          "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+          "pointer": "document/3",
+          "caseId": "h004",
+          "oldGoal": "RECOMMENDATION"
+        },
+        {
+          "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+          "pointer": "document/3",
+          "caseId": "h004",
+          "oldGoal": "RECOMMENDATION"
+        }
+      ]
+    },
+    {
+      "group": "G063",
+      "caseId": "SR05-T01",
+      "oldGoal": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "pointer": "SR05-relative-time-hard-soft-and-party-inference/SR05-T01",
+          "caseId": "SR05-T01",
+          "oldGoal": "UNANNOTATED"
+        }
+      ]
+    },
+    {
+      "group": "G064",
+      "caseId": "SR06-T01",
+      "oldGoal": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "pointer": "SR06-approximate-budget-is-soft/SR06-T01",
+          "caseId": "SR06-T01",
+          "oldGoal": "UNANNOTATED"
+        }
+      ]
+    },
+    {
+      "group": "G065",
+      "caseId": "SR07-T01",
+      "oldGoal": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "pointer": "SR07-relative-offset-time/SR07-T01",
+          "caseId": "SR07-T01",
+          "oldGoal": "UNANNOTATED"
+        }
+      ]
+    },
+    {
+      "group": "G066",
+      "caseId": "SR08-T01",
+      "oldGoal": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "pointer": "SR08-criterion-removal/SR08-T01",
+          "caseId": "SR08-T01",
+          "oldGoal": "UNANNOTATED"
+        }
+      ]
+    },
+    {
+      "group": "G067",
+      "caseId": "SR08-T02",
+      "oldGoal": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": true,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "pointer": "SR08-criterion-removal/SR08-T02",
+          "caseId": "SR08-T02",
+          "oldGoal": "UNANNOTATED"
+        }
+      ]
+    },
+    {
+      "group": "G068",
+      "caseId": "SR09-T01",
+      "oldGoal": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "pointer": "SR09-relative-location-overwrite/SR09-T01",
+          "caseId": "SR09-T01",
+          "oldGoal": "UNANNOTATED"
+        }
+      ]
+    },
+    {
+      "group": "G069",
+      "caseId": "SR09-T02",
+      "oldGoal": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": true,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "pointer": "SR09-relative-location-overwrite/SR09-T02",
+          "caseId": "SR09-T02",
+          "oldGoal": "UNANNOTATED"
+        }
+      ]
+    },
+    {
+      "group": "G070",
+      "caseId": "SR10-T01",
+      "oldGoal": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "allowedGoals": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "goalBasisRequiredForNewTarget": true,
+      "contextCarry": false,
+      "extraModelRuns": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+      "sourceReferences": [
+        {
+          "path": "src/eval/restaurant/semantic/fixtures.ts",
+          "pointer": "SR10-hard-budget/SR10-T01",
+          "caseId": "SR10-T01",
+          "oldGoal": "UNANNOTATED"
+        }
+      ]
+    }
+  ],
+  "unannotatedDevelopmentTargets": [
+    {
+      "turnId": "SR01-T01",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "B",
+      "proposedGoalPolicy": [
+        "AVAILABILITY"
+      ],
+      "actualObservation": "SR01-T01 actual proposal AVAILABILITY with valid basis",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR01-T02",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "CONTEXT_CARRY",
+      "proposedGoalPolicy": "carry prior authoritative goal without a new TARGET",
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR02-T01",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "NO_TIME",
+      "proposedGoalPolicy": [
+        "RECOMMENDATION"
+      ],
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR02-T02",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "B",
+      "proposedGoalPolicy": [
+        "AVAILABILITY"
+      ],
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR04-T01",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "B",
+      "proposedGoalPolicy": [
+        "AVAILABILITY"
+      ],
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR05-T01",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "proposedGoalPolicy": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR06-T01",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "proposedGoalPolicy": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR07-T01",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "proposedGoalPolicy": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR08-T01",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "proposedGoalPolicy": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR08-T02",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "CONTEXT_CARRY",
+      "proposedGoalPolicy": "carry prior authoritative goal without a new TARGET",
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR09-T01",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "proposedGoalPolicy": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR09-T02",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "CONTEXT_CARRY",
+      "proposedGoalPolicy": "carry prior authoritative goal without a new TARGET",
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    },
+    {
+      "turnId": "SR10-T01",
+      "oldGoldTarget": "UNANNOTATED",
+      "proposedCategory": "GRAY",
+      "proposedGoalPolicy": [
+        "RECOMMENDATION",
+        "AVAILABILITY"
+      ],
+      "actualObservation": "NOT_REACHED",
+      "decision": "PENDING_INDIVIDUAL_CONFIRMATION_FOR_SUCCESSOR_GOLD"
+    }
+  ],
+  "newWednesday": {
+    "status": "new development input only / not Gold; no promotion proposed",
+    "runs": "NOT_REACHED"
+  },
+  "nonGoalFinding": {
+    "turnId": "SR01-T01",
+    "field": "yakiniku.strength",
+    "oldGold": "UNSPECIFIED",
+    "actual": "HARD",
+    "action": "recorded only; no proposal to change the Gold to fit the output"
+  },
+  "preExistingGoldIssue": {
+    "group": "G030",
+    "caseId": "p1f-kf-h004-20261027",
+    "issue": "unexpected date key October 27 with null; raw source retained",
+    "actualRun": "NOT_REACHED",
+    "action": "record only; no repair"
+  },
+  "goldFilesChanged": []
+}

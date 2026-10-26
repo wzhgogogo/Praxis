@@ -1,5 +1,5 @@
 import { RestaurantSemanticRegressionFixtureInterpreter } from "../fixture-interpreter.js";
-import { restaurantSemanticRegressionV3 } from "../fixtures.js";
+import { restaurantSemanticRegression } from "../dataset.js";
 import { runRestaurantSemanticRegression } from "../regression.js";
 
 const report = await runRestaurantSemanticRegression(
@@ -7,7 +7,7 @@ const report = await runRestaurantSemanticRegression(
   {
     mode: "FIXTURE",
     attributionLevel: "DEVELOPMENT_STAGE_ORACLES",
-    dataset: restaurantSemanticRegressionV3,
+    dataset: restaurantSemanticRegression,
   },
 );
 

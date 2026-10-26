@@ -1,0 +1,100 @@
+{
+  "status": "CONFIRMED_NON_TARGET_PROPOSAL_DRIFT / STOP_3_REVIEW_REQUIRED",
+  "checkedAtCET": "2026-10-25T21:01:41+01:00",
+  "method": "Manual independent Python cross-check of raw model output, frozen original Gold and call receipts; no production scorer or model judge used.",
+  "sourceCommit": "f0cc436a6633909b2fb8444e9f2e142390cef428",
+  "executionSha256": "cb1f6ca3248fea1938098c504d34545e3c2d186d1af023d7cc668a3288ae189d",
+  "responseSha256": "c0a435e106a021c18569eeef1b8cb010d0b18ed4911a9f814c436e736b16f54b",
+  "originalGoldSha256": "fa4a8e52a82806af6d507a06f4ba16426e6c28376936363c777c4e981cf3ca72",
+  "frozenFilesStillMatch": 602,
+  "credentialStatus": "已加载",
+  "fileHandlingStatement": "未独立读取文件",
+  "calls": {
+    "started": 1,
+    "providerSucceeded": 1,
+    "providerFailed": 0,
+    "responseSaved": 1,
+    "uncertain": 0,
+    "retries": 0
+  },
+  "goal": {
+    "category": "B",
+    "proposalGoal": "AVAILABILITY",
+    "status": "SATISFIED_AT_PROPOSAL",
+    "basis": {
+      "type": "SPECIFIC_TIME_MEAL",
+      "reason": "Explicit clock range for a sit-down meal with a known party size",
+      "quotes": [
+        "between 19:00 and 19:30",
+        "for two people"
+      ]
+    },
+    "quotesIndependentlyMatchedCurrentMessage": true,
+    "authoritativeGoal": "NOT_REACHED"
+  },
+  "nonTarget": [
+    {
+      "field": "criteria[yakiniku].strength",
+      "oldGold": "UNSPECIFIED",
+      "actualProposal": "HARD",
+      "status": "CONFIRMED_DIFFERENCE"
+    },
+    {
+      "field": "criteria[yakiniku].text/polarity",
+      "status": "UNCHANGED"
+    },
+    {
+      "field": "DATE representation",
+      "oldStageOracle": {
+        "value": "2026-08-06",
+        "raw": "2026-08-06"
+      },
+      "actualProposal": {
+        "kind": "DATE",
+        "relativeDay": "TOMORROW",
+        "raw": "Tomorrow"
+      },
+      "status": "REPRESENTATION_DIFFERENCE; resolved date NOT_EVALUATED"
+    },
+    {
+      "field": "TIME_WINDOW",
+      "actualClockRange": [
+        "19:00",
+        "19:30"
+      ],
+      "status": "CLOCK_VALUES_UNCHANGED; raw expression differs"
+    },
+    {
+      "field": "PARTY_SIZE",
+      "actualValue": 2,
+      "status": "COUNT_UNCHANGED; source=EXPLICIT added versus unannotated stage oracle"
+    },
+    {
+      "field": "AREA",
+      "value": "Shinjuku",
+      "status": "UNCHANGED"
+    },
+    {
+      "field": "BUDGET_PER_PERSON",
+      "max": 5000,
+      "currency": "JPY",
+      "status": "UNCHANGED"
+    }
+  ],
+  "denominators": {
+    "planned": 72,
+    "modelReached": 1,
+    "blockedByUpstream": 1,
+    "notReached": 70,
+    "remainingModelAllowance": 143
+  },
+  "fourLayers": {
+    "endToEnd": "NOT_EVALUATED: no product execution/delivery",
+    "steps": "Proposal goal and quotes satisfied; non-target criterion strength differs; Compiler/Reducer NOT_REACHED",
+    "severity": "S0/source claims/boundary and real user S1-S4 NOT_EVALUATED",
+    "attribution": "First deviation at semantic proposal. No paired baseline; root cause model vs prompt not isolated."
+  },
+  "goldChanged": false,
+  "promptChanged": false,
+  "additionalRealCallsAfterStop": 0
+}

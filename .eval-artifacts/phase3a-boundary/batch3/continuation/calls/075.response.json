@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "a0ff9834-bf83-47c8-9c9c-5cc8f3c9c735",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Restaurant in Tsukiji for two people tomorrow between 19:00 and 19:30\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:30\", \"raw\": \"between 19:00 and 19:30\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Tsukiji\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2694,
+    "providerRequestId": "c3b984fe-6cb2-49c6-92e8-569e6cba968a",
+    "usage": {
+      "inputTokens": 6240,
+      "outputTokens": 286,
+      "totalTokens": 6526
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "a0ff9834-bf83-47c8-9c9c-5cc8f3c9c735",
+      "taskId": "boundary-continuation:SR03-named-target-then-complete",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2694,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6240,
+        "outputTokens": 286,
+        "totalTokens": 6526
+      },
+      "providerRequestId": "c3b984fe-6cb2-49c6-92e8-569e6cba968a"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:45.493+01:00"
+}

@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "dcaa74ee-acea-425c-bd8c-2e76c67363fe",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Explicit clock time and party size for a sit-down meal, asking whether a table exists\", \"quotes\": [\"with a table for 3 on Tuesday, November 3 at 7 PM\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-03\", \"raw\": \"Tuesday, November 3\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 3, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Azabu-Juban\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"soba restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"sit-down restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"standing soba counter\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3468,
+    "providerRequestId": "739abb7c-739a-4b85-9551-118f3233eb2f",
+    "usage": {
+      "inputTokens": 6870,
+      "outputTokens": 522,
+      "totalTokens": 7392
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "dcaa74ee-acea-425c-bd8c-2e76c67363fe",
+      "taskId": "boundary-continuation:p2b-holdout-05",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3468,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6870,
+        "outputTokens": 522,
+        "totalTokens": 7392
+      },
+      "providerRequestId": "739abb7c-739a-4b85-9551-118f3233eb2f"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:27.308+01:00"
+}

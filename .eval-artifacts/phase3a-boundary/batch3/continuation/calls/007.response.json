@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "cf18974c-bd9a-46dc-904a-9390cdbbae02",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Japanese food restaurant in Ginza for four people tomorrow 18:00-18:30\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Explicit clock range with a known party size for a sit-down meal\", \"quotes\": [\"between 18:00 and 18:30\", \"for four people\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:00\", \"latest\": \"18:30\", \"raw\": \"between 18:00 and 18:30\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 4, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Ginza\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Japanese food\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2727,
+    "providerRequestId": "d384cbb7-f780-4ec9-b35c-f36b6d0b15ed",
+    "usage": {
+      "inputTokens": 6851,
+      "outputTokens": 401,
+      "totalTokens": 7252
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "cf18974c-bd9a-46dc-904a-9390cdbbae02",
+      "taskId": "boundary-continuation:SR04-simple-complete",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2727,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6851,
+        "outputTokens": 401,
+        "totalTokens": 7252
+      },
+      "providerRequestId": "d384cbb7-f780-4ec9-b35c-f36b6d0b15ed"
+    }
+  ],
+  "atCET": "2026-10-25T23:39:11.375+01:00"
+}

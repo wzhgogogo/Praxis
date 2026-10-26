@@ -68,7 +68,7 @@ function report(
   turns: RestaurantSemanticRegressionReport["turns"],
 ): RestaurantSemanticRegressionReport {
   return {
-    evaluatorVersion: "3",
+    evaluatorVersion: "4",
     datasetId: dataset.id,
     datasetVersion: dataset.version,
     mode: "REAL_MODEL_MOCK_WORLD",

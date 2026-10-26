@@ -1,0 +1,257 @@
+{
+  "sessionId": "SR02-incremental-completion-review-2",
+  "repetition": 2,
+  "turnId": "SR02-T02",
+  "input": {
+    "taskId": "boundary-review:SR02-incremental-completion-review-2",
+    "message": "Tomorrow between 19:00 and 19:30.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo",
+    "currentDraft": {
+      "schemaVersion": "3",
+      "timezone": "Asia/Tokyo",
+      "criteria": [],
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Table for two in Shinjuku",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "partySize": 2,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "Shinjuku"
+      }
+    }
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "relativeDay": "TOMORROW",
+            "raw": "Tomorrow"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:00",
+            "latest": "19:30",
+            "raw": "between 19:00 and 19:30"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "1298df6f-d3c6-4c89-afda-7e668e3f6344",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v25",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1699,
+        "usage": {
+          "inputTokens": 6932,
+          "outputTokens": 153,
+          "totalTokens": 7085
+        },
+        "providerRequestId": "2d345b55-f0eb-4a80-b703-77b5e0e9e882"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "date": "2026-08-06",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:30"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "Tomorrow",
+          "resolvedDate": "2026-08-06",
+          "basis": "TOMORROW"
+        },
+        "timeWindow": {
+          "expression": "between 19:00 and 19:30",
+          "resolvedTimeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "basis": "EXPLICIT_CLOCK"
+        }
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "Table for two in Shinjuku",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "partySize": 2,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Shinjuku"
+    },
+    "criteria": [],
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "19:00",
+      "latest": "19:30"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "Tomorrow",
+        "resolvedDate": "2026-08-06",
+        "basis": "TOMORROW"
+      },
+      "timeWindow": {
+        "expression": "between 19:00 and 19:30",
+        "resolvedTimeWindow": {
+          "earliest": "19:00",
+          "latest": "19:30"
+        },
+        "basis": "EXPLICIT_CLOCK"
+      }
+    }
+  },
+  "transitions": [
+    {
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "commands": [],
+      "domainState": {
+        "schemaVersion": "22",
+        "phase": "UNDERSTANDING",
+        "searchRevision": 0,
+        "investigationRevision": 2,
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Shinjuku"
+          },
+          "criteria": [],
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        },
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "factChecks": {},
+        "readEvidence": []
+      }
+    }
+  ],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "19:00",
+      "latest": "19:30"
+    },
+    "partySize": 2,
+    "area": {
+      "query": "Shinjuku"
+    },
+    "criteria": []
+  },
+  "category": "CONTEXT_CARRY",
+  "evaluation": {
+    "goal": {
+      "category": "CONTEXT_CARRY",
+      "status": "SATISFIED",
+      "actualGoal": "AVAILABILITY",
+      "errors": []
+    },
+    "nonGoalDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+    }
+  },
+  "logicalIndex": 5,
+  "attemptNumbers": [
+    89
+  ]
+}

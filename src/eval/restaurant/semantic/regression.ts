@@ -5,6 +5,7 @@ import type {
   RestaurantEvent,
   RestaurantSemanticExpectedDecision,
   RestaurantIntentDraft,
+  RestaurantIntentPatch,
   RestaurantOutcome,
   RestaurantTaskState,
 } from "../../../domains/restaurant/contracts.js";
@@ -16,16 +17,18 @@ import {
 } from "../../../domains/restaurant/semantic-interpreter.js";
 import { restaurantBookingTaskDefinition } from "../../../domains/restaurant/task-definition.js";
 import { FakeClock } from "../../../harness/fake-clock.js";
-import {
-  type RestaurantSemanticRegressionDataset,
-  restaurantSemanticRegressionV3,
-} from "./fixtures.js";
+import type { RestaurantSemanticRegressionDataset } from "./fixtures.js";
+import { restaurantSemanticRegression } from "./dataset.js";
 import {
   equalRestaurantIntentPatches,
   equalRestaurantSemanticProposals,
   scoreRestaurantSemanticTurn,
+  evaluateRestaurantSemanticGoal,
+  type RestaurantGoalBoundaryEvaluation,
 } from "./scorer.js";
+import type { RestaurantSemanticProposal } from "../../../domains/restaurant/semantic-proposal.js";
 import { restaurantSemanticRegressionProposalFor } from "./stage-oracles.js";
+import { restaurantSemanticGoalAnnotation } from "./goal-boundary.js";
 
 export type RestaurantSemanticRegressionInterpreter = Pick<
   RestaurantSemanticInterpreter,
@@ -54,10 +57,12 @@ export interface RestaurantSemanticRegressionTurnResult {
   /** Static regression diagnostics only; ordinary production telemetry never retains this. */
   proposal?: unknown;
   compiledPatch?: unknown;
+  goalBoundary?: RestaurantGoalBoundaryEvaluation;
+  goldGoal?: "RECOMMENDATION" | "AVAILABILITY" | null;
 }
 
 export interface RestaurantSemanticRegressionReport {
-  evaluatorVersion: "3";
+  evaluatorVersion: "4";
   datasetId: string;
   datasetVersion: string;
   mode: "REAL_MODEL_MOCK_WORLD" | "FIXTURE";
@@ -94,7 +99,7 @@ export async function runRestaurantSemanticRegression(
     };
   },
 ): Promise<RestaurantSemanticRegressionReport> {
-  const dataset = input.dataset ?? restaurantSemanticRegressionV3;
+  const dataset = input.dataset ?? restaurantSemanticRegression;
   const clock = new FakeClock(dataset.referenceTime);
   const compile = input.dependencies?.compile ?? compileRestaurantSemanticProposal;
   const results: RestaurantSemanticRegressionTurnResult[] = [];
@@ -148,6 +153,16 @@ export async function runRestaurantSemanticRegression(
       }
 
       const snapshot = runtime.snapshot(taskId);
+      const annotation = dataset.id === restaurantSemanticRegression.id
+        ? restaurantSemanticGoalAnnotation(turn.message, turn.id, session.id) : undefined;
+      const goalBoundary = annotation ? { ...annotation, ...(snapshot.domainState.intentDraft?.target ? { previousGoal: snapshot.domainState.intentDraft.target.goal } : {}) } : undefined;
+      const proposalForComparison = (proposal: RestaurantSemanticProposal) => goalBoundary
+        ? { ...proposal, facts: proposal.facts.filter(fact => fact.field !== "TARGET") } : proposal;
+      const patchForComparison = (patch: RestaurantIntentPatch) => {
+        if (!goalBoundary) return patch;
+        const { target: _target, ...rest } = patch;
+        return rest;
+      };
       const interpretInput: RestaurantSemanticInterpretInput = {
         taskId,
         message: turn.message,
@@ -192,7 +207,7 @@ export async function runRestaurantSemanticRegression(
       ) {
         throw new Error(`Missing development-stage Proposal oracle for ${turn.id}`);
       }
-      if (expectedProposal && !equalRestaurantSemanticProposals(interpreted.proposal, expectedProposal)) {
+      if (expectedProposal && !equalRestaurantSemanticProposals(proposalForComparison(interpreted.proposal), proposalForComparison(expectedProposal))) {
         results.push(
           result({
             sessionId: session.id,
@@ -232,7 +247,7 @@ export async function runRestaurantSemanticRegression(
       }
       if (
         expectedCompilation?.status === "COMPILED" &&
-        !equalRestaurantIntentPatches(compiled.patch, expectedCompilation.patch)
+        !equalRestaurantIntentPatches(patchForComparison(compiled.patch), patchForComparison(expectedCompilation.patch))
       ) {
         results.push(
           result({
@@ -283,7 +298,12 @@ export async function runRestaurantSemanticRegression(
           : {}),
         actualDraft: compiledState.intentDraft,
         expectedDraft: turn.expectedDraft,
+        ...(goalBoundary ? { goalBoundary } : {}),
       });
+      const goalEvaluation = goalBoundary ? {
+        goalBoundary: evaluateRestaurantSemanticGoal({ proposal: interpreted.proposal, ...(compiledState.intentDraft?.target ? { actualGoal: compiledState.intentDraft.target.goal } : {}), expectation: goalBoundary }),
+        goldGoal: turn.expectedDraft.target?.goal ?? null,
+      } : {};
       if (score.status === "FAIL") {
         results.push(
           result({
@@ -296,6 +316,7 @@ export async function runRestaurantSemanticRegression(
             ...(compiledState.intentDraft ? { actualDraft: compiledState.intentDraft } : {}),
             proposal: interpreted.proposal,
             compiledPatch: compiled.patch,
+            ...goalEvaluation,
           }),
         );
         blocked = true;
@@ -308,6 +329,9 @@ export async function runRestaurantSemanticRegression(
           status: "PASS",
           modelStatus: interpreted.status,
           ...(compiledState.intentDraft ? { actualDraft: compiledState.intentDraft } : {}),
+          proposal: interpreted.proposal,
+          compiledPatch: compiled.patch,
+          ...goalEvaluation,
         }),
       );
     }
@@ -321,7 +345,7 @@ export async function runRestaurantSemanticRegression(
     }
   }
   return {
-    evaluatorVersion: "3",
+    evaluatorVersion: "4",
     datasetId: dataset.id,
     datasetVersion: dataset.version,
     mode: input.mode,

@@ -132,7 +132,7 @@ function modelContext(draft: RestaurantIntentDraft | undefined): Record<string, 
   };
 }
 
-function validateModelOutput(response: ModelResponse):
+function validateModelOutput(response: ModelResponse, currentMessage: string):
   | { valid: true; proposal: RestaurantSemanticProposal }
   | { valid: false; errors: string[] } {
   if (response.finishReason !== "TOOL_CALLS") {
@@ -147,7 +147,7 @@ function validateModelOutput(response: ModelResponse):
   } catch {
     return { valid: false, errors: ["Model response is not valid JSON"] };
   }
-  const validation = validateRestaurantSemanticProposal(parsed);
+  const validation = validateRestaurantSemanticProposal(parsed, currentMessage);
   return validation.valid
     ? { valid: true, proposal: validation.value }
     : { valid: false, errors: validation.errors };
@@ -177,7 +177,7 @@ Use YYYY-MM-DD dates, 24-hour HH:mm times, and JPY budgets.
 Only emit information expressed by this message or justified by the closed-party inference rules below. Omit genuinely missing information. Do not produce decisions, commands, state patches, events, tool inputs, provider identifiers, authorizations, evidence, or outcomes.
 
 Return exactly one JSON object:
-{"schemaVersion":"3","facts":[]}
+{"schemaVersion":"4","facts":[]}
 
 Each fact is:
 {"field":"TARGET|DATE|TIME_WINDOW|PARTY_SIZE|AREA|BUDGET_PER_PERSON|CRITERION",
@@ -207,9 +207,31 @@ TARGET records the delivery goal for this request. For a new restaurant request,
 emit TARGET even when the user does not name a particular restaurant.
 RECOMMENDATION is an exploratory request: the user can be helped by directions,
 places, suitability, and applicable hours without a current table claim.
-AVAILABILITY is a concrete visit request: the user supplies or clearly implies a
-party and a planned dining occasion/time or broad time period, and wants places
-for that visit even when the wording says "recommend", "looking for", or "need".
+Two anchors require AVAILABILITY:
+- BOOKING_WORDING: the user explicitly asks to book, reserve, find a table, or
+  confirm open tables or availability, even when no visit date or time is given.
+  Missing visit inputs are clarified later; candidate discovery can start first.
+- SPECIFIC_TIME_MEAL: a sit-down meal at an explicit clock time or numeric clock
+  range, with a known or inferable party. A closed encounter may supply the
+  count; it need not be a user-written numeral.
+When the request has neither a visit date/time nor booking wording, use
+RECOMMENDATION. Do not invent missing visit inputs.
+For all other requests, use JUDGMENT: decide whether the user currently expects
+confirmed seating. A broad period plus a party is not an automatic availability
+rule. Relative offsets such as "in about 30 minutes" also belong to this judgment
+area; a code-materialized clock is not an explicit user clock anchor. Do not use
+a party-size threshold or a list of venue/cuisine categories to decide the goal.
+
+Every new TARGET value requires goalBasis: type BOOKING_WORDING,
+SPECIFIC_TIME_MEAL, or JUDGMENT; one short reason; and at least one verbatim quote
+from the CURRENT user message. Quote all supporting phrases exactly. Never
+quote the prior draft, a prior message, or invented text as the current message.
+Code checks quote occurrence, not whether your rationale or goal is reasonable.
+For a correction that does not introduce a new TARGET, omit TARGET and preserve
+the authoritative prior goal (CONTEXT_CARRY); do not manufacture a new basis.
+Supplying missing visit date/time for an existing booking request is such a
+continuation; keep its AVAILABILITY goal without re-emitting TARGET.
+
 Do not classify mechanically from a single verb or party-size alone. TARGET.query
 is a short faithful summary of the requested outcome, including requested comparison or information topics and any named restaurants. Preserve these requested information topics in TARGET.query so subsequent investigation can read them; they are not venue-selection criteria.
 
@@ -374,7 +396,7 @@ Do not add or remove relational wording when doing so changes the user's locatio
 ASSERT and CORRECT require value, with value.kind matching field. Singleton NEGATE and CONFIRM omit value. CRITERION NEGATE includes the matching criterion value; CRITERION CONFIRM is not allowed.
 
 TARGET:
-{"kind":"TARGET","goal":"RECOMMENDATION|AVAILABILITY","query":"Restaurant Name or user goal summary"}
+{"kind":"TARGET","goal":"RECOMMENDATION|AVAILABILITY","query":"Restaurant Name or user goal summary","goalBasis":{"type":"BOOKING_WORDING|SPECIFIC_TIME_MEAL|JUDGMENT","reason":"one short reason","quotes":["verbatim current user phrase"]}}
 
 DATE (explicit user calendar date):
 {"kind":"DATE","value":"YYYY-MM-DD","raw":"the user expression"}
@@ -486,7 +508,7 @@ export class RestaurantSemanticInterpreter {
       }
 
       attempts.push(toAttempt(response));
-      const output = validateModelOutput(response);
+      const output = validateModelOutput(response, input.message);
       if (output.valid) return { status: "PROPOSED", proposal: output.proposal, attempts };
       latestErrors = output.errors;
     }

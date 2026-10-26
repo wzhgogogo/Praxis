@@ -1,0 +1,101 @@
+{
+  "sourceCommit": "aa64c0b32109277c2e841a8a0577af8fd3646af3",
+  "startedAtCET": "2026-10-26T02:14:58+01:00",
+  "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+  "realModelCalls": 0,
+  "steps": [
+    {
+      "name": "outer-self-test",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3a-boundary/review-correction/run.mjs",
+        "--self-test"
+      ],
+      "startedAtCET": "2026-10-26T02:14:58+01:00",
+      "finishedAtCET": "2026-10-26T02:14:58+01:00",
+      "elapsedSeconds": 0.105,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/review-correction/offline-gates/outer-self-test.log",
+      "logSha256": "6a2754265e5286771faec931b647c5f1d4c44fb325ae730c635c8f04cddf702b",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-26T02:14:58+01:00",
+      "finishedAtCET": "2026-10-26T02:14:59+01:00",
+      "elapsedSeconds": 0.469,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/review-correction/offline-gates/typecheck.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-26T02:14:59+01:00",
+      "finishedAtCET": "2026-10-26T02:14:59+01:00",
+      "elapsedSeconds": 0.182,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/review-correction/offline-gates/arch-check.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-26T02:14:59+01:00",
+      "finishedAtCET": "2026-10-26T02:15:22+01:00",
+      "elapsedSeconds": 22.314,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/review-correction/offline-gates/test.log",
+      "logSha256": "7f32a1e77170bcdf162184789e7ee96355d357ef248aabd05fc1fbfbe4e09a72",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-26T02:15:22+01:00",
+      "finishedAtCET": "2026-10-26T02:15:22+01:00",
+      "elapsedSeconds": 0.448,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/review-correction/offline-gates/build.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-26T02:15:22+01:00",
+      "finishedAtCET": "2026-10-26T02:17:11+01:00",
+      "elapsedSeconds": 108.793,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/review-correction/offline-gates/browser-fixture.log",
+      "logSha256": "0fd5ddeeb12d0b1ea6eabc53e428ccc07304b223388939056350c515d4092238",
+      "gitStatusPorcelainAfter": ""
+    }
+  ],
+  "status": "PASS",
+  "finishedAtCET": "2026-10-26T02:17:11+01:00"
+}

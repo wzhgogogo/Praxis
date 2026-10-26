@@ -1,0 +1,1969 @@
+{
+  "status": "draft / not integrated",
+  "contamination": "PUBLIC_INPUT_AND_RESULT_EXPOSED; baselineEligible:false",
+  "annotationStatus": "PROPOSED_ONLY; original Gold unchanged",
+  "mainCommit": "7165f8a20fd86e105ea3219100061699c03197a1",
+  "generatedAtVienna": "2026-10-25T09:54:56+01:00",
+  "timezone": "CET UTC+01:00",
+  "summary": {
+    "rows": 121,
+    "withTargetGoal": 108,
+    "unannotatedGoalTurns": 13,
+    "uniqueMessages": 70,
+    "categoriesByRecord": {
+      "A": 39,
+      "B": 58,
+      "灰区": 22,
+      "无时间": 2
+    },
+    "grayUniqueTurns": 14,
+    "semanticRegressionTurns": 15
+  },
+  "sources": [
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+      "sha256": "9ddfc60bbf2209d4cc2e8d183eba03c7a59ca6a9a37fd89eaae3ebd76a7eb8f2",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/runner-input.yaml",
+      "sha256": "79d899407c464daea2541733685e65084b5d1d045e56223e070d3dd345cb5a16",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/holdout-inputs/runner-input.yaml",
+      "sha256": "c7f9a821277fdef17dec3a3f7c36b51eb2867771ca4222dd2e1dad4174d07832",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+      "sha256": "276910da0c43b501f4e68327cca7e4ba8514090a8910ad33ab2873f5a4cbaa48",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+      "sha256": "571c673070b517795f6eddfb9fd3b1e9c31a7607ff670fda8adb9ed28448c1f4",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "sha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753",
+      "rows": 8
+    },
+    {
+      "path": ".eval-artifacts/p1-f-20261011/variants.yaml",
+      "sha256": "447aaf3992014be8bb29736c179cb511aff31d0a69fad022f1c659ac5760ff27",
+      "rows": 8
+    },
+    {
+      "path": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+      "sha256": "26b0c944e4d4dffedfd834e40d162ff1fa32c636901a9b42ebf93d94b27874fc",
+      "rows": 8
+    },
+    {
+      "path": ".eval-artifacts/p2-0-hardening-20261015/prep/h001-tomorrow-20261016.yaml",
+      "sha256": "52c29ed3d2edf740c984f05b7ca32891c5d53b308196e0f9abc79e170a50e39f",
+      "rows": 1
+    },
+    {
+      "path": ".eval-artifacts/p2-1-discovery-20261016/variants.yaml",
+      "sha256": "94d1383d71e6b1e4f589a7ceaab99826ec7a2a0aaa8bf38de8dd52d84d4ad4e7",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/p2-live-set-20261019/variants.yaml",
+      "sha256": "910ba0fdf755392ab1d2a1b0c2da5f9fa8d66a32217c109e8eb5f3b3ee24e8b6",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/phase2-holdout/holdout.yaml",
+      "sha256": "cb0efa949f21fc0c19c7a6fd48e6a51c1848bb722c795b0ccd51213c43ecb98e",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/phase2b-exit-pipeline-20261022/old-exposed-recovered.yaml",
+      "sha256": "7f3ffd66e5138e06309debeb88438ee22ca9fbd4e04dd50776cce9dc3aeb6b76",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/phase2b-exit-pipeline-20261022/rehearsal-inputs/runner-input.yaml",
+      "sha256": "4d33146ecf79268dcfe894e98ed7d8d67a9d91563fe1e74cf9363f4dacb46ed2",
+      "rows": 6
+    },
+    {
+      "path": ".eval-artifacts/phase2b-holdout/holdout.yaml",
+      "sha256": "358beff858fd1008dda513ea6835e5ec49b1acafa779c819054bf7b8c8659979",
+      "rows": 6
+    },
+    {
+      "path": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+      "sha256": "2e32c2c3642a9d480f81c6ba06641925be98981b16d6f8235e461b4d9adac98b",
+      "rows": 5
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+      "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e",
+      "rows": 5
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+      "sha256": "00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6",
+      "rows": 5
+    },
+    {
+      "path": "src/eval/restaurant/semantic/fixtures.ts",
+      "sha256": "fa4a8e52a82806af6d507a06f4ba16426e6c28376936363c777c4e981cf3ca72",
+      "rows": 15
+    }
+  ],
+  "rows": [
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+      "pointer": "document/0",
+      "caseId": "p2-holdout-01",
+      "group": "G001",
+      "message": "Can you find a yakitori place near Ueno with a table for 3 on Wednesday, November 4 at 7 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+      "pointer": "document/1",
+      "caseId": "p2-holdout-02",
+      "group": "G002",
+      "message": "Looking for an Italian restaurant near Sangenjaya for 2 people on Friday, October 30 at 7:30 PM, under 8,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+      "pointer": "document/2",
+      "caseId": "p2-holdout-03",
+      "group": "G003",
+      "message": "We're 6 people looking for shabu-shabu near Akasaka on Thursday, October 29, sometime between 6 and 8 PM. Any open tables?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+      "pointer": "document/3",
+      "caseId": "p2-holdout-04",
+      "group": "G004",
+      "message": "Is there an unagi restaurant near Ningyocho that has a table for 2 on Tuesday, November 3 at 6:30 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+      "pointer": "document/4",
+      "caseId": "p2-holdout-05",
+      "group": "G005",
+      "message": "Need a Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+      "pointer": "document/5",
+      "caseId": "p2-holdout-06",
+      "group": "G006",
+      "message": "Looking for an izakaya near Shimokitazawa for 5 people on Friday, October 30 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/runner-input.yaml",
+      "pointer": "document/0",
+      "caseId": "p2-holdout-01",
+      "group": "G001",
+      "message": "Can you find a yakitori place near Ueno with a table for 3 on Wednesday, November 4 at 7 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/runner-input.yaml",
+      "pointer": "document/1",
+      "caseId": "p2-holdout-02",
+      "group": "G007",
+      "message": "Looking for an Italian restaurant near Jiyugaoka for 2 people on Friday, October 30 at 7:30 PM, under 8,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/runner-input.yaml",
+      "pointer": "document/2",
+      "caseId": "p2-holdout-03",
+      "group": "G003",
+      "message": "We're 6 people looking for shabu-shabu near Akasaka on Thursday, October 29, sometime between 6 and 8 PM. Any open tables?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/runner-input.yaml",
+      "pointer": "document/3",
+      "caseId": "p2-holdout-04",
+      "group": "G004",
+      "message": "Is there an unagi restaurant near Ningyocho that has a table for 2 on Tuesday, November 3 at 6:30 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/runner-input.yaml",
+      "pointer": "document/4",
+      "caseId": "p2-holdout-05",
+      "group": "G005",
+      "message": "Need a Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/runner-input.yaml",
+      "pointer": "document/5",
+      "caseId": "p2-holdout-06",
+      "group": "G006",
+      "message": "Looking for an izakaya near Shimokitazawa for 5 people on Friday, October 30 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/holdout-inputs/runner-input.yaml",
+      "pointer": "document/0",
+      "caseId": "p2b-holdout-01",
+      "group": "G008",
+      "message": "Could you find a sukiyaki restaurant near Asakusa with a table for 2 on Wednesday, November 4 at 7 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/holdout-inputs/runner-input.yaml",
+      "pointer": "document/1",
+      "caseId": "p2b-holdout-02",
+      "group": "G009",
+      "message": "We are 4 people looking for monjayaki near Tsukishima on Friday, October 30 at 6:30 PM, ideally under 4,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/holdout-inputs/runner-input.yaml",
+      "pointer": "document/2",
+      "caseId": "p2b-holdout-03",
+      "group": "G010",
+      "message": "Looking for a French restaurant near Ebisu for 2 on Saturday, October 31 at 7:30 PM. Our budget is at most 15,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/holdout-inputs/runner-input.yaml",
+      "pointer": "document/3",
+      "caseId": "p2b-holdout-04",
+      "group": "G011",
+      "message": "There are 6 of us. Any Thai restaurant near Ikebukuro with a table on Thursday, November 5, sometime between 6 and 8 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/holdout-inputs/runner-input.yaml",
+      "pointer": "document/4",
+      "caseId": "p2b-holdout-05",
+      "group": "G012",
+      "message": "Is there a sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM? Not a standing soba counter.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/holdout-inputs/runner-input.yaml",
+      "pointer": "document/5",
+      "caseId": "p2b-holdout-06",
+      "group": "G013",
+      "message": "We need oden near Shimbashi for 8 people on Friday, October 30, any time between 7 and 9 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+      "pointer": "document/0",
+      "caseId": "p2b-holdout-01",
+      "group": "G008",
+      "message": "Could you find a sukiyaki restaurant near Asakusa with a table for 2 on Wednesday, November 4 at 7 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+      "pointer": "document/1",
+      "caseId": "p2b-holdout-02",
+      "group": "G014",
+      "message": "We are 4 people looking for monjayaki near Kachidoki on Friday, October 30 at 6:30 PM, ideally under 4,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+      "pointer": "document/2",
+      "caseId": "p2b-holdout-03",
+      "group": "G010",
+      "message": "Looking for a French restaurant near Ebisu for 2 on Saturday, October 31 at 7:30 PM. Our budget is at most 15,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+      "pointer": "document/3",
+      "caseId": "p2b-holdout-04",
+      "group": "G011",
+      "message": "There are 6 of us. Any Thai restaurant near Ikebukuro with a table on Thursday, November 5, sometime between 6 and 8 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+      "pointer": "document/4",
+      "caseId": "p2b-holdout-05",
+      "group": "G012",
+      "message": "Is there a sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM? Not a standing soba counter.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+      "pointer": "document/5",
+      "caseId": "p2b-holdout-06",
+      "group": "G013",
+      "message": "We need oden near Shimbashi for 8 people on Friday, October 30, any time between 7 and 9 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+      "pointer": "document/0",
+      "caseId": "p2l-kf-h001-20261103",
+      "group": "G015",
+      "message": "Looking for an omakase spot near Shibuya for 2 people on Tuesday, November 3 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@3",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+      "pointer": "document/1",
+      "caseId": "p2l-kf-h002-20261107",
+      "group": "G016",
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, November 7 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@3",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+      "pointer": "document/2",
+      "caseId": "p2l-kf-h003-20261106",
+      "group": "G017",
+      "message": "Need a place for a team dinner nearby on Friday, November 6 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@3",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+      "pointer": "document/3",
+      "caseId": "p2l-kf-h005-20261105",
+      "group": "G018",
+      "message": "Any spots nearby with open tables on Thursday, November 5 at 6 PM for 4 people? Local food only, no fast food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@3",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+      "pointer": "document/4",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "group": "G019",
+      "message": "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, November 5 at 7:30 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+      "pointer": "document/5",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "group": "G020",
+      "message": "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, November 3 at 6 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "pointer": "document/0",
+      "caseId": "p1f-kf-h001-20261020",
+      "group": "G021",
+      "message": "Looking for an omakase spot near Shibuya for 2 people on Tuesday, October 20 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "pointer": "document/1",
+      "caseId": "p1f-kf-h002-20261024",
+      "group": "G022",
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, October 24 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "pointer": "document/2",
+      "caseId": "p1f-kf-h003-20261023",
+      "group": "G023",
+      "message": "Need a place for a team dinner nearby on Friday, October 23 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "pointer": "document/3",
+      "caseId": "p1f-kf-h004-20261019",
+      "group": "G024",
+      "message": "Good cafes nearby to meet up with a friend on the afternoon of Monday, October 19.\n",
+      "currentGoal": "RECOMMENDATION",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "灰区",
+      "reason": "KF-H004 咖啡馆见面请求有指定日期和宽下午时段，无 A/B 锚点；灰区，现行 Gold 为 RECOMMENDATION。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "pointer": "document/4",
+      "caseId": "p1f-kf-h005-20261022",
+      "group": "G025",
+      "message": "Any spots nearby with open tables on Thursday, October 22 at 6 PM for 4 people? Local food only, no fast food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "pointer": "document/5",
+      "caseId": "p1f-novel-kagurazaka-kaiseki-20261022",
+      "group": "G026",
+      "message": "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, October 22 at 7:30 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "pointer": "document/6",
+      "caseId": "p1f-novel-nakameguro-yakiniku-20261023",
+      "group": "G027",
+      "message": "Find a yakiniku place near Nakameguro for 4 people on Friday, October 23 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "pointer": "document/7",
+      "caseId": "p1f-novel-kichijoji-tempura-20261020",
+      "group": "G028",
+      "message": "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 20 at 6 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.yaml",
+      "pointer": "document/0",
+      "caseId": "p1f-kf-h001-20261020",
+      "group": "G021",
+      "message": "Looking for an omakase spot near Shibuya for 2 people on Tuesday, October 20 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.yaml",
+      "pointer": "document/1",
+      "caseId": "p1f-kf-h002-20261024",
+      "group": "G022",
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, October 24 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.yaml",
+      "pointer": "document/2",
+      "caseId": "p1f-kf-h003-20261023",
+      "group": "G023",
+      "message": "Need a place for a team dinner nearby on Friday, October 23 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.yaml",
+      "pointer": "document/3",
+      "caseId": "p1f-kf-h004-20261019",
+      "group": "G024",
+      "message": "Good cafes nearby to meet up with a friend on the afternoon of Monday, October 19.\n",
+      "currentGoal": "RECOMMENDATION",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "灰区",
+      "reason": "KF-H004 咖啡馆见面请求有指定日期和宽下午时段，无 A/B 锚点；灰区，现行 Gold 为 RECOMMENDATION。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.yaml",
+      "pointer": "document/4",
+      "caseId": "p1f-kf-h005-20261022",
+      "group": "G025",
+      "message": "Any spots nearby with open tables on Thursday, October 22 at 6 PM for 4 people? Local food only, no fast food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.yaml",
+      "pointer": "document/5",
+      "caseId": "p1f-novel-kagurazaka-kaiseki-20261022",
+      "group": "G026",
+      "message": "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, October 22 at 7:30 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.yaml",
+      "pointer": "document/6",
+      "caseId": "p1f-novel-nakameguro-yakiniku-20261023",
+      "group": "G027",
+      "message": "Find a yakiniku place near Nakameguro for 4 people on Friday, October 23 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261011/variants.yaml",
+      "pointer": "document/7",
+      "caseId": "p1f-novel-kichijoji-tempura-20261020",
+      "group": "G028",
+      "message": "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 20 at 6 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+      "pointer": "document/0",
+      "caseId": "p1f-kf-h001-20261026",
+      "group": "G029",
+      "message": "Looking for an omakase spot near Shibuya for 2 people on Monday, October 26 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+      "pointer": "document/1",
+      "caseId": "p1f-kf-h002-20261024",
+      "group": "G022",
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, October 24 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+      "pointer": "document/2",
+      "caseId": "p1f-kf-h003-20261023",
+      "group": "G023",
+      "message": "Need a place for a team dinner nearby on Friday, October 23 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+      "pointer": "document/3",
+      "caseId": "p1f-kf-h004-20261027",
+      "group": "G030",
+      "message": "Good cafes nearby to meet up with a friend on the afternoon of Tuesday, October 27.\n",
+      "currentGoal": "RECOMMENDATION",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "灰区",
+      "reason": "KF-H004 咖啡馆见面请求有指定日期和宽下午时段，无 A/B 锚点；灰区，现行 Gold 为 RECOMMENDATION。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+      "pointer": "document/4",
+      "caseId": "p1f-kf-h005-20261028",
+      "group": "G031",
+      "message": "Any spots nearby with open tables on Wednesday, October 28 at 6 PM for 4 people? Local food only, no fast food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+      "pointer": "document/5",
+      "caseId": "p1f-novel-kagurazaka-kaiseki-20261022",
+      "group": "G026",
+      "message": "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, October 22 at 7:30 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+      "pointer": "document/6",
+      "caseId": "p1f-novel-nakameguro-yakiniku-20261023",
+      "group": "G027",
+      "message": "Find a yakiniku place near Nakameguro for 4 people on Friday, October 23 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+      "pointer": "document/7",
+      "caseId": "p1f-novel-kichijoji-tempura-20261027",
+      "group": "G032",
+      "message": "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 27 at 6 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-0-hardening-20261015/prep/h001-tomorrow-20261016.yaml",
+      "pointer": "document/0",
+      "caseId": "h001",
+      "group": "G033",
+      "message": "Looking for an omakase spot near Shibuya for 2 people tomorrow at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-1-discovery-20261016/variants.yaml",
+      "pointer": "document/0",
+      "caseId": "p2-kf-h001-20261027",
+      "group": "G034",
+      "message": "Looking for an omakase spot near Shibuya for 2 people on Tuesday, October 27 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@2",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-1-discovery-20261016/variants.yaml",
+      "pointer": "document/1",
+      "caseId": "p2-kf-h002-20261031",
+      "group": "G035",
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, October 31 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@2",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-1-discovery-20261016/variants.yaml",
+      "pointer": "document/2",
+      "caseId": "p2-kf-h005-20261029",
+      "group": "G036",
+      "message": "Any spots nearby with open tables on Thursday, October 29 at 6 PM for 4 people? Local food only, no fast food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@2",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-1-discovery-20261016/variants.yaml",
+      "pointer": "document/3",
+      "caseId": "p2-kagurazaka-kaiseki-20261029",
+      "group": "G037",
+      "message": "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, October 29 at 7:30 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-1-discovery-20261016/variants.yaml",
+      "pointer": "document/4",
+      "caseId": "p2-nakameguro-yakiniku-20261030",
+      "group": "G038",
+      "message": "Find a yakiniku place near Nakameguro for 4 people on Friday, October 30 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-1-discovery-20261016/variants.yaml",
+      "pointer": "document/5",
+      "caseId": "p2-kichijoji-tempura-20261027",
+      "group": "G032",
+      "message": "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, October 27 at 6 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-live-set-20261019/variants.yaml",
+      "pointer": "document/0",
+      "caseId": "p2l-kf-h001-20261103",
+      "group": "G015",
+      "message": "Looking for an omakase spot near Shibuya for 2 people on Tuesday, November 3 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@3",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-live-set-20261019/variants.yaml",
+      "pointer": "document/1",
+      "caseId": "p2l-kf-h002-20261107",
+      "group": "G016",
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for Saturday, November 7 at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@3",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-live-set-20261019/variants.yaml",
+      "pointer": "document/2",
+      "caseId": "p2l-kf-h003-20261106",
+      "group": "G017",
+      "message": "Need a place for a team dinner nearby on Friday, November 6 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@3",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-live-set-20261019/variants.yaml",
+      "pointer": "document/3",
+      "caseId": "p2l-kf-h005-20261105",
+      "group": "G018",
+      "message": "Any spots nearby with open tables on Thursday, November 5 at 6 PM for 4 people? Local food only, no fast food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development-variant@3",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-live-set-20261019/variants.yaml",
+      "pointer": "document/4",
+      "caseId": "p2l-kagurazaka-kaiseki-20261105",
+      "group": "G019",
+      "message": "Looking for a kaiseki restaurant near Kagurazaka for 3 people on Thursday, November 5 at 7:30 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/p2-live-set-20261019/variants.yaml",
+      "pointer": "document/5",
+      "caseId": "p2l-kichijoji-tempura-20261103",
+      "group": "G020",
+      "message": "Any tempura restaurants near Kichijoji with a table for 2 on Tuesday, November 3 at 6 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2-holdout/holdout.yaml",
+      "pointer": "document/0",
+      "caseId": "p2-holdout-01",
+      "group": "G039",
+      "message": "Can you find a yakitori place near Ueno with a table for 3 on {DATE} at 7 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2-holdout/holdout.yaml",
+      "pointer": "document/1",
+      "caseId": "p2-holdout-02",
+      "group": "G040",
+      "message": "Looking for an Italian restaurant near Jiyugaoka for 2 people on {DATE} at 7:30 PM, under 8,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2-holdout/holdout.yaml",
+      "pointer": "document/2",
+      "caseId": "p2-holdout-03",
+      "group": "G041",
+      "message": "We're 6 people looking for shabu-shabu near Akasaka on {DATE}, sometime between 6 and 8 PM. Any open tables?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2-holdout/holdout.yaml",
+      "pointer": "document/3",
+      "caseId": "p2-holdout-04",
+      "group": "G042",
+      "message": "Is there an unagi restaurant near Ningyocho that has a table for 2 on {DATE} at 6:30 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2-holdout/holdout.yaml",
+      "pointer": "document/4",
+      "caseId": "p2-holdout-05",
+      "group": "G043",
+      "message": "Need a Chinese restaurant near Gotanda for 4 people on {DATE} at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2-holdout/holdout.yaml",
+      "pointer": "document/5",
+      "caseId": "p2-holdout-06",
+      "group": "G044",
+      "message": "Looking for an izakaya near Shimokitazawa for 5 people on {DATE} at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/old-exposed-recovered.yaml",
+      "pointer": "document/0",
+      "caseId": "p2-holdout-01",
+      "group": "G039",
+      "message": "Can you find a yakitori place near Ueno with a table for 3 on {DATE} at 7 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/old-exposed-recovered.yaml",
+      "pointer": "document/1",
+      "caseId": "p2-holdout-02",
+      "group": "G040",
+      "message": "Looking for an Italian restaurant near Jiyugaoka for 2 people on {DATE} at 7:30 PM, under 8,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/old-exposed-recovered.yaml",
+      "pointer": "document/2",
+      "caseId": "p2-holdout-03",
+      "group": "G041",
+      "message": "We're 6 people looking for shabu-shabu near Akasaka on {DATE}, sometime between 6 and 8 PM. Any open tables?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/old-exposed-recovered.yaml",
+      "pointer": "document/3",
+      "caseId": "p2-holdout-04",
+      "group": "G042",
+      "message": "Is there an unagi restaurant near Ningyocho that has a table for 2 on {DATE} at 6:30 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/old-exposed-recovered.yaml",
+      "pointer": "document/4",
+      "caseId": "p2-holdout-05",
+      "group": "G043",
+      "message": "Need a Chinese restaurant near Gotanda for 4 people on {DATE} at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/old-exposed-recovered.yaml",
+      "pointer": "document/5",
+      "caseId": "p2-holdout-06",
+      "group": "G044",
+      "message": "Looking for an izakaya near Shimokitazawa for 5 people on {DATE} at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/rehearsal-inputs/runner-input.yaml",
+      "pointer": "document/0",
+      "caseId": "p2-holdout-01",
+      "group": "G001",
+      "message": "Can you find a yakitori place near Ueno with a table for 3 on Wednesday, November 4 at 7 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/rehearsal-inputs/runner-input.yaml",
+      "pointer": "document/1",
+      "caseId": "p2-holdout-02",
+      "group": "G002",
+      "message": "Looking for an Italian restaurant near Sangenjaya for 2 people on Friday, October 30 at 7:30 PM, under 8,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/rehearsal-inputs/runner-input.yaml",
+      "pointer": "document/2",
+      "caseId": "p2-holdout-03",
+      "group": "G003",
+      "message": "We're 6 people looking for shabu-shabu near Akasaka on Thursday, October 29, sometime between 6 and 8 PM. Any open tables?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/rehearsal-inputs/runner-input.yaml",
+      "pointer": "document/3",
+      "caseId": "p2-holdout-04",
+      "group": "G004",
+      "message": "Is there an unagi restaurant near Ningyocho that has a table for 2 on Tuesday, November 3 at 6:30 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/rehearsal-inputs/runner-input.yaml",
+      "pointer": "document/4",
+      "caseId": "p2-holdout-05",
+      "group": "G005",
+      "message": "Need a Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-exit-pipeline-20261022/rehearsal-inputs/runner-input.yaml",
+      "pointer": "document/5",
+      "caseId": "p2-holdout-06",
+      "group": "G006",
+      "message": "Looking for an izakaya near Shimokitazawa for 5 people on Friday, October 30 at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-novel-variant@1",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-holdout/holdout.yaml",
+      "pointer": "document/0",
+      "caseId": "p2b-holdout-01",
+      "group": "G045",
+      "message": "Could you find a sukiyaki restaurant near Asakusa with a table for 2 on {DATE} at 7 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-holdout/holdout.yaml",
+      "pointer": "document/1",
+      "caseId": "p2b-holdout-02",
+      "group": "G046",
+      "message": "We are 4 people looking for monjayaki near Tsukishima on {DATE} at 6:30 PM, ideally under 4,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-holdout/holdout.yaml",
+      "pointer": "document/2",
+      "caseId": "p2b-holdout-03",
+      "group": "G047",
+      "message": "Looking for a French restaurant near Ebisu for 2 on {DATE} at 7:30 PM. Our budget is at most 15,000 yen per person.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-holdout/holdout.yaml",
+      "pointer": "document/3",
+      "caseId": "p2b-holdout-04",
+      "group": "G048",
+      "message": "There are 6 of us. Any Thai restaurant near Ikebukuro with a table on {DATE}, sometime between 6 and 8 PM?\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-holdout/holdout.yaml",
+      "pointer": "document/4",
+      "caseId": "p2b-holdout-05",
+      "group": "G049",
+      "message": "Is there a sit-down soba restaurant near Azabu-Juban with a table for 3 on {DATE} at 7 PM? Not a standing soba counter.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": ".eval-artifacts/phase2b-holdout/holdout.yaml",
+      "pointer": "document/5",
+      "caseId": "p2b-holdout-06",
+      "group": "G050",
+      "message": "We need oden near Shimbashi for 8 people on {DATE}, any time between 7 and 9 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+      "pointer": "document/0",
+      "caseId": "h001",
+      "group": "G051",
+      "message": "Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+      "pointer": "document/1",
+      "caseId": "h002",
+      "group": "G052",
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "currentGoal": "RECOMMENDATION",
+      "dataset": null,
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+      "pointer": "document/2",
+      "caseId": "h003",
+      "group": "G053",
+      "message": "Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+      "pointer": "document/3",
+      "caseId": "h004",
+      "group": "G054",
+      "message": "Good cafes nearby to meet up with a friend this afternoon.\n",
+      "currentGoal": "RECOMMENDATION",
+      "dataset": null,
+      "category": "灰区",
+      "reason": "this afternoon 已表达今天下午；有时间但无订位措辞、无具体钟点，因此是灰区；现行 Gold 仍为 RECOMMENDATION。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+      "pointer": "document/4",
+      "caseId": "h005",
+      "group": "G055",
+      "message": "Any spots nearby with open tables right now for 4 people? Local food only, no fast food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": null,
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+      "pointer": "document/0",
+      "caseId": "h001",
+      "group": "G051",
+      "message": "Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development@7",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+      "pointer": "document/1",
+      "caseId": "h002",
+      "group": "G052",
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development@7",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+      "pointer": "document/2",
+      "caseId": "h003",
+      "group": "G053",
+      "message": "Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development@7",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+      "pointer": "document/3",
+      "caseId": "h004",
+      "group": "G054",
+      "message": "Good cafes nearby to meet up with a friend this afternoon.\n",
+      "currentGoal": "RECOMMENDATION",
+      "dataset": "restaurant-read-development@7",
+      "category": "灰区",
+      "reason": "this afternoon 已表达今天下午；有时间但无订位措辞、无具体钟点，因此是灰区；现行 Gold 仍为 RECOMMENDATION。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+      "pointer": "document/4",
+      "caseId": "h005",
+      "group": "G055",
+      "message": "Any spots nearby with open tables right now for 4 people? Local food only, no fast food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development@7",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+      "pointer": "document/0",
+      "caseId": "h001",
+      "group": "G051",
+      "message": "Looking for an omakase spot near Shibuya for 2 people tonight at 7 PM.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development@6",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+      "pointer": "document/1",
+      "caseId": "h002",
+      "group": "G052",
+      "message": "Recommend a first-date restaurant near Higashi-Ginza for this Saturday at 6:30 PM. Around 10,000 yen per person. No hot-pot restaurants and no Sichuan/Hunan-style cuisine where spicy food is the main focus.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development@6",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+      "pointer": "document/2",
+      "caseId": "h003",
+      "group": "G053",
+      "message": "Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development@6",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+      "pointer": "document/3",
+      "caseId": "h004",
+      "group": "G054",
+      "message": "Good cafes nearby to meet up with a friend this afternoon.\n",
+      "currentGoal": "RECOMMENDATION",
+      "dataset": "restaurant-read-development@6",
+      "category": "灰区",
+      "reason": "this afternoon 已表达今天下午；有时间但无订位措辞、无具体钟点，因此是灰区；现行 Gold 仍为 RECOMMENDATION。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+      "pointer": "document/4",
+      "caseId": "h005",
+      "group": "G055",
+      "message": "Any spots nearby with open tables right now for 4 people? Local food only, no fast food.\n",
+      "currentGoal": "AVAILABILITY",
+      "dataset": "restaurant-read-development@6",
+      "category": "A",
+      "reason": "用户原话有订位/桌位/空位措辞，且请求有到访日期或时段。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR01-complete-then-correct/SR01-T01",
+      "caseId": "SR01-T01",
+      "group": "G056",
+      "message": "Tomorrow between 19:00 and 19:30 in Shinjuku for two people, yakiniku under 5000 JPY per person.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR01-complete-then-correct/SR01-T02",
+      "caseId": "SR01-T02",
+      "group": "G057",
+      "message": "Actually make it three people in Shibuya, and remove yakiniku.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "B",
+      "reason": "修正 turn；会话前一轮已给出 19:00–19:30，累计请求仍属 B。本轮未表达改目标，目标应继承。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": true
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR02-incremental-completion/SR02-T01",
+      "caseId": "SR02-T01",
+      "group": "G058",
+      "message": "I need a table in Shinjuku for two people.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "无时间",
+      "reason": "本请求尚无到访日期或时段；无时间规则优先，即使出现 table 也不能据此查位。",
+      "allowedGoals": [
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR02-incremental-completion/SR02-T02",
+      "caseId": "SR02-T02",
+      "group": "G059",
+      "message": "Tomorrow between 19:00 and 19:30.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "B",
+      "reason": "当前轮补充明确钟点区间；人数和餐厅请求来自同一会话上一轮，累计请求属 B。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR03-named-target-then-complete/SR03-T01",
+      "caseId": "SR03-T01",
+      "group": "G060",
+      "message": "I want Sushi Dai.",
+      "currentGoal": "RECOMMENDATION",
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "无时间",
+      "reason": "本请求尚无到访日期或时段；无时间规则优先，即使出现 table 也不能据此查位。",
+      "allowedGoals": [
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR03-named-target-then-complete/SR03-T02",
+      "caseId": "SR03-T02",
+      "group": "G061",
+      "message": "Tomorrow between 19:00 and 19:30 for two people in Tsukiji.",
+      "currentGoal": "RECOMMENDATION",
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "B",
+      "reason": "当前轮明确补充钟点区间和两人，Sushi Dai 来自同一会话；属 B，旧 Gold 的 RECOMMENDATION 须列为待确认变化。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR04-simple-complete/SR04-T01",
+      "caseId": "SR04-T01",
+      "group": "G062",
+      "message": "Tomorrow between 18:00 and 18:30 in Ginza for four people, Japanese food.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "B",
+      "reason": "正餐请求有具体钟点或数字钟点区间，人数已明确或可从封闭参与关系/会话上下文获得。",
+      "allowedGoals": [
+        "AVAILABILITY"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR05-relative-time-hard-soft-and-party-inference/SR05-T01",
+      "caseId": "SR05-T01",
+      "group": "G063",
+      "message": "This Friday evening near our office for three colleagues and me; no smoking is essential, and a quiet room would be nice.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR06-approximate-budget-is-soft/SR06-T01",
+      "caseId": "SR06-T01",
+      "group": "G064",
+      "message": "Tomorrow afternoon nearby for my parents and me. Around 3,000 yen per person would be ideal.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR07-relative-offset-time/SR07-T01",
+      "caseId": "SR07-T01",
+      "group": "G065",
+      "message": "In about 30 minutes near me for two people, Korean food.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "灰区",
+      "reason": "约 30 分钟后是相对偏移，不是用户说出的具体钟点/数字钟点区间；不以代码物化后的时刻冒充 B 锚点，拟为灰区，待复核。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR08-criterion-removal/SR08-T01",
+      "caseId": "SR08-T01",
+      "group": "G066",
+      "message": "Tonight at dinner in Ginza for two. I need sushi, but not omakase.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR08-criterion-removal/SR08-T02",
+      "caseId": "SR08-T02",
+      "group": "G067",
+      "message": "Drop the omakase restriction; keep sushi.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "灰区",
+      "reason": "修正 turn；继承上一轮灰区请求的时间与目标，不按孤立当前消息把已知到访时间抹掉。三次复测与前一轮组成同一 session。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": true
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR09-relative-location-overwrite/SR09-T01",
+      "caseId": "SR09-T01",
+      "group": "G068",
+      "message": "This Saturday night near my hotel for two people, Italian food.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR09-relative-location-overwrite/SR09-T02",
+      "caseId": "SR09-T02",
+      "group": "G069",
+      "message": "Actually, use the area near our office instead.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "灰区",
+      "reason": "修正 turn；继承上一轮灰区请求的时间与目标，不按孤立当前消息把已知到访时间抹掉。三次复测与前一轮组成同一 session。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": true
+    },
+    {
+      "source": "src/eval/restaurant/semantic/fixtures.ts",
+      "pointer": "SR10-hard-budget/SR10-T01",
+      "caseId": "SR10-T01",
+      "group": "G070",
+      "message": "Tomorrow after work in Shinjuku for two. The 5,000 yen maximum is firm.",
+      "currentGoal": null,
+      "dataset": "restaurant-semantic-regression@3",
+      "category": "灰区",
+      "reason": "请求有到访时间意图，但没有 A 的订位措辞或 B 的具体钟点/数字钟点区间；交给语义模型判断。",
+      "allowedGoals": [
+        "AVAILABILITY",
+        "RECOMMENDATION"
+      ],
+      "contextCarry": false
+    }
+  ],
+  "privateSemanticHoldout": {
+    "read": false,
+    "copied": false,
+    "classification": "NOT_INSPECTED",
+    "documentedMetadataOnly": {
+      "sessions": 15,
+      "turns": 25,
+      "source": "docs/harness/RESTAURANT-SEMANTIC-HOLDOUT.md:12"
+    },
+    "includedInCallEstimate": false
+  }
+}

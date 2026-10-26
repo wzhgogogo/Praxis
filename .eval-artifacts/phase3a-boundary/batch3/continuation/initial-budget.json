@@ -1,0 +1,91 @@
+{
+  "schema": "phase3a-boundary-budget@1",
+  "status": "CONTINUATION_AUTHORIZED_MAIN72_CONTROLS15",
+  "asOf": "2026-10-25T23:35:27+01:00",
+  "timezone": "CET UTC+01:00",
+  "limits": {
+    "realModelCalls": 144,
+    "fullLive": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0
+  },
+  "approval": "User stop-1 approval 2026-10-25; independent 144 real model calls; batch2 offline only; stop2 review required before batch3; user stop2 review passed; batch3 real semantic regression authorized, same total ceiling144",
+  "entries": [
+    {
+      "slice": "batch1 Proposed ADR and inventories",
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "stop1 approval / batch2 start",
+      "approvedRealModelCalls": 144,
+      "chargedToPrime400": 0,
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "batch2 stop2 offline verification",
+      "sourceCommit": "c9fe30391881e9b61382c71c0953527f9b3f3da0",
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "batch3 input and credential preflight",
+      "reviewedTip": "c014d4818817cc7c2ce3f9d9273788b0e3186afa",
+      "logicalTurnsPlanned": 72,
+      "status": "WAITING_CREDENTIALS / NOT_RUN",
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "batch3 narrow credential authorization",
+      "authorizationFile": ".eval-artifacts/phase3a-boundary/batch3/credential-authorization.json",
+      "model": "deepseek-v4-flash",
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "slice": "batch3 real semantic regression",
+      "sourceCommit": "f0cc436a6633909b2fb8444e9f2e142390cef428",
+      "realModelCalls": 1,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "status": "STOP_3_REVIEW_REQUIRED",
+      "stopReason": "SR01-T01 non-target criterion strength UNSPECIFIED -> HARD",
+      "providerSucceeded": 1,
+      "retries": 0
+    },
+    {
+      "slice": "user revised stop rule and v23 control authorization",
+      "recordedAtCET": "2026-10-25T23:35:27+01:00",
+      "primaryLogicalTurns": 72,
+      "controlLogicalMaximum": 15,
+      "previouslyUsedRealCalls": 1,
+      "realModelCalls": 0,
+      "fullLive": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    }
+  ],
+  "cumulative": {
+    "realModelCalls": 1,
+    "fullLive": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0
+  },
+  "chargedToPhase3aPrime400": false,
+  "approvedBatch3LogicalTurns": 72,
+  "approvedControlLogicalTurnsMaximum": 15,
+  "approvedLogicalMaximumIncludingControls": 87
+}

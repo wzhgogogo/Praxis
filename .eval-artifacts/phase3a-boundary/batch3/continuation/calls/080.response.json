@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "baa2dc60-eebb-4595-9217-577663489967",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Sushi restaurant in Ginza for dinner tonight, not omakase\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TODAY\", \"raw\": \"Tonight\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"EVENING\", \"raw\": \"Tonight at dinner\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Ginza\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"sushi\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"omakase\", \"polarity\": \"NEGATIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2173,
+    "providerRequestId": "4543bc0c-1c53-440c-8148-0b39811a812b",
+    "usage": {
+      "inputTokens": 6216,
+      "outputTokens": 377,
+      "totalTokens": 6593
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "baa2dc60-eebb-4595-9217-577663489967",
+      "taskId": "boundary-continuation:SR08-criterion-removal",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2173,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6216,
+        "outputTokens": 377,
+        "totalTokens": 6593
+      },
+      "providerRequestId": "4543bc0c-1c53-440c-8148-0b39811a812b"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:58.237+01:00"
+}

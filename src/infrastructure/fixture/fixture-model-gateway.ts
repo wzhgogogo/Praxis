@@ -28,7 +28,7 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
   const add = (fact: RestaurantSemanticProposal["facts"][number]) => facts.push(fact);
 
   if (/\b(bookable table|need a table|available table)\b/.test(normalized)) {
-    add({ field: "TARGET", operation, value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a bookable table" } });
+    add({ field: "TARGET", operation, value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: [message] }, kind: "TARGET", goal: "AVAILABILITY", query: "find a bookable table" } });
   }
 
   if (normalized.includes("tonight") || normalized.includes("2026-08-05")) {
@@ -87,7 +87,7 @@ function fixtureSemanticProposalFor(message: string): RestaurantSemanticProposal
       value: { kind: "BUDGET_PER_PERSON", max: 5_000, currency: "JPY" },
     });
   }
-  return { schemaVersion: "3", facts };
+  return { schemaVersion: "4", facts };
 }
 
 function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {

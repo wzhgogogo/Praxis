@@ -1,9 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.416
+- Document revision: 4.418
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-26-PHASE3A-BOUNDARY-CORRECTION-COMPLETE:** 用户复核修正已完成：ADR0044@1.1、Prompt25、sidecar2（SR02首轮A、补时间CARRY），Gold4仅SR03-T02目标改AVAILABILITY，旧版原样保留。aa64c0b3冻结611项后宿主五门禁1075/161全绿、逐项净树；指定去重9逻辑轮全部完成，目标/引用/沿用9/9、非目标请求值9/9，原严格评分0/9通过、差异完整另列。新增9调用，独立累计93/144余51，3a′400扣0；Google/来源/Live0，私有Holdout未读。灰区接受3/3观察但仍灰区，三项[3b前置](../.eval-artifacts/phase3a-boundary/review-correction/3b-prerequisites.md)本批不修。主线已有State22/TaskDefinition20不变；本批完成并按授权整合交付，远端结果以Git回执核对。[报告](../.eval-artifacts/phase3a-boundary/report.md)。
+
+- **2026-10-26-PHASE3A-BOUNDARY-CORRECTION-PREP:** 用户停止点3批准规则修正；ADR0044@1.1、Prompt25、sidecar2：无时间订位A→AVAILABILITY，SR02补时间CARRY；Gold4只改SR03-T02目标，Gold3原字节保留。整合main/7e2425b7，State22/TaskDefinition20由主线带入、本工作不升版；双方历史与3a′账本保留。定向12与静态15轮通过，新外层4×9控制通过；五门禁及九个真实逻辑轮待冻结后执行。独立累计84/144、余60，3a′400扣0；非目标差异只记录。三项[3b前置](../.eval-artifacts/phase3a-boundary/review-correction/3b-prerequisites.md)本批不处理。[切片](../.eval-artifacts/phase3a-boundary/review-correction/plan.md)。
 
 - **2026-10-26-F3-A-STOP:** F3 A停止等复核：时序卫生完成；11范围中L7/L10净减17，九项因等价替代观察不足延期；站点3847、Pack473，≤3591目标未达（差256）。已实施批次五门禁全绿并推main，新增真实调用0。 [报告](../.eval-artifacts/phase3a-prime/f3-implementation-20261026/report.md)。
 
@@ -52,6 +56,14 @@
 - **2026-10-25-F5-RERUN-STOP3B:** 2026-10-25 CET。F5c分支重放main b5db5700，旧HEAD留tag，双方记录与18条账本保留。b195c176五门禁type/arch/默认1053/build/Chromium155全绿，每项前后净树；之后源码零新增差异。375项最终冻结先提交，Dengana11-04 19:00两人公开GET2次复查WITNESS_EXISTS；3个授权凭据加载仅用于本轮。例01串行3槽全部约500.6秒超时、0/3合格，首次Tabelog调用中纠正3/3均执行，替代仍约4km南；原生Dengana均无，Google见证三次FOUND。独立S0两项全ABSENT，S2 PRESENT；三份原样OS禁网回放均首文档资格处INCOMPLETE，Google HAR各3响应。新增116模型/15Google/1环境重跑/2评测GET，累计8Live/334模型/45Google/3环境重跑/7GET。槽后评价延迟39.245/100.636/284.545秒，未满足立即要求；均无交付、postGET为空、下一槽仍过安全门后才启动。报告以机器实算秒数为准。停止点3b等复核，业务验收FAIL，不合main。[报告](../.eval-artifacts/phase3a-prime/f5-live-rerun/report.md)。
 
 - **2026-10-25-F5-RERUN-PREPARE:** F5c复核通过，批准例01串行3次与追加2环境重跑；重放b5db5700，31提交源码无冲突，双方文档与预算18条保留。累计5Live/218模型/2环境重跑不变，环境总上限4。五门禁待运行；本轮3受控Runner窄凭据加载已获直接授权，未读取凭据。尚无新网站/模型/Live，不合main。[计划](../.eval-artifacts/phase3a-prime/f5-live-rerun/plan.md)。
+
+- **2026-10-25-PHASE3A-BOUNDARY-CONTINUATION-COMPLETE:** 用户修正规则后本分支09bf7214冻结618项、五门禁1051/154全绿且各项后净工作树，完成72主轮（旧001复用）＋11单次v23控制，实际累计84/144余60（含1次Schema重试），3a′400扣0。目标/依据69/72满足；SR02-T01无时间却查位、SR02-T02缺新TARGET依据、SR08-T02集合CONFIRM无效待确认。14灰区额外3次及Wednesday3次均推荐、每组3/3；不固定Gold。10有效控制均仍偏离旧Gold，9份与v24请求值相同，1具名query两者均丢Sushi Dai；另1控制同样合同无效，不能作因果定论。生产Prompt/Scorer/State/Gold未改，全部差异/未评单列；Google/来源/Live0。停STOP_3，推同分支不合main。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
+
+- **2026-10-25-PHASE3A-BOUNDARY-STOP3:** 本分支f0cc436a冻结后五门禁1051/154全绿、各项后净工作树；按用户窄授权仅受控Node加载指定凭据、显式deepseek-v4-flash。首个真实调用SR01-T01目标B→AVAILABILITY且引用成立，但yakiniku强度UNSPECIFIED→HARD，按规则立即停批：1/144（余143），另71轮未调用；Compiler/权威Draft未到达，灰区一致率不可算。生产源码/Prompt/Gold未改，602项冻结匹配，3a′400扣减0；Google/网站/Live0。SR03-T02等Gold清单待用户逐条确认，停STOP_3，按授权推本分支、不合main。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
+
+- **2026-10-25-PHASE3A-BOUNDARY-BATCH3-PREFLIGHT:** 停止点2用户复核通过（独立1051/1051、净工作树），授权72逻辑轮/144独立真实调用。595冻结文件与72轮输入预检通过；任务和launchd均缺DeepSeek凭据/模型环境配置，遵守禁止读取.env，真实执行NOT_RUN、0/144，不占3a′400；Google/网站/Live0。只保存准备证据，未到停止点3、不合main；须先取得安全环境注入/既有启动入口。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
+
+- **2026-10-25-PHASE3A-BOUNDARY-BATCH2:** ADR-0044 已 Accepted；本分支实现 Prompt@24、Semantic Proposal@4 与 scorer/report@4。新目标依据只核对当前消息引用；无新TARGET修正沿用原目标，State@20/TaskDefinition@18 和旧Gold不变。有效引用/评分/冲突红灯已保存，真实handler、Reducer、推荐展示与可选slot组合离线通过。c9fe3039冻结后离线15/15、五门禁1051默认/154本机Chromium全绿，每项后净工作树，独立复核非目标字段不变；真实模型0/144，独立额度不占3a′400，网站/Google/Live0。交付证据提交后按授权只推本分支并停停止点2，不合main。 [报告](../.eval-artifacts/phase3a-boundary/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-STOP3-RECORDING:** 停止点3两项修复完成：健康检查已合main/28216ae3；录制器先替换第三方URL key/signature/client值，再保留原扫描，普通命中按页/条目拒绝，自有凭据命中整份拒绝且不提前发布DOM。槽1最小元素真实Chromium录制/回放到首个不合格页，0来源请求；五门禁1037/154全绿，各项后净工作树，真实调用0。自有请求体短路边界补充红绿后，05991efd最终五门禁1037/154全绿、净工作树；按授权合main并停止等复核。 [报告](../.eval-artifacts/phase3a-prime/stop3-infrastructure-fixes-20261025/recording/report.md)。
 

@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "01589dad-45c3-47d4-b1fa-507bb655bb92",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Monjayaki restaurant near Kachidoki\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Sit-down meal at an explicit clock time with a stated party of 4\", \"quotes\": [\"looking for monjayaki near Kachidoki on Friday, October 30 at 6:30 PM\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-10-30\", \"raw\": \"Friday, October 30\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:30\", \"latest\": \"18:30\", \"raw\": \"6:30 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 4, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Kachidoki\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"monjayaki\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"under 4,000 yen per person\", \"polarity\": \"POSITIVE\", \"strength\": \"SOFT\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3845,
+    "providerRequestId": "03950e68-9d2c-465e-8fc2-18ab352ab204",
+    "usage": {
+      "inputTokens": 6870,
+      "outputTokens": 460,
+      "totalTokens": 7330
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "01589dad-45c3-47d4-b1fa-507bb655bb92",
+      "taskId": "boundary-continuation:p2b-holdout-02",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3845,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6870,
+        "outputTokens": 460,
+        "totalTokens": 7330
+      },
+      "providerRequestId": "03950e68-9d2c-465e-8fc2-18ab352ab204"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:17.143+01:00"
+}

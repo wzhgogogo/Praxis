@@ -17,8 +17,8 @@ function response(outputText: string, invocationId: string): ModelResponse {
 }
 
 function h001SemanticResponse(): ModelResponse {
-  return response(JSON.stringify({ schemaVersion: "3", facts: [
-    { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya" } },
+  return response(JSON.stringify({ schemaVersion: "4", facts: [
+    { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["omakase"] }, kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya" } },
     { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-19", raw: "tonight" } },
     { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },
     { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -98,7 +98,7 @@ test("a frozen business clock cannot freeze the real outer deadline or admit a l
   assert.ok(result.elapsedMs < 500, `deadline did not bound execution: ${result.elapsedMs}ms`);
   assert.equal(calls, 1, "the deadline must stop later model/agent work from starting");
   const terminal = structuredClone(result.execution);
-  resolveLate?.(response('{"schemaVersion":"3","facts":[]}', "late-semantic"));
+  resolveLate?.(response('{"schemaVersion":"4","facts":[]}', "late-semantic"));
   await new Promise((resolve) => setTimeout(resolve, 0));
   assert.deepEqual(result.execution, terminal, "a late child result cannot overwrite the already-finalized execution record");
   assert.ok(Date.now() - started < 500);
@@ -110,8 +110,8 @@ test("a result that completes before the deadline retains its normal terminal ou
   const model: ModelGateway = { async complete(request) {
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
-      return response(JSON.stringify({ schemaVersion: "3", facts: [
-        { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya" } },
+      return response(JSON.stringify({ schemaVersion: "4", facts: [
+        { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["omakase"] }, kind: "TARGET", goal: "AVAILABILITY", query: "omakase near Shibuya" } },
         { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-19", raw: "tonight" } },
         { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },
         { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },

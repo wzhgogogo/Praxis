@@ -1,0 +1,23 @@
+{
+  "schema": "phase3a-boundary-review-config@1",
+  "recordedAtCET": "2026-10-26T02:09:41+01:00",
+  "model": "deepseek-v4-flash",
+  "promptVersion": "v25",
+  "proposalSchema": "4",
+  "goldVersion": "4",
+  "sidecarVersion": "2",
+  "priorRealCalls": 84,
+  "logicalTurns": 9,
+  "maximumProviderRequests": 18,
+  "remainingAllowance": 60,
+  "hardCumulativeCeiling": 144,
+  "stopOnly": [
+    "infrastructure failure",
+    "quota exhausted",
+    "S0 boundary violation"
+  ],
+  "semanticDifferencesStop": false,
+  "privateHoldout": "NOT_READ",
+  "sourceRequests": 0,
+  "fullLive": 0
+}

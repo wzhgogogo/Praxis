@@ -1,0 +1,35 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/semantic/scorer.test.ts(177,46): error TS2345: Argument of type '{ actualProposal: { schemaVersion: "4"; facts: { field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: ("book a table" | "cafes nearby")[]; }; }; }[]; }; actualDraft: RestaurantIntentDraft; expectedDra...' is not assignable to parameter of type '{ actualProposal?: RestaurantSemanticProposal; expectedProposal?: RestaurantSemanticProposal; actualCompiledPatch?: RestaurantIntentPatch; ... 4 more ...; expectedDecision?: RestaurantSemanticExpectedDecision; }'.
+  The types of 'actualProposal.facts' are incompatible between these types.
+    Type '{ field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: ("book a table" | "cafes nearby")[]; }; }; }[]' is not assignable to type 'RestaurantSemanticFact[]'.
+      Type '{ field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: ("book a table" | "cafes nearby")[]; }; }; }' is not assignable to type 'RestaurantSemanticFact'.
+        Types of property 'value' are incompatible.
+          Type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: ("book a table" | "cafes nearby")[]; }; }' is not assignable to type 'RestaurantSemanticValue'.
+            Type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: ("book a table" | "cafes nearby")[]; }; }' is not assignable to type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+              The types of 'goalBasis.type' are incompatible between these types.
+                Type 'string' is not assignable to type '"BOOKING_WORDING" | "JUDGMENT" | "SPECIFIC_TIME_MEAL"'.
+src/eval/restaurant/semantic/scorer.test.ts(193,46): error TS2345: Argument of type '{ actualProposal: { schemaVersion: "4"; facts: { field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: string[]; }; }; }[]; }; actualDraft: RestaurantIntentDraft; expectedDraft: RestaurantIntentDraft; goalBoundary: { ....' is not assignable to parameter of type '{ actualProposal?: RestaurantSemanticProposal; expectedProposal?: RestaurantSemanticProposal; actualCompiledPatch?: RestaurantIntentPatch; ... 4 more ...; expectedDecision?: RestaurantSemanticExpectedDecision; }'.
+  The types of 'actualProposal.facts' are incompatible between these types.
+    Type '{ field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: string[]; }; }; }[]' is not assignable to type 'RestaurantSemanticFact[]'.
+      Type '{ field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: string[]; }; }; }' is not assignable to type 'RestaurantSemanticFact'.
+        Types of property 'value' are incompatible.
+          Type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: string[]; }; }' is not assignable to type 'RestaurantSemanticValue'.
+            Type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: string[]; }; }' is not assignable to type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+              The types of 'goalBasis.type' are incompatible between these types.
+                Type 'string' is not assignable to type '"BOOKING_WORDING" | "JUDGMENT" | "SPECIFIC_TIME_MEAL"'.
+src/harness/restaurant-execution-router.test.ts(474,84): error TS2552: Cannot find name 'request'. Did you mean 'Request'?
+src/harness/restaurant-execution-router.test.ts(645,88): error TS2552: Cannot find name 'request'. Did you mean 'Request'?
+src/harness/restaurant-execution-router.test.ts(779,80): error TS2552: Cannot find name 'request'. Did you mean 'Request'?
+src/server/local-web-server.test.ts(321,34): error TS2322: Type 'RestaurantSemanticProposal | { schemaVersion: "4"; facts: { field: "TARGET"; operation: "ASSERT"; value: { goalBasis: { type: string; reason: string; quotes: string[]; }; kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }; }[]; }' is not assignable to type 'RestaurantSemanticProposal'.
+  Type '{ schemaVersion: "4"; facts: { field: "TARGET"; operation: "ASSERT"; value: { goalBasis: { type: string; reason: string; quotes: string[]; }; kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }; }[]; }' is not assignable to type 'RestaurantSemanticProposal'.
+    Types of property 'facts' are incompatible.
+      Type '{ field: "TARGET"; operation: "ASSERT"; value: { goalBasis: { type: string; reason: string; quotes: string[]; }; kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }; }[]' is not assignable to type 'RestaurantSemanticFact[]'.
+        Type '{ field: "TARGET"; operation: "ASSERT"; value: { goalBasis: { type: string; reason: string; quotes: string[]; }; kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }; }' is not assignable to type 'RestaurantSemanticFact'.
+          Types of property 'value' are incompatible.
+            Type '{ goalBasis: { type: string; reason: string; quotes: string[]; }; kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' is not assignable to type 'RestaurantSemanticValue'.
+              Type '{ goalBasis: { type: string; reason: string; quotes: string[]; }; kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' is not assignable to type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+                The types of 'goalBasis.type' are incompatible between these types.
+                  Type 'string' is not assignable to type '"BOOKING_WORDING" | "JUDGMENT" | "SPECIFIC_TIME_MEAL"'.

@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "f99d1960-0634-425e-809f-ac24b06ed36d",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Sushi Dai\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"User names a particular restaurant without booking wording or visit time\", \"quotes\": [\"I want Sushi Dai\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1982,
+    "providerRequestId": "f4b3916d-d8d4-45c5-b102-743a26ec223c",
+    "usage": {
+      "inputTokens": 6877,
+      "outputTokens": 149,
+      "totalTokens": 7026
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "f99d1960-0634-425e-809f-ac24b06ed36d",
+      "taskId": "boundary-review:SR03-NO_TIME-review-3",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v25",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1982,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6877,
+        "outputTokens": 149,
+        "totalTokens": 7026
+      },
+      "providerRequestId": "f4b3916d-d8d4-45c5-b102-743a26ec223c"
+    }
+  ],
+  "atCET": "2026-10-26T02:18:04.926+01:00"
+}

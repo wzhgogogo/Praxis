@@ -1,6 +1,6 @@
 # ADR-0026: Concrete-visit goal and reception semantics
 
-- Status: Accepted
+- Status: Accepted; Decision 1 goal-classification detail superseded in part by [ADR-0044](0044-recommendation-availability-boundary.md)
 - Document revision: 1.0
 - Last updated: 2026-09-15
 - Source of truth for: 具体到访请求的交付目标、读动作参数边界、接待方式与库存的独立事实

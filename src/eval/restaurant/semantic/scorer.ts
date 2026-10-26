@@ -5,14 +5,63 @@ import type {
   RestaurantSemanticExpectedDecision,
   RestaurantIntentDraft,
   RestaurantIntentPatch,
+  RestaurantReadGoal,
 } from "../../../domains/restaurant/contracts.js";
 import type {
   RestaurantSemanticFact,
   RestaurantSemanticProposal,
   RestaurantSemanticValue,
+  RestaurantGoalBasis,
 } from "../../../domains/restaurant/semantic-proposal.js";
 
-export const RESTAURANT_SEMANTIC_SCORER_VERSION = "3";
+export const RESTAURANT_SEMANTIC_SCORER_VERSION = "4";
+
+export interface RestaurantGoalBoundaryExpectation {
+  category: "A" | "B" | "NO_TIME" | "GRAY" | "CONTEXT_CARRY";
+  message: string;
+  previousGoal?: RestaurantReadGoal;
+}
+
+export interface RestaurantGoalBoundaryEvaluation {
+  category: RestaurantGoalBoundaryExpectation["category"];
+  status: "SATISFIED" | "NOT_SATISFIED";
+  actualGoal?: RestaurantReadGoal;
+  basis?: RestaurantGoalBasis;
+  errors: string[];
+}
+
+/** Independent evaluation of frozen category annotations, not a production goal classifier. */
+export function evaluateRestaurantSemanticGoal(input: {
+  proposal?: RestaurantSemanticProposal;
+  actualGoal?: RestaurantReadGoal;
+  expectation: RestaurantGoalBoundaryExpectation;
+}): RestaurantGoalBoundaryEvaluation {
+  const { expectation, actualGoal } = input;
+  const targets = input.proposal?.facts.filter(fact => fact.field === "TARGET" && fact.value?.kind === "TARGET") ?? [];
+  const target = targets[0]?.value;
+  const basis = target?.kind === "TARGET" ? target.goalBasis : undefined;
+  const errors: string[] = [];
+  if (input.proposal?.schemaVersion !== "4") errors.push("goal evaluation requires semantic proposal schema 4");
+  if (expectation.category === "CONTEXT_CARRY") {
+    if (targets.length || !expectation.previousGoal || actualGoal !== expectation.previousGoal) errors.push("target.goal must carry the previous goal without a new TARGET");
+  } else {
+    if (!targets.length || targets.some(fact => fact.value?.kind !== "TARGET" || fact.value.goal !== actualGoal)) errors.push("target.goal must match every new TARGET");
+    // Keep this oracle independent of the production proposal validator.
+    const words = (value: string) => value.toLowerCase().split(/\s+/).filter(Boolean).join(" ");
+    if (!targets.every(fact => {
+      const evidence = fact.value?.kind === "TARGET" ? fact.value.goalBasis : undefined;
+      return evidence && ["BOOKING_WORDING", "SPECIFIC_TIME_MEAL", "JUDGMENT"].includes(evidence.type)
+        && typeof evidence.reason === "string" && evidence.reason.trim() && Array.isArray(evidence.quotes)
+        && evidence.quotes.length > 0 && evidence.quotes.every(quote => typeof quote === "string" && words(quote) && words(expectation.message).includes(words(quote)));
+    })) {
+      errors.push("goalBasis needs nonempty quotes grounded in the current user message");
+    }
+    const allowed = expectation.category === "GRAY" ? ["RECOMMENDATION", "AVAILABILITY"]
+      : [expectation.category === "NO_TIME" ? "RECOMMENDATION" : "AVAILABILITY"];
+    if (!actualGoal || !allowed.includes(actualGoal)) errors.push(`target.goal violates frozen ${expectation.category} annotation`);
+  }
+  return { category: expectation.category, status: errors.length ? "NOT_SATISFIED" : "SATISFIED", ...(actualGoal ? { actualGoal } : {}), ...(basis ? { basis } : {}), errors };
+}
 
 export type RestaurantSemanticScoreFailure =
   | "SEMANTIC_INTERPRETER"
@@ -59,6 +108,7 @@ function semanticValueKey(value: RestaurantSemanticValue | undefined): string {
   if (!value) return "";
   switch (value.kind) {
     case "TARGET":
+      return `${value.kind}:${value.goal}:${value.query}`;
     case "AREA":
       return `${value.kind}:${value.query}`;
     case "DATE":
@@ -155,11 +205,30 @@ export function scoreRestaurantSemanticTurn(input: {
   /** Deprecated ADR-0007 next-step labels, intentionally ignored by current semantic scoring. */
   actualDecision?: RestaurantSemanticExpectedDecision;
   expectedDecision?: RestaurantSemanticExpectedDecision;
+  goalBoundary?: RestaurantGoalBoundaryExpectation;
 }): RestaurantSemanticScore {
+  if (input.goalBoundary) {
+    const goal = evaluateRestaurantSemanticGoal({ ...(input.actualProposal ? { proposal: input.actualProposal } : {}), ...(input.actualDraft?.target ? { actualGoal: input.actualDraft.target.goal } : {}), expectation: input.goalBoundary });
+    if (goal.status !== "SATISFIED") return { status: "FAIL", firstFailureStage: "SEMANTIC_INTERPRETER", error: goal.errors.join("; ") };
+  }
+  const withoutTarget = (proposal: RestaurantSemanticProposal | undefined) => input.goalBoundary && proposal
+    ? { ...proposal, facts: proposal.facts.filter(fact => fact.field !== "TARGET") } : proposal;
+  const withoutTargetPatch = (patch: RestaurantIntentPatch | undefined) => {
+    if (!input.goalBoundary || !patch) return patch;
+    const { target: _target, ...rest } = patch;
+    return rest;
+  };
+  let actualDraft = input.actualDraft;
+  if (input.goalBoundary && actualDraft) {
+    const { target, ...rest } = actualDraft;
+    // Missing legacy target labels stay unannotated; the new target is scored above.
+    actualDraft = input.expectedDraft.target && target
+      ? { ...rest, target: { ...target, goal: input.expectedDraft.target.goal } } : rest;
+  }
   const hasStageOracle = input.expectedProposal !== undefined;
   if (
     input.expectedProposal !== undefined &&
-    !equalRestaurantSemanticProposals(input.actualProposal, input.expectedProposal)
+    !equalRestaurantSemanticProposals(withoutTarget(input.actualProposal), withoutTarget(input.expectedProposal))
   ) {
     return {
       status: "FAIL",
@@ -169,7 +238,7 @@ export function scoreRestaurantSemanticTurn(input: {
   }
   if (
     input.expectedCompiledPatch !== undefined &&
-    !equalRestaurantIntentPatches(input.actualCompiledPatch, input.expectedCompiledPatch)
+    !equalRestaurantIntentPatches(withoutTargetPatch(input.actualCompiledPatch), withoutTargetPatch(input.expectedCompiledPatch))
   ) {
     return {
       status: "FAIL",
@@ -177,7 +246,7 @@ export function scoreRestaurantSemanticTurn(input: {
       error: "Compiled patch does not match the deterministic development-stage oracle",
     };
   }
-  if (!equalRestaurantIntentDrafts(input.actualDraft, input.expectedDraft)) {
+  if (!equalRestaurantIntentDrafts(actualDraft, input.expectedDraft)) {
     return {
       status: "FAIL",
       firstFailureStage: hasStageOracle ? "REDUCER" : "SEMANTIC_RESULT",

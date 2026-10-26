@@ -1,3 +1,4 @@
+import { fixtureGoalBasis } from "../restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
@@ -301,8 +302,8 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
       const input = JSON.parse(request.messages.find(item => item.role === "user")!.content);
       return reply(JSON.stringify({ choice: input.current ? "KEEP" : "KEYWORD", keyword: input.current ? "" : "omakase", criterionRef: input.current ? "" : "criterion:0", generalRef:'',categoryUrl: "", reason: "Controlled retrieval; preserve the current sparse source result." }), request.purpose);
     }
-    if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "3", facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },
+    if (request.purpose === "restaurant_semantic_interpret") return reply(JSON.stringify({ schemaVersion: "4", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "AVAILABILITY", query: "omakase spot", selectionScope: "OPEN_ENDED" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Shibuya" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: date, raw: "tonight" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 PM" } },

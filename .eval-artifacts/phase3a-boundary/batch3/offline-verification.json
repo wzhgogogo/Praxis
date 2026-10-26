@@ -1,0 +1,101 @@
+{
+  "sourceCommit": "f0cc436a6633909b2fb8444e9f2e142390cef428",
+  "startedAtCET": "2026-10-25T20:55:30+01:00",
+  "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+  "realModelCalls": 0,
+  "steps": [
+    {
+      "name": "outer-self-test",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3a-boundary/batch3/run-real.mjs",
+        "--self-test"
+      ],
+      "startedAtCET": "2026-10-25T20:55:30+01:00",
+      "finishedAtCET": "2026-10-25T20:55:30+01:00",
+      "elapsedSeconds": 0.121,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch3/offline-gates/outer-self-test.log",
+      "logSha256": "1741ad518c0ec219277c5b1ffc8d5d937da32996cd7695aa40e5f29c6ee543ad",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-25T20:55:30+01:00",
+      "finishedAtCET": "2026-10-25T20:55:31+01:00",
+      "elapsedSeconds": 0.433,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch3/offline-gates/typecheck.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-25T20:55:31+01:00",
+      "finishedAtCET": "2026-10-25T20:55:31+01:00",
+      "elapsedSeconds": 0.171,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch3/offline-gates/arch-check.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-25T20:55:31+01:00",
+      "finishedAtCET": "2026-10-25T20:55:52+01:00",
+      "elapsedSeconds": 21.442,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch3/offline-gates/test.log",
+      "logSha256": "872b91d0c7083541728e29be915873aa346ee798b9fc57a4fe9f5864e9a78ffb",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-25T20:55:52+01:00",
+      "finishedAtCET": "2026-10-25T20:55:53+01:00",
+      "elapsedSeconds": 0.428,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch3/offline-gates/build.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-25T20:55:53+01:00",
+      "finishedAtCET": "2026-10-25T20:57:27+01:00",
+      "elapsedSeconds": 94.28,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch3/offline-gates/browser-fixture.log",
+      "logSha256": "7241d14bb499c71ce5a4b93c80645cd3c1ffc923be7ea4bd6b2aa96dada9f69d",
+      "gitStatusPorcelainAfter": ""
+    }
+  ],
+  "status": "PASS",
+  "finishedAtCET": "2026-10-25T20:57:27+01:00"
+}

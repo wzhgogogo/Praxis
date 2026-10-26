@@ -1,0 +1,519 @@
+{
+  "status": "selective single-pair diagnostic / not in primary rate",
+  "controls": [
+    {
+      "turnId": "SR01-T01",
+      "primaryLogicalIndex": 1,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "f2f32535c772a2c5ec5700a8ce670f555414ac0af6cabdbb4e56fb1320a94745",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        74
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR01-T01.control.json"
+    },
+    {
+      "turnId": "SR03-T02",
+      "primaryLogicalIndex": 6,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "7465fb4de6694ded00287646dbfad3f5272e00fbe7ebe6e22e19e34fca6fff1f",
+      "primaryValueDifferences": [
+        {
+          "path": "target.query",
+          "expected": "Sushi Dai",
+          "actual": "Restaurant recommendation in Tsukiji for tomorrow evening"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "target.query",
+          "expected": "Sushi Dai",
+          "actual": "Restaurant in Tsukiji for two people tomorrow between 19:00 and 19:30"
+        }
+      ],
+      "controlDifferencesVsPrimary": [
+        {
+          "path": "target.query",
+          "expected": "Restaurant recommendation in Tsukiji for tomorrow evening",
+          "actual": "Restaurant in Tsukiji for two people tomorrow between 19:00 and 19:30"
+        }
+      ],
+      "controlErrors": [],
+      "description": "措辞/值不同；两者均偏离旧Gold，逐字段看原始记录",
+      "attempts": [
+        75
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR03-T02.control.json"
+    },
+    {
+      "turnId": "SR04-T01",
+      "primaryLogicalIndex": 7,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "6c19dc59c9b9f1e264f67e2078c5c8c2ded35ef1ceb4d6ac7efddcb63431354c",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        76
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR04-T01.control.json"
+    },
+    {
+      "turnId": "SR05-T01",
+      "primaryLogicalIndex": 8,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "8fd04f0c5b13f101b2f4dd1095913b8531d8bf0132affa070eaa68d333731a12",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}",
+            "{\"text\":\"smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}"
+          ],
+          "actual": [
+            "{\"text\":\"no smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}",
+            "{\"text\":\"smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}"
+          ],
+          "actual": [
+            "{\"text\":\"no smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        77
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR05-T01.control.json"
+    },
+    {
+      "turnId": "SR06-T01",
+      "primaryLogicalIndex": 9,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "0500fda055dab4e0af594255d5c3cd4211d262c477a339da71a27155a9a6e880",
+      "primaryValueDifferences": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "13:00",
+          "actual": "12:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "13:00",
+          "actual": "12:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        78
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR06-T01.control.json"
+    },
+    {
+      "turnId": "SR07-T01",
+      "primaryLogicalIndex": 10,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "85f4bc0c9ff940d90a134bff932a004e08c7753f15bf3caf79f2993ddacd13d9",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        79
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR07-T01.control.json"
+    },
+    {
+      "turnId": "SR08-T01",
+      "primaryLogicalIndex": 11,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "7525d1286e16e1cf4863f6829c54854fb4ac20dfb7da1762c5665249542cda4a",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        80
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR08-T01.control.json"
+    },
+    {
+      "turnId": "SR08-T02",
+      "primaryLogicalIndex": 12,
+      "status": "INVALID_CONTROL_CONTRACT",
+      "inputParity": true,
+      "inputSha256": "bb3e653b92c370c566abccecd3c2acb09f42203aa0d03584c2e38577777f2c0b",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsGold": "NOT_EVALUATED",
+      "controlDifferencesVsPrimary": "NOT_EVALUATED",
+      "controlErrors": [
+        "facts[1].operation CONFIRM is unsupported for collection fields",
+        "facts[1].value is not allowed for CONFIRM"
+      ],
+      "description": "旧Prompt同样产生CRITERION CONFIRM，合同拒绝；无有效控制Draft",
+      "attempts": [
+        81
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR08-T02.control.json"
+    },
+    {
+      "turnId": "SR09-T01",
+      "primaryLogicalIndex": 13,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "3df4d8df0f19e0a733fa2668cc002f82fee0bdde8a506d75c44ec6dfdf8a67a2",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        82
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR09-T01.control.json"
+    },
+    {
+      "turnId": "SR09-T02",
+      "primaryLogicalIndex": 14,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "f8a4b79e7ff4e901c58c23a8f6f611fdb244907892cd3989267b2ffc752bb188",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        83
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR09-T02.control.json"
+    },
+    {
+      "turnId": "SR10-T01",
+      "primaryLogicalIndex": 15,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "e5947e100b76f2cf4bb1f3a7a88455824672da30692446fa4814958b2738688a",
+      "primaryValueDifferences": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "18:00",
+          "actual": "17:30"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "20:00",
+          "actual": "22:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "18:00",
+          "actual": "17:30"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "20:00",
+          "actual": "22:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        84
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR10-T01.control.json"
+    }
+  ]
+}

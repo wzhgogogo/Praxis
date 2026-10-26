@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "fe5f6538-1983-4c48-b68e-8cbc115d4c33",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Restaurant recommendation in Tsukiji for tomorrow evening\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Explicit clock range with a known party size for a sit-down meal\", \"quotes\": [\"Tomorrow between 19:00 and 19:30 for two people in Tsukiji\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:30\", \"raw\": \"between 19:00 and 19:30\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Tsukiji\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2645,
+    "providerRequestId": "2bda5eb1-6983-4ae1-8a31-35b486e316fd",
+    "usage": {
+      "inputTokens": 6873,
+      "outputTokens": 346,
+      "totalTokens": 7219
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "fe5f6538-1983-4c48-b68e-8cbc115d4c33",
+      "taskId": "boundary-continuation:SR03-named-target-then-complete",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2645,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6873,
+        "outputTokens": 346,
+        "totalTokens": 7219
+      },
+      "providerRequestId": "2bda5eb1-6983-4ae1-8a31-35b486e316fd"
+    }
+  ],
+  "atCET": "2026-10-25T23:39:08.607+01:00"
+}

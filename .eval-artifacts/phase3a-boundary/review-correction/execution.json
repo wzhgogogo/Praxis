@@ -1,0 +1,1801 @@
+{
+  "status": "COMPLETED",
+  "sourceCommit": "aa64c0b32109277c2e841a8a0577af8fd3646af3",
+  "finishedAtCET": "2026-10-26T02:18:04.958+01:00",
+  "priorRealCalls": 84,
+  "cumulativeRealCalls": 93,
+  "newRealCalls": 9,
+  "plannedLogicalTurns": 9,
+  "completedLogicalTurns": 9,
+  "configuredModel": "deepseek-v4-flash",
+  "promptVersion": "v25",
+  "proposalSchema": "4",
+  "goldVersion": "4",
+  "sidecarVersion": "2",
+  "rows": [
+    {
+      "sessionId": "SR02-incremental-completion-review-1",
+      "repetition": 1,
+      "turnId": "SR02-T01",
+      "input": {
+        "taskId": "boundary-review:SR02-incremental-completion-review-1",
+        "message": "I need a table in Shinjuku for two people.",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo"
+      },
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "goalBasis": {
+                  "type": "BOOKING_WORDING",
+                  "reason": "User asks for a table",
+                  "quotes": [
+                    "I need a table"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "79d46cf2-5e46-4315-906f-bd8e8531b185",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v25",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 3601,
+            "usage": {
+              "inputTokens": 6883,
+              "outputTokens": 220,
+              "totalTokens": 7103
+            },
+            "providerRequestId": "df57933a-b5af-4dc4-978c-915410c479b9"
+          }
+        ]
+      },
+      "compilation": {
+        "status": "COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "area": {
+            "query": "Shinjuku"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT"
+        }
+      },
+      "actualDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Table for two in Shinjuku",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "Shinjuku"
+        }
+      },
+      "transitions": [
+        {
+          "event": {
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "patch": {
+              "schemaVersion": "3",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "selectionScope": "OPEN_ENDED"
+              },
+              "area": {
+                "query": "Shinjuku"
+              },
+              "partySize": 2,
+              "partySizeSource": "EXPLICIT"
+            }
+          },
+          "commands": [],
+          "domainState": {
+            "schemaVersion": "22",
+            "phase": "UNDERSTANDING",
+            "searchRevision": 0,
+            "investigationRevision": 1,
+            "intentDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "criteria": [],
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "selectionScope": "OPEN_ENDED"
+              },
+              "partySize": 2,
+              "partySizeSource": "EXPLICIT",
+              "area": {
+                "query": "Shinjuku"
+              }
+            },
+            "candidates": [],
+            "availability": {},
+            "availabilityChecks": {},
+            "factChecks": {},
+            "readEvidence": []
+          }
+        }
+      ],
+      "gold": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "partySize": 2,
+        "area": {
+          "query": "Shinjuku"
+        },
+        "criteria": []
+      },
+      "category": "A",
+      "evaluation": {
+        "goal": {
+          "category": "A",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "basis": {
+            "type": "BOOKING_WORDING",
+            "reason": "User asks for a table",
+            "quotes": [
+              "I need a table"
+            ]
+          },
+          "errors": []
+        },
+        "nonGoalDifferences": [],
+        "strictScore": {
+          "status": "FAIL",
+          "firstFailureStage": "SEMANTIC_INTERPRETER",
+          "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+        }
+      },
+      "logicalIndex": 1,
+      "attemptNumbers": [
+        85
+      ]
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-1",
+      "repetition": 1,
+      "turnId": "SR02-T02",
+      "input": {
+        "taskId": "boundary-review:SR02-incremental-completion-review-1",
+        "message": "Tomorrow between 19:00 and 19:30.",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "currentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Shinjuku"
+          }
+        }
+      },
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "between 19:00 and 19:30"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "7f47ddcc-e562-4096-9538-16c481a3795c",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v25",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 2291,
+            "usage": {
+              "inputTokens": 6932,
+              "outputTokens": 153,
+              "totalTokens": 7085
+            },
+            "providerRequestId": "bff130cc-81e9-4173-8ee7-8cca969adce6"
+          }
+        ]
+      },
+      "compilation": {
+        "status": "COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "actualDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Table for two in Shinjuku",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "Shinjuku"
+        },
+        "criteria": [],
+        "date": "2026-08-06",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-08-05T09:00:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Tomorrow",
+            "resolvedDate": "2026-08-06",
+            "basis": "TOMORROW"
+          },
+          "timeWindow": {
+            "expression": "between 19:00 and 19:30",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "19:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        }
+      },
+      "transitions": [
+        {
+          "event": {
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "patch": {
+              "schemaVersion": "3",
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "temporalResolution": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            }
+          },
+          "commands": [],
+          "domainState": {
+            "schemaVersion": "22",
+            "phase": "UNDERSTANDING",
+            "searchRevision": 0,
+            "investigationRevision": 2,
+            "intentDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "selectionScope": "OPEN_ENDED"
+              },
+              "partySize": 2,
+              "partySizeSource": "EXPLICIT",
+              "area": {
+                "query": "Shinjuku"
+              },
+              "criteria": [],
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "temporalResolution": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            },
+            "candidates": [],
+            "availability": {},
+            "availabilityChecks": {},
+            "factChecks": {},
+            "readEvidence": []
+          }
+        }
+      ],
+      "gold": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "date": "2026-08-06",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:30"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "Shinjuku"
+        },
+        "criteria": []
+      },
+      "category": "CONTEXT_CARRY",
+      "evaluation": {
+        "goal": {
+          "category": "CONTEXT_CARRY",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "errors": []
+        },
+        "nonGoalDifferences": [],
+        "strictScore": {
+          "status": "FAIL",
+          "firstFailureStage": "SEMANTIC_INTERPRETER",
+          "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+        }
+      },
+      "logicalIndex": 2,
+      "attemptNumbers": [
+        86
+      ]
+    },
+    {
+      "sessionId": "SR03-NO_TIME-review-1",
+      "repetition": 1,
+      "turnId": "SR03-T01",
+      "input": {
+        "taskId": "boundary-review:SR03-NO_TIME-review-1",
+        "message": "I want Sushi Dai.",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo"
+      },
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "User names a particular restaurant without booking wording or visit time",
+                  "quotes": [
+                    "I want Sushi Dai"
+                  ]
+                },
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "d1ad132e-732a-46c2-a609-2f41ed451754",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v25",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 1724,
+            "usage": {
+              "inputTokens": 6877,
+              "outputTokens": 149,
+              "totalTokens": 7026
+            },
+            "providerRequestId": "b3d44d58-a779-4664-86bd-5445cbbc58c5"
+          }
+        ]
+      },
+      "compilation": {
+        "status": "COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai",
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        }
+      },
+      "actualDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [],
+        "target": {
+          "goal": "RECOMMENDATION",
+          "query": "Sushi Dai",
+          "selectionScope": "SPECIFIC_OUTLET"
+        }
+      },
+      "transitions": [
+        {
+          "event": {
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "patch": {
+              "schemaVersion": "3",
+              "target": {
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            }
+          },
+          "commands": [],
+          "domainState": {
+            "schemaVersion": "22",
+            "phase": "UNDERSTANDING",
+            "searchRevision": 0,
+            "investigationRevision": 1,
+            "intentDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "criteria": [],
+              "target": {
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            },
+            "candidates": [],
+            "availability": {},
+            "availabilityChecks": {},
+            "factChecks": {},
+            "readEvidence": []
+          }
+        }
+      ],
+      "gold": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "RECOMMENDATION",
+          "query": "Sushi Dai"
+        },
+        "criteria": []
+      },
+      "category": "NO_TIME",
+      "evaluation": {
+        "goal": {
+          "category": "NO_TIME",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "User names a particular restaurant without booking wording or visit time",
+            "quotes": [
+              "I want Sushi Dai"
+            ]
+          },
+          "errors": []
+        },
+        "nonGoalDifferences": [],
+        "strictScore": {
+          "status": "FAIL",
+          "firstFailureStage": "REDUCER",
+          "error": "Authoritative Draft differs after a correct Proposal and compiled patch"
+        }
+      },
+      "logicalIndex": 3,
+      "attemptNumbers": [
+        87
+      ]
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-2",
+      "repetition": 2,
+      "turnId": "SR02-T01",
+      "input": {
+        "taskId": "boundary-review:SR02-incremental-completion-review-2",
+        "message": "I need a table in Shinjuku for two people.",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo"
+      },
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "goalBasis": {
+                  "type": "BOOKING_WORDING",
+                  "reason": "User asks for a table, i.e. confirmed seating",
+                  "quotes": [
+                    "I need a table"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "ef441ace-8ac7-426c-9194-c412a8142813",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v25",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 1987,
+            "usage": {
+              "inputTokens": 6883,
+              "outputTokens": 226,
+              "totalTokens": 7109
+            },
+            "providerRequestId": "eca5282e-188e-46c1-b311-82303e5a6316"
+          }
+        ]
+      },
+      "compilation": {
+        "status": "COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "area": {
+            "query": "Shinjuku"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT"
+        }
+      },
+      "actualDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Table for two in Shinjuku",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "Shinjuku"
+        }
+      },
+      "transitions": [
+        {
+          "event": {
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "patch": {
+              "schemaVersion": "3",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "selectionScope": "OPEN_ENDED"
+              },
+              "area": {
+                "query": "Shinjuku"
+              },
+              "partySize": 2,
+              "partySizeSource": "EXPLICIT"
+            }
+          },
+          "commands": [],
+          "domainState": {
+            "schemaVersion": "22",
+            "phase": "UNDERSTANDING",
+            "searchRevision": 0,
+            "investigationRevision": 1,
+            "intentDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "criteria": [],
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "selectionScope": "OPEN_ENDED"
+              },
+              "partySize": 2,
+              "partySizeSource": "EXPLICIT",
+              "area": {
+                "query": "Shinjuku"
+              }
+            },
+            "candidates": [],
+            "availability": {},
+            "availabilityChecks": {},
+            "factChecks": {},
+            "readEvidence": []
+          }
+        }
+      ],
+      "gold": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "partySize": 2,
+        "area": {
+          "query": "Shinjuku"
+        },
+        "criteria": []
+      },
+      "category": "A",
+      "evaluation": {
+        "goal": {
+          "category": "A",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "basis": {
+            "type": "BOOKING_WORDING",
+            "reason": "User asks for a table, i.e. confirmed seating",
+            "quotes": [
+              "I need a table"
+            ]
+          },
+          "errors": []
+        },
+        "nonGoalDifferences": [],
+        "strictScore": {
+          "status": "FAIL",
+          "firstFailureStage": "SEMANTIC_INTERPRETER",
+          "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+        }
+      },
+      "logicalIndex": 4,
+      "attemptNumbers": [
+        88
+      ]
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-2",
+      "repetition": 2,
+      "turnId": "SR02-T02",
+      "input": {
+        "taskId": "boundary-review:SR02-incremental-completion-review-2",
+        "message": "Tomorrow between 19:00 and 19:30.",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "currentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Shinjuku"
+          }
+        }
+      },
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "between 19:00 and 19:30"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "1298df6f-d3c6-4c89-afda-7e668e3f6344",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v25",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 1699,
+            "usage": {
+              "inputTokens": 6932,
+              "outputTokens": 153,
+              "totalTokens": 7085
+            },
+            "providerRequestId": "2d345b55-f0eb-4a80-b703-77b5e0e9e882"
+          }
+        ]
+      },
+      "compilation": {
+        "status": "COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "actualDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Table for two in Shinjuku",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "Shinjuku"
+        },
+        "criteria": [],
+        "date": "2026-08-06",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-08-05T09:00:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Tomorrow",
+            "resolvedDate": "2026-08-06",
+            "basis": "TOMORROW"
+          },
+          "timeWindow": {
+            "expression": "between 19:00 and 19:30",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "19:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        }
+      },
+      "transitions": [
+        {
+          "event": {
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "patch": {
+              "schemaVersion": "3",
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "temporalResolution": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            }
+          },
+          "commands": [],
+          "domainState": {
+            "schemaVersion": "22",
+            "phase": "UNDERSTANDING",
+            "searchRevision": 0,
+            "investigationRevision": 2,
+            "intentDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "selectionScope": "OPEN_ENDED"
+              },
+              "partySize": 2,
+              "partySizeSource": "EXPLICIT",
+              "area": {
+                "query": "Shinjuku"
+              },
+              "criteria": [],
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "temporalResolution": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            },
+            "candidates": [],
+            "availability": {},
+            "availabilityChecks": {},
+            "factChecks": {},
+            "readEvidence": []
+          }
+        }
+      ],
+      "gold": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "date": "2026-08-06",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:30"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "Shinjuku"
+        },
+        "criteria": []
+      },
+      "category": "CONTEXT_CARRY",
+      "evaluation": {
+        "goal": {
+          "category": "CONTEXT_CARRY",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "errors": []
+        },
+        "nonGoalDifferences": [],
+        "strictScore": {
+          "status": "FAIL",
+          "firstFailureStage": "SEMANTIC_INTERPRETER",
+          "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+        }
+      },
+      "logicalIndex": 5,
+      "attemptNumbers": [
+        89
+      ]
+    },
+    {
+      "sessionId": "SR03-NO_TIME-review-2",
+      "repetition": 2,
+      "turnId": "SR03-T01",
+      "input": {
+        "taskId": "boundary-review:SR03-NO_TIME-review-2",
+        "message": "I want Sushi Dai.",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo"
+      },
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "User names a particular restaurant without booking wording or visit time",
+                  "quotes": [
+                    "I want Sushi Dai."
+                  ]
+                },
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "9b9c52cd-ab1a-4472-9b98-19f9397fae73",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v25",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 1681,
+            "usage": {
+              "inputTokens": 6877,
+              "outputTokens": 150,
+              "totalTokens": 7027
+            },
+            "providerRequestId": "abc47b94-d19c-4180-8eda-4ecda652569c"
+          }
+        ]
+      },
+      "compilation": {
+        "status": "COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai",
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        }
+      },
+      "actualDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [],
+        "target": {
+          "goal": "RECOMMENDATION",
+          "query": "Sushi Dai",
+          "selectionScope": "SPECIFIC_OUTLET"
+        }
+      },
+      "transitions": [
+        {
+          "event": {
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "patch": {
+              "schemaVersion": "3",
+              "target": {
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            }
+          },
+          "commands": [],
+          "domainState": {
+            "schemaVersion": "22",
+            "phase": "UNDERSTANDING",
+            "searchRevision": 0,
+            "investigationRevision": 1,
+            "intentDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "criteria": [],
+              "target": {
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            },
+            "candidates": [],
+            "availability": {},
+            "availabilityChecks": {},
+            "factChecks": {},
+            "readEvidence": []
+          }
+        }
+      ],
+      "gold": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "RECOMMENDATION",
+          "query": "Sushi Dai"
+        },
+        "criteria": []
+      },
+      "category": "NO_TIME",
+      "evaluation": {
+        "goal": {
+          "category": "NO_TIME",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "User names a particular restaurant without booking wording or visit time",
+            "quotes": [
+              "I want Sushi Dai."
+            ]
+          },
+          "errors": []
+        },
+        "nonGoalDifferences": [],
+        "strictScore": {
+          "status": "FAIL",
+          "firstFailureStage": "REDUCER",
+          "error": "Authoritative Draft differs after a correct Proposal and compiled patch"
+        }
+      },
+      "logicalIndex": 6,
+      "attemptNumbers": [
+        90
+      ]
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-3",
+      "repetition": 3,
+      "turnId": "SR02-T01",
+      "input": {
+        "taskId": "boundary-review:SR02-incremental-completion-review-3",
+        "message": "I need a table in Shinjuku for two people.",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo"
+      },
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "goalBasis": {
+                  "type": "BOOKING_WORDING",
+                  "reason": "User asks for a table, i.e. booking wording",
+                  "quotes": [
+                    "I need a table"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "04fe8fcb-7a5a-4483-bf63-78e61abea8d7",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v25",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 2127,
+            "usage": {
+              "inputTokens": 6883,
+              "outputTokens": 226,
+              "totalTokens": 7109
+            },
+            "providerRequestId": "e1677b99-82f9-4b7f-bd08-f49e90160ecd"
+          }
+        ]
+      },
+      "compilation": {
+        "status": "COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "area": {
+            "query": "Shinjuku"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT"
+        }
+      },
+      "actualDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Table for two in Shinjuku",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "Shinjuku"
+        }
+      },
+      "transitions": [
+        {
+          "event": {
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "patch": {
+              "schemaVersion": "3",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "selectionScope": "OPEN_ENDED"
+              },
+              "area": {
+                "query": "Shinjuku"
+              },
+              "partySize": 2,
+              "partySizeSource": "EXPLICIT"
+            }
+          },
+          "commands": [],
+          "domainState": {
+            "schemaVersion": "22",
+            "phase": "UNDERSTANDING",
+            "searchRevision": 0,
+            "investigationRevision": 1,
+            "intentDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "criteria": [],
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "selectionScope": "OPEN_ENDED"
+              },
+              "partySize": 2,
+              "partySizeSource": "EXPLICIT",
+              "area": {
+                "query": "Shinjuku"
+              }
+            },
+            "candidates": [],
+            "availability": {},
+            "availabilityChecks": {},
+            "factChecks": {},
+            "readEvidence": []
+          }
+        }
+      ],
+      "gold": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "partySize": 2,
+        "area": {
+          "query": "Shinjuku"
+        },
+        "criteria": []
+      },
+      "category": "A",
+      "evaluation": {
+        "goal": {
+          "category": "A",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "basis": {
+            "type": "BOOKING_WORDING",
+            "reason": "User asks for a table, i.e. booking wording",
+            "quotes": [
+              "I need a table"
+            ]
+          },
+          "errors": []
+        },
+        "nonGoalDifferences": [],
+        "strictScore": {
+          "status": "FAIL",
+          "firstFailureStage": "SEMANTIC_INTERPRETER",
+          "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+        }
+      },
+      "logicalIndex": 7,
+      "attemptNumbers": [
+        91
+      ]
+    },
+    {
+      "sessionId": "SR02-incremental-completion-review-3",
+      "repetition": 3,
+      "turnId": "SR02-T02",
+      "input": {
+        "taskId": "boundary-review:SR02-incremental-completion-review-3",
+        "message": "Tomorrow between 19:00 and 19:30.",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "currentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          },
+          "partySize": 2,
+          "partySizeSource": "EXPLICIT",
+          "area": {
+            "query": "Shinjuku"
+          }
+        }
+      },
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "between 19:00 and 19:30"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "17723041-2e69-4395-a11c-781f5dd2eec1",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v25",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 2015,
+            "usage": {
+              "inputTokens": 6932,
+              "outputTokens": 153,
+              "totalTokens": 7085
+            },
+            "providerRequestId": "28d34d6a-f1dd-488d-852e-a38b9d857f8c"
+          }
+        ]
+      },
+      "compilation": {
+        "status": "COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "date": "2026-08-06",
+          "timeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "temporalResolution": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      },
+      "actualDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Table for two in Shinjuku",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "Shinjuku"
+        },
+        "criteria": [],
+        "date": "2026-08-06",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-08-05T09:00:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Tomorrow",
+            "resolvedDate": "2026-08-06",
+            "basis": "TOMORROW"
+          },
+          "timeWindow": {
+            "expression": "between 19:00 and 19:30",
+            "resolvedTimeWindow": {
+              "earliest": "19:00",
+              "latest": "19:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        }
+      },
+      "transitions": [
+        {
+          "event": {
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "patch": {
+              "schemaVersion": "3",
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "temporalResolution": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            }
+          },
+          "commands": [],
+          "domainState": {
+            "schemaVersion": "22",
+            "phase": "UNDERSTANDING",
+            "searchRevision": 0,
+            "investigationRevision": 2,
+            "intentDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "selectionScope": "OPEN_ENDED"
+              },
+              "partySize": 2,
+              "partySizeSource": "EXPLICIT",
+              "area": {
+                "query": "Shinjuku"
+              },
+              "criteria": [],
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "temporalResolution": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            },
+            "candidates": [],
+            "availability": {},
+            "availabilityChecks": {},
+            "factChecks": {},
+            "readEvidence": []
+          }
+        }
+      ],
+      "gold": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "date": "2026-08-06",
+        "timeWindow": {
+          "earliest": "19:00",
+          "latest": "19:30"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "Shinjuku"
+        },
+        "criteria": []
+      },
+      "category": "CONTEXT_CARRY",
+      "evaluation": {
+        "goal": {
+          "category": "CONTEXT_CARRY",
+          "status": "SATISFIED",
+          "actualGoal": "AVAILABILITY",
+          "errors": []
+        },
+        "nonGoalDifferences": [],
+        "strictScore": {
+          "status": "FAIL",
+          "firstFailureStage": "SEMANTIC_INTERPRETER",
+          "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+        }
+      },
+      "logicalIndex": 8,
+      "attemptNumbers": [
+        92
+      ]
+    },
+    {
+      "sessionId": "SR03-NO_TIME-review-3",
+      "repetition": 3,
+      "turnId": "SR03-T01",
+      "input": {
+        "taskId": "boundary-review:SR03-NO_TIME-review-3",
+        "message": "I want Sushi Dai.",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo"
+      },
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "User names a particular restaurant without booking wording or visit time",
+                  "quotes": [
+                    "I want Sushi Dai"
+                  ]
+                },
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "f99d1960-0634-425e-809f-ac24b06ed36d",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v25",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 1982,
+            "usage": {
+              "inputTokens": 6877,
+              "outputTokens": 149,
+              "totalTokens": 7026
+            },
+            "providerRequestId": "f4b3916d-d8d4-45c5-b102-743a26ec223c"
+          }
+        ]
+      },
+      "compilation": {
+        "status": "COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai",
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        }
+      },
+      "actualDraft": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [],
+        "target": {
+          "goal": "RECOMMENDATION",
+          "query": "Sushi Dai",
+          "selectionScope": "SPECIFIC_OUTLET"
+        }
+      },
+      "transitions": [
+        {
+          "event": {
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "patch": {
+              "schemaVersion": "3",
+              "target": {
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            }
+          },
+          "commands": [],
+          "domainState": {
+            "schemaVersion": "22",
+            "phase": "UNDERSTANDING",
+            "searchRevision": 0,
+            "investigationRevision": 1,
+            "intentDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "criteria": [],
+              "target": {
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            },
+            "candidates": [],
+            "availability": {},
+            "availabilityChecks": {},
+            "factChecks": {},
+            "readEvidence": []
+          }
+        }
+      ],
+      "gold": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "RECOMMENDATION",
+          "query": "Sushi Dai"
+        },
+        "criteria": []
+      },
+      "category": "NO_TIME",
+      "evaluation": {
+        "goal": {
+          "category": "NO_TIME",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "User names a particular restaurant without booking wording or visit time",
+            "quotes": [
+              "I want Sushi Dai"
+            ]
+          },
+          "errors": []
+        },
+        "nonGoalDifferences": [],
+        "strictScore": {
+          "status": "FAIL",
+          "firstFailureStage": "REDUCER",
+          "error": "Authoritative Draft differs after a correct Proposal and compiled patch"
+        }
+      },
+      "logicalIndex": 9,
+      "attemptNumbers": [
+        93
+      ]
+    }
+  ],
+  "sourceRequests": 0,
+  "privateHoldout": "NOT_READ"
+}

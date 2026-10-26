@@ -173,7 +173,7 @@ test("semantic Holdout gives a standalone simplified case its own structural ses
 
 test("semantic Holdout manifest audit identifies scorer, schema, and prompt configuration", () => {
   const audit = restaurantSemanticHoldoutFrozenAudit();
-  assert.equal(audit.scorerVersion, "3");
+  assert.equal(audit.scorerVersion, "4");
   assert.match(audit.proposalSchemaSha256, /^[a-f0-9]{64}$/);
   assert.match(audit.promptTemplateSha256, /^[a-f0-9]{64}$/);
 });

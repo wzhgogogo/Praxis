@@ -1,3 +1,4 @@
+import { fixtureGoalBasis } from "../../restaurant-read-test-fixtures.js";
 // Minimal synthetic source transport, 2026-10-24. No historical run copied.
 // Real child process, Chromium, Interpreter/Compiler/Runtime/Agent/Router and
 // production read assembly; only model and source I/O are controlled.
@@ -56,8 +57,8 @@ const googleResponse = JSON.stringify({ places: [{
 }] });
 const google: GooglePlacesClientOptions = { apiKey: "fixture-only", fetchImplementation: async () => new Response(googleResponse, { status: 200, headers: { "content-type": "application/json" } }) };
 const fixtureModel = async (request: ModelRequest) => {
-  if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-    { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
+  if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "4", facts: [
+    { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
     { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: date, raw: date } },
     { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7 pm" } },
     { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },

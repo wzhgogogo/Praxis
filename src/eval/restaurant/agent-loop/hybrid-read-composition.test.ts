@@ -1,3 +1,4 @@
+import { fixtureGoalBasis } from "../../../harness/restaurant-read-test-fixtures.js";
 import { createGoogleReadComposition, response, strictAction, ScriptedExternalModel, scriptedRetrieval, googleFixture, now, clock } from "../../../harness/restaurant-read-test-fixtures.js";
 
 import assert from "node:assert/strict";
@@ -29,9 +30,9 @@ class UpdatedRequestModel extends ScriptedExternalModel {
     this.semanticTurn += 1;
     const revised = this.semanticTurn > 1;
     return response(JSON.stringify({
-      schemaVersion: "3",
+      schemaVersion: "4",
       facts: [
-        { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafes" } },
+        { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafes" } },
         { field: "DATE", operation: "ASSERT", value: revised ? { kind: "DATE", value: "2026-09-18", raw: "Friday" } : { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } },
         { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", raw: "afternoon" } },
         { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: revised ? 4 : 2 } },
@@ -58,9 +59,9 @@ class MixedStatusModel extends ScriptedExternalModel {
     }
     if (request.purpose !== "restaurant_semantic_interpret") return super.complete(request);
     return response(JSON.stringify({
-      schemaVersion: "3",
+      schemaVersion: "4",
       facts: [
-        { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafes" } },
+        { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafes" } },
         { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } },
         { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", raw: "tomorrow afternoon" } },
         { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -79,8 +80,8 @@ class CategoryUnknownHybridModel extends ScriptedExternalModel {
       return response(JSON.stringify({ sourceSelections: [], judgments: [{ criterion: "fast food", outcome: "UNKNOWN", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: input.observations.map((item) => item.evidenceId) }] }), "category-unknown");
     }
     if (request.purpose !== "restaurant_semantic_interpret") return super.complete(request);
-    return response(JSON.stringify({ schemaVersion: "3", facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } },
+    return response(JSON.stringify({ schemaVersion: "4", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", raw: "afternoon" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
@@ -129,7 +130,7 @@ class AddedExclusionModel extends CategoryUnknownHybridModel {
     const system = request.messages.find((item) => item.role === "system")!.content;
     this.semanticSystemPrompts.push(system);
     if (!system.includes('"text":"fast food"')) throw new Error("The second semantic interpretation did not receive the current Draft");
-    return response(JSON.stringify({ schemaVersion: "3", facts: [{ field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: criterion, polarity: "NEGATIVE", strength: "HARD" } }] }), "semantic-added-exclusion");
+    return response(JSON.stringify({ schemaVersion: "4", facts: [{ field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: criterion, polarity: "NEGATIVE", strength: "HARD" } }] }), "semantic-added-exclusion");
   }
 }
 
@@ -204,9 +205,9 @@ class IndependentSequenceModel implements ModelGateway {
     if (retrieval) return retrieval;
     if (request.purpose === "restaurant_semantic_interpret") {
       return response(JSON.stringify({
-        schemaVersion: "3",
+        schemaVersion: "4",
         facts: [
-          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafes" } },
+          { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "RECOMMENDATION", query: "afternoon cafes" } },
           { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "tomorrow" } },
           { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", daypart: "AFTERNOON", raw: "tomorrow afternoon" } },
           { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -590,6 +591,45 @@ test("Hybrid production composition binds an explicit evaluation location before
   assert.ok(evaluation.findings.filter(finding => finding.dimension !== "RESOURCES").every(finding => finding.status === "SATISFIED"), JSON.stringify(evaluation.findings));
 });
 
+test("ADR-0044 recommendation reaches actual presentation without party or slot evidence and retains its semantic goal", async () => {
+  for (const visitWindow of [true, false]) {
+    class NoPartyModel extends ScriptedExternalModel {
+      override async complete(request: ModelRequest): Promise<ModelResponse> {
+        const result = await super.complete(request);
+        if (request.purpose !== "restaurant_semantic_interpret") return result;
+        const proposal = JSON.parse(result.outputText);
+        proposal.facts = proposal.facts.filter((fact: { field: string }) => fact.field !== "PARTY_SIZE" && (visitWindow || !["DATE", "TIME_WINDOW"].includes(fact.field)));
+        proposal.facts.find((fact: { field: string }) => fact.field === "TARGET").value.query = "cafes";
+        return { ...result, outputText: JSON.stringify(proposal) };
+      }
+    }
+    const taskId = `goal-recommendation:${visitWindow}`;
+    const model = new NoPartyModel();
+    const composition = createGoogleReadComposition({ taskId, runId: taskId, clock, model, google: googleFixture([], { maxRequests: 10 }, ["one"]),
+      config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 1_000 } });
+    const interpreted = await composition.interpretAndDispatch({ taskId, message: visitWindow ? "Find cafes nearby tomorrow afternoon." : "Find cafes nearby.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
+    assert.equal(interpreted.status, "PROPOSED");
+    const before = composition.runtime.snapshot(taskId).domainState.intentDraft?.target;
+    const loop = await composition.coordinator.run(taskId);
+    const state = composition.runtime.snapshot(taskId).domainState;
+    assert.equal(loop.status, "TERMINAL");
+    assert.equal(state.phase, "PRESENT_RESULTS");
+    assert.deepEqual(state.intentDraft?.target, before);
+    assert.equal(state.intentDraft?.target?.goal, "RECOMMENDATION");
+    assert.equal(state.intentDraft?.partySize, undefined);
+    assert.equal(Object.keys(state.availability).length, 0);
+    assert.equal(JSON.stringify(state).includes("goalBasis"), false);
+    assert.equal(model.requests.some(request => request.purpose === "restaurant_party_size_supplement"), false);
+    const actions = model.requests.filter(request => request.purpose === "restaurant_agent_decide");
+    for (const request of actions) {
+      const { context } = JSON.parse(request.messages.find(message => message.role === "user")!.content);
+      assert.equal(context.intentDraft.target.goal, "RECOMMENDATION");
+      assert.equal(context.missingBlockingFields.includes("partySize"), false);
+    }
+    assert.equal(composition.trajectories.steps.some(step => step.agentAction?.type === "ASK_USER"), false);
+  }
+});
+
 test("a Google network failure before candidate discovery stops the Agent after one failed search (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
   let googleRequests = 0;
   const model = new ScriptedExternalModel();
@@ -871,8 +911,8 @@ test("source text handoff reaches request-bound availability and presentation th
     requests.push(request);
     const retrieval = scriptedRetrieval(request);
     if (retrieval) return retrieval;
-    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
+    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "4", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "13:00", latest: "13:00", raw: "1 pm" } },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
@@ -1129,8 +1169,8 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
   let googleRequestAborted = false;
   const model: ModelGateway = { async complete(request) {
     startedModelCalls += 1;
-    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "3", facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
+    if (request.purpose === "restaurant_semantic_interpret") return response(JSON.stringify({ schemaVersion: "4", facts: [
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "AVAILABILITY", query: "restaurants" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-17", raw: "tomorrow" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "13:00", latest: "13:00", raw: "1 pm" } },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },

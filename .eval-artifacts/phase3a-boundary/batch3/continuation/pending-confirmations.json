@@ -1,0 +1,4674 @@
+{
+  "schema": "phase3a-boundary-continuation-confirmations@1",
+  "status": "draft / not integrated; all actual differences and unknowns retained; no Prompt/Gold edits",
+  "mandatorySR03T02": {
+    "turnId": "SR03-T02",
+    "oldGoldGoal": "RECOMMENDATION",
+    "proposedGoal": "AVAILABILITY",
+    "category": "B",
+    "actualRun": "COMPLETED: AVAILABILITY; query lost Sushi Dai",
+    "basisForCandidate": "Accepted ADR-0044 and explicit user stop1 deferral to stop3, not a fresh observation",
+    "decision": "PENDING_INDIVIDUAL_CONFIRMATION",
+    "newActualFinding": "Both v24 and v23 rewrite named target into generic query; separate from accepted new goalB policy"
+  },
+  "actualDifferencesAndUnknowns": [
+    {
+      "logicalIndex": 1,
+      "sessionId": "SR01-complete-then-correct",
+      "turnId": "SR01-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Yakiniku restaurant in Shinjuku for two people tomorrow 19:00-19:30 under 5000 JPY per person",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 2,
+      "sessionId": "SR01-complete-then-correct",
+      "turnId": "SR01-T02",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Yakiniku restaurant in Shinjuku for two people tomorrow 19:00-19:30 under 5000 JPY per person",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 3,
+      "sessionId": "SR02-incremental-completion",
+      "turnId": "SR02-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "GOAL_OR_CONTRACT",
+          "errors": [
+            "target.goal violates frozen NO_TIME annotation"
+          ],
+          "interpretStatus": "PROPOSED"
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "target.goal violates frozen NO_TIME annotation"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 4,
+      "sessionId": "SR02-incremental-completion",
+      "turnId": "SR02-T02",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "GOAL_OR_CONTRACT",
+          "errors": [
+            "target.goal must match every new TARGET"
+          ],
+          "interpretStatus": "PROPOSED"
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "target.goal must match every new TARGET"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Table for two in Shinjuku",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 5,
+      "sessionId": "SR03-named-target-then-complete",
+      "turnId": "SR03-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 6,
+      "sessionId": "SR03-named-target-then-complete",
+      "turnId": "SR03-T02",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "target.query",
+              "expected": "Sushi Dai",
+              "actual": "Restaurant recommendation in Tsukiji for tomorrow evening"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 19:00 and 19:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "19:00",
+                    "latest": "19:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 7,
+      "sessionId": "SR04-simple-complete",
+      "turnId": "SR04-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "between 18:00 and 18:30",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "18:30"
+                  },
+                  "basis": "EXPLICIT_CLOCK"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Japanese food restaurant in Ginza for four people tomorrow 18:00-18:30",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 8,
+      "sessionId": "SR05-relative-time-hard-soft-and-party-inference",
+      "turnId": "SR05-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}",
+                "{\"text\":\"smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}"
+              ],
+              "actual": [
+                "{\"text\":\"no smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "INFERRED_CLOSED_PARTY"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Friday",
+                  "resolvedDate": "2026-08-07",
+                  "basis": "WEEKDAY:FRIDAY"
+                },
+                "timeWindow": {
+                  "expression": "This Friday evening",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Restaurants near our office for a Friday evening meal with colleagues",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 9,
+      "sessionId": "SR06-approximate-budget-is-soft",
+      "turnId": "SR06-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "timeWindow.earliest",
+              "expected": "13:00",
+              "actual": "12:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "INFERRED_CLOSED_PARTY"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "Tomorrow afternoon",
+                  "resolvedTimeWindow": {
+                    "earliest": "12:00",
+                    "latest": "17:00"
+                  },
+                  "basis": "DAYPART:AFTERNOON"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Nearby restaurant for tomorrow afternoon with parents",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 10,
+      "sessionId": "SR07-relative-offset-time",
+      "turnId": "SR07-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "timeWindow": {
+                  "expression": "In about 30 minutes",
+                  "resolvedTimeWindow": {
+                    "earliest": "09:30",
+                    "latest": "09:30"
+                  },
+                  "basis": "RELATIVE_OFFSET_MINUTES:30"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Korean food near me",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 11,
+      "sessionId": "SR08-criterion-removal",
+      "turnId": "SR08-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tonight",
+                  "resolvedDate": "2026-08-05",
+                  "basis": "TODAY"
+                },
+                "timeWindow": {
+                  "expression": "Tonight at dinner",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 12,
+      "sessionId": "SR08-criterion-removal",
+      "turnId": "SR08-T02",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "GOAL_OR_CONTRACT",
+          "errors": [
+            "goal evaluation requires semantic proposal schema 4"
+          ],
+          "interpretStatus": "INVALID_MODEL_OUTPUT"
+        },
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tonight",
+                  "resolvedDate": "2026-08-05",
+                  "basis": "TODAY"
+                },
+                "timeWindow": {
+                  "expression": "Tonight at dinner",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 13,
+      "sessionId": "SR09-relative-location-overwrite",
+      "turnId": "SR09-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Saturday",
+                  "resolvedDate": "2026-08-08",
+                  "basis": "WEEKDAY:SATURDAY"
+                },
+                "timeWindow": {
+                  "expression": "Saturday night",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Italian restaurant near my hotel",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 14,
+      "sessionId": "SR09-relative-location-overwrite",
+      "turnId": "SR09-T02",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Saturday",
+                  "resolvedDate": "2026-08-08",
+                  "basis": "WEEKDAY:SATURDAY"
+                },
+                "timeWindow": {
+                  "expression": "Saturday night",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Italian restaurant near my hotel",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 15,
+      "sessionId": "SR10-hard-budget",
+      "turnId": "SR10-T01",
+      "cohort": "DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "timeWindow.earliest",
+              "expected": "18:00",
+              "actual": "17:30"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "20:00",
+              "actual": "22:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "after work",
+                  "resolvedTimeWindow": {
+                    "earliest": "17:30",
+                    "latest": "22:00"
+                  },
+                  "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Restaurants in Shinjuku for tomorrow after work",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 16,
+      "sessionId": "G017-repeat-1",
+      "turnId": "p2l-kf-h003-20261106",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=team dinner."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Place for a team dinner nearby",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 17,
+      "sessionId": "G023-repeat-1",
+      "turnId": "p1f-kf-h003-20261023",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=team dinner."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Restaurant for a team dinner nearby, good for drinks, ideally with a private room",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 18,
+      "sessionId": "G024-repeat-1",
+      "turnId": "p1f-kf-h004-20261019",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=good for meeting a friend."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "RECOMMENDATION",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 19,
+      "sessionId": "G030-repeat-1",
+      "turnId": "p1f-kf-h004-20261027",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=good for meeting a friend."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "RECOMMENDATION",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "kind": "PREEXISTING_GOLD_DATE_KEY",
+          "scope": "NOT_EVALUATED: original date object contains unexpected October 27:null; other criterion findings remain separately recorded"
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 20,
+      "sessionId": "G053-repeat-1",
+      "turnId": "h003",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: timeWindow, criteria missing=team dinner, criteria HARD strength=good for drinks."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "place for a team dinner nearby",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 21,
+      "sessionId": "G054-repeat-1",
+      "turnId": "h004",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=good for meeting a friend."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "RECOMMENDATION",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 22,
+      "sessionId": "G063-repeat-1",
+      "turnId": "SR05-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}",
+                "{\"text\":\"smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}"
+              ],
+              "actual": [
+                "{\"text\":\"no smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "INFERRED_CLOSED_PARTY"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Friday",
+                  "resolvedDate": "2026-08-07",
+                  "basis": "WEEKDAY:FRIDAY"
+                },
+                "timeWindow": {
+                  "expression": "This Friday evening",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Restaurants near our office for Friday evening",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 23,
+      "sessionId": "G064-repeat-1",
+      "turnId": "SR06-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "timeWindow.earliest",
+              "expected": "13:00",
+              "actual": "12:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "INFERRED_CLOSED_PARTY"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "Tomorrow afternoon",
+                  "resolvedTimeWindow": {
+                    "earliest": "12:00",
+                    "latest": "17:00"
+                  },
+                  "basis": "DAYPART:AFTERNOON"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Nearby restaurant for tomorrow afternoon with parents",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 24,
+      "sessionId": "G065-repeat-1",
+      "turnId": "SR07-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "timeWindow": {
+                  "expression": "In about 30 minutes",
+                  "resolvedTimeWindow": {
+                    "earliest": "09:30",
+                    "latest": "09:30"
+                  },
+                  "basis": "RELATIVE_OFFSET_MINUTES:30"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Korean food near me",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 25,
+      "sessionId": "G066-repeat-1",
+      "turnId": "SR08-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tonight",
+                  "resolvedDate": "2026-08-05",
+                  "basis": "TODAY"
+                },
+                "timeWindow": {
+                  "expression": "Tonight at dinner",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 26,
+      "sessionId": "G066-repeat-1",
+      "turnId": "SR08-T02",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tonight",
+                  "resolvedDate": "2026-08-05",
+                  "basis": "TODAY"
+                },
+                "timeWindow": {
+                  "expression": "Tonight at dinner",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 27,
+      "sessionId": "G068-repeat-1",
+      "turnId": "SR09-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Saturday",
+                  "resolvedDate": "2026-08-08",
+                  "basis": "WEEKDAY:SATURDAY"
+                },
+                "timeWindow": {
+                  "expression": "Saturday night",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Italian restaurant near my hotel",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 28,
+      "sessionId": "G068-repeat-1",
+      "turnId": "SR09-T02",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Saturday",
+                  "resolvedDate": "2026-08-08",
+                  "basis": "WEEKDAY:SATURDAY"
+                },
+                "timeWindow": {
+                  "expression": "Saturday night",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Italian restaurant near my hotel",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 29,
+      "sessionId": "G070-repeat-1",
+      "turnId": "SR10-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "timeWindow.earliest",
+              "expected": "18:00",
+              "actual": "17:30"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "20:00",
+              "actual": "22:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "after work",
+                  "resolvedTimeWindow": {
+                    "earliest": "17:30",
+                    "latest": "22:00"
+                  },
+                  "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Restaurant recommendations in Shinjuku for tomorrow after work",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 30,
+      "sessionId": "G017-repeat-2",
+      "turnId": "p2l-kf-h003-20261106",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=team dinner."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Place for a team dinner nearby",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 31,
+      "sessionId": "G023-repeat-2",
+      "turnId": "p1f-kf-h003-20261023",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Team dinner restaurant nearby after work",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 32,
+      "sessionId": "G024-repeat-2",
+      "turnId": "p1f-kf-h004-20261019",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=good for meeting a friend."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "RECOMMENDATION",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby for meeting up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 33,
+      "sessionId": "G030-repeat-2",
+      "turnId": "p1f-kf-h004-20261027",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=good for meeting a friend."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "RECOMMENDATION",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby for meeting up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "kind": "PREEXISTING_GOLD_DATE_KEY",
+          "scope": "NOT_EVALUATED: original date object contains unexpected October 27:null; other criterion findings remain separately recorded"
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 34,
+      "sessionId": "G053-repeat-2",
+      "turnId": "h003",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: timeWindow, criteria missing=team dinner, criteria HARD strength=good for drinks."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "place for a team dinner nearby after work",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 35,
+      "sessionId": "G054-repeat-2",
+      "turnId": "h004",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=good for meeting a friend."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "RECOMMENDATION",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend this afternoon",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 36,
+      "sessionId": "G063-repeat-2",
+      "turnId": "SR05-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}",
+                "{\"text\":\"smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}"
+              ],
+              "actual": [
+                "{\"text\":\"no smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "INFERRED_CLOSED_PARTY"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Friday",
+                  "resolvedDate": "2026-08-07",
+                  "basis": "WEEKDAY:FRIDAY"
+                },
+                "timeWindow": {
+                  "expression": "This Friday evening",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Restaurants near the office for a Friday evening meal with colleagues",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 37,
+      "sessionId": "G064-repeat-2",
+      "turnId": "SR06-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "timeWindow.earliest",
+              "expected": "13:00",
+              "actual": "12:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "INFERRED_CLOSED_PARTY"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "Tomorrow afternoon",
+                  "resolvedTimeWindow": {
+                    "earliest": "12:00",
+                    "latest": "17:00"
+                  },
+                  "basis": "DAYPART:AFTERNOON"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Nearby restaurant for tomorrow afternoon with parents",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 38,
+      "sessionId": "G065-repeat-2",
+      "turnId": "SR07-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "timeWindow": {
+                  "expression": "In about 30 minutes",
+                  "resolvedTimeWindow": {
+                    "earliest": "09:30",
+                    "latest": "09:30"
+                  },
+                  "basis": "RELATIVE_OFFSET_MINUTES:30"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Korean food near me",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 39,
+      "sessionId": "G066-repeat-2",
+      "turnId": "SR08-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tonight",
+                  "resolvedDate": "2026-08-05",
+                  "basis": "TODAY"
+                },
+                "timeWindow": {
+                  "expression": "Tonight at dinner",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 40,
+      "sessionId": "G066-repeat-2",
+      "turnId": "SR08-T02",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tonight",
+                  "resolvedDate": "2026-08-05",
+                  "basis": "TODAY"
+                },
+                "timeWindow": {
+                  "expression": "Tonight at dinner",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 41,
+      "sessionId": "G068-repeat-2",
+      "turnId": "SR09-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Saturday",
+                  "resolvedDate": "2026-08-08",
+                  "basis": "WEEKDAY:SATURDAY"
+                },
+                "timeWindow": {
+                  "expression": "Saturday night",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Italian restaurant near my hotel",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 42,
+      "sessionId": "G068-repeat-2",
+      "turnId": "SR09-T02",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Saturday",
+                  "resolvedDate": "2026-08-08",
+                  "basis": "WEEKDAY:SATURDAY"
+                },
+                "timeWindow": {
+                  "expression": "Saturday night",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Italian restaurant near my hotel",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 43,
+      "sessionId": "G070-repeat-2",
+      "turnId": "SR10-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "timeWindow.earliest",
+              "expected": "18:00",
+              "actual": "17:30"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "20:00",
+              "actual": "22:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "after work",
+                  "resolvedTimeWindow": {
+                    "earliest": "17:30",
+                    "latest": "22:00"
+                  },
+                  "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Restaurant recommendations in Shinjuku for tomorrow after work",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 44,
+      "sessionId": "G017-repeat-3",
+      "turnId": "p2l-kf-h003-20261106",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=team dinner."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "place for a team dinner nearby",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 45,
+      "sessionId": "G023-repeat-3",
+      "turnId": "p1f-kf-h003-20261023",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Team dinner restaurant nearby after work",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 46,
+      "sessionId": "G024-repeat-3",
+      "turnId": "p1f-kf-h004-20261019",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=good for meeting a friend."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "RECOMMENDATION",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 47,
+      "sessionId": "G030-repeat-3",
+      "turnId": "p1f-kf-h004-20261027",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=good for meeting a friend."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "RECOMMENDATION",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "kind": "PREEXISTING_GOLD_DATE_KEY",
+          "scope": "NOT_EVALUATED: original date object contains unexpected October 27:null; other criterion findings remain separately recorded"
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 48,
+      "sessionId": "G053-repeat-3",
+      "turnId": "h003",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: timeWindow, criteria HARD strength=team dinner, criteria HARD strength=good for drinks."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "team dinner place nearby after work",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 49,
+      "sessionId": "G054-repeat-3",
+      "turnId": "h004",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_SATISFIED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Conflicting fields: criteria missing=good for meeting a friend."
+              ],
+              "directCause": "The recorded authoritative request conflicts with the materialized request.",
+              "rootCauseHypothesis": "Requires semantic/compiler/runtime trace review.",
+              "certainty": "CONFIRMED",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Final acceptance is blocked by a semantic conflict, while grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_SATISFIED",
+            "actualGoal": "RECOMMENDATION",
+            "originalGoal": "RECOMMENDATION",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend this afternoon",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 50,
+      "sessionId": "G063-repeat-3",
+      "turnId": "SR05-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}",
+                "{\"text\":\"smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}"
+              ],
+              "actual": [
+                "{\"text\":\"no smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "INFERRED_CLOSED_PARTY"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Friday",
+                  "resolvedDate": "2026-08-07",
+                  "basis": "WEEKDAY:FRIDAY"
+                },
+                "timeWindow": {
+                  "expression": "This Friday evening",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Restaurants near the office for a Friday evening meal with colleagues",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 51,
+      "sessionId": "G064-repeat-3",
+      "turnId": "SR06-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "timeWindow.earliest",
+              "expected": "13:00",
+              "actual": "12:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "INFERRED_CLOSED_PARTY"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "Tomorrow afternoon",
+                  "resolvedTimeWindow": {
+                    "earliest": "12:00",
+                    "latest": "17:00"
+                  },
+                  "basis": "DAYPART:AFTERNOON"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Nearby restaurant for tomorrow afternoon with parents",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 52,
+      "sessionId": "G065-repeat-3",
+      "turnId": "SR07-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "timeWindow": {
+                  "expression": "In about 30 minutes",
+                  "resolvedTimeWindow": {
+                    "earliest": "09:30",
+                    "latest": "09:30"
+                  },
+                  "basis": "RELATIVE_OFFSET_MINUTES:30"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Korean food near me",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 53,
+      "sessionId": "G066-repeat-3",
+      "turnId": "SR08-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tonight",
+                  "resolvedDate": "2026-08-05",
+                  "basis": "TODAY"
+                },
+                "timeWindow": {
+                  "expression": "Tonight at dinner",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 54,
+      "sessionId": "G066-repeat-3",
+      "turnId": "SR08-T02",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+                "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "21:00",
+              "actual": "23:00"
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tonight",
+                  "resolvedDate": "2026-08-05",
+                  "basis": "TODAY"
+                },
+                "timeWindow": {
+                  "expression": "Tonight at dinner",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 55,
+      "sessionId": "G068-repeat-3",
+      "turnId": "SR09-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Saturday",
+                  "resolvedDate": "2026-08-08",
+                  "basis": "WEEKDAY:SATURDAY"
+                },
+                "timeWindow": {
+                  "expression": "Saturday night",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Italian restaurant near my hotel",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 56,
+      "sessionId": "G068-repeat-3",
+      "turnId": "SR09-T02",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ],
+          "contextBefore": [
+            {
+              "path": "criteria",
+              "expected": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+              ],
+              "actual": [
+                "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+              ]
+            },
+            {
+              "path": "timeWindow.earliest",
+              "expected": "19:00",
+              "actual": "18:00"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "22:00",
+              "actual": "23:00"
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "This Saturday",
+                  "resolvedDate": "2026-08-08",
+                  "basis": "WEEKDAY:SATURDAY"
+                },
+                "timeWindow": {
+                  "expression": "Saturday night",
+                  "resolvedTimeWindow": {
+                    "earliest": "18:00",
+                    "latest": "23:00"
+                  },
+                  "basis": "DAYPART:EVENING"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Italian restaurant near my hotel",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 57,
+      "sessionId": "G070-repeat-3",
+      "turnId": "SR10-T01",
+      "cohort": "GRAY_EXTRA",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "REQUEST_VALUE_DIFFERENCE",
+          "differences": [
+            {
+              "path": "timeWindow.earliest",
+              "expected": "18:00",
+              "actual": "17:30"
+            },
+            {
+              "path": "timeWindow.latest",
+              "expected": "20:00",
+              "actual": "22:00"
+            }
+          ],
+          "contextBefore": []
+        },
+        {
+          "kind": "UNANNOTATED_DIAGNOSTIC_DIFFERENCE",
+          "differences": [
+            {
+              "path": "partySizeSource",
+              "expectedAbsent": true,
+              "actual": "EXPLICIT"
+            },
+            {
+              "path": "temporalResolution",
+              "expectedAbsent": true,
+              "actual": {
+                "policyVersion": "restaurant-temporal-materialization@6",
+                "referenceTime": "2026-08-05T09:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "date": {
+                  "expression": "Tomorrow",
+                  "resolvedDate": "2026-08-06",
+                  "basis": "TOMORROW"
+                },
+                "timeWindow": {
+                  "expression": "after work",
+                  "resolvedTimeWindow": {
+                    "earliest": "17:30",
+                    "latest": "22:00"
+                  },
+                  "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "STRICT_STAGE_REPRESENTATION_DIFFERENCE",
+          "strictScore": {
+            "status": "FAIL",
+            "firstFailureStage": "SEMANTIC_INTERPRETER",
+            "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Restaurant recommendations in Shinjuku for tomorrow after work",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 58,
+      "sessionId": "p2-holdout-01",
+      "turnId": "p2-holdout-01",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "yakitori place near Ueno with a table for 3",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 59,
+      "sessionId": "p2-holdout-02",
+      "turnId": "p2-holdout-02",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_EVALUATED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Unresolved criterion wording: criteria.text expected=[italian, under 8 000 yen per person] actual=[italian cuisine]."
+              ],
+              "directCause": "Criterion text differs without an explicit criterion identity or normalized literal match; independent semantic review is required.",
+              "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+              "certainty": "UNKNOWN",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_EVALUATED",
+            "actualGoal": "AVAILABILITY",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Italian restaurant near Sangenjaya",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 60,
+      "sessionId": "p2-holdout-03",
+      "turnId": "p2-holdout-03",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "shabu-shabu near Akasaka with open tables",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 61,
+      "sessionId": "p2-holdout-04",
+      "turnId": "p2-holdout-04",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_EVALUATED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Unresolved criterion wording: criteria.text expected=[unagi] actual=[unagi restaurant]."
+              ],
+              "directCause": "Criterion text differs without an explicit criterion identity or normalized literal match; independent semantic review is required.",
+              "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+              "certainty": "UNKNOWN",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_EVALUATED",
+            "actualGoal": "AVAILABILITY",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Unagi restaurant near Ningyocho with a table for 2",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 62,
+      "sessionId": "p2-holdout-05",
+      "turnId": "p2-holdout-05",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_EVALUATED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Unresolved criterion wording: criteria.text expected=[chinese] actual=[chinese restaurant]."
+              ],
+              "directCause": "Criterion text differs without an explicit criterion identity or normalized literal match; independent semantic review is required.",
+              "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+              "certainty": "UNKNOWN",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_EVALUATED",
+            "actualGoal": "AVAILABILITY",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Chinese restaurant near Gotanda",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 63,
+      "sessionId": "p2-holdout-06",
+      "turnId": "p2-holdout-06",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "izakaya near Shimokitazawa",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 64,
+      "sessionId": "p2b-holdout-01",
+      "turnId": "p2b-holdout-01",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_EVALUATED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Unresolved criterion wording: criteria.text expected=[sukiyaki] actual=[sukiyaki restaurant]."
+              ],
+              "directCause": "Criterion text differs without an explicit criterion identity or normalized literal match; independent semantic review is required.",
+              "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+              "certainty": "UNKNOWN",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_EVALUATED",
+            "actualGoal": "AVAILABILITY",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sukiyaki restaurant near Asakusa with a table for 2",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 65,
+      "sessionId": "p2b-holdout-02",
+      "turnId": "p2b-holdout-02",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Monjayaki restaurant near Kachidoki",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 66,
+      "sessionId": "p2b-holdout-03",
+      "turnId": "p2b-holdout-03",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_EVALUATED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Unresolved criterion wording: criteria.text expected=[french, at most 15 000 yen per person] actual=[french cuisine]."
+              ],
+              "directCause": "Criterion text differs without an explicit criterion identity or normalized literal match; independent semantic review is required.",
+              "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+              "certainty": "UNKNOWN",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_EVALUATED",
+            "actualGoal": "AVAILABILITY",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "French restaurant near Ebisu",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 67,
+      "sessionId": "p2b-holdout-04",
+      "turnId": "p2b-holdout-04",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_EVALUATED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Unresolved criterion wording: criteria.text expected=[thai] actual=[thai restaurant]."
+              ],
+              "directCause": "Criterion text differs without an explicit criterion identity or normalized literal match; independent semantic review is required.",
+              "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+              "certainty": "UNKNOWN",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_EVALUATED",
+            "actualGoal": "AVAILABILITY",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Thai restaurant near Ikebukuro with a table",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 68,
+      "sessionId": "p2b-holdout-05",
+      "turnId": "p2b-holdout-05",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "PUBLIC_GOLD_DIFFERENCE_OR_UNRESOLVED",
+          "assessment": {
+            "finding": {
+              "dimension": "AUTHORITATIVE_CONDITIONS",
+              "status": "NOT_EVALUATED",
+              "stage": "SEMANTIC_TO_FINAL_STATE",
+              "requirement": "The final authoritative intentDraft must preserve the materialized date, applicable party size, complete time window, location semantics, and criteria set.",
+              "observations": [
+                "Unresolved criterion wording: criteria.text expected=[soba] actual=[soba restaurant, sit down restaurant]."
+              ],
+              "directCause": "Criterion text differs without an explicit criterion identity or normalized literal match; independent semantic review is required.",
+              "rootCauseHypothesis": "The model may have paraphrased, omitted, or added a criterion; the evaluator does not guess which.",
+              "certainty": "UNKNOWN",
+              "evidenceRefs": [
+                "materializedCase.semantic",
+                "finalSnapshot.domainState.intentDraft"
+              ],
+              "downstreamImpact": "Do not claim automatic semantic fidelity for the text difference; grounding remains independently evaluated against the actual request."
+            },
+            "status": "NOT_EVALUATED",
+            "actualGoal": "AVAILABILITY",
+            "originalGoal": "AVAILABILITY",
+            "scope": "Non-goal fields only; no real delivery/source/S0 conclusion"
+          }
+        },
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 69,
+      "sessionId": "p2b-holdout-06",
+      "turnId": "p2b-holdout-06",
+      "cohort": "EXPOSED_HOLDOUT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Oden restaurant near Shimbashi for 8 people",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 70,
+      "sessionId": "wednesday-cafes-1",
+      "turnId": "wednesday-cafes",
+      "cohort": "NEW_DEVELOPMENT",
+      "repetition": 1,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 71,
+      "sessionId": "wednesday-cafes-2",
+      "turnId": "wednesday-cafes",
+      "cohort": "NEW_DEVELOPMENT",
+      "repetition": 2,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    },
+    {
+      "logicalIndex": 72,
+      "sessionId": "wednesday-cafes-3",
+      "turnId": "wednesday-cafes",
+      "cohort": "NEW_DEVELOPMENT",
+      "repetition": 3,
+      "issues": [
+        {
+          "kind": "UNANNOTATED_TARGET_FIELDS",
+          "observed": {
+            "query": "Good cafes nearby to meet up with a friend",
+            "selectionScope": "OPEN_ENDED"
+          }
+        }
+      ],
+      "decision": "PENDING_INDIVIDUAL_REVIEW; not an approval to alter Gold"
+    }
+  ],
+  "priorGoalAnnotationCandidatesReference": "../pending-gold-review.json; category/allowed-goal proposals remain pending, historical Gold never overwritten",
+  "goalIssues": [
+    {
+      "logicalIndex": 3,
+      "turnId": "SR02-T01",
+      "category": "NO_TIME",
+      "actual": "AVAILABILITY",
+      "errors": [
+        "target.goal violates frozen NO_TIME annotation"
+      ],
+      "interpretStatus": "PROPOSED"
+    },
+    {
+      "logicalIndex": 4,
+      "turnId": "SR02-T02",
+      "category": "B",
+      "actual": "AVAILABILITY",
+      "errors": [
+        "target.goal must match every new TARGET"
+      ],
+      "interpretStatus": "PROPOSED"
+    },
+    {
+      "logicalIndex": 12,
+      "turnId": "SR08-T02",
+      "category": "CONTEXT_CARRY",
+      "actual": "RECOMMENDATION",
+      "errors": [
+        "goal evaluation requires semantic proposal schema 4"
+      ],
+      "interpretStatus": "INVALID_MODEL_OUTPUT"
+    }
+  ],
+  "controls": [
+    {
+      "turnId": "SR01-T01",
+      "primaryLogicalIndex": 1,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "f2f32535c772a2c5ec5700a8ce670f555414ac0af6cabdbb4e56fb1320a94745",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        74
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR01-T01.control.json"
+    },
+    {
+      "turnId": "SR03-T02",
+      "primaryLogicalIndex": 6,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "7465fb4de6694ded00287646dbfad3f5272e00fbe7ebe6e22e19e34fca6fff1f",
+      "primaryValueDifferences": [
+        {
+          "path": "target.query",
+          "expected": "Sushi Dai",
+          "actual": "Restaurant recommendation in Tsukiji for tomorrow evening"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "target.query",
+          "expected": "Sushi Dai",
+          "actual": "Restaurant in Tsukiji for two people tomorrow between 19:00 and 19:30"
+        }
+      ],
+      "controlDifferencesVsPrimary": [
+        {
+          "path": "target.query",
+          "expected": "Restaurant recommendation in Tsukiji for tomorrow evening",
+          "actual": "Restaurant in Tsukiji for two people tomorrow between 19:00 and 19:30"
+        }
+      ],
+      "controlErrors": [],
+      "description": "措辞/值不同；两者均偏离旧Gold，逐字段看原始记录",
+      "attempts": [
+        75
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR03-T02.control.json"
+    },
+    {
+      "turnId": "SR04-T01",
+      "primaryLogicalIndex": 7,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "6c19dc59c9b9f1e264f67e2078c5c8c2ded35ef1ceb4d6ac7efddcb63431354c",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        76
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR04-T01.control.json"
+    },
+    {
+      "turnId": "SR05-T01",
+      "primaryLogicalIndex": 8,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "8fd04f0c5b13f101b2f4dd1095913b8531d8bf0132affa070eaa68d333731a12",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}",
+            "{\"text\":\"smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}"
+          ],
+          "actual": [
+            "{\"text\":\"no smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}",
+            "{\"text\":\"smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}"
+          ],
+          "actual": [
+            "{\"text\":\"no smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        77
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR05-T01.control.json"
+    },
+    {
+      "turnId": "SR06-T01",
+      "primaryLogicalIndex": 9,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "0500fda055dab4e0af594255d5c3cd4211d262c477a339da71a27155a9a6e880",
+      "primaryValueDifferences": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "13:00",
+          "actual": "12:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "13:00",
+          "actual": "12:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        78
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR06-T01.control.json"
+    },
+    {
+      "turnId": "SR07-T01",
+      "primaryLogicalIndex": 10,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "85f4bc0c9ff940d90a134bff932a004e08c7753f15bf3caf79f2993ddacd13d9",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        79
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR07-T01.control.json"
+    },
+    {
+      "turnId": "SR08-T01",
+      "primaryLogicalIndex": 11,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "7525d1286e16e1cf4863f6829c54854fb4ac20dfb7da1762c5665249542cda4a",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        80
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR08-T01.control.json"
+    },
+    {
+      "turnId": "SR08-T02",
+      "primaryLogicalIndex": 12,
+      "status": "INVALID_CONTROL_CONTRACT",
+      "inputParity": true,
+      "inputSha256": "bb3e653b92c370c566abccecd3c2acb09f42203aa0d03584c2e38577777f2c0b",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsGold": "NOT_EVALUATED",
+      "controlDifferencesVsPrimary": "NOT_EVALUATED",
+      "controlErrors": [
+        "facts[1].operation CONFIRM is unsupported for collection fields",
+        "facts[1].value is not allowed for CONFIRM"
+      ],
+      "description": "旧Prompt同样产生CRITERION CONFIRM，合同拒绝；无有效控制Draft",
+      "attempts": [
+        81
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR08-T02.control.json"
+    },
+    {
+      "turnId": "SR09-T01",
+      "primaryLogicalIndex": 13,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "3df4d8df0f19e0a733fa2668cc002f82fee0bdde8a506d75c44ec6dfdf8a67a2",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        82
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR09-T01.control.json"
+    },
+    {
+      "turnId": "SR09-T02",
+      "primaryLogicalIndex": 14,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "f8a4b79e7ff4e901c58c23a8f6f611fdb244907892cd3989267b2ffc752bb188",
+      "primaryValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "contextDifferencesBefore": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsGold": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        83
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR09-T02.control.json"
+    },
+    {
+      "turnId": "SR10-T01",
+      "primaryLogicalIndex": 15,
+      "status": "CONTROL_ONLY_NOT_IN_PRIMARY_RATE",
+      "inputParity": true,
+      "inputSha256": "e5947e100b76f2cf4bb1f3a7a88455824672da30692446fa4814958b2738688a",
+      "primaryValueDifferences": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "18:00",
+          "actual": "17:30"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "20:00",
+          "actual": "22:00"
+        }
+      ],
+      "contextDifferencesBefore": [],
+      "controlDifferencesVsGold": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "18:00",
+          "actual": "17:30"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "20:00",
+          "actual": "22:00"
+        }
+      ],
+      "controlDifferencesVsPrimary": [],
+      "controlErrors": [],
+      "description": "与v24非目标请求值相同，旧Prompt也复现差异",
+      "attempts": [
+        84
+      ],
+      "primaryRateIncluded": false,
+      "artifact": "rows/SR10-T01.control.json"
+    }
+  ],
+  "newWednesday": "completed3 RECOMMENDATION, nonGold; no promotion proposed",
+  "principle": "Review each observation. Do not change Gold to match a model output. Any approved dataset revision is a new version with historical evidence retained.",
+  "goldFilesChanged": [],
+  "promptFilesChanged": []
+}

@@ -19,6 +19,7 @@ export type RestaurantSemanticCompilation =
 function semanticValueKey(value: RestaurantSemanticValue): string {
   switch (value.kind) {
     case "TARGET":
+      return `${value.kind}:${value.goal}:${value.query}`;
     case "AREA":
       return `${value.kind}:${value.query}`;
     case "DATE":

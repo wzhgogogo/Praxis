@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "14b4fecd-71f3-4367-9ce8-03b45a45d5c2",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Thai restaurant near Ikebukuro with a table\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User asks for a table at a specific date and time range\", \"quotes\": [\"with a table on Thursday, November 5, sometime between 6 and 8 PM\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-05\", \"raw\": \"Thursday, November 5\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:00\", \"latest\": \"20:00\", \"raw\": \"between 6 and 8 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 6, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near Ikebukuro\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Thai restaurant\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3156,
+    "providerRequestId": "390c8353-afc6-4975-9b81-20f60324f7e6",
+    "usage": {
+      "inputTokens": 6866,
+      "outputTokens": 398,
+      "totalTokens": 7264
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "14b4fecd-71f3-4367-9ce8-03b45a45d5c2",
+      "taskId": "boundary-continuation:p2b-holdout-04",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 3156,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6866,
+        "outputTokens": 398,
+        "totalTokens": 7264
+      },
+      "providerRequestId": "390c8353-afc6-4975-9b81-20f60324f7e6"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:23.801+01:00"
+}

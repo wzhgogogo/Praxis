@@ -1,13 +1,21 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.316
+- Document revision: 4.318
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-COMPLETE
+
+CET02:17:45.528–02:18:04.958，aa64c0b3及611项冻结；九逻辑轮/九Provider调用全部完成，无无效输出/重试/未知。独立目标/引用/CARRY9/9、非目标请求值9/9；严格Scorer4原样0/9通过，Proposal/patch/Draft所有表示与未标注字段差异保留。调用配置deepseek-v4-flash、响应literal deepseek-flash；62076/1579/63655 tokens、Provider19107ms。宿主五门禁1075默认/161Chromium及type/arch/build全绿，每项后净树；沙箱27权限失败+1旧版本断言失败另存，版本断言同步主线22/20后再冻结验证。私有Holdout未读，端到端及来源/交付S0-S4未评；保存转移独立核对无commands/依据入State/下游改目标。原72+11结果不按新规则回写。 [报告](../../.eval-artifacts/phase3a-boundary/review-correction/report.md)。
+
+## TEST-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-PREP
+
+CET。离线定向12/12、静态开发Regression15/15与typecheck通过；新外层4×9正常/错人数/错目标/无效输出控制及额度控制通过，0真实模型/来源/Google/Live。外层预检曾因漏传taskId失败，已在付费调用前修复；不属于产品或模型失败。五门禁将在干净冻结提交执行；九逻辑轮真实重跑尚未启动。结果/完整严格诊断与非目标值观察分别保留，独立审查脚本也在运行前冻结。 [切片](../../.eval-artifacts/phase3a-boundary/review-correction/plan.md)。
 
 <a id="test-2026-10-26-f3-script-read"></a>
 
@@ -99,6 +107,34 @@ CEST交付记录：fd7c3c70五门禁PASS，默认1037/1037、Chromium138/138，t
 ## TEST-2026-10-24-PHASE3A-PRIME-F5-ANALYSIS
 
 模式为固定Git历史材料的离线分析，非新Mock/Replay/Live执行。analyze.py核对四份完整结果171行与资源模型总数一致，首个中断29行单列，75个来源作用域、1020个可配对已结束/失败操作，D2另有未结束操作与无对应开始的失败事件各1；41/95次重复BLOCKED_METHOD诊断。29份原始输入/代码/页面逐字节SHA登记，地图query值不复制。产品、Runner、测试、网站适配器相对main/2ada8a69零差异，相关生产机制相对诊断生产4d953731亦无差异；按Test文档矩阵检查引用、数值、SHA、diff与原工作区保护。五门禁本批未新运行，复用批次0默认1029/Chromium138和typecheck/arch/build历史PASS，不冒称本批绿灯或修复能力。没有产品修复，红绿灯不适用；错误地区完整HTML、新查询响应、被拒OPTIONS请求字段与中断完整trace仍缺，不用局部分析关闭实际链路缺口。新模型/Google/网站/Live0，公共额度账本无消耗条目；停止点1待复核。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md) · [抽取核对](../../.eval-artifacts/phase3a-prime/f5-analysis/verify.json)。
+
+## TEST-2026-10-25-PHASE3A-BOUNDARY-CONTINUATION-COMPLETE
+
+- 受测提交09bf72149e94bab3c321cf3814a1ca7a2fae1dc6，618冻结项。CET23:35:43–23:37:40：4×15继续控制（正常/非目标/错误目标/无效输出）、网络停批、额度/S0、首轮重放、旧契约隔离及同输入控制通过；typecheck/arch/build、默认1051/1051、本机Chromium154/154全绿，各项后空git status，离线未加载凭据/0真实调用。
+- 真实CET23:38:56.599–23:43:07.827，72主轮＋11单次v23控制完成；旧001复用，累计84次provider成功、0网络失败/不确定、1主Schema重试，余额60/144；独立共享账本记84、3a′400扣0。输入570105/输出31059/总601164 tokens，provider latency合计252003ms（含旧001），不估价。请求模型deepseek-v4-flash，全部响应deepseek-flash，两标识不混淆。
+- 主轮目标/依据69/72（新目标61/63，carry8/9），71合法提议/1最终无效。非目标状态11匹配/51不同/10未评；原严格诊断38FAIL未覆盖或抹去。42灰区额外＋Wednesday3全为推荐，每组3/3，2carry组标注依赖。公开7例措辞对应不足未评，G030日期异常保留，不修Gold。
+- 开发非目标差异11轮各1次旧Prompt控制（原v23+Schema3，完全相同消息/参考时间/时区/pre-turn Draft），10有效均有Gold差异，其中9份请求值与v24同；具名query两者都丢Sushi Dai；1控制集合CONFIRM同样无效，无控制重试。控制不入69/72，单配对/定向选择/Schema差别不作因果定论。
+- 独立Python从原始响应、原Gold和固定类别核对72目标/引用及可评价请求值，11输入配对、请求全局ID1..84无重复，618项运行后不变；所有Draft无goalBasis，编译目标未被后续改写。真实交付、来源声明/外写S0与用户严重程度未评价。所有差异/未评逐条列出，不改Prompt/Gold，停STOP_3不合main。 [报告](../../.eval-artifacts/phase3a-boundary/report.md) · [独立核对](../../.eval-artifacts/phase3a-boundary/batch3/continuation/independent-review.json)。
+
+## TEST-2026-10-25-PHASE3A-BOUNDARY-STOP3
+
+- 受测冻结f0cc436a6633909b2fb8444e9f2e142390cef428；CET20:55:30–20:57:27离线外层15轮正控制、2早停控制、双灰区目标/预算/公开字段控制与五门禁1051默认/154本机Chromium/typecheck/arch/build全绿，每项后空git status，无凭据文件加载、0真实模型。
+- 随后仅受控Node按窄授权加载主检出.env、显式deepseek-v4-flash；未独立读取/打印/复制/暂存文件，凭据日志仅已加载。真实20:57:51.316–20:57:55.580，1次provider成功、0重试，6860输入/458输出/7318总tokens，4241ms；独立账本1/144，3a′400扣0，Google/网站/Live0。
+- SR01-T01非目标yakiniku.strength由UNSPECIFIED变HARD触发原阶段oracle首失败，原模型响应/会话执行先保存，再写独立核对与72轮对照。目标与当前消息引用成立；时间数值/人数/地点/预算未变，DATE/RAW/source不同但权威State未到达。后续SR01-T02上游阻断，另70未到达；灰区额外0/45，一致率不可算。
+- 602冻结项运行后仍匹配；生产Prompt/Schema/Scorer/State/Gold未改。四层：真实用户交付/来源S0/严重程度未评价；可确认Proposal首偏离，未隔离模型与Prompt根因。无Judge、无修Prompt/Gold、无额外调用。SR03-T02等清单待逐条确认，停STOP_3、不合main。 [报告](../../.eval-artifacts/phase3a-boundary/report.md) · [独立核对](../../.eval-artifacts/phase3a-boundary/batch3/independent-review.json)。
+
+## TEST-2026-10-25-PHASE3A-BOUNDARY-BATCH3-PREFLIGHT
+
+- CET UTC+1；静态输入预检，已暴露开发配置，非Clean Baseline。node --import tsx .eval-artifacts/phase3a-boundary/batch3/preflight-inputs.mjs：595旧冻结文件匹配，15/42/12/3共72轮消息/来源SHA及会话关联通过，公开12例无{DATE}。
+- 没有调用任何模型；任务/launchd环境仅布尔检查均未配置DeepSeek key/model。真实模型0/144，Google/网站/Live0，.env/私有Holdout未读。产品源码未变，复用停止点2既有离线证据；真实语义/一致率/严重程度/端到端结果均未评价。不把凭据缺失归因为模型失败。 [预检](../../.eval-artifacts/phase3a-boundary/batch3/preflight.json) · [报告](../../.eval-artifacts/phase3a-boundary/report.md)。
+
+## TEST-2026-10-25-PHASE3A-BOUNDARY-BATCH2
+
+- 模式：Unit/模型替身/实际生产composition离线；已暴露开发集，非Clean Baseline。真实模型/Google/餐厅网站/Live均0，144次独立额度未使用；.env与私有Holdout不读。
+- 原合同/独立评分红灯、schema4有效正控制下的伪造/历史引用红灯、相同query双goal冲突红灯保存于[batch2](../../.eval-artifacts/phase3a-boundary/batch2/)。初次迁移失败和无效测试设置不冒充目标检错证据，原日志保留。
+- green-boundary-integration.log 11/11与green-regression-unit.log 4/4通过；严格评分收敛与Schema旧版拒绝断言均已被正式默认门禁覆盖。推荐无人数且有/无日期时段两条实际组合走到展示，无slot不阻断；可选slot由受控端口原始观察进入Grounding，仅证明该端口/Router/Reducer边界，不证明真实网站。
+- dc434286首轮因额外时间诊断失败2通过/10失败/3阻断，原产物与冻结保留；撤回该额外变动后c9fe3039二次冻结，10:56:01–10:57:55 CET离线15/15、typecheck、arch:check、默认1051/1051、build、本机Chromium154/154全绿，每项后空git status；未恢复文件掩盖写入。独立读取原Gold和产物核对15轮目标/引用/沿用及非目标字段全部一致；旧SR03-T02不改。浏览器Fixture仅本机Chromium，不等同来源Live。
+- 未覆盖：真实模型的A/B与灰区判断、三次一致率、当前网站/真实库存及用户端到端实际完成。S0来源声明/越界不由这些离线测试推为通过。 [六节报告](../../.eval-artifacts/phase3a-boundary/report.md)。
 
 ## TEST-2026-10-23-MAIN-ONLY-WORKFLOW
 

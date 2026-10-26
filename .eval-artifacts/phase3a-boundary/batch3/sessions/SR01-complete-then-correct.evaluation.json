@@ -1,0 +1,156 @@
+{
+  "selectedSessionId": "SR01-complete-then-correct",
+  "cohort": "DEVELOPMENT",
+  "repetition": 1,
+  "turns": [
+    {
+      "turnId": "SR01-T01",
+      "status": "FAIL",
+      "category": "B",
+      "oldGoldGoal": "UNANNOTATED",
+      "actualGoal": "AVAILABILITY",
+      "goalBoundary": {
+        "category": "B",
+        "status": "SATISFIED",
+        "actualGoal": "AVAILABILITY",
+        "basis": {
+          "type": "SPECIFIC_TIME_MEAL",
+          "reason": "Explicit clock range for a sit-down meal with a known party size",
+          "quotes": [
+            "between 19:00 and 19:30",
+            "for two people"
+          ]
+        },
+        "errors": []
+      },
+      "authoritativeDraftStatus": "NOT_REACHED",
+      "stageDifferences": [
+        {
+          "path": "nonTargetProposalFacts",
+          "expected": [
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "value": "2026-08-06",
+                "raw": "2026-08-06"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "19:00-19:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "UNSPECIFIED"
+              }
+            },
+            {
+              "field": "BUDGET_PER_PERSON",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "BUDGET_PER_PERSON",
+                "max": 5000,
+                "currency": "JPY"
+              }
+            }
+          ],
+          "actual": [
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "between 19:00 and 19:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "BUDGET_PER_PERSON",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "BUDGET_PER_PERSON",
+                "max": 5000,
+                "currency": "JPY"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        }
+      ],
+      "firstFailureStage": "SEMANTIC_INTERPRETER"
+    },
+    {
+      "turnId": "SR01-T02",
+      "status": "BLOCKED_BY_UPSTREAM",
+      "category": "CONTEXT_CARRY",
+      "oldGoldGoal": "UNANNOTATED",
+      "authoritativeDraftStatus": "NOT_REACHED",
+      "stageDifferences": []
+    }
+  ]
+}

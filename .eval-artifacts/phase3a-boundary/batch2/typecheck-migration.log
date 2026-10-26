@@ -1,0 +1,78 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/application/restaurant-message-handler.test.ts(9,3): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/application/restaurant-message-handler.test.ts(11,45): error TS2322: Type '{ kind: "TARGET"; goal: "AVAILABILITY"; query: string; }' is not assignable to type 'RestaurantSemanticValue'.
+  Property 'goalBasis' is missing in type '{ kind: "TARGET"; goal: "AVAILABILITY"; query: string; }' but required in type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+src/application/restaurant-message-handler.test.ts(15,5): error TS2322: Type '{ field: "PARTY_SIZE"; operation: "ASSERT"; value: { kind: "PARTY_SIZE"; value: number; source: "EXPLICIT"; }; } | undefined' is not assignable to type 'RestaurantSemanticFact'.
+  Type 'undefined' is not assignable to type 'RestaurantSemanticFact'.
+src/application/restaurant-message-handler.test.ts(73,123): error TS2322: Type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' is not assignable to type 'RestaurantSemanticValue'.
+  Property 'goalBasis' is missing in type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' but required in type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+src/domains/restaurant/semantic-compiler.test.ts(16,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(38,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(50,55): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(58,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(71,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(72,53): error TS2322: Type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' is not assignable to type 'RestaurantSemanticValue'.
+  Property 'goalBasis' is missing in type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' but required in type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+src/domains/restaurant/semantic-compiler.test.ts(82,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(85,7): error TS2322: Type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; selectionScope: "OPEN_ENDED"; requestedResultCount: number; }' is not assignable to type 'RestaurantSemanticValue'.
+  Property 'goalBasis' is missing in type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; selectionScope: "OPEN_ENDED"; requestedResultCount: number; }' but required in type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+src/domains/restaurant/semantic-compiler.test.ts(94,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(95,53): error TS2322: Type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' is not assignable to type 'RestaurantSemanticValue'.
+  Property 'goalBasis' is missing in type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' but required in type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+src/domains/restaurant/semantic-compiler.test.ts(112,58): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(125,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(133,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(148,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(160,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(179,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(201,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(223,58): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(238,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(251,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(264,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(277,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(292,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(310,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(371,56): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/domains/restaurant/semantic-compiler.test.ts(387,58): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/scorer.test.ts(16,3): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/scorer.test.ts(33,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/scorer.test.ts(94,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/scorer.test.ts(177,46): error TS2345: Argument of type '{ actualProposal: { schemaVersion: "3"; facts: { field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: ("book a table" | "cafes nearby")[]; }; }; }[]; }; actualDraft: RestaurantIntentDraft; expectedDra...' is not assignable to parameter of type '{ actualProposal?: RestaurantSemanticProposal; expectedProposal?: RestaurantSemanticProposal; actualCompiledPatch?: RestaurantIntentPatch; ... 4 more ...; expectedDecision?: RestaurantSemanticExpectedDecision; }'.
+  The types of 'actualProposal.schemaVersion' are incompatible between these types.
+    Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/scorer.test.ts(193,46): error TS2345: Argument of type '{ actualProposal: { schemaVersion: "3"; facts: { field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "RECOMMENDATION"; query: string; goalBasis: { type: string; reason: string; quotes: string[]; }; }; }[]; }; actualDraft: RestaurantIntentDraft; expectedDraft: RestaurantIntentDraft; goalBoundary: { ....' is not assignable to parameter of type '{ actualProposal?: RestaurantSemanticProposal; expectedProposal?: RestaurantSemanticProposal; actualCompiledPatch?: RestaurantIntentPatch; ... 4 more ...; expectedDecision?: RestaurantSemanticExpectedDecision; }'.
+  The types of 'actualProposal.schemaVersion' are incompatible between these types.
+    Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(16,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(27,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(39,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(46,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(53,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(54,53): error TS2322: Type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' is not assignable to type 'RestaurantSemanticValue'.
+  Property 'goalBasis' is missing in type '{ kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }' but required in type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+src/eval/restaurant/semantic/stage-oracles.ts(57,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(66,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(76,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(87,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(97,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(107,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(118,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(125,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(135,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/eval/restaurant/semantic/stage-oracles.ts(141,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/infrastructure/fixture/fixture-model-gateway.ts(31,39): error TS2322: Type '{ kind: "TARGET"; goal: "AVAILABILITY"; query: string; }' is not assignable to type 'RestaurantSemanticValue'.
+  Property 'goalBasis' is missing in type '{ kind: "TARGET"; goal: "AVAILABILITY"; query: string; }' but required in type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+src/infrastructure/fixture/fixture-model-gateway.ts(90,12): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/server/local-web-server.test.ts(304,5): error TS2322: Type '"3"' is not assignable to type '"4"'.
+src/server/local-web-server.test.ts(306,47): error TS2322: Type '{ kind: "TARGET"; goal: "AVAILABILITY"; query: string; }' is not assignable to type 'RestaurantSemanticValue'.
+  Property 'goalBasis' is missing in type '{ kind: "TARGET"; goal: "AVAILABILITY"; query: string; }' but required in type '{ kind: "TARGET"; goal: "AVAILABILITY" | "RECOMMENDATION"; query: string; goalBasis: RestaurantGoalBasis; selectionScope?: "OPEN_ENDED" | "SPECIFIC_OUTLET"; requestedResultCount?: number; }'.
+src/server/local-web-server.test.ts(310,7): error TS2322: Type '{ field: "PARTY_SIZE"; operation: "ASSERT"; value: { kind: "PARTY_SIZE"; value: number; source: "EXPLICIT"; }; } | undefined' is not assignable to type 'RestaurantSemanticFact'.
+  Type 'undefined' is not assignable to type 'RestaurantSemanticFact'.
+src/server/local-web-server.test.ts(320,34): error TS2322: Type 'RestaurantSemanticProposal | { schemaVersion: "3"; facts: { field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }; }[]; }' is not assignable to type 'RestaurantSemanticProposal'.
+  Type '{ schemaVersion: "3"; facts: { field: "TARGET"; operation: "ASSERT"; value: { kind: "TARGET"; goal: "RECOMMENDATION"; query: string; }; }[]; }' is not assignable to type 'RestaurantSemanticProposal'.
+    Types of property 'schemaVersion' are incompatible.
+      Type '"3"' is not assignable to type '"4"'.

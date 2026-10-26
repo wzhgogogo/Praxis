@@ -1,0 +1,150 @@
+{
+  "sessionId": "SR03-NO_TIME-review-1",
+  "repetition": 1,
+  "turnId": "SR03-T01",
+  "input": {
+    "taskId": "boundary-review:SR03-NO_TIME-review-1",
+    "message": "I want Sushi Dai.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo"
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai",
+            "goalBasis": {
+              "type": "JUDGMENT",
+              "reason": "User names a particular restaurant without booking wording or visit time",
+              "quotes": [
+                "I want Sushi Dai"
+              ]
+            },
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "d1ad132e-732a-46c2-a609-2f41ed451754",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v25",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1724,
+        "usage": {
+          "inputTokens": 6877,
+          "outputTokens": 149,
+          "totalTokens": 7026
+        },
+        "providerRequestId": "b3d44d58-a779-4664-86bd-5445cbbc58c5"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Sushi Dai",
+        "selectionScope": "SPECIFIC_OUTLET"
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [],
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "Sushi Dai",
+      "selectionScope": "SPECIFIC_OUTLET"
+    }
+  },
+  "transitions": [
+    {
+      "event": {
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "patch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai",
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        }
+      },
+      "commands": [],
+      "domainState": {
+        "schemaVersion": "22",
+        "phase": "UNDERSTANDING",
+        "searchRevision": 0,
+        "investigationRevision": 1,
+        "intentDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai",
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        },
+        "candidates": [],
+        "availability": {},
+        "availabilityChecks": {},
+        "factChecks": {},
+        "readEvidence": []
+      }
+    }
+  ],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "Sushi Dai"
+    },
+    "criteria": []
+  },
+  "category": "NO_TIME",
+  "evaluation": {
+    "goal": {
+      "category": "NO_TIME",
+      "status": "SATISFIED",
+      "actualGoal": "RECOMMENDATION",
+      "basis": {
+        "type": "JUDGMENT",
+        "reason": "User names a particular restaurant without booking wording or visit time",
+        "quotes": [
+          "I want Sushi Dai"
+        ]
+      },
+      "errors": []
+    },
+    "nonGoalDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "REDUCER",
+      "error": "Authoritative Draft differs after a correct Proposal and compiled patch"
+    }
+  },
+  "logicalIndex": 3,
+  "attemptNumbers": [
+    87
+  ]
+}

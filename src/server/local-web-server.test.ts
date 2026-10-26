@@ -1,3 +1,4 @@
+import { fixtureGoalBasis } from "../harness/restaurant-read-test-fixtures.js";
 import {scriptedRetrieval} from "../harness/restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import { once } from "node:events";
@@ -295,9 +296,9 @@ async function withinTestTimeout<T>(promise: Promise<T>, label: string, timeoutM
 
 function availabilityProposal(partySize?: number): RestaurantSemanticProposal {
   return {
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [
-      { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
+      { field: "TARGET", operation: "ASSERT", value: { goalBasis: { type: "JUDGMENT" as const, reason: "Controlled fixture target.", quotes: ["find"] }, kind: "TARGET", goal: "AVAILABILITY", query: "find a table" } },
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "tomorrow" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:00", raw: "7pm" } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shibuya" } },
@@ -309,7 +310,7 @@ function availabilityProposal(partySize?: number): RestaurantSemanticProposal {
 class MessageProposalInterpreter implements RestaurantSemanticInterpreterPort {
   async interpret(input: { message: string }): ReturnType<RestaurantSemanticInterpreterPort["interpret"]> {
     const proposal = input.message === "recommendation"
-      ? { schemaVersion: "3" as const, facts: [{ field: "TARGET" as const, operation: "ASSERT" as const, value: { kind: "TARGET" as const, goal: "RECOMMENDATION" as const, query: "recommend a cafe" } }] }
+      ? { schemaVersion: "4" as const, facts: [{ field: "TARGET" as const, operation: "ASSERT" as const, value: { goalBasis: { type: "JUDGMENT" as const, reason: "Controlled fixture target.", quotes: ["recommend"] }, kind: "TARGET" as const, goal: "RECOMMENDATION" as const, query: "recommend a cafe" } }] }
       : input.message === "explicit" ? availabilityProposal(4) : availabilityProposal();
     return { status: "PROPOSED", proposal, attempts: [] };
   }
@@ -467,7 +468,7 @@ function selectionSessionModel(calls: { model: number }, supportsConditionRevisi
         if (supportsConditionRevision && userMessage.includes("Make it four on 2026-09-19")) {
           return {
             invocationId: `selection-semantic-revision:${calls.model}`, provider: "FIXTURE", model: "selection-session-fixture",
-            outputText: JSON.stringify({ schemaVersion: "3", facts: [
+            outputText: JSON.stringify({ schemaVersion: "4", facts: [
               { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 4 } },
               { field: "DATE", operation: "CORRECT", value: { kind: "DATE", value: "2026-09-19", raw: "2026-09-19" } },
             ] }), finishReason: "TOOL_CALLS", latencyMs: 0,
@@ -475,8 +476,8 @@ function selectionSessionModel(calls: { model: number }, supportsConditionRevisi
         }
         return {
           invocationId: `selection-semantic:${calls.model}`, provider: "FIXTURE", model: "selection-session-fixture",
-          outputText: JSON.stringify({ schemaVersion: "3", facts: [
-            { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants", selectionScope: "OPEN_ENDED" } },
+          outputText: JSON.stringify({ schemaVersion: "4", facts: [
+            { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants", selectionScope: "OPEN_ENDED" } },
             { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shinjuku" } },
           ] }), finishReason: "TOOL_CALLS", latencyMs: 0,
         };
@@ -1274,8 +1275,8 @@ test("T1 Web shared assembly keeps ownership during semantic parsing and complet
       if (request.purpose === "restaurant_semantic_interpret") {
         announceSemantic();
         await withinTestTimeout(semanticGate, "test to release the semantic transport");
-        return { invocationId: "delayed-semantic", provider: "FIXTURE", model: "controlled-delay", latencyMs: 0, finishReason: "TOOL_CALLS", outputText: JSON.stringify({ schemaVersion: "3", facts: [
-          { field: "TARGET", operation: "ASSERT", value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } },
+        return { invocationId: "delayed-semantic", provider: "FIXTURE", model: "controlled-delay", latencyMs: 0, finishReason: "TOOL_CALLS", outputText: JSON.stringify({ schemaVersion: "4", facts: [
+          { field: "TARGET", operation: "ASSERT", value: { goalBasis: fixtureGoalBasis(request), kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants" } },
           { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-08-09", raw: "tomorrow" } },
           { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:30", raw: "7pm" } },
           { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },

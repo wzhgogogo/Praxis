@@ -1,15 +1,15 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.13
-- Last updated: 2026-10-23
+- Document revision: 0.14
+- Last updated: 2026-10-26
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 
 ## 明确空位与预约
 
-本图适用于具体到访的AVAILABILITY目标：已有日期/时间意图、地点及已知或有封闭推断依据人数的需求，即使措辞为recommend、looking或need。普通开放找店/比较见下方“附近与不要求预约的推荐”；人数孤立出现不决定目标，不能让所有请求自动走本图。
+本图适用于按[ADR-0044](../decisions/0044-recommendation-availability-boundary.md)确定的AVAILABILITY目标：明确订位/空位措辞，或具体钟点/数字钟点时段、已知或可推断人数的坐下正餐。订位措辞即使无日期/时间仍为查位目标：可先发现候选，再按ADR-0026补问缺失时间；补充时间沿用原目标，不重新分类。既无到访日期/时间也无订位措辞的新请求为RECOMMENDATION；宽时段等灰区由语义模型判断。普通推荐见下方“附近与不要求预约的推荐”；人数孤立出现不决定目标。
 
 ```mermaid
 flowchart TD

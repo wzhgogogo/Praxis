@@ -1,0 +1,36 @@
+{
+  "status": "PASS offline / STOP_2 pending review",
+  "checkedAtCET": "2026-10-25T10:59:54+01:00",
+  "testedCommit": "c9fe30391881e9b61382c71c0953527f9b3f3da0",
+  "sourceAndTestChangesAfterGates": [],
+  "inputManifest": "input-sha256-r2.json",
+  "inputFilesStillMatch": 595,
+  "eachGateEndedClean": true,
+  "preservedOriginalSha256": {
+    "src/domains/restaurant/contracts.ts": "f5932ff5569190df632fd693d185e6aeb8e1571bcb9c64dc53d282e8543000d6",
+    "src/domains/restaurant/task-definition.ts": "45eab0bd65fec33d935f59e1898ecd3ebd76c3d5213a6cd86fcad5d54091fdec",
+    "src/eval/restaurant/semantic/fixtures.ts": "fa4a8e52a82806af6d507a06f4ba16426e6c28376936363c777c4e981cf3ca72",
+    ".eval-artifacts/phase3a-boundary/CODEX-3A-BOUNDARY.md": "9c61aec63fb34feeded7e270400c0861d0a1e6ef5c24e2f8f5affc9d0a107a35"
+  },
+  "batch1ReportPreserved": true,
+  "versions": {
+    "semanticPrompt": 24,
+    "semanticProposal": 4,
+    "semanticScorer": 4,
+    "state": 20,
+    "taskDefinition": 18
+  },
+  "budget": {
+    "realModelCalls": 0,
+    "independentCeiling": 144,
+    "chargedToPrime400": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0,
+    "fullLive": 0
+  },
+  "goldReviewPending": [
+    "SR03-T02 at stop3"
+  ],
+  "mainMerge": "NOT_ATTEMPTED",
+  "push": "Authorized branch push follows this evidence commit; final response reports observed ls-remote SHA"
+}

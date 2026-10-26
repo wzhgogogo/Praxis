@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "0e5d38c2-53e0-4aa0-9ee7-56a50668d819",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"3\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"yakiniku restaurant in Shinjuku for two people\", \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:30\", \"raw\": \"between 19:00 and 19:30\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shinjuku\"}}, {\"field\": \"BUDGET_PER_PERSON\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"BUDGET_PER_PERSON\", \"max\": 5000, \"currency\": \"JPY\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"yakiniku\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2354,
+    "providerRequestId": "3eb05caf-dc07-4122-a1ee-9b6418a58519",
+    "usage": {
+      "inputTokens": 6227,
+      "outputTokens": 385,
+      "totalTokens": 6612
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "0e5d38c2-53e0-4aa0-9ee7-56a50668d819",
+      "taskId": "semantic-regression:SR01-complete-then-correct",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2354,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6227,
+        "outputTokens": 385,
+        "totalTokens": 6612
+      },
+      "providerRequestId": "3eb05caf-dc07-4122-a1ee-9b6418a58519"
+    }
+  ],
+  "atCET": "2026-10-25T23:42:42.754+01:00"
+}

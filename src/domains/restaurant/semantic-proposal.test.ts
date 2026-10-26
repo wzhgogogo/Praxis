@@ -3,12 +3,13 @@ import { test } from "node:test";
 
 import {
   RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
+  RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
   validateRestaurantSemanticProposal,
 } from "./semantic-proposal.js";
 
 test("Semantic Proposal Contract accepts stable slots and open criteria without a taxonomy", () => {
   const valid = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [
       { field: "PARTY_SIZE", operation: "CORRECT", value: { kind: "PARTY_SIZE", value: 3, source: "EXPLICIT" } },
       { field: "AREA", operation: "NEGATE" },
@@ -31,13 +32,13 @@ test("Semantic Proposal Contract accepts stable slots and open criteria without 
 
 test("Semantic Proposal Contract accepts only an explicit or closed-party source for a party count", () => {
   const inferred = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "INFERRED_CLOSED_PARTY" } }],
   });
   assert.equal(inferred.valid, true);
 
   const invalid = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [{ field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "MODEL_GUESS" } }],
   });
   assert.equal(invalid.valid, false);
@@ -46,28 +47,28 @@ test("Semantic Proposal Contract accepts only an explicit or closed-party source
 
 test("Semantic Proposal Contract carries an explicit open-ended result count for either delivery goal but rejects it for a named outlet", () => {
   const openEnded = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [{
       field: "TARGET", operation: "ASSERT",
-      value: { kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants near Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 5 },
+      value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["restaurants"] }, kind: "TARGET", goal: "RECOMMENDATION", query: "restaurants near Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 5 },
     }],
   });
   assert.equal(openEnded.valid, true);
 
   const availability = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [{
       field: "TARGET", operation: "ASSERT",
-      value: { kind: "TARGET", goal: "AVAILABILITY", query: "open tables near Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 3 },
+      value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["open"] }, kind: "TARGET", goal: "AVAILABILITY", query: "open tables near Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 3 },
     }],
   });
   assert.equal(availability.valid, true);
 
   const invalidNamedCount = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [{
       field: "TARGET", operation: "ASSERT",
-      value: { kind: "TARGET", goal: "RECOMMENDATION", query: "Sushi A", selectionScope: "SPECIFIC_OUTLET", requestedResultCount: 2 },
+      value: { goalBasis: { type: "JUDGMENT", reason: "Controlled fixture target.", quotes: ["Sushi"] }, kind: "TARGET", goal: "RECOMMENDATION", query: "Sushi A", selectionScope: "SPECIFIC_OUTLET", requestedResultCount: 2 },
     }],
   });
   assert.equal(invalidNamedCount.valid, false);
@@ -76,7 +77,7 @@ test("Semantic Proposal Contract carries an explicit open-ended result count for
 
 test("Semantic Proposal Contract rejects internal protocols and invalid operation/value combinations", () => {
   const invalid = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [
       {
         field: "AREA",
@@ -96,7 +97,7 @@ test("Semantic Proposal Contract rejects internal protocols and invalid operatio
 
 test("Semantic Proposal Contract rejects collection CONFIRM because it has no deterministic effect", () => {
   const result = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [{ field: "CRITERION", operation: "CONFIRM" }],
   });
   assert.equal(result.valid, false);
@@ -109,7 +110,7 @@ test("DeepSeek transport schema uses only supported string constraints while loc
   assert.equal(serializedSchema.includes("maxLength"), false);
 
   const result = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [
       {
         field: "CRITERION",
@@ -124,7 +125,7 @@ test("DeepSeek transport schema uses only supported string constraints while loc
 
 test("explicit date and clock values require the raw user expression promised by the strict transport contract", () => {
   const missingRaw = validateRestaurantSemanticProposal({
-    schemaVersion: "3",
+    schemaVersion: "4",
     facts: [
       { field: "DATE", operation: "ASSERT", value: { kind: "DATE", value: "2026-09-14" } },
       { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:30" } },
@@ -137,4 +138,23 @@ test("explicit date and clock values require the raw user expression promised by
       "facts[1].value must match TIME_WINDOW",
     ]);
   }
+});
+
+
+test("ADR-0044 TARGET requires a nonempty structural basis without judging goal rationale", () => {
+  const proposal = (goalBasis?: unknown) => ({
+    schemaVersion: RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA.version,
+    facts: [{ field: "TARGET", operation: "ASSERT", value: {
+      kind: "TARGET", goal: "RECOMMENDATION", query: "cafes",
+      ...(goalBasis === undefined ? {} : { goalBasis }),
+    } }],
+  });
+  assert.equal(validateRestaurantSemanticProposal(proposal()).valid, false, "a fresh target needs a basis");
+  for (const quotes of [[], ["   "], ["cafes", ""]]) {
+    assert.equal(validateRestaurantSemanticProposal(proposal({ type: "JUDGMENT", reason: "User seeks places.", quotes })).valid, false);
+  }
+  assert.equal(validateRestaurantSemanticProposal(proposal({ type: "JUDGMENT", reason: "User seeks places.", quotes: ["cafes"] })).valid, true);
+  assert.equal(validateRestaurantSemanticProposal(proposal({ type: "BOOKING_WORDING", reason: "A fixture need not justify the goal to code.", quotes: ["cafes"] })).valid, true);
+  assert.equal(validateRestaurantSemanticProposal(proposal({ type: "JUDGMENT", reason: " ", quotes: ["cafes"] })).valid, false);
+  assert.equal(validateRestaurantSemanticProposal({ ...proposal({ type: "JUDGMENT", reason: "User seeks places.", quotes: ["cafes"] }), schemaVersion: "3" }).valid, false, "retired proposal schema is not a compatibility path");
 });

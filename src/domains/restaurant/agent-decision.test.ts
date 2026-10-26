@@ -128,3 +128,17 @@ test("Restaurant Agent supplies candidate commercial comparisons only as source-
   assert.equal(result.status, "PROPOSED");
   if (result.status === "PROPOSED") assert.deepEqual(result.action, { type: "PRESENT_RESULTS", candidateIds: ["restaurant-a"] });
 });
+
+test("ADR-0044 Agent output cannot introduce a goal or a semantic patch", async () => {
+  for (const extra of [{ target: { goal: "AVAILABILITY" } }, { statePatch: { target: { goal: "AVAILABILITY" } } }]) {
+    const goalContext: RestaurantAgentContext = { ...context, intentDraft: { ...context.intentDraft!, target: { goal: "RECOMMENDATION", query: "cafes" } } };
+    const before = structuredClone(goalContext);
+    const gateway: ModelGateway = { async complete(): Promise<ModelResponse> {
+      return { invocationId: "goal-override", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0,
+        outputText: JSON.stringify({ type: "SEARCH_RESTAURANTS", question: "", relatedFields: [], retrievalHint: "", candidateIds: [], candidateId: "", offerId: "", decisionSummary: "", ...extra }) };
+    } };
+    const result = await new RestaurantAgentDecision(gateway).decide({ taskId: "goal-override", context: goalContext, recentExecutionHistory: [], capabilities: RESTAURANT_AGENT_CAPABILITIES });
+    assert.equal(result.status, "INVALID_MODEL_OUTPUT");
+    assert.deepEqual(goalContext, before);
+  }
+});

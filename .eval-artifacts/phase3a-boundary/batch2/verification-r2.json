@@ -1,0 +1,106 @@
+{
+  "sourceCommit": "c9fe30391881e9b61382c71c0953527f9b3f3da0",
+  "startedAtCET": "2026-10-25T10:56:01+01:00",
+  "inputManifestSha256": "c03916fdc31130947c73415f1ee20099f9de0605e4027a8628f9cf3567ae3ad0",
+  "mode": "OFFLINE_FIXTURE_ONLY",
+  "realModelCalls": 0,
+  "googleRequests": 0,
+  "restaurantWebsiteRequests": 0,
+  "fullLive": 0,
+  "node": "v24.4.1",
+  "npm": "11.4.2",
+  "steps": [
+    {
+      "name": "semantic-fixture",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3a-boundary/batch2/run-offline-fixture.mjs"
+      ],
+      "startedAtCET": "2026-10-25T10:56:01+01:00",
+      "finishedAtCET": "2026-10-25T10:56:01+01:00",
+      "elapsedSeconds": 0.099,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch2/gates-r2/semantic-fixture.log",
+      "logSha256": "6c6b21488217d6e46713151f0db029ac7336dcde6a7422ea2e05dc9cc0514ee8",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-25T10:56:01+01:00",
+      "finishedAtCET": "2026-10-25T10:56:01+01:00",
+      "elapsedSeconds": 0.366,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch2/gates-r2/typecheck.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-25T10:56:01+01:00",
+      "finishedAtCET": "2026-10-25T10:56:01+01:00",
+      "elapsedSeconds": 0.166,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch2/gates-r2/arch-check.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-25T10:56:01+01:00",
+      "finishedAtCET": "2026-10-25T10:56:22+01:00",
+      "elapsedSeconds": 20.048,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch2/gates-r2/test.log",
+      "logSha256": "cb80b57071f6acf79cd5fda19fa3216f0aaf0d91cff14b4828f5a8d531af6f27",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-25T10:56:22+01:00",
+      "finishedAtCET": "2026-10-25T10:56:22+01:00",
+      "elapsedSeconds": 0.365,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch2/gates-r2/build.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusPorcelainAfter": ""
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-25T10:56:22+01:00",
+      "finishedAtCET": "2026-10-25T10:57:55+01:00",
+      "elapsedSeconds": 92.825,
+      "exitCode": 0,
+      "log": ".eval-artifacts/phase3a-boundary/batch2/gates-r2/browser-fixture.log",
+      "logSha256": "232552cc5f85ab58b4b4687d30680f3b556210b058d9e9dfdca010bd662c8f2b",
+      "gitStatusPorcelainAfter": ""
+    }
+  ],
+  "finishedAtCET": "2026-10-25T10:57:55+01:00",
+  "status": "PASS"
+}

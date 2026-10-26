@@ -1,8 +1,8 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.13
-- Last updated: 2026-10-23
+- Document revision: 0.14
+- Last updated: 2026-10-26
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [User Flows](USER-FLOWS.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -25,7 +25,7 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 
 ## 只读目标与预约闭环
 
-按[ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md)，开放找店/比较为RECOMMENDATION；具体到访（已有日期/时间意图、地点及已知或有封闭推断依据人数）为AVAILABILITY，即使用户说的是recommend、looking或need。推荐须满足地点、HARD条件和适用营业时间；参数充分时可有界补查空位，但不将未知、无预约入口或访问失败解释为无位或walk-in。当前请求下明确无位会排除该候选。空位目标必须取得对应门店、日期、人数和时段的当前slot；缺人数时补问，缺精确时间可先发现候选，不能降为普通推荐。接待方式与库存独立：明确walk-in不替代可订slot，缺少预约入口不产生walk-in结论。
+按[ADR-0044](../decisions/0044-recommendation-availability-boundary.md)，明确订位/空位措辞（A）或具体钟点/数字钟点时段、已知或可推断人数的坐下正餐（B）为AVAILABILITY。A即使无日期/时间仍为查位目标，可先找店，按ADR-0026在查位前补问缺失时间；补充时间沿用原目标。既无到访日期/时间也无订位措辞的新请求为RECOMMENDATION，其余由语义模型判断，不凭人数或店型硬分类。推荐须满足地点、HARD条件和适用营业时间；参数充分时可有界补查空位，但不将未知、无预约入口或访问失败解释为无位或walk-in。当前请求下明确无位会排除该候选。空位目标必须取得对应门店、日期、人数和时段的当前slot；缺人数时补问，缺精确时间可先发现候选，不能降为普通推荐。接待方式与库存独立：明确walk-in不替代可订slot，缺少预约入口不产生walk-in结论。
 
 以下闭环描述明确空位/预约目标；普通推荐可在有依据的结果展示处完成，不强制进入授权与预约。当前开发验收映射见[H001–H005契约](../../src/eval/restaurant/agent-loop/cases/README.md)。
 

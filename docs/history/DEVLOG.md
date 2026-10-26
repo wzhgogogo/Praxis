@@ -1,13 +1,21 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.309
+- Document revision: 4.311
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-COMPLETE
+
+停止点3用户完整消息批准规则修正，Claude项目文件无需本地取得。ADR1.1/Prompt25/sidecar2：订位措辞无时间仍AVAILABILITY，SR02补时间CARRY；Gold4仅SR03-T02目标，Gold3 SHA原样保留。main/7e2425b7先整合，双方记录/3a′累计保留；goalBasis不入State、State22/TaskDefinition20不升版。冻结aa64c0b3后九轮真实完成，非目标问题、query丢名与CONFIRM拒绝仅列3b，灰区保持灰区。新9调用累计93/144余51、prime400扣0，无新网站/Google/Live。提交证据后依授权推分支并快进main，远端最终SHA以实际Git回执为准。 [报告](../../.eval-artifacts/phase3a-boundary/review-correction/report.md)。
+
+## DEV-2026-10-26-PHASE3A-BOUNDARY-CORRECTION-PREP
+
+用户完整复核消息批准无时间订位规则修正、Gold升版与合main。先整合main/7e2425b7，源码无冲突，双方文档历史与共享账本独立额度保留；主线State22/TaskDefinition20不因goalBasis升版。ADR1.1/Prompt25/sidecar2，SR02-T01 A、T02 CARRY；Gold4仅SR03-T02目标AVAILABILITY，旧fixtures.ts SHA保持。私有Holdout未读，三个延期项单列3b。九逻辑轮及18最多原schema尝试，累计84/144余60。 [切片](../../.eval-artifacts/phase3a-boundary/review-correction/plan.md)。
 
 <a id="dev-2026-10-26-f3-script-read"></a>
 
@@ -95,6 +103,34 @@ F5已按用户批准带已知限制合入并推送main/e096ba35：ADR-0043 机�
 ## DEV-2026-10-24-PHASE3A-PRIME-F5-ANALYSIS
 
 按已批准批次1B从main/2ada8a69建立codex/chore-phase3a-prime-f5-analysis，独立工作区保留主工作树9份用户改动。只读取3ec38584的两次例01诊断、例03两份完整结果及首个中断尝试；输出六问分析、逐来源/逐页/逐模型明细、原始输入SHA与最多两个通用层方案。Tabelog地区未完成且零详情，否定“只有两家所以首五家规则没触发”的实际归因；两家和同义词来自TableCheck。例03已执行备用地点Kudanshita，五家均在范围内，约148–150秒事实追查；新输入比较口径待冻结前明确。OPTIONS只分类不修，新增窄ADR的需要在方案中明确。报告与本批同步文档可能与并行F1同文件，待复核安排合入顺序；不改产品/测试/Runner/输入/权限，不合并main、不推送，停止点1。新真实模型、Google、网站和Live均0。[报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md)。
+
+## DEV-2026-10-25-PHASE3A-BOUNDARY-CONTINUATION-COMPLETE
+
+- 用户将非目标差异改为只记录，基础设施/额度/S0才停；允许72主轮后最多15个开发差异v23单次控制，累计144不变、已用001复用。09bf7214先冻结新外层、输入/控制选择、原v23+Schema3参考和618项SHA；原提前停批结果未改。
+- 外层将Gold比较与执行分开，合法当前提议经原Compiler可信冻结时间与Runtime/Reducer推进实际上下文；无效输出走原失败事件保留Draft，不用Gold代填上下文。主Prompt@24/Schema4、Scorer4、State20/TaskDefinition18、Gold均未改。v23旧契约仅隔离评测参考，不是生产兼容路径。
+- CET23:38:56.599–23:43:07.827完成72＋11，累计84/144（旧1＋新83，含1Schema重试），余60、不占3a′400。目标/依据69/72，灰区额外45样本全推荐、每组3/3，2个carry组不作独立判定。全部值/raw/诊断/未标字段及未评问题逐行保留，Gold不自动修改。
+- 10有效控制都仍偏离旧Gold，9份非目标值与v24相同；SR03泛化query不同但共同丢具名目标；SR08旧控制同样集合CONFIRM无效。定向单配对/继承上下文/Schema包差别不足因果识别，不将控制计入新规则。请求名deepseek-v4-flash，84响应均deepseek-flash，原样双列。
+- 凭据仅受控Node按沿用窄授权加载，未独立读取文件，不输出密钥。来源/Google/Live0、私有Holdout未读。差异逐条确认清单含SR01及SR03-T02，停STOP_3，按授权推本分支，不合main。 [报告](../../.eval-artifacts/phase3a-boundary/report.md)。
+
+## DEV-2026-10-25-PHASE3A-BOUNDARY-STOP3
+
+- CET UTC+1；draft / not integrated into main，已暴露开发诊断。用户直接窄授权仅受控Node通过--env-file加载主检出凭据，显式deepseek-v4-flash；授权记录先提交，未独立读取文件，不输出密钥。薄外层逐原会话复用现有开发回归，预先冻结602项与全72轮选择，逐请求先记账再派发。
+- f0cc436a自检/五门禁全绿后真实1次即SR01-T01停止。目标B→AVAILABILITY与两引用成立；yakiniku强度UNSPECIFIED→HARD，独立原Gold/原输出复核确认。日期/时间raw和人数来源表示另记，不当作最终日期错误；Compiler/Reducer未达。71轮无请求，其中1上游阻断、70未到达；不改Prompt/Gold，不补跑。
+- 预算1/144独立、3a′400扣0，来源/Google/Live0。原State@20/TaskDefinition@18与生产源码保持原样。SR03-T02、14灰区及13未标target候选列后继Gold待确认清单，不回写历史。新Wednesday非Gold。停STOP_3，推本分支不合main。 [报告](../../.eval-artifacts/phase3a-boundary/report.md)。
+
+## DEV-2026-10-25-PHASE3A-BOUNDARY-BATCH3-PREFLIGHT
+
+- CET UTC+1；draft / not integrated，真实执行NOT_RUN。保存停止点2批准原文、72轮输入选择与停批计划。未改生产源码、Prompt、Schema、Scorer、Gold。595旧冻结文件匹配，灰区双轮不重复前缀，公开12例不重物化，Wednesday不作Gold。
+- 任务进程与launchd均无DeepSeek凭据/模型配置。原指令禁读.env，未回退读取；已请求安全环境注入/已有启动入口。独立额度0/144，3a′400不扣；尚未完成/冻结真实调用外层，不把准备报告为停止点3或模型失败。 [报告](../../.eval-artifacts/phase3a-boundary/report.md)。
+
+## DEV-2026-10-25-PHASE3A-BOUNDARY-BATCH2
+
+- Evidence: current executable candidate / exposed development；本分支，尚未合main。时间使用CET UTC+1。
+- 用户停止点1批准ADR-0044及144次独立真实模型上限；本批仅离线。Prompt@24/Proposal@4要求新TARGET的goalBasis，结构与当前消息每条引用核验失败沿既有两次输出尝试失败路径拒绝。无旧Proposal兼容；不加关键词/人数/店型判定。Compiler的TARGET冲突键保留goal，避免同query的两个目标被去重；依据不进入持久State。
+- scorer/report@4消费SHA绑定的独立类别标注；A/B、无时间、灰区与CONTEXT_CARRY分开评价。旧Gold及旧evaluation不覆盖；非目标Proposal/Patch/Draft严格比较，保留逐阶段oracle。原Compiler回归调用方式保持不变；相对时间或诊断的差异仍须报告，不能以灰区豁免。
+- 实际语义handler/Reducer、Agent严格动作Schema、生产读取组合推荐展示和可选slot回归已扩展；无语义后改目标写路径，保留既有权限与证据规则。State@20/TaskDefinition@18不升版，Guard、来源、站点目录、source-packs.ts及预约实现不改。
+- 未来72逻辑turn输入选择冻结：15开发＋14灰区各3次＋公开已物化12例＋Wednesday新开发输入3次；私有Holdout和.env不读。本批真实调用0，停止点2复核前不执行批次3；SR03-T02列停止点3清单不改Gold。
+- 实现冻结c9fe3039：离线15/15与五门禁1051/154全绿，原文/State/TaskDefinition/Gold字节不变；首轮额外时间诊断失败证据保留，收敛修复未放宽评分。结果见[报告](../../.eval-artifacts/phase3a-boundary/report.md)，完成后按授权推本分支并停下。
 
 ## DEV-2026-10-23-MAIN-ONLY-WORKFLOW
 

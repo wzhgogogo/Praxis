@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "2b59b33d-af6f-40a7-ac21-7b371429ded4",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Yakiniku restaurant in Shinjuku for two people tomorrow 19:00-19:30 under 5000 JPY per person\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Explicit clock range for a sit-down meal with a known party size\", \"quotes\": [\"between 19:00 and 19:30\", \"for two people\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:30\", \"raw\": \"between 19:00 and 19:30\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shinjuku\"}}, {\"field\": \"BUDGET_PER_PERSON\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"BUDGET_PER_PERSON\", \"max\": 5000, \"currency\": \"JPY\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"yakiniku\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 4241,
+    "providerRequestId": "20b541f9-fc69-4e77-be4c-663746e1fb35",
+    "usage": {
+      "inputTokens": 6860,
+      "outputTokens": 458,
+      "totalTokens": 7318
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "2b59b33d-af6f-40a7-ac21-7b371429ded4",
+      "taskId": "semantic-regression:SR01-complete-then-correct",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 4241,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6860,
+        "outputTokens": 458,
+        "totalTokens": 7318
+      },
+      "providerRequestId": "20b541f9-fc69-4e77-be4c-663746e1fb35"
+    }
+  ],
+  "completedAtCET": "2026-10-25T20:57:55.579+01:00"
+}

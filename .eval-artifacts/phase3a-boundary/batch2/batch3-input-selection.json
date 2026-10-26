@@ -1,0 +1,337 @@
+{
+  "schema": "phase3a-boundary-batch3-input-selection@1",
+  "status": "approved scope / frozen selection only / NOT_RUN / stop2 review required",
+  "createdAtCET": "2026-10-25T10:49:14+01:00",
+  "contamination": "exposed development and exposed former holdouts; not Clean Baseline",
+  "development": {
+    "path": "src/eval/restaurant/semantic/fixtures.ts",
+    "sha256": "fa4a8e52a82806af6d507a06f4ba16426e6c28376936363c777c4e981cf3ca72",
+    "turns": 15,
+    "repeats": 1
+  },
+  "gray": {
+    "uniqueTurns": 14,
+    "repeats": 3,
+    "logicalTurns": 42,
+    "sessionPlan": "Each repeat has 10 single-turn sessions plus SR08 and SR09 linked two-turn sessions. No extra prefix calls; CONTEXT_CARRY remains context carry.",
+    "cases": [
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/runner-input.yaml",
+        "pointer": "document/2",
+        "caseId": "p2l-kf-h003-20261106",
+        "group": "G017",
+        "message": "Need a place for a team dinner nearby on Friday, November 6 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "e539223c7a92475eb20fc34fbbea434f9a6d2ea47e9e121a83c089b222cba86f"
+      },
+      {
+        "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+        "pointer": "document/2",
+        "caseId": "p1f-kf-h003-20261023",
+        "group": "G023",
+        "message": "Need a place for a team dinner nearby on Friday, October 23 after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "909fc83a58b19d9f03fb56eb92d60d4ea66feff52802de8fff41d0d0e103c9aa"
+      },
+      {
+        "source": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+        "pointer": "document/3",
+        "caseId": "p1f-kf-h004-20261019",
+        "group": "G024",
+        "message": "Good cafes nearby to meet up with a friend on the afternoon of Monday, October 19.\n",
+        "currentGoal": "RECOMMENDATION",
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "d4464facdc5c456f6d2dfd5714bc35e0130d85964a9ace99056ecfeb065c45fc"
+      },
+      {
+        "source": ".eval-artifacts/p1-f-20261014/variants.draft.yaml",
+        "pointer": "document/3",
+        "caseId": "p1f-kf-h004-20261027",
+        "group": "G030",
+        "message": "Good cafes nearby to meet up with a friend on the afternoon of Tuesday, October 27.\n",
+        "currentGoal": "RECOMMENDATION",
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "5a31d59bec8fab222b10cd81b5ad27d0bfa9d1ba1be3f172bea3844e18fba312"
+      },
+      {
+        "source": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+        "pointer": "document/2",
+        "caseId": "h003",
+        "group": "G053",
+        "message": "Need a place for a team dinner nearby this Friday after work. 10 people, around 3,000 yen per person, good for drinks, ideally with a private room.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "39b293fe3d7345efa50a2539d8834cef8bc53bd33d3b055eb69e35d1f269919c"
+      },
+      {
+        "source": "docs/superseded/eval/restaurant-read-pre-alignment-2026-09-15/e2e-cases.yaml",
+        "pointer": "document/3",
+        "caseId": "h004",
+        "group": "G054",
+        "message": "Good cafes nearby to meet up with a friend this afternoon.\n",
+        "currentGoal": "RECOMMENDATION",
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "d3eaa616e557870f66124e4b29ef1514c9e42d286b883b7f75a9dffa1a544ed8"
+      },
+      {
+        "source": "src/eval/restaurant/semantic/fixtures.ts",
+        "pointer": "SR05-relative-time-hard-soft-and-party-inference/SR05-T01",
+        "caseId": "SR05-T01",
+        "group": "G063",
+        "message": "This Friday evening near our office for three colleagues and me; no smoking is essential, and a quiet room would be nice.",
+        "currentGoal": null,
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "f1569dffa74c2667ca780f2cb9a15b340c59862eedb0725a8c4de36203af40fe"
+      },
+      {
+        "source": "src/eval/restaurant/semantic/fixtures.ts",
+        "pointer": "SR06-approximate-budget-is-soft/SR06-T01",
+        "caseId": "SR06-T01",
+        "group": "G064",
+        "message": "Tomorrow afternoon nearby for my parents and me. Around 3,000 yen per person would be ideal.",
+        "currentGoal": null,
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "1f62eb05ffd3aea0ee623fab642787e06be3988406ab6109c8d7f89b6a43bb32"
+      },
+      {
+        "source": "src/eval/restaurant/semantic/fixtures.ts",
+        "pointer": "SR07-relative-offset-time/SR07-T01",
+        "caseId": "SR07-T01",
+        "group": "G065",
+        "message": "In about 30 minutes near me for two people, Korean food.",
+        "currentGoal": null,
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "9d0ddfff1fa874f0c1f3cc85c0931de9f44dd849fab8e993fb29e7a941662ac1"
+      },
+      {
+        "source": "src/eval/restaurant/semantic/fixtures.ts",
+        "pointer": "SR08-criterion-removal/SR08-T01",
+        "caseId": "SR08-T01",
+        "group": "G066",
+        "message": "Tonight at dinner in Ginza for two. I need sushi, but not omakase.",
+        "currentGoal": null,
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "67284c4273e6b1a6708fc56143d6b693dd9e167afd43865e277c20fffc90980d"
+      },
+      {
+        "source": "src/eval/restaurant/semantic/fixtures.ts",
+        "pointer": "SR08-criterion-removal/SR08-T02",
+        "caseId": "SR08-T02",
+        "group": "G067",
+        "message": "Drop the omakase restriction; keep sushi.",
+        "currentGoal": null,
+        "category": "灰区",
+        "contextCarry": true,
+        "messageSha256": "8a458c05ae3b1c4f77a3a394d7c7c27f84f3d3fb21f1cce6ffc4a2b2f5c9b084"
+      },
+      {
+        "source": "src/eval/restaurant/semantic/fixtures.ts",
+        "pointer": "SR09-relative-location-overwrite/SR09-T01",
+        "caseId": "SR09-T01",
+        "group": "G068",
+        "message": "This Saturday night near my hotel for two people, Italian food.",
+        "currentGoal": null,
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "da57cc006a3d306c11981b47814ded029f1ca44b1d68f368eccfc4ab2091cb6e"
+      },
+      {
+        "source": "src/eval/restaurant/semantic/fixtures.ts",
+        "pointer": "SR09-relative-location-overwrite/SR09-T02",
+        "caseId": "SR09-T02",
+        "group": "G069",
+        "message": "Actually, use the area near our office instead.",
+        "currentGoal": null,
+        "category": "灰区",
+        "contextCarry": true,
+        "messageSha256": "86d25d0337a9a71734736086f6a8a37f01ace32716bf52245c52f9d7310afd55"
+      },
+      {
+        "source": "src/eval/restaurant/semantic/fixtures.ts",
+        "pointer": "SR10-hard-budget/SR10-T01",
+        "caseId": "SR10-T01",
+        "group": "G070",
+        "message": "Tomorrow after work in Shinjuku for two. The 5,000 yen maximum is firm.",
+        "currentGoal": null,
+        "category": "灰区",
+        "contextCarry": false,
+        "messageSha256": "be48ef9917dbba831ac2e1aecc25f416cd94103e0db3158b77740de85b540ecb"
+      }
+    ]
+  },
+  "publicExposedHoldouts": {
+    "sources": [
+      {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+        "sha256": "9ddfc60bbf2209d4cc2e8d183eba03c7a59ca6a9a37fd89eaae3ebd76a7eb8f2",
+        "dateTemplates": false
+      },
+      {
+        "path": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+        "sha256": "276910da0c43b501f4e68327cca7e4ba8514090a8910ad33ab2873f5a4cbaa48",
+        "dateTemplates": false
+      }
+    ],
+    "cases": [
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+        "pointer": "document/0",
+        "caseId": "p2-holdout-01",
+        "group": "G001",
+        "message": "Can you find a yakitori place near Ueno with a table for 3 on Wednesday, November 4 at 7 PM?\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "A",
+        "contextCarry": false,
+        "messageSha256": "b4b540fe26f948073fde92dfbfd26b189e892ec564847cc85f261f98a67f288b"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+        "pointer": "document/1",
+        "caseId": "p2-holdout-02",
+        "group": "G002",
+        "message": "Looking for an Italian restaurant near Sangenjaya for 2 people on Friday, October 30 at 7:30 PM, under 8,000 yen per person.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "B",
+        "contextCarry": false,
+        "messageSha256": "eb1981d5c9d872165de978780874743a3ac13cb87c39514c9e7839ff3f2963e7"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+        "pointer": "document/2",
+        "caseId": "p2-holdout-03",
+        "group": "G003",
+        "message": "We're 6 people looking for shabu-shabu near Akasaka on Thursday, October 29, sometime between 6 and 8 PM. Any open tables?\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "A",
+        "contextCarry": false,
+        "messageSha256": "29705ec1e89956ef63133eaf7ca4d7e99b07a65dc50507f6536b040896fc4f6a"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+        "pointer": "document/3",
+        "caseId": "p2-holdout-04",
+        "group": "G004",
+        "message": "Is there an unagi restaurant near Ningyocho that has a table for 2 on Tuesday, November 3 at 6:30 PM?\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "A",
+        "contextCarry": false,
+        "messageSha256": "8d35ddcad499f1664abe6434ebf3e52a66236961cb3f8a1d154750210b8d062b"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+        "pointer": "document/4",
+        "caseId": "p2-holdout-05",
+        "group": "G005",
+        "message": "Need a Chinese restaurant near Gotanda for 4 people on Saturday, October 31 at 7 PM. Ideally under 6,000 yen per person, and no spicy Sichuan food.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "B",
+        "contextCarry": false,
+        "messageSha256": "c0477da6e4c0bbcd5e6b38a13edee8a0cb4cddfad673607ee30691ebaf04bc98"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/holdout-exit-20261022/continuation-20261022/runner-input.yaml",
+        "pointer": "document/5",
+        "caseId": "p2-holdout-06",
+        "group": "G006",
+        "message": "Looking for an izakaya near Shimokitazawa for 5 people on Friday, October 30 at 7 PM.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "B",
+        "contextCarry": false,
+        "messageSha256": "85c2c52f1879252c7d18a0a148ee2a44ae294b7b87f6dfde399a1849470d5682"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+        "pointer": "document/0",
+        "caseId": "p2b-holdout-01",
+        "group": "G008",
+        "message": "Could you find a sukiyaki restaurant near Asakusa with a table for 2 on Wednesday, November 4 at 7 PM?\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "A",
+        "contextCarry": false,
+        "messageSha256": "99ff4876893f89c5ba83e974a469767c5cd50aa58368154a19a7b12c09534e58"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+        "pointer": "document/1",
+        "caseId": "p2b-holdout-02",
+        "group": "G014",
+        "message": "We are 4 people looking for monjayaki near Kachidoki on Friday, October 30 at 6:30 PM, ideally under 4,000 yen per person.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "B",
+        "contextCarry": false,
+        "messageSha256": "8291cdf0216813bb6e469e235eaa21fa87dc5dce7fd959de7dc07ab693a8b342"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+        "pointer": "document/2",
+        "caseId": "p2b-holdout-03",
+        "group": "G010",
+        "message": "Looking for a French restaurant near Ebisu for 2 on Saturday, October 31 at 7:30 PM. Our budget is at most 15,000 yen per person.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "B",
+        "contextCarry": false,
+        "messageSha256": "c5fda10101cbfeaa18981470bb51fdf996c775320e66ef0906e8f5dee5d13ad7"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+        "pointer": "document/3",
+        "caseId": "p2b-holdout-04",
+        "group": "G011",
+        "message": "There are 6 of us. Any Thai restaurant near Ikebukuro with a table on Thursday, November 5, sometime between 6 and 8 PM?\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "A",
+        "contextCarry": false,
+        "messageSha256": "6bed5d438d74d5ec3050bacada67afd8686ed0f6231f9ead787b0963a7270b4b"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+        "pointer": "document/4",
+        "caseId": "p2b-holdout-05",
+        "group": "G012",
+        "message": "Is there a sit-down soba restaurant near Azabu-Juban with a table for 3 on Tuesday, November 3 at 7 PM? Not a standing soba counter.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "A",
+        "contextCarry": false,
+        "messageSha256": "1d0ceb9035a7aa065ab6768dfd92f4329e62c77d507c7755a171fba693489b55"
+      },
+      {
+        "source": ".eval-artifacts/checkpoint-c-live-20261020/phase2b-continuation-20261022/resume-20261023/holdout-inputs-fallback/runner-input.yaml",
+        "pointer": "document/5",
+        "caseId": "p2b-holdout-06",
+        "group": "G013",
+        "message": "We need oden near Shimbashi for 8 people on Friday, October 30, any time between 7 and 9 PM.\n",
+        "currentGoal": "AVAILABILITY",
+        "category": "B",
+        "contextCarry": false,
+        "messageSha256": "c69d8b42bf9d0b073f7ec9529326966704303c749ff44eaa6e83ed31837b8684"
+      }
+    ],
+    "logicalTurns": 12
+  },
+  "newDevelopmentInput": {
+    "message": "Good cafes nearby to meet up with a friend on the afternoon of Wednesday",
+    "category": "GRAY",
+    "repeats": 3,
+    "gold": false,
+    "logicalTurns": 3
+  },
+  "logicalTurns": 72,
+  "maximumRealCallsIncludingExistingTwoOutputAttempts": 144,
+  "realCallsRun": 0,
+  "privateHoldout": "EXCLUDED / NOT_READ",
+  "pendingGoldReview": [
+    "SR03-T02 old RECOMMENDATION vs rule B AVAILABILITY; unchanged until stop3"
+  ]
+}

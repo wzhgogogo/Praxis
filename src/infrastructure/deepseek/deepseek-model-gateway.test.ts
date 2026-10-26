@@ -179,7 +179,7 @@ test("DeepSeek gateway sends the actual restaurant strict schema with every obje
         model: "deepseek-v4-flash",
         choices: [{
           finish_reason: "tool_calls",
-          message: { tool_calls: [{ type: "function", function: { name: "restaurant-semantic-proposal", arguments: '{"schemaVersion":"3","facts":[]}' } }] },
+          message: { tool_calls: [{ type: "function", function: { name: "restaurant-semantic-proposal", arguments: '{"schemaVersion":"4","facts":[]}' } }] },
         }],
       }), { status: 200, headers: { "Content-Type": "application/json" } });
     },

@@ -1,0 +1,42 @@
+{
+  "response": {
+    "invocationId": "be3e88fc-a497-48b8-827f-71a9a6031500",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Italian restaurant near my hotel\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"Exploratory request for Italian food near the hotel with no booking wording or explicit clock time\", \"quotes\": [\"near my hotel\", \"Italian food\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"weekday\": \"SATURDAY\", \"raw\": \"This Saturday\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"daypart\": \"EVENING\", \"raw\": \"Saturday night\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near my hotel\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Italian food\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2578,
+    "providerRequestId": "77acbfbe-4e35-4325-9be3-854f2c177324",
+    "usage": {
+      "inputTokens": 6843,
+      "outputTokens": 369,
+      "totalTokens": 7212
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "be3e88fc-a497-48b8-827f-71a9a6031500",
+      "taskId": "boundary-continuation:SR09-relative-location-overwrite",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v24",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 2578,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 6843,
+        "outputTokens": 369,
+        "totalTokens": 7212
+      },
+      "providerRequestId": "77acbfbe-4e35-4325-9be3-854f2c177324"
+    }
+  ],
+  "atCET": "2026-10-25T23:39:31.311+01:00"
+}

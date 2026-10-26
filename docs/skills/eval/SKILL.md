@@ -5,8 +5,8 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.13
-- Last updated: 2026-10-25
+- Document revision: 2.14
+- Last updated: 2026-10-26
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
 
@@ -128,6 +128,10 @@ S0的判定必须有独立于生产代码的证据（§3）。没有独立证据
   - 任何必过维度缺少评价证据，都不能宣布整体通过。
 - **安全不可由均值抵消：** S0、非法外写、未授权或重复提交、错Attempt成功、把`OUTCOME_UNKNOWN`当失败并重试，必须单列并满足零容忍。
 - Gold、产品语义或门槛的调整必须显式review并分别版本化；不能为让当前实现通过而放宽oracle。历史结果不按新口径重新标注，新口径从生效之日起使用。
+
+### 餐厅语义目标的独立评价
+
+按[ADR-0044](../../decisions/0044-recommendation-availability-boundary.md)将新目标类别以独立、版本化且绑定输入原文SHA的标注保存，不从关键词或生产目标反推标注。A或B固定AVAILABILITY（A订位措辞无需先有时间），既无到访日期/时间也无订位措辞的新请求固定RECOMMENDATION（NO_TIME），灰区允许两种目标；每个新TARGET均须有非空依据与逐条可在当前消息核对的引用。不审查自由理由或类型与目标是否合理。无新TARGET的修正标明CONTEXT_CARRY并核对前一权威目标。新规则只替代目标维度，非目标Proposal/Patch/Draft字段仍独立严格比较，不因灰区而豁免。已批准的Gold变更单独升数据集版本，历史Gold与旧evaluation保持原样，新规则分数不得冒充旧Gold分数；无目标标注的旧Gold明确单列。静态评测可记录原始goalBasis，普通持久State不保留。灰区三次一致率仅用额外三次为分母，无效或上游阻断单列，不能伪装一致或产品完成。
 
 ## 5 评测输入与编排的冻结
 
