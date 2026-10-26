@@ -1,3 +1,4 @@
+import { RESTAURANT_READ_CONCLUSION_RESERVE_MS, RESTAURANT_READ_FINALIZE_ALLOWANCE_MS } from "../domains/restaurant/read-time-reserve.js";
 import { restaurantFailureCode } from "../domains/restaurant/failure-codes.js";
 import { restaurantReadBudgetExhausted } from "../domains/restaurant/action-validator.js";
 import { createHash, randomUUID } from "node:crypto";
@@ -9,7 +10,7 @@ import type {
   RuntimeClock,
   TaskSnapshot,
 } from "../core/task-runtime/contracts.js";
-import type { RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
+import type { RestaurantAgentDecisionInput, RestaurantAgentDecisionResult, RestaurantAgentDecisionPort } from "../domains/restaurant/agent-decision.js";
 import {
   projectRestaurantAgentContext,
   type RestaurantAgentContext,
@@ -106,7 +107,7 @@ function noExecutableDiscoveryPath(state: RestaurantTaskState, now: string): boo
   // routed actions rather than inferring exhaustion from historical checks.
   if (state.factRefreshRequestedCandidateIds?.length) return false;
   const assessment = assessRestaurantRead(state, now);
-  if (assessment.presentation.some((item) => item.eligible) || /^(MODEL_CALL_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessment.endReadReason ?? "")) return false;
+  if (assessment.presentation.some((item) => item.eligible) || /^(MODEL_CALL_RESERVE|READ_TIME_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessment.endReadReason ?? "")) return false;
   return state.candidates.every((candidate) => {
     const candidateIds = [candidate.restaurant.id];
     return validateRestaurantAction(state, { type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds }, now).status !== "ALLOWED"
@@ -189,6 +190,20 @@ export class RestaurantAgentLoopCoordinator {
       const callReserve = remainingCalls !== undefined && Number.isSafeInteger(remainingCalls)
         && remainingCalls >= 0 && remainingCalls <= 4;
       const oldWindow = current.domainState.defaultBatchDeliveryWindow;
+      if (current.domainState.phase === "SEARCHING" && remainingMs >= 0 && !current.domainState.readEndWindow) {
+        const raw = projectRestaurantAgentContext(current.domainState, now.toISOString());
+        const bounded = projectRestaurantAgentContext(current.domainState, now.toISOString(), { remainingAutomaticMs: remainingMs });
+        const anyRead = bounded.legalActions.search || bounded.legalActions.investigateCandidateFacts.length > 0
+          || bounded.legalActions.checkAvailability.length > 0;
+        const blocked = raw.legalActions.search && !bounded.legalActions.search
+          || raw.legalActions.investigateCandidateFacts.length > 0 && bounded.legalActions.investigateCandidateFacts.length === 0
+          || raw.legalActions.checkAvailability.length > 0 && bounded.legalActions.checkAvailability.length === 0;
+        if (remainingMs <= RESTAURANT_READ_CONCLUSION_RESERVE_MS || blocked && !anyRead) {
+          return (await this.dispatch(current, {
+            type: "READ_END_WINDOW_OPENED", reason: "DELIVERY_TIME", deadlineAt: deadlineAt.toISOString(),
+          }, "SYSTEM")).snapshot;
+        }
+      }
       if ((callReserve || this.timeoutMs >= 90_000 && remainingMs <= 45_000)
         && (!oldWindow || Date.parse(oldWindow.deadlineAt) < now.valueOf()) && remainingMs >= 0
         && defaultBatchDeliveryCandidateIds(current.domainState, now.toISOString()).length > 0) {
@@ -198,7 +213,7 @@ export class RestaurantAgentLoopCoordinator {
       if (callReserve && remainingMs >= 0 && current.domainState.phase === "SEARCHING"
         && !assessRestaurantRead(current.domainState, now.toISOString()).presentation.some(item => item.eligible)
         && (!current.domainState.readEndWindow || Date.parse(current.domainState.readEndWindow.deadlineAt) < now.valueOf())) {
-        return (await this.dispatch(current, { type: "READ_END_WINDOW_OPENED", deadlineAt: new Date(Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000)).toISOString() }, "SYSTEM")).snapshot;
+        return (await this.dispatch(current, { type: "READ_END_WINDOW_OPENED", reason: "MODEL_CALL", deadlineAt: new Date(Math.min(deadlineAt.valueOf(), now.valueOf() + 45_000)).toISOString() }, "SYSTEM")).snapshot;
       }
       return current;
     };
@@ -238,14 +253,14 @@ export class RestaurantAgentLoopCoordinator {
         return { status: completed ? "TERMINAL" : "TIMEOUT", steps: step };
       }
 
-      const context = projectRestaurantAgentContext(snapshot.domainState, this.clock.now().toISOString());
-      const decision = await this.decision.decide({
+      const context = projectRestaurantAgentContext(snapshot.domainState, this.clock.now().toISOString(),{ remainingAutomaticMs: Math.max(0, deadlineAt.valueOf() - this.clock.now().valueOf()) });
+      const decision = await this.boundedDecision({
         taskId,
         context,
         recentExecutionHistory,
         capabilities: RESTAURANT_AGENT_CAPABILITIES,
         ...(lastRejection ? { lastRejection } : {}),
-      });
+      }, deadlineAt, signal);
       stepNumber += 1;
       snapshot = await this.runtime.snapshot(taskId);
       let base = this.base(taskId, stepNumber, snapshot, context);
@@ -274,6 +289,10 @@ export class RestaurantAgentLoopCoordinator {
       base = this.base(taskId, stepNumber, snapshot, context);
 
       if (decision.status !== "PROPOSED") {
+        if (snapshot.domainState.readEndWindow || snapshot.domainState.defaultBatchDeliveryWindow) {
+          const done = await this.terminate(snapshot, base, "NO_PROGRESS", "READ_TIME_RESERVE: the closing decision failed; conclude only from existing verified state");
+          return { status: done ? "TERMINAL" : "MODEL_FAILURE", steps: step + 1 };
+        }
         if (decision.status === "MODEL_FAILURE" && decision.errorCode === "MODEL_CALL_BUDGET_EXHAUSTED") {
           const completed = await this.terminate(snapshot, base, "STEP_LIMIT", "MODEL_CALL_BUDGET_EXHAUSTED: the bounded investigation used its shared model-call budget");
           return { status: completed ? "TERMINAL" : "STEP_LIMIT", steps: step + 1 };
@@ -294,8 +313,14 @@ export class RestaurantAgentLoopCoordinator {
         return { status: "MODEL_FAILURE", steps: step + 1 };
       }
 
-      const verdict = validateRestaurantAction(snapshot.domainState, decision.action, this.clock.now().toISOString(), { ...this.router.readBudgetStatus(), remainingModelCalls: this.remainingModelCalls?.(taskId) });
+      const verdict = validateRestaurantAction(snapshot.domainState, decision.action, this.clock.now().toISOString(), { ...this.router.readBudgetStatus(), remainingModelCalls: this.remainingModelCalls?.(taskId),remainingAutomaticMs: Math.max(0, deadlineAt.valueOf() - this.clock.now().valueOf()) });
       if (verdict.status === "REJECTED") {
+        if (verdict.code === "READ_TIME_RESERVED" && snapshot.domainState.readEndWindow) {
+          const done = await this.terminate(snapshot, base, "NO_PROGRESS", verdict.reason, {
+            agentAction: decision.action, modelAttempt: decision.modelAttempt, actionValidation: verdict,
+          });
+          return { status: done ? "TERMINAL" : "NO_PROGRESS", steps: step + 1 };
+        }
         rejectedActions += 1;
         lastRejection = { code: verdict.code, reason: verdict.reason };
         const repeated = lastRejectedAction === JSON.stringify(decision.action);
@@ -330,9 +355,8 @@ export class RestaurantAgentLoopCoordinator {
       let execution;
       const readAction = decision.action.type === "SEARCH_RESTAURANTS" || decision.action.type === "INVESTIGATE_CANDIDATE_FACTS"
         || decision.action.type === "CHECK_AVAILABILITY";
-      const reserveMs = deadlineAt.valueOf() - this.clock.now().valueOf() - 45_000;
-      const preserveDelivery = this.timeoutMs >= 90_000 && readAction && reserveMs > 0
-        && defaultBatchDeliveryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length > 0;
+      const reserveMs = deadlineAt.valueOf() - this.clock.now().valueOf() - RESTAURANT_READ_CONCLUSION_RESERVE_MS;
+      const preserveDelivery = readAction && reserveMs > 0;
       const readController = preserveDelivery ? new AbortController() : undefined;
       let reserveReached = false;
       const onParentAbort = () => readController?.abort(signal?.reason);
@@ -364,7 +388,7 @@ export class RestaurantAgentLoopCoordinator {
           } : undefined,
         );
       } catch (error) {
-        if (reserveReached && !signal?.aborted) {
+        if (reserveReached && !signal?.aborted && !(error && typeof error === "object" && "code" in error && error.code === "READ_CANCELLATION_UNSETTLED")) {
           await recordDeliveryReserve();
           continue;
         }
@@ -467,6 +491,26 @@ export class RestaurantAgentLoopCoordinator {
     return { status: completed ? "TERMINAL" : "STEP_LIMIT", steps: this.maxSteps };
   }
 
+  /** Root decisions must leave bounded time for persisted completion/projection. */
+  private async boundedDecision(
+    input: RestaurantAgentDecisionInput, deadline: Date, signal?: AbortSignal,
+  ): Promise<RestaurantAgentDecisionResult> {
+    const ms = Math.max(0, deadline.valueOf() - this.clock.now().valueOf() - RESTAURANT_READ_FINALIZE_ALLOWANCE_MS);
+    const failed = (): RestaurantAgentDecisionResult => ({ status: "MODEL_FAILURE", errorCode: "TIMEOUT", retryable: false });
+    if (ms <= 0 || signal?.aborted) return failed();
+    let timer: ReturnType<typeof setTimeout> | undefined, abort: (() => void) | undefined;
+    const cutoff = new Promise<RestaurantAgentDecisionResult>(resolve => {
+      timer = setTimeout(() => resolve(failed()), ms);
+      abort = () => resolve(failed());
+      signal?.addEventListener("abort", abort, { once: true });
+    });
+    try { return await Promise.race([this.decision.decide(input), cutoff]); }
+    finally {
+      if (timer) clearTimeout(timer);
+      if (abort) signal?.removeEventListener("abort", abort);
+    }
+  }
+
   /** Called by the application orchestrator after a mandatory Policy/Commit/Verify chain completes. */
   async resumeAfterMandatoryCommandChain(taskId: string): Promise<RestaurantAgentLoopResult | undefined> {
     const snapshot = await this.runtime.snapshot(taskId);
@@ -545,7 +589,7 @@ export class RestaurantAgentLoopCoordinator {
       const shortBatch = defaultBatchDeliveryCandidateIds(state, now);
       if (eligible.length) {
         if (shortBatch.length && (!state.defaultBatchDeliveryWindow || Date.parse(state.defaultBatchDeliveryWindow.deadlineAt) < Date.parse(now))) {
-          current = (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: new Date(this.clock.now().valueOf() + 45_000).toISOString() }, "SYSTEM")).snapshot;
+          current = (await this.dispatch(current, { type: "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED", deadlineAt: new Date(Math.min(this.clock.now().valueOf() + 45_000, state.readEndWindow ? Date.parse(state.readEndWindow.deadlineAt) : Number.POSITIVE_INFINITY)).toISOString() }, "SYSTEM")).snapshot;
         }
         // Validate against time sampled AFTER the persisted window was opened.
         const presentationTime = this.clock.now().toISOString();

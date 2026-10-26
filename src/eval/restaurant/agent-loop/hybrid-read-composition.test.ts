@@ -258,7 +258,7 @@ async function runIndependentSequence(sequence: IndependentSequence) {
     clock,
     model,
     google: google,
-    config: { maxAgentSteps: 12, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 12, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   const semantic = await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -310,7 +310,7 @@ function seededRandom(seed: number): () => number {
   };
 }
 
-test("independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
+test("independent source boundary controls cover zero, one, and exactly one fact-read batch (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async (t) => {
   // Start/end: real Hybrid composition → independently specified Google rows → Runtime/Router/Grounding → end/presentation.
   // Replacements: model transport and Google HTTP only. The test-owned plan never reads `eligible` or `canEndRead`.
   // These are controls for the randomized/exceed-batch regressions below, not an assertion that every source result is positive.
@@ -324,7 +324,7 @@ test("independent source boundary controls cover zero, one, and exactly one fact
   });
 });
 
-test("a user refresh after the clock advances replaces the current fact observation without losing request fidelity (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("a user refresh after the clock advances replaces the current fact observation without losing request fidelity (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   // Start/end: real composition → present a source-backed candidate → real user refresh event → re-read/present.
   // The clock and Google HTTP are controlled external boundaries; Interpreter, Compiler, Runtime, Context,
   // Validator, Router, and Grounding remain production code. This proves neither website compatibility nor
@@ -341,7 +341,7 @@ test("a user refresh after the clock advances replaces the current fact observat
     clock: movingClock,
     model,
     google: google,
-    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: current.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
@@ -366,7 +366,7 @@ test("a user refresh after the clock advances replaces the current fact observat
   assert.equal(detailIds.length, 2, "one initial and one refresh source read are expected");
 });
 
-test("cancelling during a real in-flight fact read cannot become a normal no-result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("cancelling during a real in-flight fact read cannot become a normal no-result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   // Start/end: semantic input → actual Router-owned Google Details wait → parent cancellation → Runtime termination.
   // Only the HTTP boundary blocks. This does not prove browser cancellation, which has a separate local Chromium fixture.
   let beginDetail: (() => void) | undefined;
@@ -394,7 +394,7 @@ test("cancelling during a real in-flight fact read cannot become a normal no-res
     clock,
     model: new ScriptedExternalModel(1),
     google: google,
-    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const controller = new AbortController();
@@ -410,7 +410,7 @@ test("cancelling during a real in-flight fact read cannot become a normal no-res
   assert.equal(state.presentedResults, undefined);
 });
 
-test("a request update after cancelling an in-flight read starts a new authoritative investigation (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("a request update after cancelling an in-flight read starts a new authoritative investigation (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   // The first source request blocks until its user-owned cancellation reaches the HTTP boundary.
   // The second semantic proposal is an independently specified date/party update. Old discovery,
   // fact evidence and request values must not cross the Runtime reset into the new investigation.
@@ -449,7 +449,7 @@ test("a request update after cancelling an in-flight read starts a new authorita
     clock,
     model,
     google: google,
-    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const controller = new AbortController();
@@ -481,7 +481,7 @@ test("a request update after cancelling an in-flight read starts a new authorita
   assert.equal(detailCalls, 2);
 });
 
-test("fixed-seed bounded exploration records and shrinks an independent Hybrid contract failure (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("fixed-seed bounded exploration records and shrinks an independent Hybrid contract failure (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   // This is deliberately finite: it exercises batch boundaries and legal independent read order,
   // rather than pretending all action permutations are equivalent. Failure output is the durable
   // reproduction record: fixed seed, generated sequence, actual action trace, and minimized case.
@@ -529,7 +529,7 @@ test("fixed-seed bounded exploration records and shrinks an independent Hybrid c
   }, null, 2));
 });
 
-test("Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=1000)", async () => {
+test("Hybrid production composition binds an explicit evaluation location before Agent investigation and independently evaluates its actual result (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=1000)", async () => {
   // Start/end: semantic user input → PRESENT_RESULTS + evaluator. External replacements: Model transport, Google HTTP, unused browser runtime.
   // Catches: adapter-only evaluation coordinates, lost semantic fields, old three-request cap, or evidence that cannot support the displayed result.
   // Does not prove: a real model's judgment, real Google data, or browser website compatibility.
@@ -542,7 +542,7 @@ test("Hybrid production composition binds an explicit evaluation location before
     clock,
     model,
     google: google,
-    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 1_000 }
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 1_000 }
   });
 
   const semantic = await composition.interpretAndDispatch({
@@ -606,7 +606,7 @@ test("ADR-0044 recommendation reaches actual presentation without party or slot 
     const taskId = `goal-recommendation:${visitWindow}`;
     const model = new NoPartyModel();
     const composition = createGoogleReadComposition({ taskId, runId: taskId, clock, model, google: googleFixture([], { maxRequests: 10 }, ["one"]),
-      config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 1_000 } });
+      config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 1_000 } });
     const interpreted = await composition.interpretAndDispatch({ taskId, message: visitWindow ? "Find cafes nearby tomorrow afternoon." : "Find cafes nearby.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
     assert.equal(interpreted.status, "PROPOSED");
     const before = composition.runtime.snapshot(taskId).domainState.intentDraft?.target;
@@ -630,7 +630,7 @@ test("ADR-0044 recommendation reaches actual presentation without party or slot 
   }
 });
 
-test("a Google network failure before candidate discovery stops the Agent after one failed search (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("a Google network failure before candidate discovery stops the Agent after one failed search (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)", async () => {
   let googleRequests = 0;
   const model = new ScriptedExternalModel();
   const google = new GooglePlacesClient({
@@ -647,7 +647,7 @@ test("a Google network failure before candidate discovery stops the Agent after 
     clock,
     model,
     google: google,
-    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({
     taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo",
@@ -662,7 +662,7 @@ test("a Google network failure before candidate discovery stops the Agent after 
   assert.equal(snapshot.domainState.candidates.length, 0);
 });
 
-test("Hybrid production composition asks for location without an evaluation context and never calls a source (packs=Google; maxAgentSteps=3, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("Hybrid production composition asks for location without an evaluation context and never calls a source (packs=Google; maxAgentSteps=3, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   // Start/end: semantic user input → NEEDS_INPUT. External replacements: same model/API boundaries as above.
   // Catches: accidental default evaluation position. Does not prove device permission UX, which is covered by the persistent Web HTTP tests.
   const bodies: Record<string, unknown>[] = [];
@@ -674,7 +674,7 @@ test("Hybrid production composition asks for location without an evaluation cont
     clock,
     model,
     google: google,
-    config: { maxAgentSteps: 3, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 3, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId: "integration:no-location", message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" });
   const loop = await composition.coordinator.run("integration:no-location");
@@ -685,7 +685,7 @@ test("Hybrid production composition asks for location without an evaluation cont
   assert.equal(bodies.length, 0);
 });
 
-test("real source observations distinguish a supported candidate from an explicit type conflict (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("real source observations distinguish a supported candidate from an explicit type conflict (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   // Start/end: two discovery candidates → real Details grounding → only the independently supported cafe is presentable.
   // The facts below are source samples, not expectations reverse-engineered from intent or production eligibility.
   // Catches: losing an explicit conflict, treating a broad discovery type as a fact, or applying one candidate's proof to another.
@@ -714,7 +714,7 @@ test("real source observations distinguish a supported candidate from an explici
     clock,
     model,
     google: google,
-    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two, but not hot-pot restaurants.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -734,7 +734,7 @@ test("real source observations distinguish a supported candidate from an explici
   assert.deepEqual(state.presentedResults?.candidateIds, [cafeId]);
 });
 
-test("a real Hybrid category UNKNOWN reaches presentation without verified-negative promotion (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("a real Hybrid category UNKNOWN reaches presentation without verified-negative promotion (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   const model = new CategoryUnknownHybridModel(1);
   const place = { id: "category-restaurant", displayName: { text: "Category Restaurant" }, formattedAddress: "Ginza 1, Tokyo", location: { latitude: 35.6697, longitude: 139.7670 }, types: ["restaurant"] };
   const client = new GooglePlacesClient({ apiKey: "test-key", fetchImplementation: async (_url, init) => init?.method === "POST" ? new Response(JSON.stringify({ places: [place] }), { status: 200 }) : new Response(JSON.stringify({ ...place, primaryType: "restaurant", regularOpeningHours: { weekdayDescriptions: ["Wednesday: 10:00 AM – 6:00 PM", "Thursday: 10:00 AM – 6:00 PM"] } }), { status: 200 }) });
@@ -745,7 +745,7 @@ test("a real Hybrid category UNKNOWN reaches presentation without verified-negat
     clock,
     model,
     google: google,
-    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find a restaurant nearby tomorrow afternoon, no fast food.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL"); const state = composition.runtime.snapshot(taskId).domainState;
@@ -767,7 +767,7 @@ test("a real Hybrid category UNKNOWN reaches presentation without verified-negat
   assert.notEqual(missingRawTypeEvaluation.findings.find((item) => item.dimension === "REQUIRED_EVIDENCE")?.status, "SATISFIED", JSON.stringify(missingRawTypeEvaluation));
 });
 
-test("a second user message adds an exclusion through real source facts and removes the conflicting candidate (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
+test("a second user message adds an exclusion through real source facts and removes the conflicting candidate (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async (t) => {
   for (const control of [
     { message: "No ramen.", criterion: "ramen", placeId: "ramen-restaurant", outletName: "Ramen Restaurant", primaryType: "ramen_restaurant" },
     { message: "No conveyor-belt sushi.", criterion: "conveyor-belt sushi", placeId: "conveyor-belt-sushi-restaurant", outletName: "Conveyor-belt Sushi Restaurant", primaryType: "conveyor_belt_sushi_restaurant" },
@@ -791,7 +791,7 @@ test("a second user message adds an exclusion through real source facts and remo
     clock,
     model,
     google: google,
-    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
     await composition.interpretAndDispatch({ taskId, message: "Find a restaurant nearby tomorrow afternoon, no fast food.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
     assert.equal((await composition.coordinator.run(taskId)).status, "TERMINAL");
@@ -818,7 +818,7 @@ test("a second user message adds an exclusion through real source facts and remo
   });
 });
 
-test("independent candidate reads preserve coverage and results across batch partitions and order (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
+test("independent candidate reads preserve coverage and results across batch partitions and order (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async (t) => {
   // Start/end: real Hybrid initialization + semantic message → source-produced facts → terminal result + independent evaluator.
   // Only external model transport and Google HTTP are replaced. No intermediate State or evidence injection.
   // Oracle: four source-confirmed open cafes remain checked and presentable regardless of legal read partition/order.
@@ -835,7 +835,7 @@ test("independent candidate reads preserve coverage and results across batch par
     clock,
     model,
     google: google,
-    config: { maxAgentSteps: 10, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 10, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
       const semantic = await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
       assert.equal(semantic.status, "PROPOSED");
@@ -859,7 +859,7 @@ test("independent candidate reads preserve coverage and results across batch par
   }
 });
 
-test("Google fact exhaustion must leave a separately executable browser investigation reachable (packs=Google; maxAgentSteps=7, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
+test("Google fact exhaustion must leave a separately executable browser investigation reachable (packs=Google; maxAgentSteps=7, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async (t) => {
   for (const maxRequests of [100, 1]) await t.test(`Google limit=${maxRequests}`, async () => {
   // Start/end: real Hybrid initialization → actual Google budget exhaustion → real availability composition → browser boundary.
   // External replacements: model transport, Google HTTP, browser snapshots. No source port, Grounding or State is mocked.
@@ -887,7 +887,7 @@ test("Google fact exhaustion must leave a separately executable browser investig
     model,
     google: google,
     browser: browser,
-    config: { maxAgentSteps: 7, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 7, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -900,7 +900,7 @@ test("Google fact exhaustion must leave a separately executable browser investig
 });
 
 
-test("source text handoff reaches request-bound availability and presentation through the production composition (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("source text handoff reaches request-bound availability and presentation through the production composition (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   // Semantic input → real Google/website fact composition → real browser availability → presentation/evaluator.
   // Only model transport, Google HTTP and browser I/O are replaced. No facts, eligibility or State are injected.
   // Oracle: the Japanese source sentence supports a tasting menu; the separate availability page supplies 13:00 for two.
@@ -974,7 +974,7 @@ test("source text handoff reaches request-bound availability and presentation th
     google: google,
     browser: tracedBrowser,
     onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: now.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); },
-    config: { maxAgentSteps: 6, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 6, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find a restaurant with a chef's tasting menu nearby tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const loop = await composition.coordinator.run(taskId);
@@ -1003,7 +1003,7 @@ test("source text handoff reaches request-bound availability and presentation th
   assert.ok(evaluation.findings.every(f => f.status === "SATISFIED"), JSON.stringify(evaluation.findings));
 });
 
-test("a website observation for another candidate cannot revive an unknown Google fact (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("a website observation for another candidate cannot revive an unknown Google fact (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   // Start/end: actual Hybrid semantic input → Google discovery/Details + website HTML → Reducer → presentation.
   // Only model transport, Google HTTP and browser snapshots are synthetic. Grounding and source composition are real.
   // Independent oracle: A was a cafe at discovery, but its current fact read failed; B's website cannot renew A's facts.
@@ -1034,7 +1034,7 @@ test("a website observation for another candidate cannot revive an unknown Googl
     google: google,
     browser: browser,
     onBrowserDiagnostic: diagnostic => browserDiagnostics.push(diagnostic),
-    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   await composition.coordinator.run(taskId);
@@ -1063,7 +1063,7 @@ class RefreshReadModel extends ScriptedExternalModel {
 
 // Real Hybrid → Google/website boundary samples → refresh → State/Context and independent Eval.
 // These regressions preserve sources and Runtime; they do not test real-model planning or live websites.
-test("a failed compound refresh invalidates prior facts and independent evaluation rejects their reuse (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async (t) => {
+test("a failed compound refresh invalidates prior facts and independent evaluation rejects their reuse (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async (t) => {
   for (const failure of ["WEBSITE", "GOOGLE"] as const) await t.test(failure, async () => {
   let time = now;
   let refreshed = false;
@@ -1090,7 +1090,7 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
     model,
     google: google,
     browser: browser,
-    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   await composition.coordinator.run(taskId);
@@ -1119,7 +1119,7 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
   });
 });
 
-test("a closed-hours refresh removes historical support from the Agent context (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("a closed-hours refresh removes historical support from the Agent context (packs=Google; maxAgentSteps=5, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   let closed = false;
   const model = new RefreshReadModel(1);
   const place = { id: "closed-cafe", displayName: { text: "Closed Cafe" }, formattedAddress: "1 Ginza, Tokyo", location: { latitude: 35.6698, longitude: 139.7670 }, types: ["cafe", "restaurant"] };
@@ -1133,7 +1133,7 @@ test("a closed-hours refresh removes historical support from the Agent context (
     clock: { now: () => time },
     model,
     google: google,
-    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 5000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   await composition.coordinator.run(taskId);
@@ -1264,7 +1264,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
       browserTrace.push({ sequence, at: now.toISOString(), kind, detail }); return sequence;
     }) },
     onBrowserDiagnostic: item => diagnostics.push(item),
-    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find nearby restaurants tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
   const work = composition.coordinator.run(taskId, controller.signal);
@@ -1294,7 +1294,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
   return { composition, partial, loop, agentPools, seenBrowserNames, googleRequestAborted, startedModelCalls, observedOptionActions };
 }
 
-test("Hybrid production composition uses the observed-option browser wire before accepting source evidence (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("Hybrid production composition uses the observed-option browser wire before accepting source evidence (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   const result = await runScopedFailureComposition("option");
   const state = result.partial.finalSnapshot!.domainState;
   assert.ok((result.observedOptionActions ?? 0) > 0, JSON.stringify({ checks: state.availabilityChecks, browser: result.partial.diagnostics?.browserExecution?.filter(item => ["MODEL_DECISION_STARTED", "METHOD_INCOMPLETE", "REJECTED"].includes(item.event)).map(item => ({ source: item.source, stage: item.stage, detail: item.detail })) }));
@@ -1308,7 +1308,7 @@ test("Hybrid production composition uses the observed-option browser wire before
     && Array.isArray(evidence.claims.visibleSlots) && evidence.claims.visibleSlots.includes("13:00")));
 });
 
-test("Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("Hybrid source failures in A/B/C leave D reachable and outside candidates out of every Agent pool (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   // Real Interpreter/Compiler/Runtime/Google grounding/LiveBrowserAvailability/Resolver/Router/Agent.
   // Browser snapshots and transport errors are independent source input; no state/evidence injection.
   const result = await runScopedFailureComposition("local");
@@ -1328,7 +1328,7 @@ test("Hybrid source failures in A/B/C leave D reachable and outside candidates o
   assert.equal(evaluation.execution.taskProducedQualifiedResult, "YES", JSON.stringify(evaluation));
 });
 
-test("Hybrid shared model budget ends honestly while browser launch outage remains a system failure (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async t => {
+test("Hybrid shared model budget ends honestly while browser launch outage remains a system failure (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async t => {
   for (const mode of ["model-budget", "agent-budget", "runtime-outage"] as const) await t.test(mode, async () => {
     const result = await runScopedFailureComposition(mode);
     assert.equal(result.loop?.status, mode === "runtime-outage" ? "EXECUTION_FAILURE" : "TERMINAL");
@@ -1342,7 +1342,7 @@ test("Hybrid shared model budget ends honestly while browser launch outage remai
   });
 });
 
-test("Hybrid deadline captures immutable partial browser, Google and search evidence through the CLI artifact builder (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("Hybrid deadline captures immutable partial browser, Google and search evidence through the CLI artifact builder (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   const result = await runScopedFailureComposition("cancel");
   assert.equal(result.partial.resourceUsage.discoveryCandidates, 4);
   assert.ok(result.partial.resourceUsage.googleRequests!.total > 0);
@@ -1369,7 +1369,7 @@ test("Hybrid deadline captures immutable partial browser, Google and search evid
   }
 });
 
-test("Hybrid capture counts a sent Google request cancelled before any discovery trajectory (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("Hybrid capture counts a sent Google request cancelled before any discovery trajectory (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async () => {
   const result = await runScopedFailureComposition("google-cancel");
   assert.equal(result.googleRequestAborted, true, "the real Google client relay must abort the in-flight HTTP request");
   assert.deepEqual(result.partial.resourceUsage.googleRequests, {

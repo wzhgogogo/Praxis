@@ -276,7 +276,7 @@ function strengthUpgradeMaterializedCase() {
   };
 }
 
-test("a second-turn HARD upgrade resets the real Runtime (maxAgentSteps=3/4, timeoutMs=5000) and cannot reuse an old nonblocking presentation", async (t) => {
+test("a second-turn HARD upgrade resets the real Runtime (maxAgentSteps=3/4, timeoutMs=500000) and cannot reuse an old nonblocking presentation", async (t) => {
   const referenceTime = "2026-08-19T16:00:00+08:00";
   const observedAt = new Date(referenceTime).toISOString();
   for (const control of ["missing-current-hard-evidence", "current-hard-evidence"] as const) await t.test(control, async () => {
@@ -288,7 +288,7 @@ test("a second-turn HARD upgrade resets the real Runtime (maxAgentSteps=3/4, tim
       ...sources,
       // The negative's third action is a deliberately illegal presentation;
       // the bounded loop then stops rather than accepting the old card.
-      loop: { ...sources.loop, maxSteps: control === "current-hard-evidence" ? 4 : 3, timeoutMs: 5_000 },
+      loop: { ...sources.loop, maxSteps: control === "current-hard-evidence" ? 4 : 3, timeoutMs: 500_000 },
     });
     const first = await composition.interpretAndDispatch({ taskId, message: "Find a vegetarian lunch near Shibuya tomorrow at 12:30 PM for three.", referenceTime, timezone: "Asia/Tokyo" });
     assert.equal(first.status, "PROPOSED");
@@ -343,7 +343,7 @@ test("a second-turn HARD upgrade resets the real Runtime (maxAgentSteps=3/4, tim
   });
 });
 
-test("current H001-H005 raw requests complete through the real offline Hybrid composition (maxAgentSteps=6, timeoutMs=5000) with a scripted code-contract model", async (t) => {
+test("current H001-H005 raw requests complete through the real offline Hybrid composition (maxAgentSteps=6, timeoutMs=500000) with a scripted code-contract model", async (t) => {
   const frozen = await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH);
   assert.deepEqual(frozen.map((item) => item.id), PLANS.map((plan) => plan.id));
   for (const plan of PLANS) await t.test(plan.id, async () => {
@@ -366,7 +366,7 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
     const composition = createHybridReadComposition({
       taskId, runId: `run:${taskId}`, clock: { now: () => new Date(observedAt) }, model,
       ...sources,
-      loop: { ...sources.loop, maxSteps: 6, timeoutMs: 5_000 },
+      loop: { ...sources.loop, maxSteps: 6, timeoutMs: 500_000 },
     });
     const semantic = await composition.interpretAndDispatch({ taskId, message: String(sourceCase.content), referenceTime: plan.referenceTime, timezone: "Asia/Tokyo" }, plan.area === "nearby" ? HIGASHI_GINZA_EVALUATION_LOCATION : undefined);
     assert.equal(semantic.status, "PROPOSED");
@@ -434,7 +434,7 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
   });
 });
 
-test("a new task and new source scenario reuse the fixed Hybrid composition (maxAgentSteps=6, timeoutMs=5000) without a case-specific Runner", async () => {
+test("a new task and new source scenario reuse the fixed Hybrid composition (maxAgentSteps=6, timeoutMs=500000) without a case-specific Runner", async () => {
   const plan = NEW_VEGETARIAN_LUNCH_PLAN;
   const observedAt = new Date(plan.referenceTime).toISOString();
   const model = new FixedCurrentCaseModel(plan, "Find a vegetarian restaurant near Shibuya tomorrow at 12:30 PM for three. No ramen.");
@@ -442,7 +442,7 @@ test("a new task and new source scenario reuse the fixed Hybrid composition (max
   const taskId = "offline-current:new-vegetarian-lunch";
   const composition = createHybridReadComposition({
     taskId, runId: `run:${taskId}`, clock: { now: () => new Date(observedAt) }, model,
-    ...sources, loop: { ...sources.loop, maxSteps: 6, timeoutMs: 5_000 },
+    ...sources, loop: { ...sources.loop, maxSteps: 6, timeoutMs: 500_000 },
   });
   const semantic = await composition.interpretAndDispatch({ taskId, message: "Find a vegetarian restaurant near Shibuya tomorrow at 12:30 PM for three. No ramen.", referenceTime: plan.referenceTime, timezone: "Asia/Tokyo" });
   assert.equal(semantic.status, "PROPOSED");

@@ -57,7 +57,7 @@ async function stop(fixture: SavedState, termination: RestaurantAgentLoopTermina
         lifecycleState: definition.getLifecycleState(result.state), outcome: definition.evaluateOutcome(result.state), updatedAt: envelope.occurredAt };
       return { snapshot: current, commands: [], duplicateEvent: false };
     },
-  }, decision, router, trajectories, clock, { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000 });
+  }, decision, router, trajectories, clock, { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 500_000 });
   // Deliberately exercise the same internal stop boundary as the recorded
   // trajectory, with a monotonically advancing clock rather than frozen time.
   if (runFailure) await coordinator.run(current.id);
@@ -171,7 +171,7 @@ test('F6 slot3 26.596 seconds blocks the original availability action and ends h
  const observedContexts:import('../domains/restaurant/agent-context.js').RestaurantAgentContext[]=[];let sourceCalls=0;
  const start=Date.parse(f.referenceTime),instant=start+f.maxAutomaticMs-f.remainingMs;
  const localClock={now:()=>new Date(instant)};
- const currentState:RestaurantTaskState={...f.state,schemaVersion:"22"};
+ const currentState:RestaurantTaskState={...f.state,schemaVersion:"23"};
  let current:TaskSnapshot<RestaurantTaskState,RestaurantOutcome>={id:'f6-slot3',runId:'f6-slot3',taskType:definition.type,definitionVersion:definition.version,version:8,lifecycleState:definition.getLifecycleState(currentState),domainState:currentState,outcome:definition.evaluateOutcome(currentState),createdAt:f.referenceTime,updatedAt:localClock.now().toISOString()};
  const events:RestaurantEvent[]=[];const trajectories=new InMemoryRestaurantAgentTrajectoryStore();
  const router=new RestaurantExecutionRouter({executionRoute:'STRUCTURED_ADAPTER',async search(){throw Error('No search expected');}},

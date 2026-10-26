@@ -18,7 +18,7 @@ import { completeRestaurantSearchIntent } from "../domains/restaurant/intent-sta
 import { fixtureCandidates, fixtureIntent } from "./restaurant-fixtures.js";
 
 const state: RestaurantTaskState = {
-  schemaVersion: "22",
+  schemaVersion: "23",
   phase: "UNDERSTANDING",
   intentDraft: { ...fixtureIntent, schemaVersion: "3" },
   candidates: [],
@@ -378,7 +378,7 @@ test("Execution Router preserves all-provider browser failure evidence without e
 });
 
 
-test("Router partial-port contract: an explicitly permitted alternate time is queried as a bounded range and presented as an alternate, without changing the original request (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async () => {
+test("Router partial-port contract: an explicitly permitted alternate time is queried as a bounded range and presented as an alternate, without changing the original request (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)", async () => {
   // Start/end: user semantic proposal → actual Hybrid Router request binding →
   // source grounding → Reducer/assessment presentation. Only model and source
   // transport are fixed; no State, Offer, or evidence is injected directly.
@@ -420,7 +420,7 @@ test("Router partial-port contract: an explicitly permitted alternate time is qu
     model,
     google: google,
     unitAvailability: availability,
-    config: { maxAgentSteps: 6, maxRejectedActions: 3, maxAutomaticBrowserMs: 5_000, maxStructuredReadMs: 8_000 },
+    config: { maxAgentSteps: 6, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 },
     unitFacts: facts
   });
   await composition.interpretAndDispatch({ taskId, message: "Tomorrow at 7 PM for two; if unavailable, 30 minutes either side is fine.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -435,7 +435,7 @@ test("Router partial-port contract: an explicitly permitted alternate time is qu
   assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify(state.availabilityChecks));
 });
 
-test("Router partial-port contract: fresh request-bound inventory can receive missing facts before another inventory read and reach three results (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=10000, maxStructuredReadMs=8000)", async () => {
+test("Router partial-port contract: fresh request-bound inventory can receive missing facts before another inventory read and reach three results (packs=Google; maxAgentSteps=12, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)", async () => {
   // Start/end: semantic input -> Google discovery -> one grounded slot -> Google Details facts
   // -> remaining grounded slots/facts -> Runtime PRESENT_RESULTS. The scripted model proves a legal
   // path, not that Prompt@18 will choose it. Only model/source transports are fixed.
@@ -491,7 +491,7 @@ test("Router partial-port contract: fresh request-bound inventory can receive mi
     model,
     google: google,
     unitAvailability: availability,
-    config: { maxAgentSteps: 12, maxRejectedActions: 3, maxAutomaticBrowserMs: 10_000, maxStructuredReadMs: 8_000 },
+    config: { maxAgentSteps: 12, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 },
     unitFactsOnly: true
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow at 1 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -504,8 +504,11 @@ test("Router partial-port contract: fresh request-bound inventory can receive mi
   assert.equal(actions.at(-1), "PRESENT_RESULTS:3");
 });
 
-test("Router partial-port contract: default delivery keeps a produced source-backed result when the next availability batch would consume the reserve (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=300000, maxStructuredReadMs=8000)", async () => {
-  for (const mode of ["slow-read", "slow-decision"] as const) {
+test("Router partial-port contract: default delivery keeps a produced source-backed result when the next availability batch would consume the reserve (packs=Google; maxAgentSteps=8, maxRejectedActions=3, maxAutomaticBrowserMs=300000, maxStructuredReadMs=8000)", async (t) => {
+  for (const mode of ["slow-read", "slow-decision"] as const) await t.test(mode, async tt => {
+  if (mode === "slow-read") tt.mock.timers.enable({apis:["setTimeout"]});
+  let signalSecond!: () => void;
+  const secondStarted = new Promise<void>(resolve => { signalSecond = resolve; });
   const started = now.valueOf();
   let currentTime = started;
   const movingClock = { now: () => new Date(currentTime) };
@@ -538,19 +541,20 @@ test("Router partial-port contract: default delivery keeps a produced source-bac
     async check(request: import("../domains/restaurant/contracts.js").RestaurantAvailabilityRequest, actionSignal: AbortSignal) {
       calls += 1;
       if (calls === 2) {
+        signalSecond();
         await new Promise<void>((resolve) => {
-          const fallback = setTimeout(resolve, 1_500);
-          actionSignal.addEventListener("abort", () => { clearTimeout(fallback); resolve(); }, { once: true });
+          if (actionSignal.aborted) resolve();
+          else actionSignal.addEventListener("abort", () => resolve(), { once: true });
         });
         if (actionSignal.aborted) {
-          currentTime = started + 255_000;
+          currentTime = started + 280_000;
           throw actionSignal.reason;
         }
         currentTime = started + 300_000;
         return { offers: [], evidence: [], availabilityChecks: Object.fromEntries(request.candidateIds.map((id) => [id, { status: "UNKNOWN" as const, checkedAt: movingClock.now().toISOString(), evidenceIds: [], reasonCode: "BROWSER_TIMEOUT" as const }])),
           metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 46_000 } };
       }
-      currentTime = started + 254_000;
+      currentTime = started + 233_000;
       const candidate = request.candidates[0]!;
       const grounded = groundTableCheckAvailability(candidate, request, {
         candidateId: candidate.restaurant.id, sourceEntityId: "tablecheck:one", sourceUrl: "https://www.tablecheck.com/en/one",
@@ -558,7 +562,7 @@ test("Router partial-port contract: default delivery keeps a produced source-bac
         entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] }, pageState: "AVAILABLE", visibleSlots: ["19:00"],
       }, movingClock.now().toISOString());
       return { offers: grounded.offers, evidence: grounded.evidence, availabilityChecks: { [candidate.restaurant.id]: grounded.check },
-        metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 254_000 } };
+        metadata: { provider: "TABLECHECK" as const, route: "GENERIC_BROWSER" as const, latencyMs: 233_000 } };
     },
   };
   const taskId = `integration:default-delivery-${mode}`;
@@ -572,18 +576,23 @@ test("Router partial-port contract: default delivery keeps a produced source-bac
     config: { maxAgentSteps: 8, maxRejectedActions: 3, maxAutomaticBrowserMs: 300_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find a table nearby tomorrow at 7 pm for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
-  const result = await composition.coordinator.run(taskId, undefined, new Date(started + 300_000));
+  const pending = composition.coordinator.run(taskId, undefined, new Date(started + 300_000));
+  if (mode === "slow-read") {
+    await secondStarted;
+    tt.mock.timers.tick(47_000);
+  }
+  const result = await pending;
   const final = composition.runtime.snapshot(taskId).domainState;
   assert.equal(result.status, "TERMINAL", JSON.stringify({ actions, calls, phase: final.phase }));
   assert.equal(final.phase, "PRESENT_RESULTS");
   assert.deepEqual(final.selectionSession?.resultBatchTarget, { candidateCount: 3, met: false });
   assert.equal(calls, mode === "slow-read" ? 2 : 1, "the read must not consume the delivery reserve");
-  assert.equal(currentTime, started + (mode === "slow-read" ? 255_000 : 256_000));
+  assert.equal(currentTime, started + (mode === "slow-read" ? 280_000 : 256_000));
   assert.equal(composition.trajectories.steps.some((item) => item.observation?.detail.startsWith("DELIVERY_RESERVE_REACHED")), mode === "slow-read");
-  }
+  });
 });
 
-test("Router partial-port contract: model-call delivery reserve presents a source-backed short batch without relaxing qualification (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)", async (t) => {
+test("Router partial-port contract: model-call delivery reserve presents a source-backed short batch without relaxing qualification (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async (t) => {
   // Start at the real Interpreter; replace only model transport and source reads.
   // The same counted transport is used for semantic and Agent calls. No State or
   // presentation eligibility is injected. The independent source slot is 19:00/2.
@@ -670,7 +679,7 @@ test("Router partial-port contract: model-call delivery reserve presents a sourc
   }
 });
 
-test("Router partial-port contract: C0b reserves the last four calls inside a provider read and then presents (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)", async (t) => {
+test("Router partial-port contract: C0b reserves the last four calls inside a provider read and then presents (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000)", async (t) => {
   // Start at the real Interpreter; replace only model transport and source reads.
   // The same counted transport is used for semantic and Agent calls. No State or
   // presentation eligibility is injected. The independent source slot is 19:00/2.
@@ -769,7 +778,7 @@ test("Router partial-port contract: C0b reserves the last four calls inside a pr
   }
 });
 
-test("Router partial-port contract: C6a observed public hours end the immediate window only when every checked page has no opening period (packs=Google; maxAgentSteps=4, maxRejectedActions=3, maxAutomaticBrowserMs=5000, maxStructuredReadMs=8000)", async t => {
+test("Router partial-port contract: C6a observed public hours end the immediate window only when every checked page has no opening period (packs=Google; maxAgentSteps=4, maxRejectedActions=3, maxAutomaticBrowserMs=500000, maxStructuredReadMs=8000)", async t => {
   for(const mode of ["closed","outside","open","partial","unknown","malformed","ambiguous-closed","wrong-day","overnight","api-only","explicit-time","one-closed","three-two-closed-one-open"] as const) await t.test(mode, async()=>{
     const taskId=`hours:${mode}`;let inventoryReads=0;
     const provider:ModelGateway={async complete(input){
@@ -798,7 +807,7 @@ test("Router partial-port contract: C6a observed public hours end the immediate 
     google: google,
     unitAvailability: availability,
     browser,
-    config: { maxAgentSteps: 4, maxRejectedActions: 3, maxAutomaticBrowserMs: 5000, maxStructuredReadMs: 8_000 }
+    config: { maxAgentSteps: 4, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
     await composition.interpretAndDispatch({taskId,message:'Find restaurants nearby right now for two',referenceTime:now.toISOString(),timezone:'Asia/Tokyo'},HIGASHI_GINZA_EVALUATION_LOCATION);
     await composition.coordinator.run(taskId);
@@ -812,7 +821,10 @@ test("Router partial-port contract: C6a observed public hours end the immediate 
 });
 
 test("Router partial-port contract: reserve checkpoints retain completed outlets and mark only unfinished ones UNKNOWN (packs=Google; maxAgentSteps=10, maxRejectedActions=3, maxAutomaticBrowserMs=mode===\"availability-time\"?300000:500000, maxStructuredReadMs=8000)", async t => {
-  for (const mode of ["availability-call","availability-time","empty-call","facts-call"] as const) await t.test(mode,async()=>{
+  for (const mode of ["availability-call","availability-time","empty-call","facts-call"] as const) await t.test(mode,async tt=>{
+    if(mode==="availability-time")tt.mock.timers.enable({apis:["setTimeout"]});
+    let signalThird!:()=>void;
+    const thirdStarted=new Promise<void>(resolve=>{signalThird=resolve});
     const taskId=`fixture:checkpoint:${mode}`, started=now.valueOf(); let instant=started, inspected=0;
     const readClock={now:()=>new Date(instant)};
     const search=googleFixture([],{maxRequests:100},["one","two","three",...(mode==="availability-time"?["four"]:[])]);
@@ -838,9 +850,10 @@ test("Router partial-port contract: reserve checkpoints retain completed outlets
     const sourceCalls=async(signal:AbortSignal)=>{
       inspected++;
       if(mode==="availability-time"){
-        if(inspected===1)instant=started+254_000;
+        if(inspected===1)instant=started+205_000;
         if(inspected===3)await new Promise<never>((_,reject)=>{
-          const abort=()=>{instant=started+255_000;reject(signal.reason)};
+          signalThird();
+          const abort=()=>{instant=started+280_000;reject(signal.reason)};
           if(signal.aborted)abort();else signal.addEventListener("abort",abort,{once:true});
         });
       }else if(inspected===(mode==="empty-call"?1:2))for(let n=0;n<15;n++)await reserved.complete({taskId,purpose:"checkpoint-read",promptVersion:"fixture",messages:[],responseFormat:"JSON_OBJECT",outputSchema:{name:"fixture",version:"1"},timeoutMs:1000,fallback:"FAIL_CLOSED"});
@@ -870,7 +883,9 @@ test("Router partial-port contract: reserve checkpoints retain completed outlets
     remainingModelCalls:id=>budget.remainingCalls(id),
     ...(mode==="facts-call"?{unitFacts: facts}:{})
   });
-    await budget.run(taskId,async()=>{await composition.interpretAndDispatch({taskId,message:"Find nearby restaurants tomorrow at 7pm for two.",referenceTime:now.toISOString(),timezone:"Asia/Tokyo"},HIGASHI_GINZA_EVALUATION_LOCATION);await composition.coordinator.run(taskId,undefined,new Date(started+(mode==="availability-time"?300_000:500_000)));});
+    const pending=budget.run(taskId,async()=>{await composition.interpretAndDispatch({taskId,message:"Find nearby restaurants tomorrow at 7pm for two.",referenceTime:now.toISOString(),timezone:"Asia/Tokyo"},HIGASHI_GINZA_EVALUATION_LOCATION);await composition.coordinator.run(taskId,undefined,new Date(started+(mode==="availability-time"?300_000:500_000)));});
+    if(mode==="availability-time") { await thirdStarted; tt.mock.timers.tick(75_000); }
+    await pending;
     const state=composition.runtime.snapshot(taskId).domainState;
     assert.equal(state.failure,undefined);
     assert.equal(state.phase,mode==="empty-call"?"NO_VERIFIED_RESULT":"PRESENT_RESULTS",JSON.stringify({mode,inspected,state}));

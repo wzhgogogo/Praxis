@@ -1,3 +1,4 @@
+import {RESTAURANT_READ_ADMISSION_MS} from "./read-time-reserve.js";
 import { assessRestaurantConditions } from "./condition-states.js";
 import { createHash } from "node:crypto";
 
@@ -313,9 +314,9 @@ function transition(
     case "READ_END_WINDOW_OPENED": {
       requirePhase(state, ["UNDERSTANDING", "SEARCHING", "SELECTION_REQUIRED"], event.type);
       const remainingMs = Date.parse(event.deadlineAt) - Date.parse(context.now);
-      if (!Number.isFinite(remainingMs) || remainingMs < 0 || remainingMs > 45_000
-        || assessRestaurantRead(state, context.now).presentation.some(item => item.eligible)) throw new Error("Read-end reserve requires no qualified result and a bounded deadline");
-      return { state: { ...state, readEndWindow: { openedAt: context.now, deadlineAt: event.deadlineAt } }, commands: [] };
+      if (!Number.isFinite(remainingMs) || remainingMs < 0 || remainingMs > (event.reason==='DELIVERY_TIME'?Math.max(...Object.values(RESTAURANT_READ_ADMISSION_MS)):45_000)
+        || event.reason==='MODEL_CALL' && assessRestaurantRead(state,context.now).presentation.some(item=>item.eligible)) throw new Error("Read-end reserve requires a bounded deadline and a code-owned reason");
+      return { state: { ...state, readEndWindow: { openedAt: context.now, deadlineAt: event.deadlineAt, reason:event.reason } }, commands: [] };
     }
     case "DEFAULT_BATCH_DELIVERY_WINDOW_OPENED": {
       requirePhase(state, ["SEARCHING"], event.type);
@@ -827,10 +828,10 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "20",
+  version: "21",
   create() {
     return {
-      schemaVersion: "22",
+      schemaVersion: "23",
       phase: "UNDERSTANDING",
       candidates: [],
       availability: {},

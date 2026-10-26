@@ -16,7 +16,7 @@ import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtu
 import type { RestaurantOutcome } from "./contracts.js";
 
 const incompleteState: RestaurantTaskState = {
-  schemaVersion: "22",
+  schemaVersion: "23",
   phase: "UNDERSTANDING",
   candidates: [],
   availability: {},
@@ -844,5 +844,30 @@ test("source price statuses disclose soft shortfalls but gate hard budgets befor
   for(const state of [make("HARD",4000,true),make("HARD",undefined,true)]){
     assert.equal(validateRestaurantAction(state,present,now).status,"REJECTED","a structured HARD cap rejects an excessive or unverified price");
     assert.throws(()=>restaurantBookingTaskDefinition.transition(state,{type:"RESULTS_PRESENTED",candidateIds:[candidateId],evidenceIds:["area","entity","facts"]},{taskId:"cap",runId:"cap",now,createId:p=>p}),/not grounded/);
+  }
+});
+
+
+test("ADR0045 median admission uses the same inclusive thresholds in context and execution validation", () => {
+  // Local construction: no saved website response or injected legalActions.
+  const state: RestaurantTaskState = { ...incompleteState, phase: "SEARCHING", searchRevision: 1,
+    intentDraft: { ...fixtureIntent, schemaVersion: "3", criteria: [] },
+    candidates: fixtureCandidates.slice(0, 1),
+  };
+  for (const [type, minimum, key] of [
+    ["SEARCH_RESTAURANTS", 65_154, "search"],
+    ["INVESTIGATE_CANDIDATE_FACTS", 50_383.5, "investigateCandidateFacts"],
+    ["CHECK_AVAILABILITY", 66_453, "checkAvailability"],
+  ] as const) {
+    const action = type === "SEARCH_RESTAURANTS" ? { type } : { type, candidateIds: [fixtureCandidates[0]!.restaurant.id] };
+    assert.equal(validateRestaurantAction(state, action, now).status, "ALLOWED", type + " ordinary lawful control");
+    for (const remainingAutomaticMs of [minimum - 0.5, minimum, minimum + 0.5]) {
+      const context = projectRestaurantAgentContext(state, now, { remainingAutomaticMs });
+      const value = context.legalActions[key];
+      assert.equal(Array.isArray(value) ? value.length > 0 : value, remainingAutomaticMs >= minimum, type);
+      const verdict = validateRestaurantAction(state, action, now, { remainingAutomaticMs });
+      assert.equal(verdict.status, remainingAutomaticMs >= minimum ? "ALLOWED" : "REJECTED", type);
+      if (verdict.status === "REJECTED") assert.equal(verdict.code, "READ_TIME_RESERVED");
+    }
   }
 });

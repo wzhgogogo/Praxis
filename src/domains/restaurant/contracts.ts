@@ -743,7 +743,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "22";
+  schemaVersion: "23";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;
@@ -772,7 +772,7 @@ export interface RestaurantTaskState {
   /** Code-opened first default-batch delivery reserve; never model or user supplied. */
   defaultBatchDeliveryWindow?: { openedAt: string; deadlineAt: string };
   /** System-opened reserve for truthful ending with no qualified candidate. */
-  readEndWindow?: { openedAt: string; deadlineAt: string };
+  readEndWindow?: { openedAt: string; deadlineAt: string; reason: "MODEL_CALL" | "DELIVERY_TIME" };
   readEvidence: RestaurantReadEvidence[];
   searchRevision: number;
   /** Increments only when the user changes authoritative semantics. */
@@ -881,7 +881,7 @@ export type RestaurantEvent =
   | (DomainEvent & { type: "SHORTLIST_UPDATED"; candidateId: string; shortlisted: boolean })
   /** Local selection feedback is retained verbatim and may guide a later Agent decision. */
   | (DomainEvent & { type: "SELECTION_FEEDBACK_RECORDED"; feedback: string })
-  | (DomainEvent & { type: "READ_END_WINDOW_OPENED"; deadlineAt: string })
+  | (DomainEvent & { type: "READ_END_WINDOW_OPENED"; deadlineAt: string; reason: "MODEL_CALL" | "DELIVERY_TIME" })
   | (DomainEvent & { type: "READ_ENDED_NO_VERIFIED_RESULT"; investigatedCandidateIds: string[]; unresolvedCandidateIds: string[]; remainingGaps: string[] })
   | (DomainEvent & { type: "AVAILABILITY_REFRESH_REQUESTED"; candidateIds: string[] })
   | (DomainEvent & { type: "CANDIDATE_FACTS_REFRESH_REQUESTED"; candidateIds: string[] })

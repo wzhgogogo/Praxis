@@ -271,6 +271,7 @@ export class RestaurantExecutionRouter {
             executionMetadata: read.metadata,
           };
         } catch (error) {
+          if (stableFailureCode(error,"AGENT_EXECUTION_FAILED")==='READ_CANCELLATION_UNSETTLED') throw error;
           if (restaurantReserveCancelled(parentSignal) && completedSearch?.metadata.reserveReached?.reason === 'DELIVERY_TIME') {
             const read = completedSearch;
             return {route:this.search.executionRoute,event:{type:'SEARCH_COMPLETED',request,...read},observation:{type:'DISCOVERY',detail:'DELIVERY_RESERVE_REACHED: complete search children retained; unread sources remain unknown',candidateIds:read.candidates.map(c=>c.restaurant.id),evidenceIds:read.evidence.map(e=>e.evidenceId)},executionMetadata:read.metadata};
@@ -341,6 +342,7 @@ export class RestaurantExecutionRouter {
             executionMetadata: { ...read.metadata, ...(request.recheck ? { recheckReason: request.recheck.reason } : {}) },
           };
         } catch (error) {
+          if (stableFailureCode(error,"AGENT_EXECUTION_FAILED")==="READ_CANCELLATION_UNSETTLED") throw error;
           const reserve = reserveCause(error,parentSignal);
           if(reserve){
             const read=mergedFacts(completed,request,{...fallback,...googleUsageMetadata(this.facts,readRunId)},now,reserve);
@@ -418,6 +420,7 @@ export class RestaurantExecutionRouter {
             executionMetadata: metadata,
           };
         } catch (error) {
+          if (stableFailureCode(error,"AGENT_EXECUTION_FAILED")==="READ_CANCELLATION_UNSETTLED") throw error;
           const reserve=reserveCause(error,parentSignal);
           if(reserve){
             const read=mergedAvailability(completed,request,fallback,now,reserve);

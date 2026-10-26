@@ -83,6 +83,7 @@ interface TestServer {
 
 interface StartServerOptions {
   readAssembly?: ReturnType<typeof createLiveReadAssembly>;
+  readTimeouts?: import("../application/restaurant-execution-router.js").RestaurantExecutionRouterOptions;
   mode?: "FIXTURE" | "LIVE_READ";
   restaurant?: RestaurantSearchPort & RestaurantAvailabilityPort & RestaurantCandidateFactPort;
   model?: ModelGateway;
@@ -106,7 +107,7 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
     restaurantSearch: options.readAssembly?.search ?? restaurant,
     restaurantAvailability: options.readAssembly?.availability ?? restaurant,
     restaurantFacts: options.readAssembly?.facts ?? restaurant,
-    executionRouterOptions: options.readAssembly?.router ?? { structuredReadTimeoutMs: readLimits.maxStructuredReadMs, browserReadTimeoutMs: readLimits.maxAutomaticBrowserMs },
+    executionRouterOptions: options.readTimeouts ?? options.readAssembly?.router ?? { structuredReadTimeoutMs: readLimits.maxStructuredReadMs, browserReadTimeoutMs: readLimits.maxAutomaticBrowserMs },
     agentLoopOptions: options.readAssembly?.loop ?? { maxSteps: readLimits.maxAgentSteps, maxRejectedActions: readLimits.maxRejectedActions, timeoutMs: readLimits.maxAutomaticBrowserMs },
     ...(options.liveReadLimits ? { liveReadLimits: options.liveReadLimits } : {}),
     ...(options.mode ? { workspaceMode: options.mode } : {}),
@@ -1170,44 +1171,43 @@ test("W13 ordinary Web presents a qualified short batch using its shared model-c
   });
 });
 
-test("W12 Live Persistent run keeps the semantic-started deadline through a blocking provider read", { timeout: 30_000 }, async t => {
+test("W12 F6 Live Persistent run inherits the semantic-started deadline and its twenty-second reserve", { timeout: 10_000 }, async t => {
   await withDatabase(async ({ database, clock }) => {
+    t.mock.timers.enable({ apis: ["setTimeout", "Date"], now: Date.now() });
+    const initial = clock.now().valueOf();
     const restaurant = new BlockingRestaurantSearch();
-    let announceSemantic!: () => void;
-    const semanticStarted = new Promise<void>(resolve => { announceSemantic = resolve; });
-    const fixtureModel = new FixtureModelGateway();
+    const fixture = new FixtureModelGateway();
     const boundedModel = new RunBoundedModelGateway({ async complete(request) {
+      const value = await fixture.complete(request);
       if (request.purpose === "restaurant_semantic_interpret") {
-        announceSemantic();
-        await new Promise<void>(resolve => setTimeout(resolve, 20));
+        clock.advance(100_000);
+        t.mock.timers.tick(100_000);
       }
-      return fixtureModel.complete(request);
-    } }, 50, 55);
+      return value;
+    } }, 50, 500_000);
     const running = await startServer(database, clock, {
       mode: "LIVE_READ", restaurant, model: boundedModel, modelRunBudget: boundedModel,
+      readTimeouts: { structuredReadTimeoutMs: 500_000, browserReadTimeoutMs: 500_000 },
     });
     try {
       const cookie = await login(running.baseUrl, "token-a");
       const finished = new Promise<void>((resolve) => {
         const unsubscribe = running.application.subscribeReadFinished(() => { unsubscribe(); resolve(); });
       });
-      t.mock.timers.enable({ apis: ["Date", "setTimeout"], now: 0 });
-      const creation = createCase(running.baseUrl, cookie, "web-whole-read-deadline");
-      await withinTestTimeout(semanticStarted, "W12 semantic transport to start");
-      t.mock.timers.tick(20);
-      const created = await withinTestTimeout(creation, "W12 HTTP response after semantic work");
-      await withinTestTimeout(restaurant.started, "W12 source search to start");
-      t.mock.timers.tick(34);
-      assert.equal(restaurant.aborted, false, "source read remains valid before the original deadline");
-      t.mock.timers.tick(1);
-      assert.equal(restaurant.aborted, true, "semantic time must consume the same deadline, without renewing it at source entry");
-      await withinTestTimeout(finished, "the semantic-started whole-read deadline");
-      assert.equal(restaurant.aborted, true, "the original run signal interrupts a source read after semantic time has elapsed");
+      const created = await createCase(running.baseUrl, cookie, "web-whole-read-deadline");
+      await restaurant.started;
+      clock.advance(380_000);
+      t.mock.timers.tick(380_000);
+      assert.equal(restaurant.aborted, true, "F6 must cancel at the semantic-started deadline minus 20 seconds, not restart 500 seconds after semantic work");
+      await finished;
       const artifact = await running.application.exportReadArtifact(created.case.caseId);
       const state = (artifact.finalSnapshot as { domainState: RestaurantTaskState }).domainState;
       assert.equal(state.phase, "NO_VERIFIED_RESULT");
       assert.equal(state.failure, undefined);
-      assert.ok(state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("AGENT_LOOP_TIMEOUT")));
+      assert.equal(state.readEndWindow?.reason, "DELIVERY_TIME");
+      assert.equal(state.readEndWindow?.deadlineAt, new Date(initial + 500_000).toISOString());
+      assert.equal(clock.now().valueOf(), initial + 480_000);
+      assert.ok(state.noVerifiedResult?.remainingGaps.some(gap => gap.includes("READ_TIME_RESERVE")));
       assert.equal(evaluateRestaurantHybridLiveArtifact(artifact, { path: "w12-deadline.result.json", sha256: "fixture" }).execution.completion, "NO_VERIFIED_RESULT");
     } finally {
       t.mock.timers.reset();

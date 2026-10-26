@@ -1,3 +1,4 @@
+import {RESTAURANT_READ_FINALIZE_ALLOWANCE_MS} from "./read-time-reserve.js";
 import type {
   ModelFinishReason,
   ModelGateway,
@@ -17,7 +18,7 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "27" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "28" as const;
 export const RESTAURANT_AGENT_ACTION_FIELDS_INSTRUCTION = "Every field unrelated to the selected action MUST be empty. CHECK_AVAILABILITY and INVESTIGATE_CANDIDATE_FACTS use candidateIds only: retrievalHint, question, candidateId and offerId must be empty strings, relatedFields must be an empty array. Put explanations only in decisionSummary; never copy a search hint into another action.";
 export const RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION = "Candidate availabilityPath is a source-derived advisory fact. DIRECT_SOURCE_PAGE can be opened for availability without name search and is usually faster and more reliable; NAME_RESOLUTION requires confirming the same outlet through source name search; NONE has no currently supported path. Among legal in-radius candidates consistent with the requested HARD conditions, prefer DIRECT_SOURCE_PAGE for availability. Missing HARD facts may be investigated on those candidates; identity, all HARD conditions and exact-request inventory still require their own evidence. Do not infer eligibility or a successful result from this hint.";
 export const RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION = "Candidate sourceCategories are source-attributed observations, not verified HARD facts or eligibility. Among currently legal candidates, prioritize those whose observed categories agree with the HARD request; leave obvious category conflicts with HARD exclusions until last. Category observations never authorize excluding or accepting a candidate, changing constraints, or claiming a result.";
@@ -111,7 +112,7 @@ function toAttempt(response: ModelResponse): RestaurantAgentModelAttempt {
 export function buildRestaurantAgentDecisionSystemPrompt(): string {
   return `You are the single Restaurant Agent deciding one next business action.
 
-Treat the supplied Restaurant Agent Context as the authoritative decision view. User constraints are immutable here: do not reinterpret, loosen, remove, or silently modify them. Do not claim an action or booking happened unless the context says so.
+Treat the supplied Restaurant Agent Context as the authoritative decision view. Its readBudget and legalActions are code-owned: unaffordable reads are absent. When searchAvailability.reason is READ_TIME_RESERVED or READ_TIME_RESERVE, only END_READ or existing qualified PRESENT_RESULTS may be chosen; do not ask a new question, start a read, change constraints, or interpret unread sources as exhausted. The closing reserve is part of the existing whole-run deadline. Partial results retain the ordinary identity, date, party, slot, HARD and freshness requirements. User constraints are immutable here: do not reinterpret, loosen, remove, or silently modify them. Do not claim an action or booking happened unless the context says so.
 
 Availability checks have two independent business meanings. inventoryStatus AVAILABLE means a qualifying slot was observed; UNAVAILABLE means a correct, supported source checked the requested constraints and found no qualifying slot. receptionMode says only whether the source explicitly supports reservations, walk-in, both, or remains unknown. UNKNOWN and SOURCE_UNSUPPORTED do not mean unavailable, do not establish walk-in, and never let an absent booking entry become a walk-in claim. Use the candidate observations, sourceAttempts, key evidence gaps, and legalActions in context to choose an appropriate next business action. observedFacts.commercialNotes are the only candidate commercial facts supplied for comparison: each note has a matching source, and an absent note is UNKNOWN. Do not infer a price, tax treatment, private-room minimum, cancellation rule, or no-show rule from another note or candidate.
 
@@ -159,8 +160,10 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
   async decide(input: RestaurantAgentDecisionInput): Promise<RestaurantAgentDecisionResult> {
     const inputErrors = validInput(input);
     if (inputErrors.length > 0) return { status: "INVALID_MODEL_OUTPUT", errors: inputErrors };
+    const deadline=input.context.readBudget?Date.now()+Math.max(0,input.context.readBudget.remainingMs-RESTAURANT_READ_FINALIZE_ALLOWANCE_MS):undefined;
     let correction: string | undefined;
     for (let attempt = 0; attempt < 2; attempt += 1) {
+      if(deadline!==undefined&&Date.now()>=deadline)return {status:"MODEL_FAILURE",errorCode:"TIMEOUT",retryable:false};
       let response: ModelResponse;
       try {
         response = await this.modelGateway.complete({
@@ -185,7 +188,7 @@ export class RestaurantAgentDecision implements RestaurantAgentDecisionPort {
           ...RESTAURANT_AGENT_ACTION_SCHEMA,
           jsonSchema: RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA,
         },
-        timeoutMs: 30_000,
+        timeoutMs: deadline===undefined?30_000:Math.max(1,Math.min(30_000,Math.floor(deadline-Date.now()))),
         fallback: "FAIL_CLOSED",
         maxOutputTokens: RESTAURANT_AGENT_DECISION_MAX_OUTPUT_TOKENS,
         temperature: 0,

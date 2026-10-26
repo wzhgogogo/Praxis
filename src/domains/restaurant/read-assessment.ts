@@ -304,6 +304,11 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   };
   const endWindow = state.readEndWindow;
   const reserve = endWindow && Date.parse(now) >= Date.parse(endWindow.openedAt) && Date.parse(now) <= Date.parse(endWindow.deadlineAt);
+  if (reserve && endWindow.reason === 'DELIVERY_TIME' && !internalFailure) return {
+    presentation,factInvestigableCandidateIds:[],checkableCandidateIds:[],investigationRecorded,
+    canEndRead:!relevantPresentation.some(item=>item.eligible),unresolvedCandidateIds,
+    endReadReason:'READ_TIME_RESERVE: This bounded read is ending to reserve time for an honest conclusion. Unread sources and incomplete candidates remain unknown; no claim that nearby restaurants have no seats is supported.',
+  };
   if (reserve && !internalFailure && !relevantPresentation.some(item => item.eligible)) return {
     presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [], investigationRecorded,
     canEndRead: true, unresolvedCandidateIds,

@@ -1,3 +1,4 @@
+import {restaurantReadActionFits,restaurantReadClosing} from "./read-time-reserve.js";
 import type { RestaurantAgentAction } from "./agent-action.js";
 import { type AvailabilityOffer, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
@@ -28,7 +29,8 @@ export type RestaurantActionRejectionCode =
   | "PRESENTATION_EVIDENCE_MISSING"
   | "FACTS_ALREADY_CHECKED"
   | "DISCOVERY_UNAVAILABLE"
-  | "READ_BUDGET_EXHAUSTED";
+  | "READ_BUDGET_EXHAUSTED"
+  | "READ_TIME_RESERVED";
 
 /** A browser/read batch is bounded separately from the discovery pool and UI. */
 export const MAX_AVAILABILITY_CHECK_BATCH = 3;
@@ -100,6 +102,7 @@ function requireCompleteSearchIntent(state: Readonly<RestaurantTaskState>):
 /** A short result batch is truthful only after every ordinary bounded read is unavailable. */
 function resultTargetCannotBeMetWithFurtherRead(state: Readonly<RestaurantTaskState>, now: string): boolean {
   const assessment = assessRestaurantRead(state, now);
+  if (restaurantReadClosing(state, now)) return true;
   const discoveryAvailable = state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true;
   return !discoveryAvailable && assessment.factInvestigableCandidateIds.length === 0 && assessment.checkableCandidateIds.length === 0;
 }
@@ -123,7 +126,7 @@ export function defaultBatchDeliveryWindowActive(state: Readonly<RestaurantTaskS
     && defaultBatchDeliveryCandidateIds(state, now).length > 0;
 }
 
-export interface RestaurantReadBudgetStatus { remainingModelCalls?: number | undefined; browserModelBudgetExhausted?: boolean }
+export interface RestaurantReadBudgetStatus { remainingModelCalls?: number | undefined; browserModelBudgetExhausted?: boolean; remainingAutomaticMs?: number }
 
 export function restaurantReadBudgetExhausted(state: Readonly<RestaurantTaskState>, budget: RestaurantReadBudgetStatus = {}): boolean {
   return budget.remainingModelCalls !== undefined && budget.remainingModelCalls <= 0 || budget.browserModelBudgetExhausted === true
@@ -141,7 +144,9 @@ export function validateRestaurantAction(
     return rejected("OUTCOME_UNKNOWN", "An unknown booking outcome must be verified before any new action");
   }
   if (isTerminal(state)) return rejected("TASK_TERMINAL", `Task is terminal in ${state.phase}`);
-  if (action.type === "ASK_USER") return { status: "ALLOWED" };
+  if (restaurantReadClosing(state,now) && !['END_READ','PRESENT_RESULTS'].includes(action.type)) return rejected('READ_TIME_RESERVED','The remaining read budget is reserved for an honest conclusion or qualified presentation');
+  if (!restaurantReadActionFits(action.type,budget.remainingAutomaticMs)) return rejected('READ_TIME_RESERVED','The remaining time cannot fit this action median plus the twenty-second conclusion reserve');
+  if (action.type === "ASK_USER") return defaultBatchDeliveryWindowActive(state,now) ? rejected('PRESENTATION_READY','Present existing qualified results in the closing window') : { status: "ALLOWED" };
   if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && restaurantReadBudgetExhausted(state, budget))
     return rejected("READ_BUDGET_EXHAUSTED", "The current read has no browser/global model budget remaining");
 
@@ -152,7 +157,7 @@ export function validateRestaurantAction(
       : rejected("PRESENTATION_EVIDENCE_MISSING", assessment.endReadBlockReason ?? "The current read cannot end safely");
   }
 
-  if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && /^(MODEL_CALL_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessRestaurantRead(state, now).endReadReason ?? ""))
+  if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && /^(MODEL_CALL_RESERVE|READ_TIME_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessRestaurantRead(state, now).endReadReason ?? ""))
     return rejected("DISCOVERY_UNAVAILABLE", assessRestaurantRead(state, now).endReadReason!);
 
   if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && immediateRequestWindowExpired(state, now))

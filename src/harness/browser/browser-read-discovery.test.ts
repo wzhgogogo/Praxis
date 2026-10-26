@@ -32,7 +32,7 @@ test('P21 discovery uses DOM category links despite CSS and rejects foreign regi
  const {restaurantSearchIntentFingerprint}=await import('../../domains/restaurant/contracts.js');
  const empty=await readFile(new URL('../../integrations/tabelog/fixtures/empty-kaiseki.html',import.meta.url),'utf8');
  const homepageFragment=await readFile(new URL('../../integrations/tabelog/fixtures/p21-region-homepage-categories.html',import.meta.url),'utf8');
- for(const mode of ['refine','reject','homepage','general','forged-general','cross-source-general','no-general'] as const){
+ for(const mode of ['refine','reject','homepage','general','forged-general','cross-source-general','no-general','cancel-partial'] as const){
  const region=mode==='homepage'?'https://tabelog.com/en/tokyo/A1303/':'https://tabelog.com/en/tokyo/A1000/A100001/rstLst/';
  const category=mode==='homepage'?region+'rstLst/sushi/':region+'cuisine/';
  const observedCategory=mode==='homepage'?category+'?sw=omakase':category;const foreign='https://tabelog.com/en/tokyo/A2000/A200001/rstLst/cuisine/';
@@ -45,10 +45,11 @@ test('P21 discovery uses DOM category links despite CSS and rejects foreign regi
   const pages:Record<string,string>={[root]:`<title>Directory</title><a href="${mode==='no-general'?keyword:region}">Fixture District</a>`,[region]:'<title>Region</title>'+links(mode==='general'?5:1)+categories,[keyword]:dynamic(empty+categories),[category]:dynamic(links(5)+categories)};
   for(let n=1;n<=5;n++)pages[outlet(n)]=`<title>Fixture venue ${n}</title><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:`Fixture venue ${n}`,address:'Fixture District, Tokyo',geo:{latitude:35,longitude:139}})}</script><h1>Fixture venue ${n}</h1><p class="rstinfo-table__address">Fixture District, Tokyo</p>`;
   await writeFile(harPath,replayHarPages(pages));
+  const cancellation=new AbortController();
   const raw=new LocalPlaywrightChromium();
   const runtime:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{
     const session=await raw.openSession({...input,replayHarPath:harPath});
-    return new Proxy(session,{get(target,key){if(key==='openLink')return async(...args:Parameters<NonNullable<typeof session.openLink>>)=>{navigations.push(args[1]!);return target.openLink!(...args);};if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);return target.navigate(...args);};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
+    return new Proxy(session,{get(target,key){if(key==='openLink')return async(...args:Parameters<NonNullable<typeof session.openLink>>)=>{navigations.push(args[1]!);return target.openLink!(...args);};if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);if(mode==='cancel-partial'&&args[0]===outlet(2)){cancellation.abort(Object.assign(new Error('Local constructed reserve cancellation'),{code:'DELIVERY_RESERVE_REACHED'}));throw cancellation.signal.reason;}return target.navigate(...args);};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
   }};
   const model:import('../../core/model/contracts.js').ModelGateway={complete:async request=>{
     const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);requests.push({purpose:request.purpose,body});let result:unknown;
@@ -76,10 +77,16 @@ test('P21 discovery uses DOM category links despite CSS and rejects foreign regi
   const intent:import('../../domains/restaurant/contracts.js').RestaurantSearchIntent={timezone:'Asia/Tokyo',area:{query:'Fixture District'},criteria:[{text:'kaiseki restaurant',polarity:'POSITIVE',strength:'HARD'}]};
   const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxModelCalls:15,maxAutomaticBrowserMs:30000,packs:[tabelogDiscoveryPack]}, {model,browser:runtime,google:new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async()=>{throw Error('No external Google');}}),clock:{now:()=>new Date('2026-10-17T00:00:00Z')}});
   try{
-    const result=await assembly.search.search({readRunId:'chromium-retrieval',intent,continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35,longitude:139,radiusMeters:1000,label:'Fixture District',areaMatchBasis:'NAMED_PLACE_RADIUS'}}},AbortSignal.timeout(30000));
-    assert.equal(result.candidates.length,['reject','forged-general','cross-source-general','no-general'].includes(mode)?0:5,JSON.stringify({metadata:result.metadata,navigations}));
+    const result=await assembly.search.search({readRunId:'chromium-retrieval',intent,continuation:{intentFingerprint:restaurantSearchIntentFingerprint(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{latitude:35,longitude:139,radiusMeters:1000,label:'Fixture District',areaMatchBasis:'NAMED_PLACE_RADIUS'}}},AbortSignal.any([AbortSignal.timeout(30000),cancellation.signal]));
+    assert.equal(result.candidates.length,['reject','forged-general','cross-source-general','no-general'].includes(mode)?0:mode==='cancel-partial'?1:5,JSON.stringify({metadata:result.metadata,navigations}));
     assert.equal(navigations.includes(foreign),false);assert.equal(navigations.some(u=>u.includes('/reserve')||u.includes('/booking')),false);
-    if(['refine','homepage'].includes(mode)){
+    if(mode==='cancel-partial'){
+      assert.equal(navigations.filter(url=>/^https:\/\/tabelog.com\/tokyo\/.*\/123456\d+\/$/.test(url)).length,2);
+      assert.equal(result.continuation?.exhausted,false);
+      assert.equal(result.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');
+      assert.equal(result.continuation?.sourceProgress?.detailAttempts,2);
+      assert.deepEqual(result.metadata.reserveReached?.completedCandidateIds,result.candidates.map(candidate=>candidate.restaurant.id));
+    }else if(['refine','homepage'].includes(mode)){
       assert.ok(navigations.indexOf(category)<navigations.indexOf(outlet(1)),'refinement precedes detail reads');
       assert.ok(requests.some(r=>r.body.observation?.explicitEmpty),'recorded real empty state is parsed after its loader disappears');
       assert.equal(result.metadata.nativeDiscoveryFunnel?.retrieval?.rewrites,1);

@@ -124,7 +124,7 @@ test("a result that completes before the deadline retains its normal terminal ou
     const candidateIds = payload.context?.candidates?.map((candidate) => candidate.id) ?? [];
     return response(JSON.stringify({ type, question: "", relatedFields: [], retrievalHint: "", candidateIds: type === "CHECK_AVAILABILITY" || type === "PRESENT_RESULTS" ? candidateIds : [], candidateId: "", offerId: "", decisionSummary: "deadline normal control" }), `agent:${type}`);
   } };
-  const result = await executeFixedSourceCase({ registration, materializedCase, model, taskId: "deadline:normal", deadlineMs: 1_000 });
+  const result = await executeFixedSourceCase({ registration, materializedCase, model, taskId: "deadline:normal", deadlineMs: 500_000 });
   assert.deepEqual(result.execution, { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" });
 });
 

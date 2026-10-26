@@ -134,7 +134,7 @@ export class RestaurantHarness {
       new RestaurantExecutionRouter(this.searchAdapter, this.availabilityAdapter, { structuredReadTimeoutMs: 8_000, browserReadTimeoutMs: 20_000, }, this.searchAdapter),
       this.trajectories,
       this.clock,
-      this.fixture.agentLoopOptions ?? { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 30_000 },
+      this.fixture.agentLoopOptions ?? { maxSteps: 12, maxRejectedActions: 3, timeoutMs: 500_000 },
       (prefix) => `${prefix}-${++this.sequence}`,
     );
   }
