@@ -64,7 +64,7 @@ for name, sample, command in steps:
         row['healthPassed'] = any(line.startswith('✔ Live source health uses real Guard') for line in text.splitlines())
         assert '--test-concurrency=4' in text
     result['runs'].append(row); save()
-    print('END', name, sample, row['outcome'], row['elapsedSeconds'], summary, 'clean=' + str(not row['gitStatusAfter']), flush=True)
+    print('END', name, sample, row['outcome'], row['elapsedSeconds'], row['summary'], 'clean=' + str(not row['gitStatusAfter']), flush=True)
     if row['outcome'] == 'FAIL' or row['gitStatusAfter'] or name == 'browser-fixture' and not row['healthPassed']:
         result['stopReason'] = 'UNAPPROVED_GATE_FAILURE_OR_CHECKOUT_CHANGE'; save(); raise SystemExit(1)
 verify()
