@@ -36,7 +36,7 @@ for folder in ['f5-live','f5-live-rerun']:
             events=[r for r in trace if r['detail'].get('source')==source]
             starts=[r for r in events if r['detail'].get('event')=='PROVIDER_STARTED'];ends=[r for r in events if r['detail'].get('event')=='PROVIDER_FINISHED']
             start=(starts or events)[0];end=ends[-1] if ends else events[-1]
-            stopped=not bool(ends)
+            stopped=bool(starts) and not bool(ends)
             boundary=a['finishedAt'] if stopped else end['at']
             phases=collections.Counter();operation_stack=[];operations=[];model_start=None;models=[]
             for index,event in enumerate(events):
@@ -61,7 +61,8 @@ for folder in ['f5-live','f5-live-rerun']:
             for event in events:
                 d=event['detail']
                 if d.get('url') and d['url'] not in queries:queries.append(d['url'])
-            row['providers'].append({'source':source,'startedAt':start['at'],'finishedAt':end['at'] if ends else None,
+            row['providers'].append({'source':source,'providerScopeRecorded':bool(starts),'activityOnlyWithoutProviderScope':not bool(starts),
+                'startedAt':start['at'],'finishedAt':end['at'] if not stopped else None,
                 'recordedProviderElapsedMs':end['detail'].get('lifecycle',{}).get('providerElapsedMs') if ends else None,
                 'observedWallMs':elapsed(start['at'],boundary),'rightCensored':stopped,
                 'stageWallMsFromEventBoundaries':dict(phases),'completedOperationDurations':grouped,'operations':operations,
@@ -71,8 +72,8 @@ for folder in ['f5-live','f5-live-rerun']:
                 'errors':[{'at':x['at'],'event':x['detail'].get('event'),'stage':x['detail'].get('stage'),'reason':brief(x['detail'].get('detail'))} for x in events if x['detail'].get('event') in ['REJECTED','OPERATION_FAILED','MODEL_DECISION_FAILED','METHOD_INCOMPLETE']]})
         rows.append(row)
 assert len(rows)==8 and sum(r['applicability']=='DENGANA_FOUND' for r in rows)==6
-result={'schema':'phase3b-dengana-retrospective@1','mode':'OFFLINE_IMMUTABLE_LIVE_ARTIFACT_ANALYSIS','newRealCalls':0,
-        'runs':8,'applicableDenganaRuns':6,'otherRequestRuns':2,'timingCaveats':'Stage durations use recorded event boundaries. Operation and model durations overlap; do not add to stage totals. Missing completion is censored, not a fabricated timeout duration. Run end includes termination/cleanup.',
+result={'schema':'phase3b-dengana-retrospective@2','mode':'OFFLINE_IMMUTABLE_LIVE_ARTIFACT_ANALYSIS','newRealCalls':0,
+        'runs':8,'applicableDenganaRuns':6,'otherRequestRuns':2,'timingCaveats':'Stage durations use recorded event boundaries. Operation and model durations overlap; do not add to stage totals. An actually started provider without finish is censored; helper WEBSITE events without provider scope are only an observed activity window, not a separate provider or a censored tail. Run end includes termination/cleanup.',
         'witnessIdentity':{'outletId':'13108466','name':'Kushi Katsu Dengana Akabane ten','address':'東京都北区赤羽1-15-1 新仲ビル1F','source':'User supplied and existing certified F5 evidence; never injected into production comparison'},'rows':rows,'inputs':inputs}
 (out/'dengana.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
 for row in rows:
