@@ -73,7 +73,7 @@
 
 ## 2026-10-27 CET: Native Runner delivery and contract review item
 
-2026-10-27T16:40:01.173311+01:00. Adapter-only native implementation migration, unchanged B product.8cb02dbc gates1148/167 PASS/per-gate clean.34 canned transport complete; grade5/19/10 not model quality. Actual-core local proof confirms Q28/Q30 sensitive NOT_STATED quotation incompatibility; preserve Gold/core and stop contract changes pending review. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+2026-10-27T16:40:01.173311+01:00. Adapter-only native implementation migration, unchanged B product.8cb02dbc gates1148/167 PASS/per-gate clean.34 canned transport complete; grade5/19/10 not model quality. Actual-core local proof confirms Q28/Q30 sensitive NOT_STATED quotation incompatibility; preserve Gold/core and stop contract changes pending review. Parallel main/c98438f8 already contains QA and B core; its latest ledger union is retained. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="dev-2026-10-27-phase3b-A-runner-native"></a>
 
