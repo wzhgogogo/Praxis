@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.427
+- Document revision: 4.428
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET：3b C批次2进入认证后执行。** 用户转达Claude逐家确认8家正样本、全部升主；复核者查询不计本批GET。Gold隔离只供事后评分；检索31次计划、Google至多23、语义39逻辑轮（最多78调用）及片段1次，总模型计划≤79/批准100，GET≤35且共享40。已整合main/daba2ef0，原9账本条目并集保留；此刻真实调用未开始。详情范围已预列，身份规则不放宽；冻结后才执行，最后推分支停等复核，不合main。[切片](../.eval-artifacts/phase3b/c-batch2/plan.md)。
 
 - **2026-10-27 CET：3b C Gold5与非直链样本准备，待认证。** 用户确认15项标注后生成Gold5（8强度/7窗口），Gold3/4与旧评价原样保留；sidecar3只重绑数据，Prompt26/Schema4/State23不变。删除C重复ADR0047，统一由B的ADR0046 Proposed草案维护。整合main5f621be3，已从保存Google记录选5主+3备，Dengana单列历史锚点；没有猜测Gold。用户批准本批模型100/评测GET35/Google35/Live0，但本准备实际全部0、未加载.env；解析器/身份规则未改。7f3d8770冻结722项后五门禁全绿（默认1102/Chromium166）、各项前后净树，Fixture15/15；只推工作分支，停在复核者Gold认证前，不合main。[报告](../.eval-artifacts/phase3b/c-batch2-preparation/report.md) · [清单](../.eval-artifacts/phase3b/c-batch2-preparation/samples.proposed.md)。
 

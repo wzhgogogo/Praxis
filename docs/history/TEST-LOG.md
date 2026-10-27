@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.326
+- Document revision: 4.327
 
 
 - Last updated: 2026-10-27
@@ -10,6 +10,10 @@
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-27-PHASE3B-C-BATCH2-START
+
+CET。新的8主+15历史检索矩阵、4×2×3具名会话和开发15轮及外层程序先冻结，后做零网络控制与真实模型。身份采集修复须旧代码有效红灯，最终新组合五门禁及固定G2；旧7f3d8770五门禁不替新组合背书。真实调用此时0，不读取.env/私有Holdout。[计划](../../.eval-artifacts/phase3b/c-batch2/plan.md)。
 
 ## TEST-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
 

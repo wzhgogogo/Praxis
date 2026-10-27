@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.320
+- Document revision: 4.321
 
 
 - Last updated: 2026-10-27
@@ -10,6 +10,10 @@
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-10-27-PHASE3B-C-BATCH2-START
+
+2026-10-27T16:00:28+01:00。复核者确认全部8家在Tabelog，用户将3备升主、全正样本，Gold只用于事后比对。整合最新main/daba2ef0（5208d401），源码无冲突，文档和账本按并集保留；Scope不扩大到G3。39语义逻辑轮与31公开检索计划、原Google输入/策略/Gold分离和受控Runner提交SHA后执行；凭据仅Node --env-file加载，未独立读取文件。此时全部真实调用0；完成后只推C分支不合main。[计划](../../.eval-artifacts/phase3b/c-batch2/plan.md)。
 
 ## DEV-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
 
