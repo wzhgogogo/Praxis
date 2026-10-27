@@ -4,7 +4,7 @@
 
 8cb02dbc five gates PASS: typecheck0.417s, arch0.202s, default1148/1148 28.060s, build0.483s, Chromium167/167 98.592s. Every gate starts/ends with empty status. Current24 frozen input/config files and product SHAs match. Receipts/raw compressed logs: verification/native-e4829a58. Original actual-core stale-run red remains at checkpoint/phase3b-g1-runner-0a466bcd; same assertion and all4 local controls PASS after both adapter stages.
 
-Final frozen saved-page fixture8cb02dbc executes34/34 under enforced answer-read denial, then a separate scorer reads answers. It has29 FIXTURE invocations, source/fresh/real calls0, outputs29 NOT_STATED/5 UNVERIFIED. Canned diagnostic5 PASS/19 FAIL/10 NOT_EVALUATED, falseClaimCount=null: this is not real-model correctness, G1 acceptance or S0=0. No new true model/Google/website/GET/Live, no .env. Shared ledger15 rows union-preserves B/C and main A entries, all increments0.
+Final frozen saved-page fixture8cb02dbc executes34/34 under enforced answer-read denial, then a separate scorer reads answers. It has29 FIXTURE invocations, source/fresh/real calls0, outputs29 NOT_STATED/5 UNVERIFIED. Canned diagnostic5 PASS/19 FAIL/10 NOT_EVALUATED, falseClaimCount=null: this is not real-model correctness, G1 acceptance or S0=0. No new true model/Google/website/GET/Live, no .env. Shared ledger16 rows union-preserves B/C and main A entries, all increments0.
 
 ## Contract review required before real-model acceptance
 
@@ -14,7 +14,7 @@ Review must reconcile the sensitive NOT_STATED quotation contract (scorer/refere
 
 ## Retained next steps
 
-B ADR0046 text/core approval and main integration precede any Runner merge. G3 begins with Tabelog. At first approved3b Live, capture a bound TableCheck positive calendar and new replay; add it to G2 before TableCheck G3 acceptance. No Live or G3 implementation in this task.
+Parallel main advanced to c98438f8 during this run: it includes319cb9a5 and B core integration with Accepted ADR0046. That prerequisite is now satisfied. Runner still remains unmerged because the newly reproduced Q28/Q30 acceptance-contract issue requires review under the user stop condition; no automatic threshold change is allowed. G3 begins with Tabelog. At first approved3b Live, capture a bound TableCheck positive calendar and new replay; add it to G2 before TableCheck G3 acceptance. No Live or G3 implementation in this task.
 
 The sections below preserve earlier phase evidence and superseded plans; they are not current baseline claims.
 
@@ -51,3 +51,5 @@ ee5c835c frozen 34-question execution/scoring diagnostic completed: 34/34, 29 FI
 cfcde8c7 five gates PASS:1136 default/167 Chromium, typecheck0.446s, arch0.210s, default28.024s, build0.449s, browser98.476s; every gate starts/ends clean. Receipts retained under verification/legacy-0a466bcd. B batch2 delivered e4829a58; per user arrangement the Runner now rebases there with adapter-only code changes and a newly frozen fixture run. This section remains historical, not the new core result.
 
 Native product manifest verifies 370 B src files unchanged against e4829a58. Source migration remains only core-adapter.ts; the extra README change is documentation. Legacy input/source checklists are frozen historical evidence, current input authority is native-inputs-sha256.json.
+
+Final remote-main observation 2026-10-27T16:43:30.673148+01:00: c98438f8 includes this QA change. Latest main budget rows unioned without changing original entries (15 to 16); all cumulative real calls remain0. Native code/source/input SHA checks remain unchanged.
