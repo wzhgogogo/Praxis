@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.423
+- Document revision: 4.424
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET: A Runner on B batch2 (draft).** Rebased to delivered e4829a58. Only adapter source changed; same four fixture controls PASS. Native brief answer/category/null-absence contract mapped, no legacy fallback. Product base preserved, current native diagnostic/gates pending. QA confirmation already main319cb9a5; Runner stays unmerged until B approval. Zero real calls. [Report](../.eval-artifacts/phase3b/g1-runner/report.md).
 
 - **2026-10-27-PHASE3B-B-BATCH2（draft / not integrated）：** Git暂存审批两次超时后用户已重新明确批准继续；分支交付以Git回执核对。 G1修订完成停等文本批准：统一ADR0046 Proposed，原则已由用户2026-10-27批准、文本待批准；原B0047删除，全文附报告。独立Prompt/Schema2恢复简短答案+逐字引文，敏感模型标签/基本形式、结构化确认标志、无核心展示文案；G1整页60k/1200/单句6k，HARD默认及44,197字节结果原样。可见评论标题区段拒引，未标记/歧义风险明示。bb967901冻结614项五门禁1142/162全绿，各门前后净树；真实调用0，不读答案/.env，站点3847/Pack473不变。只推工作分支不合main；未接Agent/Web/共享版本，G3未开始。[报告及ADR全文](../.eval-artifacts/phase3b/g1-revision/report.md)／[ADR0046](decisions/0046-observed-actions-and-source-quoted-answers.md)。
 

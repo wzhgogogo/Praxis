@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.316
+- Document revision: 4.317
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-A-runner-native"></a>
+
+## 2026-10-27 CET: A Runner rebase to delivered B batch2
+
+2026-10-27T16:26:12.182132+01:00. Followed approved integration sequence: legacy verified checkpoint tagged; rebase e4829a58, both histories/budget union preserved; only adapter source updated. Unchanged four composition controls pass. Native fixture/gates pending, no real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="dev-2026-10-27-phase3b-g1-revision"></a>
 

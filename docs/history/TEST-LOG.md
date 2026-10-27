@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.322
+- Document revision: 4.323
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-A-runner-native"></a>
+
+## 2026-10-27 CET: Native G1 contract fixture controls
+
+B e4829a58 rebase; only core-adapter.ts source changed. Existing four Chromium controls pass unchanged. Native typecheck passes; input configuration re-frozen. Native full fixture/five gates pending, old cfcde8c7 results remain historical. No real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="test-2026-10-27-phase3b-g1-revision"></a>
 
