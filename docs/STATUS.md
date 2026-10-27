@@ -1,9 +1,12 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.422
-- Last updated: 2026-10-26
+- Document revision: 4.423
+- Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27-PHASE3B-B-BATCH2（draft / not integrated）：** Git暂存审批两次超时后用户已重新明确批准继续；分支交付以Git回执核对。 G1修订完成停等文本批准：统一ADR0046 Proposed，原则已由用户2026-10-27批准、文本待批准；原B0047删除，全文附报告。独立Prompt/Schema2恢复简短答案+逐字引文，敏感模型标签/基本形式、结构化确认标志、无核心展示文案；G1整页60k/1200/单句6k，HARD默认及44,197字节结果原样。可见评论标题区段拒引，未标记/歧义风险明示。bb967901冻结614项五门禁1142/162全绿，各门前后净树；真实调用0，不读答案/.env，站点3847/Pack473不变。只推工作分支不合main；未接Agent/Web/共享版本，G3未开始。[报告及ADR全文](../.eval-artifacts/phase3b/g1-revision/report.md)／[ADR0046](decisions/0046-observed-actions-and-source-quoted-answers.md)。
+
 
 - **2026-10-26-PHASE3B-B-G1-STOP1（draft / not integrated）：** 对话B批次1完成停等复核；ADR0047保持Proposed（A已有0046草稿，编号由复核统一），观察清单52组及F3原38映射。G1未接入口核心复用原fact reader/身份/原文核对，可回答非criteria问题，敏感仅引文+确认、未说明附查页，缓存引用元数据错配红转绿。最终d4be4a7a冻结614项后五门禁1130默认/162本地Chromium全绿，各项前后净树；真实调用0，站点3847/Pack473不变。未改Agent/Web/Guard/共享版本，G3未开始，只推工作分支不合main。[报告](../.eval-artifacts/phase3b/g1-core/report.md)／[ADR](https://github.com/wzhgogogo/Praxis/blob/0a466bcded02700b11bfe86e99bf4924e0d22d32/docs/decisions/0047-observation-driven-sites-and-cited-questions.md)。
 

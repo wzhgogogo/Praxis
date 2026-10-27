@@ -1,0 +1,58 @@
+{
+  "mode": "OFFLINE_PRIOR_GIT_SOURCE_REAL_CHROMIUM_FIXTURE_MODEL",
+  "sourceCommit": "18b2e8050eda08ef7e82569ea169a86a25e72740",
+  "outerScriptSha256": "7d40ad02dde767752e92f6f302fef71f49b1b5fcfb335f31483e332c10064094",
+  "orchestratorSha256": "7fa3eb219e68eba4cf6f1932f17eb41fda049e3d3d69eaeec4bcf34422e68cab",
+  "sourceArchiveSha256": "6e6ef55b9e96fb31f108b9c9c9fbfedf7192e9febc9ebc13ecc2005ed836a2de",
+  "coreSha256": "a645a57c90ff07e00a7a40eb39eca6c0dde8282392245edd1c0c70fa83475a43",
+  "recordedAtCET": "2026-10-27T02:52:35.478260+01:00",
+  "runs": [
+    {
+      "control": "coverage",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/verify-saved-page.ts",
+        "/private/tmp/phase3b-g1-revision-prior-red-20261027/coverage",
+        "coverage",
+        "--baseline-format"
+      ],
+      "exitCode": 1,
+      "logSha256": "bf8b74e57414a10459459be7376700cb45407d7c0610fb0779ba5c559facefb8",
+      "result": "coverage/result.json"
+    },
+    {
+      "control": "not-stated",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/verify-saved-page.ts",
+        "/private/tmp/phase3b-g1-revision-prior-red-20261027/not-stated",
+        "not-stated",
+        "--baseline-format"
+      ],
+      "exitCode": 1,
+      "logSha256": "56a57f6ccb8e6d34ce3ac232d728be68da1678f1ecc72ed1ec16051c3e5da201",
+      "result": "not-stated/result.json"
+    },
+    {
+      "control": "review",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/verify-saved-page.ts",
+        "/private/tmp/phase3b-g1-revision-prior-red-20261027/review",
+        "review",
+        "--baseline-format"
+      ],
+      "exitCode": 1,
+      "logSha256": "f3485b62afe549a08335bdbac3516ac8076e58476ffd23e97d558a862389adc2",
+      "result": "review/result.json"
+    }
+  ],
+  "realCalls": 0,
+  "baselineTransport": "Only fixture output uses schema1; page, question, source and assertion are the frozen current control. Product code has no compatibility path."
+}

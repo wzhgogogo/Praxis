@@ -1,13 +1,26 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.321
-- Last updated: 2026-10-26
+- Document revision: 4.322
+- Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-g1-revision"></a>
+
+## 2026-10-27 CET：3b B G1修订冻结离线验收
+
+最终bb967901，614文件/外层脚本先提交冻结，macOS26.6.2 ARM64 Node24.4.1：typecheck、arch:check、npm test **1142/1142**、build、真实本地Chromium文件并发4 **162/162**全PASS；每门前后git status空、restore0、fail/skip/cancel0。Chromium单次97.632秒，Linux本批未跑（批次1Linux通过仅为用户复核报告，不当本批证据）。模块相关76/76。
+
+有效红灯：旧核心拒日文表格/英文答案；18b2e805旧源码在同一冻结真实Chromium保存页脚本看不到字符7515后原文，整页未说明变INCOMPLETE，已知Review片段被接受；修后分别ANSWERED/NOT_STATED/UNVERIFIED。前导引号/空白敏感yes-no绕过先红后绿。移除引用/HIGH身份/敏感形式三个控制全部AssertionError，源码按SHA恢复。
+
+HARD参数默认不变：三组边界分段/选择、完整Native事实和原模型请求固定时钟序列化**44,197字节，前后SHA256 9a3298bc5e004b99e41d80713e8913b68c336cfa594f6eb60599e310ee3fb633**。真实保存页控制全阻网络、fixture模型，身份envelope合成，只证明输入覆盖/合同，不证明当前Live或模型语义质量。明确评论区段拒引/改私有标记不变/邻接商家正例通过；未标记评论和自由答案忠实等仍待独立问答集。
+
+新增真实模型/Google/网站/Live/公开GET/环境重跑全0；未读QA答案或.env，A/C文件/共享版本未改。ADR0046 Proposed全文随报告，用户批准文本前不接入口、不G3，只推工作分支。[完整证据](../../.eval-artifacts/phase3b/g1-revision/report.md)。
+
 
 <a id="test-2026-10-26-phase3b-g1-stop1"></a>
 

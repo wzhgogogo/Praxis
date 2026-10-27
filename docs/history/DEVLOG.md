@@ -1,13 +1,24 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.315
-- Last updated: 2026-10-26
+- Document revision: 4.316
+- Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-g1-revision"></a>
+
+## 2026-10-27 CET：3b B批次2 G1修订与ADR统一
+
+Evidence status：draft / not integrated，按用户决定继续codex/feat-phase3b-g1-core，不合main。统一ADR0046 Proposed，原则已由用户2026-10-27批准、文本待批准；删除B0047，A/C自撤重复稿。合并G2种子/逐页判定与G1题答分离、复核者逐题确认、独立评分及错误声明目标0的Validation；未读QA答案。
+
+G1 Prompt/Schema2允许提问语言简短答案+1–3逐字引文，模型标敏感类别，基本yes/no形式核对，代码仍绑定原文/同店/run/URL/读取时间并冻结快照；结构化NOT_STATED null及confirmationRequired，不拼展示文案。共用分段/选择参数化，G1每页60k/1200/单句6k；HARD默认行为不变，固定时钟完整事实/模型请求44,197字节SHA一致。可见标题的明确评论区段标USER_REVIEW拒引，不读class/testid；未标记/歧义评论风险留ADR和独立题集。
+
+旧代码红灯与最终保存页绿灯使用同一冻结脚本和输入：后7,515字符原文、整页未说明、评论误接纳；简短答案/敏感格式及三个反事实有效。最终bb967901五门禁1142/162全绿、每项前后净树。没有Agent合法动作/Web/State/TaskDefinition/Guard/共享Prompt或A/C源码变更；真实调用0，不读.env，账本仅追加B0增量，站点3847/Pack473不变。完成后停止等文本批准，下一批接线/真实模型评测/G3均未做。[报告及ADR全文](../../.eval-artifacts/phase3b/g1-revision/report.md)。
+
 
 <a id="dev-2026-10-26-phase3b-g1-stop1"></a>
 
