@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.425
+- Document revision: 4.426
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET：3b A批次2按缺证停止。** G2/回放/QA依次合入并推main，最新daba2ef0（五门禁1110/168全绿、逐项净树）。G1为25确认9候选，34题整体未验收。固定3408输入离线查日历：171时间动作候选去重4份，3检索时间条件＋1本地构造，无真实阳性日历；第3节要求找不到则停，G2固定集未增，Runner第4节NOT_STARTED。新增真实调用0，仅推停止工作分支等复核。[报告](../.eval-artifacts/phase3b/tablecheck-calendar-evidence/report.md)。
 
 - **2026-10-27 CET：3b A批次2 G1复核包。** 34英文题保留中文；25按人工复核确认，5自然错页/错run改写及4新增题仍CANDIDATE；原候选SHA不变，混合集非完整验收Gold。评分器@2三态、双语冲突双方引用及错页事实禁入有效红绿已取得，0d26174d五门禁1110/168全绿、逐项净树，8页/56摘录与22输入SHA通过。B仅题目/原页，答案隔离。真实调用0。[报告](../.eval-artifacts/phase3b/g1-qa/report.md)。
 
