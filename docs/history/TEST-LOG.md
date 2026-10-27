@@ -11,7 +11,7 @@
 
 ## TEST-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
 
-CET。旧Gold4 loader在独立批准15项预期处AssertionError红灯，迁移后既有5项回归及固定Fixture15/15绿；原始日志保留，历史评价不回写。最终候选将冻结Gold/sidecar/来源与程序SHA后，在净树上执行独立材料审计、静态Fixture和五门禁。真实模型/Google/来源网站/Live/环境重跑0，私有Holdout与.env未读；不把Fixture证明为Prompt26真实遵循或G4检索收益。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
+CET。旧Gold4 loader在独立批准15项预期处AssertionError红灯，迁移后既有5项回归及固定Fixture15/15绿；原始日志保留，历史评价不回写。最终7f3d87705548661ed4c1d42ea3c6fbbf835e27ee冻结722项，独立审计/Fixture15与五门禁全部绿（默认1102/1102、Chromium166/166），每项前后status空、输入SHA匹配，无豁免或skip。真实模型/Google/来源网站/Live/环境重跑0，私有Holdout与.env未读；不把Fixture证明为Prompt26真实遵循或G4检索收益。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-g2"></a>
 

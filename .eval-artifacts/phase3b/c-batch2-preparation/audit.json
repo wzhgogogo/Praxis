@@ -1,0 +1,292 @@
+{
+  "schema": "phase3b-c-preparation-audit@1",
+  "status": "PASS",
+  "checkedAtCET": "2026-10-27T03:13:30.133+01:00",
+  "sourceCommit": "7f3d87705548661ed4c1d42ea3c6fbbf835e27ee",
+  "goldApprovedUnits": 15,
+  "changedGoldScalarFields": 18,
+  "goldHistoricalBytesUnchanged": true,
+  "sidecarTurnsUnchanged": true,
+  "protectedFilesUnchanged": [
+    "src/domains/restaurant/semantic-interpreter.ts",
+    "src/domains/restaurant/semantic-proposal.ts",
+    "src/integrations/tabelog/tabelog-page-parser.ts",
+    "src/integrations/tablecheck/tablecheck-page-parser.ts",
+    "src/integrations/tabelog/tabelog-entity-resolver.ts",
+    "src/integrations/restaurant-availability/availability-source-resolver.ts",
+    "src/integrations/google/google-places-client.ts",
+    "src/integrations/google/google-places-contracts.ts",
+    "src/integrations/restaurant-search/source-packs.ts",
+    "src/integrations/tabelog/tabelog-browser-availability.ts",
+    "src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json"
+  ],
+  "newSamples": 8,
+  "primary": 5,
+  "reserves": 3,
+  "actualUsage": {
+    "fullLive": 0,
+    "realModelCalls": 0,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0
+  },
+  "changes": [
+    {
+      "path": [
+        "id"
+      ],
+      "before": "restaurant-semantic-regression-v4",
+      "after": "restaurant-semantic-regression-v5"
+    },
+    {
+      "path": [
+        "version"
+      ],
+      "before": "4",
+      "after": "5"
+    },
+    {
+      "path": [
+        "sessions",
+        0,
+        "turns",
+        0,
+        "expectedDraft",
+        "criteria",
+        0,
+        "strength"
+      ],
+      "before": "UNSPECIFIED",
+      "after": "HARD"
+    },
+    {
+      "path": [
+        "sessions",
+        3,
+        "turns",
+        0,
+        "expectedDraft",
+        "criteria",
+        0,
+        "strength"
+      ],
+      "before": "UNSPECIFIED",
+      "after": "HARD"
+    },
+    {
+      "path": [
+        "sessions",
+        4,
+        "turns",
+        0,
+        "expectedDraft",
+        "timeWindow",
+        "latest"
+      ],
+      "before": "21:00",
+      "after": "23:00"
+    },
+    {
+      "path": [
+        "sessions",
+        5,
+        "turns",
+        0,
+        "expectedDraft",
+        "timeWindow",
+        "earliest"
+      ],
+      "before": "13:00",
+      "after": "12:00"
+    },
+    {
+      "path": [
+        "sessions",
+        6,
+        "turns",
+        0,
+        "expectedDraft",
+        "criteria",
+        0,
+        "strength"
+      ],
+      "before": "UNSPECIFIED",
+      "after": "HARD"
+    },
+    {
+      "path": [
+        "sessions",
+        7,
+        "turns",
+        0,
+        "expectedDraft",
+        "timeWindow",
+        "latest"
+      ],
+      "before": "21:00",
+      "after": "23:00"
+    },
+    {
+      "path": [
+        "sessions",
+        7,
+        "turns",
+        0,
+        "expectedDraft",
+        "criteria",
+        0,
+        "strength"
+      ],
+      "before": "UNSPECIFIED",
+      "after": "HARD"
+    },
+    {
+      "path": [
+        "sessions",
+        7,
+        "turns",
+        0,
+        "expectedDraft",
+        "criteria",
+        1,
+        "strength"
+      ],
+      "before": "UNSPECIFIED",
+      "after": "HARD"
+    },
+    {
+      "path": [
+        "sessions",
+        7,
+        "turns",
+        1,
+        "expectedDraft",
+        "timeWindow",
+        "latest"
+      ],
+      "before": "21:00",
+      "after": "23:00"
+    },
+    {
+      "path": [
+        "sessions",
+        7,
+        "turns",
+        1,
+        "expectedDraft",
+        "criteria",
+        0,
+        "strength"
+      ],
+      "before": "UNSPECIFIED",
+      "after": "HARD"
+    },
+    {
+      "path": [
+        "sessions",
+        8,
+        "turns",
+        0,
+        "expectedDraft",
+        "timeWindow",
+        "earliest"
+      ],
+      "before": "19:00",
+      "after": "18:00"
+    },
+    {
+      "path": [
+        "sessions",
+        8,
+        "turns",
+        0,
+        "expectedDraft",
+        "timeWindow",
+        "latest"
+      ],
+      "before": "22:00",
+      "after": "23:00"
+    },
+    {
+      "path": [
+        "sessions",
+        8,
+        "turns",
+        0,
+        "expectedDraft",
+        "criteria",
+        0,
+        "strength"
+      ],
+      "before": "UNSPECIFIED",
+      "after": "HARD"
+    },
+    {
+      "path": [
+        "sessions",
+        8,
+        "turns",
+        1,
+        "expectedDraft",
+        "timeWindow",
+        "earliest"
+      ],
+      "before": "19:00",
+      "after": "18:00"
+    },
+    {
+      "path": [
+        "sessions",
+        8,
+        "turns",
+        1,
+        "expectedDraft",
+        "timeWindow",
+        "latest"
+      ],
+      "before": "22:00",
+      "after": "23:00"
+    },
+    {
+      "path": [
+        "sessions",
+        8,
+        "turns",
+        1,
+        "expectedDraft",
+        "criteria",
+        0,
+        "strength"
+      ],
+      "before": "UNSPECIFIED",
+      "after": "HARD"
+    },
+    {
+      "path": [
+        "sessions",
+        9,
+        "turns",
+        0,
+        "expectedDraft",
+        "timeWindow",
+        "earliest"
+      ],
+      "before": "18:00",
+      "after": "17:30"
+    },
+    {
+      "path": [
+        "sessions",
+        9,
+        "turns",
+        0,
+        "expectedDraft",
+        "timeWindow",
+        "latest"
+      ],
+      "before": "20:00",
+      "after": "22:00"
+    }
+  ]
+}

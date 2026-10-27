@@ -32,7 +32,7 @@
 - Gold5 SHA：`b58c6a1f3ee3833cfa135c4e7a8e3a130d74673f9db6ba51306a582b13e06206`。
 - sidecar@2 原字节保存在 `goal-boundary-annotations.v2.json`；当前 sidecar@3 只重绑 Gold5 的 SHA 和修订说明，15轮的 category、contextCarry、messageSha256 未改。
 - 默认 loader、DeepSeek 开发 Runner 的数据集标签/产物名转 Gold5；Scorer、Semantic Prompt26、Proposal Schema4、State23、TaskDefinition21 不递增。旧评分不重新计算或覆盖。
-- [gold5-red.log](gold5-red.log)：旧 Gold4 loader 在独立15项预期断言处产生 AssertionError；[gold5-green.log](gold5-green.log)：迁移后的既有5项回归通过，日志保留当时旧测试标题。最终门禁会执行已改名的完整断言；[semantic-fixture.log](semantic-fixture.log) 为静态15/15。
+- [gold5-red.log](gold5-red.log)：旧 Gold4 loader 在独立15项预期断言处产生 AssertionError；[gold5-green.log](gold5-green.log)：迁移后的既有5项回归通过，日志保留当时旧测试标题。最终门禁已执行已改名的完整断言；[semantic-fixture.log](semantic-fixture.log) 为静态15/15。
 
 ## 已完成：ADR 去重
 
@@ -97,3 +97,20 @@ Tabelog 文件 SHA：`1e18b516fa4ec9c0c3211dfee414e92fa643bef497d9e044c8f6632237
 复用现有回归，独立字面量检查恰好15个 Gold 标注、历史 SHA、sidecar消息/类别、原 Google 来源与新样本身份字段；脚本和输入在运行前提交并冻结。最终离线门禁收据写入 [gates.json](gates.json)，每项前后检查净工作树。当前未执行 G4 检索或真实模型，不借离线门禁宣称身份改进有效。
 
 四层报告：端到端真实结果 NOT_EVALUATED；逐环节仅 Gold 迁移、固定Fixture/本地测试已评，真实语义遵循/检索收益/来源身份接纳 NOT_EVALUATED；来源与交付 S0–S4 未作总体评价，不把0请求说成真实链路S0已过；归因仍沿用批次1冻结诊断，收益尚无新证据。最终停在新样本 Gold 认证，工作分支可读取，main不变。
+
+
+## 最终离线验证回执
+
+受测提交 `7f3d87705548661ed4c1d42ea3c6fbbf835e27ee`，冻结722项 SHA 前后匹配；全部七步前后 `git status --porcelain` 为空，未恢复/清理测试产物来伪造净树。独立材料审计 PASS；固定语义Fixture15/15，默认测试1102/1102，真实本机Chromium fixture 166/166，无失败/skip/豁免。不是来源 Live 或真实模型验证。
+
+| 步骤 | 结果 | 秒 |
+| --- | --- | ---: |
+| independent-audit | PASS / exit 0 | 2.368 |
+| semantic-fixture | PASS / exit 0 | 0.216 |
+| typecheck | PASS / exit 0 | 0.475 |
+| arch-check | PASS / exit 0 | 0.199 |
+| test | PASS / exit 0 | 27.536 |
+| build | PASS / exit 0 | 0.446 |
+| browser-fixture | PASS / exit 0 | 108.055 |
+
+原始 stdout/stderr 在 `gates/`；[gates.json](gates.json) 逐项记录命令、时间、日志 SHA 和净树，[audit.json](audit.json) 独立核对历史/新 Gold、来源身份与预算。本机 CET 2026-10-27T03:15:48.540+01:00 完成，全部新增真实服务调用仍0。最终提交仅补验证文档与原始证据，受测源码/Gold/输入不再改动。等待复核者认证新样本 Gold 后才推进下一切片；本停止点不合 main。

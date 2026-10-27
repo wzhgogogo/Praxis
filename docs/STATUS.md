@@ -5,7 +5,7 @@
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
 
-- **2026-10-27 CET：3b C Gold5与非直链样本准备，待认证。** 用户确认15项标注后生成Gold5（8强度/7窗口），Gold3/4与旧评价原样保留；sidecar3只重绑数据，Prompt26/Schema4/State23不变。删除C重复ADR0047，统一由B的ADR0046 Proposed草案维护。整合main5f621be3，已从保存Google记录选5主+3备，Dengana单列历史锚点；没有猜测Gold。用户批准本批模型100/评测GET35/Google35/Live0，但本准备实际全部0、未加载.env；解析器/身份规则未改。五门禁待冻结验证；之后只推工作分支，停在复核者Gold认证前，不合main。[报告](../.eval-artifacts/phase3b/c-batch2-preparation/report.md) · [清单](../.eval-artifacts/phase3b/c-batch2-preparation/samples.proposed.md)。
+- **2026-10-27 CET：3b C Gold5与非直链样本准备，待认证。** 用户确认15项标注后生成Gold5（8强度/7窗口），Gold3/4与旧评价原样保留；sidecar3只重绑数据，Prompt26/Schema4/State23不变。删除C重复ADR0047，统一由B的ADR0046 Proposed草案维护。整合main5f621be3，已从保存Google记录选5主+3备，Dengana单列历史锚点；没有猜测Gold。用户批准本批模型100/评测GET35/Google35/Live0，但本准备实际全部0、未加载.env；解析器/身份规则未改。7f3d8770冻结722项后五门禁全绿（默认1102/Chromium166）、各项前后净树，Fixture15/15；只推工作分支，停在复核者Gold认证前，不合main。[报告](../.eval-artifacts/phase3b/c-batch2-preparation/report.md) · [清单](../.eval-artifacts/phase3b/c-batch2-preparation/samples.proposed.md)。
 
 - **2026-10-27 CET：3b A批次2 G2合入准备。** 按用户复核移除A的重复ADR0046及Accepted表述，ADR由B起草、待批准。G2原12页基线保留，重放main后ee0c391d五门禁1101/166与固定G2 4/4全绿、逐项前后净树；全离线真实调用0。旧F5整包回放结束，3b首次Live用当前版本重新录制验证方案(c)。[批次报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
 
