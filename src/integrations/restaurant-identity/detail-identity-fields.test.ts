@@ -54,17 +54,24 @@ for (const platform of variants) {
 
   test(`${platform.provider} cannot use another restaurant phone, a near phone or conflicting floor/door number`, () => {
     const extraction = platform.parse(snapshot(platform.url)); assert.ok(extraction);
+    const { address: _address, ...withoutAddress } = extraction.outlet;
+    assert.notEqual(platform.inspect(subject, { ...withoutAddress, sourceUrl: platform.url.replace(/\/$/, "") + "/other-store" }).confidence, "HIGH", "a phone quote cannot be lent to another source outlet");
     for (const phone of ["03-9999-0000", "050-5456-5058"]) {
-      const uncertain = { ...subject, restaurant: { ...subject.restaurant, outletName: "Another restaurant", address: "Tokyo", sourceIds: { phone } } };
+      const uncertain = { ...subject, restaurant: { ...subject.restaurant, outletName: "Another restaurant", address: "Tokyo", sourceIds: { ...subject.restaurant.sourceIds, phone } } };
       assert.notEqual(platform.inspect(uncertain, extraction.outlet).confidence, "HIGH");
     }
     for (const [source, requested] of [
       [`${sourceAddress} テストビル 1F`, `${address} テストビル 2F`],
       [sourceAddress.replace("2-6-11", "2-6-12"), address],
-    ]) {
+    ] as const) {
       const other = platform.parse(snapshot(platform.url, body.replace(sourceAddress, source))); assert.ok(other);
       const candidate = { ...subject, restaurant: { ...subject.restaurant, address: requested } };
       assert.notEqual(platform.inspect(candidate, other.outlet).confidence, "HIGH");
     }
+  });
+
+  test(`${platform.provider} reports conflicting or ambiguous detail identity instead of silently choosing it`, () => {
+    assert.throws(() => platform.parse(snapshot(platform.url, body.replace(sourceAddress, `${sourceAddress}</td></tr><tr><th>Address</th><td>東京都港区六本木1-2-3`))), /SOURCE_IDENTITY_STRUCTURE_CHANGED/);
+    assert.throws(() => platform.parse(snapshot(platform.url, body + "<h3>Restaurant information</h3>")), /SOURCE_IDENTITY_STRUCTURE_CHANGED/);
   });
 }

@@ -17,6 +17,7 @@ import type {
   TabelogOutletObservation,
 } from "./tabelog-contracts.js";
 import { normalizeTabelogIdentity, normalizeTabelogPhone } from "./tabelog-entity-resolver.js";
+import { readDetailIdentityFields, type WithDetailIdentity } from "../restaurant-identity/detail-identity-fields.js";
 
 const TABELOG_URL = /^https:\/\/(?:www\.)?tabelog\.com\//i;
 
@@ -120,7 +121,7 @@ function field(value: string | undefined, source: TabelogIdentityEvidenceSource,
 export function parseTabelogOutletIdentityWithEvidence(
   snapshot: BrowserSnapshot,
   fallback: TabelogOutletObservation,
-): TabelogOutletIdentityExtraction {
+): TabelogOutletIdentityExtraction & { outlet: WithDetailIdentity<TabelogOutletObservation> } {
   const localBusiness = jsonLdObjects(snapshot.html).find((item) => typeof item.name === "string" && (item.address !== undefined || item.telephone !== undefined));
   const addressValue = localBusiness?.address;
   const address = typeof addressValue === "string" ? addressValue
@@ -130,16 +131,19 @@ export function parseTabelogOutletIdentityWithEvidence(
   const phoneFromPage = firstPhone(snapshot.html);
   const jsonLdName = typeof localBusiness?.name === "string" && localBusiness.name.trim() ? localBusiness.name.trim() : undefined;
   const jsonLdPhone = typeof localBusiness?.telephone === "string" && localBusiness.telephone.trim() ? localBusiness.telephone.trim() : undefined;
+  const postalCode = addressValue && typeof addressValue === "object" && "postalCode" in addressValue && typeof addressValue.postalCode === "string" ? addressValue.postalCode : undefined;
+  const detailIdentity = readDetailIdentityFields(snapshot, jsonLdName, address, postalCode);
   const pageAddress = firstElementText(snapshot.html, /(?:class|id|itemprop)=["'][^"']*address[^"']*["']/i);
   const pageName = firstElementText(snapshot.html, /(?:class|id)=["'][^"']*(?:rstinfo|restaurant)[^"']*(?:name|title)[^"']*["']/i);
   const outletName = jsonLdName ?? pageName ?? fallback.outletName;
   const outletNameSource: TabelogIdentityEvidenceSource = jsonLdName ? "JSON_LD" : pageName ? "DOM" : "SEARCH_RESULT";
   const canonicalUrl = canonicalTabelogUrl(snapshot);
   const sourceUrl = canonicalUrl ?? fallback.sourceUrl;
-  const resolvedAddress = address ?? pageAddress ?? fallback.address;
-  const addressSource: TabelogIdentityEvidenceSource = address ? "JSON_LD" : pageAddress ? "DOM" : fallback.address ? "SEARCH_RESULT" : "ABSENT";
-  const phone = jsonLdPhone ?? phoneFromPage.value ?? fallback.phone;
-  const phoneSource: TabelogIdentityEvidenceSource = jsonLdPhone ? "JSON_LD" : phoneFromPage.value ? phoneFromPage.source : fallback.phone ? "SEARCH_RESULT" : "ABSENT";
+  const resolvedAddress = detailIdentity?.address ?? address ?? pageAddress ?? fallback.address;
+  const addressSource: TabelogIdentityEvidenceSource = detailIdentity?.address ? "DOM" : address ? "JSON_LD" : pageAddress ? "DOM" : fallback.address ? "SEARCH_RESULT" : "ABSENT";
+  const detailPhone = detailIdentity?.phones.find(phone => phone.role === "STORE") ?? detailIdentity?.phones[0];
+  const phone = detailPhone?.value ?? jsonLdPhone ?? phoneFromPage.value ?? fallback.phone;
+  const phoneSource: TabelogIdentityEvidenceSource = detailPhone ? "DOM" : jsonLdPhone ? "JSON_LD" : phoneFromPage.value ? phoneFromPage.source : fallback.phone ? "SEARCH_RESULT" : "ABSENT";
   return {
     outlet: {
       ...fallback,
@@ -148,6 +152,7 @@ export function parseTabelogOutletIdentityWithEvidence(
       outletName,
       ...(resolvedAddress ? { address: resolvedAddress } : {}),
       ...(phone ? { phone } : {}),
+      ...(detailIdentity ? { detailIdentity: { ...detailIdentity, ...(canonicalUrl ? { canonicalUrl } : {}) } } : {}),
     },
     ...(canonicalUrl ? { canonicalUrl } : {}),
     fields: {

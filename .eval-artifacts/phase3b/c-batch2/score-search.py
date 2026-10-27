@@ -38,7 +38,7 @@ def walk(value):
 def inspect(body,url,query):
     parser=VisibleLinks();parser.feed(body)
     headings=[{'url':urljoin(url,a['href']),'label':re.sub(r'\s+',' ',a['text']).strip()} for a in parser.links if a['heading'] and not a['aside'] and a['text'].strip() and outlet_id(urljoin(url,a['href']))]
-    structured=[];schema_ok=False
+    structured=[];schema_ok=False;empty_item_list=False
     for m in re.finditer(r'<script\b[^>]*\btype=["\']application/ld\+json["\'][^>]*>([\s\S]*?)</script>',body,re.I):
         try:data=json.loads(m[1])
         except json.JSONDecodeError:continue
@@ -46,6 +46,7 @@ def inspect(body,url,query):
             types=item.get('@type',[]);types=[types] if isinstance(types,str) else types
             if 'ItemList' not in types:continue
             items=item.get('itemListElement');schema_ok=isinstance(items,list)
+            empty_item_list=empty_item_list or items is None
             if not schema_ok:continue
             for row in items:
                 if not isinstance(row,dict):schema_ok=False;continue
@@ -55,9 +56,10 @@ def inspect(body,url,query):
     visible=' '.join(parser.text);normalized=lambda s:re.sub(r'\s+',' ',s).strip()
     query_visible=normalized(query) in normalized(visible)
     observed={outlet_id(a['url']) for a in headings};ids={outlet_id(u) for u in structured}
-    schema_ok=schema_ok and observed==ids
+    explicit_empty=bool(re.search(r'No restaurants match|該当するお店が見つかりません',visible,re.I))
+    schema_ok=(schema_ok and observed==ids) or (empty_item_list and explicit_empty and not observed and not ids)
     return {'queryVisible':query_visible,'structureVerified':schema_ok,'structuredUrls':structured,'headingLinks':headings,
-            'ids':sorted(ids),'explicitEmpty':bool(re.search(r'No restaurants match|該当するお店が見つかりません',visible,re.I))}
+            'ids':sorted(ids),'explicitEmpty':explicit_empty}
 
 def main():
     execution=load(root/'search/execution.json');gold={r['id']:r for r in load(root/'gold.certified.json')['rows']}
@@ -89,12 +91,22 @@ def main():
             paired.append({'id':identity,'historicalAnchor':subject['historicalAnchor'],'name':subject['subject']['name'],
                 'original':original['status'] if original else 'NOT_REACHED','alternate':alternate['status'] if alternate else 'NOT_REACHED'})
     def counter(group):return dict(collections.Counter(r['status'] for r in group))
-    result={'schema':'phase3b-g4-independent-retrieval-evaluation@1','evaluatedAtCET':datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=1))).isoformat(timespec='seconds'),
+    result={'schema':'phase3b-g4-independent-retrieval-evaluation@2','evaluatedAtCET':datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=1))).isoformat(timespec='seconds'),
       'executionSha256':sha(root/'search/execution.json'),'goldSha256':sha(root/'gold.certified.json'),
       'mode':'EVALUATION_PUBLIC_GET_ONLY_NO_LIVE','newRealCalls':0,'executionStatus':execution['status'],'sourceRequests':execution['sourceRequests'],
       'primaryPaired':paired,'primaryCounts':counter([r for r in rows if r['cohort']=='NEW_PRIMARY']),
       'secondaryHistoricalCounts':counter([r for r in rows if r['cohort']!='NEW_PRIMARY']),'rows':rows,
+      'revision':'Original evaluation.json@1 retained. Sidecar@2 recognizes the source explicit No restaurants match message plus an empty ItemList without itemListElement; this is not a new request, Gold change or source hit.',
       'limits':'First returned public page only. Hit is independent certified ID in both source ItemList and visible named headings, with query visible. No identity acceptance, opening-status, availability or general-population success claim. Historical15 are not contemporary paired controls.'}
-    (root/'search/evaluation.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
+    (root/'search/evaluation.v2.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({k:result[k] for k in ['executionStatus','sourceRequests','primaryPaired','secondaryHistoricalCounts']},ensure_ascii=False))
-if __name__=='__main__':main()
+if __name__=='__main__':
+    import sys
+    if '--self-test' in sys.argv:
+        empty='<p>No restaurants match "keyword".</p><script type="application/ld+json">{"@type":"ItemList"}</script>'
+        assert inspect(empty,'https://tabelog.com/en/tokyo/rstLst/?sw=keyword','keyword')['structureVerified']
+        broken='<p>keyword</p><script type="application/ld+json">{"@type":"ItemList","itemListElement":[{"url":"https://tabelog.com/en/tokyo/A1/A2/11111111/"}]}</script><h3><a href="/en/tokyo/A1/A2/22222222/">Other store</a></h3>'
+        assert not inspect(broken,'https://tabelog.com/en/tokyo/rstLst/?sw=keyword','keyword')['structureVerified']
+        assert not inspect(empty,'https://tabelog.com/en/tokyo/rstLst/?sw=keyword','unseen')['queryVisible']
+        print('PASS explicit empty, structured/visible mismatch and query-binding controls;0 real calls')
+    else:main()
