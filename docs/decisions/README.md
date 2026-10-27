@@ -61,6 +61,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 
 | [0044](0044-recommendation-availability-boundary.md) | Accepted; revision1.1，用户停止点3修正 2026-10-26 | 推荐/查位两个语义锚点、灰区模型判断与 goalBasis 当前消息引用核验；仅提议保存依据，不升 State/TaskDefinition |
 
+
 ## 规则
 
 ADR一经Accepted不得静默重写Decision。改变决策时新增ADR，并将旧ADR标记`Superseded by ADR-XXXX`。格式固定为Status、Context、Decision、Consequences、Alternatives considered、Related documents。

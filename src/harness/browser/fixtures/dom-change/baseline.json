@@ -1,0 +1,152 @@
+{
+  "schema": "dom-change-baseline@1",
+  "mutationRule": "dom-marker-mutation@2",
+  "manifestSha256": "fc9b71716632688ec477873a7102118ed2a7718e5f1be6f3fe6b057af4b62e15",
+  "captureCommit": "bddee4ff",
+  "evidenceStatus": "frozen exposed saved-DOM differential baseline, not Live or inventory certification",
+  "cases": [
+    {
+      "id": "tabelog-list-nerima",
+      "site": "TABELOG",
+      "kind": "LIST",
+      "verdict": "DEGRADED_HONEST",
+      "referenceFacts": {
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132202/13266750/:name": "Kobe Gyuu Yakiniku Mankan",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132205/13043209/:name": "Shimura Tokujuen",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132201/13305253/:name": "Yakiniku Miraku Tei Itabashi ten",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132204/13122543/:name": "Sakanaya Dojo Narimasu minamiguchi puraimu ten",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132201/13239336/:name": "Kushi Katsu Tanaka Nishisugamo ten",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132202/13157181/:name": "Tokyo Uma Yakiniku Sanbariki",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132204/13320702/:name": "Yakiniku Horumon Sacchan Chi",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132203/13290674/:name": "Gekkou Shiki no Omotenashi Sakaba",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132203/13324050/:name": "Ajiwai",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132204/13216186/:name": "Yakiton Oogiri Narimasu ten",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132202/13243190/:name": "Fra",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132203/13312671/:name": "Otona no Kakurega Bar Ajito",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132203/13119314/:name": "Wa To Nakaitabashi ten",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132202/13278113/:name": "Kitsune",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132204/13115014/:name": "Kakurean Shinobuya Narimasu puraimu ten",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132204/13313094/:name": "Kushiyaki YoshiGEN",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132203/13219995/:name": "Izakachaya Tatara",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132202/13316441/:name": "Asian N Dining bar Rimujimu",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132202/13302712/:name": "COCOYA 2 gouten",
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132203/13324151/:name": "Nidaime Hitsumabushi no Naruse Itabashi Ten"
+      },
+      "originalSha256": "cea96ce2c9cd760c0fc786a3f421d3e032c19e52b4a5eecb656adf2a2201222d"
+    },
+    {
+      "id": "tabelog-list-akabane",
+      "site": "TABELOG",
+      "kind": "LIST",
+      "verdict": "DEGRADED_HONEST",
+      "referenceFacts": {
+        "outlet:https://tabelog.com/en/tokyo/A1322/A132201/13239336/:name": "Kushi Katsu Tanaka Nishisugamo ten"
+      },
+      "originalSha256": "c12fb2c6312f04a8770a675e817d191029334f54e7431e6cfe6d3938dc2b7611"
+    },
+    {
+      "id": "tabelog-detail-01",
+      "site": "TABELOG",
+      "kind": "DETAIL",
+      "verdict": "PASS",
+      "referenceFacts": {
+        "identity:outletName": "Kushi Katsu Tanaka Nishiikebukuro ten",
+        "identity:address": "1710021 Tokyo Nishiikebukuro Toshima Tokyo ",
+        "identity:phone": "[REDACTED]"
+      },
+      "originalSha256": "c5cc14dc4c6c5660a388264e779b3aab08bfa6826eb67d79a152d58f8e5bb668"
+    },
+    {
+      "id": "tabelog-detail-02",
+      "site": "TABELOG",
+      "kind": "DETAIL",
+      "verdict": "PASS",
+      "referenceFacts": {
+        "identity:outletName": "Kushi Katsu Tanaka Ooyama ten",
+        "identity:address": "1730014 Tokyo Oyamahigashicho Itabashi Tokyo ",
+        "identity:phone": "[REDACTED]"
+      },
+      "originalSha256": "cf3d48b89e4414561b543710816ac8f672e418dcaaab1f8bf3ed6529ecc4c6af"
+    },
+    {
+      "id": "tabelog-calendar-teppen",
+      "site": "TABELOG",
+      "kind": "CALENDAR",
+      "verdict": "DEGRADED_HONEST",
+      "referenceFacts": {
+        "day:2026-09-29": "PHONE_ONLY",
+        "day:2026-09-28": "FULL",
+        "day:2026-09-30": "CLOSED"
+      },
+      "originalSha256": "17ca46ffb9f8f6078fb354ef230095cc1ae0547b254566f9dabadbae51616854"
+    },
+    {
+      "id": "tabelog-calendar-sen",
+      "site": "TABELOG",
+      "kind": "CALENDAR",
+      "verdict": "DEGRADED_HONEST",
+      "referenceFacts": {
+        "day:2026-10-22": "SELECTABLE",
+        "day:2026-10-01": "FULL",
+        "requestConfirmed": true
+      },
+      "originalSha256": "65110e43e4f80255cad45acb3f92fe872b9990fa4200f75e124ef67ccdfe68f7"
+    },
+    {
+      "id": "tablecheck-list-ginza",
+      "site": "TABLECHECK",
+      "kind": "LIST",
+      "verdict": "PASS",
+      "referenceFacts": {
+        "outlet:https://www.tablecheck.com/en/ginza-iwa": true
+      },
+      "originalSha256": "9f616ae4d50cfc9bc53e3941b4d4d9720d7ec8a4241a0cfabb23a1fbe4bdfd95"
+    },
+    {
+      "id": "tablecheck-list-akabane",
+      "site": "TABLECHECK",
+      "kind": "LIST",
+      "verdict": "PASS",
+      "referenceFacts": {},
+      "originalSha256": "638788f53c3a8ea31b7b6af43898a8b50951b665fd7b0208e570250df4fa2ec5"
+    },
+    {
+      "id": "tablecheck-detail-nakamata",
+      "site": "TABLECHECK",
+      "kind": "DETAIL",
+      "verdict": "PASS",
+      "referenceFacts": {
+        "identity:outletName": "Specializing in Nodoguro Ginza Nakamata",
+        "identity:address": "104-0061 Tokyo Chuo-ku 4-10-12 Ginza Ginza Samaria Building B1"
+      },
+      "originalSha256": "6b7e758fb3135f057a3aec19cf844971b24fc8cb65a7b34cd72decf70dc7eba0"
+    },
+    {
+      "id": "tablecheck-detail-takahashiya",
+      "site": "TABLECHECK",
+      "kind": "DETAIL",
+      "verdict": "PASS",
+      "referenceFacts": {
+        "identity:outletName": "Ginza Yondaime Takahashiya",
+        "identity:address": "104-0061 Tokyo Chuo-ku 4-12-1 Ginza VORT Ginza East Ⅱ Bldg. 4F"
+      },
+      "originalSha256": "902c6cce4b08a64eb0a81a900c910e9735bcc76a808ea5cd8431b71ab2b65ec2"
+    },
+    {
+      "id": "tablecheck-calendar-nakamata",
+      "site": "TABLECHECK",
+      "kind": "CALENDAR",
+      "verdict": "PASS",
+      "referenceFacts": {},
+      "originalSha256": "b0c5f53ae0bb1acd8727b4d4b00d5a88a5ce973028f8ba219570f89470e6a6df"
+    },
+    {
+      "id": "tablecheck-calendar-kinri",
+      "site": "TABLECHECK",
+      "kind": "CALENDAR",
+      "verdict": "PASS",
+      "referenceFacts": {},
+      "originalSha256": "88051f361b1f5abcb838adb9590275f36ee065547ae34374131ba552e1395f3c"
+    }
+  ]
+}

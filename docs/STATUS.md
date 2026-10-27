@@ -1,9 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.424
-- Last updated: 2026-10-26
+- Document revision: 4.425
+- Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET：3b A批次2 G2合入准备。** 按用户复核移除A的重复ADR0046及Accepted表述，ADR由B起草、待批准。G2原12页基线保留，重放main后ee0c391d五门禁1101/166与固定G2 4/4全绿、逐项前后净树；全离线真实调用0。旧F5整包回放结束，3b首次Live用当前版本重新录制验证方案(c)。[批次报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
+
+- **2026-10-26 CET：3b A批次1 G2离线基线（待复核）。** 规则dom-marker-mutation@2同步全部id引用，12保存页真实Chromium对照8 PASS、4诚实退化，无错误声明；TableCheck两日历原页已未知，PASS不证明查位。固定test:dom-change加入额外清单，G3要求PASS且不得抹掉原页已知事实。产品/Guard/Recorder/Prompt/Schema/State未改，新增真实调用0。ADR（对话 B 起草，待批准）统一维护用户两原则；G1只交CANDIDATE候选，回放另切片。0027ed84五门禁全绿（默认1101/Chromium166）、额外G2 4/4通过且各项前后净树；未合main。[报告](../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 
 - **2026-10-26-PHASE3B-C-STOP1:** C批次1完成，工作分支待复核不合main：29份当前保存页局部复算12正确/0错认，17失败分布14空、1采集遗漏、1字段冲突、1未决；八F5中六Dengana/两其他请求已分步计时。身份方案不实施/不放宽；Semantic Prompt26具名保留指令与合法fixture通过，真实模型未评，坏提议红灯保留；Schema4/State23/TaskDefinition21不变。Gold15项只列清单、4原SHA保持，ADR0047记录3b两原则。d9b38cd2冻结752项，五门禁1101默认/162Chromium及type/arch/build全绿，各项前后净树；固定Fixture15/15、定向8/8。A/B/C共享账本并集，新增真实调用全0。推分支停停止点1。[报告](../.eval-artifacts/phase3b/c-batch1/report.md)。
 
