@@ -93,3 +93,11 @@ All 34 references are REVIEWER_CONFIRMED by independent reviewer (Claude), 2026-
 749dc119 produced the expected preflight red at Q24 allowFreshRead=true; the identical control passes after the data correction. The complete preflight verifies 34 confirmed references, 8 source-page SHAs and 56 quotation locations. Product code is unchanged. c10fdeed five gates PASS (1110 default /168 Chromium), each starts and ends clean. Frozen SHAs match; all 56 quotation evidence entries are unchanged, so independent source-quote checks are reused. Raw logs/receipts are in review-confirmation/verification. No real calls.
 
 The user moved the missing TableCheck positive calendar to the first 3b Live recording, also used for new replay. Add that calendar to G2 before accepting the TableCheck G3 slice; G3 starts with Tabelog. The earlier stop is superseded by this explicit sequencing decision. Runner proceeds on its separately approved B/0a466bcd integration branch.
+
+## Reviewed Q28/Q30 outcomes, current dataset@2
+
+User decision keeps ADR0046 and B core unchanged. Q28/Q30 accept either NOT_STATED with no citations, or ANSWERED quoting the related original text and explicitly limiting it (not a safety guarantee / not halal certification). Both require the correct category and actual confirmationRequired=true. Q30 is RELIGIOUS_DIET. Related evidence retains its original source position but is not required for NOT_STATED. Known unsafe affirmative fragments reject; unreviewed additional claims/paraphrases remain ungraded. Reviewer: independent reviewer (Claude), 2026-10-27.
+
+Current versions: source-quoted-qa-scorer@4, phase3b-qa-reviewed@2, public questions@3. Other32 references and historical candidate bytes are unchanged. Five gates on main/c98438f8 combination pass1154/173, every gate starts/ends clean. The two topics/two outcomes through actual core/saved pages and independent references pass4/4. Current receipts: ../g1-runner/dual-outcome-review/verification. Prior incompatible-reference scores remain historical and are not relabelled.
+
+Offline Runner implementation and verification are complete; main integration is authorized. Real-model evaluation remains NOT_RUN until B Agent integration completes. No real model, Google, restaurant, GET or Live calls; no .env.
