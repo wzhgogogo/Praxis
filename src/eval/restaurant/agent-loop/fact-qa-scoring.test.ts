@@ -54,3 +54,22 @@ test("G1 evaluator cannot turn candidate answers into a scored acceptance set", 
     assert.equal(result.status, "NOT_READY"); assert.equal(result.falseClaimCount, null);
   } finally { await rm(directory, { recursive: true, force: true }); }
 });
+
+// Local construction: public G1 response kinds are the three core outcomes.
+test("G1 maps an outlet/run mismatch reference to UNVERIFIED without quoting the rejected page", () => {
+  const mismatch: QaReference = { ...reference, kind: "MISMATCH", approvedAnswers: ["Unable to verify."], requiredQuotes: [] };
+  const result = scoreQaAnswer(mismatch, { ...read, outletId: "other-branch" },
+    JSON.parse('{"kind":"UNVERIFIED","text":"Unable to verify.","citations":[]}') as QaResponse);
+  assert.equal(result.status, "PASS");
+  assert.equal(result.falseClaimCount, 0);
+});
+
+test("G1 maps bilingual conflict to ANSWERED with both originals and restaurant confirmation", () => {
+  const text = "The originals conflict. Please confirm with the restaurant.";
+  const quoteB = "コースのみ10％";
+  const conflict: QaReference = { ...reference, kind: "CONFLICT", approvedAnswers: [text], requiredQuotes: [read.text, quoteB] };
+  const result = scoreQaAnswer(conflict, { ...read, text: read.text + " " + quoteB },
+    { kind: "ANSWERED", text, citations: [read.text, quoteB].map(quote => ({ pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId, quote })) });
+  assert.equal(result.status, "PASS");
+  assert.equal(result.falseClaimCount, 0);
+});
