@@ -51,7 +51,7 @@
 
 Evidence status：draft / not integrated，分支codex/feat-phase3b-g1-core，从签收main cc127320开始；ADR0047为Proposed，等待用户批准，不改变已接受决策。观察原则和G1合同同稿，F3原38映射扩52组；G2正式规格归A，G4身份归C。复用Native/官网reader可选绑定页面hook、原样分段及完整statement核对；G1问题独立于criteria，抽取式原文、来源URL与读取时间由代码绑定。无自由模型结论，敏感只引文+确认，未说明必须限定查过的完整页面。
 
-旧HARD-only信用卡问题有效红灯保留；缓存异步更新导致原文与URL错配在未接入口核心中取得红灯，以调用前复制关闭；三种移除核对控制有效。没有Agent合法动作/Prompt/Web、State/TaskDefinition或Guard变化，没有第二套抓取/身份/预算；旧事实结果保留。最终d4be4a7a五门禁1130/162全绿、每项前后净树。新增真实模型/Google/餐厅网站/Live/公开GET/环境重跑均0，未读.env；预算保留A/C条目仅追加B零增量。站点3847/Pack473不变，G3待批准。按授权推工作分支供复核，不合main。见[报告](../../.eval-artifacts/phase3b/g1-core/report.md)与[ADR草案](../decisions/0047-observation-driven-sites-and-cited-questions.md)。
+旧HARD-only信用卡问题有效红灯保留；缓存异步更新导致原文与URL错配在未接入口核心中取得红灯，以调用前复制关闭；三种移除核对控制有效。没有Agent合法动作/Prompt/Web、State/TaskDefinition或Guard变化，没有第二套抓取/身份/预算；旧事实结果保留。最终d4be4a7a五门禁1130/162全绿、每项前后净树。新增真实模型/Google/餐厅网站/Live/公开GET/环境重跑均0，未读.env；预算保留A/C条目仅追加B零增量。站点3847/Pack473不变，G3待批准。按授权推工作分支供复核，不合main。见[报告](../../.eval-artifacts/phase3b/g1-core/report.md)与[ADR草案](https://github.com/wzhgogogo/Praxis/blob/0a466bcded02700b11bfe86e99bf4924e0d22d32/docs/decisions/0047-observation-driven-sites-and-cited-questions.md)。
 
 
 <a id="dev-2026-10-26-phase3a-prime-signoff"></a>
