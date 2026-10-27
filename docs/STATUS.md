@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.422
+- Document revision: 4.423
 - Last updated: 2026-10-26
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET: A G1 Runner integration (draft).** QA final review already main319cb9a5. Runner pins B/0a466bcd without product edits. Previous-run binding effective red/green; four Chromium controls and six scoring controls pass. Execution/answer isolation and new-output mapping installed in A eval only. Frozen 34-question fixture diagnostic and five gates pending, no real calls; do not merge Runner before B approval. [Report](../.eval-artifacts/phase3b/g1-runner/report.md).
 
 - **2026-10-26-PHASE3B-B-G1-STOP1（draft / not integrated）：** 对话B批次1完成停等复核；ADR0047保持Proposed（A已有0046草稿，编号由复核统一），观察清单52组及F3原38映射。G1未接入口核心复用原fact reader/身份/原文核对，可回答非criteria问题，敏感仅引文+确认、未说明附查页，缓存引用元数据错配红转绿。最终d4be4a7a冻结614项后五门禁1130默认/162本地Chromium全绿，各项前后净树；真实调用0，站点3847/Pack473不变。未改Agent/Web/Guard/共享版本，G3未开始，只推工作分支不合main。[报告](../.eval-artifacts/phase3b/g1-core/report.md)／[ADR](decisions/0047-observation-driven-sites-and-cited-questions.md)。
 

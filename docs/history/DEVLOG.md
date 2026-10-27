@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.315
+- Document revision: 4.316
 - Last updated: 2026-10-26
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-A-g1-runner"></a>
+
+## 2026-10-27 CET: A G1 Runner integration
+
+2026-10-27T16:09:08.100528+01:00. User-approved B/0a466bcd integration base. Only A eval/harness and audit files change. Actual-core previous-run red/green, separate execution/scoring, source SHA and reference-read isolation. Scorer@3 follows new category contract; presentation advice remains unevaluated. Frozen fixture run and five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="dev-2026-10-26-phase3b-g1-stop1"></a>
 

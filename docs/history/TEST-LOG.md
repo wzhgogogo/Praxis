@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.321
+- Document revision: 4.322
 - Last updated: 2026-10-26
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-A-g1-runner"></a>
+
+## 2026-10-27 CET: G1 Runner red/green
+
+36dc5005 typecheck passes and actual-core old-run assertion fails at ANSWERED vs UNVERIFIED. Adapter correction makes same assertion pass; four Chromium integration controls and six scorer controls pass, including URL/readAt/SHA/unknown-key rejection and real reference-read-denial canary. Local constructions only. Full fixture diagnostic and five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="test-2026-10-26-phase3b-g1-stop1"></a>
 

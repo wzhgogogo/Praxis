@@ -41,7 +41,7 @@ export async function runBoundQuestions(input: { questions: string; output: stri
     bindingOrigin: "LOCAL_CONSTRUCTED_OFFLINE_METADATA_NOT_PRODUCTION_IDENTITY_VERIFICATION", readClock: "SYNTHETIC_BOUND_READ_CLOCK_NOT_FRESH_WEB_READ",
     executed: coreResults.length, modelInvocations: invocations.length, providers: [...new Set(invocations.map(row => row.provider).filter(Boolean))], sourceTransportCalls: 0, freshReads: 0,
     statusCounts: Object.fromEntries(["ANSWERED", "NOT_STATED", "UNVERIFIED"].map(status => [status, coreResults.filter(row => row.answer.status === status).length])) };
-  for (const [name, value] of Object.entries({ "core-results": coreResults, reads, responses, "model-invocations": invocations, run })) {
+  for (const [name, value] of Object.entries({ "core-results": coreResults, reads: reads.map(({ text: _text, ...read }) => read), responses, "model-invocations": invocations, run })) {
     await writeFile(resolve(output, name + ".json"), JSON.stringify(value, null, 2) + "\n", { flag: "wx" });
   }
   return run;
