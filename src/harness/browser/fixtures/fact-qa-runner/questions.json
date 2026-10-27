@@ -1,0 +1,99 @@
+{
+  "schema": "phase3b-qa-questions@2",
+  "evidenceStatus": "LOCAL_CONSTRUCTED_FIXTURE_NOT_WEBSITE_REPLAY",
+  "pages": [
+    {
+      "id": "local-page",
+      "site": "RESTAURANT_WEBSITE",
+      "outlet": {
+        "id": "local-cafe",
+        "name": "Fixture Cafe",
+        "sourceUrl": "https://merchant.example/fixture-cafe"
+      },
+      "pagePath": "src/harness/browser/fixtures/fact-qa-runner/merchant.html",
+      "pageSha256": "0f595bd5d077739c77c38447bb309e5d0c927280ad8f877d6979076df8b3b101",
+      "storageSha256": "0f595bd5d077739c77c38447bb309e5d0c927280ad8f877d6979076df8b3b101",
+      "storageEncoding": "utf8"
+    }
+  ],
+  "questions": [
+    {
+      "id": "local-answer",
+      "question": "Are private rooms listed?",
+      "pageId": "local-page",
+      "sensitiveCategory": null,
+      "displayedOutlet": {
+        "candidateId": "local-cafe",
+        "name": "Fixture Cafe",
+        "sourceUrl": "https://merchant.example/fixture-cafe"
+      },
+      "readContext": {
+        "runId": "fixture-current",
+        "startedAt": "2026-10-27T10:00:00+01:00"
+      },
+      "providedPage": {
+        "pageId": "local-page",
+        "candidateId": "local-cafe",
+        "sourceUrl": "https://merchant.example/fixture-cafe",
+        "pageSha256": "0f595bd5d077739c77c38447bb309e5d0c927280ad8f877d6979076df8b3b101",
+        "readRunId": "fixture-current",
+        "readId": "local-answer-read",
+        "observedAt": "2026-10-27T10:00:01+01:00",
+        "identityObservedAt": "2026-10-27T10:00:00+01:00",
+        "metadataOrigin": "LOCAL_CONSTRUCTED_FIXTURE_NOT_WEBSITE_REPLAY"
+      }
+    },
+    {
+      "id": "local-absence",
+      "question": "Is free Wi-Fi mentioned?",
+      "pageId": "local-page",
+      "sensitiveCategory": null,
+      "displayedOutlet": {
+        "candidateId": "local-cafe",
+        "name": "Fixture Cafe",
+        "sourceUrl": "https://merchant.example/fixture-cafe"
+      },
+      "readContext": {
+        "runId": "fixture-current",
+        "startedAt": "2026-10-27T10:00:00+01:00"
+      },
+      "providedPage": {
+        "pageId": "local-page",
+        "candidateId": "local-cafe",
+        "sourceUrl": "https://merchant.example/fixture-cafe",
+        "pageSha256": "0f595bd5d077739c77c38447bb309e5d0c927280ad8f877d6979076df8b3b101",
+        "readRunId": "fixture-current",
+        "readId": "local-absence-read",
+        "observedAt": "2026-10-27T10:00:01+01:00",
+        "identityObservedAt": "2026-10-27T10:00:00+01:00",
+        "metadataOrigin": "LOCAL_CONSTRUCTED_FIXTURE_NOT_WEBSITE_REPLAY"
+      }
+    },
+    {
+      "id": "local-old-run",
+      "question": "Are private rooms listed?",
+      "pageId": "local-page",
+      "sensitiveCategory": null,
+      "displayedOutlet": {
+        "candidateId": "local-cafe",
+        "name": "Fixture Cafe",
+        "sourceUrl": "https://merchant.example/fixture-cafe"
+      },
+      "readContext": {
+        "runId": "fixture-current",
+        "startedAt": "2026-10-27T10:00:00+01:00"
+      },
+      "providedPage": {
+        "pageId": "local-page",
+        "candidateId": "local-cafe",
+        "sourceUrl": "https://merchant.example/fixture-cafe",
+        "pageSha256": "0f595bd5d077739c77c38447bb309e5d0c927280ad8f877d6979076df8b3b101",
+        "readRunId": "fixture-previous",
+        "readId": "local-old-run-read",
+        "observedAt": "2026-10-27T10:00:01+01:00",
+        "identityObservedAt": "2026-10-27T10:00:00+01:00",
+        "metadataOrigin": "LOCAL_CONSTRUCTED_FIXTURE_NOT_WEBSITE_REPLAY"
+      }
+    }
+  ]
+}

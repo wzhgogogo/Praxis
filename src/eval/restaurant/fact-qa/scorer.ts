@@ -1,9 +1,10 @@
 export interface QaCitation { pageId: string; pageSha256: string; readId: string; quote: string; }
-export interface QaResponse { kind: "ANSWERED" | "NOT_STATED" | "UNVERIFIED"; text: string; citations: QaCitation[]; }
+export type QaSensitiveCategory = "ALLERGY" | "RELIGIOUS_DIET" | "ACCESSIBILITY" | "NONE";
+export interface QaResponse { kind: "ANSWERED" | "NOT_STATED" | "UNVERIFIED"; text: string; citations: QaCitation[]; sensitiveCategory: QaSensitiveCategory; }
 export interface QaRead { pageId: string; pageSha256: string; readId: string; outletId: string; runId: string; text: string; }
-export interface QaReference { status: "CANDIDATE" | "REVIEWER_CONFIRMED"; kind: "ANSWERED" | "NOT_STATED" | "MISMATCH" | "CONFLICT"; approvedAnswers: string[]; rejectedAnswers?: string[]; requiredQuotes?: string[]; targetOutletId: string; targetRunId: string; forbiddenAnswerFragments?: string[]; pageId: string; pageSha256: string; sensitive?: boolean; notStatedQuestion?: boolean; }
+export interface QaReference { status: "CANDIDATE" | "REVIEWER_CONFIRMED"; kind: "ANSWERED" | "NOT_STATED" | "MISMATCH" | "CONFLICT"; approvedAnswers: string[]; rejectedAnswers?: string[]; requiredQuotes?: string[]; targetOutletId: string; targetRunId: string; forbiddenAnswerFragments?: string[]; pageId: string; pageSha256: string; sensitiveCategory: QaSensitiveCategory; notStatedQuestion?: boolean; }
 
-export const FACT_QA_SCORER = "source-quoted-qa-scorer@2";
+export const FACT_QA_SCORER = "source-quoted-qa-scorer@3";
 const words = (value: string) => value.replace(/\s+/g, " ").trim();
 export interface QaScore {
   status: "NOT_READY" | "PASS" | "FAIL" | "NOT_EVALUATED";
@@ -36,10 +37,11 @@ export function scoreQaAnswer(reference: QaReference, read: QaRead, answer: QaRe
     }
     if (!words(citation.quote) || !words(read.text).includes(words(citation.quote))) { reasons.push("QUOTE_NOT_IN_CURRENT_PAGE"); falseClaim = true; }
   }
-  if ((positive || (answer.kind === "NOT_STATED" && reference.sensitive)) && !answer.citations.length) reasons.push("MISSING_VERBATIM_QUOTE");
-  if ((positive || (answer.kind === "NOT_STATED" && reference.sensitive)) && reference.requiredQuotes?.some(quote => !answer.citations.some(citation => words(citation.quote).includes(words(quote))))) reasons.push("REQUIRED_SUPPORT_NOT_QUOTED");
+  if ((positive || (answer.kind === "NOT_STATED" && reference.sensitiveCategory !== "NONE")) && !answer.citations.length) reasons.push("MISSING_VERBATIM_QUOTE");
+  if ((positive || (answer.kind === "NOT_STATED" && reference.sensitiveCategory !== "NONE")) && reference.requiredQuotes?.some(quote => !answer.citations.some(citation => words(citation.quote).includes(words(quote))))) reasons.push("REQUIRED_SUPPORT_NOT_QUOTED");
+  if (answer.sensitiveCategory !== reference.sensitiveCategory) reasons.push("SENSITIVE_CATEGORY_MISMATCH");
   const citations = reasons.length ? "FAIL" as const : "PASS" as const;
-  if ((reference.sensitive || reference.kind === "CONFLICT") && !/请向餐厅确认|please (?:check|confirm) with (?:the )?restaurant/i.test(answer.text)) reasons.push("MISSING_RESTAURANT_CONFIRMATION");
+  if ((reference.kind === "CONFLICT") && !/请向餐厅确认|please (?:check|confirm) with (?:the )?restaurant/i.test(answer.text)) reasons.push("MISSING_RESTAURANT_CONFIRMATION");
   if (reference.kind === "CONFLICT" && !/conflict|inconsisten|do not agree|不一致|冲突/i.test(answer.text)) reasons.push("BILINGUAL_CONFLICT_NOT_ACKNOWLEDGED");
   const kindMatches = expectedKind === answer.kind;
   if (!kindMatches) {

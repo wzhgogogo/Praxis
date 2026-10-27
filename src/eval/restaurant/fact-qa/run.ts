@@ -36,7 +36,7 @@ export async function runQaEvaluation(input: { questions: string; references: st
     }
     rows.push({ questionId: question.id, ...scoreQaAnswer({ status: reference.status, kind: reference.answerKind,
       approvedAnswers: reference.approvedAnswers ?? [reference.candidateAnswer], ...(reference.rejectedAnswers ? { rejectedAnswers: reference.rejectedAnswers } : {}), requiredQuotes: reference.requiredQuotes ?? reference.evidence.map(row => row.quote), ...(reference.forbiddenAnswerFragments ? { forbiddenAnswerFragments: reference.forbiddenAnswerFragments } : {}),
-      targetOutletId: question.displayedOutlet.candidateId, targetRunId: question.readContext.runId, pageId: page.id, pageSha256: page.pageSha256, sensitive: Boolean(question.sensitiveCategory), notStatedQuestion: question.type === "页面未说明" },
+      targetOutletId: question.displayedOutlet.candidateId, targetRunId: question.readContext.runId, pageId: page.id, pageSha256: page.pageSha256, sensitiveCategory: question.sensitiveCategory === "HALAL" || question.sensitiveCategory === "RELIGIOUS_DIET" ? "RELIGIOUS_DIET" : question.sensitiveCategory === "ALLERGY" ? "ALLERGY" : question.sensitiveCategory === "ACCESSIBILITY" ? "ACCESSIBILITY" : "NONE", notStatedQuestion: question.type === "页面未说明" },
     { ...read, outletId: page.outlet.id, text: text.get(page.id)! }, response.answer) });
   }
   const result = { scorer: FACT_QA_SCORER, status: rows.every(row => row.status === "PASS") ? "PASS" : rows.some(row => row.status === "FAIL") ? "FAIL" : "NOT_EVALUATED", rows,
