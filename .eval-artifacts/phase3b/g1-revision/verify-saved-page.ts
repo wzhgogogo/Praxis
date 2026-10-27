@@ -14,7 +14,11 @@ const review='Incredible sushi lunch for this price!';
 try {
  const context=await browser.newContext({javaScriptEnabled:false,serviceWorkers:'block'});let blocked=0;
  await context.route('**/*',async route=>{blocked++;await route.abort();});const page=await context.newPage();await page.setContent(bytes.toString(),{waitUntil:'domcontentloaded'});
- const text=await page.locator('body').innerText();assert.ok(text.indexOf(late)>6000);assert.ok(text.includes(review));
+ const wholeText=await page.locator('body').innerText();assert.ok(wholeText.indexOf(late)>6000);assert.ok(wholeText.includes(review));
+ const reviewStart=wholeText.indexOf('\nReview？\n'),reviewEnd=wholeText.indexOf('\nRestaurant information\n',reviewStart);assert.ok(reviewEnd>reviewStart);
+ // The review control uses an unchanged source excerpt so the old 50-line cap
+ // cannot accidentally hide the very review whose admission is under test.
+ const text=control==='review'?wholeText.slice(reviewStart,reviewEnd+'\nRestaurant information\n'.length):wholeText;
  const readAt=new Date().toISOString();const candidateId='saved-sen-coverage-fixture';let sawLate=false;
  const model={async complete(input:any){const documents=JSON.parse(input.messages[1].content).sourceDocuments;sawLate=documents.some((d:any)=>d.statements.some((s:any)=>s.text===late));
   const quoted=control==='review'?review:late;let citations:any[]=[];
@@ -24,9 +28,9 @@ try {
   return{invocationId:'fixture',provider:'FIXTURE' as const,model:'fixture',finishReason:'TOOL_CALLS' as const,latencyMs:0,outputText:JSON.stringify(body)};}};
  // Synthetic bound envelope isolates full-page and source-role contracts, NOT live outlet identity.
  const result=await new ModelRestaurantPageQuestion(model,undefined,()=>readAt).answer({question:control==='review'?'What does the restaurant say about lunch value?':'What does the chef say about selecting ingredients?',displayedOutlet:{candidateId,sourceUrl:provenance.sourceUrl},readContext:{runId:'saved-local',startedAt:readAt},cachedPages:[{readRunId:'saved-local',requestedSourceUrl:provenance.sourceUrl,candidateId,observedAt:readAt,identity:{evidenceId:'fixture-bound-identity',kind:'ENTITY_MATCH',provider:'TABELOG',candidateId,sourceEntityId:'tokyo/A1303/A130301/13275802',sourceUrl:provenance.sourceUrl,observedAt:readAt,requestFingerprint:'fixture',claims:{outletName:'Shibuya Sushi Sen'},entityMatch:{confidence:'HIGH',matchedBy:['SYNTHETIC_ENVELOPE_NOT_IDENTITY_PROOF']}},snapshot:{url:provenance.sourceUrl,title:'Saved page',text,html:bytes.toString(),settlement:'SETTLED'}}]},new AbortController().signal);
- await writeFile(output+'/result.json',JSON.stringify({mode:'REAL_LOCAL_CHROMIUM_SAVED_PAGE_FIXTURE_MODEL',source:path,sourceSha256:sha(bytes),capturedOn:provenance.capturedOn,control,baselineFormat:baseline,visibleCharacters:text.length,nonblankLines:text.split('\n').filter(l=>l.trim()).length,lateOffset:text.indexOf(late),sawLate,blockedRequests:blocked,externalRequestsSent:0,readingTimeCET:new Date(readAt).toLocaleString('sv-SE',{timeZone:'Europe/Vienna'}),result},null,2)+'\n');
+ await writeFile(output+'/result.json',JSON.stringify({mode:'REAL_LOCAL_CHROMIUM_SAVED_PAGE_FIXTURE_MODEL',source:path,sourceSha256:sha(bytes),capturedOn:provenance.capturedOn,control,baselineFormat:baseline,wholePageCharacters:wholeText.length,reviewExcerpt:control==='review',visibleCharacters:text.length,nonblankLines:text.split('\n').filter(l=>l.trim()).length,lateOffset:wholeText.indexOf(late),sawLate,blockedRequests:blocked,externalRequestsSent:0,readingTimeCET:new Date(readAt).toLocaleString('sv-SE',{timeZone:'Europe/Vienna'}),result},null,2)+'\n');
  if(control==='coverage'){assert.ok(sawLate,'the actual saved-page fact after character 6000 must reach the model');assert.equal(result.status,'ANSWERED');}
  else if(control==='review'){assert.equal(result.status,'UNVERIFIED','a known visible review section must not supply merchant facts');}
  else assert.equal(result.status,'NOT_STATED','complete saved page must allow a scoped not-stated result');
- console.log(JSON.stringify({control,status:result.status,visibleCharacters:text.length,lateOffset:text.indexOf(late),sawLate,externalRequestsSent:0}));
+ console.log(JSON.stringify({control,status:result.status,visibleCharacters:text.length,lateOffset:wholeText.indexOf(late),sawLate,externalRequestsSent:0}));
 }finally{await browser.close();}

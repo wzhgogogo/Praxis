@@ -280,3 +280,10 @@ test("G1 revision returns a short English answer with Japanese table label and v
   assert.equal(calls[0]!.promptVersion, "2");
   assert.equal(calls[0]!.outputSchema.version, "2");
 });
+
+test("G1 rejects a customer review quotation using the visible heading outline, independent of private markers", async () => {
+  const current = page("Reviews\nCredit cards accepted: Visa and MasterCard.\nRestaurant information\nOpening hours: 10:00–18:00");
+  current.snapshot.html = `<h2 class="private-review" data-testid="private-review">Reviews</h2><p>${quote}</p><h2>Restaurant information</h2><p>Opening hours: 10:00–18:00</p>`;
+  const result = await new ModelRestaurantPageQuestion(fixtureModel(selected(quote)), undefined, now).answer(question([current]), signal());
+  assert.equal(result.status, "UNVERIFIED", "a customer statement cannot be cited as the merchant's fact");
+});
