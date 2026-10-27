@@ -67,3 +67,5 @@ Evidence status：draft / not integrated；暴露候选，**非人工确认Gold�
 ## 验证与下一门槛
 
 冻结fc5146b9五门禁全绿，收据在[verification](verification/)：typecheck0.452s、arch0.202s、默认1104/1104 28.195s、build0.405s、Chromium163/163 98.559s；逐项前后净树。额外独立Chromium核对8页49摘录全部出现、位置及双SHA预检通过；真实候选评分入口正确NOT_READY、evaluated=0、错误数null。输入SHA再次复核通过。产品/Prompt/Schema/State相对main零差异。工作分支提交推送供复核，不合main。下一门槛是复核者逐题决定，不能把本批候选直接交B作正式Gold。
+
+2026-10-27 CET批次2：按用户决定删除A的重复0046及Accepted说法，统一为“ADR（对话 B 起草，待批准）”。QA本批将改为英文题面与自然错页/错运行控制；当前尚未修改候选数据、尚不合main。用户列出的确认题号25个/改写题号5个，与24/6数量冲突已异步核对。
