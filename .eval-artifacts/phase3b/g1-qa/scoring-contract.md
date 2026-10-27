@@ -3,8 +3,7 @@
 仅评测层变化；产品Prompt/Schema/State不变。入口命令：
 
 ```sh
-node --import ./scripts/test-filesystem-guard.mjs --import tsx src/eval/restaurant/fact-qa/run.ts --questions questions.json --references answers.reviewed.json --responses responses.json --reads reads.json --out evaluation.json
-```
+node --import ./scripts/test-filesystem-guard.mjs --import tsx src/eval/restaurant/fact-qa/run.ts --questions questions.json --references answers.reviewed.json: all 34 references are REVIEWER_CONFIRMED by independent reviewer (Claude), 2026-10-27. Dataset phase3b-qa-reviewed@1 is exposed offline acceptance data, not Clean Holdout. The historical answers.candidate.json remains byte-identical. Unreviewed references still fail closed; confirmation alone does not mean G1 has passed.
 
 answers.reviewed.json现有25题REVIEWER_CONFIRMED（Q01–Q20、Q26–Q30），确认人为independent reviewer (Claude), 2026-10-27；5改写和4新增仍CANDIDATE。answers.candidate.json原字节保留历史。全34题有任何未审项即NOT_READY、evaluated=0、错误数null，不读取模型响应或启动浏览器；不把混合集冒充完整验收Gold。
 
@@ -12,7 +11,7 @@ answers.reviewed.json现有25题REVIEWER_CONFIRMED（Q01–Q20、Q26–Q30），
 
 参考答案分类MISMATCH（身份或运行不符）映射期望UNVERIFIED；错误页的事实不许出现在答案或引用中。空answer的UNVERIFIED可直接比较状态；额外自由文本只接受已审表述或标为未评，明确泄漏的错误页片段拒绝。CONFLICT映射期望ANSWERED，要求双方逐字引用、明确不一致、请向餐厅确认。其余ANSWERED/NOT_STATED同名映射。Q26必须引用英文“A 10% service charge will be added to all lunch orders”和日文“ランチ利用時はコースご注文のお客様のみサービス料10％を頂戴しております”。
 
-Q24/Q25允许重新读取；本离线包选择不读取时的UNVERIFIED路径。若日后评测允许重新读取，必须追加当前run的独立读取及页面SHA证据，不能接受模型自报“重新读过”。当前冻结输入没有那次读取，不能借历史页证明已重新读取。
+Q24/Q25: allowFreshRead=false. The offline evaluator has no reader, so it requires UNVERIFIED and must not reuse the old-run prices. Correctly answering after a fresh read, with its current read time, is deferred to online evaluation after Agent integration.
 
 评分核对同店/同run、原页SHA/本次readId、引用原文存在（只折叠排版空白）、所需支持、未说明、敏感确认及答案一致性。原文由评测侧从源字节独立Chromium提取，脚本/隐藏文字排除；不导入生产Parser/Verifier。评论文本只证明评论存在，不能作为商家事实。
 

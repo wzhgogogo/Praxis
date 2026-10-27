@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.319
+- Document revision: 4.320
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -14,6 +14,18 @@
 ## 2026-10-27 CET：G1核心重放与ADR文本批准
 
 用户批次3按SHA96b0f371批准ADR0046 revision0.2；严格只改Status行并记批准日期，其余字节不动。独立整合分支保留原e4829a58，13提交重放main/daba2ef0，只发生文档及账本冲突，双方原记录及账本id并集保留。7份G1事实源码与复核提交相同，其他生产/Runner/fixture不改，A答案未读。冻结后五门禁；接入前报告共享版本。真实调用0。[计划](../../.eval-artifacts/phase3b/g1-integration/plan.md)。
+
+<a id="dev-2026-10-27-phase3b-qa-final"></a>
+
+## 2026-10-27 CET: G1 final review confirmation
+
+2026-10-27T15:44:58.545553+01:00: user confirms all 34 after Q24/Q25 no-reader correction. Historical evidence preserved. G3/Live sequencing updated; independent Runner follows after main integration. c10fdeed five gates1110/168 PASS, per-gate clean tree. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-qa/report.md).
+
+<a id="dev-2026-10-27-phase3b-A-batch2-calendar-stop"></a>
+
+## 2026-10-27 CET：缺少真实TableCheck阳性保存日历
+
+03:31 CET，固定main/daba2ef0，d8e8626e先冻结3408输入与脚本，再查3388保存页/20归档968页。171时间动作候选为4个SHA；3个Date Field仅查询条件，168次重复来自run-interruption.ts本地构造。没有可加入G2的真实已绑定时段页，按用户第3节停止；未改固定集，Runner未启动，单适配集成批准保留。三项已合main推送记录及0调用第7条保留，本分支只证据/文档、不合main。[报告](../../.eval-artifacts/phase3b/tablecheck-calendar-evidence/report.md)。
 
 <a id="dev-2026-10-27-phase3b-A-batch2-qa"></a>
 
