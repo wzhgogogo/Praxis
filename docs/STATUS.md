@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.424
+- Document revision: 4.425
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET: A native Runner delivered for review (not merged).** Main319cb9a5 contains34 confirmed questions and Q24/Q25 no-fresh-read correction. Runner pins B/e4829a58; only adapter implementation changed,370 B src files match.8cb02dbc five gates1148/167 PASS, per-gate clean;4 local controls PASS and34 canned fixture executions. Q28/Q30 sensitive NOT_STATED quote requirements conflict with core empty citations; reproduced, Gold/core unchanged. Real-model acceptance waits review. All real calls0. [Report](../.eval-artifacts/phase3b/g1-runner/report.md).
 
 - **2026-10-27 CET: A Runner on B batch2 (draft).** Rebased to delivered e4829a58. Only adapter source changed; same four fixture controls PASS. Native brief answer/category/null-absence contract mapped, no legacy fallback. Product base preserved, current native diagnostic/gates pending. QA confirmation already main319cb9a5; Runner stays unmerged until B approval. Zero real calls. [Report](../.eval-artifacts/phase3b/g1-runner/report.md).
 

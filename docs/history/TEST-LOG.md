@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.323
+- Document revision: 4.324
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-A-runner-delivery"></a>
+
+## 2026-10-27 CET: Native Runner final verification
+
+8cb02dbc five gates typecheck0.417/arch0.202/default1148 28.060/build0.483/Chromium167 98.592s PASS, all before/after status empty.4 controls PASS,370 product and24 current input SHAs match.34 canned fixtures execute, independent grade5 PASS/19 FAIL/10 NE, falseClaimCount=null, not model acceptance. Frozen local actual-core probe reproduces sensitive NOT_STATED empty-citation scorer failure: review blocker, not a passing case or real S0. No real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="test-2026-10-27-phase3b-A-runner-native"></a>
 
