@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.325
+- Document revision: 4.326
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-g1-followup-stop1"></a>
+
+## 2026-10-27 CET：G1接入停止点1交付
+
+按用户批准实施Prompt29/动作5/Context17/State24/TaskDefinition22，ADR只修Approval行、正文不动。已展示门店卡片追问贯通持久事件/Agent无参动作/Validator/Router/同run缓存及原事实reader/核心/Reducer/英文Web；预算resume、浏览器子预算继承和取消/迟到保护闭合。并行main/90b464d8带入A Runner，不改其实现或读答案；生产冲突0，共享历史双方保留、账本按id并集21行。7de83a29最终五门禁1162/174通过；仅推工作分支，不合本次接入到main。G1真实模型质量留A独立评分，G3未开始，新增真实调用0。[报告](../../.eval-artifacts/phase3b/g1-followup/implementation/report.md)。
 
 <a id="dev-2026-10-27-phase3b-g1-followup-implementation"></a>
 

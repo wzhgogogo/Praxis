@@ -1,0 +1,33 @@
+✖ displayed-page follow-up resumes original time and failed-call accounting without borrowing another case (1.495958ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 86.625916
+
+✖ failing tests:
+
+test at src/application/run-bounded-model-gateway.test.ts:1:2781
+✖ displayed-page follow-up resumes original time and failed-call accounting without borrowing another case (1.495958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/application/run-bounded-model-gateway.test.ts:78:12)
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/application/run-bounded-model-gateway.ts:46:49)
+      at AsyncLocalStorage.run (node:internal/async_local_storage/async_context_frame:63:14)
+      at RunBoundedModelGateway.withScope (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/application/run-bounded-model-gateway.ts:46:32)
+      at RunBoundedModelGateway.run (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/application/run-bounded-model-gateway.ts:27:17)
+      at RunBoundedModelGateway.resume (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/application/run-bounded-model-gateway.ts:34:17)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/application/run-bounded-model-gateway.test.ts:77:16)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual'
+  }

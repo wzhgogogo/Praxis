@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.331
+- Document revision: 4.332
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-g1-followup-stop1"></a>
+
+## 2026-10-27 CET：G1最终组合五门禁通过
+
+7de83a29冻结671项后，typecheck/arch/default1162/build/Chromium174全部PASS，Chromium文件并行4、单次106.121秒，每门禁前后status空、restore0、fail/skip/cancel0。HTTP/PGlite主链旧404有效红→ANSWERED；错误预算reset反事实断言2≠1红，源码精确恢复后绿。原请求/模型/来源预算、身份/引用/敏感/取消与新旧问题隔离，真实Web交互及360px截图通过。首轮漏同步TaskDefinition21断言仅改22，生产未改，失败原日志保留；旧main组合1160/169及最终1162/174分开归档。旧HARD完整44,197字节同SHA，两站3,847/Pack473不变。HTTP中模型和来源浏览器I/O受控，UI另真实Chromium；本批Linux未跑、真实模型/Live未跑，不自评问答语义质量。真实调用0，已更新账本。[报告及证据](../../.eval-artifacts/phase3b/g1-followup/implementation/report.md)。
 
 <a id="test-2026-10-27-phase3b-g1-followup-implementation"></a>
 

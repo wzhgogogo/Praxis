@@ -1,0 +1,18 @@
+{
+  "mode": "OFFLINE_COUNTERFACTUAL",
+  "commit": "f29b4ec90dd2353eef130c793948d935e744b81c",
+  "mutation": "resume incorrectly starts a fresh read budget",
+  "sourceSha256": "c0cd3d7026a0bc3b6477d15c03b54252a530492a3a60e7d4a5a6ce41c5e5f6ad",
+  "exitCode": 1,
+  "validRed": true,
+  "command": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=displayed-page follow-up resumes",
+    "src/application/run-bounded-model-gateway.test.ts"
+  ],
+  "sourceRestoredExactly": true,
+  "gitStatusAfter": ""
+}

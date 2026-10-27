@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.432
+- Document revision: 4.433
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET：B批次3停止点1完成，待复核。** 用户批准五个共享版本，已实施Prompt29/Action5/Context17/State24/TaskDefinition22；ADR0046仅修Approval。卡片追问经过持久Agent/Validator/Router/原G1核心与英文Web，同run缓存、原预算/截止和取消/迟到控制通过。同步并行main/90b464d8后，7de83a29冻结671项，五门禁默认1162/Chromium174全绿（106.121秒），逐项前后净树、restore0。HTTP404与错误预算重置有效红灯；旧HARD44,197字节同SHA。两站3,847/Pack473不改，账本21id保留；真实调用0、A真实模型评分未跑、G3未开始。本次Agent/Web只推工作分支供复核。[报告](../.eval-artifacts/phase3b/g1-followup/implementation/report.md)。
 
 - **2026-10-27 CET：G1 Agent/Web接入待正式门禁。** 已按批准升级Agent Prompt29/Action5/Context17/State24/TaskDefinition22，ADR仅修Approval行。已展示门店卡片追问经持久事件、无参Agent动作、Validator/Router与原G1核心；同run缓存、缺缓存原reader、预算继承、取消/迟到与英文引用展示已接线，HTTP红404→绿与相关离线控制通过。旧HARD44,197字节同SHA，站点/Pack不改；即将冻结后跑五门禁，真实模型/Google/网站/Live0，不自评问答质量、不开始G3。[计划](../.eval-artifacts/phase3b/g1-followup/implementation/plan.md)。
 
