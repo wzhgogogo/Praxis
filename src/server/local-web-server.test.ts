@@ -1497,3 +1497,23 @@ test("Stage 2B continues an incomplete request and enforces optimistic concurren
     }
   });
 });
+
+
+test("G1 displayed restaurant follow-up answers through the persistent HTTP entry", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const calls = { model: 0, search: 0, facts: 0, availability: 0 };
+    const running = await startServer(database, clock, { restaurant: selectionSessionFixture(calls), model: selectionSessionModel(calls) });
+    try {
+      const cookie = await login(running.baseUrl, "token-a");
+      const view = await createCase(running.baseUrl, cookie, "g1-create", "Recommend restaurants in Shinjuku.");
+      assert.equal(view.case.phase, "PRESENT_RESULTS");
+      const candidateId = view.restaurant.presentedCandidateIds![0]!;
+      const reply = await api(running.baseUrl, cookie, `/api/cases/${encodeURIComponent(view.case.caseId)}/questions`, {
+        method: "POST", body: JSON.stringify({ candidateId, question: "Do they take credit cards?", taskVersion: view.case.taskVersion, requestId: "g1-credit" }),
+      });
+      assert.equal(reply.response.status, 200, "A user must be able to ask a question about a displayed restaurant");
+      const answered = reply.payload.view as RestaurantCaseView & { restaurant: { pageQuestion?: { result?: { status: string } } } };
+      assert.equal(answered.restaurant.pageQuestion?.result?.status, "ANSWERED");
+    } finally { await running.close(); }
+  });
+});
