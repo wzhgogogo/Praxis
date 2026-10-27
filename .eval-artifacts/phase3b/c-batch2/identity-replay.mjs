@@ -73,7 +73,7 @@ assert.equal(rows.length, 29);
 assert.notEqual(rows.find(r=>r.sampleId==="nr-029").snapshotRecomputeVerdict,"CORRECT","One-digit phone conflict must remain unaccepted");
 assert(!rows.some(r => r.snapshotRecomputeVerdict === "WRONG_ACCEPTED"), "S0: another outlet accepted; stop before further work");
 const count = key => Object.fromEntries([...new Set(rows.map(r => r[key]))].map(v => [v, rows.filter(r => r[key] === v).length]));
-const result = { schema: "phase3b-name-resolution-recompute@2", structureAlerts,, mode: "OFFLINE_SAVED_PAGE_PARSER_RESOLVER", newRealCalls: 0,
+const result = { schema: "phase3b-name-resolution-recompute@2", structureAlerts, mode: "OFFLINE_SAVED_PAGE_PARSER_RESOLVER", newRealCalls: 0,
   historicalVerdicts: count("historicalVerdict"), snapshotVerdicts: count("snapshotRecomputeVerdict"), primaryFailureStages: count("failureStage"),
   requestedCategories: { queryText: { status: "HYPOTHESIS_ONLY", exposedFullNameQueries: rows.filter(r => r.fullNameQueryUsed).length },
     emptySearchResults: rows.filter(r => r.failureStage === "EMPTY_SEARCH_RESULTS").length,
