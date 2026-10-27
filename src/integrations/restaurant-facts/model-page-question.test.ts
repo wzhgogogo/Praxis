@@ -206,7 +206,7 @@ test("G1 sensitive questions carry model categories and source paraphrases, reje
     assert.equal(good.answer, answer);
     assert.equal(good.sensitiveCategory, category);
     assert.equal(good.confirmationRequired, true);
-    for (const conclusion of ["Yes, suitable.", "No, unsuitable."]) {
+    for (const conclusion of ["Yes, suitable.", "No, unsuitable.", "  “ Yes, suitable.”"]) {
       const bad = await new ModelRestaurantPageQuestion(fixtureModel(selected(text, conclusion, category)), undefined, now).answer(input, signal());
       assert.ok(bad.status === "UNVERIFIED");
       assert.equal(bad.reason, "INVALID_MODEL_OUTPUT");
