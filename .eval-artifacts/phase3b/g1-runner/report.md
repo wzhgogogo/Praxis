@@ -13,3 +13,7 @@ ee5c835c frozen 34-question execution/scoring diagnostic completed: 34/34, 29 FI
 ## Product and input verification
 
 369 B src product files (including its existing tests) match0a466bcd byte-for-byte; full path/SHA manifest retained. The 24 green configuration/source/reference files retain frozen SHAs. Shared budget unions B/C base rows with main319cb9a5 by id:12 original/added rows, no conflicting overwrite, all increments0. The source-driven fixture does not read the reviewer answer file; that read is confined to the later evaluator process.
+
+## Legacy pinned-core checkpoint
+
+cfcde8c7 five gates PASS:1136 default/167 Chromium, typecheck0.446s, arch0.210s, default28.024s, build0.449s, browser98.476s; every gate starts/ends clean. Receipts retained under verification/legacy-0a466bcd. B batch2 delivered e4829a58; per user arrangement the Runner now rebases there with adapter-only code changes and a newly frozen fixture run. This section remains historical, not the new core result.
