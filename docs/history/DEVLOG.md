@@ -1,7 +1,9 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.319
+- Document revision: 4.320
+
+
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -12,6 +14,18 @@
 ## DEV-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
 
 2026-10-27T03:12:00+01:00。用户批准复核§9额度与详情字段交接，并要求样本备好先停。C从已复核分支整合main5f621be3，保留双方历史和按id并集账本；落地批准Gold5/sidecar3，历史Gold3/4不回写，退重复ADR0047而不复制B未提交的0046。来源SHA先冻结后从保存Google候选选5主3备，名单不填来源Gold，Dengana为暴露锚点。公开GET加速已存在，Google语言参数尚未接入；本切片只写范围与计划，不修改解析器/身份规则，不开始真实验证或收益对照。全部新增服务调用0，未加载/读取.env；7f3d8770五门禁1102/166全绿、逐项净树，只推分支停等Gold认证。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
+
+<a id="dev-2026-10-27-phase3b-A-batch2-qa"></a>
+
+## 2026-10-27 CET：G1人工复核结果与自然问题
+
+2026-10-27T03:20:36.530048+01:00。按25/5澄清确认Q01–20/Q26–30，5改写和4新增待审，34英文题保留中文。原候选文件与8源页保持；评分器@2有效红绿，B答案隔离；重放main/f465ada0双方记录及账本并集保留。0d26174d五门禁1110/168全绿、逐项净树，22输入SHA及8页/56摘录通过；全34正式评分NOT_READY、错误数null，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
+
+<a id="dev-2026-10-27-phase3b-A-batch2-replay"></a>
+
+## 2026-10-27 CET：回放分支重放G2主线
+
+时间2026-10-27T02:52:22.595544+01:00。G2/main 5f621be3已推送；回放分支重放其上，预算4条并集＋本批0调用条目、双方STATUS/DEVLOG/TEST-LOG/月度记录都保留。重复ADR去重，源码四文件与b7e8af14相同。6995ebcd重跑五门禁1104/167全绿、逐项前后净树；79条输入SHA一致。用户已结束旧F5整包，首次3b Live以当前代码新录制验收(c)，本批只更新状态，真实调用0。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 <a id="dev-2026-10-27-phase3b-A-batch2-g2"></a>
 
@@ -36,6 +50,18 @@
 ## DEV-2026-10-26-PHASE3B-C-BATCH1-PREP
 
 按用户自包含3b对话C批次1准备。来源为签收main/cc127320、tag指向相同提交；新工作分支已建，不合main。共享预算上限18Live/1000模型/4环境重跑/40评测GET，C独立id零调用条目与已有条目并集保存。范围及停止规则见计划；不需要Claude项目复核文件。 [切片](../../.eval-artifacts/phase3b/c-batch1/plan.md)。
+
+<a id="dev-2026-10-26-phase3b-replay"></a>
+
+## 2026-10-26 CET：3b A回放引用与静态方案
+
+时间2026-10-26T23:54:36.400389+01:00。从main cc127320独立分支；历史F5第4行wire先被stale拒绝，导致第5请求类型分歧。A层按公开语义唯一绑定当前ref，原动作/权威值不变，生产stale限制不改；实际Executor窄窗口红转绿，SOURCE/FLOW歧义等拒绝。当前原整包首语义合同23/3对25/4不匹配，严格停止、0/94，未完成完整回放。旧24脚本清单中10在重跑HAR已有字节，75缺CSS/71缺动态，六DOM只证可读性；Recorder/Guard无修改。f3fdfd9c五门禁1103/163全绿、逐项前后净树，真实调用0，不合main。[报告](../../.eval-artifacts/phase3b/replay-completion/report.md)。
+
+<a id="dev-2026-10-26-phase3b-g1"></a>
+
+## 2026-10-26 CET：3b A G1候选问答
+
+时间2026-10-26T23:29:45.366380+01:00。main cc127320独立切片，用户澄清后30题全部CANDIDATE，8页/49处原文，问题与答案隔离；实际无到期证据不冒称过期。ADR（对话 B 起草，待批准）统一维护用户原则，评分器不读产品解析器；无Gold先NOT_READY，未知同义人工复核。fc5146b9五门禁1104/163全绿、各项前后净树；候选正式评分NOT_READY，真实调用0，不合main。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
 <a id="dev-2026-10-26-phase3a-prime-signoff"></a>
 

@@ -1,11 +1,15 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.426
+- Document revision: 4.427
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
 
 - **2026-10-27 CET：3b C Gold5与非直链样本准备，待认证。** 用户确认15项标注后生成Gold5（8强度/7窗口），Gold3/4与旧评价原样保留；sidecar3只重绑数据，Prompt26/Schema4/State23不变。删除C重复ADR0047，统一由B的ADR0046 Proposed草案维护。整合main5f621be3，已从保存Google记录选5主+3备，Dengana单列历史锚点；没有猜测Gold。用户批准本批模型100/评测GET35/Google35/Live0，但本准备实际全部0、未加载.env；解析器/身份规则未改。7f3d8770冻结722项后五门禁全绿（默认1102/Chromium166）、各项前后净树，Fixture15/15；只推工作分支，停在复核者Gold认证前，不合main。[报告](../.eval-artifacts/phase3b/c-batch2-preparation/report.md) · [清单](../.eval-artifacts/phase3b/c-batch2-preparation/samples.proposed.md)。
+
+- **2026-10-27 CET：3b A批次2 G1复核包。** 34英文题保留中文；25按人工复核确认，5自然错页/错run改写及4新增题仍CANDIDATE；原候选SHA不变，混合集非完整验收Gold。评分器@2三态、双语冲突双方引用及错页事实禁入有效红绿已取得，0d26174d五门禁1110/168全绿、逐项净树，8页/56摘录与22输入SHA通过。B仅题目/原页，答案隔离。真实调用0。[报告](../.eval-artifacts/phase3b/g1-qa/report.md)。
+
+- **2026-10-27 CET：3b A批次2回放合入准备。** G2已合main并推5f621be3；回放分支已基于该main重放，双方历史及预算id并集完整保留，A重复ADR删除、由B Proposed待批准。源码保持独立复核版本原字节，6995ebcd五门禁1104/167全绿、逐项前后净树，79条冻结输入SHA一致。旧F5整包工作按用户决定结束；3b首次Live用当前版本新录制验收完整性并落实方案(c)，本批不实施。真实调用0。[报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 - **2026-10-27 CET：3b A批次2 G2合入准备。** 按用户复核移除A的重复ADR0046及Accepted表述，ADR由B起草、待批准。G2原12页基线保留，重放main后ee0c391d五门禁1101/166与固定G2 4/4全绿、逐项前后净树；全离线真实调用0。旧F5整包回放结束，3b首次Live用当前版本重新录制验证方案(c)。[批次报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
 
@@ -16,6 +20,10 @@
 - **2026-10-26-PHASE3B-C-BATCH1-CANDIDATE:** C完成离线候选：当前保存页parser/resolver复算12/29正确、0错认；14空检索、1身份采集遗漏、1字段冲突、1检索未决；八F5中六Dengana/两其他请求，时限原因逐项保存。身份/检索仅方案不实施。SR03坏提议在模型层先丢名；已报告后仅Semantic Prompt25→26，合法fixture与wire8/8绿，原坏响应并未变为模型成功；Schema4/State23/TaskDefinition21不变。15项Gold标签建议只列清单、Gold4原SHA未变；ADR0047记录3b两个原则及未实现边界。A/B/C零调用条目并集，新增真实调用0。五门禁待干净冻结候选验证，停点1不合main。[报告](../.eval-artifacts/phase3b/c-batch1/report.md)。
 
 - **2026-10-26-PHASE3B-C-BATCH1-PREP:** 对话C从签收main/cc127320新开codex/fix-phase3b-identity-and-named-target；本批仅保存数据离线复算、身份方案、具名店fixture红灯定位与Gold待确认清单，新增真实调用全0，禁读.env/私有Holdout。八份F5均纳入：六份Akabane含Dengana，两份其他请求标不适用；不把历史12/29冒充当前复算。身份规则不放宽、Gold不修改，Prompt或文件/版本争用按用户停止规则先报告。[切片](../.eval-artifacts/phase3b/c-batch1/plan.md)。
+
+- **2026-10-26 CET：3b A批次1待复核。** G2分支42dc6ef1已推：12保存页8 PASS/4诚实退化，五门禁1101/166及固定G2绿；G1分支8bd6bb8c已推：30题全部CANDIDATE，49摘录核对通过、无人工Gold先NOT_READY，五门禁1104/163绿。回放本分支修离线原动作临时ref绑定，普通stale仍拒；历史snapshot3窄窗口红绿完成。整份旧F5在新main首语义Prompt23/Schema3对25/4不兼容，仍INCOMPLETE（0/94），不改旧输出或产品合同，等复核安排。静态资格19/94不变，方案仅草案；f3fdfd9c五门禁1103/163全绿、逐项前后净树，新增真实调用0，不合main。[报告](../.eval-artifacts/phase3b/replay-completion/report.md)。
+
+- **2026-10-26 CET：3b A G1候选问答（待逐题复核）。** 30题/8页，12有答案、8未说明、7陷阱、3敏感，49处逐字摘录及位置，全部CANDIDATE。B只读questions与原页；答案及含答案脚本隔离，未作为验收Gold。独立评分器source-quoted-qa-scorer@1拒绝未确认、错店/旧读取/假引用；未知同义改写未评。明确到期菜单子类仍缺，历史菜单不伪称已过期；fc5146b9五门禁1104/163全绿、各项前后净树；49摘录独立Chromium核对通过，正式评分NOT_READY。产品及共享版本不改，真实调用0；不合main。[报告](../.eval-artifacts/phase3b/g1-qa/report.md)。
 
 - **2026-10-26 CET：3a′带缺口签收，3a完成（用户决定）。** 3a′保留四项缺口：F5例01未达成，转3b店名解析G4与F6 Live验证；网站适配器3,847行，未达≤3,591，L1/L4/L5转3b查位改造G3；测试集变快但未变小；真实录制尚不能完整回放，转3b对话A。3a①推荐与查位边界已合入（ADR-0044 revision1.1、语义Prompt@25、Gold@4）；3a②使用条款按用户提供的日本律师咨询结论“当前做法没有问题”结束。运行规范照旧：节奏控制、不进入robots禁止的预约流程路径、遇到限流或繁忙页面就退避。额度终值：3a′ Live **8/8**、真实模型 **334/400**、环境重跑 **3/4**；3a边界真实模型单列 **93/144**。本批只改文档，新增真实调用0；不开始3b或F6 Live。签收annotated tag：`phase3a-prime-signoff`。[完整收尾记录](history/DEVLOG.md#dev-2026-10-26-phase3a-prime-signoff)。
 

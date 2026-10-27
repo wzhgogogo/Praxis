@@ -1,7 +1,9 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.325
+- Document revision: 4.326
+
+
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -12,6 +14,18 @@
 ## TEST-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
 
 CET。旧Gold4 loader在独立批准15项预期处AssertionError红灯，迁移后既有5项回归及固定Fixture15/15绿；原始日志保留，历史评价不回写。最终7f3d87705548661ed4c1d42ea3c6fbbf835e27ee冻结722项，独立审计/Fixture15与五门禁全部绿（默认1102/1102、Chromium166/166），每项前后status空、输入SHA匹配，无豁免或skip。真实模型/Google/来源网站/Live/环境重跑0，私有Holdout与.env未读；不把Fixture证明为Prompt26真实遵循或G4检索收益。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
+
+<a id="test-2026-10-27-phase3b-A-batch2-qa"></a>
+
+## 2026-10-27 CET：G1三态评分红绿
+
+d0933928类型检查通过，两个映射断言旧FAIL→预期PASS，修后六控制绿；本地构造不称网站回放。准备预检8页/56摘录位置通过，25确认9候选、原候选字节不变；全34评价应NOT_READY。0d26174d五门禁typecheck/arch/默认1110/build/Chromium168全绿，逐项前后净树；22输入SHA一致、独立8页/56摘录PASS，正式NOT_READY按9项阻断且未读响应，错误数null。真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
+
+<a id="test-2026-10-27-phase3b-A-batch2-replay"></a>
+
+## 2026-10-27 CET：回放合入前组合验证
+
+已重放main/5f621be3，源码与独立复核b7e8af14一致，双方文档和预算并集校验通过。6995ebcd五门禁typecheck/arch/默认1104/build/Chromium167全部通过，逐项前后净树；G2 36＋回放43条SHA一致。收据与原始压缩日志归档。不得将此离线验证称为Live；不追加旧F5整包运行，既有严格版本负例仍属默认离线回归，非旧代码验收。真实调用0。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-g2"></a>
 
@@ -36,6 +50,18 @@ CET。d9b38cd21b958d27f91eb3402c73e4ec6e51c675干净冻结752项后，typecheck/
 ## TEST-2026-10-26-PHASE3B-C-BATCH1-PREP
 
 验证计划：保存的29份基准与8份F5逐一复算，fixture模型仅替代传输，其余Interpreter/Compiler/Runtime真实组合。先提交输入SHA及脚本后执行，五门禁在干净候选上逐项检查。尚未运行复算/红灯/门禁；所有新增真实调用0，.env与私有Holdout不读取。 [切片](../../.eval-artifacts/phase3b/c-batch1/plan.md)。
+
+<a id="test-2026-10-26-phase3b-replay"></a>
+
+## 2026-10-26 CET：回放引用有效红绿及全包合同停止
+
+299f3682在typecheck通过后，真实Chromium＋ModelBrowserReadActionDecision＋Executor断言COMPLETED实际NO_SAFE_ACTION，诊断STALE_OR_UNKNOWN_TARGET_REF；修后同窗口到A1322，RAW旧ref仍拒。歧义/改href/改目标/跨source或flow/URL冒充/旧Prompt拒绝。原始39决策与HAR保留，OS禁网完整回放在语义23/3对25/4处NE，0页/0真实调用；不把外部临时路径Guard错误或预期exit1当红灯。f3fdfd9c五门禁1103/163全绿、逐项前后净树；DOM六页可读不升回放资格。[报告](../../.eval-artifacts/phase3b/replay-completion/report.md)。
+
+<a id="test-2026-10-26-phase3b-g1"></a>
+
+## 2026-10-26 CET：G1候选与独立评分
+
+ae319df7局部引用绑定有效红灯（跨页/读取相同原文误过PASS）；修后正常、同店/同读、缺证/敏感/冲突及CANDIDATE阻断控制绿。原始页SHA/49处摘录及字符位置预检通过，答案尚无人工确认，不算产品验收。fc5146b9五门禁1104/163全绿且各项净树，8页49摘录独立源页核对通过，候选NOT_READY/0题已评，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
 <a id="test-2026-10-26-f6-implemented"></a>
 

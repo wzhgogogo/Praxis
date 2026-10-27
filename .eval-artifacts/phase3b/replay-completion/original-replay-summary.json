@@ -1,0 +1,44 @@
+{
+  "executionSource": "REPLAY",
+  "modelMode": "ORIGINAL",
+  "recordingSha256": "06d2a89045a4ac6b6a729b89428b72989d003339ab0ee8b755dfeab1d4aca7c7",
+  "harSha256": "5aa813af26e739ff1d3e37eea20f4b5e7eca2b51971d2e0c68275bb4ed42b7fd",
+  "decisionSha256": "394abf748feda1788466fd38634124a63416ccccdf8bc88ea019f4482b9d0603",
+  "liveCapabilityDenominator": "EXCLUDED",
+  "status": "REPLAY_INCOMPLETE",
+  "stop": {
+    "snapshot": 1,
+    "origin": "",
+    "pathname": "",
+    "reason": "DECISION_SEQUENCE_DIVERGED"
+  },
+  "consumedPages": 0,
+  "recordedPages": 94,
+  "consumedDecisions": 1,
+  "recordedDecisions": 39,
+  "replayedDecisionCount": 0,
+  "decisionMismatch": {
+    "recordedSequence": 1,
+    "recorded": {
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v23",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "3"
+      }
+    },
+    "requested": {
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v25",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      }
+    }
+  },
+  "referenceBindingProtocol": "observed-target-rebinding@1",
+  "referenceBindings": [],
+  "modelTransportCalls": 0,
+  "missingRequests": [],
+  "resultPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/replay-completion/original-current-main/execution/execution/2026-10-25T08-40-47-142Z-2a2e955a-12c4-443e-b05e-bc792bbece6f.result.json"
+}

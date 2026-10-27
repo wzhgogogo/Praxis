@@ -1,0 +1,50 @@
+{
+  "candidate": "f3fdfd9cc95c7a2b5a58cc0f0003fa716aa53626",
+  "branch": "codex/fix-phase3b-recorded-reference-replay",
+  "mode": "OFFLINE_ONLY",
+  "timeCET": "2026-10-26T23:55:40.788480+01:00",
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "elapsedSeconds": 0.43,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "typecheck.log"
+    },
+    {
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "elapsedSeconds": 0.199,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "arch-check.log"
+    },
+    {
+      "command": "npm run test",
+      "exitCode": 0,
+      "elapsedSeconds": 27.62,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "test.log"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "elapsedSeconds": 0.397,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "build.log"
+    },
+    {
+      "command": "npm run test:browser:fixture",
+      "exitCode": 0,
+      "elapsedSeconds": 98.328,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "test-browser-fixture.log"
+    }
+  ],
+  "result": "PASS",
+  "finalStatus": ""
+}
