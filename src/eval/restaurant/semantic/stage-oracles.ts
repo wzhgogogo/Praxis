@@ -1,10 +1,11 @@
 import type { RestaurantSemanticProposal } from "../../../domains/restaurant/semantic-proposal.js";
 import { restaurantSemanticGoalAnnotation } from "./goal-boundary.js";
 
+// Frozen Gold5 core-request facts; this helper is not a production strength classifier.
 const criterion = (text: string): RestaurantSemanticProposal["facts"][number] => ({
   field: "CRITERION",
   operation: "ASSERT",
-  value: { kind: "CRITERION", text, polarity: "POSITIVE", strength: "UNSPECIFIED" },
+  value: { kind: "CRITERION", text, polarity: "POSITIVE", strength: "HARD" },
 });
 
 const explicitDate = (value: string) => ({ kind: "DATE" as const, value, raw: value });
@@ -32,7 +33,7 @@ const proposals: Readonly<Record<string, RestaurantSemanticProposal>> = {
       {
         field: "CRITERION",
         operation: "NEGATE",
-        value: { kind: "CRITERION", text: "yakiniku", polarity: "POSITIVE", strength: "UNSPECIFIED" },
+        value: { kind: "CRITERION", text: "yakiniku", polarity: "POSITIVE", strength: "HARD" },
       },
     ],
   },
@@ -77,7 +78,7 @@ const proposals: Readonly<Record<string, RestaurantSemanticProposal>> = {
     schemaVersion: "4",
     facts: [
       { field: "DATE", operation: "ASSERT", value: explicitDate("2026-08-07") },
-      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("18:00", "21:00") },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("18:00", "23:00") },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 4 } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near our office" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "smoking", polarity: "NEGATIVE", strength: "HARD" } },
@@ -88,7 +89,7 @@ const proposals: Readonly<Record<string, RestaurantSemanticProposal>> = {
     schemaVersion: "4",
     facts: [
       { field: "DATE", operation: "ASSERT", value: explicitDate("2026-08-06") },
-      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("13:00", "17:00") },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("12:00", "17:00") },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 3 } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "nearby" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "around 3,000 yen per person", polarity: "POSITIVE", strength: "SOFT" } },
@@ -108,25 +109,25 @@ const proposals: Readonly<Record<string, RestaurantSemanticProposal>> = {
     schemaVersion: "4",
     facts: [
       { field: "DATE", operation: "ASSERT", value: explicitDate("2026-08-05") },
-      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("18:00", "21:00") },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("18:00", "23:00") },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Ginza" } },
-      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "sushi", polarity: "POSITIVE", strength: "UNSPECIFIED" } },
-      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "omakase", polarity: "NEGATIVE", strength: "UNSPECIFIED" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "sushi", polarity: "POSITIVE", strength: "HARD" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "omakase", polarity: "NEGATIVE", strength: "HARD" } },
     ],
   },
   "Drop the omakase restriction; keep sushi.": {
     schemaVersion: "4",
     facts: [
-      { field: "CRITERION", operation: "NEGATE", value: { kind: "CRITERION", text: "omakase", polarity: "NEGATIVE", strength: "UNSPECIFIED" } },
-      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "sushi", polarity: "POSITIVE", strength: "UNSPECIFIED" } },
+      { field: "CRITERION", operation: "NEGATE", value: { kind: "CRITERION", text: "omakase", polarity: "NEGATIVE", strength: "HARD" } },
+      { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "sushi", polarity: "POSITIVE", strength: "HARD" } },
     ],
   },
   "This Saturday night near my hotel for two people, Italian food.": {
     schemaVersion: "4",
     facts: [
       { field: "DATE", operation: "ASSERT", value: explicitDate("2026-08-08") },
-      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("19:00", "22:00") },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("18:00", "23:00") },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near my hotel" } },
       criterion("Italian food"),
@@ -142,7 +143,7 @@ const proposals: Readonly<Record<string, RestaurantSemanticProposal>> = {
     schemaVersion: "4",
     facts: [
       { field: "DATE", operation: "ASSERT", value: explicitDate("2026-08-06") },
-      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("18:00", "20:00") },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: explicitTimeWindow("17:30", "22:00") },
       { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2 } },
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Shinjuku" } },
       { field: "BUDGET_PER_PERSON", operation: "ASSERT", value: { kind: "BUDGET_PER_PERSON", max: 5000, currency: "JPY" } },

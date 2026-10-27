@@ -4,8 +4,8 @@ import { resolve } from "node:path";
 
 import type { RestaurantGoalBoundaryExpectation } from "./scorer.js";
 
-export const RESTAURANT_GOAL_BOUNDARY_ANNOTATIONS = "restaurant-goal-boundary-annotations@2";
-const sourcePath = "src/eval/restaurant/semantic/cases/restaurant-semantic-regression.gold4.json";
+export const RESTAURANT_GOAL_BOUNDARY_ANNOTATIONS = "restaurant-goal-boundary-annotations@3";
+const sourcePath = "src/eval/restaurant/semantic/cases/restaurant-semantic-regression.gold5.json";
 const annotationPath = "src/eval/restaurant/semantic/cases/goal-boundary-annotations.json";
 const hash = (text: string | Buffer) => createHash("sha256").update(text).digest("hex");
 
