@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.319
+- Document revision: 4.320
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-qa-final"></a>
+
+## 2026-10-27 CET: G1 final review confirmation
+
+2026-10-27T15:44:58.545553+01:00: user confirms all 34 after Q24/Q25 no-reader correction. Historical evidence preserved. G3/Live sequencing updated; independent Runner follows after main integration. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-qa/report.md).
 
 <a id="dev-2026-10-27-phase3b-A-batch2-calendar-stop"></a>
 

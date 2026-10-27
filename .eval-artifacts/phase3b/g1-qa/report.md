@@ -85,3 +85,11 @@ Q21–25五题改为自然问题，已展示店/提供页/页所属runId由独�
 原prepare-candidates执行生成器退役，Git历史保留；新修订脚本固定读取8bd6bb8c。旧inputs-sha256与验证只属原提交历史，不证明当前文件；本批单独冻结22份SHA。全34题正式评分应NOT_READY/evaluated=0/错误数null，不能报告产品G1通过。英文同义答案需复核，不命中已审表述为NOT_EVALUATED，不推断S0。
 
 0d26174d五门禁全绿：typecheck 0.433s、arch 0.203s、默认1110/1110 28.540s、build 0.482s、Chromium168/168 108.005s，逐项前后净树。正式源页核对8页/56摘录PASS，22份当前冻结SHA一致；整体正式评分NOT_READY，9项未审、错误数null，未读响应文件。收据及压缩原始日志见batch2/verification。真实模型/Google/网站/Live全部0，不读.env。Runner按用户批准另基于B/0a466bcd建立集成分支，B产品原字节、单适配文件，不随QA合main。
+
+## Final review confirmation (2026-10-27 CET)
+
+All 34 references are REVIEWER_CONFIRMED by independent reviewer (Claude), 2026-10-27, dataset phase3b-qa-reviewed@1. Q24/Q25 now set allowFreshRead=false and require UNVERIFIED. No reader exists in this offline evaluator. Fresh-read successful answers are reserved for later Agent online evaluation. Questions, page bytes, and historical candidate answers are unchanged. Prior 25/9 and NOT_READY results remain historical and are not relabelled.
+
+749dc119 produced the expected preflight red at Q24 allowFreshRead=true; the identical control passes after the data correction. The complete preflight verifies 34 confirmed references, 8 source-page SHAs and 56 quotation locations. Product code is unchanged. Five gates will run after freezing this configuration; no real calls.
+
+The user moved the missing TableCheck positive calendar to the first 3b Live recording, also used for new replay. Add that calendar to G2 before accepting the TableCheck G3 slice; G3 starts with Tabelog. The earlier stop is superseded by this explicit sequencing decision. Runner proceeds on its separately approved B/0a466bcd integration branch.

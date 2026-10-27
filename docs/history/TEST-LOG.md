@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.325
+- Document revision: 4.326
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-qa-final"></a>
+
+## 2026-10-27 CET: G1 offline fresh-read red/green
+
+749dc119 preflight fails at Q24 allowFreshRead, then passes after correction. 34 confirmed/8 source SHAs/56 literal locations. Five gates pending frozen commit. No product changes or real calls. [Report](../../.eval-artifacts/phase3b/g1-qa/report.md).
 
 <a id="test-2026-10-27-phase3b-A-batch2-calendar-stop"></a>
 

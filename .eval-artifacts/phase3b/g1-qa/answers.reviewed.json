@@ -1,6 +1,6 @@
 {
   "schema": "phase3b-qa-review@1",
-  "evidenceStatus": "25 reviewer-confirmed references and 9 candidates; not a fully approved acceptance set",
+  "evidenceStatus": "34 reviewer-confirmed references; exposed offline acceptance set, not Clean Holdout",
   "preparedAtCET": "2026-10-27T03:16:22.046657+01:00",
   "visibility": "Reviewer/evaluator only; Conversation B MUST NOT read during G1 implementation",
   "historicalCandidateSha256": "7635f27e760b66190c74ddd3cf6fba0bc60a02263116a621a330b44fdf0d8466",
@@ -26,23 +26,22 @@
     "G1-Q18",
     "G1-Q19",
     "G1-Q20",
-    "G1-Q26",
-    "G1-Q27",
-    "G1-Q28",
-    "G1-Q29",
-    "G1-Q30"
-  ],
-  "candidateIds": [
     "G1-Q21",
     "G1-Q22",
     "G1-Q23",
     "G1-Q24",
     "G1-Q25",
+    "G1-Q26",
+    "G1-Q27",
+    "G1-Q28",
+    "G1-Q29",
+    "G1-Q30",
     "G1-Q31",
     "G1-Q32",
     "G1-Q33",
     "G1-Q34"
   ],
+  "candidateIds": [],
   "answers": [
     {
       "questionId": "G1-Q01",
@@ -1414,7 +1413,7 @@
     },
     {
       "questionId": "G1-Q21",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "ooyama",
@@ -1510,9 +1509,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1523,7 +1522,7 @@
     },
     {
       "questionId": "G1-Q22",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "nishi",
@@ -1594,9 +1593,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1607,7 +1606,7 @@
     },
     {
       "questionId": "G1-Q23",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "sen",
@@ -1652,9 +1651,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1666,7 +1665,7 @@
     },
     {
       "questionId": "G1-Q24",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "aloft",
@@ -1708,9 +1707,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "Final review: no reader in the offline evaluator. Fresh read disabled; require UNVERIFIED. Fresh online reads deferred to Agent evaluation.",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1722,11 +1721,11 @@
         "9,800",
         "9800"
       ],
-      "allowFreshRead": true
+      "allowFreshRead": false
     },
     {
       "questionId": "G1-Q25",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "alaska",
@@ -1786,9 +1785,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "Final review: no reader in the offline evaluator. Fresh read disabled; require UNVERIFIED. Fresh online reads deferred to Agent evaluation.",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1796,7 +1795,7 @@
         "3,300",
         "3300"
       ],
-      "allowFreshRead": true
+      "allowFreshRead": false
     },
     {
       "questionId": "G1-Q26",
@@ -2158,10 +2157,10 @@
     },
     {
       "questionId": "G1-Q31",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; pending independent reviewer confirmation",
-      "reviewer": null,
-      "reviewerDecision": null,
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewerDecision": "CONFIRMED",
       "outlet": {
         "id": "nakamata",
         "name": "Specializing in Nodoguro Ginza Nakamata",
@@ -2194,14 +2193,15 @@
       "trap": null,
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "sourceLanguage": "ja"
+      "sourceLanguage": "ja",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27"
     },
     {
       "questionId": "G1-Q32",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; pending independent reviewer confirmation",
-      "reviewer": null,
-      "reviewerDecision": null,
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewerDecision": "CONFIRMED",
       "outlet": {
         "id": "matsumoto",
         "name": "Shibuya Sushi Matsumoto",
@@ -2234,14 +2234,15 @@
       "trap": null,
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "sourceLanguage": "ja"
+      "sourceLanguage": "ja",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27"
     },
     {
       "questionId": "G1-Q33",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; pending independent reviewer confirmation",
-      "reviewer": null,
-      "reviewerDecision": null,
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewerDecision": "CONFIRMED",
       "outlet": {
         "id": "alaska",
         "name": "Restaurant Alaska Asahi",
@@ -2300,14 +2301,15 @@
       "trap": null,
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "sourceLanguage": "ja"
+      "sourceLanguage": "ja",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27"
     },
     {
       "questionId": "G1-Q34",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; pending independent reviewer confirmation",
-      "reviewer": null,
-      "reviewerDecision": null,
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewerDecision": "CONFIRMED",
       "outlet": {
         "id": "sen",
         "name": "Shibuya Sushi Sen",
@@ -2363,7 +2365,10 @@
       "forbiddenAnswerFragments": [
         "Yes,",
         "is available for JPY 3,980"
-      ]
+      ],
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27"
     }
-  ]
+  ],
+  "dataset": "phase3b-qa-reviewed@1",
+  "reviewedAtCET": "2026-10-27T15:43:42.836847+01:00"
 }
