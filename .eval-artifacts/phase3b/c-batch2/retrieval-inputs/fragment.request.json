@@ -1,0 +1,73 @@
+{
+  "request": {
+    "taskId": "phase3b-g4-fragments",
+    "purpose": "restaurant_source_query_fragment_eval",
+    "promptVersion": "phase3b-fragment-proposal@1",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Propose one short restaurant-name search fragment per object. The fragment MUST be an exact contiguous substring of the provided original Google name or address. Prefer the distinctive store-name core over area/cuisine/descriptive words. Never translate or invent names. Return UTF-16 start/end offsets and the exact fragment. No websites, IDs, external lookup, or alternative attempts."
+      },
+      {
+        "role": "user",
+        "content": "[{\"id\":\"G4-ND-001\",\"name\":\"Dengana Akabane\",\"address\":\"Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F\"},{\"id\":\"G4-ND-003\",\"name\":\"和泉鮨南口店\",\"address\":\"1-chōme-5-5 Dōgenzaka, Shibuya, Tokyo 150-0043, Japan\"},{\"id\":\"G4-ND-005\",\"name\":\"Sen Kagurazaka\",\"address\":\"3-chōme-1-43 Kagurazaka, Shinjuku City, Tokyo 162-0825, Japan\"},{\"id\":\"G4-ND-006\",\"name\":\"吉祥じ 和こん\",\"address\":\"Japan, 〒180-0005 Tokyo, Musashino, Gotenyama, 1-chōme−3−７ もみじビル 1F\"},{\"id\":\"nr-001\",\"name\":\"Sushi Tatsu Shibuya\",\"address\":\"Japan, 〒150-0002 Tokyo, Shibuya, 1-chōme−15−１９ 東口二葉ビル 4F\"},{\"id\":\"nr-007\",\"name\":\"Wagyu beef Yakiniku Beef Kitchen Nakameguro\",\"address\":\"Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 2-chōme−44−８ ロ･カーサ上目黒 B1\"},{\"id\":\"nr-009\",\"name\":\"Naminoue shibuya\",\"address\":\"2-chōme-22-16 Higashi, Shibuya, Tokyo 150-0011, Japan\"},{\"id\":\"nr-011\",\"name\":\"日本料理 ほそ川 神楽坂\",\"address\":\"Japan, 〒162-0825 Tokyo, Shinjuku City, Kagurazaka, 3-chōme−６ 神楽坂館 1階\"},{\"id\":\"nr-015\",\"name\":\"Sushi Yamashiro Kichijoji\",\"address\":\"Japan, 〒180-0004 Tokyo, Musashino, Kichijōji Honchō, 1-chōme−9−９ 寿楽ビル 3F\"},{\"id\":\"nr-018\",\"name\":\"Yakiniku Ushicoco Nakameguro\",\"address\":\"Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 2-chōme−16−１ リードシー中目黒 4F\"},{\"id\":\"nr-022\",\"name\":\"Sushi and Tempura Iwai Kichijoji\",\"address\":\"Japan, 〒180-0004 Tokyo, Musashino, Kichijōji Honchō, 1-chōme−9−９ 寿楽ビル 2F-D\"},{\"id\":\"nr-026\",\"name\":\"Kushiyaki Bistro Fukumimi Ginza 6\",\"address\":\"Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 6-chōme−14−５ 東武銀座第1ビル 地下1階\"}]"
+      }
+    ],
+    "responseFormat": "JSON_SCHEMA",
+    "outputSchema": {
+      "name": "source_search_fragments",
+      "version": "1",
+      "jsonSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "samples"
+        ],
+        "properties": {
+          "samples": {
+            "type": "array",
+            "maxItems": 23,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "field",
+                "fragment",
+                "start",
+                "end"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "field": {
+                  "type": "string",
+                  "enum": [
+                    "name",
+                    "address"
+                  ]
+                },
+                "fragment": {
+                  "type": "string"
+                },
+                "start": {
+                  "type": "integer"
+                },
+                "end": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "timeoutMs": 30000,
+    "fallback": "FAIL_CLOSED",
+    "maxOutputTokens": 4096,
+    "temperature": 0,
+    "thinking": "disabled"
+  },
+  "ledgerId": "phase3b-c-batch2-call-model-040"
+}
