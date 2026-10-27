@@ -1,0 +1,50 @@
+{
+  "candidate": "0d26174d6b93961865d4c28f1ed32b64aba5bc91",
+  "branch": "codex/feat-phase3b-qa-candidates",
+  "mode": "OFFLINE_ONLY",
+  "timeCET": "2026-10-27T03:21:08.629321+01:00",
+  "gates": [
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "elapsedSeconds": 0.433,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "typecheck.log"
+    },
+    {
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "elapsedSeconds": 0.203,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "arch-check.log"
+    },
+    {
+      "command": "npm run test",
+      "exitCode": 0,
+      "elapsedSeconds": 28.54,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "test.log"
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0,
+      "elapsedSeconds": 0.482,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "build.log"
+    },
+    {
+      "command": "npm run test:browser:fixture",
+      "exitCode": 0,
+      "elapsedSeconds": 108.005,
+      "statusBefore": "",
+      "statusAfter": "",
+      "log": "test-browser-fixture.log"
+    }
+  ],
+  "result": "PASS",
+  "finalStatus": ""
+}

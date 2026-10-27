@@ -13,7 +13,7 @@
 
 ## 2026-10-27 CET：G1三态评分红绿
 
-d0933928类型检查通过，两个映射断言旧FAIL→预期PASS，修后六控制绿；本地构造不称网站回放。准备预检8页/56摘录位置通过，25确认9候选、原候选字节不变；全34评价应NOT_READY。五门禁待冻，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
+d0933928类型检查通过，两个映射断言旧FAIL→预期PASS，修后六控制绿；本地构造不称网站回放。准备预检8页/56摘录位置通过，25确认9候选、原候选字节不变；全34评价应NOT_READY。0d26174d五门禁typecheck/arch/默认1110/build/Chromium168全绿，逐项前后净树；22输入SHA一致、独立8页/56摘录PASS，正式NOT_READY按9项阻断且未读响应，错误数null。真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-replay"></a>
 
