@@ -1,0 +1,57 @@
+{
+  "summary": {
+    "executionGit": "ee5c835c88bdd41b4bbb7d1628e296d232598cb4",
+    "coreGit": "0a466bcded02700b11bfe86e99bf4924e0d22d32",
+    "mode": "FIXTURE_MODEL_SAVED_PAGES_NOT_REAL_MODEL_EVAL",
+    "executionStatus": "PASS",
+    "executed": 34,
+    "modelInvocations": 29,
+    "providers": [
+      "FIXTURE"
+    ],
+    "coreStatusCounts": {
+      "ANSWERED": 0,
+      "NOT_STATED": 5,
+      "UNVERIFIED": 29
+    },
+    "evaluationStatus": "FAIL",
+    "evaluationExitCode": 1,
+    "rowStatuses": {
+      "PASS": 5,
+      "FAIL": 27,
+      "NOT_EVALUATED": 2
+    },
+    "falseClaimCount": null,
+    "categoryClassification": "NOT_SUPPORTED_BY_PINNED_CORE",
+    "realModelQuality": "NOT_EVALUATED",
+    "realModelCalls": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0,
+    "publicGET": 0,
+    "liveCalls": 0,
+    "answerReadIsolation": "EXECUTION_UNDER_ENFORCED_DENY_WITH_INDEPENDENT_CANARY",
+    "gitStatusAfter": ""
+  },
+  "coreReasons": {
+    "INCOMPLETE_PAGE": 24,
+    "NO_REASON": 5,
+    "NO_BOUND_PAGE": 5
+  },
+  "gradingReasons": {
+    "ANSWER_KIND_CONTRADICTS_REFERENCE": 26,
+    "NOT_STATED_JUDGMENT_INCORRECT": 9,
+    "PARAPHRASE_REQUIRES_REVIEW": 3,
+    "MISSING_RESTAURANT_CONFIRMATION": 1,
+    "BILINGUAL_CONFLICT_NOT_ACKNOWLEDGED": 1,
+    "SENSITIVE_CATEGORY_MISMATCH": 3,
+    "MISSING_VERBATIM_QUOTE": 1,
+    "REQUIRED_SUPPORT_NOT_QUOTED": 1
+  },
+  "scope": "Transport diagnostic only; fixed NOT_STATED fixture is not a real-model answer attempt",
+  "fourLayerEvaluation": {
+    "endToEnd": "Runner execution and later independent scoring complete; real G1 question quality NOT_EVALUATED",
+    "stages": "34 inputs passed; old-run/source binding produces 5 UNVERIFIED without model calls; original full text preserved",
+    "severity": "Local constructed 3-case composition scores PASS with 0 false claims; full canned-model aggregate is null, never S0=0 or real quality",
+    "attribution": "Runner old-run mapping defect fixed; pinned core source cap and category support retained as upstream limitations"
+  }
+}

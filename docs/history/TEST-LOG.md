@@ -25,7 +25,7 @@ HARD参数默认不变：三组边界分段/选择、完整Native事实和原模
 
 ## 2026-10-27 CET: G1 Runner red/green
 
-36dc5005 typecheck passes and actual-core old-run assertion fails at ANSWERED vs UNVERIFIED. Adapter correction makes same assertion pass; four Chromium integration controls and six scorer controls pass, including URL/readAt/SHA/unknown-key rejection and real reference-read-denial canary. Local constructions only. Full fixture diagnostic and five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+36dc5005 typecheck passes and actual-core old-run assertion fails at ANSWERED vs UNVERIFIED. Adapter correction makes same assertion pass; four Chromium integration controls and six scorer controls pass, including URL/readAt/SHA/unknown-key rejection and real reference-read-denial canary. Local constructions only. ee5c835c full saved-page fixture executed34/34 under answer-read denial, then independent grading5 PASS/27 FAIL/2 NOT_EVALUATED, falseClaimCount=null. This is a transport diagnostic, not model/Agent acceptance. Frozen input and B product SHA checks pass; five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="test-2026-10-26-phase3b-g1-stop1"></a>
 
