@@ -69,6 +69,12 @@
 
 时间2026-10-26T23:29:45.366380+01:00。main cc127320独立切片，用户澄清后30题全部CANDIDATE，8页/49处原文，问题与答案隔离；实际无到期证据不冒称过期。ADR（对话 B 起草，待批准）统一维护用户原则，评分器不读产品解析器；无Gold先NOT_READY，未知同义人工复核。fc5146b9五门禁1104/163全绿、各项前后净树；候选正式评分NOT_READY，真实调用0，不合main。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
+<a id="dev-2026-10-27-phase3b-A-runner-delivery"></a>
+
+## 2026-10-27 CET: Native Runner delivery and contract review item
+
+2026-10-27T16:40:01.173311+01:00. Adapter-only native implementation migration, unchanged B product.8cb02dbc gates1148/167 PASS/per-gate clean.34 canned transport complete; grade5/19/10 not model quality. Actual-core local proof confirms Q28/Q30 sensitive NOT_STATED quotation incompatibility; preserve Gold/core and stop contract changes pending review. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
 <a id="dev-2026-10-27-phase3b-A-runner-native"></a>
 
 ## 2026-10-27 CET: A Runner rebase to delivered B batch2

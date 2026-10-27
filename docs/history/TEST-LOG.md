@@ -69,6 +69,12 @@ d0933928类型检查通过，两个映射断言旧FAIL→预期PASS，修后六�
 
 ae319df7局部引用绑定有效红灯（跨页/读取相同原文误过PASS）；修后正常、同店/同读、缺证/敏感/冲突及CANDIDATE阻断控制绿。原始页SHA/49处摘录及字符位置预检通过，答案尚无人工确认，不算产品验收。fc5146b9五门禁1104/163全绿且各项净树，8页49摘录独立源页核对通过，候选NOT_READY/0题已评，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
+<a id="test-2026-10-27-phase3b-A-runner-delivery"></a>
+
+## 2026-10-27 CET: Native Runner final verification
+
+8cb02dbc five gates typecheck0.417/arch0.202/default1148 28.060/build0.483/Chromium167 98.592s PASS, all before/after status empty.4 controls PASS,370 product and24 current input SHAs match.34 canned fixtures execute, independent grade5 PASS/19 FAIL/10 NE, falseClaimCount=null, not model acceptance. Frozen local actual-core probe reproduces sensitive NOT_STATED empty-citation scorer failure: review blocker, not a passing case or real S0. No real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
 <a id="test-2026-10-27-phase3b-A-runner-native"></a>
 
 ## 2026-10-27 CET: Native G1 contract fixture controls

@@ -1,0 +1,55 @@
+{
+  "timeCET": "2026-10-27T16:38:55.260904+01:00",
+  "mainQaGit": "319cb9a5e20067b17d880b417f09cca35d664b3a",
+  "nativeCoreGit": "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d",
+  "gatesGit": "8cb02dbc14037bbd8229e43a9e3840590e9ddfc5",
+  "sourceMigration": [
+    "src/eval/restaurant/fact-qa/core-adapter.ts"
+  ],
+  "fiveGates": "PASS_1148_DEFAULT_167_CHROMIUM_PER_GATE_CLEAN",
+  "localCompositionControls": "4/4 PASS including 3-outcome grading",
+  "savedPageFixture": {
+    "executionGit": "8cb02dbc14037bbd8229e43a9e3840590e9ddfc5",
+    "coreGit": "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d",
+    "mode": "FIXTURE_MODEL_SAVED_PAGES_NOT_REAL_MODEL_EVAL",
+    "executionStatus": "PASS",
+    "executed": 34,
+    "modelInvocations": 29,
+    "providers": [
+      "FIXTURE"
+    ],
+    "coreStatusCounts": {
+      "ANSWERED": 0,
+      "NOT_STATED": 29,
+      "UNVERIFIED": 5
+    },
+    "evaluationStatus": "FAIL",
+    "evaluationExitCode": 1,
+    "rowStatuses": {
+      "PASS": 5,
+      "FAIL": 19,
+      "NOT_EVALUATED": 10
+    },
+    "falseClaimCount": null,
+    "categoryClassification": "CORE_OUTPUT_RECORDED_FIXTURE_LABELS_NOT_QUALITY_EVAL",
+    "realModelQuality": "NOT_EVALUATED",
+    "realModelCalls": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0,
+    "publicGET": 0,
+    "liveCalls": 0,
+    "answerReadIsolation": "EXECUTION_UNDER_ENFORCED_DENY_WITH_INDEPENDENT_CANARY",
+    "gitStatusAfter": ""
+  },
+  "contractReviewBlocker": {
+    "ids": [
+      "G1-Q28",
+      "G1-Q30"
+    ],
+    "reason": "Reviewed sensitive NOT_STATED references require source quotes; core NOT_STATED fixes citations to empty. Local actual-core probe reproduces scorer FAIL. Gold/core unchanged.",
+    "file": "review-blocker/result.json"
+  },
+  "runnerMerge": "NOT_MERGED_WAIT_B_ADR_CORE_MAIN_AND_CONTRACT_REVIEW",
+  "realCalls": 0,
+  "budgetEntriesPreserved": 15
+}

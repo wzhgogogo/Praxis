@@ -1,3 +1,25 @@
+# Current delivery: native G1 Runner (draft / not integrated)
+
+2026-10-27T16:38:55.260904+01:00. QA final review is merged/pushed main319cb9a5: all34 confirmed, Q24/Q25 no fresh read. Runner is separately rebased to delivered B/e4829a58; no Runner merge to main. After rebase, implementation code changes only core-adapter.ts; guide and frozen observation metadata updated separately. All370 B src product files match e4829a58, no product Prompt/Schema/State/site edits by A.
+
+8cb02dbc five gates PASS: typecheck0.417s, arch0.202s, default1148/1148 28.060s, build0.483s, Chromium167/167 98.592s. Every gate starts/ends with empty status. Current24 frozen input/config files and product SHAs match. Receipts/raw compressed logs: verification/native-e4829a58. Original actual-core stale-run red remains at checkpoint/phase3b-g1-runner-0a466bcd; same assertion and all4 local controls PASS after both adapter stages.
+
+Final frozen saved-page fixture8cb02dbc executes34/34 under enforced answer-read denial, then a separate scorer reads answers. It has29 FIXTURE invocations, source/fresh/real calls0, outputs29 NOT_STATED/5 UNVERIFIED. Canned diagnostic5 PASS/19 FAIL/10 NOT_EVALUATED, falseClaimCount=null: this is not real-model correctness, G1 acceptance or S0=0. No new true model/Google/website/GET/Live, no .env. Shared ledger15 rows union-preserves B/C and main A entries, all increments0.
+
+## Contract review required before real-model acceptance
+
+Q28 and Q30 are confirmed NOT_STATED references with sensitive category and supporting source quotes. The current scorer requires these quotations for sensitive NOT_STATED; delivered B core explicitly accepts NOT_STATED only with citations=[] and answer=null. These contracts cannot both pass. A local-constructed actual-core probe, routed solely through the adapter with a valid ALLERGY NOT_STATED fixture response, reproduces core NOT_STATED then scorer FAIL (MISSING_VERBATIM_QUOTE, REQUIRED_SUPPORT_NOT_QUOTED). It is not a real restaurant result or website replay. Frozen input/code/output: review-blocker/. No Gold, B code or pass threshold was changed to hide this issue.
+
+Review must reconcile the sensitive NOT_STATED quotation contract (scorer/reference expectation versus core output) before real-model acceptance. Runner transport preparation is complete and pushed for review; further scoring/core changes stop here. General confirmation display remains a future presentation-layer check, not a core-only quality claim.
+
+## Retained next steps
+
+B ADR0046 text/core approval and main integration precede any Runner merge. G3 begins with Tabelog. At first approved3b Live, capture a bound TableCheck positive calendar and new replay; add it to G2 before TableCheck G3 acceptance. No Live or G3 implementation in this task.
+
+The sections below preserve earlier phase evidence and superseded plans; they are not current baseline claims.
+
+---
+
 # Current native-core migration (2026-10-27 CET)
 
 2026-10-27T16:26:12.182132+01:00: B batch2 delivered e4829a58. Runner rebased there, both document histories and all budget rows preserved. Only src/eval/restaurant/fact-qa/core-adapter.ts changed after rebase; Runner engine, loader, scorer and fixtures retain identical source bytes. The adapter now keeps native brief answers/category/URL/readAt and UNVERIFIED reason. Core NOT_STATED answer=null becomes an empty normalized answer; the scorer receives a canonical NOT_STATED text label only, not customer-facing prose. Raw core output remains intact. All four original fixture composition controls pass without changing tests. No legacy wire fallback remains in current adapter.
