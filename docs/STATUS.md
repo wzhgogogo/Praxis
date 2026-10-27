@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.429
+- Document revision: 4.430
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET：B批次3核心Git交付完成。** 用户补充明确main推送授权，现有系统代理接线后原子push成功；ls-remote确认远端main与核心整合分支c98438f8，预告工作分支也已推送。之前审批拒绝/网络失败已解除；五门禁1152/168、654冻结输入及旧HARD44,197字节证据不变。仍停在版本预告，Agent/Web未接入，共享版本28/4/16/23/21未改，新增真实调用0。[回执](../.eval-artifacts/phase3b/g1-followup/report.md)。
 
 - **2026-10-27 CET：B批次3停在接入版本预告。** G1核心本地main已快进c98438f8，五门禁1152/168及654输入核对通过；远端main推送被自动审批拒绝（本批未明确授权push main），最后核对仍319cb9a5，工作分支push另遇GitHub连接失败。拟用Agent Prompt29/动作Schema5/Context17/State24/TaskDefinition22，现值28/4/16/23/21未改；G1核心Prompt/Schema2不变。按用户要求先停报版本，Agent/Web未实施、停止点1未完成，真实调用0。[报告](../.eval-artifacts/phase3b/g1-followup/report.md)。
 

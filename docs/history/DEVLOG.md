@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.322
+- Document revision: 4.323
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-g1-push-approved"></a>
+
+## 2026-10-27 CET：用户补足main推送授权后交付
+
+2026-10-27T16:34:10.971590+01:00：用户“yes, approve it.”明确授权本次推送c98438f8。查明系统本地代理已启用而Git未继承，仅命令使用现有代理、严格TLS不变；非强推原子push成功。main/整合分支SHA均c98438f8，预告分支22f7fe41已推，后续收尾只推预告分支。原审批拒绝和网络失败原文保留，当前已解除；不改产品版本，不进入接入/真实评测/G3。[报告](../../.eval-artifacts/phase3b/g1-followup/report.md)。
 
 <a id="dev-2026-10-27-phase3b-g1-version-preflight"></a>
 

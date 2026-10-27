@@ -2,8 +2,8 @@
   "recordedAtCET": "2026-10-27T16:09:46.270632+01:00",
   "mainMergedLocally": true,
   "localMain": "c98438f89beaf16f7067b8385a747a137f5bec7c",
-  "remoteMainPushAttemptLaunched": false,
-  "automaticApprovalReview": "REJECTED_UNACCEPTABLE_RISK",
+  "remoteMainPushAttemptLaunched": true,
+  "automaticApprovalReview": "RESOLVED_BY_NEW_EXPLICIT_USER_APPROVAL",
   "rejectedAction": "atomic push local G1 core commit to remote main and work branch",
   "reason": "Current batch explicitly authorizes merging into main, but does not explicitly authorize this push to remote main; older main-push authorization applied to other batches.",
   "requestedAuthorization": "Push remote main to c98438f89beaf16f7067b8385a747a137f5bec7c with a normal fast-forward, no force",
@@ -14,12 +14,28 @@
     "Failed to connect to github.com port 443 after 75023 ms",
     "Atomic push of integration/followup work branches: github.com:443 connect timeout after 75002 ms"
   ],
-  "workBranchPushConfirmed": false,
-  "lastConfirmedRemoteMain": "319cb9a5e20067b17d880b417f09cca35d664b3a",
-  "finalRecordedAtCET": "2026-10-27T16:15:46.540491+01:00",
-  "pushesStillPending": [
-    "codex/feat-phase3b-g1-integration",
-    "codex/feat-phase3b-g1-followup"
-  ],
-  "mainPushRequiresExplicitBatchApproval": true
+  "workBranchPushConfirmed": true,
+  "lastConfirmedRemoteMain": "c98438f89beaf16f7067b8385a747a137f5bec7c",
+  "finalRecordedAtCET": "2026-10-27T16:34:10.971590+01:00",
+  "pushesStillPending": [],
+  "mainPushRequiresExplicitBatchApproval": false,
+  "historicalApprovalRejection": {
+    "recordedAtCET": "2026-10-27T16:09:46.270632+01:00",
+    "automaticApprovalReview": "REJECTED_UNACCEPTABLE_RISK",
+    "rejectedAction": "atomic push local G1 core commit to remote main and work branch",
+    "reason": "Current batch explicitly authorizes merging into main, but does not explicitly authorize this push to remote main; older main-push authorization applied to other batches.",
+    "requestedAuthorization": "Push remote main to c98438f89beaf16f7067b8385a747a137f5bec7c with a normal fast-forward, no force",
+    "remoteRisk": "Updates the shared main branch visible to other collaborators"
+  },
+  "status": "PUSH_VERIFIED",
+  "authorizationRecordedAtCET": "2026-10-27T16:34:10.971590+01:00",
+  "userApproval": "yes, approve it.",
+  "approvedMainSha": "c98438f89beaf16f7067b8385a747a137f5bec7c",
+  "verifiedRefs": {
+    "refs/heads/codex/feat-phase3b-g1-followup": "22f7fe41f0040976c583f19eb559e146d7cb4e74",
+    "refs/heads/codex/feat-phase3b-g1-integration": "c98438f89beaf16f7067b8385a747a137f5bec7c",
+    "refs/heads/main": "c98438f89beaf16f7067b8385a747a137f5bec7c"
+  },
+  "verification": "git ls-remote; TLS verified; command-local use of existing system proxy; no global configuration changed",
+  "rawRefs": "push-verified.refs"
 }

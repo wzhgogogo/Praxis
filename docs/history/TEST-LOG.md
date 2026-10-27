@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.328
+- Document revision: 4.329
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-g1-push-approved"></a>
+
+## 2026-10-27 CET：Git推送实际回执核对
+
+本次只交付已验证提交，654冻结输入与五份待升版文件SHA再次一致，净树；沿用7be3b33a五门禁1152/168全绿，不重复门禁、不声称Agent/Web接入通过。经用户新批准，push成功后独立ls-remote逐项匹配main/核心分支c98438f8与预告分支22f7fe41；原始refs归档。新增真实调用0，无.env/答案读取。[回执](../../.eval-artifacts/phase3b/g1-followup/report.md)。
 
 <a id="test-2026-10-27-phase3b-g1-version-preflight"></a>
 
