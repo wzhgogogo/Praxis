@@ -1,0 +1,239 @@
+{
+  "logical": 33,
+  "cohort": "DEVELOPMENT",
+  "sessionId": "SR06-approximate-budget-is-soft",
+  "repetition": 1,
+  "turnId": "SR06-T01",
+  "input": {
+    "taskId": "SR06-approximate-budget-is-soft",
+    "message": "Tomorrow afternoon nearby for my parents and me. Around 3,000 yen per person would be ideal.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo"
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "RECOMMENDATION",
+            "query": "Nearby restaurant for tomorrow afternoon with parents",
+            "goalBasis": {
+              "type": "JUDGMENT",
+              "reason": "Exploratory request with a daypart and party but no booking wording or explicit clock time",
+              "quotes": [
+                "Tomorrow afternoon nearby for my parents and me"
+              ]
+            },
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "relativeDay": "TOMORROW",
+            "raw": "Tomorrow"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "daypart": "AFTERNOON",
+            "raw": "Tomorrow afternoon"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 3,
+            "source": "INFERRED_CLOSED_PARTY"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "nearby"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "around 3,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "c43e26d9-b1cc-485c-a77c-58ceac778615",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2740,
+        "usage": {
+          "inputTokens": 7049,
+          "outputTokens": 383,
+          "totalTokens": 7432
+        },
+        "providerRequestId": "d973f522-d7da-4ed1-83b9-2c3c58e18aa5"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Nearby restaurant for tomorrow afternoon with parents",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "partySize": 3,
+      "partySizeSource": "INFERRED_CLOSED_PARTY",
+      "area": {
+        "query": "nearby"
+      },
+      "addCriteria": [
+        {
+          "text": "around 3,000 yen per person",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        }
+      ],
+      "date": "2026-08-06",
+      "timeWindow": {
+        "earliest": "12:00",
+        "latest": "17:00"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "Tomorrow",
+          "resolvedDate": "2026-08-06",
+          "basis": "TOMORROW"
+        },
+        "timeWindow": {
+          "expression": "Tomorrow afternoon",
+          "resolvedTimeWindow": {
+            "earliest": "12:00",
+            "latest": "17:00"
+          },
+          "basis": "DAYPART:AFTERNOON"
+        }
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [
+      {
+        "text": "around 3,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      }
+    ],
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "Nearby restaurant for tomorrow afternoon with parents",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "12:00",
+      "latest": "17:00"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "Tomorrow",
+        "resolvedDate": "2026-08-06",
+        "basis": "TOMORROW"
+      },
+      "timeWindow": {
+        "expression": "Tomorrow afternoon",
+        "resolvedTimeWindow": {
+          "earliest": "12:00",
+          "latest": "17:00"
+        },
+        "basis": "DAYPART:AFTERNOON"
+      }
+    },
+    "partySize": 3,
+    "partySizeSource": "INFERRED_CLOSED_PARTY",
+    "area": {
+      "query": "nearby"
+    }
+  },
+  "commands": [],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "12:00",
+      "latest": "17:00"
+    },
+    "partySize": 3,
+    "area": {
+      "query": "nearby"
+    },
+    "criteria": [
+      {
+        "text": "around 3,000 yen per person",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      }
+    ]
+  },
+  "evaluation": {
+    "requestedFieldDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+    },
+    "goalEvaluation": {
+      "category": "GRAY",
+      "status": "SATISFIED",
+      "actualGoal": "RECOMMENDATION",
+      "basis": {
+        "type": "JUDGMENT",
+        "reason": "Exploratory request with a daypart and party but no booking wording or explicit clock time",
+        "quotes": [
+          "Tomorrow afternoon nearby for my parents and me"
+        ]
+      },
+      "errors": []
+    }
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-033"
+  ]
+}

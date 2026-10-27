@@ -1,0 +1,42 @@
+{
+  "atCET": "2026-10-27T16:02:00.119+01:00",
+  "response": {
+    "invocationId": "d3ab289e-31fd-472b-8540-c6fc8f24fb96",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Japanese food restaurant in Ginza for four people tomorrow 18:00-18:30\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Sit-down meal at an explicit clock range with a stated party size\", \"quotes\": [\"between 18:00 and 18:30\", \"for four people\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"18:00\", \"latest\": \"18:30\", \"raw\": \"between 18:00 and 18:30\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 4, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Ginza\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Japanese food\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1866,
+    "providerRequestId": "4d4f867a-c264-4ac9-a574-b832de793097",
+    "usage": {
+      "inputTokens": 7049,
+      "outputTokens": 401,
+      "totalTokens": 7450
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "d3ab289e-31fd-472b-8540-c6fc8f24fb96",
+      "taskId": "SR04-simple-complete",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v26",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1866,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7049,
+        "outputTokens": 401,
+        "totalTokens": 7450
+      },
+      "providerRequestId": "4d4f867a-c264-4ac9-a574-b832de793097"
+    }
+  ]
+}
