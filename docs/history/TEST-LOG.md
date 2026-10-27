@@ -1,13 +1,17 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.324
+- Document revision: 4.325
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
+
+CET。旧Gold4 loader在独立批准15项预期处AssertionError红灯，迁移后既有5项回归及固定Fixture15/15绿；原始日志保留，历史评价不回写。最终候选将冻结Gold/sidecar/来源与程序SHA后，在净树上执行独立材料审计、静态Fixture和五门禁。真实模型/Google/来源网站/Live/环境重跑0，私有Holdout与.env未读；不把Fixture证明为Prompt26真实遵循或G4检索收益。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-g2"></a>
 

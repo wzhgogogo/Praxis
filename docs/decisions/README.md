@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Document revision: 1.24
-- Last updated: 2026-10-26
+- Last updated: 2026-10-27
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
 - Related documents: [Architecture Overview](../architecture/OVERVIEW.md)
