@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.322
+- Document revision: 4.323
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-A-batch2-replay"></a>
+
+## 2026-10-27 CET：回放合入前组合验证
+
+已重放main/5f621be3，源码与独立复核b7e8af14一致，双方文档和预算并集校验通过。五门禁将在净树冻结执行；不追加旧F5整包运行，既有严格版本负例仍属默认离线回归，非旧代码验收。真实调用0。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-g2"></a>
 

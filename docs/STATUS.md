@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.423
+- Document revision: 4.424
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET：3b A批次2回放合入准备。** G2已合main并推5f621be3；回放分支已基于该main重放，双方历史及预算id并集完整保留，A重复ADR删除、由B Proposed待批准。源码保持独立复核版本原字节，重跑五门禁待执行。旧F5整包工作按用户决定结束；3b首次Live用当前版本新录制验收完整性并落实方案(c)，本批不实施。真实调用0。[报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 - **2026-10-27 CET：3b A批次2 G2合入准备。** 按用户复核移除A的重复ADR0046及Accepted表述，ADR由B起草、待批准。G2原12页基线保留，重放main后ee0c391d五门禁1101/166与固定G2 4/4全绿、逐项前后净树；全离线真实调用0。旧F5整包回放结束，3b首次Live用当前版本重新录制验证方案(c)。[批次报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
 

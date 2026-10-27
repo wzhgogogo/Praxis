@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.316
+- Document revision: 4.317
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-A-batch2-replay"></a>
+
+## 2026-10-27 CET：回放分支重放G2主线
+
+时间2026-10-27T02:52:22.595544+01:00。G2/main 5f621be3已推送；回放分支重放其上，预算4条并集＋本批0调用条目、双方STATUS/DEVLOG/TEST-LOG/月度记录都保留。重复ADR去重，源码四文件与b7e8af14相同。重跑五门禁待执行；用户已结束旧F5整包，首次3b Live以当前代码新录制验收(c)，本批只更新状态，真实调用0。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 <a id="dev-2026-10-27-phase3b-A-batch2-g2"></a>
 
