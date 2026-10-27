@@ -13,7 +13,7 @@
 
 ## 2026-10-27 CET：回放合入前组合验证
 
-已重放main/5f621be3，源码与独立复核b7e8af14一致，双方文档和预算并集校验通过。五门禁将在净树冻结执行；不追加旧F5整包运行，既有严格版本负例仍属默认离线回归，非旧代码验收。真实调用0。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
+已重放main/5f621be3，源码与独立复核b7e8af14一致，双方文档和预算并集校验通过。6995ebcd五门禁typecheck/arch/默认1104/build/Chromium167全部通过，逐项前后净树；G2 36＋回放43条SHA一致。收据与原始压缩日志归档。不得将此离线验证称为Live；不追加旧F5整包运行，既有严格版本负例仍属默认离线回归，非旧代码验收。真实调用0。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-g2"></a>
 
