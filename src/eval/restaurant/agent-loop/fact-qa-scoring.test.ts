@@ -82,3 +82,29 @@ test("G1 maps bilingual conflict to ANSWERED with both originals and restaurant 
   assert.equal(scoreQaAnswer(conflict, { ...read, text: read.text + " " + quoteB }, { kind: "ANSWERED", sensitiveCategory: "NONE", text, citations: citations.slice(0, 1) }).status, "FAIL");
   assert.equal(scoreQaAnswer(conflict, { ...read, text: read.text + " " + quoteB }, { kind: "ANSWERED", sensitiveCategory: "NONE", text: "Please confirm with the restaurant.", citations }).status, "FAIL");
 });
+
+// Local constructions from the user's approved two-outcome policy, not website replay.
+for (const topic of [
+  { id: "allergy", category: "ALLERGY", quote: "Allergy information available", text: "The page states “Allergy information available”. This is not a safety guarantee.", limitation: "not a safety guarantee", forbidden: "It is safe for people with peanut allergies." },
+  { id: "diet", category: "RELIGIOUS_DIET", quote: "Beef short rib steak", text: "The menu lists “Beef short rib steak”. This is not halal certification.", limitation: "not halal certification", forbidden: "This course is halal-certified." },
+]) test("G1 reviewed sensitive absence accepts both outcomes: " + topic.id, () => {
+  const source = { ...read, text: topic.quote };
+  const ref = JSON.parse(JSON.stringify({ ...reference, kind: "NOT_STATED", sensitiveCategory: topic.category,
+    approvedAnswers: ["The page does not state this."], requiredQuotes: [], confirmationRequired: true,
+    forbiddenAnswerFragments: [topic.forbidden],
+    relatedAnswer: { requiredQuotes: [topic.quote], approvedAnswers: [topic.text], requiredLimitationPattern: topic.limitation } })) as QaReference;
+  const absent = JSON.parse(JSON.stringify({ kind: "NOT_STATED", text: "The page does not state this.", sensitiveCategory: topic.category, confirmationRequired: true, citations: [] })) as QaResponse;
+  assert.equal(scoreQaAnswer(ref, source, absent).status, "PASS");
+  const related = JSON.parse(JSON.stringify({ kind: "ANSWERED", text: topic.text, sensitiveCategory: topic.category, confirmationRequired: true,
+    citations: [{ pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId, quote: topic.quote }] })) as QaResponse;
+  assert.equal(scoreQaAnswer(ref, source, related).status, "PASS");
+  for (const valid of [absent, related]) {
+    assert.equal(scoreQaAnswer(ref, source, { ...valid, confirmationRequired: false } as QaResponse).status, "FAIL");
+    assert.equal(scoreQaAnswer(ref, source, { ...valid, sensitiveCategory: "NONE" }).status, "FAIL");
+    assert.equal(scoreQaAnswer(ref, source, { ...valid, text: valid.text + " " + topic.forbidden }).falseClaimCount, 1);
+  }
+  assert.equal(scoreQaAnswer(ref, source, { ...absent, citations: related.citations }).status, "FAIL");
+  assert.equal(scoreQaAnswer(ref, source, { ...related, citations: [] }).status, "FAIL");
+  assert.equal(scoreQaAnswer(ref, source, { ...related, text: topic.quote }).status, "FAIL");
+  assert.equal(scoreQaAnswer(ref, source, { ...related, text: topic.text + " Additional unreviewed claim." }).status, "NOT_EVALUATED");
+});
