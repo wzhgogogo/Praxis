@@ -13,7 +13,7 @@
 
 ## 2026-10-27 CET: A G1 Runner integration
 
-2026-10-27T16:09:08.100528+01:00. User-approved B/0a466bcd integration base. Only A eval/harness and audit files change. Actual-core previous-run red/green, separate execution/scoring, source SHA and reference-read isolation. Scorer@3 follows new category contract; presentation advice remains unevaluated. Frozen fixture run and five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+2026-10-27T16:09:08.100528+01:00. User-approved B/0a466bcd integration base. Only A eval/harness and audit files change. Actual-core previous-run red/green, separate execution/scoring, source SHA and reference-read isolation. Scorer@3 follows new category contract; presentation advice remains unevaluated. ee5c835c fixture transport34/34 with29 FIXTURE invocations; canned grading5/27/2, not real-model quality. Product bytes pinned; five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="dev-2026-10-26-phase3b-g1-stop1"></a>
 
