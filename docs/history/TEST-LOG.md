@@ -81,6 +81,11 @@ HARD参数默认不变：三组边界分段/选择、完整Native事实和原模
 
 新增真实模型/Google/网站/Live/公开GET/环境重跑全0；未读QA答案或.env，A/C文件/共享版本未改。ADR0046 Proposed全文随报告，用户批准文本前不接入口、不G3，只推工作分支。[完整证据](../../.eval-artifacts/phase3b/g1-revision/report.md)。
 
+<a id="test-2026-10-27-phase3b-A-g1-runner"></a>
+
+## 2026-10-27 CET: G1 Runner red/green
+
+36dc5005 typecheck passes and actual-core old-run assertion fails at ANSWERED vs UNVERIFIED. Adapter correction makes same assertion pass; four Chromium integration controls and six scorer controls pass, including URL/readAt/SHA/unknown-key rejection and real reference-read-denial canary. Local constructions only. Full fixture diagnostic and five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="test-2026-10-26-phase3b-g1-stop1"></a>
 
