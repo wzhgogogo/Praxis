@@ -6,7 +6,7 @@ G1核心重放与ADR批准状态更新完成，五门禁通过，按本批授权
 
 ## 批准与范围
 
-用户批准revision0.2原文SHA-256为`96b0f371fbc2479fc80d86f51873884ebbf3e597efcc86806bf4cb8887af8e7c`，修改前已匹配。严格依指令只改[ADR0046](../../../../docs/decisions/0046-observed-actions-and-source-quoted-answers.md)的Status一行，改为Accepted并在同一行写批准日期2026-10-27。旧Approval及正文中的“待批准”等历史措辞原字节保留；当前批准状态以Status和本条用户批准为准，不借机改正文。
+用户批准revision0.2原文SHA-256为`96b0f371fbc2479fc80d86f51873884ebbf3e597efcc86806bf4cb8887af8e7c`，修改前已匹配。严格依指令只改[ADR0046](../../../docs/decisions/0046-observed-actions-and-source-quoted-answers.md)的Status一行，改为Accepted并在同一行写批准日期2026-10-27。旧Approval及正文中的“待批准”等历史措辞原字节保留；当前批准状态以Status和本条用户批准为准，不借机改正文。
 
 13个既有核心/证据提交重放到main/daba2ef0，7份事实源码全部与已复核e4829a58逐字节相同，无源码冲突。只合并双方历史、ADR索引和共享账本。运行期间main推进319cb9a5（QA最终确认及TableCheck材料）；可执行src/scripts/web-skills、package/tsconfig字节不变，随后合并这些记录并验证654份冻结输入仍完全相同。[范围证明](replay-scope.json)／[合并后核对](core-closeout.json)。没有读取或哈希答案文件；Git保留其他对话提交的文件，不对答案内容作检查。
 
