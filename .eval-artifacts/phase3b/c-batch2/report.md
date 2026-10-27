@@ -81,8 +81,22 @@ GET第18次因TimeoutError停止：18次尝试里17次200、1次无完整响应�
 
 ## 五门禁、评价边界与下一停止点
 
-最终干净候选上冻结新源码、Gold/输入/观察程序SHA后执行typecheck、arch:check、npm test、build、test:browser:fixture，另跑固定test:dom-change；结果写入`gates.json`，不复用准备包旧门禁。本文目前等待该回执补齐。
+受测提交`3ec77f67ada1bcfe6f295284e98fa74d2101d1a0`冻结986项SHA。typecheck、arch:check、npm test **1117/1117**、build通过；test:browser:fixture **167/168，FAIL**，唯一失败是G2冻结原页`identity:address`与完整地址不同。全部已执行步骤前后git status为空，最终SHA仍一致。单列test:dom-change未在失败序列后继续重复；同一保存页test已在browser门禁中失败。原始[gates.json](gates.json)和[gates-review.json](gates-review.json)分开保留，不将四项通过写成五门禁绿。
 
 四层：本批不运行端到端查位/交付，结果NOT_EVALUATED；语义目标/具名和首屏检索各自单列，身份采集保存页回归与新样本来源检索不能混为整体成功；没有真实用户交付，不宣称来源/交付S0–S4总体通过。保存页身份wrongAccepted=0只证明这29份；授权边界/State不含依据等由对应控制验证。归因同时保留网络超时、外层打分/offset限制、模型双重否定和共享比较器限制。
 
 本批停等复核：确认具名修复真实遵循证据；逐项处理4个地址比较不接纳；决定下一有界批次是否补旧15检索和简化offset验证。**不合main，不继续真实调用，不改Gold或身份标准。**
+
+
+## 最终停止原因：G2原页基线需A/复核者确认
+
+这是实质性的冻结基线冲突，不是可豁免的偶发环境失败。`src/harness/browser/dom-change.test.ts:22`明确要求原页解释变化先review；本轮完整地址采集使：
+
+| G2页 | 冻结原值 | 当前原页和改名页值 |
+| --- | --- | --- |
+| tabelog-detail-01 | 1710021 Tokyo Nishiikebukuro Toshima Tokyo | 1710021 東京都豊島区西池袋5-8-9 |
+| tabelog-detail-02 | 1730014 Tokyo Oyamahigashicho Itabashi Tokyo | 1730014 東京都板橋区大山東町60-15 クルーズ大山 |
+
+只读重取当前12份原页/改名页观察为8 PASS、4 DEGRADED_HONEST、sourceTransportCalls0，说明本轮所观察的标记改名对照没有新增事实冲突；**它不替代失败的冻结基线门禁，也不证明G3全部PASS**。完整提案在[g2-reference-change-proposal.json](g2-reference-change-proposal.json)，原始观察在[g2-current-observations/observations.json](g2-current-observations/observations.json)。
+
+用户文件归属规则将G2源码/fixture归A，且要求“需要改动对方的文件…先停下报告，由复核者安排顺序”。因此C未修改baseline.json、G2测试或评分器，也未回退完整地址来隐藏差异。复核者需安排A核对同店原文并确认/冻结新reference，再由C重跑门禁。本分支继续停等复核；五门禁尚未全绿，不能合main。后续真实调用仍停止。
