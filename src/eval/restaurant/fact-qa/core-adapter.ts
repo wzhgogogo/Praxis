@@ -19,8 +19,8 @@ export interface BoundRead extends QaRead { questionId: string; url: string; rea
 export async function invokeQuestionCore(input: { question: BoundQuestion; page: SavedQuestionPage; html: string; text: string; now: string }, model: ModelGateway, signal: AbortSignal) {
   const { question, page } = input, given = question.providedPage;
   const observed: RestaurantFactPageObservation = {
-    // Red-control defect: relabelling an earlier run as current must be rejected.
-    readRunId: question.readContext.runId,
+    // Preserve the supplied page run, even when its timestamp looks current.
+    readRunId: given.readRunId,
     requestedSourceUrl: given.sourceUrl, candidateId: given.candidateId, observedAt: given.observedAt,
     snapshot: { url: given.sourceUrl, title: page.outlet.name, html: input.html, text: input.text, settlement: "SETTLED" },
     identity: { evidenceId: given.readId + ":identity", kind: "ENTITY_MATCH", provider: page.site, candidateId: given.candidateId,

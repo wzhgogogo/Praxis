@@ -19,6 +19,11 @@ G1 Prompt/Schema2允许提问语言简短答案+1–3逐字引文，模型标敏
 
 旧代码红灯与最终保存页绿灯使用同一冻结脚本和输入：后7,515字符原文、整页未说明、评论误接纳；简短答案/敏感格式及三个反事实有效。最终bb967901五门禁1142/162全绿、每项前后净树。没有Agent合法动作/Web/State/TaskDefinition/Guard/共享Prompt或A/C源码变更；真实调用0，不读.env，账本仅追加B0增量，站点3847/Pack473不变。完成后停止等文本批准，下一批接线/真实模型评测/G3均未做。[报告及ADR全文](../../.eval-artifacts/phase3b/g1-revision/report.md)。
 
+<a id="dev-2026-10-27-phase3b-A-g1-runner"></a>
+
+## 2026-10-27 CET: A G1 Runner integration
+
+2026-10-27T16:09:08.100528+01:00. User-approved B/0a466bcd integration base. Only A eval/harness and audit files change. Actual-core previous-run red/green, separate execution/scoring, source SHA and reference-read isolation. Scorer@3 follows new category contract; presentation advice remains unevaluated. Frozen fixture run and five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="dev-2026-10-26-phase3b-g1-stop1"></a>
 

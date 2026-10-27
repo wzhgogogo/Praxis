@@ -40,6 +40,7 @@ test("G1 distinguishes honest absence, unsupported claims, bilingual conflict an
   assert.equal(scoreQaAnswer({ ...reference, sensitiveCategory: "ALLERGY" }, read, current).status, "FAIL");
   const sensitive = current.text + " 请向餐厅确认。";
   assert.equal(scoreQaAnswer({ ...reference, sensitiveCategory: "ALLERGY", approvedAnswers: [sensitive] }, read, { ...current, text: sensitive, sensitiveCategory: "ALLERGY" }).status, "PASS");
+  assert.equal(scoreQaAnswer({ ...reference, sensitiveCategory: "ALLERGY" }, read, { ...current, sensitiveCategory: "ALLERGY" }).status, "PASS", "core classification is checked; confirmation wording belongs to presentation");
   const unrelatedRead = { ...read, text: read.text + " Welcome." };
   assert.equal(scoreQaAnswer(reference, unrelatedRead, { ...current, citations: [{ ...current.citations[0]!, quote: "Welcome." }] }).status, "FAIL");
 });
