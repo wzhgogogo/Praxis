@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.321
+- Document revision: 4.322
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-A-dual-review"></a>
+
+## 2026-10-27 CET: Reviewed sensitive dual outcomes
+
+2026-10-27T17:17:32.536721+01:00. User resolves prior Q28/Q30 quote incompatibility in evaluator references, keeping ADR/core. Implement outcome-specific quotation/limitation and actual confirmation flag, RELIGIOUS_DIET enum; no aliases/duplicate refs. Rebase main/c98438f8 preserves both histories/ledger. Effective red/green, actual-core4-outcome composition PASS. Formal gates/main merge pending, all real calls0. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="dev-2026-10-27-phase3b-g1-core-integrated"></a>
 

@@ -1,11 +1,12 @@
 {
-  "coreGit": "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d",
-  "qaGit": "319cb9a5e20067b17d880b417f09cca35d664b3a",
-  "timeCET": "2026-10-27T16:26:12.182132+01:00",
+  "baseMainGit": "c98438f89beaf16f7067b8385a747a137f5bec7c",
+  "timeCET": "2026-10-27T17:17:32.536721+01:00",
+  "scorer": "source-quoted-qa-scorer@4",
+  "dataset": "phase3b-qa-reviewed@2",
   "files": [
     {
       "path": "src/eval/restaurant/fact-qa/scorer.ts",
-      "sha256": "b0e9a11125f4f49844b7f031782bdeb19a0bc91e8bf4bdcd9e7decab044da410"
+      "sha256": "ee44bcae390b8f78ca450bd878cc0578bf066478379f303ef4e76825f3fd45fd"
     },
     {
       "path": "src/eval/restaurant/fact-qa/independent-text.ts",
@@ -13,15 +14,15 @@
     },
     {
       "path": "src/eval/restaurant/fact-qa/bound-question-input.ts",
-      "sha256": "69e6ff1abebc6bc37f082036aacb85687d8a95f09029e2c4a39011bc914dec3c"
+      "sha256": "7bf6cc2d17f5e03ea9fb416d16976845b9220ec7a07bcaa7d6ba6df9d8a03c6a"
     },
     {
       "path": "src/eval/restaurant/fact-qa/README.md",
-      "sha256": "22d5d230e107c8b8e1c1bb78de9d0cd3c5cf8ac040a0dae82e68da8b7e88c2dd"
+      "sha256": "3caa4ce6cd8cb7d4f5141f211b068c7e8eea1ef93cf1889a4784fe1afd82bcdc"
     },
     {
       "path": "src/eval/restaurant/fact-qa/core-adapter.ts",
-      "sha256": "4e185e5853bf2714497908a2e12f3682eef373692f8a09dcd075a66936c75d71"
+      "sha256": "54741188b7659ea3597d61bb506901747d47984ed6419c267cff874779b1225d"
     },
     {
       "path": "src/eval/restaurant/fact-qa/run-bound-questions.ts",
@@ -29,23 +30,23 @@
     },
     {
       "path": "src/eval/restaurant/fact-qa/run.ts",
-      "sha256": "50fcb2574ada39aa38851b64b609c00d5475b76c028ff6b51a9614e0fbe85113"
+      "sha256": "cbf4b1f5a068cc8f4dc9ba804be35eb7bc57ced77700685111289aeb94a77da3"
     },
     {
       "path": "src/eval/restaurant/agent-loop/fact-qa-scoring.test.ts",
-      "sha256": "e05de33f594552ea1faa1cf1085317ead4e5fa7b028858c9cfb78d698d35bde4"
+      "sha256": "f9e99415a9d03fa1d50bb0dd9d8b6a361559d646c3446510708b2895d924606a"
     },
     {
       "path": "src/harness/browser/fact-qa-scoring.test.ts",
-      "sha256": "4a222c53d5e31b811df67f97dd6304ee5f605cba857b9fe689b8f3518d47bdd6"
+      "sha256": "01d0ce5e1953fb39f730ccb62c5d092d7b94b8e3cb089d5dd3088b0f49a9d6c0"
     },
     {
       "path": "src/harness/browser/fact-qa-runner.test.ts",
-      "sha256": "eccf2194b151e4a7506b17b813a519d0a9fb85cba61e52f4016480eee8d0d894"
+      "sha256": "33486b0653077ea40f4b7615a1bfb8c9dea6796e841f38b23c89511322c6c0ef"
     },
     {
       "path": "src/harness/browser/fixtures/fact-qa-runner/questions.json",
-      "sha256": "76196d42fce4663d219d0ffdd22959674d5228d6f187e678b734cc64e6f59406"
+      "sha256": "e48822ff97685f66de68c8da00aa8080f3275e1ae38df6dcad07e0d730dc1dc1"
     },
     {
       "path": "src/harness/browser/fixtures/fact-qa-runner/merchant.html",
@@ -57,15 +58,23 @@
     },
     {
       "path": ".eval-artifacts/phase3b/g1-qa/questions.json",
-      "sha256": "34fce854e42d1c4a5a7f24d7ce4e092c37e838dd278d933fd1e801ef2dc1e189"
+      "sha256": "a1afebee1c2c396669b6e842ee85e66b1a3dbf74cf96603ca7ba5ce1c1728f4f"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g1-qa/answers.reviewed.json",
+      "sha256": "45a8aab9ddc2bbdfad1a532b631cbdf3f754745a91657d57a19c30671779b3ab"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g1-qa/answers.candidate.json",
+      "sha256": "7635f27e760b66190c74ddd3cf6fba0bc60a02263116a621a330b44fdf0d8466"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g1-qa/validate-candidates.py",
+      "sha256": "93642fde0e43313f8a5c0bbe2131ba9fe8cdd21d45cb50c935988c53df4ccd38"
     },
     {
       "path": ".eval-artifacts/phase3b/g1-runner/run-native-fixture.py",
-      "sha256": "14e0a6a79167172c6b9c583e175cc57c273ee8c1925dc139fc1de8cddf44bf61"
-    },
-    {
-      "path": ".eval-artifacts/phase3b/g1-runner/evaluator-only/answers.reviewed.json",
-      "sha256": "d82d33910743d9d6a127a6ee1514a68df4a5fe8a731adba5ad60c109f44bbe9c"
+      "sha256": "7f5b35eadfea10c7483f8f348222c245e786690531c05e7d32fac8a190c721d7"
     },
     {
       "path": "src/harness/browser/fixtures/tabelog-sen-no-slots-20261010.html",

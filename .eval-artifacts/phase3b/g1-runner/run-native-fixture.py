@@ -13,7 +13,7 @@ execution=node+['--import','./src/harness/browser/fixtures/fact-qa-runner/deny-r
 with (out/'execution.log').open('w') as log:status=subprocess.run(execution,stdout=log,stderr=subprocess.STDOUT).returncode
 assert status==0,'EXECUTION_FAILED_SEE_RETAINED_LOG'
 run=json.loads((out/'execution/run.json').read_text());assert set(run['providers']) <= {'FIXTURE'} and run['freshReads']==run['sourceTransportCalls']==0
-score=node+['--import','tsx','src/eval/restaurant/fact-qa/run.ts','--questions',questions,'--references',str(root/'evaluator-only/answers.reviewed.json'),'--responses',str(out/'execution/responses.json'),'--reads',str(out/'execution/reads.json'),'--out',str(out/'evaluation.json')]
+score=node+['--import','tsx','src/eval/restaurant/fact-qa/run.ts','--questions',questions,'--references','.eval-artifacts/phase3b/g1-qa/answers.reviewed.json','--responses',str(out/'execution/responses.json'),'--reads',str(out/'execution/reads.json'),'--out',str(out/'evaluation.json')]
 with (out/'evaluation.log').open('w') as log:evaluation_exit=subprocess.run(score,stdout=log,stderr=subprocess.STDOUT).returncode
 assert evaluation_exit in [0,1] and (out/'evaluation.json').exists(),'EVALUATOR_FAILED'
 evaluation=json.loads((out/'evaluation.json').read_text());assert len(evaluation.get('rows',[]))==34

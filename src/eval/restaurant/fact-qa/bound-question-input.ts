@@ -14,7 +14,7 @@ export interface SavedQuestionPage {
   outlet: { id: string; name: string; sourceUrl: string };
   pagePath: string; pageSha256: string; storageSha256: string; storageEncoding: "utf8" | "gzip";
 }
-export interface BoundQuestionSet { schema: "phase3b-qa-questions@2"; pages: SavedQuestionPage[]; questions: BoundQuestion[]; }
+export interface BoundQuestionSet { schema: "phase3b-qa-questions@3"; pages: SavedQuestionPage[]; questions: BoundQuestion[]; }
 export const sha256 = (bytes: string | Uint8Array) => createHash("sha256").update(bytes).digest("hex");
 
 export async function repositoryFile(path: string): Promise<string> {
@@ -39,7 +39,7 @@ export async function loadBoundQuestions(path: string) {
   const bytes = await readFile(await repositoryFile(path));
   const value = JSON.parse(bytes.toString()) as BoundQuestionSet;
   keys(value, ["schema", "evidenceStatus", "sourceGit", "newRealCalls", "preparedAtCET", "visibility", "pages", "questions"]);
-  if (value.schema !== "phase3b-qa-questions@2" || !Array.isArray(value.pages) || !Array.isArray(value.questions)) throw new Error("INVALID_PUBLIC_QUESTION_SET");
+  if (value.schema !== "phase3b-qa-questions@3" || !Array.isArray(value.pages) || !Array.isArray(value.questions)) throw new Error("INVALID_PUBLIC_QUESTION_SET");
   const pages = new Map<string, SavedQuestionPage>(), ids = new Set<string>();
   for (const page of value.pages) {
     keys(page, ["id", "site", "outlet", "pagePath", "pageSha256", "storageSha256", "storageEncoding", "capturedOn", "dateTimezone", "scope", "sourceGit", "source", "evidenceStatus"]);
@@ -58,7 +58,7 @@ export async function loadBoundQuestions(path: string) {
     for (const item of [question.id, question.question, question.displayedOutlet.candidateId, question.displayedOutlet.name, question.readContext.runId, given.readRunId, given.readId, given.metadataOrigin]) text(item);
     url(question.displayedOutlet.sourceUrl); url(given.sourceUrl);
     if (ids.has(question.id) || !page || given.pageId !== page.id || given.pageSha256 !== page.pageSha256 || given.candidateId !== page.outlet.id || given.sourceUrl !== page.outlet.sourceUrl
-      || ![null, "ALLERGY", "HALAL", "RELIGIOUS_DIET", "ACCESSIBILITY"].includes(question.sensitiveCategory)
+      || ![null, "ALLERGY", "RELIGIOUS_DIET", "ACCESSIBILITY"].includes(question.sensitiveCategory)
       || ![question.readContext.startedAt, given.observedAt, given.identityObservedAt].every(time => typeof time === "string" && Number.isFinite(Date.parse(time)))) throw new Error("INVALID_BOUND_QUESTION_METADATA");
     ids.add(question.id);
   }

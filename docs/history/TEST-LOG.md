@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.327
+- Document revision: 4.328
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-A-dual-review"></a>
+
+## 2026-10-27 CET: Dual-outcome red/green and saved-page composition
+
+2220e1e9 typecheck PASS, old scorer rejects both approved NOT_STATED inputs at contract assertion; corrected8 scorer controls PASS.5 Runner controls PASS, including actual saved pages Q28/Q30 with both outcomes and raw-to-scoring confirmation true. Unsafe fragment, wrong category, absent flag/quote/limitation fail. Preflight34 confirmed/8 source SHA/56 literal positions PASS. Formal five gates pending frozen commit. Real calls0, not real-model acceptance. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="test-2026-10-27-phase3b-g1-core-integrated"></a>
 

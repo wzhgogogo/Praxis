@@ -1,3 +1,15 @@
+# Q28/Q30 reviewed dual outcomes and Runner main integration
+
+Current slice 2026-10-27T17:17:32.536721+01:00 (Europe/Vienna CET). User reconciled the reference contract without changing ADR0046 or B core. Runner rebased to latest main/c98438f8; both histories and budget rows preserved. New scorer@4, public question schema@3 and reviewed dataset@2 replace old execution shapes, without product Prompt/Schema/State changes.
+
+Q28/Q30 each allow NOT_STATED with no citations, or ANSWERED with related original source text and the explicit no-safety-guarantee/no-halal-certification limitation. Both require correct sensitivity and actual confirmationRequired=true. Related source evidence remains at its original position but is optional for NOT_STATED; the ANSWERED variant requires the related phrase. Q30 now uses RELIGIOUS_DIET everywhere in active inputs/loaders. All34 references remain confirmed by independent reviewer (Claude), 2026-10-27. Original candidate file remains byte-identical. The canonical reference is g1-qa/answers.reviewed.json; the former duplicate mirror is retired.
+
+2220e1e9 typecheck passes; both new legitimate NOT_STATED assertions fail against old scorer (FAIL vs PASS), proving effective red. Corrected same controls and all8 scorer tests PASS. Existing Runner controls plus an added actual-core/saved-page fixture prove both topics and both outcomes through independent canonical references:4/4 question/outcome combinations PASS, raw core and normalized/scoring confirmation flags all true. Unsafe affirmative fragments, missing/false confirmation, wrong category, missing answer quotation/limitation and fabricated citations are rejected. Unseen paraphrases/additional claims remain NOT_EVALUATED for review, not silently accepted or counted as error0. This is not complete semantic assertion detection or real-model quality.
+
+Formal frozen fixture diagnostic, five gates and authorized main merge pending. Product/core/site/Pack unchanged, all real calls0, no .env. Wait for B Agent integration before real-model evaluation. Historical conflict evidence and old scores below are superseded retrospective, not current failures under the new approved reference.
+
+---
+
 # Current delivery: native G1 Runner (draft / not integrated)
 
 2026-10-27T16:38:55.260904+01:00. QA final review is merged/pushed main319cb9a5: all34 confirmed, Q24/Q25 no fresh read. Runner is separately rebased to delivered B/e4829a58; no Runner merge to main. After rebase, implementation code changes only core-adapter.ts; guide and frozen observation metadata updated separately. All370 B src product files match e4829a58, no product Prompt/Schema/State/site edits by A.
