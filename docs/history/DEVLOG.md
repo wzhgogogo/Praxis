@@ -13,7 +13,7 @@
 
 ## 2026-10-27 CET: G1 final review confirmation
 
-2026-10-27T15:44:58.545553+01:00: user confirms all 34 after Q24/Q25 no-reader correction. Historical evidence preserved. G3/Live sequencing updated; independent Runner follows after main integration. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-qa/report.md).
+2026-10-27T15:44:58.545553+01:00: user confirms all 34 after Q24/Q25 no-reader correction. Historical evidence preserved. G3/Live sequencing updated; independent Runner follows after main integration. c10fdeed five gates1110/168 PASS, per-gate clean tree. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-qa/report.md).
 
 <a id="dev-2026-10-27-phase3b-A-batch2-calendar-stop"></a>
 

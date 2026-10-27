@@ -13,7 +13,7 @@
 
 ## 2026-10-27 CET: G1 offline fresh-read red/green
 
-749dc119 preflight fails at Q24 allowFreshRead, then passes after correction. 34 confirmed/8 source SHAs/56 literal locations. Five gates pending frozen commit. No product changes or real calls. [Report](../../.eval-artifacts/phase3b/g1-qa/report.md).
+749dc119 preflight fails at Q24 allowFreshRead, then passes after correction. 34 confirmed/8 source SHAs/56 literal locations. c10fdeed five gates PASS: typecheck0.577s, arch0.225s, default1110/1110 28.974s, build0.467s, Chromium168/168 107.900s; clean before/after each. Frozen input SHAs match, unchanged 56 quotes reuse independent source validation. No product changes or real calls. [Report](../../.eval-artifacts/phase3b/g1-qa/report.md).
 
 <a id="test-2026-10-27-phase3b-A-batch2-calendar-stop"></a>
 

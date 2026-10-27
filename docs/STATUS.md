@@ -5,7 +5,7 @@
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
 
-- **2026-10-27 CET: G1 final review.** All 34 questions REVIEWER_CONFIRMED; Q24/Q25 disable fresh reads and require UNVERIFIED. Original questions/pages/candidate bytes preserved. Effective preflight red/green, five gates pending. G3 starts with Tabelog; TableCheck positive calendar and replay recorded at first 3b Live, then TC G3 acceptance. Runner approved on independent B/0a466bcd branch; no real calls. [Report](../.eval-artifacts/phase3b/g1-qa/report.md).
+- **2026-10-27 CET: G1 final review.** All 34 questions REVIEWER_CONFIRMED; Q24/Q25 disable fresh reads and require UNVERIFIED. Original questions/pages/candidate bytes preserved. Effective preflight red/green; c10fdeed five gates PASS (1110/168), clean before/after each. G3 starts with Tabelog; TableCheck positive calendar and replay recorded at first 3b Live, then TC G3 acceptance. Runner approved on independent B/0a466bcd branch; no real calls. [Report](../.eval-artifacts/phase3b/g1-qa/report.md).
 
 - **2026-10-27 CET：3b A批次2按缺证停止。** G2/回放/QA依次合入并推main，最新daba2ef0（五门禁1110/168全绿、逐项净树）。G1为25确认9候选，34题整体未验收。固定3408输入离线查日历：171时间动作候选去重4份，3检索时间条件＋1本地构造，无真实阳性日历；第3节要求找不到则停，G2固定集未增，Runner第4节NOT_STARTED。新增真实调用0，仅推停止工作分支等复核。[报告](../.eval-artifacts/phase3b/tablecheck-calendar-evidence/report.md)。
 
