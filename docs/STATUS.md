@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.425
+- Document revision: 4.426
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET：3b B批次3 G1核心整合中。** 用户按原SHA96b0f371批准ADR0046 revision0.2；严格仅Status行改Accepted并记批准日期。已在main/daba2ef0上重放，7份G1事实源码与e4829a58原字节相同，双方历史/账本保留。冻结后五门禁，通过后按授权合main；接入前先停报版本，真实调用0。[切片](../.eval-artifacts/phase3b/g1-integration/plan.md)。
 
 - **2026-10-27 CET：3b A批次2 G1复核包。** 34英文题保留中文；25按人工复核确认，5自然错页/错run改写及4新增题仍CANDIDATE；原候选SHA不变，混合集非完整验收Gold。评分器@2三态、双语冲突双方引用及错页事实禁入有效红绿已取得，0d26174d五门禁1110/168全绿、逐项净树，8页/56摘录与22输入SHA通过。B仅题目/原页，答案隔离。真实调用0。[报告](../.eval-artifacts/phase3b/g1-qa/report.md)。
 

@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.324
+- Document revision: 4.325
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-g1-core-integration"></a>
+
+## 2026-10-27 CET：G1重放整合验收准备
+
+沿用已复核批次2有效红绿与Linux门禁；新main组合重新冻结后跑五门禁，每项前后净树。核对ADR原SHA、仅状态行变化，7源码与复核提交相同、账本id并集保留；另核对旧HARD44,197字节。实际运行另记报告，不以准备替代通过；不加载.env、不读answers，真实调用0。[计划](../../.eval-artifacts/phase3b/g1-integration/plan.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-qa"></a>
 

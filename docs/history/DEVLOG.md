@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.318
+- Document revision: 4.319
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-g1-core-integration"></a>
+
+## 2026-10-27 CET：G1核心重放与ADR文本批准
+
+用户批次3按SHA96b0f371批准ADR0046 revision0.2；严格只改Status行并记批准日期，其余字节不动。独立整合分支保留原e4829a58，13提交重放main/daba2ef0，只发生文档及账本冲突，双方原记录及账本id并集保留。7份G1事实源码与复核提交相同，其他生产/Runner/fixture不改，A答案未读。冻结后五门禁；接入前报告共享版本。真实调用0。[计划](../../.eval-artifacts/phase3b/g1-integration/plan.md)。
 
 <a id="dev-2026-10-27-phase3b-A-batch2-qa"></a>
 

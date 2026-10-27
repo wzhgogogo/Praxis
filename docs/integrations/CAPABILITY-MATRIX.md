@@ -1,11 +1,13 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.90
+- Document revision: 1.91
 - Last updated: 2026-10-27
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
+
+2026-10-27 CET，B批次3：ADR0046 revision0.2已批准，仅Status行改Accepted；核心正重放最新main并验证，Agent/Web尚未接入，真实调用0。[计划](../../.eval-artifacts/phase3b/g1-integration/plan.md)。
 
 2026-10-27 CET，3b B批次2（draft / not integrated）：[ADR0046](../decisions/0046-observed-actions-and-source-quoted-answers.md)统一为Proposed，原则已批准、文本待批。G1独立Prompt/Schema2输出简短答案和引文、模型敏感类别/结构化确认标志，整页限额60k/1200/单句6k；HARD默认及完整事实字节原样。只对可见语义标题明确区段拒评论引用，未标记评论与自由答案忠实度仍待独立题集。bb967901离线五门禁1142/162全绿；没有新来源、Guard权限、Agent/Web接线或真实调用，不宣称当前Live/真实模型问答能力。[报告](../../.eval-artifacts/phase3b/g1-revision/report.md)。
 
