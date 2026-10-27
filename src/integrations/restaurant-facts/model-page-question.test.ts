@@ -10,7 +10,7 @@ import type { RestaurantFactPageObservation } from "./fact-source-document.js";
 import { GoogleListedWebsiteFactRead } from "./google-listed-website-facts.js";
 import { ModelRestaurantFactJudgment } from "./model-fact-judgment.js";
 import { NativeSourceFactRead } from "./native-source-facts.js";
-import { ModelRestaurantPageQuestion, type RestaurantPageQuestion } from "./model-page-question.js";
+import { ModelRestaurantPageQuestion, type RestaurantPageQuestion, type RestaurantQuestionSensitiveCategory } from "./model-page-question.js";
 
 // Inline synthetic merchant, no network. Saved-source fragment is read in place below.
 const sourceUrl = "https://merchant.example/venue";
@@ -36,12 +36,12 @@ function fixtureModel(output: Output, calls: ModelRequest[] = []): ModelGateway 
     return { invocationId: "fixture-question", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0, outputText: JSON.stringify(output(input)) };
   } };
 }
-function selected(text: string): Output {
+function selected(text: string, answer = "The page states this information.", sensitiveCategory: RestaurantQuestionSensitiveCategory = "NONE"): Output {
   return input => {
     const documents = JSON.parse(input.messages[1]!.content).sourceDocuments;
     for (const document of documents) {
       const statement = document.statements.find((statement: { text: string }) => statement.text === text);
-      if (statement) return { status: "ANSWERED", citations: [{ documentId: document.id, statementId: statement.id, quote: text }] };
+      if (statement) return { status: "ANSWERED", answer, sensitiveCategory, citations: [{ documentId: document.id, statementId: statement.id, quote: text }] };
     }
     assert.fail("test quotation not supplied to model");
   };
@@ -116,8 +116,8 @@ test("G1 rejects fabricated, partial, wrong-document and uncited answers, includ
     ["negation removed", input => {
       const result = selected(quote)(input) as { citations: Array<{ quote: string }> }; result.citations[0]!.quote = "Visa"; return result;
     }],
-    ["other document", () => ({ status: "ANSWERED", citations: [{ documentId: "other-branch", statementId: "payment", quote }] })],
-    ["uncited answer", () => ({ status: "ANSWERED", citations: [], answer: "Yes, Visa accepted" })],
+    ["other document", () => ({ status: "ANSWERED", answer: "Visa is accepted.", sensitiveCategory: "NONE", citations: [{ documentId: "other-branch", statementId: "payment", quote }] })],
+    ["uncited answer", () => ({ status: "ANSWERED", citations: [], answer: "Yes, Visa accepted", sensitiveCategory: "NONE" })],
     ["URL override", input => ({ ...selected(quote)(input) as object, url: "https://other.example" })],
   ];
   for (const [name, output] of controls) await t.test(name, async () => {
@@ -128,12 +128,13 @@ test("G1 rejects fabricated, partial, wrong-document and uncited answers, includ
   const input = question([page("Opening hours: 10:00–18:00")]);
   const invented = fixtureModel(input => {
     const document = JSON.parse(input.messages[1]!.content).sourceDocuments[0];
-    return { status: "ANSWERED", citations: [{ documentId: document.id, statementId: document.statements[0].id, quote }] };
+    return { status: "ANSWERED", answer: "Visa is accepted.", sensitiveCategory: "NONE", citations: [{ documentId: document.id, statementId: document.statements[0].id, quote }] };
   });
   assert.equal((await new ModelRestaurantPageQuestion(invented, undefined, now).answer(input, signal())).status, "UNVERIFIED");
-  const absent = await new ModelRestaurantPageQuestion(fixtureModel(() => ({ status: "NOT_STATED", citations: [] })), undefined, now).answer(input, signal());
+  const absent = await new ModelRestaurantPageQuestion(fixtureModel(() => ({ status: "NOT_STATED", answer: null, sensitiveCategory: "NONE", citations: [] })), undefined, now).answer(input, signal());
   assert.ok(absent.status === "NOT_STATED");
-  assert.equal(absent.answer, "页面未说明");
+  assert.equal(absent.answer, null);
+  assert.equal(absent.confirmationRequired, false);
   assert.deepEqual(absent.checkedPages, [{ url: sourceUrl, readAt }]);
 });
 
@@ -182,7 +183,7 @@ test("G1 rejects stale runs, unbound identities, review providers, changed URLs 
     ["non-page provider", p => { p.identity.provider = "GOOGLE_PLACES"; }, "NO_BOUND_PAGE"],
     ["redirect mismatch", p => { p.snapshot.url += "/other-outlet"; }, "NO_BOUND_PAGE"],
     ["loading", p => { p.snapshot.settlement = "PENDING"; }, "INCOMPLETE_PAGE"],
-    ["truncated line", p => { p.snapshot.text = "x".repeat(1_601); }, "INCOMPLETE_PAGE"],
+    ["truncated line", p => { p.snapshot.text = "x".repeat(6_001); }, "INCOMPLETE_PAGE"],
   ];
   for (const [name, change, reason] of changes) await t.test(name, async () => {
     const current = page(); change(current);
@@ -191,18 +192,25 @@ test("G1 rejects stale runs, unbound identities, review providers, changed URLs 
   });
 });
 
-test("G1 sensitive questions only repeat source words with confirmation advice; model yes/no prose is discarded", async t => {
-  for (const [topic, text] of [
-    ["allergy", "Please notify staff of allergies; traces of nuts may be present."],
-    ["religious diet", "Vegetarian menu available on request; no halal certification."],
-    ["accessibility", "Entrance has three steps. There is no lift."],
-  ]) await t.test(topic!, async () => {
-    const input = question([page(text!)], `Is this suitable for my ${topic} needs?`);
-    const good = await new ModelRestaurantPageQuestion(fixtureModel(selected(text!)), undefined, now).answer(input, signal());
+test("G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes", async t => {
+  const cases: Array<[RestaurantQuestionSensitiveCategory, string]> = [
+    ["ALLERGY", "Please notify staff of allergies; traces of nuts may be present."],
+    ["RELIGIOUS_DIET", "Vegetarian menu available on request; no halal certification."],
+    ["ACCESSIBILITY", "Entrance has three steps. There is no lift."],
+  ];
+  for (const [category, text] of cases) await t.test(category, async () => {
+    const input = question([page(text)], "What does the page state about my needs?");
+    const answer = `The page says: ${text}`;
+    const good = await new ModelRestaurantPageQuestion(fixtureModel(selected(text, answer, category)), undefined, now).answer(input, signal());
     assert.ok(good.status === "ANSWERED");
-    assert.equal(good.answer, `“${text}”\n请向餐厅确认`);
-    const bad = await new ModelRestaurantPageQuestion(fixtureModel(request => ({ ...selected(text!)(request) as object, answer: "Yes, suitable." })), undefined, now).answer(input, signal());
-    assert.equal(bad.status, "UNVERIFIED");
+    assert.equal(good.answer, answer);
+    assert.equal(good.sensitiveCategory, category);
+    assert.equal(good.confirmationRequired, true);
+    for (const conclusion of ["Yes, suitable.", "No, unsuitable."]) {
+      const bad = await new ModelRestaurantPageQuestion(fixtureModel(selected(text, conclusion, category)), undefined, now).answer(input, signal());
+      assert.ok(bad.status === "UNVERIFIED");
+      assert.equal(bad.reason, "INVALID_MODEL_OUTPUT");
+    }
   });
 });
 
@@ -223,7 +231,7 @@ test("G1 each quotation keeps its own page and read time; bounded excerpts canno
   terms.snapshot.url = terms.identity.sourceUrl = sourceUrl + "/terms";
   terms.observedAt = terms.identity.observedAt = "2026-10-26T20:00:30Z";
   terms.identity.evidenceId = "identity-terms";
-  const output: Output = input => ({ status: "ANSWERED", citations: [quote, cancellation].flatMap(text =>
+  const output: Output = input => ({ status: "ANSWERED", answer: "The page states the payment and cancellation terms.", sensitiveCategory: "NONE", citations: [quote, cancellation].flatMap(text =>
     (selected(text)(input) as { citations: unknown[] }).citations) });
   const result = await new ModelRestaurantPageQuestion(fixtureModel(output), undefined, now).answer(question([page(), terms]), signal());
   assert.ok(result.status === "ANSWERED");
@@ -234,9 +242,12 @@ test("G1 each quotation keeps its own page and read time; bounded excerpts canno
   const partial = question([page(quote + "\n" + "not relevant\n".repeat(55))]);
   const answered = await new ModelRestaurantPageQuestion(fixtureModel(selected(quote)), undefined, now).answer(partial, signal());
   assert.ok(answered.status === "ANSWERED", "retained complete source statements are still quotable");
-  const silent = await new ModelRestaurantPageQuestion(fixtureModel(() => ({ status: "NOT_STATED", citations: [] })), undefined, now).answer(partial, signal());
-  assert.ok(silent.status === "UNVERIFIED");
-  assert.equal(silent.reason, "INCOMPLETE_PAGE", "omitted text cannot establish absence");
+  const silent = await new ModelRestaurantPageQuestion(fixtureModel(() => ({ status: "NOT_STATED", answer: null, sensitiveCategory: "NONE", citations: [] })), undefined, now).answer(partial, signal());
+  assert.ok(silent.status === "NOT_STATED", "G1 covers the whole page beyond the former 50-statement cap");
+  const oversized = question([page(quote + "\n" + "source paragraph\n".repeat(4_001))]);
+  const incomplete = await new ModelRestaurantPageQuestion(fixtureModel(() => assert.fail("oversized pages must not reach the model")), undefined, now).answer(oversized, signal());
+  assert.ok(incomplete.status === "UNVERIFIED");
+  assert.equal(incomplete.reason, "INCOMPLETE_PAGE", "a truly oversized page cannot establish absence");
 });
 
 test("G1 saved merchant fragment is quoted in place with provenance; it is not a live or identity-validation claim", async () => {
@@ -286,4 +297,74 @@ test("G1 rejects a customer review quotation using the visible heading outline, 
   current.snapshot.html = `<h2 class="private-review" data-testid="private-review">Reviews</h2><p>${quote}</p><h2>Restaurant information</h2><p>Opening hours: 10:00–18:00</p>`;
   const result = await new ModelRestaurantPageQuestion(fixtureModel(selected(quote)), undefined, now).answer(question([current]), signal());
   assert.equal(result.status, "UNVERIFIED", "a customer statement cannot be cited as the merchant's fact");
+});
+
+test("G1 returns structured absence and confirmation flags without display boilerplate", async () => {
+  for (const category of ["NONE", "ALLERGY"] as const) {
+    const result = await new ModelRestaurantPageQuestion(fixtureModel(() => ({ status: "NOT_STATED", answer: null, citations: [], sensitiveCategory: category })), undefined, now)
+      .answer(question([page("Opening hours: 10:00–18:00")]), signal());
+    assert.equal(result.status, "NOT_STATED");
+    assert.equal(result.answer, null);
+    assert.equal(result.sensitiveCategory, category);
+    assert.equal(result.confirmationRequired, category !== "NONE");
+    assert.deepEqual(result.checkedPages, [{ url: sourceUrl, readAt }]);
+  }
+  const normal = await new ModelRestaurantPageQuestion(fixtureModel(selected(quote, "Yes, Visa and Mastercard are accepted.")), undefined, now).answer(question(), signal());
+  assert.equal(normal.status, "ANSWERED");
+  assert.equal(normal.answer, "Yes, Visa and Mastercard are accepted.");
+  assert.equal(normal.confirmationRequired, false);
+});
+
+test("G1 source limits are independent of HARD limits and reject genuinely oversized pages", async () => {
+  const longStatement = "Source information: " + "a".repeat(1_650);
+  const result = await new ModelRestaurantPageQuestion(fixtureModel(selected(longStatement, "The page contains the stated source information.")), undefined, now)
+    .answer(question([page(longStatement)]), signal());
+  assert.equal(result.status, "ANSWERED");
+  assert.equal(result.citations[0]!.text, longStatement);
+  const overStatements = question([page(Array.from({ length: 1_201 }, (_, i) => `Line ${i}`).join("\n"))]);
+  const rejected = await new ModelRestaurantPageQuestion(fixtureModel(() => assert.fail("not all statements fit")), undefined, now).answer(overStatements, signal());
+  assert.ok(rejected.status === "UNVERIFIED");
+  assert.equal(rejected.reason, "INCOMPLETE_PAGE");
+});
+
+test("G1 rejects missing or invalid model classifications and malformed answer fields", async t => {
+  const invalid: Array<[string, (body: any) => void]> = [
+    ["missing category", body => { delete body.sensitiveCategory; }],
+    ["unknown category", body => { body.sensitiveCategory = "HEALTH"; }],
+    ["non-string category", body => { body.sensitiveCategory = ["NONE"]; }],
+    ["empty answer", body => { body.answer = "  "; }],
+    ["overlong answer", body => { body.answer = "x".repeat(601); }],
+  ];
+  for (const [name, change] of invalid) await t.test(name, async () => {
+    const model = fixtureModel(input => { const output = selected(quote)(input); change(output); return output; });
+    const result = await new ModelRestaurantPageQuestion(model, undefined, now).answer(question(), signal());
+    assert.ok(result.status === "UNVERIFIED");
+    assert.equal(result.reason, "INVALID_MODEL_OUTPUT");
+  });
+});
+
+test("G1 preserves a model's concise conflict answer and both source quotations", async () => {
+  const positive = "Cards accepted.";
+  const negative = "Cards are not accepted at the counter.";
+  const answer = "The page gives conflicting payment guidance: one statement accepts cards while the counter statement excludes them.";
+  const model = fixtureModel(input => ({ status: "ANSWERED", answer, sensitiveCategory: "NONE", citations: [positive, negative].flatMap(text =>
+    (selected(text)(input) as { citations: unknown[] }).citations) }));
+  const result = await new ModelRestaurantPageQuestion(model, undefined, now).answer(question([page(positive + "\n" + negative)]), signal());
+  assert.equal(result.status, "ANSWERED");
+  assert.equal(result.answer, answer);
+  assert.deepEqual(result.citations.map(citation => citation.text), [positive, negative]);
+});
+
+test("G1 review exclusion follows visible headings after private markers are renamed and preserves neighbouring merchant statements", async () => {
+  const merchant = "Opening hours: 10:00–18:00";
+  for (const marker of ["private-review", "renamed-marker-748"]) {
+    const current = page(`Reviews\n${quote}\nRestaurant information\n${merchant}`);
+    current.snapshot.html = `<h2 class="${marker}" data-testid="${marker}">Reviews</h2><p>${quote}</p><h2>Restaurant information</h2><p>${merchant}</p>`;
+    const denied = await new ModelRestaurantPageQuestion(fixtureModel(selected(quote)), undefined, now).answer(question([current]), signal());
+    assert.ok(denied.status === "UNVERIFIED");
+    assert.equal(denied.reason, "INVALID_MODEL_OUTPUT");
+    const allowed = await new ModelRestaurantPageQuestion(fixtureModel(selected(merchant, "The stated opening hours are 10:00–18:00.")), undefined, now).answer(question([current]), signal());
+    assert.equal(allowed.status, "ANSWERED");
+    assert.equal(allowed.citations[0]!.text, merchant);
+  }
 });

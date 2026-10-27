@@ -1,0 +1,29 @@
+✖ G1 rejects a customer review quotation using the visible heading outline, independent of private markers (2.156833ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 113.977708
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:4:4979
+✖ G1 rejects a customer review quotation using the visible heading outline, independent of private markers (2.156833ms)
+  AssertionError [ERR_ASSERTION]: a customer statement cannot be cited as the merchant's fact
+  + actual - expected
+  
+  + 'ANSWERED'
+  - 'UNVERIFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:288:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'ANSWERED',
+    expected: 'UNVERIFIED',
+    operator: 'strictEqual'
+  }

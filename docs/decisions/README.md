@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.23
+- Document revision: 1.24
 - Last updated: 2026-10-26
 - Source of truth for: 已接受架构决策及其替代关系
 - Related ADRs: 本目录
@@ -61,7 +61,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 
 | [0044](0044-recommendation-availability-boundary.md) | Accepted; revision1.1，用户停止点3修正 2026-10-26 | 推荐/查位两个语义锚点、灰区模型判断与 goalBasis 当前消息引用核验；仅提议保存依据，不升 State/TaskDefinition |
 
-| [0047](0047-observation-driven-sites-and-cited-questions.md) | **Proposed；3b B停止点1待用户批准** | 观察驱动站点操作与同店原文问答；未接入口核心，不改变现行动作/权限/State |
+| [0046](0046-observed-actions-and-source-quoted-answers.md) | **Proposed；原则已由用户2026-10-27批准，文本待用户批准** | 统一观察原则/G2验收/G1简短答案+引文合同；未接入口核心，不改变共享状态/权限 |
 
 ## 规则
 

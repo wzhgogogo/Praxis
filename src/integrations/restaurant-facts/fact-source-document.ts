@@ -13,11 +13,19 @@ export interface RestaurantFactPageObservation {
 }
 export type RestaurantFactPageObserver = (page: RestaurantFactPageObservation) => void;
 
-export function createRestaurantFactSourceDocument(candidateId: string, identityEvidenceId: string, text: string, serviceScope?: RestaurantServiceScope, sourceFieldQuotes?: RestaurantFactSourceDocument["sourceFieldQuotes"], priceFacts?: RestaurantFactSourceDocument["priceFacts"]): RestaurantFactSourceDocument {
+export interface RestaurantFactDocumentLimits {
+  maxStatementCharacters: number;
+  maxTotalCharacters: number;
+  maxStatements: number;
+}
+// Existing HARD readers omit this parameter; their limits and output stay identical.
+const hardDocumentLimits: RestaurantFactDocumentLimits = { maxStatementCharacters: 1_600, maxTotalCharacters: 6_000, maxStatements: 50 };
+
+export function createRestaurantFactSourceDocument(candidateId: string, identityEvidenceId: string, text: string, serviceScope?: RestaurantServiceScope, sourceFieldQuotes?: RestaurantFactSourceDocument["sourceFieldQuotes"], priceFacts?: RestaurantFactSourceDocument["priceFacts"], limits: RestaurantFactDocumentLimits = hardDocumentLimits): RestaurantFactSourceDocument {
   const statements: RestaurantFactSourceDocument["statements"] = [];
   let total = 0;
   for (const line of text.split(/\r?\n/).map((item) => item.trim()).filter(Boolean)) {
-    if (line.length > 1_600 || total + line.length > 6_000 || statements.length >= 50) continue;
+    if (line.length > limits.maxStatementCharacters || total + line.length > limits.maxTotalCharacters || statements.length >= limits.maxStatements) continue;
     total += line.length;
     statements.push({ id: `${candidateId}:statement:${statements.length}`, text: line });
   }
@@ -27,9 +35,9 @@ export function createRestaurantFactSourceDocument(candidateId: string, identity
 }
 
 /** The same bounded whole-statement rule serves fact judgment and G1. */
-export function selectRestaurantFactStatements(document: RestaurantFactSourceDocument, ids: string[]) {
+export function selectRestaurantFactStatements(document: RestaurantFactSourceDocument, ids: string[], maxStatementCharacters = hardDocumentLimits.maxStatementCharacters) {
   if (!ids.length || ids.length > 3 || new Set(ids).size !== ids.length) return undefined;
   const statements = ids.map(id => document.statements.find(statement => statement.id === id));
-  return statements.some(statement => !statement || !statement.text.trim() || statement.text.length > 1600)
+  return statements.some(statement => !statement || !statement.text.trim() || statement.text.length > maxStatementCharacters)
     ? undefined : statements as RestaurantFactSourceDocument["statements"];
 }
