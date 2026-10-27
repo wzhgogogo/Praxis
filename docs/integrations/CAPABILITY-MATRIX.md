@@ -1,11 +1,13 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.88
-- Last updated: 2026-10-26
+- Document revision: 1.89
+- Last updated: 2026-10-27
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
+
+2026-10-27 CET，3b C详情身份采集候选（offline / not integrated）：两站共同从本次可见信息标题和联系字段取号码及角色、完整日文地址，保留分段原文/读取URL，别店/楼层/门牌冲突与歧义仍未知。号码只作精确匹配，不建立050→03映射；State/共享合同和Guard无改。旧nr002采集缺口关闭，但29保存页总接纳12→9（4项完整地址比较待复核），不能报告身份总体改善。新8家评测首屏3→7命中，不等于生产接线/库存；GET网络停批、旧15未完成，真实Live0。红绿、模式、Harness与限制见[报告](../../.eval-artifacts/phase3b/c-batch2/report.md)。
 
 2026-10-26 CET，F3-034共享发现改为显式观察列表引用或有界UNKNOWN；非法/重复检索不隐式清词，Google-only同样拒绝无效提议的空查询。当前State@22／TaskDefinition@20、retrieval Schema@3／Prompt@6，资格/预算不改。两来源目录及Pack原字节保留，本地正常通用入口5家与误用拒绝控制通过，新增真实调用0。[报告](../../.eval-artifacts/phase3a-prime/f3-034/report.md)。
 

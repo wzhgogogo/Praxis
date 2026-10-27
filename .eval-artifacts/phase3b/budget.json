@@ -1291,6 +1291,27 @@
       "subjectId": "nr-003",
       "variant": "GOOGLE_JA",
       "sourceCommit": "1044567565daaf16a384dc24ff8260a11b89759c"
+    },
+    {
+      "id": "phase3b-c-batch2-closure",
+      "conversation": "C",
+      "batch": 2,
+      "atCET": "2026-10-27T16:59:39+01:00",
+      "status": "REAL_GET_STOPPED_NETWORK_OFFLINE_CANDIDATE_AWAITING_REVIEW",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "actualBatchUsage": {
+        "realModelCalls": 40,
+        "googleRequests": 11,
+        "evaluationPublicGET": 18,
+        "fullLive": 0
+      },
+      "report": ".eval-artifacts/phase3b/c-batch2/report.md",
+      "note": "No retry after source timeout. Raw per-call entries unchanged; this zero-charge closure is not duplicate usage."
     }
   ],
   "cumulative": {
@@ -1301,5 +1322,5 @@
     "googleRequests": 11,
     "restaurantWebsiteRequests": 18
   },
-  "asOfCET": "2026-10-27T16:18:20.453+01:00"
+  "asOfCET": "2026-10-27T16:59:39+01:00"
 }

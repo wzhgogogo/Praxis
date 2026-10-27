@@ -1,4 +1,5 @@
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { compareCompleteOutletAddress } from "../restaurant-availability/outlet-identity.js";
 
 export interface DetailPhone {
@@ -30,7 +31,7 @@ function text(html: string): string {
 const compact = (value: string) => value.normalize("NFKC").replace(/\s+/g, " ").trim();
 const ownerKey = (value: string) => compact(value).toLocaleLowerCase("ja-JP").replace(/[\s()（）・,，.。-]/g, "");
 function changed(): never {
-  throw Object.assign(new Error("SOURCE_IDENTITY_STRUCTURE_CHANGED: public detail identity is ambiguous or conflicting"), { code: "SOURCE_IDENTITY_STRUCTURE_CHANGED" });
+  throw new BrowserRuntimeError("EXTRACTION_FAILED", "SOURCE_IDENTITY_STRUCTURE_CHANGED: public detail identity is ambiguous or conflicting");
 }
 
 /** Read visible, semantically labelled same-merchant rows; private markers have no role. */

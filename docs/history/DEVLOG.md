@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.321
+- Document revision: 4.322
 
 
 - Last updated: 2026-10-27
@@ -10,6 +10,10 @@
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-10-27-PHASE3B-C-BATCH2-STOP
+
+2026-10-27T16:59:39+01:00。8主Gold隔离并冻结，39真实语义轮完成，具名24全过；片段1次、Google11次，GET18因20s超时停且未重试。新8首屏原名3→替代7命中；旧15未完成。两站详情按标签/标题取完整地址及同店预约/店铺号，局部证据不入State；resolver门槛、共享contracts/地址比较器、Browser/Guard/Prompt不改。nr002由原050漏采转正确，旧29当前9正确/0错认，4个完整地址冲突不隐藏，停等复核。新增共享helper两站实际使用，物理增量单列，不冒充G3减行。真实预算逐次追加并保留原9条，CARRY外层漏映射用sidecar离线补评，原记录不写回。[报告](../../.eval-artifacts/phase3b/c-batch2/report.md)。
 
 ## DEV-2026-10-27-PHASE3B-C-BATCH2-START
 

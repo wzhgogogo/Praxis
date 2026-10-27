@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.327
+- Document revision: 4.328
 
 
 - Last updated: 2026-10-27
@@ -10,6 +10,10 @@
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-27-PHASE3B-C-BATCH2-STOP
+
+CET。3b789869旧两站LOW≠HIGH有效红灯；新6/6及相关107/107绿，首实现Set.filter/类型和observer重复逗号启动失败另存，不计红灯。语义39calls完成：具名24/24，补评目标15/15、投影14/15，严格0/15原样保留；外层CARRY映射补评0调用。公开GET第18次TimeoutError停；8新配对3/8→7/8，旧15未形成全量。原29保存页新解析9正确、20未知、0错认，四项地址冲突和nr029拒绝逐项独立记录。新源码组合的五门禁与固定G2将冻结后执行，旧门禁不替代。模型40/Google11/GET18/Live0，未独立读取.env或私有Holdout。[报告](../../.eval-artifacts/phase3b/c-batch2/report.md)。
 
 ## TEST-2026-10-27-PHASE3B-C-BATCH2-START
 
