@@ -63,3 +63,37 @@ test("retained live work observes the original deadline even without another mod
   release();
   assert.equal(budget.usage("case")?.calls, 0);
 });
+
+
+test("displayed-page follow-up resumes original time and failed-call accounting without borrowing another case", async () => {
+  let now = 100_000;
+  let calls = 0;
+  const model: ModelGateway = {async complete() {calls++;return {invocationId:String(calls),provider:"FIXTURE",model:"fixture",outputText:"{}",finishReason:"STOP",latencyMs:0};}};
+  const budget = new RunBoundedModelGateway(model,2,10_000,()=>now);
+  await budget.run("a",async()=>{await budget.complete(request);});
+  const original = budget.usage("a")!;
+  now += 1000;
+  await budget.run("b",async()=>{await budget.complete(request);});
+  await budget.resume("a",async()=>{
+    assert.equal(budget.remainingCalls("a"),1);
+    assert.equal(budget.usage("a")!.deadlineAt,original.deadlineAt);
+    await budget.complete(request);
+    await assert.rejects(()=>budget.complete(request),{code:"MODEL_CALL_BUDGET_EXHAUSTED"});
+  });
+  assert.equal(budget.usage("a")!.calls,2);
+  assert.equal(budget.usage("b")!.calls,1);
+  await assert.rejects(()=>budget.resume("unknown",async()=>{}),{code:"RUN_BUDGET_UNAVAILABLE"});
+  now = budget.usage("b")!.deadlineAt+1;
+  await assert.rejects(()=>budget.resume("b",async()=>{await budget.complete(request);}),{code:"RUN_DEADLINE_EXCEEDED"});
+  assert.equal(calls,3,"expired or exhausted resumes cannot contact the provider");
+});
+
+
+test("late async work cannot start another model call after its original run closes", async()=>{
+  let release!:()=>void; const gate=new Promise<void>(resolve=>{release=resolve;});
+  let calls=0; let late!:Promise<unknown>;
+  const model:ModelGateway={async complete(){calls++;return {invocationId:"late",provider:"FIXTURE",model:"fixture",outputText:"{}",finishReason:"STOP",latencyMs:0};}};
+  const budget=new RunBoundedModelGateway(model,2,10_000);
+  await budget.run("case",async()=>{late=gate.then(()=>budget.complete(request));});
+  release();await assert.rejects(late,{code:"RUN_DEADLINE_EXCEEDED"});assert.equal(calls,0);
+});

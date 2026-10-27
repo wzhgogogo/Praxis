@@ -11,6 +11,12 @@ export interface RestaurantAgentCapability {
 /** Static, Domain-owned catalog. Provider names and adapter details never enter Agent context. */
 export const RESTAURANT_AGENT_CAPABILITIES: readonly RestaurantAgentCapability[] = [
   {
+    name: "ANSWER_PAGE_QUESTION", purpose: "Answer the current explicit follow-up about a displayed restaurant.",
+    inputSchema: "no business fields; code binds the user question, outlet, source and current run",
+    resultMeaning: "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+    importantConstraints: ["Only an explicit pending user question permits this action; do not specify a venue, URL or question."],
+  },
+  {
     name: "ASK_USER",
     purpose: "Request a user clarification that is necessary or useful to proceed safely.",
     inputSchema: "question, optional relatedFields",

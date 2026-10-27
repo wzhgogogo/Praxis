@@ -87,3 +87,55 @@ test("workspace New case survives a late initial case-list response", async () =
     assert.equal(await page.locator('#case-title').innerText(),'Start a case');
   } finally {release();await browser.close()}
 });
+
+test("G1 Web asks only for the displayed outlet and renders quoted answers, absence and sensitive notice", async () => {
+  const {LOCAL_WORKSPACE_PAGE}=await import('../../web/local-workspace-page.js');
+  const browser=await chromium.launch({headless:true});
+  const page=await browser.newPage({viewport:{width:1280,height:900}});
+  const readAt='2026-10-27T16:00:00+01:00';
+  let version=1;
+  let answer:Record<string,unknown>|undefined;
+  let questionText='';
+  let variant:'answered'|'absence'|'sensitive'='answered';
+  const submitted:Record<string,unknown>[]=[];
+  const view=()=>({mode:'FIXTURE',case:{caseId:'case',title:'Restaurant follow-up',status:'NEEDS_YOU',phase:'PRESENT_RESULTS',taskVersion:version},
+    conversation:{id:'conversation',messages:[]},activities:[],restaurant:{intentDraft:{target:{goal:'RECOMMENDATION'}},missingRequiredFields:[],
+      candidates:[{restaurant:{id:'a',outletName:'Merchant Cafe',address:'Tokyo'}}],presentedCandidateIds:['a'],availability:{},availabilityChecks:{},readEvidence:[],currentFactEvidence:[],
+      ...(answer?{pageQuestion:{candidateId:'a',question:questionText,result:answer}}:{})}});
+  try {
+    await page.route('**/*',async route=>{
+      const path=new URL(route.request().url()).pathname;
+      if(path==='/')return route.fulfill({contentType:'text/html',body:LOCAL_WORKSPACE_PAGE});
+      if(path.endsWith('/events'))return route.abort();
+      if(path==='/api/cases/case/questions') {
+        const body=route.request().postDataJSON();submitted.push(body);questionText=body.question;version++;
+        answer=variant==='absence'?{status:'NOT_STATED',answer:null,sensitiveCategory:'NONE',confirmationRequired:false,citations:[],checkedPages:[{url:'https://merchant.example/a',readAt}]}
+          :{status:'ANSWERED',answer:variant==='sensitive'?'The page describes its access arrangements.':'They accept Visa and MasterCard.',sensitiveCategory:variant==='sensitive'?'ACCESSIBILITY':'NONE',confirmationRequired:variant==='sensitive',citations:[{text:variant==='sensitive'?'車椅子でのご来店はご相談ください。':'カード可（VISA、Master）',url:'https://merchant.example/a',readAt}],checkedPages:[{url:'https://merchant.example/a',readAt}]};
+      }
+      return route.fulfill({json:path==='/api/cases'?{cases:[view().case]}:path==='/api/session'?{user:{id:'fixture'}}:{view:view()}});
+    });
+    await page.goto('https://workspace.example/');
+    const ask=async(text:string)=>{
+      await page.getByRole('textbox',{name:'Question about Merchant Cafe'}).fill(text);
+      await page.getByRole('button',{name:'Ask restaurant question'}).click();
+      await page.getByRole('heading',{name:text,exact:true}).waitFor();
+    };
+    await ask('Do they take credit cards?');
+    assert.deepEqual(Object.keys(submitted[0]!).sort(),['candidateId','question','requestId','taskVersion']);
+    assert.equal(submitted[0]!.candidateId,'a');assert.equal(submitted[0]!.taskVersion,1);
+    assert.equal(await page.locator('.page-answer blockquote').innerText(),'カード可（VISA、Master）');
+    assert.equal(await page.getByRole('link',{name:'Source page',exact:true}).getAttribute('href'),'https://merchant.example/a');
+    assert.match(await page.locator('.page-answer').innerText(),/They accept Visa and MasterCard/);
+    assert.match(await page.locator('.page-answer').innerText(),/Read at: 2026-10-27T16:00:00\+01:00/);
+    assert.doesNotMatch(await page.locator('.page-answer').innerText(),/Please confirm/);
+    if(process.env.PRAXIS_G1_VISUAL_OUTPUT)await page.screenshot({path:process.env.PRAXIS_G1_VISUAL_OUTPUT+'/g1-desktop.png',fullPage:true});
+    variant='absence';await ask('Does the page list a taxi service?');
+    assert.match(await page.locator('.page-answer').innerText(),/Not stated on the page/);
+    assert.equal(await page.getByRole('link',{name:'Checked page',exact:true}).getAttribute('href'),'https://merchant.example/a');
+    variant='sensitive';await page.setViewportSize({width:360,height:900});await ask('What does the page say about wheelchair access?');
+    assert.match(await page.locator('.page-answer').innerText(),/Please confirm with the restaurant/);
+    assert.equal(await page.locator('.page-answer blockquote').innerText(),'車椅子でのご来店はご相談ください。');
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),'phone layout must remain within the viewport');
+    if(process.env.PRAXIS_G1_VISUAL_OUTPUT) {await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:process.env.PRAXIS_G1_VISUAL_OUTPUT+'/g1-mobile.png',fullPage:true});}
+  } finally {await browser.close();}
+});

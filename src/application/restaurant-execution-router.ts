@@ -1,3 +1,4 @@
+import type { RestaurantPageQuestionPort } from "../domains/restaurant/page-question.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../domains/restaurant/failure-codes.js";
 import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
 import type {
@@ -214,6 +215,7 @@ export class RestaurantExecutionRouter {
     private readonly availability: RestaurantAvailabilityPort,
     private readonly options: RestaurantExecutionRouterOptions,
     private readonly facts?: RestaurantCandidateFactPort,
+    private readonly questions?: RestaurantPageQuestionPort,
   ) {
     this.structuredReadTimeoutMs = options.structuredReadTimeoutMs;
     this.browserReadTimeoutMs = options.browserReadTimeoutMs;
@@ -222,7 +224,7 @@ export class RestaurantExecutionRouter {
   /** Keeps source-level cumulative budgets aligned with one outer Agent run. */
   beginReadRun(): void { this.availability.beginReadRun?.(); }
 
-  endReadRun(): void { this.availability.endReadRun?.(); }
+  endReadRun(readRunId?:string): void { if(readRunId)this.questions?.finishReadRun?.(readRunId); this.availability.endReadRun?.(); }
 
   async execute(
     action: RestaurantAgentAction,
@@ -237,6 +239,19 @@ export class RestaurantExecutionRouter {
     const withModelReserve = <T>(work: () => Promise<T>): Promise<T> => deliveryReserve && this.options.modelReadReserve
       ? this.options.modelReadReserve.runRead(deliveryReserve.remaining, deliveryReserve.qualified, work) : work();
     switch (action.type) {
+      case "ANSWER_PAGE_QUESTION": {
+        const q = state.pageQuestion;
+        if (!q || q.result || q.readRunId !== readRunId) throw new Error("Question run does not match the authoritative task read");
+        const candidate = state.candidates.find(c => c.restaurant.id === q.candidateId);
+        const intent = completeRestaurantSearchIntent(state.intentDraft);
+        if (!candidate || !intent || !state.presentedResults?.candidateIds.includes(q.candidateId)) throw new Error("Question outlet is not in the presented batch");
+        const result = this.questions ? await this.withProviderReadDeadline("Restaurant page question", this.browserReadTimeoutMs,
+          signal => this.questions!.answerQuestion({requestId:q.requestId,question:q.question,candidate:structuredClone(candidate),intent,
+            readContext:{runId:q.readRunId,startedAt:q.readStartedAt,deadlineAt:q.deadlineAt}},signal),true,parentSignal)
+          : {status:"UNVERIFIED" as const,candidateId:q.candidateId,reason:"NO_BOUND_PAGE" as const,checkedPages:[]};
+        return {...(this.questions ? {route:this.questions.executionRoute} : {}),event:{type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,result},
+          observation:{type:"PAGE_QUESTION",detail:result.status,candidateIds:[q.candidateId]}};
+      }
       case "ASK_USER":
         return {
           event: { type: "AGENT_ASKED_USER", question: action.question, ...(action.relatedFields ? { relatedFields: action.relatedFields } : {}) },

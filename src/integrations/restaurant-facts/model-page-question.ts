@@ -5,7 +5,7 @@ import {
 } from "./fact-source-document.js";
 import { reviewStatementIndices } from "./page-review-sections.js";
 
-/** Proposed ADR-0046 core only. No Agent action, State or Web entry is installed. */
+/** ADR-0046 question input, bound by the application and current fact reader. */
 export interface RestaurantPageQuestion {
   question: string;
   /** Bound by the caller from an already displayed outlet, not model output. */
@@ -14,42 +14,12 @@ export interface RestaurantPageQuestion {
   cachedPages: readonly RestaurantFactPageObservation[];
 }
 
-export interface RestaurantPageCitation {
-  text: string;
-  url: string;
-  readAt: string;
-  identityEvidenceId: string;
-}
+export type { RestaurantPageCitation, RestaurantPageAnswer, RestaurantQuestionSensitiveCategory } from "../../domains/restaurant/page-question.js";
+import type { RestaurantPageCitation, RestaurantPageAnswer, RestaurantQuestionSensitiveCategory } from "../../domains/restaurant/page-question.js";
 type CheckedPage = { url: string; readAt: string };
-export type RestaurantQuestionSensitiveCategory = "ALLERGY" | "RELIGIOUS_DIET" | "ACCESSIBILITY" | "NONE";
 export const RESTAURANT_PAGE_QUESTION_PROMPT_VERSION = "2";
 export const RESTAURANT_PAGE_QUESTION_SCHEMA_VERSION = "2";
 export const RESTAURANT_PAGE_QUESTION_LIMITS = Object.freeze({ maxStatementCharacters: 6_000, maxTotalCharacters: 60_000, maxStatements: 1_200 });
-export type RestaurantPageAnswer = {
-  status: "ANSWERED";
-  candidateId: string;
-  answer: string;
-  sensitiveCategory: RestaurantQuestionSensitiveCategory;
-  confirmationRequired: boolean;
-  citations: RestaurantPageCitation[];
-  checkedPages: CheckedPage[];
-  modelUsage?: { calls: 1; usage?: ModelUsage };
-} | {
-  status: "NOT_STATED";
-  candidateId: string;
-  answer: null;
-  sensitiveCategory: RestaurantQuestionSensitiveCategory;
-  confirmationRequired: boolean;
-  citations: [];
-  checkedPages: CheckedPage[];
-  modelUsage?: { calls: 1; usage?: ModelUsage };
-} | {
-  status: "UNVERIFIED";
-  candidateId: string;
-  reason: "NO_BOUND_PAGE" | "INCOMPLETE_PAGE" | "INVALID_QUESTION" | "INVALID_MODEL_OUTPUT" | "MODEL_FAILED";
-  checkedPages: CheckedPage[];
-  modelUsage?: { calls: 1; usage?: ModelUsage };
-};
 
 function record(value: unknown): Record<string, unknown> | undefined {
   return value !== null && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
@@ -69,7 +39,7 @@ function httpUrl(value: string): boolean {
 /**
  * Reuses pages emitted AFTER the existing fact reader's outlet-identity check.
  * A fresh-read dependency must compose that same reader/Guard/shared budget; it
- * is not an arbitrary URL fetcher. It is deliberately unwired in this batch.
+ * is not an arbitrary URL fetcher.
  */
 export class ModelRestaurantPageQuestion {
   constructor(

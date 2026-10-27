@@ -257,6 +257,14 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
         json(response, 200, { view });
         return;
       }
+      const questionMatch = /^\/api\/cases\/([^/]+)\/questions$/.exec(url.pathname);
+      if (method === "POST" && questionMatch) {
+        const body = await readJson(request);
+        if (Object.keys(body).some(key => !["candidateId","question","requestId","taskVersion"].includes(key))) throw new Error("Question request has unexpected fields");
+        const view = await options.application.askRestaurantQuestion({userId:user.id,caseId:decodeURIComponent(questionMatch[1]!),
+          candidateId:requireString(body,"candidateId"),question:requireString(body,"question"),requestId:requireString(body,"requestId"),expectedVersion:requireVersion(body)});
+        hub.publish(view);json(response,200,{view});return;
+      }
       const browseNextMatch = /^\/api\/cases\/([^/]+)\/browse-next$/.exec(url.pathname);
       if (method === "POST" && browseNextMatch) {
         const body = await readJson(request);
@@ -407,6 +415,7 @@ async function start(): Promise<void> {
     restaurantSearch,
     restaurantAvailability,
     restaurantFacts: fixtureSearch ?? readAssembly!.facts,
+    ...(readAssembly ? {restaurantQuestions:readAssembly.questions} : {}),
     executionRouterOptions: readAssembly?.router ?? { structuredReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxStructuredReadMs, browserReadTimeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs },
     agentLoopOptions: readAssembly?.loop ?? { maxSteps: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAgentSteps, maxRejectedActions: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxRejectedActions, timeoutMs: LIVE_READ_DEBUG_INVESTIGATION_BUDGET.maxAutomaticBrowserMs },
     workspaceMode: providerMode,

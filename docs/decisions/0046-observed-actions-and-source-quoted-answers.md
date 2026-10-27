@@ -1,7 +1,7 @@
 # ADR-0046：观察驱动的站点操作与同店原文问答
 
 - Status: **Accepted**（用户于2026-10-27批准revision 0.2文本）
-- Approval: **原则已由用户 2026-10-27 批准；文本待用户批准**。文本获批后才改为Accepted。
+- Approval: **原则与 revision 0.2 文本均已由用户 2026-10-27 批准**
 - Document revision: 0.2
 - Last updated: 2026-10-27（Vienna CET，UTC+1）
 - Source of truth for: 3b观察原则、G1合同与G2/G3验收提案；不是已接入产品能力

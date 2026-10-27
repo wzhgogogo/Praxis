@@ -1,3 +1,4 @@
+import type { RestaurantPageQuestionState, RestaurantPageAnswer } from "./page-question.js";
 import type { RestaurantPriceFacts } from "./price-facts.js";
 import type { RestaurantFailureCode } from "./failure-codes.js";
 import type { ExecutionResult } from "../../core/execution/contracts.js";
@@ -611,7 +612,7 @@ export interface RestaurantReadExecutionMetadata {
 /** Provider/result-derived progress only; never a model self-assessment. */
 export interface RestaurantReadObservation {
   termination?: RestaurantReadTermination;
-  type: "USER_QUESTION" | "DISCOVERY" | "DISCOVERY_FAILED" | "CANDIDATE_FACTS" | "CANDIDATE_FACTS_UNKNOWN" | "AVAILABILITY" | "AVAILABILITY_UNKNOWN" | "RESULTS_PRESENTED" | "READ_ENDED" | "CANDIDATE_SELECTED" | "BOOKING_PROPOSAL" | "FACTS_UNAVAILABLE";
+  type: "PAGE_QUESTION" | "USER_QUESTION" | "DISCOVERY" | "DISCOVERY_FAILED" | "CANDIDATE_FACTS" | "CANDIDATE_FACTS_UNKNOWN" | "AVAILABILITY" | "AVAILABILITY_UNKNOWN" | "RESULTS_PRESENTED" | "READ_ENDED" | "CANDIDATE_SELECTED" | "BOOKING_PROPOSAL" | "FACTS_UNAVAILABLE";
   detail: string;
   candidateIds?: string[];
   newCandidateIds?: string[];
@@ -743,7 +744,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "23";
+  schemaVersion: "24";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;
@@ -777,6 +778,7 @@ export interface RestaurantTaskState {
   searchRevision: number;
   /** Increments only when the user changes authoritative semantics. */
   investigationRevision?: number;
+  pageQuestion?: RestaurantPageQuestionState;
   selectedCandidateId?: string;
   selectedOfferId?: string;
   presentedResults?: { candidateIds: string[]; evidenceIds: string[]; presentedAt: string; conditionStates: Record<string, import("./condition-states.js").RestaurantConditionState[]> };
@@ -841,6 +843,8 @@ export type RestaurantSemanticExpectedDecision =
   | { type: "SEARCH" };
 
 export type RestaurantEvent =
+  | (DomainEvent & { type: "PAGE_QUESTION_REQUESTED"; question: RestaurantPageQuestionState })
+  | (DomainEvent & { type: "PAGE_QUESTION_COMPLETED"; requestId: string; readRunId: string; result: RestaurantPageAnswer })
   | (DomainEvent & {
       type: "SEMANTIC_PROPOSAL_COMPILED";
       patch: RestaurantIntentPatch;

@@ -14,12 +14,13 @@ import { defaultBatchDeliveryWindowActive, type RestaurantReadBudgetStatus } fro
 
 export const RESTAURANT_AGENT_CONTEXT_SCHEMA = {
   name: "restaurant_agent_context",
-  version: "16",
+  version: "17",
 } as const;
 
 export interface RestaurantAgentContext {
-  schemaVersion: "16";
+  schemaVersion: "17";
   now: string;
+  pageQuestion?: { question: string; outletName: string };
   /** Code-owned whole-read remainder; the Agent cannot alter it. */
   readBudget?: {remainingMs:number; conclusionReserveMs:number};
   phase: RestaurantPhase;
@@ -91,6 +92,7 @@ export interface RestaurantAgentContext {
   readCompletion: { allowed: boolean; reason?: string; investigationRecorded: boolean; unresolvedCandidateIds: string[] };
   /** Code-derived legal scope. The Agent selects among it; it cannot expand it. */
   legalActions: {
+    answerPageQuestion: boolean;
     search: boolean;
     investigateCandidateFacts: string[];
     checkAvailability: string[];
@@ -176,8 +178,9 @@ export function projectRestaurantAgentContext(
     };
   };
   return {
-    schemaVersion: "16",
+    schemaVersion: "17",
     now,
+    ...(state.pageQuestion && !state.pageQuestion.result ? { pageQuestion: { question: state.pageQuestion.question, outletName: state.candidates.find(c => c.restaurant.id === state.pageQuestion!.candidateId)?.restaurant.outletName ?? "" } } : {}),
     ...(budget.remainingAutomaticMs !== undefined ? {readBudget:{remainingMs:budget.remainingAutomaticMs,conclusionReserveMs:RESTAURANT_READ_CONCLUSION_RESERVE_MS}} : {}),
     phase: state.phase,
     ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
@@ -246,6 +249,7 @@ export function projectRestaurantAgentContext(
       ...(assessment.endReadBlockReason || assessment.endReadReason ? { reason: assessment.endReadBlockReason ?? assessment.endReadReason } : {}),
     },
     legalActions: {
+      answerPageQuestion: !!state.pageQuestion && !state.pageQuestion.result,
       search: restaurantReadActionFits("SEARCH_RESTAURANTS",budget.remainingAutomaticMs) && !/^(MODEL_CALL_RESERVE|READ_TIME_RESERVE|IMMEDIATE_SOURCES_CLOSED)/.test(assessment.endReadReason ?? "") && !immediateRequestWindowExpired(state, now) && !deliveryWindow && !nativeBatchDeliveryReady && !discoveryPlanSearchBlockReason(state, now) && state.sourceReadState?.googlePlacesSearchBudget !== "EXHAUSTED" && state.searchContinuation?.exhausted !== true && missingSearchFields(state.intentDraft ?? {}).length === 0,
       investigateCandidateFacts: deliveryWindow || !restaurantReadActionFits("INVESTIGATE_CANDIDATE_FACTS",budget.remainingAutomaticMs) ? [] : [...assessment.factInvestigableCandidateIds],
       checkAvailability: deliveryWindow || !restaurantReadActionFits("CHECK_AVAILABILITY",budget.remainingAutomaticMs) ? [] : [...assessment.checkableCandidateIds],
@@ -254,6 +258,9 @@ export function projectRestaurantAgentContext(
         .map((item) => item.candidateId)),
       endRead: assessment.canEndRead,
     },
+    ...(state.pageQuestion && !state.pageQuestion.result ? { legalActions: {
+      answerPageQuestion: true, search: false, investigateCandidateFacts: [], checkAvailability: [], presentResults: [], endRead: false,
+    } } : {}),
     ...(state.pendingResultBatchTarget !== undefined ? {
       resultBatchTarget: {
         candidateCount: state.pendingResultBatchTarget,

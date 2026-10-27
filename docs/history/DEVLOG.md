@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.323
+- Document revision: 4.324
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-g1-followup-implementation"></a>
+
+## 2026-10-27 CET：G1 Agent/Web纵向接入实现
+
+用户批准五个共享版本后，从最新main/c98438f8核对无冲突，继续预告分支；新增PAGE_QUESTION_REQUESTED/COMPLETED、无参Agent动作、Validator/Router、同run页面缓存、原预算resume和英文卡片入口。已有Native/官网reader产出身份后页面，缺缓存复用同链，独立问答Prompt/Schema2不变；不改语义、身份解析、Guard、站点/Pack。两个评测调用方只同步State23→24字面量，其评测逻辑/数据不改。持久HTTP主链红404→绿；缓存/预算/引用/敏感/取消/迟到控制和真实Chromium展示通过，旧HARD44,197字节不变。ADR只改Approval行，正文不动；正式五门禁待冻结执行。真实调用0，不读.env/答案。
 
 <a id="dev-2026-10-27-phase3b-g1-push-approved"></a>
 

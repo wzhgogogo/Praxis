@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.329
+- Document revision: 4.330
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-g1-followup-implementation"></a>
+
+## 2026-10-27 CET：G1接入红绿与门禁准备
+
+冻结9e9c48e2的HTTP/PGlite用例在原主链断言200实际404（有效红灯），修后同入口可带原文作答；4项HTTP测试覆盖缓存/缺缓存、URL/未展示店/跨用户/过期版本、幂等、三态、敏感/伪引用拒绝、原预算/截止、重启、取消与较新问题覆盖。真实Chromium表单与360px布局检查通过，预算和晚回调单元控制通过，旧HARD完整44,197字节同SHA。源浏览器I/O及模型均fixture，Web展示单独真实Chromium；真实模型语义质量未评、Live未跑。所有最终门禁需另在冻结净树提交运行，不能把开发检查当作门禁。
 
 <a id="test-2026-10-27-phase3b-g1-push-approved"></a>
 

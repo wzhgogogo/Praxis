@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.430
+- Document revision: 4.431
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-27 CET：G1 Agent/Web接入待正式门禁。** 已按批准升级Agent Prompt29/Action5/Context17/State24/TaskDefinition22，ADR仅修Approval行。已展示门店卡片追问经持久事件、无参Agent动作、Validator/Router与原G1核心；同run缓存、缺缓存原reader、预算继承、取消/迟到与英文引用展示已接线，HTTP红404→绿与相关离线控制通过。旧HARD44,197字节同SHA，站点/Pack不改；即将冻结后跑五门禁，真实模型/Google/网站/Live0，不自评问答质量、不开始G3。[计划](../.eval-artifacts/phase3b/g1-followup/implementation/plan.md)。
 
 - **2026-10-27 CET：B批次3核心Git交付完成。** 用户补充明确main推送授权，现有系统代理接线后原子push成功；ls-remote确认远端main与核心整合分支c98438f8，预告工作分支也已推送。之前审批拒绝/网络失败已解除；五门禁1152/168、654冻结输入及旧HARD44,197字节证据不变。仍停在版本预告，Agent/Web未接入，共享版本28/4/16/23/21未改，新增真实调用0。[回执](../.eval-artifacts/phase3b/g1-followup/report.md)。
 

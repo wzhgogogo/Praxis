@@ -1,3 +1,4 @@
+import type { RestaurantFactPageObserver } from "./fact-source-document.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import { ModelBrowserReadActionDecision } from "../../infrastructure/browser/browser-action-decision.js";
@@ -21,12 +22,13 @@ export function composeLiveRestaurantFactRead(
   browserBudget?: BrowserExecutionBudget,
   now?: () => string,
   onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
+  onSourcePage?: RestaurantFactPageObserver,
 ): RestaurantCandidateFactPort {
   const judgment = new ModelRestaurantFactJudgment(model, now);
   const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined;
   return new GoogleThenWebsiteFactRead(
     google,
-    new GoogleListedWebsiteFactRead(limits, runtime, judgment, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy),
+    new GoogleListedWebsiteFactRead(limits, runtime, judgment, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy, onSourcePage),
     judgment,
   );
 }

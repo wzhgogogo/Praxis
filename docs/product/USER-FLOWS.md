@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.15
-- Last updated: 2026-10-26
+- Document revision: 0.16
+- Last updated: 2026-10-27（CET）
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -155,3 +155,13 @@ For a named nearby request, show the actual source-adopted geographic label and 
 ## 只读调查的时间收尾（ADR0045）
 
 按ADR0045，当剩余时间不再允许读取，调查进入收尾，仅展示已有合格结果或结束并说明本轮范围/未核实缺口。正在读取到一半的门店记未知，完整完成的店按原规则保留；不让模型继续询问或改条件来延长同一调查。不改变用户地点、日期、人数、HARD或预约授权。
+
+## G1 displayed-restaurant follow-up (offline implementation)
+
+After results are displayed, ask through the question field on one restaurant card. The authenticated server binds the displayed outlet, original user question, allowed source reader and current read run; the Agent proposes only `ANSWER_PAGE_QUESTION`, with no arguments. The normal conversation composer continues to edit the restaurant request.
+
+The answer panel shows one short answer, verbatim source quotations in their original language, source URLs and read times. `NOT_STATED` shows “Not stated on the page” and the pages actually checked. Sensitive categories add “Please confirm with the restaurant”; unverified answers are discarded. This does not establish HARD satisfaction, reception policy or availability.
+
+Current-run identity-bound pages are reused first. A cache miss uses the same fact reader and Guard, with the original absolute deadline and remaining model/browser allowances. Cancellation or a newer question discards late output. Lost process-local budget context returns an explicit unverified result. Old State23 tasks are not silently migrated to State24 or reset.
+
+This slice has offline fixture and local Chromium evidence only. Real-model answer faithfulness, sensitivity classification and “not stated” accuracy await the independently scored G1 evaluation; no Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
