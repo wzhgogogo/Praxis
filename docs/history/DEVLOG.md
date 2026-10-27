@@ -13,7 +13,7 @@
 
 ## 2026-10-27 CET: Reviewed sensitive dual outcomes
 
-2026-10-27T17:17:32.536721+01:00. User resolves prior Q28/Q30 quote incompatibility in evaluator references, keeping ADR/core. Implement outcome-specific quotation/limitation and actual confirmation flag, RELIGIOUS_DIET enum; no aliases/duplicate refs. Rebase main/c98438f8 preserves both histories/ledger. Effective red/green, actual-core4-outcome composition PASS. Formal gates/main merge pending, all real calls0. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+2026-10-27T17:17:32.536721+01:00. User resolves prior Q28/Q30 quote incompatibility in evaluator references, keeping ADR/core. Implement outcome-specific quotation/limitation and actual confirmation flag, RELIGIOUS_DIET enum; no aliases/duplicate refs. Rebase main/c98438f8 preserves both histories/ledger. Effective red/green, actual-core4-outcome composition PASS. f5995ba6 formal five gates1154/173 PASS, per-gate clean;26 input SHAs, original candidate and32 unchanged references verified. Ledger id-dedup preserves all records. User-authorized main integration follows, real calls0. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="dev-2026-10-27-phase3b-g1-core-integrated"></a>
 

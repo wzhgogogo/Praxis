@@ -1,15 +1,34 @@
 {
-  "timeCET": "2026-10-27T16:38:55.260904+01:00",
-  "mainQaGit": "319cb9a5e20067b17d880b417f09cca35d664b3a",
-  "nativeCoreGit": "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d",
-  "gatesGit": "8cb02dbc14037bbd8229e43a9e3840590e9ddfc5",
-  "sourceMigration": [
-    "src/eval/restaurant/fact-qa/core-adapter.ts"
-  ],
-  "fiveGates": "PASS_1148_DEFAULT_167_CHROMIUM_PER_GATE_CLEAN",
-  "localCompositionControls": "4/4 PASS including 3-outcome grading",
+  "timeCET": "2026-10-27T17:26:09.288065+01:00",
+  "baseMainGit": "c98438f89beaf16f7067b8385a747a137f5bec7c",
+  "gatesGit": "f5995ba682e8da480b982e047b9137adcf3bbcb1",
+  "scorer": "source-quoted-qa-scorer@4",
+  "dataset": "phase3b-qa-reviewed@2",
+  "questionSchema": "phase3b-qa-questions@3",
+  "review": "independent reviewer (Claude), 2026-10-27",
+  "reviewedDualOutcomes": "Q28/Q30 both NOT_STATED or limited grounded ANSWERED; true confirmation",
+  "priorContractBlocker": "RESOLVED_BY_USER_REVIEW_WITHOUT_CORE_CHANGE",
+  "fiveGates": "PASS_1154_DEFAULT_173_CHROMIUM_PER_GATE_CLEAN",
+  "validation": {
+    "timeCET": "2026-10-27T17:26:09.288065+01:00",
+    "reviewedIds": [
+      "G1-Q28",
+      "G1-Q30"
+    ],
+    "other32References": "IDENTICAL_TO_MAIN",
+    "historicalCandidateBytes": "UNCHANGED",
+    "currentFrozenInputCount": 26,
+    "sourceLiteralPositions": 56,
+    "scorerControls": "8/8 PASS",
+    "runnerControls": "5/5 PASS",
+    "actualCoreQuestionOutcomePairs": "4/4 PASS",
+    "coreConfirmationPropagation": "RAW_AND_PROJECTED_TRUE",
+    "productAndADRDiff": "ZERO",
+    "budgetUniqueEntries": 17,
+    "allRealCalls": 0
+  },
   "savedPageFixture": {
-    "executionGit": "8cb02dbc14037bbd8229e43a9e3840590e9ddfc5",
+    "executionGit": "f5995ba682e8da480b982e047b9137adcf3bbcb1",
     "coreGit": "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d",
     "mode": "FIXTURE_MODEL_SAVED_PAGES_NOT_REAL_MODEL_EVAL",
     "executionStatus": "PASS",
@@ -41,18 +60,6 @@
     "answerReadIsolation": "EXECUTION_UNDER_ENFORCED_DENY_WITH_INDEPENDENT_CANARY",
     "gitStatusAfter": ""
   },
-  "contractReviewBlocker": {
-    "ids": [
-      "G1-Q28",
-      "G1-Q30"
-    ],
-    "reason": "Reviewed sensitive NOT_STATED references require source quotes; core NOT_STATED fixes citations to empty. Local actual-core probe reproduces scorer FAIL. Gold/core unchanged.",
-    "file": "review-blocker/result.json"
-  },
-  "runnerMerge": "STOPPED_FOR_REVIEW_Q28_Q30_CITATION_CONTRACT",
-  "realCalls": 0,
-  "budgetEntriesPreserved": 16,
-  "observedMainGit": "c98438f89beaf16f7067b8385a747a137f5bec7c",
-  "qaChangeIsAncestorOfObservedMain": true,
-  "B_ADR_and_core_main_condition": "SATISFIED_DURING_RUN"
+  "integration": "AUTHORIZED_MAIN_FF_AFTER_PUSH",
+  "realModelEvaluation": "NOT_RUN_WAIT_B_AGENT_INTEGRATION"
 }

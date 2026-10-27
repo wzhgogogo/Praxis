@@ -13,7 +13,7 @@
 
 ## 2026-10-27 CET: Dual-outcome red/green and saved-page composition
 
-2220e1e9 typecheck PASS, old scorer rejects both approved NOT_STATED inputs at contract assertion; corrected8 scorer controls PASS.5 Runner controls PASS, including actual saved pages Q28/Q30 with both outcomes and raw-to-scoring confirmation true. Unsafe fragment, wrong category, absent flag/quote/limitation fail. Preflight34 confirmed/8 source SHA/56 literal positions PASS. Formal five gates pending frozen commit. Real calls0, not real-model acceptance. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+2220e1e9 typecheck PASS, old scorer rejects both approved NOT_STATED inputs at contract assertion; corrected8 scorer controls PASS.5 Runner controls PASS, including actual saved pages Q28/Q30 with both outcomes and raw-to-scoring confirmation true. Unsafe fragment, wrong category, absent flag/quote/limitation fail. Preflight34 confirmed/8 source SHA/56 literal positions PASS. f5995ba6 five gates typecheck/arch/default1154/build/Chromium173 PASS, all before/after clean. Frozen26 input SHAs,8 source pages and56 literal positions verify; other32 references/historical candidate unchanged. All4 approved source/outcome cases PASS. Full canned-model diagnostic is not real-model acceptance. Real calls0, not real-model acceptance. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="test-2026-10-27-phase3b-g1-core-integrated"></a>
 
