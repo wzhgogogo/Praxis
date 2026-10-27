@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.321
+- Document revision: 4.322
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-g1-version-preflight"></a>
+
+## 2026-10-27 CET：G1接入版本预告停止
+
+核心本地main已合c98438f8；Agent/Web接入必然新增合法动作、Context和持久追问事件，拟Prompt28→29/动作4→5/Context16→17/State23→24/TaskDefinition21→22。C在五份共享版本文件无改动，独立问答2不变；按用户第1节先停报再改，本次无产品修改。远端main推送自动审批因“本批未明确授权push main”拒绝、操作未启动；工作分支push遇GitHub空回复和443连接超时，未报已推。真实调用0。[报告](../../.eval-artifacts/phase3b/g1-followup/report.md)。
 
 <a id="dev-2026-10-27-phase3b-g1-core-integrated"></a>
 
