@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.318
+- Document revision: 4.319
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-A-batch2-calendar-stop"></a>
+
+## 2026-10-27 CET：缺少真实TableCheck阳性保存日历
+
+03:31 CET，固定main/daba2ef0，d8e8626e先冻结3408输入与脚本，再查3388保存页/20归档968页。171时间动作候选为4个SHA；3个Date Field仅查询条件，168次重复来自run-interruption.ts本地构造。没有可加入G2的真实已绑定时段页，按用户第3节停止；未改固定集，Runner未启动，单适配集成批准保留。三项已合main推送记录及0调用第7条保留，本分支只证据/文档、不合main。[报告](../../.eval-artifacts/phase3b/tablecheck-calendar-evidence/report.md)。
 
 <a id="dev-2026-10-27-phase3b-A-batch2-qa"></a>
 

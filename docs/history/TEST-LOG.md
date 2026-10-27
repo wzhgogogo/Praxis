@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.324
+- Document revision: 4.325
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-A-batch2-calendar-stop"></a>
+
+## 2026-10-27 CET：有界日历缺证检查
+
+d8e8626e冻结后离线检索PASS仅表示检索完成，真实阳性页0；4不同SHA逐份固定blob核对，3检索条件/1本地构造，不能转G2阳性PASS。输入及脚本SHA校验、diff --check通过，G2固定集无差异；本停止分支五门禁NOT_RUN，引用已合main的G2 1101/166＋额外4/4、回放1104/167、QA1110/168净树收据。Runner fixture NOT_RUN/未开始，真实调用0。[报告](../../.eval-artifacts/phase3b/tablecheck-calendar-evidence/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-qa"></a>
 
