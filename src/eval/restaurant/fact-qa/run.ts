@@ -9,16 +9,16 @@ import { FACT_QA_SCORER, scoreQaAnswer, type QaResponse, type QaReference } from
 export async function runQaEvaluation(input: { questions: string; references: string; responses: string; reads: string; output: string }) {
   const questions = JSON.parse(await readFile(input.questions, "utf8")) as {
     pages: Array<{ id: string; pagePath: string; pageSha256: string; storageSha256: string; storageEncoding: string; outlet: { id: string } }>;
-    questions: Array<{ id: string; pageId: string; type: string; outlet: { id: string }; sensitiveCategory?: string }>;
+    questions: Array<{ id: string; pageId: string; type: string; displayedOutlet: { candidateId: string }; readContext: { runId: string }; sensitiveCategory?: string }>;
   };
-  const references = JSON.parse(await readFile(input.references, "utf8")) as { answers: Array<{ questionId: string; status: QaReference["status"]; answerKind: QaResponse["kind"]; candidateAnswer: string; approvedAnswers?: string[]; rejectedAnswers?: string[]; evidence: Array<{ quote: string }> }> };
+  const references = JSON.parse(await readFile(input.references, "utf8")) as { answers: Array<{ questionId: string; status: QaReference["status"]; answerKind: QaReference["kind"]; candidateAnswer: string; approvedAnswers?: string[]; rejectedAnswers?: string[]; requiredQuotes?: string[]; forbiddenAnswerFragments?: string[]; evidence: Array<{ quote: string }> }> };
   const unreviewed = questions.questions.filter(question => references.answers.find(answer => answer.questionId === question.id)?.status !== "REVIEWER_CONFIRMED").map(question => question.id);
   if (unreviewed.length) {
     const result = { scorer: FACT_QA_SCORER, status: "NOT_READY", reason: "CANDIDATE_ANSWERS_ARE_NOT_ACCEPTANCE_GOLD", unreviewed, evaluated: 0, falseClaimCount: null, modelCalls: 0, sourceCalls: 0 };
     await writeFile(input.output, JSON.stringify(result, null, 2) + "\n", { flag: "wx" }); return result;
   }
   // Reads are an independently retained Runner log, not fields authored by the model.
-  const reads = JSON.parse(await readFile(input.reads, "utf8")) as Array<{ questionId: string; pageId: string; pageSha256: string; readId: string }>;
+  const reads = JSON.parse(await readFile(input.reads, "utf8")) as Array<{ questionId: string; pageId: string; pageSha256: string; readId: string; runId: string }>;
   const responses = JSON.parse(await readFile(input.responses, "utf8")) as Array<{ questionId: string; answer: QaResponse }>;
   const text = new Map<string, string>();
   const rows = [];
@@ -35,8 +35,8 @@ export async function runQaEvaluation(input: { questions: string; references: st
       text.set(page.id, await independentPageText(body.toString()));
     }
     rows.push({ questionId: question.id, ...scoreQaAnswer({ status: reference.status, kind: reference.answerKind,
-      approvedAnswers: reference.approvedAnswers ?? [reference.candidateAnswer], ...(reference.rejectedAnswers ? { rejectedAnswers: reference.rejectedAnswers } : {}), requiredQuotes: reference.evidence.map(row => row.quote),
-      targetOutletId: question.outlet.id, pageId: page.id, pageSha256: page.pageSha256, sensitive: Boolean(question.sensitiveCategory), notStatedQuestion: question.type === "页面未说明" },
+      approvedAnswers: reference.approvedAnswers ?? [reference.candidateAnswer], ...(reference.rejectedAnswers ? { rejectedAnswers: reference.rejectedAnswers } : {}), requiredQuotes: reference.requiredQuotes ?? reference.evidence.map(row => row.quote), ...(reference.forbiddenAnswerFragments ? { forbiddenAnswerFragments: reference.forbiddenAnswerFragments } : {}),
+      targetOutletId: question.displayedOutlet.candidateId, targetRunId: question.readContext.runId, pageId: page.id, pageSha256: page.pageSha256, sensitive: Boolean(question.sensitiveCategory), notStatedQuestion: question.type === "页面未说明" },
     { ...read, outletId: page.outlet.id, text: text.get(page.id)! }, response.answer) });
   }
   const result = { scorer: FACT_QA_SCORER, status: rows.every(row => row.status === "PASS") ? "PASS" : rows.some(row => row.status === "FAIL") ? "FAIL" : "NOT_EVALUATED", rows,

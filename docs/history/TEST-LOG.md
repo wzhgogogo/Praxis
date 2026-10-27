@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.323
+- Document revision: 4.324
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-A-batch2-qa"></a>
+
+## 2026-10-27 CET：G1三态评分红绿
+
+d0933928类型检查通过，两个映射断言旧FAIL→预期PASS，修后六控制绿；本地构造不称网站回放。准备预检8页/56摘录位置通过，25确认9候选、原候选字节不变；全34评价应NOT_READY。五门禁待冻，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-replay"></a>
 

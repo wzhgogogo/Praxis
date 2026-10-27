@@ -17,3 +17,11 @@ Evidence status：current executable / exposed offline regression；不代表Liv
 ### 回放重放
 
 回放分支已重放到main/5f621be3，文档两边记录保留、预算按id并集（去重后4条，新增本批条目后5条），源码四文件与独立复核b7e8af14原字节一致。重复ADR删除。6995ebcd五门禁全绿：typecheck 0.460s、arch 0.199s、默认1104/1104 28.521s、build 0.402s、Chromium167/167 106.661s；逐项前后status为空。G2 36份与回放43份冻结输入SHA全部一致；四份源码与b7e8af14相同。收据及压缩原始日志见replay-integration/gates。旧F5仅保留既有严格合同负例随默认测试，不追加整包研究或额外原始回放运行。
+
+### 回放已合入
+
+main与工作分支已推送f465ada03f9dd19ec5e71698843d2f63b4735fa6，ls-remote一致。
+
+## 第2节：G1复核包
+
+见g1-qa/report.md末章：25确认、9候选；34题英文/中文对照、5自然错页/run场景、3日文题和1评论陷阱，原候选文件保持。两映射红绿完成，五门禁待本批冻结。Runner另按用户答复基于B/0a466bcd单独集成，核心调用集中适配文件，不随QA合main。

@@ -1,6 +1,6 @@
 # 3b A批次1 G1问答候选集与评分器
 
-Evidence status：draft / not integrated；暴露候选，**非人工确认Gold、非验收集**。时间2026-10-26T23:29:45.366380+01:00（Europe/Vienna CET），分支codex/feat-phase3b-qa-candidates，起点最新main cc127320。用户确认没有既有人工答案，由复核者逐题确认/修改/删除；最终状态以复核记录为准。
+Evidence status：以下批次1正文为 frozen historical candidate evidence @8bd6bb8c，原评价保留；当前状态见末章。批次1当时为**非人工确认Gold、非验收集**。时间2026-10-26T23:29:45.366380+01:00（Europe/Vienna CET），分支codex/feat-phase3b-qa-candidates，起点最新main cc127320。用户确认没有既有人工答案，由复核者逐题确认/修改/删除；最终状态以复核记录为准。
 
 ## 交付与隔离
 
@@ -69,3 +69,19 @@ Evidence status：draft / not integrated；暴露候选，**非人工确认Gold�
 冻结fc5146b9五门禁全绿，收据在[verification](verification/)：typecheck0.452s、arch0.202s、默认1104/1104 28.195s、build0.405s、Chromium163/163 98.559s；逐项前后净树。额外独立Chromium核对8页49摘录全部出现、位置及双SHA预检通过；真实候选评分入口正确NOT_READY、evaluated=0、错误数null。输入SHA再次复核通过。产品/Prompt/Schema/State相对main零差异。工作分支提交推送供复核，不合main。下一门槛是复核者逐题决定，不能把本批候选直接交B作正式Gold。
 
 2026-10-27 CET批次2：按用户决定删除A的重复0046及Accepted说法，统一为“ADR（对话 B 起草，待批准）”。QA本批将改为英文题面与自然错页/错运行控制；当前尚未修改候选数据、尚不合main。用户列出的确认题号25个/改写题号5个，与24/6数量冲突已异步核对。
+
+## 批次2：复核落盘与自然错页用例
+
+Evidence status：exposed offline development / mixed review state；25确认＋9候选，34题整体NOT_READY，非完整验收Gold。时间2026-10-27 CET。已基于main/f465ada0重放，双方文档和预算id并集保留。A重复ADR删除，B起草Proposed待批。
+
+用户更正计数：Q01–Q20、Q26–Q30共25题写入answers.reviewed.json，状态REVIEWER_CONFIRMED，确认人为independent reviewer (Claude), 2026-10-27。answers.candidate.json保持8bd6bb8c原字节，SHA 7635f27e760b66190c74ddd3cf6fba0bc60a02263116a621a330b44fdf0d8466。Q26题意保持，只英译正式题面；期望双方英日原文、不一致及餐厅确认，不把冲突判成确定收费。
+
+Q21–25五题改为自然问题，已展示店/提供页/页所属runId由独立元数据表达。Q21大山店问席位、给西池袋页；Q22西池袋问无障碍、给大山页；Q23 Sushi Sen问午餐服务费、给Matsumoto页；Q24 Aloft晚餐、Q25 Alaska午餐给旧run页面。错店/错run事实不进入答案，期望UNVERIFIED；本离线包不重读。场景绑定元数据为本地构造，HTML仍历史原字节，不能称新网站回放。五题仍CANDIDATE。
+
+全部34题正式题面为英文，原中文保留questionZh。新增Q31 Nakamata日文包间、Q32 Matsumoto日文地址、Q33 Alaska日文午餐、Q34 Sen评论价格陷阱；4题全为CANDIDATE。原文位置和源SHA见batch2/changed-question-locations.json；证据明细与答案不向B开放。Q34评论不能升级商家事实，片段未写不扩大成全网站未写。
+
+评分合同source-quoted-qa-scorer@2：MISMATCH→UNVERIFIED且禁止错误页事实；CONFLICT→ANSWERED＋双引用＋不一致提示/餐厅确认；其他同名。d0933928旧评分器两条映射本地构造断言均实际FAIL、预期PASS，类型检查通过，是有效红灯。修后六控制通过；新增错run与错误页事实泄漏、冲突缺一引用/缺提示拒绝，原同店/本次引用/敏感/未审阻断保留。
+
+原prepare-candidates执行生成器退役，Git历史保留；新修订脚本固定读取8bd6bb8c。旧inputs-sha256与验证只属原提交历史，不证明当前文件；本批单独冻结22份SHA。全34题正式评分应NOT_READY/evaluated=0/错误数null，不能报告产品G1通过。英文同义答案需复核，不命中已审表述为NOT_EVALUATED，不推断S0。
+
+五门禁待冻结后执行，真实模型/Google/网站/Live全部0，不读.env。Runner按用户批准另基于B/0a466bcd建立集成分支，B产品原字节、单适配文件，不随QA合main。

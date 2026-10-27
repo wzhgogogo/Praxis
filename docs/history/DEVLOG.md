@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.317
+- Document revision: 4.318
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-A-batch2-qa"></a>
+
+## 2026-10-27 CET：G1人工复核结果与自然问题
+
+2026-10-27T03:20:36.530048+01:00。按25/5澄清确认Q01–20/Q26–30，5改写和4新增待审，34英文题保留中文。原候选文件与8源页保持；评分器@2有效红绿，B答案隔离；重放main/f465ada0双方记录及账本并集保留。五门禁待冻，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
 <a id="dev-2026-10-27-phase3b-A-batch2-replay"></a>
 
