@@ -59,7 +59,7 @@ function exactKeys(value: Record<string, unknown>, keys: string[]): boolean {
 }
 function whitespace(value: string): string { return value.replace(/\s+/gu, " ").trim(); }
 function startsWithConclusion(answer: string): boolean {
-  return /^(?:yes|no)\b/iu.test(answer.trim().replace(/^["'“‘(\[]+/u, ""));
+  return /^(?:yes|no)\b/iu.test(answer.replace(/^[\s"'“”‘’(\[]+/u, ""));
 }
 function httpUrl(value: string): boolean {
   try { const url = new URL(value); return /^https?:$/u.test(url.protocol) && !url.username && !url.password; }
