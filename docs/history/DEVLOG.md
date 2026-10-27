@@ -13,7 +13,7 @@
 
 ## 2026-10-27 CET：3b A批次2 G2去重与合入准备
 
-时间2026-10-27T02:31:15.166850+01:00。用户独立Linux复核G2/G1/Replay门禁均过，批准G2、Replay依次合main；A的0046删除，统一由B Proposed草案承接Validation待批。仅文档去重与零调用记账，产品/站点/共享版本不改；重放最新main后重新五门禁及固定G2，当前待执行。旧F5完整回放按用户决定结束，首次3b Live用当前版本新录制。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
+时间2026-10-27T02:31:15.166850+01:00。用户独立Linux复核G2/G1/Replay门禁均过，批准G2、Replay依次合main；A的0046删除，统一由B Proposed草案承接Validation待批。仅文档去重与零调用记账，产品/站点/共享版本不改；重放最新main后重新五门禁及固定G2，ee0c391d五门禁1101/166及固定G2 4/4全绿，各项前后净树。旧F5完整回放按用户决定结束，首次3b Live用当前版本新录制。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 <a id="dev-2026-10-26-phase3b-g2"></a>
 

@@ -13,7 +13,7 @@
 
 ## 2026-10-27 CET：G2合入前验证
 
-复用用户独立Linux复核及原有效红绿证据；本批去重ADR后从最新main重放，五门禁和test:dom-change将在冻结净树执行。真实调用0，未读取.env。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
+复用用户独立Linux复核及原有效红绿证据；本批去重ADR后从最新main重放，ee0c391d五门禁1101/166及额外G2 4/4全部通过，各项前后status为空，36份输入SHA核对一致。真实调用0，未读取.env。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 <a id="test-2026-10-26-phase3b-g2"></a>
 

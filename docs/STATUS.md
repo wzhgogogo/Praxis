@@ -5,7 +5,7 @@
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
 
-- **2026-10-27 CET：3b A批次2 G2合入准备。** 按用户复核移除A的重复ADR0046及Accepted表述，ADR由B起草、待批准。G2原12页基线保留，重放main后五门禁与固定G2待执行；全离线真实调用0。旧F5整包回放结束，3b首次Live用当前版本重新录制验证方案(c)。[批次报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
+- **2026-10-27 CET：3b A批次2 G2合入准备。** 按用户复核移除A的重复ADR0046及Accepted表述，ADR由B起草、待批准。G2原12页基线保留，重放main后ee0c391d五门禁1101/166与固定G2 4/4全绿、逐项前后净树；全离线真实调用0。旧F5整包回放结束，3b首次Live用当前版本重新录制验证方案(c)。[批次报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 - **2026-10-26 CET：3b A批次1 G2离线基线（待复核）。** 规则dom-marker-mutation@2同步全部id引用，12保存页真实Chromium对照8 PASS、4诚实退化，无错误声明；TableCheck两日历原页已未知，PASS不证明查位。固定test:dom-change加入额外清单，G3要求PASS且不得抹掉原页已知事实。产品/Guard/Recorder/Prompt/Schema/State未改，新增真实调用0。ADR（对话 B 起草，待批准）统一维护用户两原则；G1只交CANDIDATE候选，回放另切片。0027ed84五门禁全绿（默认1101/Chromium166）、额外G2 4/4通过且各项前后净树；未合main。[报告](../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 

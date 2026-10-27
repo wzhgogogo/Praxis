@@ -4,7 +4,7 @@ Evidence status：current executable / exposed offline regression；不代表Liv
 
 ## 第1节：ADR去重与合入
 
-用户明确ADR由B统一维护为Proposed。本分支删除A的0046文件与Accepted说法，Validation由B按用户安排合并；不改产品或共享版本。G2从origin/main cc127320重放，适用五门禁与test:dom-change待运行；通过后合入main并推送。其余阶段随执行追加。
+用户明确ADR由B统一维护为Proposed。本分支删除A的0046文件与Accepted说法，Validation由B按用户安排合并；不改产品或共享版本。G2从origin/main cc127320重放，干净候选ee0c391d五门禁全绿：typecheck0.522s、arch0.202s、默认1101/1101 28.980s、build0.454s、Chromium166/166 105.689s；额外test:dom-change 4/4通过、逐项前后净树。原36份冻结输入SHA一致。已具备合入main条件，实际推送SHA由后续回执补记。其余阶段随执行追加。
 
 ## 旧F5回放状态
 
