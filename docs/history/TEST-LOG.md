@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.326
+- Document revision: 4.327
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-g1-core-integrated"></a>
+
+## 2026-10-27 CET：G1核心组合五门禁全绿
+
+7be3b33a上typecheck/arch/default1152/build/Chromium168全部PASS，各门禁前后status空、restore0、fail/skip/cancel0。Chromium文件并发4，单次107.236秒；Linux本次未跑，沿用用户上批独立复核。旧HARD完整44,197字节同SHA，门禁后并行main仅评测材料/文档，src/scripts/web-skills/package/tsconfig完全相同，654输入SHA再核通过。没有新红灯声明；复用批次2有效红绿，不把未实施Agent/Web算通过，真实调用0。[收据](../../.eval-artifacts/phase3b/g1-integration/report.md)。
 
 <a id="test-2026-10-27-phase3b-g1-core-integration"></a>
 

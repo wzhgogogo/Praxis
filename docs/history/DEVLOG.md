@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.320
+- Document revision: 4.321
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-27-phase3b-g1-core-integrated"></a>
+
+## 2026-10-27 CET：G1核心整合验收完成
+
+2026-10-27T15:59:14.915329+01:00。7be3b33a五门禁1152/168全绿后保留并行main/319cb9a5全部记录，metadata合并a27047b2，654冻结输入保持，旧HARD完整44,197字节一致。核心7源码与复核e4829a58原字节相同，账本14id并集、真实调用0。按用户授权合main，实际SHA以Git回执核对；下一项按明示要求先停报版本，不提前接Agent/Web。[报告](../../.eval-artifacts/phase3b/g1-integration/report.md)。
 
 <a id="dev-2026-10-27-phase3b-g1-core-integration"></a>
 
