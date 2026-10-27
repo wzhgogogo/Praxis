@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.431
+- Document revision: 4.432
 - Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -10,6 +10,8 @@
 - **2026-10-27 CET：B批次3核心Git交付完成。** 用户补充明确main推送授权，现有系统代理接线后原子push成功；ls-remote确认远端main与核心整合分支c98438f8，预告工作分支也已推送。之前审批拒绝/网络失败已解除；五门禁1152/168、654冻结输入及旧HARD44,197字节证据不变。仍停在版本预告，Agent/Web未接入，共享版本28/4/16/23/21未改，新增真实调用0。[回执](../.eval-artifacts/phase3b/g1-followup/report.md)。
 
 - **2026-10-27 CET：B批次3停在接入版本预告。** G1核心本地main已快进c98438f8，五门禁1152/168及654输入核对通过；远端main推送被自动审批拒绝（本批未明确授权push main），最后核对仍319cb9a5，工作分支push另遇GitHub连接失败。拟用Agent Prompt29/动作Schema5/Context17/State24/TaskDefinition22，现值28/4/16/23/21未改；G1核心Prompt/Schema2不变。按用户要求先停报版本，Agent/Web未实施、停止点1未完成，真实调用0。[报告](../.eval-artifacts/phase3b/g1-followup/report.md)。
+
+- **2026-10-27 CET: Reviewed Q28/Q30 dual outcomes.** User keeps ADR0046/B core unchanged. Scorer@4 accepts empty NOT_STATED or limited quoted ANSWERED; both need correct category and confirmationRequired=true, unsafe assertions reject. Q30 RELIGIOUS_DIET, questions@3/reviewed dataset@2; duplicate reference mirror retired. Runner rebased main/c98438f8.8 scorer controls and5 Runner controls PASS, including4 saved-page/core outcome combinations. f5995ba6 five gates1154/173 PASS/per-gate clean, current26 input SHAs and56 source positions verified. Offline Runner implementation/verification complete; user-authorized main integration proceeds. Real-model evaluation remains NOT_RUN until B Agent integration. Real calls0; real-model eval waits B integration. [Report](../.eval-artifacts/phase3b/g1-runner/report.md).
 
 - **2026-10-27 CET：B批次3 G1核心整合验收完成。** ADR0046按批准SHA仅改Status为Accepted；13提交已重放，核心源码与e4829a58相同。7be3b33a冻结654项，五门禁1152/168全绿、107.236秒、逐项前后净树；旧HARD44,197字节一致。并行main/319cb9a5材料和14条预算id并集保留，执行输入不变。按授权合main；Agent/Web待版本预告后实施，当前真实调用0。[报告](../.eval-artifacts/phase3b/g1-integration/report.md)。
 
@@ -31,10 +33,18 @@
 
 - **2026-10-26 CET：3b A G1候选问答（待逐题复核）。** 30题/8页，12有答案、8未说明、7陷阱、3敏感，49处逐字摘录及位置，全部CANDIDATE。B只读questions与原页；答案及含答案脚本隔离，未作为验收Gold。独立评分器source-quoted-qa-scorer@1拒绝未确认、错店/旧读取/假引用；未知同义改写未评。明确到期菜单子类仍缺，历史菜单不伪称已过期；fc5146b9五门禁1104/163全绿、各项前后净树；49摘录独立Chromium核对通过，正式评分NOT_READY。产品及共享版本不改，真实调用0；不合main。[报告](../.eval-artifacts/phase3b/g1-qa/report.md)。
 
+- **2026-10-27 CET: A native Runner delivered for review (not merged).** Main319cb9a5 contains34 confirmed questions and Q24/Q25 no-fresh-read correction. Parallel main now c98438f8 includes QA319cb9a5 and approved B core. Runner pins e4829a58; only adapter implementation changed,370 B src files match.8cb02dbc five gates1148/167 PASS, per-gate clean;4 local controls PASS and34 canned fixture executions. Q28/Q30 sensitive NOT_STATED quote requirements conflict with core empty citations; reproduced, Gold/core unchanged. Real-model acceptance waits review. All real calls0. [Report](../.eval-artifacts/phase3b/g1-runner/report.md).
+
+- **2026-10-27 CET: A Runner on B batch2 (draft).** Rebased to delivered e4829a58. Only adapter source changed; same four fixture controls PASS. Native brief answer/category/null-absence contract mapped, no legacy fallback. Product base preserved, current native diagnostic/gates pending. QA confirmation already main319cb9a5; Runner stays unmerged until B approval. Zero real calls. [Report](../.eval-artifacts/phase3b/g1-runner/report.md).
+
 - **2026-10-27-PHASE3B-B-BATCH2（draft / not integrated）：** Git暂存审批两次超时后用户已重新明确批准继续；分支交付以Git回执核对。 G1修订完成停等文本批准：统一ADR0046 Proposed，原则已由用户2026-10-27批准、文本待批准；原B0047删除，全文附报告。独立Prompt/Schema2恢复简短答案+逐字引文，敏感模型标签/基本形式、结构化确认标志、无核心展示文案；G1整页60k/1200/单句6k，HARD默认及44,197字节结果原样。可见评论标题区段拒引，未标记/歧义风险明示。bb967901冻结614项五门禁1142/162全绿，各门前后净树；真实调用0，不读答案/.env，站点3847/Pack473不变。只推工作分支不合main；未接Agent/Web/共享版本，G3未开始。[报告及ADR全文](../.eval-artifacts/phase3b/g1-revision/report.md)／[ADR0046](decisions/0046-observed-actions-and-source-quoted-answers.md)。
 
 
 - **2026-10-26-PHASE3B-B-G1-STOP1（draft / not integrated）：** 对话B批次1完成停等复核；ADR0047保持Proposed（A已有0046草稿，编号由复核统一），观察清单52组及F3原38映射。G1未接入口核心复用原fact reader/身份/原文核对，可回答非criteria问题，敏感仅引文+确认、未说明附查页，缓存引用元数据错配红转绿。最终d4be4a7a冻结614项后五门禁1130默认/162本地Chromium全绿，各项前后净树；真实调用0，站点3847/Pack473不变。未改Agent/Web/Guard/共享版本，G3未开始，只推工作分支不合main。[报告](../.eval-artifacts/phase3b/g1-core/report.md)／[ADR](https://github.com/wzhgogogo/Praxis/blob/0a466bcded02700b11bfe86e99bf4924e0d22d32/docs/decisions/0047-observation-driven-sites-and-cited-questions.md)。
+
+- **2026-10-27 CET: A G1 Runner integration (draft).** QA final review already main319cb9a5. Runner pins B/0a466bcd without product edits. Previous-run binding effective red/green; four Chromium controls and six scoring controls pass. Execution/answer isolation and new-output mapping installed in A eval only. Frozen 34-question transport complete (29 FIXTURE calls, no real calls); canned grading5 PASS/27 FAIL/2 ungraded is diagnostic only, real quality NOT_EVALUATED. Five gates pending, no real calls; do not merge Runner before B approval. [Report](../.eval-artifacts/phase3b/g1-runner/report.md).
+
+- **2026-10-26-PHASE3B-B-G1-STOP1（draft / not integrated）：** 对话B批次1完成停等复核；ADR0047保持Proposed（A已有0046草稿，编号由复核统一），观察清单52组及F3原38映射。G1未接入口核心复用原fact reader/身份/原文核对，可回答非criteria问题，敏感仅引文+确认、未说明附查页，缓存引用元数据错配红转绿。最终d4be4a7a冻结614项后五门禁1130默认/162本地Chromium全绿，各项前后净树；真实调用0，站点3847/Pack473不变。未改Agent/Web/Guard/共享版本，G3未开始，只推工作分支不合main。[报告](../.eval-artifacts/phase3b/g1-core/report.md)／[ADR](decisions/0047-observation-driven-sites-and-cited-questions.md)。
 
 
 - **2026-10-26 CET：3a′带缺口签收，3a完成（用户决定）。** 3a′保留四项缺口：F5例01未达成，转3b店名解析G4与F6 Live验证；网站适配器3,847行，未达≤3,591，L1/L4/L5转3b查位改造G3；测试集变快但未变小；真实录制尚不能完整回放，转3b对话A。3a①推荐与查位边界已合入（ADR-0044 revision1.1、语义Prompt@25、Gold@4）；3a②使用条款按用户提供的日本律师咨询结论“当前做法没有问题”结束。运行规范照旧：节奏控制、不进入robots禁止的预约流程路径、遇到限流或繁忙页面就退避。额度终值：3a′ Live **8/8**、真实模型 **334/400**、环境重跑 **3/4**；3a边界真实模型单列 **93/144**。本批只改文档，新增真实调用0；不开始3b或F6 Live。签收annotated tag：`phase3a-prime-signoff`。[完整收尾记录](history/DEVLOG.md#dev-2026-10-26-phase3a-prime-signoff)。

@@ -1,0 +1,40 @@
+{
+  "inputOrigin": "LOCAL_CONSTRUCTED_NOT_WEBSITE_REPLAY_OR_GOLD",
+  "coreGit": "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d",
+  "affectedReviewedIds": [
+    "G1-Q28",
+    "G1-Q30"
+  ],
+  "rawCoreResult": {
+    "status": "NOT_STATED",
+    "candidateId": "local-contract",
+    "answer": null,
+    "sensitiveCategory": "ALLERGY",
+    "confirmationRequired": true,
+    "citations": [],
+    "checkedPages": [
+      {
+        "url": "https://merchant.example/local-contract-probe",
+        "readAt": "2026-10-27T10:00:00Z"
+      }
+    ],
+    "modelUsage": {
+      "calls": 1
+    }
+  },
+  "observedScorerResult": {
+    "status": "FAIL",
+    "reasons": [
+      "MISSING_VERBATIM_QUOTE",
+      "REQUIRED_SUPPORT_NOT_QUOTED"
+    ],
+    "consistency": "PASS",
+    "citations": "FAIL",
+    "notStated": "PASS",
+    "falseClaimCount": 0
+  },
+  "verdict": "CONFIRMED_CONTRACT_INCOMPATIBILITY",
+  "realModelCalls": 0,
+  "websiteCalls": 0,
+  "action": "Keep Gold/core unchanged; review the NOT_STATED citation contract before real-model acceptance."
+}

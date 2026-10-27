@@ -1,7 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.324
+- Document revision: 4.325
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -26,6 +26,12 @@
 ## 2026-10-27 CET：G1接入版本预告停止
 
 核心本地main已合c98438f8；Agent/Web接入必然新增合法动作、Context和持久追问事件，拟Prompt28→29/动作4→5/Context16→17/State23→24/TaskDefinition21→22。C在五份共享版本文件无改动，独立问答2不变；按用户第1节先停报再改，本次无产品修改。远端main推送自动审批因“本批未明确授权push main”拒绝、操作未启动；工作分支push遇GitHub空回复和443连接超时，未报已推。真实调用0。[报告](../../.eval-artifacts/phase3b/g1-followup/report.md)。
+
+<a id="dev-2026-10-27-phase3b-A-dual-review"></a>
+
+## 2026-10-27 CET: Reviewed sensitive dual outcomes
+
+2026-10-27T17:17:32.536721+01:00. User resolves prior Q28/Q30 quote incompatibility in evaluator references, keeping ADR/core. Implement outcome-specific quotation/limitation and actual confirmation flag, RELIGIOUS_DIET enum; no aliases/duplicate refs. Rebase main/c98438f8 preserves both histories/ledger. Effective red/green, actual-core4-outcome composition PASS. f5995ba6 formal five gates1154/173 PASS, per-gate clean;26 input SHAs, original candidate and32 unchanged references verified. Ledger id-dedup preserves all records. User-authorized main integration follows, real calls0. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="dev-2026-10-27-phase3b-g1-core-integrated"></a>
 
@@ -87,6 +93,18 @@
 
 时间2026-10-26T23:29:45.366380+01:00。main cc127320独立切片，用户澄清后30题全部CANDIDATE，8页/49处原文，问题与答案隔离；实际无到期证据不冒称过期。ADR（对话 B 起草，待批准）统一维护用户原则，评分器不读产品解析器；无Gold先NOT_READY，未知同义人工复核。fc5146b9五门禁1104/163全绿、各项前后净树；候选正式评分NOT_READY，真实调用0，不合main。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
+<a id="dev-2026-10-27-phase3b-A-runner-delivery"></a>
+
+## 2026-10-27 CET: Native Runner delivery and contract review item
+
+2026-10-27T16:40:01.173311+01:00. Adapter-only native implementation migration, unchanged B product.8cb02dbc gates1148/167 PASS/per-gate clean.34 canned transport complete; grade5/19/10 not model quality. Actual-core local proof confirms Q28/Q30 sensitive NOT_STATED quotation incompatibility; preserve Gold/core and stop contract changes pending review. Parallel main/c98438f8 already contains QA and B core; its latest ledger union is retained. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="dev-2026-10-27-phase3b-A-runner-native"></a>
+
+## 2026-10-27 CET: A Runner rebase to delivered B batch2
+
+2026-10-27T16:26:12.182132+01:00. Followed approved integration sequence: legacy verified checkpoint tagged; rebase e4829a58, both histories/budget union preserved; only adapter source updated. Unchanged four composition controls pass. Native fixture/gates pending, no real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
 <a id="dev-2026-10-27-phase3b-g1-revision"></a>
 
 ## 2026-10-27 CET：3b B批次2 G1修订与ADR统一
@@ -97,6 +115,11 @@ G1 Prompt/Schema2允许提问语言简短答案+1–3逐字引文，模型标敏
 
 旧代码红灯与最终保存页绿灯使用同一冻结脚本和输入：后7,515字符原文、整页未说明、评论误接纳；简短答案/敏感格式及三个反事实有效。最终bb967901五门禁1142/162全绿、每项前后净树。没有Agent合法动作/Web/State/TaskDefinition/Guard/共享Prompt或A/C源码变更；真实调用0，不读.env，账本仅追加B0增量，站点3847/Pack473不变。完成后停止等文本批准，下一批接线/真实模型评测/G3均未做。[报告及ADR全文](../../.eval-artifacts/phase3b/g1-revision/report.md)。
 
+<a id="dev-2026-10-27-phase3b-A-g1-runner"></a>
+
+## 2026-10-27 CET: A G1 Runner integration
+
+2026-10-27T16:09:08.100528+01:00. User-approved B/0a466bcd integration base. Only A eval/harness and audit files change. Actual-core previous-run red/green, separate execution/scoring, source SHA and reference-read isolation. Scorer@3 follows new category contract; presentation advice remains unevaluated. ee5c835c fixture transport34/34 with29 FIXTURE invocations; canned grading5/27/2, not real-model quality. Product bytes pinned; five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="dev-2026-10-26-phase3b-g1-stop1"></a>
 

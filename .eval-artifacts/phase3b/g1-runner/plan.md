@@ -1,0 +1,11 @@
+# G1 fixture Runner integration slice
+
+Draft / not integrated, exposed offline inputs only. Explicit user exception: branch begins at B/0a466bcd; all B product files remain byte-identical. Only A eval/harness files and audit documentation are added. Main already contains final QA confirmation319cb9a5.
+
+Execution accepts questions and saved pages, uses actual pinned G1 core with an injected ModelGateway, persists raw core/normalized outputs and retained reads, and has no answer-file argument or fresh reader. A separate scorer alone reads evaluator-only references. The executable CLI only enables a fixture transport. Freeze inputs/SHA before running.
+
+Contract red/green: a previous-run page with a recent timestamp must return UNVERIFIED and make no model call. Run a deliberately wrong runId mapping through actual core first, capture that assertion failure, then correct the adapter. Cover ANSWERED, NOT_STATED, URL/readAt citation binding, unknown-key/SHA rejection before model invocation, and an enforced reference-read deny/canary. These fixtures are locally constructed, not website replay or human restaurant Gold.
+
+One adapter owns core I/O and the legacy fixture wire. Output projection records status/answer/citations(URL/readAt)/sensitiveCategory/reason. Pinned old core has no category classifier: temporary NONE is explicitly unsupported, never inferred from question metadata or claimed as evaluated. Scorer@3 compares the new core category; general sensitive confirmation wording now belongs to presentation and is NOT evaluated by this core-only Runner. Q26 still needs its explicitly reviewed bilingual conflict/confirmation answer. Raw old core output is retained.
+
+Run the frozen 34-question saved-page set with source-driven NOT_STATED fixture model only, then independently score as a diagnostic; its failures/unknowns do not measure real-model quality. No real calls, no .env. Five gates on clean frozen commit. Push this integration branch only. After B batch2 is delivered, rebase to that approved commit and update only the adapter, rerun fixture; no main merge until B core/ADR approval. TableCheck positive-calendar work is deferred by user to first 3b Live; no Live here.

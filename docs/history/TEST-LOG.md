@@ -1,7 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.330
+- Document revision: 4.331
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -26,6 +26,12 @@
 ## 2026-10-27 CET：版本预告及交付边界
 
 本切片只写预告/交付记录，未修改冻结输入或生产源码；沿用7be3b33a五门禁1152/168全绿、逐项净树及完整HARD同字节。新主链追问红绿尚未编写，不能标接入通过；真实模型评测/G3未运行。版本值和SHA、C分支差异核对，报告链接与账本id并集检查；不加载.env、不读answers，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-followup/report.md)。
+
+<a id="test-2026-10-27-phase3b-A-dual-review"></a>
+
+## 2026-10-27 CET: Dual-outcome red/green and saved-page composition
+
+2220e1e9 typecheck PASS, old scorer rejects both approved NOT_STATED inputs at contract assertion; corrected8 scorer controls PASS.5 Runner controls PASS, including actual saved pages Q28/Q30 with both outcomes and raw-to-scoring confirmation true. Unsafe fragment, wrong category, absent flag/quote/limitation fail. Preflight34 confirmed/8 source SHA/56 literal positions PASS. f5995ba6 five gates typecheck/arch/default1154/build/Chromium173 PASS, all before/after clean. Frozen26 input SHAs,8 source pages and56 literal positions verify; other32 references/historical candidate unchanged. All4 approved source/outcome cases PASS. Full canned-model diagnostic is not real-model acceptance. Real calls0, not real-model acceptance. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="test-2026-10-27-phase3b-g1-core-integrated"></a>
 
@@ -87,6 +93,18 @@ d0933928类型检查通过，两个映射断言旧FAIL→预期PASS，修后六�
 
 ae319df7局部引用绑定有效红灯（跨页/读取相同原文误过PASS）；修后正常、同店/同读、缺证/敏感/冲突及CANDIDATE阻断控制绿。原始页SHA/49处摘录及字符位置预检通过，答案尚无人工确认，不算产品验收。fc5146b9五门禁1104/163全绿且各项净树，8页49摘录独立源页核对通过，候选NOT_READY/0题已评，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
+<a id="test-2026-10-27-phase3b-A-runner-delivery"></a>
+
+## 2026-10-27 CET: Native Runner final verification
+
+8cb02dbc five gates typecheck0.417/arch0.202/default1148 28.060/build0.483/Chromium167 98.592s PASS, all before/after status empty.4 controls PASS,370 product and24 current input SHAs match.34 canned fixtures execute, independent grade5 PASS/19 FAIL/10 NE, falseClaimCount=null, not model acceptance. Frozen local actual-core probe reproduces sensitive NOT_STATED empty-citation scorer failure: review blocker, not a passing case or real S0. No real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="test-2026-10-27-phase3b-A-runner-native"></a>
+
+## 2026-10-27 CET: Native G1 contract fixture controls
+
+B e4829a58 rebase; only core-adapter.ts source changed. Existing four Chromium controls pass unchanged. Native typecheck passes; input configuration re-frozen. Native full fixture/five gates pending, old cfcde8c7 results remain historical. No real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
 <a id="test-2026-10-27-phase3b-g1-revision"></a>
 
 ## 2026-10-27 CET：3b B G1修订冻结离线验收
@@ -99,6 +117,11 @@ HARD参数默认不变：三组边界分段/选择、完整Native事实和原模
 
 新增真实模型/Google/网站/Live/公开GET/环境重跑全0；未读QA答案或.env，A/C文件/共享版本未改。ADR0046 Proposed全文随报告，用户批准文本前不接入口、不G3，只推工作分支。[完整证据](../../.eval-artifacts/phase3b/g1-revision/report.md)。
 
+<a id="test-2026-10-27-phase3b-A-g1-runner"></a>
+
+## 2026-10-27 CET: G1 Runner red/green
+
+36dc5005 typecheck passes and actual-core old-run assertion fails at ANSWERED vs UNVERIFIED. Adapter correction makes same assertion pass; four Chromium integration controls and six scorer controls pass, including URL/readAt/SHA/unknown-key rejection and real reference-read-denial canary. Local constructions only. ee5c835c full saved-page fixture executed34/34 under answer-read denial, then independent grading5 PASS/27 FAIL/2 NOT_EVALUATED, falseClaimCount=null. This is a transport diagnostic, not model/Agent acceptance. Frozen input and B product SHA checks pass; five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
 
 <a id="test-2026-10-26-phase3b-g1-stop1"></a>
 

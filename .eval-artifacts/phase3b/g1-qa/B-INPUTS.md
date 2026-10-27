@@ -7,3 +7,5 @@
 All 34 questions are now reviewer-confirmed exposed offline acceptance inputs. Answer files remain evaluator-only. The historical candidate file is not the current reference. Q24/Q25 prohibit fresh reads in this offline evaluation.
 
 pagePath是仓库保存路径，pageSha256为原始HTML SHA；storageEncoding=gzip时先解压，storageSha256核对存储字节。片段未说明不扩大成完整网站未写。历史捕获日期不代表当前菜单/库存。
+
+Current public schema: phase3b-qa-questions@3; Q30 uses RELIGIOUS_DIET. Only questions and source pages remain whitelisted. Canonical references are g1-qa/answers.reviewed.json, evaluator only.
