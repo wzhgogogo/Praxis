@@ -69,6 +69,12 @@ d0933928类型检查通过，两个映射断言旧FAIL→预期PASS，修后六�
 
 ae319df7局部引用绑定有效红灯（跨页/读取相同原文误过PASS）；修后正常、同店/同读、缺证/敏感/冲突及CANDIDATE阻断控制绿。原始页SHA/49处摘录及字符位置预检通过，答案尚无人工确认，不算产品验收。fc5146b9五门禁1104/163全绿且各项净树，8页49摘录独立源页核对通过，候选NOT_READY/0题已评，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
+<a id="test-2026-10-27-phase3b-A-runner-native"></a>
+
+## 2026-10-27 CET: Native G1 contract fixture controls
+
+B e4829a58 rebase; only core-adapter.ts source changed. Existing four Chromium controls pass unchanged. Native typecheck passes; input configuration re-frozen. Native full fixture/five gates pending, old cfcde8c7 results remain historical. No real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
 <a id="test-2026-10-27-phase3b-g1-revision"></a>
 
 ## 2026-10-27 CET：3b B G1修订冻结离线验收

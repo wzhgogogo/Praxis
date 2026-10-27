@@ -5,8 +5,8 @@ import type { BoundQuestion, SavedQuestionPage } from "./bound-question-input.js
 import type { QaRead, QaResponse } from "./scorer.js";
 
 // All pinned-core assumptions, including fixture wire format, are confined here.
-export const G1_CORE_REF = "0a466bcded02700b11bfe86e99bf4924e0d22d32";
-export const G1_CORE_ADAPTER = "g1-core-adapter@1-legacy-extractive";
+export const G1_CORE_REF = "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d";
+export const G1_CORE_ADAPTER = "g1-core-adapter@2-native-output";
 export type SensitiveCategory = "ALLERGY" | "RELIGIOUS_DIET" | "ACCESSIBILITY" | "NONE";
 export interface QuestionOutcome {
   status: "ANSWERED" | "NOT_STATED" | "UNVERIFIED"; candidateId: string; answer: string;
@@ -31,17 +31,17 @@ export async function invokeQuestionCore(input: { question: BoundQuestion; page:
   const raw = await new ModelRestaurantPageQuestion(model, undefined, () => input.now).answer({ question: question.question,
     displayedOutlet: { candidateId: question.displayedOutlet.candidateId, sourceUrl: question.displayedOutlet.sourceUrl },
     readContext: question.readContext, cachedPages: [observed] }, signal);
-  const answer: QuestionOutcome = { status: raw.status, candidateId: raw.candidateId, answer: raw.status === "UNVERIFIED" ? "" : raw.answer,
+  const answer: QuestionOutcome = { status: raw.status, candidateId: raw.candidateId, answer: raw.status === "ANSWERED" ? raw.answer : "",
     citations: raw.status === "UNVERIFIED" ? [] : raw.citations.map(({ text, url, readAt }) => ({ text, url, readAt })),
-    // This old core has no classifier. NONE is an unsupported temporary projection,
-    // never a claim that sensitive-category classification has been evaluated.
-    sensitiveCategory: "NONE", ...(raw.status === "UNVERIFIED" ? { reason: raw.reason } : {}), checkedPages: raw.checkedPages };
-  return { answer, raw, categorySupport: "NOT_SUPPORTED_BY_PINNED_CORE" as const };
+    // Preserve the core category. UNVERIFIED has no answer classification.
+    sensitiveCategory: raw.status === "UNVERIFIED" ? "NONE" : raw.sensitiveCategory, ...(raw.status === "UNVERIFIED" ? { reason: raw.reason } : {}), checkedPages: raw.checkedPages };
+  return { answer, raw, categorySupport: "NATIVE_CORE_OUTPUT" as const };
 }
 
 /** Bind model-independent URL/readAt to the retained read, never invent a match. */
 export function scoringResponse(answer: QuestionOutcome, read: BoundRead): QaResponse {
-  return { kind: answer.status, text: answer.answer, sensitiveCategory: answer.sensitiveCategory,
+  return { kind: answer.status, // NOT_STATED has a null core answer: a canonical scorer label, not display prose.
+    text: answer.status === "NOT_STATED" ? "The page does not state this." : answer.answer, sensitiveCategory: answer.sensitiveCategory,
     citations: answer.citations.map(citation => {
       if (citation.url !== read.url || citation.readAt !== read.readAt) throw new Error("CITATION_NOT_BOUND_TO_RUNNER_READ");
       return { pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId, quote: citation.text };
@@ -54,6 +54,6 @@ export function fixtureQuestionModel(selection: { quote?: string; question?: str
     const body = JSON.parse(request.messages[1]!.content) as { question: string; sourceDocuments: Array<{ id: string; statements: Array<{ id: string; text: string }> }> };
     const found = (!selection.question || selection.question === body.question) && selection.quote && body.sourceDocuments.flatMap(document => document.statements.map(statement => ({ document, statement }))).find(row => row.statement.text === selection.quote);
     return { invocationId: "g1-fixture", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0,
-      outputText: JSON.stringify(found ? { status: "ANSWERED", citations: [{ documentId: found.document.id, statementId: found.statement.id, quote: found.statement.text }] } : { status: "NOT_STATED", citations: [] }) };
+      outputText: JSON.stringify(found ? { status: "ANSWERED", answer: found.statement.text, sensitiveCategory: "NONE", citations: [{ documentId: found.document.id, statementId: found.statement.id, quote: found.statement.text }] } : { status: "NOT_STATED", answer: null, sensitiveCategory: "NONE", citations: [] }) };
   } };
 }

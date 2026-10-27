@@ -69,6 +69,12 @@
 
 时间2026-10-26T23:29:45.366380+01:00。main cc127320独立切片，用户澄清后30题全部CANDIDATE，8页/49处原文，问题与答案隔离；实际无到期证据不冒称过期。ADR（对话 B 起草，待批准）统一维护用户原则，评分器不读产品解析器；无Gold先NOT_READY，未知同义人工复核。fc5146b9五门禁1104/163全绿、各项前后净树；候选正式评分NOT_READY，真实调用0，不合main。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
 
+<a id="dev-2026-10-27-phase3b-A-runner-native"></a>
+
+## 2026-10-27 CET: A Runner rebase to delivered B batch2
+
+2026-10-27T16:26:12.182132+01:00. Followed approved integration sequence: legacy verified checkpoint tagged; rebase e4829a58, both histories/budget union preserved; only adapter source updated. Unchanged four composition controls pass. Native fixture/gates pending, no real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
 <a id="dev-2026-10-27-phase3b-g1-revision"></a>
 
 ## 2026-10-27 CET：3b B批次2 G1修订与ADR统一

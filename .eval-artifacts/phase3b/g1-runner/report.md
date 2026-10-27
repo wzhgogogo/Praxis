@@ -1,3 +1,13 @@
+# Current native-core migration (2026-10-27 CET)
+
+2026-10-27T16:26:12.182132+01:00: B batch2 delivered e4829a58. Runner rebased there, both document histories and all budget rows preserved. Only src/eval/restaurant/fact-qa/core-adapter.ts changed after rebase; Runner engine, loader, scorer and fixtures retain identical source bytes. The adapter now keeps native brief answers/category/URL/readAt and UNVERIFIED reason. Core NOT_STATED answer=null becomes an empty normalized answer; the scorer receives a canonical NOT_STATED text label only, not customer-facing prose. Raw core output remains intact. All four original fixture composition controls pass without changing tests. No legacy wire fallback remains in current adapter.
+
+Native input SHA/outer observation labels re-frozen; legacy execution inputs, results and clean gates remain historical under the annotated checkpoint tag and history/ manifests. The retired legacy outer runner is removed from current executable paths. Native full fixture and five gates pending. Runner remains draft/unmerged; ADR0046 text still pending. No real calls.
+
+---
+
+# Historical 0a466bcd evidence
+
 # G1 evaluation Runner: fixture integration
 
 Draft / not integrated, exposed offline evidence. Core pinned to B/0a466bcd; final 34-question review merged/pushed main319cb9a5. Branch codex/feat-phase3b-g1-eval-runner is deliberately based on B, not merged to main. B product files remain byte-identical. Time 2026-10-27T16:09:08.100528+01:00.
