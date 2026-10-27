@@ -1,11 +1,13 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.422
-- Last updated: 2026-10-26
+- Document revision: 4.423
+- Last updated: 2026-10-27
 - Source of truth for: 当前实现、证据与下一道门槛
 
-- **2026-10-26 CET：3b A批次1 G2离线基线（待复核）。** 规则dom-marker-mutation@2同步全部id引用，12保存页真实Chromium对照8 PASS、4诚实退化，无错误声明；TableCheck两日历原页已未知，PASS不证明查位。固定test:dom-change加入额外清单，G3要求PASS且不得抹掉原页已知事实。产品/Guard/Recorder/Prompt/Schema/State未改，新增真实调用0。ADR0046记录用户两原则；G1只交CANDIDATE候选，回放另切片。0027ed84五门禁全绿（默认1101/Chromium166）、额外G2 4/4通过且各项前后净树；未合main。[报告](../.eval-artifacts/phase3b/g2-dom-change/report.md)。
+- **2026-10-27 CET：3b A批次2 G2合入准备。** 按用户复核移除A的重复ADR0046及Accepted表述，ADR由B起草、待批准。G2原12页基线保留，重放main后五门禁与固定G2待执行；全离线真实调用0。旧F5整包回放结束，3b首次Live用当前版本重新录制验证方案(c)。[批次报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
+
+- **2026-10-26 CET：3b A批次1 G2离线基线（待复核）。** 规则dom-marker-mutation@2同步全部id引用，12保存页真实Chromium对照8 PASS、4诚实退化，无错误声明；TableCheck两日历原页已未知，PASS不证明查位。固定test:dom-change加入额外清单，G3要求PASS且不得抹掉原页已知事实。产品/Guard/Recorder/Prompt/Schema/State未改，新增真实调用0。ADR（对话 B 起草，待批准）统一维护用户两原则；G1只交CANDIDATE候选，回放另切片。0027ed84五门禁全绿（默认1101/Chromium166）、额外G2 4/4通过且各项前后净树；未合main。[报告](../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 
 - **2026-10-26 CET：3a′带缺口签收，3a完成（用户决定）。** 3a′保留四项缺口：F5例01未达成，转3b店名解析G4与F6 Live验证；网站适配器3,847行，未达≤3,591，L1/L4/L5转3b查位改造G3；测试集变快但未变小；真实录制尚不能完整回放，转3b对话A。3a①推荐与查位边界已合入（ADR-0044 revision1.1、语义Prompt@25、Gold@4）；3a②使用条款按用户提供的日本律师咨询结论“当前做法没有问题”结束。运行规范照旧：节奏控制、不进入robots禁止的预约流程路径、遇到限流或繁忙页面就退避。额度终值：3a′ Live **8/8**、真实模型 **334/400**、环境重跑 **3/4**；3a边界真实模型单列 **93/144**。本批只改文档，新增真实调用0；不开始3b或F6 Live。签收annotated tag：`phase3a-prime-signoff`。[完整收尾记录](history/DEVLOG.md#dev-2026-10-26-phase3a-prime-signoff)。
 

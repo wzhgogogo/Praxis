@@ -6,6 +6,6 @@ G2：真实本地Chromium读Tabelog/TableCheck列表、详情、日历，每站�
 
 先用F3仅改class的旧操作取得id/data覆盖目标红灯，再补完整变异、公开语义完整性核对及分类器反例；另复用真实Chromium通用控件行为，模型替身只按当前可见label/ARIA引用选动作。新增test:dom-change固定检查及五门禁，输入脚本先提交冻结、门禁前后净树。
 
-ADR0046记录用户两原则。G1另分支只交questions.json与answers.candidate.json；用户已确认无既有人工Gold，全部答案CANDIDATE，复核前不作为验收集。回放另分支先复现F5槽1原分歧；静态资源只给方案/离线验证，不放宽脱敏或Guard。
+ADR（对话 B 起草，待批准）统一维护用户两原则。G1另分支只交questions.json与answers.candidate.json；用户已确认无既有人工Gold，全部答案CANDIDATE，复核前不作为验收集。回放另分支先复现F5槽1原分歧；静态资源只给方案/离线验证，不放宽脱敏或Guard。
 
 停止条件：任何FAIL/S0；门禁修两次仍红；需要真实调用；需跨B/C文件或共享版本；验收改变。每项从最新main独立分支，推工作分支、不合main，三项完成后停。

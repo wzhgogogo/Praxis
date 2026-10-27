@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.321
-- Last updated: 2026-10-26
+- Document revision: 4.322
+- Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-27-phase3b-A-batch2-g2"></a>
+
+## 2026-10-27 CET：G2合入前验证
+
+复用用户独立Linux复核及原有效红绿证据；本批去重ADR后从最新main重放，五门禁和test:dom-change将在冻结净树执行。真实调用0，未读取.env。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 <a id="test-2026-10-26-phase3b-g2"></a>
 

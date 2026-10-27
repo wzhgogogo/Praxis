@@ -61,7 +61,6 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 
 | [0044](0044-recommendation-availability-boundary.md) | Accepted; revision1.1，用户停止点3修正 2026-10-26 | 推荐/查位两个语义锚点、灰区模型判断与 goalBasis 当前消息引用核验；仅提议保存依据，不升 State/TaskDefinition |
 
-| [0046](0046-observed-actions-and-source-quoted-answers.md) | Accepted | 3b观察动作、语义核对与同店本次读取逐字引用；G2/G1分别验收 |
 
 ## 规则
 

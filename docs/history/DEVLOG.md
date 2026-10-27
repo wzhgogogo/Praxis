@@ -1,19 +1,25 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.315
-- Last updated: 2026-10-26
+- Document revision: 4.316
+- Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
+<a id="dev-2026-10-27-phase3b-A-batch2-g2"></a>
+
+## 2026-10-27 CET：3b A批次2 G2去重与合入准备
+
+时间2026-10-27T02:31:15.166850+01:00。用户独立Linux复核G2/G1/Replay门禁均过，批准G2、Replay依次合main；A的0046删除，统一由B Proposed草案承接Validation待批。仅文档去重与零调用记账，产品/站点/共享版本不改；重放最新main后重新五门禁及固定G2，当前待执行。旧F5完整回放按用户决定结束，首次3b Live用当前版本新录制。[报告](../../.eval-artifacts/phase3b/batch2-A/report.md)。
+
 <a id="dev-2026-10-26-phase3b-g2"></a>
 
 ## 2026-10-26 CET：3b A批次1 G2 DOM变异切片
 
-时间2026-10-26T23:11:24.545847+01:00（CET）。从main cc127320独立工作分支，新增ADR0046（用户两原则）与共享3b零调用账本。规则2全id映射及引用目标逐项自检；12保存页8 PASS/4 DEGRADED_HONEST/0 FAIL，TC未知边界保留；无产品代码改动。固定G2命令与G3严格模式已建立；0027ed84五门禁1101/166及额外G2 4/4全绿，逐项净树。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
+时间2026-10-26T23:11:24.545847+01:00（CET）。从main cc127320独立工作分支，引用 ADR（对话 B 起草，待批准）的用户两原则与共享3b零调用账本。规则2全id映射及引用目标逐项自检；12保存页8 PASS/4 DEGRADED_HONEST/0 FAIL，TC未知边界保留；无产品代码改动。固定G2命令与G3严格模式已建立；0027ed84五门禁1101/166及额外G2 4/4全绿，逐项净树。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
 
 <a id="dev-2026-10-26-phase3a-prime-signoff"></a>
 

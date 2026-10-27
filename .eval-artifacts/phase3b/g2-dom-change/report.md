@@ -4,7 +4,7 @@ Evidence status：current executable / exposed development baseline，非Clean B
 
 ## 切片与规则
 
-新增测试与评测代码，产品目录零修改。ADR0046记录用户两原则，Accepted不代表G1/G3实现完成。规则`dom-marker-mutation@2`：所有id、class、data属性名及testid值确定性改名；页面内ARIA八种IDREF、label、href、SVG与CSS同步；悬空引用保持，内联脚本/事件处理器不改。规则、映射和完整性控制见[spec](spec.md)。ARIA/label按元素路径逐项核对；任何不一致INVALID_MUTATION，不计业务结果。
+新增测试与评测代码，产品目录零修改。ADR（对话 B 起草，待批准）统一承载用户两原则，当前未批准。规则`dom-marker-mutation@2`：所有id、class、data属性名及testid值确定性改名；页面内ARIA八种IDREF、label、href、SVG与CSS同步；悬空引用保持，内联脚本/事件处理器不改。规则、映射和完整性控制见[spec](spec.md)。ARIA/label按元素路径逐项核对；任何不一致INVALID_MUTATION，不计业务结果。
 
 输入由已提交`prepare-inputs.py`（2037bb1c）从固定Git cc127320提取，每站LIST/DETAIL/CALENDAR各2份，共12份；原始页面、日期、URL、来源类型及SHA见fixture manifest和旁置provenance。TableCheck诊断DOM仅供G2，未提升为Recorder合格页。全部用真实Chromium、生产snapshot/observeControls及两站解析/完成判定；来源传输是明确本地构造HAR，Guard与拒绝外部网络开启，脚本禁用；沿用F3的`.is-hidden` shim，未认证原始外部CSS布局。
 
