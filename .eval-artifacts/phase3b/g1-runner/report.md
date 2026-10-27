@@ -2,7 +2,7 @@
 
 2026-10-27T16:26:12.182132+01:00: B batch2 delivered e4829a58. Runner rebased there, both document histories and all budget rows preserved. Only src/eval/restaurant/fact-qa/core-adapter.ts changed after rebase; Runner engine, loader, scorer and fixtures retain identical source bytes. The adapter now keeps native brief answers/category/URL/readAt and UNVERIFIED reason. Core NOT_STATED answer=null becomes an empty normalized answer; the scorer receives a canonical NOT_STATED text label only, not customer-facing prose. Raw core output remains intact. All four original fixture composition controls pass without changing tests. No legacy wire fallback remains in current adapter.
 
-Native input SHA/outer observation labels re-frozen; legacy execution inputs, results and clean gates remain historical under the annotated checkpoint tag and history/ manifests. The retired legacy outer runner is removed from current executable paths. Native full fixture and five gates pending. Runner remains draft/unmerged; ADR0046 text still pending. No real calls.
+Native input SHA/outer observation labels re-frozen; legacy execution inputs, results and clean gates remain historical under the annotated checkpoint tag and history/ manifests. The retired legacy outer runner is removed from current executable paths. Native e3af40a1 fixture completed34/34,29 FIXTURE calls,29 NOT_STATED/5 UNVERIFIED; diagnostic5 PASS/19 FAIL/10 NOT_EVALUATED, falseClaimCount=null. Same4 local controls PASS. The guide now reflects the native contract, so its metadata SHA is re-frozen for the final receipt; no Runner/scorer/test code changes. Final five gates pending. Runner remains draft/unmerged; ADR0046 text still pending. No real calls.
 
 ---
 
@@ -27,3 +27,5 @@ ee5c835c frozen 34-question execution/scoring diagnostic completed: 34/34, 29 FI
 ## Legacy pinned-core checkpoint
 
 cfcde8c7 five gates PASS:1136 default/167 Chromium, typecheck0.446s, arch0.210s, default28.024s, build0.449s, browser98.476s; every gate starts/ends clean. Receipts retained under verification/legacy-0a466bcd. B batch2 delivered e4829a58; per user arrangement the Runner now rebases there with adapter-only code changes and a newly frozen fixture run. This section remains historical, not the new core result.
+
+Native product manifest verifies 370 B src files unchanged against e4829a58. Source migration remains only core-adapter.ts; the extra README change is documentation. Legacy input/source checklists are frozen historical evidence, current input authority is native-inputs-sha256.json.
