@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {createRestaurantFactSourceDocument,selectRestaurantFactStatements} from '../../../src/integrations/restaurant-facts/fact-source-document.js';
+import {ModelRestaurantFactJudgment} from '../../../src/integrations/restaurant-facts/model-fact-judgment.js';
+import {NativeSourceFactRead} from '../../../src/integrations/restaurant-facts/native-source-facts.js';
+const date='2026-10-27T02:00:00+01:00';const target='https://tabelog.com/en/tokyo/A1301/A130101/13111111/';
+const candidate={restaurant:{id:'compat-outlet',outletName:'Compatibility Cafe',address:'1 Ginza, Tokyo',sourceIds:{tabelog:'tokyo/A1301/A130101/13111111',tabelogNativeDetailUri:target},provenance:{}},matchReasons:[],warnings:[],executionConfidence:'HIGH' as const};
+const intent={timezone:'Asia/Tokyo',target:{goal:'RECOMMENDATION' as const,query:'sushi'},area:{query:'Ginza'},criteria:[{text:'sushi',strength:'HARD' as const,polarity:'POSITIVE' as const}]};
+const texts=['a'.repeat(1600)+'\n'+'b'.repeat(1601)+'\nshort\n'+'c'.repeat(1600)+'\n'+'d'.repeat(1600)+'\n'+'e'.repeat(1195)+'\nx\nend',Array.from({length:70},(_,i)=>'Line '+i).join('\n'),' Heading \r\n\n Japanese sushi restaurant. \n\tCash only.'];
+const documents=texts.map(text=>createRestaurantFactSourceDocument(candidate.restaurant.id,'compat-identity',text));
+const selections=documents.map(document=>[selectRestaurantFactStatements(document,[document.statements[0]!.id]),selectRestaurantFactStatements(document,['absent']),selectRestaurantFactStatements(document,[])]);
+const modelRequests:unknown[]=[];
+const judgment=new ModelRestaurantFactJudgment({async complete(input){modelRequests.push(input);const docs=JSON.parse(input.messages[1]!.content).sourceDocuments;const d=docs[0];const selected=d.statements.find((s:{text:string})=>s.text==='Japanese sushi restaurant.');return{invocationId:'compat-fixture',provider:'FIXTURE',model:'fixture',finishReason:'TOOL_CALLS',latencyMs:0,outputText:JSON.stringify({sourceSelections:[{documentId:d.id,statementIds:[selected.id]}],judgments:[{criterion:'sushi',outcome:'SUPPORTED',evidenceIds:[d.id],scope:'RESTAURANT_CATEGORY_TYPE'}]})};}},()=>date);
+const snapshot={url:target,title:candidate.restaurant.outletName,text:[candidate.restaurant.outletName,candidate.restaurant.address,'Japanese sushi restaurant.',...texts].join('\n'),html:`<link rel="canonical" href="${target}"><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:candidate.restaurant.outletName,address:candidate.restaurant.address})}</script>`};
+const oldDate=Date.now;let facts;
+try{Date.now=()=>Date.parse(date);facts=await new NativeSourceFactRead({maxAutomaticElapsedMs:30000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},{openSession:async()=>({metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:date},navigate:async()=>{},snapshot:async()=>snapshot,observeControls:async()=>[],click:async()=>{},fill:async()=>{},select:async()=>[],waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{}})},judgment,()=>date).inspectFacts({candidateIds:[candidate.restaurant.id],candidates:[candidate],readRunId:'compat-run',intent},new AbortController().signal);}finally{Date.now=oldDate;}
+assert.ok(facts.evidence.some(e=>e.kind==='RESTAURANT_FACT'));
+const bytes=Buffer.from(JSON.stringify({documents,selections,facts,modelRequests},null,2)+'\n');
+const file=process.argv[3]!;const digest=createHash('sha256').update(bytes).digest('hex');
+if(process.argv[2]==='record')await writeFile(file,bytes);else assert.deepEqual(bytes,await readFile(file),'all old fact bytes must remain identical, including model request, evidence, checks, documents and deterministic metadata');
+console.log(JSON.stringify({mode:process.argv[2],sha256:digest,bytes:bytes.length,documents:documents.length,modelRequests:modelRequests.length,fullNativeFactResult:true,fixedClock:date}));

@@ -266,3 +266,17 @@ test("G1 propagates shared model-budget exhaustion and cancellation instead of i
   const controller = new AbortController(); controller.abort();
   await assert.rejects(new ModelRestaurantPageQuestion(fixtureModel(() => assert.fail("aborted")), undefined, now).answer(question(), controller.signal), { name: "AbortError" });
 });
+
+test("G1 revision returns a short English answer with Japanese table label and value quotations", async () => {
+  const lines = ["お支払い", "クレジットカード可（VISA、Master）"];
+  const answer = "Visa and Mastercard are accepted.";
+  const calls: ModelRequest[] = [];
+  const model = fixtureModel(input => ({ status: "ANSWERED", answer, sensitiveCategory: "NONE", citations: lines.flatMap(text =>
+    (selected(text)(input) as { citations: unknown[] }).citations) }), calls);
+  const result = await new ModelRestaurantPageQuestion(model, undefined, now).answer(question([page(lines.join("\n"))]), signal());
+  assert.equal(result.status, "ANSWERED");
+  assert.equal(result.answer, answer);
+  assert.deepEqual(result.citations.map(c => c.text), lines);
+  assert.equal(calls[0]!.promptVersion, "2");
+  assert.equal(calls[0]!.outputSchema.version, "2");
+});
