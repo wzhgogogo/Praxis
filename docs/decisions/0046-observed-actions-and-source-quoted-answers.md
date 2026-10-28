@@ -1,12 +1,12 @@
 # ADR-0046：观察驱动的站点操作与同店原文问答
 
-- Status: **Accepted**（用户于2026-10-27批准revision 0.2文本）
-- Approval: **原则已由用户 2026-10-27 批准；文本待用户批准**。文本获批后才改为Accepted。
-- Document revision: 0.2
-- Last updated: 2026-10-27（Vienna CET，UTC+1）
+- Status: **Accepted**（用户于2026-10-28批准revision 0.3独立追问预算修订）
+- Approval: **原则与 revision 0.2 文本均已由用户 2026-10-27 批准；revision 0.3独立预算及唯一动作限定修订已由用户2026-10-28批准**
+- Document revision: 0.3
+- Last updated: 2026-10-28（Vienna CET，UTC+1）
 - Source of truth for: 3b观察原则、G1合同与G2/G3验收提案；不是已接入产品能力
 - Related ADRs: [0010](0010-restaurant-agent-loop-action-validation.md)、[0021](0021-cited-source-fact-investigation.md)、[0022](0022-current-source-fact-lifecycle-and-identity.md)、[0036](0036-generic-public-read-network-policy.md)、[0044](0044-recommendation-availability-boundary.md)、[0045](0045-bounded-read-conclusion-reserve.md)
-- Evidence status: draft / not integrated。仅离线核心和本地保存页验证，未运行真实模型或Live。
+- Evidence status: offline integration；独立预算修订待复核，真实模型问答质量和Live未验收。下文其他批次叙述保留revision0.2的证据范围，当前实施状态以STATUS为准。
 
 ## Context
 
@@ -16,7 +16,7 @@
 
 操作观察与问答共用“当前来源证据→模型提议→代码核对”的权威边界，因此在同一ADR中定义。批次1将所有回答缩为原文摘录，比用户计划更窄；本稿恢复**简短答案+逐字引用**，只对敏感问题限制为转述。字面核对不能证明答案语义忠实，后者必须独立评测。
 
-## Decision（原则已批准，具体文本Proposed）
+## Decision（Accepted）
 
 ### 1. 不依赖硬编码动作
 
@@ -43,8 +43,11 @@
 
 - 用户问题独立于原搜索criteria；不把追问伪装成新的HARD条件。
 - 调用方从已展示结果绑定**一家**门店的Praxis内部ID和来源入口URL，不能由模型创建、改店或猜URL。同名不等于同店，Google websiteUri只是线索。
-- 提供当前run ID/开始时间及可用已读页面。页面带可见文本、URL、读取时间和现有同店规则产生的HIGH身份依据；优先复用本次缓存，旧run/其他分店不可挪用。模型调用前复制本次选用的快照，避免后续缓存更新错配原文与元数据。
-- 需要新访问时复用Native/官网事实reader，继续受原有Guard、来源/整单/共享模型预算与取消信号约束；没有开放URL抓取器、独立重试或新预算。当前只提供可注入的reader及页面hook，尚未安装到Agent/Web生产工厂。
+- 提供原结果的readRunId/开始时间及可用已读页面。页面带可见文本、URL、读取时间和现有同店规则产生的HIGH身份依据；优先复用本次缓存，旧run/其他分店不可挪用。模型调用前复制本次选用的快照，避免后续缓存更新错配原文与元数据。原结果的运行绑定是证据边界，不是追问预算的生命周期。
+- **2026-10-28修订：每次显式追问是独立、有界的工作单元。** 不再恢复原搜索的500秒截止、50次模型余量或内存预算窗口。代码配置默认为提交起60秒、最多3次模型调用（含失败调用）、2次新页面访问；原搜索的结果和计量不改。超时取消，超额不再访问传输，结果为UNVERIFIED，不影响下一题。
+- 缓存缺失时复用已有Native/官网事实reader，入口只来自已展示门店的权威身份记录，仍经过Guard、原传输的来源节奏和取消信号。两次新访问按显式文档导航/观察到的OPEN_LINK计数，跨浏览器session累计；重定向由原Guard约束，静态资源及同页快照不算新页面访问。不增加开放URL抓取、评论站追读或独立重试。服务重启后可重新读取该店，不以原进程内存丢失拒绝新问题。
+- 每个conversation最多20个已接受的不同问题，包含取消或未核实的题；从既有持久事件计数，重复requestId不重复扣题。达到上限提示用户开始新的搜索；未通过身份/用户/版本检查的请求不接受、不扣题。配置见page-question-limits.ts，60秒覆盖原45秒事实候选读取及回答/收尾；3次留给回答及最多两次必要页面解释；两页限制范围，20题将会话追问成本限制在最多60次模型、40次新页面访问。复杂页面可能如实耗尽，不能暗增额度。
+- 显式卡片追问的唯一合法动作ANSWER_PAGE_QUESTION可由代码直接选择，仍经过Validator、Router、Reducer并记录代码选择轨迹，不虚构modelAttempt。此例外没有开放式任务选择，不推广为普通找店Agent的固定动作序列；回答和需要的浏览器观察仍由模型完成。
 
 ### 4. G1输出与核对
 

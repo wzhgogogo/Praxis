@@ -106,6 +106,7 @@ export interface RestaurantCaseView {
     readEvidence: RestaurantReadEvidence[];
     /** Current source-scoped facts only; historical facts remain in durable state. */
     currentFactEvidence: RestaurantReadEvidence[];
+    pageQuestion?: import("../domains/restaurant/page-question.js").RestaurantPageQuestionState;
     presentedCandidateIds?: string[];
     conditionStates?: Record<string, import("../domains/restaurant/condition-states.js").RestaurantConditionState[]>;
     viewedCandidateIds?: string[];

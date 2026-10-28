@@ -20,15 +20,19 @@ export class RunBoundedModelGateway implements ModelGateway {
   private readonly active = new Map<string, ModelRunScope>();
   private readonly completed = new Map<string, ModelRunUsage>();
 
-  constructor(private readonly delegate: ModelGateway, private readonly maxCalls: number, private readonly timeoutMs: number) {}
+  constructor(private readonly delegate: ModelGateway, private readonly maxCalls: number, private readonly timeoutMs: number, private readonly now: () => number = Date.now) {}
 
-  async run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T> {
-    const startedAt = Date.now();
+  async run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>, deadlineAt?: number): Promise<T> {
+    const startedAt = this.now();
+    return this.withScope(taskId, { calls: 0, startedAt, deadlineAt: Math.min(startedAt + this.timeoutMs, deadlineAt ?? Infinity) }, work);
+  }
+
+  private async withScope<T>(taskId: string, previous: Pick<ModelRunUsage, "calls" | "startedAt" | "deadlineAt">, work: (signal: AbortSignal) => Promise<T>): Promise<T> {
     const controller = new AbortController();
     const scope: ModelRunScope = {
-      taskId, calls: 0, startedAt, deadlineAt: startedAt + this.timeoutMs, controller,
+      taskId, calls: previous.calls, startedAt: previous.startedAt, deadlineAt: previous.deadlineAt, controller,
       holds: 0, finished: false,
-      timer: setTimeout(() => controller.abort(Object.assign(new Error("Read-run deadline reached"), { code: "RUN_DEADLINE_EXCEEDED" })), this.timeoutMs),
+      timer: setTimeout(() => controller.abort(Object.assign(new Error("Read-run deadline reached"), { code: "RUN_DEADLINE_EXCEEDED" })), Math.max(0, previous.deadlineAt - this.now())),
     };
     this.active.set(taskId, scope);
     try {
@@ -54,7 +58,7 @@ export class RunBoundedModelGateway implements ModelGateway {
 
   usage(taskId: string): ModelRunUsage | undefined {
     const scope = this.active.get(taskId);
-    return scope ? { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, Date.now() - scope.startedAt) } : this.completed.get(taskId);
+    return scope ? { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) } : this.completed.get(taskId);
   }
 
   /** Read-only view of the active task's shared budget, including failed calls. */
@@ -66,10 +70,10 @@ export class RunBoundedModelGateway implements ModelGateway {
   async complete(request: ModelRequest): Promise<ModelResponse> {
     const scope = this.scopes.getStore();
     if (!scope) return this.delegate.complete(request);
-    if (scope.controller.signal.aborted || Date.now() >= scope.deadlineAt) throw Object.assign(new Error("Read-run deadline reached before model call"), { code: "RUN_DEADLINE_EXCEEDED" });
+    if (scope.finished || scope.controller.signal.aborted || this.now() >= scope.deadlineAt) throw Object.assign(new Error("Read-run deadline reached before model call"), { code: "RUN_DEADLINE_EXCEEDED" });
     if (scope.calls >= this.maxCalls) throw Object.assign(new Error("Read-run model-call ceiling reached"), { code: "MODEL_CALL_BUDGET_EXHAUSTED" });
     scope.calls += 1; // Failed provider attempts consume the same authorized budget.
-    return this.delegate.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, scope.deadlineAt - Date.now()) });
+    return this.delegate.complete({ ...request, timeoutMs: Math.min(request.timeoutMs, scope.deadlineAt - this.now()) });
   }
 
   private finish(scope: ModelRunScope): void {
@@ -77,6 +81,6 @@ export class RunBoundedModelGateway implements ModelGateway {
     scope.finished = true;
     clearTimeout(scope.timer);
     if (this.active.get(scope.taskId) === scope) this.active.delete(scope.taskId);
-    this.completed.set(scope.taskId, { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, Date.now() - scope.startedAt) });
+    this.completed.set(scope.taskId, { calls: scope.calls, startedAt: scope.startedAt, deadlineAt: scope.deadlineAt, elapsedMs: Math.max(0, this.now() - scope.startedAt) });
   }
 }

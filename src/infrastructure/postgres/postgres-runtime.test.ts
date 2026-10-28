@@ -410,9 +410,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
         stateHashBefore: "context-hash",
         causalRefs: { eventIds: [], commandIds: [], attemptIds: [], evidenceIds: [] },
         capabilities: [],
-          contextSchemaVersion: "16",
+          contextSchemaVersion: "17",
         decisionContext: {
-            schemaVersion: "16",
+            schemaVersion: "17",
           now: "2026-08-20T00:00:00.000Z",
           phase: "SEARCHING",
           missingBlockingFields: [],
@@ -421,7 +421,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
           availabilityChecks: {},
           presentation: [],
           readCompletion: { allowed: false, investigationRecorded: false, unresolvedCandidateIds: [] },
-          legalActions: { search: true, investigateCandidateFacts: [], checkAvailability: [], presentResults: [], endRead: false },
+          legalActions: { answerPageQuestion:false, search: true, investigateCandidateFacts: [], checkAvailability: [], presentResults: [], endRead: false },
           searchAvailability: { available: true },
         },
         executionRoute: "STRUCTURED_ADAPTER",
@@ -430,9 +430,9 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       const [step] = await store.list("trajectory-context-task");
-      assert.equal(step?.contextSchemaVersion, "16");
+      assert.equal(step?.contextSchemaVersion, "17");
       assert.deepEqual(step?.decisionContext, {
-        schemaVersion: "16",
+        schemaVersion: "17",
         now: "2026-08-20T00:00:00.000Z",
         phase: "SEARCHING",
         missingBlockingFields: [],
@@ -441,7 +441,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
         availabilityChecks: {},
         presentation: [],
         readCompletion: { allowed: false, investigationRecorded: false, unresolvedCandidateIds: [] },
-        legalActions: { search: true, investigateCandidateFacts: [], checkAvailability: [], presentResults: [], endRead: false },
+        legalActions: { answerPageQuestion:false, search: true, investigateCandidateFacts: [], checkAvailability: [], presentResults: [], endRead: false },
         searchAvailability: { available: true },
       });
       assert.equal(step?.executionRoute, "STRUCTURED_ADAPTER");
@@ -899,7 +899,7 @@ describe("PostgresTaskRuntime with PGlite", () => {
       });
 
       assert.equal(restored.runId, "restaurant-run-1");
-      assert.equal(restored.domainState.schemaVersion, "23");
+      assert.equal(restored.domainState.schemaVersion, "24");
       assert.deepEqual(restored.domainState.readEvidence, [priceEvidence]);
       assert.deepEqual(restored.domainState.searchContinuation?.discoveryPlan?.regionReferenceRead, continuation.discoveryPlan!.regionReferenceRead);
       assert.deepEqual(restored.domainState.searchContinuation?.sourceProgress, continuation.sourceProgress);

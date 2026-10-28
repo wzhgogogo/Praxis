@@ -63,3 +63,36 @@ test("retained live work observes the original deadline even without another mod
   release();
   assert.equal(budget.usage("case")?.calls, 0);
 });
+
+
+test("independent question scopes isolate their own calls and deadline from a depleted search",async()=>{
+  let now=100_000,calls=0;
+  const provider:ModelGateway={async complete(){calls++;return {invocationId:String(calls),provider:"FIXTURE",model:"fixture",outputText:"{}",finishReason:"STOP",latencyMs:0};}};
+  const search=new RunBoundedModelGateway(provider,50,500_000,()=>now);
+  await search.run("case",async()=>{for(let n=0;n<49;n++)await search.complete(request);});
+  const original=search.usage("case");
+  now+=520_000;
+  const questions=new RunBoundedModelGateway(search,3,60_000,()=>now);
+  for(const id of ["q1","q2"])await questions.run(id,async()=>{
+    for(let n=0;n<3;n++)await questions.complete(request);
+    await assert.rejects(()=>questions.complete(request),{code:"MODEL_CALL_BUDGET_EXHAUSTED"});
+  });
+  assert.equal(calls,55,"each question has three provider calls independently of 49 original calls");
+  assert.deepEqual(search.usage("case"),original,"question calls never resume or restart the original search");
+  const deadline=now+20_000;
+  await questions.run("q3",async()=>{
+    assert.equal(questions.usage("q3")?.deadlineAt,deadline,"submission deadline includes time before the reader");
+    now=deadline+1;
+    await assert.rejects(()=>questions.complete(request),{code:"RUN_DEADLINE_EXCEEDED"});
+  },deadline);
+  assert.equal(calls,55);
+});
+
+test("late async work cannot start another model call after its original run closes", async()=>{
+  let release!:()=>void; const gate=new Promise<void>(resolve=>{release=resolve;});
+  let calls=0; let late!:Promise<unknown>;
+  const model:ModelGateway={async complete(){calls++;return {invocationId:"late",provider:"FIXTURE",model:"fixture",outputText:"{}",finishReason:"STOP",latencyMs:0};}};
+  const budget=new RunBoundedModelGateway(model,2,10_000);
+  await budget.run("case",async()=>{late=gate.then(()=>budget.complete(request));});
+  release();await assert.rejects(late,{code:"RUN_DEADLINE_EXCEEDED"});assert.equal(calls,0);
+});

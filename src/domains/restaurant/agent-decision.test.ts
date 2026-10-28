@@ -8,14 +8,14 @@ import type { ModelGateway, ModelResponse } from "../../core/model/contracts.js"
 import { DeepSeekModelGateway } from "../../infrastructure/deepseek/deepseek-model-gateway.js";
 
 const context: RestaurantAgentContext = {
-  schemaVersion: "16",
+  schemaVersion: "17",
   now: "2026-01-01T00:00:00.000Z",
   phase: "UNDERSTANDING",
   intentDraft: {
     schemaVersion: "3", timezone: "Asia/Tokyo", criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }],
     date: "2026-09-03", timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2, area: { query: "near Shibuya" },
   },
-  missingBlockingFields: [], candidates: [], availability: {}, availabilityChecks: {}, presentation: [], readCompletion: { allowed: false, investigationRecorded: false, unresolvedCandidateIds: [] }, legalActions: { search: true, investigateCandidateFacts: [], checkAvailability: [], presentResults: [], endRead: false }, searchAvailability: { available: true },
+  missingBlockingFields: [], candidates: [], availability: {}, availabilityChecks: {}, presentation: [], readCompletion: { allowed: false, investigationRecorded: false, unresolvedCandidateIds: [] }, legalActions: { answerPageQuestion:false, search: true, investigateCandidateFacts: [], checkAvailability: [], presentResults: [], endRead: false }, searchAvailability: { available: true },
 };
 
 test("Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action", async () => {
@@ -55,9 +55,9 @@ test("Restaurant Agent sends a DeepSeek-strict compatible wire schema and restor
   if (result.status !== "PROPOSED") return;
   assert.deepEqual(result.action, { type: "SEARCH_RESTAURANTS", retrievalHint: "omakase near Shibuya" });
   assert.equal(result.decisionSummary, "Search first.");
-  assert.equal(result.modelAttempt.promptVersion, "28");
+  assert.equal(result.modelAttempt.promptVersion, "29");
   assert.equal(result.modelAttempt.providerRequestId, "request-123");
-  assert.deepEqual(result.modelAttempt.outputSchema, { name: "restaurant_agent_action", version: "4" });
+  assert.deepEqual(result.modelAttempt.outputSchema, { name: "restaurant_agent_action", version: "5" });
 });
 
 test("Restaurant Agent retries one synthetic non-placeholder format error within the same budgeted gateway", async () => {

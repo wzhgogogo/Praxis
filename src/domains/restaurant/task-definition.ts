@@ -58,6 +58,7 @@ function resetForSemanticUpdate(
     presentedResults: _presentedResults,
     noVerifiedResult: _noVerifiedResult,
     pendingUserQuestion: _pendingUserQuestion,
+    pageQuestion: _pageQuestion,
     proposal: _proposal,
     authorization: _authorization,
     semanticConflict: _semanticConflict,
@@ -250,6 +251,23 @@ function transition(
   context: TaskContext,
 ): TransitionResult<RestaurantTaskState, RestaurantCommand> {
   switch (event.type) {
+    case "PAGE_QUESTION_REQUESTED": {
+      requirePhase(state, ["PRESENT_RESULTS"], event.type);
+      const q = event.question;
+      if (q.result || !q.requestId || !q.question.trim() || q.question.length > 2000
+        || !state.presentedResults?.candidateIds.includes(q.candidateId)
+        || !state.candidates.some(c => c.restaurant.id === q.candidateId)
+        || !q.readRunId
+        || !Number.isFinite(Date.parse(q.readStartedAt)) || !Number.isFinite(Date.parse(q.deadlineAt))) throw new Error("Question must bind an explicitly displayed outlet and the current read run");
+      return { state: { ...state, pageQuestion: structuredClone(q) }, commands: [] };
+    }
+    case "PAGE_QUESTION_COMPLETED": {
+      const q = state.pageQuestion;
+      if (!q || q.result || q.requestId !== event.requestId || q.readRunId !== event.readRunId
+        || event.result.candidateId !== q.candidateId || state.phase !== "PRESENT_RESULTS") throw new Error("Stale or mismatched restaurant question result");
+      return { state: { ...state, pageQuestion: { ...q, result: structuredClone(event.result) } }, commands: [] };
+    }
+
     case "SEMANTIC_PROPOSAL_COMPILED": {
       requireSemanticMutablePhase(state, event.type);
       if (!restaurantIntentPatchHasChanges(event.patch)) return { state: structuredClone(state), commands: [] };
@@ -828,10 +846,10 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "21",
+  version: "22",
   create() {
     return {
-      schemaVersion: "23",
+      schemaVersion: "24",
       phase: "UNDERSTANDING",
       candidates: [],
       availability: {},
@@ -841,7 +859,7 @@ export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState
     };
   },
   transition,
-  getLifecycleState(state) { return lifecycleFor(state.phase); },
+  getLifecycleState(state) { return state.pageQuestion && !state.pageQuestion.result ? "RUNNING" : lifecycleFor(state.phase); },
   evaluateOutcome(state) {
     if (state.phase === "BOOKED_VERIFIED" && state.reservation) return { status: "BOOKED_VERIFIED", reservation: state.reservation };
     // Presentation is a paused selection state rather than a terminal task

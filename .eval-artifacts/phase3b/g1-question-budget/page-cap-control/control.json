@@ -1,0 +1,18 @@
+{
+  "mode": "OFFLINE_CHROMIUM_COUNTERFACTUAL",
+  "commit": "51c144002077a1af85c7ab79d830903588420d77",
+  "atCET": "2026-10-28T03:20:59.143729+01:00",
+  "sourceSha256": "d81640cb1bee8ed72b32381250797d924a18465ad842d5382cb605a0ad688150",
+  "mutation": "bypass the question page-visit ceiling",
+  "command": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "src/harness/browser/page-question-budget.test.ts"
+  ],
+  "exitCode": 1,
+  "validRed": true,
+  "sourceRestoredExactly": true,
+  "gitStatusAfter": ""
+}

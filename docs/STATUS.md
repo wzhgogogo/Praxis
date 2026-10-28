@@ -1,7 +1,7 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.430
+- Document revision: 4.438
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -12,6 +12,22 @@
 - **2026-10-27 CET：3b C批次2进入认证后执行。** 用户转达Claude逐家确认8家正样本、全部升主；复核者查询不计本批GET。Gold隔离只供事后评分；检索31次计划、Google至多23、语义39逻辑轮（最多78调用）及片段1次，总模型计划≤79/批准100，GET≤35且共享40。已整合main/daba2ef0，原9账本条目并集保留；此刻真实调用未开始。详情范围已预列，身份规则不放宽；冻结后才执行，最后推分支停等复核，不合main。[切片](../.eval-artifacts/phase3b/c-batch2/plan.md)。
 
 - **2026-10-27 CET：3b C Gold5与非直链样本准备，待认证。** 用户确认15项标注后生成Gold5（8强度/7窗口），Gold3/4与旧评价原样保留；sidecar3只重绑数据，Prompt26/Schema4/State23不变。删除C重复ADR0047，统一由B的ADR0046 Proposed草案维护。整合main5f621be3，已从保存Google记录选5主+3备，Dengana单列历史锚点；没有猜测Gold。用户批准本批模型100/评测GET35/Google35/Live0，但本准备实际全部0、未加载.env；解析器/身份规则未改。7f3d8770冻结722项后五门禁全绿（默认1102/Chromium166）、各项前后净树，Fixture15/15；只推工作分支，停在复核者Gold认证前，不合main。[报告](../.eval-artifacts/phase3b/c-batch2-preparation/report.md) · [清单](../.eval-artifacts/phase3b/c-batch2-preparation/samples.proposed.md)。
+
+- **2026-10-28 CET: Reviewed G1 B main integration verified.** Independent Linux review accepted Bdc486430 and C053e2e2e five gates/G2. Latest-main90b464d8 is already in B; unchanged reviewed source at a5a3c57a passes local five gates1168/175 plus ordinary G2 4/4, per-check clean/restore0. G2 retains8 PASS/4 honest degradations; no G3 strict-pass claim. This is the approved B integration release. Next: C synchronizes/merges identity, then B forks new main for Tabelog G3; A owns G1 real-model evaluation after B publication and other test review. New real calls by B0. [Report and delivery](../.eval-artifacts/phase3b/g1-followup-main/report.md).
+
+- **2026-10-28 CET: Reviewed B integration into main in progress.** User confirms independent Linux five gates and G2 for Bdc486430/C053e2e2e, and explicitly approves merging/pushing B first. Latest main90b464d8 is already included in B; reviewed source stays byte-identical. Freeze and rerun five gates plus ordinary G2 before publication. C is not yet in main; stop after B push, then C synchronizes/merges itself before B begins G3. A owns G1 real-model evaluation and separate test review. New real calls by B0. [Plan](../.eval-artifacts/phase3b/g1-followup-main/plan.md).
+
+- **2026-10-28 CET: G1 question-budget revision complete, review pending.** ADR0046 Accepted revision0.3; independent per-question60s/3 models/2 document visits and persistent conversation20 cap. Six target reds become green, HTTP9/9; unique action selected by code through Validator/Router/Reducer without Agent call. 51c14400 frozen675 inputs: five gates1168/175 all PASS, Chromium106.350s, each before/after clean, restoration0. Page-cap bypass is an effective red; old HARD44197 bytes identical, sites3847/Pack473 unchanged. State24/TaskDefinition22 and all Prompt/Schema versions unchanged. Real calls0; work branch only, independent model evaluation/G3 remain next stops. [Report](../.eval-artifacts/phase3b/g1-question-budget/report.md).
+
+- **2026-10-28 CET: G1 independent question budgets, final gates pending.** User approved ADR0046 revision0.3: per-question60s/3 models/2 pages and persistent conversation20 cap. HTTP9/9 now answers after520s, original49/50 calls and fresh restart; own exhaustion does not affect the next question. Sole action is code-selected through Validator/Router/Reducer, no Agent call. State24/TaskDefinition22 and source binding unchanged. Final frozen gates pending, real calls0; no model evaluation or G3. [Plan](../.eval-artifacts/phase3b/g1-question-budget/plan.md).
+
+- **2026-10-27 CET：B批次3停止点1完成，待复核。** 用户批准五个共享版本，已实施Prompt29/Action5/Context17/State24/TaskDefinition22；ADR0046仅修Approval。卡片追问经过持久Agent/Validator/Router/原G1核心与英文Web，同run缓存、原预算/截止和取消/迟到控制通过。同步并行main/90b464d8后，7de83a29冻结671项，五门禁默认1162/Chromium174全绿（106.121秒），逐项前后净树、restore0。HTTP404与错误预算重置有效红灯；旧HARD44,197字节同SHA。两站3,847/Pack473不改，账本21id保留；真实调用0、A真实模型评分未跑、G3未开始。本次Agent/Web只推工作分支供复核。[报告](../.eval-artifacts/phase3b/g1-followup/implementation/report.md)。
+
+- **2026-10-27 CET：G1 Agent/Web接入待正式门禁。** 已按批准升级Agent Prompt29/Action5/Context17/State24/TaskDefinition22，ADR仅修Approval行。已展示门店卡片追问经持久事件、无参Agent动作、Validator/Router与原G1核心；同run缓存、缺缓存原reader、预算继承、取消/迟到与英文引用展示已接线，HTTP红404→绿与相关离线控制通过。旧HARD44,197字节同SHA，站点/Pack不改；即将冻结后跑五门禁，真实模型/Google/网站/Live0，不自评问答质量、不开始G3。[计划](../.eval-artifacts/phase3b/g1-followup/implementation/plan.md)。
+
+- **2026-10-27 CET：B批次3核心Git交付完成。** 用户补充明确main推送授权，现有系统代理接线后原子push成功；ls-remote确认远端main与核心整合分支c98438f8，预告工作分支也已推送。之前审批拒绝/网络失败已解除；五门禁1152/168、654冻结输入及旧HARD44,197字节证据不变。仍停在版本预告，Agent/Web未接入，共享版本28/4/16/23/21未改，新增真实调用0。[回执](../.eval-artifacts/phase3b/g1-followup/report.md)。
+
+- **2026-10-27 CET：B批次3停在接入版本预告。** G1核心本地main已快进c98438f8，五门禁1152/168及654输入核对通过；远端main推送被自动审批拒绝（本批未明确授权push main），最后核对仍319cb9a5，工作分支push另遇GitHub连接失败。拟用Agent Prompt29/动作Schema5/Context17/State24/TaskDefinition22，现值28/4/16/23/21未改；G1核心Prompt/Schema2不变。按用户要求先停报版本，Agent/Web未实施、停止点1未完成，真实调用0。[报告](../.eval-artifacts/phase3b/g1-followup/report.md)。
 
 - **2026-10-27 CET: Reviewed Q28/Q30 dual outcomes.** User keeps ADR0046/B core unchanged. Scorer@4 accepts empty NOT_STATED or limited quoted ANSWERED; both need correct category and confirmationRequired=true, unsafe assertions reject. Q30 RELIGIOUS_DIET, questions@3/reviewed dataset@2; duplicate reference mirror retired. Runner rebased main/c98438f8.8 scorer controls and5 Runner controls PASS, including4 saved-page/core outcome combinations. f5995ba6 five gates1154/173 PASS/per-gate clean, current26 input SHAs and56 source positions verified. Offline Runner implementation/verification complete; user-authorized main integration proceeds. Real-model evaluation remains NOT_RUN until B Agent integration. Real calls0; real-model eval waits B integration. [Report](../.eval-artifacts/phase3b/g1-runner/report.md).
 

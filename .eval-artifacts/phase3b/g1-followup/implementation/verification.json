@@ -1,0 +1,38 @@
+{
+  "recordedAtCET": "2026-10-27T18:16:26.240910+01:00",
+  "evidenceStatus": "current offline integration regression; exposed inputs; not real-model acceptance",
+  "testedCommit": "7de83a2975309e0b003e3cc488a87d43cfc20c9a",
+  "integratedMain": "90b464d822de6f8f6d34ce64839503590952a5d2",
+  "fiveGates": "PASS",
+  "sourceAndScriptFreeze": {
+    "files": 671,
+    "sha256": "a6a659dd8d34572da33ab04e69964776ee4aa71d6126c446b94c5337f2b03cb3",
+    "verifiedAfter": true
+  },
+  "gateOrchestrationSha256": "6e08a59053e812d2f5101eafe46c2b53e44712ff1c080745b3e14b93b478077c",
+  "gitStatusAtGateEnd": "",
+  "gateRestorations": 0,
+  "oldHardByteComparison": {
+    "mode": "check",
+    "sha256": "9a3298bc5e004b99e41d80713e8913b68c336cfa594f6eb60599e310ee3fb633",
+    "bytes": 44197,
+    "documents": 3,
+    "modelRequests": 1,
+    "fullNativeFactResult": true,
+    "fixedClock": "2026-10-27T02:00:00+01:00"
+  },
+  "protectedProductionPathsUnchanged": [
+    "src/integrations/tabelog",
+    "src/integrations/tablecheck",
+    "src/integrations/restaurant-search/source-packs.ts",
+    "src/infrastructure/browser",
+    "src/domains/restaurant/semantic-interpreter.ts",
+    "src/domains/restaurant/semantic-proposal.ts"
+  ],
+  "ledgerEntries": 21,
+  "allNewRealCalls": 0,
+  "modelQuality": "NOT_EVALUATED; A owns independent scoring",
+  "linuxThisSlice": "NOT_RUN",
+  "g3": "NOT_STARTED",
+  "newAgentWebMergedToMain": false
+}

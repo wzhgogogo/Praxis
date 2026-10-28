@@ -1,0 +1,126 @@
+{
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE",
+  "testedCommit": "9d33dda2882f9ff81d1a15c796e1951973b28643",
+  "startedAtCET": "2026-10-27T18:04:51.397072+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "cpuCount": 10,
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "6e08a59053e812d2f5101eafe46c2b53e44712ff1c080745b3e14b93b478077c",
+  "freezeSha256": "6541537e3e5f81100656a09575860c1236aec371d162051b60422e35ac015b9d",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-27T18:04:51.453962+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.421744,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-27T18:04:51.944383+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.182733,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "npm-test",
+      "sample": 1,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-27T18:04:52.195687+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 26.866191,
+      "summary": {
+        "tests": 1160,
+        "suites": 5,
+        "pass": 1160,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "03382e19a3d575997ad8f555731a6cef274670e0349d038f994027afdac48043",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "build",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-27T18:05:19.139091+01:00",
+      "gitStatusBefore": "",
+      "log": "build-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.404387,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-27T18:05:19.614551+01:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 106.071379,
+      "summary": {
+        "tests": 169,
+        "suites": 0,
+        "pass": 169,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "c017058a6d5095aff28579819e3ace7e45c4c93aa4d0572529c7070934397e9c",
+      "gitStatusAfter": "",
+      "outcome": "PASS",
+      "healthPassed": true
+    }
+  ],
+  "restorations": 0,
+  "gatePolicy": "All five gates must exit zero; existing E1 is not exempt in this slice",
+  "chromiumConcurrency": 4,
+  "freezeVerifiedAfter": true,
+  "browserMedianSeconds": 106.071379,
+  "stopReason": null,
+  "acceptance": "SATISFIED",
+  "finishedAtCET": "2026-10-27T18:07:05.747397+01:00"
+}

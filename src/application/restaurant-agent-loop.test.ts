@@ -171,7 +171,7 @@ test('F6 slot3 26.596 seconds blocks the original availability action and ends h
  const observedContexts:import('../domains/restaurant/agent-context.js').RestaurantAgentContext[]=[];let sourceCalls=0;
  const start=Date.parse(f.referenceTime),instant=start+f.maxAutomaticMs-f.remainingMs;
  const localClock={now:()=>new Date(instant)};
- const currentState:RestaurantTaskState={...f.state,schemaVersion:"23"};
+ const currentState:RestaurantTaskState={...f.state,schemaVersion:"24"};
  let current:TaskSnapshot<RestaurantTaskState,RestaurantOutcome>={id:'f6-slot3',runId:'f6-slot3',taskType:definition.type,definitionVersion:definition.version,version:8,lifecycleState:definition.getLifecycleState(currentState),domainState:currentState,outcome:definition.evaluateOutcome(currentState),createdAt:f.referenceTime,updatedAt:localClock.now().toISOString()};
  const events:RestaurantEvent[]=[];const trajectories=new InMemoryRestaurantAgentTrajectoryStore();
  const router=new RestaurantExecutionRouter({executionRoute:'STRUCTURED_ADAPTER',async search(){throw Error('No search expected');}},

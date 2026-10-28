@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.15
-- Last updated: 2026-10-26
+- Document revision: 0.17
+- Last updated: 2026-10-28
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -155,3 +155,13 @@ For a named nearby request, show the actual source-adopted geographic label and 
 ## 只读调查的时间收尾（ADR0045）
 
 按ADR0045，当剩余时间不再允许读取，调查进入收尾，仅展示已有合格结果或结束并说明本轮范围/未核实缺口。正在读取到一半的门店记未知，完整完成的店按原规则保留；不让模型继续询问或改条件来延长同一调查。不改变用户地点、日期、人数、HARD或预约授权。
+
+## G1 displayed-restaurant follow-up (offline implementation)
+
+After results are displayed, ask through the question field on one restaurant card. The authenticated server binds the displayed outlet, original user question, allowed source reader and current read run; code selects the sole legal `ANSWER_PAGE_QUESTION` without an Agent model call, still through Validator, Router and Reducer. The normal conversation composer continues to edit the restaurant request.
+
+The answer panel shows one short answer, verbatim source quotations in their original language, source URLs and read times. `NOT_STATED` shows “Not stated on the page” and the pages actually checked. Sensitive categories add “Please confirm with the restaurant”; unverified answers are discarded. This does not establish HARD satisfaction, reception policy or availability.
+
+Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
+
+This slice has offline fixture and local Chromium evidence only. Real-model answer faithfulness, sensitivity classification and “not stated” accuracy await the independently scored G1 evaluation; no Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).

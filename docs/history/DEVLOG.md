@@ -1,8 +1,7 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.323
-
+- Document revision: 4.331
 
 
 - Last updated: 2026-10-28
@@ -29,6 +28,54 @@ CET。9181eee9整合main90b464d8，历史及88条预算并集保留，C自己准
 ## DEV-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
 
 2026-10-27T03:12:00+01:00。用户批准复核§9额度与详情字段交接，并要求样本备好先停。C从已复核分支整合main5f621be3，保留双方历史和按id并集账本；落地批准Gold5/sidecar3，历史Gold3/4不回写，退重复ADR0047而不复制B未提交的0046。来源SHA先冻结后从保存Google候选选5主3备，名单不填来源Gold，Dengana为暴露锚点。公开GET加速已存在，Google语言参数尚未接入；本切片只写范围与计划，不修改解析器/身份规则，不开始真实验证或收益对照。全部新增服务调用0，未加载/读取.env；7f3d8770五门禁1102/166全绿、逐项净树，只推分支停等Gold认证。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
+
+<a id="dev-2026-10-28-g1-followup-main-verified"></a>
+
+## 2026-10-28 CET: Reviewed B integration verified for main
+
+User authorizes reviewed Bdc486430 merge/push first; current main90b464d8 already included, no product merge conflict or source edit. Frozen a5a3c57a five gates1168/175 and ordinary G2 4/4 PASS, full executable tree identical to approved B. Follow authorized fast-forward and non-force publication, then stop before C/G3. Preserve all budget entries, append B0 integration id. A evaluation and C identity integration remain their owners. [Report](../../.eval-artifacts/phase3b/g1-followup-main/report.md).
+
+<a id="dev-2026-10-28-g1-followup-main-preparation"></a>
+
+## 2026-10-28 CET: Reviewed B main integration preparation
+
+User approves Bdc486430 after independent Linux five gates/G2, followed by C053e2e2e synchronization/integration. Current main90b464d8 is an ancestor of B; no product merge conflict or implementation change. Prepare frozen clean-tree gate rerun and ordinary G2, then fast-forward/push main without force and stop before C/G3. Ledger appends one zero-call id, previous rows unchanged. [Plan](../../.eval-artifacts/phase3b/g1-followup-main/plan.md).
+
+<a id="dev-2026-10-28-g1-question-budget-final"></a>
+
+## 2026-10-28 CET: Independent question budget delivered for review
+
+51c14400 commits the approved independent work unit: submitted60s deadline, three failed/success model attempts, two new document visits across sessions, and20 accepted questions counted from persistent events. Retired original-run window/resume/browser snapshots; same original outlet/run binding and cache-first source reader preserved. Explicit sole action is code-selected through unchanged validation/execution/reducer authority, honest no-model trajectory. ADR0046 revision0.3 Accepted; State24/TaskDefinition22 and existing Prompts/Schemas unchanged. Six effective reds and final five gates1168/175 PASS; old HARD bytes and protected source paths identical. Work branch push only, real calls0, stop for review. [Report](../../.eval-artifacts/phase3b/g1-question-budget/report.md).
+
+<a id="dev-2026-10-28-g1-question-budget"></a>
+
+## 2026-10-28 CET: Independent G1 question work units
+
+User corrects the inherited-search-budget contract; ADR0046 revision0.3 stays Accepted. Replace search readWindows/resume/browser-budget snapshots with per-question60s/3 calls/2 document visits and persisted-event20-question limit. The code-selected sole action retains Validator/Router/Reducer and an honest no-model trajectory. No State or TaskDefinition change; source identity/run/citation rules remain. HTTP9/9 development controls pass, final frozen gates pending. Real calls0. [Plan](../../.eval-artifacts/phase3b/g1-question-budget/plan.md).
+
+<a id="dev-2026-10-27-phase3b-g1-followup-stop1"></a>
+
+## 2026-10-27 CET：G1接入停止点1交付
+
+按用户批准实施Prompt29/动作5/Context17/State24/TaskDefinition22，ADR只修Approval行、正文不动。已展示门店卡片追问贯通持久事件/Agent无参动作/Validator/Router/同run缓存及原事实reader/核心/Reducer/英文Web；预算resume、浏览器子预算继承和取消/迟到保护闭合。并行main/90b464d8带入A Runner，不改其实现或读答案；生产冲突0，共享历史双方保留、账本按id并集21行。7de83a29最终五门禁1162/174通过；仅推工作分支，不合本次接入到main。G1真实模型质量留A独立评分，G3未开始，新增真实调用0。[报告](../../.eval-artifacts/phase3b/g1-followup/implementation/report.md)。
+
+<a id="dev-2026-10-27-phase3b-g1-followup-implementation"></a>
+
+## 2026-10-27 CET：G1 Agent/Web纵向接入实现
+
+用户批准五个共享版本后，从最新main/c98438f8核对无冲突，继续预告分支；新增PAGE_QUESTION_REQUESTED/COMPLETED、无参Agent动作、Validator/Router、同run页面缓存、原预算resume和英文卡片入口。已有Native/官网reader产出身份后页面，缺缓存复用同链，独立问答Prompt/Schema2不变；不改语义、身份解析、Guard、站点/Pack。两个评测调用方只同步State23→24字面量，其评测逻辑/数据不改。持久HTTP主链红404→绿；缓存/预算/引用/敏感/取消/迟到控制和真实Chromium展示通过，旧HARD44,197字节不变。ADR只改Approval行，正文不动；正式五门禁待冻结执行。真实调用0，不读.env/答案。
+
+<a id="dev-2026-10-27-phase3b-g1-push-approved"></a>
+
+## 2026-10-27 CET：用户补足main推送授权后交付
+
+2026-10-27T16:34:10.971590+01:00：用户“yes, approve it.”明确授权本次推送c98438f8。查明系统本地代理已启用而Git未继承，仅命令使用现有代理、严格TLS不变；非强推原子push成功。main/整合分支SHA均c98438f8，预告分支22f7fe41已推，后续收尾只推预告分支。原审批拒绝和网络失败原文保留，当前已解除；不改产品版本，不进入接入/真实评测/G3。[报告](../../.eval-artifacts/phase3b/g1-followup/report.md)。
+
+<a id="dev-2026-10-27-phase3b-g1-version-preflight"></a>
+
+## 2026-10-27 CET：G1接入版本预告停止
+
+核心本地main已合c98438f8；Agent/Web接入必然新增合法动作、Context和持久追问事件，拟Prompt28→29/动作4→5/Context16→17/State23→24/TaskDefinition21→22。C在五份共享版本文件无改动，独立问答2不变；按用户第1节先停报再改，本次无产品修改。远端main推送自动审批因“本批未明确授权push main”拒绝、操作未启动；工作分支push遇GitHub空回复和443连接超时，未报已推。真实调用0。[报告](../../.eval-artifacts/phase3b/g1-followup/report.md)。
 
 <a id="dev-2026-10-27-phase3b-A-dual-review"></a>
 

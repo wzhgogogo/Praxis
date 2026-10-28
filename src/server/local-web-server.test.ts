@@ -1,3 +1,7 @@
+import { RestaurantPageQuestionReader } from "../integrations/restaurant-facts/page-question-reader.js";
+import { GoogleListedWebsiteFactRead } from "../integrations/restaurant-facts/google-listed-website-facts.js";
+import { ModelRestaurantFactJudgment } from "../integrations/restaurant-facts/model-fact-judgment.js";
+import type { BrowserRuntime } from "../infrastructure/browser/browser-runtime.js";
 import { fixtureGoalBasis } from "../harness/restaurant-read-test-fixtures.js";
 import {scriptedRetrieval} from "../harness/restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
@@ -84,6 +88,7 @@ interface TestServer {
 
 interface StartServerOptions {
   readAssembly?: ReturnType<typeof createLiveReadAssembly>;
+  restaurantQuestions?: import("../domains/restaurant/page-question.js").RestaurantPageQuestionPort;
   readTimeouts?: import("../application/restaurant-execution-router.js").RestaurantExecutionRouterOptions;
   mode?: "FIXTURE" | "LIVE_READ";
   restaurant?: RestaurantSearchPort & RestaurantAvailabilityPort & RestaurantCandidateFactPort;
@@ -108,6 +113,7 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
     restaurantSearch: options.readAssembly?.search ?? restaurant,
     restaurantAvailability: options.readAssembly?.availability ?? restaurant,
     restaurantFacts: options.readAssembly?.facts ?? restaurant,
+    ...(options.restaurantQuestions || options.readAssembly?.questions ? {restaurantQuestions:options.restaurantQuestions ?? options.readAssembly!.questions} : {}),
     executionRouterOptions: options.readTimeouts ?? options.readAssembly?.router ?? { structuredReadTimeoutMs: readLimits.maxStructuredReadMs, browserReadTimeoutMs: readLimits.maxAutomaticBrowserMs },
     agentLoopOptions: options.readAssembly?.loop ?? { maxSteps: readLimits.maxAgentSteps, maxRejectedActions: readLimits.maxRejectedActions, timeoutMs: readLimits.maxAutomaticBrowserMs },
     ...(options.liveReadLimits ? { liveReadLimits: options.liveReadLimits } : {}),
@@ -391,7 +397,7 @@ test("T1 Web waits fail with the target signal label when no SSE event arrives (
   }
 });
 
-function strictFixtureAction(type: "SEARCH_RESTAURANTS" | "INVESTIGATE_CANDIDATE_FACTS" | "PRESENT_RESULTS", candidateIds: string[] = []): ModelResponse {
+function strictFixtureAction(type: "ANSWER_PAGE_QUESTION" | "SEARCH_RESTAURANTS" | "INVESTIGATE_CANDIDATE_FACTS" | "PRESENT_RESULTS", candidateIds: string[] = []): ModelResponse {
   return {
     invocationId: `selection-model:${type}:${candidateIds.join(",")}`,
     provider: "FIXTURE", model: "selection-session-fixture",
@@ -1495,5 +1501,273 @@ test("Stage 2B continues an incomplete request and enforces optimistic concurren
     } finally {
       await running.close();
     }
+  });
+});
+
+
+// Full persistent HTTP composition; only model transport and merchant browser I/O are fixtures.
+// The ordinary identity parser, G1 core, Agent, Validator, Router and Reducer remain real.
+function questionSessionFixture(clock: FakeClock, output?: (request: ModelRequest) => unknown) {
+  const calls = {model:0,search:0,facts:0,availability:0,pages:0};
+  let beforeAnswer: (()=>Promise<void>) | undefined;
+  let extraReadCalls = 0;
+  const spend:ModelRequest={taskId:"fixture-budget",purpose:"question_budget_fixture",promptVersion:"1",messages:[],responseFormat:"TEXT",outputSchema:{name:"fixture",version:"1"},timeoutMs:8000,fallback:"FAIL_CLOSED"};
+  const ordinary = selectionSessionFixture(calls);
+  const ordinaryModel = selectionSessionModel(calls);
+  const quote = "Credit cards accepted: Visa and MasterCard.";
+  const model: ModelGateway = {async complete(request) {
+    if (request.purpose === "question_budget_fixture") {calls.model++;return {invocationId:"budget-fixture",provider:"FIXTURE",model:"fixture",finishReason:"STOP",latencyMs:0,outputText:"{}"};}
+    if (request.purpose === "restaurant_page_question") {
+      calls.model++;
+      await beforeAnswer?.();
+      const wire = JSON.parse(request.messages[1]!.content);
+      const d = wire.sourceDocuments[0], statement = d.statements.find((x:{text:string})=>x.text===quote);
+      return {invocationId:"question-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,
+        outputText:JSON.stringify(output ? output(request) : {status:"ANSWERED",answer:"They accept Visa and MasterCard.",sensitiveCategory:"NONE",citations:[{documentId:d.id,statementId:statement.id,quote}]})};
+    }
+    if (request.purpose === "restaurant_agent_decide" && JSON.parse(request.messages[1]!.content).context.pageQuestion) {
+      calls.model++;return strictFixtureAction("ANSWER_PAGE_QUESTION");
+    }
+    return ordinaryModel.complete(request);
+  }};
+  const now = () => clock.now().toISOString();
+  const browser: BrowserRuntime = {async openSession() {
+    let target = "";
+    return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:now()},
+      async navigate(url) {target=url;calls.pages++;},async snapshot() {
+        const id = new URL(target).pathname.slice(1); const name = `Session Restaurant ${id.toUpperCase()}`;
+        return {url:target,title:name,text:[name,"Shinjuku, Tokyo",quote].join("\n"),settlement:"SETTLED",html:`<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name,address:"Shinjuku, Tokyo"})}</script>`};
+      },async observeControls(){return[];},async click(){},async fill(){},async select(){return[];},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
+  }};
+  const budget = new RunBoundedModelGateway(model,50,500_000);
+  const questions = new RestaurantPageQuestionReader(budget, (observe, _scope, scopedModel:ModelGateway=budget) => {
+    const reader=new GoogleListedWebsiteFactRead(
+      {maxAutomaticElapsedMs:30_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},browser,new ModelRestaurantFactJudgment(scopedModel,now),now,undefined,undefined,undefined,undefined,observe);
+    return {executionRoute:reader.executionRoute,async inspectFacts(request:RestaurantCandidateFactRequest,signal:AbortSignal){
+      for(let n=0;n<extraReadCalls;n++)await scopedModel.complete(spend);
+      return reader.inspectFacts(request,signal);
+    }};
+  },now);
+  const restaurant = {...ordinary,async search(request:RestaurantSearchRequest,signal:AbortSignal) {
+    const read = await ordinary.search(request,signal);
+    const candidates = read.candidates.map(c=>({...c,restaurant:{...c.restaurant,sourceIds:{...c.restaurant.sourceIds,googleWebsiteUri:`https://merchant.example/${c.restaurant.id}`}}}));
+    // Actual original fact read warms the current-run cache; no hand-built observation is injected.
+    await questions.facts.inspectFacts({candidateIds:[candidates[0]!.restaurant.id],candidates:[candidates[0]!],intent:request.intent,...(request.readRunId ? {readRunId:request.readRunId} : {})},signal);
+    return {...read,candidates};
+  }};
+  return {calls,model,budget,restaurant,questions,quote,setBeforeAnswer:(hook:(()=>Promise<void>)|undefined)=>{beforeAnswer=hook;},setExtraReadCalls:(n:number)=>{extraReadCalls=n;},spend};
+}
+
+test("G1 displayed restaurant follow-up answers through the persistent HTTP entry", async () => {
+  await withDatabase(async ({ database, clock }) => {
+    const f = questionSessionFixture(clock);
+    const budget = f.budget;
+    const running = await startServer(database,clock,{restaurant:f.restaurant,model:budget,modelRunBudget:budget,restaurantQuestions:f.questions});
+    try {
+      const cookie = await login(running.baseUrl,"token-a");
+      const view = await createCase(running.baseUrl,cookie,"g1-create","Recommend restaurants in Shinjuku.");
+      assert.equal(view.case.phase,"PRESENT_RESULTS");
+      const candidateId = view.restaurant.presentedCandidateIds![0]!;
+      assert.equal(f.calls.pages,1);
+      const before = budget.usage(view.case.caseId)!;
+      const ask = (body:Record<string,unknown>,session=cookie) => api(running.baseUrl,session,`/api/cases/${encodeURIComponent(view.case.caseId)}/questions`,{method:"POST",body:JSON.stringify(body)});
+      const body = {candidateId,question:"Do they take credit cards?",taskVersion:view.case.taskVersion,requestId:"g1-credit"};
+      const reply = await ask(body);
+      assert.equal(reply.response.status,200,"A user must be able to ask a question about a displayed restaurant");
+      const answered = reply.payload.view as RestaurantCaseView;
+      const result = answered.restaurant.pageQuestion?.result;
+      assert.equal(result?.status,"ANSWERED",JSON.stringify(result));
+      assert.ok(result?.status==="ANSWERED");
+      assert.equal(result.answer,"They accept Visa and MasterCard.");
+      assert.deepEqual(result.citations.map(x=>({text:x.text,url:x.url,readAt:x.readAt})),[{text:f.quote,url:`https://merchant.example/${candidateId}`,readAt:clock.now().toISOString()}]);
+      assert.equal(f.calls.pages,1,"current-run cached page is reused without source navigation");
+      assert.deepEqual(budget.usage(view.case.caseId),before,"question does not consume or restart the search budget");
+      assert.equal(budget.usage(view.case.caseId)!.deadlineAt,before.deadlineAt,"the original search deadline stays unchanged");
+      const trajectory = await running.application.listAgentTrajectory("user-a",view.case.caseId);
+      assert.equal(trajectory.at(-1)?.agentAction?.type,"ANSWER_PAGE_QUESTION");
+      assert.equal(trajectory.at(-1)?.modelAttempt,undefined,"the sole-action path must not fabricate an Agent invocation");
+      assert.match(trajectory.at(-1)?.decisionSummary ?? "",/selected by code/);
+      const callCount = f.calls.model;
+      assert.equal((await ask(body)).response.status,200,"repeated completed request is idempotent despite old taskVersion");
+      assert.equal(f.calls.model,callCount);
+      assert.equal((await ask({...body,requestId:"g1-url",taskVersion:answered.case.taskVersion,url:"https://other.example"})).response.status,400);
+      assert.equal((await ask({...body,requestId:"g1-other-outlet",candidateId:"f",taskVersion:answered.case.taskVersion})).response.status,400,"unshown candidate rejected");
+      const stranger = await login(running.baseUrl,"token-b");
+      assert.equal((await ask({...body,requestId:"g1-stranger"},stranger)).response.status,404);
+      assert.equal(f.calls.model,callCount);
+      assert.equal((await ask({...body,requestId:"g1-stale"})).response.status,409);
+      const nextId = view.restaurant.presentedCandidateIds![1]!;
+      const fresh = await ask({...body,candidateId:nextId,requestId:"g1-no-cache",taskVersion:answered.case.taskVersion});
+      assert.equal(fresh.response.status,200);
+      assert.equal((fresh.payload.view as RestaurantCaseView).restaurant.pageQuestion?.result?.status,"ANSWERED");
+      assert.equal(f.calls.pages,2,"cache miss reuses the existing identity-checking website reader");
+    } finally {await running.close();}
+  });
+});
+
+
+test("G1 persistent follow-up preserves NOT_STATED, sensitivity and quote rejection", async () => {
+  await withDatabase(async ({database,clock}) => {
+    for (const [index,variant] of ["absence","sensitive","forged","yes-no"].entries()) {
+      const f = questionSessionFixture(clock,request => {
+        if (variant==="absence") return {status:"NOT_STATED",answer:null,sensitiveCategory:"NONE",citations:[]};
+        const d=JSON.parse(request.messages[1]!.content).sourceDocuments[0];
+        const statement=d.statements.find((x:{text:string})=>x.text.startsWith("Credit cards accepted"));
+        return {status:"ANSWERED",answer:variant==="yes-no"?"Yes, accessible.":"The page describes accepted payment cards.",sensitiveCategory:variant==="sensitive"||variant==="yes-no"?"ACCESSIBILITY":"NONE",
+          citations:[{documentId:d.id,statementId:statement.id,quote:variant==="forged"?"Unwritten guarantee":statement.text}]};
+      });
+      const server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+      try {
+        const cookie=await login(server.baseUrl,"token-a");
+        const view=await createCase(server.baseUrl,cookie,`g1-contract-${index}`,"Recommend restaurants in Shinjuku.");
+        const reply=await api(server.baseUrl,cookie,`/api/cases/${encodeURIComponent(view.case.caseId)}/questions`,{method:"POST",body:JSON.stringify({candidateId:view.restaurant.presentedCandidateIds![0],question:"What does the page state?",requestId:`answer-${index}`,taskVersion:view.case.taskVersion})});
+        assert.equal(reply.response.status,200);
+        const result=(reply.payload.view as RestaurantCaseView).restaurant.pageQuestion!.result!;
+        if(variant==="absence") {assert.equal(result.status,"NOT_STATED");assert.equal(result.checkedPages.length,1);}
+        else if(variant==="sensitive") {assert.equal(result.status,"ANSWERED");assert.ok(result.confirmationRequired);}
+        else {assert.equal(result.status,"UNVERIFIED");assert.ok(result.status==="UNVERIFIED"&&result.reason==="INVALID_MODEL_OUTPUT");assert.equal("answer" in result,false);}
+      } finally {await server.close();}
+    }
+  });
+});
+
+function questionPath(view:RestaurantCaseView):string {return "/api/cases/"+encodeURIComponent(view.case.caseId)+"/questions";}
+
+for(const scenario of ["after 520 seconds","after 49 original calls","after process restart"] as const) {
+  test("G1 independent question answers "+scenario,async()=>{
+    await withDatabase(async({database,clock})=>{
+      let f=questionSessionFixture(clock);
+      let server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+      try {
+        let cookie=await login(server.baseUrl,"token-a");
+        let view=await createCase(server.baseUrl,cookie,"g1-independent","Recommend restaurants in Shinjuku.");
+        if(scenario==="after 520 seconds")clock.advance(520_000);
+        if(scenario==="after 49 original calls") {
+          await f.budget.run(view.case.caseId,async()=>{for(let n=0;n<49;n++)await f.budget.complete(f.spend);});
+          assert.equal(f.budget.usage(view.case.caseId)?.calls,49);
+        }
+        if(scenario==="after process restart") {
+          await server.close();f=questionSessionFixture(clock);
+          server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+          cookie=await login(server.baseUrl,"token-a");view=await server.application.getCase("user-a",view.case.caseId);
+        }
+        const original=f.budget.usage(view.case.caseId),calls=f.calls.model,pages=f.calls.pages;
+        const reply=await api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify({candidateId:view.restaurant.presentedCandidateIds![0],question:"Do they take cards?",requestId:"independent-question",taskVersion:view.case.taskVersion})});
+        assert.equal(reply.response.status,200);
+        const after=reply.payload.view as RestaurantCaseView;
+        assert.equal(after.restaurant.pageQuestion!.result!.status,"ANSWERED");
+        assert.deepEqual(after.restaurant.presentedCandidateIds,view.restaurant.presentedCandidateIds);
+        assert.deepEqual(f.budget.usage(view.case.caseId),original,"the search's accounting is not spent or restarted");
+        assert.equal(f.calls.model-calls,1,"a sole legal action needs only the answer model");
+        if(scenario==="after process restart")assert.equal(f.calls.pages-pages,1,"fresh process uses the existing identity-bound reader");
+      } finally {await server.close();}
+    });
+  });
+}
+
+for(const limit of ["60 seconds","3 model calls"] as const) {
+  test("G1 independent question stops at its own "+limit+" and the next question still answers",async()=>{
+    await withDatabase(async({database,clock})=>{
+      const f=questionSessionFixture(clock);
+      const server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+      try {
+        const cookie=await login(server.baseUrl,"token-a");
+        let view=await createCase(server.baseUrl,cookie,"g1-own-limit","Recommend restaurants in Shinjuku.");
+        const ids=[...view.restaurant.presentedCandidateIds!],original=f.budget.usage(view.case.caseId);
+        const ask=(requestId:string,id:string)=>api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify({candidateId:id,question:"Do they take cards?",requestId,taskVersion:view.case.taskVersion})});
+        if(limit==="60 seconds")f.setBeforeAnswer(async()=>{clock.advance(60_001);});
+        else f.setExtraReadCalls(3);
+        const calls=f.calls.model;
+        const reply=await ask("over-limit",limit==="60 seconds"?ids[0]!:ids[1]!);
+        assert.equal(reply.response.status,200);view=reply.payload.view as RestaurantCaseView;
+        const result=view.restaurant.pageQuestion!.result!;
+        assert.ok(result.status==="UNVERIFIED"&&result.reason==="BUDGET_EXHAUSTED","question must stop at its own limit");
+        if(limit==="3 model calls")assert.equal(f.calls.model-calls,3,"fourth transport call must never start");
+        assert.deepEqual(f.budget.usage(view.case.caseId),original);
+        f.setBeforeAnswer(undefined);f.setExtraReadCalls(0);
+        const next=await ask("after-limit",ids[0]!);assert.equal(next.response.status,200);
+        view=next.payload.view as RestaurantCaseView;assert.equal(view.restaurant.pageQuestion!.result!.status,"ANSWERED");
+        assert.deepEqual(view.restaurant.presentedCandidateIds,ids);
+      } finally {await server.close();}
+    });
+  });
+}
+
+test("G1 twenty-question conversation limit survives restart and duplicate delivery",async()=>{
+  await withDatabase(async({database,clock})=>{
+    let f=questionSessionFixture(clock);
+    let server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+    try {
+      let cookie=await login(server.baseUrl,"token-a");
+      let view=await createCase(server.baseUrl,cookie,"g1-session-limit","Recommend restaurants in Shinjuku.");
+      for(let n=0;n<20;n++){
+        const body={candidateId:view.restaurant.presentedCandidateIds![0],question:"Do they take cards?",requestId:"session-question-"+n,taskVersion:view.case.taskVersion};
+        const reply=await api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify(body)});
+        assert.equal(reply.response.status,200);view=reply.payload.view as RestaurantCaseView;
+        assert.equal(view.restaurant.pageQuestion!.result!.status,"ANSWERED");
+        if(n===0){const duplicate=await api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify(body)});assert.equal(duplicate.response.status,200);}
+      }
+      await server.close();f=questionSessionFixture(clock);
+      server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+      cookie=await login(server.baseUrl,"token-a");view=await server.application.getCase("user-a",view.case.caseId);
+      const reply=await api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify({candidateId:view.restaurant.presentedCandidateIds![0],question:"Do they take cards?",requestId:"question-21",taskVersion:view.case.taskVersion})});
+      assert.equal(reply.response.status,400);assert.match(String(reply.payload.error),/start a new search/i);
+      assert.equal(f.calls.model,0);assert.equal(f.calls.pages,0);
+    } finally {await server.close();}
+  });
+});
+
+test("G1 async cancellation and newer question discard a late model answer", async () => {
+  await withDatabase(async({database,clock})=>{
+    const f=questionSessionFixture(clock);
+    let release: (()=>void)|undefined;
+    let entered: (()=>void)|undefined;
+    let modelStarted=Promise.resolve();
+    const blockAnswer=()=>{const gate=new Promise<void>(resolve=>{release=resolve;});modelStarted=new Promise<void>(resolve=>{entered=resolve;});f.setBeforeAnswer(async()=>{entered?.();await gate;});};
+    const questions={executionRoute:f.questions.executionRoute,async answerQuestion(input:Parameters<typeof f.questions.answerQuestion>[0],signal:AbortSignal){
+      signal.addEventListener("abort",()=>{f.setBeforeAnswer(undefined);release?.();},{once:true});
+      return f.questions.answerQuestion(input,signal);
+    }};
+    const server=await startServer(database,clock,{mode:"LIVE_READ",restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:questions});
+    let releaseAppend!:()=>void;
+    const appendGate=new Promise<void>(resolve=>{releaseAppend=resolve;});
+    let announceAppend!:()=>void;
+    const appendEntered=new Promise<void>(resolve=>{announceAppend=resolve;});
+    const append=server.application.store.appendMessage.bind(server.application.store);
+    server.application.store.appendMessage=async input=>{if(input.requestId==="user:question-old"){announceAppend();await appendGate;}return append(input);};
+    let finish!:()=>void;const firstFinished=new Promise<void>(resolve=>{finish=resolve;});
+    server.application.subscribeReadFinished(()=>finish());
+    try {
+      const cookie=await login(server.baseUrl,"token-a");
+      const initial=await createCase(server.baseUrl,cookie,"g1-async","Recommend restaurants in Shinjuku.");
+      await withinTestTimeout(firstFinished,"initial fixture read to finish");
+      let view=await server.application.getCase("user-a",initial.case.caseId);
+      const ask=(requestId:string,current:RestaurantCaseView)=>api(server.baseUrl,cookie,`/api/cases/${encodeURIComponent(current.case.caseId)}/questions`,{method:"POST",body:JSON.stringify({candidateId:current.restaurant.presentedCandidateIds![0],question:"Do they take credit cards?",requestId,taskVersion:current.case.taskVersion})});
+      blockAnswer();
+      const firstRequest=ask("question-old",view);void firstRequest.catch(()=>{});
+      await withinTestTimeout(appendEntered,"question user message append to block");
+      const duringAppend=await server.application.getCase("user-a",view.case.caseId);
+      assert.equal(duringAppend.restaurant.pageQuestion?.result,undefined,"a current-process preparation must not be marked as an orphan by concurrent GET");
+      releaseAppend();
+      const first=await withinTestTimeout(firstRequest,"question HTTP mutation to return");assert.equal(first.response.status,200);
+      await withinTestTimeout(modelStarted,"first G1 fixture model answer to block");
+      view=await server.application.getCase("user-a",view.case.caseId);
+      let completed!: (view:RestaurantCaseView)=>void;
+      const newerFinished=new Promise<RestaurantCaseView>(resolve=>{completed=resolve;});
+      const unsubscribe=server.application.subscribeCaseUpdates(v=>{if(v.restaurant.pageQuestion?.requestId==="question-new"&&v.restaurant.pageQuestion.result)completed(v);});
+      const next=await ask("question-new",view);assert.equal(next.response.status,200);
+      view=await withinTestTimeout(newerFinished,"newer question to finish after cancellation");unsubscribe();
+      assert.equal(view.restaurant.pageQuestion!.requestId,"question-new");assert.equal(view.restaurant.pageQuestion!.result?.status,"ANSWERED");
+      const artifact=await server.application.exportReadArtifact(view.case.caseId);
+      const events=artifact.events as Array<{event:{type:string;requestId?:string;result?:{status:string;reason?:string}}}>;
+      const old=events.find(e=>e.event.type==="PAGE_QUESTION_COMPLETED"&&e.event.requestId==="question-old")?.event.result;
+      assert.equal(old?.status,"UNVERIFIED");assert.equal(old?.reason,"CANCELLED","a late answer cannot restore old success after supersession");
+      blockAnswer();await ask("question-cancel",view);
+      await withinTestTimeout(modelStarted,"second fixture model answer to block");
+      const cancelled=await server.application.cancelCase("user-a",view.case.caseId);
+      const result=cancelled.restaurant.pageQuestion!.result!;
+      assert.ok(result.status==="UNVERIFIED"&&result.reason==="CANCELLED");
+      assert.equal(cancelled.case.phase,"PRESENT_RESULTS","question cancellation does not destroy the displayed batch");
+    } finally {releaseAppend();release?.();await server.application.stopActiveReads();await server.close();}
   });
 });

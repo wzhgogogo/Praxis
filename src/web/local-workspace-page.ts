@@ -30,6 +30,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
       .message.USER { margin-left: 12%; background: #dce9df; } .message.ASSISTANT { margin-right: 12%; background: white; border: 1px solid #e0e4df; }
       .candidate { border-top: 1px solid #e0e4df; padding: 14px 0; } .candidate:first-of-type { border-top: 0; padding-top: 0; }
       .candidate a { display: inline-block; margin: 8px 12px 0 0; } .candidate h3 { margin: 0 0 5px; font-size: 16px; } .muted { color: #66736b; font-size: 13px; line-height: 1.45; }
+      .page-question-form { display: grid; gap: 8px; margin-top: 12px; } .page-answer { margin-top: 12px; border-left: 3px solid #b7cbbd; padding-left: 12px; } .page-answer blockquote { margin: 12px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
       .activity { border-left: 2px solid #b7cbbd; padding: 0 0 16px 12px; } .activity strong { display: block; font-size: 14px; } .activity small { color: #78837c; }
       @media (max-width: 760px) {
         #workspace { display: block; } aside { position: sticky; top: 0; z-index: 3; border-right: 0; border-bottom: 1px solid #d4d8d1; padding: 12px 14px; }
@@ -76,7 +77,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
         const upcomingExpiry = Object.values(view.restaurant.availabilityChecks).map(check => Date.parse(check.displayExpiresAt)).filter(time => time > now).sort((a, b) => a - b)[0];
         if (upcomingExpiry) state.expiryTimer = setTimeout(() => { if (state.view === view) renderView(view); }, Math.min(2147483647, upcomingExpiry - now + 1));
         state.view = view; title.textContent = view.case.title; status.textContent = view.case.status + (view.case.pendingUserAction ? ' · ' + view.case.pendingUserAction : ''); status.classList.remove('hidden'); send.textContent = 'Send';
-        const factOnlyResult = view.restaurant.intentDraft && view.restaurant.intentDraft.target && view.restaurant.intentDraft.target.goal === 'RECOMMENDATION'; refresh.textContent = factOnlyResult ? 'Refresh recommendation facts' : 'Refresh availability'; refresh.classList.toggle('hidden', view.case.phase !== 'PRESENT_RESULTS');
+        const factOnlyResult = view.restaurant.intentDraft && view.restaurant.intentDraft.target && view.restaurant.intentDraft.target.goal === 'RECOMMENDATION'; refresh.textContent = factOnlyResult ? 'Refresh recommendation facts' : 'Refresh availability'; refresh.classList.toggle('hidden', view.case.phase !== 'PRESENT_RESULTS'); refresh.disabled = Boolean(view.restaurant.pageQuestion && !view.restaurant.pageQuestion.result);
         cancelRun.classList.toggle('hidden', view.mode !== 'LIVE_READ' || view.case.status !== 'ACTIVE');
         const needsNearbyLocation = view.restaurant.intentDraft && String(view.restaurant.intentDraft.area && view.restaurant.intentDraft.area.query || '').toLowerCase() === 'nearby' && !(view.restaurant.intentDraft.area && view.restaurant.intentDraft.area.coordinates);
         useLocation.classList.toggle('hidden', !needsNearbyLocation); locationHelp.classList.toggle('hidden', !needsNearbyLocation);
@@ -125,6 +126,31 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
           if (!hasPrice && /course|price|套餐|コース/i.test(requestedInformation)) card.append(node('p', 'Course prices: not verified.', 'muted'));
           if (!hasCancellation && /cancellation|キャンセル|取消/i.test(requestedInformation)) card.append(node('p', 'Cancellation terms: not verified.', 'muted'));
           if (source) { const link = node('a', 'Open source page', 'muted'); link.href = source.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; card.append(link); }
+          if (presentedIds.includes(id)) {
+            const form = node('form', undefined, 'page-question-form');
+            const input = node('input'); input.required = true; input.maxLength = 2000; input.placeholder = 'Ask about this restaurant'; input.setAttribute('aria-label', 'Question about ' + candidate.restaurant.outletName);
+            const ask = node('button', 'Ask restaurant question'); ask.type = 'submit';
+            ask.disabled = Boolean(view.restaurant.pageQuestion && !view.restaurant.pageQuestion.result);
+            form.append(input, ask);
+            form.onsubmit = async event => { event.preventDefault(); ask.disabled = true; try {
+              clearError(); const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/questions', {method:'POST',body:JSON.stringify({candidateId:id,question:input.value,taskVersion:state.view.case.taskVersion,requestId:requestId()})});
+              renderView(payload.view); openStream(payload.view.case.caseId);
+            } catch (reason) { showError(reason); ask.disabled = false; } };
+            card.append(form);
+          }
+          const question = view.restaurant.pageQuestion;
+          if (question && question.candidateId === id) {
+            const answer = node('section', undefined, 'page-answer'); answer.setAttribute('aria-label', 'Restaurant page answer');
+            answer.append(node('h4', question.question));
+            const result = question.result;
+            answer.append(node('p', !result ? 'Reading the restaurant page…' : result.status === 'ANSWERED' ? result.answer : result.status === 'NOT_STATED' ? 'Not stated on the page' : 'The page answer could not be verified.'));
+            if (result) {
+              if (result.confirmationRequired) answer.append(node('p', 'Please confirm with the restaurant', 'notice'));
+              (result.citations || []).forEach(citation => { const quote = node('blockquote', citation.text); const link = node('a', 'Source page'); link.href = citation.url; link.target = '_blank'; link.rel = 'noreferrer'; answer.append(quote,link,node('p','Read at: ' + citation.readAt,'muted')); });
+              if (result.status !== 'ANSWERED') result.checkedPages.forEach(page => { const link = node('a','Checked page'); link.href = page.url; link.target = '_blank'; link.rel = 'noreferrer'; answer.append(link,node('p','Read at: ' + page.readAt,'muted')); });
+            }
+            card.append(answer);
+          }
           artifact.append(card);
         });
         activity.replaceChildren(); view.activities.slice().reverse().forEach((item) => { const row = node('div', undefined, 'activity'); row.append(node('strong', item.display.title)); row.append(node('div', item.display.detail || '', 'muted')); row.append(node('small', new Date(item.occurredAt).toLocaleString())); activity.append(row); });

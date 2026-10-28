@@ -18,7 +18,7 @@ import {
 import type { RestaurantAgentCapability } from "./restaurant-capabilities.js";
 
 export const RESTAURANT_AGENT_DECISION_PURPOSE = "restaurant_agent_decide" as const;
-export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "28" as const;
+export const RESTAURANT_AGENT_DECISION_PROMPT_VERSION = "29" as const;
 export const RESTAURANT_AGENT_ACTION_FIELDS_INSTRUCTION = "Every field unrelated to the selected action MUST be empty. CHECK_AVAILABILITY and INVESTIGATE_CANDIDATE_FACTS use candidateIds only: retrievalHint, question, candidateId and offerId must be empty strings, relatedFields must be an empty array. Put explanations only in decisionSummary; never copy a search hint into another action.";
 export const RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION = "Candidate availabilityPath is a source-derived advisory fact. DIRECT_SOURCE_PAGE can be opened for availability without name search and is usually faster and more reliable; NAME_RESOLUTION requires confirming the same outlet through source name search; NONE has no currently supported path. Among legal in-radius candidates consistent with the requested HARD conditions, prefer DIRECT_SOURCE_PAGE for availability. Missing HARD facts may be investigated on those candidates; identity, all HARD conditions and exact-request inventory still require their own evidence. Do not infer eligibility or a successful result from this hint.";
 export const RESTAURANT_AGENT_SOURCE_CATEGORY_INSTRUCTION = "Candidate sourceCategories are source-attributed observations, not verified HARD facts or eligibility. Among currently legal candidates, prioritize those whose observed categories agree with the HARD request; leave obvious category conflicts with HARD exclusions until last. Category observations never authorize excluding or accepting a candidate, changing constraints, or claiming a result.";
@@ -111,6 +111,8 @@ function toAttempt(response: ModelResponse): RestaurantAgentModelAttempt {
 
 export function buildRestaurantAgentDecisionSystemPrompt(): string {
   return `You are the single Restaurant Agent deciding one next business action.
+
+When context.pageQuestion is present, the user has explicitly selected an already displayed outlet and asked a follow-up. Only ANSWER_PAGE_QUESTION is legal. This action takes NO business fields: do not supply question, candidateId(s), URL, run, or conditions. Code binds the original user question, outlet, pages and run. It returns a short answer with verified literal citations, NOT_STATED, or UNVERIFIED; it never changes HARD eligibility or availability. Do not turn the question into a search or a condition edit.
 
 Treat the supplied Restaurant Agent Context as the authoritative decision view. Its readBudget and legalActions are code-owned: unaffordable reads are absent. Use legalActions for each action type separately. When readCompletion.reason begins READ_TIME_RESERVE, only END_READ or existing qualified PRESENT_RESULTS may be chosen; do not ask a new question, start a read, change constraints, or interpret unread sources as exhausted. The closing reserve is part of the existing whole-run deadline. Partial results retain the ordinary identity, date, party, slot, HARD and freshness requirements. User constraints are immutable here: do not reinterpret, loosen, remove, or silently modify them. Do not claim an action or booking happened unless the context says so.
 

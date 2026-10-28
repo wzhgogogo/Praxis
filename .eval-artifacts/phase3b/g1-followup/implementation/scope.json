@@ -1,0 +1,50 @@
+{
+  "createdAtCET": "2026-10-27T18:01:13.159368+01:00",
+  "mode": "OFFLINE_IMPLEMENTATION_SCOPE",
+  "baseMain": "90b464d822de6f8f6d34ce64839503590952a5d2",
+  "approvedVersions": {
+    "agentPrompt": "29",
+    "actionSchema": "5",
+    "agentContext": "17",
+    "state": "24",
+    "taskDefinition": "22"
+  },
+  "g1QuestionPromptSchema": "2 (unchanged)",
+  "protectedPathsUnchanged": [
+    "src/integrations/tabelog",
+    "src/integrations/tablecheck",
+    "src/integrations/restaurant-search/source-packs.ts",
+    "src/infrastructure/browser",
+    "src/integrations/restaurant-search/tabelog-entity-resolver.ts",
+    "src/application/semantic-interpreter.ts",
+    "src/application/semantic-proposal.ts"
+  ],
+  "adrContextAndBodyByteIdenticalToMain": true,
+  "adrBodySha256": "ba2265c9f83e59474393b8af98c1e5bbd1cfa540a32cb34222081a0cbd3770d0",
+  "oldHardRegression": {
+    "bytes": 44197,
+    "sha256": "9a3298bc5e004b99e41d80713e8913b68c336cfa594f6eb60599e310ee3fb633"
+  },
+  "evalCallerChangesOnly": [
+    "State schema literal 23 -> 24: src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+    "State schema literal 23 -> 24: src/eval/restaurant/agent-loop/runners/run-d1-fact-judgment-controls.ts"
+  ],
+  "budgetValuesUnchanged": {
+    "wholeReadMs": 500000,
+    "wholeReadModelCalls": 50,
+    "browserSubBudgetCalls": 120,
+    "factsCandidateMs": 45000,
+    "factsProviderMs": 30000
+  },
+  "newRealCalls": {
+    "model": 0,
+    "google": 0,
+    "website": 0,
+    "live": 0,
+    "environmentRerun": 0,
+    "evalPublicGet": 0
+  },
+  "developmentLogs": "focused green logs precede committed formal gates; final acceptance uses gates.json",
+  "forbiddenFilesRead": false,
+  "noMainMergeOfAgentWeb": true
+}

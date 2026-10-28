@@ -143,6 +143,15 @@ export function validateRestaurantAction(
   if (state.phase === "OUTCOME_UNKNOWN") {
     return rejected("OUTCOME_UNKNOWN", "An unknown booking outcome must be verified before any new action");
   }
+  if (state.pageQuestion && !state.pageQuestion.result) {
+    const q = state.pageQuestion;
+    if (action.type !== "ANSWER_PAGE_QUESTION") return rejected("PRESENTATION_READY", "Only the pending displayed-outlet question may be answered");
+    if (state.phase !== "PRESENT_RESULTS" || !state.presentedResults?.candidateIds.includes(q.candidateId) || !candidate(state, q.candidateId)) return rejected("CANDIDATE_UNKNOWN", "Question outlet must belong to the currently presented batch");
+    if (budget.remainingModelCalls !== undefined && budget.remainingModelCalls <= 0 || budget.browserModelBudgetExhausted) return rejected("READ_BUDGET_EXHAUSTED", "The question model budget is exhausted");
+    if (Date.parse(q.deadlineAt) <= Date.parse(now)) return rejected("READ_TIME_RESERVED", "The question deadline expired");
+    return { status: "ALLOWED" };
+  }
+  if (action.type === "ANSWER_PAGE_QUESTION") return rejected("CANDIDATE_UNKNOWN", "No explicit displayed-outlet question is pending");
   if (isTerminal(state)) return rejected("TASK_TERMINAL", `Task is terminal in ${state.phase}`);
   if (restaurantReadClosing(state,now) && !['END_READ','PRESENT_RESULTS'].includes(action.type)) return rejected('READ_TIME_RESERVED','The remaining read budget is reserved for an honest conclusion or qualified presentation');
   if (!restaurantReadActionFits(action.type,budget.remainingAutomaticMs)) return rejected('READ_TIME_RESERVED','The remaining time cannot fit this action median plus the twenty-second conclusion reserve');

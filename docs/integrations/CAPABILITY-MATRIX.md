@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.93
+- Document revision: 1.97
 
 
 - Last updated: 2026-10-28
@@ -12,6 +12,14 @@
 2026-10-28 CET，3b C批次3（offline / not integrated）：最终d9b0d771五门禁1172/173及额外G2全绿、逐项净树，29页不退化；仅工作分支已实现，等待复核。两站具名检索原名未确认同店时可消费一种代码逐字核验的Google片段，每店每来源最多两种检索、共用原详情上限。模型提议独立Prompt/Schema2，身份仍用原候选而非检索词；不增加Google请求/费用，未验证Prompt2真实语义质量。详情完整地址按结构比较，旧29保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020邮编矛盾及029异号拒绝。仅两项获批G2原页地址更新；保存HTML列表/缺详情控制不等于库存或Live。对应完整Adapter、上限/拒绝Harness与额外G2门禁见[报告](../../.eval-artifacts/phase3b/c-batch3/report.md)，本批不声明G3完成或≤3,591行。
 
 2026-10-27 CET，3b C详情身份采集候选（offline / not integrated）：两站共同从本次可见信息标题和联系字段取号码及角色、完整日文地址，保留分段原文/读取URL，别店/楼层/门牌冲突与歧义仍未知。号码只作精确匹配，不建立050→03映射；State/共享合同和Guard无改。旧nr002采集缺口关闭，但29保存页总接纳12→9（4项完整地址比较待复核），不能报告身份总体改善。新8家评测首屏3→7命中，不等于生产接线/库存；GET网络停批、旧15未完成，真实Live0。红绿、模式、Harness与限制见[报告](../../.eval-artifacts/phase3b/c-batch2/report.md)。
+
+2026-10-28 CET: Reviewed G1 B integration release: independent question60s/3-model/2-page unit, persistent conversation20 cap, restart reread and sole-action code selection accepted by independent Linux review. Unchanged Bdc486430 source rerun at a5a3c57a: five gates1168/175 and ordinary G2 4/4 PASS/per-check clean. New real calls by B0; real-model quality remains A-owned next evaluation, C identity/G3 are not included here. [Integration report](../../.eval-artifacts/phase3b/g1-followup-main/report.md).
+
+2026-10-28 CET: G1 independent question revision verified offline. Submitted60s/3-model/2-page unit and persistent20-question cap, cache-first/bound-source reread after restart; original search results/usage unchanged. Sole action code-selected with no modelAttempt. Frozen51c14400 five gates1168/175 PASS,106.350s, per-gate clean; effective cap red and literal HARD bytes unchanged. No Guard/source policy changes or current-source/model-quality claim, real calls0. [Report](../../.eval-artifacts/phase3b/g1-question-budget/report.md).
+
+2026-10-28 CET: Accepted ADR0046 revision0.3 assigns each displayed-outlet question its own 60s/3-model/2-page budget and a persistent 20-question conversation cap. Offline HTTP9/9 and local Guard/two-page Chromium control pass; final frozen five gates pending. Restart rereads only the bound outlet; search results/identity/accounting remain unchanged, sole-action selection costs no Agent call. Real model quality NOT_EVALUATED, new real calls0.
+
+2026-10-27 CET：G1已展示门店追问的离线Agent/Web接入完成，待停止点1复核。原Native/官网身份绑定页面同run缓存、缺缓存原reader/Guard、原模型/截止/浏览器预算、取消与迟到保护通过；英文展示短答/原文/URL/readAt和敏感提示。7de83a29整合main90b464d8后五门禁1162/174、106.121秒，逐门净树。真实模型质量仍NOT_EVALUATED；不产生HARD、库存或接待模式推断，新增真实调用0。[报告](../../.eval-artifacts/phase3b/g1-followup/implementation/report.md)。
 
 2026-10-27 CET，B批次3：ADR0046 revision0.2已批准，仅Status行改Accepted；核心已重放并保留最新main/319cb9a5，五门禁1152/168全绿；Agent/Web尚未接入，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-integration/report.md)。
 

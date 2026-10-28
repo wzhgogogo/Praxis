@@ -96,6 +96,7 @@ function fixtureAgentAction(request: ModelRequest): Record<string, unknown> {
   const context = JSON.parse(content) as { context?: Record<string, unknown> };
   const state = context.context;
   if (!state) throw new Error("Fixture model gateway expected Restaurant Agent context");
+  if (state.pageQuestion) return {type:"ANSWER_PAGE_QUESTION",decisionSummary:"answer the explicit displayed-outlet question"};
   const draft = state.intentDraft as Record<string, unknown> | undefined;
   const complete = draft && draft.date && draft.timeWindow && draft.partySize && draft.area;
   if (!complete) {

@@ -1,8 +1,7 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.329
-
+- Document revision: 4.337
 
 
 - Last updated: 2026-10-28
@@ -29,6 +28,54 @@ CET。新的8主+15历史检索矩阵、4×2×3具名会话和开发15轮及外�
 ## TEST-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
 
 CET。旧Gold4 loader在独立批准15项预期处AssertionError红灯，迁移后既有5项回归及固定Fixture15/15绿；原始日志保留，历史评价不回写。最终7f3d87705548661ed4c1d42ea3c6fbbf835e27ee冻结722项，独立审计/Fixture15与五门禁全部绿（默认1102/1102、Chromium166/166），每项前后status空、输入SHA匹配，无豁免或skip。真实模型/Google/来源网站/Live/环境重跑0，私有Holdout与.env未读；不把Fixture证明为Prompt26真实遵循或G4检索收益。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
+
+<a id="test-2026-10-28-g1-followup-main-verified"></a>
+
+## 2026-10-28 CET: Pre-main five gates and ordinary G2 all green
+
+Frozen666 inputs at a5a3c57a: typecheck/arch/default1168/build/Chromium175 PASS, Chromium file concurrency4/108.322s; ordinary G2 4/4 PASS in21.361s with8 PASS/4 DEGRADED_HONEST/0 FAIL and sourceTransportCalls0. Every check before/after status empty, restoration0, no fail/skip/cancel. Reviewed B source, old HARD44197-byte evidence and approved reds unchanged; Linux B/C evidence is user-transmitted independent review, this rerun is macOS. No new implementation, lowered assertions, real calls, real-model quality scoring or G3 strict pass. [Raw logs](../../.eval-artifacts/phase3b/g1-followup-main/verification/gates.json) / [Report](../../.eval-artifacts/phase3b/g1-followup-main/report.md).
+
+<a id="test-2026-10-28-g1-followup-main-preparation"></a>
+
+## 2026-10-28 CET: Reviewed B combination verification preparation
+
+Independent Linux Bdc486430/C053e2e2e five gates and G2 PASS are user-transmitted review evidence, not local executions. Local latest-main ancestry and full executable-tree comparison show reviewed B code unchanged; reuse approved six reds, page-cap counterfactual and old HARD bytes. New strict five gates plus ordinary G2 await committed freeze; no strict Tabelog PASS/G3 or real-model quality claim. New real calls by B0. [Preflight](../../.eval-artifacts/phase3b/g1-followup-main/preflight.json).
+
+<a id="test-2026-10-28-g1-question-budget-final"></a>
+
+## 2026-10-28 CET: Independent question budget five gates all green
+
+Frozen51c14400/675 inputs: typecheck/arch/default1168/build/real-local-Chromium175 PASS; file concurrency4,106.350s, each gate before/after clean, restoration0, fail/skip/cancel0. Six old-path target red assertions now green; HTTP9/9 retains user/outlet/URL/version/idempotency/citation/sensitivity/cancellation controls. Own60s is checked with injected clock; configured20ms pending-reader control proves actual abort without a readiness window. Third/fourth document navigation never reaches local receiver, Guard POST still rejects; bypassing the cap gives effective Missing expected rejection red, source restored exactly before green gates. Complete old HARD44197 bytes SHA9a3298bc unchanged. Real-model quality and Linux for this revision NOT_RUN, new real calls0; no semantic self-scoring or G3. [Logs and report](../../.eval-artifacts/phase3b/g1-question-budget/report.md).
+
+<a id="test-2026-10-28-g1-question-budget"></a>
+
+## 2026-10-28 CET: Independent budget behavioral red and development green
+
+4a8f0881 frozen HTTP/PGlite six controls all fail at target assertions:520s,49/50,restart,own60s/three calls,and persistent20-question cap. Explicit assert messages avoid Node24 expensive TypeScript source-expression diagnostics; the final red completes in4s, not a timeout. Revised HTTP9/9 and model/reader unit6/6 pass, including real deadline cancellation scaled to20ms with no readiness window. Real local Chromium observes two pages, rejects third/fourth before receiver and retains Guard POST rejection. Formal gates await clean committed freeze; real calls0, no independent model scoring. [Plan](../../.eval-artifacts/phase3b/g1-question-budget/plan.md).
+
+<a id="test-2026-10-27-phase3b-g1-followup-stop1"></a>
+
+## 2026-10-27 CET：G1最终组合五门禁通过
+
+7de83a29冻结671项后，typecheck/arch/default1162/build/Chromium174全部PASS，Chromium文件并行4、单次106.121秒，每门禁前后status空、restore0、fail/skip/cancel0。HTTP/PGlite主链旧404有效红→ANSWERED；错误预算reset反事实断言2≠1红，源码精确恢复后绿。原请求/模型/来源预算、身份/引用/敏感/取消与新旧问题隔离，真实Web交互及360px截图通过。首轮漏同步TaskDefinition21断言仅改22，生产未改，失败原日志保留；旧main组合1160/169及最终1162/174分开归档。旧HARD完整44,197字节同SHA，两站3,847/Pack473不变。HTTP中模型和来源浏览器I/O受控，UI另真实Chromium；本批Linux未跑、真实模型/Live未跑，不自评问答语义质量。真实调用0，已更新账本。[报告及证据](../../.eval-artifacts/phase3b/g1-followup/implementation/report.md)。
+
+<a id="test-2026-10-27-phase3b-g1-followup-implementation"></a>
+
+## 2026-10-27 CET：G1接入红绿与门禁准备
+
+冻结9e9c48e2的HTTP/PGlite用例在原主链断言200实际404（有效红灯），修后同入口可带原文作答；4项HTTP测试覆盖缓存/缺缓存、URL/未展示店/跨用户/过期版本、幂等、三态、敏感/伪引用拒绝、原预算/截止、重启、取消与较新问题覆盖。真实Chromium表单与360px布局检查通过，预算和晚回调单元控制通过，旧HARD完整44,197字节同SHA。源浏览器I/O及模型均fixture，Web展示单独真实Chromium；真实模型语义质量未评、Live未跑。所有最终门禁需另在冻结净树提交运行，不能把开发检查当作门禁。
+
+<a id="test-2026-10-27-phase3b-g1-push-approved"></a>
+
+## 2026-10-27 CET：Git推送实际回执核对
+
+本次只交付已验证提交，654冻结输入与五份待升版文件SHA再次一致，净树；沿用7be3b33a五门禁1152/168全绿，不重复门禁、不声称Agent/Web接入通过。经用户新批准，push成功后独立ls-remote逐项匹配main/核心分支c98438f8与预告分支22f7fe41；原始refs归档。新增真实调用0，无.env/答案读取。[回执](../../.eval-artifacts/phase3b/g1-followup/report.md)。
+
+<a id="test-2026-10-27-phase3b-g1-version-preflight"></a>
+
+## 2026-10-27 CET：版本预告及交付边界
+
+本切片只写预告/交付记录，未修改冻结输入或生产源码；沿用7be3b33a五门禁1152/168全绿、逐项净树及完整HARD同字节。新主链追问红绿尚未编写，不能标接入通过；真实模型评测/G3未运行。版本值和SHA、C分支差异核对，报告链接与账本id并集检查；不加载.env、不读answers，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-followup/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-dual-review"></a>
 

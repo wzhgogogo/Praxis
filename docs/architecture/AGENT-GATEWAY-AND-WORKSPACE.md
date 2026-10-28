@@ -1,8 +1,8 @@
 # Agent Gateway and Workspace
 
 - Status: Accepted
-- Document revision: 0.2
-- Last updated: 2026-09-07
+- Document revision: 0.4
+- Last updated: 2026-10-28
 - Source of truth for: Web/Mobile Web入口、Conversation/Session/Case边界、用户可见Activity与Domain Workspace
 - Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [Architecture Overview](OVERVIEW.md), [Task Runtime](TASK-RUNTIME.md), [Data, Context and Security](DATA-CONTEXT-SECURITY.md)
@@ -104,3 +104,13 @@ Restaurant在当前纵向切片内直接拥有自己的Artifact类型和Web组�
 Status: `implemented: Stage 2B Fixture subset + local Live Read-only composition`。当前模块化单体已经实现Pilot Session、PostgreSQL Conversation、`Conversation → Case → Root Task`映射、Case列表/详情、Domain Artifact、Event Activity和可重连SSE；Desktop/Mobile Web共享同一后端状态。`PRAXIS_RESTAURANT_PROVIDER_MODE`默认`FIXTURE`；显式`LIVE_READ`时服务端注入与H001相同的DeepSeek、Google和受控浏览器availability组合，缺任一gate/服务端配置会拒绝启动，绝不回落Fixture。Case仍是一对一Root Task投影，未新增通用Case Graph。
 
 当前未实现生产身份提供方、后台主动通知、跨任务Memory、Authorization UI、远程Takeover或生产执行进度。Live Read-only页面只展示已grounded的结果、来源链接和稳定失败原因；它没有预约、付款、取消、登录、PII提交、远程验证码控制或公网部署承诺。SSE重连采用“先发送最新完整Snapshot”的简单协议，不是持久消息队列；Activity由持久化Event ID确定性生成，从而允许客户端替换和去重。
+
+## G1 displayed-restaurant follow-up (offline implementation)
+
+After results are displayed, ask through the question field on one restaurant card. The authenticated server binds the displayed outlet, original user question, allowed source reader and current read run; code selects the sole legal `ANSWER_PAGE_QUESTION` without an Agent model call, still through Validator, Router and Reducer. The normal conversation composer continues to edit the restaurant request.
+
+The answer panel shows one short answer, verbatim source quotations in their original language, source URLs and read times. `NOT_STATED` shows “Not stated on the page” and the pages actually checked. Sensitive categories add “Please confirm with the restaurant”; unverified answers are discarded. This does not establish HARD satisfaction, reception policy or availability.
+
+Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
+
+This slice has offline fixture and local Chromium evidence only. Real-model answer faithfulness, sensitivity classification and “not stated” accuracy await the independently scored G1 evaluation; no Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).

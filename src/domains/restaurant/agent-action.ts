@@ -1,6 +1,6 @@
 export const RESTAURANT_AGENT_ACTION_SCHEMA = {
   name: "restaurant_agent_action",
-  version: "4",
+  version: "5",
 } as const;
 
 export type RestaurantAgentAction =
@@ -9,6 +9,7 @@ export type RestaurantAgentAction =
   | { type: "INVESTIGATE_CANDIDATE_FACTS"; candidateIds: string[] }
   | { type: "CHECK_AVAILABILITY"; candidateIds: string[] }
   | { type: "PRESENT_RESULTS"; candidateIds: string[] }
+  | { type: "ANSWER_PAGE_QUESTION" }
   | { type: "END_READ" }
   | { type: "SELECT_CANDIDATE"; candidateId: string; offerId?: string }
   | { type: "BOOK_RESERVATION"; candidateId: string; offerId: string };
@@ -26,7 +27,7 @@ export const RESTAURANT_AGENT_ACTION_JSON_SCHEMA: Record<string, unknown> = {
         "INVESTIGATE_CANDIDATE_FACTS",
         "CHECK_AVAILABILITY",
         "PRESENT_RESULTS",
-        "END_READ",
+        "END_READ", "ANSWER_PAGE_QUESTION",
         "SELECT_CANDIDATE",
         "BOOK_RESERVATION",
       ],
@@ -45,7 +46,7 @@ export const RESTAURANT_AGENT_ACTION_JSON_SCHEMA: Record<string, unknown> = {
  * DeepSeek strict Function Calling requires every property of every object to
  * be required. This wire schema is provider-facing only: blank strings and
  * empty arrays represent canonical optional fields and are normalized locally
- * before the authoritative @3 action parser runs.
+ * before the authoritative @5 action parser runs.
  */
 export const RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
   type: "object",
@@ -54,7 +55,7 @@ export const RESTAURANT_AGENT_ACTION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
   properties: {
     type: {
       type: "string",
-      enum: ["ASK_USER", "SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS", "END_READ", "SELECT_CANDIDATE", "BOOK_RESERVATION"],
+      enum: ["ASK_USER", "SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS", "END_READ", "ANSWER_PAGE_QUESTION", "SELECT_CANDIDATE", "BOOK_RESERVATION"],
     },
     question: { type: "string" },
     relatedFields: { type: "array", items: { type: "string" } },
@@ -102,7 +103,7 @@ function nonPlaceholderError(action: string, fields: string[]): string[] {
   return [`${action} contains non-placeholder fields: ${fields.join(", ")}`];
 }
 
-/** Converts the strict all-fields wire value into the canonical @4 action shape. */
+/** Converts the strict all-fields wire value into the canonical @5 action shape. */
 export function normalizeRestaurantAgentActionStrictWire(value: unknown):
   | { valid: true; value: unknown }
   | { valid: false; errors: string[] } {
@@ -124,8 +125,9 @@ export function normalizeRestaurantAgentActionStrictWire(value: unknown):
     case "PRESENT_RESULTS":
       if (unexpectedStrictFields(value, new Set(["candidateIds"])).length) return { valid: false, errors: nonPlaceholderError(value.type, unexpectedStrictFields(value, new Set(["candidateIds"]))) };
       return { valid: true, value: { type: value.type, candidateIds: value.candidateIds, ...(decisionSummary ? { decisionSummary } : {}) } };
+    case "ANSWER_PAGE_QUESTION":
     case "END_READ":
-      if (unexpectedStrictFields(value, new Set()).length) return { valid: false, errors: nonPlaceholderError("END_READ", unexpectedStrictFields(value, new Set())) };
+      if (unexpectedStrictFields(value, new Set()).length) return { valid: false, errors: nonPlaceholderError(value.type, unexpectedStrictFields(value, new Set())) };
       return { valid: true, value: { type: value.type, ...(decisionSummary ? { decisionSummary } : {}) } };
     case "SELECT_CANDIDATE":
       if (unexpectedStrictFields(value, new Set(["candidateId", "offerId"])).length) return { valid: false, errors: nonPlaceholderError("SELECT_CANDIDATE", unexpectedStrictFields(value, new Set(["candidateId", "offerId"]))) };
@@ -192,6 +194,9 @@ export function validateRestaurantAgentAction(
         ? { valid: true, value: { action: { type: "PRESENT_RESULTS", candidateIds }, ...(decisionSummary ? { decisionSummary } : {}) } }
         : { valid: false, errors: ["PRESENT_RESULTS requires one or more candidateIds"] };
     }
+    case "ANSWER_PAGE_QUESTION":
+      if (Object.keys(value).some(key => !["type", "decisionSummary"].includes(key))) return { valid: false, errors: ["ANSWER_PAGE_QUESTION takes no business fields"] };
+      return { valid: true, value: { action: { type: "ANSWER_PAGE_QUESTION" }, ...(decisionSummary ? { decisionSummary } : {}) } };
     case "END_READ":
       return { valid: true, value: { action: { type: "END_READ" }, ...(decisionSummary ? { decisionSummary } : {}) } };
     case "SELECT_CANDIDATE":

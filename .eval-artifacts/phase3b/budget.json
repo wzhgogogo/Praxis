@@ -1668,6 +1668,83 @@
       },
       "note": "Zero-charge summary; actual GET usage resides in12 immutable per-call rows. No env-file loaded or independently read. Optional nr003 not retried; nr026 unselected under cap.",
       "report": ".eval-artifacts/phase3b/c-batch3/report.md"
+    },
+    {
+      "id": "phase3b-b-batch3-g1-version-preflight-offline",
+      "conversation": "B",
+      "batch": 3,
+      "recordedAtCET": "2026-10-27T16:09:46.270632+01:00",
+      "mode": "OFFLINE_VERSION_PREFLIGHT_NO_IMPLEMENTATION",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-b-batch3-git-delivery-approved",
+      "conversation": "B",
+      "batch": 3,
+      "recordedAtCET": "2026-10-27T16:34:10.971590+01:00",
+      "mode": "GIT_DELIVERY_ONLY",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-b-batch3-g1-followup-implementation-offline",
+      "recordedAtCET": "2026-10-27T17:01:56.639262+01:00",
+      "conversation": "B",
+      "batch": 3,
+      "mode": "OFFLINE_AGENT_WEB_INTEGRATION",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-b-batch3-g1-followup-stop1-complete-offline",
+      "conversation": "B",
+      "batch": 3,
+      "recordedAtCET": "2026-10-27T18:16:26.240910+01:00",
+      "mode": "OFFLINE_HTTP_PGLITE_AND_LOCAL_CHROMIUM",
+      "testedCommit": "7de83a2975309e0b003e3cc488a87d43cfc20c9a",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-b-stop1-independent-question-budget-offline",
+      "conversation": "B",
+      "recordedAtCET": "2026-10-28T03:19:46.678660+01:00",
+      "mode": "OFFLINE_HTTP_PGLITE_CHROMIUM",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-b-reviewed-g1-followup-main-integration-offline",
+      "conversation": "B",
+      "recordedAtCET": "2026-10-28T04:59:38.062621+01:00",
+      "mode": "OFFLINE_REVIEWED_B_MAIN_INTEGRATION",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
     }
   ],
   "cumulative": {
@@ -1678,7 +1755,7 @@
     "googleRequests": 11,
     "restaurantWebsiteRequests": 30
   },
-  "asOfCET": "2026-10-28T03:29:28+01:00",
+  "asOfCET": "2026-10-28T06:12:20+01:00",
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
     {
@@ -1703,6 +1780,17 @@
       "conversation": "main-before-C-batch3",
       "sourceGit": "90b464d822de6f8f6d34ce64839503590952a5d2",
       "sourceSha256": "b724c8715b341403e10d7d546c1aef20bffe5557e06a509e5f8b19fb2f02f8ab",
+      "note": "C batch1 same-id preparing snapshot is superseded only by its own completed record; every counter and common field unchanged. Original main ledger remains in this commit."
+    },
+    {
+      "conversation": "main-A-runner-integration",
+      "sourceGit": "90b464d822de6f8f6d34ce64839503590952a5d2",
+      "sourceSha256": "b724c8715b341403e10d7d546c1aef20bffe5557e06a509e5f8b19fb2f02f8ab"
+    },
+    {
+      "conversation": "main-before-C-batch3",
+      "sourceGit": "6fa60cda8367f006260f3c16c0a7e4dbfd9dd00e",
+      "sourceSha256": "084a3665414d4c8506973d7adc65c67d9c20c8d4391f99561ada8f8057f7f153",
       "note": "C batch1 same-id preparing snapshot is superseded only by its own completed record; every counter and common field unchanged. Original main ledger remains in this commit."
     }
   ]
