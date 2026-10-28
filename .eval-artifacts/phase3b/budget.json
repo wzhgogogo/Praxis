@@ -5,7 +5,7 @@
     "fullLive": 18,
     "realModelCalls": 1000,
     "environmentReruns": 4,
-    "evaluationPublicGET": 150
+    "evaluationPublicGET": 257
   },
   "entries": [
     {
@@ -3572,6 +3572,23 @@
       "restaurantWebsiteRequests": 1,
       "googleRequests": 0,
       "environmentReruns": 0
+    },
+    {
+      "id": "phase3b-c-g4-cont-approval-20261028",
+      "conversation": "C",
+      "batch": "G4_E2E_CONTINUATION",
+      "kind": "AUTHORIZATION",
+      "atCET": "2026-10-28T08:31:06.082972+01:00",
+      "userApproval": "批准追加≤112次GET，共享总额提高到257",
+      "additionalPublicGETLimit": 112,
+      "sharedPublicGETLimit": 257,
+      "benchmarkRealModelLimitUnchanged": 40,
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "restaurantWebsiteRequests": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0
     }
   ],
   "cumulative": {
@@ -3582,7 +3599,7 @@
     "googleRequests": 11,
     "restaurantWebsiteRequests": 145
   },
-  "asOfCET": "2026-10-28T07:28:56.183+01:00",
+  "asOfCET": "2026-10-28T08:31:06.082972+01:00",
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
     {
