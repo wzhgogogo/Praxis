@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-28 CET：用户批准C补页GET≤25，另明确批准nr022/026完成路径的5页，冻结计划24GET（7份既有接纳所需16→三家认证3→其余获准5）。模型/Google/Live0，不加载凭据；源码/排序/身份/评分固定375aec6d，采集SHA后再离线回放；当前新调用0，完成推分支待复核，不直接合main。
+
 2026-10-28 CET：C详情排序/真子串候选完成并停复核。main基准证据fae69b48已推；工作源码6c81275f五门禁1190/175与G2 4/4全绿、7步前后净树、1228冻结SHA。nr010/022/026位次13/11/10→1但无详情；Prompt/独立检索Schema3，模型6/10各3/3，GET/Google/Live0，共享65模型/218GET。23既有接纳保留前五，16完整回放正确、7缺页，完整不退化未验证；无错认，旧结论不改，改进不合main，G4签收待用户。 [报告](../.eval-artifacts/phase3b/g4-priority-fragments/report.md)。
 
 2026-10-28 CET：C两项离线候选实现冻结ca15b75f；3有效红灯→相关56绿。nr010/022/026首屏认证店13/11/10→1；缺详情不宣称接纳。模型6/10，kazumasa和Sen各3/3真子串，GET/Google/Live0。23既有接纳全部保留在前五，16完整回放正确、7缺页，不退化整体验收仍未完成；旧结论不改，完整回归待复核，五门禁待运行。 报告 `.eval-artifacts/phase3b/g4-priority-fragments/report.md`。
@@ -17,7 +19,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.443
+- Document revision: 4.444
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
 
