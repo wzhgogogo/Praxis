@@ -48,7 +48,7 @@ try {
         };
         let body: object;
         if (id === "G1-Q07") body = { status: "ANSWERED", answer: scenario === "japanese" ? "当日のキャンセル料は一人につき三千円です。" : "The same-day cancellation fee is listed as 3,000 yen per person.", citations: [citation("On-the-day cancellation (no notice):")] };
-        else if (id === "G1-Q33") body = { status: "ANSWERED", answer: scenario === "japanese" ? "ランチコースは三千三百円です。" : "The lunch course is listed at JPY 3,300.", citations: [citation("ランチコース", true), citation("¥3,300", true)] };
+        else if (id === "G1-Q33") body = { status: "ANSWERED", answer: scenario === "japanese" ? "ランチコースは三千三百円です。" : "The lunch course is listed at JPY 3,300.", citations: [citation("ランチコース"), citation("¥3,300")] };
         else if (id === "G1-Q31") body = { status: "ANSWERED", answer: "The description states that private rooms are available.", citations: [citation("和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。", true)] };
         else if (id === "G1-Q26") body = { status: "ANSWERED", answer: "The English and Japanese state conflicting lunch service-charge scopes; the page does not resolve the discrepancy.", sourceConflict: true, citations: [citation("all lunch orders"), citation("ランチ利用時")] };
         else body = { status: "NOT_STATED", answer: null, citations: [] };
@@ -58,10 +58,11 @@ try {
       const outcome = await new ModelRestaurantPageQuestion(model, undefined, () => "2026-10-28T09:00:00+01:00").answer({
         question: question.question, displayedOutlet: question.displayedOutlet, readContext: question.readContext, cachedPages: [bound],
       }, AbortSignal.timeout(10_000));
-      assert.equal(outcome.status, scenario === "japanese" ? "UNVERIFIED" : id === "G1-Q14" || id === "G1-Q27" ? "NOT_STATED" : "ANSWERED", id + ":" + scenario);
+      results.push({ id, scenario, sourcePageSha256: source.pageSha256, visibleCharacters: text.length, raw: outcome });
+      await writeFile(process.argv[2]!, JSON.stringify({ mode: "SAVED_SOURCE_REAL_CHROMIUM_FIXTURE_MODEL", complete: false, results }, null, 2) + "\n");
+      assert.equal(outcome.status, scenario === "japanese" ? "UNVERIFIED" : id === "G1-Q14" || id === "G1-Q27" ? "NOT_STATED" : "ANSWERED", id + ":" + scenario + ":" + JSON.stringify(outcome));
       if (id === "G1-Q26") { assert.ok(outcome.status === "ANSWERED"); assert.equal(outcome.confirmationRequired, true); }
       assert.equal(wire.promptVersion, "3"); assert.equal(wire.outputSchema.version, "3");
-      results.push({ id, scenario, sourcePageSha256: source.pageSha256, visibleCharacters: text.length, raw: outcome });
     }
   }
 } finally { await browser.close(); }
