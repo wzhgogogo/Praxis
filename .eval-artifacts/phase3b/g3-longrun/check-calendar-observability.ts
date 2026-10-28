@@ -42,8 +42,8 @@ try {
   await context.route("**/*", route => { blockedRequests++; return route.abort(); });
   const page = await context.newPage();
   for (const spec of manifest.pages.filter((p: { site: string; kind: string }) => p.site === "TABELOG" && p.kind === "CALENDAR")) {
-    const stored = await readFile(spec.path); assert.equal(sha(stored), spec.sha256);
-    const html = gunzipSync(stored).toString();
+    const stored = await readFile(spec.path);
+    const html = gunzipSync(stored).toString(); assert.equal(sha(html), spec.sha256);
     const reference = baseline.cases.find((row: { id: string }) => row.id === spec.id)!;
     const dates = spec.id.endsWith("teppen") ? ["2026-09-29", "2026-09-28", "2026-09-30"] : ["2026-10-01"];
     for (const date of dates) {
