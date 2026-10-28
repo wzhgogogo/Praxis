@@ -5,7 +5,7 @@ for name,digest in freeze['files'].items():assert hashlib.sha256(Path(name).read
 package=json.loads(Path('package.json').read_text());summary=[]
 for script,cohort in [('test','default'),('test:browser:fixture','chromium')]:
  args=shlex.split(package['scripts'][script]);assert args[0]=='node' and '--test' in args
- insert=args.index('--test')+1;args.insert(insert,'--test-reporter='+str(root/'runtime-reporter.mjs'))
+ insert=args.index('--test')+1;args.insert(insert,'--test-reporter='+str((root/'runtime-reporter.mjs').resolve()))
  expanded=[]
  for arg in args:expanded.extend(sorted(glob.glob(arg)) if '*' in arg else [arg])
  start=time.monotonic();out=root/(cohort+'-runtime.jsonl')

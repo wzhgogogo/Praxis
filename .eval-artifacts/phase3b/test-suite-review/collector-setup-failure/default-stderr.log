@@ -1,0 +1,19 @@
+node:internal/test_runner/harness:117
+      throw err;
+      ^
+
+TypeError [ERR_INVALID_MODULE_SPECIFIER]: Invalid module ".eval-artifacts/phase3b/test-suite-review/runtime-reporter.mjs" is not a valid package name imported from /Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/
+    at parsePackageName (node:internal/modules/package_json_reader:211:11)
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:222:53)
+    at packageResolve (node:internal/modules/esm/resolve:767:81)
+    at moduleResolve (node:internal/modules/esm/resolve:853:18)
+    at defaultResolve (node:internal/modules/esm/resolve:983:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:801:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:725:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:309:38)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:659:36) {
+  code: 'ERR_INVALID_MODULE_SPECIFIER'
+}
+
+Node.js v24.4.1
