@@ -1,0 +1,133 @@
+{
+  "atCET": "2026-10-28T14:53:49.049647+01:00",
+  "captureCommit": "ca6bae802eb0dfd96e3920a03b8ebda27c896f6b",
+  "replayCommit": "67661956df80aa63adc84bf30ed1532bb450d620",
+  "productionCommit": "375aec6dc2fac0a5e42de8db627c633d812ca81f",
+  "targetedValidation": "NO_REGRESSION_PASS_IMPROVEMENT_RESULTS_MIXED",
+  "nonRegressionValidation": "PASS",
+  "mergeDisposition": "REVIEW_WITH_NR010_PARSER_REJECTION",
+  "groups": {
+    "priorSeven": {
+      "planned": 7,
+      "correct": 7,
+      "wrong": 0,
+      "notAccepted": 0,
+      "environmentOrMissing": 0
+    },
+    "threeImproved": {
+      "planned": 3,
+      "correct": 2,
+      "wrong": 0,
+      "notAccepted": 1,
+      "environmentOrMissing": 0
+    }
+  },
+  "wrongAccepted": 0,
+  "allPriorCorrect": {
+    "planned": 23,
+    "retainedInFiveDetailPlan": 23,
+    "completeReplayCorrect": 23,
+    "blockedByMissingSource": 0
+  },
+  "resources": {
+    "GET": 24,
+    "GETLimit": 25,
+    "GETSuccess": 24,
+    "GETFailed": 0,
+    "realModel": 0,
+    "google": 0,
+    "live": 0,
+    "shared": {
+      "fullLive": 0,
+      "realModelCalls": 65,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 242,
+      "googleRequests": 11,
+      "restaurantWebsiteRequests": 242
+    },
+    "sharedGETLimit": 257
+  },
+  "rows": [
+    {
+      "key": "main-nr-005",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    },
+    {
+      "key": "main-nr-006",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    },
+    {
+      "key": "main-nr-017",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    },
+    {
+      "key": "main-nr-030",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    },
+    {
+      "key": "main-G4-ND-001",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    },
+    {
+      "key": "main-G4-ND-007",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13235582/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    },
+    {
+      "key": "rerun-nr-003",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13021574/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    },
+    {
+      "key": "main-nr-010",
+      "verdict": "NOT_ACCEPTED",
+      "acceptedUrl": null,
+      "reason": "ENTITY_MATCH_UNCERTAIN",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    },
+    {
+      "key": "main-nr-022",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    },
+    {
+      "key": "main-nr-026",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13307478/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX"
+    }
+  ],
+  "limits": "Captured24 public pages plus frozen previous corpus; full Tabelog identity prefix replay, not full-browser or stock Live. Fixed old model response replay; no new model. No source failure counted as pass or regression."
+}

@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.99
+- Document revision: 1.100
 
 
 - Last updated: 2026-10-28
@@ -377,3 +377,5 @@ Harness: three prior h001 recordings retain six identical raw HTML snapshots (on
 The Google-candidate Tabelog identity path ranks all observed result links before selecting at most five distinct details across its two searches. Observed name overlap is primary; existing address locality fields and available coordinates break ties; missing fields preserve source order. This is retrieval priority, not identity evidence. The original identity comparator functions, direct/native continuation, page parsers and calendar readers are unchanged. The independent named-source-query Prompt3/Schema3 accepts only a strictly shorter literal Google-name fragment; a repeated full name is abandoned after one cached proposal, without a repair call. No Google request is added. Harness controls: closest sixth observed link enters the five-detail set, conflicting identity remains non-HIGH; equal-name locality/distance and missing-field tie controls; proper-name fragments and cached full-name rejection. Frozen G4 replay and proposal-only real-model validation are reported separately in `.eval-artifacts/phase3b/g4-priority-fragments/report.md`; missing saved details are not verified acceptances.
 
 G4 candidate validation (2026-10-28 CET): five gates1190/175 and G2 4/4 PASS with clean steps; six proposal-only real calls all proper substrings. Saved-corpus priority retains all23 prior accepted targets in five-detail plans, but7 lack newly needed pages, so full no-regression acceptance is NOT_EVALUATED, not PASS. No current-source GET/Google/Live; original identity functions remain byte-identical. See the same report and missing-pages.json.
+
+2026-10-28 CET G4 backfill: 2026-10-28 CET：C按批准补页24/25 GET（失败0），模型/Google/Live0，共享GET242/257。冻结后完整路径回放既有7份7/7正确、排序nr010/022/026 2/3正确，错认0；状态NO_REGRESSION_PASS_IMPROVEMENT_RESULTS_MIXED。375aec6d产品/排序/身份/评分原字节不变，原结果保留，补页另存；当前工作分支停复核，合main需与B G3协调。 Public HTTP capture and frozen production-prefix Replay are separate from full Live.
