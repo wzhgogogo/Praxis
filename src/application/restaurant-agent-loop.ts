@@ -1,4 +1,5 @@
 import type { RestaurantPageAnswer } from "../domains/restaurant/page-question.js";
+import type { RestaurantAgentAction } from "../domains/restaurant/agent-action.js";
 import { RESTAURANT_READ_CONCLUSION_RESERVE_MS, RESTAURANT_READ_FINALIZE_ALLOWANCE_MS } from "../domains/restaurant/read-time-reserve.js";
 import { restaurantFailureCode } from "../domains/restaurant/failure-codes.js";
 import { restaurantReadBudgetExhausted } from "../domains/restaurant/action-validator.js";
@@ -174,7 +175,7 @@ export class RestaurantAgentLoopCoordinator {
     try {
       return await this.runWithinReadBudget(taskId, signal, readDeadlineAt);
     } finally {
-      this.router.endReadRun(initial.runId+":investigation:"+String(initial.domainState.investigationRevision??0));
+      this.router.endReadRun();
     }
   }
 
@@ -185,26 +186,29 @@ export class RestaurantAgentLoopCoordinator {
     const controller = new AbortController();
     const abort = () => controller.abort(parentSignal?.reason);
     if (parentSignal?.aborted) abort(); else parentSignal?.addEventListener("abort", abort, {once:true});
-    const timer = setTimeout(() => controller.abort(Object.assign(new Error("Original read deadline reached"), {code:"RUN_DEADLINE_EXCEEDED"})), Math.max(0, deadline.valueOf() - this.clock.now().valueOf()));
+    const timer = setTimeout(() => controller.abort(Object.assign(new Error("Question deadline reached"), {code:"RUN_DEADLINE_EXCEEDED"})), Math.max(0, deadline.valueOf() - this.clock.now().valueOf()));
     const previous = await this.trajectories.list(initial.id);
     const context = projectRestaurantAgentContext(initial.domainState, this.clock.now().toISOString());
+    const legal = context.legalActions;
+    const soleQuestionAction = legal.answerPageQuestion && !legal.search && !legal.endRead
+      && !legal.investigateCandidateFacts.length && !legal.checkAvailability.length && !legal.presentResults.length;
     const base = this.base(initial.id, previous.length + 1, initial, context);
-    let decision: RestaurantAgentDecisionResult | undefined;
+    const action: RestaurantAgentAction = {type:"ANSWER_PAGE_QUESTION"};
     let validation: ReturnType<typeof validateRestaurantAction> | undefined;
     let result: RestaurantPageAnswer = {status:"UNVERIFIED",candidateId:q.candidateId,reason:"ACTION_REJECTED",checkedPages:[]};
     try {
-      if (controller.signal.aborted || deadline.valueOf() <= this.clock.now().valueOf()) throw controller.signal.reason ?? Object.assign(new Error("Original deadline expired"), {code:"RUN_DEADLINE_EXCEEDED"});
-      decision = await this.boundedDecision({taskId:initial.id,context,recentExecutionHistory:[],capabilities:RESTAURANT_AGENT_CAPABILITIES},deadline,controller.signal);
+      if (controller.signal.aborted || deadline.valueOf() <= this.clock.now().valueOf()) throw controller.signal.reason ?? Object.assign(new Error("Question deadline expired"), {code:"RUN_DEADLINE_EXCEEDED"});
       const current = await this.runtime.snapshot(initial.id);
       if (current.domainState.pageQuestion?.requestId !== q.requestId) return {status:"CANCELLED",steps:1};
-      if (decision.status === "PROPOSED") {
-        validation = validateRestaurantAction(current.domainState,decision.action,this.clock.now().toISOString(),{remainingModelCalls:this.remainingModelCalls?.(initial.id)});
+      if (soleQuestionAction) {
+        validation = validateRestaurantAction(current.domainState,action,this.clock.now().toISOString());
         if (validation.status === "REJECTED" && (validation.code === "READ_BUDGET_EXHAUSTED" || validation.code === "READ_TIME_RESERVED")) result = {...result,reason:"BUDGET_EXHAUSTED"};
         if (validation.status === "ALLOWED") {
-          const execution = await this.router.execute(decision.action,current.domainState,this.clock.now().toISOString(),q.readRunId,controller.signal);
+          const execution = await this.router.execute(action,current.domainState,this.clock.now().toISOString(),q.readRunId,controller.signal);
           if (execution.event?.type === "PAGE_QUESTION_COMPLETED") result = execution.event.result;
         }
-      } else if (decision.status === "MODEL_FAILURE") result = {...result,reason:decision.errorCode === "MODEL_CALL_BUDGET_EXHAUSTED" || decision.errorCode === "TIMEOUT" ? "BUDGET_EXHAUSTED" : "MODEL_FAILED"};
+      }
+      if (this.clock.now().valueOf() >= deadline.valueOf()) controller.abort(Object.assign(new Error("Question deadline expired"), {code:"RUN_DEADLINE_EXCEEDED"}));
     } catch (error) {
       const code = error && typeof error === "object" && "code" in error ? error.code : undefined;
       result = {status:"UNVERIFIED",candidateId:q.candidateId,checkedPages:[],reason:controller.signal.aborted
@@ -217,7 +221,7 @@ export class RestaurantAgentLoopCoordinator {
     const current = await this.runtime.snapshot(initial.id);
     if (current.domainState.pageQuestion?.requestId !== q.requestId || current.domainState.pageQuestion.result) return {status:"CANCELLED",steps:1};
     const after = await this.dispatch(current,{type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,result},"SYSTEM");
-    await this.trajectories.append({...base,...(decision?.status === "PROPOSED" ? {agentAction:decision.action,modelAttempt:decision.modelAttempt} : {}),
+    await this.trajectories.append({...base,agentAction:action,decisionSummary:"Explicit card question: sole legal action selected by code; no Agent model call.",
       ...(validation ? {actionValidation:validation} : {}),stateVersionAfter:after.snapshot.version,stateHashAfter:stateHash(after.snapshot.domainState),
       causalRefs:mergeCausalRefs(base.causalRefs,after.causalRefs),stepOutcome:"EXECUTED",observation:{type:"PAGE_QUESTION",detail:result.status,candidateIds:[q.candidateId]}});
     return {status:controller.signal.aborted?"CANCELLED":"TERMINAL",steps:1};

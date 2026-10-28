@@ -22,16 +22,9 @@ export class RunBoundedModelGateway implements ModelGateway {
 
   constructor(private readonly delegate: ModelGateway, private readonly maxCalls: number, private readonly timeoutMs: number, private readonly now: () => number = Date.now) {}
 
-  async run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T> {
+  async run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>, deadlineAt?: number): Promise<T> {
     const startedAt = this.now();
-    return this.withScope(taskId, { calls: 0, startedAt, deadlineAt: startedAt + this.timeoutMs }, work);
-  }
-
-  /** A displayed-outlet follow-up consumes the completed original run, never a new allowance. */
-  async resume<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T> {
-    const previous = this.completed.get(taskId);
-    if (!previous || this.active.has(taskId)) throw Object.assign(new Error("Original read budget is unavailable"), { code: "RUN_BUDGET_UNAVAILABLE" });
-    return this.withScope(taskId, previous, work);
+    return this.withScope(taskId, { calls: 0, startedAt, deadlineAt: Math.min(startedAt + this.timeoutMs, deadlineAt ?? Infinity) }, work);
   }
 
   private async withScope<T>(taskId: string, previous: Pick<ModelRunUsage, "calls" | "startedAt" | "deadlineAt">, work: (signal: AbortSignal) => Promise<T>): Promise<T> {

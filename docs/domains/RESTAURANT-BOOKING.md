@@ -1,8 +1,8 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.27
-- Last updated: 2026-10-27（CET）
+- Document revision: 3.28
+- Last updated: 2026-10-28
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
@@ -299,10 +299,10 @@ Semantic interpretation preserves comparison direction and strictness independen
 
 ## G1 displayed-restaurant follow-up (offline implementation)
 
-After results are displayed, ask through the question field on one restaurant card. The authenticated server binds the displayed outlet, original user question, allowed source reader and current read run; the Agent proposes only `ANSWER_PAGE_QUESTION`, with no arguments. The normal conversation composer continues to edit the restaurant request.
+After results are displayed, ask through the question field on one restaurant card. The authenticated server binds the displayed outlet, original user question, allowed source reader and current read run; code selects the sole legal `ANSWER_PAGE_QUESTION` without an Agent model call, still through Validator, Router and Reducer. The normal conversation composer continues to edit the restaurant request.
 
 The answer panel shows one short answer, verbatim source quotations in their original language, source URLs and read times. `NOT_STATED` shows “Not stated on the page” and the pages actually checked. Sensitive categories add “Please confirm with the restaurant”; unverified answers are discarded. This does not establish HARD satisfaction, reception policy or availability.
 
-Current-run identity-bound pages are reused first. A cache miss uses the same fact reader and Guard, with the original absolute deadline and remaining model/browser allowances. Cancellation or a newer question discards late output. Lost process-local budget context returns an explicit unverified result. Old State23 tasks are not silently migrated to State24 or reset.
+Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
 
 This slice has offline fixture and local Chromium evidence only. Real-model answer faithfulness, sensitivity classification and “not stated” accuracy await the independently scored G1 evaluation; no Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).

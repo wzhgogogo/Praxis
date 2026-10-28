@@ -147,8 +147,8 @@ export function validateRestaurantAction(
     const q = state.pageQuestion;
     if (action.type !== "ANSWER_PAGE_QUESTION") return rejected("PRESENTATION_READY", "Only the pending displayed-outlet question may be answered");
     if (state.phase !== "PRESENT_RESULTS" || !state.presentedResults?.candidateIds.includes(q.candidateId) || !candidate(state, q.candidateId)) return rejected("CANDIDATE_UNKNOWN", "Question outlet must belong to the currently presented batch");
-    if (restaurantReadBudgetExhausted(state, budget)) return rejected("READ_BUDGET_EXHAUSTED", "The original read model budget is exhausted");
-    if (Date.parse(q.deadlineAt) <= Date.parse(now)) return rejected("READ_TIME_RESERVED", "The original read deadline expired");
+    if (budget.remainingModelCalls !== undefined && budget.remainingModelCalls <= 0 || budget.browserModelBudgetExhausted) return rejected("READ_BUDGET_EXHAUSTED", "The question model budget is exhausted");
+    if (Date.parse(q.deadlineAt) <= Date.parse(now)) return rejected("READ_TIME_RESERVED", "The question deadline expired");
     return { status: "ALLOWED" };
   }
   if (action.type === "ANSWER_PAGE_QUESTION") return rejected("CANDIDATE_UNKNOWN", "No explicit displayed-outlet question is pending");

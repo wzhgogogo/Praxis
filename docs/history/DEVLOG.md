@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.326
-- Last updated: 2026-10-27
+- Document revision: 4.327
+- Last updated: 2026-10-28
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-28-g1-question-budget"></a>
+
+## 2026-10-28 CET: Independent G1 question work units
+
+User corrects the inherited-search-budget contract; ADR0046 revision0.3 stays Accepted. Replace search readWindows/resume/browser-budget snapshots with per-question60s/3 calls/2 document visits and persisted-event20-question limit. The code-selected sole action retains Validator/Router/Reducer and an honest no-model trajectory. No State or TaskDefinition change; source identity/run/citation rules remain. HTTP9/9 development controls pass, final frozen gates pending. Real calls0. [Plan](../../.eval-artifacts/phase3b/g1-question-budget/plan.md).
 
 <a id="dev-2026-10-27-phase3b-g1-followup-stop1"></a>
 

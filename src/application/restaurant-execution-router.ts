@@ -224,7 +224,7 @@ export class RestaurantExecutionRouter {
   /** Keeps source-level cumulative budgets aligned with one outer Agent run. */
   beginReadRun(): void { this.availability.beginReadRun?.(); }
 
-  endReadRun(readRunId?:string): void { if(readRunId)this.questions?.finishReadRun?.(readRunId); this.availability.endReadRun?.(); }
+  endReadRun(): void { this.availability.endReadRun?.(); }
 
   async execute(
     action: RestaurantAgentAction,

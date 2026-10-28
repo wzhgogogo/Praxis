@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.433
-- Last updated: 2026-10-27
+- Document revision: 4.434
+- Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-28 CET: G1 independent question budgets, final gates pending.** User approved ADR0046 revision0.3: per-question60s/3 models/2 pages and persistent conversation20 cap. HTTP9/9 now answers after520s, original49/50 calls and fresh restart; own exhaustion does not affect the next question. Sole action is code-selected through Validator/Router/Reducer, no Agent call. State24/TaskDefinition22 and source binding unchanged. Final frozen gates pending, real calls0; no model evaluation or G3. [Plan](../.eval-artifacts/phase3b/g1-question-budget/plan.md).
 
 - **2026-10-27 CET：B批次3停止点1完成，待复核。** 用户批准五个共享版本，已实施Prompt29/Action5/Context17/State24/TaskDefinition22；ADR0046仅修Approval。卡片追问经过持久Agent/Validator/Router/原G1核心与英文Web，同run缓存、原预算/截止和取消/迟到控制通过。同步并行main/90b464d8后，7de83a29冻结671项，五门禁默认1162/Chromium174全绿（106.121秒），逐项前后净树、restore0。HTTP404与错误预算重置有效红灯；旧HARD44,197字节同SHA。两站3,847/Pack473不改，账本21id保留；真实调用0、A真实模型评分未跑、G3未开始。本次Agent/Web只推工作分支供复核。[报告](../.eval-artifacts/phase3b/g1-followup/implementation/report.md)。
 

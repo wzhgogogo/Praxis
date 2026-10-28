@@ -1581,10 +1581,12 @@ test("G1 displayed restaurant follow-up answers through the persistent HTTP entr
       assert.equal(result.answer,"They accept Visa and MasterCard.");
       assert.deepEqual(result.citations.map(x=>({text:x.text,url:x.url,readAt:x.readAt})),[{text:f.quote,url:`https://merchant.example/${candidateId}`,readAt:clock.now().toISOString()}]);
       assert.equal(f.calls.pages,1,"current-run cached page is reused without source navigation");
-      assert.equal(budget.usage(view.case.caseId)!.calls,before.calls+2,"Agent and G1 answer consume original shared model allowance");
-      assert.equal(budget.usage(view.case.caseId)!.deadlineAt,before.deadlineAt,"follow-up never resets the original deadline");
+      assert.deepEqual(budget.usage(view.case.caseId),before,"question does not consume or restart the search budget");
+      assert.equal(budget.usage(view.case.caseId)!.deadlineAt,before.deadlineAt,"the original search deadline stays unchanged");
       const trajectory = await running.application.listAgentTrajectory("user-a",view.case.caseId);
       assert.equal(trajectory.at(-1)?.agentAction?.type,"ANSWER_PAGE_QUESTION");
+      assert.equal(trajectory.at(-1)?.modelAttempt,undefined,"the sole-action path must not fabricate an Agent invocation");
+      assert.match(trajectory.at(-1)?.decisionSummary ?? "",/selected by code/);
       const callCount = f.calls.model;
       assert.equal((await ask(body)).response.status,200,"repeated completed request is idempotent despite old taskVersion");
       assert.equal(f.calls.model,callCount);

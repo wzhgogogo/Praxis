@@ -1,0 +1,130 @@
+✖ G1 independent question answers after 520 seconds (767.562083ms)
+✖ G1 independent question answers after 49 original calls (556.153417ms)
+✖ G1 independent question answers after process restart (517.819375ms)
+✖ G1 independent question stops at its own 60 seconds and the next question still answers (505.89625ms)
+✖ G1 independent question stops at its own 3 model calls and the next question still answers (514.199583ms)
+✖ G1 twenty-question conversation limit survives restart and duplicate delivery (706.06525ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3987.261375
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:3:13460
+✖ G1 independent question answers after 520 seconds (767.562083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1656:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:240:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1636:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/server/local-web-server.test.ts:3:13460
+✖ G1 independent question answers after 49 original calls (556.153417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1656:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:240:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1636:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/server/local-web-server.test.ts:3:13460
+✖ G1 independent question answers after process restart (517.819375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1656:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:240:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1636:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/server/local-web-server.test.ts:3:15481
+✖ G1 independent question stops at its own 60 seconds and the next question still answers (505.89625ms)
+  AssertionError [ERR_ASSERTION]: question must stop at its own limit
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1682:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:240:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1668:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/server/local-web-server.test.ts:3:15481
+✖ G1 independent question stops at its own 3 model calls and the next question still answers (514.199583ms)
+  AssertionError [ERR_ASSERTION]: question must stop at its own limit
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1682:16)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:240:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1668:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/server/local-web-server.test.ts:3:17185
+✖ G1 twenty-question conversation limit survives restart and duplicate delivery (706.06525ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 400
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1712:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:240:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/server/local-web-server.test.ts:1695:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 400,
+    operator: 'strictEqual'
+  }

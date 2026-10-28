@@ -56,6 +56,5 @@ export interface RestaurantPageQuestionState {
 }
 export interface RestaurantPageQuestionPort {
   readonly executionRoute: "GENERIC_BROWSER" | "STRUCTURED_ADAPTER";
-  finishReadRun?(readRunId: string): void;
   answerQuestion(input: RestaurantPageQuestionRequest, signal: AbortSignal): Promise<RestaurantPageAnswer>;
 }

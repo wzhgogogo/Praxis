@@ -1,3 +1,4 @@
+import { RESTAURANT_PAGE_QUESTION_BUDGET, type RestaurantPageQuestionLimits } from "../domains/restaurant/page-question-limits.js";
 import type { RestaurantPageQuestionPort, RestaurantPageAnswer } from "../domains/restaurant/page-question.js";
 import type { ModelRunUsage } from "./run-bounded-model-gateway.js";
 import { observedCandidateDistance } from "../domains/restaurant/candidate-read-observations.js";
@@ -286,6 +287,7 @@ export interface PersistentRestaurantAgentOptions {
   restaurantAvailability: RestaurantAvailabilityPort;
   restaurantFacts?: RestaurantCandidateFactPort;
   restaurantQuestions?: RestaurantPageQuestionPort;
+  pageQuestionLimits?: Readonly<RestaurantPageQuestionLimits>;
   workspaceMode?: AgentWorkspaceMode;
   executionRouterOptions: RestaurantExecutionRouterOptions;
   /** Local Live composition may need a longer read-only loop than Fixture workflows. */
@@ -297,7 +299,6 @@ export interface PersistentRestaurantAgentOptions {
     run<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T>;
     /** Keeps the parent read deadline alive while LIVE work continues after the HTTP mutation returns. */
     hold?(): () => void;
-    resume?<T>(taskId: string, work: (signal: AbortSignal) => Promise<T>): Promise<T>;
     usage(taskId: string): ModelRunUsage | undefined;
     remainingCalls?(taskId: string): number | undefined;
   };
@@ -324,7 +325,7 @@ export class PersistentRestaurantAgentApplication {
   private readonly workspaceMode: AgentWorkspaceMode;
   private readonly liveReadLimits: Readonly<Record<string, number>> | undefined;
   private readonly modelRunBudget: PersistentRestaurantAgentOptions["modelRunBudget"];
-  private readonly readWindows = new Map<string, {runId:string;startedAt:string;deadlineAt:string}>();
+  private readonly pageQuestionLimits: Readonly<RestaurantPageQuestionLimits>;
   private readonly readTimeoutMs: number;
   private readonly activeReads = new Map<string, ActiveRead>();
   /** Current-process semantic work owns a task before the asynchronous loop exists. */
@@ -340,6 +341,7 @@ export class PersistentRestaurantAgentApplication {
     this.workspaceMode = options.workspaceMode ?? "FIXTURE";
     this.liveReadLimits = options.liveReadLimits;
     this.modelRunBudget = options.modelRunBudget;
+    this.pageQuestionLimits = options.pageQuestionLimits ?? RESTAURANT_PAGE_QUESTION_BUDGET;
     this.readTimeoutMs = options.agentLoopOptions.timeoutMs;
     this.interpreter = options.semanticInterpreter;
     this.partySizeSupplementResolver = options.partySizeSupplementResolver;
@@ -504,46 +506,34 @@ export class PersistentRestaurantAgentApplication {
     return this.project(record);
   }
 
-  /** Explicit card follow-up bypasses semantic condition editing, never the Agent/Validator. */
+  /** Explicit card follow-up: persistent identity, independently bounded work. */
   async askRestaurantQuestion(input: {userId:string;caseId:string;candidateId:string;question:string;requestId:string;expectedVersion:number}): Promise<RestaurantCaseView> {
+    const submittedAt = this.clock.now();
     const record = await this.requireCase(input.userId,input.caseId);
-    const key = `question:${record.rootTaskId}\u0000${input.requestId}`;
+    const key = "question:"+record.rootTaskId+"\\u0000"+input.requestId;
     const prior = this.applyingUserMessages.get(key);
     if (prior) { await prior; return this.project(record); }
     const work = async () => {
       let snapshot = await this.runtime.snapshot(record.rootTaskId);
-      const existing = await this.runtime.listEvents(record.rootTaskId);
       const eventId = this.userEvent(snapshot,input.requestId,{type:"RESULT_VIEWED",candidateId:input.candidateId}).id;
-      if (existing.some(e => e.id === eventId)) return;
+      if ((await this.runtime.listEvents(record.rootTaskId)).some(e=>e.id===eventId)) return;
       if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion,snapshot.version);
       if (snapshot.domainState.phase !== "PRESENT_RESULTS" || !snapshot.domainState.presentedResults?.candidateIds.includes(input.candidateId)
         || !input.question.trim() || input.question.length > 2000) throw new Error("Question requires a displayed restaurant and 1–2000 characters");
       await this.cancelActiveRead(record,"A newer displayed-restaurant question superseded the previous read");
       snapshot = await this.runtime.snapshot(record.rootTaskId);
-      const known = this.readWindows.get(record.rootTaskId);
-      const currentRunId = snapshot.runId + ":investigation:" + String(snapshot.domainState.investigationRevision ?? 0);
-      const window = known?.runId === currentRunId ? known : {runId:currentRunId,startedAt:snapshot.createdAt,deadlineAt:this.clock.now().toISOString()};
-      const question = {requestId:input.requestId,question:input.question.trim(),candidateId:input.candidateId,readRunId:window.runId,
-        readStartedAt:window.startedAt,deadlineAt:window.deadlineAt,requestedAt:this.clock.now().toISOString()};
+      const events = await this.runtime.listEvents(record.rootTaskId);
+      if (events.some(e=>e.id===eventId)) return;
+      if (events.filter(e=>e.event.type==="PAGE_QUESTION_REQUESTED").length >= this.pageQuestionLimits.maxQuestionsPerConversation)
+        throw new Error("Restaurant question limit reached. Please start a new search.");
+      const deadline = new Date(submittedAt.valueOf()+this.pageQuestionLimits.maxElapsedMs);
+      const question = {requestId:input.requestId,question:input.question.trim(),candidateId:input.candidateId,
+        readRunId:snapshot.runId+":investigation:"+String(snapshot.domainState.investigationRevision??0),
+        readStartedAt:snapshot.createdAt,deadlineAt:deadline.toISOString(),requestedAt:submittedAt.toISOString()};
       await this.runtime.dispatch(this.userEvent(snapshot,input.requestId,{type:"PAGE_QUESTION_REQUESTED",question}),snapshot.version);
-      await this.store.appendMessage({id:`message:0:${hash(`${record.id}:${input.requestId}`).slice(0,24)}`,conversationId:record.id,
-        role:"USER",content:input.question,requestId:`user:${input.requestId}`,createdAt:this.clock.now().toISOString()});
-      const unavailable = async () => {
-        const current = await this.runtime.snapshot(record.rootTaskId);
-        const id = `event:question-unverified:${hash(`${record.rootTaskId}:${input.requestId}`).slice(0,24)}`;
-        await this.runtime.dispatch({id,taskId:current.id,event:{type:"PAGE_QUESTION_COMPLETED",requestId:input.requestId,readRunId:window.runId,
-          result:{status:"UNVERIFIED",candidateId:input.candidateId,reason:"RUN_BUDGET_UNAVAILABLE",checkedPages:[]}},occurredAt:this.clock.now().toISOString(),
-          trace:{schemaVersion:"1",runId:current.runId,correlationId:id,actor:"SYSTEM"}},current.version);
-        await this.appendAssistant(record,input.requestId); await this.notifyCaseUpdate(record);
-      };
-      if (!known || this.modelRunBudget && !this.modelRunBudget.resume) { await unavailable(); return; }
-      const run = (signal?:AbortSignal) => this.runAfterUserInput(record,input.requestId,signal,true);
-      if (this.modelRunBudget?.resume) {
-        try { await this.modelRunBudget.resume(record.rootTaskId,run); }
-        catch (error) {
-          if (error && typeof error === "object" && "code" in error && error.code === "RUN_BUDGET_UNAVAILABLE") await unavailable(); else throw error;
-        }
-      } else await run();
+      await this.store.appendMessage({id:"message:0:"+hash(record.id+":"+input.requestId).slice(0,24),conversationId:record.id,
+        role:"USER",content:input.question,requestId:"user:"+input.requestId,createdAt:this.clock.now().toISOString()});
+      await this.runAfterUserInput(record,input.requestId,undefined,deadline);
     };
     const pending = this.withPreparingRead(record.rootTaskId,work); this.applyingUserMessages.set(key,pending);
     try { await pending; } finally { this.applyingUserMessages.delete(key); }
@@ -901,18 +891,12 @@ export class PersistentRestaurantAgentApplication {
     await this.runAfterUserInput(record, requestId, runDeadlineSignal);
   }
 
-  private async runAfterUserInput(record: ConversationRecord, requestId: string, runDeadlineSignal?: AbortSignal, preserveReadWindow = false): Promise<void> {
+  private async runAfterUserInput(record: ConversationRecord, requestId: string, runDeadlineSignal?: AbortSignal, questionDeadline?: Date): Promise<void> {
     // Map the enclosing wall-clock deadline to the Runtime clock once; semantic
     // work has already consumed part of this same read, including its reserve.
     const usage = this.modelRunBudget?.usage(record.rootTaskId);
     const clockNow = this.clock.now();
-    const readDeadline = preserveReadWindow ? new Date(this.readWindows.get(record.rootTaskId)!.deadlineAt)
-      : new Date(clockNow.valueOf() + (usage ? Math.max(0,usage.deadlineAt-usage.startedAt-usage.elapsedMs) : this.readTimeoutMs));
-    if (!preserveReadWindow) {
-      const snapshot = await this.runtime.snapshot(record.rootTaskId);
-      this.readWindows.set(record.rootTaskId,{runId:snapshot.runId+":investigation:"+String(snapshot.domainState.investigationRevision??0),
-        startedAt:new Date(clockNow.valueOf()-(usage?.elapsedMs??0)).toISOString(),deadlineAt:readDeadline.toISOString()});
-    }
+    const readDeadline = questionDeadline ?? new Date(clockNow.valueOf() + (usage ? Math.max(0,usage.deadlineAt-usage.startedAt-usage.elapsedMs) : this.readTimeoutMs));
     if (this.workspaceMode === "FIXTURE") {
       const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal, readDeadline);
       await this.notifyReadFinished(record.rootTaskId, result);
@@ -922,7 +906,7 @@ export class PersistentRestaurantAgentApplication {
     if (this.activeReads.has(record.rootTaskId)) return;
     // The web mutation returns before the live loop. Retain the enclosing
     // whole-read budget so semantic time and this asynchronous loop share one deadline.
-    const releaseBudget = this.modelRunBudget?.hold?.();
+    const releaseBudget = questionDeadline ? undefined : this.modelRunBudget?.hold?.();
     const controller = new AbortController();
     let finish: (() => void) | undefined;
     const completion = new Promise<void>((resolve) => { finish = resolve; });
@@ -1126,7 +1110,7 @@ export class PersistentRestaurantAgentApplication {
     if (q && !q.result) {
       const id = this.createId("event:restaurant-question-interrupted");
       await this.runtime.dispatch({id,taskId:snapshot.id,event:{type:"PAGE_QUESTION_COMPLETED",requestId:q.requestId,readRunId:q.readRunId,
-        result:{status:"UNVERIFIED",candidateId:q.candidateId,reason:"RUN_BUDGET_UNAVAILABLE",checkedPages:[]}},occurredAt:this.clock.now().toISOString(),
+        result:{status:"UNVERIFIED",candidateId:q.candidateId,reason:"CANCELLED",checkedPages:[]}},occurredAt:this.clock.now().toISOString(),
         trace:{schemaVersion:"1",runId:snapshot.runId,correlationId:id,actor:"SYSTEM"}},snapshot.version);
       return;
     }

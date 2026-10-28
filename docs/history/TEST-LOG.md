@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.332
-- Last updated: 2026-10-27
+- Document revision: 4.333
+- Last updated: 2026-10-28
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-28-g1-question-budget"></a>
+
+## 2026-10-28 CET: Independent budget behavioral red and development green
+
+4a8f0881 frozen HTTP/PGlite six controls all fail at target assertions:520s,49/50,restart,own60s/three calls,and persistent20-question cap. Explicit assert messages avoid Node24 expensive TypeScript source-expression diagnostics; the final red completes in4s, not a timeout. Revised HTTP9/9 and model/reader unit6/6 pass, including real deadline cancellation scaled to20ms with no readiness window. Real local Chromium observes two pages, rejects third/fourth before receiver and retains Guard POST rejection. Formal gates await clean committed freeze; real calls0, no independent model scoring. [Plan](../../.eval-artifacts/phase3b/g1-question-budget/plan.md).
 
 <a id="test-2026-10-27-phase3b-g1-followup-stop1"></a>
 
