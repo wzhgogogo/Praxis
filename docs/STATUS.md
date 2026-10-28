@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-28 CET: Approved clock source173840b7 is verified for main publication. Latest maincab27890 already ancestor, executable diff0; frozen4e45e37a five gates1186/175 PASS and each before/after clean.665 inputs unchanged; independent2CPU review and prior three full Linux greens retained. No new real calls. B G1 fix not yet main: six-question repeat remains conditional; broad audit waits B G3. [Integration](../.eval-artifacts/phase3b/browser-fixture-clocks/main-integration/report.md).
+
 2026-10-28 CET: User independently reviews2CPU clock repairs and approves173840b7 main integration. Current maincab27890 already ancestor; approved executable source and665 frozen inputs identical. Rerun five gates with per-item clean state, then publish main. Six-question≤20-call real rerun waits B G1 Prompt/Schema3 main merge; Q26 sourceConflict/confirmation, English Q07/Q33, full-sentence Q31, comment-free NOT_STATED Q27, NONE Q14 recorded as explicit checks. Broad audit waits B G3. New real calls0.
 
 2026-10-28 CET: A timing fixtures verified, review branch only. G2 owns one existing180s test lifetime; health late-read uses source-specific logical clocks and real DOM snapshots, all assertions retained/strengthened. Effective original reds at33.603/34.899s under2CPU quota pressure; ordinary2CPU/one-CPU full controls passed, auxiliary240s cancellation separately retained.61138c94/665 frozen inputs: macOS/Linux five gates1186/175 PASS; Linux three consecutive full4-worker suites175/175 in121.539/121.433/119.103s, each clean. Product/Guard/site/Prompt/Schema/State unchanged; new real calls0. VM removed. G1 review material already maincab27890; six-question real run waits B merge, broad audit waits G3. [Report](../.eval-artifacts/phase3b/browser-fixture-clocks/report.md).
@@ -17,7 +19,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.442
+- Document revision: 4.443
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
 

@@ -5764,3 +5764,10 @@ Same target failures precede pressure cutoff; preserve2passing full controls and
 ## 2026-10-28 CET: Approved timing repair main integration
 
 2026-10-28 CET: User independently reviews2CPU clock repairs and approves173840b7 main integration. Current maincab27890 already ancestor; approved executable source and665 frozen inputs identical. Rerun five gates with per-item clean state, then publish main. Six-question≤20-call real rerun waits B G1 Prompt/Schema3 main merge; Q26 sourceConflict/confirmation, English Q07/Q33, full-sentence Q31, comment-free NOT_STATED Q27, NONE Q14 recorded as explicit checks. Broad audit waits B G3. New real calls0.
+
+
+<a id="test-2026-10-28-clock-main-verified"></a>
+
+## 2026-10-28 CET: Approved clock repair main verification
+
+2026-10-28 CET: Approved clock source173840b7 is verified for main publication. Latest maincab27890 already ancestor, executable diff0; frozen4e45e37a five gates1186/175 PASS and each before/after clean.665 inputs unchanged; independent2CPU review and prior three full Linux greens retained. No new real calls. B G1 fix not yet main: six-question repeat remains conditional; broad audit waits B G3. [Integration](../.eval-artifacts/phase3b/browser-fixture-clocks/main-integration/report.md).
