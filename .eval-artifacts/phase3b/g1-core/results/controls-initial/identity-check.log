@@ -1,0 +1,42 @@
+▶ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots
+  ✔ other run (0.585584ms)
+  ✔ old read (0.074792ms)
+  ✔ old identity (0.069125ms)
+  ✔ other candidate (0.050208ms)
+  ✖ weak identity (1.723ms)
+  ✔ unbound source (0.047875ms)
+  ✔ non-page provider (0.042917ms)
+  ✔ redirect mismatch (0.046417ms)
+  ✔ loading (0.094875ms)
+  ✔ truncated line (0.080667ms)
+✖ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots (3.299667ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 115.332208
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:5970
+✖ weak identity (1.723ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILED'
+  - 'NO_BOUND_PAGE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:174:55)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:171:49)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILED',
+    expected: 'NO_BOUND_PAGE',
+    operator: 'strictEqual'
+  }

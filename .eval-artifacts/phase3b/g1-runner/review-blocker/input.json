@@ -1,0 +1,75 @@
+{
+  "inputOrigin": "LOCAL_CONSTRUCTED_NOT_HUMAN_RESTAURANT_GOLD",
+  "coreGit": "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d",
+  "coreInput": {
+    "question": {
+      "id": "local-contract-question",
+      "question": "Does the page guarantee safety for a severe allergy?",
+      "pageId": "local-contract-page",
+      "sensitiveCategory": "ALLERGY",
+      "displayedOutlet": {
+        "candidateId": "local-contract",
+        "name": "Local constructed merchant",
+        "sourceUrl": "https://merchant.example/local-contract-probe"
+      },
+      "readContext": {
+        "runId": "local-contract-run",
+        "startedAt": "2026-10-27T10:00:00Z"
+      },
+      "providedPage": {
+        "pageId": "local-contract-page",
+        "candidateId": "local-contract",
+        "sourceUrl": "https://merchant.example/local-contract-probe",
+        "pageSha256": "084ff4f92cba55863f54bd8235ad1f0eb3085314c008e5b80f54484e33897d64",
+        "readRunId": "local-contract-run",
+        "readId": "local-contract-read",
+        "observedAt": "2026-10-27T10:00:00Z",
+        "identityObservedAt": "2026-10-27T10:00:00Z",
+        "metadataOrigin": "LOCAL_CONSTRUCTED_NOT_GOLD"
+      }
+    },
+    "page": {
+      "id": "local-contract-page",
+      "site": "RESTAURANT_WEBSITE",
+      "outlet": {
+        "id": "local-contract",
+        "name": "Local constructed merchant",
+        "sourceUrl": "https://merchant.example/local-contract-probe"
+      },
+      "pagePath": "LOCAL_CONSTRUCTED_IN_MEMORY",
+      "pageSha256": "084ff4f92cba55863f54bd8235ad1f0eb3085314c008e5b80f54484e33897d64",
+      "storageSha256": "084ff4f92cba55863f54bd8235ad1f0eb3085314c008e5b80f54484e33897d64",
+      "storageEncoding": "utf8"
+    },
+    "html": "<p>Allergy information is available.</p>",
+    "text": "Allergy information is available.",
+    "now": "2026-10-27T10:00:01Z"
+  },
+  "read": {
+    "questionId": "local-contract-question",
+    "pageId": "local-contract-page",
+    "pageSha256": "084ff4f92cba55863f54bd8235ad1f0eb3085314c008e5b80f54484e33897d64",
+    "readId": "local-contract-read",
+    "runId": "local-contract-run",
+    "outletId": "local-contract",
+    "url": "https://merchant.example/local-contract-probe",
+    "readAt": "2026-10-27T10:00:00Z",
+    "text": "Allergy information is available."
+  },
+  "reference": {
+    "status": "REVIEWER_CONFIRMED",
+    "kind": "NOT_STATED",
+    "approvedAnswers": [
+      "The page does not state this."
+    ],
+    "requiredQuotes": [
+      "Allergy information is available."
+    ],
+    "targetOutletId": "local-contract",
+    "targetRunId": "local-contract-run",
+    "pageId": "local-contract-page",
+    "pageSha256": "084ff4f92cba55863f54bd8235ad1f0eb3085314c008e5b80f54484e33897d64",
+    "sensitiveCategory": "ALLERGY",
+    "notStatedQuestion": true
+  }
+}

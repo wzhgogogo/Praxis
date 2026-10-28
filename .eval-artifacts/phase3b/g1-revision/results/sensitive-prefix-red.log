@@ -1,0 +1,69 @@
+▶ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes
+  ✖ ALLERGY (29.576459ms)
+  ✖ RELIGIOUS_DIET (0.55025ms)
+  ✖ ACCESSIBILITY (0.31ms)
+✖ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes (30.7715ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.438917
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:7516
+✖ ALLERGY (29.576459ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    selected(quote)
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:211:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:201:41)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:7516
+✖ RELIGIOUS_DIET (0.55025ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    selected(quote)
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:211:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:201:41)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:7516
+✖ ACCESSIBILITY (0.31ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    selected(quote)
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:211:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:201:41)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

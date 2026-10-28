@@ -4,6 +4,7 @@
 - Document revision: 4.322
 
 
+
 - Last updated: 2026-10-27
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -22,6 +23,36 @@
 ## DEV-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
 
 2026-10-27T03:12:00+01:00。用户批准复核§9额度与详情字段交接，并要求样本备好先停。C从已复核分支整合main5f621be3，保留双方历史和按id并集账本；落地批准Gold5/sidecar3，历史Gold3/4不回写，退重复ADR0047而不复制B未提交的0046。来源SHA先冻结后从保存Google候选选5主3备，名单不填来源Gold，Dengana为暴露锚点。公开GET加速已存在，Google语言参数尚未接入；本切片只写范围与计划，不修改解析器/身份规则，不开始真实验证或收益对照。全部新增服务调用0，未加载/读取.env；7f3d8770五门禁1102/166全绿、逐项净树，只推分支停等Gold认证。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
+
+<a id="dev-2026-10-27-phase3b-A-dual-review"></a>
+
+## 2026-10-27 CET: Reviewed sensitive dual outcomes
+
+2026-10-27T17:17:32.536721+01:00. User resolves prior Q28/Q30 quote incompatibility in evaluator references, keeping ADR/core. Implement outcome-specific quotation/limitation and actual confirmation flag, RELIGIOUS_DIET enum; no aliases/duplicate refs. Rebase main/c98438f8 preserves both histories/ledger. Effective red/green, actual-core4-outcome composition PASS. f5995ba6 formal five gates1154/173 PASS, per-gate clean;26 input SHAs, original candidate and32 unchanged references verified. Ledger id-dedup preserves all records. User-authorized main integration follows, real calls0. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="dev-2026-10-27-phase3b-g1-core-integrated"></a>
+
+## 2026-10-27 CET：G1核心整合验收完成
+
+2026-10-27T15:59:14.915329+01:00。7be3b33a五门禁1152/168全绿后保留并行main/319cb9a5全部记录，metadata合并a27047b2，654冻结输入保持，旧HARD完整44,197字节一致。核心7源码与复核e4829a58原字节相同，账本14id并集、真实调用0。按用户授权合main，实际SHA以Git回执核对；下一项按明示要求先停报版本，不提前接Agent/Web。[报告](../../.eval-artifacts/phase3b/g1-integration/report.md)。
+
+<a id="dev-2026-10-27-phase3b-g1-core-integration"></a>
+
+## 2026-10-27 CET：G1核心重放与ADR文本批准
+
+用户批次3按SHA96b0f371批准ADR0046 revision0.2；严格只改Status行并记批准日期，其余字节不动。独立整合分支保留原e4829a58，13提交重放main/daba2ef0，只发生文档及账本冲突，双方原记录及账本id并集保留。7份G1事实源码与复核提交相同，其他生产/Runner/fixture不改，A答案未读。冻结后五门禁；接入前报告共享版本。真实调用0。[计划](../../.eval-artifacts/phase3b/g1-integration/plan.md)。
+
+<a id="dev-2026-10-27-phase3b-qa-final"></a>
+
+## 2026-10-27 CET: G1 final review confirmation
+
+2026-10-27T15:44:58.545553+01:00: user confirms all 34 after Q24/Q25 no-reader correction. Historical evidence preserved. G3/Live sequencing updated; independent Runner follows after main integration. c10fdeed five gates1110/168 PASS, per-gate clean tree. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-qa/report.md).
+
+<a id="dev-2026-10-27-phase3b-A-batch2-calendar-stop"></a>
+
+## 2026-10-27 CET：缺少真实TableCheck阳性保存日历
+
+03:31 CET，固定main/daba2ef0，d8e8626e先冻结3408输入与脚本，再查3388保存页/20归档968页。171时间动作候选为4个SHA；3个Date Field仅查询条件，168次重复来自run-interruption.ts本地构造。没有可加入G2的真实已绑定时段页，按用户第3节停止；未改固定集，Runner未启动，单适配集成批准保留。三项已合main推送记录及0调用第7条保留，本分支只证据/文档、不合main。[报告](../../.eval-artifacts/phase3b/tablecheck-calendar-evidence/report.md)。
 
 <a id="dev-2026-10-27-phase3b-A-batch2-qa"></a>
 
@@ -70,6 +101,43 @@
 ## 2026-10-26 CET：3b A G1候选问答
 
 时间2026-10-26T23:29:45.366380+01:00。main cc127320独立切片，用户澄清后30题全部CANDIDATE，8页/49处原文，问题与答案隔离；实际无到期证据不冒称过期。ADR（对话 B 起草，待批准）统一维护用户原则，评分器不读产品解析器；无Gold先NOT_READY，未知同义人工复核。fc5146b9五门禁1104/163全绿、各项前后净树；候选正式评分NOT_READY，真实调用0，不合main。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
+
+<a id="dev-2026-10-27-phase3b-A-runner-delivery"></a>
+
+## 2026-10-27 CET: Native Runner delivery and contract review item
+
+2026-10-27T16:40:01.173311+01:00. Adapter-only native implementation migration, unchanged B product.8cb02dbc gates1148/167 PASS/per-gate clean.34 canned transport complete; grade5/19/10 not model quality. Actual-core local proof confirms Q28/Q30 sensitive NOT_STATED quotation incompatibility; preserve Gold/core and stop contract changes pending review. Parallel main/c98438f8 already contains QA and B core; its latest ledger union is retained. Zero real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="dev-2026-10-27-phase3b-A-runner-native"></a>
+
+## 2026-10-27 CET: A Runner rebase to delivered B batch2
+
+2026-10-27T16:26:12.182132+01:00. Followed approved integration sequence: legacy verified checkpoint tagged; rebase e4829a58, both histories/budget union preserved; only adapter source updated. Unchanged four composition controls pass. Native fixture/gates pending, no real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="dev-2026-10-27-phase3b-g1-revision"></a>
+
+## 2026-10-27 CET：3b B批次2 G1修订与ADR统一
+
+Evidence status：draft / not integrated，按用户决定继续codex/feat-phase3b-g1-core，不合main。统一ADR0046 Proposed，原则已由用户2026-10-27批准、文本待批准；删除B0047，A/C自撤重复稿。合并G2种子/逐页判定与G1题答分离、复核者逐题确认、独立评分及错误声明目标0的Validation；未读QA答案。
+
+G1 Prompt/Schema2允许提问语言简短答案+1–3逐字引文，模型标敏感类别，基本yes/no形式核对，代码仍绑定原文/同店/run/URL/读取时间并冻结快照；结构化NOT_STATED null及confirmationRequired，不拼展示文案。共用分段/选择参数化，G1每页60k/1200/单句6k；HARD默认行为不变，固定时钟完整事实/模型请求44,197字节SHA一致。可见标题的明确评论区段标USER_REVIEW拒引，不读class/testid；未标记/歧义评论风险留ADR和独立题集。
+
+旧代码红灯与最终保存页绿灯使用同一冻结脚本和输入：后7,515字符原文、整页未说明、评论误接纳；简短答案/敏感格式及三个反事实有效。最终bb967901五门禁1142/162全绿、每项前后净树。没有Agent合法动作/Web/State/TaskDefinition/Guard/共享Prompt或A/C源码变更；真实调用0，不读.env，账本仅追加B0增量，站点3847/Pack473不变。完成后停止等文本批准，下一批接线/真实模型评测/G3均未做。[报告及ADR全文](../../.eval-artifacts/phase3b/g1-revision/report.md)。
+
+<a id="dev-2026-10-27-phase3b-A-g1-runner"></a>
+
+## 2026-10-27 CET: A G1 Runner integration
+
+2026-10-27T16:09:08.100528+01:00. User-approved B/0a466bcd integration base. Only A eval/harness and audit files change. Actual-core previous-run red/green, separate execution/scoring, source SHA and reference-read isolation. Scorer@3 follows new category contract; presentation advice remains unevaluated. ee5c835c fixture transport34/34 with29 FIXTURE invocations; canned grading5/27/2, not real-model quality. Product bytes pinned; five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="dev-2026-10-26-phase3b-g1-stop1"></a>
+
+## 2026-10-26 CET：3b B批次1停止点1（未接入口G1）
+
+Evidence status：draft / not integrated，分支codex/feat-phase3b-g1-core，从签收main cc127320开始；ADR0047为Proposed，等待用户批准，不改变已接受决策。观察原则和G1合同同稿，F3原38映射扩52组；G2正式规格归A，G4身份归C。复用Native/官网reader可选绑定页面hook、原样分段及完整statement核对；G1问题独立于criteria，抽取式原文、来源URL与读取时间由代码绑定。无自由模型结论，敏感只引文+确认，未说明必须限定查过的完整页面。
+
+旧HARD-only信用卡问题有效红灯保留；缓存异步更新导致原文与URL错配在未接入口核心中取得红灯，以调用前复制关闭；三种移除核对控制有效。没有Agent合法动作/Prompt/Web、State/TaskDefinition或Guard变化，没有第二套抓取/身份/预算；旧事实结果保留。最终d4be4a7a五门禁1130/162全绿、每项前后净树。新增真实模型/Google/餐厅网站/Live/公开GET/环境重跑均0，未读.env；预算保留A/C条目仅追加B零增量。站点3847/Pack473不变，G3待批准。按授权推工作分支供复核，不合main。见[报告](../../.eval-artifacts/phase3b/g1-core/report.md)与[ADR草案](https://github.com/wzhgogogo/Praxis/blob/0a466bcded02700b11bfe86e99bf4924e0d22d32/docs/decisions/0047-observation-driven-sites-and-cited-questions.md)。
+
 
 <a id="dev-2026-10-26-phase3a-prime-signoff"></a>
 

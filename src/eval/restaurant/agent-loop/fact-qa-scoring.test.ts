@@ -8,8 +8,8 @@ import { runQaEvaluation } from "../fact-qa/run.js";
 
 // Local construction, not website replay or human-confirmed restaurant Gold.
 const read: QaRead = { pageId: "page-A", pageSha256: "sha-A", readId: "read-current", outletId: "outlet-A", runId: "run-current", text: "Private room for four guests." };
-const reference: QaReference = { status: "REVIEWER_CONFIRMED", kind: "ANSWERED", approvedAnswers: ["原文：Private room for four guests."], requiredQuotes: ["Private room for four guests."], targetOutletId: "outlet-A", targetRunId: "run-current", pageId: "page-A", pageSha256: "sha-A" };
-const answer: QaResponse = { kind: "ANSWERED", text: reference.approvedAnswers[0]!, citations: [{ pageId: "page-B", pageSha256: "sha-B", readId: "read-other", quote: "Private room for four guests." }] };
+const reference: QaReference = { status: "REVIEWER_CONFIRMED", kind: "ANSWERED", approvedAnswers: ["原文：Private room for four guests."], requiredQuotes: ["Private room for four guests."], targetOutletId: "outlet-A", targetRunId: "run-current", sensitiveCategory: "NONE", pageId: "page-A", pageSha256: "sha-A" };
+const answer: QaResponse = { kind: "ANSWERED", sensitiveCategory: "NONE", confirmationRequired: false, text: reference.approvedAnswers[0]!, citations: [{ pageId: "page-B", pageSha256: "sha-B", readId: "read-other", quote: "Private room for four guests." }] };
 
 test("G1 scorer rejects the same words cited from another outlet page/read", () => {
   assert.equal(scoreQaAnswer(reference, read, answer).status, "FAIL");
@@ -33,13 +33,14 @@ test("G1 refuses candidate Gold and leaves unseen paraphrase consistency unknown
 test("G1 distinguishes honest absence, unsupported claims, bilingual conflict and sensitive confirmation", () => {
   const current = { ...answer, citations: [{ ...answer.citations[0]!, pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId }] };
   const absent: QaReference = { ...reference, kind: "NOT_STATED", notStatedQuestion: true, approvedAnswers: ["页面未说明。"] };
-  assert.equal(scoreQaAnswer(absent, read, { kind: "NOT_STATED", text: "页面未说明。", citations: [] }).status, "PASS");
+  assert.equal(scoreQaAnswer(absent, read, { kind: "NOT_STATED", sensitiveCategory: "NONE", confirmationRequired: false, text: "页面未说明。", citations: [] }).status, "PASS");
   assert.equal(scoreQaAnswer(absent, read, current).falseClaimCount, 1);
   assert.equal(scoreQaAnswer({ ...reference, kind: "CONFLICT" }, read, current).status, "FAIL");
   assert.equal(scoreQaAnswer(reference, read, { ...current, citations: [] }).status, "FAIL");
-  assert.equal(scoreQaAnswer({ ...reference, sensitive: true }, read, current).status, "FAIL");
+  assert.equal(scoreQaAnswer({ ...reference, sensitiveCategory: "ALLERGY" }, read, current).status, "FAIL");
   const sensitive = current.text + " 请向餐厅确认。";
-  assert.equal(scoreQaAnswer({ ...reference, sensitive: true, approvedAnswers: [sensitive] }, read, { ...current, text: sensitive }).status, "PASS");
+  assert.equal(scoreQaAnswer({ ...reference, sensitiveCategory: "ALLERGY", approvedAnswers: [sensitive] }, read, { ...current, text: sensitive, sensitiveCategory: "ALLERGY", confirmationRequired: true }).status, "PASS");
+  assert.equal(scoreQaAnswer({ ...reference, sensitiveCategory: "ALLERGY" }, read, { ...current, sensitiveCategory: "ALLERGY", confirmationRequired: true }).status, "PASS", "core classification is checked; confirmation wording belongs to presentation");
   const unrelatedRead = { ...read, text: read.text + " Welcome." };
   assert.equal(scoreQaAnswer(reference, unrelatedRead, { ...current, citations: [{ ...current.citations[0]!, quote: "Welcome." }] }).status, "FAIL");
 });
@@ -59,14 +60,14 @@ test("G1 evaluator cannot turn candidate answers into a scored acceptance set", 
 test("G1 maps an outlet/run mismatch reference to UNVERIFIED without quoting the rejected page", () => {
   const mismatch: QaReference = { ...reference, kind: "MISMATCH", approvedAnswers: ["Unable to verify."], requiredQuotes: [] };
   const result = scoreQaAnswer(mismatch, { ...read, outletId: "other-branch" },
-    JSON.parse('{"kind":"UNVERIFIED","text":"Unable to verify.","citations":[]}') as QaResponse);
+    JSON.parse('{"kind":"UNVERIFIED","sensitiveCategory":"NONE","confirmationRequired":null,"text":"Unable to verify.","citations":[]}') as QaResponse);
   assert.equal(result.status, "PASS");
   assert.equal(result.falseClaimCount, 0);
   assert.equal(scoreQaAnswer({ ...mismatch, forbiddenAnswerFragments: ["56"] }, read,
-    { kind: "UNVERIFIED", text: "Unable to verify, but they have 56 seats.", citations: [] }).falseClaimCount, 1);
-  assert.equal(scoreQaAnswer(mismatch, read, { kind: "UNVERIFIED", text: "", citations: [] }).status, "PASS");
+    { kind: "UNVERIFIED", sensitiveCategory: "NONE", confirmationRequired: false, text: "Unable to verify, but they have 56 seats.", citations: [] }).falseClaimCount, 1);
+  assert.equal(scoreQaAnswer(mismatch, read, { kind: "UNVERIFIED", sensitiveCategory: "NONE", confirmationRequired: false, text: "", citations: [] }).status, "PASS");
   assert.equal(scoreQaAnswer(reference, { ...read, runId: "previous-run" },
-    { kind: "ANSWERED", text: reference.approvedAnswers[0]!, citations: [{ pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId, quote: read.text }] }).falseClaimCount, 1);
+    { kind: "ANSWERED", sensitiveCategory: "NONE", confirmationRequired: false, text: reference.approvedAnswers[0]!, citations: [{ pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId, quote: read.text }] }).falseClaimCount, 1);
 });
 
 test("G1 maps bilingual conflict to ANSWERED with both originals and restaurant confirmation", () => {
@@ -74,10 +75,36 @@ test("G1 maps bilingual conflict to ANSWERED with both originals and restaurant 
   const quoteB = "コースのみ10％";
   const conflict: QaReference = { ...reference, kind: "CONFLICT", approvedAnswers: [text], requiredQuotes: [read.text, quoteB] };
   const result = scoreQaAnswer(conflict, { ...read, text: read.text + " " + quoteB },
-    { kind: "ANSWERED", text, citations: [read.text, quoteB].map(quote => ({ pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId, quote })) });
+    { kind: "ANSWERED", sensitiveCategory: "NONE", confirmationRequired: false, text, citations: [read.text, quoteB].map(quote => ({ pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId, quote })) });
   assert.equal(result.status, "PASS");
   assert.equal(result.falseClaimCount, 0);
   const citations = [read.text, quoteB].map(quote => ({ pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId, quote }));
-  assert.equal(scoreQaAnswer(conflict, { ...read, text: read.text + " " + quoteB }, { kind: "ANSWERED", text, citations: citations.slice(0, 1) }).status, "FAIL");
-  assert.equal(scoreQaAnswer(conflict, { ...read, text: read.text + " " + quoteB }, { kind: "ANSWERED", text: "Please confirm with the restaurant.", citations }).status, "FAIL");
+  assert.equal(scoreQaAnswer(conflict, { ...read, text: read.text + " " + quoteB }, { kind: "ANSWERED", sensitiveCategory: "NONE", confirmationRequired: false, text, citations: citations.slice(0, 1) }).status, "FAIL");
+  assert.equal(scoreQaAnswer(conflict, { ...read, text: read.text + " " + quoteB }, { kind: "ANSWERED", sensitiveCategory: "NONE", confirmationRequired: false, text: "Please confirm with the restaurant.", citations }).status, "FAIL");
+});
+
+// Local constructions from the user's approved two-outcome policy, not website replay.
+for (const topic of [
+  { id: "allergy", category: "ALLERGY", quote: "Allergy information available", text: "The page states “Allergy information available”. This is not a safety guarantee.", limitation: "not a safety guarantee", forbidden: "It is safe for people with peanut allergies." },
+  { id: "diet", category: "RELIGIOUS_DIET", quote: "Beef short rib steak", text: "The menu lists “Beef short rib steak”. This is not halal certification.", limitation: "not halal certification", forbidden: "This course is halal-certified." },
+]) test("G1 reviewed sensitive absence accepts both outcomes: " + topic.id, () => {
+  const source = { ...read, text: topic.quote };
+  const ref = JSON.parse(JSON.stringify({ ...reference, kind: "NOT_STATED", sensitiveCategory: topic.category,
+    approvedAnswers: ["The page does not state this."], requiredQuotes: [], confirmationRequired: true,
+    forbiddenAnswerFragments: [topic.forbidden],
+    relatedAnswer: { requiredQuotes: [topic.quote], approvedAnswers: [topic.text], requiredLimitationPattern: topic.limitation } })) as QaReference;
+  const absent = JSON.parse(JSON.stringify({ kind: "NOT_STATED", text: "The page does not state this.", sensitiveCategory: topic.category, confirmationRequired: true, citations: [] })) as QaResponse;
+  assert.equal(scoreQaAnswer(ref, source, absent).status, "PASS");
+  const related = JSON.parse(JSON.stringify({ kind: "ANSWERED", text: topic.text, sensitiveCategory: topic.category, confirmationRequired: true,
+    citations: [{ pageId: read.pageId, pageSha256: read.pageSha256, readId: read.readId, quote: topic.quote }] })) as QaResponse;
+  assert.equal(scoreQaAnswer(ref, source, related).status, "PASS");
+  for (const valid of [absent, related]) {
+    assert.equal(scoreQaAnswer(ref, source, { ...valid, confirmationRequired: false } as QaResponse).status, "FAIL");
+    assert.equal(scoreQaAnswer(ref, source, { ...valid, sensitiveCategory: "NONE" }).status, "FAIL");
+    assert.equal(scoreQaAnswer(ref, source, { ...valid, text: valid.text + " " + topic.forbidden }).falseClaimCount, 1);
+  }
+  assert.equal(scoreQaAnswer(ref, source, { ...absent, citations: related.citations }).status, "FAIL");
+  assert.equal(scoreQaAnswer(ref, source, { ...related, citations: [] }).status, "FAIL");
+  assert.equal(scoreQaAnswer(ref, source, { ...related, text: topic.quote }).status, "FAIL");
+  assert.equal(scoreQaAnswer(ref, source, { ...related, text: topic.text + " Additional unreviewed claim." }).status, "NOT_EVALUATED");
 });

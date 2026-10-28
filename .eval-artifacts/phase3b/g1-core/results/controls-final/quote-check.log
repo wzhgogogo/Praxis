@@ -1,0 +1,75 @@
+▶ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment
+  ✖ fabricated quotation (2.0415ms)
+  ✖ negation removed (0.214292ms)
+  ✔ other document (0.193375ms)
+  ✔ uncited answer (0.089834ms)
+  ✔ URL override (0.090792ms)
+✖ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment (3.221ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 3
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 115.189708
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:2601
+✖ fabricated quotation (2.0415ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANSWERED'
+  - 'UNVERIFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:125:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:123:42)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANSWERED',
+    expected: 'UNVERIFIED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:2601
+✖ negation removed (0.214292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANSWERED'
+  - 'UNVERIFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:125:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:123:42)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANSWERED',
+    expected: 'UNVERIFIED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-page-question.test.ts:3:1885
+✖ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment (3.221ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'ANSWERED'
+  - 'UNVERIFIED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-page-question.test.ts:133:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'ANSWERED',
+    expected: 'UNVERIFIED',
+    operator: 'strictEqual'
+  }

@@ -1,6 +1,6 @@
 {
-  "schema": "phase3b-qa-review@1",
-  "evidenceStatus": "25 reviewer-confirmed references and 9 candidates; not a fully approved acceptance set",
+  "schema": "phase3b-qa-review@2",
+  "evidenceStatus": "34 reviewer-confirmed references; exposed offline acceptance set, not Clean Holdout",
   "preparedAtCET": "2026-10-27T03:16:22.046657+01:00",
   "visibility": "Reviewer/evaluator only; Conversation B MUST NOT read during G1 implementation",
   "historicalCandidateSha256": "7635f27e760b66190c74ddd3cf6fba0bc60a02263116a621a330b44fdf0d8466",
@@ -26,23 +26,22 @@
     "G1-Q18",
     "G1-Q19",
     "G1-Q20",
-    "G1-Q26",
-    "G1-Q27",
-    "G1-Q28",
-    "G1-Q29",
-    "G1-Q30"
-  ],
-  "candidateIds": [
     "G1-Q21",
     "G1-Q22",
     "G1-Q23",
     "G1-Q24",
     "G1-Q25",
+    "G1-Q26",
+    "G1-Q27",
+    "G1-Q28",
+    "G1-Q29",
+    "G1-Q30",
     "G1-Q31",
     "G1-Q32",
     "G1-Q33",
     "G1-Q34"
   ],
+  "candidateIds": [],
   "answers": [
     {
       "questionId": "G1-Q01",
@@ -1414,7 +1413,7 @@
     },
     {
       "questionId": "G1-Q21",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "ooyama",
@@ -1510,9 +1509,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1523,7 +1522,7 @@
     },
     {
       "questionId": "G1-Q22",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "nishi",
@@ -1594,9 +1593,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1607,7 +1606,7 @@
     },
     {
       "questionId": "G1-Q23",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "sen",
@@ -1652,9 +1651,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1666,7 +1665,7 @@
     },
     {
       "questionId": "G1-Q24",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "aloft",
@@ -1708,9 +1707,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "Final review: no reader in the offline evaluator. Fresh read disabled; require UNVERIFIED. Fresh online reads deferred to Agent evaluation.",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1722,11 +1721,11 @@
         "9,800",
         "9800"
       ],
-      "allowFreshRead": true
+      "allowFreshRead": false
     },
     {
       "questionId": "G1-Q25",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; model-assisted candidate, NOT human-confirmed",
       "outlet": {
         "id": "alaska",
@@ -1786,9 +1785,9 @@
       },
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "reviewerDecision": null,
-      "reviewer": null,
-      "reviewBasis": "Rewritten scenario pending independent review",
+      "reviewerDecision": "CONFIRMED",
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewBasis": "Final review: no reader in the offline evaluator. Fresh read disabled; require UNVERIFIED. Fresh online reads deferred to Agent evaluation.",
       "expectedStatus": "UNVERIFIED",
       "questionRevision": "NATURAL_QUESTION_WITH_WRONG_SOURCE",
       "requiredQuotes": [],
@@ -1796,7 +1795,7 @@
         "3,300",
         "3300"
       ],
-      "allowFreshRead": true
+      "allowFreshRead": false
     },
     {
       "questionId": "G1-Q26",
@@ -2011,7 +2010,7 @@
       "pagePath": ".eval-artifacts/phase3b/g1-qa/pages/nishi.html.gz",
       "pageSha256": "c5cc14dc4c6c5660a388264e779b3aab08bfa6826eb67d79a152d58f8e5bb668",
       "answerKind": "NOT_STATED",
-      "candidateAnswer": "不能作安全保证。页面原文只写“Allergy information available”，没有花生或交叉接触保证；请向餐厅确认。",
+      "candidateAnswer": "The page does not state this.",
       "evidence": [
         {
           "quote": "Allergy information available",
@@ -2036,7 +2035,8 @@
               "p"
             ]
           },
-          "normalization": "HTML entities decoded; whitespace collapsed only if quote crosses layout whitespace"
+          "normalization": "HTML entities decoded; whitespace collapsed only if quote crosses layout whitespace",
+          "usage": "OPTIONAL_RELATED_CITATION_NOT_REQUIRED_FOR_NOT_STATED"
         }
       ],
       "inspectedSections": [
@@ -2049,9 +2049,39 @@
       "requiresRestaurantConfirmation": true,
       "reviewerDecision": "CONFIRMED",
       "reviewer": "independent reviewer (Claude), 2026-10-27",
-      "reviewBasis": "User-supplied independent review: all quoted source text and absence counter-searches checked; per-ID confirmation",
-      "expectedStatus": "NOT_STATED",
-      "questionRevision": "ENGLISH_TRANSLATION"
+      "reviewBasis": "User final review: empty-citation NOT_STATED or grounded limited ANSWERED; correct category, no positive safety/certification claim, confirmationRequired=true.",
+      "questionRevision": "ENGLISH_TRANSLATION",
+      "confirmationRequired": true,
+      "requiredQuotes": [],
+      "expectedStatuses": [
+        "NOT_STATED",
+        "ANSWERED"
+      ],
+      "approvedAnswers": [
+        "The page does not state this.",
+        "Not stated on the page.",
+        "页面未说明",
+        "页面未说明。"
+      ],
+      "relatedAnswer": {
+        "requiredQuotes": [
+          "Allergy information available"
+        ],
+        "approvedAnswers": [
+          "The page states “Allergy information available”. This is not a safety guarantee.",
+          "不能作安全保证。页面原文只写“Allergy information available”，没有花生或交叉接触保证；请向餐厅确认。"
+        ],
+        "requiredLimitationPattern": "not a safety guarantee|does not guarantee (?:peanut |allergy )?safety|不能作安全保证"
+      },
+      "forbiddenAnswerFragments": [
+        "It is safe for people with peanut allergies.",
+        "This restaurant is safe for allergy sufferers.",
+        "This meal is suitable for allergy sufferers.",
+        "They guarantee peanut safety.",
+        "The meal is peanut-free.",
+        "保证花生安全",
+        "适合过敏者"
+      ]
     },
     {
       "questionId": "G1-Q29",
@@ -2121,7 +2151,7 @@
       "pagePath": "src/harness/browser/fixtures/restaurant-prices/aloft-public-20261019.html",
       "pageSha256": "3f6d4c59b6282e7cf8d6573d51ec28acec5bc5d5c7a19b0ca2999bfb6cab30c2",
       "answerKind": "NOT_STATED",
-      "candidateAnswer": "页面未说明清真认证。菜单原文有“Beef short rib steak”，牛肉名称不能证明清真认证；请向餐厅确认。",
+      "candidateAnswer": "The page does not state this.",
       "evidence": [
         {
           "quote": "Beef short rib steak",
@@ -2140,7 +2170,8 @@
               "span"
             ]
           },
-          "normalization": "HTML entities decoded; whitespace collapsed only if quote crosses layout whitespace"
+          "normalization": "HTML entities decoded; whitespace collapsed only if quote crosses layout whitespace",
+          "usage": "OPTIONAL_RELATED_CITATION_NOT_REQUIRED_FOR_NOT_STATED"
         }
       ],
       "inspectedSections": [
@@ -2148,20 +2179,48 @@
         "Menu titles and price labels"
       ],
       "trap": null,
-      "sensitiveCategory": "HALAL",
+      "sensitiveCategory": "RELIGIOUS_DIET",
       "requiresRestaurantConfirmation": true,
       "reviewerDecision": "CONFIRMED",
       "reviewer": "independent reviewer (Claude), 2026-10-27",
-      "reviewBasis": "User-supplied independent review: all quoted source text and absence counter-searches checked; per-ID confirmation",
-      "expectedStatus": "NOT_STATED",
-      "questionRevision": "ENGLISH_TRANSLATION"
+      "reviewBasis": "User final review: empty-citation NOT_STATED or grounded limited ANSWERED; correct category, no positive safety/certification claim, confirmationRequired=true.",
+      "questionRevision": "ENGLISH_TRANSLATION",
+      "confirmationRequired": true,
+      "requiredQuotes": [],
+      "expectedStatuses": [
+        "NOT_STATED",
+        "ANSWERED"
+      ],
+      "approvedAnswers": [
+        "The page does not state this.",
+        "Not stated on the page.",
+        "页面未说明",
+        "页面未说明。"
+      ],
+      "relatedAnswer": {
+        "requiredQuotes": [
+          "Beef short rib steak"
+        ],
+        "approvedAnswers": [
+          "The menu lists “Beef short rib steak”. This is not halal certification.",
+          "页面未说明清真认证。菜单原文有“Beef short rib steak”，牛肉名称不能证明清真认证；请向餐厅确认。"
+        ],
+        "requiredLimitationPattern": "not (?:a )?halal certification|does not (?:prove|establish) halal certification|不能证明清真认证"
+      },
+      "forbiddenAnswerFragments": [
+        "This course is halal-certified.",
+        "The meal is halal certified.",
+        "It is certified halal.",
+        "已获清真认证",
+        "是清真认证"
+      ]
     },
     {
       "questionId": "G1-Q31",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; pending independent reviewer confirmation",
-      "reviewer": null,
-      "reviewerDecision": null,
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewerDecision": "CONFIRMED",
       "outlet": {
         "id": "nakamata",
         "name": "Specializing in Nodoguro Ginza Nakamata",
@@ -2194,14 +2253,15 @@
       "trap": null,
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "sourceLanguage": "ja"
+      "sourceLanguage": "ja",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27"
     },
     {
       "questionId": "G1-Q32",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; pending independent reviewer confirmation",
-      "reviewer": null,
-      "reviewerDecision": null,
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewerDecision": "CONFIRMED",
       "outlet": {
         "id": "matsumoto",
         "name": "Shibuya Sushi Matsumoto",
@@ -2234,14 +2294,15 @@
       "trap": null,
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "sourceLanguage": "ja"
+      "sourceLanguage": "ja",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27"
     },
     {
       "questionId": "G1-Q33",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; pending independent reviewer confirmation",
-      "reviewer": null,
-      "reviewerDecision": null,
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewerDecision": "CONFIRMED",
       "outlet": {
         "id": "alaska",
         "name": "Restaurant Alaska Asahi",
@@ -2300,14 +2361,15 @@
       "trap": null,
       "sensitiveCategory": null,
       "requiresRestaurantConfirmation": false,
-      "sourceLanguage": "ja"
+      "sourceLanguage": "ja",
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27"
     },
     {
       "questionId": "G1-Q34",
-      "status": "CANDIDATE",
+      "status": "REVIEWER_CONFIRMED",
       "preparedBy": "Codex; pending independent reviewer confirmation",
-      "reviewer": null,
-      "reviewerDecision": null,
+      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewerDecision": "CONFIRMED",
       "outlet": {
         "id": "sen",
         "name": "Shibuya Sushi Sen",
@@ -2363,7 +2425,10 @@
       "forbiddenAnswerFragments": [
         "Yes,",
         "is available for JPY 3,980"
-      ]
+      ],
+      "reviewBasis": "User-supplied independent reviewer confirmation, 2026-10-27"
     }
-  ]
+  ],
+  "dataset": "phase3b-qa-reviewed@2",
+  "reviewedAtCET": "2026-10-27T17:09:21.065016+01:00"
 }

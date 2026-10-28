@@ -3,9 +3,14 @@ from pathlib import Path
 import json,gzip,hashlib,html,datetime,zoneinfo,subprocess
 root=Path('.eval-artifacts/phase3b/g1-qa')
 questions=json.loads((root/'questions.json').read_text());answers=json.loads((root/'answers.reviewed.json').read_text())
+assert questions['schema']=='phase3b-qa-questions@3'
 assert len(questions['questions'])==len(answers['answers'])==34
 assert len({q['id'] for q in questions['questions']})==34
-confirmed={f'G1-Q{i:02d}' for i in [*range(1,21),*range(26,31)]}
+for qid in ['G1-Q24','G1-Q25']:
+ a=next(a for a in answers['answers'] if a['questionId']==qid)
+ assert a['allowFreshRead'] is False, 'OFFLINE_FRESH_READ_MUST_BE_DISABLED: '+qid
+ assert a['expectedStatus']=='UNVERIFIED'
+confirmed={f'G1-Q{i:02d}' for i in range(1,35)}
 assert {a['questionId'] for a in answers['answers'] if a['status']=='REVIEWER_CONFIRMED'}==confirmed
 assert all(a['status']=='CANDIDATE' for a in answers['answers'] if a['questionId'] not in confirmed)
 assert all(a['reviewer']=='independent reviewer (Claude), 2026-10-27' for a in answers['answers'] if a['questionId'] in confirmed)
@@ -43,4 +48,9 @@ for a in answers['answers']:
  if a['trap'] is not None:assert a['trap']['description']
 q26=next(a for a in answers['answers'] if a['questionId']=='G1-Q26')
 assert q26['expectedStatus']=='ANSWERED' and len(q26['requiredQuotes'])==2 and q26['requiresRestaurantConfirmation'] and q26['mustAcknowledgeConflict']
-print(json.dumps({'timeCET':datetime.datetime.now(zoneinfo.ZoneInfo('Europe/Vienna')).isoformat(),'questions':34,'reviewerConfirmed':25,'candidateQuestions':9,'pagesShaVerified':len(pages),'literalQuotesAndLocationsVerified':quotes,'historicalCandidateSha256':hashlib.sha256(historical).hexdigest(),'acceptanceGoldStatus':'NOT_READY_FOR_FULL_SET','newRealCalls':0},ensure_ascii=False,indent=2))
+for qid,category in [('G1-Q28','ALLERGY'),('G1-Q30','RELIGIOUS_DIET')]:
+ a=next(a for a in answers['answers'] if a['questionId']==qid)
+ assert a['expectedStatuses']==['NOT_STATED','ANSWERED'] and a['requiredQuotes']==[] and a['confirmationRequired'] is True and a['sensitiveCategory']==category
+ assert a['relatedAnswer']['requiredQuotes'] and a['forbiddenAnswerFragments']
+ assert next(q for q in questions['questions'] if q['id']==qid)['sensitiveCategory']==category
+print(json.dumps({'timeCET':datetime.datetime.now(zoneinfo.ZoneInfo('Europe/Vienna')).isoformat(),'questions':34,'reviewerConfirmed':34,'candidateQuestions':0,'pagesShaVerified':len(pages),'literalQuotesAndLocationsVerified':quotes,'historicalCandidateSha256':hashlib.sha256(historical).hexdigest(),'acceptanceGoldStatus':'REVIEWER_CONFIRMED_EXPOSED_OFFLINE_SET','newRealCalls':0},ensure_ascii=False,indent=2))

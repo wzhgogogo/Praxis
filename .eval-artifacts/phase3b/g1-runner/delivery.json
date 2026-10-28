@@ -1,0 +1,65 @@
+{
+  "timeCET": "2026-10-27T17:26:09.288065+01:00",
+  "baseMainGit": "c98438f89beaf16f7067b8385a747a137f5bec7c",
+  "gatesGit": "f5995ba682e8da480b982e047b9137adcf3bbcb1",
+  "scorer": "source-quoted-qa-scorer@4",
+  "dataset": "phase3b-qa-reviewed@2",
+  "questionSchema": "phase3b-qa-questions@3",
+  "review": "independent reviewer (Claude), 2026-10-27",
+  "reviewedDualOutcomes": "Q28/Q30 both NOT_STATED or limited grounded ANSWERED; true confirmation",
+  "priorContractBlocker": "RESOLVED_BY_USER_REVIEW_WITHOUT_CORE_CHANGE",
+  "fiveGates": "PASS_1154_DEFAULT_173_CHROMIUM_PER_GATE_CLEAN",
+  "validation": {
+    "timeCET": "2026-10-27T17:26:09.288065+01:00",
+    "reviewedIds": [
+      "G1-Q28",
+      "G1-Q30"
+    ],
+    "other32References": "IDENTICAL_TO_MAIN",
+    "historicalCandidateBytes": "UNCHANGED",
+    "currentFrozenInputCount": 26,
+    "sourceLiteralPositions": 56,
+    "scorerControls": "8/8 PASS",
+    "runnerControls": "5/5 PASS",
+    "actualCoreQuestionOutcomePairs": "4/4 PASS",
+    "coreConfirmationPropagation": "RAW_AND_PROJECTED_TRUE",
+    "productAndADRDiff": "ZERO",
+    "budgetUniqueEntries": 17,
+    "allRealCalls": 0
+  },
+  "savedPageFixture": {
+    "executionGit": "f5995ba682e8da480b982e047b9137adcf3bbcb1",
+    "coreGit": "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d",
+    "mode": "FIXTURE_MODEL_SAVED_PAGES_NOT_REAL_MODEL_EVAL",
+    "executionStatus": "PASS",
+    "executed": 34,
+    "modelInvocations": 29,
+    "providers": [
+      "FIXTURE"
+    ],
+    "coreStatusCounts": {
+      "ANSWERED": 0,
+      "NOT_STATED": 29,
+      "UNVERIFIED": 5
+    },
+    "evaluationStatus": "FAIL",
+    "evaluationExitCode": 1,
+    "rowStatuses": {
+      "PASS": 5,
+      "FAIL": 19,
+      "NOT_EVALUATED": 10
+    },
+    "falseClaimCount": null,
+    "categoryClassification": "CORE_OUTPUT_RECORDED_FIXTURE_LABELS_NOT_QUALITY_EVAL",
+    "realModelQuality": "NOT_EVALUATED",
+    "realModelCalls": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0,
+    "publicGET": 0,
+    "liveCalls": 0,
+    "answerReadIsolation": "EXECUTION_UNDER_ENFORCED_DENY_WITH_INDEPENDENT_CANARY",
+    "gitStatusAfter": ""
+  },
+  "integration": "AUTHORIZED_MAIN_FF_AFTER_PUSH",
+  "realModelEvaluation": "NOT_RUN_WAIT_B_AGENT_INTEGRATION"
+}

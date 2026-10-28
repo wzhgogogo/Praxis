@@ -4,6 +4,7 @@
 - Document revision: 4.328
 
 
+
 - Last updated: 2026-10-27
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
@@ -22,6 +23,36 @@ CET。新的8主+15历史检索矩阵、4×2×3具名会话和开发15轮及外�
 ## TEST-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
 
 CET。旧Gold4 loader在独立批准15项预期处AssertionError红灯，迁移后既有5项回归及固定Fixture15/15绿；原始日志保留，历史评价不回写。最终7f3d87705548661ed4c1d42ea3c6fbbf835e27ee冻结722项，独立审计/Fixture15与五门禁全部绿（默认1102/1102、Chromium166/166），每项前后status空、输入SHA匹配，无豁免或skip。真实模型/Google/来源网站/Live/环境重跑0，私有Holdout与.env未读；不把Fixture证明为Prompt26真实遵循或G4检索收益。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
+
+<a id="test-2026-10-27-phase3b-A-dual-review"></a>
+
+## 2026-10-27 CET: Dual-outcome red/green and saved-page composition
+
+2220e1e9 typecheck PASS, old scorer rejects both approved NOT_STATED inputs at contract assertion; corrected8 scorer controls PASS.5 Runner controls PASS, including actual saved pages Q28/Q30 with both outcomes and raw-to-scoring confirmation true. Unsafe fragment, wrong category, absent flag/quote/limitation fail. Preflight34 confirmed/8 source SHA/56 literal positions PASS. f5995ba6 five gates typecheck/arch/default1154/build/Chromium173 PASS, all before/after clean. Frozen26 input SHAs,8 source pages and56 literal positions verify; other32 references/historical candidate unchanged. All4 approved source/outcome cases PASS. Full canned-model diagnostic is not real-model acceptance. Real calls0, not real-model acceptance. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="test-2026-10-27-phase3b-g1-core-integrated"></a>
+
+## 2026-10-27 CET：G1核心组合五门禁全绿
+
+7be3b33a上typecheck/arch/default1152/build/Chromium168全部PASS，各门禁前后status空、restore0、fail/skip/cancel0。Chromium文件并发4，单次107.236秒；Linux本次未跑，沿用用户上批独立复核。旧HARD完整44,197字节同SHA，门禁后并行main仅评测材料/文档，src/scripts/web-skills/package/tsconfig完全相同，654输入SHA再核通过。没有新红灯声明；复用批次2有效红绿，不把未实施Agent/Web算通过，真实调用0。[收据](../../.eval-artifacts/phase3b/g1-integration/report.md)。
+
+<a id="test-2026-10-27-phase3b-g1-core-integration"></a>
+
+## 2026-10-27 CET：G1重放整合验收准备
+
+沿用已复核批次2有效红绿与Linux门禁；新main组合重新冻结后跑五门禁，每项前后净树。核对ADR原SHA、仅状态行变化，7源码与复核提交相同、账本id并集保留；另核对旧HARD44,197字节。实际运行另记报告，不以准备替代通过；不加载.env、不读answers，真实调用0。[计划](../../.eval-artifacts/phase3b/g1-integration/plan.md)。
+
+<a id="test-2026-10-27-phase3b-qa-final"></a>
+
+## 2026-10-27 CET: G1 offline fresh-read red/green
+
+749dc119 preflight fails at Q24 allowFreshRead, then passes after correction. 34 confirmed/8 source SHAs/56 literal locations. c10fdeed five gates PASS: typecheck0.577s, arch0.225s, default1110/1110 28.974s, build0.467s, Chromium168/168 107.900s; clean before/after each. Frozen input SHAs match, unchanged 56 quotes reuse independent source validation. No product changes or real calls. [Report](../../.eval-artifacts/phase3b/g1-qa/report.md).
+
+<a id="test-2026-10-27-phase3b-A-batch2-calendar-stop"></a>
+
+## 2026-10-27 CET：有界日历缺证检查
+
+d8e8626e冻结后离线检索PASS仅表示检索完成，真实阳性页0；4不同SHA逐份固定blob核对，3检索条件/1本地构造，不能转G2阳性PASS。输入及脚本SHA校验、diff --check通过，G2固定集无差异；本停止分支五门禁NOT_RUN，引用已合main的G2 1101/166＋额外4/4、回放1104/167、QA1110/168净树收据。Runner fixture NOT_RUN/未开始，真实调用0。[报告](../../.eval-artifacts/phase3b/tablecheck-calendar-evidence/report.md)。
 
 <a id="test-2026-10-27-phase3b-A-batch2-qa"></a>
 
@@ -70,6 +101,47 @@ CET。d9b38cd21b958d27f91eb3402c73e4ec6e51c675干净冻结752项后，typecheck/
 ## 2026-10-26 CET：G1候选与独立评分
 
 ae319df7局部引用绑定有效红灯（跨页/读取相同原文误过PASS）；修后正常、同店/同读、缺证/敏感/冲突及CANDIDATE阻断控制绿。原始页SHA/49处摘录及字符位置预检通过，答案尚无人工确认，不算产品验收。fc5146b9五门禁1104/163全绿且各项净树，8页49摘录独立源页核对通过，候选NOT_READY/0题已评，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-qa/report.md)。
+
+<a id="test-2026-10-27-phase3b-A-runner-delivery"></a>
+
+## 2026-10-27 CET: Native Runner final verification
+
+8cb02dbc five gates typecheck0.417/arch0.202/default1148 28.060/build0.483/Chromium167 98.592s PASS, all before/after status empty.4 controls PASS,370 product and24 current input SHAs match.34 canned fixtures execute, independent grade5 PASS/19 FAIL/10 NE, falseClaimCount=null, not model acceptance. Frozen local actual-core probe reproduces sensitive NOT_STATED empty-citation scorer failure: review blocker, not a passing case or real S0. No real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="test-2026-10-27-phase3b-A-runner-native"></a>
+
+## 2026-10-27 CET: Native G1 contract fixture controls
+
+B e4829a58 rebase; only core-adapter.ts source changed. Existing four Chromium controls pass unchanged. Native typecheck passes; input configuration re-frozen. Native full fixture/five gates pending, old cfcde8c7 results remain historical. No real calls. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="test-2026-10-27-phase3b-g1-revision"></a>
+
+## 2026-10-27 CET：3b B G1修订冻结离线验收
+
+最终bb967901，614文件/外层脚本先提交冻结，macOS26.6.2 ARM64 Node24.4.1：typecheck、arch:check、npm test **1142/1142**、build、真实本地Chromium文件并发4 **162/162**全PASS；每门前后git status空、restore0、fail/skip/cancel0。Chromium单次97.632秒，Linux本批未跑（批次1Linux通过仅为用户复核报告，不当本批证据）。模块相关76/76。
+
+有效红灯：旧核心拒日文表格/英文答案；18b2e805旧源码在同一冻结真实Chromium保存页脚本看不到字符7515后原文，整页未说明变INCOMPLETE，已知Review片段被接受；修后分别ANSWERED/NOT_STATED/UNVERIFIED。前导引号/空白敏感yes-no绕过先红后绿。移除引用/HIGH身份/敏感形式三个控制全部AssertionError，源码按SHA恢复。
+
+HARD参数默认不变：三组边界分段/选择、完整Native事实和原模型请求固定时钟序列化**44,197字节，前后SHA256 9a3298bc5e004b99e41d80713e8913b68c336cfa594f6eb60599e310ee3fb633**。真实保存页控制全阻网络、fixture模型，身份envelope合成，只证明输入覆盖/合同，不证明当前Live或模型语义质量。明确评论区段拒引/改私有标记不变/邻接商家正例通过；未标记评论和自由答案忠实等仍待独立问答集。
+
+新增真实模型/Google/网站/Live/公开GET/环境重跑全0；未读QA答案或.env，A/C文件/共享版本未改。ADR0046 Proposed全文随报告，用户批准文本前不接入口、不G3，只推工作分支。[完整证据](../../.eval-artifacts/phase3b/g1-revision/report.md)。
+
+<a id="test-2026-10-27-phase3b-A-g1-runner"></a>
+
+## 2026-10-27 CET: G1 Runner red/green
+
+36dc5005 typecheck passes and actual-core old-run assertion fails at ANSWERED vs UNVERIFIED. Adapter correction makes same assertion pass; four Chromium integration controls and six scorer controls pass, including URL/readAt/SHA/unknown-key rejection and real reference-read-denial canary. Local constructions only. ee5c835c full saved-page fixture executed34/34 under answer-read denial, then independent grading5 PASS/27 FAIL/2 NOT_EVALUATED, falseClaimCount=null. This is a transport diagnostic, not model/Agent acceptance. Frozen input and B product SHA checks pass; five gates pending. [Report](../../.eval-artifacts/phase3b/g1-runner/report.md).
+
+<a id="test-2026-10-26-phase3b-g1-stop1"></a>
+
+## 2026-10-26 CET：3b B G1离线核心与Proposed ADR／停止点1
+
+最终测试提交d4be4a7a，614文件及外层脚本先提交冻结，macOS26.6.2 ARM64／Node24.4.1：typecheck、arch:check、npm test **1130/1130**、build、真实本地Chromium文件并发4 **162/162**全部PASS；每门禁前后git status为空、restore0、skip/fail/cancel0。Chromium单次98.130秒，不是三次中位数；本批Linux NOT_RUN。随后源码原字节恢复的三个反事实控制exit1，G1 30/30全绿；相关旧事实+G1合计64/64。保存片段原地读取并核SHA，身份负例通过既有reader逻辑，fixture BrowserSession不冒充G1真实浏览器E2E。
+
+有效红灯：0cbe826f旧HARD-only链路不能回答信用卡追问；95a95b50异步缓存把原引文配上other-branch URL；移除引用/HIGH身份/敏感自由输出三控制均AssertionError。均对应绿灯。首个门禁外层NameError发生在typecheck PASS之后，未算全绿，保留原记录；修外层后完整1129/162通过，缓存修复后再次完整1130/162通过。没有放宽断言、跳过或已知失败豁免。
+
+G1仅未接入口核心；真实模型语义/相关性、Agent/Web结果及Live均NOT_RUN，不推导Live S0=0。新增真实模型/Google/餐厅网站/Live/公开GET/环境重跑0；两站3847/Pack473不变，A/C源码与共享版本不改，等用户批准ADR0047后再接入与G3。证据、冻结SHA、原始日志和预算并集见[报告](../../.eval-artifacts/phase3b/g1-core/report.md)。
+
 
 <a id="test-2026-10-26-f6-implemented"></a>
 

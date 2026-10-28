@@ -14,7 +14,7 @@ for (const page of questions.pages) {
   const citations = answers.answers.filter(answer => answer.pageId === page.id).flatMap(answer => answer.evidence.map(evidence => ({ questionId: answer.questionId, quote: evidence.quote, present: text.includes(evidence.quote.replace(/\s+/g, " ")) })));
   rows.push({ pageId: page.id, pageSha256: page.pageSha256, citations });
 }
-const result = { mode: "LOCAL_CHROMIUM_SAVED_DOM_ONLY", pageScripts: "DISABLED", sourceTransportCalls: 0, pages: rows, status: rows.every(row => row.citations.every(citation => citation.present)) ? "PASS" : "FAIL", referenceStatus: "MIXED_25_CONFIRMED_9_CANDIDATE" };
+const result = { mode: "LOCAL_CHROMIUM_SAVED_DOM_ONLY", pageScripts: "DISABLED", sourceTransportCalls: 0, pages: rows, status: rows.every(row => row.citations.every(citation => citation.present)) ? "PASS" : "FAIL", referenceStatus: "ALL_34_REVIEWER_CONFIRMED" };
 const at = process.argv.indexOf("--out"); if (at < 0 || !process.argv[at + 1]) throw new Error("Explicit --out required");
 await writeFile(process.argv[at + 1]!, JSON.stringify(result, null, 2) + "\n", { flag: "wx" });
 console.log(JSON.stringify({ status: result.status, pages: rows.length, sourceTransportCalls: 0 }));

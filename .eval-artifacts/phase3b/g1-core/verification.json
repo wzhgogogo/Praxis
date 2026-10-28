@@ -1,0 +1,36 @@
+{
+  "mode": "OFFLINE_SCOPE_AND_EVIDENCE_REVIEW",
+  "recordedAtCET": "2026-10-26T23:13:06.300619+01:00",
+  "testedCommit": "d4be4a7a71e0caac65b6979a397d5106dc0eecbf",
+  "frozenFilesVerified": 614,
+  "sourceChanged": [
+    "src/integrations/restaurant-facts/fact-source-document.ts",
+    "src/integrations/restaurant-facts/google-listed-website-facts.ts",
+    "src/integrations/restaurant-facts/model-fact-judgment.ts",
+    "src/integrations/restaurant-facts/model-page-question.test.ts",
+    "src/integrations/restaurant-facts/model-page-question.ts",
+    "src/integrations/restaurant-facts/native-source-facts.ts"
+  ],
+  "otherOwnersSourceChanges": [],
+  "agentWebGuardSharedVersionsUnchanged": true,
+  "oldNativeSourceSplitterEquivalent": "Exact original function bytes after export/name normalization",
+  "inventoryGroups": 52,
+  "inventoryClassifications": {
+    "AGENT": 32,
+    "SAFETY": 16,
+    "DATA": 4
+  },
+  "f3RowsPreservedAndMapped": 38,
+  "scopeNotes": [
+    "Existing production factories never construct ModelRestaurantPageQuestion or install page observers",
+    "G1 saved fragment uses a labelled synthetic identity envelope; not proof of real identity",
+    "G1 model selection and source relevance quality not measured with a real model",
+    "Source text only processed transiently; no new external URL, State or write path"
+  ],
+  "liveCalls": 0,
+  "realModelCalls": 0,
+  "googleCalls": 0,
+  "restaurantWebsiteCalls": 0,
+  "evaluationPublicGET": 0,
+  "environmentReruns": 0
+}

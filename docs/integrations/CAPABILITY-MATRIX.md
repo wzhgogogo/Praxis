@@ -1,7 +1,9 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.89
+- Document revision: 1.92
+
+
 - Last updated: 2026-10-27
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
@@ -9,6 +11,11 @@
 
 2026-10-27 CET，3b C详情身份采集候选（offline / not integrated）：两站共同从本次可见信息标题和联系字段取号码及角色、完整日文地址，保留分段原文/读取URL，别店/楼层/门牌冲突与歧义仍未知。号码只作精确匹配，不建立050→03映射；State/共享合同和Guard无改。旧nr002采集缺口关闭，但29保存页总接纳12→9（4项完整地址比较待复核），不能报告身份总体改善。新8家评测首屏3→7命中，不等于生产接线/库存；GET网络停批、旧15未完成，真实Live0。红绿、模式、Harness与限制见[报告](../../.eval-artifacts/phase3b/c-batch2/report.md)。
 
+2026-10-27 CET，B批次3：ADR0046 revision0.2已批准，仅Status行改Accepted；核心已重放并保留最新main/319cb9a5，五门禁1152/168全绿；Agent/Web尚未接入，真实调用0。[报告](../../.eval-artifacts/phase3b/g1-integration/report.md)。
+
+2026-10-27 CET，3b B批次2（draft / not integrated）：[ADR0046](../decisions/0046-observed-actions-and-source-quoted-answers.md)统一为Proposed，原则已批准、文本待批。G1独立Prompt/Schema2输出简短答案和引文、模型敏感类别/结构化确认标志，整页限额60k/1200/单句6k；HARD默认及完整事实字节原样。只对可见语义标题明确区段拒评论引用，未标记评论与自由答案忠实度仍待独立题集。bb967901离线五门禁1142/162全绿；没有新来源、Guard权限、Agent/Web接线或真实调用，不宣称当前Live/真实模型问答能力。[报告](../../.eval-artifacts/phase3b/g1-revision/report.md)。
+
+2026-10-26 CET，3b B批次1（draft / not integrated）：[ADR-0047](https://github.com/wzhgogogo/Praxis/blob/0a466bcded02700b11bfe86e99bf4924e0d22d32/docs/decisions/0047-observation-driven-sites-and-cited-questions.md)为Proposed。G1未接入口核心复用现有Native/官网事实reader的可选已绑定页面hook、原文分段/引用选择核对；新增目的`restaurant_page_question@1`只作离线fixture验证。旧事实读取行为保持，没有Agent合法动作/Prompt/Web接线，没有新来源/权限或现实问答能力声明。身份负例通过现有reader驱动；保存商家片段只证明原文字面核对，人工身份envelope不证明该店身份。外部Adapter实际导航/Guard和五门禁的本地Chromium回归见[本批报告](../../.eval-artifacts/phase3b/g1-core/report.md)，新增真实调用0。
 2026-10-26 CET，F3-034共享发现改为显式观察列表引用或有界UNKNOWN；非法/重复检索不隐式清词，Google-only同样拒绝无效提议的空查询。当前State@22／TaskDefinition@20、retrieval Schema@3／Prompt@6，资格/预算不改。两来源目录及Pack原字节保留，本地正常通用入口5家与误用拒绝控制通过，新增真实调用0。[报告](../../.eval-artifacts/phase3a-prime/f3-034/report.md)。
 
 以下2026-10-24段为当时实施记录，版本号和分支状态不是当前状态。
