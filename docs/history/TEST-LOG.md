@@ -5681,3 +5681,10 @@ H0新main组合、L7、L10各五门禁严格全绿：默认1060/1060、Chromium1
 ## TEST-2026-10-26-F3-REVIEW-SMALL-FIXES
 
 未修路径反例NOT_EVALUATED、2核旧W12原始超时红灯、丢hold和晚busy专属故障红灯均有效；修后原正负及独立评价通过。Mac五门禁1075/162；2核Linux三轮完整五门禁均1075/162，真实Chromium耗时[102.307707, 102.445508, 102.472459]秒，中位102.446秒，每门前后净树、冻结输入SHA一致、无跳过或豁免。loopback-only测试网络，无生产外部调用；维也纳CET。 [报告](../../.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/report.md)。
+
+
+<a id="test-2026-10-28-g1-real-preparation"></a>
+
+## 2026-10-28 CET: G1 saved-page real-model preparation
+
+2026-10-28 CET: A prepares authorized G1 real-model evaluation on B-integrated main6fa60cda. Frozen34 reviewed questions ×3, saved pages only; ≤120 real calls, no schema retries; one-slot execution/independent scoring/stop before next. Five mismatch questions bypass provider (normally87 calls). Fixture transport chain completed; canned NOT_STATED fails Q01 quality as expected, not a real-model result. Wrapper initially rejected missing short-id file before calls; corrected G1-Q prefix, evidence retained. Product/Prompt/reference/scorer unchanged. Test review inventory waits C integration/B G3; no deletions. Report: .eval-artifacts/phase3b/g1-real-model/plan.md.

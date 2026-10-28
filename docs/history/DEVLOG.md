@@ -4981,3 +4981,10 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-26-F3-REVIEW-SMALL-FIXES
 
 与批准main70a7eb1f集成无冲突，A仅修改两个eval基础设施实现及三份所属测试；目录引用不再允许任意artifact路径，读取固定HEAD catalog blob并核对SHA。W12保留20/55ms逻辑截止，真实DB/HTTP条件等待有界；健康普通状态以独立时钟推进，slow精确真实时序保留。用户复核通过L7/L10/前轮时序卫生，行数目标不再本批继续；退出条件6 NOT_MET，3847/3591、Pack473，L1/L4/L5转3b，其他六项延期保留。 [报告](../../.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/report.md)。
+
+
+<a id="dev-2026-10-28-g1-real-preparation"></a>
+
+## 2026-10-28 CET: G1 saved-page real-model preparation
+
+2026-10-28 CET: A prepares authorized G1 real-model evaluation on B-integrated main6fa60cda. Frozen34 reviewed questions ×3, saved pages only; ≤120 real calls, no schema retries; one-slot execution/independent scoring/stop before next. Five mismatch questions bypass provider (normally87 calls). Fixture transport chain completed; canned NOT_STATED fails Q01 quality as expected, not a real-model result. Wrapper initially rejected missing short-id file before calls; corrected G1-Q prefix, evidence retained. Product/Prompt/reference/scorer unchanged. Test review inventory waits C integration/B G3; no deletions. Report: .eval-artifacts/phase3b/g1-real-model/plan.md.
