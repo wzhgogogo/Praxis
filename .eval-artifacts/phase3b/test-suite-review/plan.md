@@ -7,3 +7,5 @@ Baseline: latest main ba466eb3 (actual tree recorded at freeze), expected1202 de
 Inspect assertions and actual composition rather than raw test count. Site-private parser/calendar tests affected by B G3 are handed to B with a specific reason, not edited here. Runtime expansions can share one source declaration, but each expanded row must retain identity and evidence. No reducing checks or moving different failure mechanisms into one test for cosmetic count.
 
 Deliver first review list only; proposal counts/time estimates are not achieved savings. Actual acceptance (five gates plus fewer/faster default and Chromium suites) is after reviewed implementation. Freeze input SHAs and baseline for later comparison; report unbound runtime variants and honest evidence gaps, no guessed mapping or fabricated result.
+
+Measured baseline correction: current main ba466eb3 has1203 default and175 Chromium tests, not the pre-measurement estimate1202. Runtime data and complete review/proposals are in report.md; no test edits before review.

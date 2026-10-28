@@ -1,0 +1,128 @@
+src/application/restaurant-agent-loop.test.ts	P1-G/P2-0 是真实失败到用户收尾的分类，不等同于浏览器局部 UNKNOWN；F6 槽3原反例以及授权/副作用系统错误须保护。表驱动不同原因逐个保留，不因都进入 NO_VERIFIED_RESULT 合并。
+src/application/restaurant-message-handler.test.ts	从原始用户消息经过 Interpreter/Compiler 写 State；人数补充只用于查位，ADR-0044 的引文与目标保留不能由 Compiler 单元测试代替。
+src/application/restaurant-presentation-evidence.test.ts	历史源片段经过 Judgment→Router→Reducer 才判断 HARD/价格；同源事实的归属、服务范围和刷新各有独立反例，历史 Live 展示失败不删。
+src/application/run-bounded-model-gateway.test.ts	计数含语义和失败请求，Run 间隔离与关闭后迟到工作是不同边界；独立问题不能借用已耗尽的搜索账户。
+src/core/execution/side-effect-ledger.test.ts	同键并发提交只发生一次现实副作用；幂等核心不进入缩减候选。
+src/core/policy/policy-engine.test.ts	有效授权正常对照、缺失、过期、坏时间戳及 OUTCOME_UNKNOWN 优先级分别防不同越权入口；整组保护。
+src/core/task-runtime/in-memory-task-runtime.test.ts	事件去重、乐观版本和跨 Run 因果归属都发生在状态写入前；内存层与 SQL 事务故障不同，不把两种 Runtime 当重复。
+src/domains/restaurant/action-validator.test.ts	合法动作是 Agent 实际准入门，需与 Context 展示相互校验；候选、刷新、证据期限、批次及 F6 收尾的正常/拒绝对照保留，授权相关项保护。
+src/domains/restaurant/agent-action.test.ts	输出动作的严格形状与执行许可不同；不让模型携带未授权字段或虚构的终止原因越过 Decoder。
+src/domains/restaurant/agent-context.test.ts	模型看到的候选、事实与预算必须与 Validator 同源；仅 Validator 拒绝并不能防止给模型不可执行选项导致空转。
+src/domains/restaurant/agent-decision.test.ts	严格模型 wire、无隐式重试和受控上下文转换；版本数字有调用合同意义，不能把整个 Decoder 测试归为纯字符串测试。
+src/domains/restaurant/booking-verifier.test.ts	Verifier 必须独立匹配店/时段/人数/Attempt，弱证据只能未知；错误成功与不确定提交全保护。
+src/domains/restaurant/condition-states.test.ts	展示条件必须区分 MET/UNKNOWN/NOT_MET 与服务范围；不可用宽泛事实或另一次读取把未知抹成已知。
+src/domains/restaurant/discovery-planner.test.ts	计划把权威目标与检索提示分开；问候、约束缺失、推荐与查位触发不同合法入口。
+src/domains/restaurant/discovery-retrieval.test.ts	只提取正向 HARD 的检索用途，否定条件不能被当成查找对象；与事实核验仍是两个职责。
+src/domains/restaurant/intent-draft.test.ts	唯一反例拒绝 eval-only exclusion payload 进入产品 Draft，防评测标签污染权威条件，保留。
+src/domains/restaurant/party-size-supplement-resolver.test.ts	人数补充需要来源引文且仅补缺失值，不得覆盖明确人数或用于推荐；与 handler 的端到端入口互补。
+src/domains/restaurant/read-grounding.test.ts	来源身份、当前请求和新鲜度决定证据能否接纳；错误店/日期/人数/跨服务的接纳风险保护，单字段反例不随 happy path 删除。
+src/domains/restaurant/semantic-compiler.test.ts	确定性翻译/补丁累积与模型提案分开归因；目标、否定、HARD、指名门店和日期均影响后续权威状态，C 的新增店名控制不动。
+src/domains/restaurant/semantic-interpreter.test.ts	使用当前 Proposal Schema 的受控模型传输，验证有界失败、历史轮次及引用进入 Compiler 前的合同。
+src/domains/restaurant/semantic-proposal.test.ts	模型仅提供提案，不得自赋地理坐标或决定下一动作；严查不可识别字段和伪造目标依据，防语义状态误写。
+src/eval/restaurant/agent-loop/browser-case-slice-evidence.test.ts	诊断记录必须保留可解释查询区域且去除页面私密数据；Tabelog/TableCheck 分别走各自区域投影，G3 改区域结构时需协调，不能把脱敏检查删掉。
+src/eval/restaurant/agent-loop/browser-read-probe.test.ts	单页 probe 的地址准入、challenge 顺序和会话创建也受总截止约束；它不生产 Offer，不能用产品完成测试替代探针边界。
+src/eval/restaurant/agent-loop/browser-read-recording.test.ts	Recorder 的文档、响应、CSS、脚本、截图各自有脱敏/合格条件；缺依赖、HTTP 失败及凭据残留的负例保护，不因新录制方案而删。
+src/eval/restaurant/agent-loop/category-negative-fact-judgment-matrix-scoring.test.ts	独立 oracle 要求引用与 UNKNOWN 不生成 verified-negative，属于错误声明评分防线。
+src/eval/restaurant/agent-loop/category-negative-fact-judgment-matrix.test.ts	冻结矩阵的16次零重试和来源自己陈述的身份是输入防污染检查；不把固定行数理解为产品调用次数。
+src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts	Fixture 自身不得给错误查询/候选/人数偷渡成功，404 与缺 fixture 必须分开；这些检查验证替身不替产品做关键判断。
+src/eval/restaurant/agent-loop/current-development-offline.test.ts	原始请求通过真实 Hybrid 组合与独立评价，保护第二轮 HARD 升级失效和不同新任务控制；手填中间状态的局部测试无法替代。
+src/eval/restaurant/agent-loop/decision-replay.test.ts	回放匹配的 set/排除条件、全部 alternatives 校验以及原始消息不变分别防错误复现；真实 DOM 静态模式仍有当前诊断用途。
+src/eval/restaurant/agent-loop/diagnostic-evaluator-hard.test.ts	独立 HARD oracle 的否定、店名和范围核验属于 S0 评价器检查，全部保护。
+src/eval/restaurant/agent-loop/diagnostic-evaluator.test.ts	独立四层评价与 S0 是用户明确禁止删的范围；不同缺证、错店、过期、预算、边界、持久化损坏各自保留，不用生产断言代替独立证据。
+src/eval/restaurant/agent-loop/discovery-probe.test.ts	发现探针的身份、见证漏斗与半径彼此独立，且不得被产品 import；保留污染和权限边界。
+src/eval/restaurant/agent-loop/dom-change-classification.test.ts	PASS/诚实退化/矛盾/无效变异是 G2 的独立结果合同，不能让被测观察器给自身判分。
+src/eval/restaurant/agent-loop/eval-recording-repair.test.ts	Gold 原义、逐页遗漏隔离和 UTF-8 字节上限是不同输入缺陷；历史430KB/743KB页面红灯不能由更小合成页替代。
+src/eval/restaurant/agent-loop/evaluation-location-selection.test.ts	冻结坐标仅用于 NEAR_USER，命名地点不被评测侧坐标覆盖；三种 relation 对照有权威输入意义。
+src/eval/restaurant/agent-loop/fact-qa-scoring.test.ts	同字错店、候选答案混入 Gold、未确认措辞、冲突双方及敏感保证属于独立错误声明评分；全保护。
+src/eval/restaurant/agent-loop/fixed-source-acceptance.test.ts	Acceptance 消费独立评价与终态证据，默认3家不是用户硬要求；未知、取消、输入暂停与真实无结果不能互换。
+src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts	冻结业务时钟不应冻结真实外层截止；正常提前完成、外部取消和模型余额结束为不同归因。
+src/eval/restaurant/agent-loop/google-places-recording.test.ts	保留 Google 原始安全响应、失败尝试及迟到拒写，Secret 只在传输头；模型/浏览器 Recorder 测试没有这一传输入口。
+src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts	真实 Coordinator/Runtime/Router 的跨来源交接是主链覆盖；不同顺序若影响预算/刷新/服务范围不能当随机排列删除，历史 H005/H003 失败控制保护。
+src/eval/restaurant/agent-loop/live-case-materializer.test.ts	日期物化只改允许的相对字段，Gold修订/新样本cohort与原文保持分别有独立字面oracle；不读取未授权私有输入。
+src/eval/restaurant/agent-loop/live-preflight.test.ts	冻结输入先验、代理选择、HTTP/TLS与缺凭据的分层要在真实 Runner 启动前阻断；无生产网络的 fake fetch 不等于实际 preflight 成功。
+src/eval/restaurant/agent-loop/live-run-deadline.test.ts	不听 AbortSignal 的子 Promise、调用方取消和正常早到各有可观察结局，不能因为都通过 Promise.race 合并成一个结果。
+src/eval/restaurant/agent-loop/live-source-health.test.ts	历史健康检查末次快照、可见后 busy 和未完成 ready 的红灯保留；逻辑时钟与真实 Chromium 竞态分别证明不同层。
+src/eval/restaurant/agent-loop/locality-fact-judgment-matrix-scoring.test.ts	地域菜系的独立原始模型判定与生产拒收不能混记；零调用/缺引文不可算成功，评分安全边界保护。
+src/eval/restaurant/agent-loop/locality-fact-judgment-matrix.test.ts	已暴露12格输入与真实 judgment 口绑定，fixture 不能绕过引文；这仍是当前窄口评测入口。
+src/eval/restaurant/agent-loop/name-resolution-benchmark.test.ts	独立字面店ID、无Gold进入模型、错店即停与只做身份前缀是G4验收边界；保护，不与G1问答错店测试混为同路径。
+src/eval/restaurant/agent-loop/native-discovery-composition.test.ts	Native→Router→Reducer 主链含 F5c 排队2+26纠正、F3-034显式选择、F6搜索取消交接等真实红灯；候选队列不能由地区函数单元测试替代。
+src/eval/restaurant/agent-loop/native-fixed-source-runner-finalization.test.ts	先单写执行再独立评价，sidecar失败不覆盖已有记录；保护证据持久化与幂等。
+src/eval/restaurant/agent-loop/phase2-discovery-plan.test.ts	五个冻结语义目标映射到当前 Pack 计划，推荐不走预约来源、负 HARD 不进关键词；虽有阶段名，调用的是当前接口。
+src/eval/restaurant/agent-loop/phase2b-exit-pipeline.test.ts	历史整包脚本仍可执行；输入SHA、人工复核、S0止损和写入阻断全保护。停止继续旧Live不等于授权移除旧独立评价边界，暂不以阶段名删测。
+src/eval/restaurant/agent-loop/recorded-browser-decision.test.ts	opaque handle可重绑但观察语义、来源集合和流必须相同；歧义/改动/旧合同不能静默升级，保护回放身份边界。
+src/eval/restaurant/agent-loop/recording-diagnostic.test.ts	诊断DOM可保留安全但不可回放的页，不得借诊断改变原HAR；独立于静态资源捕获成功路径。
+src/eval/restaurant/agent-loop/recording-keys.test.ts	公开外来 key 局部脱敏与自有凭据整包拒绝不能合并；所有落盘文件扫描，Secret 保护范围。
+src/eval/restaurant/agent-loop/source-data-preflight.test.ts	合法非空、明确空200、无响应与目录元数据要区分；不能把 catalog/facet 当查位或搜索就绪。
+src/eval/restaurant/agent-loop/source-stage-probe-runner.test.ts	只读来源窄口仍有 Runner 用户入口，模式、地点冻结和 journal 计数是调用前边界；旧 REPLAY 也不得联网兜底。
+src/eval/restaurant/agent-loop/source-stage-probe.test.ts	总额度、失败样本分母、实际生产端口与 Replay 模型计数不同；冻结配额是评测配置合同，非无意义调用次数。
+src/eval/restaurant/search-fixture/eval.test.ts	一个整合控制同时覆盖完整条件、追问和选择，检查当前 Search Eval 接线；不因断言少而删唯一入口。
+src/eval/restaurant/semantic/exposed-regression.test.ts	字段归因、旧Prompt子集和Gold改变时不可比较防伪回归结论；历史 expectedDecision 仅诊断的限制由协议决定，不能静默改数据。
+src/eval/restaurant/semantic/holdout.test.ts	空模板、承诺SHA、简化标注与错误Draft归因是评测输入治理；未开私有Gold，本地构造负例仍需保留。
+src/eval/restaurant/semantic/regression.test.ts	Proposal→Compiler→Reducer顺序与Gold@5逐项批准有独立原文oracle；错误层定位不能由只比终态的测试替代。
+src/eval/restaurant/semantic/scorer.test.ts	按语义、翻译、Reducer分层评分；ADR-0044灰区目标并不放过其他漂移。旧next-step忽略由当前Holdout协议要求，保留其误评分控制。
+src/eval/shared/diagnostic-run.test.ts	started/dispatch/settled/results 单写以及错误脱敏，是失败时保留可审计证据的基础，幂等与秘密检查保护。
+src/eval/shared/real-model.test.ts	显式付费门与费用未配置/估算标志不能误报免费；重试和失败计数属于预算真实合同。
+src/harness/browser/browser-read-calendar-controls.test.ts	真实控件的选中/所属组/月份后置条件与句柄断开异常各自独立；selected-party循环和禁选日等历史红灯保留，class状态属于G3协调项。
+src/harness/browser/browser-read-discovery.test.ts	真实Chromium生产组合包含显式通用列表、地区四页、权威LOCATION、检索提示与取消子结果；这是F3/F5/F6主链红灯，不删整组慢用例。
+src/harness/browser/browser-read-option-controls.test.ts	opaque值、owner、禁选/回滚/迟到选中/跨字段覆盖会产生不同错误请求；两Runtime实现各自执行真实DOM，不能只留LOCAL。
+src/harness/browser/browser-read-page-controls.test.ts	popup、modal、公开筛选Guard前后和clipped option各有具体浏览器语义；通用按钮小烟测虽弱，独立data-read-only路径尚有用途，暂保留不凑数。
+src/harness/browser/browser-read-replay.test.ts	第一条保留HAR miss零联网；第三条真实Guard→Recorder→脚本/CSS/动态响应→Adapter回放更强。第二条手工Snapshot静态正常控制是唯一拟退役项，具体断言迁移见proposal。
+src/harness/browser/browser-read-request-binding.test.ts	H003 dom引用当CSS、24操作上限、guest顺序以及H001请求绑定各有历史Live红灯；双后端不是同一路径，全部保护。
+src/harness/browser/browser-read-search-controls.test.ts	输入代理、被listbox覆盖的背景按钮、视口内/外链接命中有已记录缺陷；offset0与1400不删，后者不能单独证明前者路径。
+src/harness/browser/browser-read-stability.test.ts	query pending、旋转噪声与真正结果改变、重复toggle及慢DOMContentLoaded属于不同停止/恢复机制；慢正常控制保留，不缩短源延迟使红灯失效。
+src/harness/browser/browser-read-tabelog.test.ts	真实限制日、busy恢复、失效会话及被动响应失效不可删；私有calendar marker/parse相关条目待B的G3逐项替换，不算A已缩减。
+src/harness/browser/browser-read-tablecheck.test.ts	45秒provider窗有原失败依据，旧页库存/错误查询与ARIA控件接线需保留；有时段真实页尚缺，TableCheck G3不能提前用未知PASS签收。
+src/harness/browser/browser-read-workspace.test.ts	浏览器展示刷新、晚到列表与G1逐字原文/来源/确认提示都有用户可见后果；CSS locator用于操作测试页面，不等于只测CSS形状。
+src/harness/browser/dom-change-agent.test.ts	原页/全标记改名后都由实际观察标签决定OPEN_LINK，证明动作不依赖私有定位；固定页观察对照没有替代这一动作链。
+src/harness/browser/dom-change-mutation.test.ts	确定性改名需同步ARIA/CSS/SVG引用且悬空引用透明保留，另测错误变异不能入分母；这是测试生成器自身有效性。
+src/harness/browser/dom-change.test.ts	12页既知事实不能在两边同时抹掉，Mutation有效性与诚实退化独立比较；复核通过的生命周期修复红灯保护。
+src/harness/browser/fact-qa-runner.test.ts	Runner不读答案、执行与评分分离、SHA/旧Run阻断和敏感双允许结果，均有实际进程/核心接线；不可只以scorer单元PASS代替。
+src/harness/browser/fact-qa-scoring.test.ts	真实Chromium可见文本oracle防隐藏/script假引文进入独立评分，S0评分器负例保护。
+src/harness/browser/group-window.test.ts	真实Guard与Assembly绑定时间窗口的部分覆盖、禁用人数、禁止reserve与24点混合时钟；私有控件改造需B/A协调，安全断言保留。
+src/harness/browser/live-source-health.test.ts	完整健康状态矩阵用真实DOM和注入时钟，visible后busy反例曾在2核并发失败；不能删或仅保留单跑。
+src/harness/browser/pacing-static-resources.test.ts	静态资源并发与来源文档节奏不应互相串行阻塞；实际local receiver观察，不能只测协调器队列。
+src/harness/browser/pacing-transport.test.ts	实际来源HTTP transport必须继承共同节奏与GET-only限制，防仅内存计数正确但请求逃逸。
+src/harness/browser/page-question-budget.test.ts	真实页面访问两页上限跨Session累计，并核实未批准POST与第三/第四页零到达；安全负例保护。
+src/harness/browser/read-network-redirect.test.ts	CDP/Playwright事件错配、自动预检、完整POST审计及每跳/worker/popup/iframe各有不同拦截面；Guard负向/正常对照全保护。
+src/harness/browser/recorded-reference.test.ts	保存F5观察的RAW stale-ref红灯与同语义重绑绿灯成对，仍验证当前解码/DOM合同；用户取消旧整包并不废除此最小回归。
+src/harness/browser/recording-keys.test.ts	assert在runRecordingKeyScenario helper内，不能以外层零assert删掉；真实录制/脱敏/缺脚本停止和接收器零流量均受检。
+src/harness/browser/replay-missing-response.test.ts	Guard允许但HAR缺字节须零流量停止；与Guard本身拒绝请求不同，属于独立网络边界。
+src/harness/browser/runner-interruption.test.ts	真实子进程退出/信号中断后仍独立评S0，不能因外层失败掩盖已展示错误；禁止删除的评价器检查。
+src/harness/browser/runner-pacing.test.ts	跨进程共享origin、单Run零等待和第三Run排队/释放覆盖不同并发阶段；实际请求间隔是运行规范，不是私有次数。
+src/harness/browser/runner-post-exit.test.ts	每槽退出立即独立评价及已提交reviewed-reads SHA/提交身份绑定全为Live修复红灯，保护NOT_EVALUATED失败收据。
+src/harness/browser/runner-replay.test.ts	当前Runner非空交付、模型/来源边界、缺响应/脚本、重定向和可选图像各自证据资格不同；新录制验收将复用这些机制。
+src/harness/restaurant-execution-router.test.ts	Router真实read端口与state结算、默认结果窗口/部分子结果及F6预算交接是关键集成；不同预算耗尽原因不能并入同一个泛型UNKNOWN。
+src/harness/restaurant-harness.test.ts	H01授权正常控制及重复/错Attempt/未知Outcome保护；只读续搜、刷新和追问保留真实Reducer链，旧书写路径仍是当前受控写架构合同。
+src/harness/restaurant-time-reserve.test.ts	F6槽3、100秒准入、慢模型/慢关闭、已完成子结果与错误身份/时间过滤都有离线有效红灯；后续Live缺口不能因fixture通过消失。
+src/harness/test-filesystem-boundary.test.ts	文件读取guard的故意越界canary验证测试隔离本身有效，不能让被拒绝读取作为普通测试删除。
+src/infrastructure/browser/browser-action-decision.test.ts	Decoder实际动作及字段拒绝均保留；仅205行逐字Prompt六句regex不验证模型行为，拟由真实wire/Executor行为覆盖接替。F5合同版本/asserts其余不删。
+src/infrastructure/browser/browser-read-policy-draft.test.ts	自动生成只允许value-free GET草稿，POST只能提示人工审核；不能以Recorder成功代替自动草稿不激活权限的边界。
+src/infrastructure/browser/browser-read-skills.test.ts	按注入Pack选择来源指导，官网另走website Skill；测试保护模块注入而非仅站名文案，不并入特定来源组合。
+src/infrastructure/browser/browser-runtime-factory.test.ts	仅LOCAL无需Cloudflare配置，与AUTO/两远端模式的构造选择是两个实际环境入口，后者循环内不增加独立用例数。
+src/infrastructure/browser/browser-task-executor.test.ts	预算、stale ref、后置条件、Session退休与region数据动作是执行层安全/恢复合同；低层mock补分支，真实DOM对照另在Chromium，两者并不互相替代。
+src/infrastructure/browser/cloudflare-browser-run.test.ts	CDP receiver绑定、引擎受控回落、Abort关闭和Guard安装失败资源清理各走不同生产入口；远端连接替身不冒充真实Cloudflare运行。
+src/infrastructure/browser/local-playwright-chromium.test.ts	profile必须双开关、HAR需隔离Guard、响应旧代失效、截图不改变控件均有不同风险；与Cloudflare Session测试保留各自实现。
+src/infrastructure/browser/playwright-read-network-guard.test.ts	负向准入/方法/字段/敏感路径全保护；50行6秒fake sleep可改为测试注入计时但保留原timeout/fulfill/abort断言及真实Chromium6.5秒控制，详见proposal。
+src/infrastructure/deepseek/deepseek-model-gateway.test.ts	strict工具形状、配置失败、provider/传输/超时及安全metadata都在模型边界发生；无真实调用，Secret隔离与一次发送语义不删。
+src/infrastructure/postgres/postgres-runtime.test.ts	15个currentTest是真正默认PGlite测试，8个probeTest不计默认。原迁移升级已有真实持久化保护，不能按开发期旧编号删；事务/租约/外写恢复与内存Runtime不重复。
+src/integrations/google/google-places-client.test.ts	Google transport字段掩码、代理、headers凭据与响应body挂起有各自独立故障；核心网络/超时行为不是搜索排名测试可代替。
+src/integrations/google/google-places-restaurant-search.test.ts	候选地域/分页/预算/事实再读保留；419行稳定ID路径可并入383行同一次搜索→Details控制，451行transport隐私反例可并入463行失败计账，具体断言须完整迁移。
+src/integrations/restaurant-availability/availability-source-resolver.test.ts	来源顺序只由合法同店入口改变，原生候选不跨平台、失败UNKNOWN不被覆盖；C接口刚合入，暂不跨对话删测。
+src/integrations/restaurant-availability/bound-result-completion.test.ts	五个生产completion调用方虽共享settlement helper，但各自result key与scope选择不同；不同caller不可合成只留一种来源，G3改变scope需B负责。
+src/integrations/restaurant-availability/live-browser-availability.test.ts	来源链共享Session、候选间入口提示须重新识别、Run结束清提示；正常组合与缓存泄露不是同一失败机制。
+src/integrations/restaurant-availability/native-outlet-continuity.test.ts	同源ID连续性不能扩到官网/错分店/challenge；130行无Guard mock读reserve不代表生产允许该URL，服务范围隔离仍保留并交B判断G3后是否退役。
+src/integrations/restaurant-availability/outlet-identity.test.ts	楼层/门牌/邮编显式冲突优先于电话同名，语言归一化不能抹冲突；C的G4正负控制受保护，格式变化不是任意数据排列。
+src/integrations/restaurant-facts/google-listed-website-facts.test.ts	商家官网身份、菜单follow-up、价格/包间最低额/取消费与跨页引用独立；不得因Google已有type/hours提前宣称缺少的商业事实。
+src/integrations/restaurant-facts/model-fact-judgment.test.ts	HARD判断引用/实体/类别/服务scope与评论角色各有误接纳风险；G1句子切分不能改变旧HARD字节，此组属于B的事实合同。
+src/integrations/restaurant-facts/model-page-question-quality.test.ts	六题小修的真实保存页fixture红灯刚被复核，且真实重跑仍有质量失败；不因为提示词regex较弱就删掉同test中的核心拒绝控制，真实结果另报。
+src/integrations/restaurant-facts/model-page-question.test.ts	问答同店/同Run/本次读取/逐字完整引文/评论排除以及敏感确认全为G1接纳合同；不碰B核心或以确定性的fixture当模型质量证明。
+src/integrations/restaurant-facts/page-question-reader.test.ts	独立问答预算与原搜索余额分离，主动取消后下一题仍可读；绑定在reader入口，模型gateway计数测试覆盖不了浏览器关闭。
+src/integrations/restaurant-identity/detail-identity-fields.test.ts	公开电话/完整地址/HTML entity解码与显式结构变化告警均在身份抽取层；C刚合入的错分店反例保护，不由单纯string equality替代。
+src/integrations/restaurant-search/directory-region-selection.test.ts	D1原blob观察入口、本地坐标控制与四页直达/全流程一次纠正预算是F5有效红灯；普通stale-ref/跨Run集合拒绝全保留。
+src/integrations/restaurant-search/discovery-retrieval-planner.test.ts	稀疏关键词可改写但GENERAL只能选已观察引用，模型失败仍花额度；F3-034红灯保护，不退回隐式列表。
+src/integrations/restaurant-search/named-source-query.test.ts	模型只能选Google原名的正当子串，代码定位偏移、失败缓存和双来源共用一次额度均是G4新合同；不重复中文拼写变体来凑数。
+src/integrations/restaurant-search/native-restaurant-search.test.ts	Native地理解析交给Google后不得二次解析，逆地址失败不改圆心；保存h06具名地点控制在生产计划入口，非地区单元函数替代。
+src/integrations/restaurant-search/source-packs.test.ts	Pack提供来源URL语法/来源自有引用和审核读取权限；不改source-packs。私有解析相关项随B G3替换，Guard、半径、权威query的负例不删。
+src/integrations/tabelog/tabelog-browser-availability.test.ts	B所属站点文件：日历私有标记、find_vacancy形状及查询核对由G3逐项红绿退役；身份、请求绑定、challenge、忙页重试和预算反例不能随解析实现一并删。
+src/integrations/tablecheck/tablecheck-browser-availability.test.ts	B所属站点文件：TableCheck G3等待有时段真实录制，当前菜单/服务范围与错店/错请求/错误空位对照继续冻结；A不抢先改文件。
+src/server/local-web-server.test.ts	HTTP用户授权、case/profile隔离、重复提交、W12截止与G1问答重启/取消/20题持久上限都是真实Web入口；PGlite/fixture并非无意义慢集成。

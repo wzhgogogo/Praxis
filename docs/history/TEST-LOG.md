@@ -5805,3 +5805,12 @@ Same target failures precede pressure cutoff; preserve2passing full controls and
 ## 2026-10-28 CET: Approved clock repair main verification
 
 2026-10-28 CET: Approved clock source173840b7 is verified for main publication. Latest maincab27890 already ancestor, executable diff0; frozen4e45e37a five gates1186/175 PASS and each before/after clean.665 inputs unchanged; independent2CPU review and prior three full Linux greens retained. No new real calls. B G1 fix not yet main: six-question repeat remains conditional; broad audit waits B G3. [Integration](../.eval-artifacts/phase3b/browser-fixture-clocks/main-integration/report.md).
+
+
+<a id="test-2026-10-28-test-suite-review-list"></a>
+
+## 2026-10-28 CET: Per-test review list and six-question handoff
+
+2026-10-28 CET：A 六题重跑已推工作分支 codex/chore-phase3b-g1-six-repeat @ f80dacb0（受测eb1518f1）：19模型请求/18计划trial，明确追加检查11/18；Q14类别、Q27拒答仍失败，Q31-r2重试仍超时。原评分0 PASS/11 FAIL/8 NOT_EVALUATED按19 attempts原样保留，不改题/参考/口径，独立复核待定。B G3期间测试审查首份清单完成：基线main ba466eb3，1203默认/175 Chromium；1378个test逐项映射、128份文件意见，提请3默认/1Chromium删合及1项fake计时提速，均未实施。Guard/授权/幂等/S0/Live红灯保护；107站点测试交B归属。审查新增真实调用0，账本并集保留已花19次；工作分支待五门禁后推送复核，不合main。 [Report](../../.eval-artifacts/phase3b/test-suite-review/report.md)。
+
+Frozen source unchanged; exact baseline event collection1203/175 PASS at28.480/105.995s with clean pre/post tree. Reporter setup and missing entities dependency failures retained separately, not treated as behavioral reds. Standard five gates are next on committed clean inputs. No test deletion, no production edit, no.env access.
