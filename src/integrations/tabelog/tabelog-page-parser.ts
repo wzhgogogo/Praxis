@@ -1,13 +1,47 @@
 import { publicPriceText, sourcePriceElements, quotedCoursePrice } from "../restaurant-availability/source-price-facts.js";
+import { decodeHTML } from "entities";
 import { tabelogCapturedSlots, tabelogQueryControlHints } from "./tabelog-query-controls.js";
-import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
 
 export function tabelogSearchResultBusy(snapshot: BrowserSnapshot): boolean {
-  return resultRegionBusy(snapshot.html, /(?:list-rst(?:\s|$|__)|search-results|result-list|rstlist|result-count)/i, /(?:calendar|booking|image|photo|recommend|suggest)/i);
+  return publicResultBusy(snapshot, /^(?:search results|restaurant results|restaurants|検索結果|レストラン一覧)$/iu);
 }
 
 export function tabelogAvailabilityResultBusy(snapshot: BrowserSnapshot): boolean {
-  return resultRegionBusy(snapshot.html, /(?:p-booking-calendar|vacancy|time-slots|availability-results)/i, /(?:calendar__calendar|calendar__month|image|photo|recommend|suggest)/i);
+  return publicResultBusy(snapshot, /^(?:availability|available times|reservation|reservations|booking|空席|空席確認|予約)$/iu);
+}
+
+/** Runtime rendering wins. DOM-only fixture inputs retain explicit public hidden semantics. */
+function publicMarkup(snapshot: BrowserSnapshot): string {
+  const stack: Array<{ name: string; hidden: boolean }> = [];
+  let output = "", offset = 0;
+  const html = (snapshot.visibleHtml ?? snapshot.html).replace(/<!--[\s\S]*?-->|<(script|style|template|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, "");
+  for (const token of html.matchAll(/<\/?([a-z][\w-]*)\b[^>]*>/gi)) {
+    if (!stack.at(-1)?.hidden) output += html.slice(offset, token.index);
+    const tag = token[0], name = token[1]!.toLowerCase();
+    if (tag.startsWith("</")) {
+      const index = stack.findLastIndex(node => node.name === name);
+      if (!stack.at(-1)?.hidden) output += tag;
+      if (index >= 0) stack.length = index;
+    } else {
+      const hidden = Boolean(stack.at(-1)?.hidden) || /^(?:nav|header|footer|aside)$/u.test(name)
+        || /\shidden(?:\s|=|>)|aria-hidden\s*=\s*["']true["']|display\s*:\s*none|visibility\s*:\s*hidden/iu.test(tag);
+      if (!hidden) output += tag;
+      if (!/^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/u.test(name) && !/\/\s*>$/u.test(tag)) stack.push({ name, hidden });
+    }
+    offset = token.index + tag.length;
+  }
+  return output + (stack.at(-1)?.hidden ? "" : html.slice(offset));
+}
+
+function publicResultBusy(snapshot: BrowserSnapshot, purpose: RegExp): boolean {
+  const markup = publicMarkup(snapshot);
+  return sourcePriceElements(markup, tag => /^<(?:main|section|article|div|form|table)\b/iu.test(tag)).some(region => {
+    const tag = region.slice(0, region.indexOf(">") + 1);
+    const label = tag.match(/aria-label\s*=\s*["']([^"']*)["']/iu)?.[1]
+      ?? region.match(/<h[1-6]\b[^>]*>([\s\S]*?)<\/h[1-6]>/iu)?.[1];
+    return label !== undefined && purpose.test(publicPriceText(label))
+      && /aria-busy\s*=\s*["']true["']|role\s*=\s*["']progressbar["']/iu.test(region);
+  });
 }
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type {
@@ -74,22 +108,30 @@ function canonicalTabelogUrl(snapshot: BrowserSnapshot): string | undefined {
 
 export function parseTabelogSearchOutlets(snapshot: BrowserSnapshot): TabelogOutletObservation[] {
   const results = new Map<string, TabelogOutletObservation>();
+  const markup = publicMarkup(snapshot);
+  const cards = sourcePriceElements(markup, tag => /^<(?:article|li)\b|\srole=["']listitem["']/iu.test(tag));
   const link = /<a[^>]+href=["']([^"'#?]+)[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi;
-  for (const match of snapshot.html.matchAll(link)) {
+  for (const match of markup.matchAll(link)) {
     const sourceUrl = absoluteTabelogUrl(match[1] ?? "", snapshot.url);
-    const label = match[2]?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-    if (!sourceUrl || !label || !isTabelogUrl(sourceUrl)) continue;
-    const tag = match[0] ?? "";
-    if (!/data-(?:address|phone)=|class=["'][^"']*(?:rst-name|restaurant[^"']*(?:name|title))[^"']*["']/i.test(tag)) continue;
+    const label = decodeHTML(publicPriceText(match[2] ?? ""));
+    if (!sourceUrl || !/^https:\/\/(?:www\.)?tabelog\.com\/(?:en\/)?[^/]+\/A\d+\/A\d+\/\d+\/$/iu.test(sourceUrl)
+      || !label || /^(?:photo(?:s)?|map|reviews?|reserve|book|view(?: details)?|写真|地図|口コミ|予約|\d+)$/iu.test(label)) continue;
     const entityId = sourceEntityId(sourceUrl);
-    const address = tag.match(/data-address=["']([^"']+)["']/i)?.[1];
-    const phone = tag.match(/data-phone=["']([^"']+)["']/i)?.[1];
+    // The smallest semantic card must refer to only this outlet. Private data
+    // attributes and a neighbouring card's address never establish identity.
+    const card = cards.filter(card => card.includes(match[0])).sort((a, b) => a.length - b.length)[0];
+    const ownCard = card && [...card.matchAll(link)].every(other => {
+      const href = absoluteTabelogUrl(other[1] ?? "", snapshot.url);
+      return !href || !/\/A\d+\/A\d+\/\d+\/$/u.test(href) || href === sourceUrl;
+    }) ? card : undefined;
+    const address = ownCard?.match(/<address\b[^>]*>([\s\S]*?)<\/address>/iu)?.[1];
+    const phone = ownCard?.match(/<a\b[^>]*href=["']tel:([^"']+)["']/iu)?.[1];
     results.set(entityId, {
       sourceEntityId: entityId,
       sourceUrl,
       outletName: label,
-      ...(address ? { address } : {}),
-      ...(phone ? { phone } : {}),
+      ...(address ? { address: decodeHTML(publicPriceText(address)) } : {}),
+      ...(phone ? { phone: decodeHTML(phone) } : {}),
     });
   }
   return [...results.values()];

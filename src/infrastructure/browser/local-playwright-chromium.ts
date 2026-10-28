@@ -88,6 +88,17 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         ...(this.lastSettlementDiagnostic ? { settlementDiagnostics: { ...this.lastSettlementDiagnostic, url: this.page.url(), busySelectors: await pageBusySelectors(this.page) } } : {}),
         url: this.page.url(),
         html: await this.page.content(),
+        visibleHtml: await this.page.evaluate(() => {
+          const copy = document.body.cloneNode(true) as HTMLElement;
+          const originals = [...document.body.querySelectorAll("*")];
+          const copies = [...copy.querySelectorAll("*")];
+          originals.forEach((node, index) => {
+            const style = getComputedStyle(node);
+            if (node.matches('script,style,template,noscript,[hidden],[aria-hidden="true"]')
+              || style.display === "none" || style.visibility === "hidden") copies[index]?.remove();
+          });
+          return copy.outerHTML;
+        }),
         text: await this.page.locator("body").innerText(),
         title: await this.page.title(),
         ...(state === undefined ? {} : { interactiveState: state }),

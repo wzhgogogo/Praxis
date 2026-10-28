@@ -91,6 +91,8 @@ export interface BrowserSnapshot {
   settlement?: "SETTLED" | "PENDING";
   url: string;
   html: string;
+  /** Browser-rendered evidence, excluding non-visible subtrees; never model supplied. */
+  visibleHtml?: string;
   text: string;
   title: string;
   /**
