@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-28 CET: B G3 synchronized approved A calendar main8454fffa, frozen merge6c339ba7/687 inputs five gates1213/178 PASS (111.821s), ordinary G2 4/4, every before/after clean. G2 now11 PASS/1 honest loss: Teppen PASS, strict only Sen requestConfirmed remains. B product and approved A source bytes/HARD44197/C protected tests unchanged. Ledger469-id union preserves all prior rows, totals171model/242GET/11Google; sync increment0. C fixture patch NOT applied, human authorization pending; G3/G3c incomplete, publish work branch only. [Report](../.eval-artifacts/phase3b/g3-longrun/04-calendar-main-sync/report.md).
+
 2026-10-28 CET: B synchronizes approved A calendar-baseline main8454fffa at completed G3 group boundary. Only A three approved G2 files + history/ledger integrated; B product unchanged, C fixture patch still NOT applied/pending human authorization. 468-id union preserves both sides including prior A19 model calls; append sync0 row→469 ids. Freeze then five gates/ordinary/strict G2; new real calls0, no main publication by B. [Plan](../.eval-artifacts/phase3b/g3-longrun/04-calendar-main-sync/plan.md).
 
 2026-10-28 CET: G3 Group03 observed-control fallback complete: actual Playwright accelerator failure red→Agent DATE/PARTY actions green, exact offer and contradictory-party UNKNOWN preserved. Frozen6bb5ba78 five gates1213/178 PASS (119.580s), ordinary G2 4/4, per-gate clean; HARD44197 bytes and C protected code/tests unchanged. Three groups verified/published; STOPPED_PROTECTED_C_FIXTURE_INPUT_AUTHORIZATION_PENDING, exact one-response fixture diff prepared and NOT applied. Calendar/shared selection/remaining slot and G3c unfinished; no full strict PASS/main merge. Sites4028/Pack478 reference, ledger446 ids, new real calls0. [Report](../.eval-artifacts/phase3b/g3-longrun/report.md).
@@ -65,7 +67,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.449
+- Document revision: 4.450
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
 

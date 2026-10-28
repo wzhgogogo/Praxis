@@ -1,5 +1,11 @@
 # G3 长批次：三组已验证；停在受保护 C 测试输入边界
 
+## 最新同步：A 日历基线已合入本工作分支
+
+2026-10-28T17:34:28.558006+01:00，Vienna CET。已同步用户批准的 main `8454fffa`，受测合并提交 `6c339ba7`，没有新增产品改动；A 三处文件原字节保留。五门禁全绿：默认1213/1213，Chromium178/178（111.821秒），普通G2 4/4，每项前后净树。普通G2逐页11 PASS/1诚实退化，Teppen已PASS，严格G2只剩Sen的requestConfirmed（命令3/4、exit1），未改该期望。共享账本469 id保留双方全部条目，累计171模型/242 GET/11 Google，本同步新增全部0。旧HARD44,197字节一致。
+
+**仍停在 C 受保护测试输入补丁待用户授权，补丁未应用；不是等待 A 基线。** G3/G3c 尚未全部完成，不合 main。[本次完整同步报告](04-calendar-main-sync/report.md)。下方原记录以其各自时间和受测SHA为准。
+
 2026-10-28T17:15:17.578185+01:00，Vienna CET（UTC+1）。Current evidence: OFFLINE_LOCAL_CHROMIUM / fixture model。**G3/G3c 未全部完成，不合 main。**
 
 当前分支 `codex/feat-phase3b-tabelog-observed-availability`，main 基准 `ba466eb3`。用户日历证据决定已记入 ADR0048。B 没有等待 A：完成响应结构告警与精确绑定、公开列表/busy、原生控件失配后回到 Agent 观察三组，每组先有效红灯、后绿灯和五门禁、净树、推送后继续。原 A 输入阻点的历史报告保留在本文后半，不作为当前停止理由。

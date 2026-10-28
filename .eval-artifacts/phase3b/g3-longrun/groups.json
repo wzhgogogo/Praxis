@@ -49,6 +49,20 @@
     "green": "exact offer + wrong response UNKNOWN + native current values"
   },
   {
+    "group": "04 approved A calendar main synchronization",
+    "status": "COMPLETE_INTEGRATION_ONLY",
+    "main": "8454fffa",
+    "testedCommit": "6c339ba7",
+    "gates": "PASS1213/178 ordinaryG2 4/4",
+    "g2Pages": {
+      "PASS": 11,
+      "DEGRADED_HONEST": 1,
+      "FAIL": 0
+    },
+    "strictRemaining": "Sen requestConfirmed",
+    "report": "04-calendar-main-sync/report.md"
+  },
+  {
     "group": "remaining date state / shared selection / non-English slot retirement",
     "obs": [
       "08",
@@ -58,7 +72,7 @@
     ],
     "status": "STOPPED_PROTECTED_C_FIXTURE_INPUT_AUTHORIZATION_PENDING",
     "evidence": "pending-c-fixture/report.md",
-    "fixedCalendarBaseline": "A-owned, not yet merged at last fetch; not current stop reason"
+    "fixedCalendarBaseline": "Approved main8454fffa integrated; Sen requestConfirmed retained. C protected-input authorization remains pending."
   },
   {
     "group": "G3c course / price / facts",
