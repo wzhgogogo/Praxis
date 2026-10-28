@@ -1,11 +1,13 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.94
+- Document revision: 1.95
 - Last updated: 2026-10-28
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
+
+2026-10-28 CET: G1 independent question revision verified offline. Submitted60s/3-model/2-page unit and persistent20-question cap, cache-first/bound-source reread after restart; original search results/usage unchanged. Sole action code-selected with no modelAttempt. Frozen51c14400 five gates1168/175 PASS,106.350s, per-gate clean; effective cap red and literal HARD bytes unchanged. No Guard/source policy changes or current-source/model-quality claim, real calls0. [Report](../../.eval-artifacts/phase3b/g1-question-budget/report.md).
 
 2026-10-28 CET: Accepted ADR0046 revision0.3 assigns each displayed-outlet question its own 60s/3-model/2-page budget and a persistent 20-question conversation cap. Offline HTTP9/9 and local Guard/two-page Chromium control pass; final frozen five gates pending. Restart rereads only the bound outlet; search results/identity/accounting remain unchanged, sole-action selection costs no Agent call. Real model quality NOT_EVALUATED, new real calls0.
 

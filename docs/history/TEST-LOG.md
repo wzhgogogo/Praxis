@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.333
+- Document revision: 4.334
 - Last updated: 2026-10-28
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-28-g1-question-budget-final"></a>
+
+## 2026-10-28 CET: Independent question budget five gates all green
+
+Frozen51c14400/675 inputs: typecheck/arch/default1168/build/real-local-Chromium175 PASS; file concurrency4,106.350s, each gate before/after clean, restoration0, fail/skip/cancel0. Six old-path target red assertions now green; HTTP9/9 retains user/outlet/URL/version/idempotency/citation/sensitivity/cancellation controls. Own60s is checked with injected clock; configured20ms pending-reader control proves actual abort without a readiness window. Third/fourth document navigation never reaches local receiver, Guard POST still rejects; bypassing the cap gives effective Missing expected rejection red, source restored exactly before green gates. Complete old HARD44197 bytes SHA9a3298bc unchanged. Real-model quality and Linux for this revision NOT_RUN, new real calls0; no semantic self-scoring or G3. [Logs and report](../../.eval-artifacts/phase3b/g1-question-budget/report.md).
 
 <a id="test-2026-10-28-g1-question-budget"></a>
 

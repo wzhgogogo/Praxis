@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.327
+- Document revision: 4.328
 - Last updated: 2026-10-28
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-28-g1-question-budget-final"></a>
+
+## 2026-10-28 CET: Independent question budget delivered for review
+
+51c14400 commits the approved independent work unit: submitted60s deadline, three failed/success model attempts, two new document visits across sessions, and20 accepted questions counted from persistent events. Retired original-run window/resume/browser snapshots; same original outlet/run binding and cache-first source reader preserved. Explicit sole action is code-selected through unchanged validation/execution/reducer authority, honest no-model trajectory. ADR0046 revision0.3 Accepted; State24/TaskDefinition22 and existing Prompts/Schemas unchanged. Six effective reds and final five gates1168/175 PASS; old HARD bytes and protected source paths identical. Work branch push only, real calls0, stop for review. [Report](../../.eval-artifacts/phase3b/g1-question-budget/report.md).
 
 <a id="dev-2026-10-28-g1-question-budget"></a>
 

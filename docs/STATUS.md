@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.434
+- Document revision: 4.435
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-28 CET: G1 question-budget revision complete, review pending.** ADR0046 Accepted revision0.3; independent per-question60s/3 models/2 document visits and persistent conversation20 cap. Six target reds become green, HTTP9/9; unique action selected by code through Validator/Router/Reducer without Agent call. 51c14400 frozen675 inputs: five gates1168/175 all PASS, Chromium106.350s, each before/after clean, restoration0. Page-cap bypass is an effective red; old HARD44197 bytes identical, sites3847/Pack473 unchanged. State24/TaskDefinition22 and all Prompt/Schema versions unchanged. Real calls0; work branch only, independent model evaluation/G3 remain next stops. [Report](../.eval-artifacts/phase3b/g1-question-budget/report.md).
 
 - **2026-10-28 CET: G1 independent question budgets, final gates pending.** User approved ADR0046 revision0.3: per-question60s/3 models/2 pages and persistent conversation20 cap. HTTP9/9 now answers after520s, original49/50 calls and fresh restart; own exhaustion does not affect the next question. Sole action is code-selected through Validator/Router/Reducer, no Agent call. State24/TaskDefinition22 and source binding unchanged. Final frozen gates pending, real calls0; no model evaluation or G3. [Plan](../.eval-artifacts/phase3b/g1-question-budget/plan.md).
 
