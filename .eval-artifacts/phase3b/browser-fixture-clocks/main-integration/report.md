@@ -7,3 +7,8 @@ User independently reran2-core Linux and approved173840b7. Latest maincab27890 i
 No product/Prompt/Schema/State/Guard/site changes added; main integration is solely the already-approved fixture lifetime/clock repair and evidence. Existing per-test assertions retained and previously verified red evidence preserved. Current push follows user authorization, with remote publication receipt added afterward.
 
 New real calls0. B G1 quality fixdd87cfbb is not yet in main at preparation; six-question≤20-call repeat remains NOT_RUN. Required independent supplemental checks: Q26 model sourceConflict=true and core confirmationRequired=true; Q07/Q33 English answer, original-language quotations; Q31 complete source sentence; Q27 NOT_STATED/no comments; Q14 NONE. Original question/reference/scorer bytes frozen for the repeat, unchanged. Broad test audit starts after B begins G3 and first delivers a reviewable list.
+
+
+## Publication receipt
+
+Main and work branch were atomically pushed and independently checked by ls-remote at54b3dd2b124a069f4af2fb34ee88d95902229d55. Both worktrees clean and665 input hashes unchanged. [Receipt](published.json). This receipt-only follow-up remains on the work branch; executable main publication is complete. Bdd87cfbb is still not an ancestor of current main, so no six-question paid repeat or G3 audit started.
