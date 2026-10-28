@@ -43,7 +43,7 @@ test("one cached proposal is shared across both sources, spends the existing run
     assert.equal(request.outputSchema.version, NAMED_SOURCE_QUERY_SCHEMA.version);
     assert.deepEqual(JSON.parse(request.messages[1]!.content), { name: "Dengana Akabane", address: fixtureCandidates[0]!.restaurant.address });
     assert.doesNotMatch(request.messages.map(m => m.content).join(""), /original-place-id|rst_id|13108466/);
-    return { invocationId: "fixture", provider: "FIXTURE", model: "fixture", outputText: '{"field":"name","fragment":"Dengana"}', finishReason: "STOP", latencyMs: 0 };
+    return { invocationId: "fixture", provider: "FIXTURE", model: "fixture", outputText: '{"field":"name","fragment":"Dengana"}', finishReason: "TOOL_CALLS", latencyMs: 0 };
   } }, budget);
   const subject = candidate("Dengana Akabane"), signal = new AbortController().signal;
   assert.deepEqual(await Promise.all([planner.alternative(subject, signal), planner.alternative(subject, signal)]), ["Dengana", "Dengana"]);
