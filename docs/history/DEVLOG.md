@@ -1,5 +1,7 @@
 # Development Log
 
+2026-10-28 CET：G4基准证据已合main fae69b48并核对远端。C从该main开始详情优先级/原名真子串离线切片；身份规则不变，Prompt/独立检索Schema拟3，Agent/State不变；模型≤10、GET/Google/Live0。三家认证详情及Sen详情缺于本次保存集，不冒充身份验证成功。工作分支改进待复核，G4整体签收仍待用户。
+
 2026-10-28 CET：G4续跑收尾，旧29 ENVIRONMENT_FAILURE 7；CORRECT_ACCEPTED 13；NOT_ACCEPTED 9；新8 CORRECT_ACCEPTED 6；ENVIRONMENT_FAILURE 1；NOT_ACCEPTED 1；前四家独立复跑 CORRECT_ACCEPTED 4。新增GET73/112、模型5，基准累计GET188/模型19/40，Google/Live0；共享GET218/257。生产b250bb17与原证据未改，完整性PASS；结果交复核，不调整规则。 报告 `.eval-artifacts/phase3b/g4-e2e-continuation/report.md`。
 
 2026-10-28 CET：用户批准G4续跑新增GET≤112、共享上限257；补齐12家后单独复跑前四家，原结果保留。生产固定b250bb17，模型累计≤40（已14），Google/Live0；预先冻结后执行，当前新增调用0。报告 `.eval-artifacts/phase3b/g4-e2e-continuation/report.md`。

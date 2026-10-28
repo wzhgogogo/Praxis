@@ -753,6 +753,29 @@ test("Tabelog nonempty wrong first screen uses one alternative only within the s
   }
 });
 
+test("Tabelog prioritizes the closest observed name before the five-detail cap without granting identity", async () => {
+  const subject = structuredClone(candidate);
+  subject.restaurant.sourceIds = { googlePlaces: "original-place", phone: "03-1111-2222" };
+  const urls = Array.from({ length: 6 }, (_, i) => `https://tabelog.com/tokyo/A1304/A130401/${9100 + i}/`);
+  const target = urls[5]!;
+  const search = { url: "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201", title: "Search", text: "Restaurants", html: urls.map((url, i) => `<a class="list-rst__rst-name-target" href="${url}">${i === 5 ? subject.restaurant.outletName : `Unrelated Cafe ${i}`}</a>`).join("") };
+  for (const conflict of [false, true]) {
+    const session = new FixtureBrowserSession([]);
+    let current = search;
+    session.navigate = async url => {
+      session.navigated.push(url);
+      const matching = url === target;
+      current = url.includes("rstLst") ? search : { url, title: "Detail", text: "Public restaurant identity", html: `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: matching ? subject.restaurant.outletName : "Other Cafe", telephone: matching ? "03-1111-2222" : "03-9999-8888", address: matching && !conflict ? subject.restaurant.address : "9-9 Shibuya, Tokyo" })}</script>` };
+    };
+    session.snapshot = async () => current;
+    const result = await new TabelogBrowserAvailability({ openSession: async () => session }, undefined, 5).check({ candidateIds: [subject.restaurant.id], candidates: [subject], date: fixtureIntent.date, partySize: 2, timeWindow: fixtureIntent.timeWindow, hardCriteria: [] }, new AbortController().signal);
+    const details = session.navigated.filter(url => !url.includes("rstLst"));
+    assert.equal(details[0], target, "the sixth listed closest name must be inspected first");
+    assert.equal(details.length, 5);
+    assert.equal(result.evidence.some(e => e.entityMatch?.confidence === "HIGH"), !conflict, "ranking cannot override conflicting identity fields");
+  }
+});
+
 test("Tabelog applies availability controls on the resolved outlet after inspecting other branches", async () => {
   const selected: BrowserSnapshot = { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数", html: '<select name="party"></select><select name="date"></select><button class="slot is-available" data-time="19:00">19:00</button>' };
   const session = new FixtureBrowserSession([
