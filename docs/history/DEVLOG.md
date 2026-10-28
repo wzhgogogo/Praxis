@@ -1,5 +1,7 @@
 # Development Log
 
+2026-10-28 CET：C详情排序/真子串候选完成并停复核。main基准证据fae69b48已推；工作源码6c81275f五门禁1190/175与G2 4/4全绿、7步前后净树、1228冻结SHA。nr010/022/026位次13/11/10→1但无详情；Prompt/独立检索Schema3，模型6/10各3/3，GET/Google/Live0，共享65模型/218GET。23既有接纳保留前五，16完整回放正确、7缺页，完整不退化未验证；无错认，旧结论不改，改进不合main，G4签收待用户。 [报告](../../.eval-artifacts/phase3b/g4-priority-fragments/report.md)。
+
 2026-10-28 CET：C两项离线候选实现冻结ca15b75f；3有效红灯→相关56绿。nr010/022/026首屏认证店13/11/10→1；缺详情不宣称接纳。模型6/10，kazumasa和Sen各3/3真子串，GET/Google/Live0。23既有接纳全部保留在前五，16完整回放正确、7缺页，不退化整体验收仍未完成；旧结论不改，完整回归待复核，五门禁待运行。 报告 `.eval-artifacts/phase3b/g4-priority-fragments/report.md`。
 
 2026-10-28 CET：G4基准证据已合main fae69b48并核对远端。C从该main开始详情优先级/原名真子串离线切片；身份规则不变，Prompt/独立检索Schema拟3，Agent/State不变；模型≤10、GET/Google/Live0。三家认证详情及Sen详情缺于本次保存集，不冒充身份验证成功。工作分支改进待复核，G4整体签收仍待用户。
@@ -15,7 +17,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.335
+- Document revision: 4.336
 
 
 - Last updated: 2026-10-28

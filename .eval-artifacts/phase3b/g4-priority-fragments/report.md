@@ -1,5 +1,14 @@
 # G4 详情优先级与严格店名片段
 
+交付状态：两项代码候选、6次片段实测、五门禁及G2完成；**完整“不退化”验收仍缺7份回放所需页面，不能判定通过**。改进仅推工作分支供复核。
+
+- 已复核基准证据合main并推送：`fae69b48e541bef258b0c463d8d131ea46012b49`，ls-remote已核对。
+- nr010/022/026认证店首屏位置13/11/10→1；缺认证详情，未宣称身份成功。
+- nr020与Sen真子串实测各3/3（kazumasa、Sen）；全名直接放弃，不做纠错模型重试。
+- 23份既有正确接纳全部保留在前五计划，16完整回放正确、7缺页。旧真实结论原样保留。
+- 1190默认测试、175 Chromium、G2 4/4通过；逐门前后净树。模型6/10、GET/Google/Live0。
+
+
 Evidence: exposed frozen regression; draft / not integrated. Vienna CET UTC+1.
 
 切片承诺：只用观察到的候选店名、可用地址区/町和可用坐标决定详情读取先后；每来源最多两次检索、五个详情总额不重置，身份接纳函数保持原字节。片段必须是原Google名称的逐字真子串；全名、编造、空片段直接放弃，不追加纠错模型调用。每个生产任务每店仍最多一次片段调用，避免重复花费且保留明确失败结果。检索Prompt3与检索Schema3（仅name字段）独立于B Agent/State。
@@ -46,3 +55,13 @@ main-nr-005、main-nr-006、main-nr-017、main-nr-030、main-G4-ND-001、main-G4
 首轮正式门禁（f3b34387）：integrity PASS，typecheck因测试Schema可选类型和距离泛型的两项类型错误FAIL；两步前后净树。只修类型注解/非空断言，esbuild编译后JavaScript与ca15b75f逐字相同，见type-only-runtime-equivalence.json，因此不重复6次真实模型或41份回放。原freeze.json/gates.json及失败log原样保留；最终五门禁使用final-freeze.json和run-final-gates.py，区分评测执行SHA与后续类型修正SHA。
 
 第二轮门禁（a876eb07）：integrity/typecheck/arch PASS；npm test 1154/1190通过，36失败（34个本地listen EPERM及其上层失败，无AssertionError），原因是本轮未提升本地回环监听权限。源代码与冻结输入不再修改；保留gates-final.json及logs，下一轮仅换输出回执目录并使用允许localhost监听的受控离线进程。没有外网或生产凭据加载。
+
+## 最终门禁与完整性
+
+2026-10-28T10:41:30.706663+01:00，源码提交 `6c81275f62cbb21902469f6b4f882fe63d29930a`：五门禁全绿（typecheck、arch、npm test 1190/1190、build、Chromium175/175），额外G2 4/4全绿，固定12页原8 PASS/4诚实退化口径保持；全部7步前后status为空。1228项最终冻结SHA核对通过。首次类型失败、仅类型修正编译JS同一证明、沙箱EPERM和获准回环重跑分别保留，没有把失败抹掉，也没有重新运行真实模型。
+
+对结果的独立核验：认证ID仍只进独立评分子进程；16份可完成的生产路径接纳均与认证ID一致，未发现错认。15个回放缺页对象的实际缺失URL与其余前五未保存入口见missing-pages.json；其中7个属于既有正确接纳，故完整不退化仍未验证。完整性/功能门禁通过不等于这个数据验收已通过。
+
+只读复核命令：`node --import tsx .eval-artifacts/phase3b/g4-priority-fragments/verify-verified.mjs`。它核对最终输入SHA、旧身份函数逐字不变、原账本保留及本批6模型/0GET/0Google/0Live。回放与模型原始执行SHA为ca15b75f；后续两处类型修正的生成JS已证明相同。full regression缺证状态独立于门禁，不因门禁全绿更改。
+
+最小后续是由复核者决定如何补齐missing-pages.json中的冻结原文（或另行批准采集）；本批没有增加GET，也没有改变旧结果、身份阈值或评分。G4整体签收状态仍按用户最新消息待确认。
