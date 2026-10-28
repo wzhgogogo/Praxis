@@ -60,8 +60,10 @@ function observations(spec: DomPage, snapshot: BrowserSnapshot, controls: Awaite
   return { facts, selected, completion, controls: controls.map(control => ({ kind: control.kind, label: control.label, value: control.value, selected: control.selected, disabled: control.disabled })) };
 }
 
-/** Actual Chromium + production snapshots/controls/completion, with no source transport. */
-export async function runDomChange(output?: string) {
+/** Actual Chromium + production snapshots/controls/completion, with no source transport.
+ * Await each completed observation; the caller owns the whole run lifetime. A
+ * per-page elapsed timer must not close a valid read while the CPU is busy. */
+export async function runDomChange(output?: string, signal: AbortSignal = AbortSignal.timeout(180_000)) {
   const manifestBytes = await readFile(DOM_CHANGE_MANIFEST);
   const manifest = JSON.parse(manifestBytes.toString()) as { seed: string; mutationRule: string; pages: DomPage[] };
   if (manifest.mutationRule !== DOM_MUTATION_RULE) throw new Error("DOM_MUTATION_RULE_MISMATCH");
@@ -74,6 +76,7 @@ export async function runDomChange(output?: string) {
   const fixtureHarDirectory = await mkdtemp(resolve(tmpdir(), "phase3b-g2-fixture-har-"));
   try {
     for (const spec of manifest.pages) {
+      signal.throwIfAborted();
       if (!/^[a-z0-9-]+$/.test(spec.id)) throw new Error("INVALID_DOM_CASE_ID");
       const bytes = gunzipSync(await readFile(resolve(spec.path)));
       if (sha(bytes) !== spec.sha256) throw new Error("SAVED_PAGE_SHA_MISMATCH");
@@ -96,7 +99,7 @@ export async function runDomChange(output?: string) {
       const runtime = new LocalPlaywrightChromium({ browserType: browserType as unknown as typeof chromium });
       const fixtureHarPath = resolve(fixtureHarDirectory, spec.id + ".har");
       await writeFile(fixtureHarPath, replayHarPages({ [spec.sourceUrl]: bytes.toString() }), { flag: "wx" });
-      const session = await runtime.openSession({ replayHarPath: fixtureHarPath, signal: AbortSignal.timeout(30_000), networkPolicy: { documentOrigins: [new URL(spec.sourceUrl).origin], genericPublicRead: true, staticResources: [], dynamicReads: [] } });
+      const session = await runtime.openSession({ replayHarPath: fixtureHarPath, signal, networkPolicy: { documentOrigins: [new URL(spec.sourceUrl).origin], genericPublicRead: true, staticResources: [], dynamicReads: [] } });
       try {
         if (session.metadata.readNetworkBoundary !== "INSTALLED") throw new Error("MISSING_REAL_GUARD");
         await session.prepareNavigation!(spec.sourceUrl, { timeoutMs: 10_000 });
