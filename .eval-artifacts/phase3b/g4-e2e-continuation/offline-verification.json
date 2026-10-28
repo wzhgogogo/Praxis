@@ -1,0 +1,26 @@
+{
+  "atCET": "2026-10-28T08:31:39.854620+01:00",
+  "mode": "OFFLINE_ONLY",
+  "realCalls": 0,
+  "checks": {
+    "nodeSyntax": "PASS",
+    "unchangedPosthocOracleControls": "PASS",
+    "get112AndShared257Limits": "PASS",
+    "benchmarkCumulativeModel40Limit": "PASS",
+    "oneRealModelPerSubjectAcrossAttempts": "PASS",
+    "sameInputReplayBinding": "PASS",
+    "threeTimeoutsAndNoRetry": "PASS",
+    "identityBoundary": "PASS",
+    "original145Get54ModelLedgerEntriesPreserved": "PASS",
+    "inputFieldsUnchanged": "PASS",
+    "frozen676SHA": "PASS",
+    "productionUnchangedSinceB250bb17": "PASS",
+    "originalArtifactsUnchanged": "PASS"
+  },
+  "commands": [
+    "node --check .eval-artifacts/phase3b/g4-e2e-continuation/run.mjs",
+    "python3 -B .eval-artifacts/phase3b/g4-e2e-continuation/score.py --self-test",
+    "node --import tsx .eval-artifacts/phase3b/g4-e2e-continuation/run.mjs --self-test"
+  ],
+  "productGates": "Unchanged product source: reuse ccf7aa5d six PASS; no new product-gate claim."
+}
