@@ -1,0 +1,12 @@
+import fs from 'node:fs';import cp from 'node:child_process';import path from 'node:path';import crypto from 'node:crypto';
+const ts=(await import(path.resolve(process.argv[2] || (()=>{throw Error('PINNED_TYPESCRIPT_API_PATH_REQUIRED')})()))).default;
+const files=cp.execFileSync('git',['ls-files','src'],{encoding:'utf8'}).split('\n').filter(x=>x.endsWith('.test.ts'));const cards=[];
+for(const file of files){const source=fs.readFileSync(file,'utf8'),ast=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true);if(ast.parseDiagnostics.length)throw Error('UNPARSED_TEST_SOURCE:'+file);const imports=[];
+ for(const n of ast.statements)if(ts.isImportDeclaration(n))imports.push(n.moduleSpecifier.text);
+ function walk(n){if(ts.isCallExpression(n)){const callee=n.expression.getText(ast);if(/^(?:test|it|describe|suite)(?:\.(?:skip|todo|only))?$|^[a-zA-Z_$][\w$]*\.test$/.test(callee)){
+ const first=n.arguments[0];const cb=[...n.arguments].reverse().find(a=>ts.isArrowFunction(a)||ts.isFunctionExpression(a));if(first&&cb){const title=ts.isStringLiteralLike(first)?first.text:first.getText(ast);const start=ast.getLineAndCharacterOfPosition(n.getStart(ast)).line+1;const end=ast.getLineAndCharacterOfPosition(n.end).line+1;const asserts=[],calls=new Set();
+ function parts(x){if(ts.isCallExpression(x)){const name=x.expression.getText(ast);if(/^assert(?:\.|$)/.test(name))asserts.push(x.getText(ast).replace(/\s+/g,' ').slice(0,700));else if(!/^(?:JSON|Object|Array|String|Number|Date|Map|Set|Math|console)\./.test(name))calls.add(name);}ts.forEachChild(x,parts);}parts(cb.body);
+ const body=cb.body.getText(ast);cards.push({id:file+':'+start,title,titleSource:first.getText(ast),file,line:start,end,callee,container:/describe|suite/.test(callee),assertions:asserts,calls:[...calls],imports,body,sourceSha256:crypto.createHash('sha256').update(source).digest('hex')});}}
+ }ts.forEachChild(n,walk);}walk(ast);
+}
+fs.writeFileSync('.eval-artifacts/phase3b/test-suite-review/static-cards.json',JSON.stringify(cards,null,2)+'\n');const by={};for(const c of cards)(by[c.file]??=[]).push(c);fs.writeFileSync('.eval-artifacts/phase3b/test-suite-review/static-files.json',JSON.stringify(Object.fromEntries(Object.entries(by).map(([file,v])=>[file,{count:v.length,asserts:v.reduce((n,c)=>n+c.assertions.length,0)}])),null,2)+'\n');console.log(JSON.stringify({files:files.length,filesWithDeclarations:Object.keys(by).length,declarations:cards.length,containers:cards.filter(c=>c.container).length}));
