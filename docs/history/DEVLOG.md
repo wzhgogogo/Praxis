@@ -5057,3 +5057,10 @@ Original102 execution/core/automatic-evaluation records verified byte-identical.
 2026-10-28 CET: A timing fixtures verified, review branch only. G2 owns one existing180s test lifetime; health late-read uses source-specific logical clocks and real DOM snapshots, all assertions retained/strengthened. Effective original reds at33.603/34.899s under2CPU quota pressure; ordinary2CPU/one-CPU full controls passed, auxiliary240s cancellation separately retained.61138c94/665 frozen inputs: macOS/Linux five gates1186/175 PASS; Linux three consecutive full4-worker suites175/175 in121.539/121.433/119.103s, each clean. Product/Guard/site/Prompt/Schema/State unchanged; new real calls0. VM removed. G1 review material already maincab27890; six-question real run waits B merge, broad audit waits G3. [Report](../.eval-artifacts/phase3b/browser-fixture-clocks/report.md).
 
 Same target failures precede pressure cutoff; preserve2passing full controls and1cancelled auxiliary case. No timeout values/assertions relaxed, no new tests. G2 lifecycle t.signal replaces30s per-page timer, unchanged180s outer bound. Health retains actual Guard/Chromium/busy300ms and late1000+220ms read behavior with explicit complete/pending evidence checks. Only4A-owned eval/harness source files. Full offline receipts report exact isolation and current model/site call increment0.
+
+
+<a id="dev-2026-10-28-clock-main-preparation"></a>
+
+## 2026-10-28 CET: Approved timing repair main integration
+
+2026-10-28 CET: User independently reviews2CPU clock repairs and approves173840b7 main integration. Current maincab27890 already ancestor; approved executable source and665 frozen inputs identical. Rerun five gates with per-item clean state, then publish main. Six-question≤20-call real rerun waits B G1 Prompt/Schema3 main merge; Q26 sourceConflict/confirmation, English Q07/Q33, full-sentence Q31, comment-free NOT_STATED Q27, NONE Q14 recorded as explicit checks. Broad audit waits B G3. New real calls0.
