@@ -3,6 +3,7 @@ import { compareCompleteOutletAddress } from "../restaurant-availability/outlet-
 import { detailPhones, plainOutlet, type DetailPhone, type WithDetailIdentity } from "../restaurant-identity/detail-identity-fields.js";
 import type { TableCheckEntityResolution, TableCheckOutletObservation } from "./tablecheck-contracts.js";
 import { normalizeTableCheckIdentity, normalizeTableCheckPhone } from "./tablecheck-page-parser.js";
+import { decodeHTMLStrict } from "entities";
 
 export interface TableCheckEntityInspection {
   matchedContactPhone?: DetailPhone;
@@ -12,8 +13,8 @@ export interface TableCheckEntityInspection {
 }
 
 function strongTextMatch(left: string | undefined, right: string | undefined, minimumLength: number): boolean {
-  const a = normalizeTableCheckIdentity(left);
-  const b = normalizeTableCheckIdentity(right);
+  const a = normalizeTableCheckIdentity(decodeHTMLStrict(left ?? ""));
+  const b = normalizeTableCheckIdentity(decodeHTMLStrict(right ?? ""));
   return a.length >= minimumLength && b.length >= minimumLength && (a === b || a.includes(b) || b.includes(a));
 }
 

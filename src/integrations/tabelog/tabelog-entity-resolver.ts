@@ -1,6 +1,7 @@
 import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
 import { compareCompleteOutletAddress, outletAddressLocalities } from "../restaurant-availability/outlet-identity.js";
 import { detailPhones, plainOutlet, type WithDetailIdentity } from "../restaurant-identity/detail-identity-fields.js";
+import { decodeHTMLStrict } from "entities";
 import type {
   TabelogEntityResolution,
   TabelogEntityResolutionDiagnostic,
@@ -55,8 +56,8 @@ export function normalizeTabelogPhone(value: string | undefined): string {
 }
 
 function strongNameMatch(left: string, right: string): boolean {
-  const a = normalizeTabelogIdentity(left);
-  const b = normalizeTabelogIdentity(right);
+  const a = normalizeTabelogIdentity(decodeHTMLStrict(left));
+  const b = normalizeTabelogIdentity(decodeHTMLStrict(right));
   return a.length >= 3 && b.length >= 3 && (a === b || a.includes(b) || b.includes(a));
 }
 

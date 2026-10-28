@@ -1,6 +1,7 @@
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { compareCompleteOutletAddress } from "../restaurant-availability/outlet-identity.js";
+import { decodeHTMLStrict } from "entities";
 
 export interface DetailPhone {
   value: string;
@@ -65,8 +66,10 @@ export function readDetailIdentityFields(
     ...[...scope.matchAll(/<dt\b[^>]*>([^]*?)<\/dt\s*>\s*<dd\b[^>]*>([^]*?)<\/dd\s*>/gi)]
       .map(row => ({ label: text(row[1] ?? ""), html: row[2] ?? "" })),
   ];
-  const names = [...new Set(rows.filter(row => /^(?:restaurant name|shop name|店名|店舗名)$/i.test(row.label)).map(row => text(row.html)))];
-  if (names.length > 1 || (names[0] && sourceName && !ownerKey(names[0]).includes(ownerKey(sourceName)) && !ownerKey(sourceName).includes(ownerKey(names[0])))) changed();
+  const names = [...new Set(rows.filter(row => /^(?:restaurant name|shop name|店名|店舗名)$/i.test(row.label))
+    .map(row => decodeHTMLStrict(row.html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim()))];
+  const decodedSourceName = sourceName === undefined ? undefined : decodeHTMLStrict(sourceName);
+  if (names.length > 1 || (names[0] && decodedSourceName && !ownerKey(names[0]).includes(ownerKey(decodedSourceName)) && !ownerKey(decodedSourceName).includes(ownerKey(names[0])))) changed();
   if (!heading && !names.length) return undefined;
   const visible = compact(snapshot.text);
   const addresses = [...new Set(rows.filter(row => /^(?:address|住所|所在地)$/i.test(row.label)).map(row => text(row.html.replace(/<a\b[^>]*>([^]*?)<\/a\s*>/gi,
