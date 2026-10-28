@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -5,7 +6,7 @@ import { gunzipSync } from "node:zlib";
 import { inspectTabelogEntity, normalizeTabelogPhone } from "../../../src/integrations/tabelog/tabelog-entity-resolver.ts";
 import { parseTabelogSearchOutlets, parseTabelogOutletIdentityWithEvidence } from "../../../src/integrations/tabelog/tabelog-page-parser.ts";
 
-const base = ".eval-artifacts/name-resolution-benchmark-20261019", live = `${base}/live-20261020`, out = ".eval-artifacts/phase3b/c-batch3/identity";
+const base = ".eval-artifacts/name-resolution-benchmark-20261019", live = `${base}/live-20261020`, out = process.argv[2] ?? ".eval-artifacts/phase3b/c-batch3/identity";
 const inputs = new Map();
 function read(path) {
   const bytes = readFileSync(path); inputs.set(path, { path, sha256: createHash("sha256").update(bytes).digest("hex") });
@@ -73,7 +74,7 @@ assert.equal(rows.length, 29);
 assert.notEqual(rows.find(r=>r.sampleId==="nr-029").snapshotRecomputeVerdict,"CORRECT","One-digit phone conflict must remain unaccepted");
 assert(!rows.some(r => r.snapshotRecomputeVerdict === "WRONG_ACCEPTED"), "S0: another outlet accepted; stop before further work");
 const count = key => Object.fromEntries([...new Set(rows.map(r => r[key]))].map(v => [v, rows.filter(r => r[key] === v).length]));
-const result = { schema: "phase3b-name-resolution-recompute@3", structureAlerts, mode: "OFFLINE_SAVED_PAGE_PARSER_RESOLVER", newRealCalls: 0,
+const result = { sourceCommit: execFileSync("git", ["rev-parse", "HEAD"], {encoding: "utf8"}).trim(), schema: "phase3b-name-resolution-recompute@3", structureAlerts, mode: "OFFLINE_SAVED_PAGE_PARSER_RESOLVER", newRealCalls: 0,
   historicalVerdicts: count("historicalVerdict"), snapshotVerdicts: count("snapshotRecomputeVerdict"), primaryFailureStages: count("failureStage"),
   requestedCategories: { queryText: { status: "HYPOTHESIS_ONLY", exposedFullNameQueries: rows.filter(r => r.fullNameQueryUsed).length },
     emptySearchResults: rows.filter(r => r.failureStage === "EMPTY_SEARCH_RESULTS").length,
@@ -81,5 +82,5 @@ const result = { schema: "phase3b-name-resolution-recompute@3", structureAlerts,
     missingIdentityFields: rows.filter(r => r.failureStage === "IDENTITY_FIELDS_MISSING").length,
     identityFieldConflict: rows.filter(r => r.failureStage === "IDENTITY_FIELD_CONFLICT").length,
     timeout: rows.filter(r => r.failureStage === "TIMEOUT").length }, rows, inputs: [...inputs.values()] };
-writeFileSync(`${out}/recomputed.json`, JSON.stringify(result, null, 2) + "\n");
+writeFileSync(`${out}/recomputed.json`, JSON.stringify(result, null, 2) + "\n", {flag: "wx"});
 console.log(JSON.stringify({ historical: result.historicalVerdicts, currentSnapshot: result.snapshotVerdicts, failures: result.primaryFailureStages, requested: result.requestedCategories }));

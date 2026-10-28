@@ -34,9 +34,9 @@ for row in execution['results']:
     if row.get('bodyPath'):assert digest(Path(row['bodyPath']).read_bytes())==row['sha256']
 # The earlier run's source and scripts are immutable Git blobs, even when final tests later advance.
 for f in load(root/'optional-freeze.json')['files']:assert digest(blob(execution['sourceCommit'],f['path']))==f['sha256'],f['path']
-evaluation=load(root/'replay-final/evaluation.json');assert evaluation['identity']['correct']>=12 and evaluation['identity']['wrongAccepted']==0
+evaluation=load(root/'after-gate-fix/evaluation.json');assert evaluation['identity']['correct']>=12 and evaluation['identity']['wrongAccepted']==0
 assert evaluation['identity']['unexpectedRegressions']==0
-identity_source=load(root/'green.json')['sourceCommit']
+identity_source=load(root/'identity-final/recomputed.json')['sourceCommit']
 for path in ['src/integrations/restaurant-availability/outlet-identity.ts','src/integrations/tabelog/tabelog-entity-resolver.ts','src/integrations/tablecheck/tablecheck-entity-resolver.ts','src/integrations/restaurant-identity/detail-identity-fields.ts','src/integrations/tabelog/tabelog-page-parser.ts','src/integrations/tablecheck/tablecheck-page-parser.ts']:
     assert Path(path).read_bytes()==blob(identity_source,path),'Identity code differs from the29-page replay'
 record={'status':'PASS','preservedParentLedgerEntries':len(old['entries']),'uniqueLedgerEntries':len(entries),'batchUsage':batch,'sharedUsage':ledger['cumulative'],'g2ChangedOriginalReferences':2,'g2ScorerMutationRules':'UNCHANGED','optionalFrozenSourceVerified':execution['sourceCommit'],'identity':evaluation['identity']}

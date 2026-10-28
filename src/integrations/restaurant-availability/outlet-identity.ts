@@ -50,7 +50,12 @@ function streetFields(value: string): StreetFields {
   const text = withoutUnits(value).replace(/[‐‑‒–—−]/gu, "-");
   // Prefer explicitly labelled chome over an unlabelled/repeated Google prefix.
   const labelled = text.match(/(\d+)\s*(?:-\s*ch[ōo]me|丁目)\s*-?\s*(\d+)?(?:\s*(?:-|番(?:地)?)\s*(\d+))?/iu);
-  const block = labelled ?? text.match(/(?<!\d)(\d+)\s*-\s*(\d+)(?:\s*-\s*(\d+))?(?!\d)/u);
+  const block = labelled
+    ?? text.match(/(?<!\d)(\d+)\s*-\s*(\d+)(?:\s*-\s*(\d+))?(?!\d)/u)
+    // Existing source controls also separate leading street components by spaces.
+    // Anchor this form to the address start, excluding numbers inside building names.
+    ?? text.match(/^\s*,?\s*(\d+)\s+(\d+)(?:\s+(\d+))?(?=\s+\p{L})/u)
+    ?? text.match(/^\s*,?\s*(\d+)(?=\s+[a-z])/u);
   return block ? {
     chome: Number(block[1]),
     ...(block[2] ? { ban: Number(block[2]) } : {}),

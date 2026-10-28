@@ -105,3 +105,9 @@ test("floor normalization never erases explicit floor, street or postal conflict
     assert.equal(compareCompleteOutletAddress(right, left), "CONFLICT", `${right} ≠ ${left}`);
   }
 });
+
+test("leading space-separated street components retain existing normalization and reject another street", () => {
+  const original = "1-18 Jinnan, Shibuya City, Tokyo";
+  assert.equal(compareCompleteOutletAddress(original, "1 18 Jinnan Shibuya City Tokyo"), "MATCH");
+  assert.equal(compareCompleteOutletAddress(original, "9F, 99 Other Building, Shibuya City, Tokyo"), "CONFLICT");
+});
