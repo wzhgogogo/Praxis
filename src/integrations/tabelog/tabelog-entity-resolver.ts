@@ -1,5 +1,5 @@
 import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
-import { compareCompleteOutletAddress } from "../restaurant-availability/outlet-identity.js";
+import { compareCompleteOutletAddress, outletAddressLocalities } from "../restaurant-availability/outlet-identity.js";
 import { detailPhones, plainOutlet, type WithDetailIdentity } from "../restaurant-identity/detail-identity-fields.js";
 import type {
   TabelogEntityResolution,
@@ -11,6 +11,37 @@ import type {
 
 export function normalizeTabelogIdentity(value: string | undefined): string {
   return (value ?? "").toLocaleLowerCase("ja-JP").replace(/[\s\-‐‑–—()（）・,，.。]/g, "");
+}
+
+function nameParts(value: string): string[] {
+  // Entities denote punctuation in observed labels (e.g. &amp;); ignore them
+  // just as punctuation in Google's name, without inventing a translated name.
+  return value.replace(/&(?:[a-z][a-z0-9]+|#\d+|#x[\da-f]+);/gi, " ").normalize("NFKD").replace(/\p{M}/gu, "").toLocaleLowerCase("en-US").match(/[\p{L}\p{N}]+/gu) ?? [];
+}
+
+function overlap(left: Set<string>, right: Set<string>): number {
+  return left.size + right.size ? 2 * [...left].filter(value => right.has(value)).length / (left.size + right.size) : 0;
+}
+
+function nameSimilarity(left: string, right: string): number {
+  const a = nameParts(left), b = nameParts(right);
+  const grams = (parts: string[]) => { const text = parts.join(""); return new Set(Array.from({ length: Math.max(0, text.length - 1) }, (_, i) => text.slice(i, i + 2))); };
+  return overlap(new Set(a), new Set(b)) + overlap(grams(a), grams(b));
+}
+
+/** Reading order only: every selected detail still passes the unchanged identity gate. */
+export function prioritizeTabelogOutlets<T extends TabelogOutletObservation & { coordinates?: { lat: number; lng: number } }>(candidate: RestaurantCandidate, outlets: T[]): T[] {
+  const google = candidate.restaurant, localities = new Set(outletAddressLocalities(google.address));
+  const distance = (point: T["coordinates"]) => {
+    const origin = google.coordinates;
+    if (!origin || !point || ![origin, point].every(p => Number.isFinite(p.lat) && Number.isFinite(p.lng) && Math.abs(p.lat) <= 90 && Math.abs(p.lng) <= 180)) return Infinity;
+    const latitude = (point.lat + origin.lat) * Math.PI / 360;
+    return Math.hypot(point.lat - origin.lat, (point.lng - origin.lng) * Math.cos(latitude));
+  };
+  return outlets.map((outlet, index) => ({ outlet, index, name: nameSimilarity(google.outletName, outlet.outletName),
+    locality: overlap(localities, new Set(outletAddressLocalities(outlet.address ?? ""))), distance: distance(outlet.coordinates) }))
+    .sort((a, b) => b.name - a.name || b.locality - a.locality || (a.distance === b.distance ? 0 : a.distance - b.distance) || a.index - b.index)
+    .map(value => value.outlet);
 }
 
 export function normalizeTabelogPhone(value: string | undefined): string {

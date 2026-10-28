@@ -1,7 +1,7 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.97
+- Document revision: 1.98
 
 
 - Last updated: 2026-10-28
@@ -370,3 +370,8 @@ Harness: three prior h001 recordings retain six identical raw HTML snapshots (on
 2026-10-23 bound-clock collection repair (draft / not integrated): only the existing passive response parser changes. Every row keeps merchant/date/people/link binding; unsupported numeric hours cannot erase independently bound normal-clock alternatives. No supported slot remains UNKNOWN, not EMPTY; no extended-hour conversion or new network permission. Saved three-page replay and local Chromium Live assembly are the proof scope, not current website inventory.
 
 2026-10-23 TableCheck Guard candidate (draft / not integrated): V4 hits is optional within the unchanged endpoint/field whitelist; genuine bodyless browser GET preflights borrow only the matching approved TableCheck GET, retaining origin/path/query/header binding and reserve denial. h14 local Chromium regression passes; exact saved red/green observations are frozen separately. Eval-only Live source health observes both guarded search pages for approximately10 seconds, retries at300000ms at most3 attempts before formal run/model/Google work. No website/model/Live in this batch; final gates and69/5/22 required before branch delivery.
+
+
+## 2026-10-28 G4 detail reading priority (offline, review pending)
+
+The Google-candidate Tabelog identity path ranks all observed result links before selecting at most five distinct details across its two searches. Observed name overlap is primary; existing address locality fields and available coordinates break ties; missing fields preserve source order. This is retrieval priority, not identity evidence. The original identity comparator functions, direct/native continuation, page parsers and calendar readers are unchanged. The independent named-source-query Prompt3/Schema3 accepts only a strictly shorter literal Google-name fragment; a repeated full name is abandoned after one cached proposal, without a repair call. No Google request is added. Harness controls: closest sixth observed link enters the five-detail set, conflicting identity remains non-HIGH; equal-name locality/distance and missing-field tie controls; proper-name fragments and cached full-name rejection. Frozen G4 replay and proposal-only real-model validation are reported separately in `.eval-artifacts/phase3b/g4-priority-fragments/report.md`; missing saved details are not verified acceptances.

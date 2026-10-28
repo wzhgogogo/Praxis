@@ -8,7 +8,7 @@ import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtim
 import { BrowserTaskExecutor, type BrowserCompletionAssessment } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectNativeOutletContinuity, sameNativeOutletUrl } from "../restaurant-availability/native-outlet-continuity.js";
 import { normalizeTabelogOutletUrl, tabelogDiscoveryPack } from "../restaurant-search/source-packs.js";
-import { inspectTabelogEntity } from "./tabelog-entity-resolver.js";
+import { inspectTabelogEntity, prioritizeTabelogOutlets } from "./tabelog-entity-resolver.js";
 import {
   detectExternalReservationRedirect,
   hasBotChallenge,
@@ -97,8 +97,8 @@ function inspectCandidateOutlet(candidate: RestaurantAvailabilityRequest["candid
   };
 }
 
-function mergeOutlets<T extends { sourceUrl: string }>(listed: T | undefined, discovered: T[], max: number): T[] {
-  return [...new Map([...(listed ? [[listed.sourceUrl, listed] as const] : []), ...discovered.map((item) => [item.sourceUrl, item] as const)]).values()].slice(0, max);
+function mergeOutlets<T extends { sourceUrl: string }>(listed: T | undefined, discovered: T[]): T[] {
+  return [...new Map([...(listed ? [[listed.sourceUrl, listed] as const] : []), ...discovered.map((item) => [item.sourceUrl, item] as const)]).values()];
 }
 
 /** Browser redirects may append short-lived challenge tokens; never persist them in eval diagnostics. */
@@ -408,7 +408,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
             });
             return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
           }
-          outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
+          outlets = prioritizeTabelogOutlets(candidate, mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search)));
           if (!outlets.length && !tabelogDiscoveryPack.browser!.isExplicitEmptyListing(search)) {
             const generic = await this.executor.runSkill({
               taskId: `browser-read:${candidate.restaurant.id}`,
@@ -424,7 +424,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
               completion: tabelogNameSearchCompletion,
             });
             search = generic.snapshot;
-            outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
+            outlets = prioritizeTabelogOutlets(candidate, mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search)));
           }
         }
         for (const outlet of outlets) {

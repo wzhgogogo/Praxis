@@ -105,6 +105,9 @@ function localityFields(value: string): Record<string, string> {
   return { ...(prefecture ? { prefecture } : {}), ...(municipality ? { municipality } : {}), ...(town ? { town } : {}), ...(city ? { city } : {}) };
 }
 
+/** Observed address localities for retrieval priority; never an identity verdict. */
+export function outletAddressLocalities(value: string): string[] { return Object.values(localityFields(value)); }
+
 /**
  * Does not transliterate or fill missing fields.  A stated unit conflict is a
  * hard conflict; an omitted unit is evaluated only from the remaining public

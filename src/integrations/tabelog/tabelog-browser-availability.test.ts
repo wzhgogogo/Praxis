@@ -7,7 +7,7 @@ import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infr
 import { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import { RESTAURANT_FAILURE_CLASSIFICATION } from "../../domains/restaurant/failure-codes.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
-import { inspectTabelogEntity, resolveTabelogEntity } from "./tabelog-entity-resolver.js";
+import { inspectTabelogEntity, prioritizeTabelogOutlets, resolveTabelogEntity } from "./tabelog-entity-resolver.js";
 import { TabelogBrowserAvailability, tabelogAvailabilityCompletion } from "./tabelog-browser-availability.js";
 import { parseTabelogSourceFieldQuotes, parseTabelogAvailabilitySlots, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets } from "./tabelog-page-parser.js";
 import { hasTabelogSelectedQuery, tabelogCapturedSlots, tabelogQueryControlsRestricted, tabelogRequestedDateState } from "./tabelog-query-controls.js";
@@ -771,9 +771,22 @@ test("Tabelog prioritizes the closest observed name before the five-detail cap w
     const result = await new TabelogBrowserAvailability({ openSession: async () => session }, undefined, 5).check({ candidateIds: [subject.restaurant.id], candidates: [subject], date: fixtureIntent.date, partySize: 2, timeWindow: fixtureIntent.timeWindow, hardCriteria: [] }, new AbortController().signal);
     const details = session.navigated.filter(url => !url.includes("rstLst"));
     assert.equal(details[0], target, "the sixth listed closest name must be inspected first");
-    assert.equal(details.length, 5);
+    assert.equal(new Set(details).size, 5, "availability may reopen the matched outlet but cannot inspect a sixth candidate");
     assert.equal(result.evidence.some(e => e.entityMatch?.confidence === "HIGH"), !conflict, "ranking cannot override conflicting identity fields");
   }
+});
+
+test("detail priority uses observed locality then distance for equal names and preserves unobserved ties", () => {
+  const subject = structuredClone(candidate);
+  subject.restaurant.address = "東京都新宿区神楽坂3-1-43";
+  subject.restaurant.coordinates = { lat: 35.7, lng: 139.74 };
+  const outlet = (sourceEntityId: string, address?: string, coordinates?: { lat: number; lng: number }) => ({ sourceEntityId, sourceUrl: `https://tabelog.com/tokyo/A1304/A130401/${sourceEntityId}/`, outletName: subject.restaurant.outletName, ...(address ? { address } : {}), ...(coordinates ? { coordinates } : {}) });
+  const rows = [outlet("other-area", "東京都中央区銀座3-1-43", { lat: 35.7, lng: 139.74 }), outlet("far", "東京都新宿区神楽坂3-1-43", { lat: 35.8, lng: 139.84 }), outlet("near", "東京都新宿区神楽坂3-1-43", { lat: 35.7001, lng: 139.7401 })];
+  const before = structuredClone(rows);
+  assert.deepEqual(prioritizeTabelogOutlets(subject, rows).map(o => o.sourceEntityId), ["near", "far", "other-area"]);
+  assert.deepEqual(rows, before);
+  const unknown = [outlet("first"), outlet("second")];
+  assert.deepEqual(prioritizeTabelogOutlets(subject, unknown), unknown, "missing fields cannot invent a location or reorder a tie");
 });
 
 test("Tabelog applies availability controls on the resolved outlet after inspecting other branches", async () => {
