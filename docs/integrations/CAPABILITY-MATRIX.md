@@ -1,5 +1,7 @@
 # Integration Capability Matrix
 
+2026-10-28 CET: G3 Group03 observed-control fallback complete: actual Playwright accelerator failure red→Agent DATE/PARTY actions green, exact offer and contradictory-party UNKNOWN preserved. Frozen6bb5ba78 five gates1213/178 PASS (119.580s), ordinary G2 4/4, per-gate clean; HARD44197 bytes and C protected code/tests unchanged. Three groups verified/published; STOPPED_PROTECTED_C_FIXTURE_INPUT_AUTHORIZATION_PENDING, exact one-response fixture diff prepared and NOT applied. Calendar/shared selection/remaining slot and G3c unfinished; no full strict PASS/main merge. Sites4028/Pack478 reference, ledger446 ids, new real calls0. [Report](../../.eval-artifacts/phase3b/g3-longrun/report.md).
+
 2026-10-28 CET: G3 Group02 public result links/quoted same-card addresses and semantic busy ownership complete. Effective native3/Chromium1 reds→green; two gate repairs retained, final frozen f6154ca3 five gates1213/177 PASS (109.899s), ordinary G2 4/4, per-gate clean. Strict G2 lists and details PASS; first remaining calendar red retained pending A. HARD44197 bytes unchanged, C protected code/tests intact, sites4014/Pack478 reference, real calls0. Push branch then continue controls/G3c; no main merge. [Report](../../.eval-artifacts/phase3b/g3-longrun/02-public-list-busy/report.md).
 
 2026-10-28 CET: G3 Group01 complete: latest audited vacancy JSON binding and SOURCE_STRUCTURE_CHANGED fail-closed in Adapter/Executor. Valid reds7 native/1 real Chromium→same greens; frozen da0546fb five gates1210/176 PASS (107.281s), ordinary G2 4/4, each before/after clean. HARD44197 bytes identical; C code/four protected tests and A fixed inputs unchanged. Sites3969/Pack478 reference only; new real calls0. Push work branch then continue next group; G3/G3c not yet complete. [Report](../../.eval-artifacts/phase3b/g3-longrun/01-vacancy-responses/report.md).
@@ -17,7 +19,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.102
+- Document revision: 1.103
 
 
 - Last updated: 2026-10-28

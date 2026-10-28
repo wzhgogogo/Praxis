@@ -1,49 +1,67 @@
 [
   {
-    "group": "0 rebase/C boundary/input observability",
-    "status": "COMPLETE_A_INPUT_BLOCK_FOUND",
+    "group": "0 rebase and public-evidence diagnosis",
+    "status": "COMPLETE_REVIEWED_DECISION_RECORDED",
     "evidence": [
       "preflight.json",
-      "c-protected-tests.json",
       "calendar-observability.json",
-      "verification/gates.json"
+      "../../../../docs/decisions/0048-tabelog-calendar-response-evidence.md"
     ]
   },
   {
-    "group": "1 calendar/selection/group controls",
-    "obs": [
-      "08",
-      "09",
-      "13",
-      "14",
-      "15",
-      "33"
-    ],
-    "status": "NOT_IMPLEMENTED_BLOCKED_BY_FIXED_INPUT_EVIDENCE",
-    "red": "strict G2 remains baseline red; no implementation red/green yet",
-    "green": "NOT_RUN"
-  },
-  {
-    "group": "2 time slots/find_vacancy structure",
+    "group": "01 latest audited vacancy response / structure drift",
     "obs": [
       "18"
     ],
-    "status": "NOT_REACHED_AFTER_STOP",
-    "red": "NOT_RUN",
-    "green": "NOT_RUN"
+    "status": "COMPLETE_SLICE_NOT_FULL_SLOT_RETIREMENT",
+    "commit": "da0546fb",
+    "report": "01-vacancy-responses/report.md",
+    "gates": "PASS1210/176",
+    "red": "native7 + Chromium1",
+    "green": "native7 + Chromium1"
   },
   {
-    "group": "3 lists/busy regions",
+    "group": "02 public list / semantic busy ownership",
     "obs": [
       "19",
       "21"
     ],
-    "status": "NOT_REACHED_AFTER_STOP",
-    "red": "NOT_RUN",
-    "green": "NOT_RUN"
+    "status": "COMPLETE",
+    "commit": "f6154ca3",
+    "report": "02-public-list-busy/report.md",
+    "gates": "PASS1213/177",
+    "strictLists": "PASS",
+    "red": "native3 + Chromium1",
+    "green": "native3 + Chromium1"
   },
   {
-    "group": "4 G3c course/price/facts",
+    "group": "03 native acceleration mismatch / observed-control fallback",
+    "obs": [
+      "13",
+      "15",
+      "33"
+    ],
+    "status": "COMPLETE_FALLBACK_SLICE",
+    "commit": "6bb5ba78",
+    "report": "03-observed-control-fallback/report.md",
+    "gates": "PASS1213/178",
+    "red": "real Chromium final AVAILABLE assertion",
+    "green": "exact offer + wrong response UNKNOWN + native current values"
+  },
+  {
+    "group": "remaining date state / shared selection / non-English slot retirement",
+    "obs": [
+      "08",
+      "09",
+      "14",
+      "18"
+    ],
+    "status": "STOPPED_PROTECTED_C_FIXTURE_INPUT_AUTHORIZATION_PENDING",
+    "evidence": "pending-c-fixture/report.md",
+    "fixedCalendarBaseline": "A-owned, not yet merged at last fetch; not current stop reason"
+  },
+  {
+    "group": "G3c course / price / facts",
     "obs": [
       "22",
       "23",
@@ -53,9 +71,7 @@
       "35",
       "36"
     ],
-    "status": "NOT_REACHED_AFTER_STOP",
-    "red": "NOT_RUN",
-    "green": "NOT_RUN",
+    "status": "NOT_IMPLEMENTED_AFTER_OWNERSHIP_STOP",
     "oldHardOutputChanged": false
   }
 ]

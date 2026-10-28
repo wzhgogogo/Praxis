@@ -1,3 +1,35 @@
+# G3 长批次：三组已验证；停在受保护 C 测试输入边界
+
+2026-10-28T17:15:17.578185+01:00，Vienna CET（UTC+1）。Current evidence: OFFLINE_LOCAL_CHROMIUM / fixture model。**G3/G3c 未全部完成，不合 main。**
+
+当前分支 `codex/feat-phase3b-tabelog-observed-availability`，main 基准 `ba466eb3`。用户日历证据决定已记入 ADR0048。B 没有等待 A：完成响应结构告警与精确绑定、公开列表/busy、原生控件失配后回到 Agent 观察三组，每组先有效红灯、后绿灯和五门禁、净树、推送后继续。原 A 输入阻点的历史报告保留在本文后半，不作为当前停止理由。
+
+| 组 | 受测提交 | 有效红→绿 | 五门禁（默认 / Chromium） |
+|---|---|---|---|
+| [01 响应/结构告警](01-vacancy-responses/report.md) | da0546fb | native7 / Chromium1 | PASS 1210 / 176；107.281s |
+| [02 列表/公开 busy](02-public-list-busy/report.md) | f6154ca3 | native3 / Chromium1 | PASS 1213 / 177；109.899s |
+| [03 控件加速失配回退](03-observed-control-fallback/report.md) | 6bb5ba78 | Chromium1（含正常、人数冲突和最终控件值） | PASS 1213 / 178；119.580s |
+
+每项门禁前后 git status 空，无恢复掩盖、排除、skip/cancel；各组冻结输入/外层脚本 SHA、红绿和原始日志分别保存。第二组曾有两轮门禁失败，均保留诊断：私有 fixture 前提同步，以及 DOM clone 引发重复图片请求；最终纯字符串观察并通过原请求次数断言。未修改 Guard。新增 State/TaskDefinition/Prompt 版本0。
+
+严格 `PRAXIS_G2_REQUIRE_PASS=1` 已实际运行：Tabelog 两列表（Nerima20项、Akabane1项）及两详情均 PASS，首个剩余断言为日历 Teppen。整个命令仍3/4测试组，不能冒充 G3 全 PASS。A 的固定日期基线截至最后 fetch 尚未合 main。日期状态/共享选中状态/非英文 slot 私有依赖仍未全部退役；G3c 尚未实施。
+
+## 当前停止点与具体待批补丁
+
+继续移除非英文 slot 的私有 class 库存结论，会触及 C 受保护的片段检索正例。它只有 class 空位，没有数据响应。用户特定规则要求“保留 C 逻辑及其测试，需改动先报告”。[最小完整输入 diff](pending-c-fixture/fragment-response.patch) 只为这个本地构造页增加同店/日期/人数/时段一致的固定 find_vacancy 响应，C 代码和所有断言保持。**补丁未应用，授权问题待答复。** [依据与后续](pending-c-fixture/report.md)。这处归属边界是本次停止原因；没有因 A 基线待合而停止所有工作。
+
+## 保留、范围与调用
+
+C 实体解析、详情排序/片段逻辑和四个受保护测试仍原字节；未改 A 的 eval、固定 G2 fixture/基线/变异/评分。只按用户授权改写了被退役私有列表/busy前提对应的普通测试输入，完整清单见组02报告。没有删除核验或降低业务断言。
+
+旧 HARD 完整 fixture 结果仍44,197字节，SHA-256 `9a3298bc5e004b99e41d80713e8913b68c336cfa594f6eb60599e310ee3fb633`。两站非测试生产 TS4,028、Pack478（仅参考，门槛已取消）；未把站点代码迁到 Pack/通用层充数。共享账本446个唯一 id，main441条保留原值，新增真实模型/Google/网站/Live/评测GET/环境重跑全部0，不读 .env 和私有 QA 答案。此轮仅 macOS，Linux 未自行复跑。
+
+接下来需要：受保护 C fixture 输入批准后，继续 slot/日期/共享公开控件，接入 A 已批准基线后完成严格 G2，然后 G3c；TableCheck 查位仍按用户决定等首次 Live 保存页。没有合 main。各组工作分支推送回执随下一组/交付记录保存。
+
+---
+
+## 历史记录：原固定输入证据停止（已由用户日历决定解除）
+
 # G3 长批次：重放完成，按固定验收输入边界停止
 
 2026-10-28，Vienna CET（UTC+1）。Evidence status: offline source/input audit；**G3/G3c 实现未完成，不合 main**。
