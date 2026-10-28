@@ -44,3 +44,5 @@ main-nr-005、main-nr-006、main-nr-017、main-nr-030、main-G4-ND-001、main-G4
 模型实测6/10（只测提议）；GET/Google/Live0；共享账本原条目保留，原GET218/257不变。Mock：六结果URL驱动正常/冲突＋地址/距离/缺失项控制通过；Replay：生产Tabelog入口＋本地JS禁用DOM＋冻结旧Prompt2响应，仅证明保存集；新Prompt3质量只用6次实测报告；真实来源或整单Live未运行。身份规则与page-parser/日历/Agent/State原字节保护通过。五门禁与额外G2随后在干净提交运行，各步前后status均须空。
 
 首轮正式门禁（f3b34387）：integrity PASS，typecheck因测试Schema可选类型和距离泛型的两项类型错误FAIL；两步前后净树。只修类型注解/非空断言，esbuild编译后JavaScript与ca15b75f逐字相同，见type-only-runtime-equivalence.json，因此不重复6次真实模型或41份回放。原freeze.json/gates.json及失败log原样保留；最终五门禁使用final-freeze.json和run-final-gates.py，区分评测执行SHA与后续类型修正SHA。
+
+第二轮门禁（a876eb07）：integrity/typecheck/arch PASS；npm test 1154/1190通过，36失败（34个本地listen EPERM及其上层失败，无AssertionError），原因是本轮未提升本地回环监听权限。源代码与冻结输入不再修改；保留gates-final.json及logs，下一轮仅换输出回执目录并使用允许localhost监听的受控离线进程。没有外网或生产凭据加载。
