@@ -1679,7 +1679,7 @@ for(const limit of ["60 seconds","3 model calls"] as const) {
         const reply=await ask("over-limit",limit==="60 seconds"?ids[0]!:ids[1]!);
         assert.equal(reply.response.status,200);view=reply.payload.view as RestaurantCaseView;
         const result=view.restaurant.pageQuestion!.result!;
-        assert.ok(result.status==="UNVERIFIED"&&result.reason==="BUDGET_EXHAUSTED");
+        assert.ok(result.status==="UNVERIFIED"&&result.reason==="BUDGET_EXHAUSTED","question must stop at its own limit");
         if(limit==="3 model calls")assert.equal(f.calls.model-calls,3,"fourth transport call must never start");
         assert.deepEqual(f.budget.usage(view.case.caseId),original);
         f.setBeforeAnswer(undefined);f.setExtraReadCalls(0);
