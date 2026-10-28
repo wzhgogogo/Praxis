@@ -1,0 +1,28 @@
+{
+  "mode": "red",
+  "commit": "d35ace2afa110fe07a2acb6c888bc109f39d6210",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-reporter=tap",
+    "src/integrations/restaurant-facts/model-page-question-quality.test.ts"
+  ],
+  "exitCode": 1,
+  "elapsedSeconds": 0.15936683299999999,
+  "recordedAtCET": "2026-10-28T10:04:22.228755+01:00",
+  "logSha256": "9706141898b933abf5ae1db4843b7fdcb0055fceec0f35dd89b3119a4ecccb70",
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "failedMechanisms": [
+    "not ok 1 - G1 quality language: Q07/Q33 reject predominantly Japanese answers to Latin questions",
+    "not ok 2 - G1 quality sentence: Q31 quotes a complete sentence within the saved 186-character paragraph",
+    "not ok 3 - G1 quality reviews: Q27 prompt directs review-only information to NOT_STATED and comments remain uncitable",
+    "not ok 4 - G1 quality conflict: Q26 model-reported source conflict derives confirmation without sensitive classification",
+    "not ok 5 - G1 quality dietary preferences: Q14 prompt keeps vegan preferences in NONE unless allergies are involved"
+  ],
+  "accepted": true
+}

@@ -21,6 +21,11 @@
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
+## TEST-2026-10-28-G1-ANSWER-QUALITY-PREPARATION
+
+2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
+
+
 ## TEST-2026-10-28-PHASE3B-C-BATCH3
 
 最终：d9b0d771f1cde3aaa1bd42a9bee5723e9861fd08，877项冻结SHA fc306fa19f1041567781e66500d095224abe62face24eca3d85b5307b1aef0c5。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。总165.880秒。首轮ba1c22e0默认1170/1171旧空格门牌回归，一次门禁修复后同店接纳、同电话不同门牌仍拒，A原fixture/断言不动、失败收据保留。62c793c4复算29页仍12正确/0错认，代码与最终门禁一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。[最终收据](../../.eval-artifacts/phase3b/c-batch3/gates-final.json)。

@@ -83,6 +83,19 @@ test("G1 quality sentence: Q31 quotes a complete sentence within the saved 186-c
   assert.equal(partial.result.status, "UNVERIFIED", "an arbitrary substring is still not a complete source sentence");
 });
 
+test("G1 sentence units retain punctuation, closing quotes, decimals, URLs and review roles", async () => {
+  const units = ["一。", "二．", "三！", "四？", "Five.", "Six!", "Seven?", "「八。」", "Price 3.5; https://merchant.example/menu?q=1."];
+  const current = sourcePage("nakamata", units.slice(0, 4).join("") + units.slice(4).join(" "));
+  const good = await answer(current, "What does this page state?", input => ({ status: "ANSWERED", answer: "The page lists the stated price and menu URL.", sensitiveCategory: "NONE", citations: [wireCitation(input, units.at(-1)!)] }));
+  assert.equal(good.result.status, "ANSWERED");
+  const documents: WireDocument[] = JSON.parse(good.request.messages[1]!.content).sourceDocuments;
+  assert.deepEqual(documents[0]!.statements.map(row => row.text), units);
+  current.snapshot.text = "Reviews\nComment one. Comment two.\nRestaurant information\nMerchant statement.";
+  current.snapshot.html = "<h2>Reviews</h2><p>Comment one. Comment two.</p><h2>Restaurant information</h2><p>Merchant statement.</p>";
+  const denied = await answer(current, "What does this page state?", input => ({ status: "ANSWERED", answer: "The comment says this.", sensitiveCategory: "NONE", citations: [wireCitation(input, "Comment two.")] }));
+  assert.equal(denied.result.status, "UNVERIFIED", "splitting a review cannot remove its exclusion");
+});
+
 test("G1 quality reviews: Q27 prompt directs review-only information to NOT_STATED and comments remain uncitable", async () => {
   const review = sources.sen!.fragments.find(text => text.includes("3,980"))!;
   const current = sourcePage("sen", `Reviews\n${review}\nRestaurant information\nShibuya Sushi Sen`);

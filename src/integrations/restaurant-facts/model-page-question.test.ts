@@ -33,7 +33,7 @@ type Output = (request: ModelRequest) => unknown;
 function fixtureModel(output: Output, calls: ModelRequest[] = []): ModelGateway {
   return { complete: async input => {
     calls.push(input);
-    return { invocationId: "fixture-question", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0, outputText: JSON.stringify(output(input)) };
+    return { invocationId: "fixture-question", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0, outputText: JSON.stringify({ sourceConflict: false, ...output(input) as object }) };
   } };
 }
 function selected(text: string, answer = "The page states this information.", sensitiveCategory: RestaurantQuestionSensitiveCategory = "NONE"): Output {
@@ -288,8 +288,8 @@ test("G1 revision returns a short English answer with Japanese table label and v
   assert.equal(result.status, "ANSWERED");
   assert.equal(result.answer, answer);
   assert.deepEqual(result.citations.map(c => c.text), lines);
-  assert.equal(calls[0]!.promptVersion, "2");
-  assert.equal(calls[0]!.outputSchema.version, "2");
+  assert.equal(calls[0]!.promptVersion, "3");
+  assert.equal(calls[0]!.outputSchema.version, "3");
 });
 
 test("G1 rejects a customer review quotation using the visible heading outline, independent of private markers", async () => {
@@ -329,6 +329,8 @@ test("G1 source limits are independent of HARD limits and reject genuinely overs
 
 test("G1 rejects missing or invalid model classifications and malformed answer fields", async t => {
   const invalid: Array<[string, (body: any) => void]> = [
+    ["missing conflict flag", body => { body.sourceConflict = undefined; }],
+    ["non-boolean conflict flag", body => { body.sourceConflict = "true"; }],
     ["missing category", body => { delete body.sensitiveCategory; }],
     ["unknown category", body => { body.sensitiveCategory = "HEALTH"; }],
     ["non-string category", body => { body.sensitiveCategory = ["NONE"]; }],
