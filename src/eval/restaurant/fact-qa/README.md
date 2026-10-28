@@ -19,3 +19,7 @@ References and answer-bearing reports remain unavailable to Conversation B durin
 The approved B batch2 rebase and adapter-only code update are complete; unchanged fixture controls pass. Documentation and immutable input/receipt metadata are refreshed separately. Do not merge this Runner before the B ADR/core approval and main integration.
 
 The reviewed Q28/Q30 policy permits empty-citation NOT_STATED or limited, quoted ANSWERED. Both require the correct category and the actual core confirmationRequired=true. Public inputs use questions@3; current references use reviewed dataset@2, available only to the separate scorer. No HALAL compatibility alias remains. Unknown prose still needs review.
+
+## Authorized real-model single-slot composition
+
+`run-real-question.ts` now composes the same bound-page Runner with the server DeepSeek gateway, without reference-answer access or fresh reads. The frozen serial launch script and input hashes are in `.eval-artifacts/phase3b/g1-real-model/`. Only an explicitly authorized Node `--env-file` process may load credentials. One request per selected trial, charged before dispatch, no schema retry; independent scoring and source triage precede continuation. The first102-trial execution is completed; do not reuse charged slot ids or start another paid batch without authorization. See the report for failures and pending independent judgments. Earlier fixture-only text describes the original CLI, which remains fixture-only; the paid composition is the separate single-slot entry.

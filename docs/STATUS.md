@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.437
+- Document revision: 4.438
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-28 CET: A G1 saved-page real-model evaluation completed, pending review.** Frozen b9ee3d3e on B-integrated main6fa60cda:34×3=102 trials,87/120 provider attempts (85 responses/2TIMEOUT),15 local mismatch refusals; website/Google/Live0. Unchanged scorer18PASS/24FAIL/60NOT_EVALUATED;76 claim counts unknown, automatic detections0/provisional agent triage0, no final S0=0 or G1 acceptance. Explicit absence23/24; sensitive category/confirmation9/9; all classified category/flag76/79 (vegan false positives3). UNVERIFIED15NO_BOUND_PAGE/6INVALID_MODEL_OUTPUT/2MODEL_FAILED. No prompt/reference/scorer repair. Five gates1168/175 PASS/per-gate clean; frozen59 inputs unchanged. Test-review NOT_STARTED until B G3 begins; no test edits or reduction claim. [Report](../.eval-artifacts/phase3b/g1-real-model/report.md).
 
 - **2026-10-28 CET: A prepares authorized G1 real-model evaluation on B-integrated main6fa60cda. Frozen34 reviewed questions ×3, saved pages only; ≤120 real calls, no schema retries; one-slot execution/independent scoring/stop before next. Five mismatch questions bypass provider (normally87 calls). Fixture transport chain completed; canned NOT_STATED fails Q01 quality as expected, not a real-model result. Wrapper initially rejected missing short-id file before calls; corrected G1-Q prefix, evidence retained. Product/Prompt/reference/scorer unchanged. Test review inventory waits C integration/B G3; no deletions. Report: .eval-artifacts/phase3b/g1-real-model/plan.md.**
 

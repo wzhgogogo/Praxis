@@ -1,0 +1,65 @@
+{
+  "mode": "REAL_MODEL_FIXED_SAVED_PAGES_NOT_LIVE",
+  "status": "COMPLETED_AWAITING_INDEPENDENT_REVIEW_NOT_G1_ACCEPTANCE",
+  "executedTrials": 102,
+  "plannedTrials": 102,
+  "providerAttempts": 87,
+  "providerResponses": 85,
+  "transportFailures": 2,
+  "transportRetryAttempts": 0,
+  "schemaRetries": 0,
+  "noModelTrials": 15,
+  "model": "deepseek-flash",
+  "sourceRequests": 0,
+  "googleRequests": 0,
+  "live": 0,
+  "scores": {
+    "NOT_EVALUATED": 60,
+    "FAIL": 24,
+    "PASS": 18
+  },
+  "coreStatuses": {
+    "ANSWERED": 50,
+    "NOT_STATED": 29,
+    "UNVERIFIED": 23
+  },
+  "unverifiedReasons": {
+    "MODEL_FAILED": 2,
+    "NO_BOUND_PAGE": 15,
+    "INVALID_MODEL_OUTPUT": 6
+  },
+  "automaticFalseClaimsDetected": 0,
+  "automaticFalseClaimTotal": null,
+  "automaticFalseClaimUnassessed": 76,
+  "agentTriageFalseClaims": 0,
+  "agentTriageIsFinalIndependentReview": false,
+  "absenceTypedTrials": 24,
+  "absenceTypedCorrectStatus": 23,
+  "absenceTypedCorrectRate": 0.9583333333333334,
+  "scorerAbsenceJudgments": {
+    "NOT_APPLICABLE": 69,
+    "PASS": 29,
+    "FAIL": 4
+  },
+  "classifiedCategoryTrials": 79,
+  "correctCategories": 76,
+  "correctConfirmationFlags": 76,
+  "sensitiveTrials": 9,
+  "sensitiveCategoriesCorrect": 9,
+  "sensitiveConfirmationFlagsCorrect": 9,
+  "presentationConfirmationNotices": "NOT_EVALUATED_BOUND_CORE_RUNNER_HAS_NO_DISPLAY_LAYER",
+  "failureReasons": {
+    "PARAPHRASE_REQUIRES_REVIEW": 76,
+    "REQUIRED_SUPPORT_NOT_QUOTED": 7,
+    "SENSITIVE_CATEGORY_MISMATCH": 3,
+    "CONFIRMATION_REQUIRED_MISMATCH": 3,
+    "ANSWER_KIND_CONTRADICTS_REFERENCE": 8,
+    "NOT_STATED_JUDGMENT_INCORRECT": 4,
+    "MISSING_RESTAURANT_CONFIRMATION": 3,
+    "MISSING_RELATED_ANSWER_LIMITATION": 3
+  },
+  "frozenInputsUnchanged": true,
+  "codeRefs": [
+    "b9ee3d3e69ec5240229c91637c965241330f9ef7"
+  ]
+}
