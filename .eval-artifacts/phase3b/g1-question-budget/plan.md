@@ -1,0 +1,15 @@
+# G1 independent question budgets: reviewed stop-point-1 revision
+
+User approved this revision on 2026-10-28. Continue the existing review branch; latest origin/main is 90b464d8 and has no concurrent shared-version changes. Initial worktree was clean at 6b3a87b4.
+
+Promise: a displayed-outlet question still answers 520 seconds after search start, after 49/50 search model calls, and after a fresh application/reader/model instance reconnects to the same persistent database. Each question has a 60-second deadline from submission, three model calls, and two new page visits. Each conversation accepts 20 distinct questions; duplicate request delivery does not consume another slot. Limits are code-owned configuration.
+
+Keep authoritative outlet identity and original readRunId for page binding; the new budget does not permit another outlet, run, invented URL, or unguarded navigation. Reuse same-run snapshots first, then the existing Native/official reader and Guard/source pacing. Retire original-run memory-window, resume, and browser-budget-snapshot dependencies. Count conversation questions from persisted events; State24 and TaskDefinition22 keep their structure and reducer behavior.
+
+Only the explicit card question has a code-selected sole legal ANSWER_PAGE_QUESTION. It still traverses Validator, Router and Reducer, with an honest trajectory and no fabricated modelAttempt. Ordinary open-ended Agent decisions remain model-selected. ADR0046 stays Accepted, revision0.3, and records the approved 2026-10-28 budget revision. Question Prompt/Schema2 and Agent29/Action5/Context17 remain unchanged.
+
+Red controls: existing HTTP/PGlite composition separately asserts 520-second, depleted-search-budget, true restart, question 60-second/three-call ceilings, and persistent 20-question cap. Old production must fail behavioral assertions. Green adds real local Chromium coverage of the two-page cap while preserving Guard admission and all existing identity, citation, user isolation, cancellation and late-response controls. Fixture transport proves wiring only; A's independent semantic scoring remains the next stop.
+
+Default rationale: 60 seconds fits the existing 45-second fact-read cap plus answer/finalization; three calls allow an answer and up to two necessary page interpretations without unlimited exploration; two visits cover the bound entry and one observed related page. Twenty questions bounds per-conversation question cost at 60 model calls and 40 new visits. Complex pages can honestly exhaust these limits. No retries or larger budgets are added.
+
+Commit/freeze source, tests and orchestration before runs. Five gates must each start/end with empty git status; preserve raw logs and the complete old HARD byte comparison. Site source3847/Pack473 stay unchanged. Update STATUS, DEVLOG, TEST-LOG and monthly index. Real model/Google/restaurant/Live calls are zero; never read .env or answers*.json. Stop on two unsuccessful repairs, required version/scope expansion, or S0. Push review branch only, then stop; no real-model evaluation or main merge.
