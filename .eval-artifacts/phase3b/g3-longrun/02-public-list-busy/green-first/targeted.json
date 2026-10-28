@@ -1,0 +1,34 @@
+{
+  "mode": "green",
+  "commit": "171561931dbfea80e231b15b6b3159bd6c8a61b1",
+  "startedAtCET": "2026-10-28T16:50:29.849643+01:00",
+  "runs": [
+    {
+      "name": "unit",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "src/integrations/tabelog/tabelog-observed-list.test.ts"
+      ],
+      "exitCode": 1,
+      "accepted": false,
+      "seconds": 0.141116792,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "summary": {
+        "tests": 3,
+        "pass": 2,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "306c3d9853e6c198b2ff2ed1f2ce337f29db3275611373cb00fb8a87715c1079"
+    }
+  ]
+}

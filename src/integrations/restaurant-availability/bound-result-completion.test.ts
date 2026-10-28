@@ -36,14 +36,15 @@ for (const item of cases) {
     return { url: item.url, html, title: item.name, text: "Sen 18:00", settlement: "PENDING", settlementDiagnostics: { url: item.url, pendingByType: {}, oldestPendingMs: 0, blockingDataRequests: 0, busySelectors: [".unrelated.skeleton"], visibleTextChanging: true },
       ...(item.name==='Tabelog availability'?{responses:[{url:'https://tabelog.com/en/booking/calendar/find_vacancy',status:200,sequence:1,observedAt:'2026-10-21T00:00:00Z',body:{base_date:{year:2026,month:10,day:21},members:4,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13275802&member=4&visit_date=20261021&visit_time=${time.replace(':','')}`}}}}]}:{}) };
   };
-  const ready = `<div class="${item.scope}">${item.html}${item.unrelated}</div>`;
+  const publicRegion = item.source === "TABELOG" ? `aria-label="${item.name.includes("availability") ? "Availability" : "Search results"}"` : "";
+  const ready = `<div class="${item.scope}" ${publicRegion}>${item.html}${item.unrelated}</div>`;
   test(`${item.name}: displayed bound result completes despite unrelated calendar/image loaders`, async () => {
     assert.equal(item.completion({ ...page(ready), settlement: "SETTLED" }).resultBusy, false);
     const result = await read(item, [page(ready), page(ready)]);
     assert.equal(result.status, "COMPLETED"); assert.equal(result.snapshot.settlement, "SETTLED");
   });
   test(`${item.name}: a result-region skeleton keeps even old parsed results pending`, async () => {
-    const loading = `<div class="${item.scope} skeleton">${item.html}</div>`;
+    const loading = `<div class="${item.scope} skeleton" ${publicRegion} ${item.source === "TABELOG" ? 'aria-busy="true"' : ""}>${item.html}</div>`;
     assert.equal(item.completion({ ...page(loading), settlement: "SETTLED" }).resultBusy, true);
     const result = await read(item, [page(loading)]);
     assert.notEqual(result.status, "COMPLETED"); assert.equal(result.snapshot.settlement, "PENDING");
