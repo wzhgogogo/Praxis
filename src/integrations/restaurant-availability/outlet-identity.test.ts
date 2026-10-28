@@ -61,6 +61,7 @@ test("same phone and name never override explicit floor, door or nr-020 postal c
     assert.notEqual(resolveTabelogEntity(candidate, [outlet]).confidence, "HIGH");
     assert.notEqual(inspectTableCheckEntity(candidate, outlet).resolution.confidence, "HIGH");
   }
+  assert.equal(compareCompleteOutletAddress("1530051 東京都目黒区上目黒2-13-3 Building7F", "1530051 東京都目黒区上目黒2-13-3 Building8F"), "CONFLICT", "an adjacent Latin building label must not hide an explicit floor");
   assert.equal(compareCompleteOutletAddress("Japan, 〒150-0043 Tokyo, Shibuya, 2-chōme−2−２ Luke Building, 1F", "1500002 東京都渋谷区渋谷2-2-2 青山ルカビル 1F"), "CONFLICT");
   const wrongPhone = { sourceEntityId: "other", sourceUrl: "https://tabelog.com/tokyo/other/", outletName: "A different name", address: candidate.restaurant.address, phone: "03-1111-2223" };
   assert.notEqual(resolveTabelogEntity(candidate, [wrongPhone]).confidence, "HIGH");

@@ -714,18 +714,42 @@ test("Tabelog uses at most one validated Google-name fragment after an empty fir
   const localized = { ...candidate, restaurant: { ...candidate.restaurant, outletName: "Restaurant 1 Tokyo", sourceIds: { googlePlaces: "same-place", phone: "03-1111-2222" } } };
   for (const matchingPhone of [true, false]) {
     let proposals = 0;
+    let identity: unknown;
     const session = new FixtureBrowserSession([
       { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201%20Tokyo", title: "search", text: "No restaurants were found that match your search criteria", html: "" },
-      { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a>' },
+      { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201", title: "search", text: "Restaurant 1", html: '<a class="list-rst__rst-name-target" href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a>' },
       { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数", html: `<a href="tel:${matchingPhone ? "03-1111-2222" : "03-9999-8888"}">Call</a><select name="party"></select><select name="date"></select><button class="slot is-available" data-time="19:00">19:00</button>` },
     ]);
     const result = await new TabelogBrowserAvailability({ openSession: async () => session }, undefined, 5, {
+      onIdentityDiagnostic: diagnostic => { identity = diagnostic; },
       alternativeSearch: async (original: typeof candidate) => { proposals++; assert.equal(original.restaurant.outletName, localized.restaurant.outletName); return "Restaurant 1"; },
     }).check({ candidateIds: [localized.restaurant.id], candidates: [localized], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
     assert.equal(proposals, 1);
-    assert.equal(result.offers.length, matchingPhone ? 1 : 0);
+    assert.equal(result.offers.length, matchingPhone ? 1 : 0, JSON.stringify({ checks: result.availabilityChecks, identity }));
     assert.equal(session.navigated.filter(url => url.includes("rstLst")).length, 2);
     assert.equal(new URL(session.navigated[1]!).searchParams.get("sw"), "Restaurant 1");
+  }
+});
+
+test("Tabelog nonempty wrong first screen uses one alternative only within the shared detail cap", async () => {
+  const subject = { ...candidate, restaurant: { ...candidate.restaurant, outletName: "Restaurant 1 Tokyo", sourceIds: { googlePlaces: "original-id", phone: "03-1111-2222" } } };
+  for (const cap of [1, 2]) {
+    let proposals = 0;
+    const session = new FixtureBrowserSession([
+      { url: "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201%20Tokyo", title: "Search", text: "Restaurant 1", html: '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/111/">Restaurant 1</a>' },
+      { url: "https://tabelog.com/tokyo/A1304/A130401/111/", title: "Wrong branch", text: "Wrong branch", html: '<script type="application/ld+json">{"@type":"Restaurant","name":"Restaurant 1","telephone":"03-1111-2222","address":"9-9 Shibuya, Tokyo"}</script>' },
+      { url: "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201", title: "Search", text: "Restaurant 1", html: '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/222/">Restaurant 1</a><a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/333/">Extra</a>' },
+      { url: "https://tabelog.com/tokyo/A1304/A130401/222/", title: "Restaurant 1", text: "Restaurant 1", html: '<script type="application/ld+json">{"@type":"Restaurant","name":"Restaurant 1","telephone":"03-1111-2222","address":"1-1 Shinjuku, Tokyo"}</script>' },
+    ]);
+    const result = await new TabelogBrowserAvailability({ openSession: async () => session }, undefined, cap, {
+      alternativeSearch: async original => { proposals++; assert.deepEqual(original, subject); return "Restaurant 1"; },
+    }).check({ candidateIds: [subject.restaurant.id], candidates: [subject], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+    assert.equal(proposals, cap === 1 ? 0 : 1);
+    assert.equal(session.navigated.filter(url => url.includes("rstLst")).length, cap === 1 ? 1 : 2);
+    assert.equal(session.navigated.filter(url => !url.includes("rstLst")).length, cap);
+    assert.ok(!session.navigated.some(url => url.endsWith("333/")), "alternative search does not reset detail allowance");
+    assert.equal(result.offers.length, 0);
+    assert.equal(result.evidence.some(item => item.entityMatch?.confidence === "HIGH"), cap === 2);
   }
 });
 

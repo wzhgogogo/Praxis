@@ -12,6 +12,7 @@ import { AvailabilitySourceResolver } from "./availability-source-resolver.js";
 import { restaurantPublicReadNetworkPolicy } from "./public-browser-read-network-policy.js";
 import { restaurantDiscoveryPacks } from "../restaurant-search/source-packs.js";
 import type { DiscoverySourcePack } from "../restaurant-search/source-packs.js";
+import { ModelNamedSourceQuery, type NamedSourceAlternative } from "../restaurant-search/named-source-query.js";
 
 export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
   now?: () => string;
@@ -34,6 +35,8 @@ export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
    * Hybrid execution keeps the registered set and therefore unchanged routing.
    */
   packs?: readonly DiscoverySourcePack[];
+  /** Offline Replay may bind a frozen fragment instead of a new model proposal. */
+  alternativeSearch?: NamedSourceAlternative;
 }
 
 /**
@@ -46,6 +49,7 @@ export class LiveBrowserAvailability {
   private readonly browserBudget: BrowserExecutionBudget;
   private readonly networkPolicy: BrowserReadNetworkPolicy | undefined;
   private tableCheckEntryLedger = new TableCheckEntryLedger();
+  private readonly namedQueries: ModelNamedSourceQuery;
 
   constructor(
     private readonly runtime: BrowserRuntime,
@@ -56,6 +60,7 @@ export class LiveBrowserAvailability {
     this.networkPolicy = options.networkPolicy
       ?? (runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined);
     if (options.maxModelCallsTotal !== undefined) this.browserBudget.maxModelCalls = options.maxModelCallsTotal;
+    this.namedQueries = new ModelNamedSourceQuery(model, this.browserBudget);
   }
 
   browserModelBudgetExhausted(): boolean {
@@ -66,12 +71,14 @@ export class LiveBrowserAvailability {
   beginReadRun(): void {
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
+    this.namedQueries.clear();
   }
 
   /** No session survives a check; reset avoids carrying a completed case into another one. */
   endReadRun(): void {
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
+    this.namedQueries.clear();
   }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead> {
@@ -92,6 +99,7 @@ export class LiveBrowserAvailability {
       ...(this.options.maxAvailabilitySourceBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxAvailabilitySourceBrowserSessions } : {}),
       ...(this.options.maxAvailabilitySourceCandidateMatches !== undefined ? { maxCandidateMatches: this.options.maxAvailabilitySourceCandidateMatches } : {}),
       tableCheckEntryLedger: this.tableCheckEntryLedger,
+      alternativeSearch: this.options.alternativeSearch ?? this.namedQueries.alternative,
       ...(this.options.onTableCheckIdentityDiagnostic ? { onTableCheckIdentityDiagnostic: this.options.onTableCheckIdentityDiagnostic } : {}),
       ...(this.options.onTabelogIdentityDiagnostic ? { onTabelogIdentityDiagnostic: this.options.onTabelogIdentityDiagnostic } : {}),
       ...(this.options.onTabelogUserInterventionRequired ? { onTabelogUserInterventionRequired: this.options.onTabelogUserInterventionRequired } : {}),

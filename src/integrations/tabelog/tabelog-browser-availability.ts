@@ -1,3 +1,4 @@
+import { checkedNamedSourceQuery, type NamedSourceAlternative } from "../restaurant-search/named-source-query.js";
 import { parseTabelogPriceFacts, parseTabelogSourceFieldQuotes } from "./tabelog-page-parser.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
@@ -7,7 +8,7 @@ import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtim
 import { BrowserTaskExecutor, type BrowserCompletionAssessment } from "../../infrastructure/browser/browser-task-executor.js";
 import { inspectNativeOutletContinuity, sameNativeOutletUrl } from "../restaurant-availability/native-outlet-continuity.js";
 import { normalizeTabelogOutletUrl, tabelogDiscoveryPack } from "../restaurant-search/source-packs.js";
-import { inspectTabelogEntity, normalizeTabelogPhone, normalizeTabelogIdentity } from "./tabelog-entity-resolver.js";
+import { inspectTabelogEntity } from "./tabelog-entity-resolver.js";
 import {
   detectExternalReservationRedirect,
   hasBotChallenge,
@@ -153,6 +154,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
     private readonly maxCandidateMatches = 5,
     private readonly options: {
       maxBrowserSessions?: number;
+      alternativeSearch?: NamedSourceAlternative;
       /** Eval-only sink for sanitized identity diagnostics; it never changes Domain State or grounding. */
       onIdentityDiagnostic?: (diagnostic: TabelogIdentityDiagnostic) => void;
       /** Eval-only explicit pause; absence preserves the ordinary fail-closed BOT_CHALLENGE path. */
@@ -321,7 +323,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       session = await this.executor.acquire(signal, "TABELOG", "DISCOVERY", this.options.networkPolicy);
       await session.captureResponses?.(TABELOG_VACANCY_RESPONSES);
       const browser = { ...session.metadata };
-      const requestedSearchUrl = tabelogDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request })!;
+      let requestedSearchUrl = tabelogDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request })!;
       const listedOutlet = listedTabelogOutlet(candidate);
       let directIdentityVerified = false;
       let directPage: BrowserSnapshot | undefined;
@@ -366,107 +368,110 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         return await this.readMatchedOutlet(candidate, request, session, signal, observedAt, browser, resolved, directPage,
           [listedOutlet.sourceUrl, extraction.outlet.sourceUrl, ...(extraction.canonicalUrl ? [extraction.canonicalUrl] : [])]);
       }
-      let search: BrowserSnapshot;
-      let outlets: ReturnType<typeof parseTabelogSearchOutlets>;
-      if (directIdentityVerified && directPage && listedOutlet) {
-        // A verified Google-listed merchant entrance is sufficient to begin
-        // source reading.  A search challenge must not invalidate it.
-        search = directPage;
-        outlets = [listedOutlet];
-      } else {
-        await this.executor.navigate({
-          source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl,
-        });
-        search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
-        search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
-      if (hasBotChallenge(search)) {
-        const inspection = inspectTabelogEntity(candidate, []);
-        this.recordIdentityDiagnostic({
-          ...inspection.diagnostic,
-          resolution: { ...inspection.diagnostic.resolution, reason: "SEARCH_BOT_CHALLENGE" },
-          search: {
-            query: candidate.restaurant.outletName,
-            requestedUrl: diagnosticUrl(requestedSearchUrl),
-            finalUrl: diagnosticUrl(search.url),
-            title: search.title,
-            parsedResultCount: 0,
-            inspectedResultCount: 0,
-          },
-          searchResults: [],
-          details: [],
-        });
-        return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
-      }
-      outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
-      if (!outlets.length) {
-        const generic = await this.executor.runSkill({
-          taskId: `browser-read:${candidate.restaurant.id}`,
-          source: "TABELOG",
-          ...(tabelogDiscoveryPack.skillPath ? { sourceSkillPath: tabelogDiscoveryPack.skillPath } : {}),
-          stage: "DISCOVERY",
-          session,
-          signal,
-          allowedOrigins: ["https://tabelog.com"],
-          goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
-          objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
-          methodReason: "Tabelog discovery has no extractable restaurant result yet.",
-          completion: tabelogNameSearchCompletion,
-        });
-        search = generic.snapshot;
-        outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
-      }
-      // The multilingual index may not index its own translated display name.
-      // One source-observed local name can refine retrieval; outlet identity is
-      // still independently verified on Tabelog below.
-      if (!outlets.length && candidate.restaurant.sourceIds.googleWebsiteUri && candidate.restaurant.sourceIds.phone) {
-        const alias = await this.websiteSearchName(candidate, session, signal);
-        if (alias) {
-          await this.executor.navigate({ source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: tabelogDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request, outletName: alias })! });
-          search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
-          if (hasBotChallenge(search)) return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
-          outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
-        }
-      }
-      }
       let lastOutletPage: BrowserSnapshot | undefined;
-      const enrichedOutlets = [] as typeof outlets;
+      const enrichedOutlets = [] as ReturnType<typeof parseTabelogSearchOutlets>;
       const detailDiagnostics = [] as TabelogIdentityDiagnostic["details"];
       const extractionByEntityId = new Map<string, TabelogOutletIdentityExtraction>();
       const observedUrlsByResolvedUrl = new Map<string, Set<string>>();
-      for (const outlet of outlets) {
-        await this.executor.navigate({
-          source: "TABELOG", stage: "IDENTITY", signal, allowedOrigins: ["https://tabelog.com"], session, url: outlet.sourceUrl, observed: true,
-        });
-        let outletPage = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "IDENTITY", signal, session }), "IDENTITY");
-        outletPage = await this.resumeAfterUserIntervention(candidate, request, session, outletPage, "DETAIL", signal);
-        if (hasBotChallenge(outletPage)) {
+      const inspected = new Set<string>();
+      let searchName = candidate.restaurant.outletName;
+      let alternativeUsed = false;
+      let search!: BrowserSnapshot;
+      let outlets!: ReturnType<typeof parseTabelogSearchOutlets>;
+      for (;;) {
+        if (directIdentityVerified && directPage && listedOutlet) {
+          // A verified Google-listed merchant entrance is sufficient to begin
+          // source reading.  A search challenge must not invalidate it.
+          search = directPage;
+          outlets = [listedOutlet];
+        } else {
+          await this.executor.navigate({
+            source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl,
+          });
+          search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
+          search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
+        if (hasBotChallenge(search)) {
+          const inspection = inspectTabelogEntity(candidate, []);
+          this.recordIdentityDiagnostic({
+            ...inspection.diagnostic,
+            resolution: { ...inspection.diagnostic.resolution, reason: "SEARCH_BOT_CHALLENGE" },
+            search: {
+              query: candidate.restaurant.outletName,
+              requestedUrl: diagnosticUrl(requestedSearchUrl),
+              finalUrl: diagnosticUrl(search.url),
+              title: search.title,
+              parsedResultCount: 0,
+              inspectedResultCount: 0,
+            },
+            searchResults: [],
+            details: [],
+          });
+          return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
+        }
+        outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
+        if (!outlets.length && !tabelogDiscoveryPack.browser!.isExplicitEmptyListing(search)) {
+          const generic = await this.executor.runSkill({
+            taskId: `browser-read:${candidate.restaurant.id}`,
+            source: "TABELOG",
+            ...(tabelogDiscoveryPack.skillPath ? { sourceSkillPath: tabelogDiscoveryPack.skillPath } : {}),
+            stage: "DISCOVERY",
+            session,
+            signal,
+            allowedOrigins: ["https://tabelog.com"],
+            goal: { outlet: { name: searchName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
+            objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
+            methodReason: "Tabelog discovery has no extractable restaurant result yet.",
+            completion: tabelogNameSearchCompletion,
+          });
+          search = generic.snapshot;
+          outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
+        }
+        }
+        for (const outlet of outlets) {
+          if (inspected.has(outlet.sourceUrl)) continue;
+          if (inspected.size >= this.maxCandidateMatches) break;
+          inspected.add(outlet.sourceUrl);
+          await this.executor.navigate({
+            source: "TABELOG", stage: "IDENTITY", signal, allowedOrigins: ["https://tabelog.com"], session, url: outlet.sourceUrl, observed: true,
+          });
+          let outletPage = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "IDENTITY", signal, session }), "IDENTITY");
+          outletPage = await this.resumeAfterUserIntervention(candidate, request, session, outletPage, "DETAIL", signal);
+          if (hasBotChallenge(outletPage)) {
+            detailDiagnostics.push({
+              searchResultSourceEntityId: outlet.sourceEntityId,
+              requestedUrl: outlet.sourceUrl,
+              finalUrl: outletPage.url,
+              title: outletPage.title,
+              botChallenge: true,
+            });
+            continue;
+          }
+          lastOutletPage = outletPage;
+          const extraction = parseTabelogOutletIdentityWithEvidence(outletPage, outlet);
+          enrichedOutlets.push(extraction.outlet);
+          extractionByEntityId.set(extraction.outlet.sourceEntityId, extraction);
+          const observedUrls = observedUrlsByResolvedUrl.get(extraction.outlet.sourceUrl) ?? new Set<string>();
+          observedUrls.add(outlet.sourceUrl);
+          observedUrls.add(extraction.outlet.sourceUrl);
+          if (extraction.canonicalUrl) observedUrls.add(extraction.canonicalUrl);
+          observedUrlsByResolvedUrl.set(extraction.outlet.sourceUrl, observedUrls);
           detailDiagnostics.push({
             searchResultSourceEntityId: outlet.sourceEntityId,
             requestedUrl: outlet.sourceUrl,
             finalUrl: outletPage.url,
             title: outletPage.title,
-            botChallenge: true,
+            ...(extraction.canonicalUrl ? { canonicalUrl: extraction.canonicalUrl } : {}),
+            botChallenge: false,
+            extracted: extraction.fields,
           });
-          continue;
         }
-        lastOutletPage = outletPage;
-        const extraction = parseTabelogOutletIdentityWithEvidence(outletPage, outlet);
-        enrichedOutlets.push(extraction.outlet);
-        extractionByEntityId.set(extraction.outlet.sourceEntityId, extraction);
-        const observedUrls = observedUrlsByResolvedUrl.get(extraction.outlet.sourceUrl) ?? new Set<string>();
-        observedUrls.add(outlet.sourceUrl);
-        observedUrls.add(extraction.outlet.sourceUrl);
-        if (extraction.canonicalUrl) observedUrls.add(extraction.canonicalUrl);
-        observedUrlsByResolvedUrl.set(extraction.outlet.sourceUrl, observedUrls);
-        detailDiagnostics.push({
-          searchResultSourceEntityId: outlet.sourceEntityId,
-          requestedUrl: outlet.sourceUrl,
-          finalUrl: outletPage.url,
-          title: outletPage.title,
-          ...(extraction.canonicalUrl ? { canonicalUrl: extraction.canonicalUrl } : {}),
-          botChallenge: false,
-          extracted: extraction.fields,
-        });
+        if (directIdentityVerified || inspectTabelogEntity(candidate, enrichedOutlets).resolution.confidence === "HIGH"
+          || alternativeUsed || inspected.size >= this.maxCandidateMatches) break;
+        alternativeUsed = true;
+        const alternative = checkedNamedSourceQuery(candidate, await this.options.alternativeSearch?.(candidate, signal));
+        if (!alternative) break;
+        searchName = alternative;
+        requestedSearchUrl = tabelogDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request, outletName: alternative })!;
       }
       const nativeExtraction = candidate.restaurant.sourceIds.tabelog
         ? extractionByEntityId.get(candidate.restaurant.sourceIds.tabelog) : undefined;
@@ -478,7 +483,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       this.recordIdentityDiagnostic({
         ...inspection.diagnostic,
         search: {
-          query: candidate.restaurant.outletName,
+          query: searchName,
           requestedUrl: diagnosticUrl(requestedSearchUrl),
           finalUrl: diagnosticUrl(search.url),
           title: search.title,
@@ -648,28 +653,6 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         verifiedHardCriteria: parseTabelogVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: pageExcerpt(page),
       }, browser);
-  }
-
-  private async websiteSearchName(candidate: RestaurantAvailabilityRequest["candidates"][number], session: BrowserSession, signal: AbortSignal): Promise<string | undefined> {
-    let website: URL;
-    try { website = new URL(candidate.restaurant.sourceIds.googleWebsiteUri!); } catch { return undefined; }
-    if (website.protocol !== "https:" || website.username || website.password) return undefined;
-    website.hash = "";
-    website.search = "";
-    await this.executor.navigate({ source: "WEBSITE", stage: "DISCOVERY", signal, allowedOrigins: [website.origin], session, url: website.toString() });
-    const page = await this.executor.snapshot({ source: "WEBSITE", stage: "DISCOVERY", signal, session });
-    if (new URL(page.url).origin !== website.origin || hasBotChallenge(page)) return undefined;
-    const phones = new Set([
-      ...[...page.html.matchAll(/href=["']tel:([^"']+)["']/gi)].map(match => normalizeTabelogPhone(match[1])),
-      ...(page.text.match(/\b0\d{1,4}[-ー]\d{1,4}[-ー]\d{3,4}\b/g) ?? []).map(normalizeTabelogPhone),
-    ].filter(Boolean));
-    if (phones.size !== 1 || !phones.has(normalizeTabelogPhone(candidate.restaurant.sourceIds.phone))) return undefined;
-    const headings = [...page.html.matchAll(/<h1\b[^>]*>([\s\S]{1,1000}?)<\/h1>/gi)]
-      .map(match => match[1]!.replace(/<[^>]+>/g, " ").replace(/&nbsp;|&#160;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim())
-      .filter(Boolean);
-    const name = headings.length === 1 ? headings[0] : undefined;
-    if (!name || name.length > 120 || normalizeTabelogIdentity(name) === normalizeTabelogIdentity(candidate.restaurant.outletName)) return undefined;
-    return name;
   }
 
   private ground(

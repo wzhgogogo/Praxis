@@ -94,7 +94,7 @@ function localityFields(value: string): Record<string, string> {
   const prefecture = text.match(/([\p{Script=Han}]{2,3}[都道府県])/u)?.[1];
   const rest = prefecture ? text.slice(text.indexOf(prefecture) + prefecture.length) : text;
   const municipality = rest.match(/([\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]+?[市区町村])/u)?.[1];
-  const city = text.match(/\b([a-z][a-z -]*?)\s+(?:city|ward)\b/u)?.[1]?.trim();
+  const city = text.match(/\b([a-z-]+)\s+(?:city|ward)\b/u)?.[1];
   return { ...(prefecture ? { prefecture } : {}), ...(municipality ? { municipality } : {}), ...(city ? { city } : {}) };
 }
 
