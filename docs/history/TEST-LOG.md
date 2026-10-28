@@ -35,6 +35,11 @@
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
+## TEST-2026-10-28-G3-TABELOG-FILE-ORDER-STOP
+
+2026-10-28 CET: G1 reviewed quality fixes are main eb1518f1, remote verified; five gates1196/175 and ordinary G2 4/4 PASS/per-gate clean. G3 Tabelog STOPPED_PROTECTED_FILE_ORDER: actual calendar task wiring requires C-owned tabelog-browser-availability.ts43–48/587–655; both protected files unchanged, no product/test edits. Frozen8cc386a6/674 inputs strict G2 has expected nerima-list red (3/4 checks pass), task behavior NOT_IMPLEMENTED. ADR0047 records user decision: lines reference only; strict G2 + observed task behavior are acceptance. Real calls0, ledger410 ids preserved. Push G3 branch and wait reviewer sequencing. [Report](../../.eval-artifacts/phase3b/g3-tabelog/report.md).
+
+
 ## TEST-2026-10-28-G3-TABELOG-FILE-ORDER-PREPARATION
 
 2026-10-28 CET: G1 quality fixes published and ls-remote verified at maineb1518f1 (five gates1196/175,ordinary G2 4/4, each clean). New G3 Tabelog branch starts here. User removes adapter line-count acceptance; ADR0047 records strict G2 plus actual observed task behaviour, lines3878/Pack478 reference only. Read-only audit finds quoted-calendar judgment/completion/grounding wiring in C-protected tabelog-browser-availability.ts; stop before product edits pending reviewer file order. No private logic/tests removed; real calls0. [G3 plan](../../.eval-artifacts/phase3b/g3-tabelog/plan.md).
