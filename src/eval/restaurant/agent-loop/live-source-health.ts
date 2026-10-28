@@ -29,7 +29,7 @@ const wallClock:LiveSourceHealthClock={
 interface Dependencies {
  runtime?:BrowserRuntime;
  /** Local Fixture only; each source/attempt gets its own observation clock. */
- clock?:()=>LiveSourceHealthClock;
+ clock?:(sourceId:string)=>LiveSourceHealthClock;
  observe?:(check:Check)=>Promise<LiveSourceHealthObservation>;
  sleep?:(ms:number)=>Promise<void>;
  /** Local Fixture only; actual Runner always uses the fixed ten-second limit. */
@@ -106,7 +106,7 @@ export async function runLiveSourceHealth(input:{environment:NodeJS.ProcessEnv;a
  const attempts=[];const runtime=dependencies.observe?undefined:dependencies.runtime??browserRuntimeFromEnvironment(input.environment);
  for(let attempt=1;attempt<=3;attempt++){
   const startedAt=new Date().toISOString();
-  const observations=await Promise.all(checks.map(check=>dependencies.observe?dependencies.observe(check):observe(check,runtime!,dependencies.timeoutMs??LIVE_SOURCE_HEALTH_TIMEOUT_MS,dependencies.clock?.()??wallClock)));
+  const observations=await Promise.all(checks.map(check=>dependencies.observe?dependencies.observe(check):observe(check,runtime!,dependencies.timeoutMs??LIVE_SOURCE_HEALTH_TIMEOUT_MS,dependencies.clock?.(check.sourceId)??wallClock)));
   const failed=observations.filter(o=>o.outcome==='UNHEALTHY');
   attempts.push({attempt,startedAt,finishedAt:new Date().toISOString(),observations});
   await writeFile(resolve(input.artifactDirectory,`attempt-${attempt}.json`),JSON.stringify(attempts.at(-1),null,2)+'\n',{flag:'wx'});

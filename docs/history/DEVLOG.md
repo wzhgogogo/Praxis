@@ -21,6 +21,11 @@
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
+## DEV-2026-10-28-G1-QUALITY-MAIN-PREPARATION
+
+2026-10-28 CET: User approves reviewed G1 dd87cfbb main merge. Integrated main54b3dd2b accepted A clock repairs; G1 source byte-identical, only history/ledger conflicts resolved,409 budget ids preserved. Freeze then five gates plus ordinary G2, each before/after clean; publish main on success, then new G3 Tabelog branch with protected C files untouched. New real calls0. [Plan](../../.eval-artifacts/phase3b/g1-quality-main/plan.md).
+
+
 ## DEV-2026-10-28-G1-ANSWER-QUALITY-VERIFIED
 
 2026-10-28 CET: G1 quality repairs complete on review branch codex/fix-phase3b-g1-answer-quality, based on main fae69b48 containing C b250bb17. Question Prompt/Schema3 only; five old-code mechanism reds→green, saved six-page Chromium fixture controls8/8, original HARD44,197 bytes identical. Frozen cb226701/682 inputs: five gates1196/175 PASS (114.600s), ordinary G2 4/4; each before/after clean, restore0. Source conflict derives existing confirmationRequired; Agent29/Action5/Context17/State24/TaskDefinition22 unchanged. A fixture field/version sync explicitly authorized; no other A files. Real calls0; current inherited sites3878/Pack478 unchanged. Push work branch and stop for review before merge; A six-question rerun and G3 are not completed by offline evidence. [Report](../../.eval-artifacts/phase3b/g1-answer-quality/report.md).
@@ -5033,3 +5038,51 @@ Evidence status: frozen regression / draft not integrated；报告时间Europe/V
 ## DEV-2026-10-26-F3-REVIEW-SMALL-FIXES
 
 与批准main70a7eb1f集成无冲突，A仅修改两个eval基础设施实现及三份所属测试；目录引用不再允许任意artifact路径，读取固定HEAD catalog blob并核对SHA。W12保留20/55ms逻辑截止，真实DB/HTTP条件等待有界；健康普通状态以独立时钟推进，slow精确真实时序保留。用户复核通过L7/L10/前轮时序卫生，行数目标不再本批继续；退出条件6 NOT_MET，3847/3591、Pack473，L1/L4/L5转3b，其他六项延期保留。 [报告](../../.eval-artifacts/phase3a-prime/f3-small-fixes-20261026/report.md)。
+
+
+<a id="dev-2026-10-28-g1-real-preparation"></a>
+
+## 2026-10-28 CET: G1 saved-page real-model preparation
+
+2026-10-28 CET: A prepares authorized G1 real-model evaluation on B-integrated main6fa60cda. Frozen34 reviewed questions ×3, saved pages only; ≤120 real calls, no schema retries; one-slot execution/independent scoring/stop before next. Five mismatch questions bypass provider (normally87 calls). Fixture transport chain completed; canned NOT_STATED fails Q01 quality as expected, not a real-model result. Wrapper initially rejected missing short-id file before calls; corrected G1-Q prefix, evidence retained. Product/Prompt/reference/scorer unchanged. Test review inventory waits C integration/B G3; no deletions. Report: .eval-artifacts/phase3b/g1-real-model/plan.md.
+
+
+<a id="dev-2026-10-28-g1-real-evaluation"></a>
+
+## 2026-10-28 CET: G1 real-model fixed saved-page evaluation
+
+**2026-10-28 CET: A G1 saved-page real-model evaluation completed, pending review.** Frozen b9ee3d3e on B-integrated main6fa60cda:34×3=102 trials,87/120 provider attempts (85 responses/2TIMEOUT),15 local mismatch refusals; website/Google/Live0. Unchanged scorer18PASS/24FAIL/60NOT_EVALUATED;76 claim counts unknown, automatic detections0/provisional agent triage0, no final S0=0 or G1 acceptance. Explicit absence23/24; sensitive category/confirmation9/9; all classified category/flag76/79 (vegan false positives3). UNVERIFIED15NO_BOUND_PAGE/6INVALID_MODEL_OUTPUT/2MODEL_FAILED. No prompt/reference/scorer repair. Five gates1168/175 PASS/per-gate clean; frozen59 inputs unchanged. Test-review NOT_STARTED until B G3 begins; no test edits or reduction claim. [Report](../.eval-artifacts/phase3b/g1-real-model/report.md).
+
+Five gates ran on frozen b9ee3d3e before paid calls; source unchanged afterward. Credential access only by explicitly authorized Node --env-file process. Original102 execution/evaluation records immutable, separate provisional triage. Q20-r2/Q33-r2 transport errors are failed trials; no schema retries, no extra paid trials. Delivery only to work branch for independent review, no main merge. Test review list remains pending G3 start and requires review before deletion.
+
+
+<a id="dev-2026-10-28-g1-review-confirmation"></a>
+
+## 2026-10-28 CET: G1 exhaustive independent review and approved expression extension
+
+2026-10-28 CET: G1 independent reviewer confirms102 trials:84correct/18qualityFAIL/**falseclaims0**, absence23/24. User authorizes evaluation branch main integration. Append39 exact approved PASS expressions (dataset@3), preserve original automatic results and scoring rules. Offline rescore73PASS/24FAIL/5unknown;11 human-PASS cases remain blocked by existing quote/regex requirements, separately reported. New real calls0; six-question≤20-call rerun waits B fixes;2-core timing repairs next independent branch, test review waits G3. [Review](../.eval-artifacts/phase3b/g1-real-model/reviewer-followup.md).
+
+Original102 execution/core/automatic-evaluation records verified byte-identical. Question, required quote, forbidden fragment, expected-kind, production and scorer sources unchanged; only approved expression lists/data provenance change. Main ledger union retains all id rows, sole zero-counter C completion metadata conflict documented with both originals. No.env read, no model/source call.
+
+
+<a id="dev-2026-10-28-browser-fixture-clocks"></a>
+
+## 2026-10-28 CET: Browser fixture lifetime and deterministic late-read clocks
+
+2026-10-28 CET: A timing fixtures verified, review branch only. G2 owns one existing180s test lifetime; health late-read uses source-specific logical clocks and real DOM snapshots, all assertions retained/strengthened. Effective original reds at33.603/34.899s under2CPU quota pressure; ordinary2CPU/one-CPU full controls passed, auxiliary240s cancellation separately retained.61138c94/665 frozen inputs: macOS/Linux five gates1186/175 PASS; Linux three consecutive full4-worker suites175/175 in121.539/121.433/119.103s, each clean. Product/Guard/site/Prompt/Schema/State unchanged; new real calls0. VM removed. G1 review material already maincab27890; six-question real run waits B merge, broad audit waits G3. [Report](../.eval-artifacts/phase3b/browser-fixture-clocks/report.md).
+
+Same target failures precede pressure cutoff; preserve2passing full controls and1cancelled auxiliary case. No timeout values/assertions relaxed, no new tests. G2 lifecycle t.signal replaces30s per-page timer, unchanged180s outer bound. Health retains actual Guard/Chromium/busy300ms and late1000+220ms read behavior with explicit complete/pending evidence checks. Only4A-owned eval/harness source files. Full offline receipts report exact isolation and current model/site call increment0.
+
+
+<a id="dev-2026-10-28-clock-main-preparation"></a>
+
+## 2026-10-28 CET: Approved timing repair main integration
+
+2026-10-28 CET: User independently reviews2CPU clock repairs and approves173840b7 main integration. Current maincab27890 already ancestor; approved executable source and665 frozen inputs identical. Rerun five gates with per-item clean state, then publish main. Six-question≤20-call real rerun waits B G1 Prompt/Schema3 main merge; Q26 sourceConflict/confirmation, English Q07/Q33, full-sentence Q31, comment-free NOT_STATED Q27, NONE Q14 recorded as explicit checks. Broad audit waits B G3. New real calls0.
+
+
+<a id="dev-2026-10-28-clock-main-verified"></a>
+
+## 2026-10-28 CET: Approved clock repair main verification
+
+2026-10-28 CET: Approved clock source173840b7 is verified for main publication. Latest maincab27890 already ancestor, executable diff0; frozen4e45e37a five gates1186/175 PASS and each before/after clean.665 inputs unchanged; independent2CPU review and prior three full Linux greens retained. No new real calls. B G1 fix not yet main: six-question repeat remains conditional; broad audit waits B G3. [Integration](../.eval-artifacts/phase3b/browser-fixture-clocks/main-integration/report.md).

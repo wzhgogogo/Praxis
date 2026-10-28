@@ -101,3 +101,8 @@ User decision keeps ADR0046 and B core unchanged. Q28/Q30 accept either NOT_STAT
 Current versions: source-quoted-qa-scorer@4, phase3b-qa-reviewed@2, public questions@3. Other32 references and historical candidate bytes are unchanged. Five gates on main/c98438f8 combination pass1154/173, every gate starts/ends clean. The two topics/two outcomes through actual core/saved pages and independent references pass4/4. Current receipts: ../g1-runner/dual-outcome-review/verification. Prior incompatible-reference scores remain historical and are not relabelled.
 
 Offline Runner implementation and verification are complete; main integration is authorized. Real-model evaluation remains NOT_RUN until B Agent integration completes. No real model, Google, restaurant, GET or Live calls; no .env.
+
+
+## 2026-10-28 CET: Confirmed expression extension
+
+Dataset phase3b-qa-reviewed@3 preserves original question/expected-result/evidence/scoring contracts. User supplies exhaustive real-model102 review:84PASS/18qualityFAIL/0falseclaims. Add39 unique exact frozen PASS expressions, with no FAIL text accepted. [Provenance](../g1-real-model/confirmed-expression-additions.json). Unchanged scorer offline check73PASS/24FAIL/5ungraded;11 human-PASS outcomes still blocked by old quote/regex checks. No silent rubric change. Six affected questions rerun only after B fixes merge; new real calls0.
