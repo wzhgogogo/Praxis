@@ -1,0 +1,153 @@
+{
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE",
+  "testedCommit": "bfb38d2c69224cd184de44242a54f35207fe02d0",
+  "startedAtCET": "2026-10-28T15:57:57.814463+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "cpuCount": 10,
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "e25a542f9494362bef0d6d7b4138c8a4598706215e96cf2c6a2c2b0efe895400",
+  "freezeSha256": "2a85932b0d53c5f5700afb8ad349fec26a665422b3a9917a2ab8f393a27309a4",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-28T15:57:57.876222+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 5.963872,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-28T15:58:03.913772+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.186818,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "npm-test",
+      "sample": 1,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-28T15:58:04.175290+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 27.317872,
+      "summary": {
+        "tests": 1203,
+        "suites": 5,
+        "pass": 1203,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "625a7afaae8d21bb938b0480ee7ac80cfc87832441c728157bd413838826f517",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "build",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-28T15:58:31.575161+01:00",
+      "gitStatusBefore": "",
+      "log": "build-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.413628,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "browser-fixture",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-28T15:58:32.061948+01:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 106.556287,
+      "summary": {
+        "tests": 175,
+        "suites": 0,
+        "pass": 175,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "daa758fe64df525c8dc0b0257142412c6a090f8f5621aa9afd28f99a589b788f",
+      "gitStatusAfter": "",
+      "outcome": "PASS",
+      "healthPassed": true
+    },
+    {
+      "gate": "dom-change",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-10-28T16:00:18.626542+01:00",
+      "gitStatusBefore": "",
+      "log": "dom-change-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 20.885335,
+      "summary": {
+        "tests": 4,
+        "suites": 0,
+        "pass": 4,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "a591b76e8dc89498759a330d47d1adf5fd5470d98cfe7ca2db7048c919f1d303",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    }
+  ],
+  "restorations": 0,
+  "gatePolicy": "All five gates must exit zero; existing E1 is not exempt in this slice",
+  "chromiumConcurrency": 4,
+  "g2StrictRequired": false,
+  "freezeVerifiedAfter": true,
+  "browserMedianSeconds": 106.556287,
+  "stopReason": null,
+  "acceptance": "SATISFIED",
+  "finishedAtCET": "2026-10-28T16:00:39.578426+01:00"
+}
