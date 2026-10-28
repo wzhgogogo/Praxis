@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.335
+- Document revision: 4.336
 - Last updated: 2026-10-28
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-28-g1-followup-main-verified"></a>
+
+## 2026-10-28 CET: Pre-main five gates and ordinary G2 all green
+
+Frozen666 inputs at a5a3c57a: typecheck/arch/default1168/build/Chromium175 PASS, Chromium file concurrency4/108.322s; ordinary G2 4/4 PASS in21.361s with8 PASS/4 DEGRADED_HONEST/0 FAIL and sourceTransportCalls0. Every check before/after status empty, restoration0, no fail/skip/cancel. Reviewed B source, old HARD44197-byte evidence and approved reds unchanged; Linux B/C evidence is user-transmitted independent review, this rerun is macOS. No new implementation, lowered assertions, real calls, real-model quality scoring or G3 strict pass. [Raw logs](../../.eval-artifacts/phase3b/g1-followup-main/verification/gates.json) / [Report](../../.eval-artifacts/phase3b/g1-followup-main/report.md).
 
 <a id="test-2026-10-28-g1-followup-main-preparation"></a>
 

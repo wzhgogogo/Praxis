@@ -1,11 +1,13 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.95
+- Document revision: 1.96
 - Last updated: 2026-10-28
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
+
+2026-10-28 CET: Reviewed G1 B integration release: independent question60s/3-model/2-page unit, persistent conversation20 cap, restart reread and sole-action code selection accepted by independent Linux review. Unchanged Bdc486430 source rerun at a5a3c57a: five gates1168/175 and ordinary G2 4/4 PASS/per-check clean. New real calls by B0; real-model quality remains A-owned next evaluation, C identity/G3 are not included here. [Integration report](../../.eval-artifacts/phase3b/g1-followup-main/report.md).
 
 2026-10-28 CET: G1 independent question revision verified offline. Submitted60s/3-model/2-page unit and persistent20-question cap, cache-first/bound-source reread after restart; original search results/usage unchanged. Sole action code-selected with no modelAttempt. Frozen51c14400 five gates1168/175 PASS,106.350s, per-gate clean; effective cap red and literal HARD bytes unchanged. No Guard/source policy changes or current-source/model-quality claim, real calls0. [Report](../../.eval-artifacts/phase3b/g1-question-budget/report.md).
 

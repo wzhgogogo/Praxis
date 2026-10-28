@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.329
+- Document revision: 4.330
 - Last updated: 2026-10-28
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-28-g1-followup-main-verified"></a>
+
+## 2026-10-28 CET: Reviewed B integration verified for main
+
+User authorizes reviewed Bdc486430 merge/push first; current main90b464d8 already included, no product merge conflict or source edit. Frozen a5a3c57a five gates1168/175 and ordinary G2 4/4 PASS, full executable tree identical to approved B. Follow authorized fast-forward and non-force publication, then stop before C/G3. Preserve all budget entries, append B0 integration id. A evaluation and C identity integration remain their owners. [Report](../../.eval-artifacts/phase3b/g1-followup-main/report.md).
 
 <a id="dev-2026-10-28-g1-followup-main-preparation"></a>
 

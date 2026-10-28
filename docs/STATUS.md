@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.436
+- Document revision: 4.437
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-28 CET: Reviewed G1 B main integration verified.** Independent Linux review accepted Bdc486430 and C053e2e2e five gates/G2. Latest-main90b464d8 is already in B; unchanged reviewed source at a5a3c57a passes local five gates1168/175 plus ordinary G2 4/4, per-check clean/restore0. G2 retains8 PASS/4 honest degradations; no G3 strict-pass claim. This is the approved B integration release. Next: C synchronizes/merges identity, then B forks new main for Tabelog G3; A owns G1 real-model evaluation after B publication and other test review. New real calls by B0. [Report and delivery](../.eval-artifacts/phase3b/g1-followup-main/report.md).
 
 - **2026-10-28 CET: Reviewed B integration into main in progress.** User confirms independent Linux five gates and G2 for Bdc486430/C053e2e2e, and explicitly approves merging/pushing B first. Latest main90b464d8 is already included in B; reviewed source stays byte-identical. Freeze and rerun five gates plus ordinary G2 before publication. C is not yet in main; stop after B push, then C synchronizes/merges itself before B begins G3. A owns G1 real-model evaluation and separate test review. New real calls by B0. [Plan](../.eval-artifacts/phase3b/g1-followup-main/plan.md).
 
