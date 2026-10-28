@@ -35,6 +35,11 @@
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
+## TEST-2026-10-28-G3-LONGRUN-PREFLIGHT
+
+2026-10-28 CET: G3 long batch rebased onto C-integrated mainba466eb3, executable diff0. Browser-availability is B-owned for G3; C identity/ranking/fragments and protected tests retained. Freeze staged calendar/slot/list/G3c slices; initial public-observability check compares saved calendar text/ARIA/styles/pixels against private-class-only counterfactuals before replacing OBS14. Fixed G2 inputs remain A-owned. Real calls0; no State/TaskDefinition or Prompt changes. [Plan](../../.eval-artifacts/phase3b/g3-longrun/plan.md).
+
+
 ## TEST-2026-10-28-G3-TABELOG-FILE-ORDER-STOP
 
 2026-10-28 CET: G1 reviewed quality fixes are main eb1518f1, remote verified; five gates1196/175 and ordinary G2 4/4 PASS/per-gate clean. G3 Tabelog STOPPED_PROTECTED_FILE_ORDER: actual calendar task wiring requires C-owned tabelog-browser-availability.ts43–48/587–655; both protected files unchanged, no product/test edits. Frozen8cc386a6/674 inputs strict G2 has expected nerima-list red (3/4 checks pass), task behavior NOT_IMPLEMENTED. ADR0047 records user decision: lines reference only; strict G2 + observed task behavior are acceptance. Real calls0, ledger410 ids preserved. Push G3 branch and wait reviewer sequencing. [Report](../../.eval-artifacts/phase3b/g3-tabelog/report.md).
