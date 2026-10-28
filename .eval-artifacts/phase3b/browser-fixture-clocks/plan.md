@@ -1,0 +1,13 @@
+# Browser fixture clock repair
+
+Status: draft / not integrated, Vienna CET2026-10-28. Start from maincab27890 after G1 evaluation material integration. New real model/Google/restaurant website/Live calls0. No.env or personal profile access. Six G1 reruns wait B fix merge; broad test audit waits B G3.
+
+Promise: G2 preserves all frozen before/after facts and false-claim checks on a slow2CPU machine without a per-page wall timer closing Chromium mid-evaluate. Health fixture observes real visible results before a later busy message and refuses403/challenge; the late-snapshot control retains completed ready evidence even when a later read crosses the logical deadline. No longer tie fixture scheduling to VM startup/rendering speed.
+
+First reproduce unmodified tests using actual Chromium in a disposable Debian12/Node24.4.1/Lima2.2.1 VM with2vCPU and4-worker suite, OS outbound network denied (loopback only). First run2CPU175/175 PASS retained. One-core affinity control in same VM models slower review CPU; do not call it a2-core reproduction. Preserve target assertion failures, unrelated failures and all logs. No code change before effective red. Source archive7bd5d2a4 has exact original main fixture source; maincab27890 differs only in G1 review data/docs/eval material.
+
+Planned repair, contingent on observed reds: replace G2 per-page30s auto-abort lifetime with owning test cancellation/condition completion, keeping navigation/action and unchanged test180s bounds. Make health late-snapshot scheduling use injected observation clock and controlled complete/late snapshot boundaries; keep real Guard/Chromium/status/late-busy semantics and all existing assertions. Product Browser/Guard/Source Pack, G1 core, Prompt, Schema, State and source adapter files remain unchanged.
+
+Validate same target counterexamples green, explicit clock/deadline controls, five gates, and3 consecutive complete Chromium suites on2-core affinity0,1/4workers. No retry-based green, skips, todo or weakened assertions. Report each full run and actual durations; any remaining source/cpu boundary gap stays explicit. At most2 repair iterations with red gates, then stop/report per user rules. Push work branch for review; this timing branch is not covered by the earlier eval-only main merge authorization.
+
+VM has no mounts/SSH-agent forwarding/proxy inheritance; public tool/dependency downloads only during setup. Guest-only Chrome-channel alias points at locked Chromium headless binary and is documented, not branded Chrome verification. No global host installation. Remove VM/runtime/ephemeral keys after evidence is copied and verified.
