@@ -36,3 +36,9 @@ G2采用现有普通基线：12页中8 PASS、4 DEGRADED_HONEST、0 FAIL，sourc
 共享账本按id保留原条目，仅追加本批0调用整合记录，现23个唯一id。新增真实模型、Google、餐厅网站、完整Live、环境重跑、评测公开GET均0；不读取.env或answers*.json。Mock/本地Chromium/G2回归不当作真实模型质量或Live证据。
 
 完成B main交付后，**停下等待C同步并合入其身份改动**，B不替C合并。C完成后才从最新main开G3分支，先Tabelog，逐项先红后绿、保留核验、重写/删除对应私有逻辑测试并列清单；其余测试审查由A负责。TableCheck等待首次Live的有时段日历。本批没有开始G3、修改A/C源码或调用真实模型。A可在B main发布后按其授权开展G1真实模型评测；B不代跑或自评。
+
+## Published main verified
+
+2026-10-28T05:17:23.205170+01:00: B is merged and published. New main: 6fa60cda8367f006260f3c16c0a7e4dbfd9dd00e. Atomic non-force push updated main and B work branch together; ls-remote matched both. Main and B worktrees are clean, all666 frozen inputs match on both, and executable source is identical to reviewed dc486430. [Raw remote refs](main-published.refs) / [Delivery receipt](delivery.json).
+
+This receipt is committed/pushed only to the B work branch afterward, leaving main fixed for C synchronization and A evaluation. B stops here: C identity has not been merged by B, and G3/real-model execution have not started in this chat.
