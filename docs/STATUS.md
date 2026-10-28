@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-28 CET: A timing fixtures verified, review branch only. G2 owns one existing180s test lifetime; health late-read uses source-specific logical clocks and real DOM snapshots, all assertions retained/strengthened. Effective original reds at33.603/34.899s under2CPU quota pressure; ordinary2CPU/one-CPU full controls passed, auxiliary240s cancellation separately retained.61138c94/665 frozen inputs: macOS/Linux five gates1186/175 PASS; Linux three consecutive full4-worker suites175/175 in121.539/121.433/119.103s, each clean. Product/Guard/site/Prompt/Schema/State unchanged; new real calls0. VM removed. G1 review material already maincab27890; six-question real run waits B merge, broad audit waits G3. [Report](../.eval-artifacts/phase3b/browser-fixture-clocks/report.md).
+
 2026-10-28 CET: G1 independent reviewer confirms102 trials:84correct/18qualityFAIL/**falseclaims0**, absence23/24. User authorizes evaluation branch main integration. Append39 exact approved PASS expressions (dataset@3), preserve original automatic results and scoring rules. Offline rescore73PASS/24FAIL/5unknown;11 human-PASS cases remain blocked by existing quote/regex requirements, separately reported. New real calls0; six-question≤20-call rerun waits B fixes;2-core timing repairs next independent branch, test review waits G3. [Review](../.eval-artifacts/phase3b/g1-real-model/reviewer-followup.md).
 
 2026-10-28 CET：G4续跑收尾，旧29 ENVIRONMENT_FAILURE 7；CORRECT_ACCEPTED 13；NOT_ACCEPTED 9；新8 CORRECT_ACCEPTED 6；ENVIRONMENT_FAILURE 1；NOT_ACCEPTED 1；前四家独立复跑 CORRECT_ACCEPTED 4。新增GET73/112、模型5，基准累计GET188/模型19/40，Google/Live0；共享GET218/257。生产b250bb17与原证据未改，完整性PASS；结果交复核，不调整规则。 报告 `.eval-artifacts/phase3b/g4-e2e-continuation/report.md`。
@@ -13,7 +15,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.441
+- Document revision: 4.442
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
 

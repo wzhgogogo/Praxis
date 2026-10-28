@@ -5748,3 +5748,12 @@ Five gates ran on frozen b9ee3d3e before paid calls; source unchanged afterward.
 2026-10-28 CET: G1 independent reviewer confirms102 trials:84correct/18qualityFAIL/**falseclaims0**, absence23/24. User authorizes evaluation branch main integration. Append39 exact approved PASS expressions (dataset@3), preserve original automatic results and scoring rules. Offline rescore73PASS/24FAIL/5unknown;11 human-PASS cases remain blocked by existing quote/regex requirements, separately reported. New real calls0; six-question≤20-call rerun waits B fixes;2-core timing repairs next independent branch, test review waits G3. [Review](../.eval-artifacts/phase3b/g1-real-model/reviewer-followup.md).
 
 Original102 execution/core/automatic-evaluation records verified byte-identical. Question, required quote, forbidden fragment, expected-kind, production and scorer sources unchanged; only approved expression lists/data provenance change. Main ledger union retains all id rows, sole zero-counter C completion metadata conflict documented with both originals. No.env read, no model/source call.
+
+
+<a id="test-2026-10-28-browser-fixture-clocks"></a>
+
+## 2026-10-28 CET: Browser fixture lifetime and deterministic late-read clocks
+
+2026-10-28 CET: A timing fixtures verified, review branch only. G2 owns one existing180s test lifetime; health late-read uses source-specific logical clocks and real DOM snapshots, all assertions retained/strengthened. Effective original reds at33.603/34.899s under2CPU quota pressure; ordinary2CPU/one-CPU full controls passed, auxiliary240s cancellation separately retained.61138c94/665 frozen inputs: macOS/Linux five gates1186/175 PASS; Linux three consecutive full4-worker suites175/175 in121.539/121.433/119.103s, each clean. Product/Guard/site/Prompt/Schema/State unchanged; new real calls0. VM removed. G1 review material already maincab27890; six-question real run waits B merge, broad audit waits G3. [Report](../.eval-artifacts/phase3b/browser-fixture-clocks/report.md).
+
+Same target failures precede pressure cutoff; preserve2passing full controls and1cancelled auxiliary case. No timeout values/assertions relaxed, no new tests. G2 lifecycle t.signal replaces30s per-page timer, unchanged180s outer bound. Health retains actual Guard/Chromium/busy300ms and late1000+220ms read behavior with explicit complete/pending evidence checks. Only4A-owned eval/harness source files. Full offline receipts report exact isolation and current model/site call increment0.
