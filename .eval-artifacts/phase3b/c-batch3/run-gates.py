@@ -1,10 +1,11 @@
 from pathlib import Path
 import datetime,hashlib,json,subprocess,sys,time
 root=Path('.eval-artifacts/phase3b/c-batch3')
+freeze_file=root/(sys.argv[3] if len(sys.argv)>3 else 'gates-freeze.json')
 def git(*args):return subprocess.check_output(['git',*args],text=True).strip()
 def cet():return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=1))).isoformat(timespec='milliseconds')
 def verify():
-    for f in json.loads((root/'gates-freeze.json').read_text())['files']:assert hashlib.sha256(Path(f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']
+    for f in json.loads(freeze_file.read_text())['files']:assert hashlib.sha256(Path(f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']
 assert not git('status','--porcelain');verify();directory=root/(sys.argv[1] if len(sys.argv)>1 else 'gates');directory.mkdir(exist_ok=True)
 receipt=root/(sys.argv[2] if len(sys.argv)>2 else 'gates.json');assert not receipt.exists(),'Never overwrite a prior gate receipt'
 record={'sourceCommit':git('rev-parse','HEAD'),'mode':'OFFLINE_ONLY_NO_ENV_FILE','startedAtCET':cet(),'newRealCalls':0,'steps':[]}

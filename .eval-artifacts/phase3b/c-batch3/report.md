@@ -42,7 +42,7 @@
 | 相关离线测试 | 118/118（0165deb3，加入组合测试前） | 双站原名/错店/单替代、跨检索详情上限、原候选身份核验、分店/门牌/楼层/电话反例；最终以全门禁收据为准 |
 | 本批真实模型/Google/Live/环境重跑 | 0/0/0/0 | 未加载或独立读取.env；Prompt26具名24/24沿用批次2，Prompt2真实质量未评 |
 
-独立评价为[最终evaluation.json](replay-final/evaluation.json)（[初次评价](evaluation.json)保留），生产执行产物与评分分开；身份oracle来自原独立认证ID，执行器从未读取Gold。四层口径：端到端交付NOT_EVALUATED；环节仅已访问29身份/保存17列表/4控制/12片段；已核验29错店及4控制无依据声明均0；归因分别是结构字段误比较和UTF-16偏移，不向未测Live或总体成功率外推。
+独立评价为[最终evaluation.json](after-gate-fix/evaluation.json)（[初次评价](evaluation.json)及[首轮组合评价](replay-final/evaluation.json)保留），生产执行产物与评分分开；身份oracle来自原独立认证ID，执行器从未读取Gold。四层口径：端到端交付NOT_EVALUATED；环节仅已访问29身份/保存17列表/4控制/12片段；已核验29错店及4控制无依据声明均0；归因分别是结构字段误比较和UTF-16偏移，不向未测Live或总体成功率外推。
 
 ### 可选旧15例公开GET
 
