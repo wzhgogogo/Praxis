@@ -21,6 +21,11 @@
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
+## TEST-2026-10-28-G1-ANSWER-QUALITY-VERIFIED
+
+2026-10-28 CET: G1 quality repairs complete on review branch codex/fix-phase3b-g1-answer-quality, based on main fae69b48 containing C b250bb17. Question Prompt/Schema3 only; five old-code mechanism reds→green, saved six-page Chromium fixture controls8/8, original HARD44,197 bytes identical. Frozen cb226701/682 inputs: five gates1196/175 PASS (114.600s), ordinary G2 4/4; each before/after clean, restore0. Source conflict derives existing confirmationRequired; Agent29/Action5/Context17/State24/TaskDefinition22 unchanged. A fixture field/version sync explicitly authorized; no other A files. Real calls0; current inherited sites3878/Pack478 unchanged. Push work branch and stop for review before merge; A six-question rerun and G3 are not completed by offline evidence. [Report](../../.eval-artifacts/phase3b/g1-answer-quality/report.md).
+
+
 ## TEST-2026-10-28-G1-ANSWER-QUALITY-PREPARATION
 
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).

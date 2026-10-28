@@ -6,7 +6,7 @@
 - Last updated: 2026-10-28（Vienna CET，UTC+1）
 - Source of truth for: 3b观察原则、G1合同与G2/G3验收提案；不是已接入产品能力
 - Related ADRs: [0010](0010-restaurant-agent-loop-action-validation.md)、[0021](0021-cited-source-fact-investigation.md)、[0022](0022-current-source-fact-lifecycle-and-identity.md)、[0036](0036-generic-public-read-network-policy.md)、[0044](0044-recommendation-availability-boundary.md)、[0045](0045-bounded-read-conclusion-reserve.md)
-- Evidence status: offline integration；独立预算修订待复核，真实模型问答质量和Live未验收。下文其他批次叙述保留revision0.2的证据范围，当前实施状态以STATUS为准。
+- Evidence status: 独立预算修订已复核并合main；原Prompt2的102次问答质量由用户转达独立复核。本次Prompt3小修仅离线验证、工作分支待复核，Live未验收。下文其他批次叙述保留当时证据范围，当前实施状态以STATUS为准。
 
 ## Context
 
@@ -61,7 +61,7 @@
 
 **敏感类别由模型标注**：ALLERGY、RELIGIOUS_DIET、ACCESSIBILITY、NONE。代码不使用问题关键词分类器。敏感答案只能归属/转述页面说法，不得给出适合/不适合、可以/不可以或安全保证。代码只做基本形式检查，例如敏感答案去掉前导空白/引号后以英文yes/no开头即INVALID_MODEL_OUTPUT；其他语义结论及标签误判（包括把敏感题标NONE）无法由该形式检查完整识别，交独立真实模型评测。
 
-confirmationRequired由代码按敏感标签或sourceConflict生成；任一为真即true。sourceConflict只存在于独立问答模型Schema，不新增持久结果字段，Agent/State/TaskDefinition不变。对主要由拉丁字母构成的问题（字母中占比>60%），答案若主要为汉字/平假名/片假名（字母中占比>60%）即INVALID_MODEL_OUTPUT；这只是字符比例检查，不能保证语言正确。素食、纯素、无麸质偏好在不涉及过敏时标NONE，由模型判断，不建问题关键词分类器。商家信息没写、只有评论提到时返回NOT_STATED，不引用评论。核心不拼接“页面未说明”或“请向餐厅确认”等展示文案。展示层用英文呈现`Not stated on the page`及敏感提醒`Please confirm with the restaurant`，并显示查过的页面。当前不改Web入口或展示层。
+confirmationRequired由代码按敏感标签或sourceConflict生成；任一为真即true。sourceConflict只存在于独立问答模型Schema，不新增持久结果字段，Agent/State/TaskDefinition不变。对主要由拉丁字母构成的问题（字母中占比>60%），答案若主要为汉字/平假名/片假名（字母中占比>60%）即INVALID_MODEL_OUTPUT；这只是字符比例检查，不能保证语言正确。素食、纯素、无麸质偏好在不涉及过敏时标NONE，由模型判断，不建问题关键词分类器。商家信息没写、只有评论提到时返回NOT_STATED，不引用评论。核心不拼接“页面未说明”或“请向餐厅确认”等展示文案。展示层用英文呈现`Not stated on the page`及确认提醒`Please confirm with the restaurant`，并显示查过的页面。当前不改Web入口或展示层。
 
 价格、套餐、营业时间、取消规定等时间敏感信息必须展示读取时间；核心每条引用总带readAt，后续展示不得省略。保存页面只证明离线回归，不是实时价格、营业或库存。
 
@@ -117,7 +117,7 @@ NativeSourceFactRead/GoogleListedWebsiteFactRead的导航、Guard、身份、预
 - 字面、身份和运行核对仍由代码控制；答案语义/敏感标签/未说明正确性留给独立真实模型验收，不虚报安全保证。
 - G1整页读取不再受HARD的6000字符/50语句限制；真实超限明确无法核实。
 - 原文与引用只在当前调用中处理，不新增State写入或普通日志的原始页面存储；数据脱敏与授权边界保持。
-- 网站行数3,847/Pack473不变，≤3,591仍是G3门槛，不以本稿或基础设施完成代替。
+- 3a′签收时网站行数3,847/Pack473；C合入后的当前main为3,878/478，本批不增加。≤3,591仍是G3门槛，不以本稿或基础设施完成代替。
 
 ## Alternatives considered
 
