@@ -1,0 +1,21 @@
+{
+  "head": "d477d69116402f4f2e6c2ee1786534df9d751372",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern",
+    "G2 saved pages",
+    "src/harness/browser/dom-change.test.ts"
+  ],
+  "seconds": 16.379128,
+  "exitCode": 1,
+  "targetFailure": "Teppen 2026-09-29 PHONE_ONLY != null; class observation cannot supply data evidence",
+  "beforeClean": true,
+  "afterClean": true,
+  "status": "EFFECTIVE_RED",
+  "realCalls": 0
+}

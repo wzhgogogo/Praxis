@@ -48,8 +48,15 @@ function observations(spec: DomPage, snapshot: BrowserSnapshot, controls: Awaite
   const completion = spec.site === "TABELOG" ? { name: tabelogNameSearchCompletion(snapshot), availability: tabelogAvailabilityCompletion(snapshot, spec.request) }
     : { name: tableCheckNameSearchCompletion(snapshot, ""), availability };
   if (spec.kind === "CALENDAR") {
-    if (spec.site === "TABELOG") for (const date of spec.dates) {
-      const state = tabelogRequestedDateState(snapshot, date); if (state !== "UNOBSERVED") facts["day:" + date] = state;
+    if (spec.site === "TABELOG") {
+      // Date conclusions use captured source responses. DOM classes remain
+      // navigation hints and cannot supply a business fact to this comparison.
+      const dateEvidence: BrowserSnapshot = { url: snapshot.url, title: "", text: "", html: "",
+        ...(snapshot.responses ? { responses: snapshot.responses } : {}) };
+      for (const date of spec.dates) {
+        const state = tabelogRequestedDateState(dateEvidence, date);
+        facts["day:" + date] = state === "UNOBSERVED" ? null : state;
+      }
     }
     if (selected) facts.requestConfirmed = true;
     const bound = spec.site === "TABLECHECK" ? "queryComplete" in availability && availability.queryComplete

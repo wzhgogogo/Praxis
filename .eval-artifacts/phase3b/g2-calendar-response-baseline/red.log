@@ -1,0 +1,33 @@
+✖ G2 saved pages preserve the frozen reference capability and reject new false claims (16006.243083ms)
+ℹ {"id":"tabelog-list-nerima","classification":"DEGRADED_HONEST","referenceFacts":20,"lost":["outlet:https://tabelog.com/en/tokyo/A1322/A132201/13239336/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132201/13305253/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13157181/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13243190/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13266750/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13278113/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13302712/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132202/13316441/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13119314/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13219995/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13290674/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13312671/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13324050/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132203/13324151/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13115014/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13122543/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13216186/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13313094/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132204/13320702/:name","outlet:https://tabelog.com/en/tokyo/A1322/A132205/13043209/:name"],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-list-akabane","classification":"DEGRADED_HONEST","referenceFacts":1,"lost":["outlet:https://tabelog.com/en/tokyo/A1322/A132201/13239336/:name"],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-01","classification":"PASS","referenceFacts":3,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-02","classification":"PASS","referenceFacts":3,"lost":[],"sourceTransportCalls":0}
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16347.645125
+
+✖ failing tests:
+
+test at src/harness/browser/dom-change.test.ts:1:255
+✖ G2 saved pages preserve the frozen reference capability and reject new false claims (16006.243083ms)
+  AssertionError [ERR_ASSERTION]: tabelog-calendar-teppen day:2026-09-29: UNKNOWN has no public response evidence
+  + actual - expected
+  
+  + 'PHONE_ONLY'
+  - null
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/harness/browser/dom-change.test.ts:23:37)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'PHONE_ONLY',
+    expected: null,
+    operator: 'strictEqual'
+  }
