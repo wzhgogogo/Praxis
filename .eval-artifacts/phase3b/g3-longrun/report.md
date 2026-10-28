@@ -81,3 +81,8 @@ STATUS、DEVLOG、TEST-LOG、月度摘要/索引同步。**按“需要改动A�
 ## 2026-10-28 CET: resumed / Group01 COMPLETE
 
 The prior evidence stop is resolved by the user decision in ADR0048. [Group01 report](01-vacancy-responses/report.md): five gates and ordinary G2 PASS; new real calls0. Long batch continues with list/controls/G3c, no main merge.
+
+
+## 2026-10-28 CET: Group02 COMPLETE
+
+[Public list/busy report](02-public-list-busy/report.md): five gates/ordinary G2 PASS; strict lists now PASS, first remaining calendar failure preserved. Two diagnosed gate repairs retained, real calls0. Controls/G3c continue; C protected input approval pending, no main merge.

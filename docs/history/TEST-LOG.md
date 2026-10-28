@@ -5837,3 +5837,10 @@ Same target failures precede pressure cutoff; preserve2passing full controls and
 ## 2026-10-28 CET: G3 bound vacancy response group
 
 2026-10-28 CET: G3 Group01 complete: latest audited vacancy JSON binding and SOURCE_STRUCTURE_CHANGED fail-closed in Adapter/Executor. Valid reds7 native/1 real Chromium→same greens; frozen da0546fb five gates1210/176 PASS (107.281s), ordinary G2 4/4, each before/after clean. HARD44197 bytes identical; C code/four protected tests and A fixed inputs unchanged. Sites3969/Pack478 reference only; new real calls0. Push work branch then continue next group; G3/G3c not yet complete. [Report](../../.eval-artifacts/phase3b/g3-longrun/01-vacancy-responses/report.md).
+
+
+<a id="test-2026-10-28-g3-group02-public-list-busy"></a>
+
+## 2026-10-28 CET: G3 public list and semantic busy group
+
+2026-10-28 CET: G3 Group02 public result links/quoted same-card addresses and semantic busy ownership complete. Effective native3/Chromium1 reds→green; two gate repairs retained, final frozen f6154ca3 five gates1213/177 PASS (109.899s), ordinary G2 4/4, per-gate clean. Strict G2 lists and details PASS; first remaining calendar red retained pending A. HARD44197 bytes unchanged, C protected code/tests intact, sites4014/Pack478 reference, real calls0. Push branch then continue controls/G3c; no main merge. [Report](../../.eval-artifacts/phase3b/g3-longrun/02-public-list-busy/report.md).
