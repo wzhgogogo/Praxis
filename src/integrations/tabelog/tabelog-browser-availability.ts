@@ -587,16 +587,29 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       if (!hasReservationControls(page)) return this.ground(candidate, request, { candidate, observedAt, ...activeSource(), sourceUrl: page.url, priceFacts: parseTabelogPriceFacts(page), entityMatch: activeIdentity, pageState: "SOURCE_UNSUPPORTED", failureCode: "ONLINE_AVAILABILITY_UNSUPPORTED", excerpt: pageExcerpt(page) }, browser);
       const party = selectedPartyField(page.html);
       const date = selectedDateField(page.html);
+      let nativeSelectionConfirmed = false;
+      let nativeSelectionFailure: RestaurantFailureCode | undefined;
       if (party && date) {
-        const selectedParty = await this.executor.select({
-          source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: party, value: String(request.partySize), authoritativeValue: String(request.partySize),
-        });
-        if (!selectedParty.includes(String(request.partySize))) return this.ground(candidate, request, { candidate, observedAt, ...activeSource(), sourceUrl: page.url, priceFacts: parseTabelogPriceFacts(page), entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: "PARTY_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(page) }, browser);
-        const selectedDate = await this.executor.select({
-          source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: date, value: request.date, authoritativeValue: request.date,
-        });
-        if (!selectedDate.includes(request.date)) return this.ground(candidate, request, { candidate, observedAt, ...activeSource(), sourceUrl: page.url, priceFacts: parseTabelogPriceFacts(page), entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: "DATE_SELECTION_UNCONFIRMED", excerpt: pageExcerpt(page) }, browser);
-      } else {
+        try {
+          const selectedParty = await this.executor.select({
+            source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: party, value: String(request.partySize), authoritativeValue: String(request.partySize),
+          });
+          nativeSelectionFailure = "PARTY_SELECTION_UNCONFIRMED";
+          if (selectedParty.length === 1 && selectedParty[0] === String(request.partySize)) {
+            const selectedDate = await this.executor.select({
+              source: "TABELOG", stage: "AVAILABILITY", signal, session, selector: date, value: request.date, authoritativeValue: request.date,
+            });
+            nativeSelectionFailure = "DATE_SELECTION_UNCONFIRMED";
+            nativeSelectionConfirmed = selectedDate.length === 1 && selectedDate[0] === request.date;
+          }
+        } catch (error) {
+          // Only a failed accelerator returns to observation. Policy, abort and
+          // budget failures retain their original terminal behaviour and scope.
+          if (!(error instanceof BrowserRuntimeError) || !["BROWSER_RUNTIME_FAILED", "BROWSER_STALE_TARGET"].includes(error.code)) throw error;
+          nativeSelectionFailure ??= "REQUEST_SELECTION_UNCONFIRMED";
+        }
+      }
+      if (!nativeSelectionConfirmed) {
         page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
         const visibleQueryControls = await session.observeControls?.(tabelogQueryControlHints(page)) ?? [];
         const dateState = tabelogRequestedDateState(page, request.date);
@@ -616,13 +629,14 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           session, signal, allowedOrigins: ["https://tabelog.com"], controlHints: tabelogQueryControlHints,
           goal: { outlet: { name: candidate.restaurant.outletName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
           objective: "Apply the exact requested date and guest count to the public calendar. Date and Guests labels describe source-observed controls. Use CLICK_AUTHORITATIVE for those fields. Do not open Reserve or any booking form. Selected time options alone are not verified availability.",
+          ...(nativeSelectionFailure ? { methodReason: "The native selector accelerator did not confirm the requested fields. Read the current visible labels and controls; keep the original request and remaining budgets." } : {}),
           completion: current => tabelogAvailabilityCompletion(current, request),
         });
         const querySnapshot = await this.retryBusyPage(candidate.restaurant.id, session, signal, query.snapshot, "AVAILABILITY");
         const structureChanged = this.vacancyStructureChanged(querySnapshot, request);
         if (structureChanged || !hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return this.ground(candidate, request, {
           candidate, observedAt: this.now(), ...activeSource(), sourceUrl: querySnapshot.url, priceFacts: parseTabelogPriceFacts(querySnapshot),
-          entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: structureChanged ? "SOURCE_STRUCTURE_CHANGED" : query.reasonCode ?? "REQUEST_SELECTION_UNCONFIRMED", listedCourseDetails: parseTabelogListedCourses(querySnapshot), excerpt: pageExcerpt(querySnapshot),
+          entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: structureChanged ? "SOURCE_STRUCTURE_CHANGED" : query.reasonCode ?? nativeSelectionFailure ?? "REQUEST_SELECTION_UNCONFIRMED", listedCourseDetails: parseTabelogListedCourses(querySnapshot), excerpt: pageExcerpt(querySnapshot),
         }, browser);
       }
       page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
