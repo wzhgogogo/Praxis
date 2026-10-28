@@ -1422,6 +1422,27 @@
       "evaluationPublicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-c-batch3-authorized",
+      "conversation": "C",
+      "batch": 3,
+      "atCET": "2026-10-28T03:19:34+01:00",
+      "status": "OFFLINE_REQUIRED_ITEMS_VERIFIED_OPTIONAL_GET_PREPARED",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "approvedBatchCaps": {
+        "realModelCalls": 20,
+        "googleRequests": 10,
+        "evaluationPublicGET": 12,
+        "fullLive": 0
+      },
+      "report": ".eval-artifacts/phase3b/c-batch3/report.md",
+      "note": "Authorization is not usage. Optional12 fixed among never-requested historical alternatives; no retry after first failure. Core comparisons are offline."
     }
   ],
   "cumulative": {
@@ -1432,7 +1453,7 @@
     "googleRequests": 11,
     "restaurantWebsiteRequests": 18
   },
-  "asOfCET": "2026-10-28T02:58:09+01:00",
+  "asOfCET": "2026-10-28T03:19:34+01:00",
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
     {
