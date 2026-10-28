@@ -14,6 +14,8 @@
 
 2026-10-28 CET：G4基准证据已合main fae69b48并核对远端。C从该main开始详情优先级/原名真子串离线切片；身份规则不变，Prompt/独立检索Schema拟3，Agent/State不变；模型≤10、GET/Google/Live0。三家认证详情及Sen详情缺于本次保存集，不冒充身份验证成功。工作分支改进待复核，G4整体签收仍待用户。
 
+2026-10-28 CET: G1 quality fixes published and ls-remote verified at maineb1518f1 (five gates1196/175,ordinary G2 4/4, each clean). New G3 Tabelog branch starts here. User removes adapter line-count acceptance; ADR0047 records strict G2 plus actual observed task behaviour, lines3878/Pack478 reference only. Read-only audit finds quoted-calendar judgment/completion/grounding wiring in C-protected tabelog-browser-availability.ts; stop before product edits pending reviewer file order. No private logic/tests removed; real calls0. [G3 plan](../.eval-artifacts/phase3b/g3-tabelog/plan.md).
+
 2026-10-28 CET: Reviewed G1 dd87cfbb synchronized with main54b3dd2b accepted A clock repairs. Frozen2ccaab58/681 inputs: five gates1196/175 PASS (106.836s), ordinary G2 4/4, each before/after clean and restore0. Reviewed G1 source/HARD44197 bytes unchanged; ledger409 ids preserves both sides, new real calls0. User authorizes main publication; then new G3 Tabelog branch, protected C files untouched pending file-order review. [Report](../.eval-artifacts/phase3b/g1-quality-main/report.md).
 
 2026-10-28 CET: User approves reviewed G1 dd87cfbb main merge. Integrated main54b3dd2b accepted A clock repairs; G1 source byte-identical, only history/ledger conflicts resolved,409 budget ids preserved. Freeze then five gates plus ordinary G2, each before/after clean; publish main on success, then new G3 Tabelog branch with protected C files untouched. New real calls0. [Plan](../.eval-artifacts/phase3b/g1-quality-main/plan.md).

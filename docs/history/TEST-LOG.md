@@ -35,6 +35,11 @@
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
+## TEST-2026-10-28-G3-TABELOG-FILE-ORDER-PREPARATION
+
+2026-10-28 CET: G1 quality fixes published and ls-remote verified at maineb1518f1 (five gates1196/175,ordinary G2 4/4, each clean). New G3 Tabelog branch starts here. User removes adapter line-count acceptance; ADR0047 records strict G2 plus actual observed task behaviour, lines3878/Pack478 reference only. Read-only audit finds quoted-calendar judgment/completion/grounding wiring in C-protected tabelog-browser-availability.ts; stop before product edits pending reviewer file order. No private logic/tests removed; real calls0. [G3 plan](../../.eval-artifacts/phase3b/g3-tabelog/plan.md).
+
+
 ## TEST-2026-10-28-G1-QUALITY-MAIN-VERIFIED
 
 2026-10-28 CET: Reviewed G1 dd87cfbb synchronized with main54b3dd2b accepted A clock repairs. Frozen2ccaab58/681 inputs: five gates1196/175 PASS (106.836s), ordinary G2 4/4, each before/after clean and restore0. Reviewed G1 source/HARD44197 bytes unchanged; ledger409 ids preserves both sides, new real calls0. User authorizes main publication; then new G3 Tabelog branch, protected C files untouched pending file-order review. [Report](../../.eval-artifacts/phase3b/g1-quality-main/report.md).

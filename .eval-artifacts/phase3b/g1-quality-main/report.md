@@ -32,3 +32,7 @@ macOS26.6.2 arm64 / Node24.4.1，Chromium并发4。首轮完整验证全绿，�
 用户明确批准合入并推送main。验证提交后的收尾仅文档/产物，可执行树和681冻结输入不变。main工作树干净后快进到含本报告的提交，推送main及G1工作分支，并以ls-remote核对；实际SHA见delivery.json回执，不提前宣称推送。
 
 发布完成后立即从新main开G3 Tabelog分支，不等A六题重跑。已在只读依赖梳理中发现日历Agent引用接线位于C正在修改的tabelog-browser-availability.ts；G3将按用户第3条先报告具体范围，未授权前不改两个受保护文件。G3行数/严格DOM门槛尚未完成，TableCheck仍等首次Live的阳性日历。
+
+## 发布回执与后续口径
+
+2026-10-28T14:58:58.758795+01:00：main及G1分支已原子推送eb1518f1ad3f4fa8da4469c993b02d1b9f15ccf8，ls-remote均匹配，main工作树干净。[回执](delivery.json) / [refs](main-published.refs)。已从此main开G3分支。用户随后明确行数仅供参考；G3当前验收按ADR0047，以严格G2与真实任务行为为准，旧历史数字不作门槛。
