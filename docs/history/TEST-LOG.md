@@ -21,6 +21,11 @@
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
 
+## TEST-2026-10-28-G1-QUALITY-MAIN-VERIFIED
+
+2026-10-28 CET: Reviewed G1 dd87cfbb synchronized with main54b3dd2b accepted A clock repairs. Frozen2ccaab58/681 inputs: five gates1196/175 PASS (106.836s), ordinary G2 4/4, each before/after clean and restore0. Reviewed G1 source/HARD44197 bytes unchanged; ledger409 ids preserves both sides, new real calls0. User authorizes main publication; then new G3 Tabelog branch, protected C files untouched pending file-order review. [Report](../../.eval-artifacts/phase3b/g1-quality-main/report.md).
+
+
 ## TEST-2026-10-28-G1-QUALITY-MAIN-PREPARATION
 
 2026-10-28 CET: User approves reviewed G1 dd87cfbb main merge. Integrated main54b3dd2b accepted A clock repairs; G1 source byte-identical, only history/ledger conflicts resolved,409 budget ids preserved. Freeze then five gates plus ordinary G2, each before/after clean; publish main on success, then new G3 Tabelog branch with protected C files untouched. New real calls0. [Plan](../../.eval-artifacts/phase3b/g1-quality-main/plan.md).
