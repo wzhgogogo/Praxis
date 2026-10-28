@@ -1,0 +1,179 @@
+{
+  "atCET": "2026-10-28T10:27:15.204202+01:00",
+  "evidenceMain": "fae69b48e541bef258b0c463d8d131ea46012b49",
+  "redCommit": "f89c2932e39a95fe3bb77f39e5987f1b4699e12e",
+  "frozenExecutionCommit": "ca15b75fdc8ab55b052576a1868ee93b76a8a3b9",
+  "identityRuleChange": false,
+  "redTests": 3,
+  "relatedTestsPass": 56,
+  "fiveGateStatus": "PENDING",
+  "fullNoRegressionStatus": "NOT_EVALUATED_MISSING_SAVED_DETAILS",
+  "priorCorrect": {
+    "planned": 23,
+    "retainedInFiveDetailPlan": 23,
+    "completeReplayCorrect": 16,
+    "blockedByMissingSource": 7
+  },
+  "wrongAcceptedInCompleteReplays": 0,
+  "focusFive": [
+    {
+      "id": "nr-010",
+      "originalCertifiedRanks": [
+        13
+      ],
+      "newCertifiedRanks": [
+        1
+      ],
+      "replayVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "NOT_EVALUATED_MISSING_SOURCE",
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "acceptedUrl": null
+    },
+    {
+      "id": "nr-020",
+      "originalCertifiedRanks": [
+        1
+      ],
+      "newCertifiedRanks": [
+        1
+      ],
+      "replayVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "reason": "KNOWN_PHONE_CONFLICT",
+      "acceptedUrl": null
+    },
+    {
+      "id": "nr-022",
+      "originalCertifiedRanks": [
+        11
+      ],
+      "newCertifiedRanks": [
+        1
+      ],
+      "replayVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "NOT_EVALUATED_MISSING_SOURCE",
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "acceptedUrl": null
+    },
+    {
+      "id": "nr-026",
+      "originalCertifiedRanks": [
+        10
+      ],
+      "newCertifiedRanks": [
+        1
+      ],
+      "replayVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "NOT_EVALUATED_MISSING_SOURCE",
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "acceptedUrl": null
+    },
+    {
+      "id": "G4-ND-005",
+      "originalCertifiedRanks": [],
+      "newCertifiedRanks": [],
+      "replayVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "reason": "NO_OUTLETS_PARSED",
+      "acceptedUrl": null
+    }
+  ],
+  "models": {
+    "planned": 6,
+    "completed": 6,
+    "independentProperSubstring": 6,
+    "rows": [
+      {
+        "caseId": "nr-020-r1",
+        "name": "Sushi kazumasa",
+        "fragment": "kazumasa",
+        "independentProperSubstring": true,
+        "ledgerId": "phase3b-c-g4-priority-model-001"
+      },
+      {
+        "caseId": "nr-020-r2",
+        "name": "Sushi kazumasa",
+        "fragment": "kazumasa",
+        "independentProperSubstring": true,
+        "ledgerId": "phase3b-c-g4-priority-model-002"
+      },
+      {
+        "caseId": "nr-020-r3",
+        "name": "Sushi kazumasa",
+        "fragment": "kazumasa",
+        "independentProperSubstring": true,
+        "ledgerId": "phase3b-c-g4-priority-model-003"
+      },
+      {
+        "caseId": "G4-ND-005-r1",
+        "name": "Sen Kagurazaka",
+        "fragment": "Sen",
+        "independentProperSubstring": true,
+        "ledgerId": "phase3b-c-g4-priority-model-004"
+      },
+      {
+        "caseId": "G4-ND-005-r2",
+        "name": "Sen Kagurazaka",
+        "fragment": "Sen",
+        "independentProperSubstring": true,
+        "ledgerId": "phase3b-c-g4-priority-model-005"
+      },
+      {
+        "caseId": "G4-ND-005-r3",
+        "name": "Sen Kagurazaka",
+        "fragment": "Sen",
+        "independentProperSubstring": true,
+        "ledgerId": "phase3b-c-g4-priority-model-006"
+      }
+    ],
+    "perInputConsistency": {
+      "nr-020": "3/3 kazumasa",
+      "G4-ND-005": "3/3 Sen"
+    },
+    "searchOrIdentityFromNewProposals": "NOT_EVALUATED_GET0"
+  },
+  "resources": {
+    "realModel": 6,
+    "GET": 0,
+    "google": 0,
+    "live": 0
+  },
+  "replayGroups": {
+    "OLD29": {
+      "planned": 29,
+      "verdicts": {
+        "ENVIRONMENT_FAILURE": 16,
+        "NOT_ACCEPTED": 4,
+        "CORRECT_ACCEPTED": 9
+      },
+      "evidenceStatus": {
+        "RECORDED_ENVIRONMENT_FAILURE": 5,
+        "NOT_EVALUATED_MISSING_SOURCE": 11,
+        "COMPLETE_SAVED_SOURCE_PREFIX": 13
+      }
+    },
+    "NEW8": {
+      "planned": 8,
+      "verdicts": {
+        "ENVIRONMENT_FAILURE": 3,
+        "CORRECT_ACCEPTED": 4,
+        "NOT_ACCEPTED": 1
+      },
+      "evidenceStatus": {
+        "NOT_EVALUATED_MISSING_SOURCE": 3,
+        "COMPLETE_SAVED_SOURCE_PREFIX": 5
+      }
+    },
+    "RERUN4": {
+      "planned": 4,
+      "verdicts": {
+        "CORRECT_ACCEPTED": 3,
+        "ENVIRONMENT_FAILURE": 1
+      },
+      "evidenceStatus": {
+        "COMPLETE_SAVED_SOURCE_PREFIX": 3,
+        "NOT_EVALUATED_MISSING_SOURCE": 1
+      }
+    }
+  }
+}

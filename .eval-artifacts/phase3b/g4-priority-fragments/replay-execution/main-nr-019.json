@@ -1,0 +1,889 @@
+{
+  "id": "nr-019",
+  "key": "main-nr-019",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "mode": "OFFLINE_PRODUCTION_PREFIX_REPLAY",
+  "requests": [
+    {
+      "ledgerId": "phase3b-c-g4-e2e-get-081",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=T%20nakameguro",
+      "kind": "SEARCH",
+      "query": "T nakameguro",
+      "startedAtCET": "2026-10-28T07:10:10.092+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-081.html",
+      "sha256": "9282078ecba26d53b6424c4fd6b1344772bdc30150bf1aa0c5bc907ce0404398",
+      "finishedAtCET": "2026-10-28T07:10:13.818+01:00",
+      "elapsedMs": 3726,
+      "replayedAtCET": "2026-10-28T10:22:16.056+01:00",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+      "kind": "DETAIL",
+      "query": null,
+      "failure": {
+        "code": "REPLAY_SOURCE_MISSING"
+      }
+    }
+  ],
+  "diagnostics": [],
+  "trace": [
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "detail": "OPEN_SESSION",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 27,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27,
+        "providerElapsedMs": 27,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 27,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27,
+        "providerElapsedMs": 27,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 27,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 27,
+        "providerElapsedMs": 27,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 27,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27,
+        "providerElapsedMs": 27,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=T%20nakameguro",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 27,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 27,
+        "providerElapsedMs": 27,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 28,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 28,
+        "providerElapsedMs": 28,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FAILED",
+      "detail": "REPLAY_SOURCE_MISSING",
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 28,
+        "providerElapsedMs": 28,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0,
+        "reason": "OPERATION_FAILED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 28
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28,
+        "providerElapsedMs": 28,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 28
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "detail": "SESSION_RETIRED",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 28,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28,
+        "providerElapsedMs": 28,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 28,
+        "providerElapsedMs": 28,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-019",
+      "elapsedMs": 28
+    }
+  ],
+  "modelRecords": [],
+  "plans": [
+    {
+      "query": "T nakameguro",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13292623",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13292623/",
+          "outletName": "Patta Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13188190",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13188190/",
+          "outletName": "Na Camo guro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13191293",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13191293/",
+          "outletName": "ONIBUS COFFEE NAKAMEGURO Nakameguro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13301855",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13301855/",
+          "outletName": "YAKITORI B NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13146060",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13146060/",
+          "outletName": "nakameguro Kunsei apartment"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13256417",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13256417/",
+          "outletName": "Arl Eee nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13134713",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13134713/",
+          "outletName": "Grill Burger &amp; Roast Chicken Sasa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13211547",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13211547/",
+          "outletName": "NAKAMEGURO TERRACE"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13202224",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13202224/",
+          "outletName": "Caldo Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13244534",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+          "outletName": "OPEN NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13236160",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13236160/",
+          "outletName": "Bistro HiNGE Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13283061",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13283061/",
+          "outletName": "Arl Eee nakameguro Yamate doori ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13304229",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13304229/",
+          "outletName": "nakameguroramensugita"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13284471",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13284471/",
+          "outletName": "SAKEBARO NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13324508",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13324508/",
+          "outletName": "felice domani nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13251507",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+          "outletName": "GEN nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13187720",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13187720/",
+          "outletName": "nakameguro SLOW TABLE"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13097249",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13097249/",
+          "outletName": "nakameguro SLOWTABLE Grill &amp; Wine"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13222947",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13222947/",
+          "outletName": "NAKAMEGURO GALERIA"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13312101",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+          "outletName": "XAO Nakameguro"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13251507",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+          "outletName": "GEN nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13312101",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+          "outletName": "XAO Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13244534",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+          "outletName": "OPEN NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13292623",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13292623/",
+          "outletName": "Patta Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13202224",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13202224/",
+          "outletName": "Caldo Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13284471",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13284471/",
+          "outletName": "SAKEBARO NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13211547",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13211547/",
+          "outletName": "NAKAMEGURO TERRACE"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13222947",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13222947/",
+          "outletName": "NAKAMEGURO GALERIA"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13256417",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13256417/",
+          "outletName": "Arl Eee nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13301855",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13301855/",
+          "outletName": "YAKITORI B NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13187720",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13187720/",
+          "outletName": "nakameguro SLOW TABLE"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13236160",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13236160/",
+          "outletName": "Bistro HiNGE Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13324508",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13324508/",
+          "outletName": "felice domani nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13146060",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13146060/",
+          "outletName": "nakameguro Kunsei apartment"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13191293",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13191293/",
+          "outletName": "ONIBUS COFFEE NAKAMEGURO Nakameguro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13097249",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13097249/",
+          "outletName": "nakameguro SLOWTABLE Grill &amp; Wine"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13283061",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13283061/",
+          "outletName": "Arl Eee nakameguro Yamate doori ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13304229",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13304229/",
+          "outletName": "nakameguroramensugita"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13188190",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13188190/",
+          "outletName": "Na Camo guro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13134713",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13134713/",
+          "outletName": "Grill Burger &amp; Roast Chicken Sasa"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13251507",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+          "outletName": "GEN nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13312101",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+          "outletName": "XAO Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13244534",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+          "outletName": "OPEN NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13292623",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13292623/",
+          "outletName": "Patta Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13202224",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13202224/",
+          "outletName": "Caldo Nakameguro"
+        }
+      ]
+    }
+  ],
+  "allRecordedSearchPlans": [
+    {
+      "query": "T nakameguro",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13292623",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13292623/",
+          "outletName": "Patta Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13188190",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13188190/",
+          "outletName": "Na Camo guro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13191293",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13191293/",
+          "outletName": "ONIBUS COFFEE NAKAMEGURO Nakameguro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13301855",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13301855/",
+          "outletName": "YAKITORI B NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13146060",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13146060/",
+          "outletName": "nakameguro Kunsei apartment"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13256417",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13256417/",
+          "outletName": "Arl Eee nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13134713",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13134713/",
+          "outletName": "Grill Burger &amp; Roast Chicken Sasa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13211547",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13211547/",
+          "outletName": "NAKAMEGURO TERRACE"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13202224",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13202224/",
+          "outletName": "Caldo Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13244534",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+          "outletName": "OPEN NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13236160",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13236160/",
+          "outletName": "Bistro HiNGE Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13283061",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13283061/",
+          "outletName": "Arl Eee nakameguro Yamate doori ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13304229",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13304229/",
+          "outletName": "nakameguroramensugita"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13284471",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13284471/",
+          "outletName": "SAKEBARO NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13324508",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13324508/",
+          "outletName": "felice domani nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13251507",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+          "outletName": "GEN nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13187720",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13187720/",
+          "outletName": "nakameguro SLOW TABLE"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13097249",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13097249/",
+          "outletName": "nakameguro SLOWTABLE Grill &amp; Wine"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13222947",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13222947/",
+          "outletName": "NAKAMEGURO GALERIA"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13312101",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+          "outletName": "XAO Nakameguro"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13251507",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+          "outletName": "GEN nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13312101",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+          "outletName": "XAO Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13244534",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+          "outletName": "OPEN NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13292623",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13292623/",
+          "outletName": "Patta Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13202224",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13202224/",
+          "outletName": "Caldo Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13284471",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13284471/",
+          "outletName": "SAKEBARO NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13211547",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13211547/",
+          "outletName": "NAKAMEGURO TERRACE"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13222947",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13222947/",
+          "outletName": "NAKAMEGURO GALERIA"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13256417",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13256417/",
+          "outletName": "Arl Eee nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13301855",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13301855/",
+          "outletName": "YAKITORI B NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13187720",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13187720/",
+          "outletName": "nakameguro SLOW TABLE"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13236160",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13236160/",
+          "outletName": "Bistro HiNGE Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13324508",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13324508/",
+          "outletName": "felice domani nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13146060",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13146060/",
+          "outletName": "nakameguro Kunsei apartment"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13191293",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13191293/",
+          "outletName": "ONIBUS COFFEE NAKAMEGURO Nakameguro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13097249",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13097249/",
+          "outletName": "nakameguro SLOWTABLE Grill &amp; Wine"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13283061",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13283061/",
+          "outletName": "Arl Eee nakameguro Yamate doori ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13304229",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13304229/",
+          "outletName": "nakameguroramensugita"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13188190",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13188190/",
+          "outletName": "Na Camo guro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13134713",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13134713/",
+          "outletName": "Grill Burger &amp; Roast Chicken Sasa"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13251507",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+          "outletName": "GEN nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13312101",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+          "outletName": "XAO Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13244534",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+          "outletName": "OPEN NAKAMEGURO"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13292623",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13292623/",
+          "outletName": "Patta Nakameguro"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13202224",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13202224/",
+          "outletName": "Caldo Nakameguro"
+        }
+      ]
+    }
+  ],
+  "acceptedUrl": null,
+  "environmentFailure": "REPLAY_SOURCE_MISSING",
+  "productionReason": "BROWSER_RUNTIME_FAILED",
+  "stop": null,
+  "bounds": {
+    "searches": 1,
+    "details": 1,
+    "model": 0,
+    "realModel": 0,
+    "GET": 0,
+    "google": 0,
+    "live": 0,
+    "inventoryEvaluated": false
+  }
+}

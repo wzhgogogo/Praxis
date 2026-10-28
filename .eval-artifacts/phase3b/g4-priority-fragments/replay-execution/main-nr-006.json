@@ -1,0 +1,1378 @@
+{
+  "id": "nr-006",
+  "key": "main-nr-006",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "mode": "OFFLINE_PRODUCTION_PREFIX_REPLAY",
+  "requests": [
+    {
+      "ledgerId": "phase3b-c-g4-e2e-get-018",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sugata",
+      "kind": "SEARCH",
+      "query": "Sugata",
+      "startedAtCET": "2026-10-28T06:34:23.282+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-018.html",
+      "sha256": "9e5764ce08cb22d7dd8791aff068695f47fa5c82b5a37c67e8511584c44c05a9",
+      "finishedAtCET": "2026-10-28T06:34:28.281+01:00",
+      "elapsedMs": 4999,
+      "replayedAtCET": "2026-10-28T10:22:14.464+01:00",
+      "realGET": 0
+    },
+    {
+      "ledgerId": "phase3b-c-g4-e2e-get-019",
+      "url": "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+      "kind": "DETAIL",
+      "query": null,
+      "startedAtCET": "2026-10-28T06:34:58.331+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-019.html",
+      "sha256": "8ead4ebf631a9991e1ab9a3a98a24ac4718b6f64e545003ebf6f31b23f1055f0",
+      "finishedAtCET": "2026-10-28T06:35:00.395+01:00",
+      "elapsedMs": 2064,
+      "replayedAtCET": "2026-10-28T10:22:14.490+01:00",
+      "realGET": 0
+    },
+    {
+      "ledgerId": "phase3b-c-g4-e2e-get-021",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+      "kind": "DETAIL",
+      "query": null,
+      "startedAtCET": "2026-10-28T06:36:03.517+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-021.html",
+      "sha256": "117969e62a9f65d7aae04182c5503b57dd37467a8b7d18c1ab0138309f895475",
+      "finishedAtCET": "2026-10-28T06:36:05.541+01:00",
+      "elapsedMs": 2024,
+      "replayedAtCET": "2026-10-28T10:22:14.507+01:00",
+      "realGET": 0
+    },
+    {
+      "ledgerId": "phase3b-c-g4-e2e-get-020",
+      "url": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+      "kind": "DETAIL",
+      "query": null,
+      "startedAtCET": "2026-10-28T06:35:30.448+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-020.html",
+      "sha256": "ba454d7b90071a367a8d77ed8de4dd28ed81ae8c49d8cd399ef5978252340c34",
+      "finishedAtCET": "2026-10-28T06:35:33.464+01:00",
+      "elapsedMs": 3016,
+      "replayedAtCET": "2026-10-28T10:22:14.525+01:00",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131706/13150758/",
+      "kind": "DETAIL",
+      "query": null,
+      "failure": {
+        "code": "REPLAY_SOURCE_MISSING"
+      }
+    }
+  ],
+  "diagnostics": [],
+  "trace": [
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "detail": "OPEN_SESSION",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 25,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25,
+        "providerElapsedMs": 25,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 25,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25,
+        "providerElapsedMs": 25,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 25,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 25,
+        "providerElapsedMs": 25,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 25,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25,
+        "providerElapsedMs": 25,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sugata",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 25,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25,
+        "providerElapsedMs": 25,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 26,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 26,
+        "providerElapsedMs": 26,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 42,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42,
+        "providerElapsedMs": 42,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 42,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42,
+        "providerElapsedMs": 42,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 42,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 42,
+        "providerElapsedMs": 42,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 42,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42,
+        "providerElapsedMs": 42,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 42,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42,
+        "providerElapsedMs": 42,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 43,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 43,
+        "providerElapsedMs": 43,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 59,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 59,
+        "providerElapsedMs": 59,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 59,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 59,
+        "providerElapsedMs": 59,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 59,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 59,
+        "providerElapsedMs": 59,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 60,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 60,
+        "providerElapsedMs": 60,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 60,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 60,
+        "providerElapsedMs": 60,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 60,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 60,
+        "providerElapsedMs": 60,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 81,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 81,
+        "providerElapsedMs": 81,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 81,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 81,
+        "providerElapsedMs": 81,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 81,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 81,
+        "providerElapsedMs": 81,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 81,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 81,
+        "providerElapsedMs": 81,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 81,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 81,
+        "providerElapsedMs": 81,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 8,
+        "providerRuntimeOperations": 8,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 83,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 83,
+        "providerElapsedMs": 83,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FAILED",
+      "detail": "REPLAY_SOURCE_MISSING",
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 83,
+        "providerElapsedMs": 83,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0,
+        "reason": "OPERATION_FAILED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 83
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 83,
+        "providerElapsedMs": 83,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 83
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "detail": "SESSION_RETIRED",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 83,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 83,
+        "providerElapsedMs": 83,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 83,
+        "providerElapsedMs": 83,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 9,
+        "providerRuntimeOperations": 9,
+        "runModelCalls": 0,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-006",
+      "elapsedMs": 83
+    }
+  ],
+  "modelRecords": [],
+  "plans": [
+    {
+      "query": "Sugata",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131204/13128750",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+          "outletName": "Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1309/A130905/13053749",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+          "outletName": "kisetsuryouri sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13006777",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+          "outletName": "Ginza Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132105/13267882",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132105/13267882/",
+          "outletName": "Jiritsu-gata Shingaku Juku Groseed"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13264835",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13264835/",
+          "outletName": "Chateraise Minamiikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131103/13003707",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131103/13003707/",
+          "outletName": "Sugita"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130702/13012994",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13012994/",
+          "outletName": "Serata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131802/13023880",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13023880/",
+          "outletName": "sunaga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1308/A130801/13050321",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13050321/",
+          "outletName": "Sagara"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131201/13277142",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13277142/",
+          "outletName": "Sakata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132602/13055780",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132602/13055780/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13151228",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13151228/",
+          "outletName": "Sagaya Chiyoda kanda jinbou ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13315871",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13315871/",
+          "outletName": "SUGARY Ebisu ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13051067",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13051067/",
+          "outletName": "Murata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132401/13012279",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132401/13012279/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131101/13204581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13204581/",
+          "outletName": "Sagaya Akihabara ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131706/13150758",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13150758/",
+          "outletName": "Ogata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13198191",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13198191/",
+          "outletName": "Saga Gyu Sagaya Ginza"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131101/13067863",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13067863/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13044145",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13044145/",
+          "outletName": "Nagata"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131204/13128750",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+          "outletName": "Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13006777",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+          "outletName": "Ginza Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1309/A130905/13053749",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+          "outletName": "kisetsuryouri sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131706/13150758",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13150758/",
+          "outletName": "Ogata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131103/13003707",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131103/13003707/",
+          "outletName": "Sugita"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13044145",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13044145/",
+          "outletName": "Nagata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130702/13012994",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13012994/",
+          "outletName": "Serata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131802/13023880",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13023880/",
+          "outletName": "sunaga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131201/13277142",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13277142/",
+          "outletName": "Sakata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13051067",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13051067/",
+          "outletName": "Murata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13315871",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13315871/",
+          "outletName": "SUGARY Ebisu ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132105/13267882",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132105/13267882/",
+          "outletName": "Jiritsu-gata Shingaku Juku Groseed"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1308/A130801/13050321",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13050321/",
+          "outletName": "Sagara"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132602/13055780",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132602/13055780/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132401/13012279",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132401/13012279/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131101/13067863",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13067863/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131101/13204581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13204581/",
+          "outletName": "Sagaya Akihabara ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13198191",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13198191/",
+          "outletName": "Saga Gyu Sagaya Ginza"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13264835",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13264835/",
+          "outletName": "Chateraise Minamiikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13151228",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13151228/",
+          "outletName": "Sagaya Chiyoda kanda jinbou ten"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131204/13128750",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+          "outletName": "Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13006777",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+          "outletName": "Ginza Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1309/A130905/13053749",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+          "outletName": "kisetsuryouri sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131706/13150758",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13150758/",
+          "outletName": "Ogata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131103/13003707",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131103/13003707/",
+          "outletName": "Sugita"
+        }
+      ]
+    }
+  ],
+  "allRecordedSearchPlans": [
+    {
+      "query": "Sugata",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131204/13128750",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+          "outletName": "Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1309/A130905/13053749",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+          "outletName": "kisetsuryouri sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13006777",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+          "outletName": "Ginza Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132105/13267882",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132105/13267882/",
+          "outletName": "Jiritsu-gata Shingaku Juku Groseed"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13264835",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13264835/",
+          "outletName": "Chateraise Minamiikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131103/13003707",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131103/13003707/",
+          "outletName": "Sugita"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130702/13012994",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13012994/",
+          "outletName": "Serata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131802/13023880",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13023880/",
+          "outletName": "sunaga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1308/A130801/13050321",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13050321/",
+          "outletName": "Sagara"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131201/13277142",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13277142/",
+          "outletName": "Sakata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132602/13055780",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132602/13055780/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13151228",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13151228/",
+          "outletName": "Sagaya Chiyoda kanda jinbou ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13315871",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13315871/",
+          "outletName": "SUGARY Ebisu ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13051067",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13051067/",
+          "outletName": "Murata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132401/13012279",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132401/13012279/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131101/13204581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13204581/",
+          "outletName": "Sagaya Akihabara ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131706/13150758",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13150758/",
+          "outletName": "Ogata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13198191",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13198191/",
+          "outletName": "Saga Gyu Sagaya Ginza"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131101/13067863",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13067863/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13044145",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13044145/",
+          "outletName": "Nagata"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131204/13128750",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+          "outletName": "Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13006777",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+          "outletName": "Ginza Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1309/A130905/13053749",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+          "outletName": "kisetsuryouri sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131706/13150758",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13150758/",
+          "outletName": "Ogata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131103/13003707",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131103/13003707/",
+          "outletName": "Sugita"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13044145",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13044145/",
+          "outletName": "Nagata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130702/13012994",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130702/13012994/",
+          "outletName": "Serata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131802/13023880",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13023880/",
+          "outletName": "sunaga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131201/13277142",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13277142/",
+          "outletName": "Sakata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13051067",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13051067/",
+          "outletName": "Murata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13315871",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13315871/",
+          "outletName": "SUGARY Ebisu ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132105/13267882",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132105/13267882/",
+          "outletName": "Jiritsu-gata Shingaku Juku Groseed"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1308/A130801/13050321",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13050321/",
+          "outletName": "Sagara"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132602/13055780",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132602/13055780/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132401/13012279",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132401/13012279/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131101/13067863",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13067863/",
+          "outletName": "Sunaba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131101/13204581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13204581/",
+          "outletName": "Sagaya Akihabara ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13198191",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13198191/",
+          "outletName": "Saga Gyu Sagaya Ginza"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13264835",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13264835/",
+          "outletName": "Chateraise Minamiikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13151228",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13151228/",
+          "outletName": "Sagaya Chiyoda kanda jinbou ten"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131204/13128750",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+          "outletName": "Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13006777",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+          "outletName": "Ginza Sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1309/A130905/13053749",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+          "outletName": "kisetsuryouri sugata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131706/13150758",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13150758/",
+          "outletName": "Ogata"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131103/13003707",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131103/13003707/",
+          "outletName": "Sugita"
+        }
+      ]
+    }
+  ],
+  "acceptedUrl": null,
+  "environmentFailure": "REPLAY_SOURCE_MISSING",
+  "productionReason": "BROWSER_RUNTIME_FAILED",
+  "stop": null,
+  "bounds": {
+    "searches": 1,
+    "details": 4,
+    "model": 0,
+    "realModel": 0,
+    "GET": 0,
+    "google": 0,
+    "live": 0,
+    "inventoryEvaluated": false
+  }
+}
