@@ -60,7 +60,8 @@ export class ModelNamedSourceQuery {
       ],
     });
     if (signal.aborted) throw signal.reason;
-    if (response.finishReason !== "STOP") return undefined;
+    // DeepSeek transports strict JSON Schema through one validated tool call.
+    if (response.finishReason !== "STOP" && response.finishReason !== "TOOL_CALLS") return undefined;
     let proposal: unknown;
     try { proposal = JSON.parse(response.outputText); } catch { return undefined; }
     return locateNamedSourceFragment(candidate, proposal)?.query;
