@@ -1,0 +1,21 @@
+diff --git a/src/eval/restaurant/fact-qa/core-adapter.ts b/src/eval/restaurant/fact-qa/core-adapter.ts
+index 36432239..21e88a4d 100644
+--- a/src/eval/restaurant/fact-qa/core-adapter.ts
++++ b/src/eval/restaurant/fact-qa/core-adapter.ts
+@@ -6,7 +6,7 @@ import type { QaRead, QaResponse } from "./scorer.js";
+ 
+ // All pinned-core assumptions, including fixture wire format, are confined here.
+ export const G1_CORE_REF = "e4829a582c7af2ff7eb8dc98d512f5bc5459d05d";
+-export const G1_CORE_ADAPTER = "g1-core-adapter@3-confirmation-output";
++export const G1_CORE_ADAPTER = "g1-core-adapter@4-schema3-source-conflict";
+ export type SensitiveCategory = "ALLERGY" | "RELIGIOUS_DIET" | "ACCESSIBILITY" | "NONE";
+ export interface QuestionOutcome {
+   status: "ANSWERED" | "NOT_STATED" | "UNVERIFIED"; candidateId: string; answer: string;
+@@ -55,6 +55,6 @@ export function fixtureQuestionModel(selections: readonly { quote?: string; ques
+     const selection = selections.find(row => !row.question || row.question === body.question);
+     const found = selection?.quote && body.sourceDocuments.flatMap(document => document.statements.map(statement => ({ document, statement }))).find(row => row.statement.text.includes(selection.quote!));
+     return { invocationId: "g1-fixture", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0,
+-      outputText: JSON.stringify(found ? { status: "ANSWERED", answer: selection?.answer ?? found.statement.text, sensitiveCategory: selection?.sensitiveCategory ?? "NONE", citations: [{ documentId: found.document.id, statementId: found.statement.id, quote: found.statement.text }] } : { status: "NOT_STATED", answer: null, sensitiveCategory: selection?.sensitiveCategory ?? "NONE", citations: [] }) };
++      outputText: JSON.stringify(found ? { status: "ANSWERED", answer: selection?.answer ?? found.statement.text, sensitiveCategory: selection?.sensitiveCategory ?? "NONE", sourceConflict: false, citations: [{ documentId: found.document.id, statementId: found.statement.id, quote: found.statement.text }] } : { status: "NOT_STATED", answer: null, sensitiveCategory: selection?.sensitiveCategory ?? "NONE", sourceConflict: false, citations: [] }) };
+   } };
+ }

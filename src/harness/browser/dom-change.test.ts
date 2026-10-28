@@ -8,7 +8,7 @@ test("G2 saved pages preserve the frozen reference capability and reject new fal
   const baseline = JSON.parse(await readFile(new URL("./fixtures/dom-change/baseline.json", import.meta.url), "utf8")) as {
     mutationRule: string; manifestSha256: string; cases: Array<{ id: string; verdict: DomChangeVerdict; referenceFacts: Record<string, unknown> }>;
   };
-  const actual = await runDomChange();
+  const actual = await runDomChange(undefined, t.signal);
   assert.equal(actual.rule, baseline.mutationRule);
   assert.equal(actual.manifestSha256, baseline.manifestSha256);
   assert.equal(actual.sourceTransportCalls, 0);

@@ -1,0 +1,35 @@
+{
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE",
+  "testedCommit": "4644f754bb4e16992f9bad157be55834ca58c53d",
+  "startedAtCET": "2026-10-28T10:11:03.164335+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "cpuCount": 10,
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "e25a542f9494362bef0d6d7b4138c8a4598706215e96cf2c6a2c2b0efe895400",
+  "freezeSha256": "19afd5d2f6e0a03fa2d8a6172c232a37ef082e94b141454bf9c0611c71bb205e",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-28T10:11:03.238175+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck-1.log",
+      "exitCode": 1,
+      "elapsedSeconds": 0.509105,
+      "summary": {},
+      "logSha256": "be4472ab015f977bfd7fe2fe6946ab660a219f363f44a5f1c17a96ef8b9cd670",
+      "gitStatusAfter": "",
+      "outcome": "FAIL"
+    }
+  ],
+  "restorations": 0,
+  "gatePolicy": "All five gates must exit zero; existing E1 is not exempt in this slice",
+  "chromiumConcurrency": 4,
+  "g2StrictRequired": false,
+  "stopReason": "UNAPPROVED_GATE_FAILURE_OR_CHECKOUT_CHANGE"
+}

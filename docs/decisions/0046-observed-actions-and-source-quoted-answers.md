@@ -1,12 +1,12 @@
 # ADR-0046：观察驱动的站点操作与同店原文问答
 
-- Status: **Accepted**（用户于2026-10-28批准revision 0.3独立追问预算修订）
-- Approval: **原则与 revision 0.2 文本均已由用户 2026-10-27 批准；revision 0.3独立预算及唯一动作限定修订已由用户2026-10-28批准**
-- Document revision: 0.3
+- Status: **Accepted**（用户于2026-10-28批准revision 0.4问答质量小修）
+- Approval: **原则与 revision 0.2 文本均已由用户 2026-10-27 批准；revision 0.3独立预算及唯一动作限定修订、revision 0.4问答质量小修已由用户2026-10-28批准**
+- Document revision: 0.4
 - Last updated: 2026-10-28（Vienna CET，UTC+1）
 - Source of truth for: 3b观察原则、G1合同与G2/G3验收提案；不是已接入产品能力
 - Related ADRs: [0010](0010-restaurant-agent-loop-action-validation.md)、[0021](0021-cited-source-fact-investigation.md)、[0022](0022-current-source-fact-lifecycle-and-identity.md)、[0036](0036-generic-public-read-network-policy.md)、[0044](0044-recommendation-availability-boundary.md)、[0045](0045-bounded-read-conclusion-reserve.md)
-- Evidence status: offline integration；独立预算修订待复核，真实模型问答质量和Live未验收。下文其他批次叙述保留revision0.2的证据范围，当前实施状态以STATUS为准。
+- Evidence status: 独立预算修订已复核并合main；原Prompt2的102次问答质量由用户转达独立复核。本次Prompt3小修仅离线验证、工作分支待复核，Live未验收。下文其他批次叙述保留当时证据范围，当前实施状态以STATUS为准。
 
 ## Context
 
@@ -57,11 +57,11 @@
 | NOT_STATED | answer:null、空citations、sensitiveCategory、confirmationRequired、checkedPages | 仅表示实际查过的这些页面未说明；不推断未访问页面或现实世界不存在该事实 |
 | UNVERIFIED | reason、checkedPages；没有答案 | 身份/run/来源/引用或模型输出不合格，页面未完成/超限；整份答案丢弃，不降级猜测 |
 
-模型用提问语言写一句简短答案（上限600字符），引用保持来源原文语言，逐字返回完整来源语句。保留否定、条件、分店和服务范围；表格标签和值分开时，必要的两行一起引用。原文矛盾时如实说明并引用双方。代码核对每条引文在规范化空白后出现在该店本次页面文本中，绑定HIGH身份、run、入口URL、页面URL、读取时间及来源语句ID；幻引、错店、篡改引用或代码已标为评论的语句使整份答案成为UNVERIFIED。
+模型用提问语言写一句简短答案（上限600字符），引用保持来源原文语言，逐字返回完整来源语句。保留否定、条件、分店和服务范围；表格标签和值分开时，必要的两行一起引用。原文矛盾时如实说明并引用双方，不替用户选择结论；模型输出必填布尔sourceConflict，代码据此要求向餐厅确认。代码核对每条引文在规范化空白后出现在该店本次页面文本中，绑定HIGH身份、run、入口URL、页面URL、读取时间及来源语句ID；幻引、错店、篡改引用或代码已标为评论的语句使整份答案成为UNVERIFIED。
 
 **敏感类别由模型标注**：ALLERGY、RELIGIOUS_DIET、ACCESSIBILITY、NONE。代码不使用问题关键词分类器。敏感答案只能归属/转述页面说法，不得给出适合/不适合、可以/不可以或安全保证。代码只做基本形式检查，例如敏感答案去掉前导空白/引号后以英文yes/no开头即INVALID_MODEL_OUTPUT；其他语义结论及标签误判（包括把敏感题标NONE）无法由该形式检查完整识别，交独立真实模型评测。
 
-confirmationRequired由代码按敏感标签生成；普通问题为false，敏感问题为true。核心不拼接“页面未说明”或“请向餐厅确认”等展示文案。展示层以后用英文呈现`Not stated on the page`及敏感提醒`Please confirm with the restaurant`，并显示查过的页面。当前不改Web入口或展示层。
+confirmationRequired由代码按敏感标签或sourceConflict生成；任一为真即true。sourceConflict只存在于独立问答模型Schema，不新增持久结果字段，Agent/State/TaskDefinition不变。对主要由拉丁字母构成的问题（字母中占比>60%），答案若主要为汉字/平假名/片假名（字母中占比>60%）即INVALID_MODEL_OUTPUT；这只是字符比例检查，不能保证语言正确。素食、纯素、无麸质偏好在不涉及过敏时标NONE，由模型判断，不建问题关键词分类器。商家信息没写、只有评论提到时返回NOT_STATED，不引用评论。核心不拼接“页面未说明”或“请向餐厅确认”等展示文案。展示层用英文呈现`Not stated on the page`及确认提醒`Please confirm with the restaurant`，并显示查过的页面。当前不改Web入口或展示层。
 
 价格、套餐、营业时间、取消规定等时间敏感信息必须展示读取时间；核心每条引用总带readAt，后续展示不得省略。保存页面只证明离线回归，不是实时价格、营业或库存。
 
@@ -75,7 +75,9 @@ G1每页允许总计60,000字符、最多1,200个非空语句、单语句≤6,00
 
 NativeSourceFactRead/GoogleListedWebsiteFactRead的导航、Guard、身份、预算和取消继续复用；可选页面观察hook不接入既有工厂，原有事实行为不变。G1只是将解释目的从“绑定请求条件”泛化为“回答给定问题”，没有第二套抓取/身份/事实权威，也不把问答写成HARD满足标志。
 
-本批独立对象restaurant_page_question的Prompt和输出Schema均为2；不是Agent Prompt或语义Prompt的新版本。不改State、TaskDefinition、Agent动作Schema或Guard。
+2026-10-28 revision0.4：G1在原始行完整性检查和评论角色绑定之后，按。．！？.!?进一步分句，保留句末标点/闭引号。ASCII小数与URL内部标点不拆，表格短行完整保留；所有子句继承原行评论角色。仍须逐字引用完整句子，不能任取子串；分句后超过1200语句即INCOMPLETE_PAGE。旧HARD分段函数、上限和序列化结果不改。
+
+本批独立对象restaurant_page_question的Prompt和输出Schema均为3；不是Agent Prompt或语义Prompt的新版本。不改State、TaskDefinition、Agent动作Schema或Guard。
 
 ### 6. 评论区段及残余风险
 
@@ -115,7 +117,7 @@ NativeSourceFactRead/GoogleListedWebsiteFactRead的导航、Guard、身份、预
 - 字面、身份和运行核对仍由代码控制；答案语义/敏感标签/未说明正确性留给独立真实模型验收，不虚报安全保证。
 - G1整页读取不再受HARD的6000字符/50语句限制；真实超限明确无法核实。
 - 原文与引用只在当前调用中处理，不新增State写入或普通日志的原始页面存储；数据脱敏与授权边界保持。
-- 网站行数3,847/Pack473不变，≤3,591仍是G3门槛，不以本稿或基础设施完成代替。
+- 3a′签收时网站行数3,847/Pack473；C合入后的当前main为3,878/478，本批不增加。≤3,591仍是G3门槛，不以本稿或基础设施完成代替。
 
 ## Alternatives considered
 

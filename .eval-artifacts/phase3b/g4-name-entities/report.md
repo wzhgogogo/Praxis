@@ -9,3 +9,5 @@ Evidence: frozen exposed regression. Vienna CET UTC+1.
 先把nr010已保存页原字节及其断网渲染快照置于模块fixture，取得原解析器红灯，再修复；同名异店、分店、楼层/门牌冲突及名称不足最小长度均保留拒绝。已批准的7份不退化和nr022/026继续用冻结语料做完整生产前缀回放，nr010应首次正确接纳；认证ID只供原独立评分器事后读取。
 
 本轮GET/模型/Google/Live0，不加载.env。修复后同步最新main（已fetch到eb1518f1，包含用户指定54b3dd2b及后续G1修复），保留双方文档和账本。冻结整合源码/输入后重跑五门禁及test:dom-change，每步前后净树；通过后按用户已明确批准合main并推送，ls-remote核对，合入后停止。
+
+已同步main eb1518f1ad3f4fa8da4469c993b02d1b9f15ccf8（含54b3dd2b与B G1质量修复）。产品源码无冲突，A时序/G1代码均保留；仅三份历史/账本冲突按双方内容和id并集处理。账本441个唯一id、同id差异0，计数{"fullLive": 0, "realModelCalls": 152, "environmentReruns": 0, "evaluationPublicGET": 242, "googleRequests": 11, "restaurantWebsiteRequests": 242}；本批所有新调用0。冲突前后Git和SHA见integration.json。

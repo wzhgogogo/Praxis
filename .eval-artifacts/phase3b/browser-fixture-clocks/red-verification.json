@@ -1,0 +1,39 @@
+{
+  "sourceCommit": "7bd5d2a4",
+  "sourceArchiveSha256": "29664d9688ad97c4c851d6d72305f5462dfdbac6ccff5a761addb2f5035918ab",
+  "targetErrors": {
+    "domChange": "elementHandle.isVisible: Target page, context or browser has been closed",
+    "sourceHealth": "Got unwanted rejection: slow-last-snapshot; ENV_FAILURE"
+  },
+  "targetDurationsMs": [
+    33603.347053,
+    34899.335975
+  ],
+  "cpus": 2,
+  "affinity": "0,1",
+  "cpuMax": "25000 100000",
+  "workers": 4,
+  "groupSummary": {
+    "tests": 18,
+    "pass": 15,
+    "fail": 2,
+    "cancelled": 1,
+    "orchestrationExit": 124
+  },
+  "auxiliaryCancellation": "browser-read-discovery did not finish at240s pressure limit; not the target red and not a full175-run result",
+  "initialControls": [
+    {
+      "affinity": "0,1",
+      "pass": 175,
+      "fail": 0,
+      "durationMs": 142507.910311
+    },
+    {
+      "affinity": "0",
+      "pass": 175,
+      "fail": 0,
+      "durationMs": 163029.381843
+    }
+  ],
+  "newRealCalls": 0
+}

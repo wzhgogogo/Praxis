@@ -1,0 +1,59 @@
+TAP version 13
+# Subtest: G1 quality language: Q07/Q33 reject predominantly Japanese answers to Latin questions
+    # Subtest: nishi
+    ok 1 - nishi
+      ---
+      duration_ms: 1.857416
+      type: 'test'
+      ...
+    # Subtest: alaska
+    ok 2 - alaska
+      ---
+      duration_ms: 0.359542
+      type: 'test'
+      ...
+    1..2
+ok 1 - G1 quality language: Q07/Q33 reject predominantly Japanese answers to Latin questions
+  ---
+  duration_ms: 2.544084
+  type: 'test'
+  ...
+# Subtest: G1 quality sentence: Q31 quotes a complete sentence within the saved 186-character paragraph
+ok 2 - G1 quality sentence: Q31 quotes a complete sentence within the saved 186-character paragraph
+  ---
+  duration_ms: 0.290875
+  type: 'test'
+  ...
+# Subtest: G1 sentence units retain punctuation, closing quotes, decimals, URLs and review roles
+ok 3 - G1 sentence units retain punctuation, closing quotes, decimals, URLs and review roles
+  ---
+  duration_ms: 0.754125
+  type: 'test'
+  ...
+# Subtest: G1 quality reviews: Q27 prompt directs review-only information to NOT_STATED and comments remain uncitable
+ok 4 - G1 quality reviews: Q27 prompt directs review-only information to NOT_STATED and comments remain uncitable
+  ---
+  duration_ms: 0.239709
+  type: 'test'
+  ...
+# Subtest: G1 quality conflict: Q26 model-reported source conflict derives confirmation without sensitive classification
+ok 5 - G1 quality conflict: Q26 model-reported source conflict derives confirmation without sensitive classification
+  ---
+  duration_ms: 0.159
+  type: 'test'
+  ...
+# Subtest: G1 quality dietary preferences: Q14 prompt keeps vegan preferences in NONE unless allergies are involved
+ok 6 - G1 quality dietary preferences: Q14 prompt keeps vegan preferences in NONE unless allergies are involved
+  ---
+  duration_ms: 0.1135
+  type: 'test'
+  ...
+1..6
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 102.151333
