@@ -38,7 +38,7 @@ async function answer(page: RestaurantFactPageObservation, question: string, out
     const body = output(request) as Record<string, unknown>;
     // A fixture transport answers the requested schema. This lets the red
     // isolate behaviour instead of failing solely on the new required key.
-    const hasConflict = Object.hasOwn(request.outputSchema.jsonSchema.properties as object, "sourceConflict");
+    const hasConflict = Object.hasOwn(request.outputSchema.jsonSchema!.properties as object, "sourceConflict");
     const { sourceConflict = false, ...rest } = body;
     return { invocationId: "quality-fixture", provider: "FIXTURE", model: "fixture", latencyMs: 0, finishReason: "TOOL_CALLS",
       outputText: JSON.stringify({ ...rest, ...(hasConflict ? { sourceConflict } : {}) }) };

@@ -1523,7 +1523,7 @@ function questionSessionFixture(clock: FakeClock, output?: (request: ModelReques
       const wire = JSON.parse(request.messages[1]!.content);
       const d = wire.sourceDocuments[0], statement = d.statements.find((x:{text:string})=>x.text===quote);
       return {invocationId:"question-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,
-        outputText:JSON.stringify({sourceConflict:false,...(output ? output(request) : {status:"ANSWERED",answer:"They accept Visa and MasterCard.",sensitiveCategory:"NONE",citations:[{documentId:d.id,statementId:statement.id,quote}]})})};
+        outputText:JSON.stringify({sourceConflict:false,...(output ? output(request) as object : {status:"ANSWERED",answer:"They accept Visa and MasterCard.",sensitiveCategory:"NONE",citations:[{documentId:d.id,statementId:statement.id,quote}]})})};
     }
     if (request.purpose === "restaurant_agent_decide" && JSON.parse(request.messages[1]!.content).context.pageQuestion) {
       calls.model++;return strictFixtureAction("ANSWER_PAGE_QUESTION");
