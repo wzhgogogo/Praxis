@@ -5830,3 +5830,10 @@ Same target failures precede pressure cutoff; preserve2passing full controls and
 ## 2026-10-28 CET: Approved clock repair main verification
 
 2026-10-28 CET: Approved clock source173840b7 is verified for main publication. Latest maincab27890 already ancestor, executable diff0; frozen4e45e37a five gates1186/175 PASS and each before/after clean.665 inputs unchanged; independent2CPU review and prior three full Linux greens retained. No new real calls. B G1 fix not yet main: six-question repeat remains conditional; broad audit waits B G3. [Integration](../.eval-artifacts/phase3b/browser-fixture-clocks/main-integration/report.md).
+
+
+<a id="test-2026-10-28-g3-group01-vacancy"></a>
+
+## 2026-10-28 CET: G3 bound vacancy response group
+
+2026-10-28 CET: G3 Group01 complete: latest audited vacancy JSON binding and SOURCE_STRUCTURE_CHANGED fail-closed in Adapter/Executor. Valid reds7 native/1 real Chromium→same greens; frozen da0546fb five gates1210/176 PASS (107.281s), ordinary G2 4/4, each before/after clean. HARD44197 bytes identical; C code/four protected tests and A fixed inputs unchanged. Sites3969/Pack478 reference only; new real calls0. Push work branch then continue next group; G3/G3c not yet complete. [Report](../../.eval-artifacts/phase3b/g3-longrun/01-vacancy-responses/report.md).

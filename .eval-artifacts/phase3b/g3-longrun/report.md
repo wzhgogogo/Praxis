@@ -76,3 +76,8 @@ STATUS、DEVLOG、TEST-LOG、月度摘要/索引同步。**按“需要改动A�
 ## 已核对的交付回执
 
 2026-10-28T16:09:52.019625+01:00：重放后的报告提交be6a940ae159aec3637fa976509629396b57ffdc已成功推送，使用精确旧租约250cba72，ls-remote匹配；main仍为ba466eb3，本批未合/推main。685份输入SHA及可执行树不变，追加回执前工作区干净。[delivery.json](delivery.json) / [原始refs](push-verified.refs)。这次回执仅审计产物，也推同一工作分支。
+
+
+## 2026-10-28 CET: resumed / Group01 COMPLETE
+
+The prior evidence stop is resolved by the user decision in ADR0048. [Group01 report](01-vacancy-responses/report.md): five gates and ordinary G2 PASS; new real calls0. Long batch continues with list/controls/G3c, no main merge.
