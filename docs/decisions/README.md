@@ -65,6 +65,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 
 | [0046](0046-observed-actions-and-source-quoted-answers.md) | **Accepted；用户2026-10-27批准revision 0.2文本** | 统一观察原则/G2验收/G1简短答案+引文合同；未接入口核心，不改变共享状态/权限 |
 | [0047](0047-g3-observed-task-behavior-acceptance.md) | Accepted；用户2026-10-28直接决定 | G3以严格DOM变异与真实任务行为验收，适配器行数仅参考；仅取代0046的行数门槛 |
+| [0048](0048-tabelog-calendar-response-evidence.md) | Accepted；独立复核2026-10-28、用户批准 | Tabelog日期状态只取自绑定的数据响应，class仅导航提示，无响应未知；A修订日历基线，B继续其它组 |
 
 ## 规则
 

@@ -35,6 +35,11 @@
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
 
+## DEV-2026-10-28-G3-GROUP01-PREPARATION
+
+2026-10-28 CET: User approves calendar-response evidence decision (ADR0048): private class only navigation hint, no matching response→UNKNOWN; A owns fixed date baselines. B resumes G3 long batch with bound vacancy JSON/structure alert first, then controls/list/busy/G3c without waiting A. Group01 red tests frozen before source edits; C identity/ranking/fragments/tests retained, new real calls0. [Plan](../../.eval-artifacts/phase3b/g3-longrun/01-vacancy-responses/plan.md).
+
+
 ## DEV-2026-10-28-G3-LONGRUN-PUBLIC-EVIDENCE-STOP
 
 2026-10-28 CET: G3 long batch rebased to mainba466eb3; original C file-order block resolved, C identity/ranking/fragment code and tests retained. STOPPED_A_OWNED_G2_PUBLIC_EVIDENCE:4 real-Chromium class-only counterfactuals change legacy day state while public text/ARIA/styles/pixels remain identical; fixed calendar references require unsupported status evidence. A/reviewer must restore provenance-bound public evidence or review the frozen baseline before B implements OBS14. No product/test edits. Frozenbfb38d2c/685 inputs five gates1203/175 PASS (106.556s), ordinary G2 4/4, per-check clean; strict G2 remains3/4 baseline red. HARD44197 bytes identical; sites3911/Pack478 reference only, ledger443 ids preserved, new real calls0. G3/G3c not complete; push rebased work branch only. [Report](../../.eval-artifacts/phase3b/g3-longrun/report.md).
