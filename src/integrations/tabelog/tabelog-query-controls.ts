@@ -1,5 +1,7 @@
 import type { BrowserControlHint, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { hasSelectedControlState } from "../../infrastructure/browser/control-selected-state.js";
+import { inspectTabelogVacancyResponse } from "./tabelog-vacancy-response.js";
+export { TABELOG_VACANCY_RESPONSES } from "./tabelog-vacancy-response.js";
 
 /** The page may render future calendars in hidden DOM while its current query is restricted. */
 export function tabelogQueryControlsRestricted(snapshot: BrowserSnapshot, controls: readonly { label: string; disabled: boolean }[], partySize: number): boolean {
@@ -153,42 +155,9 @@ export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string,
     && hiddenPeople.every(value => value === partySize);
 }
 
-export const TABELOG_VACANCY_RESPONSES = [
-  { origin: "https://tabelog.com", pathname: "/en/booking/calendar/find_vacancy/" },
-  { origin: "https://tabelog.com", pathname: "/en/booking/calendar/find_vacancy" },
-] as const;
-
 /** Exact source-response binding: another merchant, date, party or stale selection is not stock. */
 export function tabelogCapturedSlots(snapshot: BrowserSnapshot, date: string, partySize: number): { availableSlots: string[]; hasExplicitSlotUi: boolean } | undefined {
   if (!hasTabelogSelectedQuery(snapshot, date, partySize)) return undefined;
-  const outletId = new URL(snapshot.url).pathname.match(/\/(\d+)\/$/)?.[1];
-  for (const response of [...snapshot.responses ?? []].sort((a,b)=>b.sequence-a.sequence)) {
-    let responseUrl: URL;
-    try { responseUrl = new URL(response.url); } catch { continue; }
-    if (!TABELOG_VACANCY_RESPONSES.some(rule => responseUrl.origin === rule.origin && responseUrl.pathname === rule.pathname)) continue;
-    if (response.status !== 200) return undefined;
-    const body = response.body as { base_date?: {year?:number;month?:number;day?:number}; members?:number; selection?:unknown } | null;
-    if (!body || !body.base_date || body.members !== partySize) return undefined;
-    const d=body.base_date;
-    if (`${d.year}-${String(d.month).padStart(2,"0")}-${String(d.day).padStart(2,"0")}` !== date) return undefined;
-    if (!body.selection || typeof body.selection !== "object") return undefined;
-    const slots = new Set<string>();
-    for (const row of Object.values(body.selection)) {
-      if (!row || typeof row !== "object") return undefined;
-      const value=row as {time?:unknown;url?:unknown};
-      if (typeof value.url !== "string") return undefined;
-      let link: URL;
-      try { link=new URL(value.url,snapshot.url); } catch { return undefined; }
-      if (link.origin !== "https://tabelog.com" || link.pathname !== "/en/booking/form_course/new"
-        || link.searchParams.get("rcd") !== outletId || link.searchParams.get("member") !== String(partySize)
-        || link.searchParams.get("visit_date") !== date.replaceAll("-","")) return undefined;
-      if (typeof value.time !== "string" || !/^([01]\d|2[0-3]):[0-5]\d$/.test(value.time)) {
-        if (/^(?:2[4-9]|[3-9]\d)[0-5]\d$/.test(link.searchParams.get("visit_time") ?? "")) continue;
-        return undefined;
-      }
-      if (link.searchParams.get("visit_time") !== value.time.replace(":","")) return undefined;
-      slots.add(value.time);
-    }
-    return slots.size ? { availableSlots:[...slots].sort(),hasExplicitSlotUi:true } : undefined;
-  }
+  const response = inspectTabelogVacancyResponse(snapshot, date, partySize);
+  return response.status === "OBSERVED" ? { availableSlots: response.availableSlots, hasExplicitSlotUi: true } : undefined;
 }

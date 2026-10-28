@@ -32,6 +32,7 @@ import type {
 } from "./tabelog-contracts.js";
 
 import { hasTabelogSelectedQuery, tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
+import { inspectTabelogVacancyResponse } from "./tabelog-vacancy-response.js";
 
 export function tabelogNameSearchCompletion(page: BrowserSnapshot): BrowserCompletionAssessment {
   const outlets = parseTabelogSearchOutlets(page);
@@ -618,9 +619,10 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           completion: current => tabelogAvailabilityCompletion(current, request),
         });
         const querySnapshot = await this.retryBusyPage(candidate.restaurant.id, session, signal, query.snapshot, "AVAILABILITY");
-        if (!hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return this.ground(candidate, request, {
+        const structureChanged = this.vacancyStructureChanged(querySnapshot, request);
+        if (structureChanged || !hasTabelogSelectedQuery(querySnapshot, request.date, request.partySize)) return this.ground(candidate, request, {
           candidate, observedAt: this.now(), ...activeSource(), sourceUrl: querySnapshot.url, priceFacts: parseTabelogPriceFacts(querySnapshot),
-          entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: query.reasonCode ?? "REQUEST_SELECTION_UNCONFIRMED", listedCourseDetails: parseTabelogListedCourses(querySnapshot), excerpt: pageExcerpt(querySnapshot),
+          entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED", failureCode: structureChanged ? "SOURCE_STRUCTURE_CHANGED" : query.reasonCode ?? "REQUEST_SELECTION_UNCONFIRMED", listedCourseDetails: parseTabelogListedCourses(querySnapshot), excerpt: pageExcerpt(querySnapshot),
         }, browser);
       }
       page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
@@ -632,6 +634,10 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         if (recovered.entityMatch) activeIdentity = recovered.entityMatch;
       }
       if (hasBotChallenge(page)) return this.ground(candidate, request, { candidate, observedAt: this.now(), ...activeSource(), sourceUrl: page.url, priceFacts: parseTabelogPriceFacts(page), entityMatch: activeIdentity, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(page) }, browser);
+      if (this.vacancyStructureChanged(page, request)) return this.ground(candidate, request, {
+        candidate, observedAt: this.now(), ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity,
+        pageState: "EXTRACTION_FAILED", failureCode: "SOURCE_STRUCTURE_CHANGED", excerpt: pageExcerpt(page),
+      }, browser);
       const slotParse = parseTabelogAvailabilitySlots(page, request);
       const slots = slotParse.availableSlots;
       const hasQualifyingSlot = slots.some((slot) => slot >= request.timeWindow.earliest && slot <= request.timeWindow.latest);
@@ -653,6 +659,14 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         verifiedHardCriteria: parseTabelogVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: pageExcerpt(page),
       }, browser);
+  }
+
+  private vacancyStructureChanged(page: BrowserSnapshot, request: Pick<RestaurantAvailabilityRequest, "date" | "partySize">): boolean {
+    const observation = inspectTabelogVacancyResponse(page, request.date, request.partySize);
+    if (observation.status !== "SOURCE_STRUCTURE_CHANGED") return false;
+    this.executor.reportSourceStructureChanged({ source: "TABELOG", stage: "AVAILABILITY", url: page.url,
+      observedAt: observation.observedAt, issue: observation.issue });
+    return true;
   }
 
   private ground(
