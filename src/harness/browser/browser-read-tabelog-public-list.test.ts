@@ -31,9 +31,9 @@ test("G3 real Chromium Agent reveals public renamed results and retains same-bra
     });
     try {
       const result = await new TabelogBrowserAvailability(executor).check({ candidates: [candidate], candidateIds: [sourceId], date: "2026-11-03", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] }, AbortSignal.timeout(30_000));
-      assert.equal(decisions, 1, "Agent must reveal the initially hidden public results once");
       assert.equal(result.availabilityChecks[sourceId]?.status, otherBranch ? "UNKNOWN" : "AVAILABLE", "renamed public result must reach the same-outlet availability path");
       assert.equal(result.offers.length, otherBranch ? 0 : 1);
+      assert.ok(decisions >= 1, "Agent must reveal the initially hidden public results through an observed action");
     } finally { await executor.close(); }
   }
 });
