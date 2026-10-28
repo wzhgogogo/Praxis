@@ -48,3 +48,7 @@
 本批G3新增真实模型、Google、餐厅网站、Live、环境重跑、评测公开GET均0。未读取.env、未读取或哈希answers*.json。预算原409条全部保留，追加本诊断0调用，共410唯一id。相关状态/DEVLOG/TEST-LOG/月度索引同步。
 
 只推本G3工作分支供复核，不合main。**按用户第3条停下，等待复核者安排C与B的文件修改顺序。** 实际分支推送回执附delivery.json；未核对前不宣称已推送。
+
+## 已核对的工作分支交付
+
+2026-10-28T15:06:02.078237+01:00：报告提交16af555ab227a55b189d0a268b7cae326f6bd650已成功推送，ls-remote匹配；main仍为G1发布eb1518f1，G3未合main。674输入SHA、受保护文件和可执行树不变，追加回执前两工作树均干净。[delivery.json](delivery.json) / [refs](push-verified.refs)。回执只改审计产物，也推同一工作分支。
