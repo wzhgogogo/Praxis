@@ -36,14 +36,17 @@ function fixtureModel(output: Output, calls: ModelRequest[] = []): ModelGateway 
     return { invocationId: "fixture-question", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0, outputText: JSON.stringify({ sourceConflict: false, ...output(input) as object }) };
   } };
 }
-function selected(text: string, answer = "The page states this information.", sensitiveCategory: RestaurantQuestionSensitiveCategory = "NONE"): Output {
+function selected(text: string | string[], answer = "The page states this information.", sensitiveCategory: RestaurantQuestionSensitiveCategory = "NONE"): Output {
   return input => {
     const documents = JSON.parse(input.messages[1]!.content).sourceDocuments;
-    for (const document of documents) {
-      const statement = document.statements.find((statement: { text: string }) => statement.text === text);
-      if (statement) return { status: "ANSWERED", answer, sensitiveCategory, citations: [{ documentId: document.id, statementId: statement.id, quote: text }] };
-    }
-    assert.fail("test quotation not supplied to model");
+    const citations = (Array.isArray(text) ? text : [text]).map(quote => {
+      for (const document of documents) {
+        const statement = document.statements.find((statement: { text: string }) => statement.text === quote);
+        if (statement) return { documentId: document.id, statementId: statement.id, quote };
+      }
+      assert.fail("test quotation not supplied to model");
+    });
+    return { status: "ANSWERED", answer, sensitiveCategory, citations };
   };
 }
 function runtime(snapshot: BrowserSnapshot, navigated: string[]): BrowserRuntime {
@@ -193,21 +196,23 @@ test("G1 rejects stale runs, unbound identities, review providers, changed URLs 
 });
 
 test("G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes", async t => {
-  const cases: Array<[RestaurantQuestionSensitiveCategory, string]> = [
-    ["ALLERGY", "Please notify staff of allergies; traces of nuts may be present."],
-    ["RELIGIOUS_DIET", "Vegetarian menu available on request; no halal certification."],
-    ["ACCESSIBILITY", "Entrance has three steps. There is no lift."],
+  const cases: Array<[RestaurantQuestionSensitiveCategory, string[]]> = [
+    ["ALLERGY", ["Please notify staff of allergies; traces of nuts may be present."]],
+    ["RELIGIOUS_DIET", ["Vegetarian menu available on request; no halal certification."]],
+    ["ACCESSIBILITY", ["Entrance has three steps.", "There is no lift."]],
   ];
-  for (const [category, text] of cases) await t.test(category, async () => {
+  for (const [category, sentences] of cases) await t.test(category, async () => {
+    const text = sentences.join(" ");
     const input = question([page(text)], "What does the page state about my needs?");
     const answer = `The page says: ${text}`;
-    const good = await new ModelRestaurantPageQuestion(fixtureModel(selected(text, answer, category)), undefined, now).answer(input, signal());
+    const good = await new ModelRestaurantPageQuestion(fixtureModel(selected(sentences, answer, category)), undefined, now).answer(input, signal());
     assert.ok(good.status === "ANSWERED");
     assert.equal(good.answer, answer);
     assert.equal(good.sensitiveCategory, category);
     assert.equal(good.confirmationRequired, true);
+    assert.deepEqual(good.citations.map(citation => citation.text), sentences, "every source sentence, including its negation, is retained");
     for (const conclusion of ["Yes, suitable.", "No, unsuitable.", "  “ Yes, suitable.”"]) {
-      const bad = await new ModelRestaurantPageQuestion(fixtureModel(selected(text, conclusion, category)), undefined, now).answer(input, signal());
+      const bad = await new ModelRestaurantPageQuestion(fixtureModel(selected(sentences, conclusion, category)), undefined, now).answer(input, signal());
       assert.ok(bad.status === "UNVERIFIED");
       assert.equal(bad.reason, "INVALID_MODEL_OUTPUT");
     }
@@ -215,13 +220,12 @@ test("G1 sensitive questions carry model categories and source paraphrases, reje
 });
 
 test("G1 reception mode comes from explicit source text without inventory; time-sensitive source statements retain read time", async () => {
-  for (const text of ["Walk-ins only. Reservations are not accepted.", "Reservations only.", "Walk-ins and reservations are both welcome.",
-    "Cancellation: 50% fee after 17:00 the previous day."]) {
-    const result = await new ModelRestaurantPageQuestion(fixtureModel(selected(text)), undefined, now).answer(question([page(text)], "What does this page say about reception or cancellation?"), signal());
+  for (const sentences of [["Walk-ins only.", "Reservations are not accepted."], ["Reservations only."], ["Walk-ins and reservations are both welcome."],
+    ["Cancellation: 50% fee after 17:00 the previous day."]]) {
+    const result = await new ModelRestaurantPageQuestion(fixtureModel(selected(sentences)), undefined, now).answer(question([page(sentences.join(" "))], "What does this page say about reception or cancellation?"), signal());
     assert.ok(result.status === "ANSWERED");
-    assert.equal(result.citations[0]!.text, text);
-    assert.equal(result.citations[0]!.readAt, readAt);
-    assert.equal(result.citations[0]!.url, sourceUrl);
+    assert.deepEqual(result.citations.map(citation => citation.text), sentences);
+    for (const citation of result.citations) { assert.equal(citation.readAt, readAt); assert.equal(citation.url, sourceUrl); }
   }
 });
 
@@ -265,10 +269,11 @@ test("G1 saved merchant fragment is quoted in place with provenance; it is not a
   current.snapshot.url = current.identity.sourceUrl = current.requestedSourceUrl = provenance.sourceUrl;
   const input = question([current], "Which dinner course is written here?");
   input.displayedOutlet.sourceUrl = provenance.sourceUrl;
-  const result = await new ModelRestaurantPageQuestion(fixtureModel(selected(savedText)), undefined, now)
+  const firstCourse = savedText.slice(0, savedText.indexOf("Svc & tax incl.") + "Svc & tax incl.".length);
+  const result = await new ModelRestaurantPageQuestion(fixtureModel(selected(firstCourse)), undefined, now)
     .answer(input, signal());
   assert.ok(result.status === "ANSWERED");
-  assert.equal(result.citations[0]!.text, savedText);
+  assert.equal(result.citations[0]!.text, firstCourse, "retain the complete original first course rather than quoting four menu cards as one sentence");
 });
 
 test("G1 propagates shared model-budget exhaustion and cancellation instead of inventing an answer", async () => {
