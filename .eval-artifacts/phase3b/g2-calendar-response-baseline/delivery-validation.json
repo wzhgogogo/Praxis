@@ -13,5 +13,47 @@
   "baselineUnknownEncoding": "null",
   "priorLedgerRowsPreserved": 462,
   "newRealCalls": 0,
-  "ledgerEntries": 463
+  "ledgerEntries": 463,
+  "actualCalendarObservations": [
+    {
+      "id": "tabelog-calendar-teppen",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {
+        "day:2026-09-29": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-28": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-30": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-calendar-sen",
+      "classification": "DEGRADED_HONEST",
+      "referenceFacts": 3,
+      "lost": [
+        "requestConfirmed"
+      ],
+      "unknownDates": {
+        "day:2026-10-22": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-10-01": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    }
+  ]
 }

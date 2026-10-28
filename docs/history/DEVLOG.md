@@ -5114,3 +5114,12 @@ Same target failures precede pressure cutoff; preserve2passing full controls and
 2026-10-28 CET：按用户批准的日历证据复核决定，A修订G2五个日期期望为UNKNOWN（null）。Teppen同次initial_vacancy仅HTTP200元数据，无正文；Sen原录制缺失、仅HTML/文本留存，225份固定Git归档未匹配原次材料。有效红灯PHONE_ONLY≠null→同断言绿；只改A证据投影/原G2检查/基线，评分器、变异、12页及产品不变。Teppen整页PASS；Sen日期PASS但非日期requestConfirmed仍丢失，整页诚实退化留待B控件组。普通G2及五门禁冻结后执行；本批真实调用0，先前19次实花按id并入账本。批准直接合main后通知B；其他A分支仍待复核。 [Report](../../.eval-artifacts/phase3b/g2-calendar-response-baseline/report.md)。
 
 Red d477d691: old class observer PHONE_ONLY contradicts reviewed UNKNOWN,16.379s. Green a6853be8: same assertion17.827s. No production migration claimed; no data response fabricated. Full source/test freeze and six offline gate receipts follow; only date expectations changed, Sen request control retained.
+
+
+<a id="dev-2026-10-28-g2-calendar-verified"></a>
+
+## 2026-10-28 CET: G2 calendar evidence correction verified
+
+2026-10-28 CET：A获批G2日期基线修订完成。5日期原/改名均UNKNOWN；Teppen PASS，Sen仅非日期requestConfirmed仍退化（保留给B控件组）。d477d691有效红→a6853be8绿；冻结9017a8cd六项标准检查全绿：默认1203/1203、Chromium175/175、普通G2 4/4，12次前后净树，676输入SHA不变。其余10个case、12保存页、评分器、变异规则和全部产品均未改。本批真实调用0；463条账本按id保留main441及A此前实花19。按用户批准直接发布main并通知B；六题与减测分支仍独立待复核。 [Report](../../.eval-artifacts/phase3b/g2-calendar-response-baseline/report.md)。
+
+Actual six commands at9017a8cd: typecheck0.429s, arch0.166s, default1203 in35.970s, build0.528s, Chromium175 in118.249s, ordinaryG2 4 in22.215s; all pre/post clean, no gate repair. Five date values null before/after; Sen separate control loss remains explicit. No.env read/stage or new real call; three A files only, no scorer/mutation relaxation.

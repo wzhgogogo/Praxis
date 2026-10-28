@@ -49,3 +49,18 @@ Evidence status: current executable / reviewer-approved exposed regression corre
 本批真实模型/Google/网站/评测GET/Live/环境重跑新增全部0，不读取或暂存.env。共享账本按id并集导入另两工作分支中19条**此前已花**模型记账及审查0条目，原main441条不变；本批新增1条全0记账，463条目前共171模型/242GET/11Google/0Live/0环境重跑，未把旧花费改记为本批新调用。
 
 四层口径：本批仅完成A的离线输入与证据投影修订；完整用户任务、当前来源连接/库存及S0声明为NOT_EVALUATED。环节上核对同次证据缺口并保留5个未知，无矛盾或未知升格；归因是旧基线/投影使用不可接受的class业务解释，不能归功为B的生产日历改造。用户批准后主线合入与通知B均以最终Git/消息回执为准。
+
+### 最终标准验证收据
+
+受测冻结 `9017a8cdff7056f89de71993228d5ed8ca369b08`。2026-10-28 CET。
+
+| 命令 | 结果 | 墙钟 | 前/后工作区 |
+| --- | --- | --- | --- |
+| `npm run typecheck` | PASS | 0.429 s | clean / clean |
+| `npm run arch:check` | PASS | 0.166 s | clean / clean |
+| `npm test` | PASS（1203/1203） | 35.970 s | clean / clean |
+| `npm run build` | PASS | 0.528 s | clean / clean |
+| `npm run test:browser:fixture` | PASS（175/175） | 118.249 s | clean / clean |
+| `npm run test:dom-change` | PASS（4/4） | 22.215 s | clean / clean |
+
+十二次门禁前后净树检查及676项执行输入SHA核对均通过。普通G2日志实际记录五个日期before/after均null；Teppen整页PASS，Sen整页DEGRADED_HONEST且lost仅requestConfirmed。12页汇总9 PASS / 3 DEGRADED_HONEST / 0 FAIL；两份列表与Sen控制仍属B后续G3，未篡改为通过。[交付核对](delivery-validation.json)确认其他10个case和所有非日期事实不变，12页、manifest、评分器、变异字节不变；产品差异0，仅A的3个源/fixture文件改变。分支推送与main合入按用户本条已批准执行，Git实际回执决定发布状态。
