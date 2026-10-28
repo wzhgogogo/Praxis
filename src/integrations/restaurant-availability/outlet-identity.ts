@@ -19,7 +19,7 @@ function withoutPostal(value: string): string {
  * ASCII word character, so its suffix must not use `\b`; require instead that
  * it is followed by end-of-string or a non-letter/non-number delimiter.
  */
-const UNIT_PATTERN = /(?:\bb\s*(\d+)\s*f\b|\b(?:floor|fl)\.?\s*(\d+)\b|\b(\d+)\s*f\b|\b(\d+)\s*階(?=$|[^\p{L}\p{N}])|(?:地下|地)\s*(\d+)\s*階(?=$|[^\p{L}\p{N}]))/gu;
+const UNIT_PATTERN = /(?:\bb\s*(\d+)\s*(?:f\b|(?=$|[^\p{L}\p{N}]))|\b(?:floor|fl)\.?\s*(\d+)\b|\b(\d+)\s*f\b|\b(\d+)\s*階(?=$|[^\p{L}\p{N}])|(?:地下|地)\s*(\d+)\s*階(?=$|[^\p{L}\p{N}]))/gu;
 
 function normalizedAddressForUnits(value: string): string {
   return withoutPostal(value).toLocaleLowerCase("en-US");
@@ -43,8 +43,19 @@ function withoutUnits(value: string): string {
   return normalizedAddressForUnits(value).replace(UNIT_PATTERN, " ");
 }
 
-function streetNumbers(value: string): string[] {
-  return withoutUnits(value).match(/\d+/gu) ?? [];
+interface StreetFields { chome?: number; ban?: number; go?: number; }
+
+/** Parse the address block, never every digit (building names can contain digits). */
+function streetFields(value: string): StreetFields {
+  const text = withoutUnits(value).replace(/[‐‑‒–—−]/gu, "-");
+  // Prefer explicitly labelled chome over an unlabelled/repeated Google prefix.
+  const labelled = text.match(/(\d+)\s*(?:-\s*ch[ōo]me|丁目)\s*-?\s*(\d+)?(?:\s*(?:-|番(?:地)?)\s*(\d+))?/iu);
+  const block = labelled ?? text.match(/(?<!\d)(\d+)\s*-\s*(\d+)(?:\s*-\s*(\d+))?(?!\d)/u);
+  return block ? {
+    chome: Number(block[1]),
+    ...(block[2] ? { ban: Number(block[2]) } : {}),
+    ...(block[3] ? { go: Number(block[3]) } : {}),
+  } : {};
 }
 
 function tokens(value: string): string[] {
@@ -73,9 +84,18 @@ function possibleFloorPostalVariation(left: string, right: string, leftPostal: s
 }
 
 function hasSufficientAddress(value: string): boolean {
-  if (streetNumbers(value).length === 0) return false;
+  if (streetFields(value).ban === undefined) return false;
   const addressTokens = tokens(value);
   return addressTokens.length >= 2 || /[都道府県].*[市区町村]/u.test(withoutUnits(value));
+}
+
+function localityFields(value: string): Record<string, string> {
+  const text = withoutUnits(value);
+  const prefecture = text.match(/([\p{Script=Han}]{2,3}[都道府県])/u)?.[1];
+  const rest = prefecture ? text.slice(text.indexOf(prefecture) + prefecture.length) : text;
+  const municipality = rest.match(/([\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]+?[市区町村])/u)?.[1];
+  const city = text.match(/\b([a-z][a-z -]*?)\s+(?:city|ward)\b/u)?.[1]?.trim();
+  return { ...(prefecture ? { prefecture } : {}), ...(municipality ? { municipality } : {}), ...(city ? { city } : {}) };
 }
 
 /**
@@ -87,20 +107,27 @@ export function compareCompleteOutletAddress(
   left: string | undefined,
   right: string | undefined,
 ): CompleteOutletAddressComparison {
-  if (!left?.trim() || !right?.trim() || !hasSufficientAddress(left) || !hasSufficientAddress(right)) return "INSUFFICIENT";
+  if (!left?.trim() || !right?.trim()) return "INSUFFICIENT";
   const leftUnits = unitTokens(left); const rightUnits = unitTokens(right);
-  if (leftUnits.length > 0 && rightUnits.length > 0 && !sameSequence(leftUnits, rightUnits)) return "CONFLICT";
-  if (compact(left) === compact(right)) return "MATCH";
-  const leftNumbers = streetNumbers(left); const rightNumbers = streetNumbers(right);
-  if (!sameSequence(leftNumbers, rightNumbers)) return "CONFLICT";
+  if (leftUnits.length > 0 && rightUnits.length > 0 && !sameSequence([...new Set(leftUnits)].sort(), [...new Set(rightUnits)].sort())) return "CONFLICT";
+  const a = streetFields(left); const b = streetFields(right);
+  for (const key of ["chome", "ban", "go"] as const) {
+    if (a[key] !== undefined && b[key] !== undefined && a[key] !== b[key]) return "CONFLICT";
+  }
+  const localA = localityFields(left); const localB = localityFields(right);
+  if (Object.keys(localA).some(key => localB[key] !== undefined && localA[key] !== localB[key])) return "CONFLICT";
   const leftPostal = postalCode(left); const rightPostal = postalCode(right);
-  if (leftPostal && rightPostal) {
-    if (leftPostal === rightPostal) return "MATCH";
+  if (leftPostal && rightPostal && leftPostal !== rightPostal) {
     return possibleFloorPostalVariation(left, right, leftPostal, rightPostal, leftUnits) ? "INSUFFICIENT" : "CONFLICT";
   }
+  if (!hasSufficientAddress(left) || !hasSufficientAddress(right)) return "INSUFFICIENT";
+  // Missing street fields are neutral, but cannot prove full address equality.
+  if (["chome", "ban", "go"].some(key => a[key as keyof StreetFields] !== b[key as keyof StreetFields])) return "INSUFFICIENT";
+  if (leftPostal && leftPostal === rightPostal) return "MATCH";
+  if (compact(left) === compact(right)) return "MATCH";
   const leftTokens = tokens(left); const rightTokens = tokens(right);
   if (leftTokens.length > 0 && leftTokens.length === rightTokens.length && leftTokens.every((value, index) => value === rightTokens[index])) return "MATCH";
-  return "CONFLICT";
+  return "INSUFFICIENT";
 }
 
 /** Compatibility predicate for callers that require only positive proof. */

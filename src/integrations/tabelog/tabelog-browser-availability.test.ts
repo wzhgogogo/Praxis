@@ -710,20 +710,22 @@ test("all 19 saved quick-validation selections match the independent source orac
   }
 });
 
-test("Tabelog discovery uses a phone-bound website heading when the translated Google name has no results", async () => {
-  // Real Adapter/grounding, only browser transport replaced. Retrieval alias is not identity evidence.
-  const localized = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { ...candidate.restaurant.sourceIds, phone: "03-1111-2222", googleWebsiteUri: "https://restaurant.example/" } } };
+test("Tabelog uses at most one validated Google-name fragment after an empty first screen, with original identity", async () => {
+  const localized = { ...candidate, restaurant: { ...candidate.restaurant, outletName: "Restaurant 1 Tokyo", sourceIds: { googlePlaces: "same-place", phone: "03-1111-2222" } } };
   for (const matchingPhone of [true, false]) {
+    let proposals = 0;
     const session = new FixtureBrowserSession([
-      { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201", title: "search", text: "No restaurants match Restaurant 1", html: "" },
-      { url: "https://restaurant.example/", title: "Restaurant", text: `食堂一 ${matchingPhone ? "03-1111-2222" : "03-9999-8888"}`, html: `<h1>食堂一</h1><a href="tel:${matchingPhone ? "03-1111-2222" : "03-9999-8888"}">Call</a>` },
-      { url: "https://tabelog.com/en/rstLst/?sw=食堂一", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
-      { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数", html: '<a href="tel:03-1111-2222">Call</a><select name="party"></select><select name="date"></select><button class="slot is-available" data-time="19:00">19:00</button>' },
+      { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201%20Tokyo", title: "search", text: "No restaurants were found that match your search criteria", html: "" },
+      { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a>' },
+      { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数", html: `<a href="tel:${matchingPhone ? "03-1111-2222" : "03-9999-8888"}">Call</a><select name="party"></select><select name="date"></select><button class="slot is-available" data-time="19:00">19:00</button>` },
     ]);
-    const result = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ candidateIds: [localized.restaurant.id], candidates: [localized], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+    const result = await new TabelogBrowserAvailability({ openSession: async () => session }, undefined, 5, {
+      alternativeSearch: async (original: typeof candidate) => { proposals++; assert.equal(original.restaurant.outletName, localized.restaurant.outletName); return "Restaurant 1"; },
+    }).check({ candidateIds: [localized.restaurant.id], candidates: [localized], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+    assert.equal(proposals, 1);
     assert.equal(result.offers.length, matchingPhone ? 1 : 0);
-    assert.equal(session.navigated.length, matchingPhone ? 4 : 2);
-    if (matchingPhone) assert.equal(new URL(session.navigated[2]!).searchParams.get("sw"), "食堂一");
+    assert.equal(session.navigated.filter(url => url.includes("rstLst")).length, 2);
+    assert.equal(new URL(session.navigated[1]!).searchParams.get("sw"), "Restaurant 1");
   }
 });
 

@@ -31,4 +31,12 @@
 
 ## 结果
 
-待实施与验证。检索Prompt/Schema的对象及版本将在修改前补记；全局“两站合计/每来源两次”的范围已向用户澄清，先继续独立的地址工作。
+待实施与验证。
+
+### 检索对象与实施预告（修改前）
+
+批次2实验`phase3b-fragment-proposal@1`/`source_search_fragments@1`含模型UTF-16偏移，本批以独立生产对象`restaurant-named-source-query@2`/`restaurant_named_source_query@2`承接：单店输出只含field与fragment，代码用indexOf在对应Google原文字段定位并验证。实验原请求/结果只读保留；不保留生产旧偏移路径。Semantic Prompt26、Proposal4、Agent Prompt、State、TaskDefinition和通用discovery retrieval Prompt6/Schema3不变，不与B抢版本。
+
+用户已确认每家具名店、每个来源至多原名和一种替代两次检索；两站分别计数，需复核者知晓。每来源详情总上限跨两次检索合用，不重置；先达到详情上限则不再做无可验证详情的检索。先确认同店的原名结果不调用片段模型。
+
+生产选择获准的模型片段路径，不新增Google日文名接口或Google请求；每店增量Google请求/费用均为0。每run同一原候选至多一次片段模型，跨来源复用，计入现有共享模型预算。批次2的7/8是片段/日文名混合探针，不能用来宣称此生产路径的真实命中率；离线组合分别报告可由保存片段驱动的子集与其余混合探针范围。独立比较器不借检索词改写候选的身份字段。
