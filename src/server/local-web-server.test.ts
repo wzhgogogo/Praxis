@@ -1510,10 +1510,13 @@ test("Stage 2B continues an incomplete request and enforces optimistic concurren
 function questionSessionFixture(clock: FakeClock, output?: (request: ModelRequest) => unknown) {
   const calls = {model:0,search:0,facts:0,availability:0,pages:0};
   let beforeAnswer: (()=>Promise<void>) | undefined;
+  let extraReadCalls = 0;
+  const spend:ModelRequest={taskId:"fixture-budget",purpose:"question_budget_fixture",promptVersion:"1",messages:[],responseFormat:"TEXT",outputSchema:{name:"fixture",version:"1"},timeoutMs:8000,fallback:"FAIL_CLOSED"};
   const ordinary = selectionSessionFixture(calls);
   const ordinaryModel = selectionSessionModel(calls);
   const quote = "Credit cards accepted: Visa and MasterCard.";
   const model: ModelGateway = {async complete(request) {
+    if (request.purpose === "question_budget_fixture") {calls.model++;return {invocationId:"budget-fixture",provider:"FIXTURE",model:"fixture",finishReason:"STOP",latencyMs:0,outputText:"{}"};}
     if (request.purpose === "restaurant_page_question") {
       calls.model++;
       await beforeAnswer?.();
@@ -1537,8 +1540,14 @@ function questionSessionFixture(clock: FakeClock, output?: (request: ModelReques
       },async observeControls(){return[];},async click(){},async fill(){},async select(){return[];},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
   }};
   const budget = new RunBoundedModelGateway(model,50,500_000);
-  const questions = new RestaurantPageQuestionReader(budget, observe => new GoogleListedWebsiteFactRead(
-    {maxAutomaticElapsedMs:30_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},browser,new ModelRestaurantFactJudgment(budget,now),now,undefined,undefined,undefined,undefined,observe),now);
+  const questions = new RestaurantPageQuestionReader(budget, (observe, _scope, scopedModel:ModelGateway=budget) => {
+    const reader=new GoogleListedWebsiteFactRead(
+      {maxAutomaticElapsedMs:30_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},browser,new ModelRestaurantFactJudgment(scopedModel,now),now,undefined,undefined,undefined,undefined,observe);
+    return {executionRoute:reader.executionRoute,async inspectFacts(request:RestaurantCandidateFactRequest,signal:AbortSignal){
+      for(let n=0;n<extraReadCalls;n++)await scopedModel.complete(spend);
+      return reader.inspectFacts(request,signal);
+    }};
+  },now);
   const restaurant = {...ordinary,async search(request:RestaurantSearchRequest,signal:AbortSignal) {
     const read = await ordinary.search(request,signal);
     const candidates = read.candidates.map(c=>({...c,restaurant:{...c.restaurant,sourceIds:{...c.restaurant.sourceIds,googleWebsiteUri:`https://merchant.example/${c.restaurant.id}`}}}));
@@ -1546,7 +1555,7 @@ function questionSessionFixture(clock: FakeClock, output?: (request: ModelReques
     await questions.facts.inspectFacts({candidateIds:[candidates[0]!.restaurant.id],candidates:[candidates[0]!],intent:request.intent,...(request.readRunId ? {readRunId:request.readRunId} : {})},signal);
     return {...read,candidates};
   }};
-  return {calls,model,budget,restaurant,questions,quote,setBeforeAnswer:(hook:(()=>Promise<void>)|undefined)=>{beforeAnswer=hook;}};
+  return {calls,model,budget,restaurant,questions,quote,setBeforeAnswer:(hook:(()=>Promise<void>)|undefined)=>{beforeAnswer=hook;},setExtraReadCalls:(n:number)=>{extraReadCalls=n;},spend};
 }
 
 test("G1 displayed restaurant follow-up answers through the persistent HTTP entry", async () => {
@@ -1620,34 +1629,91 @@ test("G1 persistent follow-up preserves NOT_STATED, sensitivity and quote reject
   });
 });
 
-test("G1 expired original run and process restart do not create fresh model allowances", async () => {
-  await withDatabase(async ({database,clock})=>{
-    const f=questionSessionFixture(clock);
-    const options={restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions};
-    const server=await startServer(database,clock,options);
-    let created!:RestaurantCaseView;
+function questionPath(view:RestaurantCaseView):string {return "/api/cases/"+encodeURIComponent(view.case.caseId)+"/questions";}
+
+for(const scenario of ["after 520 seconds","after 49 original calls","after process restart"] as const) {
+  test("G1 independent question answers "+scenario,async()=>{
+    await withDatabase(async({database,clock})=>{
+      let f=questionSessionFixture(clock);
+      let server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+      try {
+        let cookie=await login(server.baseUrl,"token-a");
+        let view=await createCase(server.baseUrl,cookie,"g1-independent","Recommend restaurants in Shinjuku.");
+        if(scenario==="after 520 seconds")clock.advance(520_000);
+        if(scenario==="after 49 original calls") {
+          await f.budget.run(view.case.caseId,async()=>{for(let n=0;n<49;n++)await f.budget.complete(f.spend);});
+          assert.equal(f.budget.usage(view.case.caseId)?.calls,49);
+        }
+        if(scenario==="after process restart") {
+          await server.close();f=questionSessionFixture(clock);
+          server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+          cookie=await login(server.baseUrl,"token-a");view=await server.application.getCase("user-a",view.case.caseId);
+        }
+        const original=f.budget.usage(view.case.caseId),calls=f.calls.model,pages=f.calls.pages;
+        const reply=await api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify({candidateId:view.restaurant.presentedCandidateIds![0],question:"Do they take cards?",requestId:"independent-question",taskVersion:view.case.taskVersion})});
+        assert.equal(reply.response.status,200);
+        const after=reply.payload.view as RestaurantCaseView;
+        assert.equal(after.restaurant.pageQuestion!.result!.status,"ANSWERED");
+        assert.deepEqual(after.restaurant.presentedCandidateIds,view.restaurant.presentedCandidateIds);
+        assert.deepEqual(f.budget.usage(view.case.caseId),original,"the search's accounting is not spent or restarted");
+        assert.equal(f.calls.model-calls,1,"a sole legal action needs only the answer model");
+        if(scenario==="after process restart")assert.equal(f.calls.pages-pages,1,"fresh process uses the existing identity-bound reader");
+      } finally {await server.close();}
+    });
+  });
+}
+
+for(const limit of ["60 seconds","3 model calls"] as const) {
+  test("G1 independent question stops at its own "+limit+" and the next question still answers",async()=>{
+    await withDatabase(async({database,clock})=>{
+      const f=questionSessionFixture(clock);
+      const server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+      try {
+        const cookie=await login(server.baseUrl,"token-a");
+        let view=await createCase(server.baseUrl,cookie,"g1-own-limit","Recommend restaurants in Shinjuku.");
+        const ids=[...view.restaurant.presentedCandidateIds!],original=f.budget.usage(view.case.caseId);
+        const ask=(requestId:string,id:string)=>api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify({candidateId:id,question:"Do they take cards?",requestId,taskVersion:view.case.taskVersion})});
+        if(limit==="60 seconds")f.setBeforeAnswer(async()=>{clock.advance(60_001);});
+        else f.setExtraReadCalls(3);
+        const calls=f.calls.model;
+        const reply=await ask("over-limit",limit==="60 seconds"?ids[0]!:ids[1]!);
+        assert.equal(reply.response.status,200);view=reply.payload.view as RestaurantCaseView;
+        const result=view.restaurant.pageQuestion!.result!;
+        assert.ok(result.status==="UNVERIFIED"&&result.reason==="BUDGET_EXHAUSTED");
+        if(limit==="3 model calls")assert.equal(f.calls.model-calls,3,"fourth transport call must never start");
+        assert.deepEqual(f.budget.usage(view.case.caseId),original);
+        f.setBeforeAnswer(undefined);f.setExtraReadCalls(0);
+        const next=await ask("after-limit",ids[0]!);assert.equal(next.response.status,200);
+        view=next.payload.view as RestaurantCaseView;assert.equal(view.restaurant.pageQuestion!.result!.status,"ANSWERED");
+        assert.deepEqual(view.restaurant.presentedCandidateIds,ids);
+      } finally {await server.close();}
+    });
+  });
+}
+
+test("G1 twenty-question conversation limit survives restart and duplicate delivery",async()=>{
+  await withDatabase(async({database,clock})=>{
+    let f=questionSessionFixture(clock);
+    let server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
     try {
-      const cookie=await login(server.baseUrl,"token-a");
-      created=await createCase(server.baseUrl,cookie,"g1-expiry","Recommend restaurants in Shinjuku.");
-      const calls=f.calls.model; clock.advance(500_001);
-      const reply=await api(server.baseUrl,cookie,`/api/cases/${encodeURIComponent(created.case.caseId)}/questions`,{method:"POST",body:JSON.stringify({candidateId:created.restaurant.presentedCandidateIds![0],question:"Do they take cards?",requestId:"expired-question",taskVersion:created.case.taskVersion})});
-      assert.equal(reply.response.status,200);
-      const result=(reply.payload.view as RestaurantCaseView).restaurant.pageQuestion!.result!;
-      assert.ok(result.status==="UNVERIFIED"&&result.reason==="BUDGET_EXHAUSTED");
-      assert.equal(f.calls.model,calls); assert.equal(f.calls.pages,1);
+      let cookie=await login(server.baseUrl,"token-a");
+      let view=await createCase(server.baseUrl,cookie,"g1-session-limit","Recommend restaurants in Shinjuku.");
+      for(let n=0;n<20;n++){
+        const body={candidateId:view.restaurant.presentedCandidateIds![0],question:"Do they take cards?",requestId:"session-question-"+n,taskVersion:view.case.taskVersion};
+        const reply=await api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify(body)});
+        assert.equal(reply.response.status,200);view=reply.payload.view as RestaurantCaseView;
+        assert.equal(view.restaurant.pageQuestion!.result!.status,"ANSWERED");
+        if(n===0){const duplicate=await api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify(body)});assert.equal(duplicate.response.status,200);}
+      }
+      await server.close();f=questionSessionFixture(clock);
+      server=await startServer(database,clock,{restaurant:f.restaurant,model:f.budget,modelRunBudget:f.budget,restaurantQuestions:f.questions});
+      cookie=await login(server.baseUrl,"token-a");view=await server.application.getCase("user-a",view.case.caseId);
+      const reply=await api(server.baseUrl,cookie,questionPath(view),{method:"POST",body:JSON.stringify({candidateId:view.restaurant.presentedCandidateIds![0],question:"Do they take cards?",requestId:"question-21",taskVersion:view.case.taskVersion})});
+      assert.equal(reply.response.status,400);assert.match(String(reply.payload.error),/start a new search/i);
+      assert.equal(f.calls.model,0);assert.equal(f.calls.pages,0);
     } finally {await server.close();}
-    const restarted=await startServer(database,clock,options);
-    try {
-      const cookie=await login(restarted.baseUrl,"token-a");const view=await restarted.application.getCase("user-a",created.case.caseId);
-      const calls=f.calls.model;
-      const reply=await api(restarted.baseUrl,cookie,`/api/cases/${encodeURIComponent(view.case.caseId)}/questions`,{method:"POST",body:JSON.stringify({candidateId:view.restaurant.presentedCandidateIds![0],question:"Do they take cards?",requestId:"restart-question",taskVersion:view.case.taskVersion})});
-      assert.equal(reply.response.status,200);
-      const result=(reply.payload.view as RestaurantCaseView).restaurant.pageQuestion!.result!;
-      assert.ok(result.status==="UNVERIFIED"&&result.reason==="RUN_BUDGET_UNAVAILABLE");assert.equal(f.calls.model,calls);
-    } finally {await restarted.close();}
   });
 });
-
 
 test("G1 async cancellation and newer question discard a late model answer", async () => {
   await withDatabase(async({database,clock})=>{
