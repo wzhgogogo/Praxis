@@ -1,0 +1,559 @@
+{
+  "schema": "phase3b-g4-no-direct-sample-proposal@1",
+  "status": "DRAFT_NOT_EXECUTABLE_PENDING_REVIEWER_GOLD",
+  "evidenceStatus": "Exposed saved Google inputs; newly selected benchmark objects, not Clean Holdout",
+  "primary": 5,
+  "reserves": 3,
+  "knownHistoricalAnchor": 1,
+  "novelPrimaryObjects": 4,
+  "selection": "Manual stratification independent of unknown source-search outcomes; stable Google IDs, own/social links, five areas, English/Japanese/branch names",
+  "poolSha256": "dde91136908364456f1cd6915da96e0df0ab48ea2d95360770fa616a638d25d4",
+  "certification": "Reviewer must provide same-outlet source URL/id, raw public response SHA/time and phone/full-address evidence; no name-only Gold. No substitutions or comparison until final IDs are certified/frozen.",
+  "budgetPlan": {
+    "certificationPublicGETMaximum": 8,
+    "searchComparisonGETMaximum": 25,
+    "combinedMaximum": 33,
+    "approvedBatchGETMaximum": 35,
+    "approvedSharedGETMaximum": 40,
+    "googleDetailsMaximum": 20,
+    "approvedBatchGoogleMaximum": 35,
+    "realModelMaximum": 100,
+    "fullLive": 0
+  },
+  "samples": [
+    {
+      "id": "G4-ND-001",
+      "role": "PRIMARY",
+      "goldStatus": "AWAITING_REVIEWER_CERTIFICATION",
+      "historicalDenganaAnchor": true,
+      "plannedSecondSearchVariant": "MODEL_FRAGMENT",
+      "selectionReason": "Historical exposed failure anchor; own chain website, no source-platform direct link",
+      "googlePlaceId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+      "subject": {
+        "name": "Dengana Akabane",
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+        "phone": "03-5249-4011",
+        "coordinates": {
+          "lat": 35.7795476,
+          "lng": 139.7211442
+        }
+      },
+      "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+      "websiteCategory": "OWN_WEBSITE_CANDIDATE",
+      "nameScript": "LATIN_OR_OTHER",
+      "provenance": [
+        {
+          "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+          "sha256": "1093d9ec0327b301b7660df00c3987496fc361063781514a7b45925c31395999",
+          "record": "finalSnapshot.domainState.candidates",
+          "candidateIndex": 3,
+          "area": "p2c-holdout-01"
+        },
+        {
+          "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+          "sha256": "ee9076664ca732c7167e13c8dc8034020134aa1f3294bbc08e3a64a68df99628",
+          "record": "finalSnapshot.domainState.candidates",
+          "candidateIndex": 3,
+          "area": "p2c-holdout-01"
+        },
+        {
+          "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+          "sha256": "0aae4c214ce0e0d480a7a1c52282d7a4deb6956f1834c394422180ece522774f",
+          "record": "finalSnapshot.domainState.candidates",
+          "candidateIndex": 3,
+          "area": "p2c-holdout-01"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-002",
+      "role": "PRIMARY",
+      "goldStatus": "AWAITING_REVIEWER_CERTIFICATION",
+      "historicalDenganaAnchor": false,
+      "plannedSecondSearchVariant": "GOOGLE_JA",
+      "selectionReason": "Long Latin name with branch/place descriptors; own chain website",
+      "googlePlaceId": "ChIJ0UKuqUmLGGAROsX4_lo24us",
+      "subject": {
+        "name": "Ushigoro Bambina Carbone Nakameguro",
+        "address": "Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 2-chōme−12−１１ TODA BLD 1F",
+        "phone": "03-6412-8929",
+        "coordinates": {
+          "lat": 35.6426046,
+          "lng": 139.6983185
+        }
+      },
+      "googleWebsiteUri": "https://ushigoro.com/hormone/",
+      "websiteCategory": "OWN_WEBSITE_CANDIDATE",
+      "nameScript": "LATIN_OR_OTHER",
+      "provenance": [
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+          "sha256": "298c031b59a1ae3d2b988397a78fb3a69e48a9721c6285d51d6d6196edd7d52c",
+          "record": 381,
+          "candidateIndex": 7,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+          "sha256": "a6621ce5994cd6b02851fb07d827f8cbdb7db3f050cefb58bf527ffa83a8de3c",
+          "record": 254,
+          "candidateIndex": 3,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+          "sha256": "5fe12c95ceb60666f54ba6f69a51bb7a00f90a74c9e2455a9a1c3d86a9eed51c",
+          "record": 253,
+          "candidateIndex": 5,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-nakameguro-yakiniku-20261030/attempt-1/trace.jsonl",
+          "sha256": "6f0da0d47f3de60bb682e97f698d6d10f3f19c1922ebf1a7e1257bb6a17047ee",
+          "record": 350,
+          "candidateIndex": 5,
+          "area": "UNRECORDED"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-003",
+      "role": "PRIMARY",
+      "goldStatus": "AWAITING_REVIEWER_CERTIFICATION",
+      "historicalDenganaAnchor": false,
+      "plannedSecondSearchVariant": "MODEL_FRAGMENT",
+      "selectionReason": "Japanese name with branch marker; own website; Shibuya",
+      "googlePlaceId": "ChIJ7TXbt1eLGGAR-Q4sYu55H0w",
+      "subject": {
+        "name": "和泉鮨南口店",
+        "address": "1-chōme-5-5 Dōgenzaka, Shibuya, Tokyo 150-0043, Japan",
+        "phone": "03-3463-7737",
+        "coordinates": {
+          "lat": 35.6580213,
+          "lng": 139.69930879999998
+        }
+      },
+      "googleWebsiteUri": "http://izumizushi.com/izumi_minami.html",
+      "websiteCategory": "OWN_WEBSITE_CANDIDATE",
+      "nameScript": "JAPANESE",
+      "provenance": [
+        {
+          "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fB-h001-a1.result.json.gz",
+          "sha256": "620b18b82e54ed105b0195642bb861550a90279ebbce6dcec664ce8648e8e440",
+          "record": 10,
+          "candidateIndex": 19,
+          "area": "near Shibuya"
+        },
+        {
+          "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1g-h001-a1.result.json.gz",
+          "sha256": "7063f613063c65a5ecf20a6acfdf9836eb9234246ec2504d534e27fd169074a7",
+          "record": 9,
+          "candidateIndex": 31,
+          "area": "near Shibuya"
+        },
+        {
+          "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p20-h001-a1.result.json.gz",
+          "sha256": "ef6df9604c654df4b45a50387c292800ed67d2c1024d88b900e9081c5e0863b0",
+          "record": 7,
+          "candidateIndex": 19,
+          "area": "near Shibuya"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "02c7db13e31517f675f3117ca74072e803af865cd0192269e03a1f27166a597a",
+          "record": 110,
+          "candidateIndex": 7,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "eb51c5302c55fbc9d2597f059990abc179ca98d888a9c13c1313fb3fe7392ed4",
+          "record": 209,
+          "candidateIndex": 6,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "b1094c4646222cbd566ae75f3bed75c73b663b3aba093457b78fad3538e8eb66",
+          "record": 211,
+          "candidateIndex": 6,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "dca7003de6ee3a5ad20cb03317a30108d77bf41353e84ea52cc42204b3d8e310",
+          "record": 211,
+          "candidateIndex": 6,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "828d358f0f99f02ea5cb1abf2ae960cb15f71731a23a28af6baeac65fc9f96e0",
+          "record": 243,
+          "candidateIndex": 15,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "b047bd4b30c224946b3eacc0cdb29dd799a6d28a9351cea5bd2ebba04431dd9b",
+          "record": 243,
+          "candidateIndex": 28,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "08b8504deabd5c57e4d0b09989f4f38c2124f3f52d5585670a7119d0ea6c1b2b",
+          "record": 278,
+          "candidateIndex": 17,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "5db6da147436a3e3fa4e06282218236b73a496ffc08d33b73f0241c4e41155bb",
+          "record": 232,
+          "candidateIndex": 17,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-1/trace.jsonl",
+          "sha256": "0224a2423386262e06abbefe0aac98972741a2ea5285c432a07773b0a2ebbf05",
+          "record": 191,
+          "candidateIndex": 7,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h001-20261027/attempt-2/trace.jsonl",
+          "sha256": "c9cf6440e79233e4a1eced2699b7f890b4eed646fdc2a5444f143568335c56c6",
+          "record": 191,
+          "candidateIndex": 7,
+          "area": "UNRECORDED"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-004",
+      "role": "PRIMARY",
+      "goldStatus": "AWAITING_REVIEWER_CERTIFICATION",
+      "historicalDenganaAnchor": false,
+      "plannedSecondSearchVariant": "GOOGLE_JA",
+      "selectionReason": "Short Latin name and own website; Kichijoji area",
+      "googlePlaceId": "ChIJ1WEJ8DjuGGARNSztZh-1Bmo",
+      "subject": {
+        "name": "Waragamo",
+        "address": "2-chōme-8-8 Kichijōji Minamichō, Musashino, Tokyo 180-0003, Japan",
+        "phone": "0422-24-9383",
+        "coordinates": {
+          "lat": 35.701971799999995,
+          "lng": 139.5820283
+        }
+      },
+      "googleWebsiteUri": "https://waragamo.jp/",
+      "websiteCategory": "OWN_WEBSITE_CANDIDATE",
+      "nameScript": "LATIN_OR_OTHER",
+      "provenance": [
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+          "sha256": "ff88d5188e045ae110981af7baa7129b4de5f45f830c084ea6bf1f1755db8535",
+          "record": 334,
+          "candidateIndex": 34,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+          "sha256": "682d3ddeae2fa6c9727d13e9f88c6bc005f71f5f89e67915e50a0ce58e942a8d",
+          "record": 321,
+          "candidateIndex": 34,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+          "sha256": "ff0dfe5bc4fbaa66b5b4743f6800e27309f22c8987b16bbce4e3d58b2f666f7c",
+          "record": 321,
+          "candidateIndex": 34,
+          "area": "UNRECORDED"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-005",
+      "role": "PRIMARY",
+      "goldStatus": "AWAITING_REVIEWER_CERTIFICATION",
+      "historicalDenganaAnchor": false,
+      "plannedSecondSearchVariant": "MODEL_FRAGMENT",
+      "selectionReason": "Social-only listed website and area-qualified Latin name",
+      "googlePlaceId": "ChIJjdT5wlqMGGARJtJeEFb-pqg",
+      "subject": {
+        "name": "Sen Kagurazaka",
+        "address": "3-chōme-1-43 Kagurazaka, Shinjuku City, Tokyo 162-0825, Japan",
+        "phone": "03-5261-7088",
+        "coordinates": {
+          "lat": 35.7018337,
+          "lng": 139.74105799999998
+        }
+      },
+      "googleWebsiteUri": "https://www.instagram.com/kagurazaka_washoku_sen%20%20%20%20%20%20https://washoku-sen.jp/layout.html",
+      "websiteCategory": "SOCIAL",
+      "nameScript": "LATIN_OR_OTHER",
+      "provenance": [
+        {
+          "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kagurazaka-a1.result.json.gz",
+          "sha256": "1392900320f585502df76dac156b25b0514ba1c8316b512249930257ce8ed44a",
+          "record": 6,
+          "candidateIndex": 7,
+          "area": "near Kagurazaka"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "469b4471d60349f42ee486f72e8b6d6e7ba5bed089fb287e8726eafacfff0f22",
+          "record": 317,
+          "candidateIndex": 10,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "4dc64e1cb28c87e59e5d6a809e440433627e4260c0800694f662ca31ed711d8e",
+          "record": 298,
+          "candidateIndex": 10,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "0e95f11b54844b1da81686f7c42bcf25fef20271650241ed2501f2a5ae783a9d",
+          "record": 314,
+          "candidateIndex": 17,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "5406c12c5cd56929efb610d8de7892ce9f0751657c110d1cf0b0202a639b08f3",
+          "record": 379,
+          "candidateIndex": 17,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "b64b62278a911420df762f4d953c2bd682bc5c9a49fff55aeb7ebdf40a8286ae",
+          "record": 331,
+          "candidateIndex": 19,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "450a1efff8ef83d48459f2607fff629e473d490f0b93368b1b8a482510fd9354",
+          "record": 331,
+          "candidateIndex": 19,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "86082ecf846281d3f935b0f4fb8e54b2b8e2c13c828ca76faef5a8a697cbb56d",
+          "record": 354,
+          "candidateIndex": 17,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "b754b4e751c4516b51beae0c513a6c23f778b53ccd891a468494947837e44196",
+          "record": 380,
+          "candidateIndex": 7,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2-preflight-2/trace.jsonl",
+          "sha256": "9b5eea28408d5a65381ed629fe9b4af406982d67a11eb1216450ca7f1666cdc2",
+          "record": 402,
+          "candidateIndex": 7,
+          "area": "UNRECORDED"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-006",
+      "role": "RESERVE",
+      "goldStatus": "AWAITING_REVIEWER_CERTIFICATION",
+      "historicalDenganaAnchor": false,
+      "plannedSecondSearchVariant": "MODEL_FRAGMENT",
+      "selectionReason": "Japanese social-only candidate; reserve, not automatically substituted",
+      "googlePlaceId": "ChIJDXuo9d_vGGARwSHi6ABWYEY",
+      "subject": {
+        "name": "吉祥じ 和こん",
+        "address": "Japan, 〒180-0005 Tokyo, Musashino, Gotenyama, 1-chōme−3−７ もみじビル 1F",
+        "phone": "0422-26-7992",
+        "coordinates": {
+          "lat": 35.7018005,
+          "lng": 139.5760472
+        }
+      },
+      "googleWebsiteUri": "https://www.instagram.com/kichijoji.wakon",
+      "websiteCategory": "SOCIAL",
+      "nameScript": "JAPANESE",
+      "provenance": [
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+          "sha256": "ff88d5188e045ae110981af7baa7129b4de5f45f830c084ea6bf1f1755db8535",
+          "record": 334,
+          "candidateIndex": 23,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+          "sha256": "b74ca13c61b46024a872392c6a9b17fb20cf6d9d4ab807f570f683581d4b22e6",
+          "record": 229,
+          "candidateIndex": 37,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+          "sha256": "c77e4ec2c64abc82c923fb523d5eba449a4c398debd080e4d041e86def7aa938",
+          "record": 229,
+          "candidateIndex": 37,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-1/trace.jsonl",
+          "sha256": "682d3ddeae2fa6c9727d13e9f88c6bc005f71f5f89e67915e50a0ce58e942a8d",
+          "record": 321,
+          "candidateIndex": 23,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kichijoji-tempura-20261027/attempt-2/trace.jsonl",
+          "sha256": "ff0dfe5bc4fbaa66b5b4743f6800e27309f22c8987b16bbce4e3d58b2f666f7c",
+          "record": 321,
+          "candidateIndex": 23,
+          "area": "UNRECORDED"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-007",
+      "role": "RESERVE",
+      "goldStatus": "AWAITING_REVIEWER_CERTIFICATION",
+      "historicalDenganaAnchor": false,
+      "plannedSecondSearchVariant": "GOOGLE_JA",
+      "selectionReason": "Latin multiword own-website candidate; reserve",
+      "googlePlaceId": "ChIJ1wRBvtKNGGARP47nK0oldpA",
+      "subject": {
+        "name": "Washokubiyori Osaketo Kagrazaka",
+        "address": "6-chōme-8 Kagurazaka, Shinjuku City, Tokyo 162-0825, Japan",
+        "phone": "03-5946-8519",
+        "coordinates": {
+          "lat": 35.702725199999996,
+          "lng": 139.7379307
+        }
+      },
+      "googleWebsiteUri": "https://www.osaketo-washoku.jp/shop/kagurazaka/",
+      "websiteCategory": "OWN_WEBSITE_CANDIDATE",
+      "nameScript": "LATIN_OR_OTHER",
+      "provenance": [
+        {
+          "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kagurazaka-a1.result.json.gz",
+          "sha256": "1392900320f585502df76dac156b25b0514ba1c8316b512249930257ce8ed44a",
+          "record": 6,
+          "candidateIndex": 17,
+          "area": "near Kagurazaka"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "469b4471d60349f42ee486f72e8b6d6e7ba5bed089fb287e8726eafacfff0f22",
+          "record": 317,
+          "candidateIndex": 18,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "4dc64e1cb28c87e59e5d6a809e440433627e4260c0800694f662ca31ed711d8e",
+          "record": 298,
+          "candidateIndex": 18,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "0e95f11b54844b1da81686f7c42bcf25fef20271650241ed2501f2a5ae783a9d",
+          "record": 314,
+          "candidateIndex": 25,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-corrected-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "5406c12c5cd56929efb610d8de7892ce9f0751657c110d1cf0b0202a639b08f3",
+          "record": 379,
+          "candidateIndex": 25,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "b64b62278a911420df762f4d953c2bd682bc5c9a49fff55aeb7ebdf40a8286ae",
+          "record": 331,
+          "candidateIndex": 20,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-a-dom-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-2/trace.jsonl",
+          "sha256": "450a1efff8ef83d48459f2607fff629e473d490f0b93368b1b8a482510fd9354",
+          "record": 331,
+          "candidateIndex": 20,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/checkpoint-b-20261019/runs/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "86082ecf846281d3f935b0f4fb8e54b2b8e2c13c828ca76faef5a8a697cbb56d",
+          "record": 354,
+          "candidateIndex": 14,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-1/trace.jsonl",
+          "sha256": "b754b4e751c4516b51beae0c513a6c23f778b53ccd891a468494947837e44196",
+          "record": 380,
+          "candidateIndex": 20,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kagurazaka-kaiseki-20261029/attempt-2-preflight-2/trace.jsonl",
+          "sha256": "9b5eea28408d5a65381ed629fe9b4af406982d67a11eb1216450ca7f1666cdc2",
+          "record": 402,
+          "candidateIndex": 20,
+          "area": "UNRECORDED"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-008",
+      "role": "RESERVE",
+      "goldStatus": "AWAITING_REVIEWER_CERTIFICATION",
+      "historicalDenganaAnchor": false,
+      "plannedSecondSearchVariant": "GOOGLE_JA",
+      "selectionReason": "Latin cuisine/branch-name own-website candidate; reserve",
+      "googlePlaceId": "ChIJ3Q5zleCLGGARnuvHr-FOgMM",
+      "subject": {
+        "name": "Godaime Hanayama Udon Ginza",
+        "address": "3-chōme-14-13 Ginza, Chuo City, Tokyo 104-0061, Japan",
+        "phone": "03-6264-7336",
+        "coordinates": {
+          "lat": 35.6699002,
+          "lng": 139.7691376
+        }
+      },
+      "googleWebsiteUri": "http://www.hanayamaudon.co.jp/ginza/",
+      "websiteCategory": "OWN_WEBSITE_CANDIDATE",
+      "nameScript": "LATIN_OR_OTHER",
+      "provenance": [
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/baseline/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+          "sha256": "d250282e3cced5238e54809029b56c076f755cba686d015872a6f5f932621700",
+          "record": 156,
+          "candidateIndex": 11,
+          "area": "UNRECORDED"
+        },
+        {
+          "path": ".eval-artifacts/p2-1-discovery-20261016/network-restored-20261019/baseline/p2-kf-h002-20261031/attempt-1/trace.jsonl",
+          "sha256": "b3ef6695dd16cb8a5ff91481aa895358d13741a0f7593c53b27669a65eab676d",
+          "record": 261,
+          "candidateIndex": 11,
+          "area": "UNRECORDED"
+        }
+      ]
+    }
+  ]
+}

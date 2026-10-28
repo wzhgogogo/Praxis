@@ -1,0 +1,1036 @@
+{
+  "schema": "phase3b-development-gold-review@1",
+  "status": "DRAFT_NOT_INTEGRATED_AWAITING_ITEMWISE_USER_CONFIRMATION",
+  "currentDatasetId": "restaurant-semantic-regression-v4",
+  "currentDatasetVersion": "4",
+  "currentGoldSha256": "96a3dbd7c406805e31586a0a6fb472b5bb2dd7458bd3187a3413c6ed2e5f8b66",
+  "goldModified": false,
+  "newRealCalls": 0,
+  "privateHoldout": "NOT_READ",
+  "futureVersionRule": "Only after explicit itemwise review create Gold5 retaining4; no historical scoring rewrite. Prompt/result exposure stays declared.",
+  "annotationChangesProposed": 15,
+  "separateModelProblems": "Generic named-target query, collection CONFIRM and negative-text wording are not automatic Gold changes. Provenance/raw expression/selectionScope absent from old labels remain separate diagnostics.",
+  "bases": {
+    "strength": {
+      "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+      "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+      "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+    },
+    "time": {
+      "adr": "docs/decisions/0026-concrete-visit-goal-and-reception-semantics.md / Decision2",
+      "domain": "docs/domains/RESTAURANT-BOOKING.md / visit window semantics",
+      "implementation": "src/domains/restaurant/temporal-materialization.ts",
+      "rule": "Code materializes broad temporal directives; preserve user raw words. AFTERNOON12:00-17:00, EVENING18:00-23:00, AFTER_WORK17:30-22:00."
+    },
+    "confirm": {
+      "adr": "docs/decisions/0007-semantic-proposal-compiler-and-decision-kernel.md",
+      "contract": "src/domains/restaurant/semantic-proposal.ts / validateRestaurantSemanticProposal",
+      "prompt": "src/domains/restaurant/semantic-interpreter.ts / OPERATIONS and OUTPUT SHAPES",
+      "rule": "CRITERION is a collection: ASSERT adds; CORRECT replaces only on explicit replacement; NEGATE removes. CONFIRM is only for singletons, has no value; CRITERION CONFIRM is not allowed."
+    }
+  },
+  "rows": [
+    {
+      "turnId": "SR01-T01",
+      "message": "Tomorrow between 19:00 and 19:30 in Shinjuku for two people, yakiniku under 5000 JPY per person.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/001.main.json",
+      "observationSha256": "08f5b566fc037cf77b999cd20d89d57a643fbda76b78355ab9ff8bca67f42b6f",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"yakiniku\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "criteria[yakiniku].strength",
+          "current": "UNSPECIFIED",
+          "proposed": "HARD",
+          "basis": {
+            "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+            "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+          },
+          "reason": "Core requested cuisine/type, or explicit exclusion for omakase; this follows accepted semantics rather than matching a model vote.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR01-T01.control.json"
+    },
+    {
+      "turnId": "SR01-T02",
+      "message": "Actually make it three people in Shibuya, and remove yakiniku.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/002.main.json",
+      "observationSha256": "6eabfd29f9927dffa1b751f5f6c219fb09ba7df1fcc7057d139cdd51291ec8d5",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [],
+      "previousV23Control": null
+    },
+    {
+      "turnId": "SR02-T01",
+      "message": "I need a table in Shinjuku for two people.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/003.main.json",
+      "observationSha256": "9c7b11cb44b647c17f8746042fceb9e8e293eec498f04b9a7c7b945c79c4fcfc",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [],
+      "previousV23Control": null
+    },
+    {
+      "turnId": "SR02-T02",
+      "message": "Tomorrow between 19:00 and 19:30.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/004.main.json",
+      "observationSha256": "d401c917b3edf2b3724602d117f2f2520d1e7530e0a20021d98d3e97a3e604ae",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [],
+      "previousV23Control": null
+    },
+    {
+      "turnId": "SR03-T01",
+      "message": "I want Sushi Dai.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/005.main.json",
+      "observationSha256": "e9779a966748a57462de5086f49104940bc4eb94412be3b9abb10f541071fe52",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [],
+      "recordedDiagnosticDifferences": [],
+      "modelErrors": [],
+      "proposals": [],
+      "previousV23Control": null
+    },
+    {
+      "turnId": "SR03-T02",
+      "message": "Tomorrow between 19:00 and 19:30 for two people in Tsukiji.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/006.main.json",
+      "observationSha256": "e8cf5e45b866c56e478640e8e1353d2843e9452dc98f0a91ba8b3c0b40bac589",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "target.query",
+          "expected": "Sushi Dai",
+          "actual": "Restaurant recommendation in Tsukiji for tomorrow evening"
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 19:00 and 19:30",
+              "resolvedTimeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "target.query",
+          "current": "Sushi Dai",
+          "proposed": "Sushi Dai",
+          "status": "KEEP_GOLD_FIX_SEMANTIC_PROPOSAL",
+          "basis": "ADR0044 current-target context plus current prompt TARGET preservation; explicit user3b named-outlet requirement",
+          "reason": "Named outlet must survive supplemental time/party/area. Goal AVAILABILITY already approved in Gold4; generic model query is the defect."
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR03-T02.control.json"
+    },
+    {
+      "turnId": "SR04-T01",
+      "message": "Tomorrow between 18:00 and 18:30 in Ginza for four people, Japanese food.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/007.main.json",
+      "observationSha256": "d195f01262755c2eac06cc024ed375f80a49a1a3ed5783861d78397d0a45ba08",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"japanese food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "between 18:00 and 18:30",
+              "resolvedTimeWindow": {
+                "earliest": "18:00",
+                "latest": "18:30"
+              },
+              "basis": "EXPLICIT_CLOCK"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "criteria[Japanese food].strength",
+          "current": "UNSPECIFIED",
+          "proposed": "HARD",
+          "basis": {
+            "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+            "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+          },
+          "reason": "Core requested cuisine/type, or explicit exclusion for omakase; this follows accepted semantics rather than matching a model vote.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR04-T01.control.json"
+    },
+    {
+      "turnId": "SR05-T01",
+      "message": "This Friday evening near our office for three colleagues and me; no smoking is essential, and a quiet room would be nice.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/008.main.json",
+      "observationSha256": "c1174c00ea4a9d09cb3bac984a51db44c24a63af8a56bd989ce83cd2df12126c",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}",
+            "{\"text\":\"smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}"
+          ],
+          "actual": [
+            "{\"text\":\"no smoking\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"quiet room\",\"polarity\":\"POSITIVE\",\"strength\":\"SOFT\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "INFERRED_CLOSED_PARTY"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "This Friday",
+              "resolvedDate": "2026-08-07",
+              "basis": "WEEKDAY:FRIDAY"
+            },
+            "timeWindow": {
+              "expression": "This Friday evening",
+              "resolvedTimeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "basis": "DAYPART:EVENING"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "timeWindow",
+          "current": {
+            "earliest": "18:00",
+            "latest": "21:00"
+          },
+          "proposed": {
+            "earliest": "18:00",
+            "latest": "23:00"
+          },
+          "basis": {
+            "adr": "docs/decisions/0026-concrete-visit-goal-and-reception-semantics.md / Decision2",
+            "domain": "docs/domains/RESTAURANT-BOOKING.md / visit window semantics",
+            "implementation": "src/domains/restaurant/temporal-materialization.ts",
+            "rule": "Code materializes broad temporal directives; preserve user raw words. AFTERNOON12:00-17:00, EVENING18:00-23:00, AFTER_WORK17:30-22:00."
+          },
+          "reason": "Align the frozen draft with the current documented code materialization. This is a query interpretation, not a user-stated exact time.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        },
+        {
+          "field": "criteria[smoking].text/polarity/strength",
+          "current": {
+            "text": "smoking",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "proposed": {
+            "text": "smoking",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          },
+          "status": "KEEP_GOLD_REVIEW_MODEL_WORDING",
+          "basis": {
+            "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+            "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+          },
+          "reason": "Keep smoking / NEGATIVE / HARD. Model text no smoking with NEGATIVE risks inverting meaning; do not copy it into Gold. Quiet room stays SOFT."
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR05-T01.control.json"
+    },
+    {
+      "turnId": "SR06-T01",
+      "message": "Tomorrow afternoon nearby for my parents and me. Around 3,000 yen per person would be ideal.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/009.main.json",
+      "observationSha256": "9e3e802380bd59c1e1a8c7c42f2d24d7b15b9006757fb211662a1f9ddeb97db5",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "13:00",
+          "actual": "12:00"
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "INFERRED_CLOSED_PARTY"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "Tomorrow afternoon",
+              "resolvedTimeWindow": {
+                "earliest": "12:00",
+                "latest": "17:00"
+              },
+              "basis": "DAYPART:AFTERNOON"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "timeWindow",
+          "current": {
+            "earliest": "13:00",
+            "latest": "17:00"
+          },
+          "proposed": {
+            "earliest": "12:00",
+            "latest": "17:00"
+          },
+          "basis": {
+            "adr": "docs/decisions/0026-concrete-visit-goal-and-reception-semantics.md / Decision2",
+            "domain": "docs/domains/RESTAURANT-BOOKING.md / visit window semantics",
+            "implementation": "src/domains/restaurant/temporal-materialization.ts",
+            "rule": "Code materializes broad temporal directives; preserve user raw words. AFTERNOON12:00-17:00, EVENING18:00-23:00, AFTER_WORK17:30-22:00."
+          },
+          "reason": "Align the frozen draft with the current documented code materialization. This is a query interpretation, not a user-stated exact time.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR06-T01.control.json"
+    },
+    {
+      "turnId": "SR07-T01",
+      "message": "In about 30 minutes near me for two people, Korean food.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/010.main.json",
+      "observationSha256": "e0eb6e8918668e38bf89a077c337e0b250199f533f07c19469ece96b78a4f0fe",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"korean food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "timeWindow": {
+              "expression": "In about 30 minutes",
+              "resolvedTimeWindow": {
+                "earliest": "09:30",
+                "latest": "09:30"
+              },
+              "basis": "RELATIVE_OFFSET_MINUTES:30"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "criteria[Korean food].strength",
+          "current": "UNSPECIFIED",
+          "proposed": "HARD",
+          "basis": {
+            "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+            "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+          },
+          "reason": "Core requested cuisine/type, or explicit exclusion for omakase; this follows accepted semantics rather than matching a model vote.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR07-T01.control.json"
+    },
+    {
+      "turnId": "SR08-T01",
+      "message": "Tonight at dinner in Ginza for two. I need sushi, but not omakase.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/011.main.json",
+      "observationSha256": "2f88233c416105d36b567869dd41b41a3ab0bbe942a936142af48d0219b17ac3",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"UNSPECIFIED\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tonight",
+              "resolvedDate": "2026-08-05",
+              "basis": "TODAY"
+            },
+            "timeWindow": {
+              "expression": "Tonight at dinner",
+              "resolvedTimeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "basis": "DAYPART:EVENING"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "criteria[sushi].strength",
+          "current": "UNSPECIFIED",
+          "proposed": "HARD",
+          "basis": {
+            "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+            "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+          },
+          "reason": "Core requested cuisine/type, or explicit exclusion for omakase; this follows accepted semantics rather than matching a model vote.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        },
+        {
+          "field": "criteria[omakase].strength",
+          "current": "UNSPECIFIED",
+          "proposed": "HARD",
+          "basis": {
+            "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+            "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+          },
+          "reason": "Core requested cuisine/type, or explicit exclusion for omakase; this follows accepted semantics rather than matching a model vote.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        },
+        {
+          "field": "timeWindow",
+          "current": {
+            "earliest": "18:00",
+            "latest": "21:00"
+          },
+          "proposed": {
+            "earliest": "18:00",
+            "latest": "23:00"
+          },
+          "basis": {
+            "adr": "docs/decisions/0026-concrete-visit-goal-and-reception-semantics.md / Decision2",
+            "domain": "docs/domains/RESTAURANT-BOOKING.md / visit window semantics",
+            "implementation": "src/domains/restaurant/temporal-materialization.ts",
+            "rule": "Code materializes broad temporal directives; preserve user raw words. AFTERNOON12:00-17:00, EVENING18:00-23:00, AFTER_WORK17:30-22:00."
+          },
+          "reason": "Align the frozen draft with the current documented code materialization. This is a query interpretation, not a user-stated exact time.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR08-T01.control.json"
+    },
+    {
+      "turnId": "SR08-T02",
+      "message": "Drop the omakase restriction; keep sushi.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/012.main.json",
+      "observationSha256": "b0eb55cfbe05dc2889cee9f26a3cb6f983beea886f21e1d7d81e74f755f3f371",
+      "modelStatus": "INVALID_MODEL_OUTPUT",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"omakase\",\"polarity\":\"NEGATIVE\",\"strength\":\"HARD\"}",
+            "{\"text\":\"sushi\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "21:00",
+          "actual": "23:00"
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tonight",
+              "resolvedDate": "2026-08-05",
+              "basis": "TODAY"
+            },
+            "timeWindow": {
+              "expression": "Tonight at dinner",
+              "resolvedTimeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "basis": "DAYPART:EVENING"
+            }
+          }
+        }
+      ],
+      "modelErrors": [
+        "facts[1].operation CONFIRM is unsupported for collection fields",
+        "facts[1].value is not allowed for CONFIRM"
+      ],
+      "proposals": [
+        {
+          "field": "criteria[sushi].strength",
+          "current": "UNSPECIFIED",
+          "proposed": "HARD",
+          "basis": {
+            "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+            "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+          },
+          "reason": "Core requested cuisine/type, or explicit exclusion for omakase; this follows accepted semantics rather than matching a model vote.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        },
+        {
+          "field": "timeWindow",
+          "current": {
+            "earliest": "18:00",
+            "latest": "21:00"
+          },
+          "proposed": {
+            "earliest": "18:00",
+            "latest": "23:00"
+          },
+          "basis": {
+            "adr": "docs/decisions/0026-concrete-visit-goal-and-reception-semantics.md / Decision2",
+            "domain": "docs/domains/RESTAURANT-BOOKING.md / visit window semantics",
+            "implementation": "src/domains/restaurant/temporal-materialization.ts",
+            "rule": "Code materializes broad temporal directives; preserve user raw words. AFTERNOON12:00-17:00, EVENING18:00-23:00, AFTER_WORK17:30-22:00."
+          },
+          "reason": "Align the frozen draft with the current documented code materialization. This is a query interpretation, not a user-stated exact time.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        },
+        {
+          "field": "CRITERION CONFIRM model operation",
+          "current": "Gold expects omakase restriction removed and sushi retained",
+          "proposed": "Keep that expected state; NEGATE the existing omakase restriction, omit unchanged sushi; do not accept collection CONFIRM or value-bearing CONFIRM.",
+          "basis": {
+            "adr": "docs/decisions/0007-semantic-proposal-compiler-and-decision-kernel.md",
+            "contract": "src/domains/restaurant/semantic-proposal.ts / validateRestaurantSemanticProposal",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / OPERATIONS and OUTPUT SHAPES",
+            "rule": "CRITERION is a collection: ASSERT adds; CORRECT replaces only on explicit replacement; NEGATE removes. CONFIRM is only for singletons, has no value; CRITERION CONFIRM is not allowed."
+          },
+          "status": "KEEP_GOLD_STATE_MODEL_CONTRACT_FIX_REQUIRES_REVIEW",
+          "reason": "Invalid proposal is an execution/contract failure, not evidence to relabel Gold to the failed state. Any inherited sushi strength/window change needs its own confirmation above."
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR08-T02.control.json"
+    },
+    {
+      "turnId": "SR09-T01",
+      "message": "This Saturday night near my hotel for two people, Italian food.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/013.main.json",
+      "observationSha256": "bd9591ec4bbfb087c47321f9396fd51875f0558681f3d8a9ed64dfc05a9f6a9f",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "This Saturday",
+              "resolvedDate": "2026-08-08",
+              "basis": "WEEKDAY:SATURDAY"
+            },
+            "timeWindow": {
+              "expression": "Saturday night",
+              "resolvedTimeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "basis": "DAYPART:EVENING"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "criteria[Italian food].strength",
+          "current": "UNSPECIFIED",
+          "proposed": "HARD",
+          "basis": {
+            "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+            "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+          },
+          "reason": "Core requested cuisine/type, or explicit exclusion for omakase; this follows accepted semantics rather than matching a model vote.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        },
+        {
+          "field": "timeWindow",
+          "current": {
+            "earliest": "19:00",
+            "latest": "22:00"
+          },
+          "proposed": {
+            "earliest": "18:00",
+            "latest": "23:00"
+          },
+          "basis": {
+            "adr": "docs/decisions/0026-concrete-visit-goal-and-reception-semantics.md / Decision2",
+            "domain": "docs/domains/RESTAURANT-BOOKING.md / visit window semantics",
+            "implementation": "src/domains/restaurant/temporal-materialization.ts",
+            "rule": "Code materializes broad temporal directives; preserve user raw words. AFTERNOON12:00-17:00, EVENING18:00-23:00, AFTER_WORK17:30-22:00."
+          },
+          "reason": "Align the frozen draft with the current documented code materialization. This is a query interpretation, not a user-stated exact time.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR09-T01.control.json"
+    },
+    {
+      "turnId": "SR09-T02",
+      "message": "Actually, use the area near our office instead.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/014.main.json",
+      "observationSha256": "c663b876ca01a36730f2702e552c2e572256f34ee76ca8677e6793824e4faad1",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "criteria",
+          "expected": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"UNSPECIFIED\"}"
+          ],
+          "actual": [
+            "{\"text\":\"italian food\",\"polarity\":\"POSITIVE\",\"strength\":\"HARD\"}"
+          ]
+        },
+        {
+          "path": "timeWindow.earliest",
+          "expected": "19:00",
+          "actual": "18:00"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "22:00",
+          "actual": "23:00"
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "This Saturday",
+              "resolvedDate": "2026-08-08",
+              "basis": "WEEKDAY:SATURDAY"
+            },
+            "timeWindow": {
+              "expression": "Saturday night",
+              "resolvedTimeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "basis": "DAYPART:EVENING"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "criteria[Italian food].strength",
+          "current": "UNSPECIFIED",
+          "proposed": "HARD",
+          "basis": {
+            "adr": "docs/decisions/0029-criterion-strength-and-nonblocking-preferences.md#decision",
+            "rule": "HARD is a core requested object/type, explicit exclusion/restriction, explicit mandatory language, or existing firm numeric semantics.",
+            "prompt": "src/domains/restaurant/semantic-interpreter.ts / CRITERIA and STRENGTH"
+          },
+          "reason": "Core requested cuisine/type, or explicit exclusion for omakase; this follows accepted semantics rather than matching a model vote.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        },
+        {
+          "field": "timeWindow",
+          "current": {
+            "earliest": "19:00",
+            "latest": "22:00"
+          },
+          "proposed": {
+            "earliest": "18:00",
+            "latest": "23:00"
+          },
+          "basis": {
+            "adr": "docs/decisions/0026-concrete-visit-goal-and-reception-semantics.md / Decision2",
+            "domain": "docs/domains/RESTAURANT-BOOKING.md / visit window semantics",
+            "implementation": "src/domains/restaurant/temporal-materialization.ts",
+            "rule": "Code materializes broad temporal directives; preserve user raw words. AFTERNOON12:00-17:00, EVENING18:00-23:00, AFTER_WORK17:30-22:00."
+          },
+          "reason": "Align the frozen draft with the current documented code materialization. This is a query interpretation, not a user-stated exact time.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR09-T02.control.json"
+    },
+    {
+      "turnId": "SR10-T01",
+      "message": "Tomorrow after work in Shinjuku for two. The 5,000 yen maximum is firm.",
+      "goldVersion": "4",
+      "capturedPrompt": "v24",
+      "observationPath": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/015.main.json",
+      "observationSha256": "48f3e24881aefe757ef7c0769c2219dde2804ece14de06ed2944827116b5f70b",
+      "modelStatus": "PROPOSED",
+      "recordedNonTargetValueDifferences": [
+        {
+          "path": "timeWindow.earliest",
+          "expected": "18:00",
+          "actual": "17:30"
+        },
+        {
+          "path": "timeWindow.latest",
+          "expected": "20:00",
+          "actual": "22:00"
+        }
+      ],
+      "recordedDiagnosticDifferences": [
+        {
+          "path": "partySizeSource",
+          "expectedAbsent": true,
+          "actual": "EXPLICIT"
+        },
+        {
+          "path": "temporalResolution",
+          "expectedAbsent": true,
+          "actual": {
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-08-05T09:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "date": {
+              "expression": "Tomorrow",
+              "resolvedDate": "2026-08-06",
+              "basis": "TOMORROW"
+            },
+            "timeWindow": {
+              "expression": "after work",
+              "resolvedTimeWindow": {
+                "earliest": "17:30",
+                "latest": "22:00"
+              },
+              "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+            }
+          }
+        }
+      ],
+      "modelErrors": [],
+      "proposals": [
+        {
+          "field": "timeWindow",
+          "current": {
+            "earliest": "18:00",
+            "latest": "20:00"
+          },
+          "proposed": {
+            "earliest": "17:30",
+            "latest": "22:00"
+          },
+          "basis": {
+            "adr": "docs/decisions/0026-concrete-visit-goal-and-reception-semantics.md / Decision2",
+            "domain": "docs/domains/RESTAURANT-BOOKING.md / visit window semantics",
+            "implementation": "src/domains/restaurant/temporal-materialization.ts",
+            "rule": "Code materializes broad temporal directives; preserve user raw words. AFTERNOON12:00-17:00, EVENING18:00-23:00, AFTER_WORK17:30-22:00."
+          },
+          "reason": "Align the frozen draft with the current documented code materialization. This is a query interpretation, not a user-stated exact time.",
+          "status": "AWAITING_USER_CONFIRMATION"
+        }
+      ],
+      "previousV23Control": ".eval-artifacts/phase3a-boundary/batch3/continuation/rows/SR10-T01.control.json"
+    }
+  ]
+}

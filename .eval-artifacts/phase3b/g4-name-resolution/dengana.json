@@ -1,0 +1,3635 @@
+{
+  "schema": "phase3b-dengana-retrospective@2",
+  "mode": "OFFLINE_IMMUTABLE_LIVE_ARTIFACT_ANALYSIS",
+  "newRealCalls": 0,
+  "runs": 8,
+  "applicableDenganaRuns": 6,
+  "otherRequestRuns": 2,
+  "timingCaveats": "Stage durations use recorded event boundaries. Operation and model durations overlap; do not add to stage totals. An actually started provider without finish is censored; helper WEBSITE events without provider scope are only an observed activity window, not a separate provider or a censored tail. Run end includes termination/cleanup.",
+  "witnessIdentity": {
+    "outletId": "13108466",
+    "name": "Kushi Katsu Dengana Akabane ten",
+    "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+    "source": "User supplied and existing certified F5 evidence; never injected into production comparison"
+  },
+  "rows": [
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "caseId": "p2c-holdout-01",
+      "startedAt": "2026-10-25T00:31:48.860Z",
+      "finishedAt": "2026-10-25T00:40:09.198Z",
+      "runElapsedMs": 500042,
+      "applicability": "DENGANA_FOUND",
+      "providers": [
+        {
+          "source": "TABLECHECK",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T00:36:18.714Z",
+          "finishedAt": "2026-10-25T00:36:22.909Z",
+          "recordedProviderElapsedMs": 4195,
+          "observedWallMs": 4195,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 4195
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 1615,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 3,
+              "elapsedMs": 181,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 2,
+              "elapsedMs": 971,
+              "failed": 0
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 1,
+              "elapsedMs": 613,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1615,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 71,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 32,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 260,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 613,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 78,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 711,
+              "outcome": "FINISHED"
+            }
+          ],
+          "modelDecisions": [],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://www.tablecheck.com/en/japan/search"
+          ],
+          "eventCounts": {
+            "CANDIDATE_STARTED": 1,
+            "PROVIDER_STARTED": 1,
+            "SESSION_OPENING": 1,
+            "SESSION_OPENED": 1,
+            "OPERATION_STARTED": 7,
+            "OPERATION_FINISHED": 7,
+            "ASYNC_WAIT": 2,
+            "OBSERVED": 3,
+            "PROVIDER_FINISHED": 1
+          },
+          "errors": []
+        },
+        {
+          "source": "TABELOG",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T00:36:22.909Z",
+          "finishedAt": "2026-10-25T00:37:07.917Z",
+          "recordedProviderElapsedMs": 45008,
+          "observedWallMs": 45008,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 45008
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 8169,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 7,
+              "elapsedMs": 424,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 7,
+              "elapsedMs": 1903,
+              "failed": 0
+            },
+            "CLICK": {
+              "count": 5,
+              "elapsedMs": 10975,
+              "failed": 2
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 3,
+              "elapsedMs": 1864,
+              "failed": 0
+            },
+            "DISMISS_TRANSIENT_OBSTRUCTION": {
+              "count": 2,
+              "elapsedMs": 27,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 8169,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 67,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 32,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 223,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 45,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 327,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 47,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 198,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 30,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 310,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 63,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 199,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 203,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 867,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1227,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 78,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 373,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 5018,
+              "outcome": "FAILED",
+              "reason": "Local Playwright Chromium operation failed: elementHandle.click: Timeout 5000ms exceeded. Call log:  - attempting click action  2 × waiting for element to be visible, enabled and stable  - element is visible, enabled and stable  - scrolling into view if needed  - done scrolling  - <th>…</th> from <div id=\"rstl"
+            },
+            {
+              "operation": "DISMISS_TRANSIENT_OBSTRUCTION",
+              "stage": "DISCOVERY",
+              "elapsedMs": 13,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 52,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 352,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 5015,
+              "outcome": "FAILED",
+              "reason": "Local Playwright Chromium operation failed: elementHandle.click: Timeout 5000ms exceeded. Call log:  - attempting click action  2 × waiting for element to be visible, enabled and stable  - element is visible, enabled and stable  - scrolling into view if needed  - done scrolling  - <td>…</td> from <div id=\"rstl"
+            },
+            {
+              "operation": "DISMISS_TRANSIENT_OBSTRUCTION",
+              "stage": "DISCOVERY",
+              "elapsedMs": 14,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 85,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 355,
+              "outcome": "FINISHED"
+            }
+          ],
+          "modelDecisions": [
+            {
+              "startedAt": "2026-10-25T00:36:31.716Z",
+              "finishedAt": "2026-10-25T00:36:36.305Z",
+              "elapsedMs": 4589,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T00:36:36.926Z",
+              "finishedAt": "2026-10-25T00:36:39.473Z",
+              "elapsedMs": 2547,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T00:36:40.282Z",
+              "finishedAt": "2026-10-25T00:36:43.105Z",
+              "elapsedMs": 2823,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T00:36:45.655Z",
+              "finishedAt": "2026-10-25T00:36:49.558Z",
+              "elapsedMs": 3903,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T00:36:54.996Z",
+              "finishedAt": "2026-10-25T00:37:01.676Z",
+              "elapsedMs": 6680,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T00:37:07.150Z",
+              "finishedAt": "2026-10-25T00:37:07.923Z",
+              "elapsedMs": 773,
+              "outcome": "MODEL_DECISION_FAILED"
+            }
+          ],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://tabelog.com/en/tokyo/rstLst/"
+          ],
+          "eventCounts": {
+            "PROVIDER_STARTED": 1,
+            "OPERATION_STARTED": 25,
+            "OPERATION_FINISHED": 23,
+            "ASYNC_WAIT": 4,
+            "OBSERVED": 7,
+            "SKILL_STARTED": 1,
+            "MODEL_DECISION_STARTED": 6,
+            "MODEL_WIRE": 5,
+            "MODEL_DECISION_FINISHED": 5,
+            "MODEL_ACTION": 5,
+            "POST_ACTION_VERIFIED": 8,
+            "METHOD_INCOMPLETE": 3,
+            "OPERATION_FAILED": 2,
+            "REJECTED": 3,
+            "CLOSED": 1,
+            "PROVIDER_FINISHED": 1,
+            "CANDIDATE_FINISHED": 1,
+            "MODEL_DECISION_FAILED": 1
+          },
+          "errors": [
+            {
+              "at": "2026-10-25T00:36:40.077Z",
+              "event": "METHOD_INCOMPLETE",
+              "stage": "DISCOVERY",
+              "reason": "ASYNC_RESULT_NOT_READY"
+            },
+            {
+              "at": "2026-10-25T00:36:54.577Z",
+              "event": "OPERATION_FAILED",
+              "stage": "DISCOVERY",
+              "reason": "Local Playwright Chromium operation failed: elementHandle.click: Timeout 5000ms exceeded. Call log:  - attempting click action  2 × waiting for element to be visible, enabled and stable  - element is visible, enabled and stable  - scrolling into view if needed  - done scrolling  - <th>…</th> from <div id=\"rstl"
+            },
+            {
+              "at": "2026-10-25T00:36:54.577Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "ACTION_OBSTRUCTED"
+            },
+            {
+              "at": "2026-10-25T00:36:54.994Z",
+              "event": "METHOD_INCOMPLETE",
+              "stage": "DISCOVERY",
+              "reason": "ACTION_OBSTRUCTION_RECOVERED:p"
+            },
+            {
+              "at": "2026-10-25T00:37:06.692Z",
+              "event": "OPERATION_FAILED",
+              "stage": "DISCOVERY",
+              "reason": "Local Playwright Chromium operation failed: elementHandle.click: Timeout 5000ms exceeded. Call log:  - attempting click action  2 × waiting for element to be visible, enabled and stable  - element is visible, enabled and stable  - scrolling into view if needed  - done scrolling  - <td>…</td> from <div id=\"rstl"
+            },
+            {
+              "at": "2026-10-25T00:37:06.693Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "ACTION_OBSTRUCTED"
+            },
+            {
+              "at": "2026-10-25T00:37:07.147Z",
+              "event": "METHOD_INCOMPLETE",
+              "stage": "DISCOVERY",
+              "reason": "ACTION_OBSTRUCTION_RECOVERED:div"
+            },
+            {
+              "at": "2026-10-25T00:37:07.923Z",
+              "event": "MODEL_DECISION_FAILED",
+              "stage": "DISCOVERY",
+              "reason": "Browser MODEL_DECISION exceeded the provider deadline"
+            },
+            {
+              "at": "2026-10-25T00:37:07.923Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "Browser MODEL_DECISION exceeded the provider deadline"
+            }
+          ]
+        }
+      ],
+      "candidate": {
+        "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+        "outletName": "Dengana Akabane",
+        "sourceIds": {
+          "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+          "phone": "03-5249-4011",
+          "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+          "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+        "coordinates": {
+          "lat": 35.7795476,
+          "lng": 139.7211442
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:655b40b7fa1afc93592708af",
+          "address": "evidence:restaurant:google-discovery:655b40b7fa1afc93592708af",
+          "sourceIds": "evidence:restaurant:google-discovery:655b40b7fa1afc93592708af"
+        }
+      },
+      "matchingTraceEvents": 126,
+      "providerAttempts": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+        },
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT"
+        }
+      ],
+      "trajectories": [
+        {
+          "stepNumber": 6,
+          "at": "2026-10-25T00:34:46.718Z",
+          "action": {
+            "type": "CHECK_AVAILABILITY",
+            "candidateIds": [
+              "praxis:restaurant:0d56ed154080df9317f9d79d",
+              "praxis:restaurant:730456c8617b43baf817287d",
+              "praxis:restaurant:07b0ba0daee00150d6d202e1"
+            ]
+          },
+          "latencyMs": 141161,
+          "stepOutcome": "EXECUTED"
+        }
+      ],
+      "tabelogIdentity": [],
+      "tablecheckIdentity": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "candidate": {
+            "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "outletName": "Dengana Akabane",
+            "sourceIds": {
+              "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "phone": "03-5249-4011",
+              "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+              "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "discoverySourceId": "google-places"
+            },
+            "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+            "coordinates": {
+              "lat": 35.7795476,
+              "lng": 139.7211442
+            },
+            "provenance": {
+              "outletName": "evidence:restaurant:google-discovery:655b40b7fa1afc93592708af",
+              "address": "evidence:restaurant:google-discovery:655b40b7fa1afc93592708af",
+              "sourceIds": "evidence:restaurant:google-discovery:655b40b7fa1afc93592708af"
+            }
+          },
+          "discovery": {
+            "requestedUrl": "https://www.tablecheck.com/en/japan/search",
+            "finalUrl": "https://www.tablecheck.com/en/japan/search",
+            "title": "Map Search - Japan",
+            "status": "RESULTS",
+            "discoveredOutletUrls": [
+              "https://www.tablecheck.com/en/kawaei",
+              "https://www.tablecheck.com/en/underground-akabane",
+              "https://www.tablecheck.com/en/azzurri-arte",
+              "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza"
+            ]
+          },
+          "attemptedPages": [
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/kawaei",
+              "finalUrl": "https://www.tablecheck.com/en/kawaei",
+              "title": "Kawaei - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/kawaei",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Kawaei",
+                  "normalizedValue": "kawaei",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-19-16 Akabane",
+                  "normalizedValue": "1150045tokyokita11916akabane",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+815017242380",
+                  "normalizedValue": "05017242380",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "finalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "title": "UNDERGROUND Akabane - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "UNDERGROUND Akabane",
+                  "normalizedValue": "undergroundakabane",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-66-5 Akabane Green Co-op Ⅱ",
+                  "normalizedValue": "1150045tokyokita1665akabanegreencoopⅱ",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81364544677",
+                  "normalizedValue": "0364544677",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "finalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "title": "Azzurri Arte - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Azzurri Arte",
+                  "normalizedValue": "azzurriarte",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0015 Saitama Kawaguchi-city 3-1-2 Kawaguchi Kawaguchi Museum of Art",
+                  "normalizedValue": "3320015saitamakawaguchicity312kawaguchikawaguchimuseumofart",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482908500",
+                  "normalizedValue": "0482908500",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "finalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "title": "WILDBEACH Kawaguchi - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "WILDBEACH Kawaguchi",
+                  "normalizedValue": "wildbeachkawaguchi",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Prefecture  Kawaguchi City Sakaemachi 3-5-1 Lala Terrace Kawaguchi Rooftop",
+                  "normalizedValue": "3320017saitamaprefecturekawaguchicitysakaemachi351lalaterracekawaguchirooftop",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+818065100055",
+                  "normalizedValue": "08065100055",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "finalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "title": "Senara Kawaguchi JU MALL PLAZA - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Senara Kawaguchi JU MALL PLAZA",
+                  "normalizedValue": "senarakawaguchijumallplaza",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Kawaguchi-shi 3-13-1 Sakae-cho JU-MALL Plaza 2F",
+                  "normalizedValue": "3320017saitamakawaguchishi3131sakaechojumallplaza2f",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482992904",
+                  "normalizedValue": "0482992904",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            }
+          ],
+          "resolution": {
+            "confidence": "LOW",
+            "matchedBy": [],
+            "reason": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          }
+        }
+      ],
+      "candidateFirstObservedAt": "2026-10-25T00:36:18.714Z",
+      "beforeCandidateFirstTraceMs": 269854,
+      "runRemainingAtFirstCandidateTraceMs": 230484
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "caseId": "p2c-holdout-01",
+      "startedAt": "2026-10-25T00:54:26.009Z",
+      "finishedAt": "2026-10-25T01:02:46.342Z",
+      "runElapsedMs": 500022,
+      "applicability": "DENGANA_FOUND",
+      "providers": [
+        {
+          "source": "TABLECHECK",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T00:59:13.667Z",
+          "finishedAt": "2026-10-25T00:59:20.771Z",
+          "recordedProviderElapsedMs": 7104,
+          "observedWallMs": 7104,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 7104
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 1326,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 3,
+              "elapsedMs": 216,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 2,
+              "elapsedMs": 844,
+              "failed": 0
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 1,
+              "elapsedMs": 3917,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1326,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 84,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 50,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 67,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 3917,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 82,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 777,
+              "outcome": "FINISHED"
+            }
+          ],
+          "modelDecisions": [],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://www.tablecheck.com/en/japan/search"
+          ],
+          "eventCounts": {
+            "CANDIDATE_STARTED": 1,
+            "PROVIDER_STARTED": 1,
+            "SESSION_OPENING": 1,
+            "SESSION_OPENED": 1,
+            "OPERATION_STARTED": 7,
+            "OPERATION_FINISHED": 7,
+            "ASYNC_WAIT": 2,
+            "OBSERVED": 3,
+            "PROVIDER_FINISHED": 1
+          },
+          "errors": []
+        },
+        {
+          "source": "TABELOG",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T00:59:20.771Z",
+          "finishedAt": "2026-10-25T00:59:57.872Z",
+          "recordedProviderElapsedMs": 37101,
+          "observedWallMs": 37101,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 20811,
+            "IDENTITY": 16290
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 4,
+              "elapsedMs": 17306,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 7,
+              "elapsedMs": 489,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 4,
+              "elapsedMs": 1438,
+              "failed": 0
+            },
+            "CLICK": {
+              "count": 1,
+              "elapsedMs": 50,
+              "failed": 0
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 2,
+              "elapsedMs": 2258,
+              "failed": 0
+            },
+            "OPEN_LINK": {
+              "count": 1,
+              "elapsedMs": 6048,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 3405,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 66,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 32,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 217,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 50,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 329,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 49,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 194,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 203,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OPEN_LINK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 6048,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1929,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 99,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 824,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "NAVIGATE",
+              "stage": "IDENTITY",
+              "elapsedMs": 2891,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "IDENTITY",
+              "elapsedMs": 79,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "NAVIGATE",
+              "stage": "IDENTITY",
+              "elapsedMs": 8433,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "IDENTITY",
+              "elapsedMs": 74,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "NAVIGATE",
+              "stage": "IDENTITY",
+              "elapsedMs": 2577,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "IDENTITY",
+              "elapsedMs": 90,
+              "outcome": "FINISHED"
+            }
+          ],
+          "modelDecisions": [
+            {
+              "startedAt": "2026-10-25T00:59:24.807Z",
+              "finishedAt": "2026-10-25T00:59:27.677Z",
+              "elapsedMs": 2870,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T00:59:28.305Z",
+              "finishedAt": "2026-10-25T00:59:30.171Z",
+              "elapsedMs": 1866,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T00:59:30.377Z",
+              "finishedAt": "2026-10-25T00:59:32.676Z",
+              "elapsedMs": 2299,
+              "outcome": "MODEL_DECISION_FINISHED"
+            }
+          ],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://tabelog.com/en/tokyo/rstLst/",
+            "https://tabelog.com/en/tokyo/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13292459/"
+          ],
+          "eventCounts": {
+            "PROVIDER_STARTED": 1,
+            "OPERATION_STARTED": 19,
+            "OPERATION_FINISHED": 19,
+            "ASYNC_WAIT": 6,
+            "OBSERVED": 7,
+            "SKILL_STARTED": 1,
+            "MODEL_DECISION_STARTED": 3,
+            "MODEL_WIRE": 3,
+            "MODEL_DECISION_FINISHED": 3,
+            "MODEL_ACTION": 3,
+            "POST_ACTION_VERIFIED": 4,
+            "REJECTED": 1,
+            "PROVIDER_FINISHED": 1,
+            "CLOSED": 1,
+            "CANDIDATE_FINISHED": 1
+          },
+          "errors": [
+            {
+              "at": "2026-10-25T00:59:30.172Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "CLICK target has submit, navigation, or other write-capable structure"
+            }
+          ]
+        }
+      ],
+      "candidate": {
+        "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+        "outletName": "Dengana Akabane",
+        "sourceIds": {
+          "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+          "phone": "03-5249-4011",
+          "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+          "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+        "coordinates": {
+          "lat": 35.7795476,
+          "lng": 139.7211442
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:68946beaea41877399edc27a",
+          "address": "evidence:restaurant:google-discovery:68946beaea41877399edc27a",
+          "sourceIds": "evidence:restaurant:google-discovery:68946beaea41877399edc27a"
+        }
+      },
+      "matchingTraceEvents": 97,
+      "providerAttempts": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+        },
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "ENTITY_MATCH_UNCERTAIN"
+        }
+      ],
+      "trajectories": [
+        {
+          "stepNumber": 6,
+          "at": "2026-10-25T00:57:41.182Z",
+          "action": {
+            "type": "CHECK_AVAILABILITY",
+            "candidateIds": [
+              "praxis:restaurant:0d56ed154080df9317f9d79d",
+              "praxis:restaurant:730456c8617b43baf817287d",
+              "praxis:restaurant:07b0ba0daee00150d6d202e1"
+            ]
+          },
+          "latencyMs": 136642,
+          "stepOutcome": "EXECUTED"
+        }
+      ],
+      "tabelogIdentity": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "google": {
+            "placeId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+            "outletName": {
+              "value": "Dengana Akabane",
+              "normalizedValue": "denganaakabane",
+              "source": "GOOGLE_PLACES"
+            },
+            "address": {
+              "value": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+              "normalizedValue": "japan〒1150045tokyokitacityakabane1chōme−15−１新仲ビル1f",
+              "source": "GOOGLE_PLACES"
+            },
+            "phone": {
+              "value": "03-5249-4011",
+              "normalizedValue": "0352494011",
+              "source": "GOOGLE_PLACES"
+            }
+          },
+          "comparedOutlets": [
+            {
+              "sourceEntityId": "en/tokyo/A1301/A130103/13294162",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+              "outletName": {
+                "value": "Sushi Dokoro Isseki Sanchou",
+                "normalizedValue": "sushidokoroissekisanchou",
+                "source": "JSON_LD"
+              },
+              "address": {
+                "value": "1050004 Tokyo Shinbashi  Minato  Tokyo ",
+                "normalizedValue": "1050004tokyoshinbashiminatotokyo",
+                "source": "JSON_LD"
+              },
+              "phone": {
+                "value": "+81-3-6435-9959",
+                "normalizedValue": "0364359959",
+                "source": "JSON_LD"
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "INSUFFICIENT",
+                "phone": "CONFLICT"
+              },
+              "score": 0
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1306/A130602/13042979",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+              "outletName": {
+                "value": "Yoroniku",
+                "normalizedValue": "yoroniku",
+                "source": "JSON_LD"
+              },
+              "address": {
+                "value": "1070062 Tokyo Minamiaoyama Minato Tokyo ",
+                "normalizedValue": "1070062tokyominamiaoyamaminatotokyo",
+                "source": "JSON_LD"
+              },
+              "phone": {
+                "value": "+81-3-3498-4629",
+                "normalizedValue": "0334984629",
+                "source": "JSON_LD"
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "INSUFFICIENT",
+                "phone": "CONFLICT"
+              },
+              "score": 0
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1301/A130103/13292459",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+              "outletName": {
+                "value": "Seafood Buffet Dining Ginza Happo",
+                "normalizedValue": "seafoodbuffetdiningginzahappo",
+                "source": "JSON_LD"
+              },
+              "address": {
+                "value": "1040061 Tokyo Ginza Chuo Tokyo ",
+                "normalizedValue": "1040061tokyoginzachuotokyo",
+                "source": "JSON_LD"
+              },
+              "phone": {
+                "value": "+81-3-6264-6825",
+                "normalizedValue": "0362646825",
+                "source": "JSON_LD"
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "INSUFFICIENT",
+                "phone": "CONFLICT"
+              },
+              "score": 0
+            }
+          ],
+          "resolution": {
+            "confidence": "LOW",
+            "matchedBy": [],
+            "bestSourceEntityId": "en/tokyo/A1301/A130103/13294162",
+            "reason": "KNOWN_PHONE_CONFLICT"
+          },
+          "search": {
+            "query": "Dengana Akabane",
+            "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+            "finalUrl": "https://tabelog.com/en/tokyo/",
+            "title": "Best Restaurants in Tokyo | Tabelog",
+            "parsedResultCount": 3,
+            "inspectedResultCount": 3
+          },
+          "searchResults": [
+            {
+              "sourceEntityId": "en/tokyo/A1301/A130103/13294162",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+              "outletName": "Sushi Dokoro Isseki Sanchou"
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1306/A130602/13042979",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+              "outletName": "Yoroniku"
+            },
+            {
+              "sourceEntityId": "en/tokyo/A1301/A130103/13292459",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+              "outletName": "Seafood Buffet Dining Ginza Happo"
+            }
+          ],
+          "details": [
+            {
+              "searchResultSourceEntityId": "en/tokyo/A1301/A130103/13294162",
+              "requestedUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+              "finalUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+              "title": "Sushi Dokoro Isseki Sanchou Reservation - Shiodome/Sushi | Tabelog",
+              "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13294162/",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Sushi Dokoro Isseki Sanchou",
+                  "normalizedValue": "sushidokoroissekisanchou",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "1050004 Tokyo Shinbashi  Minato  Tokyo ",
+                  "normalizedValue": "1050004tokyoshinbashiminatotokyo",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81-3-6435-9959",
+                  "normalizedValue": "0364359959",
+                  "source": "JSON_LD"
+                }
+              }
+            },
+            {
+              "searchResultSourceEntityId": "en/tokyo/A1306/A130602/13042979",
+              "requestedUrl": "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+              "finalUrl": "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+              "title": "Yoroniku Reservation - Omote Sando/Yakiniku (Japanese BBQ) | Tabelog",
+              "canonicalUrl": "https://tabelog.com/en/tokyo/A1306/A130602/13042979/",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Yoroniku",
+                  "normalizedValue": "yoroniku",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "1070062 Tokyo Minamiaoyama Minato Tokyo ",
+                  "normalizedValue": "1070062tokyominamiaoyamaminatotokyo",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81-3-3498-4629",
+                  "normalizedValue": "0334984629",
+                  "source": "JSON_LD"
+                }
+              }
+            },
+            {
+              "searchResultSourceEntityId": "en/tokyo/A1301/A130103/13292459",
+              "requestedUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+              "finalUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+              "title": "Seafood Buffet Dining Ginza Happo Reservation - Shimbashi/Yakiniku (Japanese BBQ) | Tabelog",
+              "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13292459/",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Seafood Buffet Dining Ginza Happo",
+                  "normalizedValue": "seafoodbuffetdiningginzahappo",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "1040061 Tokyo Ginza Chuo Tokyo ",
+                  "normalizedValue": "1040061tokyoginzachuotokyo",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81-3-6264-6825",
+                  "normalizedValue": "0362646825",
+                  "source": "JSON_LD"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "tablecheckIdentity": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "candidate": {
+            "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "outletName": "Dengana Akabane",
+            "sourceIds": {
+              "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "phone": "03-5249-4011",
+              "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+              "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "discoverySourceId": "google-places"
+            },
+            "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+            "coordinates": {
+              "lat": 35.7795476,
+              "lng": 139.7211442
+            },
+            "provenance": {
+              "outletName": "evidence:restaurant:google-discovery:68946beaea41877399edc27a",
+              "address": "evidence:restaurant:google-discovery:68946beaea41877399edc27a",
+              "sourceIds": "evidence:restaurant:google-discovery:68946beaea41877399edc27a"
+            }
+          },
+          "discovery": {
+            "requestedUrl": "https://www.tablecheck.com/en/japan/search",
+            "finalUrl": "https://www.tablecheck.com/en/japan/search",
+            "title": "Map Search - Japan",
+            "status": "RESULTS",
+            "discoveredOutletUrls": [
+              "https://www.tablecheck.com/en/kawaei",
+              "https://www.tablecheck.com/en/underground-akabane",
+              "https://www.tablecheck.com/en/azzurri-arte",
+              "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza"
+            ]
+          },
+          "attemptedPages": [
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/kawaei",
+              "finalUrl": "https://www.tablecheck.com/en/kawaei",
+              "title": "Kawaei - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/kawaei",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Kawaei",
+                  "normalizedValue": "kawaei",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-19-16 Akabane",
+                  "normalizedValue": "1150045tokyokita11916akabane",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+815017242380",
+                  "normalizedValue": "05017242380",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "finalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "title": "UNDERGROUND Akabane - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "UNDERGROUND Akabane",
+                  "normalizedValue": "undergroundakabane",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-66-5 Akabane Green Co-op Ⅱ",
+                  "normalizedValue": "1150045tokyokita1665akabanegreencoopⅱ",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81364544677",
+                  "normalizedValue": "0364544677",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "finalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "title": "Azzurri Arte - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Azzurri Arte",
+                  "normalizedValue": "azzurriarte",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0015 Saitama Kawaguchi-city 3-1-2 Kawaguchi Kawaguchi Museum of Art",
+                  "normalizedValue": "3320015saitamakawaguchicity312kawaguchikawaguchimuseumofart",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482908500",
+                  "normalizedValue": "0482908500",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "finalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "title": "WILDBEACH Kawaguchi - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "WILDBEACH Kawaguchi",
+                  "normalizedValue": "wildbeachkawaguchi",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Prefecture  Kawaguchi City Sakaemachi 3-5-1 Lala Terrace Kawaguchi Rooftop",
+                  "normalizedValue": "3320017saitamaprefecturekawaguchicitysakaemachi351lalaterracekawaguchirooftop",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+818065100055",
+                  "normalizedValue": "08065100055",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "finalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "title": "Senara Kawaguchi JU MALL PLAZA - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Senara Kawaguchi JU MALL PLAZA",
+                  "normalizedValue": "senarakawaguchijumallplaza",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Kawaguchi-shi 3-13-1 Sakae-cho JU-MALL Plaza 2F",
+                  "normalizedValue": "3320017saitamakawaguchishi3131sakaechojumallplaza2f",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482992904",
+                  "normalizedValue": "0482992904",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            }
+          ],
+          "resolution": {
+            "confidence": "LOW",
+            "matchedBy": [],
+            "reason": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          }
+        }
+      ],
+      "candidateFirstObservedAt": "2026-10-25T00:59:13.667Z",
+      "beforeCandidateFirstTraceMs": 287658,
+      "runRemainingAtFirstCandidateTraceMs": 212675
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "caseId": "p2c-holdout-01",
+      "startedAt": "2026-10-25T01:05:27.488Z",
+      "finishedAt": "2026-10-25T01:12:07.216Z",
+      "runElapsedMs": 399405,
+      "applicability": "DENGANA_FOUND",
+      "providers": [
+        {
+          "source": "TABLECHECK",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T01:09:09.495Z",
+          "finishedAt": "2026-10-25T01:09:13.474Z",
+          "recordedProviderElapsedMs": 3979,
+          "observedWallMs": 3979,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 3979
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 1748,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 3,
+              "elapsedMs": 156,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 2,
+              "elapsedMs": 959,
+              "failed": 0
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 1,
+              "elapsedMs": 308,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1748,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 44,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 32,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 264,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 308,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 80,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 695,
+              "outcome": "FINISHED"
+            }
+          ],
+          "modelDecisions": [],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://www.tablecheck.com/en/japan/search"
+          ],
+          "eventCounts": {
+            "CANDIDATE_STARTED": 1,
+            "PROVIDER_STARTED": 1,
+            "SESSION_OPENING": 1,
+            "SESSION_OPENED": 1,
+            "OPERATION_STARTED": 7,
+            "OPERATION_FINISHED": 7,
+            "ASYNC_WAIT": 2,
+            "OBSERVED": 3,
+            "PROVIDER_FINISHED": 1
+          },
+          "errors": []
+        },
+        {
+          "source": "TABELOG",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T01:09:13.474Z",
+          "finishedAt": "2026-10-25T01:09:58.477Z",
+          "recordedProviderElapsedMs": 45003,
+          "observedWallMs": 45003,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 45003
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 1886,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 7,
+              "elapsedMs": 392,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 7,
+              "elapsedMs": 1898,
+              "failed": 0
+            },
+            "CLICK": {
+              "count": 5,
+              "elapsedMs": 10978,
+              "failed": 2
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 3,
+              "elapsedMs": 1716,
+              "failed": 0
+            },
+            "DISMISS_TRANSIENT_OBSTRUCTION": {
+              "count": 2,
+              "elapsedMs": 30,
+              "failed": 0
+            },
+            "SUBMIT_PUBLIC_QUERY": {
+              "count": 1,
+              "elapsedMs": 6999,
+              "failed": 1
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1886,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 67,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 32,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 222,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 43,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 329,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 47,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 207,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 34,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 307,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 49,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 205,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 200,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 872,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1080,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 74,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 353,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 5013,
+              "outcome": "FAILED",
+              "reason": "Local Playwright Chromium operation failed: elementHandle.click: Timeout 5000ms exceeded. Call log:  - attempting click action  2 × waiting for element to be visible, enabled and stable  - element is visible, enabled and stable  - scrolling into view if needed  - done scrolling  - <th>…</th> from <div id=\"rstl"
+            },
+            {
+              "operation": "DISMISS_TRANSIENT_OBSTRUCTION",
+              "stage": "DISCOVERY",
+              "elapsedMs": 15,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 66,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 356,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 5016,
+              "outcome": "FAILED",
+              "reason": "Local Playwright Chromium operation failed: elementHandle.click: Timeout 5000ms exceeded. Call log:  - attempting click action  2 × waiting for element to be visible, enabled and stable  - element is visible, enabled and stable  - scrolling into view if needed  - done scrolling  - <td>…</td> from <div id=\"rstl"
+            },
+            {
+              "operation": "DISMISS_TRANSIENT_OBSTRUCTION",
+              "stage": "DISCOVERY",
+              "elapsedMs": 15,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 57,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 355,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SUBMIT_PUBLIC_QUERY",
+              "stage": "DISCOVERY",
+              "elapsedMs": 6999,
+              "outcome": "FAILED",
+              "reason": "Browser SUBMIT_PUBLIC_QUERY exceeded the provider deadline"
+            }
+          ],
+          "modelDecisions": [
+            {
+              "startedAt": "2026-10-25T01:09:15.995Z",
+              "finishedAt": "2026-10-25T01:09:19.152Z",
+              "elapsedMs": 3157,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T01:09:19.783Z",
+              "finishedAt": "2026-10-25T01:09:22.298Z",
+              "elapsedMs": 2515,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T01:09:23.096Z",
+              "finishedAt": "2026-10-25T01:09:25.647Z",
+              "elapsedMs": 2551,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T01:09:28.032Z",
+              "finishedAt": "2026-10-25T01:09:32.426Z",
+              "elapsedMs": 4394,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T01:09:37.881Z",
+              "finishedAt": "2026-10-25T01:09:42.885Z",
+              "elapsedMs": 5004,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T01:09:48.330Z",
+              "finishedAt": "2026-10-25T01:09:51.485Z",
+              "elapsedMs": 3155,
+              "outcome": "MODEL_DECISION_FINISHED"
+            }
+          ],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://tabelog.com/en/tokyo/rstLst/"
+          ],
+          "eventCounts": {
+            "PROVIDER_STARTED": 1,
+            "OPERATION_STARTED": 26,
+            "OPERATION_FINISHED": 23,
+            "ASYNC_WAIT": 4,
+            "OBSERVED": 7,
+            "SKILL_STARTED": 1,
+            "MODEL_DECISION_STARTED": 6,
+            "MODEL_WIRE": 6,
+            "MODEL_DECISION_FINISHED": 6,
+            "MODEL_ACTION": 6,
+            "POST_ACTION_VERIFIED": 8,
+            "METHOD_INCOMPLETE": 3,
+            "OPERATION_FAILED": 3,
+            "REJECTED": 3,
+            "CLOSED": 1,
+            "PROVIDER_FINISHED": 1,
+            "CANDIDATE_FINISHED": 1
+          },
+          "errors": [
+            {
+              "at": "2026-10-25T01:09:22.895Z",
+              "event": "METHOD_INCOMPLETE",
+              "stage": "DISCOVERY",
+              "reason": "ASYNC_RESULT_NOT_READY"
+            },
+            {
+              "at": "2026-10-25T01:09:37.440Z",
+              "event": "OPERATION_FAILED",
+              "stage": "DISCOVERY",
+              "reason": "Local Playwright Chromium operation failed: elementHandle.click: Timeout 5000ms exceeded. Call log:  - attempting click action  2 × waiting for element to be visible, enabled and stable  - element is visible, enabled and stable  - scrolling into view if needed  - done scrolling  - <th>…</th> from <div id=\"rstl"
+            },
+            {
+              "at": "2026-10-25T01:09:37.441Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "ACTION_OBSTRUCTED"
+            },
+            {
+              "at": "2026-10-25T01:09:37.879Z",
+              "event": "METHOD_INCOMPLETE",
+              "stage": "DISCOVERY",
+              "reason": "ACTION_OBSTRUCTION_RECOVERED:p"
+            },
+            {
+              "at": "2026-10-25T01:09:47.901Z",
+              "event": "OPERATION_FAILED",
+              "stage": "DISCOVERY",
+              "reason": "Local Playwright Chromium operation failed: elementHandle.click: Timeout 5000ms exceeded. Call log:  - attempting click action  2 × waiting for element to be visible, enabled and stable  - element is visible, enabled and stable  - scrolling into view if needed  - done scrolling  - <td>…</td> from <div id=\"rstl"
+            },
+            {
+              "at": "2026-10-25T01:09:47.901Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "ACTION_OBSTRUCTED"
+            },
+            {
+              "at": "2026-10-25T01:09:48.328Z",
+              "event": "METHOD_INCOMPLETE",
+              "stage": "DISCOVERY",
+              "reason": "ACTION_OBSTRUCTION_RECOVERED:div"
+            },
+            {
+              "at": "2026-10-25T01:09:58.484Z",
+              "event": "OPERATION_FAILED",
+              "stage": "DISCOVERY",
+              "reason": "Browser SUBMIT_PUBLIC_QUERY exceeded the provider deadline"
+            },
+            {
+              "at": "2026-10-25T01:09:58.484Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "Browser SUBMIT_PUBLIC_QUERY exceeded the provider deadline"
+            }
+          ]
+        }
+      ],
+      "candidate": {
+        "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+        "outletName": "Dengana Akabane",
+        "sourceIds": {
+          "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+          "phone": "03-5249-4011",
+          "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+          "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+        "coordinates": {
+          "lat": 35.7795476,
+          "lng": 139.7211442
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:094e5aad89b7d5ceca98c383",
+          "address": "evidence:restaurant:google-discovery:094e5aad89b7d5ceca98c383",
+          "sourceIds": "evidence:restaurant:google-discovery:094e5aad89b7d5ceca98c383"
+        }
+      },
+      "matchingTraceEvents": 130,
+      "providerAttempts": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+        },
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT"
+        }
+      ],
+      "trajectories": [
+        {
+          "stepNumber": 7,
+          "at": "2026-10-25T01:08:04.912Z",
+          "action": {
+            "type": "CHECK_AVAILABILITY",
+            "candidateIds": [
+              "praxis:restaurant:0d56ed154080df9317f9d79d",
+              "praxis:restaurant:730456c8617b43baf817287d",
+              "praxis:restaurant:07b0ba0daee00150d6d202e1"
+            ]
+          },
+          "latencyMs": 113493,
+          "stepOutcome": "EXECUTED"
+        }
+      ],
+      "tabelogIdentity": [],
+      "tablecheckIdentity": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "candidate": {
+            "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "outletName": "Dengana Akabane",
+            "sourceIds": {
+              "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "phone": "03-5249-4011",
+              "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+              "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "discoverySourceId": "google-places"
+            },
+            "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+            "coordinates": {
+              "lat": 35.7795476,
+              "lng": 139.7211442
+            },
+            "provenance": {
+              "outletName": "evidence:restaurant:google-discovery:094e5aad89b7d5ceca98c383",
+              "address": "evidence:restaurant:google-discovery:094e5aad89b7d5ceca98c383",
+              "sourceIds": "evidence:restaurant:google-discovery:094e5aad89b7d5ceca98c383"
+            }
+          },
+          "discovery": {
+            "requestedUrl": "https://www.tablecheck.com/en/japan/search",
+            "finalUrl": "https://www.tablecheck.com/en/japan/search",
+            "title": "Map Search - Japan",
+            "status": "RESULTS",
+            "discoveredOutletUrls": [
+              "https://www.tablecheck.com/en/kawaei",
+              "https://www.tablecheck.com/en/underground-akabane",
+              "https://www.tablecheck.com/en/azzurri-arte",
+              "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza"
+            ]
+          },
+          "attemptedPages": [
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/kawaei",
+              "finalUrl": "https://www.tablecheck.com/en/kawaei",
+              "title": "Kawaei - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/kawaei",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Kawaei",
+                  "normalizedValue": "kawaei",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-19-16 Akabane",
+                  "normalizedValue": "1150045tokyokita11916akabane",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+815017242380",
+                  "normalizedValue": "05017242380",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "finalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "title": "UNDERGROUND Akabane - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "UNDERGROUND Akabane",
+                  "normalizedValue": "undergroundakabane",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-66-5 Akabane Green Co-op Ⅱ",
+                  "normalizedValue": "1150045tokyokita1665akabanegreencoopⅱ",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81364544677",
+                  "normalizedValue": "0364544677",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "finalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "title": "Azzurri Arte - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Azzurri Arte",
+                  "normalizedValue": "azzurriarte",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0015 Saitama Kawaguchi-city 3-1-2 Kawaguchi Kawaguchi Museum of Art",
+                  "normalizedValue": "3320015saitamakawaguchicity312kawaguchikawaguchimuseumofart",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482908500",
+                  "normalizedValue": "0482908500",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "finalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "title": "WILDBEACH Kawaguchi - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "WILDBEACH Kawaguchi",
+                  "normalizedValue": "wildbeachkawaguchi",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Prefecture  Kawaguchi City Sakaemachi 3-5-1 Lala Terrace Kawaguchi Rooftop",
+                  "normalizedValue": "3320017saitamaprefecturekawaguchicitysakaemachi351lalaterracekawaguchirooftop",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+818065100055",
+                  "normalizedValue": "08065100055",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "finalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "title": "Senara Kawaguchi JU MALL PLAZA - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Senara Kawaguchi JU MALL PLAZA",
+                  "normalizedValue": "senarakawaguchijumallplaza",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Kawaguchi-shi 3-13-1 Sakae-cho JU-MALL Plaza 2F",
+                  "normalizedValue": "3320017saitamakawaguchishi3131sakaechojumallplaza2f",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482992904",
+                  "normalizedValue": "0482992904",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            }
+          ],
+          "resolution": {
+            "confidence": "LOW",
+            "matchedBy": [],
+            "reason": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          }
+        }
+      ],
+      "candidateFirstObservedAt": "2026-10-25T01:09:09.495Z",
+      "beforeCandidateFirstTraceMs": 222007,
+      "runRemainingAtFirstCandidateTraceMs": 177721
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "caseId": "p2c-holdout-03",
+      "startedAt": "2026-10-25T01:14:35.049Z",
+      "finishedAt": "2026-10-25T01:21:54.547Z",
+      "runElapsedMs": 439161,
+      "applicability": "OTHER_REQUEST_NO_DENGANA",
+      "providers": []
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "caseId": "p2c-holdout-03",
+      "startedAt": "2026-10-25T01:25:03.549Z",
+      "finishedAt": "2026-10-25T01:33:24.045Z",
+      "runElapsedMs": 500018,
+      "applicability": "OTHER_REQUEST_NO_DENGANA",
+      "providers": []
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "caseId": "p2c-holdout-01",
+      "startedAt": "2026-10-25T08:40:47.133Z",
+      "finishedAt": "2026-10-25T08:49:07.792Z",
+      "runElapsedMs": 500023,
+      "applicability": "DENGANA_FOUND",
+      "providers": [
+        {
+          "source": "TABLECHECK",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T08:48:34.204Z",
+          "finishedAt": "2026-10-25T08:48:46.086Z",
+          "recordedProviderElapsedMs": 11882,
+          "observedWallMs": 11882,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 11882
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 6733,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 3,
+              "elapsedMs": 154,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 2,
+              "elapsedMs": 795,
+              "failed": 0
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 1,
+              "elapsedMs": 3367,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 6733,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 49,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 31,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 45,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 3367,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 74,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 750,
+              "outcome": "FINISHED"
+            }
+          ],
+          "modelDecisions": [],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://www.tablecheck.com/en/japan/search"
+          ],
+          "eventCounts": {
+            "CANDIDATE_STARTED": 1,
+            "PROVIDER_STARTED": 1,
+            "SESSION_OPENING": 1,
+            "SESSION_OPENED": 1,
+            "OPERATION_STARTED": 7,
+            "OPERATION_FINISHED": 7,
+            "ASYNC_WAIT": 2,
+            "OBSERVED": 3,
+            "PROVIDER_FINISHED": 1
+          },
+          "errors": []
+        },
+        {
+          "source": "TABELOG",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T08:48:46.087Z",
+          "finishedAt": "2026-10-25T08:49:07.141Z",
+          "recordedProviderElapsedMs": 21054,
+          "observedWallMs": 21054,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 21054
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 17612,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 2,
+              "elapsedMs": 133,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 1,
+              "elapsedMs": 239,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 17612,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 85,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 48,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 239,
+              "outcome": "FINISHED"
+            }
+          ],
+          "modelDecisions": [
+            {
+              "startedAt": "2026-10-25T08:49:04.386Z",
+              "finishedAt": "2026-10-25T08:49:07.130Z",
+              "elapsedMs": 2744,
+              "outcome": "MODEL_DECISION_FAILED"
+            }
+          ],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://tabelog.com/en/tokyo/rstLst/"
+          ],
+          "eventCounts": {
+            "PROVIDER_STARTED": 1,
+            "OPERATION_STARTED": 4,
+            "OPERATION_FINISHED": 4,
+            "ASYNC_WAIT": 1,
+            "OBSERVED": 2,
+            "SKILL_STARTED": 1,
+            "MODEL_DECISION_STARTED": 1,
+            "MODEL_DECISION_FAILED": 1,
+            "REJECTED": 1,
+            "CLOSED": 1,
+            "PROVIDER_FINISHED": 1,
+            "CANDIDATE_FINISHED": 1
+          },
+          "errors": [
+            {
+              "at": "2026-10-25T08:49:07.130Z",
+              "event": "MODEL_DECISION_FAILED",
+              "stage": "DISCOVERY",
+              "reason": "TIMEOUT"
+            },
+            {
+              "at": "2026-10-25T08:49:07.130Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "TIMEOUT"
+            }
+          ]
+        },
+        {
+          "source": "WEBSITE",
+          "providerScopeRecorded": false,
+          "activityOnlyWithoutProviderScope": true,
+          "startedAt": "2026-10-25T08:49:07.131Z",
+          "finishedAt": "2026-10-25T08:49:07.131Z",
+          "recordedProviderElapsedMs": null,
+          "observedWallMs": 0,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {},
+          "completedOperationDurations": {},
+          "operations": [],
+          "modelDecisions": [],
+          "unfinishedModel": null,
+          "unfinishedOperations": [
+            {
+              "operation": "NAVIGATE",
+              "startedAt": "2026-10-25T08:49:07.131Z"
+            }
+          ],
+          "observedUrls": [],
+          "eventCounts": {
+            "OPERATION_STARTED": 1
+          },
+          "errors": []
+        }
+      ],
+      "candidate": {
+        "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+        "outletName": "Dengana Akabane",
+        "sourceIds": {
+          "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+          "phone": "03-5249-4011",
+          "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+          "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+        "coordinates": {
+          "lat": 35.7795476,
+          "lng": 139.7211442
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:2ccd37d4b57eac9adfc36fae",
+          "address": "evidence:restaurant:google-discovery:2ccd37d4b57eac9adfc36fae",
+          "sourceIds": "evidence:restaurant:google-discovery:2ccd37d4b57eac9adfc36fae"
+        }
+      },
+      "matchingTraceEvents": 44,
+      "providerAttempts": [],
+      "trajectories": [],
+      "tabelogIdentity": [],
+      "tablecheckIdentity": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "candidate": {
+            "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "outletName": "Dengana Akabane",
+            "sourceIds": {
+              "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "phone": "03-5249-4011",
+              "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+              "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "discoverySourceId": "google-places"
+            },
+            "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+            "coordinates": {
+              "lat": 35.7795476,
+              "lng": 139.7211442
+            },
+            "provenance": {
+              "outletName": "evidence:restaurant:google-discovery:2ccd37d4b57eac9adfc36fae",
+              "address": "evidence:restaurant:google-discovery:2ccd37d4b57eac9adfc36fae",
+              "sourceIds": "evidence:restaurant:google-discovery:2ccd37d4b57eac9adfc36fae"
+            }
+          },
+          "discovery": {
+            "requestedUrl": "https://www.tablecheck.com/en/japan/search",
+            "finalUrl": "https://www.tablecheck.com/en/japan/search",
+            "title": "Map Search - Japan",
+            "status": "RESULTS",
+            "discoveredOutletUrls": [
+              "https://www.tablecheck.com/en/kawaei",
+              "https://www.tablecheck.com/en/underground-akabane",
+              "https://www.tablecheck.com/en/azzurri-arte",
+              "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza"
+            ]
+          },
+          "attemptedPages": [
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/kawaei",
+              "finalUrl": "https://www.tablecheck.com/en/kawaei",
+              "title": "Kawaei - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/kawaei",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Kawaei",
+                  "normalizedValue": "kawaei",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-19-16 Akabane",
+                  "normalizedValue": "1150045tokyokita11916akabane",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+815017242380",
+                  "normalizedValue": "05017242380",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "finalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "title": "UNDERGROUND Akabane - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "UNDERGROUND Akabane",
+                  "normalizedValue": "undergroundakabane",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-66-5 Akabane Green Co-op Ⅱ",
+                  "normalizedValue": "1150045tokyokita1665akabanegreencoopⅱ",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81364544677",
+                  "normalizedValue": "0364544677",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "finalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "title": "Azzurri Arte - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Azzurri Arte",
+                  "normalizedValue": "azzurriarte",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0015 Saitama Kawaguchi-city 3-1-2 Kawaguchi Kawaguchi Museum of Art",
+                  "normalizedValue": "3320015saitamakawaguchicity312kawaguchikawaguchimuseumofart",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482908500",
+                  "normalizedValue": "0482908500",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "finalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "title": "WILDBEACH Kawaguchi - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "WILDBEACH Kawaguchi",
+                  "normalizedValue": "wildbeachkawaguchi",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Prefecture  Kawaguchi City Sakaemachi 3-5-1 Lala Terrace Kawaguchi Rooftop",
+                  "normalizedValue": "3320017saitamaprefecturekawaguchicitysakaemachi351lalaterracekawaguchirooftop",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+818065100055",
+                  "normalizedValue": "08065100055",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "finalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "title": "Senara Kawaguchi JU MALL PLAZA - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Senara Kawaguchi JU MALL PLAZA",
+                  "normalizedValue": "senarakawaguchijumallplaza",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Kawaguchi-shi 3-13-1 Sakae-cho JU-MALL Plaza 2F",
+                  "normalizedValue": "3320017saitamakawaguchishi3131sakaechojumallplaza2f",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482992904",
+                  "normalizedValue": "0482992904",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            }
+          ],
+          "resolution": {
+            "confidence": "LOW",
+            "matchedBy": [],
+            "reason": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          }
+        }
+      ],
+      "candidateFirstObservedAt": "2026-10-25T08:48:34.204Z",
+      "beforeCandidateFirstTraceMs": 467071,
+      "runRemainingAtFirstCandidateTraceMs": 33588
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "caseId": "p2c-holdout-01",
+      "startedAt": "2026-10-25T08:55:51.000Z",
+      "finishedAt": "2026-10-25T09:04:11.602Z",
+      "runElapsedMs": 500025,
+      "applicability": "DENGANA_FOUND",
+      "providers": [
+        {
+          "source": "TABLECHECK",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T09:01:06.704Z",
+          "finishedAt": "2026-10-25T09:01:24.390Z",
+          "recordedProviderElapsedMs": 17686,
+          "observedWallMs": 17686,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 17687
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 2043,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 3,
+              "elapsedMs": 103,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 2,
+              "elapsedMs": 139,
+              "failed": 0
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 1,
+              "elapsedMs": 4003,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 2043,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 45,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 32,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 71,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 4003,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 26,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 68,
+              "outcome": "FINISHED"
+            }
+          ],
+          "modelDecisions": [
+            {
+              "startedAt": "2026-10-25T09:01:13.865Z",
+              "finishedAt": "2026-10-25T09:01:24.370Z",
+              "elapsedMs": 10505,
+              "outcome": "MODEL_DECISION_FAILED"
+            }
+          ],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://www.tablecheck.com/en/japan/search"
+          ],
+          "eventCounts": {
+            "CANDIDATE_STARTED": 1,
+            "PROVIDER_STARTED": 1,
+            "SESSION_OPENING": 1,
+            "SESSION_OPENED": 1,
+            "OPERATION_STARTED": 7,
+            "OPERATION_FINISHED": 7,
+            "ASYNC_WAIT": 2,
+            "OBSERVED": 3,
+            "SKILL_STARTED": 1,
+            "MODEL_DECISION_STARTED": 1,
+            "MODEL_DECISION_FAILED": 1,
+            "REJECTED": 1,
+            "PROVIDER_FINISHED": 1
+          },
+          "errors": [
+            {
+              "at": "2026-10-25T09:01:24.370Z",
+              "event": "MODEL_DECISION_FAILED",
+              "stage": "DISCOVERY",
+              "reason": "NETWORK"
+            },
+            {
+              "at": "2026-10-25T09:01:24.370Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "NETWORK"
+            }
+          ]
+        },
+        {
+          "source": "TABELOG",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T09:01:24.391Z",
+          "finishedAt": "2026-10-25T09:02:06.703Z",
+          "recordedProviderElapsedMs": 42312,
+          "observedWallMs": 42312,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 34792,
+            "IDENTITY": 7520
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 3,
+              "elapsedMs": 16253,
+              "failed": 1
+            },
+            "SNAPSHOT": {
+              "count": 5,
+              "elapsedMs": 321,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 4,
+              "elapsedMs": 1798,
+              "failed": 0
+            },
+            "CLICK": {
+              "count": 1,
+              "elapsedMs": 41,
+              "failed": 0
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 2,
+              "elapsedMs": 2328,
+              "failed": 0
+            },
+            "OPEN_LINK": {
+              "count": 1,
+              "elapsedMs": 12441,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 9521,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 56,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 32,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 225,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "CLICK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 41,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 308,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 38,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 206,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 204,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OPEN_LINK",
+              "stage": "DISCOVERY",
+              "elapsedMs": 12441,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 2020,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 117,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1163,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "NAVIGATE",
+              "stage": "IDENTITY",
+              "elapsedMs": 3224,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "IDENTITY",
+              "elapsedMs": 78,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "NAVIGATE",
+              "stage": "IDENTITY",
+              "elapsedMs": 3508,
+              "outcome": "FAILED",
+              "reason": "Browser NAVIGATE exceeded the candidate deadline"
+            }
+          ],
+          "modelDecisions": [
+            {
+              "startedAt": "2026-10-25T09:01:34.539Z",
+              "finishedAt": "2026-10-25T09:01:37.757Z",
+              "elapsedMs": 3218,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T09:01:38.353Z",
+              "finishedAt": "2026-10-25T09:01:40.677Z",
+              "elapsedMs": 2324,
+              "outcome": "MODEL_DECISION_FINISHED"
+            },
+            {
+              "startedAt": "2026-10-25T09:01:40.884Z",
+              "finishedAt": "2026-10-25T09:01:43.435Z",
+              "elapsedMs": 2551,
+              "outcome": "MODEL_DECISION_FINISHED"
+            }
+          ],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://tabelog.com/en/tokyo/rstLst/",
+            "https://tabelog.com/en/tokyo/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13294162/"
+          ],
+          "eventCounts": {
+            "PROVIDER_STARTED": 1,
+            "OPERATION_STARTED": 16,
+            "OPERATION_FINISHED": 15,
+            "ASYNC_WAIT": 4,
+            "OBSERVED": 5,
+            "SKILL_STARTED": 1,
+            "MODEL_DECISION_STARTED": 3,
+            "MODEL_WIRE": 3,
+            "MODEL_DECISION_FINISHED": 3,
+            "MODEL_ACTION": 3,
+            "POST_ACTION_VERIFIED": 4,
+            "REJECTED": 1,
+            "CLOSED": 1,
+            "PROVIDER_FINISHED": 1,
+            "CANDIDATE_FINISHED": 1,
+            "OPERATION_FAILED": 1
+          },
+          "errors": [
+            {
+              "at": "2026-10-25T09:01:40.678Z",
+              "event": "REJECTED",
+              "stage": "DISCOVERY",
+              "reason": "CLICK target has submit, navigation, or other write-capable structure"
+            },
+            {
+              "at": "2026-10-25T09:02:06.711Z",
+              "event": "OPERATION_FAILED",
+              "stage": "IDENTITY",
+              "reason": "Browser NAVIGATE exceeded the candidate deadline"
+            }
+          ]
+        }
+      ],
+      "candidate": {
+        "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+        "outletName": "Dengana Akabane",
+        "sourceIds": {
+          "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+          "phone": "03-5249-4011",
+          "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+          "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+        "coordinates": {
+          "lat": 35.7795476,
+          "lng": 139.7211442
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:5efe4c1bf4241c29516c9d21",
+          "address": "evidence:restaurant:google-discovery:5efe4c1bf4241c29516c9d21",
+          "sourceIds": "evidence:restaurant:google-discovery:5efe4c1bf4241c29516c9d21"
+        }
+      },
+      "matchingTraceEvents": 91,
+      "providerAttempts": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+        },
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT"
+        }
+      ],
+      "trajectories": [
+        {
+          "stepNumber": 6,
+          "at": "2026-10-25T08:59:29.272Z",
+          "action": {
+            "type": "CHECK_AVAILABILITY",
+            "candidateIds": [
+              "praxis:restaurant:0d56ed154080df9317f9d79d",
+              "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+              "praxis:restaurant:07b0ba0daee00150d6d202e1"
+            ]
+          },
+          "latencyMs": 157425,
+          "stepOutcome": "EXECUTED"
+        }
+      ],
+      "tabelogIdentity": [],
+      "tablecheckIdentity": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "candidate": {
+            "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "outletName": "Dengana Akabane",
+            "sourceIds": {
+              "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "phone": "03-5249-4011",
+              "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+              "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "discoverySourceId": "google-places"
+            },
+            "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+            "coordinates": {
+              "lat": 35.7795476,
+              "lng": 139.7211442
+            },
+            "provenance": {
+              "outletName": "evidence:restaurant:google-discovery:5efe4c1bf4241c29516c9d21",
+              "address": "evidence:restaurant:google-discovery:5efe4c1bf4241c29516c9d21",
+              "sourceIds": "evidence:restaurant:google-discovery:5efe4c1bf4241c29516c9d21"
+            }
+          },
+          "discovery": {
+            "requestedUrl": "https://www.tablecheck.com/en/japan/search",
+            "finalUrl": "https://www.tablecheck.com/en/japan/search",
+            "title": "Map Search - Japan",
+            "status": "RESULTS",
+            "discoveredOutletUrls": [
+              "https://www.tablecheck.com/en/kawaei",
+              "https://www.tablecheck.com/en/underground-akabane",
+              "https://www.tablecheck.com/en/azzurri-arte",
+              "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza"
+            ]
+          },
+          "attemptedPages": [
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/kawaei",
+              "finalUrl": "https://www.tablecheck.com/en/kawaei",
+              "title": "Kawaei - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/kawaei",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Kawaei",
+                  "normalizedValue": "kawaei",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-19-16 Akabane",
+                  "normalizedValue": "1150045tokyokita11916akabane",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+815017242380",
+                  "normalizedValue": "05017242380",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "finalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "title": "UNDERGROUND Akabane - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "UNDERGROUND Akabane",
+                  "normalizedValue": "undergroundakabane",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-66-5 Akabane Green Co-op Ⅱ",
+                  "normalizedValue": "1150045tokyokita1665akabanegreencoopⅱ",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81364544677",
+                  "normalizedValue": "0364544677",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "finalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "title": "Azzurri Arte - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Azzurri Arte",
+                  "normalizedValue": "azzurriarte",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0015 Saitama Kawaguchi-city 3-1-2 Kawaguchi Kawaguchi Museum of Art",
+                  "normalizedValue": "3320015saitamakawaguchicity312kawaguchikawaguchimuseumofart",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482908500",
+                  "normalizedValue": "0482908500",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "finalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "title": "WILDBEACH Kawaguchi - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "WILDBEACH Kawaguchi",
+                  "normalizedValue": "wildbeachkawaguchi",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Prefecture  Kawaguchi City Sakaemachi 3-5-1 Lala Terrace Kawaguchi Rooftop",
+                  "normalizedValue": "3320017saitamaprefecturekawaguchicitysakaemachi351lalaterracekawaguchirooftop",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+818065100055",
+                  "normalizedValue": "08065100055",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "finalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "title": "Senara Kawaguchi JU MALL PLAZA - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Senara Kawaguchi JU MALL PLAZA",
+                  "normalizedValue": "senarakawaguchijumallplaza",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Kawaguchi-shi 3-13-1 Sakae-cho JU-MALL Plaza 2F",
+                  "normalizedValue": "3320017saitamakawaguchishi3131sakaechojumallplaza2f",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482992904",
+                  "normalizedValue": "0482992904",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            }
+          ],
+          "resolution": {
+            "confidence": "LOW",
+            "matchedBy": [],
+            "reason": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          }
+        }
+      ],
+      "candidateFirstObservedAt": "2026-10-25T09:01:06.703Z",
+      "beforeCandidateFirstTraceMs": 315703,
+      "runRemainingAtFirstCandidateTraceMs": 184899
+    },
+    {
+      "artifact": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "caseId": "p2c-holdout-01",
+      "startedAt": "2026-10-25T09:16:29.587Z",
+      "finishedAt": "2026-10-25T09:24:50.283Z",
+      "runElapsedMs": 500013,
+      "applicability": "DENGANA_FOUND",
+      "providers": [
+        {
+          "source": "TABLECHECK",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T09:21:40.382Z",
+          "finishedAt": "2026-10-25T09:21:44.943Z",
+          "recordedProviderElapsedMs": 4561,
+          "observedWallMs": 4561,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 4561
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 1634,
+              "failed": 0
+            },
+            "SNAPSHOT": {
+              "count": 3,
+              "elapsedMs": 212,
+              "failed": 0
+            },
+            "OBSERVE_CONTROLS": {
+              "count": 2,
+              "elapsedMs": 770,
+              "failed": 0
+            },
+            "WAIT_FOR_SETTLED": {
+              "count": 1,
+              "elapsedMs": 1131,
+              "failed": 0
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1634,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 76,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 49,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 82,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "WAIT_FOR_SETTLED",
+              "stage": "DISCOVERY",
+              "elapsedMs": 1131,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "SNAPSHOT",
+              "stage": "DISCOVERY",
+              "elapsedMs": 87,
+              "outcome": "FINISHED"
+            },
+            {
+              "operation": "OBSERVE_CONTROLS",
+              "stage": "DISCOVERY",
+              "elapsedMs": 688,
+              "outcome": "FINISHED"
+            }
+          ],
+          "modelDecisions": [],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [
+            "https://www.tablecheck.com/en/japan/search"
+          ],
+          "eventCounts": {
+            "CANDIDATE_STARTED": 1,
+            "PROVIDER_STARTED": 1,
+            "SESSION_OPENING": 1,
+            "SESSION_OPENED": 1,
+            "OPERATION_STARTED": 7,
+            "OPERATION_FINISHED": 7,
+            "ASYNC_WAIT": 2,
+            "OBSERVED": 3,
+            "PROVIDER_FINISHED": 1
+          },
+          "errors": []
+        },
+        {
+          "source": "TABELOG",
+          "providerScopeRecorded": true,
+          "activityOnlyWithoutProviderScope": false,
+          "startedAt": "2026-10-25T09:21:44.943Z",
+          "finishedAt": "2026-10-25T09:22:04.947Z",
+          "recordedProviderElapsedMs": 20004,
+          "observedWallMs": 20004,
+          "rightCensored": false,
+          "stageWallMsFromEventBoundaries": {
+            "DISCOVERY": 20004
+          },
+          "completedOperationDurations": {
+            "NAVIGATE": {
+              "count": 1,
+              "elapsedMs": 20003,
+              "failed": 1
+            }
+          },
+          "operations": [
+            {
+              "operation": "NAVIGATE",
+              "stage": "DISCOVERY",
+              "elapsedMs": 20003,
+              "outcome": "FAILED",
+              "reason": "Browser navigation exceeded its bounded navigation timeout: Local Playwright Chromium operation failed"
+            }
+          ],
+          "modelDecisions": [],
+          "unfinishedModel": null,
+          "unfinishedOperations": [],
+          "observedUrls": [],
+          "eventCounts": {
+            "PROVIDER_STARTED": 1,
+            "OPERATION_STARTED": 1,
+            "OPERATION_FAILED": 1,
+            "CLOSED": 1,
+            "PROVIDER_FINISHED": 1,
+            "CANDIDATE_FINISHED": 1
+          },
+          "errors": [
+            {
+              "at": "2026-10-25T09:22:04.947Z",
+              "event": "OPERATION_FAILED",
+              "stage": "DISCOVERY",
+              "reason": "Browser navigation exceeded its bounded navigation timeout: Local Playwright Chromium operation failed"
+            }
+          ]
+        }
+      ],
+      "candidate": {
+        "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+        "outletName": "Dengana Akabane",
+        "sourceIds": {
+          "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+          "phone": "03-5249-4011",
+          "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+          "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        },
+        "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+        "coordinates": {
+          "lat": 35.7795476,
+          "lng": 139.7211442
+        },
+        "provenance": {
+          "outletName": "evidence:restaurant:google-discovery:9fbd0f71644df5cada738f10",
+          "address": "evidence:restaurant:google-discovery:9fbd0f71644df5cada738f10",
+          "sourceIds": "evidence:restaurant:google-discovery:9fbd0f71644df5cada738f10"
+        }
+      },
+      "matchingTraceEvents": 30,
+      "providerAttempts": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABLECHECK",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+        },
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "provider": "TABELOG",
+          "outcome": "PROVIDER_FAILURE",
+          "failureCode": "BROWSER_TIMEOUT"
+        }
+      ],
+      "trajectories": [
+        {
+          "stepNumber": 6,
+          "at": "2026-10-25T09:19:48.802Z",
+          "action": {
+            "type": "CHECK_AVAILABILITY",
+            "candidateIds": [
+              "praxis:restaurant:0d56ed154080df9317f9d79d",
+              "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+              "praxis:restaurant:07b0ba0daee00150d6d202e1"
+            ]
+          },
+          "latencyMs": 136155,
+          "stepOutcome": "EXECUTED"
+        }
+      ],
+      "tabelogIdentity": [],
+      "tablecheckIdentity": [
+        {
+          "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "candidate": {
+            "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "outletName": "Dengana Akabane",
+            "sourceIds": {
+              "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "phone": "03-5249-4011",
+              "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+              "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "discoverySourceId": "google-places"
+            },
+            "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+            "coordinates": {
+              "lat": 35.7795476,
+              "lng": 139.7211442
+            },
+            "provenance": {
+              "outletName": "evidence:restaurant:google-discovery:9fbd0f71644df5cada738f10",
+              "address": "evidence:restaurant:google-discovery:9fbd0f71644df5cada738f10",
+              "sourceIds": "evidence:restaurant:google-discovery:9fbd0f71644df5cada738f10"
+            }
+          },
+          "discovery": {
+            "requestedUrl": "https://www.tablecheck.com/en/japan/search",
+            "finalUrl": "https://www.tablecheck.com/en/japan/search",
+            "title": "Map Search - Japan",
+            "status": "RESULTS",
+            "discoveredOutletUrls": [
+              "https://www.tablecheck.com/en/kawaei",
+              "https://www.tablecheck.com/en/underground-akabane",
+              "https://www.tablecheck.com/en/azzurri-arte",
+              "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza"
+            ]
+          },
+          "attemptedPages": [
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/kawaei",
+              "finalUrl": "https://www.tablecheck.com/en/kawaei",
+              "title": "Kawaei - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/kawaei",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Kawaei",
+                  "normalizedValue": "kawaei",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-19-16 Akabane",
+                  "normalizedValue": "1150045tokyokita11916akabane",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+815017242380",
+                  "normalizedValue": "05017242380",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "finalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "title": "UNDERGROUND Akabane - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/underground-akabane",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "UNDERGROUND Akabane",
+                  "normalizedValue": "undergroundakabane",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "115-0045 Tokyo Kita 1-66-5 Akabane Green Co-op Ⅱ",
+                  "normalizedValue": "1150045tokyokita1665akabanegreencoopⅱ",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81364544677",
+                  "normalizedValue": "0364544677",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "finalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "title": "Azzurri Arte - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/azzurri-arte",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Azzurri Arte",
+                  "normalizedValue": "azzurriarte",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0015 Saitama Kawaguchi-city 3-1-2 Kawaguchi Kawaguchi Museum of Art",
+                  "normalizedValue": "3320015saitamakawaguchicity312kawaguchikawaguchimuseumofart",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482908500",
+                  "normalizedValue": "0482908500",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "finalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "title": "WILDBEACH Kawaguchi - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/wildbeach-kawaguchi",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "WILDBEACH Kawaguchi",
+                  "normalizedValue": "wildbeachkawaguchi",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Prefecture  Kawaguchi City Sakaemachi 3-5-1 Lala Terrace Kawaguchi Rooftop",
+                  "normalizedValue": "3320017saitamaprefecturekawaguchicitysakaemachi351lalaterracekawaguchirooftop",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+818065100055",
+                  "normalizedValue": "08065100055",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            },
+            {
+              "requestedUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "finalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "title": "Senara Kawaguchi JU MALL PLAZA - Restaurant Guide - TableCheck",
+              "canonicalUrl": "https://www.tablecheck.com/en/senara-kawaguchi-ju-mall-plaza",
+              "botChallenge": false,
+              "extracted": {
+                "outletName": {
+                  "value": "Senara Kawaguchi JU MALL PLAZA",
+                  "normalizedValue": "senarakawaguchijumallplaza",
+                  "source": "JSON_LD"
+                },
+                "address": {
+                  "value": "332-0017 Saitama Kawaguchi-shi 3-13-1 Sakae-cho JU-MALL Plaza 2F",
+                  "normalizedValue": "3320017saitamakawaguchishi3131sakaechojumallplaza2f",
+                  "source": "JSON_LD"
+                },
+                "phone": {
+                  "value": "+81482992904",
+                  "normalizedValue": "0482992904",
+                  "source": "TEL_LINK"
+                }
+              },
+              "comparison": {
+                "outletName": "CONFLICT",
+                "address": "CONFLICT",
+                "phone": "CONFLICT"
+              }
+            }
+          ],
+          "resolution": {
+            "confidence": "LOW",
+            "matchedBy": [],
+            "reason": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          }
+        }
+      ],
+      "candidateFirstObservedAt": "2026-10-25T09:21:40.382Z",
+      "beforeCandidateFirstTraceMs": 310795,
+      "runRemainingAtFirstCandidateTraceMs": 189901
+    }
+  ],
+  "inputs": [
+    {
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-1-2026-10-25T00-31-48-860Z-b95d1c09-0dea-478b-aa67-1269625daf61.result.json.gz",
+      "sha256": "1093d9ec0327b301b7660df00c3987496fc361063781514a7b45925c31395999"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-2-2026-10-25T00-54-26-009Z-cd60a866-8f92-4c6c-99cd-b0aef99a94dc.result.json.gz",
+      "sha256": "ee9076664ca732c7167e13c8dc8034020134aa1f3294bbc08e3a64a68df99628"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-3-2026-10-25T01-05-27-488Z-af4d5e52-38d1-444a-8c8b-e643269fa050.result.json.gz",
+      "sha256": "0aae4c214ce0e0d480a7a1c52282d7a4deb6956f1834c394422180ece522774f"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-4-2026-10-25T01-14-35-049Z-bdf7d9b8-0a52-4711-b3ba-687178f78dc2.result.json.gz",
+      "sha256": "ecd923b7ad51e0151a9dae7b3d9177e9bf17798e5f6a1d11e3c54bb92cfeaa09"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f5-live/evidence/slot-5-2026-10-25T01-25-03-549Z-77ea337b-0e75-4cc2-b88e-7209e712274e.result.json.gz",
+      "sha256": "fa1e44d1d1707789232b2e0ffe8081810e64008e325800ea6429d718968f1bb5"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-1-2026-10-25T08-40-47-133Z-55211478-661f-4b12-90f8-b8acdf888265.result.json.gz",
+      "sha256": "3458550c3a54f9e640020cb86d9c0b58c635425f1d9a1f85325ed75a49961fd0"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-2-2026-10-25T08-55-51-000Z-676e4ed3-0aa6-4111-ae89-65846fce3909.result.json.gz",
+      "sha256": "af01f1b3a30a06ea1e9b958472c42c3843d6c7c159d3a4a0eee51e998c18c715"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f5-live-rerun/evidence/slot-3-2026-10-25T09-16-29-587Z-162d3013-4b9c-468f-97da-8d3761256304.result.json.gz",
+      "sha256": "0df4b6de4e7d4cf6adff9d6f21051edad82eda452050d8cb75ddf2b2b612d0e9"
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "logical": 39,
+  "cohort": "DEVELOPMENT",
+  "sessionId": "SR10-hard-budget",
+  "repetition": 1,
+  "turnId": "SR10-T01",
+  "input": {
+    "taskId": "SR10-hard-budget",
+    "message": "Tomorrow after work in Shinjuku for two. The 5,000 yen maximum is firm.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo"
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "RECOMMENDATION",
+            "query": "Restaurant recommendations in Shinjuku for tomorrow after work",
+            "goalBasis": {
+              "type": "JUDGMENT",
+              "reason": "Broad after-work period with a party but no booking wording or explicit clock time",
+              "quotes": [
+                "Tomorrow after work in Shinjuku for two"
+              ]
+            },
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "relativeDay": "TOMORROW",
+            "raw": "Tomorrow"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "daypart": "AFTER_WORK",
+            "raw": "after work"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "Shinjuku"
+          }
+        },
+        {
+          "field": "BUDGET_PER_PERSON",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "BUDGET_PER_PERSON",
+            "max": 5000,
+            "currency": "JPY"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "c17af885-0540-41cb-a760-2b1986e8c069",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1867,
+        "usage": {
+          "inputTokens": 7048,
+          "outputTokens": 371,
+          "totalTokens": 7419
+        },
+        "providerRequestId": "682c5cf5-6fdc-4bdb-b7ba-59edc456a80a"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Restaurant recommendations in Shinjuku for tomorrow after work",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "partySize": 2,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "Shinjuku"
+      },
+      "budgetPerPerson": {
+        "max": 5000,
+        "currency": "JPY"
+      },
+      "date": "2026-08-06",
+      "timeWindow": {
+        "earliest": "17:30",
+        "latest": "22:00"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "Tomorrow",
+          "resolvedDate": "2026-08-06",
+          "basis": "TOMORROW"
+        },
+        "timeWindow": {
+          "expression": "after work",
+          "resolvedTimeWindow": {
+            "earliest": "17:30",
+            "latest": "22:00"
+          },
+          "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+        }
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [],
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "Restaurant recommendations in Shinjuku for tomorrow after work",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "17:30",
+      "latest": "22:00"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "Tomorrow",
+        "resolvedDate": "2026-08-06",
+        "basis": "TOMORROW"
+      },
+      "timeWindow": {
+        "expression": "after work",
+        "resolvedTimeWindow": {
+          "earliest": "17:30",
+          "latest": "22:00"
+        },
+        "basis": "DAYPART:AFTER_WORK_BROAD_WINDOW"
+      }
+    },
+    "partySize": 2,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Shinjuku"
+    },
+    "budgetPerPerson": {
+      "max": 5000,
+      "currency": "JPY"
+    }
+  },
+  "commands": [],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "17:30",
+      "latest": "22:00"
+    },
+    "partySize": 2,
+    "area": {
+      "query": "Shinjuku"
+    },
+    "criteria": [],
+    "budgetPerPerson": {
+      "max": 5000,
+      "currency": "JPY"
+    }
+  },
+  "evaluation": {
+    "requestedFieldDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+    },
+    "goalEvaluation": {
+      "category": "GRAY",
+      "status": "SATISFIED",
+      "actualGoal": "RECOMMENDATION",
+      "basis": {
+        "type": "JUDGMENT",
+        "reason": "Broad after-work period with a party but no booking wording or explicit clock time",
+        "quotes": [
+          "Tomorrow after work in Shinjuku for two"
+        ]
+      },
+      "errors": []
+    }
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-039"
+  ]
+}

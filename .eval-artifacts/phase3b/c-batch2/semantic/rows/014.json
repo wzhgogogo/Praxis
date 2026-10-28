@@ -1,0 +1,118 @@
+{
+  "logical": 14,
+  "cohort": "NAMED",
+  "sessionId": "NAMED-WITHDRAW-R1",
+  "repetition": 1,
+  "turnId": "WITHDRAW-02",
+  "input": {
+    "taskId": "NAMED-WITHDRAW-R1",
+    "message": "Forget the named place; show other restaurants in Ginza.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo",
+    "currentDraft": {
+      "schemaVersion": "3",
+      "timezone": "Asia/Tokyo",
+      "criteria": [],
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Sushi Dai",
+        "selectionScope": "SPECIFIC_OUTLET"
+      }
+    }
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "CORRECT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "RECOMMENDATION",
+            "query": "Other restaurants in Ginza",
+            "goalBasis": {
+              "type": "JUDGMENT",
+              "reason": "User drops the named place and asks for other restaurants in an area; exploratory request",
+              "quotes": [
+                "Forget the named place",
+                "show other restaurants in Ginza"
+              ]
+            },
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "Ginza"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "c17dc6b6-6b91-4272-bee3-9455bced6888",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1715,
+        "usage": {
+          "inputTokens": 7065,
+          "outputTokens": 197,
+          "totalTokens": 7262
+        },
+        "providerRequestId": "dffd32a7-da00-48ff-88f0-121fb97c8c59"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Other restaurants in Ginza",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "area": {
+        "query": "Ginza"
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "Other restaurants in Ginza",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "criteria": [],
+    "area": {
+      "query": "Ginza"
+    }
+  },
+  "commands": [],
+  "gold": {
+    "scope": "OPEN_ENDED",
+    "goal": "RECOMMENDATION",
+    "mustNotContain": "Sushi Dai"
+  },
+  "evaluation": {
+    "target": "PASS",
+    "requestedFieldDifferences": []
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-014"
+  ]
+}

@@ -1,0 +1,468 @@
+{
+  "status": "COMPLETED",
+  "sourceCommit": "a31ad5f127b5b032560e3066869a0e35ce09f9c8",
+  "finishedAtCET": "2026-10-27T16:02:14.969+01:00",
+  "newRealModelCalls": 39,
+  "plannedLogicalTurns": 39,
+  "completedLogicalTurns": 39,
+  "named": [
+    {
+      "session": "NAMED-SR03-R1",
+      "turnId": "SR03-T01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-SR03-R1",
+      "turnId": "SR03-T02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-SR03-R2",
+      "turnId": "SR03-T01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-SR03-R2",
+      "turnId": "SR03-T02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-SR03-R3",
+      "turnId": "SR03-T01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-SR03-R3",
+      "turnId": "SR03-T02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-REPLACE-R1",
+      "turnId": "REPLACE-01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-REPLACE-R1",
+      "turnId": "REPLACE-02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-REPLACE-R2",
+      "turnId": "REPLACE-01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-REPLACE-R2",
+      "turnId": "REPLACE-02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-REPLACE-R3",
+      "turnId": "REPLACE-01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-REPLACE-R3",
+      "turnId": "REPLACE-02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-WITHDRAW-R1",
+      "turnId": "WITHDRAW-01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-WITHDRAW-R1",
+      "turnId": "WITHDRAW-02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-WITHDRAW-R2",
+      "turnId": "WITHDRAW-01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-WITHDRAW-R2",
+      "turnId": "WITHDRAW-02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-WITHDRAW-R3",
+      "turnId": "WITHDRAW-01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-WITHDRAW-R3",
+      "turnId": "WITHDRAW-02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-VISIT-CORRECTION-R1",
+      "turnId": "VISIT-01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-VISIT-CORRECTION-R1",
+      "turnId": "VISIT-02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-VISIT-CORRECTION-R2",
+      "turnId": "VISIT-01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-VISIT-CORRECTION-R2",
+      "turnId": "VISIT-02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-VISIT-CORRECTION-R3",
+      "turnId": "VISIT-01",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    },
+    {
+      "session": "NAMED-VISIT-CORRECTION-R3",
+      "turnId": "VISIT-02",
+      "target": "PASS",
+      "requestedFieldDifferences": []
+    }
+  ],
+  "development": [
+    {
+      "turnId": "SR01-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "B",
+        "status": "SATISFIED",
+        "actualGoal": "AVAILABILITY",
+        "basis": {
+          "type": "SPECIFIC_TIME_MEAL",
+          "reason": "Sit-down meal at an explicit clock range with a known party size",
+          "quotes": [
+            "Tomorrow between 19:00 and 19:30",
+            "for two people"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR01-T02",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "target.goal must match every new TARGET"
+      },
+      "goalEvaluation": {
+        "category": "B",
+        "status": "NOT_SATISFIED",
+        "actualGoal": "AVAILABILITY",
+        "errors": [
+          "target.goal must match every new TARGET"
+        ]
+      }
+    },
+    {
+      "turnId": "SR02-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "A",
+        "status": "SATISFIED",
+        "actualGoal": "AVAILABILITY",
+        "basis": {
+          "type": "BOOKING_WORDING",
+          "reason": "User asks for a table, i.e. booking wording",
+          "quotes": [
+            "I need a table"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR02-T02",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "CONTEXT_CARRY",
+        "status": "SATISFIED",
+        "actualGoal": "AVAILABILITY",
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR03-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "REDUCER",
+        "error": "Authoritative Draft differs after a correct Proposal and compiled patch"
+      },
+      "goalEvaluation": {
+        "category": "NO_TIME",
+        "status": "SATISFIED",
+        "actualGoal": "RECOMMENDATION",
+        "basis": {
+          "type": "JUDGMENT",
+          "reason": "User names a specific restaurant without visit time or booking wording",
+          "quotes": [
+            "I want Sushi Dai"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR03-T02",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "B",
+        "status": "SATISFIED",
+        "actualGoal": "AVAILABILITY",
+        "basis": {
+          "type": "SPECIFIC_TIME_MEAL",
+          "reason": "Explicit clock range with a known party for a sit-down meal",
+          "quotes": [
+            "between 19:00 and 19:30",
+            "for two people"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR04-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "B",
+        "status": "SATISFIED",
+        "actualGoal": "AVAILABILITY",
+        "basis": {
+          "type": "SPECIFIC_TIME_MEAL",
+          "reason": "Sit-down meal at an explicit clock range with a stated party size",
+          "quotes": [
+            "between 18:00 and 18:30",
+            "for four people"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR05-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "GRAY",
+        "status": "SATISFIED",
+        "actualGoal": "RECOMMENDATION",
+        "basis": {
+          "type": "JUDGMENT",
+          "reason": "Broad evening period with a party but no booking wording or explicit clock time; user wants options",
+          "quotes": [
+            "This Friday evening near our office for three colleagues and me"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR06-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "GRAY",
+        "status": "SATISFIED",
+        "actualGoal": "RECOMMENDATION",
+        "basis": {
+          "type": "JUDGMENT",
+          "reason": "Exploratory request with a daypart and party but no booking wording or explicit clock time",
+          "quotes": [
+            "Tomorrow afternoon nearby for my parents and me"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR07-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "GRAY",
+        "status": "SATISFIED",
+        "actualGoal": "RECOMMENDATION",
+        "basis": {
+          "type": "JUDGMENT",
+          "reason": "Relative offset with party size but no booking wording or explicit clock time; exploratory recommendation",
+          "quotes": [
+            "In about 30 minutes near me for two people, Korean food."
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR08-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "GRAY",
+        "status": "SATISFIED",
+        "actualGoal": "RECOMMENDATION",
+        "basis": {
+          "type": "JUDGMENT",
+          "reason": "User asks for a sushi place tonight for two without booking wording or an explicit clock time",
+          "quotes": [
+            "Tonight at dinner in Ginza for two",
+            "I need sushi, but not omakase"
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR08-T02",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "target.goal must match every new TARGET"
+      },
+      "goalEvaluation": {
+        "category": "GRAY",
+        "status": "NOT_SATISFIED",
+        "actualGoal": "RECOMMENDATION",
+        "errors": [
+          "target.goal must match every new TARGET"
+        ]
+      }
+    },
+    {
+      "turnId": "SR09-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "GRAY",
+        "status": "SATISFIED",
+        "actualGoal": "RECOMMENDATION",
+        "basis": {
+          "type": "JUDGMENT",
+          "reason": "Exploratory request for Italian food near the hotel with no booking wording or explicit clock time",
+          "quotes": [
+            "This Saturday night near my hotel for two people, Italian food."
+          ]
+        },
+        "errors": []
+      }
+    },
+    {
+      "turnId": "SR09-T02",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "target.goal must match every new TARGET"
+      },
+      "goalEvaluation": {
+        "category": "GRAY",
+        "status": "NOT_SATISFIED",
+        "actualGoal": "RECOMMENDATION",
+        "errors": [
+          "target.goal must match every new TARGET"
+        ]
+      }
+    },
+    {
+      "turnId": "SR10-T01",
+      "requestedFieldDifferences": [],
+      "strictScore": {
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+      },
+      "goalEvaluation": {
+        "category": "GRAY",
+        "status": "SATISFIED",
+        "actualGoal": "RECOMMENDATION",
+        "basis": {
+          "type": "JUDGMENT",
+          "reason": "Broad after-work period with a party but no booking wording or explicit clock time",
+          "quotes": [
+            "Tomorrow after work in Shinjuku for two"
+          ]
+        },
+        "errors": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/integrations/restaurant-identity/detail-identity-fields.test.ts(59,40): error TS2345: Argument of type '{ matchReasons: string[]; warnings: string[]; executionConfidence: "HIGH" | "LOW" | "MEDIUM"; restaurant: { brandName?: string; coordinates?: { lat: number; lng: number; }; provenance: Record<string, string>; id: string; outletName: string; address: string; sourceIds: { ...; }; }; }' is not assignable to parameter of type '{ matchReasons: string[]; warnings: string[]; executionConfidence: "HIGH" | "LOW" | "MEDIUM"; restaurant: { brandName?: string; coordinates?: { lat: number; lng: number; }; provenance: Record<string, string>; id: string; outletName: string; address: string; sourceIds: { ...; }; }; }'.
+  The types of 'restaurant.sourceIds' are incompatible between these types.
+    Property 'googlePlaces' is missing in type '{ phone: string; }' but required in type '{ googlePlaces: string; phone: string; }'.
+src/integrations/restaurant-identity/detail-identity-fields.test.ts(65,87): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type 'string | undefined' is not assignable to parameter of type '(substring: string, ...args: any[]) => string'.
+      Type 'undefined' is not assignable to type '(substring: string, ...args: any[]) => string'.
+src/integrations/restaurant-identity/detail-identity-fields.test.ts(67,40): error TS2345: Argument of type '{ matchReasons: string[]; warnings: string[]; executionConfidence: "HIGH" | "MEDIUM" | "LOW"; restaurant: { brandName?: string; coordinates?: { lat: number; lng: number; }; provenance: Record<string, string>; id: string; outletName: string; sourceIds: { ...; }; address: string | undefined; }; }' is not assignable to parameter of type '{ matchReasons: string[]; warnings: string[]; executionConfidence: "HIGH" | "MEDIUM" | "LOW"; restaurant: { brandName?: string; coordinates?: { lat: number; lng: number; }; provenance: Record<string, string>; id: string; outletName: string; address: string; sourceIds: { ...; }; }; }'.
+  The types of 'restaurant.address' are incompatible between these types.
+    Type 'string | undefined' is not assignable to type 'string'.
+      Type 'undefined' is not assignable to type 'string'.

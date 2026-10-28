@@ -1,0 +1,186 @@
+{
+  "logical": 19,
+  "cohort": "NAMED",
+  "sessionId": "NAMED-VISIT-CORRECTION-R1",
+  "repetition": 1,
+  "turnId": "VISIT-01",
+  "input": {
+    "taskId": "NAMED-VISIT-CORRECTION-R1",
+    "message": "Book Sushi Dai for two people tomorrow at 19:00 in Tsukiji.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo"
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "Sushi Dai",
+            "goalBasis": {
+              "type": "BOOKING_WORDING",
+              "reason": "User explicitly asks to book a named restaurant at a specific time.",
+              "quotes": [
+                "Book Sushi Dai",
+                "tomorrow at 19:00"
+              ]
+            },
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "relativeDay": "TOMORROW",
+            "raw": "tomorrow"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:00",
+            "latest": "19:00",
+            "raw": "19:00"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "Tsukiji"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "68321cf8-8b65-4920-81e5-9091bd396cc0",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1831,
+        "usage": {
+          "inputTokens": 7046,
+          "outputTokens": 325,
+          "totalTokens": 7371
+        },
+        "providerRequestId": "23ed895f-a98f-45dc-9577-7f7338ba414f"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Sushi Dai",
+        "selectionScope": "SPECIFIC_OUTLET"
+      },
+      "partySize": 2,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "Tsukiji"
+      },
+      "date": "2026-08-06",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:00"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "tomorrow",
+          "resolvedDate": "2026-08-06",
+          "basis": "TOMORROW"
+        },
+        "timeWindow": {
+          "expression": "19:00",
+          "resolvedTimeWindow": {
+            "earliest": "19:00",
+            "latest": "19:00"
+          },
+          "basis": "EXPLICIT_CLOCK"
+        }
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [],
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "Sushi Dai",
+      "selectionScope": "SPECIFIC_OUTLET"
+    },
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "19:00",
+      "latest": "19:00"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "tomorrow",
+        "resolvedDate": "2026-08-06",
+        "basis": "TOMORROW"
+      },
+      "timeWindow": {
+        "expression": "19:00",
+        "resolvedTimeWindow": {
+          "earliest": "19:00",
+          "latest": "19:00"
+        },
+        "basis": "EXPLICIT_CLOCK"
+      }
+    },
+    "partySize": 2,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Tsukiji"
+    }
+  },
+  "commands": [],
+  "gold": {
+    "contains": "Sushi Dai",
+    "scope": "SPECIFIC_OUTLET",
+    "goal": "AVAILABILITY"
+  },
+  "evaluation": {
+    "target": "PASS",
+    "requestedFieldDifferences": []
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-019"
+  ]
+}

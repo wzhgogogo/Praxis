@@ -1,0 +1,42 @@
+{
+  "atCET": "2026-10-27T16:01:41.639+01:00",
+  "response": {
+    "invocationId": "68321cf8-8b65-4920-81e5-9091bd396cc0",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Sushi Dai\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User explicitly asks to book a named restaurant at a specific time.\", \"quotes\": [\"Book Sushi Dai\", \"tomorrow at 19:00\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"19:00\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Tsukiji\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1831,
+    "providerRequestId": "23ed895f-a98f-45dc-9577-7f7338ba414f",
+    "usage": {
+      "inputTokens": 7046,
+      "outputTokens": 325,
+      "totalTokens": 7371
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "68321cf8-8b65-4920-81e5-9091bd396cc0",
+      "taskId": "NAMED-VISIT-CORRECTION-R1",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v26",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1831,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7046,
+        "outputTokens": 325,
+        "totalTokens": 7371
+      },
+      "providerRequestId": "23ed895f-a98f-45dc-9577-7f7338ba414f"
+    }
+  ]
+}

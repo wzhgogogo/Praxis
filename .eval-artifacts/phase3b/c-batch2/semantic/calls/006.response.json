@@ -1,0 +1,42 @@
+{
+  "atCET": "2026-10-27T16:01:23.850+01:00",
+  "response": {
+    "invocationId": "ce448542-9c8f-4bf1-b1eb-b775a90b84c1",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"Sushi Dai\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"User gives an explicit clock range and party for a sit-down meal at the named outlet\", \"quotes\": [\"Tomorrow between 19:00 and 19:30\", \"for two people\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"relativeDay\": \"TOMORROW\", \"raw\": \"Tomorrow\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:30\", \"raw\": \"between 19:00 and 19:30\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Tsukiji\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1656,
+    "providerRequestId": "149b9012-459b-434d-8b8d-48cb3374e622",
+    "usage": {
+      "inputTokens": 7071,
+      "outputTokens": 340,
+      "totalTokens": 7411
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "ce448542-9c8f-4bf1-b1eb-b775a90b84c1",
+      "taskId": "NAMED-SR03-R3",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v26",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1656,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7071,
+        "outputTokens": 340,
+        "totalTokens": 7411
+      },
+      "providerRequestId": "149b9012-459b-434d-8b8d-48cb3374e622"
+    }
+  ]
+}

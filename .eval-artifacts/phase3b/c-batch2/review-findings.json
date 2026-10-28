@@ -1,0 +1,347 @@
+{
+  "schema": "phase3b-c-batch2-review-findings@1",
+  "atCET": "2026-10-27T16:49:11+01:00",
+  "status": "AWAITING_REVIEW_NOT_OVERALL_ACCEPTED",
+  "semantic": {
+    "namedTurns": 24,
+    "namedPassed": 24,
+    "developmentTurns": 15,
+    "goalPassed": 15,
+    "strictPassed": 0,
+    "requestedValuePassed": 14
+  },
+  "newPrimaryPairs": [
+    {
+      "id": "G4-ND-001",
+      "historicalAnchor": true,
+      "name": "Dengana Akabane",
+      "original": "MISS_IN_THIS_FIRST_PAGE",
+      "alternate": "HIT"
+    },
+    {
+      "id": "G4-ND-002",
+      "historicalAnchor": false,
+      "name": "Ushigoro Bambina Carbone Nakameguro",
+      "original": "MISS_IN_THIS_FIRST_PAGE",
+      "alternate": "HIT"
+    },
+    {
+      "id": "G4-ND-003",
+      "historicalAnchor": false,
+      "name": "和泉鮨南口店",
+      "original": "HIT",
+      "alternate": "HIT"
+    },
+    {
+      "id": "G4-ND-004",
+      "historicalAnchor": false,
+      "name": "Waragamo",
+      "original": "HIT",
+      "alternate": "HIT"
+    },
+    {
+      "id": "G4-ND-005",
+      "historicalAnchor": false,
+      "name": "Sen Kagurazaka",
+      "original": "MISS_IN_THIS_FIRST_PAGE",
+      "alternate": "MISS_IN_THIS_FIRST_PAGE"
+    },
+    {
+      "id": "G4-ND-006",
+      "historicalAnchor": false,
+      "name": "吉祥じ 和こん",
+      "original": "HIT",
+      "alternate": "HIT"
+    },
+    {
+      "id": "G4-ND-007",
+      "historicalAnchor": false,
+      "name": "Washokubiyori Osaketo Kagrazaka",
+      "original": "MISS_IN_THIS_FIRST_PAGE",
+      "alternate": "HIT"
+    },
+    {
+      "id": "G4-ND-008",
+      "historicalAnchor": false,
+      "name": "Godaime Hanayama Udon Ginza",
+      "original": "MISS_IN_THIS_FIRST_PAGE",
+      "alternate": "HIT"
+    }
+  ],
+  "identityReplay": {
+    "beforeCorrect": 12,
+    "afterCorrect": 9,
+    "wrongAccepted": 0,
+    "newlyAccepted": [
+      "nr-002"
+    ],
+    "newlyNotAccepted": [
+      {
+        "id": "nr-004",
+        "google": {
+          "name": "鮨処 みこし",
+          "address": "9 13 1, １丁目-１３-9 吉祥寺本町 武蔵野市 東京都 180-0004, Japan",
+          "phone": "0422-21-0263",
+          "coordinates": {
+            "lat": 35.705042,
+            "lng": 139.58093399999998
+          }
+        },
+        "sourceComparisons": [
+          {
+            "sourceEntityId": "en/tokyo/A1320/A132001/13034967",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+            "outletName": {
+              "value": "Mikoshi",
+              "normalizedValue": "mikoshi",
+              "source": "SEARCH_RESULT"
+            },
+            "address": {
+              "value": "1800004 東京都武蔵野市吉祥寺本町1-13-9 山本ビル １Ｆ・２Ｆ",
+              "normalizedValue": "1800004東京都武蔵野市吉祥寺本町1139山本ビル１ｆ２ｆ",
+              "source": "SEARCH_RESULT"
+            },
+            "phone": {
+              "value": "0422-21-0263",
+              "normalizedValue": "0422210263",
+              "source": "SEARCH_RESULT"
+            },
+            "matchedContactPhone": {
+              "value": "0422-21-0263",
+              "role": "RESERVATION",
+              "quote": "0422-21-0263",
+              "label": "Phone number (for reservation and inquiry)",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/"
+            },
+            "comparison": {
+              "outletName": "CONFLICT",
+              "address": "CONFLICT",
+              "phone": "MATCH"
+            },
+            "score": 0
+          }
+        ],
+        "classification": "ADDRESS_COMPARISON_CONFLICT_WITH_EXACT_PHONE_RETAINED",
+        "decision": "NOT_ACCEPTED_WITH_EXISTING_RULES; no fallback to omit complete public address"
+      },
+      {
+        "id": "nr-016",
+        "google": {
+          "name": "焼き鳥と蕎麦 灯",
+          "address": "Japan, 〒180-0004 Tokyo, Musashino, Kichijōji Honchō, 1-chōme−8−１０ Kichijoji Ex, 4階",
+          "phone": "03-4241-4563",
+          "coordinates": {
+            "lat": 35.7048135,
+            "lng": 139.5787757
+          }
+        },
+        "sourceComparisons": [
+          {
+            "sourceEntityId": "en/tokyo/A1320/A132001/13256151",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+            "outletName": {
+              "value": "Yakitori to Soba Akari",
+              "normalizedValue": "yakitoritosobaakari",
+              "source": "SEARCH_RESULT"
+            },
+            "address": {
+              "value": "1800004 東京都武蔵野市吉祥寺本町1-8-10 第85東京ビル 4F",
+              "normalizedValue": "1800004東京都武蔵野市吉祥寺本町1810第85東京ビル4f",
+              "source": "SEARCH_RESULT"
+            },
+            "phone": {
+              "value": "03-4241-4563",
+              "normalizedValue": "0342414563",
+              "source": "SEARCH_RESULT"
+            },
+            "matchedContactPhone": {
+              "value": "03-4241-4563",
+              "role": "RESERVATION",
+              "quote": "03-4241-4563",
+              "label": "Phone number (for reservation and inquiry)",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/"
+            },
+            "comparison": {
+              "outletName": "CONFLICT",
+              "address": "CONFLICT",
+              "phone": "MATCH"
+            },
+            "score": 0
+          }
+        ],
+        "classification": "ADDRESS_COMPARISON_CONFLICT_WITH_EXACT_PHONE_RETAINED",
+        "decision": "NOT_ACCEPTED_WITH_EXISTING_RULES; no fallback to omit complete public address"
+      },
+      {
+        "id": "nr-020",
+        "google": {
+          "name": "Sushi kazumasa",
+          "address": "Japan, 〒150-0043 Tokyo, Shibuya, 2-chōme−2−２ Luke Building, 1F",
+          "phone": "03-6434-1107",
+          "coordinates": {
+            "lat": 35.6607645,
+            "lng": 139.7085533
+          }
+        },
+        "sourceComparisons": [
+          {
+            "sourceEntityId": "en/tokyo/A1303/A130301/13275782",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+            "outletName": {
+              "value": "Sushi Kazumasa",
+              "normalizedValue": "sushikazumasa",
+              "source": "SEARCH_RESULT"
+            },
+            "address": {
+              "value": "1500002 東京都渋谷区渋谷2-2-2 青山ルカビル 1F",
+              "normalizedValue": "1500002東京都渋谷区渋谷222青山ルカビル1f",
+              "source": "SEARCH_RESULT"
+            },
+            "phone": {
+              "value": "03-6434-1107",
+              "normalizedValue": "0364341107",
+              "source": "SEARCH_RESULT"
+            },
+            "matchedContactPhone": {
+              "value": "03-6434-1107",
+              "role": "STORE",
+              "quote": "03-6434-1107",
+              "label": "Phone number",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/"
+            },
+            "comparison": {
+              "outletName": "MATCH",
+              "address": "CONFLICT",
+              "phone": "MATCH"
+            },
+            "score": 2
+          }
+        ],
+        "classification": "ADDRESS_COMPARISON_CONFLICT_WITH_EXACT_PHONE_RETAINED",
+        "decision": "NOT_ACCEPTED_WITH_EXISTING_RULES; no fallback to omit complete public address"
+      },
+      {
+        "id": "nr-024",
+        "google": {
+          "name": "Nakameguro Yakiniku Togyumon",
+          "address": "Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 1-chōme−23−１ 中目黒アリーナ B1",
+          "phone": "03-6451-2939",
+          "coordinates": {
+            "lat": 35.6443648,
+            "lng": 139.6996333
+          }
+        },
+        "sourceComparisons": [
+          {
+            "sourceEntityId": "en/tokyo/A1317/A131701/13290371",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+            "outletName": {
+              "value": "Nakameguro Yakiniku Togyu Mon",
+              "normalizedValue": "nakameguroyakinikutogyumon",
+              "source": "SEARCH_RESULT"
+            },
+            "address": {
+              "value": "1530051 東京都目黒区上目黒1-23-1 中目黒アリーナ B1F",
+              "normalizedValue": "1530051東京都目黒区上目黒1231中目黒アリーナb1f",
+              "source": "SEARCH_RESULT"
+            },
+            "phone": {
+              "value": "03-6451-2939",
+              "normalizedValue": "0364512939",
+              "source": "SEARCH_RESULT"
+            },
+            "matchedContactPhone": {
+              "value": "03-6451-2939",
+              "role": "STORE",
+              "quote": "03-6451-2939",
+              "label": "Phone number",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/"
+            },
+            "comparison": {
+              "outletName": "MATCH",
+              "address": "CONFLICT",
+              "phone": "MATCH"
+            },
+            "score": 2
+          }
+        ],
+        "classification": "ADDRESS_COMPARISON_CONFLICT_WITH_EXACT_PHONE_RETAINED",
+        "decision": "NOT_ACCEPTED_WITH_EXISTING_RULES; no fallback to omit complete public address"
+      }
+    ],
+    "nr029StillNotAccepted": true,
+    "priorFrozenInputBindings": 89,
+    "attributionNote": "Raw observer @2 retains the previous coarse failure-stage precedence. These independent records identify current full-address conflicts, not missing phone extraction."
+  },
+  "sourceStop": {
+    "code": 23,
+    "detail": {
+      "type": "TimeoutError"
+    }
+  },
+  "actualUsage": {
+    "realModelCalls": 40,
+    "googleRequests": 11,
+    "evaluationPublicGET": 18,
+    "fullLive": 0,
+    "environmentReruns": 0
+  },
+  "offsetRejections": [
+    {
+      "id": "nr-007",
+      "proposal": {
+        "id": "nr-007",
+        "field": "name",
+        "fragment": "Beef Kitchen",
+        "start": 18,
+        "end": 30
+      },
+      "literalSubstringPresent": true,
+      "classification": "ORCHESTRATION_EXTRA_OFFSET_CONSTRAINT; not a fabricated-name finding"
+    },
+    {
+      "id": "nr-018",
+      "proposal": {
+        "id": "nr-018",
+        "field": "name",
+        "fragment": "Ushicoco",
+        "start": 13,
+        "end": 21
+      },
+      "literalSubstringPresent": true,
+      "classification": "ORCHESTRATION_EXTRA_OFFSET_CONSTRAINT; not a fabricated-name finding"
+    },
+    {
+      "id": "nr-022",
+      "proposal": {
+        "id": "nr-022",
+        "field": "name",
+        "fragment": "Iwai",
+        "start": 20,
+        "end": 24
+      },
+      "literalSubstringPresent": true,
+      "classification": "ORCHESTRATION_EXTRA_OFFSET_CONSTRAINT; not a fabricated-name finding"
+    },
+    {
+      "id": "nr-026",
+      "proposal": {
+        "id": "nr-026",
+        "field": "name",
+        "fragment": "Fukumimi",
+        "start": 23,
+        "end": 31
+      },
+      "literalSubstringPresent": true,
+      "classification": "ORCHESTRATION_EXTRA_OFFSET_CONSTRAINT; not a fabricated-name finding"
+    }
+  ],
+  "pendingReview": [
+    "Four newly exposed address-comparison denials; changing shared comparator/identity standards is outside this approval",
+    "SR05 smoking double negative; raw strict0/15 and field-level14/15 remain separate",
+    "Old15 comparison incomplete after source timeout; do not retry without a reviewed next slice",
+    "Remove unnecessary model-counted offsets in a later frozen runner; exact substring check suffices"
+  ],
+  "newRealCallsByThisProgram": 0,
+  "privateHoldout": "NOT_READ"
+}

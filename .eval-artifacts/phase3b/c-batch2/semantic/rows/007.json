@@ -1,0 +1,93 @@
+{
+  "logical": 7,
+  "cohort": "NAMED",
+  "sessionId": "NAMED-REPLACE-R1",
+  "repetition": 1,
+  "turnId": "REPLACE-01",
+  "input": {
+    "taskId": "NAMED-REPLACE-R1",
+    "message": "I want Sushi Dai.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo"
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai",
+            "goalBasis": {
+              "type": "JUDGMENT",
+              "reason": "User names a specific restaurant without visit time or booking wording",
+              "quotes": [
+                "I want Sushi Dai"
+              ]
+            },
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "7f88104a-6563-40cd-9223-1e954b9ba5e6",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1209,
+        "usage": {
+          "inputTokens": 7034,
+          "outputTokens": 149,
+          "totalTokens": 7183
+        },
+        "providerRequestId": "ea056cb2-6f64-4a7e-9f1e-78939dd3c094"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Sushi Dai",
+        "selectionScope": "SPECIFIC_OUTLET"
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [],
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "Sushi Dai",
+      "selectionScope": "SPECIFIC_OUTLET"
+    }
+  },
+  "commands": [],
+  "gold": {
+    "contains": "Sushi Dai",
+    "scope": "SPECIFIC_OUTLET",
+    "goal": "RECOMMENDATION"
+  },
+  "evaluation": {
+    "target": "PASS",
+    "requestedFieldDifferences": []
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-007"
+  ]
+}

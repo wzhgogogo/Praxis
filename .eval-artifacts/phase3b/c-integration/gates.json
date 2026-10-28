@@ -1,0 +1,105 @@
+{
+  "sourceCommit": "ccf7aa5d7d392e7bbfa82cf94bd8151ac4aae007",
+  "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+  "startedAtCET": "2026-10-28T06:13:20.559+01:00",
+  "newRealCalls": 0,
+  "steps": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-28T06:13:20.612+01:00",
+      "finishedAtCET": "2026-10-28T06:13:21.148+01:00",
+      "elapsedSeconds": 0.536,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-integration/gates/typecheck.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-28T06:13:21.227+01:00",
+      "finishedAtCET": "2026-10-28T06:13:21.443+01:00",
+      "elapsedSeconds": 0.216,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-integration/gates/arch-check.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-28T06:13:21.522+01:00",
+      "finishedAtCET": "2026-10-28T06:13:51.853+01:00",
+      "elapsedSeconds": 30.332,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-integration/gates/test.log",
+      "logSha256": "53d3e7eb2101ad68961d844d016638f55726f0e423d994fda75cfdfac09a737b"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-28T06:13:51.961+01:00",
+      "finishedAtCET": "2026-10-28T06:13:52.455+01:00",
+      "elapsedSeconds": 0.494,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-integration/gates/build.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-28T06:13:52.538+01:00",
+      "finishedAtCET": "2026-10-28T06:15:47.265+01:00",
+      "elapsedSeconds": 114.728,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-integration/gates/browser-fixture.log",
+      "logSha256": "19dea9e826e0e1eb70cdf0ac26dce3e5ab5eacd5442aa377a2df7e9bc52359e0"
+    },
+    {
+      "name": "g2-fixed",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-10-28T06:15:47.478+01:00",
+      "finishedAtCET": "2026-10-28T06:16:13.315+01:00",
+      "elapsedSeconds": 25.837,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-integration/gates/g2-fixed.log",
+      "logSha256": "52ad8c933bfb6c0ff5f60bc0af1be70d52e5e867321d6272a0395ed4f79afb25"
+    }
+  ],
+  "status": "PASS",
+  "finishedAtCET": "2026-10-28T06:16:13.349+01:00"
+}

@@ -1,5 +1,6 @@
 import type { RestaurantCandidate } from "../../domains/restaurant/contracts.js";
 import { compareCompleteOutletAddress } from "../restaurant-availability/outlet-identity.js";
+import { detailPhones, plainOutlet, type WithDetailIdentity } from "../restaurant-identity/detail-identity-fields.js";
 import type {
   TabelogEntityResolution,
   TabelogEntityResolutionDiagnostic,
@@ -63,7 +64,7 @@ export interface TabelogEntityResolutionInspection {
 /** Outlet/branch match; brand name alone never establishes a HIGH match. */
 export function inspectTabelogEntity(
   candidate: RestaurantCandidate,
-  outlets: TabelogOutletObservation[],
+  outlets: Array<WithDetailIdentity<TabelogOutletObservation>>,
 ): TabelogEntityResolutionInspection {
   const googleName = normalizeTabelogIdentity(candidate.restaurant.outletName);
   const googleAddress = normalizeTabelogIdentity(candidate.restaurant.address);
@@ -74,14 +75,16 @@ export function inspectTabelogEntity(
     const addressComparison = compareCompleteOutletAddress(candidate.restaurant.address, outlet.address);
     const addressMatch = addressComparison === "MATCH";
     const addressConflict = addressComparison === "CONFLICT";
-    const outletPhone = normalizeTabelogPhone(outlet.phone);
+    const matchedContactPhone = detailPhones(outlet).find(phone => googlePhone.length >= 8 && normalizeTabelogPhone(phone.value) === googlePhone);
+    const comparedPhone = matchedContactPhone?.value ?? outlet.phone;
+    const outletPhone = normalizeTabelogPhone(comparedPhone);
     const phoneMatch = googlePhone.length >= 8 && googlePhone === outletPhone;
     const phoneConflict = googlePhone.length >= 8 && outletPhone.length >= 8 && !phoneMatch;
     // Phone disagreement is diagnostic rather than a veto over complete
     // same-outlet name/address proof. A distinct branch remains non-HIGH
     // because its full address cannot contribute to the score.
     const score = (phoneMatch && !addressConflict ? 4 : 0) + (name ? 2 : 0) + (addressMatch ? 2 : 0);
-    return { outlet, name, addressMatch, addressConflict, addressComparison, phoneMatch, phoneConflict, score, outletAddress, outletPhone };
+    return { outlet, name, addressMatch, addressConflict, addressComparison, phoneMatch, phoneConflict, score, outletAddress, outletPhone, comparedPhone, matchedContactPhone };
   }).sort((left, right) => right.score - left.score);
   const best = candidates[0];
   const next = candidates[1];
@@ -89,11 +92,11 @@ export function inspectTabelogEntity(
   const resolution: TabelogEntityResolution = !best || best.score <= 0
     ? { confidence: "LOW", matchedBy: [] }
     : !tied && best.phoneMatch && !best.addressConflict
-      ? { confidence: "HIGH", outlet: best.outlet, matchedBy: ["EXACT_PHONE"] }
+      ? { confidence: "HIGH", outlet: plainOutlet(best.outlet), matchedBy: ["EXACT_PHONE"] }
       : !tied && best.name && best.addressMatch
-        ? { confidence: "HIGH", outlet: best.outlet, matchedBy: ["NORMALIZED_NAME_AND_ADDRESS"] }
+        ? { confidence: "HIGH", outlet: plainOutlet(best.outlet), matchedBy: ["NORMALIZED_NAME_AND_ADDRESS"] }
         : !tied && best.name
-          ? { confidence: "MEDIUM", outlet: best.outlet, matchedBy: ["NORMALIZED_NAME"] }
+          ? { confidence: "MEDIUM", outlet: plainOutlet(best.outlet), matchedBy: ["NORMALIZED_NAME"] }
           : { confidence: "LOW", matchedBy: [] };
   return {
     resolution,
@@ -114,9 +117,10 @@ export function inspectTabelogEntity(
         address: entry.outlet.address
           ? { value: entry.outlet.address, normalizedValue: entry.outletAddress, source: "SEARCH_RESULT" }
           : { source: "ABSENT" },
-        phone: entry.outlet.phone
-          ? { value: entry.outlet.phone, normalizedValue: entry.outletPhone, source: "SEARCH_RESULT" }
+        phone: entry.comparedPhone
+          ? { value: entry.comparedPhone, normalizedValue: entry.outletPhone, source: "SEARCH_RESULT" }
           : { source: "ABSENT" },
+        ...(entry.matchedContactPhone ? { matchedContactPhone: entry.matchedContactPhone } : {}),
         comparison: {
           outletName: comparison(googleName, normalizeTabelogIdentity(entry.outlet.outletName), entry.name, googleName.length >= 3 && normalizeTabelogIdentity(entry.outlet.outletName).length >= 3),
           address: !candidate.restaurant.address

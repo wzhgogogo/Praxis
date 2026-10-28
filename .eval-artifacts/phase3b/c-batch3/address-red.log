@@ -1,0 +1,103 @@
+✖ same floor survives language, case, width and delimiter changes in either source order (3.102ms)
+✖ structured address restores nr-004 without changing exact-phone identity (0.173917ms)
+✖ structured address restores nr-016 without changing exact-phone identity (0.114375ms)
+✖ structured address restores nr-024 without changing exact-phone identity (0.093708ms)
+✔ same phone and name never override explicit floor, door or nr-020 postal conflicts (0.975042ms)
+✔ omitted floors stay neutral without losing street numbers or accepting incomplete addresses (0.69225ms)
+✔ floor normalization never erases explicit floor, street or postal conflicts (0.442375ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 3
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 145.847875
+
+✖ failing tests:
+
+test at src/integrations/restaurant-availability/outlet-identity.test.ts:1:591
+✖ same floor survives language, case, width and delimiter changes in either source order (3.102ms)
+  AssertionError [ERR_ASSERTION]: B1F ≡ B1
+  + actual - expected
+  
+  + 'CONFLICT'
+  - 'MATCH'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-availability/outlet-identity.test.ts:23:16)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'CONFLICT',
+    expected: 'MATCH',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-availability/outlet-identity.test.ts:1:2443
+✖ structured address restores nr-004 without changing exact-phone identity (0.173917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CONFLICT'
+  - 'MATCH'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-availability/outlet-identity.test.ts:43:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CONFLICT',
+    expected: 'MATCH',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-availability/outlet-identity.test.ts:1:2443
+✖ structured address restores nr-016 without changing exact-phone identity (0.114375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CONFLICT'
+  - 'MATCH'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-availability/outlet-identity.test.ts:43:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CONFLICT',
+    expected: 'MATCH',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-availability/outlet-identity.test.ts:1:2443
+✖ structured address restores nr-024 without changing exact-phone identity (0.093708ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'CONFLICT'
+  - 'MATCH'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-availability/outlet-identity.test.ts:43:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'CONFLICT',
+    expected: 'MATCH',
+    operator: 'strictEqual'
+  }

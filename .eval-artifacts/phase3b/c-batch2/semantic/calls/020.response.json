@@ -1,0 +1,42 @@
+{
+  "atCET": "2026-10-27T16:01:43.145+01:00",
+  "response": {
+    "invocationId": "460c1106-d557-4954-b66c-c8ac56d04754",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"PARTY_SIZE\", \"operation\": \"CORRECT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 3, \"source\": \"EXPLICIT\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"CORRECT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:30\", \"latest\": \"19:30\", \"raw\": \"19:30\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1468,
+    "providerRequestId": "d1324164-831c-4b04-8ead-e7571bfa5c2f",
+    "usage": {
+      "inputTokens": 7110,
+      "outputTokens": 150,
+      "totalTokens": 7260
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "460c1106-d557-4954-b66c-c8ac56d04754",
+      "taskId": "NAMED-VISIT-CORRECTION-R1",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v26",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1468,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7110,
+        "outputTokens": 150,
+        "totalTokens": 7260
+      },
+      "providerRequestId": "d1324164-831c-4b04-8ead-e7571bfa5c2f"
+    }
+  ]
+}

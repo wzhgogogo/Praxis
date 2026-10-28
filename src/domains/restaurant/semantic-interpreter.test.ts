@@ -65,7 +65,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v25");
+  assert.equal(request.promptVersion, "v26");
   assert.match(request.messages[0]!.content, /even when no visit date or time is given/);
   assert.match(request.messages[0]!.content, /neither a visit date\/time nor booking wording/);
   assert.match(request.messages[0]!.content, /keep its AVAILABILITY goal without re-emitting TARGET/);
@@ -114,6 +114,56 @@ test("Semantic Interpreter preserves an existing target scope in its bounded mod
   assert.ok(gateway.calls[0]?.messages[0]?.content.includes(JSON.stringify({
     target: { goal: "RECOMMENDATION", query: "restaurants in Shibuya", selectionScope: "OPEN_ENDED", requestedResultCount: 5 },
   })));
+});
+
+test("named outlet survives supplemental visit inputs and goal changes while explicit replacement remains possible", async () => {
+  const message = "Tomorrow between 19:00 and 19:30 for two people in Tsukiji.";
+  const named = (goal: "RECOMMENDATION" | "AVAILABILITY", query = "Sushi Dai") => ({
+    kind: "TARGET" as const, goal, query, selectionScope: "SPECIFIC_OUTLET" as const,
+    goalBasis: { type: "SPECIFIC_TIME_MEAL" as const, reason: "Current visit details change the delivery goal, not the named outlet.", quotes: ["Tomorrow between 19:00 and 19:30", "for two people"] },
+  });
+  const gateway = new QueuedGateway([
+    response(JSON.stringify({ schemaVersion: "4", facts: [{ field: "TARGET", operation: "ASSERT", value: {
+      ...named("RECOMMENDATION"), goalBasis: { type: "JUDGMENT", reason: "User names one outlet without visit time.", quotes: ["Sushi Dai"] },
+    } }] })),
+    response(JSON.stringify({ schemaVersion: "4", facts: [
+      { field: "TARGET", operation: "CORRECT", value: named("AVAILABILITY") },
+      { field: "DATE", operation: "ASSERT", value: { kind: "DATE", relativeDay: "TOMORROW", raw: "Tomorrow" } },
+      { field: "TIME_WINDOW", operation: "ASSERT", value: { kind: "TIME_WINDOW", earliest: "19:00", latest: "19:30", raw: "between 19:00 and 19:30" } },
+      { field: "PARTY_SIZE", operation: "ASSERT", value: { kind: "PARTY_SIZE", value: 2, source: "EXPLICIT" } },
+      { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "Tsukiji" } },
+    ] })),
+    response(JSON.stringify({ schemaVersion: "4", facts: [{ field: "TARGET", operation: "CORRECT", value: {
+      ...named("AVAILABILITY", "Sushi A"), goalBasis: { type: "JUDGMENT", reason: "User explicitly names a replacement.", quotes: ["Sushi A instead"] },
+    } }] })),
+    response(JSON.stringify({ schemaVersion: "4", facts: [{ field: "TARGET", operation: "CORRECT", value: {
+      kind: "TARGET", goal: "RECOMMENDATION", query: "other restaurants in Ginza", selectionScope: "OPEN_ENDED",
+      goalBasis: { type: "JUDGMENT", reason: "User withdraws the named destination.", quotes: ["Forget the named place", "other restaurants in Ginza"] },
+    } }] })),
+  ]);
+  const interpreter = new RestaurantSemanticInterpreter(gateway);
+  let draft: import("./contracts.js").RestaurantIntentDraft | undefined;
+  for (const [index, text] of ["I want Sushi Dai.", message, "Actually, Sushi A instead.", "Forget the named place; show other restaurants in Ginza."].entries()) {
+    const result = await interpreter.interpret({ taskId: "named-followup", message: text, referenceTime: "2026-08-05T09:00:00+09:00", timezone: "Asia/Tokyo", ...(draft ? { currentDraft: draft } : {}) });
+    assert.equal(result.status, "PROPOSED");
+    if (result.status !== "PROPOSED") return;
+    const compiled = compileRestaurantSemanticProposal(result.proposal, { referenceTime: "2026-08-05T09:00:00+09:00", timezone: "Asia/Tokyo" });
+    assert.equal(compiled.status, "COMPILED");
+    if (compiled.status !== "COMPILED") return;
+    draft = applyRestaurantIntentPatch(draft, compiled.patch);
+    assert.equal(draft.target?.query, index < 2 ? "Sushi Dai" : index === 2 ? "Sushi A" : "other restaurants in Ginza");
+    assert.equal(draft.target?.selectionScope, index < 3 ? "SPECIFIC_OUTLET" : "OPEN_ENDED");
+    if (index === 1) {
+      assert.equal(draft.target?.goal, "AVAILABILITY");
+      assert.equal(draft.date, "2026-08-06");
+      assert.equal(draft.partySize, 2);
+      assert.deepEqual(draft.timeWindow, { earliest: "19:00", latest: "19:30" });
+      assert.ok(gateway.calls[1]?.messages[0]?.content.includes('"query":"Sushi Dai"'));
+    }
+  }
+  // Fixture transport proves these instructions reach the model; model compliance is a later real-model eval.
+  assert.match(gateway.calls[1]!.messages[0]!.content, /A delivery-goal change alone must not replace the named outlet/);
+  assert.match(gateway.calls[1]!.messages[0]!.content, /replace or withdraw it only when the current user message explicitly requests that change/);
 });
 
 test("Semantic Interpreter rejects a structurally valid-looking state patch", async () => {

@@ -1,0 +1,39 @@
+{
+  "schema": "phase3b-c-g2-reference-proposal@1",
+  "status": "AWAITING_A_AND_REVIEWER_NO_BASELINE_EDIT",
+  "baselinePath": "src/harness/browser/fixtures/dom-change/baseline.json",
+  "baselineSha256": "3218ac5d706654eba84355ab8cc7fde9bfac4ac541b40963b5e7f3c8c055d0ed",
+  "testedSourceCommit": "3ec77f67ada1bcfe6f295284e98fa74d2101d1a0",
+  "reason": "User-approved full-address collection changed original detail address strings. Existing G2 reference deliberately requires review of any original interpretation change.",
+  "ownershipRule": "User 3b common rules assign src/eval/**, src/harness/** and fixtures to A; changes to another owner require stopping and reviewer sequencing.",
+  "changes": [
+    {
+      "caseId": "tabelog-detail-01",
+      "field": "identity:address",
+      "frozenValue": "1710021 Tokyo Nishiikebukuro Toshima Tokyo ",
+      "proposedValue": "1710021 東京都豊島区西池袋5-8-9",
+      "mutatedValue": "1710021 東京都豊島区西池袋5-8-9",
+      "sourceSha256": "c5cc14dc4c6c5660a388264e779b3aab08bfa6826eb67d79a152d58f8e5bb668",
+      "reviewStatus": "PROPOSED_ONLY_NOT_APPLIED_NOT_GOLD"
+    },
+    {
+      "caseId": "tabelog-detail-02",
+      "field": "identity:address",
+      "frozenValue": "1730014 Tokyo Oyamahigashicho Itabashi Tokyo ",
+      "proposedValue": "1730014 東京都板橋区大山東町60-15 クルーズ大山",
+      "mutatedValue": "1730014 東京都板橋区大山東町60-15 クルーズ大山",
+      "sourceSha256": "cf3d48b89e4414561b543710816ac8f672e418dcaaab1f8bf3ed6529ecc4c6af",
+      "reviewStatus": "PROPOSED_ONLY_NOT_APPLIED_NOT_GOLD"
+    }
+  ],
+  "diagnosticOnly": {
+    "cases": 12,
+    "classificationCounts": {
+      "DEGRADED_HONEST": 4,
+      "PASS": 8
+    },
+    "sourceTransportCalls": 0,
+    "isFixedG2GatePass": false
+  },
+  "nextStep": "A/reviewer verify same-source quotations and approve/refreeze the reference revision before C re-runs gates. No relaxation or automatic update."
+}

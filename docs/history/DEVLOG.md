@@ -1,13 +1,43 @@
 # Development Log
 
+2026-10-28 CET：G4续跑收尾，旧29 ENVIRONMENT_FAILURE 7；CORRECT_ACCEPTED 13；NOT_ACCEPTED 9；新8 CORRECT_ACCEPTED 6；ENVIRONMENT_FAILURE 1；NOT_ACCEPTED 1；前四家独立复跑 CORRECT_ACCEPTED 4。新增GET73/112、模型5，基准累计GET188/模型19/40，Google/Live0；共享GET218/257。生产b250bb17与原证据未改，完整性PASS；结果交复核，不调整规则。 报告 `.eval-artifacts/phase3b/g4-e2e-continuation/report.md`。
+
+2026-10-28 CET：用户批准G4续跑新增GET≤112、共享上限257；补齐12家后单独复跑前四家，原结果保留。生产固定b250bb17，模型累计≤40（已14），Google/Live0；预先冻结后执行，当前新增调用0。报告 `.eval-artifacts/phase3b/g4-e2e-continuation/report.md`。
+
+2026-10-28 CET：G4因GET115额度停止。旧29正确10/错认0/未接纳8/环境失败7/中断1/未运行3；新8全部未运行，完整37家尚未验收。模型14/40、Google/Live0，共享GET145/150。前四家复跑已登记，尚未执行；剩余12项加复跑4项最多需112 GET，待明确新增额度。main已合b250bb17，B可继续G3。报告 `.eval-artifacts/phase3b/g4-e2e/report.md`。
+
+2026-10-28 CET：C已合main并推送b250bb17（ls-remote核对），B可开始G3。G4获批37家身份端到端前缀评测另开证据分支，GET115/模型40/Google0/Live0，3b GET总额150，实际开始前30。静态HTTP运行边界及失败/停批口径见 `.eval-artifacts/phase3b/g4-e2e/report.md`；生产规则不改。
+
+2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
+
 - Status: Accepted
-- Document revision: 4.330
+- Document revision: 4.333
+
+
 - Last updated: 2026-10-28
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-10-28-PHASE3B-C-BATCH3
+
+最终：CET 03:37。29原保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝；用户确认去重12而非16，以及每店每来源最多两次检索，已写入报告供复核者核对。双站原名→一种逐字Google片段，独立named-query Prompt/Schema2，原身份与详情总额保持，Google增量0。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。首轮默认1170/1171是旧空格门牌回归，保持A原fixture/断言，一次修复后重跑29页与检索。失败和前序回放各自保留，推分支停复核，不合main。
+
+CET。9181eee9整合main90b464d8，历史及88条预算并集保留，C自己准备/完成同ID生命周期差异保留main快照依据。预列比较器函数行范围后修结构门牌/楼层/可比地域字段，建筑数字不进门牌、缺失不判冲突；普通邮编矛盾仍拒绝。用户确认旧12包含修复三家，29页期望去重12而非16，需复核者知晓；每店每来源两次检索也经用户确认。新named-source-query Prompt/Schema2只提议原文片段，代码定位，run内跨两站复用，共享模型预算；保留原身份字段和详情总额，退役旧官网标题替代路径。生产不增加Google调用/费用，B Agent/State与G3日历读取不改。获准只改两G2原页地址并附Claude独立复核2026-10-28。29页12正确/0错认，原12除指定nr020−1及nr002+1无其他变化；Kazen旧错误数字断言退役原因单列。17保存检索/4缺详情控制/12片段已离线评价，必需门禁和可选GET收尾中，不合main。[报告](../../.eval-artifacts/phase3b/c-batch3/report.md)。
+
+## DEV-2026-10-27-PHASE3B-C-BATCH2-STOP
+
+2026-10-27T16:59:39+01:00。8主Gold隔离并冻结，39真实语义轮完成，具名24全过；片段1次、Google11次，GET18因20s超时停且未重试。新8首屏原名3→替代7命中；旧15未完成。两站详情按标签/标题取完整地址及同店预约/店铺号，局部证据不入State；resolver门槛、共享contracts/地址比较器、Browser/Guard/Prompt不改。nr002由原050漏采转正确，旧29当前9正确/0错认，4个完整地址冲突不隐藏，停等复核。新增共享helper两站实际使用，物理增量单列，不冒充G3减行。真实预算逐次追加并保留原9条，CARRY外层漏映射用sidecar离线补评，原记录不写回。 最终3ec77f67四项门禁绿/默认1117，Chromium167/168红于G2原页地址reference变化；保持A基线与测试不改，具体两字段提案随包，按文件归属规则停止等复核。[报告](../../.eval-artifacts/phase3b/c-batch2/report.md)。
+
+## DEV-2026-10-27-PHASE3B-C-BATCH2-START
+
+2026-10-27T16:00:28+01:00。复核者确认全部8家在Tabelog，用户将3备升主、全正样本，Gold只用于事后比对。整合最新main/daba2ef0（5208d401），源码无冲突，文档和账本按并集保留；Scope不扩大到G3。39语义逻辑轮与31公开检索计划、原Google输入/策略/Gold分离和受控Runner提交SHA后执行；凭据仅Node --env-file加载，未独立读取文件。此时全部真实调用0；完成后只推C分支不合main。[计划](../../.eval-artifacts/phase3b/c-batch2/plan.md)。
+
+## DEV-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
+
+2026-10-27T03:12:00+01:00。用户批准复核§9额度与详情字段交接，并要求样本备好先停。C从已复核分支整合main5f621be3，保留双方历史和按id并集账本；落地批准Gold5/sidecar3，历史Gold3/4不回写，退重复ADR0047而不复制B未提交的0046。来源SHA先冻结后从保存Google候选选5主3备，名单不填来源Gold，Dengana为暴露锚点。公开GET加速已存在，Google语言参数尚未接入；本切片只写范围与计划，不修改解析器/身份规则，不开始真实验证或收益对照。全部新增服务调用0，未加载/读取.env；7f3d8770五门禁1102/166全绿、逐项净树，只推分支停等Gold认证。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
 
 <a id="dev-2026-10-28-g1-followup-main-verified"></a>
 
@@ -110,6 +140,18 @@ User corrects the inherited-search-budget contract; ADR0046 revision0.3 stays Ac
 ## 2026-10-26 CET：3b A批次1 G2 DOM变异切片
 
 时间2026-10-26T23:11:24.545847+01:00（CET）。从main cc127320独立工作分支，引用 ADR（对话 B 起草，待批准）的用户两原则与共享3b零调用账本。规则2全id映射及引用目标逐项自检；12保存页8 PASS/4 DEGRADED_HONEST/0 FAIL，TC未知边界保留；无产品代码改动。固定G2命令与G3严格模式已建立；0027ed84五门禁1101/166及额外G2 4/4全绿，逐项净树。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
+
+## DEV-2026-10-26-PHASE3B-C-STOP1
+
+3b对话C四项离线交付完成：保存页复算12/29/错认0，Dengana8份六适用两其他请求，失败阶段与未决项分开；检索片段、同店电话对应、完整地址/坐标只写方案。SR03模型层先丢名，预先报告后仅Semantic Prompt26；合法fixture和wire通过，真实模型效果未评。ADR0047记录用户两原则及未实现边界。15项Gold建议待逐条确认，不改Gold/身份/State/Schema、不编辑A/B代码。共享账本保留三方条目、全部新增真实调用0。按授权只推C分支，停停止点1不合main。 [报告](../../.eval-artifacts/phase3b/c-batch1/report.md)。
+
+## DEV-2026-10-26-PHASE3B-C-BATCH1-CANDIDATE
+
+从main/cc127320准备四项。0895a3b7冻结745输入后，29保存页当前纯parser/resolver复算12正确/17未接纳/0错认；14明确空、2正确详情未过身份、1宽召回无Gold。Dengana八原件全查，六适用两其他请求，导航/模型/提交/检索漂移/父超时逐步计时；@2只修WEBSITE辅助活动的误删失观察，旧输出保留。方案不实施/不放宽，15项Gold候选只列清单。SR03先在模型提议丢名，下游忠实复制；预先报告后7521c94d只改Semantic Prompt26和C同文件测试。ADR0047记录用户两原则，不声明G1/G2/G3已实现。 [报告](../../.eval-artifacts/phase3b/c-batch1/report.md)。
+
+## DEV-2026-10-26-PHASE3B-C-BATCH1-PREP
+
+按用户自包含3b对话C批次1准备。来源为签收main/cc127320、tag指向相同提交；新工作分支已建，不合main。共享预算上限18Live/1000模型/4环境重跑/40评测GET，C独立id零调用条目与已有条目并集保存。范围及停止规则见计划；不需要Claude项目复核文件。 [切片](../../.eval-artifacts/phase3b/c-batch1/plan.md)。
 
 <a id="dev-2026-10-26-phase3b-replay"></a>
 

@@ -1,0 +1,26 @@
+
+> praxis-zhixing@0.1.0 eval:restaurant:semantic:fixture
+> node --import tsx src/eval/restaurant/semantic/runners/run-fixture.ts
+
+{
+  "evaluationClassification": {
+    "cohort": "DEVELOPMENT_DIAGNOSTIC",
+    "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+    "baselineEligible": false
+  },
+  "report": {
+    "evaluatorVersion": "4",
+    "datasetId": "restaurant-semantic-regression-v4",
+    "datasetVersion": "4",
+    "mode": "FIXTURE",
+    "attributionLevel": "DEVELOPMENT_STAGE_ORACLES",
+    "status": "COMPLETED",
+    "summary": {
+      "totalTurns": 15,
+      "modelEvaluatedTurns": 15,
+      "passedTurns": 15,
+      "blockedTurns": 0,
+      "firstFailureStages": {}
+    }
+  }
+}

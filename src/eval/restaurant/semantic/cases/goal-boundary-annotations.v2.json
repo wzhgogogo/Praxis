@@ -1,0 +1,115 @@
+{
+  "schema": "restaurant-goal-boundary-annotations@2",
+  "approval": "User stop3 review 2026-10-26 CET: booking wording without time is A; SR02-T02 CONTEXT_CARRY; SR03-T02 Gold@4 AVAILABILITY only",
+  "source": {
+    "path": "src/eval/restaurant/semantic/cases/restaurant-semantic-regression.gold4.json",
+    "sha256": "96a3dbd7c406805e31586a0a6fb472b5bb2dd7458bd3187a3413c6ed2e5f8b66"
+  },
+  "turns": [
+    {
+      "sessionId": "SR01-complete-then-correct",
+      "turnId": "SR01-T01",
+      "messageSha256": "3a68b3d64a3b66f5b72aef32e83ace3d82a4ca96e875d5e3d364c7efd4af3db9",
+      "category": "B",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR01-complete-then-correct",
+      "turnId": "SR01-T02",
+      "messageSha256": "44cb397c4c9c7e2fd76ae9a40249dcd19fa0323001b0f19ca0a7300cf4bda564",
+      "category": "B",
+      "contextCarry": true
+    },
+    {
+      "sessionId": "SR02-incremental-completion",
+      "turnId": "SR02-T01",
+      "messageSha256": "8e34f4d22307f6a60a5f224909f267131ccd698ee572ef0206fe69e3e42019da",
+      "category": "A",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR02-incremental-completion",
+      "turnId": "SR02-T02",
+      "messageSha256": "4fbe30e847dc23241d859b4440ba5ff32739aec828ef2afa11c73d4e321ecd67",
+      "category": "CONTEXT_CARRY",
+      "contextCarry": true
+    },
+    {
+      "sessionId": "SR03-named-target-then-complete",
+      "turnId": "SR03-T01",
+      "messageSha256": "4999cb4630a9bb6898cce20d97dedb85444f6c9e7488c273490d803f0ad3d391",
+      "category": "NO_TIME",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR03-named-target-then-complete",
+      "turnId": "SR03-T02",
+      "messageSha256": "18464a245afc73ce259fea3e340a6081ed74a2f769dbed485978d0c9598eebda",
+      "category": "B",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR04-simple-complete",
+      "turnId": "SR04-T01",
+      "messageSha256": "73d51fe293d55cc3417271fb83c4d6a3053822e14c73a00704304ade93ebc6e1",
+      "category": "B",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR05-relative-time-hard-soft-and-party-inference",
+      "turnId": "SR05-T01",
+      "messageSha256": "f1569dffa74c2667ca780f2cb9a15b340c59862eedb0725a8c4de36203af40fe",
+      "category": "GRAY",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR06-approximate-budget-is-soft",
+      "turnId": "SR06-T01",
+      "messageSha256": "1f62eb05ffd3aea0ee623fab642787e06be3988406ab6109c8d7f89b6a43bb32",
+      "category": "GRAY",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR07-relative-offset-time",
+      "turnId": "SR07-T01",
+      "messageSha256": "9d0ddfff1fa874f0c1f3cc85c0931de9f44dd849fab8e993fb29e7a941662ac1",
+      "category": "GRAY",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR08-criterion-removal",
+      "turnId": "SR08-T01",
+      "messageSha256": "67284c4273e6b1a6708fc56143d6b693dd9e167afd43865e277c20fffc90980d",
+      "category": "GRAY",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR08-criterion-removal",
+      "turnId": "SR08-T02",
+      "messageSha256": "8a458c05ae3b1c4f77a3a394d7c7c27f84f3d3fb21f1cce6ffc4a2b2f5c9b084",
+      "category": "GRAY",
+      "contextCarry": true
+    },
+    {
+      "sessionId": "SR09-relative-location-overwrite",
+      "turnId": "SR09-T01",
+      "messageSha256": "da57cc006a3d306c11981b47814ded029f1ca44b1d68f368eccfc4ab2091cb6e",
+      "category": "GRAY",
+      "contextCarry": false
+    },
+    {
+      "sessionId": "SR09-relative-location-overwrite",
+      "turnId": "SR09-T02",
+      "messageSha256": "86d25d0337a9a71734736086f6a8a37f01ace32716bf52245c52f9d7310afd55",
+      "category": "GRAY",
+      "contextCarry": true
+    },
+    {
+      "sessionId": "SR10-hard-budget",
+      "turnId": "SR10-T01",
+      "messageSha256": "be48ef9917dbba831ac2e1aecc25f416cd94103e0db3158b77740de85b540ecb",
+      "category": "GRAY",
+      "contextCarry": false
+    }
+  ]
+}

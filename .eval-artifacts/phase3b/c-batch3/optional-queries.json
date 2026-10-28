@@ -1,0 +1,184 @@
+{
+  "schema": "phase3b-c-optional-queries@1",
+  "selection": "First12 by existing sample order among never-requested historical alternatives. Previous failed nr003 is not retried; no fishing after results.",
+  "intervalMs": 30000,
+  "timeoutMs": 20000,
+  "maximumRequests": 12,
+  "excludedPreviouslyAttempted": [
+    "nr-001",
+    "nr-003"
+  ],
+  "queries": [
+    {
+      "subjectId": "nr-007",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "MODEL_FRAGMENT",
+      "query": "Beef Kitchen",
+      "provenance": {
+        "kind": "ORIGINAL_GOOGLE_FRAGMENT_CODE_LOCATED",
+        "query": "Beef Kitchen",
+        "field": "name",
+        "start": 20,
+        "end": 32
+      }
+    },
+    {
+      "subjectId": "nr-008",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "GOOGLE_JA",
+      "query": "割烹 三長 渋谷",
+      "provenance": {
+        "kind": "GOOGLE_JAPANESE_RESPONSE",
+        "placeId": "ChIJdwvXdKqMGGARg-UfEdmCXFE",
+        "languageCode": "ja",
+        "raw": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-008.raw.json"
+      },
+      "status": "READY"
+    },
+    {
+      "subjectId": "nr-009",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "MODEL_FRAGMENT",
+      "query": "Naminoue",
+      "provenance": {
+        "kind": "ORIGINAL_GOOGLE_FRAGMENT_CODE_LOCATED",
+        "query": "Naminoue",
+        "field": "name",
+        "start": 0,
+        "end": 8
+      }
+    },
+    {
+      "subjectId": "nr-010",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "GOOGLE_JA",
+      "query": "さかもと",
+      "provenance": {
+        "kind": "GOOGLE_JAPANESE_RESPONSE",
+        "placeId": "ChIJR8FVDzjuGGARgQfaGWxDSbc",
+        "languageCode": "ja",
+        "raw": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-010.raw.json"
+      },
+      "status": "READY"
+    },
+    {
+      "subjectId": "nr-011",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "MODEL_FRAGMENT",
+      "query": "ほそ川",
+      "provenance": {
+        "kind": "ORIGINAL_GOOGLE_FRAGMENT_CODE_LOCATED",
+        "query": "ほそ川",
+        "field": "name",
+        "start": 5,
+        "end": 8
+      }
+    },
+    {
+      "subjectId": "nr-013",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "GOOGLE_JA",
+      "query": "焼肉はなれ-よし-「旧ホルモン松田HANARE」",
+      "provenance": {
+        "kind": "GOOGLE_JAPANESE_RESPONSE",
+        "placeId": "ChIJISv1DlyLGGARKtftbe6nzhM",
+        "languageCode": "ja",
+        "raw": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-013.raw.json"
+      },
+      "status": "READY"
+    },
+    {
+      "subjectId": "nr-015",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "MODEL_FRAGMENT",
+      "query": "Sushi Yamashiro",
+      "provenance": {
+        "kind": "ORIGINAL_GOOGLE_FRAGMENT_CODE_LOCATED",
+        "query": "Sushi Yamashiro",
+        "field": "name",
+        "start": 0,
+        "end": 15
+      }
+    },
+    {
+      "subjectId": "nr-017",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "GOOGLE_JA",
+      "query": "渋谷 鮨 まつもと",
+      "provenance": {
+        "kind": "GOOGLE_JAPANESE_RESPONSE",
+        "placeId": "ChIJc4GWrEOLGGARVdTgxS8zAUQ",
+        "languageCode": "ja",
+        "raw": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-017.raw.json"
+      },
+      "status": "READY"
+    },
+    {
+      "subjectId": "nr-018",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "MODEL_FRAGMENT",
+      "query": "Ushicoco",
+      "provenance": {
+        "kind": "ORIGINAL_GOOGLE_FRAGMENT_CODE_LOCATED",
+        "query": "Ushicoco",
+        "field": "name",
+        "start": 9,
+        "end": 17
+      }
+    },
+    {
+      "subjectId": "nr-019",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "GOOGLE_JA",
+      "query": "T 中目黒",
+      "provenance": {
+        "kind": "GOOGLE_JAPANESE_RESPONSE",
+        "placeId": "ChIJv6eIxzeLGGAR3wUJpK4BB6w",
+        "languageCode": "ja",
+        "raw": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-019.raw.json"
+      },
+      "status": "READY"
+    },
+    {
+      "subjectId": "nr-022",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "MODEL_FRAGMENT",
+      "query": "Iwai",
+      "provenance": {
+        "kind": "ORIGINAL_GOOGLE_FRAGMENT_CODE_LOCATED",
+        "query": "Iwai",
+        "field": "name",
+        "start": 18,
+        "end": 22
+      }
+    },
+    {
+      "subjectId": "nr-025",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "GOOGLE_JA",
+      "query": "渋谷 鮨墨",
+      "provenance": {
+        "kind": "GOOGLE_JAPANESE_RESPONSE",
+        "placeId": "ChIJL6FFhk2LGGAR1py8vmXOhfI",
+        "languageCode": "ja",
+        "raw": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-025.raw.json"
+      },
+      "status": "READY"
+    }
+  ],
+  "unselectedForBatchCap": [
+    {
+      "subjectId": "nr-026",
+      "cohort": "OLD_HISTORICAL_DIAGNOSTIC",
+      "variant": "MODEL_FRAGMENT",
+      "query": "Fukumimi",
+      "provenance": {
+        "kind": "ORIGINAL_GOOGLE_FRAGMENT_CODE_LOCATED",
+        "query": "Fukumimi",
+        "field": "name",
+        "start": 17,
+        "end": 25
+      }
+    }
+  ]
+}

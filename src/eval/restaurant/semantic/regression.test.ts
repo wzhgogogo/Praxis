@@ -51,7 +51,7 @@ test("semantic regression runs Proposal, Compiler, and Runtime/Reducer in order"
   for (const id of ["SR01-T02", "SR02-T02", "SR08-T02", "SR09-T02"]) assert.equal(report.turns.find(turn => turn.turnId === id)?.goalBoundary?.category, "CONTEXT_CARRY");
 });
 
-test("Gold@4 changes only the approved SR03-T02 goal and preserves frozen Gold@3", () => {
+test("Gold@5 applies the 15 approved labels while Gold@3 and Gold@4 remain frozen", () => {
   const oldSource = readFileSync("src/eval/restaurant/semantic/fixtures.ts");
   assert.equal(createHash("sha256").update(oldSource).digest("hex"), "fa4a8e52a82806af6d507a06f4ba16426e6c28376936363c777c4e981cf3ca72");
   assert.equal(restaurantSemanticRegressionV3.sessions[2]?.turns[1]?.expectedDraft.target?.goal, "RECOMMENDATION");
@@ -59,7 +59,24 @@ test("Gold@4 changes only the approved SR03-T02 goal and preserves frozen Gold@3
   expected.id = "restaurant-semantic-regression-v4";
   expected.version = "4";
   expected.sessions[2]!.turns[1]!.expectedDraft.target!.goal = "AVAILABILITY";
-  assert.deepEqual(restaurantSemanticRegression, expected);
+  const frozen4 = JSON.parse(readFileSync("src/eval/restaurant/semantic/cases/restaurant-semantic-regression.gold4.json", "utf8"));
+  assert.equal(createHash("sha256").update(readFileSync("src/eval/restaurant/semantic/cases/restaurant-semantic-regression.gold4.json")).digest("hex"), "96a3dbd7c406805e31586a0a6fb472b5bb2dd7458bd3187a3413c6ed2e5f8b66");
+  assert.deepEqual(frozen4, expected);
+  const approved5 = structuredClone(expected);
+  approved5.id = "restaurant-semantic-regression-v5";
+  approved5.version = "5";
+  const turn = (id: string) => approved5.sessions.flatMap(session => session.turns).find(item => item.id === id)!;
+  for (const [id, texts] of [
+    ["SR01-T01", ["yakiniku"]], ["SR04-T01", ["Japanese food"]], ["SR07-T01", ["Korean food"]],
+    ["SR08-T01", ["sushi", "omakase"]], ["SR08-T02", ["sushi"]],
+    ["SR09-T01", ["Italian food"]], ["SR09-T02", ["Italian food"]],
+  ] as const) for (const text of texts) turn(id).expectedDraft.criteria.find(c => c.text === text)!.strength = "HARD";
+  for (const id of ["SR05-T01", "SR08-T01", "SR08-T02", "SR09-T01", "SR09-T02"]) {
+    turn(id).expectedDraft.timeWindow = { earliest: "18:00", latest: "23:00" };
+  }
+  turn("SR06-T01").expectedDraft.timeWindow = { earliest: "12:00", latest: "17:00" };
+  turn("SR10-T01").expectedDraft.timeWindow = { earliest: "17:30", latest: "22:00" };
+  assert.deepEqual(restaurantSemanticRegression, approved5, "Gold5 contains exactly the 15 user-confirmed labels, with every other field frozen");
 });
 
 test("development attribution stops at Compiler before Reducer", async () => {

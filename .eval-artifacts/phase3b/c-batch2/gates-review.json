@@ -1,0 +1,39 @@
+{
+  "schema": "phase3b-c-final-gates-review@1",
+  "status": "STOP_AWAITING_A_G2_REFERENCE_REVIEW",
+  "testedSourceCommit": "3ec77f67ada1bcfe6f295284e98fa74d2101d1a0",
+  "fourCoreGates": "PASS",
+  "defaultTests": {
+    "pass": 1117,
+    "total": 1117
+  },
+  "browserFixture": {
+    "pass": 167,
+    "total": 168,
+    "status": "FAIL"
+  },
+  "failure": "G2 frozen original-source identity:address changed; not an intermittent environment error",
+  "fixedG2Command": "NOT_RUN_AFTER_GATE_SEQUENCE_STOPPED; same saved-page test already failed inside browser gate",
+  "additionalDiagnostic": {
+    "cases": 12,
+    "classificationCounts": {
+      "DEGRADED_HONEST": 4,
+      "PASS": 8
+    },
+    "sourceTransportCalls": 0,
+    "isFixedG2GatePass": false
+  },
+  "inputsVerified": 986,
+  "gitStatusBeforeAfterAllExecutedSteps": "CLEAN",
+  "actualUsage": {
+    "fullLive": 0,
+    "realModelCalls": 40,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 18,
+    "googleRequests": 11,
+    "restaurantWebsiteRequests": 18
+  },
+  "newRealCallsAfterSourceTimeout": 0,
+  "quality": "NOT_OVERALL_ACCEPTED",
+  "noMergeIntoMain": true
+}

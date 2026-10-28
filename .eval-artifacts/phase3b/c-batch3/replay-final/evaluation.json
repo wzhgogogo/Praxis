@@ -1,0 +1,173 @@
+{
+  "schema": "phase3b-c-independent-evaluation@1",
+  "evaluatedAtCET": "2026-10-28T03:29:36.397015+01:00",
+  "mode": "OFFLINE_ONLY_EXPOSED_REGRESSION",
+  "endToEnd": "NOT_EVALUATED_NO_LIVE",
+  "identity": {
+    "planned": 29,
+    "completed": 29,
+    "correct": 12,
+    "wrongAccepted": 0,
+    "newSinceOriginal": [
+      "nr-002"
+    ],
+    "removedSinceOriginal": [
+      "nr-020"
+    ],
+    "restoredSinceBatch2": [
+      "nr-004",
+      "nr-016",
+      "nr-024"
+    ],
+    "unexpectedRegressions": 0
+  },
+  "search": {
+    "parsedSavedResponses": 17,
+    "original8Hit": 3,
+    "historicalMixedAlternative8Hit": 7,
+    "modelFragmentPrimarySubset": {
+      "denominator": 4,
+      "originalHit": 2,
+      "fragmentHit": 3
+    },
+    "controlledMissingDetailRuns": 4,
+    "locatedFragments": 12,
+    "previousOffsetRejectionsRecovered": 4,
+    "rows": [
+      {
+        "id": "G4-ND-001",
+        "variant": "ORIGINAL",
+        "parsed": 0,
+        "hit": false,
+        "rank": null
+      },
+      {
+        "id": "G4-ND-001",
+        "variant": "MODEL_FRAGMENT",
+        "parsed": 20,
+        "hit": true,
+        "rank": 5
+      },
+      {
+        "id": "G4-ND-002",
+        "variant": "ORIGINAL",
+        "parsed": 0,
+        "hit": false,
+        "rank": null
+      },
+      {
+        "id": "G4-ND-002",
+        "variant": "GOOGLE_JA",
+        "parsed": 1,
+        "hit": true,
+        "rank": 1
+      },
+      {
+        "id": "G4-ND-003",
+        "variant": "ORIGINAL",
+        "parsed": 3,
+        "hit": true,
+        "rank": 1
+      },
+      {
+        "id": "G4-ND-003",
+        "variant": "MODEL_FRAGMENT",
+        "parsed": 4,
+        "hit": true,
+        "rank": 2
+      },
+      {
+        "id": "G4-ND-004",
+        "variant": "ORIGINAL",
+        "parsed": 4,
+        "hit": true,
+        "rank": 1
+      },
+      {
+        "id": "G4-ND-004",
+        "variant": "GOOGLE_JA",
+        "parsed": 1,
+        "hit": true,
+        "rank": 1
+      },
+      {
+        "id": "G4-ND-005",
+        "variant": "ORIGINAL",
+        "parsed": 0,
+        "hit": false,
+        "rank": null
+      },
+      {
+        "id": "G4-ND-005",
+        "variant": "MODEL_FRAGMENT",
+        "parsed": 20,
+        "hit": false,
+        "rank": null
+      },
+      {
+        "id": "G4-ND-006",
+        "variant": "ORIGINAL",
+        "parsed": 1,
+        "hit": true,
+        "rank": 1
+      },
+      {
+        "id": "G4-ND-006",
+        "variant": "MODEL_FRAGMENT",
+        "parsed": 8,
+        "hit": true,
+        "rank": 1
+      },
+      {
+        "id": "G4-ND-007",
+        "variant": "ORIGINAL",
+        "parsed": 0,
+        "hit": false,
+        "rank": null
+      },
+      {
+        "id": "G4-ND-007",
+        "variant": "GOOGLE_JA",
+        "parsed": 3,
+        "hit": true,
+        "rank": 1
+      },
+      {
+        "id": "G4-ND-008",
+        "variant": "ORIGINAL",
+        "parsed": 0,
+        "hit": false,
+        "rank": null
+      },
+      {
+        "id": "G4-ND-008",
+        "variant": "GOOGLE_JA",
+        "parsed": 1,
+        "hit": true,
+        "rank": 1
+      },
+      {
+        "id": "nr-001",
+        "variant": "MODEL_FRAGMENT",
+        "parsed": 20,
+        "hit": true,
+        "rank": 1
+      }
+    ]
+  },
+  "severity": {
+    "S0WrongAcceptedOn29": 0,
+    "S0UnsupportedClaimsOnControlled4": 0,
+    "productionLive": "NOT_EVALUATED",
+    "syntheticSafetyCounterexamples": "See frozen red/green unit receipts; no actual user delivery"
+  },
+  "attribution": {
+    "confirmed": "Three false address conflicts repaired in frozen saved fields; nr002 collection remains accepted. Exact-phone/branch counterexamples use actual production resolvers. Four genuine substrings survive independent location.",
+    "notEvaluated": "New Prompt2 semantic quality, Japanese-name production retrieval, real first-page identity/availability, full target delivery."
+  },
+  "inputs": {
+    "identitySha256": "223a21275c2c371cddd1312aa6d6609d3defd7e3f4497a939d53ef3af221f215",
+    "searchReplaySha256": "a11b909876caaa5076d0a82862247f7c40303a488a3a0b20e29c601359439a1c",
+    "goldSha256": "a0a6f0941abf2d3dc11dbd37dacf7a9ec00fa1af5b3e81cc5362dfef31a0c141"
+  }
+}

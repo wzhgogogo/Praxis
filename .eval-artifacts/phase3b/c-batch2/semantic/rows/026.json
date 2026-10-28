@@ -1,0 +1,215 @@
+{
+  "logical": 26,
+  "cohort": "DEVELOPMENT",
+  "sessionId": "SR01-complete-then-correct",
+  "repetition": 1,
+  "turnId": "SR01-T02",
+  "input": {
+    "taskId": "SR01-complete-then-correct",
+    "message": "Actually make it three people in Shibuya, and remove yakiniku.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo",
+    "currentDraft": {
+      "schemaVersion": "3",
+      "timezone": "Asia/Tokyo",
+      "criteria": [
+        {
+          "text": "yakiniku",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "yakiniku restaurant in Shinjuku for two, tomorrow 19:00-19:30, under 5000 JPY per person",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-08-06",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:30"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "Tomorrow",
+          "resolvedDate": "2026-08-06",
+          "basis": "TOMORROW"
+        },
+        "timeWindow": {
+          "expression": "between 19:00 and 19:30",
+          "resolvedTimeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "basis": "EXPLICIT_CLOCK"
+        }
+      },
+      "partySize": 2,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "Shinjuku"
+      },
+      "budgetPerPerson": {
+        "max": 5000,
+        "currency": "JPY"
+      }
+    }
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "PARTY_SIZE",
+          "operation": "CORRECT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 3,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "CORRECT",
+          "value": {
+            "kind": "AREA",
+            "query": "Shibuya"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "NEGATE",
+          "value": {
+            "kind": "CRITERION",
+            "text": "yakiniku",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "c43ce931-3e07-4574-9e8b-dde9012b103c",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1257,
+        "usage": {
+          "inputTokens": 7179,
+          "outputTokens": 182,
+          "totalTokens": 7361
+        },
+        "providerRequestId": "3ba8aa9d-6b07-4ed2-8699-073cf0139c15"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "partySize": 3,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "Shibuya"
+      },
+      "removeCriteria": [
+        {
+          "text": "yakiniku",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ]
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "yakiniku restaurant in Shinjuku for two, tomorrow 19:00-19:30, under 5000 JPY per person",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "19:00",
+      "latest": "19:30"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "Tomorrow",
+        "resolvedDate": "2026-08-06",
+        "basis": "TOMORROW"
+      },
+      "timeWindow": {
+        "expression": "between 19:00 and 19:30",
+        "resolvedTimeWindow": {
+          "earliest": "19:00",
+          "latest": "19:30"
+        },
+        "basis": "EXPLICIT_CLOCK"
+      }
+    },
+    "partySize": 3,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Shibuya"
+    },
+    "criteria": [],
+    "budgetPerPerson": {
+      "max": 5000,
+      "currency": "JPY"
+    }
+  },
+  "commands": [],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "19:00",
+      "latest": "19:30"
+    },
+    "partySize": 3,
+    "area": {
+      "query": "Shibuya"
+    },
+    "criteria": [],
+    "budgetPerPerson": {
+      "max": 5000,
+      "currency": "JPY"
+    }
+  },
+  "evaluation": {
+    "requestedFieldDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "target.goal must match every new TARGET"
+    },
+    "goalEvaluation": {
+      "category": "B",
+      "status": "NOT_SATISFIED",
+      "actualGoal": "AVAILABILITY",
+      "errors": [
+        "target.goal must match every new TARGET"
+      ]
+    }
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-026"
+  ]
+}

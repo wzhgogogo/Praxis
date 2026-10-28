@@ -1,0 +1,406 @@
+{
+  "id": "nr-027",
+  "cohort": "OLD29",
+  "startedAtCET": "2026-10-28T07:28:26.201+01:00",
+  "finishedAtCET": "2026-10-28T07:29:28.733+01:00",
+  "mode": "PUBLIC_GET_WITH_OFFLINE_JS_DISABLED_DOM",
+  "requests": [
+    {
+      "ledgerId": "phase3b-c-g4-e2e-get-115",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Sushi%20Jinnan",
+      "kind": "SEARCH",
+      "query": "Shibuya Sushi Jinnan",
+      "startedAtCET": "2026-10-28T07:28:56.184+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-115.html",
+      "sha256": "040cb05aa9e0740bc7249c3c96097f4fb5e1f155907fd40845fc812d389d2b9c",
+      "finishedAtCET": "2026-10-28T07:28:58.686+01:00",
+      "elapsedMs": 2502
+    }
+  ],
+  "modelRecords": [],
+  "diagnostics": [],
+  "trace": [
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "detail": "OPEN_SESSION",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 32485,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 32485,
+        "providerElapsedMs": 32485,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 32485,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 32485,
+        "providerElapsedMs": 32485,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 32485,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 32485,
+        "providerElapsedMs": 32485,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 32485,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 32485,
+        "providerElapsedMs": 32485,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Sushi%20Jinnan",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 32485,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 32485,
+        "providerElapsedMs": 32485,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 32486,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 32486,
+        "providerElapsedMs": 32486,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FAILED",
+      "detail": "BUDGET_EXHAUSTED",
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 62532,
+        "providerElapsedMs": 62532,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0,
+        "reason": "OPERATION_FAILED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 62532
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 62532,
+        "providerElapsedMs": 62532,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 62532
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "detail": "SESSION_RETIRED",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 62532,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 62532,
+        "providerElapsedMs": 62532,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 62532,
+        "providerElapsedMs": 62532,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-027",
+      "elapsedMs": 62532
+    }
+  ],
+  "status": "INTERRUPTED",
+  "environmentFailure": null,
+  "stop": "BUDGET_EXHAUSTED",
+  "acceptedUrl": null,
+  "productionReason": "BROWSER_RUNTIME_FAILED",
+  "bounds": {
+    "searches": 1,
+    "details": 0,
+    "model": 0,
+    "inventoryEvaluated": false,
+    "google": 0,
+    "live": 0
+  }
+}
