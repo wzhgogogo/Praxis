@@ -55,7 +55,7 @@ test("same phone and name never override explicit floor, door or nr-020 postal c
   const candidate = structuredClone(fixtureCandidates[0]!);
   Object.assign(candidate.restaurant, { outletName: "Named restaurant", address: "1530051 東京都目黒区上目黒2-13-3 GEMS中目黒 7F" });
   candidate.restaurant.sourceIds.phone = "03-1111-2222";
-  for (const different of ["1530051 東京都目黒区上目黒2-13-3 GEMS中目黒 8F", "1530051 東京都目黒区上目黒2-13-8 GEMS中目黒 7F", "1500002 東京都目黒区上目黒2-13-3 GEMS中目黒 7F"]) {
+  for (const different of ["1530051 東京都目黒区上目黒2-13-3 GEMS中目黒 8F", "1530051 東京都目黒区上目黒2-13-8 GEMS中目黒 7F", "1500002 東京都目黒区上目黒2-13-3 GEMS中目黒 7F", "1530051 東京都目黒区中目黒2-13-3 GEMS中目黒 7F"]) {
     const outlet = { sourceEntityId: "other", sourceUrl: "https://tabelog.com/tokyo/other/", outletName: candidate.restaurant.outletName, address: different, phone: candidate.restaurant.sourceIds.phone };
     assert.equal(compareCompleteOutletAddress(candidate.restaurant.address, different), "CONFLICT");
     assert.notEqual(resolveTabelogEntity(candidate, [outlet]).confidence, "HIGH");

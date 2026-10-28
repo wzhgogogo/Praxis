@@ -19,7 +19,7 @@ function withoutPostal(value: string): string {
  * ASCII word character, so its suffix must not use `\b`; require instead that
  * it is followed by end-of-string or a non-letter/non-number delimiter.
  */
-const UNIT_PATTERN = /(?:\bb\s*(\d+)\s*(?:f\b|(?=$|[^\p{L}\p{N}]))|\b(?:floor|fl)\.?\s*(\d+)\b|\b(\d+)\s*f\b|\b(\d+)\s*階(?=$|[^\p{L}\p{N}])|(?:地下|地)\s*(\d+)\s*階(?=$|[^\p{L}\p{N}]))/gu;
+const UNIT_PATTERN = /(?:(?<!\d)b\s*(\d+)\s*(?:f\b|(?=$|[^\p{L}\p{N}]))|\b(?:floor|fl)\.?\s*(\d+)\b|(?<!\d)(\d+)\s*f\b|(?<!\d)(\d+)\s*階(?=$|[^\p{L}\p{N}])|(?:地下|地)\s*(\d+)\s*階(?=$|[^\p{L}\p{N}]))/gu;
 
 function normalizedAddressForUnits(value: string): string {
   return withoutPostal(value).toLocaleLowerCase("en-US");
@@ -93,9 +93,11 @@ function localityFields(value: string): Record<string, string> {
   const text = withoutUnits(value);
   const prefecture = text.match(/([\p{Script=Han}]{2,3}[都道府県])/u)?.[1];
   const rest = prefecture ? text.slice(text.indexOf(prefecture) + prefecture.length) : text;
-  const municipality = rest.match(/([\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]+?[市区町村])/u)?.[1];
+  const municipalityMatch = rest.match(/([\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]+?[市区町村])/u);
+  const municipality = municipalityMatch?.[1];
+  const town = municipality && rest.slice(municipalityMatch!.index! + municipality.length).match(/^([\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]+)(?=\d)/u)?.[1];
   const city = text.match(/\b([a-z-]+)\s+(?:city|ward)\b/u)?.[1];
-  return { ...(prefecture ? { prefecture } : {}), ...(municipality ? { municipality } : {}), ...(city ? { city } : {}) };
+  return { ...(prefecture ? { prefecture } : {}), ...(municipality ? { municipality } : {}), ...(town ? { town } : {}), ...(city ? { city } : {}) };
 }
 
 /**
