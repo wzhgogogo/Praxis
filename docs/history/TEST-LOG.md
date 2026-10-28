@@ -1,5 +1,7 @@
 # Test and Verification Log
 
+2026-10-28 CET：G4因GET115额度停止。旧29正确10/错认0/未接纳8/环境失败7/中断1/未运行3；新8全部未运行，完整37家尚未验收。模型14/40、Google/Live0，共享GET145/150。前四家复跑已登记，尚未执行；剩余12项加复跑4项最多需112 GET，待明确新增额度。main已合b250bb17，B可继续G3。报告 `.eval-artifacts/phase3b/g4-e2e/report.md`。
+
 2026-10-28 CET：C已合main并推送b250bb17（ls-remote核对），B可开始G3。G4获批37家身份端到端前缀评测另开证据分支，GET115/模型40/Google0/Live0，3b GET总额150，实际开始前30。静态HTTP运行边界及失败/停批口径见 `.eval-artifacts/phase3b/g4-e2e/report.md`；生产规则不改。
 
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
