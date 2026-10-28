@@ -39,6 +39,8 @@ async function publicState(page: Page, cell: ElementHandle) {
 }
 try {
   const context = await browser.newContext({ javaScriptEnabled: false, serviceWorkers: "block" });
+  context.setDefaultTimeout(10_000);
+  context.setDefaultNavigationTimeout(10_000);
   await context.route("**/*", route => { blockedRequests++; return route.abort(); });
   const page = await context.newPage();
   for (const spec of manifest.pages.filter((p: { site: string; kind: string }) => p.site === "TABELOG" && p.kind === "CALENDAR")) {
@@ -47,9 +49,10 @@ try {
     const reference = baseline.cases.find((row: { id: string }) => row.id === spec.id)!;
     const dates = spec.id.endsWith("teppen") ? ["2026-09-29", "2026-09-28", "2026-09-30"] : ["2026-10-01"];
     for (const date of dates) {
+      console.log("START", spec.id, date);
       await page.setContent(html, { waitUntil: "load" });
       // The same visibility-only shim that G2 declares. No calendar status CSS.
-      await page.addStyleTag({ content: ".is-hidden{display:none}" });
+      await page.evaluate(() => { const style = document.createElement("style"); style.textContent = ".is-hidden{display:none}"; document.head.append(style); });
       const [year, month, day] = date.split("-").map(Number);
       const caption = `${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][month! - 1]} ${year}`;
       const handle = await page.evaluateHandle(({ caption, day }) => {
@@ -87,10 +90,12 @@ try {
         bodyAriaSha256AfterPrivateRename: renamed.bodyAriaSha256,
         inlineCalendarStatusStyles: [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/giu)].some(match => /p-booking-calendar/u.test(match[1]!)),
         conclusion: "Frozen day status distinguishes private classes with identical available public observations. A source-visible status quotation is not supplied by this saved input." });
+      await writeFile(process.argv[2]!, JSON.stringify({ complete: false, cases }, null, 2) + "\n");
+      console.log("END", spec.id, date, legacyBefore, "->", legacyCounterfactual, "public=identical");
     }
   }
 } finally { await browser.close(); }
-const result = { mode: "OFFLINE_REAL_CHROMIUM_PUBLIC_OBSERVABILITY_COUNTERFACTUAL", sourceTransportCalls: 0, realModelCalls: 0, blockedRequests,
+const result = { complete: true, mode: "OFFLINE_REAL_CHROMIUM_PUBLIC_OBSERVABILITY_COUNTERFACTUAL", sourceTransportCalls: 0, realModelCalls: 0, blockedRequests,
   manifestSha256: sha(manifestBytes), baselineSha256: sha(baselineBytes), inputAndBaselineModified: false, cases };
 await writeFile(process.argv[2]!, JSON.stringify(result, null, 2) + "\n");
 console.log(JSON.stringify({ cases: cases.length, publicObservationsIdentical: true, oldClassStatusChanges: true, sourceTransportCalls: 0 }));
