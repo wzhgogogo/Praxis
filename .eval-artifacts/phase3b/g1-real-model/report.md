@@ -57,3 +57,8 @@ The first automatic approval retry failed because review-service usage was exhau
 Separate task remains **NOT_STARTED**: the user's trigger is B beginning G3. Latest read-only B snapshot still ends after B main publication, waiting for C; no G3 turn is present. C main integration is now visible; the G3-start dependency is still pending. No tests have been removed or edited. Once B starts G3, inventory actual then-main default/Chromium cases and durations, exclude B-owned G3 private-logic tests, propose per-test retain/merge/delete reasons and exact replacements; submit that list before edits. The count/time reduction criterion has not been met or claimed by this evaluation batch.
 
 Execution time window: **2026-10-28T06:18:21.327000+01:00 → 2026-10-28T08:22:04.408000+01:00**. Sum of102 core-process execution durations 344.651s (median 3.445s);85 successful model response latencies total 218.537s (median 2.554s). These exclude external per-trial triage gaps and scorer/browser processes; timestamps are saved per trial. First usable result/display timing is N/A for this single-page core Runner. No totals are relabelled as Agent task latency.
+
+
+## Subsequent independent review,2026-10-28 CET
+
+**Current review:84 correct,18 quality failures,false claims0.** [Exhaustive102 judgments](reviewer-judgments.json) and [follow-up/reference extension](reviewer-followup.md) supersede the earlier pending human-review status only; all historical automatic outputs above remain immutable. User authorizes main integration of evaluation material.

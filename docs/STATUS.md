@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-28 CET: G1 independent reviewer confirms102 trials:84correct/18qualityFAIL/**falseclaims0**, absence23/24. User authorizes evaluation branch main integration. Append39 exact approved PASS expressions (dataset@3), preserve original automatic results and scoring rules. Offline rescore73PASS/24FAIL/5unknown;11 human-PASS cases remain blocked by existing quote/regex requirements, separately reported. New real calls0; six-question≤20-call rerun waits B fixes;2-core timing repairs next independent branch, test review waits G3. [Review](../.eval-artifacts/phase3b/g1-real-model/reviewer-followup.md).
+
 2026-10-28 CET：G4续跑收尾，旧29 ENVIRONMENT_FAILURE 7；CORRECT_ACCEPTED 13；NOT_ACCEPTED 9；新8 CORRECT_ACCEPTED 6；ENVIRONMENT_FAILURE 1；NOT_ACCEPTED 1；前四家独立复跑 CORRECT_ACCEPTED 4。新增GET73/112、模型5，基准累计GET188/模型19/40，Google/Live0；共享GET218/257。生产b250bb17与原证据未改，完整性PASS；结果交复核，不调整规则。 报告 `.eval-artifacts/phase3b/g4-e2e-continuation/report.md`。
 
 2026-10-28 CET：用户批准G4续跑新增GET≤112、共享上限257；补齐12家后单独复跑前四家，原结果保留。生产固定b250bb17，模型累计≤40（已14），Google/Live0；预先冻结后执行，当前新增调用0。报告 `.eval-artifacts/phase3b/g4-e2e-continuation/report.md`。
@@ -11,7 +13,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.440
+- Document revision: 4.441
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
 

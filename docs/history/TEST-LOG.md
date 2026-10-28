@@ -5739,3 +5739,12 @@ H0新main组合、L7、L10各五门禁严格全绿：默认1060/1060、Chromium1
 **2026-10-28 CET: A G1 saved-page real-model evaluation completed, pending review.** Frozen b9ee3d3e on B-integrated main6fa60cda:34×3=102 trials,87/120 provider attempts (85 responses/2TIMEOUT),15 local mismatch refusals; website/Google/Live0. Unchanged scorer18PASS/24FAIL/60NOT_EVALUATED;76 claim counts unknown, automatic detections0/provisional agent triage0, no final S0=0 or G1 acceptance. Explicit absence23/24; sensitive category/confirmation9/9; all classified category/flag76/79 (vegan false positives3). UNVERIFIED15NO_BOUND_PAGE/6INVALID_MODEL_OUTPUT/2MODEL_FAILED. No prompt/reference/scorer repair. Five gates1168/175 PASS/per-gate clean; frozen59 inputs unchanged. Test-review NOT_STARTED until B G3 begins; no test edits or reduction claim. [Report](../.eval-artifacts/phase3b/g1-real-model/report.md).
 
 Five gates ran on frozen b9ee3d3e before paid calls; source unchanged afterward. Credential access only by explicitly authorized Node --env-file process. Original102 execution/evaluation records immutable, separate provisional triage. Q20-r2/Q33-r2 transport errors are failed trials; no schema retries, no extra paid trials. Delivery only to work branch for independent review, no main merge. Test review list remains pending G3 start and requires review before deletion.
+
+
+<a id="test-2026-10-28-g1-review-confirmation"></a>
+
+## 2026-10-28 CET: G1 exhaustive independent review and approved expression extension
+
+2026-10-28 CET: G1 independent reviewer confirms102 trials:84correct/18qualityFAIL/**falseclaims0**, absence23/24. User authorizes evaluation branch main integration. Append39 exact approved PASS expressions (dataset@3), preserve original automatic results and scoring rules. Offline rescore73PASS/24FAIL/5unknown;11 human-PASS cases remain blocked by existing quote/regex requirements, separately reported. New real calls0; six-question≤20-call rerun waits B fixes;2-core timing repairs next independent branch, test review waits G3. [Review](../.eval-artifacts/phase3b/g1-real-model/reviewer-followup.md).
+
+Original102 execution/core/automatic-evaluation records verified byte-identical. Question, required quote, forbidden fragment, expected-kind, production and scorer sources unchanged; only approved expression lists/data provenance change. Main ledger union retains all id rows, sole zero-counter C completion metadata conflict documented with both originals. No.env read, no model/source call.

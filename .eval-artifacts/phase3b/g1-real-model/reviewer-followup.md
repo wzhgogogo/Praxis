@@ -1,0 +1,15 @@
+# G1 independent review follow-up
+
+Status: reviewer-confirmed evidence; Vienna CET2026-10-28. Authority: user-supplied exhaustive per-trial judgments by independent reviewer (Claude),2026-10-28.
+
+[reviewer-judgments.json](reviewer-judgments.json) binds all102 original core and automatic evaluation bytes by SHA:84 PASS,18 quality FAIL,**false claims0**, explicit page-not-stated23/24. This resolves the prior pending claim count through independent human review; original automatic18PASS/24FAIL/60NOT_EVALUATED records and provisional triage are unchanged.
+
+Failures:Q07×3/Q33-r1,r3 wrong language;Q14×3 wrong sensitive category;Q20-r2/Q33-r2 transport timeout;Q26-r1,r3 conflict without confirmation;Q27×3 refusal;Q31×3 partial paragraph quotation rejected. Every other trial is the explicit user-provided PASS list.
+
+Confirmed expression dataset phase3b-qa-reviewed@3 appends39 unique literal expressions from84 PASS trials, retaining all original expressions. Exact source and raw core answer fields are recorded in [confirmed-expression-additions.json](confirmed-expression-additions.json). NOT_STATED has no model answer text; its already existing immutable execution/responses.json status label is retained for scorer matching, clearly distinguished from new model prose. UNVERIFIED response text is empty and contains no restaurant fact. Q28 related ANSWERED expressions are added to the related branch read by the unchanged scorer. No FAIL expression is accepted. Questions, expected statuses/kinds, required quotes, forbidden fragments, evidence and scoring rules are unchanged. Original candidate bytes remain intact.
+
+A separate offline check of all original outputs with the expanded reference yields73PASS/24FAIL/5NOT_EVALUATED. Eleven human-PASS trials still fail non-lexical existing constraints:Q06-r2/Q09×3/Q10×3 required quotations;Q26-r2 confirmation regex;Q28×3 limitation regex. These are not erased or overridden by the new approved wording. [Detailed difference](reviewed-expression-check/summary.json). No human-FAIL trial becomes automatic PASS. Historical results are not overwritten; a scoring-contract change requires a separate decision.
+
+Main synchronization preserves frozen b9ee3d3e lineage and both A/C docs and ledger ids. One zero-cost C row changed completion metadata; [both originals and resolution](budget-merge-record-versions.json) are retained. Main completed metadata selected, financial counters identical0. The union now includes A87 real calls and all already-recorded C work, not an extra A charge.
+
+This batch adds0 real model/Google/source/Live calls and does not load.env. Six-question repetition Q07/Q14/Q26/Q27/Q31/Q33 remains NOT_RUN until B G1 fixes merge main; user allocation≤20 calls,3 trials each, no schema retries and immediate wrong-claim stop. B product/Prompt/Schema files are not edited by A. Timing-test repair is a separate branch, with2-core Linux red and three full-suite greens required. Test-suite review still waits B G3; no deletions.
