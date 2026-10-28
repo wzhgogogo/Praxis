@@ -89,15 +89,23 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         url: this.page.url(),
         html: await this.page.content(),
         visibleHtml: await this.page.evaluate(() => {
-          const copy = document.body.cloneNode(true) as HTMLElement;
-          const originals = [...document.body.querySelectorAll("*")];
-          const copies = [...copy.querySelectorAll("*")];
-          originals.forEach((node, index) => {
-            const style = getComputedStyle(node);
-            if (node.matches('script,style,template,noscript,[hidden],[aria-hidden="true"]')
-              || style.display === "none" || style.visibility === "hidden") copies[index]?.remove();
-          });
-          return copy.outerHTML;
+          // Cloning an img can trigger a second request even while detached.
+          // Serialize the existing tree without constructing any DOM nodes.
+          const source = {
+            escape(text: string) { return text.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;"); },
+            read(node: Node): string {
+              if (node.nodeType === Node.TEXT_NODE) return this.escape(node.textContent ?? "");
+              if (!(node instanceof Element)) return "";
+              const style = getComputedStyle(node);
+              if (node.matches('script,style,template,noscript,[hidden],[aria-hidden="true"]')
+                || style.display === "none" || style.visibility === "hidden") return "";
+              const name = node.tagName.toLowerCase();
+              const tag = `<${name}${[...node.attributes].map(attribute => ` ${attribute.name}="${this.escape(attribute.value)}"`).join("")}>`;
+              return tag + (/^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/.test(name)
+                ? "" : [...node.childNodes].map(child => this.read(child)).join("") + `</${name}>`);
+            },
+          };
+          return source.read(document.body);
         }),
         text: await this.page.locator("body").innerText(),
         title: await this.page.title(),
