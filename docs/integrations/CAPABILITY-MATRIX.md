@@ -7,7 +7,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.100
+- Document revision: 1.101
 
 
 - Last updated: 2026-10-28
@@ -385,3 +385,6 @@ The Google-candidate Tabelog identity path ranks all observed result links befor
 G4 candidate validation (2026-10-28 CET): five gates1190/175 and G2 4/4 PASS with clean steps; six proposal-only real calls all proper substrings. Saved-corpus priority retains all23 prior accepted targets in five-detail plans, but7 lack newly needed pages, so full no-regression acceptance is NOT_EVALUATED, not PASS. No current-source GET/Google/Live; original identity functions remain byte-identical. See the same report and missing-pages.json.
 
 2026-10-28 CET G4 backfill: 2026-10-28 CET：C按批准补页24/25 GET（失败0），模型/Google/Live0，共享GET242/257。冻结后完整路径回放既有7份7/7正确、排序nr010/022/026 2/3正确，错认0；状态NO_REGRESSION_PASS_IMPROVEMENT_RESULTS_MIXED。375aec6d产品/排序/身份/评分原字节不变，原结果保留，补页另存；当前工作分支停复核，合main需与B G3协调。 Public HTTP capture and frozen production-prefix Replay are separate from full Live.
+
+
+2026-10-28 G4 nr010 entity-name repair: compare structured and rendered outlet names after one standard HTML entity decode. Detail ownership and the existing Tabelog/TableCheck name rules retain their original case/punctuation/containment/minimum-length behavior; address, phone, branch-conflict rules, ranking and scoring are unchanged. entities7.0.1 is installed from the local npm cache with --offline/--ignore-scripts; no source GET. Harness: exact nr010 raw-page fixture plus same-name other-area/door/floor and name-only rejection controls. Frozen whole identity-prefix Replay and merged-main gates are pending in `.eval-artifacts/phase3b/g4-name-entities/report.md`.

@@ -11,3 +11,5 @@ Evidence: frozen exposed regression. Vienna CET UTC+1.
 本轮GET/模型/Google/Live0，不加载.env。修复后同步最新main（已fetch到eb1518f1，包含用户指定54b3dd2b及后续G1修复），保留双方文档和账本。冻结整合源码/输入后重跑五门禁及test:dom-change，每步前后净树；通过后按用户已明确批准合main并推送，ls-remote核对，合入后停止。
 
 已同步main eb1518f1ad3f4fa8da4469c993b02d1b9f15ccf8（含54b3dd2b与B G1质量修复）。产品源码无冲突，A时序/G1代码均保留；仅三份历史/账本冲突按双方内容和id并集处理。账本441个唯一id、同id差异0，计数{"fullLive": 0, "realModelCalls": 152, "environmentReruns": 0, "evaluationPublicGET": 242, "googleRequests": 11, "restaurantWebsiteRequests": 242}；本批所有新调用0。冲突前后Git和SHA见integration.json。
+
+3个有效红灯已保存在f1c9e859（nr010原页结构拒绝＋两站编码名称正常对照）；65d796e7只解码的修复后9项绿，40dd1d30整合最新main后再次9项绿。原页与源字段不改，源JS的HTML名称行只解码一次。接下来全部门禁与41份生产前缀回放同一冻结源码上执行，每步前后净树。
