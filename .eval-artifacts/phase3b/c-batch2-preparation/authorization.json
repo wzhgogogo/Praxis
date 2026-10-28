@@ -1,0 +1,32 @@
+{
+  "schema": "phase3b-c-batch2-authorization@1",
+  "recordedAtCET": "2026-10-27T03:12:00+01:00",
+  "source": "Direct human reply in current Codex conversation",
+  "originalAuthorization": "同意。复核第 9 节第 2、3 项均批准：本批真实模型 ≤100 次、评测侧公开 GET ≤35 次、Google ≤35 次、Live 0，仍受 3b 共享总额约束；凭据只通过 Node runner 的 --env-file 加载，不得打印或复制。由你先修改两站详情页的身份字段提取（联系区电话、完整日文地址），修改前在报告中列出函数和行范围；合入 main 后 B 再开始 G3。新样本清单准备好后先停下，等复核者认证 Gold，再做替代检索对照。",
+  "approvedCaps": {
+    "realModelCalls": 100,
+    "evaluationPublicGET": 35,
+    "googleRequests": 35,
+    "fullLive": 0
+  },
+  "subjectToSharedBudget": ".eval-artifacts/phase3b/budget.json",
+  "credentialFilePath": "/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env",
+  "credentialMechanism": "Controlled Node runner --env-file only; never print or copy; log loaded/not-loaded only",
+  "credentialStatus": "NOT_LOADED",
+  "independentlyReadCredentialFile": false,
+  "copiedCredentialFile": false,
+  "printedCredentialValues": false,
+  "credentialScope": "This phase3b C batch only; after the current reviewer-Gold stop, bounded by per-batch and shared usage",
+  "modelForFutureValidation": "deepseek-v4-flash",
+  "actualUsage": {
+    "fullLive": 0,
+    "realModelCalls": 0,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 0,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 0
+  },
+  "approvedFileHandoff": "C detail-page contact phones and complete Japanese address only; functions/ranges listed before edits; B starts G3 after reviewed C integration",
+  "currentStop": "AWAITING_REVIEWER_GOLD_CERTIFICATION_NO_COMPARISON_NO_PARSER_EDITS",
+  "referenceDocsOnly": "Official Google Place Details documentation reviewed; no Google Places API or restaurant evaluation GET executed"
+}

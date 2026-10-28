@@ -1,0 +1,31 @@
+{
+  "schema": "phase3b-c-closeout@1",
+  "recordedAtCET": "2026-10-28T03:41:40+01:00",
+  "branch": "codex/fix-phase3b-identity-and-named-target",
+  "testedCommit": "d9b0d771f1cde3aaa1bd42a9bee5723e9861fd08",
+  "baseMain": "90b464d822de6f8f6d34ce64839503590952a5d2",
+  "gateStatus": "PASS",
+  "gateReceiptSha256": "b6efedbb8b0b0a879bd62530f4073d4a4e746ab2431abc92232184a5b219f32b",
+  "gateFreezeSha256": "fc306fa19f1041567781e66500d095224abe62face24eca3d85b5307b1aef0c5",
+  "g2Classifications": {
+    "PASS": 8,
+    "DEGRADED_HONEST": 4
+  },
+  "userClarifications": {
+    "deduplicatedIdentityTarget": "12/29, not16/29; nr002 accepted, nr004/016/024 restored, nr020/029 rejected",
+    "queryLimit": "Per candidate per source: original plus at most one alternative; detail cap shared"
+  },
+  "usage": {
+    "fullLive": 0,
+    "realModelCalls": 0,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 12,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 12
+  },
+  "mergeStatus": "NOT_MERGED_AWAITING_REVIEW",
+  "newModelPromptQuality": "NOT_EVALUATED",
+  "privateHoldoutAndG1Answers": "NOT_READ_OR_HASHED",
+  "envFile": "NOT_LOADED_OR_INDEPENDENTLY_READ",
+  "report": ".eval-artifacts/phase3b/c-batch3/report.md"
+}

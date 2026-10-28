@@ -1,9 +1,19 @@
 # Praxis 当前状态
 
+2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
+
 - Status: Accepted
-- Document revision: 4.437
+- Document revision: 4.438
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-28 CET：3b C批次3完成，停止待复核。** main基线90b464d8；29原保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝；用户确认去重12而非16，以及每店每来源最多两次检索，已写入报告供复核者核对。双站原名→一种逐字Google片段，独立named-query Prompt/Schema2，原身份与详情总额保持，Google增量0。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。G2仅两原页地址获批更新；17保存检索及4个UNKNOWN控制、12片段定位通过，7/8为历史混合探针，新Prompt2真实质量未评。只推C分支，申请复核通过后合main，B随后开始G3。[报告](../.eval-artifacts/phase3b/c-batch3/report.md)。
+
+- **2026-10-27 CET：3b C批次2停止待复核，非整体通过。** Prompt26具名专项24/24，开发目标15/15、请求值14/15、严格0/15（SR05双重否定仍在）。新8家完整首屏配对原名3/8→一种替代7/8，Sen两次未命中、仍为正样本；旧15因第18次GET超时未完成，无重试。详情同店多号码/完整地址候选先红后绿，相关107绿；旧29保存页12→9接纳：nr002+1、另4因完整地址/现有比较器冲突转未知，错认0、nr029仍拒。未放宽身份，未改共享比较器/Prompt/Schema；3ec77f67冻结986项后type/arch/默认1117/build绿，Chromium167/168红于G2原页地址reference变化；A拥有的baseline未改，单列G2命令未重复，停等复核安排。实际模型40、Google11、公开GET18、Live/环境重跑0；只推C分支，不合main。[报告](../.eval-artifacts/phase3b/c-batch2/report.md)。
+
+- **2026-10-27 CET：3b C批次2进入认证后执行。** 用户转达Claude逐家确认8家正样本、全部升主；复核者查询不计本批GET。Gold隔离只供事后评分；检索31次计划、Google至多23、语义39逻辑轮（最多78调用）及片段1次，总模型计划≤79/批准100，GET≤35且共享40。已整合main/daba2ef0，原9账本条目并集保留；此刻真实调用未开始。详情范围已预列，身份规则不放宽；冻结后才执行，最后推分支停等复核，不合main。[切片](../.eval-artifacts/phase3b/c-batch2/plan.md)。
+
+- **2026-10-27 CET：3b C Gold5与非直链样本准备，待认证。** 用户确认15项标注后生成Gold5（8强度/7窗口），Gold3/4与旧评价原样保留；sidecar3只重绑数据，Prompt26/Schema4/State23不变。删除C重复ADR0047，统一由B的ADR0046 Proposed草案维护。整合main5f621be3，已从保存Google记录选5主+3备，Dengana单列历史锚点；没有猜测Gold。用户批准本批模型100/评测GET35/Google35/Live0，但本准备实际全部0、未加载.env；解析器/身份规则未改。7f3d8770冻结722项后五门禁全绿（默认1102/Chromium166）、各项前后净树，Fixture15/15；只推工作分支，停在复核者Gold认证前，不合main。[报告](../.eval-artifacts/phase3b/c-batch2-preparation/report.md) · [清单](../.eval-artifacts/phase3b/c-batch2-preparation/samples.proposed.md)。
 
 - **2026-10-28 CET: Reviewed G1 B main integration verified.** Independent Linux review accepted Bdc486430 and C053e2e2e five gates/G2. Latest-main90b464d8 is already in B; unchanged reviewed source at a5a3c57a passes local five gates1168/175 plus ordinary G2 4/4, per-check clean/restore0. G2 retains8 PASS/4 honest degradations; no G3 strict-pass claim. This is the approved B integration release. Next: C synchronizes/merges identity, then B forks new main for Tabelog G3; A owns G1 real-model evaluation after B publication and other test review. New real calls by B0. [Report and delivery](../.eval-artifacts/phase3b/g1-followup-main/report.md).
 
@@ -38,6 +48,12 @@
 - **2026-10-27 CET：3b A批次2 G2合入准备。** 按用户复核移除A的重复ADR0046及Accepted表述，ADR由B起草、待批准。G2原12页基线保留，重放main后ee0c391d五门禁1101/166与固定G2 4/4全绿、逐项前后净树；全离线真实调用0。旧F5整包回放结束，3b首次Live用当前版本重新录制验证方案(c)。[批次报告](../.eval-artifacts/phase3b/batch2-A/report.md)。
 
 - **2026-10-26 CET：3b A批次1 G2离线基线（待复核）。** 规则dom-marker-mutation@2同步全部id引用，12保存页真实Chromium对照8 PASS、4诚实退化，无错误声明；TableCheck两日历原页已未知，PASS不证明查位。固定test:dom-change加入额外清单，G3要求PASS且不得抹掉原页已知事实。产品/Guard/Recorder/Prompt/Schema/State未改，新增真实调用0。ADR（对话 B 起草，待批准）统一维护用户两原则；G1只交CANDIDATE候选，回放另切片。0027ed84五门禁全绿（默认1101/Chromium166）、额外G2 4/4通过且各项前后净树；未合main。[报告](../.eval-artifacts/phase3b/g2-dom-change/report.md)。
+
+- **2026-10-26-PHASE3B-C-STOP1:** C批次1完成，工作分支待复核不合main：29份当前保存页局部复算12正确/0错认，17失败分布14空、1采集遗漏、1字段冲突、1未决；八F5中六Dengana/两其他请求已分步计时。身份方案不实施/不放宽；Semantic Prompt26具名保留指令与合法fixture通过，真实模型未评，坏提议红灯保留；Schema4/State23/TaskDefinition21不变。Gold15项只列清单、4原SHA保持，ADR0047记录3b两原则。d9b38cd2冻结752项，五门禁1101默认/162Chromium及type/arch/build全绿，各项前后净树；固定Fixture15/15、定向8/8。A/B/C共享账本并集，新增真实调用全0。推分支停停止点1。[报告](../.eval-artifacts/phase3b/c-batch1/report.md)。
+
+- **2026-10-26-PHASE3B-C-BATCH1-CANDIDATE:** C完成离线候选：当前保存页parser/resolver复算12/29正确、0错认；14空检索、1身份采集遗漏、1字段冲突、1检索未决；八F5中六Dengana/两其他请求，时限原因逐项保存。身份/检索仅方案不实施。SR03坏提议在模型层先丢名；已报告后仅Semantic Prompt25→26，合法fixture与wire8/8绿，原坏响应并未变为模型成功；Schema4/State23/TaskDefinition21不变。15项Gold标签建议只列清单、Gold4原SHA未变；ADR0047记录3b两个原则及未实现边界。A/B/C零调用条目并集，新增真实调用0。五门禁待干净冻结候选验证，停点1不合main。[报告](../.eval-artifacts/phase3b/c-batch1/report.md)。
+
+- **2026-10-26-PHASE3B-C-BATCH1-PREP:** 对话C从签收main/cc127320新开codex/fix-phase3b-identity-and-named-target；本批仅保存数据离线复算、身份方案、具名店fixture红灯定位与Gold待确认清单，新增真实调用全0，禁读.env/私有Holdout。八份F5均纳入：六份Akabane含Dengana，两份其他请求标不适用；不把历史12/29冒充当前复算。身份规则不放宽、Gold不修改，Prompt或文件/版本争用按用户停止规则先报告。[切片](../.eval-artifacts/phase3b/c-batch1/plan.md)。
 
 - **2026-10-26 CET：3b A批次1待复核。** G2分支42dc6ef1已推：12保存页8 PASS/4诚实退化，五门禁1101/166及固定G2绿；G1分支8bd6bb8c已推：30题全部CANDIDATE，49摘录核对通过、无人工Gold先NOT_READY，五门禁1104/163绿。回放本分支修离线原动作临时ref绑定，普通stale仍拒；历史snapshot3窄窗口红绿完成。整份旧F5在新main首语义Prompt23/Schema3对25/4不兼容，仍INCOMPLETE（0/94），不改旧输出或产品合同，等复核安排。静态资格19/94不变，方案仅草案；f3fdfd9c五门禁1103/163全绿、逐项前后净树，新增真实调用0，不合main。[报告](../.eval-artifacts/phase3b/replay-completion/report.md)。
 

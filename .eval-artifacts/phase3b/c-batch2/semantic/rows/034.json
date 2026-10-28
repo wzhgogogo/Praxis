@@ -1,0 +1,220 @@
+{
+  "logical": 34,
+  "cohort": "DEVELOPMENT",
+  "sessionId": "SR07-relative-offset-time",
+  "repetition": 1,
+  "turnId": "SR07-T01",
+  "input": {
+    "taskId": "SR07-relative-offset-time",
+    "message": "In about 30 minutes near me for two people, Korean food.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo"
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "RECOMMENDATION",
+            "query": "Korean food near me",
+            "goalBasis": {
+              "type": "JUDGMENT",
+              "reason": "Relative offset with party size but no booking wording or explicit clock time; exploratory recommendation",
+              "quotes": [
+                "In about 30 minutes near me for two people, Korean food."
+              ]
+            },
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "relativeOffsetMinutes": 30,
+            "raw": "In about 30 minutes"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 2,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near me"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "5668016b-bea8-42c7-bf80-e55a293dca77",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1588,
+        "usage": {
+          "inputTokens": 7042,
+          "outputTokens": 335,
+          "totalTokens": 7377
+        },
+        "providerRequestId": "d6c08462-e3cd-4ea8-956c-a6ed759c4088"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Korean food near me",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "partySize": 2,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "near me"
+      },
+      "addCriteria": [
+        {
+          "text": "Korean food",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "date": "2026-08-05",
+      "timeWindow": {
+        "earliest": "09:30",
+        "latest": "09:30"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "timeWindow": {
+          "expression": "In about 30 minutes",
+          "resolvedTimeWindow": {
+            "earliest": "09:30",
+            "latest": "09:30"
+          },
+          "basis": "RELATIVE_OFFSET_MINUTES:30"
+        }
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [
+      {
+        "text": "Korean food",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ],
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "Korean food near me",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-08-05",
+    "timeWindow": {
+      "earliest": "09:30",
+      "latest": "09:30"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "timeWindow": {
+        "expression": "In about 30 minutes",
+        "resolvedTimeWindow": {
+          "earliest": "09:30",
+          "latest": "09:30"
+        },
+        "basis": "RELATIVE_OFFSET_MINUTES:30"
+      }
+    },
+    "partySize": 2,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "near me"
+    }
+  },
+  "commands": [],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "date": "2026-08-05",
+    "timeWindow": {
+      "earliest": "09:30",
+      "latest": "09:30"
+    },
+    "partySize": 2,
+    "area": {
+      "query": "near me"
+    },
+    "criteria": [
+      {
+        "text": "Korean food",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "evaluation": {
+    "requestedFieldDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+    },
+    "goalEvaluation": {
+      "category": "GRAY",
+      "status": "SATISFIED",
+      "actualGoal": "RECOMMENDATION",
+      "basis": {
+        "type": "JUDGMENT",
+        "reason": "Relative offset with party size but no booking wording or explicit clock time; exploratory recommendation",
+        "quotes": [
+          "In about 30 minutes near me for two people, Korean food."
+        ]
+      },
+      "errors": []
+    }
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-034"
+  ]
+}

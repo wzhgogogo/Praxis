@@ -1,0 +1,42 @@
+{
+  "atCET": "2026-10-27T16:01:26.548+01:00",
+  "response": {
+    "invocationId": "e3f7480c-23bb-4746-9750-0fe70f3598ac",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"CORRECT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Sushi A\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"User replaces the named outlet with a different specific restaurant; no visit time or booking wording\", \"quotes\": [\"Actually, Sushi A instead.\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1410,
+    "providerRequestId": "df2f602a-e1f5-43b8-a5ac-71f64f2bb127",
+    "usage": {
+      "inputTokens": 7059,
+      "outputTokens": 157,
+      "totalTokens": 7216
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "e3f7480c-23bb-4746-9750-0fe70f3598ac",
+      "taskId": "NAMED-REPLACE-R1",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v26",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1410,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7059,
+        "outputTokens": 157,
+        "totalTokens": 7216
+      },
+      "providerRequestId": "df2f602a-e1f5-43b8-a5ac-71f64f2bb127"
+    }
+  ]
+}

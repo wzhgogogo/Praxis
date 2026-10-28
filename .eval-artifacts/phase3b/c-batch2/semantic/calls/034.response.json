@@ -1,0 +1,42 @@
+{
+  "atCET": "2026-10-27T16:02:06.487+01:00",
+  "response": {
+    "invocationId": "5668016b-bea8-42c7-bf80-e55a293dca77",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Korean food near me\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"Relative offset with party size but no booking wording or explicit clock time; exploratory recommendation\", \"quotes\": [\"In about 30 minutes near me for two people, Korean food.\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"relativeOffsetMinutes\": 30, \"raw\": \"In about 30 minutes\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"near me\"}}, {\"field\": \"CRITERION\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"CRITERION\", \"text\": \"Korean food\", \"polarity\": \"POSITIVE\", \"strength\": \"HARD\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1588,
+    "providerRequestId": "d6c08462-e3cd-4ea8-956c-a6ed759c4088",
+    "usage": {
+      "inputTokens": 7042,
+      "outputTokens": 335,
+      "totalTokens": 7377
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "5668016b-bea8-42c7-bf80-e55a293dca77",
+      "taskId": "SR07-relative-offset-time",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v26",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1588,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7042,
+        "outputTokens": 335,
+        "totalTokens": 7377
+      },
+      "providerRequestId": "d6c08462-e3cd-4ea8-956c-a6ed759c4088"
+    }
+  ]
+}

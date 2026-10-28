@@ -1,5 +1,6 @@
 import { publicPriceText, sourcePriceElements, quotedCoursePrice } from "../restaurant-availability/source-price-facts.js";
 import type { BrowserPageControl, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
+import { readDetailIdentityFields, type WithDetailIdentity } from "../restaurant-identity/detail-identity-fields.js";
 import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
 
 export function tableCheckSearchResultBusy(snapshot: BrowserSnapshot): boolean {
@@ -357,17 +358,22 @@ export function hasTableCheckDiscoveryNoResult(snapshot: BrowserSnapshot): boole
 export function parseTableCheckOutletIdentityWithEvidence(
   snapshot: BrowserSnapshot,
   fallbackUrl: string,
-): TableCheckOutletIdentityExtraction | undefined {
+): (TableCheckOutletIdentityExtraction & { outlet: WithDetailIdentity<TableCheckOutletObservation> }) | undefined {
   if (!isTableCheckUrl(snapshot.url)) return undefined;
   const localBusiness = jsonLdObjects(snapshot.html).find((item) =>
     typeof item.name === "string" && (item.address !== undefined || item.telephone !== undefined),
   );
   const jsonLdName = typeof localBusiness?.name === "string" && localBusiness.name.trim() ? localBusiness.name.trim() : undefined;
   const domName = firstHeadingText(snapshot.html) ?? firstElementText(snapshot.html, /(?:class|id)=["'][^"']*(?:restaurant|shop)[^"']*(?:name|title)[^"']*["']/i);
-  const address = addressFromJsonLd(localBusiness?.address)
+  const structuredAddress = addressFromJsonLd(localBusiness?.address);
+  const addressValue = localBusiness?.address;
+  const postalCode = addressValue && typeof addressValue === "object" && "postalCode" in addressValue && typeof addressValue.postalCode === "string" ? addressValue.postalCode : undefined;
+  const detailIdentity = readDetailIdentityFields(snapshot, jsonLdName ?? domName, structuredAddress, postalCode);
+  const address = detailIdentity?.address ?? structuredAddress
     ?? firstElementText(snapshot.html, /(?:class|id|itemprop)=["'][^"']*address[^"']*["']/i)
     ?? textAfterLabel(snapshot.text, /^(?:address|住所)$/i);
-  const phone = phoneFromPage(snapshot);
+  const detailPhone = detailIdentity?.phones.find(phone => phone.role === "STORE") ?? detailIdentity?.phones[0];
+  const phone = detailPhone ? { value: detailPhone.value, source: "DOM" as const } : phoneFromPage(snapshot);
   const canonical = canonicalUrl(snapshot);
   const sourceUrl = (canonical ?? fallbackUrl).replace(/\?.*$/, "");
   const outletName = jsonLdName ?? domName;
@@ -379,11 +385,12 @@ export function parseTableCheckOutletIdentityWithEvidence(
       outletName,
       ...(address ? { address } : {}),
       ...(phone.value ? { phone: phone.value } : {}),
+      ...(detailIdentity ? { detailIdentity: { ...detailIdentity, ...(canonical ? { canonicalUrl: canonical } : {}) } } : {}),
     },
     ...(canonical ? { canonicalUrl: canonical.replace(/\?.*$/, "") } : {}),
     fields: {
       outletName: field(outletName, jsonLdName ? "JSON_LD" : "DOM", normalizeTableCheckIdentity),
-      address: field(address, localBusiness?.address !== undefined ? "JSON_LD" : address ? "DOM" : "ABSENT", normalizeTableCheckIdentity),
+      address: field(address, detailIdentity?.address ? "DOM" : localBusiness?.address !== undefined ? "JSON_LD" : address ? "DOM" : "ABSENT", normalizeTableCheckIdentity),
       phone: field(phone.value, phone.source, normalizeTableCheckPhone),
     },
   };

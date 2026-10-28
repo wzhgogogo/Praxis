@@ -1,11 +1,17 @@
 # Integration Capability Matrix
 
 - Status: Accepted
-- Document revision: 1.96
+- Document revision: 1.97
+
+
 - Last updated: 2026-10-28
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
+
+2026-10-28 CET，3b C批次3（offline / not integrated）：最终d9b0d771五门禁1172/173及额外G2全绿、逐项净树，29页不退化；仅工作分支已实现，等待复核。两站具名检索原名未确认同店时可消费一种代码逐字核验的Google片段，每店每来源最多两种检索、共用原详情上限。模型提议独立Prompt/Schema2，身份仍用原候选而非检索词；不增加Google请求/费用，未验证Prompt2真实语义质量。详情完整地址按结构比较，旧29保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020邮编矛盾及029异号拒绝。仅两项获批G2原页地址更新；保存HTML列表/缺详情控制不等于库存或Live。对应完整Adapter、上限/拒绝Harness与额外G2门禁见[报告](../../.eval-artifacts/phase3b/c-batch3/report.md)，本批不声明G3完成或≤3,591行。
+
+2026-10-27 CET，3b C详情身份采集候选（offline / not integrated）：两站共同从本次可见信息标题和联系字段取号码及角色、完整日文地址，保留分段原文/读取URL，别店/楼层/门牌冲突与歧义仍未知。号码只作精确匹配，不建立050→03映射；State/共享合同和Guard无改。旧nr002采集缺口关闭，但29保存页总接纳12→9（4项完整地址比较待复核），不能报告身份总体改善。新8家评测首屏3→7命中，不等于生产接线/库存；GET网络停批、旧15未完成，真实Live0。红绿、模式、Harness与限制见[报告](../../.eval-artifacts/phase3b/c-batch2/report.md)。
 
 2026-10-28 CET: Reviewed G1 B integration release: independent question60s/3-model/2-page unit, persistent conversation20 cap, restart reread and sole-action code selection accepted by independent Linux review. Unchanged Bdc486430 source rerun at a5a3c57a: five gates1168/175 and ordinary G2 4/4 PASS/per-check clean. New real calls by B0; real-model quality remains A-owned next evaluation, C identity/G3 are not included here. [Integration report](../../.eval-artifacts/phase3b/g1-followup-main/report.md).
 

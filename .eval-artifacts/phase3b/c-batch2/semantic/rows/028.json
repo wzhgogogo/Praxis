@@ -1,0 +1,175 @@
+{
+  "logical": 28,
+  "cohort": "DEVELOPMENT",
+  "sessionId": "SR02-incremental-completion",
+  "repetition": 1,
+  "turnId": "SR02-T02",
+  "input": {
+    "taskId": "SR02-incremental-completion",
+    "message": "Tomorrow between 19:00 and 19:30.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo",
+    "currentDraft": {
+      "schemaVersion": "3",
+      "timezone": "Asia/Tokyo",
+      "criteria": [],
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Table for two in Shinjuku",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "partySize": 2,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "Shinjuku"
+      }
+    }
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "relativeDay": "TOMORROW",
+            "raw": "Tomorrow"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "19:00",
+            "latest": "19:30",
+            "raw": "between 19:00 and 19:30"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "304aece5-ec55-41a8-a41f-b6b7e141b30c",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1095,
+        "usage": {
+          "inputTokens": 7089,
+          "outputTokens": 153,
+          "totalTokens": 7242
+        },
+        "providerRequestId": "fa97dcbd-a6a5-4c77-9e5a-359b787a05e4"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "date": "2026-08-06",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:30"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "Tomorrow",
+          "resolvedDate": "2026-08-06",
+          "basis": "TOMORROW"
+        },
+        "timeWindow": {
+          "expression": "between 19:00 and 19:30",
+          "resolvedTimeWindow": {
+            "earliest": "19:00",
+            "latest": "19:30"
+          },
+          "basis": "EXPLICIT_CLOCK"
+        }
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "Table for two in Shinjuku",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "partySize": 2,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Shinjuku"
+    },
+    "criteria": [],
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "19:00",
+      "latest": "19:30"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "Tomorrow",
+        "resolvedDate": "2026-08-06",
+        "basis": "TOMORROW"
+      },
+      "timeWindow": {
+        "expression": "between 19:00 and 19:30",
+        "resolvedTimeWindow": {
+          "earliest": "19:00",
+          "latest": "19:30"
+        },
+        "basis": "EXPLICIT_CLOCK"
+      }
+    }
+  },
+  "commands": [],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "19:00",
+      "latest": "19:30"
+    },
+    "partySize": 2,
+    "area": {
+      "query": "Shinjuku"
+    },
+    "criteria": []
+  },
+  "evaluation": {
+    "requestedFieldDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+    },
+    "goalEvaluation": {
+      "category": "CONTEXT_CARRY",
+      "status": "SATISFIED",
+      "actualGoal": "AVAILABILITY",
+      "errors": []
+    }
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-028"
+  ]
+}

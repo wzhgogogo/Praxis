@@ -1,0 +1,203 @@
+✖ Gold@4 changes only the approved SR03-T02 goal and preserves frozen Gold@3 (3.018625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 153.521291
+
+✖ failing tests:
+
+test at src/eval/restaurant/semantic/regression.test.ts:1:2830
+✖ Gold@4 changes only the approved SR03-T02 goal and preserves frozen Gold@3 (3.018625ms)
+  AssertionError [ERR_ASSERTION]: Gold5 contains exactly the 15 user-confirmed labels, with every other field frozen
+  + actual - expected
+  ... Skipped lines
+  
+    {
+  +   id: 'restaurant-semantic-regression-v4',
+  -   id: 'restaurant-semantic-regression-v5',
+      referenceTime: '2026-08-05T09:00:00+09:00',
+      sessions: [
+        {
+          id: 'SR01-complete-then-correct',
+          turns: [
+  ...
+                    polarity: 'POSITIVE',
+  +                 strength: 'UNSPECIFIED',
+  -                 strength: 'HARD',
+                    text: 'yakiniku'
+                  }
+                ],
+                date: '2026-08-06',
+                partySize: 2,
+  ...
+                    polarity: 'POSITIVE',
+  +                 strength: 'UNSPECIFIED',
+  -                 strength: 'HARD',
+                    text: 'Japanese food'
+                  }
+                ],
+                date: '2026-08-06',
+                partySize: 4,
+  ...
+                  earliest: '18:00',
+  +               latest: '21:00'
+  -               latest: '23:00'
+                },
+                timezone: 'Asia/Tokyo'
+              },
+              id: 'SR05-T01',
+              message: 'This Friday evening near our office for three colleagues and me; no smoking is essential, and a quiet room would be nice.'
+  ...
+                timeWindow: {
+  +               earliest: '13:00',
+  -               earliest: '12:00',
+                  latest: '17:00'
+                },
+                timezone: 'Asia/Tokyo'
+              },
+              id: 'SR06-T01',
+  ...
+                    polarity: 'POSITIVE',
+  +                 strength: 'UNSPECIFIED',
+  -                 strength: 'HARD',
+                    text: 'Korean food'
+                  }
+                ],
+                date: '2026-08-05',
+                partySize: 2,
+  ...
+                    polarity: 'POSITIVE',
+  +                 strength: 'UNSPECIFIED',
+  -                 strength: 'HARD',
+                    text: 'sushi'
+                  },
+                  {
+                    polarity: 'NEGATIVE',
+  +                 strength: 'UNSPECIFIED',
+  -                 strength: 'HARD',
+                    text: 'omakase'
+                  }
+                ],
+                date: '2026-08-05',
+                partySize: 2,
+  ...
+                  earliest: '18:00',
+  +               latest: '21:00'
+  -               latest: '23:00'
+                },
+                timezone: 'Asia/Tokyo'
+              },
+              id: 'SR08-T01',
+              message: 'Tonight at dinner in Ginza for two. I need sushi, but not omakase.'
+  ...
+                    polarity: 'POSITIVE',
+  +                 strength: 'UNSPECIFIED',
+  -                 strength: 'HARD',
+                    text: 'sushi'
+                  }
+                ],
+                date: '2026-08-05',
+                partySize: 2,
+  ...
+                  earliest: '18:00',
+  +               latest: '21:00'
+  -               latest: '23:00'
+                },
+                timezone: 'Asia/Tokyo'
+              },
+              id: 'SR08-T02',
+              message: 'Drop the omakase restriction; keep sushi.'
+  ...
+                    polarity: 'POSITIVE',
+  +                 strength: 'UNSPECIFIED',
+  -                 strength: 'HARD',
+                    text: 'Italian food'
+                  }
+                ],
+                date: '2026-08-08',
+                partySize: 2,
+                schemaVersion: '3',
+                timeWindow: {
+  +               earliest: '19:00',
+  +               latest: '22:00'
+  -               earliest: '18:00',
+  -               latest: '23:00'
+                },
+                timezone: 'Asia/Tokyo'
+              },
+              id: 'SR09-T01',
+              message: 'This Saturday night near my hotel for two people, Italian food.'
+  ...
+                    polarity: 'POSITIVE',
+  +                 strength: 'UNSPECIFIED',
+  -                 strength: 'HARD',
+                    text: 'Italian food'
+                  }
+                ],
+                date: '2026-08-08',
+                partySize: 2,
+                schemaVersion: '3',
+                timeWindow: {
+  +               earliest: '19:00',
+  +               latest: '22:00'
+  -               earliest: '18:00',
+  -               latest: '23:00'
+                },
+                timezone: 'Asia/Tokyo'
+              },
+              id: 'SR09-T02',
+              message: 'Actually, use the area near our office instead.'
+  ...
+                timeWindow: {
+  +               earliest: '18:00',
+  +               latest: '20:00'
+  -               earliest: '17:30',
+  -               latest: '22:00'
+                },
+                timezone: 'Asia/Tokyo'
+              },
+              id: 'SR10-T01',
+              message: 'Tomorrow after work in Shinjuku for two. The 5,000 yen maximum is firm.'
+  ...
+      ],
+  +   version: '4'
+  -   version: '5'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/semantic/regression.test.ts:79:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: {
+      id: 'restaurant-semantic-regression-v4',
+      version: '4',
+      referenceTime: '2026-08-05T09:00:00+09:00',
+      sessions: [
+        [Object], [Object],
+        [Object], [Object],
+        [Object], [Object],
+        [Object], [Object],
+        [Object], [Object]
+      ]
+    },
+    expected: {
+      id: 'restaurant-semantic-regression-v5',
+      version: '5',
+      referenceTime: '2026-08-05T09:00:00+09:00',
+      sessions: [
+        [Object], [Object],
+        [Object], [Object],
+        [Object], [Object],
+        [Object], [Object],
+        [Object], [Object]
+      ]
+    },
+    operator: 'deepStrictEqual'
+  }

@@ -1,0 +1,198 @@
+{
+  "logical": 36,
+  "cohort": "DEVELOPMENT",
+  "sessionId": "SR08-criterion-removal",
+  "repetition": 1,
+  "turnId": "SR08-T02",
+  "input": {
+    "taskId": "SR08-criterion-removal",
+    "message": "Drop the omakase restriction; keep sushi.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo",
+    "currentDraft": {
+      "schemaVersion": "3",
+      "timezone": "Asia/Tokyo",
+      "criteria": [
+        {
+          "text": "sushi",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "omakase",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ],
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "date": "2026-08-05",
+      "timeWindow": {
+        "earliest": "18:00",
+        "latest": "23:00"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "Tonight",
+          "resolvedDate": "2026-08-05",
+          "basis": "TODAY"
+        },
+        "timeWindow": {
+          "expression": "Tonight at dinner",
+          "resolvedTimeWindow": {
+            "earliest": "18:00",
+            "latest": "23:00"
+          },
+          "basis": "DAYPART:EVENING"
+        }
+      },
+      "partySize": 2,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "Ginza"
+      }
+    }
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "CRITERION",
+          "operation": "NEGATE",
+          "value": {
+            "kind": "CRITERION",
+            "text": "omakase",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "7d4b8cba-56af-4dea-8080-74996924b828",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1233,
+        "usage": {
+          "inputTokens": 7165,
+          "outputTokens": 107,
+          "totalTokens": 7272
+        },
+        "providerRequestId": "4aebdfad-dd2a-4de7-9088-7a81e482e12e"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "removeCriteria": [
+        {
+          "text": "omakase",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        }
+      ]
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-08-05",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "23:00"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "Tonight",
+        "resolvedDate": "2026-08-05",
+        "basis": "TODAY"
+      },
+      "timeWindow": {
+        "expression": "Tonight at dinner",
+        "resolvedTimeWindow": {
+          "earliest": "18:00",
+          "latest": "23:00"
+        },
+        "basis": "DAYPART:EVENING"
+      }
+    },
+    "partySize": 2,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Ginza"
+    },
+    "criteria": [
+      {
+        "text": "sushi",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "commands": [],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "date": "2026-08-05",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "23:00"
+    },
+    "partySize": 2,
+    "area": {
+      "query": "Ginza"
+    },
+    "criteria": [
+      {
+        "text": "sushi",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "evaluation": {
+    "requestedFieldDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "target.goal must match every new TARGET"
+    },
+    "goalEvaluation": {
+      "category": "GRAY",
+      "status": "NOT_SATISFIED",
+      "actualGoal": "RECOMMENDATION",
+      "errors": [
+        "target.goal must match every new TARGET"
+      ]
+    }
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-036"
+  ]
+}

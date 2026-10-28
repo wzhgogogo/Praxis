@@ -1,13 +1,35 @@
 # Test and Verification Log
 
+2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
+
 - Status: Accepted
-- Document revision: 4.336
+- Document revision: 4.337
+
+
 - Last updated: 2026-10-28
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-28-PHASE3B-C-BATCH3
+
+最终：d9b0d771f1cde3aaa1bd42a9bee5723e9861fd08，877项冻结SHA fc306fa19f1041567781e66500d095224abe62face24eca3d85b5307b1aef0c5。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。总165.880秒。首轮ba1c22e0默认1170/1171旧空格门牌回归，一次门禁修复后同店接纳、同电话不同门牌仍拒，A原fixture/断言不动、失败收据保留。62c793c4复算29页仍12正确/0错认，代码与最终门禁一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。[最终收据](../../.eval-artifacts/phase3b/c-batch3/gates-final.json)。
+
+CET。ac93a97b三地址与B1等价有效红灯，4b14fd1f未触发替代红灯；798d312f无空格Building7F/8F反例红，4b681fee严格结构化TOOL_CALLS被误拒红，分别修复后保留原日志。0165deb3相关118/118绿，原29保存页独立认证比对12正确、17未知、0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝，无新增退化。de821517复读17保存检索，原名3/8、历史混合替代7/8，片段子集2/4→3/4；4个生产缺详情控制每店两词/详情≤5、Offer0/HIGH0；12片段代码定位通过含旧4偏移错误。输入/外层脚本均先提交冻结，Gold仅事后评分，模型/Google/Live新增0。两G2原页address由独立复核获批变更，其他基线字段/评分器/变异规则不变，完整门禁待收尾；可选GET按固定12条、≥30秒、首次失败即停执行。[报告](../../.eval-artifacts/phase3b/c-batch3/report.md)。
+
+## TEST-2026-10-27-PHASE3B-C-BATCH2-STOP
+
+CET。3b789869旧两站LOW≠HIGH有效红灯；新6/6及相关107/107绿，首实现Set.filter/类型和observer重复逗号启动失败另存，不计红灯。语义39calls完成：具名24/24，补评目标15/15、投影14/15，严格0/15原样保留；外层CARRY映射补评0调用。公开GET第18次TimeoutError停；8新配对3/8→7/8，旧15未形成全量。原29保存页新解析9正确、20未知、0错认，四项地址冲突和nr029拒绝逐项独立记录。最终3ec77f67ada1bcfe6f295284e98fa74d2101d1a0冻结986项，type/arch/默认1117/build绿、Chromium167/168红，唯一G2原页地址reference变化；各项前后净树、SHA一致。单列固定G2未在相同已知红灯后重复。只读12页诊断8 PASS/4诚实退化不能替代冻结基线门禁；A的baseline/测试未改，需复核者安排确认。模型40/Google11/GET18/Live0，未独立读取.env或私有Holdout。[报告](../../.eval-artifacts/phase3b/c-batch2/report.md)。
+
+## TEST-2026-10-27-PHASE3B-C-BATCH2-START
+
+CET。新的8主+15历史检索矩阵、4×2×3具名会话和开发15轮及外层程序先冻结，后做零网络控制与真实模型。身份采集修复须旧代码有效红灯，最终新组合五门禁及固定G2；旧7f3d8770五门禁不替新组合背书。真实调用此时0，不读取.env/私有Holdout。[计划](../../.eval-artifacts/phase3b/c-batch2/plan.md)。
+
+## TEST-2026-10-27-PHASE3B-C-CERTIFICATION-PREP
+
+CET。旧Gold4 loader在独立批准15项预期处AssertionError红灯，迁移后既有5项回归及固定Fixture15/15绿；原始日志保留，历史评价不回写。最终7f3d87705548661ed4c1d42ea3c6fbbf835e27ee冻结722项，独立审计/Fixture15与五门禁全部绿（默认1102/1102、Chromium166/166），每项前后status空、输入SHA匹配，无豁免或skip。真实模型/Google/来源网站/Live/环境重跑0，私有Holdout与.env未读；不把Fixture证明为Prompt26真实遵循或G4检索收益。[报告](../../.eval-artifacts/phase3b/c-batch2-preparation/report.md)。
 
 <a id="test-2026-10-28-g1-followup-main-verified"></a>
 
@@ -110,6 +132,18 @@ d0933928类型检查通过，两个映射断言旧FAIL→预期PASS，修后六�
 ## 2026-10-26 CET：3b G2离线红绿与保存页基线
 
 旧class-only在旧id目标断言得到有效红灯；规则2变异、ARIA/label路径、CSS/SVG、悬空/脚本/种子控制和分类反例绿。真实本地Executor观察链接正常对照绿；12保存DOM8相同、4如实未知、0错误声明，TC日历原未知不算查位通过。接线/启动/类型失败不计有效红灯；0027ed84正式五门禁typecheck/arch/默认1101/build/Chromium166全部绿，额外G2 4/4及最终12页留证绿，各项前后净树；输入SHA复核通过。真实调用全部0，不读取.env。报告：[G2](../../.eval-artifacts/phase3b/g2-dom-change/report.md)。
+
+## TEST-2026-10-26-PHASE3B-C-STOP1
+
+CET。d9b38cd21b958d27f91eb3402c73e4ec6e51c675干净冻结752项后，typecheck/arch/npm test1101/1101/build/Chromium162/162全绿，每项前后净树。固定开发Fixture15/15，语义定向8/8，Prompt26合法下游控制通过；原坏提议red与旧Prompt25 wire-red保留。独立核验29行URL-ID、六/两Dengana适用性、Gold4 SHA和代码归属；只有三个C语义文件改变，接口/State23/TaskDefinition21与身份解析均不变。网络/交付S0–S4未作总体评价，旧数据链缺证保留。全部新增真实调用0，未读取.env/私有Holdout。 [报告](../../.eval-artifacts/phase3b/c-batch1/report.md)。
+
+## TEST-2026-10-26-PHASE3B-C-BATCH1-CANDIDATE
+
+原005/006坏提议fixture→生产Interpreter/Compiler/TaskRuntime有效红灯，query在Compiler前已泛化；保留店名的反事实下游控制通过。旧Prompt25 wire缺跨goal保名指令红灯，新26定向8/8绿；覆盖补时/人数、换店、撤销点名。固定坏响应仍不是修复后模型成功，真实模型验证留后续。Gold4 SHA96a3dbd7不变，身份规则/源码与main相同。旧基准来源流量缺证保留，不把29份0错认当总体S0已评。所有新增真实调用0，.env/私有Holdout未读；完整五门禁待干净提交后执行。 [报告](../../.eval-artifacts/phase3b/c-batch1/report.md)。
+
+## TEST-2026-10-26-PHASE3B-C-BATCH1-PREP
+
+验证计划：保存的29份基准与8份F5逐一复算，fixture模型仅替代传输，其余Interpreter/Compiler/Runtime真实组合。先提交输入SHA及脚本后执行，五门禁在干净候选上逐项检查。尚未运行复算/红灯/门禁；所有新增真实调用0，.env与私有Holdout不读取。 [切片](../../.eval-artifacts/phase3b/c-batch1/plan.md)。
 
 <a id="test-2026-10-26-phase3b-replay"></a>
 

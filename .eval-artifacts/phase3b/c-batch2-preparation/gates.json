@@ -1,0 +1,121 @@
+{
+  "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+  "sourceCommit": "7f3d87705548661ed4c1d42ea3c6fbbf835e27ee",
+  "startedAtCET": "2026-10-27T03:13:28.547+01:00",
+  "freezeSha256": "aa7e5da8edd03bf790aad4df0130e62cced4cefde7199f1470404123768d5bb6",
+  "newRealCalls": 0,
+  "steps": [
+    {
+      "name": "independent-audit",
+      "command": [
+        "python3",
+        ".eval-artifacts/phase3b/c-batch2-preparation/audit.py"
+      ],
+      "startedAtCET": "2026-10-27T03:13:28.576+01:00",
+      "finishedAtCET": "2026-10-27T03:13:30.944+01:00",
+      "elapsedSeconds": 2.368,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch2-preparation/gates/independent-audit.log",
+      "logSha256": "16dd7842b6016e1d6eda89af9e12ec0c997150def42a3a981aa54ec9b75b6531"
+    },
+    {
+      "name": "semantic-fixture",
+      "command": [
+        "npm",
+        "run",
+        "eval:restaurant:semantic:fixture"
+      ],
+      "startedAtCET": "2026-10-27T03:13:31.041+01:00",
+      "finishedAtCET": "2026-10-27T03:13:31.257+01:00",
+      "elapsedSeconds": 0.216,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch2-preparation/gates/semantic-fixture.log",
+      "logSha256": "03680afcd0bf67e7518688aaa64cd94c14c1aa7e149d6d6a859bcde2191ca860"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-27T03:13:31.353+01:00",
+      "finishedAtCET": "2026-10-27T03:13:31.828+01:00",
+      "elapsedSeconds": 0.475,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch2-preparation/gates/typecheck.log",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-27T03:13:31.924+01:00",
+      "finishedAtCET": "2026-10-27T03:13:32.123+01:00",
+      "elapsedSeconds": 0.199,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch2-preparation/gates/arch-check.log",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-27T03:13:32.219+01:00",
+      "finishedAtCET": "2026-10-27T03:13:59.756+01:00",
+      "elapsedSeconds": 27.536,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch2-preparation/gates/test.log",
+      "logSha256": "7a3e41f015e1eca52126ead4c7a6f0610d420270cf7c12ea0a83bcac18d20cda"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-27T03:13:59.859+01:00",
+      "finishedAtCET": "2026-10-27T03:14:00.305+01:00",
+      "elapsedSeconds": 0.446,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch2-preparation/gates/build.log",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-27T03:14:00.403+01:00",
+      "finishedAtCET": "2026-10-27T03:15:48.458+01:00",
+      "elapsedSeconds": 108.055,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/c-batch2-preparation/gates/browser-fixture.log",
+      "logSha256": "8243345af0f94cffb3a3056cce0ccb92b0d97003328f71c7daeb9b1a9515f3d6"
+    }
+  ],
+  "status": "PASS",
+  "finishedAtCET": "2026-10-27T03:15:48.540+01:00"
+}

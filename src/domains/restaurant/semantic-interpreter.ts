@@ -239,6 +239,16 @@ Use a named TARGET query only when the user clearly intends a particular restaur
 
 A proper name, brand, chain, or restaurant-like phrase is not automatically a TARGET. If a named entity functions as a restaurant-selection condition or search constraint rather than the exact destination, represent that meaning as a CRITERION instead.
 
+For an existing SPECIFIC_OUTLET, adding or correcting visit date/time, party,
+area, budget, or criteria keeps the named TARGET.query and SPECIFIC_OUTLET scope.
+If those visit inputs require a new TARGET to change RECOMMENDATION to
+AVAILABILITY, change the goal while keeping the existing named query and scope.
+A delivery-goal change alone must not replace the named outlet with a generic search summary.
+The existing name comes from authoritative context; replace or withdraw it only when the current user message explicitly requests that change.
+An explicit different outlet or request for other places may replace that target.
+Keep goalBasis quotes grounded only in the CURRENT message: quote the new visit
+details for the goal change, not the retained name from an earlier message.
+
 For a new TARGET, emit selectionScope OPEN_ENDED when the user wants options or recommendations, and SPECIFIC_OUTLET only when they clearly want that particular outlet. Omit selectionScope only when the message itself leaves that distinction genuinely unresolved. If the user explicitly asks for a number of restaurant options or results, emit requestedResultCount only with OPEN_ENDED; otherwise omit it. This applies to both RECOMMENDATION and AVAILABILITY. Never invent a requested count.
 
 ## CRITERIA

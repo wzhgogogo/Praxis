@@ -1,0 +1,42 @@
+{
+  "atCET": "2026-10-27T16:01:39.762+01:00",
+  "response": {
+    "invocationId": "f8a02f69-9763-4099-b0d0-fdc10babe8ab",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"CORRECT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"Other restaurants in Ginza\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"User drops the named outlet and asks to see other restaurants; exploratory request with no visit time or booking wording\", \"quotes\": [\"Forget the named place\", \"show other restaurants in Ginza\"]}, \"selectionScope\": \"OPEN_ENDED\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Ginza\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1434,
+    "providerRequestId": "2f944e98-ffce-434f-a9b3-1fbe4fe3b92a",
+    "usage": {
+      "inputTokens": 7065,
+      "outputTokens": 202,
+      "totalTokens": 7267
+    }
+  },
+  "providerRecords": [
+    {
+      "invocationId": "f8a02f69-9763-4099-b0d0-fdc10babe8ab",
+      "taskId": "NAMED-WITHDRAW-R3",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v26",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1434,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7065,
+        "outputTokens": 202,
+        "totalTokens": 7267
+      },
+      "providerRequestId": "2f944e98-ffce-434f-a9b3-1fbe4fe3b92a"
+    }
+  ]
+}

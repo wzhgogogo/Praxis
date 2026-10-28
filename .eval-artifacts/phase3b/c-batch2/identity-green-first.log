@@ -1,0 +1,68 @@
+✖ Tabelog matches the observed reservation phone and keeps full visible address after private-marker changes (1.801458ms)
+✖ Tabelog cannot use another restaurant phone, a near phone or conflicting floor/door number (0.335208ms)
+✖ TableCheck matches the observed reservation phone and keeps full visible address after private-marker changes (0.267209ms)
+✖ TableCheck cannot use another restaurant phone, a near phone or conflicting floor/door number (0.14575ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 138.072625
+
+✖ failing tests:
+
+test at src/integrations/restaurant-identity/detail-identity-fields.test.ts:6:1458
+✖ Tabelog matches the observed reservation phone and keeps full visible address after private-marker changes (1.801458ms)
+  TypeError [Error]: Set.filter is not a function or its return value is not iterable
+      at readDetailIdentityFields (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.ts:73:6)
+      at parseTabelogOutletIdentityWithEvidence (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/tabelog/tabelog-page-parser.ts:135:26)
+      at Object.parse (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.test.ts:30:121)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.test.ts:44:35)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17)
+
+test at src/integrations/restaurant-identity/detail-identity-fields.test.ts:6:2448
+✖ Tabelog cannot use another restaurant phone, a near phone or conflicting floor/door number (0.335208ms)
+  TypeError [Error]: Set.filter is not a function or its return value is not iterable
+      at readDetailIdentityFields (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.ts:73:6)
+      at parseTabelogOutletIdentityWithEvidence (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/tabelog/tabelog-page-parser.ts:135:26)
+      at Object.parse (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.test.ts:30:121)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.test.ts:56:33)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at src/integrations/restaurant-identity/detail-identity-fields.test.ts:6:1458
+✖ TableCheck matches the observed reservation phone and keeps full visible address after private-marker changes (0.267209ms)
+  TypeError [Error]: Set.filter is not a function or its return value is not iterable
+      at readDetailIdentityFields (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.ts:73:6)
+      at parseTableCheckOutletIdentityWithEvidence (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/tablecheck/tablecheck-page-parser.ts:371:26)
+      at Object.parse (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.test.ts:32:129)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.test.ts:44:35)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/integrations/restaurant-identity/detail-identity-fields.test.ts:6:2448
+✖ TableCheck cannot use another restaurant phone, a near phone or conflicting floor/door number (0.14575ms)
+  TypeError [Error]: Set.filter is not a function or its return value is not iterable
+      at readDetailIdentityFields (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.ts:73:6)
+      at parseTableCheckOutletIdentityWithEvidence (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/tablecheck/tablecheck-page-parser.ts:371:26)
+      at Object.parse (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.test.ts:32:129)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-identity/detail-identity-fields.test.ts:56:33)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

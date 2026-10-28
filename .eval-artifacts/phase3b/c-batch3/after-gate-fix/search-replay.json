@@ -1,0 +1,847 @@
+{
+  "schema": "phase3b-c-search-replay@1",
+  "sourceCommit": "62c793c46c68a2fa1f02cf91f21f92fcdd7ecd1e",
+  "mode": "OFFLINE_SAVED_HTTP_HTML_AND_CONTROLLED_MISSING_DETAILS",
+  "newRealCalls": 0,
+  "textDerivative": "HTML with script/style/tags removed only for explicit-empty checks; not a captured live browser snapshot. Original HTML unchanged.",
+  "fragmentFixture": "Prior fragment field/text projected to new wire; no Gold IDs; preserves prior normalized TOOL_CALLS finishReason. This is not a real Prompt2 run.",
+  "locations": [
+    {
+      "id": "G4-ND-001",
+      "oldModelOffsets": {
+        "start": 0,
+        "end": 7
+      },
+      "oldOffsetsCorrect": true,
+      "located": {
+        "query": "Dengana",
+        "field": "name",
+        "start": 0,
+        "end": 7
+      }
+    },
+    {
+      "id": "G4-ND-003",
+      "oldModelOffsets": {
+        "start": 0,
+        "end": 3
+      },
+      "oldOffsetsCorrect": true,
+      "located": {
+        "query": "和泉鮨",
+        "field": "name",
+        "start": 0,
+        "end": 3
+      }
+    },
+    {
+      "id": "G4-ND-005",
+      "oldModelOffsets": {
+        "start": 0,
+        "end": 3
+      },
+      "oldOffsetsCorrect": true,
+      "located": {
+        "query": "Sen",
+        "field": "name",
+        "start": 0,
+        "end": 3
+      }
+    },
+    {
+      "id": "G4-ND-006",
+      "oldModelOffsets": {
+        "start": 0,
+        "end": 3
+      },
+      "oldOffsetsCorrect": true,
+      "located": {
+        "query": "吉祥じ",
+        "field": "name",
+        "start": 0,
+        "end": 3
+      }
+    },
+    {
+      "id": "nr-001",
+      "oldModelOffsets": {
+        "start": 0,
+        "end": 11
+      },
+      "oldOffsetsCorrect": true,
+      "located": {
+        "query": "Sushi Tatsu",
+        "field": "name",
+        "start": 0,
+        "end": 11
+      }
+    },
+    {
+      "id": "nr-007",
+      "oldModelOffsets": {
+        "start": 18,
+        "end": 30
+      },
+      "oldOffsetsCorrect": false,
+      "located": {
+        "query": "Beef Kitchen",
+        "field": "name",
+        "start": 20,
+        "end": 32
+      }
+    },
+    {
+      "id": "nr-009",
+      "oldModelOffsets": {
+        "start": 0,
+        "end": 8
+      },
+      "oldOffsetsCorrect": true,
+      "located": {
+        "query": "Naminoue",
+        "field": "name",
+        "start": 0,
+        "end": 8
+      }
+    },
+    {
+      "id": "nr-011",
+      "oldModelOffsets": {
+        "start": 5,
+        "end": 8
+      },
+      "oldOffsetsCorrect": true,
+      "located": {
+        "query": "ほそ川",
+        "field": "name",
+        "start": 5,
+        "end": 8
+      }
+    },
+    {
+      "id": "nr-015",
+      "oldModelOffsets": {
+        "start": 0,
+        "end": 15
+      },
+      "oldOffsetsCorrect": true,
+      "located": {
+        "query": "Sushi Yamashiro",
+        "field": "name",
+        "start": 0,
+        "end": 15
+      }
+    },
+    {
+      "id": "nr-018",
+      "oldModelOffsets": {
+        "start": 13,
+        "end": 21
+      },
+      "oldOffsetsCorrect": false,
+      "located": {
+        "query": "Ushicoco",
+        "field": "name",
+        "start": 9,
+        "end": 17
+      }
+    },
+    {
+      "id": "nr-022",
+      "oldModelOffsets": {
+        "start": 20,
+        "end": 24
+      },
+      "oldOffsetsCorrect": false,
+      "located": {
+        "query": "Iwai",
+        "field": "name",
+        "start": 18,
+        "end": 22
+      }
+    },
+    {
+      "id": "nr-026",
+      "oldModelOffsets": {
+        "start": 23,
+        "end": 31
+      },
+      "oldOffsetsCorrect": false,
+      "located": {
+        "query": "Fukumimi",
+        "field": "name",
+        "start": 17,
+        "end": 25
+      }
+    }
+  ],
+  "listings": [
+    {
+      "id": "G4-ND-001",
+      "variant": "ORIGINAL",
+      "query": "Dengana Akabane",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/001-G4-ND-001.body.html",
+      "sha256": "0bb9848316d8298cc93e50e52b0eb5828a4265f24c8c75179f68daa429841eb6",
+      "outlets": []
+    },
+    {
+      "id": "G4-ND-001",
+      "variant": "MODEL_FRAGMENT",
+      "query": "Dengana",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/002-G4-ND-001.body.html",
+      "sha256": "494fa81fa862e70c5463e78698cc5098daf9dfeb163c63f2bcff18537d7a0a92",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13119295",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13119295/",
+          "outletName": "Kushi Katsu Dengana Shinjuku nishiguchi haruku ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13116522",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13116522/",
+          "outletName": "Kushi Katsu to Osake Dengana Shinjuku sanchome ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13290268",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13290268/",
+          "outletName": "Kushikatsu to Osake Dengana Kichijouji ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13144320",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13144320/",
+          "outletName": "Kushikatsu to Osake Dengana Ikebukuro higashiguchi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+          "outletName": "Kushi Katsu Dengana Akabane ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130103/13101837",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13101837/",
+          "outletName": "Kushi Katsu Dengana Shinbashi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130201/13205301",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13205301/",
+          "outletName": "Kushi Katsu Dengana Yaesu ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131101/13101338",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13101338/",
+          "outletName": "Kushi Katsu Dengana Ueno ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131802/13178666",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13178666/",
+          "outletName": "Kushi Katsu to Osake Dengana Shimokitazawa ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1329/A132904/13187894",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1329/A132904/13187894/",
+          "outletName": "Kushi Katsu Dengana Paore minamioosawa ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1314/A131401/13246833",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1314/A131401/13246833/",
+          "outletName": "Kushi Katsu Dengana Hamamatsuchou hamasaito ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132602/13146728",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132602/13146728/",
+          "outletName": "Kushi Katsu Dengana Bubaigawara ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1328/A132806/13155695",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1328/A132806/13155695/",
+          "outletName": "Kushi Katsu Dengana Akitsu ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1316/A131604/13154008",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1316/A131604/13154008/",
+          "outletName": "Kushi Katsu Dengana Oosaki nyuu shiti ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132302/13157258",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132302/13157258/",
+          "outletName": "Kushi Katsu Dengana Ootsuka ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131710/13184571",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131710/13184571/",
+          "outletName": "Kushi Katsu Dengana Musashikoyama ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13108113",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13108113/",
+          "outletName": "Kushi Katsu Dengana Shinjuku kabukichou ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1319/A131901/13187687",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131901/13187687/",
+          "outletName": "Kushi Katsu Dengana Higashinakano ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131102/13117471",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13117471/",
+          "outletName": "Kushi Katsu Dengana Asakusa ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131201/13195674",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13195674/",
+          "outletName": "Kushi Katsu Dengana Ryougoku ten"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-002",
+      "variant": "ORIGINAL",
+      "query": "Ushigoro Bambina Carbone Nakameguro",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/003-G4-ND-002.body.html",
+      "sha256": "0763fbadeecceadb32c2a4f1b4a005066e566caa4185025a75c9fdd25c0a1a7b",
+      "outlets": []
+    },
+    {
+      "id": "G4-ND-002",
+      "variant": "GOOGLE_JA",
+      "query": "炭火焼肉ホルモンうしごろ 中目黒店",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/004-G4-ND-002.body.html",
+      "sha256": "9d23470b5c7a4f5135d52da1940ed59c2c79c888319fff0151dd34b2962505b0",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13278133",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13278133/",
+          "outletName": "Sumibi Yakiniku Horumon Ushigoro Nakameguro ten"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-003",
+      "variant": "ORIGINAL",
+      "query": "和泉鮨南口店",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/005-G4-ND-003.body.html",
+      "sha256": "b2c2033989cbba7236d15c5c2ce500a3534eceac489434efd5e1099d754ba585",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13113920",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+          "outletName": "Izumi Zushi Minamiguchi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13020955",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13020955/",
+          "outletName": "Izumi Zushi Sakuragaoka ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13007244",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13007244/",
+          "outletName": "Izumi Zushi Honten"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-003",
+      "variant": "MODEL_FRAGMENT",
+      "query": "和泉鮨",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/006-G4-ND-003.body.html",
+      "sha256": "073a55247b5f990b18f3336fc0d691b91358f108cdc9fc99390122f45e8581be",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13020955",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13020955/",
+          "outletName": "Izumi Zushi Sakuragaoka ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13113920",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+          "outletName": "Izumi Zushi Minamiguchi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131715/13266857",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131715/13266857/",
+          "outletName": "Izumi Zushi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13007244",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13007244/",
+          "outletName": "Izumi Zushi Honten"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-004",
+      "variant": "ORIGINAL",
+      "query": "Waragamo",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/007-G4-ND-004.body.html",
+      "sha256": "ca35059146174dc19f1242682b25558a07d02ad6dac0053951a9ba2ca6674487",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13187638",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+          "outletName": "Waragamo Warau Kamo Niwa Fuku Kitaru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131204/13128410",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+          "outletName": "Bar Agami"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1309/A130905/13297880",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13297880/",
+          "outletName": "Warakado"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1319/A131906/13080794",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+          "outletName": "Watagami"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-004",
+      "variant": "GOOGLE_JA",
+      "query": "ワラガモ（笑ウ鴨ニハ福来ル）|吉祥寺",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/008-G4-ND-004.body.html",
+      "sha256": "a42d65c3f639e64d2181f3ea63a00f89cffa6e303a1bbac52395852ecc2f8271",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13187638",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+          "outletName": "Waragamo Warau Kamo Niwa Fuku Kitaru"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-005",
+      "variant": "ORIGINAL",
+      "query": "Sen Kagurazaka",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/009-G4-ND-005.body.html",
+      "sha256": "64f04d520e828c4732b8cb11a16ba7b8dbedcb08a849edc1b2840ed1271b6820",
+      "outlets": []
+    },
+    {
+      "id": "G4-ND-005",
+      "variant": "MODEL_FRAGMENT",
+      "query": "Sen",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/010-G4-ND-005.body.html",
+      "sha256": "2b4f0db8f0a693f3f1776a3d76b64a6be0f2203ffd741b240c013428be1094f8",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13313917",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13313917/",
+          "outletName": "Sen sen"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1322/A132203/13032724",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13032724/",
+          "outletName": "Sen"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132403/13171401",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132403/13171401/",
+          "outletName": "Sen"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13288760",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13288760/",
+          "outletName": "SEN"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1322/A132204/13284639",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132204/13284639/",
+          "outletName": "No.1000"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131809/13297657",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131809/13297657/",
+          "outletName": "Sen"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131203/13326627",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13326627/",
+          "outletName": "Shitamachi Yoshoku SEN +"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1312/A131202/13075170",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131202/13075170/",
+          "outletName": "Sen"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133002/13322467",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133002/13322467/",
+          "outletName": "Sen"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131715/13283423",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131715/13283423/",
+          "outletName": "Kitchen &amp; Dining -1000-"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130404/13287651",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130404/13287651/",
+          "outletName": "Sen"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130103/13177935",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13177935/",
+          "outletName": "SEN"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1314/A131405/13159567",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1314/A131405/13159567/",
+          "outletName": "Quintessence"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132403/13133997",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132403/13133997/",
+          "outletName": "Yakiniku Kosen"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13310446",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13310446/",
+          "outletName": "Tokusen Takasaka Dori Katsu Dori"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130202/13020361",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13020361/",
+          "outletName": "Canton Ryori Sense"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130701/13250092",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13250092/",
+          "outletName": "Tosenkaku Toukyou"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13126204",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13126204/",
+          "outletName": "Jikaseibaisen Coffee Mijinko"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130503/13212319",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13212319/",
+          "outletName": "Curry Rice Senmon Ten Brother"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131002/13231004",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131002/13231004/",
+          "outletName": "Shio Shoga Ramen Senmon Ten MANNISH Awajichou honten"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-006",
+      "variant": "ORIGINAL",
+      "query": "吉祥じ 和こん",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/011-G4-ND-006.body.html",
+      "sha256": "65d6d904135bc5fb54108ca4d24303d2cd9440d0968b4d50eaa8612b053d0677",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13245243",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+          "outletName": "Kichijoji Wakon"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-006",
+      "variant": "MODEL_FRAGMENT",
+      "query": "吉祥じ",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/012-G4-ND-006.body.html",
+      "sha256": "2fd615b4be0c255418504b0767f9389e42d07d627667d69a41d0c62b5dd7521b",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13245243",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+          "outletName": "Kichijoji Wakon"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13106085",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13106085/",
+          "outletName": "KICHIJOJI"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13233935",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13233935/",
+          "outletName": "Kichijoji Tanaka Tei Kirarina keiou kichijouji ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13310319",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13310319/",
+          "outletName": "Definitive. Kichijoji"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13235185",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13235185/",
+          "outletName": "Kichijoji Sumibi Gyukushi Gyukichi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13263980",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13263980/",
+          "outletName": "DAYDREAM KICHIJOJI"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13245935",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245935/",
+          "outletName": "Un ami KICHIJOJI CAFE"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13234428",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13234428/",
+          "outletName": "Kara-age Senmonten Kichijoji Toritoshi"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-007",
+      "variant": "ORIGINAL",
+      "query": "Washokubiyori Osaketo Kagrazaka",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/013-G4-ND-007.body.html",
+      "sha256": "592399b43d57c65156afb9e428c13ee6d0bedf202f15dc280454dfda9715b8c3",
+      "outlets": []
+    },
+    {
+      "id": "G4-ND-007",
+      "variant": "GOOGLE_JA",
+      "query": "和食日和 おさけと 神楽坂",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/014-G4-ND-007.body.html",
+      "sha256": "341fb8a54e1d5698a7f17e5b230d0f2685af499b36dd9a1fec43e046ba463c1a",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1309/A130905/13235582",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13235582/",
+          "outletName": "Washoku Biyori Osaketo Kagurazaka"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13226799",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13226799/",
+          "outletName": "Washoku Biyori Osaketo Jinbocho"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1308/A130801/13267730",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13267730/",
+          "outletName": "Washoku Biyori Osaketo Akasaka"
+        }
+      ]
+    },
+    {
+      "id": "G4-ND-008",
+      "variant": "ORIGINAL",
+      "query": "Godaime Hanayama Udon Ginza",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/015-G4-ND-008.body.html",
+      "sha256": "186d7955edeccab02317d04c9121ea48d84b06af597f8a8c23a58e516d4ea8c5",
+      "outlets": []
+    },
+    {
+      "id": "G4-ND-008",
+      "variant": "GOOGLE_JA",
+      "query": "五代目花山うどん 銀座店",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/016-G4-ND-008.body.html",
+      "sha256": "46476aba5c9f5ef04bb59cab67ce4194b0a865162d5e435320965c5305431ac0",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13200630",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+          "outletName": "Godaime Hanayama Udon Ginza ten"
+        }
+      ]
+    },
+    {
+      "id": "nr-001",
+      "variant": "MODEL_FRAGMENT",
+      "query": "Sushi Tatsu",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/017-nr-001.body.html",
+      "sha256": "e762065f930b499dc54d278a443c4141551af1fc124999874446a8a75f7a07f5",
+      "outlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13233978",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13047204",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131707/13132476",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1328/A132806/13071501",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130502/13131471",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13131471/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132601/13170152",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132601/13170152/",
+          "outletName": "Sushi Tatsuki"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130103/13072451",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13072451/",
+          "outletName": "Sushi Tatsumi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130701/13210037",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13210037/",
+          "outletName": "Roppongi Sushi Tatsumi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13270451",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13270451/",
+          "outletName": "Sushi Tatsuya Yoshikawa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130703/13247255",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130703/13247255/",
+          "outletName": "Sushi Tatsunari"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1313/A131301/13321639",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13321639/",
+          "outletName": "Sushi Tatsunoya"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132301/13071890",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132301/13071890/",
+          "outletName": "Hakusan Ue Sushi Tatsumi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130703/13242515",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130703/13242515/",
+          "outletName": "Ushimatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1329/A132901/13094425",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1329/A132901/13094425/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133003/13071438",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133003/13071438/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132302/13019423",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132302/13019423/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132303/13294661",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13294661/",
+          "outletName": "Sushi Matsu Ouji ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132702/13294662",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132702/13294662/",
+          "outletName": "Sushi Matsu Seiseki sakuragaoka ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132305/13064693",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13064693/",
+          "outletName": "Kushi Tetsu Ukima funato ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132402/13071434",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13071434/",
+          "outletName": "Sushi Katsu"
+        }
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "G4-ND-001",
+      "navigations": [
+        "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+        "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana",
+        "https://tabelog.com/en/tokyo/A1304/A130401/13119295/",
+        "https://tabelog.com/en/tokyo/A1304/A130401/13116522/",
+        "https://tabelog.com/en/tokyo/A1320/A132001/13290268/",
+        "https://tabelog.com/en/tokyo/A1305/A130501/13144320/",
+        "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+      ],
+      "searches": [
+        "Dengana Akabane",
+        "Dengana"
+      ],
+      "detailInspections": 5,
+      "fixtureModelCalls": 1,
+      "offers": 0,
+      "highIdentityClaims": 0,
+      "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+      "limits": "No saved details supplied: only retrieval wiring and honest UNKNOWN are evaluated, not outlet identity or inventory."
+    },
+    {
+      "id": "G4-ND-003",
+      "navigations": [
+        "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%92%8C%E6%B3%89%E9%AE%A8%E5%8D%97%E5%8F%A3%E5%BA%97",
+        "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+        "https://tabelog.com/en/tokyo/A1303/A130301/13020955/",
+        "https://tabelog.com/en/tokyo/A1303/A130301/13007244/",
+        "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%92%8C%E6%B3%89%E9%AE%A8",
+        "https://tabelog.com/en/tokyo/A1317/A131715/13266857/"
+      ],
+      "searches": [
+        "和泉鮨南口店",
+        "和泉鮨"
+      ],
+      "detailInspections": 4,
+      "fixtureModelCalls": 1,
+      "offers": 0,
+      "highIdentityClaims": 0,
+      "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+      "limits": "No saved details supplied: only retrieval wiring and honest UNKNOWN are evaluated, not outlet identity or inventory."
+    },
+    {
+      "id": "G4-ND-005",
+      "navigations": [
+        "https://tabelog.com/en/tokyo/rstLst/?sw=Sen%20Kagurazaka",
+        "https://tabelog.com/en/tokyo/rstLst/?sw=Sen",
+        "https://tabelog.com/en/tokyo/A1305/A130501/13313917/",
+        "https://tabelog.com/en/tokyo/A1322/A132203/13032724/",
+        "https://tabelog.com/en/tokyo/A1324/A132403/13171401/",
+        "https://tabelog.com/en/tokyo/A1303/A130301/13288760/",
+        "https://tabelog.com/en/tokyo/A1322/A132204/13284639/"
+      ],
+      "searches": [
+        "Sen Kagurazaka",
+        "Sen"
+      ],
+      "detailInspections": 5,
+      "fixtureModelCalls": 1,
+      "offers": 0,
+      "highIdentityClaims": 0,
+      "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+      "limits": "No saved details supplied: only retrieval wiring and honest UNKNOWN are evaluated, not outlet identity or inventory."
+    },
+    {
+      "id": "G4-ND-006",
+      "navigations": [
+        "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%90%89%E7%A5%A5%E3%81%98%20%E5%92%8C%E3%81%93%E3%82%93",
+        "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+        "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%90%89%E7%A5%A5%E3%81%98",
+        "https://tabelog.com/en/tokyo/A1320/A132001/13106085/",
+        "https://tabelog.com/en/tokyo/A1320/A132001/13233935/",
+        "https://tabelog.com/en/tokyo/A1320/A132001/13310319/",
+        "https://tabelog.com/en/tokyo/A1320/A132001/13235185/"
+      ],
+      "searches": [
+        "吉祥じ 和こん",
+        "吉祥じ"
+      ],
+      "detailInspections": 5,
+      "fixtureModelCalls": 1,
+      "offers": 0,
+      "highIdentityClaims": 0,
+      "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+      "limits": "No saved details supplied: only retrieval wiring and honest UNKNOWN are evaluated, not outlet identity or inventory."
+    }
+  ]
+}

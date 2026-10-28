@@ -14,12 +14,14 @@ import { TabelogBrowserAvailability } from "../tabelog/tabelog-browser-availabil
 import type { TabelogIdentityDiagnostic, TabelogUserInterventionHandler } from "../tabelog/tabelog-contracts.js";
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import type { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
+import type { NamedSourceAlternative } from "./named-source-query.js";
 
 export interface SourcePackAvailabilityProviderContext {
   executor: BrowserTaskExecutor;
   now?: () => string;
   maxBrowserSessions?: number;
   maxCandidateMatches?: number;
+  alternativeSearch?: NamedSourceAlternative;
   networkPolicy?: BrowserReadNetworkPolicy;
   tableCheckEntryLedger: TableCheckEntryLedger;
   onTableCheckIdentityDiagnostic?: (diagnostic: TableCheckIdentityDiagnostic) => void;
@@ -295,6 +297,7 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
         ? "DIRECT_SOURCE_PAGE" : "NAME_RESOLUTION",
     availabilityPriority: 10,
     createProvider: (context) => new TabelogBrowserAvailability(context.executor, context.now, context.maxCandidateMatches, {
+      ...(context.alternativeSearch ? { alternativeSearch: context.alternativeSearch } : {}),
       ...(context.maxBrowserSessions !== undefined ? { maxBrowserSessions: context.maxBrowserSessions } : {}),
       ...(context.onTabelogIdentityDiagnostic ? { onIdentityDiagnostic: context.onTabelogIdentityDiagnostic } : {}),
       ...(context.onTabelogUserInterventionRequired ? { onUserInterventionRequired: context.onTabelogUserInterventionRequired } : {}),
@@ -393,6 +396,8 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
         ? "DIRECT_SOURCE_PAGE" : "NAME_RESOLUTION",
     availabilityPriority: 20,
     createProvider: (context) => new TableCheckBrowserAvailability(context.executor, context.now, {
+      ...(context.alternativeSearch ? { alternativeSearch: context.alternativeSearch } : {}),
+      ...(context.maxCandidateMatches !== undefined ? { maxCandidateMatches: context.maxCandidateMatches } : {}),
       ...(context.maxBrowserSessions !== undefined ? { maxBrowserSessions: context.maxBrowserSessions } : {}),
       entryLedger: context.tableCheckEntryLedger,
       ...(context.onTableCheckIdentityDiagnostic ? { onIdentityDiagnostic: context.onTableCheckIdentityDiagnostic } : {}),

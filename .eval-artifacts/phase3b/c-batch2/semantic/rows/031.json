@@ -1,0 +1,242 @@
+{
+  "logical": 31,
+  "cohort": "DEVELOPMENT",
+  "sessionId": "SR04-simple-complete",
+  "repetition": 1,
+  "turnId": "SR04-T01",
+  "input": {
+    "taskId": "SR04-simple-complete",
+    "message": "Tomorrow between 18:00 and 18:30 in Ginza for four people, Japanese food.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo"
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "AVAILABILITY",
+            "query": "Japanese food restaurant in Ginza for four people tomorrow 18:00-18:30",
+            "goalBasis": {
+              "type": "SPECIFIC_TIME_MEAL",
+              "reason": "Sit-down meal at an explicit clock range with a stated party size",
+              "quotes": [
+                "between 18:00 and 18:30",
+                "for four people"
+              ]
+            },
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "relativeDay": "TOMORROW",
+            "raw": "Tomorrow"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "earliest": "18:00",
+            "latest": "18:30",
+            "raw": "between 18:00 and 18:30"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 4,
+            "source": "EXPLICIT"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "Ginza"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "Japanese food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "d3ab289e-31fd-472b-8540-c6fc8f24fb96",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1866,
+        "usage": {
+          "inputTokens": 7049,
+          "outputTokens": 401,
+          "totalTokens": 7450
+        },
+        "providerRequestId": "4d4f867a-c264-4ac9-a574-b832de793097"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Japanese food restaurant in Ginza for four people tomorrow 18:00-18:30",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "partySize": 4,
+      "partySizeSource": "EXPLICIT",
+      "area": {
+        "query": "Ginza"
+      },
+      "addCriteria": [
+        {
+          "text": "Japanese food",
+          "polarity": "POSITIVE",
+          "strength": "HARD"
+        }
+      ],
+      "date": "2026-08-06",
+      "timeWindow": {
+        "earliest": "18:00",
+        "latest": "18:30"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "Tomorrow",
+          "resolvedDate": "2026-08-06",
+          "basis": "TOMORROW"
+        },
+        "timeWindow": {
+          "expression": "between 18:00 and 18:30",
+          "resolvedTimeWindow": {
+            "earliest": "18:00",
+            "latest": "18:30"
+          },
+          "basis": "EXPLICIT_CLOCK"
+        }
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [
+      {
+        "text": "Japanese food",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ],
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "Japanese food restaurant in Ginza for four people tomorrow 18:00-18:30",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "18:30"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "Tomorrow",
+        "resolvedDate": "2026-08-06",
+        "basis": "TOMORROW"
+      },
+      "timeWindow": {
+        "expression": "between 18:00 and 18:30",
+        "resolvedTimeWindow": {
+          "earliest": "18:00",
+          "latest": "18:30"
+        },
+        "basis": "EXPLICIT_CLOCK"
+      }
+    },
+    "partySize": 4,
+    "partySizeSource": "EXPLICIT",
+    "area": {
+      "query": "Ginza"
+    }
+  },
+  "commands": [],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "date": "2026-08-06",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "18:30"
+    },
+    "partySize": 4,
+    "area": {
+      "query": "Ginza"
+    },
+    "criteria": [
+      {
+        "text": "Japanese food",
+        "polarity": "POSITIVE",
+        "strength": "HARD"
+      }
+    ]
+  },
+  "evaluation": {
+    "requestedFieldDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+    },
+    "goalEvaluation": {
+      "category": "B",
+      "status": "SATISFIED",
+      "actualGoal": "AVAILABILITY",
+      "basis": {
+        "type": "SPECIFIC_TIME_MEAL",
+        "reason": "Sit-down meal at an explicit clock range with a stated party size",
+        "quotes": [
+          "between 18:00 and 18:30",
+          "for four people"
+        ]
+      },
+      "errors": []
+    }
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-031"
+  ]
+}

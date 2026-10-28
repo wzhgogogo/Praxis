@@ -1,0 +1,603 @@
+{
+  "schema": "phase3b-c-semantic-validation-inputs@1",
+  "prompt": "26",
+  "proposalSchema": "4",
+  "dataset": "5",
+  "namedCases": [
+    {
+      "id": "NAMED-SR03",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "SR03-T01",
+          "message": "I want Sushi Dai.",
+          "target": {
+            "contains": "Sushi Dai",
+            "scope": "SPECIFIC_OUTLET",
+            "goal": "RECOMMENDATION"
+          },
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "RECOMMENDATION",
+              "query": "Sushi Dai"
+            },
+            "criteria": []
+          }
+        },
+        {
+          "id": "SR03-T02",
+          "message": "Tomorrow between 19:00 and 19:30 for two people in Tsukiji.",
+          "target": {
+            "contains": "Sushi Dai",
+            "scope": "SPECIFIC_OUTLET",
+            "goal": "AVAILABILITY"
+          },
+          "expectedDraft": {
+            "schemaVersion": "3",
+            "timezone": "Asia/Tokyo",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Sushi Dai"
+            },
+            "date": "2026-08-06",
+            "timeWindow": {
+              "earliest": "19:00",
+              "latest": "19:30"
+            },
+            "partySize": 2,
+            "area": {
+              "query": "Tsukiji"
+            },
+            "criteria": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "NAMED-REPLACE",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "REPLACE-01",
+          "message": "I want Sushi Dai.",
+          "target": {
+            "contains": "Sushi Dai",
+            "scope": "SPECIFIC_OUTLET",
+            "goal": "RECOMMENDATION"
+          }
+        },
+        {
+          "id": "REPLACE-02",
+          "message": "Actually, Sushi A instead.",
+          "target": {
+            "contains": "Sushi A",
+            "scope": "SPECIFIC_OUTLET",
+            "goal": "RECOMMENDATION",
+            "mustNotContain": "Sushi Dai"
+          }
+        }
+      ]
+    },
+    {
+      "id": "NAMED-WITHDRAW",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "WITHDRAW-01",
+          "message": "I want Sushi Dai.",
+          "target": {
+            "contains": "Sushi Dai",
+            "scope": "SPECIFIC_OUTLET",
+            "goal": "RECOMMENDATION"
+          }
+        },
+        {
+          "id": "WITHDRAW-02",
+          "message": "Forget the named place; show other restaurants in Ginza.",
+          "target": {
+            "scope": "OPEN_ENDED",
+            "goal": "RECOMMENDATION",
+            "mustNotContain": "Sushi Dai"
+          }
+        }
+      ]
+    },
+    {
+      "id": "NAMED-VISIT-CORRECTION",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "turns": [
+        {
+          "id": "VISIT-01",
+          "message": "Book Sushi Dai for two people tomorrow at 19:00 in Tsukiji.",
+          "target": {
+            "contains": "Sushi Dai",
+            "scope": "SPECIFIC_OUTLET",
+            "goal": "AVAILABILITY"
+          },
+          "expectedFields": {
+            "partySize": 2,
+            "date": "2026-08-06"
+          }
+        },
+        {
+          "id": "VISIT-02",
+          "message": "Make it three people at 19:30 instead.",
+          "target": {
+            "contains": "Sushi Dai",
+            "scope": "SPECIFIC_OUTLET",
+            "goal": "AVAILABILITY"
+          },
+          "expectedFields": {
+            "partySize": 3,
+            "date": "2026-08-06"
+          }
+        }
+      ]
+    }
+  ],
+  "namedRepetitions": 3,
+  "namedLogicalTurns": 24,
+  "developmentLogicalTurns": 15,
+  "maximumSchemaAttemptsPerTurn": 2,
+  "maximumSemanticCalls": 78,
+  "developerSet": {
+    "id": "restaurant-semantic-regression-v5",
+    "version": "5",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "sessions": [
+      {
+        "id": "SR01-complete-then-correct",
+        "turns": [
+          {
+            "id": "SR01-T01",
+            "message": "Tomorrow between 19:00 and 19:30 in Shinjuku for two people, yakiniku under 5000 JPY per person.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "partySize": 2,
+              "area": {
+                "query": "Shinjuku"
+              },
+              "criteria": [
+                {
+                  "text": "yakiniku",
+                  "polarity": "POSITIVE",
+                  "strength": "HARD"
+                }
+              ],
+              "budgetPerPerson": {
+                "max": 5000,
+                "currency": "JPY"
+              }
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          },
+          {
+            "id": "SR01-T02",
+            "message": "Actually make it three people in Shibuya, and remove yakiniku.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "partySize": 3,
+              "area": {
+                "query": "Shibuya"
+              },
+              "criteria": [],
+              "budgetPerPerson": {
+                "max": 5000,
+                "currency": "JPY"
+              }
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SR02-incremental-completion",
+        "turns": [
+          {
+            "id": "SR02-T01",
+            "message": "I need a table in Shinjuku for two people.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "partySize": 2,
+              "area": {
+                "query": "Shinjuku"
+              },
+              "criteria": []
+            },
+            "expectedDecision": {
+              "type": "ASK_USER",
+              "missingRequiredFields": [
+                "date",
+                "timeWindow"
+              ]
+            }
+          },
+          {
+            "id": "SR02-T02",
+            "message": "Tomorrow between 19:00 and 19:30.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "partySize": 2,
+              "area": {
+                "query": "Shinjuku"
+              },
+              "criteria": []
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SR03-named-target-then-complete",
+        "turns": [
+          {
+            "id": "SR03-T01",
+            "message": "I want Sushi Dai.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "target": {
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai"
+              },
+              "criteria": []
+            },
+            "expectedDecision": {
+              "type": "ASK_USER",
+              "missingRequiredFields": [
+                "date",
+                "timeWindow",
+                "partySize",
+                "area"
+              ]
+            }
+          },
+          {
+            "id": "SR03-T02",
+            "message": "Tomorrow between 19:00 and 19:30 for two people in Tsukiji.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Sushi Dai"
+              },
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "19:00",
+                "latest": "19:30"
+              },
+              "partySize": 2,
+              "area": {
+                "query": "Tsukiji"
+              },
+              "criteria": []
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SR04-simple-complete",
+        "turns": [
+          {
+            "id": "SR04-T01",
+            "message": "Tomorrow between 18:00 and 18:30 in Ginza for four people, Japanese food.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "18:00",
+                "latest": "18:30"
+              },
+              "partySize": 4,
+              "area": {
+                "query": "Ginza"
+              },
+              "criteria": [
+                {
+                  "text": "Japanese food",
+                  "polarity": "POSITIVE",
+                  "strength": "HARD"
+                }
+              ]
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SR05-relative-time-hard-soft-and-party-inference",
+        "turns": [
+          {
+            "id": "SR05-T01",
+            "message": "This Friday evening near our office for three colleagues and me; no smoking is essential, and a quiet room would be nice.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-07",
+              "timeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "partySize": 4,
+              "area": {
+                "query": "near our office"
+              },
+              "criteria": [
+                {
+                  "text": "smoking",
+                  "polarity": "NEGATIVE",
+                  "strength": "HARD"
+                },
+                {
+                  "text": "quiet room",
+                  "polarity": "POSITIVE",
+                  "strength": "SOFT"
+                }
+              ]
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SR06-approximate-budget-is-soft",
+        "turns": [
+          {
+            "id": "SR06-T01",
+            "message": "Tomorrow afternoon nearby for my parents and me. Around 3,000 yen per person would be ideal.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "12:00",
+                "latest": "17:00"
+              },
+              "partySize": 3,
+              "area": {
+                "query": "nearby"
+              },
+              "criteria": [
+                {
+                  "text": "around 3,000 yen per person",
+                  "polarity": "POSITIVE",
+                  "strength": "SOFT"
+                }
+              ]
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SR07-relative-offset-time",
+        "turns": [
+          {
+            "id": "SR07-T01",
+            "message": "In about 30 minutes near me for two people, Korean food.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-05",
+              "timeWindow": {
+                "earliest": "09:30",
+                "latest": "09:30"
+              },
+              "partySize": 2,
+              "area": {
+                "query": "near me"
+              },
+              "criteria": [
+                {
+                  "text": "Korean food",
+                  "polarity": "POSITIVE",
+                  "strength": "HARD"
+                }
+              ]
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SR08-criterion-removal",
+        "turns": [
+          {
+            "id": "SR08-T01",
+            "message": "Tonight at dinner in Ginza for two. I need sushi, but not omakase.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-05",
+              "timeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "partySize": 2,
+              "area": {
+                "query": "Ginza"
+              },
+              "criteria": [
+                {
+                  "text": "sushi",
+                  "polarity": "POSITIVE",
+                  "strength": "HARD"
+                },
+                {
+                  "text": "omakase",
+                  "polarity": "NEGATIVE",
+                  "strength": "HARD"
+                }
+              ]
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          },
+          {
+            "id": "SR08-T02",
+            "message": "Drop the omakase restriction; keep sushi.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-05",
+              "timeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "partySize": 2,
+              "area": {
+                "query": "Ginza"
+              },
+              "criteria": [
+                {
+                  "text": "sushi",
+                  "polarity": "POSITIVE",
+                  "strength": "HARD"
+                }
+              ]
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SR09-relative-location-overwrite",
+        "turns": [
+          {
+            "id": "SR09-T01",
+            "message": "This Saturday night near my hotel for two people, Italian food.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-08",
+              "timeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "partySize": 2,
+              "area": {
+                "query": "near my hotel"
+              },
+              "criteria": [
+                {
+                  "text": "Italian food",
+                  "polarity": "POSITIVE",
+                  "strength": "HARD"
+                }
+              ]
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          },
+          {
+            "id": "SR09-T02",
+            "message": "Actually, use the area near our office instead.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-08",
+              "timeWindow": {
+                "earliest": "18:00",
+                "latest": "23:00"
+              },
+              "partySize": 2,
+              "area": {
+                "query": "near our office"
+              },
+              "criteria": [
+                {
+                  "text": "Italian food",
+                  "polarity": "POSITIVE",
+                  "strength": "HARD"
+                }
+              ]
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "SR10-hard-budget",
+        "turns": [
+          {
+            "id": "SR10-T01",
+            "message": "Tomorrow after work in Shinjuku for two. The 5,000 yen maximum is firm.",
+            "expectedDraft": {
+              "schemaVersion": "3",
+              "timezone": "Asia/Tokyo",
+              "date": "2026-08-06",
+              "timeWindow": {
+                "earliest": "17:30",
+                "latest": "22:00"
+              },
+              "partySize": 2,
+              "area": {
+                "query": "Shinjuku"
+              },
+              "criteria": [],
+              "budgetPerPerson": {
+                "max": 5000,
+                "currency": "JPY"
+              }
+            },
+            "expectedDecision": {
+              "type": "SEARCH"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "nonTargetDifferences": "RECORD_AND_CONTINUE",
+  "stop": [
+    "INFRASTRUCTURE_FAILURE",
+    "BUDGET_EXHAUSTED",
+    "S0"
+  ]
+}

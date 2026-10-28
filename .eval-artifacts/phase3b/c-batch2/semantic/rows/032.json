@@ -1,0 +1,264 @@
+{
+  "logical": 32,
+  "cohort": "DEVELOPMENT",
+  "sessionId": "SR05-relative-time-hard-soft-and-party-inference",
+  "repetition": 1,
+  "turnId": "SR05-T01",
+  "input": {
+    "taskId": "SR05-relative-time-hard-soft-and-party-inference",
+    "message": "This Friday evening near our office for three colleagues and me; no smoking is essential, and a quiet room would be nice.",
+    "referenceTime": "2026-08-05T09:00:00+09:00",
+    "timezone": "Asia/Tokyo"
+  },
+  "interpreted": {
+    "status": "PROPOSED",
+    "proposal": {
+      "schemaVersion": "4",
+      "facts": [
+        {
+          "field": "TARGET",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TARGET",
+            "goal": "RECOMMENDATION",
+            "query": "Restaurant near our office for Friday evening with three colleagues",
+            "goalBasis": {
+              "type": "JUDGMENT",
+              "reason": "Broad evening period with a party but no booking wording or explicit clock time; user wants options",
+              "quotes": [
+                "This Friday evening near our office for three colleagues and me"
+              ]
+            },
+            "selectionScope": "OPEN_ENDED"
+          }
+        },
+        {
+          "field": "DATE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "DATE",
+            "weekday": "FRIDAY",
+            "raw": "This Friday"
+          }
+        },
+        {
+          "field": "TIME_WINDOW",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "TIME_WINDOW",
+            "daypart": "EVENING",
+            "raw": "This Friday evening"
+          }
+        },
+        {
+          "field": "PARTY_SIZE",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "PARTY_SIZE",
+            "value": 4,
+            "source": "INFERRED_CLOSED_PARTY"
+          }
+        },
+        {
+          "field": "AREA",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "AREA",
+            "query": "near our office"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "no smoking",
+            "polarity": "NEGATIVE",
+            "strength": "HARD"
+          }
+        },
+        {
+          "field": "CRITERION",
+          "operation": "ASSERT",
+          "value": {
+            "kind": "CRITERION",
+            "text": "quiet room",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        }
+      ]
+    },
+    "attempts": [
+      {
+        "invocationId": "5df94949-08fe-454d-a215-6f3de86d8211",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "purpose": "restaurant_semantic_interpret",
+        "promptVersion": "v26",
+        "outputSchema": {
+          "name": "restaurant-semantic-proposal",
+          "version": "4"
+        },
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1907,
+        "usage": {
+          "inputTokens": 7053,
+          "outputTokens": 436,
+          "totalTokens": 7489
+        },
+        "providerRequestId": "c5e9ae01-f446-4a5e-bf27-26b64387803b"
+      }
+    ]
+  },
+  "compilation": {
+    "status": "COMPILED",
+    "patch": {
+      "schemaVersion": "3",
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Restaurant near our office for Friday evening with three colleagues",
+        "selectionScope": "OPEN_ENDED"
+      },
+      "partySize": 4,
+      "partySizeSource": "INFERRED_CLOSED_PARTY",
+      "area": {
+        "query": "near our office"
+      },
+      "addCriteria": [
+        {
+          "text": "no smoking",
+          "polarity": "NEGATIVE",
+          "strength": "HARD"
+        },
+        {
+          "text": "quiet room",
+          "polarity": "POSITIVE",
+          "strength": "SOFT"
+        }
+      ],
+      "date": "2026-08-07",
+      "timeWindow": {
+        "earliest": "18:00",
+        "latest": "23:00"
+      },
+      "temporalResolution": {
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-05T09:00:00+09:00",
+        "timezone": "Asia/Tokyo",
+        "date": {
+          "expression": "This Friday",
+          "resolvedDate": "2026-08-07",
+          "basis": "WEEKDAY:FRIDAY"
+        },
+        "timeWindow": {
+          "expression": "This Friday evening",
+          "resolvedTimeWindow": {
+            "earliest": "18:00",
+            "latest": "23:00"
+          },
+          "basis": "DAYPART:EVENING"
+        }
+      }
+    }
+  },
+  "actualDraft": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "criteria": [
+      {
+        "text": "no smoking",
+        "polarity": "NEGATIVE",
+        "strength": "HARD"
+      },
+      {
+        "text": "quiet room",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      }
+    ],
+    "target": {
+      "goal": "RECOMMENDATION",
+      "query": "Restaurant near our office for Friday evening with three colleagues",
+      "selectionScope": "OPEN_ENDED"
+    },
+    "date": "2026-08-07",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "23:00"
+    },
+    "temporalResolution": {
+      "policyVersion": "restaurant-temporal-materialization@6",
+      "referenceTime": "2026-08-05T09:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "date": {
+        "expression": "This Friday",
+        "resolvedDate": "2026-08-07",
+        "basis": "WEEKDAY:FRIDAY"
+      },
+      "timeWindow": {
+        "expression": "This Friday evening",
+        "resolvedTimeWindow": {
+          "earliest": "18:00",
+          "latest": "23:00"
+        },
+        "basis": "DAYPART:EVENING"
+      }
+    },
+    "partySize": 4,
+    "partySizeSource": "INFERRED_CLOSED_PARTY",
+    "area": {
+      "query": "near our office"
+    }
+  },
+  "commands": [],
+  "gold": {
+    "schemaVersion": "3",
+    "timezone": "Asia/Tokyo",
+    "date": "2026-08-07",
+    "timeWindow": {
+      "earliest": "18:00",
+      "latest": "23:00"
+    },
+    "partySize": 4,
+    "area": {
+      "query": "near our office"
+    },
+    "criteria": [
+      {
+        "text": "smoking",
+        "polarity": "NEGATIVE",
+        "strength": "HARD"
+      },
+      {
+        "text": "quiet room",
+        "polarity": "POSITIVE",
+        "strength": "SOFT"
+      }
+    ]
+  },
+  "evaluation": {
+    "requestedFieldDifferences": [],
+    "strictScore": {
+      "status": "FAIL",
+      "firstFailureStage": "SEMANTIC_INTERPRETER",
+      "error": "Semantic Proposal does not match the development-stage interpretation oracle"
+    },
+    "goalEvaluation": {
+      "category": "GRAY",
+      "status": "SATISFIED",
+      "actualGoal": "RECOMMENDATION",
+      "basis": {
+        "type": "JUDGMENT",
+        "reason": "Broad evening period with a party but no booking wording or explicit clock time; user wants options",
+        "quotes": [
+          "This Friday evening near our office for three colleagues and me"
+        ]
+      },
+      "errors": []
+    }
+  },
+  "callIds": [
+    "phase3b-c-batch2-call-model-032"
+  ]
+}

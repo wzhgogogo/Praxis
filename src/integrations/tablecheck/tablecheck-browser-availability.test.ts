@@ -27,6 +27,39 @@ import { BrowserTaskExecutor, type BrowserExecutionDiagnostic } from "../../infr
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 
+test("TableCheck original then one fragment shares the detail cap and never changes identity fields", async () => {
+  for (const scenario of ["EMPTY", "WRONG_OUTLET", "DETAIL_CAP", "ORIGINAL_HIGH", "INVENTED_FRAGMENT"] as const) {
+    const subject = { ...fixtureCandidates[0]!, restaurant: { ...fixtureCandidates[0]!.restaurant,
+      outletName: "Restaurant 1 Tokyo", sourceIds: { googlePlaces: "original-id", phone: "03-1111-2222" } } };
+    const first = tableCheckDiscoveryUrl(subject), alternate = new URL(first);
+    alternate.searchParams.set("search_text", "Restaurant 1");
+    const wrongUrl = "https://www.tablecheck.com/en/first-outlet", correctUrl = "https://www.tablecheck.com/en/second-outlet";
+    const detail = (url: string, correct: boolean): BrowserSnapshot => ({ url, title: "Restaurant 1", text: "Restaurant 1", html: `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Restaurant 1", address: correct ? subject.restaurant.address : "9-9 Shibuya, Tokyo", telephone: "03-1111-2222" })}</script>` });
+    const empty = scenario === "EMPTY" || scenario === "INVENTED_FRAGMENT";
+    const originalHigh = scenario === "ORIGINAL_HIGH";
+    const session = new FixtureBrowserSession([
+      { url: first, title: "Search", text: empty ? "No venues found" : "Restaurant 1", html: empty ? "" : `<a href="${wrongUrl}">Restaurant 1</a>` },
+      ...(!empty ? [detail(wrongUrl, originalHigh)] : []),
+      { url: alternate.toString(), title: "Search", text: "Restaurant 1", html: `<a href="${correctUrl}">Restaurant 1</a>` },
+      detail(correctUrl, true),
+    ]);
+    let proposals = 0, confidence: string | undefined;
+    const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, undefined, {
+      maxCandidateMatches: scenario === "DETAIL_CAP" ? 1 : 5,
+      alternativeSearch: async original => { proposals++; assert.deepEqual(original, subject); return scenario === "INVENTED_FRAGMENT" ? "invented" : "Restaurant 1"; },
+      onIdentityDiagnostic: diagnostic => { confidence = diagnostic.resolution.confidence; },
+    }).check({ candidateIds: [subject.restaurant.id], candidates: [subject], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+    const expectAlternative = !["DETAIL_CAP", "ORIGINAL_HIGH", "INVENTED_FRAGMENT"].includes(scenario);
+    const searches = session.navigations.filter(url => new URL(url).pathname === "/en/japan/search");
+    assert.equal(searches.length, expectAlternative ? 2 : 1, scenario);
+    assert.equal(new URL(searches[0]!).searchParams.get("search_text"), subject.restaurant.outletName);
+    if (expectAlternative) assert.equal(new URL(searches[1]!).searchParams.get("search_text"), "Restaurant 1");
+    assert.equal(proposals, ["DETAIL_CAP", "ORIGINAL_HIGH"].includes(scenario) ? 0 : 1);
+    assert.equal(confidence, expectAlternative || originalHigh ? "HIGH" : "LOW", scenario);
+    assert.equal(result.offers.length, 0, "identity alone is not inventory");
+  }
+});
+
 const candidate = {
   ...fixtureCandidates[0]!,
   restaurant: {
@@ -630,11 +663,13 @@ test("historical TWO ROOMS postal variation preserves same outlet while real bra
   assert.equal(aoyama.comparison.address, "CONFLICT");
   assert.notEqual(aoyama.resolution.confidence, "HIGH");
 
-  // H002 Ginza Kazen has equal postcodes and a separate address parsing
-  // discrepancy; this postal variation rule must not silently recategorize it.
+  // H002 Ginza Kazen's old all-digits comparison counted Building2F as a
+  // fourth street number. The reviewed structured comparison no longer does;
+  // existing complete name/address proof is independent of phone disagreement.
   const kazen = inspectTableCheckEntity({ ...candidate, restaurant: { ...candidate.restaurant, outletName: "Ginza Kazen", address: "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 6-chōme−3−１１ 2F", sourceIds: { ...candidate.restaurant.sourceIds, phone: "050-3138-5851" } } },
     { sourceEntityId: "shinkantonsai-kazen", sourceUrl: "https://www.tablecheck.com/en/shinkantonsai-kazen", outletName: "Ginza Kazen", address: "104-0061 Tokyo Chuo Ginza 6-3-11 NISHI GINZA Building2F", phone: "+81362746338" });
-  assert.notEqual(kazen.resolution.confidence, "HIGH");
+  assert.equal(kazen.comparison.address, "MATCH");
+  assert.equal(kazen.resolution.confidence, "HIGH");
 });
 
 test("TWO ROOMS frozen identity fields pass the production TableCheck extraction gate before availability", async () => {

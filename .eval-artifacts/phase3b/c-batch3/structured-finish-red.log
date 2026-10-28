@@ -1,0 +1,35 @@
+✔ code locates the four valid batch2 fragments, independent of model offsets (0.615292ms)
+✔ invented, translated, wrong-field, repeated and old-offset proposals fail closed (0.079792ms)
+✖ one cached proposal is shared across both sources, spends the existing run budget and excludes IDs (0.986209ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 88.68575
+
+✖ failing tests:
+
+test at src/integrations/restaurant-search/named-source-query.test.ts:1:1863
+✖ one cached proposal is shared across both sources, spends the existing run budget and excludes IDs (0.986209ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   undefined,
+  +   undefined
+  -   'Dengana',
+  -   'Dengana'
+    ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/named-source-query.test.ts:49:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ undefined, undefined ],
+    expected: [ 'Dengana', 'Dengana' ],
+    operator: 'deepStrictEqual'
+  }
