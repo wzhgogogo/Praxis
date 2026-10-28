@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.429
-- Last updated: 2026-10-27
+- Document revision: 4.430
+- Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-28 CET：3b C批次3离线候选，收尾验证中。** 已同步main/90b464d8并保留双方账本；结构化地址恢复nr004/016/024，nr002保持接纳，nr020邮编矛盾/029异号拒绝。用户确认去重口径为29页至少12正确、错认0，当前12/29且无额外退化。生产双站原名后至多一种逐字Google片段，每店每来源两次、共用原详情上限；独立named-query Prompt/Schema2，不改B版本，Google增量0。17保存检索parser及4个UNKNOWN控制已过，片段12条/旧偏移4条恢复；7/8为历史混合探针，当前片段子集2/4→3/4。获准只更新G2两原页地址，五门禁与可选旧样本GET收尾中；只推C分支待复核，不合main。[报告](../.eval-artifacts/phase3b/c-batch3/report.md)。
 
 - **2026-10-27 CET：3b C批次2停止待复核，非整体通过。** Prompt26具名专项24/24，开发目标15/15、请求值14/15、严格0/15（SR05双重否定仍在）。新8家完整首屏配对原名3/8→一种替代7/8，Sen两次未命中、仍为正样本；旧15因第18次GET超时未完成，无重试。详情同店多号码/完整地址候选先红后绿，相关107绿；旧29保存页12→9接纳：nr002+1、另4因完整地址/现有比较器冲突转未知，错认0、nr029仍拒。未放宽身份，未改共享比较器/Prompt/Schema；3ec77f67冻结986项后type/arch/默认1117/build绿，Chromium167/168红于G2原页地址reference变化；A拥有的baseline未改，单列G2命令未重复，停等复核安排。实际模型40、Google11、公开GET18、Live/环境重跑0；只推C分支，不合main。[报告](../.eval-artifacts/phase3b/c-batch2/report.md)。
 

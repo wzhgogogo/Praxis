@@ -1,16 +1,20 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.322
+- Document revision: 4.323
 
 
 
-- Last updated: 2026-10-27
+- Last updated: 2026-10-28
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+## DEV-2026-10-28-PHASE3B-C-BATCH3
+
+CET。9181eee9整合main90b464d8，历史及88条预算并集保留，C自己准备/完成同ID生命周期差异保留main快照依据。预列比较器函数行范围后修结构门牌/楼层/可比地域字段，建筑数字不进门牌、缺失不判冲突；普通邮编矛盾仍拒绝。用户确认旧12包含修复三家，29页期望去重12而非16，需复核者知晓；每店每来源两次检索也经用户确认。新named-source-query Prompt/Schema2只提议原文片段，代码定位，run内跨两站复用，共享模型预算；保留原身份字段和详情总额，退役旧官网标题替代路径。生产不增加Google调用/费用，B Agent/State与G3日历读取不改。获准只改两G2原页地址并附Claude独立复核2026-10-28。29页12正确/0错认，原12除指定nr020−1及nr002+1无其他变化；Kazen旧错误数字断言退役原因单列。17保存检索/4缺详情控制/12片段已离线评价，必需门禁和可选GET收尾中，不合main。[报告](../../.eval-artifacts/phase3b/c-batch3/report.md)。
 
 ## DEV-2026-10-27-PHASE3B-C-BATCH2-STOP
 

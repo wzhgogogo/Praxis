@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.24
-- Last updated: 2026-10-27
+- Document revision: 1.25
+- Last updated: 2026-10-28
 
 
 - Source of truth for: 已接受架构决策及其替代关系
@@ -75,7 +75,7 @@ Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) ad
 - [ADR-0042显式观察通用列表补充](0042-explicit-observed-general-list-supplement.md)：Accepted，关闭F3-034隐式回退；原ADR正文和历史评价保留。
 
 
-3b原则/问答合同统一由B维护为ADR-0046（`0046-observed-actions-and-source-quoted-answers.md`，当前Proposed文本待批准及合入）。C的0047重复稿已按用户复核撤除，历史版本由Git保留。
+3b原则/问答合同统一由B维护为ADR-0046（`0046-observed-actions-and-source-quoted-answers.md`，revision0.2文本已于2026-10-27获批Accepted并随G1核心合入main；Agent/Web另批接入）。C的0047重复稿已按用户复核撤除，历史版本由Git保留。
 
 ## F3／F6补充
 

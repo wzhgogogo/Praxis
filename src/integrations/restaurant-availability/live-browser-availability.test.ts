@@ -7,6 +7,37 @@ import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtu
 import type { BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type { BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import { LiveBrowserAvailability } from "./live-browser-availability.js";
+import { tableCheckDiscoveryUrl } from "../tablecheck/tablecheck-page-parser.js";
+
+test("production composition shares one literal-fragment model proposal across both source searches", async () => {
+  const subject = structuredClone(fixtureCandidates[0]!);
+  Object.assign(subject.restaurant, { outletName: "Dengana Akabane", sourceIds: { googlePlaces: "same-google-place", phone: "03-1111-2222" } });
+  const original = structuredClone(subject);
+  const tcOriginal = tableCheckDiscoveryUrl(subject), tcAlternative = new URL(tcOriginal);
+  tcAlternative.searchParams.set("search_text", "Dengana");
+  const session = new Session([
+    { url: tcOriginal, title: "Search", text: "No venues found", html: "No venues found" },
+    { url: tcAlternative.toString(), title: "Search", text: "No venues found", html: "No venues found" },
+    { url: "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane", title: "Search", text: "No restaurants match", html: "No restaurants match" },
+    { url: "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana", title: "Search", text: "Dengana", html: '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/123/">Dengana</a>' },
+    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Dengana", text: "Dengana", html: `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Dengana", address: subject.restaurant.address, telephone: "03-1111-2222" })}</script>` },
+  ]);
+  const budget = { totalModelCalls: 0, maxModelCalls: 4 }; let calls = 0;
+  const availability = new LiveBrowserAvailability({ openSession: async () => session }, { async complete(request) {
+    calls++; assert.equal(request.purpose, "restaurant_named_source_query");
+    assert.deepEqual(JSON.parse(request.messages[1]!.content), { name: subject.restaurant.outletName, address: subject.restaurant.address });
+    return { invocationId: "fixture-query", provider: "FIXTURE", model: "fixture", outputText: '{"field":"name","fragment":"Dengana"}', finishReason: "TOOL_CALLS", latencyMs: 0 };
+  } }, { browserBudget: budget, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 4, maxOperationsPerCandidate: 24, maxAutomaticElapsedMs: 30_000 });
+  availability.beginReadRun();
+  const result = await availability.check({ candidateIds: [subject.restaurant.id], candidates: [subject], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  assert.deepEqual(session.openedPages.filter(url => url.includes("search") || url.includes("rstLst")).map(url => { const u = new URL(url); return u.searchParams.get("search_text") ?? u.searchParams.get("sw"); }), ["Dengana Akabane", "Dengana", "Dengana Akabane", "Dengana"]);
+  assert.equal(calls, 1); assert.equal(budget.totalModelCalls, 1);
+  assert.equal(result.offers.length, 0, "same-outlet identity alone is not inventory");
+  assert.ok(result.evidence.some(e => e.entityMatch?.confidence === "HIGH"));
+  assert.equal(session.closed, 1);
+  assert.deepEqual(subject, original);
+  availability.endReadRun();
+});
 
 class Session implements BrowserSession {
   readonly metadata = { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, sessionId: "local:shared-live-composition", startedAt: "2026-09-07T00:00:00.000Z" };

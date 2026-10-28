@@ -27,6 +27,9 @@ test("same floor survives language, case, width and delimiter changes in either 
 });
 
 // Observed Google/source text from the 2026-10-20 saved benchmark details.
+// nr-004 https://tabelog.com/en/tokyo/A1320/A132001/13034967/
+// nr-016 https://tabelog.com/en/tokyo/A1320/A132001/13256151/
+// nr-024 https://tabelog.com/en/tokyo/A1317/A131701/13290371/
 // Replayed fields only; no website requests or Gold IDs enter identity matching.
 for (const example of [
   { id: "nr-004", name: "鮨処 みこし", sourceName: "Mikoshi", phone: "0422-21-0263",

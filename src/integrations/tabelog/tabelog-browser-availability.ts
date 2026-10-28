@@ -390,42 +390,42 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           });
           search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
           search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
-        if (hasBotChallenge(search)) {
-          const inspection = inspectTabelogEntity(candidate, []);
-          this.recordIdentityDiagnostic({
-            ...inspection.diagnostic,
-            resolution: { ...inspection.diagnostic.resolution, reason: "SEARCH_BOT_CHALLENGE" },
-            search: {
-              query: candidate.restaurant.outletName,
-              requestedUrl: diagnosticUrl(requestedSearchUrl),
-              finalUrl: diagnosticUrl(search.url),
-              title: search.title,
-              parsedResultCount: 0,
-              inspectedResultCount: 0,
-            },
-            searchResults: [],
-            details: [],
-          });
-          return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
-        }
-        outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
-        if (!outlets.length && !tabelogDiscoveryPack.browser!.isExplicitEmptyListing(search)) {
-          const generic = await this.executor.runSkill({
-            taskId: `browser-read:${candidate.restaurant.id}`,
-            source: "TABELOG",
-            ...(tabelogDiscoveryPack.skillPath ? { sourceSkillPath: tabelogDiscoveryPack.skillPath } : {}),
-            stage: "DISCOVERY",
-            session,
-            signal,
-            allowedOrigins: ["https://tabelog.com"],
-            goal: { outlet: { name: searchName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
-            objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
-            methodReason: "Tabelog discovery has no extractable restaurant result yet.",
-            completion: tabelogNameSearchCompletion,
-          });
-          search = generic.snapshot;
+          if (hasBotChallenge(search)) {
+            const inspection = inspectTabelogEntity(candidate, []);
+            this.recordIdentityDiagnostic({
+              ...inspection.diagnostic,
+              resolution: { ...inspection.diagnostic.resolution, reason: "SEARCH_BOT_CHALLENGE" },
+              search: {
+                query: searchName,
+                requestedUrl: diagnosticUrl(requestedSearchUrl),
+                finalUrl: diagnosticUrl(search.url),
+                title: search.title,
+                parsedResultCount: 0,
+                inspectedResultCount: 0,
+              },
+              searchResults: [],
+              details: [],
+            });
+            return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
+          }
           outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
-        }
+          if (!outlets.length && !tabelogDiscoveryPack.browser!.isExplicitEmptyListing(search)) {
+            const generic = await this.executor.runSkill({
+              taskId: `browser-read:${candidate.restaurant.id}`,
+              source: "TABELOG",
+              ...(tabelogDiscoveryPack.skillPath ? { sourceSkillPath: tabelogDiscoveryPack.skillPath } : {}),
+              stage: "DISCOVERY",
+              session,
+              signal,
+              allowedOrigins: ["https://tabelog.com"],
+              goal: { outlet: { name: searchName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
+              objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
+              methodReason: "Tabelog discovery has no extractable restaurant result yet.",
+              completion: tabelogNameSearchCompletion,
+            });
+            search = generic.snapshot;
+            outlets = mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search), this.maxCandidateMatches);
+          }
         }
         for (const outlet of outlets) {
           if (inspected.has(outlet.sourceUrl)) continue;

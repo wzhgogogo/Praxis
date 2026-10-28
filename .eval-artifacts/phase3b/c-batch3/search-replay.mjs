@@ -3,15 +3,18 @@
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {readFileSync,readdirSync,writeFileSync} from 'node:fs';
+import {readFileSync,readdirSync,writeFileSync,mkdirSync} from 'node:fs';
+import {dirname} from 'node:path';
 import {parseTabelogSearchOutlets} from '../../../src/integrations/tabelog/tabelog-page-parser.ts';
 import {TabelogBrowserAvailability} from '../../../src/integrations/tabelog/tabelog-browser-availability.ts';
 import {locateNamedSourceFragment,ModelNamedSourceQuery} from '../../../src/integrations/restaurant-search/named-source-query.ts';
 
 const prior='.eval-artifacts/phase3b/c-batch2',root='.eval-artifacts/phase3b/c-batch3';
+const argument=(name,fallback)=>process.argv.includes(name)?process.argv[process.argv.indexOf(name)+1]:fallback;
+const freezeFile=argument('--freeze','replay-freeze.json'),output=argument('--output','search-replay.json');
 const load=p=>JSON.parse(readFileSync(p,'utf8')),sha=b=>createHash('sha256').update(b).digest('hex');
 assert.equal(execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim(),'');
-for(const f of load(`${root}/replay-freeze.json`).files)assert.equal(sha(readFileSync(f.path)),f.sha256,f.path);
+for(const f of load(`${root}/${freezeFile}`).files)assert.equal(sha(readFileSync(f.path)),f.sha256,f.path);
 const subjects=load(`${prior}/subjects.json`).subjects;
 const rawModel=load(`${prior}/retrieval-inputs/fragment.response.json`);
 const fragments=JSON.parse(rawModel.outputText).samples;
@@ -54,5 +57,6 @@ const result={schema:'phase3b-c-search-replay@1',sourceCommit:execFileSync('git'
   textDerivative:'HTML with script/style/tags removed only for explicit-empty checks; not a captured live browser snapshot. Original HTML unchanged.',
   fragmentFixture:'Prior fragment field/text projected to new wire; no Gold IDs; preserves prior normalized TOOL_CALLS finishReason. This is not a real Prompt2 run.',
   locations,listings:sources.map(({page,...row})=>row),controls};
-writeFileSync(`${root}/search-replay.json`,JSON.stringify(result,null,2)+'\n');
+mkdirSync(dirname(`${root}/${output}`),{recursive:true});
+writeFileSync(`${root}/${output}`,JSON.stringify(result,null,2)+'\n',{flag:'wx'});
 console.log(JSON.stringify({listings:result.listings.length,located:locations.filter(p=>p.located).length,controls}));

@@ -1,16 +1,20 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.328
+- Document revision: 4.329
 
 
 
-- Last updated: 2026-10-27
+- Last updated: 2026-10-28
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-28-PHASE3B-C-BATCH3
+
+CET。ac93a97b三地址与B1等价有效红灯，4b14fd1f未触发替代红灯；798d312f无空格Building7F/8F反例红，4b681fee严格结构化TOOL_CALLS被误拒红，分别修复后保留原日志。0165deb3相关118/118绿，原29保存页独立认证比对12正确、17未知、0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝，无新增退化。de821517复读17保存检索，原名3/8、历史混合替代7/8，片段子集2/4→3/4；4个生产缺详情控制每店两词/详情≤5、Offer0/HIGH0；12片段代码定位通过含旧4偏移错误。输入/外层脚本均先提交冻结，Gold仅事后评分，模型/Google/Live新增0。两G2原页address由独立复核获批变更，其他基线字段/评分器/变异规则不变，完整门禁待收尾；可选GET按固定12条、≥30秒、首次失败即停执行。[报告](../../.eval-artifacts/phase3b/c-batch3/report.md)。
 
 ## TEST-2026-10-27-PHASE3B-C-BATCH2-STOP
 

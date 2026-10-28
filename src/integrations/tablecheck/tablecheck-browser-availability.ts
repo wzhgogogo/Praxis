@@ -514,25 +514,25 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           discoveryBase = { requestedUrl: diagnosticUrl(discoveryUrl), finalUrl: diagnosticUrl(discovery.url), title: discovery.title };
           const unavailable = inspectTableCheckPageUnavailable(discovery);
           if (hasTableCheckBotChallenge(discovery) || unavailable.pageUnavailable) {
-          const botChallenge = hasTableCheckBotChallenge(discovery);
-          const failureCode = botChallenge ? "BOT_CHALLENGE" : "TABLECHECK_PAGE_UNAVAILABLE";
-          this.recordIdentityDiagnostic({
-            candidateId: candidate.restaurant.id,
-            candidate: structuredClone(candidate.restaurant),
-            discovery: {
-              ...discoveryBase,
-              status: botChallenge ? "BOT_CHALLENGE" : "PAGE_UNAVAILABLE",
-              discoveredOutletUrls: [],
-              ...(unavailable.matchedSignals.length ? { unavailableSignals: unavailable.matchedSignals } : {}),
-            },
-            attemptedPages,
-            resolution: { confidence: "LOW", matchedBy: [], reason: failureCode },
-          });
-          return this.ground(candidate, request, {
-            candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
-            pageState: botChallenge ? "BOT_CHALLENGE" : "SOURCE_UNSUPPORTED", failureCode,
-            excerpt: tableCheckPageExcerpt(discovery),
-          }, browser);
+            const botChallenge = hasTableCheckBotChallenge(discovery);
+            const failureCode = botChallenge ? "BOT_CHALLENGE" : "TABLECHECK_PAGE_UNAVAILABLE";
+            this.recordIdentityDiagnostic({
+              candidateId: candidate.restaurant.id,
+              candidate: structuredClone(candidate.restaurant),
+              discovery: {
+                ...discoveryBase,
+                status: botChallenge ? "BOT_CHALLENGE" : "PAGE_UNAVAILABLE",
+                discoveredOutletUrls: [],
+                ...(unavailable.matchedSignals.length ? { unavailableSignals: unavailable.matchedSignals } : {}),
+              },
+              attemptedPages,
+              resolution: { confidence: "LOW", matchedBy: [], reason: failureCode },
+            });
+            return this.ground(candidate, request, {
+              candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
+              pageState: botChallenge ? "BOT_CHALLENGE" : "SOURCE_UNSUPPORTED", failureCode,
+              excerpt: tableCheckPageExcerpt(discovery),
+            }, browser);
           }
           if (!matchesDiscoveryQuery(discovery, discoveryUrl)) {
             this.recordIdentityDiagnostic({ candidateId: candidate.restaurant.id, candidate: structuredClone(candidate.restaurant),
