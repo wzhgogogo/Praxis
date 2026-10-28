@@ -1,5 +1,7 @@
 # Development Log
 
+2026-10-28 CET：C nr010店名仅HTML实体解码修复验收PASS，原页及两站3红→相关9绿，同名/门牌/楼层反例仍拒。整合main eb1518f1（含54b3dd2b），a9c4abe8冻结1171项；五门禁1203/175及G2 4/4全绿，10步前后净树。41份回放nr010/022/026均正确、既有23/23、错认0；规则/排序/地址电话及评分不改。本轮GET/模型/Google/Live0，441条历史账本并集合计152模型/242GET。按用户批准交付main，合入SHA以Git合并/远端核对为准，之后停止。 [报告](../../.eval-artifacts/phase3b/g4-name-entities/report.md)。
+
 2026-10-28 CET：用户复核通过C补页7/7、既有23/23、nr022/026正确及错认0；批准只修nr010店名HTML实体解码，红绿和分店反例后同步最新main并五门禁/G2净树合入推送。本批GET/模型/Google/Live0；身份门槛、排序和评分不改。
 
 2026-10-28 CET：C按批准补页24/25 GET（失败0），模型/Google/Live0，共享GET242/257。冻结后完整路径回放既有7份7/7正确、排序nr010/022/026 2/3正确，错认0；状态NO_REGRESSION_PASS_IMPROVEMENT_RESULTS_MIXED。375aec6d产品/排序/身份/评分原字节不变，原结果保留，补页另存；当前工作分支停复核，合main需与B G3协调。 [报告](../../.eval-artifacts/phase3b/g4-priority-backfill/report.md)。
@@ -23,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.339
+- Document revision: 4.340
 
 
 - Last updated: 2026-10-28

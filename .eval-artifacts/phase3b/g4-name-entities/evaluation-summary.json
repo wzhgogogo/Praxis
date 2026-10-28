@@ -1,0 +1,2024 @@
+{
+  "schema": "g4-priority-evaluation@1",
+  "atCET": "2026-10-28T15:22:31.052415+01:00",
+  "mode": "OFFLINE_PRODUCTION_PREFIX_REPLAY_FIXED_OLD_MODEL_RESPONSE",
+  "groups": {
+    "OLD29": {
+      "planned": 29,
+      "verdicts": {
+        "ENVIRONMENT_FAILURE": 9,
+        "CORRECT_ACCEPTED": 16,
+        "NOT_ACCEPTED": 4
+      },
+      "evidenceStatus": {
+        "RECORDED_ENVIRONMENT_FAILURE": 5,
+        "COMPLETE_SAVED_SOURCE_PREFIX": 20,
+        "NOT_EVALUATED_MISSING_SOURCE": 4
+      }
+    },
+    "NEW8": {
+      "planned": 8,
+      "verdicts": {
+        "CORRECT_ACCEPTED": 6,
+        "ENVIRONMENT_FAILURE": 1,
+        "NOT_ACCEPTED": 1
+      },
+      "evidenceStatus": {
+        "COMPLETE_SAVED_SOURCE_PREFIX": 7,
+        "NOT_EVALUATED_MISSING_SOURCE": 1
+      }
+    },
+    "RERUN4": {
+      "planned": 4,
+      "verdicts": {
+        "CORRECT_ACCEPTED": 4
+      },
+      "evidenceStatus": {
+        "COMPLETE_SAVED_SOURCE_PREFIX": 4
+      }
+    }
+  },
+  "wrongAccepted": 0,
+  "priorCorrect": {
+    "planned": 23,
+    "retainedInFiveDetailPlan": 23,
+    "completeReplayCorrect": 23,
+    "blockedByMissingSource": 0
+  },
+  "focusFive": [
+    {
+      "id": "nr-010",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Yakitori & Obanzai SAKAMOTO",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "SAKAMOTO",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+        "https://tabelog.com/en/tokyo/A1315/A131503/13069307/",
+        "https://tabelog.com/en/tokyo/A1317/A131712/13067158/",
+        "https://tabelog.com/en/tokyo/A1330/A133002/13074108/",
+        "https://tabelog.com/en/tokyo/A1315/A131504/13133562/"
+      ],
+      "key": "main-nr-010",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Yakitori & Obanzai SAKAMOTO",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "SAKAMOTO",
+          "originalTargetRank": 13,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+            "https://tabelog.com/en/tokyo/A1315/A131503/13069307/",
+            "https://tabelog.com/en/tokyo/A1317/A131712/13067158/",
+            "https://tabelog.com/en/tokyo/A1330/A133002/13074108/",
+            "https://tabelog.com/en/tokyo/A1315/A131504/13133562/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-020",
+      "cohort": "OLD29",
+      "verdict": "NOT_ACCEPTED",
+      "acceptedUrl": null,
+      "reason": "KNOWN_PHONE_CONFLICT",
+      "environmentFailure": null,
+      "failureStage": "MODEL_FRAGMENT_REJECTED",
+      "searches": [
+        {
+          "query": "Sushi kazumasa",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+        "https://tabelog.com/en/tokyo/A1307/A130701/13122868/"
+      ],
+      "key": "main-nr-020",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sushi kazumasa",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13122868/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-022",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sushi and Tempura Iwai Kichijoji",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Iwai",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13183675/",
+        "https://tabelog.com/en/tokyo/A1320/A132001/13283535/",
+        "https://tabelog.com/en/tokyo/A1306/A130602/13316007/"
+      ],
+      "key": "main-nr-022",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sushi and Tempura Iwai Kichijoji",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Iwai",
+          "originalTargetRank": 11,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13183675/",
+            "https://tabelog.com/en/tokyo/A1320/A132001/13283535/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13316007/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-026",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13307478/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Kushiyaki Bistro Fukumimi Ginza 6",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Fukumimi",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1301/A130101/13307478/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13010575/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13255508/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13313979/",
+        "https://tabelog.com/en/tokyo/A1304/A130401/13116518/"
+      ],
+      "key": "main-nr-026",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Kushiyaki Bistro Fukumimi Ginza 6",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Fukumimi",
+          "originalTargetRank": 10,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130101/13307478/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13010575/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13255508/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13313979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13116518/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "G4-ND-005",
+      "cohort": "NEW8",
+      "verdict": "NOT_ACCEPTED",
+      "acceptedUrl": null,
+      "reason": "NO_OUTLETS_PARSED",
+      "environmentFailure": null,
+      "failureStage": "MODEL_FRAGMENT_REJECTED",
+      "searches": [
+        {
+          "query": "Sen Kagurazaka",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        }
+      ],
+      "openedDetails": [],
+      "key": "main-G4-ND-005",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sen Kagurazaka",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        }
+      ],
+      "targetStillSelected": false
+    }
+  ],
+  "rows": [
+    {
+      "id": "nr-001",
+      "cohort": "OLD29",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_RECORDED_NETWORK_FAILURE",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sushi Tatsu Shibuya",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Sushi Tatsu",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+        "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+        "https://tabelog.com/en/tokyo/A1317/A131707/13132476/"
+      ],
+      "key": "main-nr-001",
+      "view": "MAIN37",
+      "baselineVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "RECORDED_ENVIRONMENT_FAILURE",
+      "plans": [
+        {
+          "query": "Sushi Tatsu Shibuya",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Sushi Tatsu",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+            "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+            "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+            "https://tabelog.com/en/tokyo/A1305/A130502/13131471/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-002",
+      "cohort": "OLD29",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_RECORDED_NETWORK_FAILURE",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "焼肉おおにし 祐天寺店",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1317/A131701/13242327/"
+      ],
+      "key": "main-nr-002",
+      "view": "MAIN37",
+      "baselineVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "RECORDED_ENVIRONMENT_FAILURE",
+      "plans": [
+        {
+          "query": "焼肉おおにし 祐天寺店",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13242327/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-003",
+      "cohort": "OLD29",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_RECORDED_NETWORK_FAILURE",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Washoku Dining Hana Kagura",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Hana Kagura",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        }
+      ],
+      "openedDetails": [],
+      "key": "main-nr-003",
+      "view": "MAIN37",
+      "baselineVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "RECORDED_ENVIRONMENT_FAILURE",
+      "plans": [
+        {
+          "query": "Washoku Dining Hana Kagura",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        }
+      ],
+      "targetStillSelected": false
+    },
+    {
+      "id": "nr-004",
+      "cohort": "OLD29",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_RECORDED_NETWORK_FAILURE",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "鮨処 みこし",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1323/A132301/13072420/"
+      ],
+      "key": "main-nr-004",
+      "view": "MAIN37",
+      "baselineVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "RECORDED_ENVIRONMENT_FAILURE",
+      "plans": [
+        {
+          "query": "鮨処 みこし",
+          "originalTargetRank": 2,
+          "newTargetRank": 2,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+            "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+            "https://tabelog.com/en/tokyo/A1319/A131907/13238586/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-005",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Ginhachi",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+        "https://tabelog.com/en/tokyo/A1330/A133001/13081295/",
+        "https://tabelog.com/en/tokyo/A1315/A131502/13301314/",
+        "https://tabelog.com/en/tokyo/A1325/A132502/13081581/",
+        "https://tabelog.com/en/tokyo/A1326/A132601/13238874/"
+      ],
+      "key": "main-nr-005",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Ginhachi",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+            "https://tabelog.com/en/tokyo/A1330/A133001/13081295/",
+            "https://tabelog.com/en/tokyo/A1315/A131502/13301314/",
+            "https://tabelog.com/en/tokyo/A1325/A132502/13081581/",
+            "https://tabelog.com/en/tokyo/A1326/A132601/13238874/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-006",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sugata",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+        "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+        "https://tabelog.com/en/tokyo/A1317/A131706/13150758/",
+        "https://tabelog.com/en/tokyo/A1311/A131103/13003707/"
+      ],
+      "key": "main-nr-006",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sugata",
+          "originalTargetRank": 2,
+          "newTargetRank": 3,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1312/A131204/13128750/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13006777/",
+            "https://tabelog.com/en/tokyo/A1309/A130905/13053749/",
+            "https://tabelog.com/en/tokyo/A1317/A131706/13150758/",
+            "https://tabelog.com/en/tokyo/A1311/A131103/13003707/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-007",
+      "cohort": "OLD29",
+      "verdict": "NOT_ACCEPTED",
+      "acceptedUrl": null,
+      "reason": "NO_OUTLETS_PARSED",
+      "environmentFailure": null,
+      "failureStage": "EMPTY_OR_TARGET_ABSENT_FIRST_PAGE",
+      "searches": [
+        {
+          "query": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Beef Kitchen Nakameguro",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        }
+      ],
+      "openedDetails": [],
+      "key": "main-nr-007",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Beef Kitchen Nakameguro",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        }
+      ],
+      "targetStillSelected": false
+    },
+    {
+      "id": "nr-008",
+      "cohort": "OLD29",
+      "verdict": "NOT_ACCEPTED",
+      "acceptedUrl": null,
+      "reason": "NO_OUTLETS_PARSED",
+      "environmentFailure": null,
+      "failureStage": "EMPTY_OR_TARGET_ABSENT_FIRST_PAGE",
+      "searches": [
+        {
+          "query": "Shibuya Kappo Sancho",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Kappo Sancho",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        }
+      ],
+      "openedDetails": [],
+      "key": "main-nr-008",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Shibuya Kappo Sancho",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Kappo Sancho",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        }
+      ],
+      "targetStillSelected": false
+    },
+    {
+      "id": "nr-009",
+      "cohort": "OLD29",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_SOURCE_MISSING",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Naminoue shibuya",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Naminoue",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+        "https://tabelog.com/en/tokyo/A1315/A131502/13195782/"
+      ],
+      "key": "main-nr-009",
+      "view": "MAIN37",
+      "baselineVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "NOT_EVALUATED_MISSING_SOURCE",
+      "plans": [
+        {
+          "query": "Naminoue shibuya",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Naminoue",
+          "originalTargetRank": 2,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+            "https://tabelog.com/en/tokyo/A1315/A131502/13195782/",
+            "https://tabelog.com/en/tokyo/A1317/A131703/13202996/",
+            "https://tabelog.com/en/tokyo/A1303/A130302/13175742/",
+            "https://tabelog.com/en/tokyo/A1314/A131401/13279713/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-010",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Yakitori & Obanzai SAKAMOTO",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "SAKAMOTO",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+        "https://tabelog.com/en/tokyo/A1315/A131503/13069307/",
+        "https://tabelog.com/en/tokyo/A1317/A131712/13067158/",
+        "https://tabelog.com/en/tokyo/A1330/A133002/13074108/",
+        "https://tabelog.com/en/tokyo/A1315/A131504/13133562/"
+      ],
+      "key": "main-nr-010",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Yakitori & Obanzai SAKAMOTO",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "SAKAMOTO",
+          "originalTargetRank": 13,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+            "https://tabelog.com/en/tokyo/A1315/A131503/13069307/",
+            "https://tabelog.com/en/tokyo/A1317/A131712/13067158/",
+            "https://tabelog.com/en/tokyo/A1330/A133002/13074108/",
+            "https://tabelog.com/en/tokyo/A1315/A131504/13133562/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-011",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "日本料理 ほそ川 神楽坂",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "ほそ川",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+        "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+        "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+        "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+        "https://tabelog.com/en/tokyo/A1313/A131301/13294175/"
+      ],
+      "key": "main-nr-011",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "日本料理 ほそ川 神楽坂",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "ほそ川",
+          "originalTargetRank": 4,
+          "newTargetRank": 4,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+            "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+            "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+            "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+            "https://tabelog.com/en/tokyo/A1313/A131301/13294175/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-012",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13235258/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sushi Rizaki",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130302/13263817/",
+        "https://tabelog.com/en/tokyo/A1303/A130301/13235258/",
+        "https://tabelog.com/en/tokyo/A1307/A130701/13253572/",
+        "https://tabelog.com/en/tokyo/A1318/A131810/13313702/",
+        "https://tabelog.com/en/tokyo/A1307/A130701/13283447/"
+      ],
+      "key": "main-nr-012",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sushi Rizaki",
+          "originalTargetRank": 1,
+          "newTargetRank": 2,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130302/13263817/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13235258/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13253572/",
+            "https://tabelog.com/en/tokyo/A1318/A131810/13313702/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13283447/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-013",
+      "cohort": "OLD29",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_RECORDED_NETWORK_FAILURE",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Horumon Matsuda HANARE Yakiniku Nakameguro",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        }
+      ],
+      "openedDetails": [],
+      "key": "main-nr-013",
+      "view": "MAIN37",
+      "baselineVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "RECORDED_ENVIRONMENT_FAILURE",
+      "plans": [],
+      "targetStillSelected": false
+    },
+    {
+      "id": "nr-014",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13241250/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "炭火焼肉ホルモンまんてん高架下",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1317/A131701/13241250/"
+      ],
+      "key": "main-nr-014",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "炭火焼肉ホルモンまんてん高架下",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13241250/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-015",
+      "cohort": "OLD29",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_SOURCE_MISSING",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sushi Yamashiro Kichijoji",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Yamashiro",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1320/A132001/13246986/"
+      ],
+      "key": "main-nr-015",
+      "view": "MAIN37",
+      "baselineVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "NOT_EVALUATED_MISSING_SOURCE",
+      "plans": [
+        {
+          "query": "Sushi Yamashiro Kichijoji",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Yamashiro",
+          "originalTargetRank": 13,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13246986/",
+            "https://tabelog.com/en/tokyo/A1303/A130302/13249235/",
+            "https://tabelog.com/en/tokyo/A1322/A132204/13084356/",
+            "https://tabelog.com/en/tokyo/A1330/A133001/13107718/",
+            "https://tabelog.com/en/tokyo/A1312/A131201/13024955/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-016",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "焼き鳥と蕎麦 灯",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+        "https://tabelog.com/en/tokyo/A1314/A131401/13283581/",
+        "https://tabelog.com/en/tokyo/A1316/A131601/13305531/"
+      ],
+      "key": "main-nr-016",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "焼き鳥と蕎麦 灯",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+            "https://tabelog.com/en/tokyo/A1314/A131401/13283581/",
+            "https://tabelog.com/en/tokyo/A1316/A131601/13305531/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-017",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sushi Matsumoto Shibuya",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Sushi Matsumoto",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+        "https://tabelog.com/en/tokyo/A1322/A132201/13185463/",
+        "https://tabelog.com/en/tokyo/A1304/A130401/13252113/",
+        "https://tabelog.com/en/tokyo/A1308/A130801/13210209/",
+        "https://tabelog.com/en/tokyo/A1314/A131403/13257484/"
+      ],
+      "key": "main-nr-017",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sushi Matsumoto Shibuya",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Sushi Matsumoto",
+          "originalTargetRank": 3,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+            "https://tabelog.com/en/tokyo/A1322/A132201/13185463/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13252113/",
+            "https://tabelog.com/en/tokyo/A1308/A130801/13210209/",
+            "https://tabelog.com/en/tokyo/A1314/A131403/13257484/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-018",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13261753/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Yakiniku Ushicoco Nakameguro",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Ushicoco",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1317/A131701/13261753/",
+        "https://tabelog.com/en/tokyo/A1303/A130302/13144971/",
+        "https://tabelog.com/en/tokyo/A1304/A130401/13268688/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13222093/",
+        "https://tabelog.com/en/tokyo/A1307/A130701/13209611/"
+      ],
+      "key": "main-nr-018",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Yakiniku Ushicoco Nakameguro",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Ushicoco",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13261753/",
+            "https://tabelog.com/en/tokyo/A1303/A130302/13144971/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13268688/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13222093/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13209611/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-019",
+      "cohort": "OLD29",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_SOURCE_MISSING",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "T nakameguro",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1317/A131701/13251507/"
+      ],
+      "key": "main-nr-019",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "NOT_EVALUATED_MISSING_SOURCE",
+      "plans": [
+        {
+          "query": "T nakameguro",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+            "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+            "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+            "https://tabelog.com/en/tokyo/A1317/A131701/13292623/",
+            "https://tabelog.com/en/tokyo/A1317/A131701/13202224/"
+          ]
+        }
+      ],
+      "targetStillSelected": false
+    },
+    {
+      "id": "nr-020",
+      "cohort": "OLD29",
+      "verdict": "NOT_ACCEPTED",
+      "acceptedUrl": null,
+      "reason": "KNOWN_PHONE_CONFLICT",
+      "environmentFailure": null,
+      "failureStage": "MODEL_FRAGMENT_REJECTED",
+      "searches": [
+        {
+          "query": "Sushi kazumasa",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+        "https://tabelog.com/en/tokyo/A1307/A130701/13122868/"
+      ],
+      "key": "main-nr-020",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sushi kazumasa",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13122868/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-021",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13281273/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "焼肉 牛目黒",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1317/A131701/13281273/"
+      ],
+      "key": "main-nr-021",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "焼肉 牛目黒",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13281273/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-022",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sushi and Tempura Iwai Kichijoji",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Iwai",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13183675/",
+        "https://tabelog.com/en/tokyo/A1320/A132001/13283535/",
+        "https://tabelog.com/en/tokyo/A1306/A130602/13316007/"
+      ],
+      "key": "main-nr-022",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sushi and Tempura Iwai Kichijoji",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Iwai",
+          "originalTargetRank": 11,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13282321/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13305528/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13183675/",
+            "https://tabelog.com/en/tokyo/A1320/A132001/13283535/",
+            "https://tabelog.com/en/tokyo/A1306/A130602/13316007/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-024",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Nakameguro Yakiniku Togyumon",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1317/A131701/13290371/"
+      ],
+      "key": "main-nr-024",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Nakameguro Yakiniku Togyumon",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13290371/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-025",
+      "cohort": "OLD29",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_SOURCE_MISSING",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sumi Sushi Shibuya",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Sumi Sushi",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1312/A131204/13071509/",
+        "https://tabelog.com/en/tokyo/A1324/A132401/13230824/",
+        "https://tabelog.com/en/tokyo/A1322/A132205/13070885/"
+      ],
+      "key": "main-nr-025",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "NOT_EVALUATED_MISSING_SOURCE",
+      "plans": [
+        {
+          "query": "Sumi Sushi Shibuya",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Sumi Sushi",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1312/A131204/13071509/",
+            "https://tabelog.com/en/tokyo/A1324/A132401/13230824/",
+            "https://tabelog.com/en/tokyo/A1322/A132205/13070885/",
+            "https://tabelog.com/en/tokyo/A1312/A131205/13071787/",
+            "https://tabelog.com/en/tokyo/A1321/A132102/13071786/"
+          ]
+        }
+      ],
+      "targetStillSelected": false
+    },
+    {
+      "id": "nr-026",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13307478/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Kushiyaki Bistro Fukumimi Ginza 6",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Fukumimi",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1301/A130101/13307478/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13010575/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13255508/",
+        "https://tabelog.com/en/tokyo/A1301/A130101/13313979/",
+        "https://tabelog.com/en/tokyo/A1304/A130401/13116518/"
+      ],
+      "key": "main-nr-026",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Kushiyaki Bistro Fukumimi Ginza 6",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Fukumimi",
+          "originalTargetRank": 10,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130101/13307478/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13010575/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13255508/",
+            "https://tabelog.com/en/tokyo/A1301/A130101/13313979/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13116518/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-027",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Shibuya Sushi Jinnan",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130301/13307953/"
+      ],
+      "key": "main-nr-027",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Shibuya Sushi Jinnan",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13307953/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-028",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Ginza Bokujin",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1301/A130101/13310287/"
+      ],
+      "key": "main-nr-028",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Ginza Bokujin",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130101/13310287/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-029",
+      "cohort": "OLD29",
+      "verdict": "NOT_ACCEPTED",
+      "acceptedUrl": null,
+      "reason": "KNOWN_PHONE_CONFLICT",
+      "environmentFailure": null,
+      "failureStage": "IDENTITY_FIELDS_CONFLICT",
+      "searches": [
+        {
+          "query": "焼肉 うし幸",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1317/A131701/13312085/",
+        "https://tabelog.com/en/tokyo/A1314/A131401/13163446/",
+        "https://tabelog.com/en/tokyo/A1305/A130501/13286744/",
+        "https://tabelog.com/en/tokyo/A1322/A132204/13272237/",
+        "https://tabelog.com/en/tokyo/A1307/A130701/13319284/"
+      ],
+      "key": "main-nr-029",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "焼肉 うし幸",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13312085/",
+            "https://tabelog.com/en/tokyo/A1314/A131401/13163446/",
+            "https://tabelog.com/en/tokyo/A1305/A130501/13286744/",
+            "https://tabelog.com/en/tokyo/A1322/A132204/13272237/",
+            "https://tabelog.com/en/tokyo/A1307/A130701/13319284/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-030",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sushi Nasu",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+        "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+        "https://tabelog.com/en/tokyo/A1327/A132701/13290595/",
+        "https://tabelog.com/en/tokyo/A1327/A132701/13070379/",
+        "https://tabelog.com/en/tokyo/A1321/A132104/13070373/"
+      ],
+      "key": "main-nr-030",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sushi Nasu",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+            "https://tabelog.com/en/tokyo/A1327/A132701/13290595/",
+            "https://tabelog.com/en/tokyo/A1327/A132701/13070379/",
+            "https://tabelog.com/en/tokyo/A1321/A132104/13070373/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "G4-ND-001",
+      "cohort": "NEW8",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Dengana Akabane",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Dengana",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "https://tabelog.com/en/tokyo/A1311/A131102/13117471/",
+        "https://tabelog.com/en/tokyo/A1328/A132806/13155695/",
+        "https://tabelog.com/en/tokyo/A1301/A130103/13101837/",
+        "https://tabelog.com/en/tokyo/A1326/A132602/13146728/"
+      ],
+      "key": "main-G4-ND-001",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Dengana Akabane",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Dengana",
+          "originalTargetRank": 5,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+            "https://tabelog.com/en/tokyo/A1311/A131102/13117471/",
+            "https://tabelog.com/en/tokyo/A1328/A132806/13155695/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13101837/",
+            "https://tabelog.com/en/tokyo/A1326/A132602/13146728/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "G4-ND-002",
+      "cohort": "NEW8",
+      "verdict": "ENVIRONMENT_FAILURE",
+      "acceptedUrl": null,
+      "reason": "BROWSER_RUNTIME_FAILED",
+      "environmentFailure": "REPLAY_SOURCE_MISSING",
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Ushigoro Bambina Carbone Nakameguro",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Ushigoro Bambina",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1301/A130101/13200116/",
+        "https://tabelog.com/en/tokyo/A1301/A130103/13162231/"
+      ],
+      "key": "main-G4-ND-002",
+      "view": "MAIN37",
+      "baselineVerdict": "ENVIRONMENT_FAILURE",
+      "evidenceStatus": "NOT_EVALUATED_MISSING_SOURCE",
+      "plans": [
+        {
+          "query": "Ushigoro Bambina Carbone Nakameguro",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Ushigoro Bambina",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130101/13200116/",
+            "https://tabelog.com/en/tokyo/A1301/A130103/13162231/",
+            "https://tabelog.com/en/tokyo/A1303/A130302/13144971/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13169164/",
+            "https://tabelog.com/en/tokyo/A1303/A130302/13178069/"
+          ]
+        }
+      ],
+      "targetStillSelected": false
+    },
+    {
+      "id": "G4-ND-003",
+      "cohort": "NEW8",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "和泉鮨南口店",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+        "https://tabelog.com/en/tokyo/A1303/A130301/13020955/",
+        "https://tabelog.com/en/tokyo/A1303/A130301/13007244/"
+      ],
+      "key": "main-G4-ND-003",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "和泉鮨南口店",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13020955/",
+            "https://tabelog.com/en/tokyo/A1303/A130301/13007244/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "G4-ND-004",
+      "cohort": "NEW8",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Waragamo",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+        "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+        "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+        "https://tabelog.com/en/tokyo/A1309/A130905/13297880/"
+      ],
+      "key": "main-G4-ND-004",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Waragamo",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13187638/",
+            "https://tabelog.com/en/tokyo/A1312/A131204/13128410/",
+            "https://tabelog.com/en/tokyo/A1319/A131906/13080794/",
+            "https://tabelog.com/en/tokyo/A1309/A130905/13297880/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "G4-ND-005",
+      "cohort": "NEW8",
+      "verdict": "NOT_ACCEPTED",
+      "acceptedUrl": null,
+      "reason": "NO_OUTLETS_PARSED",
+      "environmentFailure": null,
+      "failureStage": "MODEL_FRAGMENT_REJECTED",
+      "searches": [
+        {
+          "query": "Sen Kagurazaka",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        }
+      ],
+      "openedDetails": [],
+      "key": "main-G4-ND-005",
+      "view": "MAIN37",
+      "baselineVerdict": "NOT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sen Kagurazaka",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        }
+      ],
+      "targetStillSelected": false
+    },
+    {
+      "id": "G4-ND-006",
+      "cohort": "NEW8",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "吉祥じ 和こん",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1320/A132001/13245243/"
+      ],
+      "key": "main-G4-ND-006",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "吉祥じ 和こん",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1320/A132001/13245243/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "G4-ND-007",
+      "cohort": "NEW8",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13235582/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Washokubiyori Osaketo Kagrazaka",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Washokubiyori",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1309/A130905/13235582/",
+        "https://tabelog.com/en/tokyo/A1308/A130801/13267730/",
+        "https://tabelog.com/en/tokyo/A1302/A130202/13300411/",
+        "https://tabelog.com/en/tokyo/A1302/A130202/13258001/",
+        "https://tabelog.com/en/tokyo/A1308/A130802/13276502/"
+      ],
+      "key": "main-G4-ND-007",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Washokubiyori Osaketo Kagrazaka",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Washokubiyori",
+          "originalTargetRank": 3,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1309/A130905/13235582/",
+            "https://tabelog.com/en/tokyo/A1308/A130801/13267730/",
+            "https://tabelog.com/en/tokyo/A1302/A130202/13300411/",
+            "https://tabelog.com/en/tokyo/A1302/A130202/13258001/",
+            "https://tabelog.com/en/tokyo/A1308/A130802/13276502/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "G4-ND-008",
+      "cohort": "NEW8",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Godaime Hanayama Udon Ginza",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Hanayama Udon",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+        "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+        "https://tabelog.com/en/tokyo/A1315/A131504/13278423/"
+      ],
+      "key": "main-G4-ND-008",
+      "view": "MAIN37",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Godaime Hanayama Udon Ginza",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Hanayama Udon",
+          "originalTargetRank": 2,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+            "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+            "https://tabelog.com/en/tokyo/A1315/A131504/13278423/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-001",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Sushi Tatsu Shibuya",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Sushi Tatsu",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+        "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+        "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+        "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+        "https://tabelog.com/en/tokyo/A1305/A130502/13131471/"
+      ],
+      "key": "rerun-nr-001",
+      "view": "RERUN4",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Sushi Tatsu Shibuya",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Sushi Tatsu",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+            "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+            "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+            "https://tabelog.com/en/tokyo/A1328/A132806/13071501/",
+            "https://tabelog.com/en/tokyo/A1305/A130502/13131471/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-002",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "焼肉おおにし 祐天寺店",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1317/A131701/13242327/"
+      ],
+      "key": "rerun-nr-002",
+      "view": "RERUN4",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "焼肉おおにし 祐天寺店",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1317/A131701/13242327/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-003",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13021574/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "Washoku Dining Hana Kagura",
+          "certifiedPresentInFirstPage": false,
+          "alert": null
+        },
+        {
+          "query": "Hana Kagura",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1309/A130905/13021574/",
+        "https://tabelog.com/en/tokyo/A1324/A132403/13195662/",
+        "https://tabelog.com/en/tokyo/A1324/A132403/13067607/",
+        "https://tabelog.com/en/tokyo/A1311/A131101/13230966/",
+        "https://tabelog.com/en/tokyo/A1316/A131603/13295549/"
+      ],
+      "key": "rerun-nr-003",
+      "view": "RERUN4",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "Washoku Dining Hana Kagura",
+          "originalTargetRank": null,
+          "newTargetRank": null,
+          "selectedUrls": []
+        },
+        {
+          "query": "Hana Kagura",
+          "originalTargetRank": 1,
+          "newTargetRank": 1,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1309/A130905/13021574/",
+            "https://tabelog.com/en/tokyo/A1324/A132403/13195662/",
+            "https://tabelog.com/en/tokyo/A1324/A132403/13067607/",
+            "https://tabelog.com/en/tokyo/A1311/A131101/13230966/",
+            "https://tabelog.com/en/tokyo/A1316/A131603/13295549/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    },
+    {
+      "id": "nr-004",
+      "cohort": "OLD29",
+      "verdict": "CORRECT_ACCEPTED",
+      "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+      "reason": "HIGH_EXACT_PHONE",
+      "environmentFailure": null,
+      "failureStage": null,
+      "searches": [
+        {
+          "query": "鮨処 みこし",
+          "certifiedPresentInFirstPage": true,
+          "alert": null
+        }
+      ],
+      "openedDetails": [
+        "https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+        "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+        "https://tabelog.com/en/tokyo/A1319/A131907/13238586/"
+      ],
+      "key": "rerun-nr-004",
+      "view": "RERUN4",
+      "baselineVerdict": "CORRECT_ACCEPTED",
+      "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+      "plans": [
+        {
+          "query": "鮨処 みこし",
+          "originalTargetRank": 2,
+          "newTargetRank": 2,
+          "selectedUrls": [
+            "https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+            "https://tabelog.com/en/tokyo/A1320/A132001/13034967/",
+            "https://tabelog.com/en/tokyo/A1319/A131907/13238586/"
+          ]
+        }
+      ],
+      "targetStillSelected": true
+    }
+  ],
+  "limits": "Missing saved pages are not a product rejection or success. A selected certified target is only retrieval progress. Existing identity functions are separately byte-checked unchanged. Old Prompt2 responses are replay transport, not new Prompt3 quality."
+}

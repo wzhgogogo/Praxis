@@ -1,0 +1,469 @@
+{
+  "id": "nr-002",
+  "key": "main-nr-002",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "mode": "OFFLINE_PRODUCTION_PREFIX_REPLAY",
+  "requests": [
+    {
+      "ledgerId": "phase3b-c-g4-e2e-get-006",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%E3%81%8A%E3%81%8A%E3%81%AB%E3%81%97%20%E7%A5%90%E5%A4%A9%E5%AF%BA%E5%BA%97",
+      "kind": "SEARCH",
+      "query": "焼肉おおにし 祐天寺店",
+      "startedAtCET": "2026-10-28T06:26:58.002+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-006.html",
+      "sha256": "27fc7d454525d69e3e57e979057dbef8028e35f4d16f0ec30003f4121c60e5c7",
+      "finishedAtCET": "2026-10-28T06:27:00.192+01:00",
+      "elapsedMs": 2191,
+      "replayedAtCET": "2026-10-28T15:22:24.862+01:00",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+      "kind": "DETAIL",
+      "query": null,
+      "failure": {
+        "code": "REPLAY_RECORDED_NETWORK_FAILURE"
+      }
+    }
+  ],
+  "diagnostics": [],
+  "trace": [
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "detail": "OPEN_SESSION",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 14,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 14,
+        "providerElapsedMs": 14,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 14,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 14,
+        "providerElapsedMs": 14,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 14,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 14,
+        "providerElapsedMs": 14,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 14,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 14,
+        "providerElapsedMs": 14,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%E3%81%8A%E3%81%8A%E3%81%AB%E3%81%97%20%E7%A5%90%E5%A4%A9%E5%AF%BA%E5%BA%97",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 14,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 14,
+        "providerElapsedMs": 14,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 15,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FAILED",
+      "detail": "REPLAY_RECORDED_NETWORK_FAILURE",
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0,
+        "reason": "OPERATION_FAILED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 15
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 15
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "detail": "SESSION_RETIRED",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 15,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-002",
+      "elapsedMs": 15
+    }
+  ],
+  "modelRecords": [],
+  "plans": [
+    {
+      "query": "焼肉おおにし 祐天寺店",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13242327",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+          "outletName": "Yakiniku Oonishi Yuutenji ten"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13242327",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+          "outletName": "Yakiniku Oonishi Yuutenji ten"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13242327",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+          "outletName": "Yakiniku Oonishi Yuutenji ten"
+        }
+      ]
+    }
+  ],
+  "allRecordedSearchPlans": [
+    {
+      "query": "焼肉おおにし 祐天寺店",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13242327",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+          "outletName": "Yakiniku Oonishi Yuutenji ten"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13242327",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+          "outletName": "Yakiniku Oonishi Yuutenji ten"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13242327",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+          "outletName": "Yakiniku Oonishi Yuutenji ten"
+        }
+      ]
+    }
+  ],
+  "acceptedUrl": null,
+  "environmentFailure": "REPLAY_RECORDED_NETWORK_FAILURE",
+  "productionReason": "BROWSER_RUNTIME_FAILED",
+  "stop": null,
+  "bounds": {
+    "searches": 1,
+    "details": 1,
+    "model": 0,
+    "realModel": 0,
+    "GET": 0,
+    "google": 0,
+    "live": 0,
+    "inventoryEvaluated": false
+  }
+}

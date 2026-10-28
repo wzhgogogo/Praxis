@@ -1,0 +1,96 @@
+{
+  "atCET": "2026-10-28T15:26:55.117273+01:00",
+  "status": "PASS",
+  "sourceCommit": "a9c4abe88357988e6d663a7d7ad45dcbce83e871",
+  "integratedMain": "eb1518f1ad3f4fa8da4469c993b02d1b9f15ccf8",
+  "containsUserSpecifiedMain": "54b3dd2b",
+  "redCommit": "f1c9e85900a84dcb19bb8e3eefcaa8de92fb44b9",
+  "targetedTests": "9/9",
+  "gates": {
+    "test": 1203,
+    "browser-fixture": 175,
+    "g2": 4
+  },
+  "steps": 10,
+  "statusBeforeAfter": "EMPTY_EACH_STEP",
+  "nr010": {
+    "id": "nr-010",
+    "cohort": "OLD29",
+    "verdict": "CORRECT_ACCEPTED",
+    "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+    "reason": "HIGH_EXACT_PHONE",
+    "environmentFailure": null,
+    "failureStage": null,
+    "searches": [
+      {
+        "query": "Yakitori & Obanzai SAKAMOTO",
+        "certifiedPresentInFirstPage": false,
+        "alert": null
+      },
+      {
+        "query": "SAKAMOTO",
+        "certifiedPresentInFirstPage": true,
+        "alert": null
+      }
+    ],
+    "openedDetails": [
+      "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+      "https://tabelog.com/en/tokyo/A1315/A131503/13069307/",
+      "https://tabelog.com/en/tokyo/A1317/A131712/13067158/",
+      "https://tabelog.com/en/tokyo/A1330/A133002/13074108/",
+      "https://tabelog.com/en/tokyo/A1315/A131504/13133562/"
+    ],
+    "key": "main-nr-010",
+    "view": "MAIN37",
+    "baselineVerdict": "NOT_ACCEPTED",
+    "evidenceStatus": "COMPLETE_SAVED_SOURCE_PREFIX",
+    "plans": [
+      {
+        "query": "Yakitori & Obanzai SAKAMOTO",
+        "originalTargetRank": null,
+        "newTargetRank": null,
+        "selectedUrls": []
+      },
+      {
+        "query": "SAKAMOTO",
+        "originalTargetRank": 13,
+        "newTargetRank": 1,
+        "selectedUrls": [
+          "https://tabelog.com/en/tokyo/A1320/A132001/13196218/",
+          "https://tabelog.com/en/tokyo/A1315/A131503/13069307/",
+          "https://tabelog.com/en/tokyo/A1317/A131712/13067158/",
+          "https://tabelog.com/en/tokyo/A1330/A133002/13074108/",
+          "https://tabelog.com/en/tokyo/A1315/A131504/13133562/"
+        ]
+      }
+    ],
+    "targetStillSelected": true
+  },
+  "nr022": "CORRECT_ACCEPTED",
+  "nr026": "CORRECT_ACCEPTED",
+  "priorCorrect": {
+    "planned": 23,
+    "retainedInFiveDetailPlan": 23,
+    "completeReplayCorrect": 23,
+    "blockedByMissingSource": 0
+  },
+  "wrongAccepted": 0,
+  "identityThresholdRankingPhoneAddressUnchanged": true,
+  "frozenInputs": 1171,
+  "resourceDelta": {
+    "GET": 0,
+    "realModel": 0,
+    "google": 0,
+    "live": 0
+  },
+  "budgetUnion": 441,
+  "sharedBudget": {
+    "fullLive": 0,
+    "realModelCalls": 152,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 242,
+    "googleRequests": 11,
+    "restaurantWebsiteRequests": 242
+  },
+  "publication": "Approved by user; source-equal main merge and ls-remote verification follow"
+}

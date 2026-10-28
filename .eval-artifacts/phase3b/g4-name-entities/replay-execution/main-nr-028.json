@@ -1,0 +1,825 @@
+{
+  "id": "nr-028",
+  "key": "main-nr-028",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "mode": "OFFLINE_PRODUCTION_PREFIX_REPLAY",
+  "requests": [
+    {
+      "ledgerId": "phase3b-c-g4-cont-get-003",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginza%20Bokujin",
+      "kind": "SEARCH",
+      "query": "Ginza Bokujin",
+      "startedAtCET": "2026-10-28T08:33:33.585+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-003.html",
+      "sha256": "ce6347b8506f69aa44724380cf9bfd17deafd3190244fbfc820c165285f342ab",
+      "finishedAtCET": "2026-10-28T08:33:36.428+01:00",
+      "elapsedMs": 2843,
+      "replayedAtCET": "2026-10-28T15:22:28.262+01:00",
+      "realGET": 0
+    },
+    {
+      "ledgerId": "phase3b-c-g4-cont-get-004",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+      "kind": "DETAIL",
+      "query": null,
+      "startedAtCET": "2026-10-28T08:34:06.480+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-004.html",
+      "sha256": "d5dbcf2641c34f9aae5d19df606b38dcf6c88883ddd9c3a64f6f9bb42c0bdef1",
+      "finishedAtCET": "2026-10-28T08:34:08.879+01:00",
+      "elapsedMs": 2399,
+      "replayedAtCET": "2026-10-28T15:22:28.277+01:00",
+      "realGET": 0
+    }
+  ],
+  "diagnostics": [
+    {
+      "candidateId": "g4:nr-028",
+      "google": {
+        "placeId": "ChIJEVMmNeSLGGARwgDOnfP67As",
+        "outletName": {
+          "value": "Ginza Bokujin",
+          "normalizedValue": "ginzabokujin",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−7−１３ 成田屋ビル 7階",
+          "normalizedValue": "japan〒1040061tokyochuocityginza3chōme−7−１３成田屋ビル7階",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-5159-7366",
+          "normalizedValue": "0351597366",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": {
+            "value": "Ginza Bokujin",
+            "normalizedValue": "ginzabokujin",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1040061 東京都中央区銀座3-7-13 銀座成田屋ビル 7F",
+            "normalizedValue": "1040061東京都中央区銀座3713銀座成田屋ビル7f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-5159-7366",
+            "normalizedValue": "0351597366",
+            "source": "DOM"
+          },
+          "matchedContactPhone": {
+            "value": "03-5159-7366",
+            "role": "STORE",
+            "quote": "03-5159-7366",
+            "label": "Phone number",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/"
+          },
+          "comparison": {
+            "outletName": "MATCH",
+            "address": "MATCH",
+            "phone": "MATCH"
+          },
+          "score": 8
+        }
+      ],
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1301/A130101/13310287",
+        "reason": "HIGH_EXACT_PHONE"
+      },
+      "search": {
+        "query": "Ginza Bokujin",
+        "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginza%20Bokujin",
+        "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginza%20Bokujin",
+        "title": "Best Restaurants in Tokyo | Tabelog",
+        "parsedResultCount": 1,
+        "inspectedResultCount": 1
+      },
+      "searchResults": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": "Ginza Bokujin"
+        }
+      ],
+      "details": [
+        {
+          "searchResultSourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "requestedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "finalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "title": "Ginza Bokujin Reservation - Higashi Ginza/Izakaya (Japanese style tavern) | Tabelog",
+          "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "botChallenge": false,
+          "extracted": {
+            "outletName": {
+              "value": "Ginza Bokujin",
+              "normalizedValue": "ginzabokujin",
+              "source": "JSON_LD"
+            },
+            "address": {
+              "value": "1040061 東京都中央区銀座3-7-13 銀座成田屋ビル 7F",
+              "normalizedValue": "1040061東京都中央区銀座3713銀座成田屋ビル7f",
+              "source": "DOM"
+            },
+            "phone": {
+              "value": "03-5159-7366",
+              "normalizedValue": "0351597366",
+              "source": "DOM"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "trace": [
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "detail": "OPEN_SESSION",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 15,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 15,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 15,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 15,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginza%20Bokujin",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 15,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 15,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 15,
+        "providerElapsedMs": 15,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 39,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 39,
+        "providerElapsedMs": 39,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 39,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 39,
+        "providerElapsedMs": 39,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 39,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 39,
+        "providerElapsedMs": 39,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 39,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 39,
+        "providerElapsedMs": 39,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 39,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 39,
+        "providerElapsedMs": 39,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 41,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 41,
+        "providerElapsedMs": 41,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 41,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 41,
+        "providerElapsedMs": 41,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 41,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 41,
+        "providerElapsedMs": 41,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 43,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 43,
+        "providerElapsedMs": 43,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 43,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 43,
+        "providerElapsedMs": 43,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "AVAILABILITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 43,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 43,
+        "providerElapsedMs": 43,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52,
+        "providerElapsedMs": 52,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 52
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "detail": "SESSION_RETIRED",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 52,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52,
+        "providerElapsedMs": 52,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 52,
+        "providerElapsedMs": 52,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-028",
+      "elapsedMs": 52
+    }
+  ],
+  "modelRecords": [],
+  "plans": [
+    {
+      "query": "Ginza Bokujin",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": "Ginza Bokujin"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": "Ginza Bokujin"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": "Ginza Bokujin"
+        }
+      ]
+    }
+  ],
+  "allRecordedSearchPlans": [
+    {
+      "query": "Ginza Bokujin",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": "Ginza Bokujin"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": "Ginza Bokujin"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+          "outletName": "Ginza Bokujin"
+        }
+      ]
+    }
+  ],
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+  "environmentFailure": null,
+  "productionReason": "HIGH_EXACT_PHONE",
+  "stop": null,
+  "bounds": {
+    "searches": 1,
+    "details": 1,
+    "model": 0,
+    "realModel": 0,
+    "GET": 0,
+    "google": 0,
+    "live": 0,
+    "inventoryEvaluated": false
+  }
+}
