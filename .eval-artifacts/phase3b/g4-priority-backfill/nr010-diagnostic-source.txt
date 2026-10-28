@@ -1,0 +1,15 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {chromium} from '/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/node_modules/playwright-core/index.mjs';
+import {parseTabelogOutletIdentityWithEvidence} from '/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/tabelog/tabelog-page-parser.ts';
+const root='.eval-artifacts/phase3b/g4-priority-backfill',x=JSON.parse(readFileSync(root+'/replay-execution/main-nr-010.json','utf8'));
+const request=x.requests.find(r=>r.kind==='DETAIL'),html=readFileSync(request.bodyPath,'utf8'),fallback=x.plans.at(-1).ordered[0];
+const browser=await chromium.launch({headless:true}),context=await browser.newContext({javaScriptEnabled:false,serviceWorkers:'block'});await context.route('**/*',r=>r.abort());const page=await context.newPage();
+try{
+ await page.setContent(html,{waitUntil:'domcontentloaded'});const snapshot={url:request.url,title:await page.title(),text:await page.locator('body').innerText(),html};
+ const visibleNames=[];for(const row of await page.locator('tr').all()){const th=row.locator('th');if(await th.count()&&/^(?:Restaurant name|Shop name|店名|店舗名)$/i.test((await th.first().innerText()).trim()))visibleNames.push((await row.locator('td').first().innerText()).trim());}
+ const ld=[...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].map(m=>{try{return JSON.parse(m[1])}catch{return null}}).find(v=>v?.['@type']==='Restaurant');
+ let failure;try{parseTabelogOutletIdentityWithEvidence(snapshot,fallback);}catch(e){failure={code:e.code,message:e.message,stack:e.stack};}
+ const result={mode:'READ_ONLY_DIAGNOSTIC_SAME_FROZEN_PAGE_NOT_NEW_EVALUATION',sourcePath:request.bodyPath,sourceSha256:createHash('sha256').update(readFileSync(request.bodyPath)).digest('hex'),url:request.url,structuredName:ld?.name,visibleNames,failure,GET:0,model:0,google:0,live:0,changedInputOrCode:false};
+ writeFileSync(root+'/nr010-diagnosis.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));
+}finally{await browser.close();}

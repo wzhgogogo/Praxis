@@ -1,0 +1,29 @@
+✔ a retrieval fragment must be a proper substring of the Google name, never an address-only fragment (0.492208ms)
+✔ proper-substring instruction abandons a full-name response once and caches that failure across sources (0.485292ms)
+✖ Tabelog prioritizes the closest observed name before the five-detail cap without granting identity (11.8195ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 204.433959
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:1:55159
+✖ Tabelog prioritizes the closest observed name before the five-detail cap without granting identity (11.8195ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  6 !== 5
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/tabelog/tabelog-browser-availability.test.ts:774:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 6,
+    expected: 5,
+    operator: 'strictEqual'
+  }

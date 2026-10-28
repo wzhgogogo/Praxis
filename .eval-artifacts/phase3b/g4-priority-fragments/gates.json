@@ -1,0 +1,41 @@
+{
+  "sourceCommit": "f3b34387ff8d40c5ee1e483d4b5e06fffc5d5d86",
+  "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+  "startedAtCET": "2026-10-28T10:28:33.087135+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g4-priority-fragments/verify.mjs"
+      ],
+      "startedAtCET": "2026-10-28T10:28:33.120932+01:00",
+      "finishedAtCET": "2026-10-28T10:28:33.310908+01:00",
+      "seconds": 0.19,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-priority-fragments/gates/integrity.log",
+      "sha256": "e6b0723b035d7b2e51b2de6179af2061d4ee214414cb32d02c78d1d9d98eb492"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-28T10:28:33.344858+01:00",
+      "finishedAtCET": "2026-10-28T10:28:33.846177+01:00",
+      "seconds": 0.501,
+      "exitCode": 1,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-priority-fragments/gates/typecheck.log",
+      "sha256": "61db5b08389a0fb7997a93e72e437ed1c82d56901b72bad68baca3579c431367"
+    }
+  ],
+  "realCalls": 0
+}

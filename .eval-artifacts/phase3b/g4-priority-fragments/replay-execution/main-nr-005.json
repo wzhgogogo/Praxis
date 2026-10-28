@@ -1,0 +1,1052 @@
+{
+  "id": "nr-005",
+  "key": "main-nr-005",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "mode": "OFFLINE_PRODUCTION_PREFIX_REPLAY",
+  "requests": [
+    {
+      "ledgerId": "phase3b-c-g4-e2e-get-012",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginhachi",
+      "kind": "SEARCH",
+      "query": "Ginhachi",
+      "startedAtCET": "2026-10-28T06:31:03.723+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-012.html",
+      "sha256": "51da03cc663500b6926630e4c86702254e95fac7e2cb69e2aae81d54a8cefcaf",
+      "finishedAtCET": "2026-10-28T06:31:07.778+01:00",
+      "elapsedMs": 4055,
+      "replayedAtCET": "2026-10-28T10:22:14.369+01:00",
+      "realGET": 0
+    },
+    {
+      "ledgerId": "phase3b-c-g4-e2e-get-013",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+      "kind": "DETAIL",
+      "query": null,
+      "startedAtCET": "2026-10-28T06:31:37.830+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-013.html",
+      "sha256": "51a71d31432808e9f2cc2edc9cde3090a09da6a1bc44b41a88771a56523146c6",
+      "finishedAtCET": "2026-10-28T06:31:40.169+01:00",
+      "elapsedMs": 2339,
+      "replayedAtCET": "2026-10-28T10:22:14.396+01:00",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1330/A133001/13081295/",
+      "kind": "DETAIL",
+      "query": null,
+      "failure": {
+        "code": "REPLAY_SOURCE_MISSING"
+      }
+    }
+  ],
+  "diagnostics": [],
+  "trace": [
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "detail": "OPEN_SESSION",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 26,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 26,
+        "providerElapsedMs": 26,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 26,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 26,
+        "providerElapsedMs": 26,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 26,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 26,
+        "providerElapsedMs": 26,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 26,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 26,
+        "providerElapsedMs": 26,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginhachi",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 26,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 26,
+        "providerElapsedMs": 26,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 27,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 27,
+        "providerElapsedMs": 27,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 46,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 46,
+        "providerElapsedMs": 46,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 46,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 46,
+        "providerElapsedMs": 46,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 46,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 46,
+        "providerElapsedMs": 46,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 46,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 46,
+        "providerElapsedMs": 46,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 46,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 46,
+        "providerElapsedMs": 46,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 47,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FAILED",
+      "detail": "REPLAY_SOURCE_MISSING",
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0,
+        "reason": "OPERATION_FAILED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 47
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 47
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "detail": "SESSION_RETIRED",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 47,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-005",
+      "elapsedMs": 47
+    }
+  ],
+  "modelRecords": [],
+  "plans": [
+    {
+      "query": "Ginhachi",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13131872",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+          "outletName": "Seafood Donburi Ginhachi Ginza ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131501/13006067",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131501/13006067/",
+          "outletName": "Gyuhachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13011365",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13011365/",
+          "outletName": "Genpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131502/13301314",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131502/13301314/",
+          "outletName": "NIHACHI"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1306/A130603/13154460",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1306/A130603/13154460/",
+          "outletName": "KIHACHI Aoyama honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13029293",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13029293/",
+          "outletName": "Mihachi Shinjuku chuo guchi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13089751",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13089751/",
+          "outletName": "MIHACHI Shibuya ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130701/13005298",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13005298/",
+          "outletName": "GONPACHI Nishiazabu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131503/13081793",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131503/13081793/",
+          "outletName": "Genpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13202455",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13202455/",
+          "outletName": "Mihachi Ikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13005404",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13005404/",
+          "outletName": "GONPACHI Shibuya"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13064981",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13064981/",
+          "outletName": "Gonpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130201/13262313",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13262313/",
+          "outletName": "patisserie KIHACHI Tokyo gifuto paretto"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133001/13081295",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133001/13081295/",
+          "outletName": "Ina Hachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131102/13203311",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13203311/",
+          "outletName": "Gonpachi Asakusa azumabashi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130202/13069646",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13069646/",
+          "outletName": "Kinpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1313/A131306/13002922",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131306/13002922/",
+          "outletName": "GONPACHI Odaiba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131802/13014082",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13014082/",
+          "outletName": "Genpachi Honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1325/A132502/13081581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1325/A132502/13081581/",
+          "outletName": "Kihachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132601/13238874",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132601/13238874/",
+          "outletName": "Kihachi"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13131872",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+          "outletName": "Seafood Donburi Ginhachi Ginza ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133001/13081295",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133001/13081295/",
+          "outletName": "Ina Hachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131502/13301314",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131502/13301314/",
+          "outletName": "NIHACHI"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1325/A132502/13081581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1325/A132502/13081581/",
+          "outletName": "Kihachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132601/13238874",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132601/13238874/",
+          "outletName": "Kihachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131501/13006067",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131501/13006067/",
+          "outletName": "Gyuhachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130202/13069646",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13069646/",
+          "outletName": "Kinpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13011365",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13011365/",
+          "outletName": "Genpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131503/13081793",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131503/13081793/",
+          "outletName": "Genpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13064981",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13064981/",
+          "outletName": "Gonpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13089751",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13089751/",
+          "outletName": "MIHACHI Shibuya ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13029293",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13029293/",
+          "outletName": "Mihachi Shinjuku chuo guchi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130701/13005298",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13005298/",
+          "outletName": "GONPACHI Nishiazabu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1306/A130603/13154460",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1306/A130603/13154460/",
+          "outletName": "KIHACHI Aoyama honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13202455",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13202455/",
+          "outletName": "Mihachi Ikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131802/13014082",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13014082/",
+          "outletName": "Genpachi Honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13005404",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13005404/",
+          "outletName": "GONPACHI Shibuya"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1313/A131306/13002922",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131306/13002922/",
+          "outletName": "GONPACHI Odaiba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130201/13262313",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13262313/",
+          "outletName": "patisserie KIHACHI Tokyo gifuto paretto"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131102/13203311",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13203311/",
+          "outletName": "Gonpachi Asakusa azumabashi"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13131872",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+          "outletName": "Seafood Donburi Ginhachi Ginza ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133001/13081295",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133001/13081295/",
+          "outletName": "Ina Hachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131502/13301314",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131502/13301314/",
+          "outletName": "NIHACHI"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1325/A132502/13081581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1325/A132502/13081581/",
+          "outletName": "Kihachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132601/13238874",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132601/13238874/",
+          "outletName": "Kihachi"
+        }
+      ]
+    }
+  ],
+  "allRecordedSearchPlans": [
+    {
+      "query": "Ginhachi",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13131872",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+          "outletName": "Seafood Donburi Ginhachi Ginza ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131501/13006067",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131501/13006067/",
+          "outletName": "Gyuhachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13011365",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13011365/",
+          "outletName": "Genpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131502/13301314",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131502/13301314/",
+          "outletName": "NIHACHI"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1306/A130603/13154460",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1306/A130603/13154460/",
+          "outletName": "KIHACHI Aoyama honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13029293",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13029293/",
+          "outletName": "Mihachi Shinjuku chuo guchi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13089751",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13089751/",
+          "outletName": "MIHACHI Shibuya ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130701/13005298",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13005298/",
+          "outletName": "GONPACHI Nishiazabu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131503/13081793",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131503/13081793/",
+          "outletName": "Genpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13202455",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13202455/",
+          "outletName": "Mihachi Ikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13005404",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13005404/",
+          "outletName": "GONPACHI Shibuya"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13064981",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13064981/",
+          "outletName": "Gonpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130201/13262313",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13262313/",
+          "outletName": "patisserie KIHACHI Tokyo gifuto paretto"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133001/13081295",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133001/13081295/",
+          "outletName": "Ina Hachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131102/13203311",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13203311/",
+          "outletName": "Gonpachi Asakusa azumabashi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130202/13069646",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13069646/",
+          "outletName": "Kinpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1313/A131306/13002922",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131306/13002922/",
+          "outletName": "GONPACHI Odaiba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131802/13014082",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13014082/",
+          "outletName": "Genpachi Honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1325/A132502/13081581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1325/A132502/13081581/",
+          "outletName": "Kihachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132601/13238874",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132601/13238874/",
+          "outletName": "Kihachi"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13131872",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+          "outletName": "Seafood Donburi Ginhachi Ginza ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133001/13081295",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133001/13081295/",
+          "outletName": "Ina Hachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131502/13301314",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131502/13301314/",
+          "outletName": "NIHACHI"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1325/A132502/13081581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1325/A132502/13081581/",
+          "outletName": "Kihachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132601/13238874",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132601/13238874/",
+          "outletName": "Kihachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131501/13006067",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131501/13006067/",
+          "outletName": "Gyuhachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130202/13069646",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13069646/",
+          "outletName": "Kinpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1310/A131003/13011365",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1310/A131003/13011365/",
+          "outletName": "Genpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131503/13081793",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131503/13081793/",
+          "outletName": "Genpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13064981",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13064981/",
+          "outletName": "Gonpachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13089751",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13089751/",
+          "outletName": "MIHACHI Shibuya ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13029293",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13029293/",
+          "outletName": "Mihachi Shinjuku chuo guchi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130701/13005298",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13005298/",
+          "outletName": "GONPACHI Nishiazabu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1306/A130603/13154460",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1306/A130603/13154460/",
+          "outletName": "KIHACHI Aoyama honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13202455",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13202455/",
+          "outletName": "Mihachi Ikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1318/A131802/13014082",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1318/A131802/13014082/",
+          "outletName": "Genpachi Honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13005404",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13005404/",
+          "outletName": "GONPACHI Shibuya"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1313/A131306/13002922",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131306/13002922/",
+          "outletName": "GONPACHI Odaiba"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130201/13262313",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130201/13262313/",
+          "outletName": "patisserie KIHACHI Tokyo gifuto paretto"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1311/A131102/13203311",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131102/13203311/",
+          "outletName": "Gonpachi Asakusa azumabashi"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13131872",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13131872/",
+          "outletName": "Seafood Donburi Ginhachi Ginza ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133001/13081295",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133001/13081295/",
+          "outletName": "Ina Hachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131502/13301314",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131502/13301314/",
+          "outletName": "NIHACHI"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1325/A132502/13081581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1325/A132502/13081581/",
+          "outletName": "Kihachi"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1326/A132601/13238874",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1326/A132601/13238874/",
+          "outletName": "Kihachi"
+        }
+      ]
+    }
+  ],
+  "acceptedUrl": null,
+  "environmentFailure": "REPLAY_SOURCE_MISSING",
+  "productionReason": "BROWSER_RUNTIME_FAILED",
+  "stop": null,
+  "bounds": {
+    "searches": 1,
+    "details": 2,
+    "model": 0,
+    "realModel": 0,
+    "GET": 0,
+    "google": 0,
+    "live": 0,
+    "inventoryEvaluated": false
+  }
+}

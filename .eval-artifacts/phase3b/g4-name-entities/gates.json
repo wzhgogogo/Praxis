@@ -1,0 +1,168 @@
+{
+  "sourceCommit": "a9c4abe88357988e6d663a7d7ad45dcbce83e871",
+  "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+  "startedAtCET": "2026-10-28T15:19:29.746772+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "node",
+        ".eval-artifacts/phase3b/g4-name-entities/verify.mjs"
+      ],
+      "startedAtCET": "2026-10-28T15:19:29.783052+01:00",
+      "finishedAtCET": "2026-10-28T15:19:30.009793+01:00",
+      "seconds": 0.227,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/integrity.log",
+      "sha256": "7e7a56316b4d60eb4fe92ee5a55a67c8737385f53c881a9d3c906cb3a94bce0d"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-28T15:19:30.047724+01:00",
+      "finishedAtCET": "2026-10-28T15:19:30.876016+01:00",
+      "seconds": 0.828,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-28T15:19:30.940057+01:00",
+      "finishedAtCET": "2026-10-28T15:19:31.286829+01:00",
+      "seconds": 0.347,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/arch-check.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-28T15:19:31.320571+01:00",
+      "finishedAtCET": "2026-10-28T15:20:13.261560+01:00",
+      "seconds": 41.941,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/test.log",
+      "sha256": "a82e000ca5309c5cd113419799e07f2f6fe197ad9329dcbf57aeca58e94e0984"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-28T15:20:13.301068+01:00",
+      "finishedAtCET": "2026-10-28T15:20:13.857401+01:00",
+      "seconds": 0.556,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-28T15:20:13.896689+01:00",
+      "finishedAtCET": "2026-10-28T15:22:02.530758+01:00",
+      "seconds": 108.633,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/browser-fixture.log",
+      "sha256": "dd4ada4bec01623970a6954ded20beb8e3207e31ef211f7f926073e0fed82fa7"
+    },
+    {
+      "name": "g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-10-28T15:22:02.564739+01:00",
+      "finishedAtCET": "2026-10-28T15:22:24.077342+01:00",
+      "seconds": 21.512,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/g2.log",
+      "sha256": "9e8ee493a02412cd5c0959147540a8795f82c607a07eb88ae79dc6b3bf93f9b8"
+    },
+    {
+      "name": "g4-replay",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g4-name-entities/replay.mjs"
+      ],
+      "startedAtCET": "2026-10-28T15:22:24.110513+01:00",
+      "finishedAtCET": "2026-10-28T15:22:30.400791+01:00",
+      "seconds": 6.29,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/g4-replay.log",
+      "sha256": "5634acd350eb15116bb090a1f7eb6fe353766272a85d20f50d666c0b9610cf91"
+    },
+    {
+      "name": "g4-score",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g4-name-entities/score.py"
+      ],
+      "startedAtCET": "2026-10-28T15:22:30.434192+01:00",
+      "finishedAtCET": "2026-10-28T15:22:31.089065+01:00",
+      "seconds": 0.655,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/g4-score.log",
+      "sha256": "3468887e5c7844fde5b4a1f1bb6f129c5c8f11419f3556cb57e4ff2afb017269"
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "node",
+        ".eval-artifacts/phase3b/g4-name-entities/verify.mjs"
+      ],
+      "startedAtCET": "2026-10-28T15:22:31.122188+01:00",
+      "finishedAtCET": "2026-10-28T15:22:31.303216+01:00",
+      "seconds": 0.181,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-name-entities/gates/integrity-after.log",
+      "sha256": "7e7a56316b4d60eb4fe92ee5a55a67c8737385f53c881a9d3c906cb3a94bce0d"
+    }
+  ],
+  "newRealCalls": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-10-28T15:22:31.303644+01:00"
+}

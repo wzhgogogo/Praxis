@@ -33,6 +33,30 @@ test("invented, translated, wrong-field, repeated and old-offset proposals fail 
   assert.equal(checkedNamedSourceQuery(original, "invented"), undefined);
 });
 
+test("a retrieval fragment must be a proper substring of the Google name, never an address-only fragment", () => {
+  const original = candidate("Dengana Akabane");
+  original.restaurant.address = "1-1 Shinjuku, Tokyo";
+  assert.equal(checkedNamedSourceQuery(original, "Shinjuku"), undefined);
+  assert.equal(locateNamedSourceFragment(original, { field: "address", fragment: "Shinjuku" }), undefined);
+  assert.equal(checkedNamedSourceQuery(original, original.restaurant.outletName), undefined);
+  assert.equal(checkedNamedSourceQuery(original, "Dengana"), "Dengana");
+});
+
+test("proper-substring instruction abandons a full-name response once and caches that failure across sources", async () => {
+  let calls = 0;
+  const subject = candidate("Sen Kagurazaka"), budget = { totalModelCalls: 0, maxModelCalls: 10 };
+  const planner = new ModelNamedSourceQuery({ async complete(request) {
+    calls++;
+    assert.match(request.messages[0]!.content, /strictly shorter/);
+    assert.deepEqual((request.outputSchema.jsonSchema!.properties as { field: { enum: string[] } }).field.enum, ["name"]);
+    return { invocationId: "fixture", provider: "FIXTURE", model: "fixture", outputText: '{"field":"name","fragment":"Sen Kagurazaka"}', finishReason: "TOOL_CALLS", latencyMs: 0 };
+  } }, budget);
+  const signal = new AbortController().signal;
+  assert.deepEqual(await Promise.all([planner.alternative(subject, signal), planner.alternative(subject, signal)]), [undefined, undefined]);
+  assert.equal(await planner.alternative(subject, signal), undefined);
+  assert.equal(calls, 1); assert.equal(budget.totalModelCalls, 1);
+});
+
 test("one cached proposal is shared across both sources, spends the existing run budget and excludes IDs", async () => {
   const budget = { totalModelCalls: 0, maxModelCalls: 1 };
   let calls = 0;

@@ -1,0 +1,1215 @@
+{
+  "id": "nr-030",
+  "key": "main-nr-030",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "mode": "OFFLINE_PRODUCTION_PREFIX_REPLAY",
+  "requests": [
+    {
+      "ledgerId": "phase3b-c-g4-cont-get-011",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Nasu",
+      "kind": "SEARCH",
+      "query": "Sushi Nasu",
+      "startedAtCET": "2026-10-28T08:37:55.987+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-011.html",
+      "sha256": "2bac3e8a4590a3087d1d13037b0b72f10dcc8068e2c652525fde9ec371a445e0",
+      "finishedAtCET": "2026-10-28T08:37:59.095+01:00",
+      "elapsedMs": 3109,
+      "replayedAtCET": "2026-10-28T10:22:17.142+01:00",
+      "realGET": 0
+    },
+    {
+      "ledgerId": "phase3b-c-g4-cont-get-012",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+      "kind": "DETAIL",
+      "query": null,
+      "startedAtCET": "2026-10-28T08:38:29.143+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-012.html",
+      "sha256": "0cfeaacac9722e10ed87894d669c599ab70d8ae4c638e000554f629d39eb379c",
+      "finishedAtCET": "2026-10-28T08:38:31.749+01:00",
+      "elapsedMs": 2606,
+      "replayedAtCET": "2026-10-28T10:22:17.191+01:00",
+      "realGET": 0
+    },
+    {
+      "ledgerId": "phase3b-c-g4-cont-get-014",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+      "kind": "DETAIL",
+      "query": null,
+      "startedAtCET": "2026-10-28T08:39:34.651+01:00",
+      "httpStatus": 200,
+      "contentType": "text/html; charset=utf-8",
+      "contentEncoding": null,
+      "location": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-014.html",
+      "sha256": "0041353b0b38f84f0bfd07a303e93893f61f43597f5e3da2463fd6ef75c87118",
+      "finishedAtCET": "2026-10-28T08:39:37.700+01:00",
+      "elapsedMs": 3049,
+      "replayedAtCET": "2026-10-28T10:22:17.235+01:00",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1327/A132701/13290595/",
+      "kind": "DETAIL",
+      "query": null,
+      "failure": {
+        "code": "REPLAY_SOURCE_MISSING"
+      }
+    }
+  ],
+  "diagnostics": [],
+  "trace": [
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "detail": "OPEN_SESSION",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 47,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 47,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 47,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 47,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Nasu",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 47,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 47,
+        "providerElapsedMs": 47,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 49,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 49,
+        "providerElapsedMs": 49,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 90,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 90,
+        "providerElapsedMs": 90,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 90,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 90,
+        "providerElapsedMs": 90,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 90,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 90,
+        "providerElapsedMs": 90,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 90,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 90,
+        "providerElapsedMs": 90,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 90,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 90,
+        "providerElapsedMs": 90,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 93,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 93,
+        "providerElapsedMs": 93,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 127,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 127,
+        "providerElapsedMs": 127,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "ASYNC_WAIT",
+      "url": "",
+      "detail": "PAGE_SETTLED",
+      "waitMs": 0,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 127,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 127,
+        "providerElapsedMs": 127,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 127,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 127,
+        "providerElapsedMs": 127,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 127,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 127,
+        "providerElapsedMs": 127,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OBSERVED",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 127,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 127,
+        "providerElapsedMs": 127,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 129,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 129,
+        "providerElapsedMs": 129,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "IDENTITY",
+      "event": "OPERATION_FAILED",
+      "detail": "REPLAY_SOURCE_MISSING",
+      "lifecycle": {
+        "outcome": "FAILED",
+        "candidateElapsedMs": 129,
+        "providerElapsedMs": 129,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0,
+        "reason": "OPERATION_FAILED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 129
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 129,
+        "providerElapsedMs": 129,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 129
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CLOSED",
+      "detail": "SESSION_RETIRED",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 129,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 129,
+        "providerElapsedMs": 129,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "TABELOG",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 129,
+        "providerElapsedMs": 129,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0,
+        "reason": "EXECUTOR_CLOSED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 600000,
+        "maxModelCallsPerCandidate": 1,
+        "maxModelCallsTotal": 1,
+        "maxOperationsPerCandidate": 24
+      },
+      "candidateId": "g4:nr-030",
+      "elapsedMs": 129
+    }
+  ],
+  "modelRecords": [],
+  "plans": [
+    {
+      "query": "Sushi Nasu",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13316574",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+          "outletName": "Sushi Nasu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1308/A130801/13223828",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13223828/",
+          "outletName": "Sushi Haru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13301068",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+          "outletName": "Sushi Inase"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13006820",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13006820/",
+          "outletName": "Sushi Maru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1329/A132901/13094425",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1329/A132901/13094425/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133003/13071438",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133003/13071438/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1319/A131902/13061244",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13061244/",
+          "outletName": "Sushi Masa Nakano honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13290595",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13290595/",
+          "outletName": "Sushi Naga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13233978",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13047204",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132302/13019423",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132302/13019423/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13036573",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13036573/",
+          "outletName": "Sushi Kazu Ikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132303/13294661",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13294661/",
+          "outletName": "Sushi Matsu Ouji ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132702/13294662",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132702/13294662/",
+          "outletName": "Sushi Matsu Seiseki sakuragaoka ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132402/13071434",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13071434/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13070379",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13070379/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13070373",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13070373/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132303/13071410",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13071410/",
+          "outletName": "Sushi Haru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13302075",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13302075/",
+          "outletName": "sushimatsu Kichijouji minami ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131707/13132476",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+          "outletName": "Sushi Tatsu"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13316574",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+          "outletName": "Sushi Nasu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13301068",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+          "outletName": "Sushi Inase"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13290595",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13290595/",
+          "outletName": "Sushi Naga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13070379",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13070379/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13070373",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13070373/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1308/A130801/13223828",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13223828/",
+          "outletName": "Sushi Haru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13006820",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13006820/",
+          "outletName": "Sushi Maru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1329/A132901/13094425",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1329/A132901/13094425/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133003/13071438",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133003/13071438/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13233978",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13047204",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132302/13019423",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132302/13019423/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132402/13071434",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13071434/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132303/13071410",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13071410/",
+          "outletName": "Sushi Haru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131707/13132476",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1319/A131902/13061244",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13061244/",
+          "outletName": "Sushi Masa Nakano honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132303/13294661",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13294661/",
+          "outletName": "Sushi Matsu Ouji ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13036573",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13036573/",
+          "outletName": "Sushi Kazu Ikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132702/13294662",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132702/13294662/",
+          "outletName": "Sushi Matsu Seiseki sakuragaoka ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13302075",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13302075/",
+          "outletName": "sushimatsu Kichijouji minami ten"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13316574",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+          "outletName": "Sushi Nasu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13301068",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+          "outletName": "Sushi Inase"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13290595",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13290595/",
+          "outletName": "Sushi Naga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13070379",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13070379/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13070373",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13070373/",
+          "outletName": "Sushi Masa"
+        }
+      ]
+    }
+  ],
+  "allRecordedSearchPlans": [
+    {
+      "query": "Sushi Nasu",
+      "observed": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13316574",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+          "outletName": "Sushi Nasu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1308/A130801/13223828",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13223828/",
+          "outletName": "Sushi Haru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13301068",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+          "outletName": "Sushi Inase"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13006820",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13006820/",
+          "outletName": "Sushi Maru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1329/A132901/13094425",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1329/A132901/13094425/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133003/13071438",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133003/13071438/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1319/A131902/13061244",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13061244/",
+          "outletName": "Sushi Masa Nakano honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13290595",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13290595/",
+          "outletName": "Sushi Naga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13233978",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13047204",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132302/13019423",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132302/13019423/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13036573",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13036573/",
+          "outletName": "Sushi Kazu Ikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132303/13294661",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13294661/",
+          "outletName": "Sushi Matsu Ouji ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132702/13294662",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132702/13294662/",
+          "outletName": "Sushi Matsu Seiseki sakuragaoka ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132402/13071434",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13071434/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13070379",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13070379/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13070373",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13070373/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132303/13071410",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13071410/",
+          "outletName": "Sushi Haru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13302075",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13302075/",
+          "outletName": "sushimatsu Kichijouji minami ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131707/13132476",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+          "outletName": "Sushi Tatsu"
+        }
+      ],
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13316574",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+          "outletName": "Sushi Nasu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13301068",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+          "outletName": "Sushi Inase"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13290595",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13290595/",
+          "outletName": "Sushi Naga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13070379",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13070379/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13070373",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13070373/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1308/A130801/13223828",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1308/A130801/13223828/",
+          "outletName": "Sushi Haru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13006820",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13006820/",
+          "outletName": "Sushi Maru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1329/A132901/13094425",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1329/A132901/13094425/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1330/A133003/13071438",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133003/13071438/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13233978",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13233978/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1304/A130401/13047204",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/13047204/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132302/13019423",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132302/13019423/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1324/A132402/13071434",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13071434/",
+          "outletName": "Sushi Katsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132303/13071410",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13071410/",
+          "outletName": "Sushi Haru"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131707/13132476",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131707/13132476/",
+          "outletName": "Sushi Tatsu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1319/A131902/13061244",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13061244/",
+          "outletName": "Sushi Masa Nakano honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1323/A132303/13294661",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132303/13294661/",
+          "outletName": "Sushi Matsu Ouji ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1305/A130501/13036573",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13036573/",
+          "outletName": "Sushi Kazu Ikebukuro ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132702/13294662",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132702/13294662/",
+          "outletName": "Sushi Matsu Seiseki sakuragaoka ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13302075",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13302075/",
+          "outletName": "sushimatsu Kichijouji minami ten"
+        }
+      ],
+      "selected": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13316574",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13316574/",
+          "outletName": "Sushi Nasu"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13301068",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13301068/",
+          "outletName": "Sushi Inase"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13290595",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13290595/",
+          "outletName": "Sushi Naga"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1327/A132701/13070379",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1327/A132701/13070379/",
+          "outletName": "Sushi Masa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1321/A132104/13070373",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1321/A132104/13070373/",
+          "outletName": "Sushi Masa"
+        }
+      ]
+    }
+  ],
+  "acceptedUrl": null,
+  "environmentFailure": "REPLAY_SOURCE_MISSING",
+  "productionReason": "BROWSER_RUNTIME_FAILED",
+  "stop": null,
+  "bounds": {
+    "searches": 1,
+    "details": 3,
+    "model": 0,
+    "realModel": 0,
+    "GET": 0,
+    "google": 0,
+    "live": 0,
+    "inventoryEvaluated": false
+  }
+}

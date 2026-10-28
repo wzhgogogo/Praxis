@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { fixtureCandidates } from "../../harness/restaurant-fixtures.js";
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { parseTabelogOutletIdentityWithEvidence } from "../tabelog/tabelog-page-parser.js";
@@ -73,5 +75,34 @@ for (const platform of variants) {
   test(`${platform.provider} reports conflicting or ambiguous detail identity instead of silently choosing it`, () => {
     assert.throws(() => platform.parse(snapshot(platform.url, body.replace(sourceAddress, `${sourceAddress}</td></tr><tr><th>Address</th><td>東京都港区六本木1-2-3`))), /SOURCE_IDENTITY_STRUCTURE_CHANGED/);
     assert.throws(() => platform.parse(snapshot(platform.url, body + "<h3>Restaurant information</h3>")), /SOURCE_IDENTITY_STRUCTURE_CHANGED/);
+  });
+}
+
+test("nr010 saved page keeps the same outlet when JSON-LD encodes its ampersand", () => {
+  const html = readFileSync(new URL("./fixtures/nr010-20261028.html", import.meta.url), "utf8");
+  assert.equal(createHash("sha256").update(html).digest("hex"), "189c571efe78e6e706a2c9e4e6d24eaa335a74f8b6682067a47d60a6a9e4e036");
+  const fixture = JSON.parse(readFileSync(new URL("./fixtures/nr010-20261028.snapshot.json", import.meta.url), "utf8"));
+  const page = { ...fixture.snapshot, html } as BrowserSnapshot;
+  const original = { ...subject, restaurant: { ...subject.restaurant, outletName: fixture.googleSubject.name, address: fixture.googleSubject.address, sourceIds: { googlePlaces: "original-nr010-google-id", phone: fixture.googleSubject.phone } } };
+  const extraction = parseTabelogOutletIdentityWithEvidence(page, { sourceEntityId: "en/tokyo/A1320/A132001/13196218", sourceUrl: page.url, outletName: "Yakitori &amp; Obanzai SAKAMOTO" });
+  const inspection = inspectTabelogEntity(original, [extraction.outlet]);
+  assert.equal(inspection.resolution.confidence, "HIGH");
+  assert.equal(inspection.resolution.outlet?.sourceUrl, "https://tabelog.com/en/tokyo/A1320/A132001/13196218/");
+  assert.equal(inspection.diagnostic.comparedOutlets[0]?.comparison.outletName, "MATCH");
+  assert.equal(extraction.outlet.outletName, "Yakitori &amp; Obanzai SAKAMOTO", "source spelling remains intact; only comparison decodes");
+});
+
+for (const platform of variants) {
+  test(`${platform.provider} decodes names without admitting same-name other outlets or conflicting branches`, () => {
+    const original = { ...subject, restaurant: { ...subject.restaurant, outletName: "Fish & Chips", address: "東京都新宿区神楽坂2-13-3 テストビル7F", sourceIds: { googlePlaces: "name-test" } } };
+    const outlet = { sourceEntityId: "observed", sourceUrl: platform.url, outletName: "Fish &amp; Chips", address: original.restaurant.address };
+    assert.equal(platform.inspect(original as typeof subject, outlet).confidence, "HIGH", "decoded name plus full matching address is still the existing rule");
+    for (const address of ["東京都中央区銀座2-13-3 テストビル7F", "東京都新宿区神楽坂2-13-8 テストビル7F", "東京都新宿区神楽坂2-13-3 テストビル8F"]) {
+      const withPhone = { ...original, restaurant: { ...original.restaurant, sourceIds: { googlePlaces: "name-test", phone: "03-1111-2222" } } };
+      assert.notEqual(platform.inspect(withPhone as typeof subject, { ...outlet, address, phone: "03-1111-2222" }).confidence, "HIGH", "decoding cannot erase a location, door or floor conflict, even with the same phone");
+    }
+    const missing = { ...original, restaurant: { ...original.restaurant, address: "Tokyo" } };
+    assert.notEqual(platform.inspect(missing as typeof subject, { ...outlet, address: "Tokyo" }).confidence, "HIGH", "decoded name alone cannot identify the outlet");
+    assert.notEqual(platform.inspect(missing as typeof subject, { ...outlet, outletName: "Fish &amp; Chips Other Branch", address: "Tokyo" }).confidence, "HIGH");
   });
 }

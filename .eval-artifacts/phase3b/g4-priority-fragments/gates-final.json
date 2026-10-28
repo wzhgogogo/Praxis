@@ -1,0 +1,72 @@
+{
+  "sourceCommit": "a876eb0781749da221b70d278d240281db2164fb",
+  "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+  "startedAtCET": "2026-10-28T10:32:19.076075+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g4-priority-fragments/verify-final.mjs"
+      ],
+      "startedAtCET": "2026-10-28T10:32:19.109393+01:00",
+      "finishedAtCET": "2026-10-28T10:32:19.295760+01:00",
+      "seconds": 0.186,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-priority-fragments/gates-final/integrity.log",
+      "sha256": "3bf804e8e1b702611d0bce2b270fd3fad1975022d1ffe18ebc4eb762f03d5372"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-28T10:32:19.330249+01:00",
+      "finishedAtCET": "2026-10-28T10:32:19.760828+01:00",
+      "seconds": 0.431,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-priority-fragments/gates-final/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-28T10:32:19.795571+01:00",
+      "finishedAtCET": "2026-10-28T10:32:19.994687+01:00",
+      "seconds": 0.199,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-priority-fragments/gates-final/arch-check.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-28T10:32:20.028825+01:00",
+      "finishedAtCET": "2026-10-28T10:32:47.566109+01:00",
+      "seconds": 27.538,
+      "exitCode": 1,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g4-priority-fragments/gates-final/test.log",
+      "sha256": "e29fbd2ed0ac5719bee3996229cf6a00867b059c6c8e57b433577039bbfe9a8e"
+    }
+  ],
+  "realCalls": 0
+}
