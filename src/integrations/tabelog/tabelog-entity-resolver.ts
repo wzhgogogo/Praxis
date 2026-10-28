@@ -32,7 +32,7 @@ function nameSimilarity(left: string, right: string): number {
 /** Reading order only: every selected detail still passes the unchanged identity gate. */
 export function prioritizeTabelogOutlets<T extends TabelogOutletObservation & { coordinates?: { lat: number; lng: number } }>(candidate: RestaurantCandidate, outlets: T[]): T[] {
   const google = candidate.restaurant, localities = new Set(outletAddressLocalities(google.address));
-  const distance = (point: T["coordinates"]) => {
+  const distance = (point: { lat: number; lng: number } | undefined) => {
     const origin = google.coordinates;
     if (!origin || !point || ![origin, point].every(p => Number.isFinite(p.lat) && Number.isFinite(p.lng) && Math.abs(p.lat) <= 90 && Math.abs(p.lng) <= 180)) return Infinity;
     const latitude = (point.lat + origin.lat) * Math.PI / 360;

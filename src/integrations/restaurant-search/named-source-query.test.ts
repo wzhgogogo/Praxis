@@ -48,7 +48,7 @@ test("proper-substring instruction abandons a full-name response once and caches
   const planner = new ModelNamedSourceQuery({ async complete(request) {
     calls++;
     assert.match(request.messages[0]!.content, /strictly shorter/);
-    assert.deepEqual((request.outputSchema.jsonSchema.properties as { field: { enum: string[] } }).field.enum, ["name"]);
+    assert.deepEqual((request.outputSchema.jsonSchema!.properties as { field: { enum: string[] } }).field.enum, ["name"]);
     return { invocationId: "fixture", provider: "FIXTURE", model: "fixture", outputText: '{"field":"name","fragment":"Sen Kagurazaka"}', finishReason: "TOOL_CALLS", latencyMs: 0 };
   } }, budget);
   const signal = new AbortController().signal;

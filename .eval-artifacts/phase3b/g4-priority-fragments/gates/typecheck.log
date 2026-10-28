@@ -1,0 +1,10 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/integrations/restaurant-search/named-source-query.test.ts(51,23): error TS18048: 'request.outputSchema.jsonSchema' is possibly 'undefined'.
+src/integrations/tabelog/tabelog-entity-resolver.ts(42,111): error TS2345: Argument of type '{ lat: number; lng: number; } | undefined' is not assignable to parameter of type 'T["coordinates"]'.
+  '{ lat: number; lng: number; } | undefined' is assignable to the constraint of type 'T["coordinates"]', but 'T["coordinates"]' could be instantiated with a different subtype of constraint '{ lat: number; lng: number; } | undefined'.
+    Type 'undefined' is not assignable to type 'T["coordinates"]'.
+      'undefined' is assignable to the constraint of type 'T["coordinates"]', but 'T["coordinates"]' could be instantiated with a different subtype of constraint '{ lat: number; lng: number; } | undefined'.
+        Type 'undefined' is not assignable to type '{ lat: number; lng: number; }'.
