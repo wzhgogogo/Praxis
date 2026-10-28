@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-28 CET：A 测试审查首份清单完成并验证，标准五门禁全绿（默认1203/1203，Chromium175/175，27.821/108.147s），每项前后净树，672项源码SHA不变、产品/测试diff0。1378个test逐项映射无缺口，128份文件意见另加1份compile-only类型fixture；仅提出默认−3/Chromium−1及1项fake计时提速，未实施。Guard/授权/幂等/S0/历史Live红灯保护；B站点107项及G3调用方需协调。六题重跑另分支f80dacb0：19模型，追加检查11/18，Q14/Q27及Q31超时未解决，原评分/输出不改，待独立复核。本审查真实调用0；账本462条并集合计171模型/242GET/11Google，全部main441条与19条实花原样保留。工作分支交复核，不合main，不删测。 [报告](../.eval-artifacts/phase3b/test-suite-review/report.md)。
+
 2026-10-28 CET：A 六题重跑已推工作分支 codex/chore-phase3b-g1-six-repeat @ f80dacb0（受测eb1518f1）：19模型请求/18计划trial，明确追加检查11/18；Q14类别、Q27拒答仍失败，Q31-r2重试仍超时。原评分0 PASS/11 FAIL/8 NOT_EVALUATED按19 attempts原样保留，不改题/参考/口径，独立复核待定。B G3期间测试审查首份清单完成：基线main ba466eb3，1203默认/175 Chromium；1378个test逐项映射、128份文件意见，提请3默认/1Chromium删合及1项fake计时提速，均未实施。Guard/授权/幂等/S0/Live红灯保护；107站点测试交B归属。审查新增真实调用0，账本并集保留已花19次；工作分支待五门禁后推送复核，不合main。 [清单报告](../.eval-artifacts/phase3b/test-suite-review/report.md)。
 
 2026-10-28 CET：C nr010店名仅HTML实体解码修复验收PASS，原页及两站3红→相关9绿，同名/门牌/楼层反例仍拒。整合main eb1518f1（含54b3dd2b），a9c4abe8冻结1171项；五门禁1203/175及G2 4/4全绿，10步前后净树。41份回放nr010/022/026均正确、既有23/23、错认0；规则/排序/地址电话及评分不改。本轮GET/模型/Google/Live0，441条历史账本并集合计152模型/242GET。按用户批准交付main，合入SHA以Git合并/远端核对为准，之后停止。 [报告](../.eval-artifacts/phase3b/g4-name-entities/report.md)。

@@ -1,0 +1,10 @@
+{
+  "file": "src/harness/browser/fixtures/browser-completion-contract.test.ts",
+  "sourceSha256": "05cb0011ff3086eed89919322605bf974e927f1934ac57b350f738e194de2aa5",
+  "entry": "typecheck; not imported or registered with node:test",
+  "runtimeTestCount": 0,
+  "decision": "KEEP_PUBLIC_TYPE_CONTRACT",
+  "reason": "三个@ts-expect-error分别要求完成结果必须带resultKey和resultBusy（同时缺、只缺busy、只缺key）；接口被放宽时TypeScript会因未使用的expect-error失败。不是实际页面成功或DOM稳定的替代证明。",
+  "assertions": 3,
+  "deletionProposal": false
+}

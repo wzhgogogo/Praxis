@@ -19,7 +19,7 @@ Status: **PROPOSED / 待复核，未删改测试**。2026-10-28，Europe/Vienna 
 
 实际 `package.json` Node argv 原样展开，仅增加 JSON 事件 reporter，未变文件、断言、并发或测试开关；完整 argv、逐项时间和事件见 [runtime-baseline.json](runtime-baseline.json)、`default-runtime.jsonl`、`chromium-runtime.jsonl`。不能把并发测试时长求和当套件墙钟。最终标准五门禁另有独立收据（见末节）。
 
-静态 129 份 `.test.ts` 文件：128 份有声明，另 1 份是被导入 helper；共 1,203 个声明，其中 5 个 suite、8 个仅冻结 probe。实际运行是 **1,378 个 test（1,203 + 175）和 5 个 suite**，[运行映射](runtime-map.json) 逐项绑定，未绑定 0。8 个 PostgreSQL `probeTest` 是 NOT_RUN，不计默认缩减收益。初始估计 1,202 由实测 1,203 更正。
+静态 129 份 `.test.ts` 文件：128 份有声明，另 1 份是仅由 typecheck 检查的公开类型负向 fixture（见 `non-runtime-review.json`，3 个 `@ts-expect-error`，不注册运行 test）；共 1,203 个声明，其中 5 个 suite、8 个仅冻结 probe。实际运行是 **1,378 个 test（1,203 + 175）和 5 个 suite**，[运行映射](runtime-map.json) 逐项绑定，未绑定 0。8 个 PostgreSQL `probeTest` 是 NOT_RUN，不计默认缩减收益。初始估计 1,202 由实测 1,203 更正。
 
 两个采集准备失败原样保留：`collector-setup-failure/` 是 reporter 相对 module path 缺 `./`，在测试启动前失败；`missing-dependency-baseline/` 是本地尚未安装 C 已合入锁文件的新依赖 `entities`，只运行出 699 个结果，不能当完整基线。用现有 lock 执行离线 `npm ci --offline --ignore-scripts` 后重取成功基线；没有产品修复，没有加载个人 npm 配置或 `.env`。不把这些安装/工具故障称为测试检错红灯。
 
@@ -60,3 +60,17 @@ Guard 的负向及必要正常控制、授权/幂等/错误成功、独立 S0 �
 此为清单切片，无产品/测试修复，因此不伪造本批红绿。标准五门禁在提交输入、干净树后执行，收据写入 `verification/summary.json`；原始日志留存。`git diff --check`、672项源输入SHA、逐项映射/提案引用/分类和账本并集检查必须通过。G2额外检查本批 NOT_RUN（没有修改其代码/保存页，当前main的独立4/4证据未冒充新运行）。
 
 工作分支推送供复核，不合入main；复核通过前不删测试，不改B/C所属文件，不调用真实模型、Google、网站或Live，不读/暂存`.env`。下一步只等待清单与六题结果复核。
+
+### 标准五门禁最终收据
+
+受测冻结提交 `0d2b9292c79a812ae4cc6243862cfc64ebbce7a5`。2026-10-28 CET。使用标准命令，非自定义 reporter。
+
+| 命令 | 结果 | 墙钟 | 前/后工作区 |
+| --- | --- | --- | --- |
+| `npm run typecheck` | PASS | 6.164 s | clean / clean |
+| `npm run arch:check` | PASS | 0.177 s | clean / clean |
+| `npm test` | PASS（1203/1203） | 27.821 s | clean / clean |
+| `npm run build` | PASS | 0.384 s | clean / clean |
+| `npm run test:browser:fixture` | PASS（175/175） | 108.147 s | clean / clean |
+
+672 项 source/script/package SHA 全部不变；基于 main `ba466eb3` 的 source/测试/脚本/依赖 diff 为 0。[交付核对](delivery-validation.json) 同时确认：1378 test 映射无缺口、提案全部指向实际声明、441 条 main 账目原样保留、19 条六题真实调用按id原样并入、2条审查账目为0、共462条。`git diff --check` PASS。标准套件数量未减少，本批没有实施减测或提速，不签收后续缩减目标。停止待复核，工作分支正常推送回执以 Git/ls-remote 为准。
