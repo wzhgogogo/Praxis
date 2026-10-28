@@ -5805,3 +5805,12 @@ Same target failures precede pressure cutoff; preserve2passing full controls and
 ## 2026-10-28 CET: Approved clock repair main verification
 
 2026-10-28 CET: Approved clock source173840b7 is verified for main publication. Latest maincab27890 already ancestor, executable diff0; frozen4e45e37a five gates1186/175 PASS and each before/after clean.665 inputs unchanged; independent2CPU review and prior three full Linux greens retained. No new real calls. B G1 fix not yet main: six-question repeat remains conditional; broad audit waits B G3. [Integration](../.eval-artifacts/phase3b/browser-fixture-clocks/main-integration/report.md).
+
+
+<a id="test-2026-10-28-g2-calendar-evidence"></a>
+
+## 2026-10-28 CET: Reviewer-approved G2 calendar response baseline
+
+2026-10-28 CET：按用户批准的日历证据复核决定，A修订G2五个日期期望为UNKNOWN（null）。Teppen同次initial_vacancy仅HTTP200元数据，无正文；Sen原录制缺失、仅HTML/文本留存，225份固定Git归档未匹配原次材料。有效红灯PHONE_ONLY≠null→同断言绿；只改A证据投影/原G2检查/基线，评分器、变异、12页及产品不变。Teppen整页PASS；Sen日期PASS但非日期requestConfirmed仍丢失，整页诚实退化留待B控件组。普通G2及五门禁冻结后执行；本批真实调用0，先前19次实花按id并入账本。批准直接合main后通知B；其他A分支仍待复核。 [Report](../../.eval-artifacts/phase3b/g2-calendar-response-baseline/report.md)。
+
+Red d477d691: old class observer PHONE_ONLY contradicts reviewed UNKNOWN,16.379s. Green a6853be8: same assertion17.827s. No production migration claimed; no data response fabricated. Full source/test freeze and six offline gate receipts follow; only date expectations changed, Sen request control retained.
