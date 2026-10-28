@@ -1,0 +1,15 @@
+
+> praxis-zhixing@0.1.0 eval:restaurant:search:fixture
+> node --import tsx src/eval/restaurant/search-fixture/run.ts
+
+{
+  "mode": "FIXTURE",
+  "cases": 3,
+  "passed": 3,
+  "failedCaseIds": [],
+  "assertions": {
+    "completeRequestReturnsThreeCandidates": true,
+    "incompleteRequestRequestsOnlyMissingFields": true,
+    "agentReachesAuthorizationCheckpoint": true
+  }
+}
