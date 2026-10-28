@@ -72,3 +72,7 @@ G2日历冻结基线要求：Teppen2026-09-29=PHONE_ONLY、09-28=FULL、09-30=CL
 新增真实模型、Google、餐厅网站、Live、环境重跑、公开GET全0。未读取.env，未读取/哈希answers*.json。只推重放后的G3工作分支，不合main；使用原远端250cba72的精确force-with-lease，仅更新用户明确要求重放的B工作分支，不改其它分支。
 
 STATUS、DEVLOG、TEST-LOG、月度摘要/索引同步。**按“需要改动A的文件”停止，等待A/复核者处理固定日历输入的公开证据及基线。** G3/G3c未完成。实际分支SHA和推送回执见delivery.json；报告提交后只追加审计回执，不改冻结配置。
+
+## 已核对的交付回执
+
+2026-10-28T16:09:52.019625+01:00：重放后的报告提交be6a940ae159aec3637fa976509629396b57ffdc已成功推送，使用精确旧租约250cba72，ls-remote匹配；main仍为ba466eb3，本批未合/推main。685份输入SHA及可执行树不变，追加回执前工作区干净。[delivery.json](delivery.json) / [原始refs](push-verified.refs)。这次回执仅审计产物，也推同一工作分支。
