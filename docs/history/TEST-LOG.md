@@ -1,13 +1,19 @@
 # Test and Verification Log
 
 - Status: Accepted
-- Document revision: 4.334
+- Document revision: 4.335
 - Last updated: 2026-10-28
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+<a id="test-2026-10-28-g1-followup-main-preparation"></a>
+
+## 2026-10-28 CET: Reviewed B combination verification preparation
+
+Independent Linux Bdc486430/C053e2e2e five gates and G2 PASS are user-transmitted review evidence, not local executions. Local latest-main ancestry and full executable-tree comparison show reviewed B code unchanged; reuse approved six reds, page-cap counterfactual and old HARD bytes. New strict five gates plus ordinary G2 await committed freeze; no strict Tabelog PASS/G3 or real-model quality claim. New real calls by B0. [Preflight](../../.eval-artifacts/phase3b/g1-followup-main/preflight.json).
 
 <a id="test-2026-10-28-g1-question-budget-final"></a>
 

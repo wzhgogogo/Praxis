@@ -1,9 +1,11 @@
 # Praxis 当前状态
 
 - Status: Accepted
-- Document revision: 4.435
+- Document revision: 4.436
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
+
+- **2026-10-28 CET: Reviewed B integration into main in progress.** User confirms independent Linux five gates and G2 for Bdc486430/C053e2e2e, and explicitly approves merging/pushing B first. Latest main90b464d8 is already included in B; reviewed source stays byte-identical. Freeze and rerun five gates plus ordinary G2 before publication. C is not yet in main; stop after B push, then C synchronizes/merges itself before B begins G3. A owns G1 real-model evaluation and separate test review. New real calls by B0. [Plan](../.eval-artifacts/phase3b/g1-followup-main/plan.md).
 
 - **2026-10-28 CET: G1 question-budget revision complete, review pending.** ADR0046 Accepted revision0.3; independent per-question60s/3 models/2 document visits and persistent conversation20 cap. Six target reds become green, HTTP9/9; unique action selected by code through Validator/Router/Reducer without Agent call. 51c14400 frozen675 inputs: five gates1168/175 all PASS, Chromium106.350s, each before/after clean, restoration0. Page-cap bypass is an effective red; old HARD44197 bytes identical, sites3847/Pack473 unchanged. State24/TaskDefinition22 and all Prompt/Schema versions unchanged. Real calls0; work branch only, independent model evaluation/G3 remain next stops. [Report](../.eval-artifacts/phase3b/g1-question-budget/report.md).
 

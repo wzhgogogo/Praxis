@@ -1,13 +1,19 @@
 # Development Log
 
 - Status: Accepted
-- Document revision: 4.328
+- Document revision: 4.329
 - Last updated: 2026-10-28
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
 
 > Historical record only. Current capabilities and next gate are maintained in [Current Status](../STATUS.md).
+
+<a id="dev-2026-10-28-g1-followup-main-preparation"></a>
+
+## 2026-10-28 CET: Reviewed B main integration preparation
+
+User approves Bdc486430 after independent Linux five gates/G2, followed by C053e2e2e synchronization/integration. Current main90b464d8 is an ancestor of B; no product merge conflict or implementation change. Prepare frozen clean-tree gate rerun and ordinary G2, then fast-forward/push main without force and stop before C/G3. Ledger appends one zero-call id, previous rows unchanged. [Plan](../../.eval-artifacts/phase3b/g1-followup-main/plan.md).
 
 <a id="dev-2026-10-28-g1-question-budget-final"></a>
 
