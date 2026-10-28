@@ -22,7 +22,9 @@ export function sourcePriceElements(html: string, accepts: (tag: string) => bool
     }
     const name = tag.match(/^<([\w-]+)/)?.[1]?.toLowerCase();
     if (!name || ["input", "img", "br", "hr", "meta", "link", "source", "wbr"].includes(name) || tag.endsWith("/>")) continue;
-    const hidden = Boolean(stack.at(-1)?.hidden) || /\shidden(?:\s|=|>)/i.test(tag) || /aria-hidden=["']true/i.test(tag);
+    const attributes = [...tag.slice(name.length + 1, -1).matchAll(/([\w:-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/gu)];
+    const hidden = Boolean(stack.at(-1)?.hidden) || attributes.some(attribute => attribute[1]!.toLowerCase() === "hidden"
+      || attribute[1]!.toLowerCase() === "aria-hidden" && (attribute[2] ?? attribute[3] ?? attribute[4]) === "true");
     stack.push({ name, start: token.index, hidden, selected: accepts(tag) && !hidden });
   }
   return result;

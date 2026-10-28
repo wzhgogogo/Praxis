@@ -23,8 +23,11 @@ function publicMarkup(snapshot: BrowserSnapshot): string {
       if (!stack.at(-1)?.hidden) output += tag;
       if (index >= 0) stack.length = index;
     } else {
+      const attributes = Object.fromEntries([...tag.slice(name.length + 1, -1).matchAll(/([\w:-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/gu)]
+        .map(match => [match[1]!.toLowerCase(), match[2] ?? match[3] ?? match[4] ?? ""]));
       const hidden = Boolean(stack.at(-1)?.hidden) || /^(?:nav|header|footer|aside)$/u.test(name)
-        || /\shidden(?:\s|=|>)|aria-hidden\s*=\s*["']true["']|display\s*:\s*none|visibility\s*:\s*hidden/iu.test(tag);
+        || Object.hasOwn(attributes, "hidden") || attributes["aria-hidden"] === "true"
+        || /display\s*:\s*none|visibility\s*:\s*hidden/iu.test(attributes.style ?? "");
       if (!hidden) output += tag;
       if (!/^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/u.test(name) && !/\/\s*>$/u.test(tag)) stack.push({ name, hidden });
     }

@@ -213,7 +213,7 @@ test("Tabelog relative search links are enriched with page identity before an ex
 test("Tabelog parser reports every observed outlet; the native batch owns the detail cap", () => {
   const html = Array.from({ length: 6 }, (_, index) => {
     const id = 900 + index;
-    return `<a class="list-rst__rst-name-target" href="/en/tokyo/A1303/A130301/${id}/" data-address="Tokyo ${id}">Outlet ${id}</a>`;
+    return `<article><a class="list-rst__rst-name-target" href="/en/tokyo/A1303/A130301/${id}/">Outlet ${id}</a><address>Tokyo ${id}</address></article>`;
   }).join("");
   const outlets = parseTabelogSearchOutlets({ url: "https://tabelog.com/en/tokyo/rstLst/?sw=omakase", title: "Search", text: "Restaurants", html });
   assert.equal(outlets.length, 6, "parser output must not silently become the five-detail batch");
@@ -302,7 +302,7 @@ class ChallengeResumeSession implements BrowserSession {
     url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201",
     title: "Tabelog search",
     text: "Restaurant 1",
-    html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>',
+    html: '<article><a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>',
   };
 
   private readonly detail: BrowserSnapshot = {
@@ -329,7 +329,7 @@ class ChallengeResumeSession implements BrowserSession {
 
 test("Tabelog executor grounds a deterministic browser observation and never submits", async () => {
   const pages: BrowserSnapshot[] = [
-    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
+    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<article><a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button><div class="genre">yakiniku</div>' },
   ];
   const session = new FixtureBrowserSession(pages);
@@ -436,7 +436,7 @@ test("Tabelog native result keeps its observed outlet ID and skips name search w
 
 test("Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby source slot as unavailable", async () => {
   const session = new FixtureBrowserSession([
-    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
+    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<article><a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 12:00 12:30", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="12:00">12:00</button><button class="slot is-available" data-time="12:30">12:30</button>' },
   ]);
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:30.000Z").check({
@@ -450,7 +450,7 @@ test("Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby 
 
 test("Tabelog bot challenge and external booking redirect remain non-available results", async () => {
   const makeRuntime = (text: string): BrowserRuntime => ({ openSession: async () => new FixtureBrowserSession([
-    { url: "https://tabelog.com/en/rstLst/", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
+    { url: "https://tabelog.com/en/rstLst/", title: "search", text: "Restaurant 1", html: '<article><a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "page", text, html: '<select name="party"></select><select name="date"></select>' },
   ]) });
   const input = { candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] };
@@ -464,7 +464,7 @@ test("Tabelog bot challenge and external booking redirect remain non-available r
 
 test("Tabelog recovers one challenged canonical page through an observed alternate-language outlet", async () => {
   const session = new FixtureBrowserSession([
-    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/en/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
+    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<article><a href="https://tabelog.com/en/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>' },
     { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "Restaurant 1", html: '<link rel="canonical" href="/tokyo/A1304/A130401/123/"><h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Verify", text: "verify you are human", html: "" },
     { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "Restaurant 1 予約 人数 19:00", html: '<link rel="canonical" href="/en/tokyo/A1304/A130401/123/"><h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
@@ -479,7 +479,7 @@ test("Tabelog recovers one challenged canonical page through an observed alterna
 
 test("Tabelog rejects a challenged alternate that no longer proves the same outlet and keeps the earlier HIGH identity", async () => {
   const session = new FixtureBrowserSession([
-    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<a href="https://tabelog.com/en/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>' },
+    { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<article><a href="https://tabelog.com/en/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>' },
     { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "Restaurant 1", html: '<link rel="canonical" href="/tokyo/A1304/A130401/123/"><h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Verify", text: "Just a moment...", html: "" },
     { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Other Restaurant 1", text: "Restaurant 1", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-2 Shinjuku, Tokyo</p>' },
@@ -792,7 +792,7 @@ test("detail priority uses observed locality then distance for equal names and p
 test("Tabelog applies availability controls on the resolved outlet after inspecting other branches", async () => {
   const selected: BrowserSnapshot = { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数", html: '<select name="party"></select><select name="date"></select><button class="slot is-available" data-time="19:00">19:00</button>' };
   const session = new FixtureBrowserSession([
-    { url: "https://tabelog.com/en/rstLst/", title: "search", text: "", html: '<a href="https://tabelog.com/tokyo/A1304/A130401/123/" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a><a href="https://tabelog.com/tokyo/A1304/A130401/999/" data-address="9-9 Shibuya, Tokyo">Other branch</a>' },
+    { url: "https://tabelog.com/en/rstLst/", title: "search", text: "", html: '<article><a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article><article><a href="https://tabelog.com/tokyo/A1304/A130401/999/">Other branch</a><address>9-9 Shibuya, Tokyo</address></article>' },
     selected,
     { url: "https://tabelog.com/tokyo/A1304/A130401/999/", title: "Other", text: "Other branch", html: '<h1>Other branch</h1>' },
     selected,
