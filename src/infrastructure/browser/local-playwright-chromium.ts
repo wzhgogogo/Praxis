@@ -100,7 +100,15 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
               if (node.matches('script,style,template,noscript,[hidden],[aria-hidden="true"]')
                 || style.display === "none" || style.visibility === "hidden") return "";
               const name = node.tagName.toLowerCase();
-              const tag = `<${name}${[...node.attributes].map(attribute => ` ${attribute.name}="${this.escape(attribute.value)}"`).join("")}>`;
+              const attributes = new Map([...node.attributes].map(attribute => [attribute.name, attribute.value]));
+              if (node instanceof HTMLInputElement) {
+                attributes.set("value", node.value);
+                if (node.checked) attributes.set("checked", ""); else attributes.delete("checked");
+              }
+              if (node instanceof HTMLOptionElement) {
+                if (node.selected) attributes.set("selected", ""); else attributes.delete("selected");
+              }
+              const tag = `<${name}${[...attributes].map(([key, value]) => ` ${key}="${this.escape(value)}"`).join("")}>`;
               return tag + (/^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/.test(name)
                 ? "" : [...node.childNodes].map(child => this.read(child)).join("") + `</${name}>`);
             },
