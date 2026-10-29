@@ -6,6 +6,15 @@ freeze=json.loads((item/('input-freeze-'+phase+'.json')).read_text());git=lambda
 for f,h in freeze['files'].items():assert hashlib.sha256((root/f).read_bytes()).hexdigest()==h,f
 assert not git('status','--porcelain');receipt={'commit':git('rev-parse','HEAD').strip(),'phase':phase,'runs':[]}
 commands=[('targets',['node','--import','./scripts/test-filesystem-guard.mjs','--import','tsx','--test','src/integrations/restaurant-facts/model-source-facts.test.ts','src/integrations/restaurant-facts/quoted-fact-read.test.ts','src/integrations/restaurant-facts/google-listed-website-facts.test.ts']),('legacy',['node','--import','tsx','.eval-artifacts/phase3b/g3-longrun/11-price-applicability/compare-legacy.ts',str(out/'legacy-state-changes.json')]),('hard-bytes',['node','--import','tsx','.eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts','check','.eval-artifacts/phase3b/g3-longrun/hard-before.json'])]
+if phase=='green':
+ commands.insert(1,('corresponding',['node','--import','./scripts/test-filesystem-guard.mjs','--import','tsx','--test',
+ 'src/integrations/tabelog/tabelog-browser-availability.test.ts',
+ 'src/integrations/tablecheck/tablecheck-browser-availability.test.ts',
+ 'src/integrations/restaurant-facts/native-source-facts.test.ts',
+ 'src/integrations/restaurant-facts/model-fact-judgment.test.ts',
+ 'src/integrations/restaurant-facts/page-question-reader.test.ts',
+ 'src/application/restaurant-presentation-evidence.test.ts']))
+
 for name,cmd in commands:
  t=time.monotonic();timed_out=False
  with (out/(name+'.log')).open('wb') as log:
