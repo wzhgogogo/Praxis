@@ -28,6 +28,7 @@ subprocess.run(['git','config','core.sparseCheckout','true'],cwd=clone,check=Tru
 (clone/'.git/info/sparse-checkout').write_text('/*\n!/.eval-artifacts/\n!/.env\n')
 subprocess.run(['git','checkout','--detach',a_ref],cwd=clone,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
 (clone/'node_modules').symlink_to(root/'node_modules',target_is_directory=True)
+with (clone/'.git/info/exclude').open('a') as excluded:excluded.write('\n/node_modules\n')
 assert not (clone/'.env').exists() and not (clone/'.eval-artifacts/phase3b/g1-qa').exists()
 checks={f:hashlib.sha256((clone/f).read_bytes()).hexdigest() for f in protected}
 product='src/domains/restaurant/read-assessment.ts'
