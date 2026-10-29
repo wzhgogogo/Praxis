@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET: C starts optional real PostgreSQL17.10 B1 verification on main00519783. Own temporary cluster, TCP disabled/private Unix socket. Freeze scripts then index-only red/green control and unmodified product app/store eight-connection claims/idempotency/owner isolation, process+database restart. No PGlite, no.env, no product/UI/A-eval/B file edits, external calls0. G4 remains pending G3 and separate instruction. [Plan](../.eval-artifacts/phase3b/b1-postgres-feedback/plan.md).
+
 2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../.eval-artifacts/phase3b/g5-b1-main/report.md)。
 
 2026-10-29 CET：C G5 B1后续1–3完成待复核，已同步main50a08361并保留A调度修复。ADR0049 Accepted0.2；持久USER_REPORTED反馈并发/重启最多一次，Yes/No/Skip幂等且不改预约状态；日英取消冲突并列原文和英文转述，不判严格程度。手续费两GET均200，英文帮助原文支持440/用户取消不退/餐厅取消退；累计GET244/257，模型/Google/Live0。7542dde7冻结702项，五门禁1210/175、G2 5/5全绿，10步前后净树。既有Prompt/Schema/State/TaskDefinition不变，独立B1合同2；G3接线与首次TableCheck Live清单均未运行，仅推分支不合main。 [报告](../.eval-artifacts/phase3b/g5-b1-followup/report.md)。
