@@ -1,0 +1,7 @@
+# Group08 public selection (OBS-08/09)
+
+2026-10-29 Vienna CET. User approves proceeding without waiting for A's Sen reference change. Remove class/hintClass selected-state authority; retain ARIA, native live state and exact bound source responses. Keep unknown without evidence and reject contradictory public date/party values. Read date from public captions/labels/native values rather than data-year/class for conclusions; private hints may still accelerate navigation. Observe day state independent of a p-child layout. No Guard/identity/State/TaskDefinition/Agent version changes. No TabelogVacancyObservation output format change; C-facing shape is frozen by a literal assertion.
+
+Effective red controls: shared class-only inference; public native/ARIA Tabelog query without private hooks; class-only unknown and response-only success; actual Chromium Executor with public group label, native checked and nested calendar day. Preserve exact quote/source/date/party checks. Corresponding old class-positive tests will be updated to public-input positives and unknown-without-evidence, with business/safety assertions retained. Do not change A's fixed baseline or other A/C work. Sen UNKNOWN is separately A-owned; sync after main publication.
+
+Freeze source/inputs/outer scripts before red and green; five gates plus ordinary G2; every gate clean before/after. Compare old HARD bytes. All real model/Google/site/Live/GET/environment calls 0; no .env or QA answers. Commit/push after green and continue G3c; stop only under approved long-batch conditions.
