@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET：B1已合并并推送main00519783，ls-remote核对，B已收到ADR0049/迁移0010同步通知。C从该main另开G4只读分析分支；原37家网络8例逐次归因及4家日文名线索，最多两方案，真实调用0。第三次检索/详情名额的合同变化仅列建议不实施，GET保持244/257。 [计划](../.eval-artifacts/phase3b/g4-retrieval-analysis/plan.md)。
+
 2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../.eval-artifacts/phase3b/g5-b1-main/report.md)。
 
 2026-10-29 CET：C G5 B1后续1–3完成待复核，已同步main50a08361并保留A调度修复。ADR0049 Accepted0.2；持久USER_REPORTED反馈并发/重启最多一次，Yes/No/Skip幂等且不改预约状态；日英取消冲突并列原文和英文转述，不判严格程度。手续费两GET均200，英文帮助原文支持440/用户取消不退/餐厅取消退；累计GET244/257，模型/Google/Live0。7542dde7冻结702项，五门禁1210/175、G2 5/5全绿，10步前后净树。既有Prompt/Schema/State/TaskDefinition不变，独立B1合同2；G3接线与首次TableCheck Live清单均未运行，仅推分支不合main。 [报告](../.eval-artifacts/phase3b/g5-b1-followup/report.md)。
