@@ -49,6 +49,10 @@ test("equal timestamps preserve later availability facts and supersede earlier o
   assert.deepEqual(laterAvailability.factChecks?.[candidateId]?.supersededEvidenceIds, []);
   assert.deepEqual(restaurantCurrentFactEvidence(laterAvailability, candidateId).map(e => e.evidenceId), ["investigation-fact", "availability-fact"], "a later availability event's quoted fact is current even at the same timestamp");
   assert.ok(restaurantPresentationEvidenceIds(laterAvailability, candidateId, at)?.includes("availability-fact"), "presentation must cite the later check's raw fact");
+  const earlierSourceClock = structuredClone(availability);
+  earlierSourceClock.evidence.find(e => e.evidenceId === "availability-fact")!.observedAt = "2026-08-19T07:19:59.999Z";
+  const laterEvent = apply(apply(base(), facts()), earlierSourceClock);
+  assert.ok(restaurantCurrentFactEvidence(laterEvent, candidateId).some(e => e.evidenceId === "availability-fact"), "event order cannot be replaced with an inclusive timestamp comparison");
   const explicitlySuperseded = structuredClone(laterAvailability);
   explicitlySuperseded.factChecks![candidateId]!.supersededEvidenceIds!.push("availability-fact");
   assert.ok(!restaurantCurrentFactEvidence(explicitlySuperseded, candidateId).some(e => e.evidenceId === "availability-fact"), "explicit supersession wins over current check references");

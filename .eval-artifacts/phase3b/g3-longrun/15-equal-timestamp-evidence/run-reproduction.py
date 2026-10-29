@@ -48,7 +48,7 @@ for cid in state['presentedResults']['candidateIds']:
  check=state['availabilityChecks'][cid];facts=[e for e in state['readEvidence'] if e['evidenceId'] in check['evidenceIds'] and e['kind']=='RESTAURANT_FACT']
  rows.extend({'candidateId':cid,'evidenceId':e['evidenceId'],'observedAt':e['observedAt'],'checkedAt':state['factChecks'][cid]['checkedAt'],'currentCheckReferencesFact':True,'presentationCitesFact':e['evidenceId'] in state['presentedResults']['evidenceIds']} for e in facts)
 assert len(rows)==3 and all(r['observedAt']==r['checkedAt'] for r in rows)
-receipt['presentationFacts']=rows;receipt['independentCompletion']=ev['execution']['taskProducedQualifiedResult'];receipt['sourceSequence']=[t['action']['type'] for t in art['trajectories'] if 'action' in t]
+receipt['presentationFacts']=rows;receipt['independentCompletion']=ev['execution']['taskProducedQualifiedResult'];receipt['sourceSequence']=[t['agentAction']['type'] for t in art['trajectories'] if t.get('agentAction')];receipt['independentRequiredEvidence']=next(f['status'] for f in ev['findings'] if f['dimension']=='REQUIRED_EVIDENCE')
 (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
 for f,h in freeze['files'].items():assert hashlib.sha256((root/f).read_bytes()).hexdigest()==h,f
 assert not git('status','--porcelain');print(json.dumps({'completion':receipt['independentCompletion'],'cited':sum(r['presentationCitesFact'] for r in rows)}),flush=True)
