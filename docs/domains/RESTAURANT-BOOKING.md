@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.31
+- Document revision: 3.32
 
 
 - Last updated: 2026-10-28
@@ -312,3 +312,7 @@ The answer panel shows one short answer, verbatim source quotations in their ori
 Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
+
+## G5 B1 transient handoff (Proposed ADR-0048)
+
+restaurant-booking-handoff@1 is a new transient DTO, not persisted Task State. It binds a source-owned URL to a current offer, availability check/evidence, source entity, date/time/party and display freshness. Creation and projection each validate it. KNOWLEDGE=source-observed availability, LINK_CARRIES=date/time/party, SOURCE_SELECTION=UNKNOWN remain distinct. Terms use G1 exact citations matched to same-outlet/same-channel cached page text; unresolved cancellation conflicts and unsupported fees are omitted. This is the authorized pre-approval offline subset; production source-cache reader/feedback persistence await review. State24/TaskDefinition22 and Prompt/Schema versions remain unchanged. See [ADR-0048](../decisions/0048-source-bound-b1-booking-handoff.md).

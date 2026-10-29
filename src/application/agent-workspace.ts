@@ -102,6 +102,8 @@ export interface RestaurantCaseView {
     candidates: Array<RestaurantCandidate & { distanceObservation?: CandidateDistanceObservation }>;
     availability: Record<string, AvailabilityOffer[]>;
     availabilityChecks: Record<string, RestaurantAvailabilityCheck>;
+    /** Transient server-checked B1 projection; absent until a reviewed source-cache reader is wired. */
+    bookingHandoffs?: import("../domains/restaurant/booking-handoff.js").BookingHandoffView[];
     /** Safe, structured read evidence only; raw DOM and browser credentials are excluded. */
     readEvidence: RestaurantReadEvidence[];
     /** Current source-scoped facts only; historical facts remain in durable state. */

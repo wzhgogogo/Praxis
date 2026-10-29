@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET：C启动G5 B1离线切片，最新main b2a3cbd3；ADR0048 Proposed。TableCheck旧pax有效红→num_people/精确start_time绿；暂态合同/服务端二次校验/最小英文卡片正在验证。现main缺G3 vacancy-response导出，不拼Tabelog链接、不改B三个保护文件；普通组合未启用B1来源读者。反馈持久化、多语言严格条款及平台手续费证据待ADR/后续接线。模型/GET/Google/Live0，不读.env，无共享版本变更。 [计划](../.eval-artifacts/phase3b/g5-b1/plan.md)。
+
 2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
 
 2026-10-29 CET: Approved five-item test maintenance verified on0cfe3064: five gates PASS plus fixedG2 4/4, each before/after clean,679 inputs unchanged. Same-machine complete commands: default1203→1200,28.223→27.364s; Chromium175→174,106.809→105.395s (single before/after pair, small observed reduction). Only approved four names removed; all others retained. Two moved P21 test bodies byte-identical; fake Guard wait uses test clock. Product/site/Pack/Prompt/Schema unchanged; calls0. [Report](../.eval-artifacts/phase3b/test-suite-maintenance/report.md).

@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.17
+- Document revision: 0.18
 - Last updated: 2026-10-28
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -165,3 +165,7 @@ The answer panel shows one short answer, verbatim source quotations in their ori
 Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
+
+## G5 B1 proposed offline flow
+
+Current bound availability → server validates the exact source link → card offers Book on Tabelog/TableCheck immediately, without waiting for comparison → explicit user departure. Continue copy names only checked query fields; TableCheck says Check date and guests. The source actual selection remains unknown. After ADR approval, a durable at-most-once return prompt may record USER_REPORTED Yes/No/Skip, never BOOKED_VERIFIED. The offline card is not yet wired to ordinary G3 source outputs. See [ADR-0048](../decisions/0048-source-bound-b1-booking-handoff.md).

@@ -1,3 +1,5 @@
+import { withBookingHandoffs } from "../application/restaurant-booking-handoff.js";
+import type { PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
 import { DeliveryReservedModelGateway } from "../application/delivery-reserved-model-gateway.js";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import { resolve } from "node:path";
@@ -98,7 +100,7 @@ class CaseEventHub {
   }
 }
 
-function json(response: ServerResponse, statusCode: number, payload: unknown, headers = {}): void {
+function sendJson(response: ServerResponse, statusCode: number, payload: unknown, headers = {}): void {
   response.writeHead(statusCode, { "content-type": "application/json; charset=utf-8", ...headers });
   response.end(JSON.stringify(payload));
 }
@@ -176,9 +178,20 @@ export interface LocalWebServerOptions {
   sessions: PilotSessionService;
   /** Optional diagnostic root. Omitting it keeps the server usable without filesystem output. */
   artifactDirectory?: string;
+  /** Cache-only reviewed source output. Absent in ordinary composition pending G3/ADR approval. */
+  bookingHandoffs?: {
+    readPrepared(view: RestaurantCaseView): readonly PreparedBookingHandoff[];
+    now(): string;
+  };
 }
 
 export function createLocalWebServer(options: LocalWebServerOptions): Server {
+  const project = (view: RestaurantCaseView): RestaurantCaseView => options.bookingHandoffs
+    ? withBookingHandoffs(view, options.bookingHandoffs.readPrepared(view), options.bookingHandoffs.now()) : view;
+  const json = (response: ServerResponse, status: number, payload: Record<string, unknown>, headers = {}): void => {
+    sendJson(response, status, payload.view ? {...payload, view: project(payload.view as RestaurantCaseView)} : payload, headers);
+  };
+  const emitCase = (response: ServerResponse, view: RestaurantCaseView): void => writeCaseEvent(response, project(view));
   const hub = new CaseEventHub();
   const unsubscribeUpdates = options.application.subscribeCaseUpdates((view) => hub.publish(view));
   const writtenArtifacts = new Set<string>();
@@ -336,8 +349,8 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
           "cache-control": "no-cache, no-transform",
           connection: "keep-alive",
         });
-        writeCaseEvent(response, view);
-        const unsubscribe = hub.subscribe(caseId, (updated) => writeCaseEvent(response, updated));
+        emitCase(response, view);
+        const unsubscribe = hub.subscribe(caseId, (updated) => emitCase(response, updated));
         const heartbeat = setInterval(() => response.write(": keep-alive\n\n"), 15_000);
         request.on("close", () => {
           clearInterval(heartbeat);

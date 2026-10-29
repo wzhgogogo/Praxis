@@ -5157,3 +5157,11 @@ Five approved consolidation items have individual successor proof, all originals
 ## 2026-10-29 CET: G1 single-sentence ID repair
 
 2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
+
+<a id="dev-2026-10-29-phase3b-g5-b1"></a>
+
+## 2026-10-29 CET：G5 B1 离线交接与 Proposed ADR0048
+
+2026-10-29 CET：C启动G5 B1离线切片，最新main b2a3cbd3；ADR0048 Proposed。TableCheck旧pax有效红→num_people/精确start_time绿；暂态合同/服务端二次校验/最小英文卡片正在验证。现main缺G3 vacancy-response导出，不拼Tabelog链接、不改B三个保护文件；普通组合未启用B1来源读者。反馈持久化、多语言严格条款及平台手续费证据待ADR/后续接线。模型/GET/Google/Live0，不读.env，无共享版本变更。
+
+证据：`.eval-artifacts/phase3b/g5-b1/`。红灯9bfd0166记录旧serializer实际pax；支持的精确请求及宽时段2/2针对性绿，领域/HTTP本地组合已绿，正式冻结门禁待执行。真实来源、源网站实际选中与预约结果均未评价。

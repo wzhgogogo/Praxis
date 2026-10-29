@@ -31,6 +31,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
       .candidate { border-top: 1px solid #e0e4df; padding: 14px 0; } .candidate:first-of-type { border-top: 0; padding-top: 0; }
       .candidate a { display: inline-block; margin: 8px 12px 0 0; } .candidate h3 { margin: 0 0 5px; font-size: 16px; } .muted { color: #66736b; font-size: 13px; line-height: 1.45; }
       .page-question-form { display: grid; gap: 8px; margin-top: 12px; } .page-answer { margin-top: 12px; border-left: 3px solid #b7cbbd; padding-left: 12px; } .page-answer blockquote { margin: 12px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .booking-handoff { margin-top: 12px; padding: 12px; border: 1px solid #b7cbbd; border-radius: 12px; } .booking-handoff .departure { display: block; width: fit-content; padding: 10px 14px; border-radius: 12px; background: #174d35; color: white; text-decoration: none; } .booking-handoff blockquote { margin: 6px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
       .activity { border-left: 2px solid #b7cbbd; padding: 0 0 16px 12px; } .activity strong { display: block; font-size: 14px; } .activity small { color: #78837c; }
       @media (max-width: 760px) {
         #workspace { display: block; } aside { position: sticky; top: 0; z-index: 3; border-right: 0; border-bottom: 1px solid #d4d8d1; padding: 12px 14px; }
@@ -103,6 +104,22 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
           card.append(node('h3', candidate.restaurant.outletName), node('div', candidate.restaurant.address + (candidate.distanceObservation ? ' · ' + candidate.distanceObservation.meters + ' m from ' + (candidate.distanceObservation.centerBasis === 'NAMED_PLACE_RADIUS' ? 'requested place' : candidate.distanceObservation.centerBasis === 'TASK_LOCATION_RADIUS' ? 'your location' : 'evaluation location') : '') + ' · ' + statusDetail, 'muted'));
           card.append(node('div', presentedIds.includes(id) && (factOnly || !expired) ? 'Evidence-grounded result' : 'Investigated candidate — not a verified result for the current request', 'muted'));
           if (check && check.checkedAt) card.append(node('div', 'Availability checked: ' + new Date(check.checkedAt).toLocaleString(), 'muted'));
+          (view.restaurant.bookingHandoffs || []).filter(handoff => handoff.candidateId === id && !expired && Date.parse(handoff.displayExpiresAt) > now && offers.some(offer => offer.id === handoff.offerId)).forEach(handoff => {
+            const section = node('section', undefined, 'booking-handoff');
+            const direct = node('a', handoff.directLabel); direct.href = handoff.url; direct.target = '_blank'; direct.rel = 'noreferrer noopener';
+            const departure = node('a', handoff.continueLabel, 'departure'); departure.href = handoff.url; departure.target = '_blank'; departure.rel = 'noreferrer noopener';
+            section.append(direct, departure);
+            if (handoff.hint) section.append(node('p', handoff.hint, 'muted booking-hint'));
+            handoff.terms.forEach(term => {
+              section.append(node('p', term.label));
+              term.citations.forEach(citation => {
+                section.append(node('blockquote', citation.text));
+                const source = node('a', 'Source · read ' + new Date(citation.readAt).toLocaleString('en-GB'), 'muted');
+                source.href = citation.url; source.target = '_blank'; source.rel = 'noreferrer noopener'; section.append(source);
+              });
+            });
+            card.append(section);
+          });
           (view.restaurant.conditionStates?.[id] || []).forEach(condition => {
             const label = condition.status === 'MET' ? 'met' : condition.status === 'NOT_MET' ? 'not met' : 'not checked';
             card.append(node('p', condition.text + ' — ' + label + ': ' + condition.explanation));
