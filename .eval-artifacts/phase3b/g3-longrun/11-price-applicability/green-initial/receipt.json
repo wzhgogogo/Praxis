@@ -1,0 +1,52 @@
+{
+  "commit": "1ac551928f50470b4f16746540454462a2cbcd4e",
+  "phase": "green",
+  "runs": [
+    {
+      "name": "targets",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/domains/restaurant/condition-states.test.ts",
+        "src/integrations/tabelog/tabelog-browser-availability.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 13.589424792,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "legacy",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3b/g3-longrun/11-price-applicability/compare-legacy.ts",
+        "/private/tmp/praxis-g3-price-applicability-green-20261029/legacy-state-changes.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.13894966600000025,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.13276579100000063,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

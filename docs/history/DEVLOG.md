@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.347
+- Document revision: 4.348
 
 
 - Last updated: 2026-10-29
@@ -5258,3 +5258,10 @@ Five approved consolidation items have individual successor proof, all originals
 ## DEV-2026-10-29-G2-SEN-SCHEDULING-VERIFIED
 
 2026-10-29 CET: G2 Sen requestConfirmed is UNKNOWN(null) by approved review; observed public ARIA positives/removal negatives and bound/mismatched response controls retained. G2 is scheduled alone before remaining4-worker fixtures; original180s test/classifier/mutation/12-page manifest unchanged. Matched2CPU37.5% pressure old180.090s timeout→exclusive89.221s PASS; ordinary old2CPU control138.062s PASS retained, not called a reproduction. Frozen445691b3/682 inputs: macOS/Linux five gates green, default1202, Chromium175; three consecutive ordinary2CPU full runs132.279/132.833/132.951s, all before/after clean. All174 prior browser names retained +1 public-control, +1 default native phase-order regression. VM deleted, no file restore, product/site/Guard/Pack/Prompt/Schema/State diff0, real calls0. [Report](../../.eval-artifacts/phase3b/g2-sen-scheduling/report.md).
+
+
+<a id="dev-2026-10-29-g3-price-applicability"></a>
+
+## 2026-10-29 CET：G3 报价适用修复和严格G2
+
+2026-10-29 CET：用户批准的报价适用核对已完成。沿现有Intent核对人数、日期、餐别等字面限制；367组旧输入/481状态仅原2人对至少4人的反例MET→NOT_CHECKED，原始报价保留，State/TaskDefinition不变。main50a08361已同步，五门禁1225/180全绿（浏览器128.959秒）、严格G2全部12页PASS/Tabelog6页PASS，各项净树。账本479条并集，真实调用0；C保护代码/断言及响应输出不变。G3c继续，G3不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/11-price-applicability/report.md)。

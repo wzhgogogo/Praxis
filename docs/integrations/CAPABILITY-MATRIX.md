@@ -1,5 +1,7 @@
 # Integration Capability Matrix
 
+2026-10-29 CET：用户批准的报价适用核对已完成。沿现有Intent核对人数、日期、餐别等字面限制；367组旧输入/481状态仅原2人对至少4人的反例MET→NOT_CHECKED，原始报价保留，State/TaskDefinition不变。main50a08361已同步，五门禁1225/180全绿（浏览器128.959秒）、严格G2全部12页PASS/Tabelog6页PASS，各项净树。账本479条并集，真实调用0；C保护代码/断言及响应输出不变。G3c继续，G3不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/11-price-applicability/report.md)。
+
 2026-10-29 CET：G3 因 HARD 报价适用人数错判停止。实际 Adapter → fixture 模型选句 → 生产条件判断中，原文完整保留“8,000 日元、至少 4 人”，但 2 人请求仍为 MET；独立期望为 NOT_CHECKED。无限制报价正对照为 MET，库存人数绑定正常。HARD 消费方与 main `50a08361` 字节相同，未自行改规则；这是离线反例，没有 Live 错误交付。OBS-09 已实现，G3c 尚为草案；相关核心 49/49、原生 163/163、Chromium 14/14 通过，当前新增回归红灯保留，最终五门禁和严格 G2 尚未通过。A 的 Sen UNKNOWN 已在 main，因本次 S0 停止尚未同步。C 保护文件/断言及响应接口不变，真实调用 0；行数 3,970/Pack 482 仅参考。只推工作分支，等复核。 [报告](../../.eval-artifacts/phase3b/g3-longrun/10-hard-price-scope-stop/report.md).
 
 2026-10-29 CET: OBS08/09 public-selection implementation removes class-selected authority and uses ARIA/live native state/exact bound responses; effective native/Chromium red→targeted and corresponding greens. Candidate 12f5dd0d: first four gates PASS (default 1216/1216), full Chromium 178/179; sole failure is the A-owned approved Sen UNKNOWN reference not yet on main. All per-gate statuses clean, no skips/restorations. C protected code/tests and vacancy-response output unchanged. Mark validation pending, preserve the failed gate, continue G3c under explicit user non-wait instruction; no baseline edit and no full/strict PASS claim. Calls0. [Report](../../.eval-artifacts/phase3b/g3-longrun/08-public-selection/report.md).
@@ -35,7 +37,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.109
+- Document revision: 1.110
 
 
 - Last updated: 2026-10-29

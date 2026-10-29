@@ -119,7 +119,7 @@
   },
   {
     "group": "08 public selection OBS08/09",
-    "status": "IMPLEMENTED_VALIDATION_PENDING_A_SEN_BASELINE",
+    "status": "IMPLEMENTED_AND_STRICT_G2_VERIFIED_AFTER_APPROVED_MAIN_SYNC",
     "candidate": "12f5dd0d23c4b5be4450d9a8ff7af7703c058af7",
     "red": "41cec356",
     "targetedGreen": "32a9d16c",
@@ -127,11 +127,12 @@
     "defaultTests": "1216/1216",
     "chromium": "178/179; only approved A Sen dependency",
     "vacancyResponseApiChanged": false,
-    "report": "08-public-selection/report.md"
+    "report": "08-public-selection/report.md",
+    "finalVerification": "11-price-applicability/report.md"
   },
   {
     "group": "09 quoted source menu/price draft",
-    "status": "DRAFT_STOPPED_S0_HARD_PRICE_SCOPE",
+    "status": "DRAFT_RESUMED_AFTER_APPROVED_HARD_REPAIR",
     "implementation": "650c7bfc",
     "redAdapters": "f5103dcc",
     "redCache": "182cb113",
@@ -144,7 +145,7 @@
   },
   {
     "group": "10 HARD price scope stop",
-    "status": "STOPPED_S0_CLASS_HARD_PRICE_SCOPE",
+    "status": "RESOLVED_BY_USER_APPROVED_PRICE_APPLICABILITY_RULE",
     "counterexampleCommit": "c8ff6bf70621c776c7b701727653a13bea02f4ef",
     "independentExpected": "NOT_CHECKED",
     "actual": "MET",
@@ -153,6 +154,20 @@
     "A_baseline_main": "50a0836148c5b026240a770de89c5d5357091355",
     "A_baseline_synced": false,
     "realCalls": 0,
-    "report": "10-hard-price-scope-stop/report.md"
+    "report": "10-hard-price-scope-stop/report.md",
+    "previousStatus": "STOPPED_S0_CLASS_HARD_PRICE_SCOPE",
+    "resolution": "11-price-applicability/report.md"
+  },
+  {
+    "group": "11 quoted price applicability",
+    "status": "OFFLINE_VERIFIED",
+    "testedCommit": "dc337a7b",
+    "report": "11-price-applicability/report.md"
+  },
+  {
+    "group": "12 approved Sen main sync",
+    "status": "STRICT_G2_ALL_PASS",
+    "mergedMain": "50a08361",
+    "report": "12-sen-main-sync/report.md"
   }
 ]

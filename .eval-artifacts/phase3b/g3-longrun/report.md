@@ -1,3 +1,11 @@
+# G3 最新进展：报价适用条件已修复，严格 G2 全部 PASS，继续 G3c
+
+2026-10-29T12:20:39.405762+01:00，Vienna CET。用户批准后，报价限制沿既有Intent核对；旧481个条件状态仅“至少4人/请求2人”由MET→NOT_CHECKED，其余不变。原始报价/原文保留，State/TaskDefinition不变。五门禁1225/180全绿，浏览器128.959秒；严格G2全部12页PASS（Tabelog6/6），每项净树。已同步main50a08361，账本479条并集、真实调用0，C保护代码/断言与vacancy输出不变。[完整修复报告](11-price-applicability/report.md)。
+
+G3c仍在实施，不合main；下面停止与中间报告为superseded retrospective，保留原文。
+
+---
+
 # G3 最新停止点：报价适用人数未进入 HARD 预算核对
 
 2026-10-29T09:52:53.665907+01:00，维也纳 CET（UTC+1）。**按 S0 类停止规则暂停，G3/G3c 尚未完成，未合 main。**
