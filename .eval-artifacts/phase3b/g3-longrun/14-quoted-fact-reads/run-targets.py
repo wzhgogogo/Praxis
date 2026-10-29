@@ -10,12 +10,14 @@ if phase=='green':
  commands.insert(1,('corresponding',['node','--import','./scripts/test-filesystem-guard.mjs','--import','tsx','--test',
  'src/integrations/tabelog/tabelog-browser-availability.test.ts',
  'src/integrations/tablecheck/tablecheck-browser-availability.test.ts',
- 'src/integrations/restaurant-facts/native-source-facts.test.ts',
+ 'src/integrations/restaurant-availability/native-outlet-continuity.test.ts',
  'src/integrations/restaurant-facts/model-fact-judgment.test.ts',
  'src/integrations/restaurant-facts/page-question-reader.test.ts',
  'src/application/restaurant-presentation-evidence.test.ts']))
 
 for name,cmd in commands:
+ for path in cmd:
+  if path.endswith(".test.ts"):assert (root/path).is_file(),path
  t=time.monotonic();timed_out=False
  with (out/(name+'.log')).open('wb') as log:
   proc=subprocess.Popen(cmd,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)

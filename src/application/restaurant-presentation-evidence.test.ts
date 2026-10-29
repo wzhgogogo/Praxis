@@ -145,7 +145,7 @@ test("C18 H002 current fact document carries same-page prices through judgment a
           metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: current.observedAt },
           navigate: async () => undefined, snapshot: async () => page, observeControls: async () => [],
           click: async () => undefined, fill: async () => undefined, select: async () => [],
-          waitFor: async () => undefined, screenshot: async () => new Uint8Array(), close: async () => undefined,
+          waitFor: async () => undefined, waitForSettled: async () => true, screenshot: async () => new Uint8Array(), close: async () => undefined,
         }) }, { async judge() { return { evidence: [] }; } }, () => current.observedAt, undefined, undefined, undefined, undefined, undefined, menuModel,
       ).inspectFacts({ candidateIds: [id], candidates: [outlet], intent: state.intent! }, new AbortController().signal);
       assert.equal(quoteRequests.length,1,"one immutable page quote read: "+JSON.stringify(source.factChecks));
