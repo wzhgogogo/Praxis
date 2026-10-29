@@ -1,6 +1,6 @@
 from pathlib import Path
 import os,subprocess,time,json,hashlib,platform
-root=Path.cwd();out=Path('/tmp/g2-scheduling-green-cohort');out.mkdir(exist_ok=False)
+root=Path.cwd();out=Path('/tmp/g2-scheduling-green-cohort-policy');out.mkdir(exist_ok=False)
 assert os.cpu_count()==2 and os.sched_getaffinity(0)=={0,1}
 assert not subprocess.check_output(['git','status','--porcelain'])
 assert subprocess.run(['ip','route','get','203.0.113.1'],stdout=subprocess.PIPE,stderr=subprocess.PIPE).returncode != 0
