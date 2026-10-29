@@ -5185,3 +5185,7 @@ Five approved consolidation items have individual successor proof, all originals
 2026-10-29 CET：C同步main50a08361并保留A G2调度修复；用户批准ADR0049 Accepted（原C0048改号）。持久USER_REPORTED反馈与双语取消冲突先红后绿，Task/Outcome不变；两次公开GET均200，robots允许/en/help，440/用户取消不退/餐厅取消退均有原文。累计GET244/257，模型/Google/Live0。B1暂态合同2，既有共享版本不变；G3接线按指令等待B合main，本批不做。最终冻结门禁待执行。
 
 旧API404≠201和旧冲突notice undefined有效红；领域7/7、真实HTTP/PGlite重启并发与三种自报选择初绿。原6b867b34证据保留，不按新规则重写旧分数。
+
+最终交付：2026-10-29 CET：C G5 B1后续1–3完成待复核，已同步main50a08361并保留A调度修复。ADR0049 Accepted0.2；持久USER_REPORTED反馈并发/重启最多一次，Yes/No/Skip幂等且不改预约状态；日英取消冲突并列原文和英文转述，不判严格程度。手续费两GET均200，英文帮助原文支持440/用户取消不退/餐厅取消退；累计GET244/257，模型/Google/Live0。7542dde7冻结702项，五门禁1210/175、G2 5/5全绿，10步前后净树。既有Prompt/Schema/State/TaskDefinition不变，独立B1合同2；G3接线与首次TableCheck Live清单均未运行，仅推分支不合main。
+
+首轮API404≠201、冲突notice缺失的有效红灯保留；修复后真实HTTP/PGlite链路含三个Case的Yes/No/Skip、4个并发claim、未回答/已回答重启不重问、重复幂等与跨用户/跨Case拒绝。独立回执表不写Task/Outcome。Web首次预检错误假定折叠来源链接可见，改为先展开后核对（失败日志保留）；两站真实本地Chromium用户点击/返回、双语引文/手续费与无自动访问均通过。真实Postgres多连接/当前网站带入/真实模型语义质量未运行。公开GET只2次，HTTP200原文raw/decoded SHA保留；匿名响应Set-Cookie发布前从元数据和三个未推送提交移除，不改正文、不使用Cookie、无需强推，批准6b867b34/main50a08361不改。最终冻结原件gates.json/verification.json，全部702 SHA前后不变。
