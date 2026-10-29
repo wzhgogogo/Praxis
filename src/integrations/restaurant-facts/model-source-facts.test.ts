@@ -35,6 +35,7 @@ test("source price ranges require quoted or public ARIA meal context; ambiguous 
 });
 test("source range preserves every intervening restriction and cancellation rejects a late response",async()=>{
  const text="Dinner course\nJPY 8,000 tax included\nLunch only; number of people 2 - 4.";
- const result=await readQuotedRestaurantSourceFacts(model(request=>selection(request,0,2)),input(text),()=>time,signal());assert.equal(result?.priceFacts?.listedCoursePricesYen[0]?.quote,text);assert.equal(result?.priceFacts?.listedCoursePricesYen[0]?.meal,"UNSPECIFIED");
+ const detached=await readQuotedRestaurantSourceFacts(model(request=>selection(request,0,1)),input(text),()=>time,signal());assert.equal(detached,undefined,"a selected range cannot detach adjacent meal/party restrictions");
+ const result=await readQuotedRestaurantSourceFacts(model(request=>selection(request,0,2)),input(text),()=>time,signal());assert.equal(result?.listedCourseDetails[0],text);assert.equal(result?.priceFacts,undefined,"contradictory dinner/lunch-only scope is not an unrestricted comparable price");
  const controller=new AbortController();await assert.rejects(readQuotedRestaurantSourceFacts(model(request=>{controller.abort();return selection(request);}),input(),()=>time,controller.signal),{name:"AbortError"});
 });
