@@ -3,12 +3,13 @@ import os,subprocess,time,json,hashlib,platform
 root=Path.cwd();out=Path('/tmp/g2-scheduling-green-cohort');out.mkdir(exist_ok=False)
 assert os.cpu_count()==2 and os.sched_getaffinity(0)=={0,1}
 assert not subprocess.check_output(['git','status','--porcelain'])
-assert '00000000' not in [line.split()[1] for line in Path('/proc/net/route').read_text().splitlines()[1:]]
+assert subprocess.run(['ip','route','get','203.0.113.1'],stdout=subprocess.PIPE,stderr=subprocess.PIPE).returncode != 0
+assert subprocess.run(['ip','-6','route','get','2001:db8::1'],stdout=subprocess.PIPE,stderr=subprocess.PIPE).returncode != 0
 expected={
 'src/harness/browser/dom-change.test.ts':'',
 'src/eval/restaurant/dom-change/run.ts':'',
 'package.json':''}
-receipt={'sourceRef':Path('/tmp/g2-green-host-ref').read_text().strip(),'cpus':os.cpu_count(),'affinity':sorted(os.sched_getaffinity(0)),'platform':platform.platform(),'node':subprocess.check_output(['node','--version'],text=True).strip(),'guestCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'routes':Path('/proc/net/route').read_text(),'cpuMax':(Path('/sys/fs/cgroup')/Path('/proc/self/cgroup').read_text().strip().split(':')[-1].lstrip('/')/'cpu.max').read_text(),'sourceSha256':{p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in expected},'mode':'FIXED_EXCLUSIVE_G2_FOUR_FILE_COHORT_TWO_VCPU_CGROUP_25_PERCENT_TOTAL','modelGoogleWebsiteLive':0}
+receipt={'sourceRef':Path('/tmp/g2-green-host-ref').read_text().strip(),'cpus':os.cpu_count(),'affinity':sorted(os.sched_getaffinity(0)),'platform':platform.platform(),'node':subprocess.check_output(['node','--version'],text=True).strip(),'guestCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'routes':Path('/proc/net/route').read_text(),'ipRules':subprocess.check_output(['ip','rule','show'],text=True),'ip6Rules':subprocess.check_output(['ip','-6','rule','show'],text=True),'egressProbe':'Routing lookup only, TEST-NET/documentation addresses; no packets or website GET.','cpuMax':(Path('/sys/fs/cgroup')/Path('/proc/self/cgroup').read_text().strip().split(':')[-1].lstrip('/')/'cpu.max').read_text(),'sourceSha256':{p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in expected},'mode':'FIXED_EXCLUSIVE_G2_FOUR_FILE_COHORT_TWO_VCPU_CGROUP_25_PERCENT_TOTAL','modelGoogleWebsiteLive':0}
 (out/'environment.json').write_text(json.dumps(receipt,indent=2)+'\n');started=time.monotonic()
 with (out/'full.log').open('w') as log:
  process=subprocess.Popen(['node','scripts/run-browser-fixtures.mjs','src/harness/browser/dom-change.test.ts','src/harness/browser/browser-read-category.test.ts','src/harness/browser/browser-read-regions.test.ts','src/harness/browser/browser-read-discovery.test.ts'],stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
