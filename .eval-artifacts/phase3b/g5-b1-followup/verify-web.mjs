@@ -63,7 +63,9 @@ try {
    assert.match(text,/Cancellation terms differ between the Japanese and English pages/);
    assert.match(text,/前日キャンセルは50％、当日は100％です。/);assert.match(text,/Japanese page: Cancellation costs 50%/);
    assert.match(text,/English page: Same-day cancellation costs 100%/);assert.match(text,/Confirm cancellation terms on the website/);
-   assert.match(text,/System usage fee: ¥440 per guest/);assert.equal(await section.getByRole('link',{name:/Tabelog English help/}).getAttribute('href'),'https://tabelog.com/en/help');
+   assert.match(text,/System usage fee: ¥440 per guest/);await section.getByText('Platform fee source',{exact:true}).click();
+   assert.equal(await section.getByRole('link',{name:/Tabelog English help/}).getAttribute('href'),'https://tabelog.com/en/help');
+   await section.getByText('Platform fee source',{exact:true}).click();
   }else{assert.match(text,/Check date and guests/);assert.match(input.source.url,/start_time=19%3A00/);assert.doesNotMatch(text,/440|Cancellation terms differ/);}
   await page.screenshot({path:new URL('web-'+provider.toLowerCase()+'-desktop.png',root).pathname,fullPage:true});
   await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);

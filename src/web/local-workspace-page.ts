@@ -63,7 +63,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
     </div>
     <script>
       const $ = (selector) => document.querySelector(selector);
-      const state = { cases: [], view: null, stream: null, navigation: 0, expiryTimer: null, feedbackChecked: new Set(), feedbackClaiming: new Set(), feedbackCaseId: null };
+      const state = { cases: [], view: null, stream: null, navigation: 0, expiryTimer: null, feedbackChecked: new Set(), feedbackClaiming: new Set(), awaitingFeedback: new Set(), feedbackCaseId: null };
       const login = $('#login'), workspace = $('#workspace'), list = $('#case-list'), title = $('#case-title'), status = $('#case-status'), modeNotice = $('#mode-notice'), workspaceMode = $('#workspace-mode'), readBoundary = $('#read-boundary');
       const messages = $('#messages'), artifact = $('#artifact'), activity = $('#activity'), composer = $('#composer'), message = $('#message'), send = $('#send'), refresh = $('#refresh'), cancelRun = $('#cancel-run'), useLocation = $('#use-location'), locationHelp = $('#location-help'), error = $('#error');
       const node = (tag, text, className) => { const item = document.createElement(tag); if (text !== undefined) item.textContent = text; if (className) item.className = className; return item; };
@@ -73,11 +73,12 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
       async function requestBookingFeedback() {
         const view = state.view; if (!view || document.visibilityState === 'hidden') return;
         const caseId = view.case.caseId;
+        if (!view.restaurant.bookingFeedbackAvailable && !state.awaitingFeedback.has(caseId)) return;
         if (state.feedbackChecked.has(caseId) || state.feedbackClaiming.has(caseId)) return;
         state.feedbackClaiming.add(caseId);
         try {
           const payload = await api('/api/cases/' + encodeURIComponent(caseId) + '/booking-feedback/claim', {method:'POST',body:'{}'});
-          state.feedbackChecked.add(caseId);
+          state.feedbackChecked.add(caseId); state.awaitingFeedback.delete(caseId);
           if (!payload.prompt || state.view?.case.caseId !== caseId) return;
           const prompt = payload.prompt; state.feedbackCaseId = caseId;
           feedbackPanel.replaceChildren(node('p', prompt.question)); feedbackPanel.classList.remove('hidden');
@@ -101,7 +102,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
         popup.opener = null;
         try {
           const payload = await api('/api/cases/' + encodeURIComponent(view.case.caseId) + '/booking-departures', {method:'POST',body:JSON.stringify({candidateId:handoff.candidateId,offerId:handoff.offerId,taskVersion:view.case.taskVersion,requestId:requestId()})});
-          state.feedbackChecked.delete(view.case.caseId); popup.location.href = payload.url;
+          state.feedbackChecked.delete(view.case.caseId); state.awaitingFeedback.add(view.case.caseId); popup.location.href = payload.url;
         } catch (reason) { popup.close(); showError(reason); }
       }
       window.addEventListener('focus', requestBookingFeedback);

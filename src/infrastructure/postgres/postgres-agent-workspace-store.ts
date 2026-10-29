@@ -226,6 +226,14 @@ export class PostgresAgentWorkspaceStore {
       createdAt: toIsoString(row.created_at),
     }));
   }
+  async hasUnpromptedBookingDeparture(conversationId:string):Promise<boolean> {
+    const result=await this.database.query<{available:boolean}>(`SELECT EXISTS (
+      SELECT 1 FROM restaurant_booking_departures WHERE conversation_id=$1
+    ) AND NOT EXISTS (
+      SELECT 1 FROM restaurant_booking_departures WHERE conversation_id=$1 AND prompted_at IS NOT NULL
+    ) AS available`,[conversationId]);
+    return result.rows[0]?.available===true;
+  }
   async recordBookingDeparture(input:{userId:string;caseId:string;expectedVersion:number;requestId:string;candidateId:string;offerId:string;provider:"TABELOG"|"TABLECHECK";now:string}):Promise<BookingDepartureReceipt> {
     return this.database.transaction(async transaction=>{
       const record=await lockBookingCase(transaction,input.userId,input.caseId);

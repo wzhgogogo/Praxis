@@ -1845,7 +1845,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       assert.deepEqual(((await api(running.baseUrl,cookie,path)).payload.view as RestaurantCaseView).restaurant.bookingHandoffs,[]);
       assert.equal(sourceReads,1,"projection and expiry may not open any booking page or rerun availability");
       // Recreate the complete server/application without a source cache; receipts must survive.
-      const before=await running.application.getCase("user-a",view.case.caseId);
+      const before=await running.application.getCase("user-a",view.case.caseId);assert.equal(before.restaurant.bookingFeedbackAvailable,true);
       await running.close();running=await startServer(database,clock);
       const claims=await Promise.all(Array.from({length:4},()=>api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})));
       const shown=claims.map(item=>item.payload.prompt).filter(Boolean) as Array<{question:string;departure:{id:string}}>;
@@ -1863,6 +1863,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       await running.close();running=await startServer(database,clock);
       assert.equal((await api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})).payload.prompt,null,"restart and answered/ignored prompts never re-ask");
       const after=await running.application.getCase("user-a",view.case.caseId);
+      assert.equal(after.restaurant.bookingFeedbackAvailable,false);
       assert.equal(after.case.taskVersion,before.case.taskVersion);assert.equal(after.case.phase,before.case.phase);
       assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,undefined);
       const rows=await database.query<{count:string}>("SELECT COUNT(*) AS count FROM restaurant_booking_departures");assert.equal(Number(rows.rows[0]!.count),1);

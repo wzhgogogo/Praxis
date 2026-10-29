@@ -1036,10 +1036,11 @@ export class PersistentRestaurantAgentApplication {
 
   private async project(record: ConversationRecord): Promise<RestaurantCaseView> {
     await this.finishInterruptedLiveRead(record);
-    const [snapshot, messages, events] = await Promise.all([
+    const [snapshot, messages, events, bookingFeedbackAvailable] = await Promise.all([
       this.runtime.snapshot(record.rootTaskId),
       this.store.listMessages(record.id),
       this.runtime.listEvents(record.rootTaskId),
+      this.store.hasUnpromptedBookingDeparture(record.id),
     ]);
     const state = snapshot.domainState;
     const action = state.pageQuestion && !state.pageQuestion.result ? undefined : pendingAction(state.phase);
@@ -1101,6 +1102,7 @@ export class PersistentRestaurantAgentApplication {
         ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
         ...(state.searchContinuation?.locationContext ? { searchLocation: structuredClone(state.searchContinuation.locationContext) } : {}),
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
+        bookingFeedbackAvailable,
         candidates: state.candidates.map(candidate => ({ ...structuredClone(candidate), ...observedCandidateDistance(state.readEvidence, candidate.restaurant.id, snapshot.updatedAt) })),
         availability: structuredClone(state.availability),
         availabilityChecks: structuredClone(state.availabilityChecks),
