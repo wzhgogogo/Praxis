@@ -12,7 +12,7 @@ const native = '<label for="day">Date</label><input id="day" type="date" value="
 const aria = '<table><caption>Nov 2026</caption><tr><td><span aria-current="date">3</span></td></tr></table><fieldset><legend>Guests</legend><button aria-pressed="true">2</button></fieldset>';
 
 test("Tabelog query confirmation uses public native or ARIA values and rejects public contradictions", () => {
-  for (const html of [native, aria]) {
+  for (const html of [native, aria, '<label>Date<input type="date" value="2026-11-03"></label><label>Guests<select><option selected value="2">2 guests</option></select></label>']) {
     assert.equal(hasTabelogSelectedQuery(snapshot(html), date, 2), true);
     assert.equal(hasTabelogSelectedQuery(snapshot(html), date, 3), false);
     assert.equal(hasTabelogSelectedQuery(snapshot(html), "2026-11-04", 2), false);

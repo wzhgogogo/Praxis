@@ -23,7 +23,7 @@ function boundQueryFixture(snapshot: BrowserSnapshot, slots: readonly string[] =
       body: { base_date: {year:2026,month:8,day:5}, members:2, selection: Object.fromEntries(slots.map((time, index) => [index, { time, url: `/en/booking/form_course/new?rcd=${outletId}&member=2&visit_date=20260805&visit_time=${time.replace(':','')}` }])) } }] };
 }
 
-test("captured kf-h001 Sen after selecting the date still has no slot result and remains EXTRACTION_FAILED", async () => {
+test("captured kf-h001 Sen has no public query or response proof and remains UNKNOWN", async () => {
   const html = await readFile(new URL("../../harness/browser/fixtures/tabelog-sen-no-slots-20261010.html", import.meta.url), "utf8");
   const observed = JSON.parse(await readFile(new URL("../../harness/browser/fixtures/tabelog-sen-no-slots-20261010.snapshot.json", import.meta.url), "utf8"));
   const page: BrowserSnapshot = { url: observed.url, title: observed.title, text: observed.visibleText, html };
@@ -34,7 +34,7 @@ test("captured kf-h001 Sen after selecting the date still has no slot result and
   const session = new FixtureBrowserSession([page]);
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ ...request, candidateIds: [sen.restaurant.id], candidates: [sen], hardCriteria: [] }, new AbortController().signal);
   assert.equal(result.availabilityChecks[sen.restaurant.id]?.status, "UNKNOWN");
-  assert.equal(result.metadata.failureCode, "EXTRACTION_FAILED");
+  assert.equal(result.metadata.failureCode, "REQUEST_SELECTION_UNCONFIRMED");
 });
 
 test("three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity", async () => {
@@ -698,7 +698,7 @@ test("Tabelog current public controls confirm selection without private hooks an
   assert.equal(hasTabelogSelectedQuery({...snapshot,html:html+'<section hidden><table><caption>Nov 2026</caption><tr><td><button aria-current="date">4</button></td></tr></table></section>'},'2026-11-03',2),true);
 });
 
-test("all 19 saved quick-validation selections match the independent source oracle without fabricating missing responses", async () => {
+test("19 archived class-derived query selections cannot confirm the public query or fabricate missing responses", async () => {
   const root=new URL('./fixtures/availability/',import.meta.url),batch='checkpoint-c-live-20261020/tabelog-query-binding-20261021/';
   const manifest=JSON.parse(await readFile(new URL(batch+'inputs/manifest.json',root),'utf8'));
   const oracle=JSON.parse(await readFile(new URL(batch+'independent-oracle.json',root),'utf8'));
@@ -706,8 +706,8 @@ test("all 19 saved quick-validation selections match the independent source orac
   for(const row of manifest.rows){
     const detail=JSON.parse(await readFile(new URL(row.snapshotPath,root),'utf8')).detail;
     const snapshot={url:detail.url,title:detail.title,text:'',html:await readFile(new URL(row.htmlPath,root),'utf8'),responses:detail.responses};
-    const expected=oracle.rows.find((item:{id:string})=>item.id===row.id);
-    assert.equal(hasTabelogSelectedQuery(snapshot,row.request.date,row.request.partySize),expected.selectedQuery,row.id);
+    assert.ok(oracle.rows.some((item:{id:string})=>item.id===row.id), 'retain the historical oracle only as a source index');
+    assert.equal(hasTabelogSelectedQuery(snapshot,row.request.date,row.request.partySize),false,row.id+' class markers are not public query proof');
     assert.deepEqual(parseTabelogAvailabilitySlots(snapshot,row.request),{availableSlots:[],hasExplicitSlotUi:false},row.id+' has no captured runtime response');
   }
 });

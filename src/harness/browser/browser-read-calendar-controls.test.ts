@@ -289,7 +289,7 @@ test("Chromium projects an owned default-method submit as GET without classifyin
 });
 
 
-test("C2a recorded unavailable calendar dates are observed and cannot drift to other days", async () => {
+test("C2a recorded date controls reject other days without class-derived party confirmation", async () => {
   const {tabelogQueryControlHints}=await import("../../integrations/tabelog/tabelog-query-controls.js");
   for(const [name,date,sourceUrl] of [["yuu","2026-10-24","https://tabelog.com/en/tokyo/A1301/A130101/13291436/"],["labo","2026-10-22","https://tabelog.com/en/tokyo/A1303/A130301/13284556/"]]){
     const html=await readFile(new URL(`./fixtures/calendar-${name}-20261010.html`,import.meta.url),'utf8');
@@ -306,7 +306,7 @@ test("C2a recorded unavailable calendar dates are observed and cannot drift to o
     try{
       await executor.navigate({session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://tabelog.com'],url:sourceUrl!});
       const read=await executor.runSkill({taskId:'calendar',session,signal,source:'FIXTURE',stage:'AVAILABILITY',allowedOrigins:['https://tabelog.com'],goal:{outlet:{name:'Recorded outlet'},date:date!,partySize:2,hardCriteria:[]},objective:'Read exact requested date',controlHints:tabelogQueryControlHints,completion:()=>({complete:false,reason:'Requested date cannot be selected'})});
-      assert.equal(read.status,'NO_SAFE_ACTION');assert.equal(read.reasonCode,'DATE_NOT_SELECTABLE');assert.ok(calls>=1&&calls<=2);
+      assert.equal(read.status,'NO_SAFE_ACTION');assert.equal(read.reasonCode,undefined,'a class-only party cannot complete date/party confirmation');assert.ok(calls>=1&&calls<=2);
     }finally{await executor.close();}
   }
 });

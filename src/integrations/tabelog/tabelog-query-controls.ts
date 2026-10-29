@@ -72,6 +72,10 @@ function publicLabel(element: QueryElement, elements: QueryElement[]): string {
   const explicit = id && elements.find(row => !row.hidden && row.name === "label" && attribute(row.tag, "for") === id);
   if (explicit) return plain(explicit.content);
   for (let owner = element.parent; owner; owner = owner.parent) {
+    if (owner.name === "label") {
+      const text = plain(owner.content.replace(/<select\b[^>]*>[\s\S]*?<\/select>|<input\b[^>]*>/giu, ""));
+      if (text) return text;
+    }
     const label = attribute(owner.tag, "aria-label"); if (label) return plain(label);
     const direct = elements.filter(row => row.parent === owner && !row.hidden && /^(?:legend|label|h[1-6]|p|span)$/u.test(row.name));
     const field = direct.map(row => plain(row.content)).filter(text => /^(?:guests?|people|party size|members?|人数|date|日付)$/iu.test(text));

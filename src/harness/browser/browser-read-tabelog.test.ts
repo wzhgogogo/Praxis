@@ -195,17 +195,17 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const { parseTabelogAvailabilitySlots } = await import("../../integrations/tabelog/tabelog-page-parser.js");
     const sourceUrl = "https://tabelog.com/en/tokyo/A1301/A130103/13292459/";
     const html = `<h1>Restaurant 1</h1><p>1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p><div class="p-booking-calendar" style="display:none">
-      <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17">17</p>
-      <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20">20</p>
-      <button type="button" class="p-booking-calendar__people-button js-people-button is-active">2</button><button type="button" class="p-booking-calendar__people-button js-people-button">4</button>
-      <input type="hidden" class="js-people-hidden-value" value="2">
+      <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17" aria-label="Date 2026-09-17" aria-current="date">17</p>
+      <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20" aria-label="Date 2026-09-20">20</p>
+      <fieldset><legend>Guests</legend><button type="button" class="p-booking-calendar__people-button js-people-button is-active" aria-pressed="true">2</button><button type="button" class="p-booking-calendar__people-button js-people-button" aria-pressed="false">4</button>
+      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset>
       <button data-state="disabled" data-date="2026-9-16" type="button">Disabled date</button>
       <button class="p-booking-calendar__time-button js-time-button" data-time="1900" type="button">7:00 PM</button>
       </div><a href="https://social.example/restaurant">Official website</a>
       <script>
       setTimeout(()=>document.querySelector('.p-booking-calendar').style.display='block',150);
-      document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{document.querySelector('.is-current').classList.remove('is-current');el.classList.add('is-current')});
-      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');document.querySelector('input').value=el.textContent});
+      document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{const old=document.querySelector('.is-current');old.classList.remove('is-current');old.removeAttribute('aria-current');el.classList.add('is-current');el.setAttribute('aria-current','date')});
+      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{const old=document.querySelector('.is-active');old.classList.remove('is-active');old.setAttribute('aria-pressed','false');el.classList.add('is-active');el.setAttribute('aria-pressed','true');document.querySelector('input').value=el.textContent});
       </script>`;
     let calls = 0;
     const searchUrl = "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201";
@@ -259,13 +259,13 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     let html=`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p>
       <div class="rstdtl-course-list js-rstdtl-course-list"><span class="rstdtl-course-list__course-title-text">Seasonal lunch course</span><p class="rstdtl-course-list__desc">Lunch only, 11:30 to 14:00.</p><del>JPY 9,000</del><span class="rstdtl-course-list__price-num">JPY<em>8,000</em><span>（Price including tax）per person</span></span><dl class="rstdtl-course-list__course-rule"><dt>Number of people</dt><dd>2 - 4</dd></dl></div>
       <div class="p-booking-calendar">
-      <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17">17</p>
-      <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20">20</p>
-      <fieldset><legend>Guests</legend><button type="button" class="p-booking-calendar__people-button js-people-button is-active">2</button><button type="button" class="p-booking-calendar__people-button js-people-button">4</button>
-      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset><button type="button" class="p-booking-calendar__time-button" data-time="1845">6:45 PM</button></div>
+      <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17" aria-label="Date 2026-09-17" aria-current="date">17</p>
+      <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20" aria-label="Date 2026-09-20">20</p>
+      <fieldset><legend>Guests</legend><fieldset><legend>Guests</legend><button type="button" class="p-booking-calendar__people-button js-people-button is-active" aria-pressed="true">2</button><button type="button" class="p-booking-calendar__people-button js-people-button" aria-pressed="false">4</button>
+      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset></fieldset><button type="button" class="p-booking-calendar__time-button" data-time="1845">6:45 PM</button></div>
       <script>function query(){fetch('${endpoint}?member='+document.querySelector('.p-booking-calendar__people-button.is-active').textContent);fetch('/unrelated.json')}
-      document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{document.querySelector('.is-current').classList.remove('is-current');el.classList.add('is-current');query()});
-      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');const hidden=document.querySelector('input');if(hidden)hidden.value=el.textContent;query()});</script>`;
+      document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{const old=document.querySelector('.is-current');old.classList.remove('is-current');old.removeAttribute('aria-current');el.classList.add('is-current');el.setAttribute('aria-current','date');query()});
+      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{const old=document.querySelector('.is-active');old.classList.remove('is-active');old.setAttribute('aria-pressed','false');el.classList.add('is-active');el.setAttribute('aria-pressed','true');const hidden=document.querySelector('input');if(hidden)hidden.value=el.textContent;query()});</script>`;
     if(markup==="current") html=html.replace(/<p class="js-calendar-day-target([^"]*)"([^>]*)>([^<]*)<\/p>/g,'<button type="button" class="p-booking-calendar__day$1"$2>$3</button>').replaceAll('js-calendar-day-target','p-booking-calendar__day').replaceAll('js-people-button','current-people-control');
     if(markup==="current") html=html.replace('<input type="hidden" class="js-people-hidden-value" value="2">','');
     const payload=(members:number,time:string)=>JSON.stringify({base_date:{year:2026,month:9,day:20},members,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13292459&member=${members}&visit_date=20260920&visit_time=${time.replace(':','')}`}}});
