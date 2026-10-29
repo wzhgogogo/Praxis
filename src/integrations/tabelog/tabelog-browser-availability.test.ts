@@ -910,3 +910,29 @@ test("bound vacancy collections keep supported clock alternatives and never infe
     assert.deepEqual(parseTabelogAvailabilitySlots({...snapshot,settlement:'PENDING'},request),{availableSlots:[],hasExplicitSlotUi:false});
   }
 });
+
+
+test("G3c Tabelog quotes a class-renamed menu through the source model and parses the quoted price", async () => {
+  const quote = "Seasonal dinner course: JPY 8,000, tax included; dinner only.";
+  const url = "https://tabelog.com/en/tokyo/A1301/A130101/123/";
+  const outlet = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { tabelog: "tokyo/A1301/A130101/123", tabelogNativeDetailUri: url } } };
+  const page = boundQueryFixture({ url, title: candidate.restaurant.outletName, text: `${candidate.restaurant.outletName}\n${candidate.restaurant.address}\nAvailability Guests Date\n${quote}`,
+    html: `<link rel="canonical" href="${url}"><script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: candidate.restaurant.outletName, address: candidate.restaurant.address })}</script><h1>${candidate.restaurant.outletName}</h1><section class="renamed-883"><p>${quote}</p></section><select name="party"><option selected value="2">2</option></select><input type="date" value="2026-08-05">` });
+  let calls = 0;
+  const sourceFactsModel: import("../../core/model/contracts.js").ModelGateway = { async complete(input) {
+    calls++; assert.equal(input.purpose, "restaurant_source_facts");
+    const document = JSON.parse(input.messages[1]!.content).sourceDocument;
+    const statement = document.statements.find((row: { text: string }) => row.text === quote); assert.ok(statement);
+    return { invocationId: "source-facts-fixture", provider: "FIXTURE", model: "fixture", latencyMs: 0, finishReason: "TOOL_CALLS",
+      outputText: JSON.stringify({ selections: [{ firstStatementId: statement.id, lastStatementId: statement.id, role: "COURSE" }] }) };
+  } };
+  const options = { maxBrowserSessions: 2, sourceFactsModel };
+  const read = await new TabelogBrowserAvailability({ openSession: async () => new FixtureBrowserSession([page]) }, () => "2026-08-05T09:00:00Z", 5, options)
+    .check({ candidates: [outlet], candidateIds: [outlet.restaurant.id], date: "2026-08-05", partySize: 2, timeWindow: { earliest: "18:00", latest: "20:00" }, hardCriteria: [] }, new AbortController().signal);
+  const price = read.evidence.flatMap(row => row.priceFacts?.listedCoursePricesYen ?? [])[0];
+  assert.ok(price, "a selected public price must survive private marker changes");
+  assert.equal(price.amount, 8000, "price must come from the selected literal, independent of CSS markers");
+  assert.equal(price.quote, quote); assert.equal(price.tax, "INCLUDED"); assert.equal(price.meal, "DINNER");
+  assert.equal(calls, 1, "one source selection, no new navigation");
+  assert.equal(read.offers[0]?.price, undefined, "a listed course is not a selected bookable plan");
+});

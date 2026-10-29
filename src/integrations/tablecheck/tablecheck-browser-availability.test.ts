@@ -1551,3 +1551,30 @@ test("group-window: an already prohibited candidate entrance is rejected before 
  const result=await new TableCheckBrowserAvailability({async openSession(){opened++;throw Error("Prohibited entrance must never acquire browser");}},undefined,{networkPolicy:policy}).check({...request,candidates:[blocked]},new AbortController().signal);
  assert.equal(opened,0);assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"SOURCE_UNSUPPORTED");assert.equal(result.offers.length,0);assert.equal(result.evidence.some(e=>e.entityMatch?.confidence==="HIGH"),false);
 });
+
+
+test("G3c TableCheck quotes class-renamed guide menus and keeps each price and restriction together", async () => {
+  const quotes = ["Dinner course: JPY 8,000, tax included; dinner only.", "Lunch course: JPY 5,000, tax excluded; lunch only.", "Optional add-on: JPY 1,000, tax included.", "Dinner set menu: JPY 9,000, tax included."];
+  const native = { ...candidate, restaurant: { ...candidate.restaurant, id: "tablecheck:restaurant1", sourceIds: { tablecheck: "restaurant1", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/restaurant1" } } };
+  const guide = matchingOutletPage(); guide.html += `<section class="renamed-484">${quotes.map(text => `<p>${text}</p>`).join("")}</section>`; guide.text += "\n" + quotes.join("\n");
+  const reservation: BrowserSnapshot = { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation", text: "Restaurant 1 2 guests 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section><a href="/en/restaurant1/reserve/landing?start_date=2026-08-05&pax=2&start_time=19:00">19:00</a>' };
+  let calls = 0;
+  const sourceFactsModel: import("../../core/model/contracts.js").ModelGateway = { async complete(input) {
+    calls++; assert.equal(input.purpose, "restaurant_source_facts");
+    const doc = JSON.parse(input.messages[1]!.content).sourceDocument;
+    return { invocationId: "source-menu-fixture", provider: "FIXTURE", model: "fixture", latencyMs: 0, finishReason: "TOOL_CALLS", outputText: JSON.stringify({ selections: quotes.map(quote => {
+      const row = doc.statements.find((r: { text: string }) => r.text === quote); assert.ok(row);
+      return { firstStatementId: row.id, lastStatementId: row.id, role: "COURSE" };
+    }) }) };
+  } };
+  const options = { maxBrowserSessions: 2, sourceFactsModel };
+  const read = await new TableCheckBrowserAvailability({ openSession: async () => new FixtureBrowserSession([guide, reservation]) }, () => "2026-08-05T09:00:00Z", options)
+    .check({ ...request, candidates: [native], candidateIds: [native.restaurant.id], hardCriteria: [] }, new AbortController().signal);
+  const fact = read.evidence.find(row => row.priceFacts?.listedCoursePricesYen.length);
+  assert.ok(fact?.priceFacts, "selected guide quotations must produce source prices");
+  assert.deepEqual(fact.priceFacts.listedCoursePricesYen.map(row => row.amount), [8000,5000,1000,9000]);
+  assert.deepEqual(fact.priceFacts!.listedCoursePricesYen.map(row => row.quote), quotes);
+  assert.equal(fact.priceFacts!.listedCoursePricesYen[1]!.meal, "LUNCH"); assert.equal(fact.priceFacts!.listedCoursePricesYen[2]!.kind, "ADD_ON");
+  assert.equal(fact.sourceUrl, guide.url, "the reservation URL cannot replace the quoted guide URL");
+  assert.equal(calls, 1); assert.equal(read.offers[0]?.price, undefined);
+});
