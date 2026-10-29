@@ -1,0 +1,11 @@
+--- src/integrations/google/google-places-client.ts
++++ src/integrations/google/google-places-client.ts
+@@ -204,7 +204,7 @@
+           signal.aborted ? "Google Places request aborted" : "Google Places request timed out",
+         );
+       }
+-      throw new GooglePlacesError("GOOGLE_NETWORK_FAILED", "Google Places request failed");
++      throw new GooglePlacesError("GOOGLE_NETWORK_FAILED", "Google Places request failed: " + String(error));
+     } finally {
+       clearTimeout(timeout);
+       signal.removeEventListener("abort", relayAbort);

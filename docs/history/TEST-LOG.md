@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.349
+- Document revision: 4.350
 
 
 - Last updated: 2026-10-29
@@ -5869,6 +5869,41 @@ Red d477d691: old class observer PHONE_ONLY contradicts reviewed UNKNOWN,16.379s
 
 Actual six commands at9017a8cd: typecheck0.429s, arch0.166s, default1203 in35.970s, build0.528s, Chromium175 in118.249s, ordinaryG2 4 in22.215s; all pre/post clean, no gate repair. Five date values null before/after; Sen separate control loss remains explicit. No.env read/stage or new real call; three A files only, no scorer/mutation relaxation.
 
+<a id="test-2026-10-28-g1-six-preparation"></a>
+
+## 2026-10-28 CET: Six-question real-model repeat preparation
+
+2026-10-28 CET: A starts user-authorized six-question schema3 repeat on maineb1518f1. Q07/Q14/Q26/Q27/Q31/Q33×3,≤20 provider attempts, transport-only spare2/no schema retry, isolated ledger namespace. Original questions/reference/scorer unchanged; sourceConflict/confirmation, English, full sentence, comment-free NOT_STATED and NONE supplementary checks separate. Fixture preflight passes after correcting eval helper import path, real calls0. B G3 started; A broad audit begins as a separate list-only slice, no tests removed. [Plan](../.eval-artifacts/phase3b/g1-six-repeat/plan.md).
+
+
+<a id="test-2026-10-28-g1-six-results"></a>
+
+## 2026-10-28 CET: Six-question schema3 real-model repeat
+
+2026-10-28 CET: A six-question schema3 repeat complete for review, on maineb1518f1/frozena019d8a3.18planned/19paid≤20 (17responses/2timeouts,1transport retry), source/Google/Live0. Explicit checks11/18:Q07/Q26/Q33 each3, Q31two/one unresolved transport;Q14wrongALLERGY3, Q27refusal3. Original scorer0PASS11FAIL8unknown; no rubric/reference/question changes. No detected false claims,14 automatic claim counts unknown and agent triage0 pending reviewer. Five gates1196/175 PASS/clean. Broad test audit now separate first-list slice; no test edits. [Report](../.eval-artifacts/phase3b/g1-six-repeat/report.md).
+
+## TEST-2026-10-29-G1-SIGNOFF
+
+User signs off G1 from exhaustive independent review (Claude, 2026-10-28). Preserve frozen six-repeat f80dacb0 in current main history; 19 calls/18 trials produce14 PASS/3 Q27 quality FAIL/one twice-timed-out Q31-r2. Replace six original question trials:97/102 correct,3 quality FAIL,2 timeouts, false claims0, absence23/24. Q27 handed to B fixture-only repair, no paid repeat. Q14 NONE/ALLERGY criterion explicitly revised after result exposure; dataset@4/scorer@5, confirmation and no-suitability constraints retained. Historical outputs and other33 references unchanged. Source/core/questions unchanged, new real calls0. [Review](../../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md). Five gates pending frozen verification.
+
+Effective scorer red: approved ALLERGY form rejected; same assertion green after reference-category membership. Existing8 scorer controls all pass, no tests added. Frozen input SHAs and historical-byte validation retained; five gates pending.
+
+2026-10-29 CET: G1 signoff verified on f05b61d8: five gates PASS, default1203/28.223s, Chromium175/106.809s, each before/after clean and frozen inputs intact. Date metadata normalized using clock tool UTC→Vienna CET; criteria and execution unchanged. Source calls0. [Signoff](../../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
+
+## TEST-2026-10-29-APPROVED-TEST-MAINTENANCE
+
+Five controlled faults each fail the intended surviving assertion; normal controls pass. Final default-focused50/50 green. Typecheck/diff checks pass; full frozen gates and timing/count comparison pending. Baseline full default1203/28.223s, Chromium175/106.809s. All timing samples use same environment, no production or external access. [Proofs](../../.eval-artifacts/phase3b/test-suite-maintenance/coverage-proofs/summary.json).
+
+## TEST-2026-10-29-TEST-MAINTENANCE-VERIFIED
+
+2026-10-29 CET: Approved five-item test maintenance verified on0cfe3064: five gates PASS plus fixedG2 4/4, each before/after clean,679 inputs unchanged. Same-machine complete commands: default1203→1200,28.223→27.364s; Chromium175→174,106.809→105.395s (single before/after pair, small observed reduction). Only approved four names removed; all others retained. Two moved P21 test bodies byte-identical; fake Guard wait uses test clock. Product/site/Pack/Prompt/Schema unchanged; calls0. [Report](../../.eval-artifacts/phase3b/test-suite-maintenance/report.md).
+
+
+<a id="test-2026-10-29-g1-single-sentence-ids"></a>
+
+## 2026-10-29 CET: G1 single-sentence ID repair
+
+2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
 
 <a id="test-2026-10-28-g3-calendar-main-sync-preparation"></a>
 

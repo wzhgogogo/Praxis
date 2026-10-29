@@ -1,5 +1,11 @@
 # Praxis 当前状态
 
+2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
+
+2026-10-29 CET: Approved five-item test maintenance verified on0cfe3064: five gates PASS plus fixedG2 4/4, each before/after clean,679 inputs unchanged. Same-machine complete commands: default1203→1200,28.223→27.364s; Chromium175→174,106.809→105.395s (single before/after pair, small observed reduction). Only approved four names removed; all others retained. Two moved P21 test bodies byte-identical; fake Guard wait uses test clock. Product/site/Pack/Prompt/Schema unchanged; calls0. [Report](../.eval-artifacts/phase3b/test-suite-maintenance/report.md).
+
+2026-10-29 CET: **G1 user signed off**, independent review97/102 correct,3 Q27 refusal failures,2 transport timeouts, false claims0, absence23/24. Q14 post-result NONE/ALLERGY criterion adjustment recorded explicitly (dataset@4/scorer@5); original auto-scores and evidence retained. B to fix Q27 sentence IDs with fixture, no paid rerun. Five gates pending; approved test maintenance is next separate slice. New real calls0. [Review](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
+
 2026-10-29 CET: G3 response-evidence code `2d29aead` passed all five gates (default tests 1215/1215; Chromium 179/179) and ordinary G2 4/4. The authorized C input change preserves all protected logic and assertions. Diagnostic `03443767` then found that removing either Sen selected-state class changes `requestConfirmed` from true to false while public text, ARIA, native values, styles and local pixels stay identical; public positive controls detect changes. Work stops for reviewer/A resolution of the retained query-confirmation reference. No baseline or product change was made for this diagnostic. Shared selected-state work and G3c remain unfinished. The ledger retains all prior entries; new real calls are 0. Site lines 3,950 and Pack lines 478 are reference only. [Report](../.eval-artifacts/phase3b/g3-longrun/06-sen-query-observability/report.md).
 
 2026-10-29 CET: G3 Group05 response-only slots/day complete; user-authorized C response fixture diff applied, C logic/all assertions preserved. Effective native2/Chromium1 reds→green; frozen2d29aead690 inputs five gates1215/179 PASS (114.013s), ordinary G2 4/4, every before/after clean. Two evidenced gate repairs retained, no assertion reduction; HARD44197 bytes unchanged. Private DOM inventory/day inference retired; English selected-query/shared controls and G3c remain. Sites3950/Pack478 reference, ledger470 prior rows preserved, new real calls0. Push then continue Sen observation, no main merge. [Report](../.eval-artifacts/phase3b/g3-longrun/05-response-only-slots-days/report.md).
@@ -40,6 +46,10 @@
 
 2026-10-28 CET：G4基准证据已合main fae69b48并核对远端。C从该main开始详情优先级/原名真子串离线切片；身份规则不变，Prompt/独立检索Schema拟3，Agent/State不变；模型≤10、GET/Google/Live0。三家认证详情及Sen详情缺于本次保存集，不冒充身份验证成功。工作分支改进待复核，G4整体签收仍待用户。
 
+2026-10-28 CET: A six-question schema3 repeat complete for review, on maineb1518f1/frozena019d8a3.18planned/19paid≤20 (17responses/2timeouts,1transport retry), source/Google/Live0. Explicit checks11/18:Q07/Q26/Q33 each3, Q31two/one unresolved transport;Q14wrongALLERGY3, Q27refusal3. Original scorer0PASS11FAIL8unknown; no rubric/reference/question changes. No detected false claims,14 automatic claim counts unknown and agent triage0 pending reviewer. Five gates1196/175 PASS/clean. Broad test audit now separate first-list slice; no test edits. [Report](../.eval-artifacts/phase3b/g1-six-repeat/report.md).
+
+2026-10-28 CET: A starts user-authorized six-question schema3 repeat on maineb1518f1. Q07/Q14/Q26/Q27/Q31/Q33×3,≤20 provider attempts, transport-only spare2/no schema retry, isolated ledger namespace. Original questions/reference/scorer unchanged; sourceConflict/confirmation, English, full sentence, comment-free NOT_STATED and NONE supplementary checks separate. Fixture preflight passes after correcting eval helper import path, real calls0. B G3 started; A broad audit begins as a separate list-only slice, no tests removed. [Plan](../.eval-artifacts/phase3b/g1-six-repeat/plan.md).
+
 2026-10-28 CET: G1 reviewed quality fixes are main eb1518f1, remote verified; five gates1196/175 and ordinary G2 4/4 PASS/per-gate clean. G3 Tabelog STOPPED_PROTECTED_FILE_ORDER: actual calendar task wiring requires C-owned tabelog-browser-availability.ts43–48/587–655; both protected files unchanged, no product/test edits. Frozen8cc386a6/674 inputs strict G2 has expected nerima-list red (3/4 checks pass), task behavior NOT_IMPLEMENTED. ADR0047 records user decision: lines reference only; strict G2 + observed task behavior are acceptance. Real calls0, ledger410 ids preserved. Push G3 branch and wait reviewer sequencing. [Report](../.eval-artifacts/phase3b/g3-tabelog/report.md).
 
 2026-10-28 CET: G1 quality fixes published and ls-remote verified at maineb1518f1 (five gates1196/175,ordinary G2 4/4, each clean). New G3 Tabelog branch starts here. User removes adapter line-count acceptance; ADR0047 records strict G2 plus actual observed task behaviour, lines3878/Pack478 reference only. Read-only audit finds quoted-calendar judgment/completion/grounding wiring in C-protected tabelog-browser-availability.ts; stop before product edits pending reviewer file order. No private logic/tests removed; real calls0. [G3 plan](../.eval-artifacts/phase3b/g3-tabelog/plan.md).
@@ -71,7 +81,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.451
+- Document revision: 4.452
 - Last updated: 2026-10-29
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -760,3 +770,7 @@
 - **历史 Phase 3 停止记录（保留诊断结论）：原始6＋续行139＝145/150模型调用，余5不足以完成剩余矩阵，不自动追加预算。** Tabelog发现同问题已到3轮；当时未进入Phase4／5／6；该前置门槛现由P1-A基线计划替代。Semantic／Gold／HARD／身份／半径与整单500s／50调用不变；诊断样本4调用不作为旧2调用的同预算改善。
 
 完整旧 STATUS 已移入 [月度历史快照](history/monthly/2026-10-status-baseline.md)；[月度摘要与逐条索引](history/README.md) 保留原始 DEVLOG／TEST-LOG。
+
+2026-10-29 CET: G1 signoff verified on f05b61d8: five gates PASS, default1203/28.223s, Chromium175/106.809s, each before/after clean and frozen inputs intact. Date metadata normalized using clock tool UTC→Vienna CET; criteria and execution unchanged. Source calls0. [Signoff](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
+
+2026-10-29 CET: Approved test maintenance candidate: D01/D02/D03/C01 redundancies removed only after five normal/mutant successor controls; T01 fake6.1s wait virtualized. P21 category/region bodies moved unchanged to existing4-way file scheduling; other long controls retained individually. Product/site/Pack/Prompt/Schema unchanged, calls0. Baseline1203/28.223s and175/106.809s; clean frozen gates pending. [Report](../.eval-artifacts/phase3b/test-suite-maintenance/report.md).

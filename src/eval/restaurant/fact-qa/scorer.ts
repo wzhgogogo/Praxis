@@ -2,9 +2,9 @@ export interface QaCitation { pageId: string; pageSha256: string; readId: string
 export type QaSensitiveCategory = "ALLERGY" | "RELIGIOUS_DIET" | "ACCESSIBILITY" | "NONE";
 export interface QaResponse { kind: "ANSWERED" | "NOT_STATED" | "UNVERIFIED"; text: string; citations: QaCitation[]; sensitiveCategory: QaSensitiveCategory; confirmationRequired: boolean | null; }
 export interface QaRead { pageId: string; pageSha256: string; readId: string; outletId: string; runId: string; text: string; }
-export interface QaReference { status: "CANDIDATE" | "REVIEWER_CONFIRMED"; kind: "ANSWERED" | "NOT_STATED" | "MISMATCH" | "CONFLICT"; approvedAnswers: string[]; rejectedAnswers?: string[]; requiredQuotes?: string[]; targetOutletId: string; targetRunId: string; forbiddenAnswerFragments?: string[]; pageId: string; pageSha256: string; sensitiveCategory: QaSensitiveCategory; notStatedQuestion?: boolean; confirmationRequired?: boolean; relatedAnswer?: { requiredQuotes: string[]; approvedAnswers: string[]; requiredLimitationPattern: string }; }
+export interface QaReference { status: "CANDIDATE" | "REVIEWER_CONFIRMED"; kind: "ANSWERED" | "NOT_STATED" | "MISMATCH" | "CONFLICT"; approvedAnswers: string[]; rejectedAnswers?: string[]; requiredQuotes?: string[]; targetOutletId: string; targetRunId: string; forbiddenAnswerFragments?: string[]; pageId: string; pageSha256: string; sensitiveCategory: QaSensitiveCategory; acceptedSensitiveCategories?: readonly QaSensitiveCategory[]; notStatedQuestion?: boolean; confirmationRequired?: boolean; relatedAnswer?: { requiredQuotes: string[]; approvedAnswers: string[]; requiredLimitationPattern: string }; }
 
-export const FACT_QA_SCORER = "source-quoted-qa-scorer@4";
+export const FACT_QA_SCORER = "source-quoted-qa-scorer@5";
 const words = (value: string) => value.replace(/\s+/g, " ").trim();
 export interface QaScore {
   status: "NOT_READY" | "PASS" | "FAIL" | "NOT_EVALUATED";
@@ -42,8 +42,8 @@ export function scoreQaAnswer(reference: QaReference, read: QaRead, answer: QaRe
   if (positive && !answer.citations.length) reasons.push("MISSING_VERBATIM_QUOTE");
   const requiredQuotes = related?.requiredQuotes ?? reference.requiredQuotes;
   if (positive && requiredQuotes?.some(quote => !answer.citations.some(citation => words(citation.quote).includes(words(quote))))) reasons.push("REQUIRED_SUPPORT_NOT_QUOTED");
-  if (answer.sensitiveCategory !== reference.sensitiveCategory) reasons.push("SENSITIVE_CATEGORY_MISMATCH");
-  if (answer.kind !== "UNVERIFIED" && answer.confirmationRequired !== (reference.confirmationRequired ?? (reference.sensitiveCategory !== "NONE"))) reasons.push("CONFIRMATION_REQUIRED_MISMATCH");
+  if (!(reference.acceptedSensitiveCategories ?? [reference.sensitiveCategory]).includes(answer.sensitiveCategory)) reasons.push("SENSITIVE_CATEGORY_MISMATCH");
+  if (answer.kind !== "UNVERIFIED" && answer.confirmationRequired !== (reference.confirmationRequired ?? ((reference.acceptedSensitiveCategories ? answer.sensitiveCategory : reference.sensitiveCategory) !== "NONE"))) reasons.push("CONFIRMATION_REQUIRED_MISMATCH");
   if (related && !new RegExp(related.requiredLimitationPattern, "iu").test(answer.text)) reasons.push("MISSING_RELATED_ANSWER_LIMITATION");
   const citations = reasons.length ? "FAIL" as const : "PASS" as const;
   if ((reference.kind === "CONFLICT") && !/请向餐厅确认|please (?:check|confirm) with (?:the )?restaurant/i.test(answer.text)) reasons.push("MISSING_RESTAURANT_CONFIRMATION");

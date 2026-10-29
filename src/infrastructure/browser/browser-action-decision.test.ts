@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model/contracts.js";
-import { BrowserReadDecisionError, ModelBrowserReadActionDecision, buildBrowserReadDecisionSystemPrompt } from "./browser-action-decision.js";
+import { BrowserReadDecisionError, ModelBrowserReadActionDecision } from "./browser-action-decision.js";
 
 const input = { history: [],
   taskId: "task:browser-wire",
@@ -202,15 +202,6 @@ test("browser record keeps a valid wire shape but redacts its free-text reason",
   });
 });
 
-test("browser prompt describes installed public-query controls and page-level recovery", () => {
-  const prompt = buildBrowserReadDecisionSystemPrompt();
-  assert.match(prompt, /checkbox\/radio, option, range, and region scroll/i);
-  assert.match(prompt, /Targeted actions are permitted only when their current availableActions explicitly list them/i);
-  assert.match(prompt, /WAIT waits for one bounded visible result change at page level/i);
-  assert.match(prompt, /PRESS_ESCAPE closes one page layer then requires a fresh observation/i);
-  assert.match(prompt, /installed isolated read boundary may expose ordinary public-query controls/i);
-  assert.match(prompt, /including a submit-shaped query control/i);
-});
 
 test('LOCATION wire cannot carry a replacement value or use a non-fill action', async()=>{
  const wire={action:'FILL_AUTHORITATIVE',targetRef:input.observation.targets[0]!.ref,authoritativeField:'LOCATION',requestedState:'NONE',reason:'Use exact resolved name'};

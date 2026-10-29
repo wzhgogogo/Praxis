@@ -1139,12 +1139,31 @@
       ],
       "trap": null,
       "sensitiveCategory": null,
-      "requiresRestaurantConfirmation": false,
       "reviewerDecision": "CONFIRMED",
-      "reviewer": "independent reviewer (Claude), 2026-10-27",
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
       "reviewBasis": "User-supplied independent review: all quoted source text and absence counter-searches checked; per-ID confirmation",
       "expectedStatus": "NOT_STATED",
-      "questionRevision": "ENGLISH_TRANSLATION"
+      "questionRevision": "ENGLISH_TRANSLATION",
+      "acceptedSensitiveCategories": [
+        "NONE",
+        "ALLERGY"
+      ],
+      "confirmationPolicy": {
+        "NONE": false,
+        "ALLERGY": true
+      },
+      "reviewCriteria": "NONE or ALLERGY accepted; ALLERGY must request confirmation. Do not assert whether the course is suitable or safe.",
+      "forbiddenAnswerFragments": [
+        "suitable for vegans",
+        "safe for vegans",
+        "suitable for people with egg allergies",
+        "safe for people with egg allergies",
+        "suitable for people with dairy allergies",
+        "safe for people with dairy allergies",
+        "适合纯素",
+        "适合过敏者",
+        "保证安全"
+      ]
     },
     {
       "questionId": "G1-Q15",
@@ -2549,7 +2568,7 @@
       ]
     }
   ],
-  "dataset": "phase3b-qa-reviewed@3",
+  "dataset": "phase3b-qa-reviewed@4",
   "reviewedAtCET": "2026-10-27T17:09:21.065016+01:00",
   "reviewedExpressionsExtension": {
     "reviewer": "independent reviewer (Claude), 2026-10-28",
@@ -2558,5 +2577,19 @@
     "sourceReferenceSha256": "45a8aab9ddc2bbdfad1a532b631cbdf3f754745a91657d57a19c30671779b3ab",
     "acceptedTrials": 84,
     "rules": "Append only exact frozen PASS response text; no question, expected outcome, evidence requirement, forbidden fragment or scoring rule change. Null NOT_STATED core answers retain original historical scorer status label."
+  },
+  "postResultCriteriaAdjustment": {
+    "reviewer": "independent reviewer (Claude), 2026-10-28",
+    "approvedBy": "user",
+    "appliedAtCET": "2026-10-29T02:25:17+01:00",
+    "afterResultExposure": true,
+    "sourceReferenceSha256": "6d16cda973d7ebc4b3d8e5242699a9b6f2b6e417f57541396e2cd84a8fa7f032",
+    "questionIds": [
+      "G1-Q14"
+    ],
+    "before": "NONE only, confirmationRequired=false",
+    "after": "NONE or ALLERGY; ALLERGY requires confirmation; no suitability or safety conclusion",
+    "reason": "The question explicitly mentions egg and dairy. A conservative allergy interpretation with a confirmation prompt is reasonable. This is a post-result criterion adjustment, not prospective clean evaluation.",
+    "historicalOutputs": "All automatic evaluations, per-attempt results and original 102 reviewer judgments unchanged."
   }
 }

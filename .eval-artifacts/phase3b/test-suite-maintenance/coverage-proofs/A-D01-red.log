@@ -1,0 +1,39 @@
+✖ strict browser wire restores only bounded observed checkbox, slider, and region actions (2.437458ms)
+✔ strict browser wire accepts page-level WAIT with inert envelope fields and rejects unknown fields (0.390625ms)
+✔ browser prompt describes installed public-query controls and page-level recovery (0.194292ms)
+✔ BrowserTaskExecutor completes after a canonical page-level WAIT without an observed target (2.595958ms)
+✔ BrowserTaskExecutor spends one bounded operation on page-level Escape then re-observes (0.321958ms)
+✔ BrowserTaskExecutor exposes an ordinary observed query submit only in an installed read boundary (10.245916ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 129.371416
+
+✖ failing tests:
+
+test at src/infrastructure/browser/browser-action-decision.test.ts:1:4578
+✖ strict browser wire restores only bounded observed checkbox, slider, and region actions (2.437458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   checked: false,
+  -   checked: true,
+      reason: 'Apply the observed public filter.',
+      targetRef: 'observation:1:target:1',
+      type: 'SET_CHECKED'
+    }
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-test-successors-ghp2g9jd/src/infrastructure/browser/browser-action-decision.test.ts:128:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { type: 'SET_CHECKED', targetRef: 'observation:1:target:1', checked: false, reason: 'Apply the observed public filter.' },
+    expected: { type: 'SET_CHECKED', targetRef: 'observation:1:target:1', checked: true, reason: 'Apply the observed public filter.' },
+    operator: 'deepStrictEqual'
+  }

@@ -47,17 +47,25 @@ function fakeRoute(input: { url: string; method?: string; type?: string; status?
   return { route, calls };
 }
 
-test("read network guard preserves the Executor source-read deadline beyond the action cap", async () => {
+test("read network guard preserves the Executor source-read deadline beyond the action cap", async t => {
   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
   const guard = new PlaywrightReadNetworkGuard(policy);
   await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
+  t.mock.timers.enable({ apis: ["Date", "setTimeout"], now: 0 });
+  const awaitFetch = async (calls: string[]) => {
+    for (let turn = 0; turn < 50 && !calls.some(call => call.startsWith("fetch:")); turn++) await Promise.resolve();
+    assert.ok(calls.some(call => call.startsWith("fetch:")), "the fake transport must start before advancing its clock");
+  };
   guard.prepareNavigation("https://public.example/guide", 8_000);
   const document = fakeRoute({ url: "https://public.example/guide", type: "document" });
   await http(document.route);
   const delayedPublicScript = fakeRoute({ url: "https://assets.example/public/calendar.js", type: "script", fetchDelayMs: 6_000 });
   const startedAt = Date.now();
-  await http(delayedPublicScript.route);
-  assert.ok(Date.now() - startedAt >= 5_900, "the controlled public read actually waited beyond the 5s action cap");
+  const pending = http(delayedPublicScript.route);
+  await awaitFetch(delayedPublicScript.calls);
+  t.mock.timers.tick(6_000);
+  await pending;
+  assert.ok(Date.now() - startedAt >= 5_900, "the controlled public read clock advanced beyond the 5s action cap");
   assert.deepEqual(delayedPublicScript.calls, ["fetch:0:8000", "fulfill"]);
 
   let shortHttp: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
@@ -67,7 +75,10 @@ test("read network guard preserves the Executor source-read deadline beyond the 
   const shortDocument = fakeRoute({ url: "https://public.example/guide", type: "document" });
   await shortHttp(shortDocument.route);
   const exceeded = fakeRoute({ url: "https://assets.example/public/calendar.js", type: "script", fetchDelayMs: 250 });
-  await shortHttp(exceeded.route);
+  const expired = shortHttp(exceeded.route);
+  await awaitFetch(exceeded.calls);
+  t.mock.timers.tick(100);
+  await expired;
   assert.deepEqual(exceeded.calls, ["fetch:0:100", "abort"]);
   assert.deepEqual(shortDeadline.snapshotDiagnostics().map(item => item.code), ["READ_TIMEOUT"]);
 });

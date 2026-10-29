@@ -1,0 +1,11 @@
+--- src/integrations/google/google-places-client.ts
++++ src/integrations/google/google-places-client.ts
+@@ -142,7 +142,7 @@
+     const id = placeId.replace(/^places\//, "").trim();
+     if (!id) throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Place details requires a place ID");
+     return this.requestJson(
+-      `${GOOGLE_PLACES_DETAILS_URL}/${encodeURIComponent(id)}`,
++      GOOGLE_PLACES_TEXT_SEARCH_URL,
+       { method: "GET" },
+       GOOGLE_PLACES_DETAILS_FIELD_MASK,
+       signal,

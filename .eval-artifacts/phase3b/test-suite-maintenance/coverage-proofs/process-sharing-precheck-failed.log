@@ -1,0 +1,36 @@
+✖ P21 discovery uses DOM category links despite CSS and rejects foreign regions (24750.673625ms)
+✔ P21b production discovery checks search filters, falls back once, and records only read hints (39061.94075ms)
+✔ P21c recorded regional links reach six controlled development results through the production assembly (18230.383333ms)
+✔ guarded dynamic TableCheck recording replays through the same production Adapter without receiver traffic (3017.41225ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 82430.532292
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-discovery.test.ts:1:4110
+✖ P21 discovery uses DOM category links despite CSS and rejects foreign regions (24750.673625ms)
+  AssertionError [ERR_ASSERTION]: each discovery source closes its isolated context
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/harness/browser/browser-read-discovery.test.ts:19:18)
+      at TestHook.runInAsyncScope (node:async_hooks:214:14)
+      at TestHook.run (node:internal/test_runner/test:1062:25)
+      at TestHook.run (node:internal/test_runner/test:1377:18)
+      at TestHook.run (node:internal/util:580:20)
+      at Test.runHook (node:internal/test_runner/test:980:20)
+      at after (node:internal/test_runner/test:1020:20)
+      at Test.run (node:internal/test_runner/test:1088:13)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
