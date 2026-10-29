@@ -1,3 +1,11 @@
+# G3 最新进展：公开事实字段与菜单范围已验证
+
+2026-10-29 CET：G3c公开事实字段和菜单分区已离线验证，私有class/data不再证明字段/服务范围；两站改名红灯→123对应回归绿，Native范围隔离与全局原文保留。五门禁1225/180全绿，Chromium130.862秒，严格G2全部12页PASS，各项净树。C保护内容与vacancy输出不变，Prompt/State不变，真实调用0；站点3964/Pack482行仅参考。继续通用报价和事实读取，不合main。 [报告](13-public-fact-fields/report.md)。
+
+以下为superseded retrospective，保留原文。
+
+---
+
 # G3 最新进展：报价适用条件已修复，严格 G2 全部 PASS，继续 G3c
 
 2026-10-29T12:20:39.405762+01:00，Vienna CET。用户批准后，报价限制沿既有Intent核对；旧481个条件状态仅“至少4人/请求2人”由MET→NOT_CHECKED，其余不变。原始报价/原文保留，State/TaskDefinition不变。五门禁1225/180全绿，浏览器128.959秒；严格G2全部12页PASS（Tabelog6/6），每项净树。已同步main50a08361，账本479条并集、真实调用0，C保护代码/断言与vacancy输出不变。[完整修复报告](11-price-applicability/report.md)。

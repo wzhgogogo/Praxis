@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET：G3c公开事实字段和菜单分区已离线验证，私有class/data不再证明字段/服务范围；两站改名红灯→123对应回归绿，Native范围隔离与全局原文保留。五门禁1225/180全绿，Chromium130.862秒，严格G2全部12页PASS，各项净树。C保护内容与vacancy输出不变，Prompt/State不变，真实调用0；站点3964/Pack482行仅参考。继续通用报价和事实读取，不合main。 [报告](../.eval-artifacts/phase3b/g3-longrun/13-public-fact-fields/report.md)。
+
 2026-10-29 CET：用户批准的报价适用核对已完成。沿现有Intent核对人数、日期、餐别等字面限制；367组旧输入/481状态仅原2人对至少4人的反例MET→NOT_CHECKED，原始报价保留，State/TaskDefinition不变。main50a08361已同步，五门禁1225/180全绿（浏览器128.959秒）、严格G2全部12页PASS/Tabelog6页PASS，各项净树。账本479条并集，真实调用0；C保护代码/断言及响应输出不变。G3c继续，G3不合main。 [报告](../.eval-artifacts/phase3b/g3-longrun/11-price-applicability/report.md)。
 
 2026-10-29 CET：G3 因 HARD 报价适用人数错判停止。实际 Adapter → fixture 模型选句 → 生产条件判断中，原文完整保留“8,000 日元、至少 4 人”，但 2 人请求仍为 MET；独立期望为 NOT_CHECKED。无限制报价正对照为 MET，库存人数绑定正常。HARD 消费方与 main `50a08361` 字节相同，未自行改规则；这是离线反例，没有 Live 错误交付。OBS-09 已实现，G3c 尚为草案；相关核心 49/49、原生 163/163、Chromium 14/14 通过，当前新增回归红灯保留，最终五门禁和严格 G2 尚未通过。A 的 Sen UNKNOWN 已在 main，因本次 S0 停止尚未同步。C 保护文件/断言及响应接口不变，真实调用 0；行数 3,970/Pack 482 仅参考。只推工作分支，等复核。 [报告](../.eval-artifacts/phase3b/g3-longrun/10-hard-price-scope-stop/report.md).
@@ -93,7 +95,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.456
+- Document revision: 4.457
 - Last updated: 2026-10-29
 - Source of truth for: 当前实现、证据与下一道门槛
 

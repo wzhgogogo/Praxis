@@ -1,0 +1,973 @@
+{
+  "mode": "FROZEN_DEFAULT_REGRESSION_ACTUAL_INPUTS",
+  "calls": 367,
+  "states": 481,
+  "changedStates": 1,
+  "changes": [
+    {
+      "call": 366,
+      "index": 0,
+      "criterion": "at most 8000 yen per person",
+      "strength": "HARD",
+      "oldStatus": "MET",
+      "newStatus": "NOT_CHECKED",
+      "intent": {
+        "criteria": [],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        },
+        "date": "2026-08-05",
+        "partySize": 2,
+        "timeWindow": {
+          "earliest": "18:00",
+          "latest": "20:00"
+        }
+      },
+      "originalPrices": [
+        {
+          "amount": 8000,
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "quote": "Seasonal dinner course: JPY 8,000, tax included; dinner only. Available only for parties of 4 or more.",
+          "tax": "INCLUDED",
+          "meal": "DINNER",
+          "kind": "MEAL"
+        }
+      ],
+      "oldExplanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+      "newExplanation": "No applicable meal price was recorded; add-ons, mismatched meal/party/date conditions and unverified restrictions do not establish this budget.",
+      "oldSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "quote": "Seasonal dinner course: JPY 8,000, tax included; dinner only. Available only for parties of 4 or more.",
+          "field": "PRICE"
+        }
+      ],
+      "newSources": []
+    }
+  ],
+  "sourceChanges": [
+    {
+      "call": 33,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "criteria": [
+          {
+            "text": "Italian restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+          "quote": "Popular 6 Assorted Appetizers + Today's Main Dish! 2 items Enjoy our popular assorted appetizer platter and today's main dish with this recommended menu. For reservations only, we are increasing the volume from four to six varieties! Featuring our signature fig butter, fresh fish carpaccio, and seasonal appetizers, we will prepare a selection of the day's recommendations for you. The main dish is served in a perfectly portioned size, making it easy to enjoy even for one person. This popular set is also recommended for first-time visitors or those unsure of what to order. Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 1 - 4",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 34,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "criteria": [
+          {
+            "text": "Italian restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+          "quote": "[Table Reservation Only (Dinner)] Enjoy world champion exquisite pasta and top-quality seafood directly from Oita a la carte! This is a reservation plan for those who wish to freely choose their dishes and drinks based on their mood on the day. Enjoy our exquisite seafood Italian cuisine, featuring dishes made with brand fish directly sourced from Oita and exceptional pasta created by world champion chefs, all available a la carte. Reserve Set menu details JPY 1 （Price including tax）per person",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 35,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "Italian restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-22T08:33:27.331Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7:30 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:30",
+              "latest": "19:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+          "quote": "Popular 6 Assorted Appetizers + Today's Main Dish! 2 items Enjoy our popular assorted appetizer platter and today's main dish with this recommended menu. For reservations only, we are increasing the volume from four to six varieties! Featuring our signature fig butter, fresh fish carpaccio, and seasonal appetizers, we will prepare a selection of the day's recommendations for you. The main dish is served in a perfectly portioned size, making it easy to enjoy even for one person. This popular set is also recommended for first-time visitors or those unsure of what to order. Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 1 - 4",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 36,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "Italian restaurant",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-22T08:33:27.331Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7:30 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:30",
+              "latest": "19:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+          "quote": "[Table Reservation Only (Dinner)] Enjoy world champion exquisite pasta and top-quality seafood directly from Oita a la carte! This is a reservation plan for those who wish to freely choose their dishes and drinks based on their mood on the day. Enjoy our exquisite seafood Italian cuisine, featuring dishes made with brand fish directly sourced from Oita and exceptional pasta created by world champion chefs, all available a la carte. Reserve Set menu details JPY 1 （Price including tax）per person",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 63,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "criteria": [
+          {
+            "text": "Italian cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+          "quote": "Popular 6 Assorted Appetizers + Today's Main Dish! 2 items Enjoy our popular assorted appetizer platter and today's main dish with this recommended menu. For reservations only, we are increasing the volume from four to six varieties! Featuring our signature fig butter, fresh fish carpaccio, and seasonal appetizers, we will prepare a selection of the day's recommendations for you. The main dish is served in a perfectly portioned size, making it easy to enjoy even for one person. This popular set is also recommended for first-time visitors or those unsure of what to order. Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 1 - 4",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 70,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "criteria": [
+          {
+            "text": "Italian cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+          "quote": "[Table Reservation Only (Dinner)] Enjoy world champion exquisite pasta and top-quality seafood directly from Oita a la carte! This is a reservation plan for those who wish to freely choose their dishes and drinks based on their mood on the day. Enjoy our exquisite seafood Italian cuisine, featuring dishes made with brand fish directly sourced from Oita and exceptional pasta created by world champion chefs, all available a la carte. Reserve Set menu details JPY 1 （Price including tax）per person",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 71,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "Italian cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-22T09:33:41.063Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7:30 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:30",
+              "latest": "19:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+          "quote": "Popular 6 Assorted Appetizers + Today's Main Dish! 2 items Enjoy our popular assorted appetizer platter and today's main dish with this recommended menu. For reservations only, we are increasing the volume from four to six varieties! Featuring our signature fig butter, fresh fish carpaccio, and seasonal appetizers, we will prepare a selection of the day's recommendations for you. The main dish is served in a perfectly portioned size, making it easy to enjoy even for one person. This popular set is also recommended for first-time visitors or those unsure of what to order. Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 1 - 4",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 72,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "Italian cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-22T09:33:41.063Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7:30 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:30",
+              "latest": "19:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13210377/",
+          "quote": "[Table Reservation Only (Dinner)] Enjoy world champion exquisite pasta and top-quality seafood directly from Oita a la carte! This is a reservation plan for those who wish to freely choose their dishes and drinks based on their mood on the day. Enjoy our exquisite seafood Italian cuisine, featuring dishes made with brand fish directly sourced from Oita and exceptional pasta created by world champion chefs, all available a la carte. Reserve Set menu details JPY 1 （Price including tax）per person",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 73,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "partySize": 2,
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "criteria": [
+          {
+            "text": "Italian cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+          "quote": "Popular 6 Assorted Appetizers + Today's Main Dish! 2 items Enjoy our popular assorted appetizer platter and today's main dish with this recommended menu. For reservations only, we are increasing the volume from four to six varieties! Featuring our signature fig butter, fresh fish carpaccio, and seasonal appetizers, we will prepare a selection of the day's recommendations for you. The main dish is served in a perfectly portioned size, making it easy to enjoy even for one person. This popular set is also recommended for first-time visitors or those unsure of what to order. Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 1 - 4",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 74,
+      "index": 1,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "Italian cuisine",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Italian restaurant near Sangenjaya",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "19:30",
+          "latest": "19:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-22T10:34:03.424Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "7:30 PM",
+            "resolvedTimeWindow": {
+              "earliest": "19:30",
+              "latest": "19:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 2,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Sangenjaya"
+        },
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131706/13258420/",
+          "quote": "Popular 6 Assorted Appetizers + Today's Main Dish! 2 items Enjoy our popular assorted appetizer platter and today's main dish with this recommended menu. For reservations only, we are increasing the volume from four to six varieties! Featuring our signature fig butter, fresh fish carpaccio, and seasonal appetizers, we will prepare a selection of the day's recommendations for you. The main dish is served in a perfectly portioned size, making it easy to enjoy even for one person. This popular set is also recommended for first-time visitors or those unsure of what to order. Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 1 - 4",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 186,
+      "index": 1,
+      "criterion": "no more than 5,000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Korean food near Okachimachi",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 4,
+        "area": {
+          "query": "near Okachimachi"
+        },
+        "criteria": [
+          {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "no more than 5,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ]
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "All you can drink All-You-Can-Drink Only! 2 Hours - 120 Minutes JPY 1,500 (tax Included JPY 1,650) Reserve Set menu details JPY 1,500 （Price excluding tax）per person",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "All you can drink [6 Dishes] Samgyeopsal Course with 2H All-You-Can-Drink + All 6 Dishes ⇒ JPY 2,500 (Tax Included JPY 2,750) 3H All-You-Can-Drink ⇒ JPY 3,500 (Tax Included JPY 3,850) (Excluding Tax) 6 items ★Limited Time Offer★ Enjoy Makgeolli too! Samgyeopsal Course ⇒ 2-hour all-you-can-drink + 7 dishes for JPY 2,500 Reserve Set menu details JPY 2,500 （Price excluding tax）per person",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "All you can drink All you can eat ★Limited★【2-Hour All You Can Drink】Samgyeopsal All You Can Eat * All You Can Drink Course! JPY 3,000 (tax Included JPY 3,300) Reserve Set menu details JPY 3,000 （Price excluding tax）per person",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 188,
+      "index": 1,
+      "criterion": "no more than 5,000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Korean food near Okachimachi",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 4,
+        "area": {
+          "query": "near Okachimachi"
+        },
+        "criteria": [
+          {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "no more than 5,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ]
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 189,
+      "index": 1,
+      "criterion": "no more than 5,000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "no more than 5,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Korean food near Okachimachi",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-23T05:16:39.039Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "6:30 PM",
+            "resolvedTimeWindow": {
+              "earliest": "18:30",
+              "latest": "18:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 4,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Okachimachi"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "All you can drink All-You-Can-Drink Only! 2 Hours - 120 Minutes JPY 1,500 (tax Included JPY 1,650) Reserve Set menu details JPY 1,500 （Price excluding tax）per person",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "All you can drink [6 Dishes] Samgyeopsal Course with 2H All-You-Can-Drink + All 6 Dishes ⇒ JPY 2,500 (Tax Included JPY 2,750) 3H All-You-Can-Drink ⇒ JPY 3,500 (Tax Included JPY 3,850) (Excluding Tax) 6 items ★Limited Time Offer★ Enjoy Makgeolli too! Samgyeopsal Course ⇒ 2-hour all-you-can-drink + 7 dishes for JPY 2,500 Reserve Set menu details JPY 2,500 （Price excluding tax）per person",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "All you can drink All you can eat ★Limited★【2-Hour All You Can Drink】Samgyeopsal All You Can Eat * All You Can Drink Course! JPY 3,000 (tax Included JPY 3,300) Reserve Set menu details JPY 3,000 （Price excluding tax）per person",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 191,
+      "index": 1,
+      "criterion": "no more than 5,000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "no more than 5,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Korean food near Okachimachi",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-23T05:16:39.039Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "6:30 PM",
+            "resolvedTimeWindow": {
+              "earliest": "18:30",
+              "latest": "18:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 4,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Okachimachi"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 213,
+      "index": 1,
+      "criterion": "no more than 5,000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "timezone": "Asia/Tokyo",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Korean food near Okachimachi",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "partySize": 4,
+        "area": {
+          "query": "near Okachimachi"
+        },
+        "criteria": [
+          {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "no more than 5,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ]
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 215,
+      "index": 1,
+      "criterion": "no more than 5,000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "MET",
+      "intent": {
+        "schemaVersion": "3",
+        "timezone": "Asia/Tokyo",
+        "criteria": [
+          {
+            "text": "Korean food",
+            "polarity": "POSITIVE",
+            "strength": "HARD"
+          },
+          {
+            "text": "no more than 5,000 yen per person",
+            "polarity": "POSITIVE",
+            "strength": "SOFT"
+          }
+        ],
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Korean food near Okachimachi",
+          "selectionScope": "OPEN_ENDED"
+        },
+        "date": "2026-10-30",
+        "timeWindow": {
+          "earliest": "18:30",
+          "latest": "18:30"
+        },
+        "temporalResolution": {
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-10-23T06:30:23.429Z",
+          "timezone": "Asia/Tokyo",
+          "date": {
+            "expression": "Friday, October 30",
+            "resolvedDate": "2026-10-30",
+            "basis": "EXPLICIT_DATE"
+          },
+          "timeWindow": {
+            "expression": "6:30 PM",
+            "resolvedTimeWindow": {
+              "earliest": "18:30",
+              "latest": "18:30"
+            },
+            "basis": "EXPLICIT_CLOCK"
+          }
+        },
+        "partySize": 4,
+        "partySizeSource": "EXPLICIT",
+        "area": {
+          "query": "near Okachimachi"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    },
+    {
+      "call": 366,
+      "index": 0,
+      "criterion": "at most 8000 yen per person",
+      "oldStatus": "MET",
+      "newStatus": "NOT_CHECKED",
+      "intent": {
+        "criteria": [],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        },
+        "date": "2026-08-05",
+        "partySize": 2,
+        "timeWindow": {
+          "earliest": "18:00",
+          "latest": "20:00"
+        }
+      },
+      "removedSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "quote": "Seasonal dinner course: JPY 8,000, tax included; dinner only. Available only for parties of 4 or more.",
+          "field": "PRICE"
+        }
+      ],
+      "addedSources": []
+    }
+  ]
+}
