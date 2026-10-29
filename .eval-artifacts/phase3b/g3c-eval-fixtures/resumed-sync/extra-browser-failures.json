@@ -1,0 +1,32 @@
+{
+  "path": "src/harness/browser/browser-read-request-binding.test.ts",
+  "sha256": "e5fdcf5de861498b47c0984569cf3d82d300012ce3b9b5893cd3e91d0e1b035d",
+  "unchangedAgainst": "8c66921aa09f4c020732e3bea3d3241383e25689",
+  "line": 374,
+  "assertion": "matchReasons.includes(\"Verified HARD criterion from source: omakase\")",
+  "status": "OUTSIDE_AUTHORIZED_FOUR_FILES",
+  "currentFailingNames": [
+    "native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence",
+    "native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence"
+  ],
+  "priorBaselineEvidence": ".eval-artifacts/phase3b/g3-longrun/15-equal-timestamp-evidence/browser-baseline/receipt.json",
+  "priorBeforeAfterSummary": [
+    {
+      "tests": 2,
+      "pass": 0,
+      "fail": 2,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "tests": 2,
+      "pass": 0,
+      "fail": 2,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  ],
+  "note": "Raw Node displayed expression points at an unrelated Date target lookup; the actual stack/source line is 374. Subsequent assertions in those two cases are not reached."
+}
