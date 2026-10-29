@@ -21,6 +21,8 @@ def run(name,cmd,cwd=root,environment=None):
  status=git('status','--porcelain',cwd=cwd);assert not status,status
  receipt['runs'].append({'name':name,'command':cmd,'cwd':str(cwd),'exitCode':code,'seconds':time.monotonic()-started,'gitStatusBefore':'','gitStatusAfter':''});(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n');print(name,code,flush=True)
 run('domain',['node','--import','./scripts/test-filesystem-guard.mjs','--import','tsx','--test','src/domains/restaurant/read-assessment.test.ts'])
+if phase=='green':
+ run('related',['node','--import','./scripts/test-filesystem-guard.mjs','--import','tsx','--test','src/domains/restaurant/action-validator.test.ts','src/domains/restaurant/agent-context.test.ts','src/application/restaurant-presentation-evidence.test.ts'])
 clone=out/'a-frozen-checkout'
 subprocess.run(['git','clone','--shared','--no-checkout',str(root),str(clone)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
 # Never materialize .env or private QA answer/artifact inputs.
