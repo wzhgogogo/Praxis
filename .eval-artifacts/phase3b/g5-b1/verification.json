@@ -1,0 +1,52 @@
+{
+  "status": "OFFLINE_SUBSET_PASS_AWAITING_ADR_AND_G3_INTEGRATION",
+  "timeCET": "2026-10-29T08:46:37.208569+01:00",
+  "verifiedSourceCommit": "8f8cba13f3967dfc6bdee0ac5e2812dc722a3d35",
+  "baseMain": "b2a3cbd30e6f0c78486cf8b8671e7820a227d550",
+  "frozenFiles": 689,
+  "gates": {
+    "typecheck": "PASS",
+    "arch:check": "PASS",
+    "npm test": {
+      "tests": 1207,
+      "pass": 1207,
+      "fail": 0
+    },
+    "build": "PASS",
+    "test:browser:fixture": {
+      "tests": 174,
+      "pass": 174,
+      "fail": 0
+    }
+  },
+  "extraG2": {
+    "tests": 4,
+    "pass": 4,
+    "fail": 0
+  },
+  "allTenStepGitStatusBeforeAfterEmpty": true,
+  "firstAttempt": "attempt-01/gates.json",
+  "requestContractRedGreen": "request-contract-red-green.json",
+  "webEvaluation": "web.evaluation.json",
+  "resources": {
+    "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+    "newCalls": {
+      "realModel": 0,
+      "evaluationPublicGET": 0,
+      "google": 0,
+      "live": 0
+    },
+    "sharedLedgerUnchangedSHA256": "f8b7dbb4dad6cbd36b48344455436b6cc2ec736051f66f2a1581b0679b65be58",
+    "newLedgerEntries": 0
+  },
+  "noSharedVersionsChanged": true,
+  "protectedG3FilesUnchanged": true,
+  "notEvaluated": [
+    "ordinary production source-cache reader (G3 output missing on base main)",
+    "real website/session preselection",
+    "live inventory or booking outcome",
+    "G1 automatic booking-term extraction and stricter multilingual resolution",
+    "verified platform fee configuration",
+    "durable once-only return feedback"
+  ]
+}

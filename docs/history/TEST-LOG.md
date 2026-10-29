@@ -5866,4 +5866,8 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 
 2026-10-29 CET：C启动G5 B1离线切片，最新main b2a3cbd3；ADR0048 Proposed。TableCheck旧pax有效红→num_people/精确start_time绿；暂态合同/服务端二次校验/最小英文卡片正在验证。现main缺G3 vacancy-response导出，不拼Tabelog链接、不改B三个保护文件；普通组合未启用B1来源读者。反馈持久化、多语言严格条款及平台手续费证据待ADR/后续接线。模型/GET/Google/Live0，不读.env，无共享版本变更。
 
-证据：`.eval-artifacts/phase3b/g5-b1/`。红灯9bfd0166记录旧serializer实际pax；支持的精确请求及宽时段2/2针对性绿，领域/HTTP本地组合已绿，正式冻结门禁待执行。真实来源、源网站实际选中与预约结果均未评价。
+证据：`.eval-artifacts/phase3b/g5-b1/`。红灯9bfd0166记录旧serializer实际pax；支持的精确请求及宽时段2/2针对性绿，领域/HTTP本地组合已绿，初轮正式门禁见attempt-01；批准请求合同同步后最终五门禁全绿。真实来源、源网站实际选中与预约结果均未评价。
+
+最终离线交付：2026-10-29 CET：C G5 B1获准的离线子集完成，ADR0048 Proposed待用户批准。8f8cba13冻结689项；五门禁1207/174全绿，额外G2 4/4，10步前后净树。旧pax红→num_people/精确start_time绿；暂态交接/服务端两次校验/英文卡片及同店引用通过。A请求合同三处逐项授权并独立提交，首轮16红→所属26/26绿→全量1207/1207；来源页链接/Gold/评分未动。GET/模型/Google/Live0，不读.env，无共享版本改动。普通来源读者未接G3、反馈持久化/多语言严格条款/手续费证据待后续；仅推工作分支停复核，不合main。
+
+验证源码 8f8cba13f3967dfc6bdee0ac5e2812dc722a3d35；最终门禁原件 gates.json，各项前后git status均空。typecheck/arch/build PASS，npm test1207/1207，Chromium174/174（106.8秒），常规G2 4/4；689项SHA前后相同。Web两站×桌面/手机4截图目视确认、外部请求0；旧页面缺Book链接有效红。A归属仅147/222/54三行请求合同改变，547dadc0与1fb34535独立提交，16失败名称均见26/26针对性绿，Source/Gold/Scorer字节保护通过。原始pax来源链接、三个B保护文件及共享版本均不变。报告全文附Proposed ADR0048；等待复核/批准和G3接线，未宣称当前网站或预约成功。

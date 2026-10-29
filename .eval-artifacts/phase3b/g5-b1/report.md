@@ -1,15 +1,72 @@
-# G5 B1 offline stop report
+# G5 B1 离线停止点报告
 
-Status: implementation and formal verification in progress; ADR-0048 Proposed. No Live claims.
+- Status: **OFFLINE_SUBSET_PASS_AWAITING_ADR_AND_G3_INTEGRATION**；工作分支交复核，未合main。
+- Evidence: frozen exposed regression / synthetic local controls；不是来源Replay、Live或预约验收。
+- Time: 2026-10-29T08:46:37.208569+01:00（Vienna CET，UTC+1）。
+- Branch: `codex/feat-phase3b-b1-booking-handoff`；起点main `b2a3cbd30e6f0c78486cf8b8671e7820a227d550`。
+- Verified source: `8f8cba13f3967dfc6bdee0ac5e2812dc722a3d35`；689项输入/源码SHA在运行前提交，前后核对一致。
 
-2026-10-29 CET：C启动G5 B1离线切片，最新main b2a3cbd3；ADR0048 Proposed。TableCheck旧pax有效红→num_people/精确start_time绿；暂态合同/服务端二次校验/最小英文卡片正在验证。现main缺G3 vacancy-response导出，不拼Tabelog链接、不改B三个保护文件；普通组合未启用B1来源读者。反馈持久化、多语言严格条款及平台手续费证据待ADR/后续接线。模型/GET/Google/Live0，不读.env，无共享版本变更。
+## 本次交付与兑现范围
 
-## Cross-ownership request contracts
+1. **ADR-0048保持Proposed。** 本报告末尾完整附文，待用户批准。没有通过草案改变Accepted授权、Outcome或网络Guard。
+2. **TableCheck参数修正。** 已冻结9bfd0166反例在旧代码下实际产生pax，断言有效失败；修复改为num_people。只有确切时刻才加start_time，宽时段不猜时刻，并删除旧参数/旧时刻。原有嵌入式public query参数不变。针对性2/2、整份适配器64/64绿。
+3. **暂态合同和服务端两次检查。** 新`restaurant-booking-handoff@1`只作暂态DTO；从代码拥有的来源记录生成，再于每次HTTP/SSE投影前对当前真实Case Snapshot重验。校验同店/渠道/offer/evidence、日期人数、精确时刻与窗口、HIGH身份和展示新鲜度、HTTPS域名/路径和无歧义参数。Tabelog只接受来源原链接，代码不拼form_course。没有fetch来“验证”链接。
+4. **英文最小卡片。** 立即提供Book on来源网站，不等比较结束；Continue只描述参数已带入的日期/时刻/人数。一个提示行以原文课程名生成Pick；TableCheck始终Check date and guests。sourceSelection始终UNKNOWN。G1式引用核对同店、渠道、identity ID、URL、readAt及当前缓存逐字原文；缺证据不显示。未核实的平台费不显示。
+5. **已有权限/版本不变。** 不登录/填写/提交/碰卡/存PII，不进入Tabelog禁止的/yoyaku/tabelog_booking/，不输出占位/确认页链接。Agent/Semantic/G1 Prompt与Schema、State/TaskDefinition均未递增。三个B保护文件未动（vacancy-response在本次base main不存在）。
 
-User-approved isolated commits: 547dadc0 (A browser fixture line147 outgoing URL) and 1fb34535 (A fixed-source request validator line222 and failure-trace expectation line54). Source-generated page links at148/191/228, Gold and scoring unchanged. Initial cda313f0 default test1191/1207 with16 failures; all16 labels now pass in the26/26 targeted suite. See cross-ownership.json and request-contract-red-green.json. Full final gates pending.
+## 仍未接通、不得宣称完成的部分
 
-## Full Proposed ADR for user approval
+- **普通产品来源读者未启用。** 此次base main没有G3的tabelog-vacancy-response.ts，旧capturedSlots只留时刻、丢弃form_course URL。服务端有明确的cache-only组合入口，普通启动不注入；离线HTTP fixture注入该入口以验证合同。正式接G3只能消费B的审定结果，不能另写解析器或由店号/时刻倒拼。
+- **取消规定的多语言严格语义未实现/未评价。** 单一已接纳G1答案带引用可显示；冲突未解决时暂不显示取消摘要。逐字检查不能证明哪份更严。需批准ADR及审定提取合同后接线，不把保守省略当成完整B1。
+- **要卡分类、英文转述的真实G1质量未评价。** 当前为固定来源/固定G1结果的离线控制，不含新模型调用，不报告模型正确率。
+- **平台费配置没有来源证据，未发布440日元为当前事实。** 后续配置必须带平台/渠道、原文、出处和日期。
+- **返回反馈本轮仅在ADR定义。** 持久的最多一次Did you get the booking?及USER_REPORTED存储留ADR批准后实现；当前没有假的可用反馈按钮或BOOKED_VERIFIED跳转。
 
+## 跨归属修改（均获用户明确批准，独立于功能提交）
+
+| 文件/行 | 仅改变Praxis请求合同 | 提交 |
+|---|---|---|
+| src/harness/browser/browser-read-tablecheck.test.ts:147 | 请求URL期望pax→num_people，加start_time=19%3A00（编码后的19:00） | 547dadc0 |
+| src/eval/restaurant/agent-loop/current-development-fixed-sources.ts:222 | 请求人数校验get(pax)→get(num_people) | 1fb34535 |
+| src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts:54 | 错误人数请求记录期望pax=4→num_people=4 | 1fb34535 |
+
+第148、191、228行等构造页里的来源链接、Gold、业务断言和评分规则不改。核验脚本将上述三行逆变换后与base main整文件比对，字节一致。A同时修G2超时，合并冲突时保留147行本次批准的请求URL；不要覆盖A的其他时序改动。完整授权记录：[cross-ownership.json](cross-ownership.json)。
+
+首轮`cda313f0`净树验证typecheck/arch通过，npm test1191/1207，16项失败来自旧pax请求合同，随后门禁未继续；原始日志/冻结清单保留在[attempt-01](attempt-01/README.md)。批准后26/26针对性测试通过，原16个失败名称全部出现于绿灯；[逐项证明](request-contract-red-green.json)。最终全量1207/1207，未删除/跳过/反转断言。不是来源网站故障。
+
+## 最终门禁
+
+| 步骤 | 结果 | 秒 | git status前/后 |
+|---|---|---:|---|
+| integrity | PASS | 0.152 | empty / empty |
+| typecheck | PASS | 0.494 | empty / empty |
+| arch-check | PASS | 0.206 | empty / empty |
+| test | PASS | 28.422 | empty / empty |
+| build | PASS | 0.506 | empty / empty |
+| browser-fixture | PASS | 106.8 | empty / empty |
+| g2 | PASS | 21.617 | empty / empty |
+| b1-web | PASS | 0.736 | empty / empty |
+| b1-web-evaluation | PASS | 0.057 | empty / empty |
+| integrity-after | PASS | 0.214 | empty / empty |
+
+五门禁全部通过：npm test1207/1207；Chromium174/174。额外常规G2 4/4，不冒充G3严格查位验收。10步均前后净树、无恢复掩盖写入。[原始收据](gates.json) · [验证摘要](verification.json)。
+
+## 四层解释、独立核对与边界
+
+- **端到端：** 当前离线HTTP从真实创建Case入口经过Interpreter/Compiler/Agent/Validator/Router/Reducer/PGlite，再到B1服务端投影；仅模型传输和来源I/O替换。正常输出、篡改缓存拒绝、过期撤下、跨用户拒绝均通过。它不证明当前网站预选或订位成功。
+- **环节：** 旧URL红→修复绿；领域同店/请求/新鲜度/URL与引文边界5/5；HTTP1/1；两站Web×桌面/手机4截图无横向溢出，早于比较结束提供按钮。旧页面已渲染同店候选但缺Book链接，控制红灯保存在red-web.log/web-baseline-red.png。
+- **支持性/严重程度：** Web执行与评价分开：[execution](web.execution.json)、[evaluation](web.evaluation.json)。独立字面oracle核对两站源域名/路径/日期/时刻/人数及原文引文；Chromium路由记录意外外部请求0、page errors0，源码无来源导航。未把fixture的通过写为真实S0=0；实时库存、翻译/严格条款语义、外部选中、预约Outcome均NOT_EVALUATED。
+- **归因：** 已有pax serializer缺陷及其固化在A请求合同中的旧假设；不是Google或网站网络失败。首轮红证据保留，修复只改请求方，不将网站给出的旧pax链接重写成新输入。
+
+## 资源与停止点
+
+本批实际模型0、评测公开GET0、Google0、Live0；.env未读取/加载。共享账本原字节SHA保持不变，新条目0（[资源回执](resources.json)）。日志/源码/输入模式不混报Replay或Live。按指令仅推本工作分支，停等复核及用户批准ADR；不合main，不自动接线或发起预约。
+
+## 完整Proposed ADR（待用户批准）
+
+原文件：[ADR-0048](../../../docs/decisions/0048-source-bound-b1-booking-handoff.md)。以下正文逐字附上；代码块中的相对链接以ADR文件目录为基准。
+
+```markdown
 # ADR-0048: Source-bound B1 booking handoff
 
 ## Status
@@ -94,3 +151,4 @@ Transient handoff contracts and Web projections do not mutate Task State. No Age
 - [ADR-0046 source-quoted answers](0046-observed-actions-and-source-quoted-answers.md)
 - [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 - [B1 offline plan](../../.eval-artifacts/phase3b/g5-b1/plan.md)
+```
