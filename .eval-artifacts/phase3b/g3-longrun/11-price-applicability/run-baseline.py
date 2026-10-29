@@ -7,7 +7,7 @@ freeze=json.loads((item/'input-freeze-baseline.json').read_text())
 for name,sha in freeze['files'].items():assert hashlib.sha256((root/name).read_bytes()).hexdigest()==sha,name
 assert not git('status','--porcelain')
 env=os.environ.copy();env['PRAXIS_HARD_CAPTURE']=str(out/'actual-condition-calls.jsonl')
-env['NODE_OPTIONS']='--import '+str(item/'capture-conditions.mjs')
+env['NODE_OPTIONS']='--import '+str(item/'capture-preload.mjs')
 t=time.monotonic();r=subprocess.run(['npm','test'],env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=240)
 (out/'default.log').write_bytes(r.stdout);assert not git('status','--porcelain')
 rows=[json.loads(line) for line in (out/'actual-condition-calls.jsonl').read_text().splitlines()]
