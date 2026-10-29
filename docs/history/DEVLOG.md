@@ -5220,3 +5220,5 @@ Five approved consolidation items have individual successor proof, all originals
 生产投影补当前轮进度与首家证据资格；消息必带viewContext，服务器核对归属/当前视图再交给原语义路径，不写selected。Choose this只打开B1准备定位，不触发旧的选定/授权/提交；来源二次校验、链接语法、返回一次USER_REPORTED均保留，按ADR0050拆最多两行提示与就近冲突提醒。查找中保存备选曾使在途读取因expected3/actual4终止：仅同run且全部中间事件SHORTLIST_UPDATED时重交已完成只读事件一次，不重查来源、不接纳需求修改/停止后的旧结果；停止状态改投影真实取消事件。
 
 语义Prompt26→27增加当前查看指代说明，无新增调用，Schema4/State24/TaskDefinition22及Agent29/Action5/Context17不变；真实模型质量未评价。新本地Fixture组合沿用既有源Fixture和生产两站Grounding，保留HTTP/SSE/Application/Runtime/PGlite完整链路；背景生命周期虽配置LIVE_READ，注入源/模型仍为Fixture，真实业务模型/Google/公开GET/Live/外写全0。不改A评测、B搜索/G3、C Google客户端。开发浏览器8/8和默认1210/1210已通过，正式净树五门禁与视觉复核待交付；本分支不合main。
+
+正式交付证据：4255fcf85b94e39a5be3760203b54ab9d831dd9c冻结后五门禁全绿，默认1210/1210、Chromium180/180（120.133秒），各项前后净树、HEAD不变。手机十画面与桌面三画面共13张截图归档；长条款滚动展示，不做桌面精修。代码冻结后只补报告/状态与证据附件，功能源码不变。第0步e3c48dbd和main00519783的远端SHA复核一致；本工作分支停独立视觉/代码复核，不合main。[报告](../reviews/WEB-WORKSPACE-SLICE1-20261030.md)。

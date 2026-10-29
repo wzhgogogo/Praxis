@@ -1,12 +1,12 @@
 # Web Workspace Slice 1 Plan
 
 - Status: Draft
-- Document revision: 0.2
+- Document revision: 0.3
 - Last updated: 2026-10-30
 - Source of truth for: 本切片范围、验收链路、前置检查与停止条件；不替代产品/视觉规则
 - Related ADRs: [ADR-0006](decisions/0006-web-first-agent-workspace.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [PRD](product/MVP-PRD.md), [User Flows](product/USER-FLOWS.md), [Gateway](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Visual Direction](product/VISUAL-DIRECTION.md)
-- Evidence status: draft / not integrated；工作分支本地Fixture开发验收已通过，正式五门禁与独立视觉复核待交付，不是Clean Baseline
+- Evidence status: draft / not integrated；工作分支本地Fixture验收与净树五门禁已通过，独立视觉/代码复核待用户，不是Clean Baseline
 
 ## 当前切片承诺
 
@@ -80,7 +80,7 @@ Evaluator不适用：本轮不是模型质量评测，使用受控模型/来源�
 
 ## 实施记录（2026-10-30）
 
-已有W06/W09取消/进度前置2/2通过。新浏览器脚本两尺寸覆盖上述10项，另补Tabelog取消冲突就近展示/手续费；保留并改接原来源事实刷新、晚到列表、G1引用问答三项回归，开发检查共8/8通过。普通默认套件1210/1210开发检查通过。正式五门禁须在提交后的净树上运行，交付报告记录准确SHA和结果。
+已有W06/W09取消/进度前置2/2通过。新浏览器脚本两尺寸覆盖上述10项，另补Tabelog取消冲突就近展示/手续费；保留并改接原来源事实刷新、晚到列表、G1引用问答三项回归，共8/8通过。正式五门禁在冻结4255fcf85b94e39a5be3760203b54ab9d831dd9c的净树逐项运行，默认1210/1210、完整Chromium180/180全绿，各项前后净树。截图、检错与完整日志见[复核报告](reviews/WEB-WORKSPACE-SLICE1-20261030.md)。本切片完成后停用户复核、不合main。
 
 实际链路保留生产HTTP、SSE、Interpreter、Compiler、Validator、Router、Reducer、PGlite；模型/来源只替换为既有Fixture输入的受控传输。TableCheck和Tabelog分别通过其现有Grounding函数接纳合成观察，B1缓存经过原两次校验；不把本地接收器当作网站带入验证。SSE在后台生命周期中推进，但Fixture注入不属于真实LIVE_READ。语义Prompt26→27仅加入查看上下文说明，Schema4、State24、TaskDefinition22、Agent29/Action5/Context17不变，未运行真实模型质量评测。
 

@@ -1,7 +1,7 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.12
+- Document revision: 1.13
 - Last updated: 2026-10-30
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -42,7 +42,7 @@ Accepted ADR
 ## 产品
 
 - [MVP PRD](product/MVP-PRD.md)：面向在日外国人的东京英文Web决策、准备与来源交接范围；第一版由用户在来源网站自行提交。
-- [User Flows](product/USER-FLOWS.md)：首页、My plans、安排工作区及查找、选店、交接、返回自报流程；第一段已完成本地Fixture浏览器链路，独立视觉复核待交付。
+- [User Flows](product/USER-FLOWS.md)：首页、My plans、安排工作区及查找、选店、交接、返回自报流程；第一段已完成本地Fixture浏览器链路，待独立视觉复核。
 - [Web Visual Direction](product/VISUAL-DIRECTION.md)：用户选定的合并版视觉规则及英文文案；Mono仅用于logo，信息靠间距分隔，实施范围/验收见切片计划。
 - [Booking Design Draft 0.6](product/BOOKING-DESIGN-DRAFT.md)：draft / not integrated的历史方案输入；B1以Accepted ADR-0049为准，B2/B2+不属于前端第一段，原稿的取消严格程度与工作流读取不得覆盖ADR。
 
@@ -64,6 +64,8 @@ Accepted ADR
 - [Capability Matrix](integrations/CAPABILITY-MATRIX.md)：DeepSeek、Google、Hot Pepper、TableCheck 和官网能力边界。
 
 ## 验证、阶段与历史
+
+- [前端第1步复核](reviews/WEB-WORKSPACE-SLICE1-20261030.md)：工作区/B1完整Fixture链路、两尺寸十项验收、五门禁1210/180及主要画面截图；工作分支待复核，不是Live验收。
 
 - [前端第0步文档同步复核](reviews/WEB-WORKSPACE-HANDOFF-DOCS-20261029.md)：来源对照、补齐范围与文档检查；第0步已复核并小修推送；后续代码状态见切片计划。
 

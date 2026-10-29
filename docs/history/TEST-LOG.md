@@ -5922,3 +5922,5 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 有效产品反例：保存首家时第二家读取已阻塞，释放后目标1of3超时，真实状态FAILED并报告Stale task version expected3/actual4；窄冲突处理后同脚本通过。停止后后端已中止但页面Search stopped为空，改为读取本轮AGENT_LOOP_TERMINATED/CANCELLED后同断言通过。开发期Fixture预算小于生产动作最小时间、缺B1准备copy的请求指纹、旧UI mock缺字段及Playwright baseURL/旧selector等接线错误单独修正，不作为产品检错证据。
 
 正式五门禁需冻结提交后逐项运行并检查净树，结果与截图另附交付报告；未运行的真实模型/来源/Controlled Live-write/真实PostgreSQL多连接保持未运行，不由本地Chromium或PGlite替代。未改Gold、评分、私有Holdout、A/B/C保护文件，不读取.env。业务真实调用0。
+
+正式五门禁结果：冻结4255fcf85b94e39a5be3760203b54ab9d831dd9c，typecheck/arch:check/build均PASS，默认1210/1210（27.873秒），完整Chromium180/180（120.133秒），各项前后git status为空。G2按原入口独占运行，再执行其余4-worker Fixture，未调时限、排除文件或新增skip。新两尺寸真实链路及原三项UI回归共8/8 PASS，13张截图PNG尺寸/SHA核对。B1 checkedLink/admitted/checkedCitation/checkedAnswer与父提交逐字一致；新增文档链接26项无缺失。冻结后仅归档报告、状态与证据，全部真实业务调用仍0。[原始日志/回执/截图](../reviews/WEB-WORKSPACE-SLICE1-20261030.md)。

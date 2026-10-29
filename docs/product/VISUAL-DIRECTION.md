@@ -1,12 +1,12 @@
 # Praxis 视觉方向
 
 - Status: Draft
-- Document revision: 0.6
+- Document revision: 0.7
 - Last updated: 2026-10-30
 - Source of truth for: Web 界面的视觉规则；不覆盖 Accepted PRD、ADR 或当前实现状态
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [User Flows](USER-FLOWS.md), [Agent Gateway and Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Booking Design Draft](BOOKING-DESIGN-DRAFT.md)
-- Evidence status: 第0步已复核；第一段已在工作分支离线实现，独立视觉复核待交付，不是Live能力证据；验收状态见切片计划
+- Evidence status: 第0步已复核；第一段工作分支离线实现与五门禁已通过，独立视觉复核待用户，不是Live能力证据；截图见[报告](../reviews/WEB-WORKSPACE-SLICE1-20261030.md)
 
 用户 2026-10-29 选定“合并版”：白底，柔和阴影分层，实心群青胶囊按钮。[画布](https://claude.ai/artifact/VniECP5jzidQmknLSFyryM)是虚构示例，早于视觉规则0.2的收紧；冲突时以本文视觉规则为准。参考“合并版3候选 / 4订法”；开始、查找中及侧栏参考“群青 · Wabi式”和“A2安排列表”，不能据画布推断真实照片、进度数字、条款或预约能力。
 
