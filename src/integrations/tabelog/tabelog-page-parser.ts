@@ -310,14 +310,14 @@ export function parseTabelogSourceFieldQuotes(snapshot: BrowserSnapshot): import
   for(const range of reviewRanges.sort((a,b)=>b.start-a.start))merchant=merchant.slice(0,range.start)+" "+merchant.slice(range.end);
   for(const region of sourcePriceElements(merchant,reviewRegion).sort((a,b)=>b.length-a.length))merchant=merchant.replace(region,"");
   const href = (link:string) => link.match(/\bhref\s*=\s*["']([^"']+)["']/iu)?.[1];
-  const courseLink = (link:string) => {try{return /\/party\//u.test(new URL(href(link)??"",snapshot.url).pathname);}catch{return false;}};
+  const courseLink = (link:string) => {try{return /\/party\/\d+(?:\/|$)/u.test(new URL(href(link)??"",snapshot.url).pathname);}catch{return false;}};
   const sourceRoot = new URL(snapshot.url); sourceRoot.search="";sourceRoot.hash="";
   sourceRoot.pathname=sourceRoot.pathname.split("/party/")[0]!.replace(/\/$/u,"")+"/";
   const ownLink = (link:string) => {try{const target=new URL(href(link)??"",snapshot.url);return target.origin===sourceRoot.origin&&target.pathname.startsWith(sourceRoot.pathname);}catch{return false;}};
   const cards=sourcePriceElements(merchant,tag=>/^<(?:article|section|div)\b/iu.test(tag));
   for(const link of sourcePriceElements(merchant,tag=>/^<a\b/iu.test(tag)).filter(courseLink)){
     const title=clean(link);
-    if(!ownLink(link)||!title||/^(?:reserve|reservation|details?|set menu details|予約|詳細)$/iu.test(title))continue;
+    if(!ownLink(link)||!title||/^(?:reserve|reservation|details?|set menu details|menus?|courses?|予約|詳細)$/iu.test(title))continue;
     const card=cards.filter(card=>card.includes(link)&&/<p\b/iu.test(card)).sort((a,b)=>a.length-b.length)[0];
     if(card&&sourcePriceElements(card,tag=>/^<a\b/iu.test(tag)).some(other=>courseLink(other)&&!ownLink(other)))continue;
     const whole=card?clean(card):title;
@@ -334,5 +334,5 @@ export function parseTabelogSourceFieldQuotes(snapshot: BrowserSnapshot): import
     const label=clean(row.match(/<th\b[^>]*>([\s\S]*?)<\/th>/iu)?.[1]??"");
     if(/^(?:categories|cuisines?|genres?|ジャンル|料理ジャンル)$/iu.test(label))add("CATEGORY",clean(row.match(/<td\b[^>]*>([\s\S]*?)<\/td>/iu)?.[1]??""));
   }
-  return output.slice(0,32);
+  return [...output.filter(q=>q.field==="CATEGORY"),...output.filter(q=>q.field!=="CATEGORY")].slice(0,32);
 }
