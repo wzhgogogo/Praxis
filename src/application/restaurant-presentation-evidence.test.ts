@@ -311,8 +311,6 @@ test("Phase2c observed cuisine and approved price applicability reach Router to 
   // Independently reviewed literal exclusions in these frozen historical pages.
   // Raw quotes remain evidence; they no longer participate in a budget claim.
   const excludedPriceQuotes = new Map([
-    ["90b8d5b30958c8f3eed0f33ba1cadb224409a482f7898683f822e45c76ed55e7", "reservation-only eligibility not established"],
-    ["ea74e4162544df32f1d0722cbcf50aeed21b31ceeb578efd16cfde3ed223ab18", "table-reservation-only amount is not a confirmed meal price"],
     ["cdb311583ede41e9656c40c1a227ce6dc015c6eae4ca4533ba9edd1ee1f005aa", "all-you-can-drink-only scope does not establish a meal"],
     ["2b5e30076c8cb38f2788bc2efb728f09bf2e79e7b60ebe21cfcccc82b6a8e18e", "limited time offer has no checkable validity period"],
     ["65ac774d7b20f0a2044552de8eed9d132df16a7fe5a5f46e625f03c16df52831", "limited offer has no checkable validity period"],
@@ -357,7 +355,7 @@ test("Phase2c observed cuisine and approved price applicability reach Router to 
       assert.deepEqual(shown.conditionStates[id]!.slice(1),original.conditionStates[id].slice(1),"price state and all remaining applicable quotations stay unchanged");
       withoutChanges.conditionStates[id]![0]=before;conditions++;
     }
-    assert.deepEqual(withoutChanges,original,"only the four cuisine rows and the seven literal price-source exclusions change; all states, identities and times remain identical");
+    assert.deepEqual(withoutChanges,original,"only the four cuisine rows and the five literal price-source exclusions change; all states, identities and times remain identical");
   }
   assert.deepEqual([...excludedSeen].sort(), [...excludedPriceQuotes.keys()].sort());
   assert.equal(conditions,4);assert.equal(unchangedRuns,9);assert.equal(sourceCalls,0);
