@@ -261,24 +261,6 @@ export function parseTabelogVerifiedHardCriteria(snapshot: BrowserSnapshot, hard
 
 export function pageExcerpt(snapshot: BrowserSnapshot): string { return excerpt(snapshot.text); }
 
-/** Listed course cards are facts, not a promise that a plan fits this sitting. */
-export function parseTabelogListedCourses(snapshot: BrowserSnapshot): string[] {
-  const decode = (value: string) => value.replace(/&(?:amp|lt|gt|quot|#39|nbsp);/g, entity => ({ "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&#39;": "'", "&nbsp;": " " })[entity] ?? entity);
-  const visible = snapshot.text.replace(/\s+/g, " ");
-  return snapshot.html.split(/<div\b[^>]*class=["']rstdtl-course-list js-rstdtl-course-list["'][^>]*>/i).slice(1).flatMap(card => {
-    const name = decode(stripTags(card.match(/<span\b[^>]*class=["']rstdtl-course-list__course-title-text["'][^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? ""));
-    const description = decode(stripTags(card.match(/<p\b[^>]*class=["']rstdtl-course-list__desc["'][^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? ""));
-    const price = decode(stripTags(card.match(/<span\b[^>]*class=["']rstdtl-course-list__price-num["'][^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? ""));
-    const party = stripTags(card.match(/<dl\b[^>]*class=["']rstdtl-course-list__course-rule["'][^>]*>([\s\S]*?)<\/dl>/i)?.[1] ?? "");
-    // Require the named card and displayed price, preserving tax, group limits
-    // and the whole description (including lunch-only restrictions). Never
-    // take a crossed-out catalog price or collapse multiple plans to one price.
-    if (!name || !price || !visible.includes(name) || !visible.replace(/\s/g, "").includes(price.replace(/\s/g, "")) || !/JPY\s*[\d,]+/.test(price)) return [];
-    const note = `${name} — ${price}${party ? `; ${party}` : ""}${description ? `. ${description}` : ""}`;
-    return note.length <= 1600 ? [note] : [];
-  }).slice(0, 3);
-}
-
 /** Prices from the same detail snapshot; no additional page or model read. */
 export function parseTabelogPriceFacts(snapshot: BrowserSnapshot): import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts | undefined {
   const facts: import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts = { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [] };

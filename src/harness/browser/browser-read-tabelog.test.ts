@@ -270,15 +270,25 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     if(markup==="current") html=html.replace('<input type="hidden" class="js-people-hidden-value" value="2">','');
     const payload=(members:number,time:string)=>JSON.stringify({base_date:{year:2026,month:9,day:20},members,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13292459&member=${members}&visit_date=20260920&visit_time=${time.replace(':','')}`}}});
     const pages={ [sourceUrl]:html,"https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201":`<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,[endpoint+"?member=2"]:payload(2,"19:00"),[endpoint+"?member=4"]:payload(4,"18:45"),"https://tabelog.com/unrelated.json":JSON.stringify({private:"must not capture"}) };
-    let calls=0;
-    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){assert.equal(input.observation.targets.some(t=>t.label==="Booking time 6:45 PM"&&(t.availableActions?.length??0)>0),false,"time has no model action");const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.deepEqual(input.observation.targets.find(t=>t.label==="Date 2026-09-20")?.availableActions, [], "selected date remains evidence without a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
+    let calls=0, sourceFactsCalls=0;
+    const sourceFactsModel: import("../../core/model/contracts.js").ModelGateway = {async complete(input){
+      sourceFactsCalls++;assert.equal(input.purpose,"restaurant_source_facts");
+      const rows=JSON.parse(input.messages[1]!.content).sourceDocument.statements;
+      const first=rows.findIndex((row:{text:string})=>row.text.startsWith("Seasonal lunch course"));
+      const last=rows.findIndex((row:{text:string})=>/2\s*-\s*4/.test(row.text));assert.ok(first>=0&&last>=first);
+      return {invocationId:"source-menu-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:[{firstStatementId:rows[first].id,lastStatementId:rows[last].id,role:"COURSE"}]})};
+    }};
+    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){assert.equal(input.observation.targets.some(t=>t.label==="Booking time 6:45 PM"&&(t.availableActions?.length??0)>0),false,"time has no model action");const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.deepEqual(input.observation.targets.find(t=>t.label==="Date 2026-09-20")?.availableActions, [], "selected date remains evidence without a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:3});
     const signal=new AbortController().signal;
     try{
-      const result=await new TabelogBrowserAvailability(executor).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[]},signal);
+      const result=await new TabelogBrowserAvailability(executor, undefined, 5, {sourceFactsModel}).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[]},signal);
       assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status,"AVAILABLE",JSON.stringify(result));
       assert.equal(result.offers.length,1);assert.match(result.offers[0]!.dateTime,/T18:45/);
-      const listed = result.evidence.find(item => item.kind === "RESTAURANT_FACT")?.claims;
-      assert.deepEqual(listed?.listedCourseDetails, ["Seasonal lunch course — JPY 8,000 （Price including tax）per person; Number of people 2 - 4. Lunch only, 11:30 to 14:00."]);
+      const listed = result.evidence.find(item => item.kind === "RESTAURANT_FACT" && item.claims.listedCourseDetails)?.claims;
+      assert.ok(Array.isArray(listed?.listedCourseDetails) && listed.listedCourseDetails.length===1);
+      const quotedCourse=String(listed.listedCourseDetails[0]).replace(/\s+/g," ");
+      for(const text of ["Seasonal lunch course","Lunch only, 11:30 to 14:00.","JPY","8,000","Price including tax","Number of people","2 - 4"]) assert.ok(quotedCourse.includes(text),text);
+      assert.equal(sourceFactsCalls,1,"one cached-page source selection is charged alongside two browser choices");
       assert.equal(listed?.coursePriceYen, undefined, "a listed lunch course is not the dinner offer price");
       assert.equal(result.offers[0]!.price, undefined);
       const session=await executor.acquire(signal,"TABELOG","AVAILABILITY");
