@@ -1,4 +1,4 @@
-import type { ModelGateway } from "../../../core/model/contracts.js";
+import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET, type LiveReadInvestigationBudget } from "../../../application/live-read-investigation-budget.js";
 import { createLiveReadAssembly } from "../../../integrations/restaurant-search/live-read-assembly.js";
 import { googlePlacesDiscoveryPack } from "../../../integrations/restaurant-search/source-packs.js";
@@ -37,6 +37,22 @@ export type FixedSourceCalls = {
 };
 
 export interface FixedSourceClock { now(): Date | string; }
+
+/** Constructed model transport, not a fact oracle: select only complete page rows. */
+export function scriptedSourceFacts(request: ModelRequest): ModelResponse | undefined {
+  if (request.purpose !== "restaurant_source_facts") return undefined;
+  if (request.promptVersion !== "2" || request.outputSchema.version !== "2") throw new Error("Expected Source facts Prompt/Schema 2");
+  const input = JSON.parse(request.messages.find(message => message.role === "user")!.content) as {
+    sourceDocument: { statements: Array<{ id: string; text: string; sourceRole: string }> };
+  };
+  const selections = input.sourceDocument.statements.flatMap(statement => {
+    if (statement.sourceRole !== "SOURCE_TEXT" || !/\b(?:course|lunch set|chef['’]s omakase dinner)\b/iu.test(statement.text)) return [];
+    return [{ firstStatementId: statement.id, lastStatementId: statement.id, role: "COURSE",
+      priceStatementId: /(?:JPY|[¥￥])\s*\d|\d[\d,]*\s*円/u.test(statement.text) ? statement.id : "" }];
+  });
+  return { invocationId: "scripted-source-facts", provider: "FIXTURE", model: "current-page-statements",
+    outputText: JSON.stringify({ selections }), finishReason: "TOOL_CALLS", latencyMs: 0 };
+}
 
 function gap(record: FixedSourceCoverageGap): Error {
   return Object.assign(new Error("Fixed-source coverage gap: " + record.reason), {

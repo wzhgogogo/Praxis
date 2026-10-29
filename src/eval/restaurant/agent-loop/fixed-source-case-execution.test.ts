@@ -11,6 +11,7 @@ import { assessFixedSourceAcceptance } from "./fixed-source-acceptance.js";
 import { executeFixedSourceCase, type FixedSourceCaseExecution } from "./fixed-source-case-execution.js";
 import { loadRegisteredFixedSourceCase, type FixedSourceExpectation } from "./fixed-source-case-registry.js";
 import { RUN_DEADLINE_EXCEEDED } from "./live-run-deadline.js";
+import { scriptedSourceFacts } from "./current-development-fixed-sources.js";
 
 function response(outputText: string, invocationId: string): ModelResponse {
   return { invocationId, provider: "FIXTURE", model: "deadline-control", outputText, finishReason: "TOOL_CALLS", latencyMs: 0 };
@@ -109,6 +110,7 @@ test("a result that completes before the deadline retains its normal terminal ou
   const { registration, materializedCase } = await loadRegisteredFixedSourceCase("h001");
   const actions = ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"];
   const model: ModelGateway = { async complete(request) {
+    if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       t.mock.timers.tick(100_000);

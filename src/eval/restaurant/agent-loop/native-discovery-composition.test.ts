@@ -27,6 +27,7 @@ import { BrowserReadRecording } from "./runners/browser-read-recording.js";
 import { traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
 
 import { center, date, reference, sourcePages, type SourceScenario } from "./native-fixed-source-pages.js";
+import { scriptedSourceFacts } from "./current-development-fixed-sources.js";
 
 function reply(outputText: string, purpose: string): ModelResponse {
   return { invocationId: purpose, provider: "FIXTURE", model: "scripted-boundary", outputText, finishReason: "TOOL_CALLS", latencyMs: 0 };
@@ -60,6 +61,7 @@ class H001NativeModel implements ModelGateway {
       throw new ModelGatewayError("Deliberate offline timeout", "TIMEOUT", true);
     }
     if (this.purposes.length > 50) throw new Error("H001 shared 50-call model ceiling exceeded");
+    if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if(request.purpose==='restaurant_discovery_retrieval'){
       const input=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
       const category=input.observation?.categories?.find((c:{label:string})=>c.label==='Sushi');

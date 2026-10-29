@@ -6,7 +6,7 @@ import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/mo
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
-import { createCurrentDevelopmentFixedSources } from "./current-development-fixed-sources.js";
+import { createCurrentDevelopmentFixedSources, scriptedSourceFacts } from "./current-development-fixed-sources.js";
 import { currentDevelopmentSourceScenario } from "./current-development-source-scenarios.js";
 import { assessFixedSourceAcceptance } from "./fixed-source-acceptance.js";
 import { executeFixedSourceCase } from "./fixed-source-case-execution.js";
@@ -178,6 +178,7 @@ class FixedCurrentCaseModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
+    if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if(request.purpose==='restaurant_discovery_retrieval')return this.plan.retrievalChoice==='GENERAL'?modelResponse(JSON.stringify({choice:'GENERAL',keyword:'',criterionRef:'',generalRef:JSON.parse(request.messages.find(m=>m.role==='user')!.content).observation?.generalLists[0]?.ref??'',categoryUrl:'',reason:'Controlled general source retrieval, not a quality oracle'}),'fixture-retrieval'):scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       assert.ok(request.messages.some((message) => message.content.includes(this.rawContent)), "semantic model must receive the exact frozen user message");
@@ -232,6 +233,7 @@ class TwoTurnStrengthUpgradeModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
+    if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       this.semanticTurn += 1;

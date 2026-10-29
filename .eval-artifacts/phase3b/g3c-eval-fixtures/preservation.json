@@ -1,0 +1,52 @@
+{
+  "base": "51b0d3deaae837e4b8063f1a10a159675a6fc9e7",
+  "changedExecutableFiles": [
+    "src/eval/restaurant/agent-loop/current-development-fixed-sources.ts",
+    "src/eval/restaurant/agent-loop/current-development-offline.test.ts",
+    "src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts",
+    "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts"
+  ],
+  "protectedUnchangedPaths": [
+    "src/application",
+    "src/core",
+    "src/domains",
+    "src/infrastructure",
+    "src/integrations",
+    "src/eval/restaurant/agent-loop/cases",
+    "src/eval/restaurant/agent-loop/diagnostic-evaluator.ts",
+    "src/eval/restaurant/agent-loop/fixed-source-acceptance.ts",
+    "src/eval/restaurant/agent-loop/fixed-source-case-registry.ts",
+    "src/eval/restaurant/agent-loop/current-development-source-scenarios.ts",
+    "src/eval/restaurant/agent-loop/native-fixed-source-pages.ts",
+    ".eval-artifacts/phase3b/budget.json"
+  ],
+  "sourcePagesChanged": false,
+  "agentActionsReordered": false,
+  "realCalls": {
+    "model": 0,
+    "google": 0,
+    "website": 0,
+    "evaluationGet": 0,
+    "live": 0
+  },
+  "assertions": [
+    {
+      "path": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "method": "full-file byte equality after reversing only the added Source2 import/purpose lines",
+      "allPreexistingExecutableBytesUnchanged": true,
+      "baseAndReversedSha256": "66bf14fa713ce286d99f54fc09a0fb1cbdfdd299ea7e0f16a013edfca5864bdb"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/current-development-offline.test.ts",
+      "method": "full-file byte equality after reversing only the added Source2 import/purpose lines",
+      "allPreexistingExecutableBytesUnchanged": true,
+      "baseAndReversedSha256": "e39ed827a950095d668cba43bf64377d0abb3559e775f123c3ee4c5d923f759d"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts",
+      "method": "full-file byte equality after reversing only the added Source2 import/purpose lines",
+      "allPreexistingExecutableBytesUnchanged": true,
+      "baseAndReversedSha256": "3bb0c9aaade6fe99a9cc7766258c36671521b342e04afd58f0704bacfdad5cac"
+    }
+  ]
+}
