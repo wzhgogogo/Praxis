@@ -1,0 +1,24 @@
+✖ browser fixture entry keeps G2 exclusive, retains every test and propagates a child failure (1173.622625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1262.305416
+
+✖ failing tests:
+
+test at src/harness/browser-fixture-scheduling.test.ts:1:362
+✖ browser fixture entry keeps G2 exclusive, retains every test and propagates a child failure (1173.622625ms)
+  AssertionError [ERR_ASSERTION]: remaining tests must not start during G2's held read
+      at TestContext.<anonymous> (/private/tmp/praxis-g2-driver-challenge-kzw7_j24/src/harness/browser-fixture-scheduling.test.ts:41:16)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
