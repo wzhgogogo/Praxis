@@ -15,12 +15,12 @@ import { hasTabelogSelectedQuery, tabelogCapturedSlots, tabelogQueryControlsRest
 const candidate = fixtureCandidates[0]!;
 
 /** Source fixture with both the selected public query and an independently supplied inventory payload. */
-function boundQueryFixture(snapshot: BrowserSnapshot): BrowserSnapshot {
+function boundQueryFixture(snapshot: BrowserSnapshot, slots: readonly string[] = ["19:00"]): BrowserSnapshot {
   const outletId = snapshot.url.match(/\/(\d+)\/$/)?.[1];
-  if (!outletId || !snapshot.url.includes('/en/')) return snapshot;
+  if (!outletId) return snapshot;
   return { ...snapshot, html: snapshot.html + '<div class="p-booking-calendar"><button class="is-selected" data-year="2026" data-month="8" data-day="5">5</button><fieldset><legend>Guests</legend><button aria-pressed="true" data-value="2">2</button></fieldset></div>',
     responses: [{ url: 'https://tabelog.com/en/booking/calendar/find_vacancy', status: 200, sequence: 1, observedAt: '2026-08-05T09:00:00Z',
-      body: { base_date: {year:2026,month:8,day:5}, members:2, selection: {0:{time:'19:00',url:`/en/booking/form_course/new?rcd=${outletId}&member=2&visit_date=20260805&visit_time=1900`}} } }] };
+      body: { base_date: {year:2026,month:8,day:5}, members:2, selection: Object.fromEntries(slots.map((time, index) => [index, { time, url: `/en/booking/form_course/new?rcd=${outletId}&member=2&visit_date=20260805&visit_time=${time.replace(':','')}` }])) } }] };
 }
 
 test("captured kf-h001 Sen after selecting the date still has no slot result and remains EXTRACTION_FAILED", async () => {
@@ -305,12 +305,12 @@ class ChallengeResumeSession implements BrowserSession {
     html: '<article><a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>',
   };
 
-  private readonly detail: BrowserSnapshot = {
+  private readonly detail: BrowserSnapshot = boundQueryFixture({
     url: "https://tabelog.com/tokyo/A1304/A130401/123/",
     title: "Restaurant 1",
     text: "Restaurant 1 予約 人数 19:00",
     html: '<select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>',
-  };
+  });
 
   async navigate(url: string): Promise<void> {
     this.navigated.push(url);
@@ -332,7 +332,7 @@ test("Tabelog executor grounds a deterministic browser observation and never sub
     { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<article><a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button><div class="genre">yakiniku</div>' },
   ];
-  const session = new FixtureBrowserSession(pages);
+  const session = new FixtureBrowserSession(pages.map(snapshot => boundQueryFixture(snapshot)));
   const browser: BrowserRuntime = { openSession: async () => session };
   const adapter = new TabelogBrowserAvailability(browser, () => "2026-08-05T09:00:00.000Z");
   const result = await adapter.check({ candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] }, new AbortController().signal);
@@ -389,7 +389,7 @@ test("Tabelog reads a Google-listed merchant page through the identity gate befo
   const session = new FixtureBrowserSession([
     { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
     { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
-  ].map(boundQueryFixture));
+  ].map(snapshot => boundQueryFixture(snapshot)));
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(
     { candidateIds: [listedCandidate.restaurant.id], candidates: [listedCandidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] }, new AbortController().signal,
   );
@@ -402,8 +402,8 @@ test("Tabelog native result keeps its observed outlet ID and skips name search w
   const url = "https://tabelog.com/tokyo/A1304/A130401/123/";
   const native = { ...candidate, restaurant: { ...candidate.restaurant, id: "tabelog:tokyo/A1304/A130401/123",
     sourceIds: { tabelog: "tokyo/A1304/A130401/123", tabelogNativeDetailUri: url } } };
-  const page: BrowserSnapshot = { url, title: "Restaurant 1", text: "Restaurant 1 予約 人数 19:00", html:
-    '<script type="application/ld+json">{"@type":"Restaurant","name":"Restaurant 1","address":{"streetAddress":"1-1 Shinjuku","addressRegion":"Tokyo"}}</script><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' };
+  const page: BrowserSnapshot = boundQueryFixture({ url, title: "Restaurant 1", text: "Restaurant 1 予約 人数 19:00", html:
+    '<script type="application/ld+json">{"@type":"Restaurant","name":"Restaurant 1","address":{"streetAddress":"1-1 Shinjuku","addressRegion":"Tokyo"}}</script><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' });
   const session = new FixtureBrowserSession([page, page]);
   const nativeDiagnostics: Array<{ nativeContinuity?: { confirmed: boolean; reason: string; observedSourceEntityId?: string } }> = [];
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z", 5,
@@ -438,7 +438,7 @@ test("Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby 
   const session = new FixtureBrowserSession([
     { url: "https://tabelog.com/en/rstLst/?sw=Restaurant", title: "search", text: "Restaurant 1", html: '<article><a href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 12:00 12:30", html: '<h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="12:00">12:00</button><button class="slot is-available" data-time="12:30">12:30</button>' },
-  ]);
+  ].map(snapshot => boundQueryFixture(snapshot, ["12:00", "12:30"])));
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:30.000Z").check({
     candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: { earliest: "12:08", latest: "12:08" }, partySize: 2, hardCriteria: ["yakiniku"],
     immediateAvailability: { validUntil: "2026-08-05T09:01:00.000Z", sourceSlotPolicy: "EARLIEST_IN_WINDOW" },
@@ -468,7 +468,7 @@ test("Tabelog recovers one challenged canonical page through an observed alterna
     { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "Restaurant 1", html: '<link rel="canonical" href="/tokyo/A1304/A130401/123/"><h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Verify", text: "verify you are human", html: "" },
     { url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "Restaurant 1 予約 人数 19:00", html: '<link rel="canonical" href="/en/tokyo/A1304/A130401/123/"><h1>Restaurant 1</h1><p class="rstinfo-table__address">1-1 Shinjuku, Tokyo</p><select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button>' },
-  ].map(boundQueryFixture));
+  ].map(snapshot => boundQueryFixture(snapshot)));
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(
     { candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: ["yakiniku"] }, new AbortController().signal,
   );
@@ -796,7 +796,7 @@ test("Tabelog applies availability controls on the resolved outlet after inspect
     selected,
     { url: "https://tabelog.com/tokyo/A1304/A130401/999/", title: "Other", text: "Other branch", html: '<h1>Other branch</h1>' },
     selected,
-  ]);
+  ].map(snapshot => boundQueryFixture(snapshot)));
   const result = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ candidateIds: [candidate.restaurant.id], candidates: [candidate], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
   assert.equal(result.offers.length, 1);
   assert.equal(session.navigated.at(-1), selected.url);

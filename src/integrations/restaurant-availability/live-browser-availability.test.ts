@@ -69,7 +69,7 @@ test("Live browser composition keeps TableCheck then Tabelog in one session and 
   const session = new Session([
     { url: "https://www.tablecheck.com/en/japan/search", title: "Map Search", text: "No venues found", html: "<main>No venues found</main>" },
     { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201", title: "Tabelog search", text: "Restaurant 1", html: '<article><a href="/tokyo/A1304/A130401/123/">Restaurant 1</a><address>1-1 Shinjuku, Tokyo</address></article>' },
-    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button><div class="genre">yakiniku</div>' },
+    { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数 19:00", html: '<select name="party"><option value="2">2</option></select><select name="date"><option value="2026-08-05">2026-08-05</option></select><button class="slot is-available" data-time="19:00">19:00</button><div class="genre">yakiniku</div>', responses: [{url:'https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=123&svd=20260805&svps=2',status:200,sequence:1,observedAt:'2026-08-05T09:00:00Z',body:{base_date:{year:2026,month:8,day:5},members:2,selection:[{time:'19:00',url:'/en/booking/form_course/new?rcd=123&member=2&visit_date=20260805&visit_time=1900'}]}}] },
   ]);
   let opens = 0;
   const runtime: BrowserRuntime = { openSession: async () => { opens += 1; return session; } };
