@@ -1,0 +1,57 @@
+✔ G1 answers a payment question outside the original request conditions with an exact source quotation (6.132542ms)
+✔ G1 reuses current-run bound pages without opening a new session; whitespace is the only quote normalization (0.232458ms)
+✔ G1 an asynchronous model reply cannot attach a quotation to a subsequently mutated cache page (0.128875ms)
+▶ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment
+  ✔ fabricated quotation (0.127791ms)
+  ✔ negation removed (0.0985ms)
+  ✔ other document (0.102666ms)
+  ✔ uncited answer (0.141542ms)
+  ✔ URL override (0.10325ms)
+✔ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment (1.046667ms)
+✔ G1 same name is not the same outlet: existing identity reader rejects the other branch before model answering (0.390042ms)
+✔ G1 native page observer preserves the old fact result and only emits after existing same-outlet verification (3.512459ms)
+▶ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots
+  ✔ other run (0.059667ms)
+  ✔ old read (0.037541ms)
+  ✔ old identity (0.028167ms)
+  ✔ other candidate (0.026042ms)
+  ✔ weak identity (0.024208ms)
+  ✔ unbound source (0.030208ms)
+  ✔ non-page provider (0.034541ms)
+  ✔ redirect mismatch (0.027041ms)
+  ✔ loading (0.042792ms)
+  ✔ truncated line (0.064584ms)
+✔ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots (0.59325ms)
+▶ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes
+  ✔ ALLERGY (0.804917ms)
+  ✔ RELIGIOUS_DIET (0.174375ms)
+  ✔ ACCESSIBILITY (0.173584ms)
+✔ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes (1.27ms)
+✔ G1 reception mode comes from explicit source text without inventory; time-sensitive source statements retain read time (0.16325ms)
+✔ G1 each quotation keeps its own page and read time; bounded excerpts cannot establish page silence (1.970209ms)
+✔ G1 saved merchant fragment is quoted in place with provenance; it is not a live or identity-validation claim (4.597666ms)
+✔ G1 propagates shared model-budget exhaustion and cancellation instead of inventing an answer (0.292042ms)
+✔ G1 revision returns a short English answer with Japanese table label and value quotations (0.103333ms)
+✔ G1 rejects a customer review quotation using the visible heading outline, independent of private markers (0.25875ms)
+✔ G1 returns structured absence and confirmation flags without display boilerplate (0.121292ms)
+✔ G1 source limits are independent of HARD limits and reject genuinely oversized pages (0.524708ms)
+▶ G1 rejects missing or invalid model classifications and malformed answer fields
+  ✔ missing conflict flag (0.067542ms)
+  ✔ non-boolean conflict flag (0.036917ms)
+  ✔ missing category (0.03975ms)
+  ✔ unknown category (0.037166ms)
+  ✔ non-string category (0.036375ms)
+  ✔ empty answer (0.0475ms)
+  ✔ overlong answer (0.047833ms)
+✔ G1 rejects missing or invalid model classifications and malformed answer fields (0.462292ms)
+✔ G1 preserves a model's concise conflict answer and both source quotations (0.071542ms)
+✔ G1 review exclusion follows visible headings after private markers are renamed and preserves neighbouring merchant statements (0.177417ms)
+✔ G1 preserves parent IDs for unsplit lines while split lines require complete sentence citations (0.212375ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 45
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 145.675375

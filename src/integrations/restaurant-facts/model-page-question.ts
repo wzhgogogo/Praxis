@@ -118,8 +118,11 @@ export class ModelRestaurantPageQuestion {
     // First bind review roles to original source lines, then carry that role to
     // every sentence. Splitting must never move a review into merchant content.
     // The shared HARD document/selection functions and their defaults are untouched.
-    const documents = pageDocuments.map(document => ({ ...document, statements: document.statements.flatMap(statement =>
-      questionSentences(statement.text).map((text, index) => ({ ...statement, id: `${statement.id}:sentence:${index}`, text }))) }));
+    const documents = pageDocuments.map(document => ({ ...document, statements: document.statements.flatMap(statement => {
+      const sentences = questionSentences(statement.text);
+      return sentences.map((text, index) => ({ ...statement,
+        id: sentences.length > 1 ? `${statement.id}:sentence:${index}` : statement.id, text }));
+    }) }));
     if (documents.some(document => document.statements.length > RESTAURANT_PAGE_QUESTION_LIMITS.maxStatements)) return reject("INCOMPLETE_PAGE");
     let output: unknown;
     try {

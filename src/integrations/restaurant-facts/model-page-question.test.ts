@@ -375,3 +375,35 @@ test("G1 review exclusion follows visible headings after private markers are ren
     assert.equal(allowed.citations[0]!.text, merchant);
   }
 });
+
+
+test("G1 preserves parent IDs for unsplit lines while split lines require complete sentence citations", async () => {
+  const parentId = `${candidate.restaurant.id}:statement:0`;
+  const response = (statementId: string, quote: string): Output => input => ({
+    status: "ANSWERED", answer: "The page states this information.", sensitiveCategory: "NONE",
+    citations: [{ documentId: JSON.parse(input.messages[1]!.content).sourceDocuments[0].id, statementId, quote }],
+  });
+  // A literal parent ID reproduces the Q27 refusal mechanism; selecting whatever
+  // ID production happened to emit would have hidden the original regression.
+  for (const text of [quote, "カード可（VISA、Master）", "Cancellation fee: JPY 2,500.00"]) {
+    const calls: ModelRequest[] = [];
+    const result = await new ModelRestaurantPageQuestion(fixtureModel(response(parentId, text), calls), undefined, now)
+      .answer(question([page(text)]), signal());
+    assert.equal(result.status, "ANSWERED", "a whole unsplit statement retains its parent ID");
+    assert.equal(result.citations[0]!.text, text);
+    assert.deepEqual(JSON.parse(calls[0]!.messages[1]!.content).sourceDocuments[0].statements.map((s: { id: string }) => s.id), [parentId]);
+  }
+  const partial = await new ModelRestaurantPageQuestion(fixtureModel(response(parentId, "Visa")), undefined, now)
+    .answer(question(), signal());
+  assert.ok(partial.status === "UNVERIFIED");
+  assert.equal(partial.reason, "INVALID_MODEL_OUTPUT", "preserving an ID never relaxes whole-statement matching");
+  const paragraph = "Cards accepted. Cash only at lunch.";
+  const parent = await new ModelRestaurantPageQuestion(fixtureModel(response(parentId, paragraph)), undefined, now)
+    .answer(question([page(paragraph)]), signal());
+  assert.ok(parent.status === "UNVERIFIED");
+  assert.equal(parent.reason, "INVALID_MODEL_OUTPUT", "a split paragraph cannot be cited through its parent ID");
+  const sentence = await new ModelRestaurantPageQuestion(fixtureModel(response(`${parentId}:sentence:0`, "Cards accepted.")), undefined, now)
+    .answer(question([page(paragraph)]), signal());
+  assert.equal(sentence.status, "ANSWERED");
+  assert.equal(sentence.citations[0]!.text, "Cards accepted.");
+});

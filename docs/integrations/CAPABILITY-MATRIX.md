@@ -1,5 +1,7 @@
 # Integration Capability Matrix
 
+2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
+
 2026-10-28 CET: Reviewed G1 dd87cfbb synchronized with main54b3dd2b accepted A clock repairs. Frozen2ccaab58/681 inputs: five gates1196/175 PASS (106.836s), ordinary G2 4/4, each before/after clean and restore0. Reviewed G1 source/HARD44197 bytes unchanged; ledger409 ids preserves both sides, new real calls0. User authorizes main publication; then new G3 Tabelog branch, protected C files untouched pending file-order review. [Report](../../.eval-artifacts/phase3b/g1-quality-main/report.md).
 
 2026-10-28 CET: G1 quality repairs complete on review branch codex/fix-phase3b-g1-answer-quality, based on main fae69b48 containing C b250bb17. Question Prompt/Schema3 only; five old-code mechanism reds→green, saved six-page Chromium fixture controls8/8, original HARD44,197 bytes identical. Frozen cb226701/682 inputs: five gates1196/175 PASS (114.600s), ordinary G2 4/4; each before/after clean, restore0. Source conflict derives existing confirmationRequired; Agent29/Action5/Context17/State24/TaskDefinition22 unchanged. A fixture field/version sync explicitly authorized; no other A files. Real calls0; current inherited sites3878/Pack478 unchanged. Push work branch and stop for review before merge; A six-question rerun and G3 are not completed by offline evidence. [Report](../../.eval-artifacts/phase3b/g1-answer-quality/report.md).
@@ -7,10 +9,10 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.102
+- Document revision: 1.103
 
 
-- Last updated: 2026-10-28
+- Last updated: 2026-10-29
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)

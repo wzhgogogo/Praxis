@@ -1,0 +1,40 @@
+{
+  "phase": "green",
+  "commit": "e8e1bb2936a186402f7fc3bbe8931862eb87756b",
+  "startedAtCET": "2026-10-29T03:35:01.237704+01:00",
+  "runs": [
+    {
+      "name": "fixture",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/restaurant-facts/model-page-question.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 0.17084583299999997,
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "hard",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        "/private/tmp/praxis-g1-single-sentence-red-20261029/hard-before.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.095364583,
+      "gitStatusAfter": ""
+    }
+  ],
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "freezeVerifiedAfter": true,
+  "newRealCalls": 0
+}
