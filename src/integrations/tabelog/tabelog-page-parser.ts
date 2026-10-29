@@ -305,9 +305,6 @@ export function parseTabelogSourceFieldQuotes(snapshot: BrowserSnapshot): import
     for(const title of headings.slice(index+1).filter(other=>other.index<end))add("CUSTOMER_REVIEW",clean(title[2]!));
   }
   const reviewRegion = (tag:string) => /aria-label=["'](?:customer |user )?reviews?["']/iu.test(tag);
-  for (const region of sourcePriceElements(markup,reviewRegion)) {
-    for(const link of sourcePriceElements(region,tag=>/^<a\b/iu.test(tag)))add("CUSTOMER_REVIEW",clean(link));
-  }
   for(const link of sourcePriceElements(markup,tag=>/^<a\b/iu.test(tag)&&/href=["'][^"']*\/dtlrvwlst\//iu.test(tag)))add("CUSTOMER_REVIEW",clean(link));
   let merchant = markup;
   for(const range of reviewRanges.sort((a,b)=>b.start-a.start))merchant=merchant.slice(0,range.start)+" "+merchant.slice(range.end);

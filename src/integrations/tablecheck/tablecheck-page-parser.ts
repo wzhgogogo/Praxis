@@ -167,17 +167,19 @@ export function parseTableCheckScopedMenuSourcePartition(snapshot: BrowserSnapsh
     const index=stack.findLastIndex(node=>node.name===name);if(index<0)continue;
     const [node]=stack.splice(index);if(!node||node.hidden||!/^(?:article|section|div)$/u.test(name))continue;
     const block=html.slice(node.start,token.index+tag.length),text=publicText(block);if(!text)continue;
-    const titles=[...block.matchAll(/<h[1-6]\b[^>]*>([\s\S]*?)<\/h[1-6]>/giu)].map(m=>sourceText(m[1]!));
+    const titles=[...block.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1>/giu)].map(m=>({level:Number(m[1]),text:sourceText(m[2]!)}));
     const aria=markupAttribute(node.tag,"aria-label");
     const labels=(markupAttribute(node.tag,"aria-labelledby")??"").split(/\s+/u).filter(Boolean).flatMap(id=>{
       const safe=id.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
       const found=html.match(new RegExp(`<([a-z][\\w-]*)\\b[^>]*\\bid=["']${safe}["'][^>]*>([\\s\\S]*?)<\\/\\1>`,'iu'));
       return found?[sourceText(found[2]!)]:[];
     });
-    const publicLabels=[...(aria?[aria]:[]),...labels,...titles,text.split("\n")[0]!];
+    const firstTitle=titles[0]?.level===1?undefined:titles[0]?.text;
+    const publicLabels=[...(aria?[aria]:[]),...labels,...(firstTitle?[firstTitle]:[]),...(titles[0]?.level===1?[]:[text.split("\n")[0]!])];
     const matched=scopes.filter(scope=>publicLabels.some(label=>matchesLabel(label,scope.label)));
     const menuLike=/course|menu|plan|snacks|コース|メニュー|プラン|套餐/iu.test(text)||matched.length>0;
-    if(!menuLike||name==="div"&&!titles.length&&!aria&&!labels.length)continue;
+    const publicMenuOwner=matched.length>0||[aria,...labels,firstTitle].some(label=>label&&/course|menu|plan|コース|メニュー|プラン|套餐/iu.test(label));
+    if(!menuLike||name==="div"&&!publicMenuOwner)continue;
     candidates.push({start:node.start,end:token.index+tag.length,text,scopes:matched});
   }
   const scoped:TableCheckScopedMenuExcerpt[]=[];
