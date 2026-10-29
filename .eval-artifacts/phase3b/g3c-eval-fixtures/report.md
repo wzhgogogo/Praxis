@@ -63,3 +63,7 @@ Source2 helper 是本地构造的 scripted transport，不是网站回放、语�
 生产文件、来源 pack、Prompt/Schema/State、Gold、评分器、独立期望、预算账本、截止规则、来源页面和所有旧 assert 调用相对 `51b0d3de` 零差异；见 `preservation.json`。没有新增/删除测试或改写迟到/取消/预算反例。新真实模型、Google、网站、评测 GET、Live 均 **0**；没有读取、复制或暂存 `.env` 或问答参考答案。
 
 仅推工作分支供复核及通知 B，不合 main。完整来源 fixture 同步及最终验收仍未完成；需先由 B/复核者处理上述产品证据交接阻断。
+
+最终净树收据：`2c2913fe`，701 项源码/配置输入前后不变；typecheck/arch/build 全绿；原 H001 首批断言单例仍 FAIL（1/1，预期复现停止缺陷）。三家缺失 ID 与相等时戳逐项见 [product-blocker.json](product-blocker.json)。完整默认测试、Chromium、严格 G2 最终验收 NOT_RUN；该状态不因三个局部检查通过而改变。
+
+范围说明：依本次“只改这四个文件”的限制，所有停止、开发与验证记录集中在本报告目录；全局 STATUS、DEVLOG、TEST-LOG、月度摘要及索引最终均保持基础提交原字节。源码差异仍严格为四个获准文件。

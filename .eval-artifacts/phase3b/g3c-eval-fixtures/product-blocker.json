@@ -1,0 +1,129 @@
+{
+  "mode": "SYNTHETIC_CONTROL",
+  "frozenSourceCommit": "2c2913fe011ca5e87ee86990de8f408cc29f550e",
+  "executedSequence": [
+    "SEARCH_RESTAURANTS",
+    "INVESTIGATE_CANDIDATE_FACTS",
+    "CHECK_AVAILABILITY",
+    "PRESENT_RESULTS"
+  ],
+  "finalPhase": "PRESENT_RESULTS",
+  "missingCitations": [
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/100",
+      "missingEvidenceId": "evidence:restaurant:tabelog-hard-criteria:29e52317e9b0164eed3ea061",
+      "factObservedAt": "2026-08-19T07:20:00.000Z",
+      "earlierFactCheckedAt": "2026-08-19T07:20:00.000Z",
+      "kind": "RESTAURANT_FACT",
+      "sourceUrl": "https://tabelog.com/tokyo/A1304/A130401/100/",
+      "sourceFieldQuotes": [
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Omakase course",
+          "sourceUrl": "https://tabelog.com/tokyo/A1304/A130401/100/",
+          "meal": "UNSPECIFIED"
+        }
+      ],
+      "checkIncludesEvidence": true,
+      "stateRetainsEvidence": true,
+      "presentationIncludesEvidence": false
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/101",
+      "missingEvidenceId": "evidence:restaurant:tabelog-hard-criteria:eff31065825ae82a55b36d15",
+      "factObservedAt": "2026-08-19T07:20:00.000Z",
+      "earlierFactCheckedAt": "2026-08-19T07:20:00.000Z",
+      "kind": "RESTAURANT_FACT",
+      "sourceUrl": "https://tabelog.com/tokyo/A1304/A130401/101/",
+      "sourceFieldQuotes": [
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Omakase course",
+          "sourceUrl": "https://tabelog.com/tokyo/A1304/A130401/101/",
+          "meal": "UNSPECIFIED"
+        }
+      ],
+      "checkIncludesEvidence": true,
+      "stateRetainsEvidence": true,
+      "presentationIncludesEvidence": false
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/102",
+      "missingEvidenceId": "evidence:restaurant:tabelog-hard-criteria:94b7bd0a4e90b622b2dd0f90",
+      "factObservedAt": "2026-08-19T07:20:00.000Z",
+      "earlierFactCheckedAt": "2026-08-19T07:20:00.000Z",
+      "kind": "RESTAURANT_FACT",
+      "sourceUrl": "https://tabelog.com/tokyo/A1304/A130401/102/",
+      "sourceFieldQuotes": [
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Omakase course",
+          "sourceUrl": "https://tabelog.com/tokyo/A1304/A130401/102/",
+          "meal": "UNSPECIFIED"
+        }
+      ],
+      "checkIncludesEvidence": true,
+      "stateRetainsEvidence": true,
+      "presentationIncludesEvidence": false
+    }
+  ],
+  "independentRequiredEvidence": {
+    "dimension": "REQUIRED_EVIDENCE",
+    "status": "NOT_SATISFIED",
+    "stage": "GROUNDING",
+    "requirement": "Each presented candidate must independently cite same-candidate HIGH identity, area, applicable HARD facts, and only when the user requested availability, fresh request-bound slot evidence.",
+    "observations": [
+      "raw Tabelog response supports AVAILABLE at requested date/party/time",
+      "candidate=tabelog:tokyo/A1304/A130401/100",
+      "citedEvidence=7",
+      "offers=1",
+      "conflict=check evidence evidence:restaurant:tabelog-hard-criteria:29e52317e9b0164eed3ea061 was not cited by presentation",
+      "raw Tabelog response supports AVAILABLE at requested date/party/time",
+      "candidate=tabelog:tokyo/A1304/A130401/101",
+      "citedEvidence=7",
+      "offers=1",
+      "conflict=check evidence evidence:restaurant:tabelog-hard-criteria:eff31065825ae82a55b36d15 was not cited by presentation",
+      "raw Tabelog response supports AVAILABLE at requested date/party/time",
+      "candidate=tabelog:tokyo/A1304/A130401/102",
+      "citedEvidence=7",
+      "offers=1",
+      "conflict=check evidence evidence:restaurant:tabelog-hard-criteria:94b7bd0a4e90b622b2dd0f90 was not cited by presentation"
+    ],
+    "directCause": "A cited candidate record conflicts with identity, request, source, freshness, or offer invariants.",
+    "rootCauseHypothesis": "Grounding, serialization, or presentation selection requires review.",
+    "certainty": "CONFIRMED",
+    "evidenceRefs": [
+      "browserTrace[sequence=203].responses",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:d9e519c1837c340798b582e8]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:233f64b073782f04ceadf5f8]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=quoted-source:9d79196dbc44a1aa1f6a8a5e]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/100:document:541a5a016d298591]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:abaa9c2c43668dd0af7b5ae8]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:1e8e6300b2ffdeea8de9473e]",
+      "finalSnapshot.domainState.availability[tabelog:tokyo/A1304/A130401/100][id=offer:tabelog:tabelog:tokyo/A1304/A130401/100:2026-08-19:19:00:2]",
+      "browserTrace[sequence=240].responses",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:79a8ea2bfba6b57c3102fe23]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:6acfd3d26c14681666a3c3b6]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=quoted-source:4dee9ca0e064a2b2ff2fa114]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/101:document:91b782f189356b88]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/101:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/101:document:91b782f189356b88]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:478358b573c0608be88d990b]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:faa20e8d35c85c9f97278ca0]",
+      "finalSnapshot.domainState.availability[tabelog:tokyo/A1304/A130401/101][id=offer:tabelog:tabelog:tokyo/A1304/A130401/101:2026-08-19:19:00:2]",
+      "browserTrace[sequence=277].responses",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-discovery:3da92b93da6a551cbae7537c]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:native-fact-identity:c7aae74e0591c8b1ea7db7ff]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=quoted-source:864c89243b4cdc032c6dbe41]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=tabelog:tokyo/A1304/A130401/102:document:753bc2e427fdadee]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=fact-judgment:tabelog:tokyo/A1304/A130401/102:2026-08-19T07:20:00.000Z:tabelog:tokyo/A1304/A130401/102:document:753bc2e427fdadee]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-entity-match:ff33cf7fa5a20f373dffedec]",
+      "finalSnapshot.domainState.readEvidence[evidenceId=evidence:restaurant:tabelog-availability:4729f87563cf36afb87cc3a9]",
+      "finalSnapshot.domainState.availability[tabelog:tokyo/A1304/A130401/102][id=offer:tabelog:tabelog:tokyo/A1304/A130401/102:2026-08-19:19:00:2]"
+    ],
+    "downstreamImpact": "Do not claim an evidence-grounded result from this artifact."
+  },
+  "independentGoalResult": "NO",
+  "realCalls": 0,
+  "S0": "NOT_EVALUATED"
+}
