@@ -7,6 +7,7 @@ export type BrowserRuntimeFailureCode =
   /** The runtime could not start; this is distinct from a provider-local page operation failure. */
   | "BROWSER_RUNTIME_UNAVAILABLE"
   | "BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"
+  | "BROWSER_CANDIDATE_MODEL_BUDGET_EXCEEDED"
   | "BOT_CHALLENGE"
   | "UNEXPECTED_PAGE"
   | "EXTRACTION_FAILED"

@@ -1377,7 +1377,10 @@ export class BrowserTaskExecutor {
     if (this.budget.totalModelCalls >= Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity)) {
       throw new BrowserRuntimeError("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED", "Shared browser-model budget exhausted");
     }
-    if (this.modelCalls >= this.options.maxModelCallsPerCandidate || this.remaining(1) <= 0) throw this.timeoutError("SOURCE_FACT_MODEL");
+    if (this.modelCalls >= this.options.maxModelCallsPerCandidate) {
+      throw new BrowserRuntimeError("BROWSER_CANDIDATE_MODEL_BUDGET_EXCEEDED", "Candidate browser-model budget exhausted");
+    }
+    if (this.remaining(1) <= 0) throw this.timeoutError("SOURCE_FACT_MODEL");
     this.modelCalls++; this.budget.totalModelCalls++;
     return this.bounded({signal}, "SOURCE_FACT_MODEL", work);
   }

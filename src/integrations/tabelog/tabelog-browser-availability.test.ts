@@ -927,12 +927,16 @@ test("G3c Tabelog quotes a class-renamed menu through the source model and parse
       outputText: JSON.stringify({ selections: [{ firstStatementId: statement.id, lastStatementId: statement.id, role: "COURSE" }] }) };
   } };
   const options = { maxBrowserSessions: 2, sourceFactsModel };
-  const read = await new TabelogBrowserAvailability({ openSession: async () => new FixtureBrowserSession([page]) }, () => "2026-08-05T09:00:00Z", 5, options)
+  const budget = { totalModelCalls: 0, maxModelCalls: 1 };
+  const executor = new BrowserTaskExecutor({ openSession: async () => new FixtureBrowserSession([page]) }, {maxAutomaticElapsedMs:30000,maxModelCallsPerCandidate:2,maxModelCallsTotal:2,maxOperationsPerCandidate:12,budget});
+  const read = await new TabelogBrowserAvailability(executor, () => "2026-08-05T09:00:00Z", 5, options)
     .check({ candidates: [outlet], candidateIds: [outlet.restaurant.id], date: "2026-08-05", partySize: 2, timeWindow: { earliest: "18:00", latest: "20:00" }, hardCriteria: [] }, new AbortController().signal);
   const price = read.evidence.flatMap(row => row.priceFacts?.listedCoursePricesYen ?? [])[0];
   assert.ok(price, "a selected public price must survive private marker changes");
   assert.equal(price.amount, 8000, "price must come from the selected literal, independent of CSS markers");
   assert.equal(price.quote, quote); assert.equal(price.tax, "INCLUDED"); assert.equal(price.meal, "DINNER");
   assert.equal(calls, 1, "one source selection, no new navigation");
+  assert.equal(budget.totalModelCalls, 1, "source selection uses the same shared model budget");
+  await executor.close();
   assert.equal(read.offers[0]?.price, undefined, "a listed course is not a selected bookable plan");
 });
