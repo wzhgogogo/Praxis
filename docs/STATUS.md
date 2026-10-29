@@ -1,6 +1,6 @@
 # Praxis 当前状态
 
-2026-10-29 CET: C G4 scheme-one offline preparation frozen. Google same-ID ja name reader uses id/displayName only, run-local sharing; valid old-wire red and 3 green controls retained. Eval-only 4+1 simulation covers 37 main views plus four separately frozen reruns; unknown pages/proposals are not success. Product source search/B files unchanged; no shared versions or credentials. New calls0, GET244/257; exact known URLs and source-bound Beef slots to be reviewed, no live execution. [Plan](../.eval-artifacts/phase3b/g4-japanese-prep/plan.md).
+2026-10-29 CET: C G4 Japanese-name preparation complete for review. Google run-scoped source-name reader (same ID, explicit ja, id/displayName only) is not connected to production. Offline 4+1: prior23/23 plus nr010/022/0263/3 retained, wrong0; main37=22 accepted/15 NOT_EVALUATED, rerun4=4 accepted. T certified result ranks6 in Japanese search with only1 slot and has no recorded fragment. Eight known detail URLs frozen; Beef name/search/detail URLs remain source-bound unknowns. Worst frontier14GET exceeds approved13, so manifest is NOT_EXECUTABLE and quota stays244/257. Frozen57bd09a5/855 SHA, five gates1216/175 + G25/5 PASS, ten steps clean. New real calls0; B paths/identity/shared versions unchanged. [Report](../.eval-artifacts/phase3b/g4-japanese-prep/report.md).
 
 2026-10-29 CET：B1已发布main00519783并ls-remote核对，B已收到ADR0049/迁移0010通知。C G4纯分析完成待复核：八例=4超时/4连接错误，搜索2/详情6，均Tabelog；同ID日文原名已存3/4，旧替代首屏3日文+1更短英文片段均含认证店，但身份增量未评价。T实际只查一次即耗尽5详情；第三次检索及4+1名额仅待批准方案，未实施。模型/Google/GET/Live新增0，GET244/257；685冻结SHA、源码及账本零差异核对通过。 [报告](../.eval-artifacts/phase3b/g4-retrieval-analysis/report.md)。
 
@@ -69,7 +69,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.449
+- Document revision: 4.450
 
 - Document revision: 4.445
 - Last updated: 2026-10-29
