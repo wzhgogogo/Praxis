@@ -672,28 +672,30 @@ test("Tabelog captured vacancy binds source merchant, date, party and time rathe
     {...body,selection:{0:{...body.selection[0],url:body.selection[0].url.replace("13292459","99999999")}}},
     {...body,selection:{0:{...body.selection[0],time:"19:30"}}}, {...body,selection:{}},
   ]) assert.equal(tabelogCapturedSlots({...snapshot,responses:[{...response,body:changed}]},"2026-09-20",4),undefined);
-  assert.equal(tabelogCapturedSlots({...snapshot,html:html.replace('value="4"','value="2"')},"2026-09-20",4),undefined);
+  assert.equal(tabelogCapturedSlots({...snapshot,html:'<label for="guests">Guests</label><input id="guests" type="number" value="2">'},"2026-09-20",4),undefined, 'a contradictory public native value invalidates the response');
   assert.equal(tabelogCapturedSlots({...snapshot,responses:[{...response,status:503}]},"2026-09-20",4),undefined);
 });
 
-test("Tabelog current public controls confirm selection without private hooks or hidden fields and reject contradictory inventory", () => {
-  const html='<div class="p-booking-calendar"><button class="p-booking-calendar__day is-selected" data-year="2026" data-month="11" data-day="3">3</button><div class="p-booking-calendar__people-button-box"><button data-value="2" aria-pressed="true">2</button></div><button class="p-booking-calendar__time-button is-active" data-time="1900">7:00 PM</button></div>';
+test("Tabelog current public controls confirm selection without private hooks and reject contradictory inventory", () => {
+  const html='<table><caption>Nov 2026</caption><tr><td><button aria-current="date">3</button></td></tr></table><fieldset><legend>Guests</legend><button value="2" aria-pressed="true">2</button></fieldset><button>7:00 PM</button>';
   const body={base_date:{year:2026,month:11,day:3},members:2,selection:{0:{time:'19:00',url:'/en/booking/form_course/new?rcd=13261619&member=2&visit_date=20261103&visit_time=1900'}}};
   const response={url:'https://tabelog.com/en/booking/calendar/find_vacancy',status:200,sequence:2,observedAt:'2026-10-21T07:03:00Z',body};
   const snapshot={url:'https://tabelog.com/en/tokyo/A1303/A130301/13261619/',title:'Matsumoto',text:'',html,responses:[response]};
   assert.equal(hasTabelogSelectedQuery(snapshot,'2026-11-03',2),true);
   assert.deepEqual(parseTabelogAvailabilitySlots(snapshot,{date:'2026-11-03',partySize:2}),{availableSlots:['19:00'],hasExplicitSlotUi:true});
-  for (const changed of [html.replace('data-day="3"','data-day="4"'),html.replace('data-value="2"','data-value="3"'),html.replace('aria-pressed="true"','aria-pressed="mixed"'),html.replace('is-selected','not-selected'),html.replace('</div><button class="p-booking-calendar__time', '<input type="hidden" value="3"></div><button class="p-booking-calendar__time')]) {
+  for (const changed of [html.replace('>3</button>','>4</button>'),html.replace('value="2"','value="3"'),html.replace('>2</button>','>3</button>'),html+'<label for="party">Guests</label><input id="party" type="number" value="3">']) {
     assert.equal(hasTabelogSelectedQuery({...snapshot,html:changed},'2026-11-03',2),false);
     assert.deepEqual(parseTabelogAvailabilitySlots({...snapshot,html:changed},{date:'2026-11-03',partySize:2}),{availableSlots:[],hasExplicitSlotUi:false});
+  }
+  for (const changed of [html.replace('aria-pressed="true"','aria-pressed="mixed"'),html.replace('aria-current="date"','aria-current="false"')]) {
+    assert.equal(hasTabelogSelectedQuery({...snapshot,html:changed,responses:[]},'2026-11-03',2),false,'missing public confirmation needs a response');
   }
   for (const changed of [{...body,members:3},{...body,base_date:{year:2026,month:11,day:4}}, {...body,selection:{0:{...body.selection[0],url:body.selection[0].url.replace('13261619','99999999')}}}]) {
     const stale={...response,sequence:1};
     assert.equal(tabelogCapturedSlots({...snapshot,responses:[stale,{...response,body:changed}]},'2026-11-03',2),undefined,'a later contradictory response cannot fall back to earlier inventory');
-    assert.deepEqual(parseTabelogAvailabilitySlots({...snapshot,responses:[{...response,body:changed}]},{date:'2026-11-03',partySize:2}),{availableSlots:[],hasExplicitSlotUi:false},'visible time options cannot rescue a rejected payload');
+    assert.deepEqual(parseTabelogAvailabilitySlots({...snapshot,responses:[{...response,body:changed}]},{date:'2026-11-03',partySize:2}),{availableSlots:[],hasExplicitSlotUi:false});
   }
-  assert.equal(hasTabelogSelectedQuery({...snapshot,html:html+'<div class="p-booking-calendar is-hidden"><button class="is-selected" data-year="2026" data-month="11" data-day="4">4</button></div>'},'2026-11-03',2),true);
-  assert.deepEqual(parseTabelogAvailabilitySlots({...snapshot,responses:[]},{date:'2026-11-03',partySize:2}),{availableSlots:[],hasExplicitSlotUi:false});
+  assert.equal(hasTabelogSelectedQuery({...snapshot,html:html+'<section hidden><table><caption>Nov 2026</caption><tr><td><button aria-current="date">4</button></td></tr></table></section>'},'2026-11-03',2),true);
 });
 
 test("all 19 saved quick-validation selections match the independent source oracle without fabricating missing responses", async () => {

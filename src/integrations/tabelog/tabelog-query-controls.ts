@@ -119,7 +119,9 @@ export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string,
       const day = publicDate(element); if (day) dates.push(day);
       if (/^(?:guests?|people|party size|members?|人数)$/iu.test(label)) {
         const text = plain(element.content) || attribute(element.tag,"value") || "";
-        people.push(/^\d+(?:\s*(?:guests?|people|persons?|名|人))?$/iu.test(text) ? Number.parseInt(text,10) : undefined);
+        const value = attribute(element.tag,"value");
+        people.push(/^\d+(?:\s*(?:guests?|people|persons?|名|人))?$/iu.test(text)
+          && (value === undefined || /^\d+$/u.test(value) && Number(value) === Number.parseInt(text,10)) ? Number.parseInt(text,10) : undefined);
       }
     }
   }

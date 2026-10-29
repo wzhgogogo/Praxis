@@ -14,7 +14,7 @@ for (const initialParty of [1, 2]) test(`Matsumoto selected-party ${initialParty
     <div class="calendar-widget"><div class="calendar-wrap"><div class="calendar-navi">
       <a href="#" onclick="event.preventDefault();setMonth()"><i class="calendar-icon">Next month</i></a></div>
       <table><caption>Oct 2026</caption><tbody><tr><td><button type="button" data-year="2026" data-month="10" data-day="21" onclick="selectDate()">21</button></td></tr></tbody></table></div>
-      <div class="guest-select"><span class="select-title">Guests</span><button type="button" aria-label="Previous">Previous</button><button type="button" value="1" class="${initialParty === 1 ? 'is-active' : ''}">1</button><button type="button" value="2" class="${initialParty === 2 ? 'is-active' : ''}" onclick="document.querySelectorAll('.guest-select button').forEach(b=>b.classList.remove('is-active'));this.classList.add('is-active');document.querySelector('tbody').insertAdjacentHTML('beforeend','<tr><td>Updated other content</td></tr>')">2</button>
+      <div class="guest-select"><span class="select-title">Guests</span><button type="button" aria-label="Previous">Previous</button><button type="button" value="1" aria-pressed="${initialParty === 1}" class="${initialParty === 1 ? 'is-active' : ''}">1</button><button type="button" value="2" aria-pressed="${initialParty === 2}" class="${initialParty === 2 ? 'is-active' : ''}" onclick="document.querySelectorAll('.guest-select button').forEach(b=>{b.classList.remove('is-active');b.setAttribute('aria-pressed','false')});this.classList.add('is-active');this.setAttribute('aria-pressed','true');document.querySelector('tbody').insertAdjacentHTML('beforeend','<tr><td>Updated other content</td></tr>')">2</button>
       <button type="button" aria-label="Next" onclick="guestPages++;document.querySelector('#guest-page').textContent=guestPages">Next</button><output id="guest-page">0</output></div>
       <div class="time-select"><span class="select-title">Time</span><button type="button">7:00 PM</button><button type="button" aria-label="Next">Next</button></div></div>
     <output id="selected">No date selected</output><script>let guestPages=0;
@@ -63,19 +63,22 @@ for (const initialParty of [1, 2]) test(`Matsumoto selected-party ${initialParty
   } finally { await executor.close(); }
 });
 
-test("generic selected state comes from ARIA and exact state classes, with independent same-label groups", async () => {
+test("generic selected state requires public ARIA, with independent same-label groups", async () => {
   const runtime = localFixture(`<fieldset><legend>States</legend>
     ${["active", "selected", "current", "checked", "is-active", "is-selected", "is-current", "is-checked"].map((name, i) => `<button type="button" class="${name}" value="${i}">${name}</button>`).join("")}
     <button type="button" aria-pressed="true">Pressed</button><button type="button" aria-selected="true">Selected</button>
     <button type="button" aria-checked="true">Checked</button><a href="#" aria-current="page">Current</a>
     <button type="button" class="inactive not-selected current-price" aria-current="false" aria-checked="mixed">Unknown</button></fieldset>
-    <fieldset><legend>Guests</legend><button type="button" value="2" class="active">2</button></fieldset>
-    <fieldset><legend>Guests</legend><button type="button" value="4" class="selected">4</button></fieldset>
-    <div><button type="button" class="is-active">Unowned</button></div>`);
+    <fieldset><legend>Guests</legend><button type="button" value="2" class="active" aria-pressed="true">2</button></fieldset>
+    <fieldset><legend>Guests</legend><button type="button" value="4" class="selected" aria-pressed="true">4</button></fieldset>
+    <div><button type="button" class="is-active" aria-pressed="true">Unowned</button></div>`);
   const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 1,
     maxModelCallsTotal: 1, maxOperationsPerCandidate: 20, modelDecision: { async decide(input) {
       const states = input.observation.targets.filter(t => t.controlGroupLabel === "States");
-      assert.equal(states.filter(t => t.selected).length, 12);
+      assert.equal(states.filter(t => t.selected).length, 4);
+      for (const name of ["active", "selected", "current", "checked", "is-active", "is-selected", "is-current", "is-checked"]) {
+        assert.notEqual(states.find(t => t.label === name)?.selected, true, "class-only state remains unknown");
+      }
       assert.equal(states.find(t => t.label === "Unknown")?.selected, undefined);
       const guests = input.observation.controlGroups!.filter(group => group.label === "Guests");
       assert.equal(guests.length, 2, "same label must not merge distinct DOM owners");
@@ -99,7 +102,7 @@ test("generic selected state comes from ARIA and exact state classes, with indep
 });
 
 test("party click does not confirm from unrelated page changes or an unchanged group value", async () => {
-  const runtime = localFixture(`<fieldset><legend>Guests</legend><button type="button" value="1" class="is-active">1</button>
+  const runtime = localFixture(`<fieldset><legend>Guests</legend><button type="button" value="1" class="is-active" aria-pressed="true">1</button>
     <button type="button" value="2" onclick="document.querySelector('#noise').textContent='Unrelated update'">2</button></fieldset><output id="noise">Initial</output>`);
   let decisions = 0;
   const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 120_000, maxModelCallsPerCandidate: 3,
