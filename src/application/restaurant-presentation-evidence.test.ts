@@ -132,6 +132,13 @@ test("C18 H002 current fact document carries same-page prices through judgment a
       const outlet = state.candidates.find(c => c.restaurant.id === id)!;
       const page = { url: current.sourceUrl!, html, title: outlet.restaurant.outletName,
         text: [outlet.restaurant.outletName, outlet.restaurant.address, ...statements.map(s => s.text), dinnerQuote].join("\n") };
+      const quoteRequests: import("../core/model/contracts.js").ModelRequest[] = [];
+      const quoteOutputs: any[] = [];
+      const menuModel: import("../core/model/contracts.js").ModelGateway = {async complete(input){
+        quoteRequests.push(input);const result=await quotedMenuFixtureModel.complete(input);
+        quoteOutputs.push(JSON.parse(result.outputText));
+        return result;
+      }};
       const source = await new NativeSourceFactRead(
         { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 },
         { openSession: async () => ({
@@ -139,8 +146,10 @@ test("C18 H002 current fact document carries same-page prices through judgment a
           navigate: async () => undefined, snapshot: async () => page, observeControls: async () => [],
           click: async () => undefined, fill: async () => undefined, select: async () => [],
           waitFor: async () => undefined, screenshot: async () => new Uint8Array(), close: async () => undefined,
-        }) }, { async judge() { return { evidence: [] }; } }, () => current.observedAt, undefined, undefined, undefined, undefined, undefined, quotedMenuFixtureModel,
+        }) }, { async judge() { return { evidence: [] }; } }, () => current.observedAt, undefined, undefined, undefined, undefined, undefined, menuModel,
       ).inspectFacts({ candidateIds: [id], candidates: [outlet], intent: state.intent! }, new AbortController().signal);
+      assert.equal(quoteRequests.length,1,"one immutable page quote read: "+JSON.stringify(source.factChecks));
+      assert.ok(quoteOutputs[0]?.selections.some((row:any)=>row.role==="DINNER_BUDGET"),"same saved Dinner quote must be selected: "+quoteRequests[0]?.messages[1]!.content);
       const freshPrices = source.sourceDocuments?.find(d => d.candidateId === id)?.priceFacts;
       assert.deepEqual(freshPrices?.dinnerBudgetRangeYen, prices!.dinnerBudgetRangeYen, "native source producer retains same-page prices");
       assert.ok(freshPrices);
