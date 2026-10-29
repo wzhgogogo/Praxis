@@ -1,0 +1,33 @@
+{
+  "schema": "phase3b-g2-paired-timing@1",
+  "mode": "FOUR_REAL_FILES_DIAGNOSTIC_NOT_FULL_SUITE",
+  "cpus": 2,
+  "affinity": [
+    0,
+    1
+  ],
+  "cpuQuota": "37500 100000",
+  "before": {
+    "seconds": 202.56802911399973,
+    "exitCode": 1,
+    "beforeClean": true,
+    "afterClean": true,
+    "targetTimeout180s": true,
+    "fullCompleted": true,
+    "logSha256": "e4fd25d5161d01aca78cdb387082170b445ee1f292865d6d04abb79899317e87"
+  },
+  "after": {
+    "seconds": 209.83455118099982,
+    "exitCode": 0,
+    "beforeClean": true,
+    "afterClean": true,
+    "targetTimeout180s": false,
+    "targetPass": true,
+    "fullCompleted": true,
+    "logSha256": "fb7796f1e6ca14210f87a67af55bd4ad12f3ba087ae8f15459e4474e0b98b8ac"
+  },
+  "originalTargetDeadlineMs": 180000,
+  "testFileUnchanged": true,
+  "ordinaryTwoCpuOriginalPassed": true,
+  "gateAcceptance": "Separate three consecutive ordinary2CPU full suites; this cohort is not substituted for them."
+}

@@ -1,0 +1,13 @@
+{
+  "cpus": 2,
+  "affinity": [
+    0,
+    1
+  ],
+  "cpuMaxByAncestor": {
+    "/sys/fs/cgroup/user.slice/user-501.slice/session-3.scope": "max 100000",
+    "/sys/fs/cgroup/user.slice/user-501.slice": "max 100000",
+    "/sys/fs/cgroup/user.slice": "max 100000"
+  },
+  "noExtraQuota": true
+}

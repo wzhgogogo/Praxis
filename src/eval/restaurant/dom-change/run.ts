@@ -8,7 +8,7 @@ import { replayHarPages } from "../../../harness/browser/browser-read-test-fixtu
 import { chromium, type Browser, type Page } from "playwright-core";
 import { LocalPlaywrightChromium } from "../../../infrastructure/browser/local-playwright-chromium.js";
 import type { BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
-import { hasTabelogSelectedQuery, tabelogQueryControlHints, tabelogRequestedDateState } from "../../../integrations/tabelog/tabelog-query-controls.js";
+import { tabelogCapturedSlots, hasTabelogSelectedQuery, tabelogQueryControlHints, tabelogRequestedDateState } from "../../../integrations/tabelog/tabelog-query-controls.js";
 import { parseTabelogAvailabilitySlots, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets } from "../../../integrations/tabelog/tabelog-page-parser.js";
 import { tabelogAvailabilityCompletion, tabelogNameSearchCompletion } from "../../../integrations/tabelog/tabelog-browser-availability.js";
 import { hasTableCheckDiscoveryNoResult, hasTableCheckSelectedRequest, parseTableCheckAvailabilitySlots, parseTableCheckDiscoveryOutletUrls, parseTableCheckOutletIdentityWithEvidence } from "../../../integrations/tablecheck/tablecheck-page-parser.js";
@@ -24,7 +24,7 @@ export interface DomPage {
 export const DOM_CHANGE_MANIFEST = fileURLToPath(new URL("../../../harness/browser/fixtures/dom-change/manifest.json", import.meta.url));
 const sha = (body: string | Buffer) => createHash("sha256").update(body).digest("hex");
 
-function observations(spec: DomPage, snapshot: BrowserSnapshot, controls: Awaited<ReturnType<NonNullable<import("../../../infrastructure/browser/browser-runtime.js").BrowserSession["observeControls"]>>>) {
+export function observeDomChangePage(spec: DomPage, snapshot: BrowserSnapshot, controls: Awaited<ReturnType<NonNullable<import("../../../infrastructure/browser/browser-runtime.js").BrowserSession["observeControls"]>>>) {
   const facts: Record<string, unknown> = {};
   if (spec.kind === "LIST") {
     if (spec.site === "TABELOG") for (const outlet of parseTabelogSearchOutlets(snapshot)) {
@@ -58,9 +58,13 @@ function observations(spec: DomPage, snapshot: BrowserSnapshot, controls: Awaite
         facts["day:" + date] = state === "UNOBSERVED" ? null : state;
       }
     }
-    if (selected) facts.requestConfirmed = true;
+    // UI selection remains a diagnostic/navigation hint. A verified Tabelog
+    // request needs the existing same-outlet/date/party response binding.
+    const requestConfirmed = spec.site === "TABELOG"
+      ? Boolean(snapshot.responses?.length) && tabelogCapturedSlots(snapshot, spec.request.date, spec.request.partySize) !== undefined : selected;
+    if (requestConfirmed) facts.requestConfirmed = true;
     const bound = spec.site === "TABLECHECK" ? "queryComplete" in availability && availability.queryComplete
-      : selected && "availability" in completion && "complete" in completion.availability && completion.availability.complete;
+      : requestConfirmed && "availability" in completion && "complete" in completion.availability && completion.availability.complete;
     if (bound && availability.availableSlots.length) facts.availability = { status: "AVAILABLE", slots: availability.availableSlots };
     else if (bound && "explicitlyEmpty" in availability && availability.explicitlyEmpty) facts.availability = { status: "UNAVAILABLE" };
   }
@@ -115,11 +119,11 @@ export async function runDomChange(output?: string, signal: AbortSignal = AbortS
         await page!.evaluate(() => { const style = document.createElement("style"); style.textContent = ".is-hidden{display:none}"; document.head.append(style); });
         const beforeSnapshot = await session.snapshot();
         const beforeControls = await session.observeControls!(spec.site === "TABELOG" ? tabelogQueryControlHints(beforeSnapshot) : []);
-        const before = observations(spec, beforeSnapshot, beforeControls);
+        const before = observeDomChangePage(spec, beforeSnapshot, beforeControls);
         const mutation = await renamePrivateMarkers(page!, manifest.seed + ":" + spec.id);
         const afterSnapshot = await session.snapshot();
         const afterControls = await session.observeControls!(spec.site === "TABELOG" ? tabelogQueryControlHints(afterSnapshot) : []);
-        const after = observations(spec, afterSnapshot, afterControls);
+        const after = observeDomChangePage(spec, afterSnapshot, afterControls);
         const result = { id: spec.id, site: spec.site, kind: spec.kind, sourceUrl: spec.sourceUrl, originalSha256: spec.sha256,
           mutatedSha256: sha(await page!.content()), sourceTransport: "LOCAL_CONSTRUCTED_HAR_FROM_SAVED_DOM", intercepted, before, after, classification: classifyDomChange(before.facts, after.facts, mutation.integrity.valid), mutation };
         cases.push(result);
