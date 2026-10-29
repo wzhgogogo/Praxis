@@ -1,0 +1,46 @@
+{
+  "id": "phase3b-A-g1-schema3-repeat-20261028",
+  "status": "frozen regression / exposed development input",
+  "mainBase": "eb1518f1ad3f4fa8da4469c993b02d1b9f15ccf8",
+  "questionIds": [
+    "Q07",
+    "Q14",
+    "Q26",
+    "Q27",
+    "Q31",
+    "Q33"
+  ],
+  "repetitions": [
+    1,
+    2,
+    3
+  ],
+  "maxProviderAttempts": 20,
+  "maxTransportRetries": 2,
+  "maxExtraAttemptsPerTrial": 1,
+  "schemaRetries": 0,
+  "questionInputs": {
+    "Q07": ".eval-artifacts/phase3b/g1-six-repeat/inputs/G1-Q07.json",
+    "Q14": ".eval-artifacts/phase3b/g1-six-repeat/inputs/G1-Q14.json",
+    "Q26": ".eval-artifacts/phase3b/g1-six-repeat/inputs/G1-Q26.json",
+    "Q27": ".eval-artifacts/phase3b/g1-six-repeat/inputs/G1-Q27.json",
+    "Q31": ".eval-artifacts/phase3b/g1-six-repeat/inputs/G1-Q31.json",
+    "Q33": ".eval-artifacts/phase3b/g1-six-repeat/inputs/G1-Q33.json"
+  },
+  "references": ".eval-artifacts/phase3b/g1-qa/answers.reviewed.json",
+  "executionReferenceRead": "DENIED_BY_PRELOAD",
+  "outputRoot": ".eval-artifacts/phase3b/g1-six-repeat",
+  "requiredPromptVersion": "3",
+  "requiredSchemaVersion": "3",
+  "modelArguments": "Use unchanged production request including8s timeout/temperature0",
+  "realModelPermission": "User2026-10-28; Node --env-file only; no source/Google/Live",
+  "checks": {
+    "Q07": "English answer, original-language citations",
+    "Q14": "sensitiveCategory NONE",
+    "Q26": "raw model sourceConflict true and accepted core confirmationRequired true",
+    "Q27": "NOT_STATED and no citations",
+    "Q31": "Verbatim complete Japanese source sentence, independently bounded in original page text",
+    "Q33": "English answer, original-language citations"
+  },
+  "stop": "Any false claim immediately stops; preserve unassessed paraphrases without rubric changes; no retry except one transport TIMEOUT/NETWORK for same trial within20 attempts."
+}

@@ -18,6 +18,10 @@
 
 2026-10-28 CET：G4基准证据已合main fae69b48并核对远端。C从该main开始详情优先级/原名真子串离线切片；身份规则不变，Prompt/独立检索Schema拟3，Agent/State不变；模型≤10、GET/Google/Live0。三家认证详情及Sen详情缺于本次保存集，不冒充身份验证成功。工作分支改进待复核，G4整体签收仍待用户。
 
+2026-10-28 CET: A six-question schema3 repeat complete for review, on maineb1518f1/frozena019d8a3.18planned/19paid≤20 (17responses/2timeouts,1transport retry), source/Google/Live0. Explicit checks11/18:Q07/Q26/Q33 each3, Q31two/one unresolved transport;Q14wrongALLERGY3, Q27refusal3. Original scorer0PASS11FAIL8unknown; no rubric/reference/question changes. No detected false claims,14 automatic claim counts unknown and agent triage0 pending reviewer. Five gates1196/175 PASS/clean. Broad test audit now separate first-list slice; no test edits. [Report](../.eval-artifacts/phase3b/g1-six-repeat/report.md).
+
+2026-10-28 CET: A starts user-authorized six-question schema3 repeat on maineb1518f1. Q07/Q14/Q26/Q27/Q31/Q33×3,≤20 provider attempts, transport-only spare2/no schema retry, isolated ledger namespace. Original questions/reference/scorer unchanged; sourceConflict/confirmation, English, full sentence, comment-free NOT_STATED and NONE supplementary checks separate. Fixture preflight passes after correcting eval helper import path, real calls0. B G3 started; A broad audit begins as a separate list-only slice, no tests removed. [Plan](../.eval-artifacts/phase3b/g1-six-repeat/plan.md).
+
 2026-10-28 CET: Reviewed G1 dd87cfbb synchronized with main54b3dd2b accepted A clock repairs. Frozen2ccaab58/681 inputs: five gates1196/175 PASS (106.836s), ordinary G2 4/4, each before/after clean and restore0. Reviewed G1 source/HARD44197 bytes unchanged; ledger409 ids preserves both sides, new real calls0. User authorizes main publication; then new G3 Tabelog branch, protected C files untouched pending file-order review. [Report](../.eval-artifacts/phase3b/g1-quality-main/report.md).
 
 2026-10-28 CET: User approves reviewed G1 dd87cfbb main merge. Integrated main54b3dd2b accepted A clock repairs; G1 source byte-identical, only history/ledger conflicts resolved,409 budget ids preserved. Freeze then five gates plus ordinary G2, each before/after clean; publish main on success, then new G3 Tabelog branch with protected C files untouched. New real calls0. [Plan](../.eval-artifacts/phase3b/g1-quality-main/plan.md).
@@ -46,6 +50,8 @@
 
 - Status: Accepted
 - Document revision: 4.447
+
+- Document revision: 4.445
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
 

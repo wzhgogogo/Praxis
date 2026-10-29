@@ -5823,3 +5823,16 @@ Red d477d691: old class observer PHONE_ONLY contradicts reviewed UNKNOWN,16.379s
 2026-10-28 CET：A获批G2日期基线修订完成。5日期原/改名均UNKNOWN；Teppen PASS，Sen仅非日期requestConfirmed仍退化（保留给B控件组）。d477d691有效红→a6853be8绿；冻结9017a8cd六项标准检查全绿：默认1203/1203、Chromium175/175、普通G2 4/4，12次前后净树，676输入SHA不变。其余10个case、12保存页、评分器、变异规则和全部产品均未改。本批真实调用0；463条账本按id保留main441及A此前实花19。按用户批准直接发布main并通知B；六题与减测分支仍独立待复核。 [Report](../../.eval-artifacts/phase3b/g2-calendar-response-baseline/report.md)。
 
 Actual six commands at9017a8cd: typecheck0.429s, arch0.166s, default1203 in35.970s, build0.528s, Chromium175 in118.249s, ordinaryG2 4 in22.215s; all pre/post clean, no gate repair. Five date values null before/after; Sen separate control loss remains explicit. No.env read/stage or new real call; three A files only, no scorer/mutation relaxation.
+
+<a id="test-2026-10-28-g1-six-preparation"></a>
+
+## 2026-10-28 CET: Six-question real-model repeat preparation
+
+2026-10-28 CET: A starts user-authorized six-question schema3 repeat on maineb1518f1. Q07/Q14/Q26/Q27/Q31/Q33×3,≤20 provider attempts, transport-only spare2/no schema retry, isolated ledger namespace. Original questions/reference/scorer unchanged; sourceConflict/confirmation, English, full sentence, comment-free NOT_STATED and NONE supplementary checks separate. Fixture preflight passes after correcting eval helper import path, real calls0. B G3 started; A broad audit begins as a separate list-only slice, no tests removed. [Plan](../.eval-artifacts/phase3b/g1-six-repeat/plan.md).
+
+
+<a id="test-2026-10-28-g1-six-results"></a>
+
+## 2026-10-28 CET: Six-question schema3 real-model repeat
+
+2026-10-28 CET: A six-question schema3 repeat complete for review, on maineb1518f1/frozena019d8a3.18planned/19paid≤20 (17responses/2timeouts,1transport retry), source/Google/Live0. Explicit checks11/18:Q07/Q26/Q33 each3, Q31two/one unresolved transport;Q14wrongALLERGY3, Q27refusal3. Original scorer0PASS11FAIL8unknown; no rubric/reference/question changes. No detected false claims,14 automatic claim counts unknown and agent triage0 pending reviewer. Five gates1196/175 PASS/clean. Broad test audit now separate first-list slice; no test edits. [Report](../.eval-artifacts/phase3b/g1-six-repeat/report.md).
