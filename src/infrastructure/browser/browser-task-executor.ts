@@ -1371,6 +1371,17 @@ export class BrowserTaskExecutor {
     }
   }
 
+  /** Shared page-fact model work consumes the existing source/candidate/run budgets. */
+  async readModel<Value>(signal: AbortSignal, work: () => Promise<Value>): Promise<Value> {
+    this.assertActive(signal);
+    if (this.budget.totalModelCalls >= Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity)) {
+      throw new BrowserRuntimeError("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED", "Shared browser-model budget exhausted");
+    }
+    if (this.modelCalls >= this.options.maxModelCallsPerCandidate || this.remaining(1) <= 0) throw this.timeoutError("SOURCE_FACT_MODEL");
+    this.modelCalls++; this.budget.totalModelCalls++;
+    return this.bounded({signal}, "SOURCE_FACT_MODEL", work);
+  }
+
   /**
    * Every awaited provider/runtime/model operation consumes the remaining
    * candidate window. On expiry discard the shared session so a late action

@@ -95,6 +95,7 @@ export class LiveBrowserAvailability {
     });
     const providerContext = {
       executor,
+      sourceFactsModel: this.model,
       ...(this.options.now ? { now: this.options.now } : {}),
       ...(this.options.maxAvailabilitySourceBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxAvailabilitySourceBrowserSessions } : {}),
       ...(this.options.maxAvailabilitySourceCandidateMatches !== undefined ? { maxCandidateMatches: this.options.maxAvailabilitySourceCandidateMatches } : {}),

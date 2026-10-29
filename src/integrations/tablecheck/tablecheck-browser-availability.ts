@@ -1,6 +1,8 @@
+import type { ModelGateway } from "../../core/model/contracts.js";
+import { readQuotedRestaurantSourceFacts } from "../restaurant-facts/model-source-facts.js";
+import { mergeQuotedSourceFacts } from "../restaurant-availability/quoted-source-fact-merge.js";
 import { checkedNamedSourceQuery, type NamedSourceAlternative } from "../restaurant-search/named-source-query.js";
 import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
-import { parseTableCheckPriceFacts } from "./tablecheck-page-parser.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import type { RestaurantAvailabilityRequest, RestaurantServiceScope } from "../../domains/restaurant/contracts.js";
@@ -238,6 +240,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly options: {
       maxBrowserSessions?: number;
+      sourceFactsModel?: ModelGateway;
       alternativeSearch?: NamedSourceAlternative;
       maxCandidateMatches?: number;
       onIdentityDiagnostic?: (diagnostic: TableCheckIdentityDiagnostic) => void;
@@ -763,7 +766,13 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       let page = activeSelected.page;
       // Menu observations belong to the confirmed guide, even if a separate
       // request page later has no readable inventory or menu.
-      const guidePrices = parseTableCheckPriceFacts(selectedPage);
+      const guideReadAt = this.now();
+      const guideIdentity = this.options.sourceFactsModel ? this.ground(candidate, request, {candidate, observedAt: guideReadAt,
+        sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selectedPage.url,
+        entityMatch: selected.inspection.resolution, pageState: "EXTRACTION_FAILED"}).evidence.find(item=>item.kind==="ENTITY_MATCH") : undefined;
+      const guideFacts = guideIdentity ? await readQuotedRestaurantSourceFacts({complete: input=>this.executor.readModel(signal,()=>this.options.sourceFactsModel!.complete(input))},
+        {candidate, identity:guideIdentity, page:selectedPage, readAt:guideReadAt},this.now,signal) : undefined;
+      const guidePrices = guideFacts?.priceFacts;
       let readWindow = request.timeWindow;
       const covered: Array<{earliest:string;latest:string;status:"EMPTY"|"AVAILABLE"}> = [];
       let coverageStop: "RESULT_FOUND"|"OBSERVED_TIMES_EXHAUSTED"|"TIME_QUERY_LIMIT"|"INCOMPLETE_RESULT" = "INCOMPLETE_RESULT";
@@ -782,18 +791,11 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         }
         if (!guidePrices) return result;
         const guideEvidence = this.ground(candidate, request, {
-          candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId,
+          candidate, observedAt: guideFacts!.readAt, sourceEntityId: selected.extraction.outlet.sourceEntityId,
           sourceUrl: selectedPage.url, entityMatch: selected.inspection.resolution,
           pageState: "EXTRACTION_FAILED", priceFacts: guidePrices,
         }).evidence;
-        const added = guideEvidence.filter(item => !result.evidence.some(existing => existing.evidenceId === item.evidenceId));
-        result.evidence.push(...added);
-        result.check.evidenceIds.push(...added.map(item => item.evidenceId));
-        result.candidateFactUpdate = {
-          candidateId: candidate.restaurant.id, matchReasons: result.candidateFactUpdate?.matchReasons ?? [],
-          evidenceIds: [...new Set([...(result.candidateFactUpdate?.evidenceIds ?? []), ...guideEvidence.filter(item => item.kind === "RESTAURANT_FACT").map(item => item.evidenceId)])],
-        };
-        return result;
+        return mergeQuotedSourceFacts(result, guideEvidence);
       };
       if (isBrowserReadPathProhibited(this.options.networkPolicy, activeSelected.reservation.url)) {
         return ground({candidate, observedAt: this.now(), sourceEntityId: selected.extraction.outlet.sourceEntityId,
@@ -969,15 +971,14 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       if (availabilityRead.status === "COMPLETED" && assessed.selected && !assessed.loading && !assessed.serviceScope
         && assessed.html.emptyMealtime && request.timeWindow.earliest !== request.timeWindow.latest) {
         return ground({
-          candidate, observedAt: this.now(), priceFacts: parseTableCheckPriceFacts(page), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId,
+          candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId,
           sourceUrl: page.url, entityMatch: activeSelected.inspection.resolution,
           requestedDate: request.date, requestedPartySize: request.partySize, pageState: "EXTRACTION_FAILED",
           failureCode: "SELECTED_MEALTIME_EMPTY", excerpt: `${JSON.stringify(assessed.html.emptyMealtime)}; other times in the requested window remain UNKNOWN`,
         });
       }
       if (availabilityRead.status !== "COMPLETED" || !assessed.complete) return ground({
-        candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: page.url, priceFacts: parseTableCheckPriceFacts(page),
-        entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED",
+        candidate, observedAt, sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: activeSelected.inspection.resolution, pageState: "EXTRACTION_FAILED",
         failureCode: availabilityRead.reasonCode ?? (assessed.selected ? "AVAILABILITY_RESULT_UNOBSERVED" : "REQUEST_SELECTION_UNCONFIRMED"),
       });
       const capturedResponse = parseTableCheckCapturedAvailability(page.responses, activeSelected.reservation, request);
@@ -995,8 +996,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         for (const time of slots.availableSlots.filter(t => t >= request.timeWindow.earliest && t <= request.timeWindow.latest)) covered.push({earliest:time,latest:time,status:"AVAILABLE"});
       }
       return ground({
-        candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: page.url, priceFacts: parseTableCheckPriceFacts(page),
-        entityMatch: activeSelected.inspection.resolution, requestedDate: request.date, requestedPartySize: request.partySize,
+        candidate, observedAt: this.now(), sourceEntityId: activeSelected.extraction.outlet.sourceEntityId, sourceUrl: page.url, entityMatch: activeSelected.inspection.resolution, requestedDate: request.date, requestedPartySize: request.partySize,
         ...(assessed.scopeBound && assessed.serviceScope ? { serviceScope: assessed.serviceScope } : {}),
         pageState: qualifying ? "AVAILABLE" : immediateSlotNotOffered ? "EXTRACTION_FAILED" : slots.queryComplete && (slots.explicitlyEmpty || slots.hasExplicitSlotUi) ? "NO_MATCHING_SLOT" : "EXTRACTION_FAILED",
         ...(immediateSlotNotOffered ? { failureCode: "IMMEDIATE_SLOT_NOT_OFFERED" } : {}),
