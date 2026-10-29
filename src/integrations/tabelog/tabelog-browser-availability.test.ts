@@ -1,3 +1,4 @@
+import { assessRestaurantConditions } from "../../domains/restaurant/condition-states.js";
 import { decodeHTML } from "entities";
 import assert from "node:assert/strict";
 import { test } from "node:test";
@@ -919,8 +920,9 @@ test("bound vacancy collections keep supported clock alternatives and never infe
 });
 
 
-test("G3c Tabelog quotes a class-renamed menu through the source model and parses the quoted price", async () => {
-  const quote = "Seasonal dinner course: JPY 8,000, tax included; dinner only.";
+test("G3c Tabelog quotes a class-renamed menu through the source model and parses the quoted price", async t => {
+  for (const minimumParty of [undefined, 4]) {
+  const quote = "Seasonal dinner course: JPY 8,000, tax included; dinner only." + (minimumParty ? " Available only for parties of 4 or more." : "");
   const url = "https://tabelog.com/en/tokyo/A1301/A130101/123/";
   const outlet = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { tabelog: "tokyo/A1301/A130101/123", tabelogNativeDetailUri: url } } };
   const page = boundQueryFixture({ url, title: candidate.restaurant.outletName, text: `${candidate.restaurant.outletName}\n${candidate.restaurant.address}\nAvailability Guests Date\n${quote}`,
@@ -946,4 +948,11 @@ test("G3c Tabelog quotes a class-renamed menu through the source model and parse
   assert.equal(budget.totalModelCalls, 1, "source selection uses the same shared model budget");
   await executor.close();
   assert.equal(read.offers[0]?.price, undefined, "a listed course is not a selected bookable plan");
+  const intent = { criteria: [], budgetPerPerson: { max: 8000, currency: "JPY" as const }, date: "2026-08-05", partySize: 2, timeWindow: { earliest: "18:00", latest: "20:00" } };
+  const condition = assessRestaurantConditions(intent, read.evidence)[0]!;
+  t.diagnostic(JSON.stringify({ mode:"OFFLINE_SOURCE_TO_HARD_PRICE_SCOPE", requestedPartySize:2, quotedMinimumPartySize:minimumParty??null,
+    quote:price.quote, parsedAmount:price.amount, independentExpected:minimumParty?"NOT_CHECKED":"MET", actual:condition.status,
+    sourceUrl:price.sourceUrl, literalQuoteRetained:price.quote===quote, inventoryParty:2, offerPrice:read.offers[0]?.price??null, realCalls:0 }));
+  assert.equal(condition.status, minimumParty ? "NOT_CHECKED" : "MET", "a price for at least four diners cannot establish a two-diner HARD cap");
+  }
 });
