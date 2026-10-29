@@ -303,11 +303,23 @@ test("C18 selected Utou course titles remain known when the selected statement a
   assert.deepEqual(statuses, Object.keys(expected).map(runId => ({ runId, status: "MET" })), "already selected complete merchant title cannot become an unknown condition");
 });
 
-test("Phase2c four observed cuisine conditions reach Router to Reducer and other saved displays stay identical", async () => {
+test("Phase2c observed cuisine and approved price applicability reach Router to Reducer without changing other saved displays", async () => {
   const {createHash}=await import("node:crypto");
   const root=new URL("./fixtures/restaurant-presentation-evidence/",import.meta.url),dir="near-and-condition-display-20261023";
   const manifest=JSON.parse(await readFixture(new URL(`${dir}/inputs/manifest.json`,root),"utf8"));
   const expected:Record<string,string[]>={"h-02":["13093277","13018986","13271031"],"h-08":["13271031"]};
+  // Independently reviewed literal exclusions in these frozen historical pages.
+  // Raw quotes remain evidence; they no longer participate in a budget claim.
+  const excludedPriceQuotes = new Map([
+    ["90b8d5b30958c8f3eed0f33ba1cadb224409a482f7898683f822e45c76ed55e7", "reservation-only eligibility not established"],
+    ["ea74e4162544df32f1d0722cbcf50aeed21b31ceeb578efd16cfde3ed223ab18", "table-reservation-only amount is not a confirmed meal price"],
+    ["cdb311583ede41e9656c40c1a227ce6dc015c6eae4ca4533ba9edd1ee1f005aa", "all-you-can-drink-only scope does not establish a meal"],
+    ["2b5e30076c8cb38f2788bc2efb728f09bf2e79e7b60ebe21cfcccc82b6a8e18e", "limited time offer has no checkable validity period"],
+    ["65ac774d7b20f0a2044552de8eed9d132df16a7fe5a5f46e625f03c16df52831", "limited offer has no checkable validity period"],
+    ["af03c93330f50ca839c56aa9194ea042fdbef56882776f49e3cab0423f33d7a2", "terrace-exclusive eligibility not established"],
+    ["e16c18f43417f77290923c14e5bfb30950a74b27ec215c07859a68747a05e3c3", "terrace-limited eligibility not established"],
+  ]);
+  const excludedSeen = new Set<string>();
   let conditions=0,unchangedRuns=0,sourceCalls=0;
   const noRead=async()=>{sourceCalls++;throw Error("SAVED_EVENT_REPLAY_MUST_NOT_READ_SOURCES");};
   const router=new RestaurantExecutionRouter({executionRoute:"STRUCTURED_ADAPTER",search:noRead},{executionRoute:"STRUCTURED_ADAPTER",check:noRead},{structuredReadTimeoutMs:1000,browserReadTimeoutMs:1000});
@@ -316,7 +328,18 @@ test("Phase2c four observed cuisine conditions reach Router to Reducer and other
     const saved=JSON.parse(bytes.toString()),ctx=(now:string)=>({taskId:saved.runId,runId:saved.runId,now,createId:(p:string)=>p});
     let state=restaurantBookingTaskDefinition.create({},ctx(saved.startedAt));
     for(const envelope of saved.events){if(envelope.event.type==="RESULTS_PRESENTED")break;state=restaurantBookingTaskDefinition.transition(state,envelope.event,ctx(envelope.occurredAt)).state;}
-    const original=saved.originalPresentation;
+    const original=structuredClone(saved.originalPresentation);
+    if (original) for (const [id, rows] of Object.entries(original.conditionStates) as Array<[string, any[]]>) for (const condition of rows) {
+      condition.sources = condition.sources.filter((quote: {field: string; quote: string; sourceUrl: string}) => {
+        const digest = createHash("sha256").update(quote.quote).digest("hex");
+        if (quote.field !== "PRICE" || !excludedPriceQuotes.has(digest)) return true;
+        excludedSeen.add(digest);
+        assert.ok(restaurantCurrentFactEvidence(state,id).some(fact => fact.provider !== "MODEL_JUDGMENT" && fact.sourceUrl === quote.sourceUrl
+          && [fact.priceFacts?.lunchBudgetRangeYen,fact.priceFacts?.dinnerBudgetRangeYen,...fact.priceFacts?.listedCoursePricesYen ?? []].some(price=>price?.quote===quote.quote)),
+          "excluded price and complete quotation remain in the current same-outlet raw evidence");
+        return false;
+      });
+    }
     if(!original){assert.equal(state.presentedResults,undefined);unchangedRuns++;continue;}
     const result=await router.execute({type:"PRESENT_RESULTS",candidateIds:original.candidateIds},state,original.presentedAt);
     assert.equal(result.event?.type,"RESULTS_PRESENTED");
@@ -331,10 +354,11 @@ test("Phase2c four observed cuisine conditions reach Router to Reducer and other
       assert.equal(independent.status,"MET");assert.equal(after.status,independent.status);
       assert.ok(after.sources.some(q=>["CATEGORY","COURSE_TITLE","COURSE_DESCRIPTION"].includes(q.field)));
       for(const q of after.sources)assert.ok(restaurantCurrentFactEvidence(state,id).some(f=>f.provider!=="MODEL_JUDGMENT"&&f.sourceUrl===q.sourceUrl&&f.sourceFieldQuotes?.some(field=>field.field===q.field&&field.quote===q.quote)),"only current same-outlet raw merchant quotes reach display");
-      assert.deepEqual(shown.conditionStates[id]!.slice(1),original.conditionStates[id].slice(1),"price and other rows stay unchanged");
+      assert.deepEqual(shown.conditionStates[id]!.slice(1),original.conditionStates[id].slice(1),"price state and all remaining applicable quotations stay unchanged");
       withoutChanges.conditionStates[id]![0]=before;conditions++;
     }
-    assert.deepEqual(withoutChanges,original,"only the four cuisine rows change; citations, restaurants and time remain identical");
+    assert.deepEqual(withoutChanges,original,"only the four cuisine rows and the seven literal price-source exclusions change; all states, identities and times remain identical");
   }
+  assert.deepEqual([...excludedSeen].sort(), [...excludedPriceQuotes.keys()].sort());
   assert.equal(conditions,4);assert.equal(unchangedRuns,9);assert.equal(sourceCalls,0);
 });
