@@ -1,3 +1,4 @@
+import { decodeHTML } from "entities";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readFile } from "node:fs/promises";
@@ -834,12 +835,18 @@ test("Tabelog existing read grounds recorded course prices even when inventory i
   // Synthetic identity envelope, unchanged recorded price elements. This is
   // an Adapter composition control, not a replay of original website identity.
   const html = '<script type="application/ld+json">{"@type":"Restaurant","name":"Restaurant 1","address":{"streetAddress":"1-1 Shinjuku","addressRegion":"Tokyo"}}</script><h1>Restaurant 1</h1><p>1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Phone</a>' + fragment;
-  const page = { url, title: "Restaurant 1", html, text: html.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim() };
+  const page = { url, title: "Restaurant 1", html, text: decodeHTML(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "").replace(/<\/(?:div|section|p|h[1-6]|dl|dd|dt)>/gi,"\n").replace(/<[^>]+>/g," ")).split("\n").map(line=>line.replace(/\s+/g," ").trim()).filter(Boolean).join("\n") };
   const native = structuredClone(candidate);
   native.restaurant.id = "tabelog:en/tokyo/A1301/A130101/13295658";
   native.restaurant.sourceIds = { tabelog: "en/tokyo/A1301/A130101/13295658", tabelogNativeDetailUri: url };
   const session = new FixtureBrowserSession([page]);
-  const read = await new TabelogBrowserAvailability({ openSession: async () => session }).check({ candidates: [native], candidateIds: [native.restaurant.id], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
+  const sourceFactsModel: import("../../core/model/contracts.js").ModelGateway = {async complete(input) {
+    assert.equal(input.purpose,"restaurant_source_facts");const rows=JSON.parse(input.messages[1]!.content).sourceDocument.statements;
+    const first=rows.findIndex((row:{text:string})=>row.text==="Omakase Nigiri Course 16 items");
+    const last=rows.findIndex((row:{text:string})=>row.text.includes("JPY 9,800"));assert.ok(first>=0&&last>=first);
+    return {invocationId:"recorded-menu-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:[{firstStatementId:rows[first].id,lastStatementId:rows[last].id,role:"COURSE"}]})};
+  }};
+  const read = await new TabelogBrowserAvailability({ openSession: async () => session }, undefined, 5, {sourceFactsModel}).check({ candidates: [native], candidateIds: [native.restaurant.id], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
   const prices = read.evidence.find(item => item.kind === "RESTAURANT_FACT")?.priceFacts;
   assert.equal(prices?.listedCoursePricesYen[0]?.amount, 9800, "the opened page's price must survive Adapter → grounding, without a new read");
   assert.equal(read.offers.length, 0, "listed prices do not establish inventory");

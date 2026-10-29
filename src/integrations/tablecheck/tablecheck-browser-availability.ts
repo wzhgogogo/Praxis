@@ -795,7 +795,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           sourceUrl: selectedPage.url, entityMatch: selected.inspection.resolution,
           pageState: "EXTRACTION_FAILED", priceFacts: guidePrices,
         }).evidence;
-        return mergeQuotedSourceFacts(result, guideEvidence);
+        return mergeQuotedSourceFacts(candidate.restaurant.id, result, guideEvidence);
       };
       if (isBrowserReadPathProhibited(this.options.networkPolicy, activeSelected.reservation.url)) {
         return ground({candidate, observedAt: this.now(), sourceEntityId: selected.extraction.outlet.sourceEntityId,

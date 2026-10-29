@@ -1,3 +1,4 @@
+import { decodeHTML } from "entities";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readFile } from "node:fs/promises";
@@ -864,11 +865,17 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
   const menu = await readFile(new URL("../../harness/browser/fixtures/restaurant-prices/aloft-public-20261019.html", import.meta.url), "utf8");
   const guide = matchingOutletPage();
   guide.html += menu;
-  guide.text += " " + menu.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+  guide.text += "\n" + decodeHTML(menu.replace(/<\/(?:div|section|article|p|h[1-6]|dl|dt|dd|tr|li)>/gi,"\n").replace(/<[^>]+>/g," ")).split("\n").map(line=>line.replace(/\s+/g," ").trim()).filter(Boolean).join("\n");
+  const sourceFactsModel: import("../../core/model/contracts.js").ModelGateway = {async complete(input){
+    assert.equal(input.purpose,"restaurant_source_facts");const rows=JSON.parse(input.messages[1]!.content).sourceDocument.statements;
+    const titles=["Casual dinner 5 courses","[With one drink!] Casual dinner 5 courses","[2 hours of free flow included! ] Casual dinner 5 courses","#1 Most Popular Lunch Plan! 30 kinds of fresh vegetables, chef’s original deli dishes, and freshly baked popovers"];
+    const starts=titles.map(title=>rows.findIndex((row:{text:string})=>row.text===title));assert.ok(starts.every(index=>index>=0));
+    return {invocationId:"guide-menu-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:starts.map((first,index)=>({firstStatementId:rows[first].id,lastStatementId:rows[(starts[index+1]??rows.length)-1].id,role:"COURSE"}))})};
+  }};
   const session = new FixtureBrowserSession([guide, reservation]);
   const nativeDiagnostics: Array<{ nativeContinuity?: { confirmed: boolean; reason: string; observedSourceEntityId?: string } }> = [];
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z",
-    { onIdentityDiagnostic: (diagnostic) => nativeDiagnostics.push(diagnostic) })
+    { sourceFactsModel, onIdentityDiagnostic: (diagnostic) => nativeDiagnostics.push(diagnostic) })
     .check({ ...request, candidateIds: [native.restaurant.id], candidates: [native], hardCriteria: [] }, new AbortController().signal);
   assert.equal(session.navigations.some((value) => value.includes("/japan/search")), false);
   assert.equal(result.availabilityChecks[native.restaurant.id]?.status, "AVAILABLE", JSON.stringify({ checks: result.availabilityChecks, navigations: session.navigations }));
@@ -877,7 +884,7 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
   assert.deepEqual(priceFact?.priceFacts?.listedCoursePricesYen.map(item => item.amount), [7000, 7500, 9800, 3000]);
   assert.equal(priceFact?.sourceUrl, guide.url, "the guide citation must not become the request page URL");
   const blocked = await new TableCheckBrowserAvailability({ openSession: async () => new FixtureBrowserSession([guide,
-    { ...reservation, text: "verify you are human", html: "" }]) }, () => "2026-08-05T09:00:00.000Z")
+    { ...reservation, text: "verify you are human", html: "" }]) }, () => "2026-08-05T09:00:00.000Z", {sourceFactsModel})
     .check({ ...request, candidateIds: [native.restaurant.id], candidates: [native], hardCriteria: [] }, new AbortController().signal);
   assert.equal(blocked.availabilityChecks[native.restaurant.id]?.status, "UNKNOWN");
   assert.equal(blocked.evidence.some(item => item.priceFacts?.listedCoursePricesYen[0]?.amount === 7000), true);

@@ -595,7 +595,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         candidate, observedAt: menus.readAt, ...activeSource(), sourceUrl: menus.sourceUrl, entityMatch: activeIdentity,
         pageState: "EXTRACTION_FAILED", priceFacts: menus.priceFacts, listedCourseDetails: menus.listedCourseDetails, sourceFieldQuotes: menus.sourceFieldQuotes,
       }).evidence : [];
-      const finish = (observation: TabelogAvailabilityPageObservation) => mergeQuotedSourceFacts(this.ground(candidate, request, observation, browser), menuEvidence);
+      const finish = (observation: TabelogAvailabilityPageObservation) => mergeQuotedSourceFacts(candidate.restaurant.id, this.ground(candidate, request, observation, browser), menuEvidence);
       if (hasBotChallenge(page)) return finish({ candidate, observedAt, ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(page) });
       if (detectExternalReservationRedirect(page)) return finish({ candidate, observedAt, ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity, pageState: "SOURCE_UNSUPPORTED", failureCode: "EXTERNAL_BOOKING_PROVIDER_REQUIRED", excerpt: pageExcerpt(page) });
       if (!hasReservationControls(page)) return finish({ candidate, observedAt, ...activeSource(), sourceUrl: page.url, entityMatch: activeIdentity, pageState: "SOURCE_UNSUPPORTED", failureCode: "ONLINE_AVAILABILITY_UNSUPPORTED", excerpt: pageExcerpt(page) });
