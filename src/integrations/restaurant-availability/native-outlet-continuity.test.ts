@@ -140,13 +140,13 @@ test("native TableCheck facts read an observed reserve menu as a scoped document
   const venueParagraphs = Array.from({ length: 32 }, (_, index) =>
     `Venue policy ${index + 1}: ${index === 17 ? "This venue is hot pot only." : "public dining information."}`);
   const reserve: BrowserSnapshot = { url: reserveUrl, title: "Restaurant 1", text: ["Restaurant 1","1-1 Shinjuku, Tokyo","Venue-wide policy: no fast food.",...venueParagraphs,"Sushi omakase course","Bar snacks"].join("\n"),
-    html: [
+    html: "<main><div>" + [
       '<h1>Restaurant 1</h1><div class="address">1-1 Shinjuku, Tokyo</div><aside>Venue-wide policy: no fast food.</aside>',
       ...venueParagraphs.map((paragraph) => `<p>${paragraph}</p>`),
       '<form class="simple_form reserveform" method="post"><input type="radio" name="reservation[service_category]" value="sushi"><input type="radio" name="reservation[service_category]" value="bar"></form>',
       '<article class="menu-item"><p>Sushi omakase course</p><div class="menu-item-data" data-service-categories="[&quot;sushi&quot;]"></div></article>',
       '<article class="menu-item"><p>Bar snacks</p><div class="menu-item-data" data-service-categories="[&quot;bar&quot;]"></div></article>',
-    ].join("") };
+    ].join("") + "</div></main>" };
   let current = guide;
   let documents: Array<{ serviceScope?: { value: string }; statements: Array<{ text: string }> }> = [];
   const runtime: BrowserRuntime = { openSession: async () => ({
@@ -165,7 +165,7 @@ test("native TableCheck facts read an observed reserve menu as a scoped document
   } };
   await new NativeSourceFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, runtime, judgment, () => "2026-10-07T00:00:00.000Z")
     .inspectFacts({ candidateIds: [candidate.restaurant.id], candidates: [candidate], intent: { ...fixtureIntent, criteria: [{ text: "omakase", polarity: "POSITIVE", strength: "HARD" }] } }, new AbortController().signal);
-  assert.equal(documents.length, 4);
+  assert.equal(documents.length, 4, "public page wrappers cannot swallow the venue-wide source remainder");
   assert.equal(documents.filter((document) => document.serviceScope === undefined).length, 2, "the guide and reserve remainder remain unscoped but the reserve menu does not duplicate as whole-page text");
   assert.deepEqual(documents.filter((document) => document.serviceScope).map((document) => document.serviceScope!.value).sort(), ["bar", "sushi"]);
   assert.equal(documents.find((document) => document.serviceScope?.value === "sushi")!.statements.some((statement) => /omakase/i.test(statement.text)), true);
