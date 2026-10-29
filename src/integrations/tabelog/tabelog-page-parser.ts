@@ -240,8 +240,9 @@ function stripTags(value: string): string {
 }
 
 /** Exact captured source data is required in either language; prose/classes are not inventory. */
-export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request: { date: string; partySize: number }): TabelogSlotParse {
-  return tabelogCapturedSlots(snapshot, request.date, request.partySize) ?? { availableSlots: [], hasExplicitSlotUi: false };
+export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request?: { date: string; partySize: number }): TabelogSlotParse {
+  // An unscoped page observation has no authority to claim inventory.
+  return (request && tabelogCapturedSlots(snapshot, request.date, request.partySize)) ?? { availableSlots: [], hasExplicitSlotUi: false };
 }
 
 function aliases(criterion: string): string[] {

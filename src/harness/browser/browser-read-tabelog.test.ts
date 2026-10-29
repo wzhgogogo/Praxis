@@ -237,7 +237,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       const snapshot = await session.snapshot();
       assert.equal(hasTabelogSelectedQuery(snapshot,"2026-09-20",4),true);
       assert.equal(hasTabelogSelectedQuery(snapshot,"2026-09-17",2),false);
-      assert.deepEqual(parseTabelogAvailabilitySlots(snapshot),{availableSlots:[],hasExplicitSlotUi:false});
+      assert.deepEqual(parseTabelogAvailabilitySlots(snapshot,{date:"2026-09-20",partySize:4}),{availableSlots:[],hasExplicitSlotUi:false});
       assert.equal(result.offers.length,0,"query options alone cannot establish inventory");
       assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode,"EXTRACTION_FAILED");
       assert.equal(calls,2,"production Adapter must reach the shared model loop");
