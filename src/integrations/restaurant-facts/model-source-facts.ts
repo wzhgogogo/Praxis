@@ -99,15 +99,16 @@ export async function readQuotedRestaurantSourceFacts(model: ModelGateway | unde
       continue;
     }
     const priced = priceIndex === undefined ? "" : document.statements[priceIndex]!.text;
-    const values = [...new Set(amounts(priced))];
-    const catalog = deleted.some(text => text && compact(text).includes(compact(priced)));
+    const currentText = (text:string) => deleted.reduce((value,catalogue)=>value.replace(catalogue,""),text);
+    const values = [...new Set(amounts(currentText(priced)))];
+    const catalog = Boolean(priced) && !currentText(priced).trim();
     if (row.role === "COURSE") {
       const bothMeals = /lunch|ランチ|昼食/iu.test(quote) && /dinner|ディナー|夕食/iu.test(quote);
       const onlyMeal = /(?:lunch|dinner)\s*only|(?:ランチ|ディナー|昼食|夕食)限定/iu.test(quote);
       const negatedPrice = /\bnot\s+(?:(?:priced\s+)?(?:at|for)\s+)?(?:JPY|[¥￥])|(?:JPY|[¥￥])[^。.!?]{0,24}(?:ではない|ではありません)/iu.test(quote);
       const contradictoryMeal = bothMeals && onlyMeal;
       const currentValues = [...new Set(document.statements.slice(first,last+1).flatMap(statement =>
-        deleted.some(text=>compact(text)===compact(statement.text)) ? [] : amounts(statement.text)))];
+        amounts(currentText(statement.text))))];
       // Selecting a price ID does not authorize choosing the cheaper of two
       // current fees/options in the same quote. Keep the raw listing as unknown.
       const price = !catalog && values.length === 1 && currentValues.length === 1 && !contradictoryMeal && !negatedPrice ? quotedCoursePrice(quote, page.snapshot.url, values[0]!) : undefined;

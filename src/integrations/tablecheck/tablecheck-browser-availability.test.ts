@@ -1019,7 +1019,8 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, fixture.expected, fixture.state + ":" + fixture.date);
   if (fixture.expected === "AVAILABLE") {
     assert.equal(result.offers[0]?.source, "TABLECHECK");
-    assert.deepEqual(result.evidence.map((item) => item.kind), ["ENTITY_MATCH", "RESTAURANT_FACT", "AVAILABILITY"]);
+    assert.deepEqual(result.evidence.map((item) => item.kind), ["ENTITY_MATCH", "AVAILABILITY"]);
+    assert.equal(result.evidence.some(item=>Array.isArray(item.claims.verifiedHardCriteria)),false,"private featured-menu class cannot discharge a HARD criterion; cited fact reading handles that separately");
   } else {
     assert.equal(result.offers.length, 0, "old or loading inventory cannot create an offer");
     assert.equal(result.evidence.some((item) => item.kind === "AVAILABILITY"), false);

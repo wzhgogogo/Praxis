@@ -14,7 +14,7 @@ import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser
 import { inspectNativeOutletContinuity, sameNativeOutletUrl } from "../restaurant-availability/native-outlet-continuity.js";
 import { parseTabelogOutletIdentityWithEvidence, parseTabelogSourceFieldQuotes } from "../tabelog/tabelog-page-parser.js";
 import { hasTableCheckBotChallenge, hasTableCheckPageUnavailable, parseTableCheckOutletIdentityWithEvidence, parseTableCheckScopedMenuSourcePartition, resolveTableCheckReservationTarget, sameReservationOutlet, type TableCheckReservationTarget } from "../tablecheck/tablecheck-page-parser.js";
-import { candidateStructuredObservation, candidateVisibleObservation, requestedCommercialFields } from "./google-listed-website-facts.js";
+import { candidateStructuredObservation, candidateVisibleObservation } from "./google-listed-website-facts.js";
 import type { RestaurantFactJudgmentPort } from "./model-fact-judgment.js";
 
 function key(value: string): string | undefined {
@@ -275,7 +275,6 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
             if(row.processed)continue;row.processed=true;
             const publicFields=row.frames.flatMap(frame=>frame.document.sourceFieldQuotes??[]).filter(q=>["CATEGORY","COURSE_TITLE","COURSE_DESCRIPTION"].includes(q.field));
             const criteria=request.intent.criteria.filter(c=>c.strength==="HARD"&&!publicFields.some(q=>(" "+normalize(q.quote)+" ").includes(" "+normalize(c.text)+" "))).map(c=>c.text);
-            if(!criteria.length&&!request.intent.budgetPerPerson&&!requestedCommercialFields(request.intent).includes("coursePriceYen"))continue;
             const quoted=await readQuotedRestaurantSourceFacts({complete:input=>executor.readModel(signal,()=>{modelCalls++;return this.sourceFactsModel!.complete(input);})},{candidate,identity:row.identity,page:row.page,readAt:row.readAt,criteria},this.now,signal);
             if(!quoted)continue;
             const belongs=(quote:string,frame:typeof row.frames[number])=>{

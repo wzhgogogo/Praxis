@@ -381,7 +381,6 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
           const identity=known.find(item=>item.kind==="ENTITY_MATCH"&&item.sourceUrl===page.observation.sourceUrl);
           if(!identity)continue;
           const criteria=request.intent.criteria.filter(c=>c.strength==="HARD").map(c=>c.text);
-          if(!criteria.length&&!request.intent.budgetPerPerson&&!requestedCommercialFields(request.intent).some(field=>field==="coursePriceYen"))continue;
           const quoted=await readQuotedRestaurantSourceFacts({complete:input=>executor.readModel(signal,()=>{modelCalls++;return this.sourceFactsModel!.complete(input);})},
             {candidate,identity,page:page.snapshot,readAt:page.observedAt,criteria},this.now,signal);
           if(quoted)quotations.set(quoted.sourceUrl,quoted);

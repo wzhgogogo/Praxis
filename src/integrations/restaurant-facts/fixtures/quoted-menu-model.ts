@@ -20,8 +20,10 @@ export const quotedMenuFixtureModel: ModelGateway = { async complete(request) {
       const region=regions.findIndex((region,i)=>!usedRegions.has(i)&&region.text.replace(/\s+/gu," ").trim()===row.text);
       if(region>=0){usedRegions.add(region);role=regions[region]!.label.toLowerCase()==="dinner"?"DINNER_BUDGET":"LUNCH_BUDGET";}
     }
-    const from=role==="COURSE"?first:index;first=index+1;
-    return [{firstStatementId:rows[from]!.id,lastStatementId:row.id,priceStatementId:row.id,role}];
+    const from=role==="COURSE"?first:index;
+    const last=role==="COURSE"&&/Number of people/iu.test(rows[index+1]?.text??"") ? index+2 : index;
+    first=last+1;
+    return [{firstStatementId:rows[from]!.id,lastStatementId:rows[last]!.id,priceStatementId:row.id,role}];
   });
   return {invocationId:"visible-quotation-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections})};
 } };
