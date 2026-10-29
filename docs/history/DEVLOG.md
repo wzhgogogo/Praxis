@@ -5205,3 +5205,9 @@ Five approved consolidation items have individual successor proof, all originals
 2026-10-29 CET：B1已合并并推送main00519783，ls-remote核对，B已收到ADR0049/迁移0010同步通知。C从该main另开G4只读分析分支；原37家网络8例逐次归因及4家日文名线索，最多两方案，真实调用0。第三次检索/详情名额的合同变化仅列建议不实施，GET保持244/257。
 
 分析交付：2026-10-29 CET：B1已发布main00519783并ls-remote核对，B已收到ADR0049/迁移0010通知。C G4纯分析完成待复核：八例=4超时/4连接错误，搜索2/详情6，均Tabelog；同ID日文原名已存3/4，旧替代首屏3日文+1更短英文片段均含认证店，但身份增量未评价。T实际只查一次即耗尽5详情；第三次检索及4+1名额仅待批准方案，未实施。模型/Google/GET/Live新增0，GET244/257；685冻结SHA、源码及账本零差异核对通过。 推荐先复用原件、Google≤1/GET≤13/模型0；替代新鲜分组基准Google≤4/GET≤60/模型≤8，若直接选择后者需共享GET上限304，当前不分配额度。[报告](../../.eval-artifacts/phase3b/g4-retrieval-analysis/report.md)。
+
+<a id="dev-2026-10-29-g4-japanese-prep"></a>
+
+## 2026-10-29 CET: G4 Japanese-name offline preparation
+
+2026-10-29 CET: C G4 scheme-one offline preparation frozen. Google same-ID ja name reader uses id/displayName only, run-local sharing; valid old-wire red and 3 green controls retained. Eval-only 4+1 simulation covers 37 main views plus four separately frozen reruns; unknown pages/proposals are not success. Product source search/B files unchanged; no shared versions or credentials. New calls0, GET244/257; exact known URLs and source-bound Beef slots to be reviewed, no live execution.

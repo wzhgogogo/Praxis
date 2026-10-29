@@ -1,5 +1,7 @@
 # Integration Capability Matrix
 
+2026-10-29 CET，C G4方案一离线准备（draft / not integrated）：Google客户端增加显式运行内共享的日文名称读者，固定同Place ID、`languageCode=ja`、`id,displayName`最小掩码；错误ID/空原文拒绝，保留实际语言码，失败缓存防隐式重试。三份已保存响应和跨来源并发/跨运行隔离fixture通过；旧入口缺少ja的有效红灯保留。现在没有接入两站检索，原两次检索/五详情不变；4+1只在评测层模拟，未捕获输入/缺页不算通过。新增真实调用0，不代表来源Live或库存验证。[计划](../../.eval-artifacts/phase3b/g4-japanese-prep/plan.md)；[客户端合同测试](../../src/integrations/google/google-places-client.test.ts)。
+
 2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
 
 2026-10-28 CET: Reviewed G1 dd87cfbb synchronized with main54b3dd2b accepted A clock repairs. Frozen2ccaab58/681 inputs: five gates1196/175 PASS (106.836s), ordinary G2 4/4, each before/after clean and restore0. Reviewed G1 source/HARD44197 bytes unchanged; ledger409 ids preserves both sides, new real calls0. User authorizes main publication; then new G3 Tabelog branch, protected C files untouched pending file-order review. [Report](../../.eval-artifacts/phase3b/g1-quality-main/report.md).
@@ -9,7 +11,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.105
+- Document revision: 1.106
 
 
 - Last updated: 2026-10-29
