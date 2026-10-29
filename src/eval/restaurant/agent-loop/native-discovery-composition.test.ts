@@ -231,10 +231,31 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
     networkRequests,
     ...(options.bareReserveLink ? { bareReserveLink: true } : {}),
   });
+  // These two existing unavailable controls previously relied on a private
+  // is-unavailable class and an empty payload with no merchant binding. Keep
+  // the UNAVAILABLE/continue assertions using an explicit constructed source
+  // response outside H001's requested window; do not derive it from the DOM,
+  // task request, production parser or evaluator. Other source cases unchanged.
+  const fixtureBrowser = scenario === "TABELOG_CONTINUES" || scenario === "TABELOG_NEUTRAL_REGION_RECOVERS" ? {
+    ...rawBrowser,
+    async openSession(input: Parameters<typeof rawBrowser.openSession>[0]) {
+      const session = await rawBrowser.openSession(input);
+      return new Proxy(session, { get(target, key) {
+        if (key === "snapshot") return async () => {
+          const page = await target.snapshot();
+          if (page.url !== "https://tabelog.com/tokyo/A1304/A130401/100/") return page;
+          return { ...page, responses: [{ url: "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=100&svd=20260819&svps=2", status: 200,
+            observedAt: "2026-08-18T10:00:00Z", sequence: 1, body: { base_date: { year: 2026, month: 8, day: 19 }, members: 2,
+              selection: [{ time: "23:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=2300" }] } }] };
+        };
+        const value = Reflect.get(target, key, target); return typeof value === "function" ? value.bind(target) : value;
+      } });
+    },
+  } : rawBrowser;
   const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   let browserTraceSequence = 0;
   const browser = { ...(rawBrowser.readNetworkBoundaryCapability ? { readNetworkBoundaryCapability: rawBrowser.readNetworkBoundaryCapability } : {}), openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(
-    await rawBrowser.openSession(input), "TABLECHECK", (kind, detail) => {
+    await fixtureBrowser.openSession(input), "TABLECHECK", (kind, detail) => {
       const sequence = ++browserTraceSequence;
       browserTrace.push({ sequence, at: reference.toISOString(), kind, detail });
       return sequence;
