@@ -70,7 +70,7 @@
       "14",
       "18"
     ],
-    "status": "RESUMED_C_INPUT_AUTHORIZED_SLOT_DAY_RETIRED_SHARED_SELECTION_NEXT",
+    "status": "SLOT_DAY_RETIRED_SHARED_SELECTION_STOPPED_PUBLIC_EVIDENCE",
     "evidence": "pending-c-fixture/report.md",
     "fixedCalendarBaseline": "A main8454fffa integrated; remaining Sen requestConfirmed unchanged."
   },
@@ -85,7 +85,7 @@
       "35",
       "36"
     ],
-    "status": "NOT_IMPLEMENTED_AFTER_OWNERSHIP_STOP",
+    "status": "NOT_IMPLEMENTED_AFTER_SEN_ACCEPTANCE_EVIDENCE_STOP",
     "oldHardOutputChanged": false
   },
   {
@@ -96,5 +96,15 @@
     "gates": "PASS1215/179",
     "redGreen": "native2 + Chromium1",
     "authorizedCInputApplied": true
+  },
+  {
+    "group": "06 Sen selected-query public observability",
+    "status": "STOPPED_G2_SELECTED_QUERY_PUBLIC_EVIDENCE",
+    "diagnosticCommit": "03443767128708274f1717a0dd8a3e9449872afe",
+    "cases": 2,
+    "publiclyIdentical": true,
+    "positiveControlsDetectChange": true,
+    "productCodeChanged": false,
+    "report": "06-sen-query-observability/report.md"
   }
 ]

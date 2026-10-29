@@ -25,10 +25,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.348
+- Document revision: 4.349
 
 
-- Last updated: 2026-10-28
+- Last updated: 2026-10-29
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -5889,3 +5889,10 @@ Actual six commands at9017a8cd: typecheck0.429s, arch0.166s, default1203 in35.97
 ## 2026-10-29 CET: G3 response-only slot/day evidence
 
 2026-10-29 CET: G3 Group05 response-only slots/day complete; user-authorized C response fixture diff applied, C logic/all assertions preserved. Effective native2/Chromium1 reds→green; frozen2d29aead690 inputs five gates1215/179 PASS (114.013s), ordinary G2 4/4, every before/after clean. Two evidenced gate repairs retained, no assertion reduction; HARD44197 bytes unchanged. Private DOM inventory/day inference retired; English selected-query/shared controls and G3c remain. Sites3950/Pack478 reference, ledger470 prior rows preserved, new real calls0. Push then continue Sen observation, no main merge. [Report](../../.eval-artifacts/phase3b/g3-longrun/05-response-only-slots-days/report.md).
+
+
+<a id="test-2026-10-29-g3-sen-query-evidence-stop"></a>
+
+## 2026-10-29 CET: Sen query-confirmation public evidence stop
+
+2026-10-29 CET: G3 response-evidence code `2d29aead` passed all five gates (default tests 1215/1215; Chromium 179/179) and ordinary G2 4/4. The authorized C input change preserves all protected logic and assertions. Diagnostic `03443767` then found that removing either Sen selected-state class changes `requestConfirmed` from true to false while public text, ARIA, native values, styles and local pixels stay identical; public positive controls detect changes. Work stops for reviewer/A resolution of the retained query-confirmation reference. No baseline or product change was made for this diagnostic. Shared selected-state work and G3c remain unfinished. The ledger retains all prior entries; new real calls are 0. Site lines 3,950 and Pack lines 478 are reference only. [Report](../../.eval-artifacts/phase3b/g3-longrun/06-sen-query-observability/report.md).
