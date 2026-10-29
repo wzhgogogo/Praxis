@@ -1,8 +1,8 @@
 # Data, Context and Security
 
 - Status: Accepted
-- Document revision: 1.5
-- Last updated: 2026-09-07
+- Document revision: 1.6
+- Last updated: 2026-10-29
 - Source of truth for: 数据归属、Context分层、隐私、安全和保留策略
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0005](../decisions/0005-modular-monolith.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Restaurant Booking](../domains/RESTAURANT-BOOKING.md), [Capability Matrix](../integrations/CAPABILITY-MATRIX.md)
@@ -23,6 +23,7 @@ workspace_users
 workspace_sessions
 conversations
 conversation_messages
+restaurant_booking_departures
 praxis_schema_migrations
 ```
 
@@ -160,3 +161,7 @@ Pilot默认目标：
 ## 安全事件
 
 以下情况必须记录并可触发Kill Switch：未经授权Action、重复提交、错误宣称成功、跨用户访问、Adapter越域、Prompt Injection绕过尝试、Secret或PII泄漏。
+
+## B1 user-reported return feedback
+
+Accepted ADR0049 uses a dedicated departure/feedback interaction table (append-only migration0010 registration). It contains Case/conversation references, opaque departure/offer/candidate IDs, source enum, timestamps and Yes/No/Skip with USER_REPORTED provenance; it contains no contact/card/profile/free-text answer or source account data. Per-Case row locking and a partial unique index admit at most one durable prompt. Replies never write Task State, Authorization or a verified booking Outcome; owner isolation and conversation deletion cascade apply.

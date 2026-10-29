@@ -1,3 +1,4 @@
+import { TABELOG_ENGLISH_SYSTEM_FEE } from "./booking-platform-fees.js";
 import {
   restaurantAvailabilityRequestFingerprint,
   type AvailabilityOffer, type RestaurantAvailabilityCheck, type RestaurantBookingIntent,
@@ -28,8 +29,8 @@ export interface BookingHandoffPage {
 export interface BookingHandoffTerms {
   pages: readonly BookingHandoffPage[];
   cancellation?: RestaurantPageAnswer;
-  /** The stricter multilingual interpretation awaits its reviewed G1 contract. */
-  unresolvedCancellationConflict?: boolean;
+  /** User-declared/source-admitted conflict pair; no model/code strictness ranking. */
+  cancellationConflict?: { japanese: RestaurantPageAnswer; english: RestaurantPageAnswer };
   card?: { requirement: "REQUIRED" | "NOT_REQUIRED" | "MAY_REQUIRE"; answer: RestaurantPageAnswer };
   /** Exact observed label; the hint asks the user to pick it, never says selected. */
   plan?: RestaurantPageCitation;
@@ -47,7 +48,7 @@ export type BookingHandoffSource = {
   | { provider: "TABLECHECK"; linkBasis: "VERIFIED_PARAMETERS"; observedEntranceUrl: string }
 );
 export interface PreparedBookingHandoff {
-  contract: "restaurant-booking-handoff@1";
+  contract: "restaurant-booking-handoff@2";
   source: BookingHandoffSource;
 }
 export interface BookingHandoffView {
@@ -64,6 +65,8 @@ export interface BookingHandoffView {
   linkCarries: readonly ["DATE", "TIME", "PARTY_SIZE"];
   sourceSelection: "UNKNOWN";
   terms: Array<{ label: string; citations: RestaurantPageCitation[] }>;
+  cancellationNotice?: "Cancellation terms differ between the Japanese and English pages";
+  platformFee?: typeof TABELOG_ENGLISH_SYSTEM_FEE;
 }
 
 const TIME = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
@@ -160,7 +163,7 @@ function admitted(source: BookingHandoffSource, context: BookingHandoffContext):
 
 /** First server check, directly after reading a code-owned source result. */
 export function prepareBookingHandoff(source: BookingHandoffSource, context: BookingHandoffContext): PreparedBookingHandoff | undefined {
-  return admitted(source, context) ? { contract: "restaurant-booking-handoff@1", source: structuredClone(source) } : undefined;
+  return admitted(source, context) ? { contract: "restaurant-booking-handoff@2", source: structuredClone(source) } : undefined;
 }
 function checkedCitation(citation: RestaurantPageCitation, source: BookingHandoffSource, context: BookingHandoffContext): boolean {
   const terms = source.terms;
@@ -185,19 +188,32 @@ function checkedAnswer(answer: RestaurantPageAnswer | undefined, source: Booking
 
 /** Second server check against the current snapshot; no prepared copy or URL is trusted. */
 export function presentBookingHandoff(prepared: PreparedBookingHandoff, context: BookingHandoffContext): BookingHandoffView | undefined {
-  if (prepared.contract !== "restaurant-booking-handoff@1" || !admitted(prepared.source, context)) return undefined;
+  if (prepared.contract !== "restaurant-booking-handoff@2" || !admitted(prepared.source, context)) return undefined;
   const source = prepared.source, name = source.provider === "TABELOG" ? "Tabelog" : "TableCheck";
   const evidence = context.evidence.find(item => item.evidenceId === source.availabilityEvidenceId)!;
   const terms: BookingHandoffView["terms"] = [];
   const cancellation = source.terms?.cancellation;
-  if (!source.terms?.unresolvedCancellationConflict && checkedAnswer(cancellation, source, context))
+  const conflict = source.terms?.cancellationConflict;
+  let cancellationNotice: BookingHandoffView["cancellationNotice"];
+  if (conflict) {
+    const {japanese, english} = conflict;
+    if (checkedAnswer(japanese, source, context) && checkedAnswer(english, source, context)
+      && japanese.citations.every(citation => !new URL(citation.url).pathname.startsWith("/en/"))
+      && english.citations.every(citation => new URL(citation.url).pathname.startsWith("/en/"))) {
+      cancellationNotice = "Cancellation terms differ between the Japanese and English pages";
+      terms.push({label:"Japanese page: " + japanese.answer, citations:structuredClone(japanese.citations)},
+        {label:"English page: " + english.answer, citations:structuredClone(english.citations)});
+    }
+  } else if (checkedAnswer(cancellation, source, context)) {
     terms.push({ label: cancellation.answer, citations: structuredClone(cancellation.citations) });
+  }
   const card = source.terms?.card;
   if (card && checkedAnswer(card.answer, source, context)) {
     const label = {REQUIRED: "Card required", NOT_REQUIRED: "No card needed", MAY_REQUIRE: "May require a card"}[card.requirement];
     if (label) terms.push({label, citations: structuredClone(card.answer.citations)});
   }
   const hints = source.provider === "TABLECHECK" ? ["Check date and guests"] : [];
+  if (conflict) hints.push("Confirm cancellation terms on the website");
   const plan = source.terms?.plan;
   if (plan && !/[\r\n]/.test(plan.text) && checkedCitation(plan, source, context)) hints.push(`Pick ${plan.text}`);
   return {
@@ -208,6 +224,8 @@ export function presentBookingHandoff(prepared: PreparedBookingHandoff, context:
     checkedAt: source.observedAt,
     displayExpiresAt: new Date(Math.min(...[context.offer.displayExpiresAt!, context.check.displayExpiresAt!,
       ...[context.offer.sourceExpiresAt, context.check.expiresAt, evidence.displayExpiresAt, evidence.sourceExpiresAt, evidence.expiresAt].filter((value): value is string => value !== undefined)].map(Date.parse))).toISOString(),
+    ...(cancellationNotice ? {cancellationNotice} : {}),
+    ...(source.provider === "TABELOG" ? {platformFee:TABELOG_ENGLISH_SYSTEM_FEE} : {}),
     knowledge: "SOURCE_OBSERVED_AVAILABILITY", linkCarries: ["DATE", "TIME", "PARTY_SIZE"], sourceSelection: "UNKNOWN", terms,
   };
 }

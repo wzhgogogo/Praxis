@@ -5177,3 +5177,11 @@ Five approved consolidation items have individual successor proof, all originals
 ## DEV-2026-10-29-G2-SEN-SCHEDULING-VERIFIED
 
 2026-10-29 CET: G2 Sen requestConfirmed is UNKNOWN(null) by approved review; observed public ARIA positives/removal negatives and bound/mismatched response controls retained. G2 is scheduled alone before remaining4-worker fixtures; original180s test/classifier/mutation/12-page manifest unchanged. Matched2CPU37.5% pressure old180.090s timeout→exclusive89.221s PASS; ordinary old2CPU control138.062s PASS retained, not called a reproduction. Frozen445691b3/682 inputs: macOS/Linux five gates green, default1202, Chromium175; three consecutive ordinary2CPU full runs132.279/132.833/132.951s, all before/after clean. All174 prior browser names retained +1 public-control, +1 default native phase-order regression. VM deleted, no file restore, product/site/Guard/Pack/Prompt/Schema/State diff0, real calls0. [Report](../../.eval-artifacts/phase3b/g2-sen-scheduling/report.md).
+
+<a id="dev-2026-10-29-phase3b-g5-b1-followup"></a>
+
+## 2026-10-29 CET：G5 B1 Accepted0049后续
+
+2026-10-29 CET：C同步main50a08361并保留A G2调度修复；用户批准ADR0049 Accepted（原C0048改号）。持久USER_REPORTED反馈与双语取消冲突先红后绿，Task/Outcome不变；两次公开GET均200，robots允许/en/help，440/用户取消不退/餐厅取消退均有原文。累计GET244/257，模型/Google/Live0。B1暂态合同2，既有共享版本不变；G3接线按指令等待B合main，本批不做。最终冻结门禁待执行。
+
+旧API404≠201和旧冲突notice undefined有效红；领域7/7、真实HTTP/PGlite重启并发与三种自报选择初绿。原6b867b34证据保留，不按新规则重写旧分数。

@@ -1818,7 +1818,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       return {invocationId:"b1-fixture:"+decision,provider:"FIXTURE",model:"b1-offline",latencyMs:0,finishReason:"TOOL_CALLS",
         outputText:JSON.stringify(action ? {...action,question:"",relatedFields:[],retrievalHint:"",candidateId:"",offerId:"",decisionSummary:"Frozen B1 fixture"} : proposal)};
     }};
-    const running=await startServer(database,clock,{restaurant,model,
+    let running=await startServer(database,clock,{restaurant,model,
       bookingHandoffs:{readPrepared:()=>cached,now:()=>clock.now().toISOString()},
     });
     try {
@@ -1830,6 +1830,11 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       const path="/api/cases/"+encodeURIComponent(view.case.caseId);
       const leave=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-departure",taskVersion:view.case.taskVersion})});
       assert.equal(leave.response.status,201,"a validated B1 departure must be durable before leaving");
+      const departure=leave.payload.departure as {id:string;provenance:string};assert.equal(departure.provenance,"USER_REPORTED");
+      const duplicate=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-departure",taskVersion:view.case.taskVersion})});
+      assert.equal((duplicate.payload.departure as {id:string}).id,departure.id);
+      assert.equal((await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"YES"})})).response.status,400,"answer before a prompt is not accepted");
+
       cached[0]!.source.url=cached[0]!.source.url.replace("member=2","member=3");
       const modified=(await api(running.baseUrl,cookie,path)).payload.view as RestaurantCaseView;
       assert.deepEqual(modified.restaurant.bookingHandoffs,[],"second server check rejects a modified cache object");
@@ -1839,6 +1844,40 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       clock.advance(600_000);
       assert.deepEqual(((await api(running.baseUrl,cookie,path)).payload.view as RestaurantCaseView).restaurant.bookingHandoffs,[]);
       assert.equal(sourceReads,1,"projection and expiry may not open any booking page or rerun availability");
+      // Recreate the complete server/application without a source cache; receipts must survive.
+      const before=await running.application.getCase("user-a",view.case.caseId);
+      await running.close();running=await startServer(database,clock);
+      const claims=await Promise.all(Array.from({length:4},()=>api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})));
+      const shown=claims.map(item=>item.payload.prompt).filter(Boolean) as Array<{question:string;departure:{id:string}}>;
+      assert.equal(shown.length,1,"concurrent clients can claim at most one prompt per Case");
+      assert.equal(shown[0]!.question,"Did you get the booking?");assert.equal(shown[0]!.departure.id,departure.id);
+      assert.equal((await api(running.baseUrl,stranger,path+"/booking-feedback/claim",{method:"POST",body:"{}"})).response.status,404);
+      await running.close();running=await startServer(database,clock);
+      assert.equal((await api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})).payload.prompt,null,"an unanswered prompt also survives restart without re-asking");
+      const answer=await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"YES"})});
+      assert.equal(answer.response.status,200);assert.equal((answer.payload.departure as {answer:string;provenance:string}).answer,"YES");
+      assert.equal((answer.payload.departure as {provenance:string}).provenance,"USER_REPORTED");
+      const repeated=await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"YES"})});assert.deepEqual(repeated.payload,answer.payload);
+      const changed=await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"NO"})});assert.equal(changed.response.status,400);
+      const privateData=await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"YES",email:"do-not-store@example.invalid"})});assert.equal(privateData.response.status,400);
+      await running.close();running=await startServer(database,clock);
+      assert.equal((await api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})).payload.prompt,null,"restart and answered/ignored prompts never re-ask");
+      const after=await running.application.getCase("user-a",view.case.caseId);
+      assert.equal(after.case.taskVersion,before.case.taskVersion);assert.equal(after.case.phase,before.case.phase);
+      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,undefined);
+      const rows=await database.query<{count:string}>("SELECT COUNT(*) AS count FROM restaurant_booking_departures");assert.equal(Number(rows.rows[0]!.count),1);
+      for(const choice of ["NO","SKIP"] as const){
+        await running.close();decision=0;raw.source.observedAt=clock.now().toISOString();
+        running=await startServer(database,clock,{restaurant,model,bookingHandoffs:{readPrepared:()=>cached,now:()=>clock.now().toISOString()}});
+        const other=await createCase(running.baseUrl,cookie,"b1-"+choice,message),otherPath="/api/cases/"+encodeURIComponent(other.case.caseId);
+        const out=await api(running.baseUrl,cookie,otherPath+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:other.restaurant.bookingHandoffs![0]!.offerId,requestId:"depart-"+choice,taskVersion:other.case.taskVersion})});assert.equal(out.response.status,201);
+        const prompt=(await api(running.baseUrl,cookie,otherPath+"/booking-feedback/claim",{method:"POST",body:"{}"})).payload.prompt as {departure:{id:string}};assert.ok(prompt);
+        assert.equal((await api(running.baseUrl,cookie,otherPath+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:choice})})).response.status,400,"another Case's receipt cannot be used");
+        const saved=await api(running.baseUrl,cookie,otherPath+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:prompt.departure.id,answer:choice})});assert.equal(saved.response.status,200);assert.equal((saved.payload.departure as {answer:string}).answer,choice);
+        assert.equal((await api(running.baseUrl,cookie,otherPath+"/booking-feedback/claim",{method:"POST",body:"{}"})).payload.prompt,null);
+      }
+
+
     } finally {await running.close();}
   });
 });

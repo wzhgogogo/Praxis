@@ -276,6 +276,29 @@ export const POSTGRES_MIGRATIONS: PostgresMigration[] = [
         ADD COLUMN IF NOT EXISTS execution_metadata JSONB`,
     ],
   },
+  {
+    id: "0010-restaurant-booking-handoff-feedback",
+    statements: [
+      `CREATE TABLE restaurant_booking_departures (
+        id TEXT PRIMARY KEY,
+        conversation_id TEXT NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+        request_id TEXT NOT NULL,
+        candidate_id TEXT NOT NULL,
+        offer_id TEXT NOT NULL,
+        provider TEXT NOT NULL CHECK (provider IN ('TABELOG', 'TABLECHECK')),
+        departed_at TIMESTAMPTZ NOT NULL,
+        prompted_at TIMESTAMPTZ,
+        answer TEXT CHECK (answer IN ('YES', 'NO', 'SKIP')),
+        answered_at TIMESTAMPTZ,
+        provenance TEXT NOT NULL DEFAULT 'USER_REPORTED' CHECK (provenance = 'USER_REPORTED'),
+        UNIQUE (conversation_id, request_id),
+        CHECK ((answer IS NULL AND answered_at IS NULL) OR
+          (answer IS NOT NULL AND answered_at IS NOT NULL AND prompted_at IS NOT NULL))
+      )`,
+      `CREATE UNIQUE INDEX restaurant_booking_feedback_once_per_case_idx
+        ON restaurant_booking_departures (conversation_id) WHERE prompted_at IS NOT NULL`,
+    ],
+  },
 ];
 
 export async function applyPostgresMigrations(database: SqlDatabase): Promise<void> {

@@ -257,6 +257,33 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
         });
         return;
       }
+      const departureMatch = /^\/api\/cases\/([^/]+)\/booking-departures$/.exec(url.pathname);
+      if (method === "POST" && departureMatch) {
+        const body=await readJson(request);
+        if(Object.keys(body).some(key=>!["candidateId","offerId","requestId","taskVersion"].includes(key)))throw new Error("Departure request has unexpected fields");
+        const caseId=decodeURIComponent(departureMatch[1]!);
+        const view=project(await options.application.getCase(user.id,caseId));
+        if(view.case.taskVersion!==requireVersion(body))throw new StaleTaskVersionError(requireVersion(body),view.case.taskVersion);
+        const candidateId=requireString(body,"candidateId"),offerId=requireString(body,"offerId");
+        const handoff=view.restaurant.bookingHandoffs?.find(item=>item.candidateId===candidateId&&item.offerId===offerId);
+        if(!handoff)throw new Error("No current verified source handoff");
+        const departure=await options.application.recordBookingDeparture({userId:user.id,caseId,expectedVersion:view.case.taskVersion,requestId:requireString(body,"requestId"),handoff});
+        json(response,201,{departure,url:handoff.url});return;
+      }
+      const feedbackMatch = /^\/api\/cases\/([^/]+)\/booking-feedback(?:\/(claim))?$/.exec(url.pathname);
+      if(method==="POST"&&feedbackMatch){
+        const body=await readJson(request),caseId=decodeURIComponent(feedbackMatch[1]!);
+        if(feedbackMatch[2]){
+          if(Object.keys(body).length)throw new Error("Prompt claim accepts no extra data");
+          const prompt=await options.application.claimBookingFeedback(user.id,caseId);
+          json(response,200,{prompt:prompt??null});return;
+        }
+        if(Object.keys(body).some(key=>!["departureId","answer"].includes(key)))throw new Error("Feedback accepts only departure ID and Yes/No/Skip");
+        const answer=requireString(body,"answer");
+        if(answer!=="YES"&&answer!=="NO"&&answer!=="SKIP")throw new Error("Feedback must be Yes, No or Skip");
+        const departure=await options.application.answerBookingFeedback({userId:user.id,caseId,departureId:requireString(body,"departureId"),answer});
+        json(response,200,{departure});return;
+      }
       const refreshMatch = /^\/api\/cases\/([^/]+)\/refresh$/.exec(url.pathname);
       if (method === "POST" && refreshMatch) {
         const body = await readJson(request);

@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.32
+- Document revision: 3.33
 
 
 - Last updated: 2026-10-29
@@ -313,6 +313,6 @@ Current-run identity-bound pages are reused first. Each question now has an inde
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
 
-## G5 B1 transient handoff (Proposed ADR-0048)
+## G5 B1 approved follow-up
 
-restaurant-booking-handoff@1 is a new transient DTO, not persisted Task State. It binds a source-owned URL to a current offer, availability check/evidence, source entity, date/time/party and display freshness. Creation and projection each validate it. KNOWLEDGE=source-observed availability, LINK_CARRIES=date/time/party, SOURCE_SELECTION=UNKNOWN remain distinct. Terms use G1 exact citations matched to same-outlet/same-channel cached page text; unresolved cancellation conflicts and unsupported fees are omitted. This is the authorized pre-approval offline subset; production source-cache reader/feedback persistence await review. State24/TaskDefinition22 and Prompt/Schema versions remain unchanged. See [ADR-0048](../decisions/0048-source-bound-b1-booking-handoff.md).
+Accepted ADR0049 replaces C’s earlier numbered0048 draft. restaurant-booking-handoff@2 is a transient contract with a pair of G1-admitted Japanese/English cancellation answers; there is no strictness ranking. Each cited original stays bound to this outlet/channel/page/read. No conflict retains one English sentence; incomplete conflict evidence is not replaced by a guessed policy. Separate restaurant_booking_departures records hold USER_REPORTED Yes/No/Skip, per-Case once-only prompt claims and idempotent departures; they never mutate Task State/Outcome. Existing Prompt/Schema/State24/TaskDefinition22 remain unchanged. Tabelog English platform-fee config cites the public help document and checked date; current-source preselection and G3 wiring remain unverified/deferred. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

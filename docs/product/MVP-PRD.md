@@ -1,7 +1,7 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.18
+- Document revision: 0.19
 - Last updated: 2026-10-29
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -152,6 +152,6 @@ Current-run identity-bound pages are reused first. Each question now has an inde
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
 
-## G5 B1 proposed offline handoff
+## G5 B1 approved follow-up
 
-B1 is an external-source departure, not an automated booking. The authorized offline subset prepares and revalidates a source-returned/verified-parameter link, generates filled-in copy, a single evidence-backed hint and quoted same-channel terms. Current main has no G3 link-output reader; ordinary source composition is not activated. ADR-0048 remains Proposed. Durable once-only self-report feedback, multilingual stricter-policy resolution and verified fee configuration await approval/integration. No reservation workflow is opened, no PII/payment/login is added, and no State/TaskDefinition/Agent version changes. See [ADR-0048](../decisions/0048-source-bound-b1-booking-handoff.md).
+B1 hands a current, server-checked source URL to the user. Each explicit departure is recorded separately from Task State. On return, an authenticated durable claim asks “Did you get the booking?” at most once per Case; Yes/No/Skip is USER_REPORTED, never BOOKED_VERIFIED. Japanese/English cancellation conflicts show both original quotations and one English paraphrase per page, the explicit conflict notice, and website-confirmation hint; neither model nor code ranks strictness. A fixed Tabelog English system-fee rule is supported by the2026-10-29 public help GET and date/SHA; TableCheck gets no inferred fee. Ordinary G3 source-link activation remains deferred. No real booking/model/Live is run. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

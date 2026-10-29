@@ -1,0 +1,30 @@
+✖ B1 persistent HTTP composition projects a cached source link, rechecks it and isolates owners (789.039916ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1287.687167
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:3:23317
+✖ B1 persistent HTTP composition projects a cached source link, rechecks it and isolates owners (789.039916ms)
+  AssertionError [ERR_ASSERTION]: a validated B1 departure must be durable before leaving
+  
+  404 !== 201
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1832:14)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:244:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1783:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 404,
+    expected: 201,
+    operator: 'strictEqual'
+  }

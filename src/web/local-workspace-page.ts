@@ -57,17 +57,55 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
         <form id="composer"><textarea id="message" required placeholder="Tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen each."></textarea><button id="send">Start case</button></form>
         <button id="use-location" class="secondary hidden" type="button">Use device location</button><p id="location-help" class="muted hidden">If location is unavailable, type a nearby station, address, or district in the message box.</p>
         <p id="error" class="notice hidden"></p>
+        <div id="booking-feedback" class="panel hidden" aria-label="Booking feedback" aria-live="polite"></div>
         <div class="columns"><section><div class="panel"><h2>Conversation</h2><div id="messages" class="muted">No case selected.</div></div><div class="panel"><h2>Restaurant artifact</h2><div id="artifact" class="muted">Candidates will appear here.</div></div></section><section><div class="panel"><h2>Activity</h2><div id="activity" class="muted">Authoritative task events will appear here.</div></div></section></div>
       </main>
     </div>
     <script>
       const $ = (selector) => document.querySelector(selector);
-      const state = { cases: [], view: null, stream: null, navigation: 0, expiryTimer: null };
+      const state = { cases: [], view: null, stream: null, navigation: 0, expiryTimer: null, feedbackChecked: new Set(), feedbackClaiming: new Set(), feedbackCaseId: null };
       const login = $('#login'), workspace = $('#workspace'), list = $('#case-list'), title = $('#case-title'), status = $('#case-status'), modeNotice = $('#mode-notice'), workspaceMode = $('#workspace-mode'), readBoundary = $('#read-boundary');
       const messages = $('#messages'), artifact = $('#artifact'), activity = $('#activity'), composer = $('#composer'), message = $('#message'), send = $('#send'), refresh = $('#refresh'), cancelRun = $('#cancel-run'), useLocation = $('#use-location'), locationHelp = $('#location-help'), error = $('#error');
       const node = (tag, text, className) => { const item = document.createElement(tag); if (text !== undefined) item.textContent = text; if (className) item.className = className; return item; };
+      const feedbackPanel = $('#booking-feedback');
       const requestId = () => crypto.randomUUID();
       async function api(path, options) { const response = await fetch(path, { credentials: 'same-origin', ...options, headers: { 'content-type': 'application/json', ...(options && options.headers || {}) } }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Request failed'); return payload; }
+      async function requestBookingFeedback() {
+        const view = state.view; if (!view || document.visibilityState === 'hidden') return;
+        const caseId = view.case.caseId;
+        if (state.feedbackChecked.has(caseId) || state.feedbackClaiming.has(caseId)) return;
+        state.feedbackClaiming.add(caseId);
+        try {
+          const payload = await api('/api/cases/' + encodeURIComponent(caseId) + '/booking-feedback/claim', {method:'POST',body:'{}'});
+          state.feedbackChecked.add(caseId);
+          if (!payload.prompt || state.view?.case.caseId !== caseId) return;
+          const prompt = payload.prompt; state.feedbackCaseId = caseId;
+          feedbackPanel.replaceChildren(node('p', prompt.question)); feedbackPanel.classList.remove('hidden');
+          ['YES', 'NO', 'SKIP'].forEach(answer => {
+            const button = node('button', {YES:'Yes',NO:'No',SKIP:'Skip'}[answer], 'secondary'); button.type = 'button';
+            button.onclick = async () => {
+              const buttons = [...feedbackPanel.querySelectorAll('button')]; buttons.forEach(item => item.disabled = true);
+              try {
+                await api('/api/cases/' + encodeURIComponent(caseId) + '/booking-feedback', {method:'POST',body:JSON.stringify({departureId:prompt.departure.id,answer})});
+                if (state.view?.case.caseId === caseId) feedbackPanel.replaceChildren(node('p', 'Thanks — saved as your report.'));
+              } catch (reason) { buttons.forEach(item => item.disabled = false); showError(reason); }
+            };
+            feedbackPanel.append(button);
+          });
+        } catch (reason) { showError(reason); } finally { state.feedbackClaiming.delete(caseId); }
+      }
+      async function departForBooking(event, handoff) {
+        event.preventDefault(); const view = state.view; if (!view) return;
+        const popup = window.open('about:blank', '_blank');
+        if (!popup) { showError(new Error('Allow a new tab to continue on the source website.')); return; }
+        popup.opener = null;
+        try {
+          const payload = await api('/api/cases/' + encodeURIComponent(view.case.caseId) + '/booking-departures', {method:'POST',body:JSON.stringify({candidateId:handoff.candidateId,offerId:handoff.offerId,taskVersion:view.case.taskVersion,requestId:requestId()})});
+          state.feedbackChecked.delete(view.case.caseId); popup.location.href = payload.url;
+        } catch (reason) { popup.close(); showError(reason); }
+      }
+      window.addEventListener('focus', requestBookingFeedback);
+      window.addEventListener('pageshow', requestBookingFeedback);
       function showError(value, target = error) { target.textContent = value.message || String(value); target.classList.remove('hidden'); }
       function clearError() { error.classList.add('hidden'); }
       function openStream(caseId) { if (state.stream) state.stream.close(); state.stream = new EventSource('/api/cases/' + encodeURIComponent(caseId) + '/events'); const stream = state.stream; stream.addEventListener('case', (event) => { if (state.stream === stream && state.view && state.view.case.caseId === caseId) renderView(JSON.parse(event.data)); }); }
@@ -77,6 +115,7 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
         const now = Date.now();
         const upcomingExpiry = Object.values(view.restaurant.availabilityChecks).map(check => Date.parse(check.displayExpiresAt)).filter(time => time > now).sort((a, b) => a - b)[0];
         if (upcomingExpiry) state.expiryTimer = setTimeout(() => { if (state.view === view) renderView(view); }, Math.min(2147483647, upcomingExpiry - now + 1));
+        if (state.feedbackCaseId !== view.case.caseId) feedbackPanel.classList.add('hidden');
         state.view = view; title.textContent = view.case.title; status.textContent = view.case.status + (view.case.pendingUserAction ? ' · ' + view.case.pendingUserAction : ''); status.classList.remove('hidden'); send.textContent = 'Send';
         const factOnlyResult = view.restaurant.intentDraft && view.restaurant.intentDraft.target && view.restaurant.intentDraft.target.goal === 'RECOMMENDATION'; refresh.textContent = factOnlyResult ? 'Refresh recommendation facts' : 'Refresh availability'; refresh.classList.toggle('hidden', view.case.phase !== 'PRESENT_RESULTS'); refresh.disabled = Boolean(view.restaurant.pageQuestion && !view.restaurant.pageQuestion.result);
         cancelRun.classList.toggle('hidden', view.mode !== 'LIVE_READ' || view.case.status !== 'ACTIVE');
@@ -108,7 +147,15 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
             const section = node('section', undefined, 'booking-handoff');
             const direct = node('a', handoff.directLabel); direct.href = handoff.url; direct.target = '_blank'; direct.rel = 'noreferrer noopener';
             const departure = node('a', handoff.continueLabel, 'departure'); departure.href = handoff.url; departure.target = '_blank'; departure.rel = 'noreferrer noopener';
+            direct.onclick = event => departForBooking(event, handoff); departure.onclick = event => departForBooking(event, handoff);
             section.append(direct, departure);
+            if (handoff.cancellationNotice) section.append(node('p', handoff.cancellationNotice, 'notice'));
+            if (handoff.platformFee) {
+              const fee = handoff.platformFee; section.append(node('p', fee.label));
+              const details = node('details'); details.append(node('summary', 'Platform fee source'));
+              fee.quotes.forEach(quote => details.append(node('blockquote', quote)));
+              const source = node('a', 'Tabelog English help · checked ' + fee.checkedOn, 'muted'); source.href = fee.sourceUrl; source.target = '_blank'; source.rel = 'noreferrer noopener'; details.append(source); section.append(details);
+            }
             if (handoff.hint) section.append(node('p', handoff.hint, 'muted booking-hint'));
             handoff.terms.forEach(term => {
               section.append(node('p', term.label));
@@ -174,8 +221,8 @@ export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
         const found = state.cases.findIndex((item) => item.caseId === view.case.caseId); if (found >= 0) state.cases[found] = view.case; else state.cases.unshift(view.case); renderList();
       }
       async function loadCases() { const navigation = state.navigation; const payload = await api('/api/cases'); state.cases = payload.cases; renderList(); if (navigation === state.navigation && state.cases[0]) await loadCase(state.cases[0].caseId); }
-      async function loadCase(caseId) { const navigation = ++state.navigation; if (state.stream) state.stream.close(); state.stream = null; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(caseId)); if (navigation !== state.navigation) return; renderView(payload.view); openStream(caseId); } catch (reason) { if (navigation === state.navigation) showError(reason); } }
-      function resetCase() { state.navigation++; clearTimeout(state.expiryTimer); if (state.stream) state.stream.close(); state.stream = null; state.view = null; title.textContent = 'Start a case'; status.classList.add('hidden'); send.textContent = 'Start case'; messages.textContent = 'Describe the result you want to begin.'; artifact.textContent = 'Candidates will appear here.'; activity.textContent = 'Authoritative task events will appear here.'; renderList(); message.focus(); }
+      async function loadCase(caseId) { const navigation = ++state.navigation; if (state.stream) state.stream.close(); state.stream = null; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(caseId)); if (navigation !== state.navigation) return; renderView(payload.view); openStream(caseId); requestBookingFeedback(); } catch (reason) { if (navigation === state.navigation) showError(reason); } }
+      function resetCase() { state.navigation++; clearTimeout(state.expiryTimer); if (state.stream) state.stream.close(); state.stream = null; state.view = null; feedbackPanel.classList.add('hidden'); title.textContent = 'Start a case'; status.classList.add('hidden'); send.textContent = 'Start case'; messages.textContent = 'Describe the result you want to begin.'; artifact.textContent = 'Candidates will appear here.'; activity.textContent = 'Authoritative task events will appear here.'; renderList(); message.focus(); }
       composer.addEventListener('submit', async (event) => { event.preventDefault(); send.disabled = true; try { clearError(); const path = state.view ? '/api/conversations/' + encodeURIComponent(state.view.conversation.id) + '/messages' : '/api/cases'; const body = state.view ? { message: message.value, taskVersion: state.view.case.taskVersion, requestId: requestId() } : { message: message.value, requestId: requestId() }; const payload = await api(path, { method: 'POST', body: JSON.stringify(body) }); message.value = ''; renderView(payload.view); openStream(payload.view.case.caseId); } catch (reason) { showError(reason); } finally { send.disabled = false; } });
       refresh.onclick = async () => { if (!state.view) return; refresh.disabled = true; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/refresh', { method: 'POST', body: JSON.stringify({ taskVersion: state.view.case.taskVersion, requestId: requestId() }) }); renderView(payload.view); openStream(payload.view.case.caseId); } catch (reason) { showError(reason); } finally { refresh.disabled = false; } };
       cancelRun.onclick = async () => { if (!state.view) return; cancelRun.disabled = true; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/run', { method: 'DELETE' }); renderView(payload.view); } catch (reason) { showError(reason); } finally { cancelRun.disabled = false; } };

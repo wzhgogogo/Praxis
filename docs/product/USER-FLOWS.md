@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.18
+- Document revision: 0.19
 - Last updated: 2026-10-29
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
@@ -166,6 +166,6 @@ Current-run identity-bound pages are reused first. Each question now has an inde
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
 
-## G5 B1 proposed offline flow
+## G5 B1 approved follow-up
 
-Current bound availability → server validates the exact source link → card offers Book on Tabelog/TableCheck immediately, without waiting for comparison → explicit user departure. Continue copy names only checked query fields; TableCheck says Check date and guests. The source actual selection remains unknown. After ADR approval, a durable at-most-once return prompt may record USER_REPORTED Yes/No/Skip, never BOOKED_VERIFIED. The offline card is not yet wired to ordinary G3 source outputs. See [ADR-0048](../decisions/0048-source-bound-b1-booking-handoff.md).
+Current source-bound slot → two server URL checks → explicit Book/Continue click → persist Case departure → user-owned source tab. On return/focus or reload, atomically claim at most one feedback prompt per Case; respond Yes/No/Skip without follow-ups. Duplicate requests, unanswered prompts and restarts do not re-ask; only USER_REPORTED feedback changes, not booking state. Cancellation conflicts show Japanese and English originals with their paraphrases/citations and ask the user to confirm on the website. The first TableCheck Live must be checked by the user for actual date/time/guests, with num_people and encoded start_time=19%3A00; this is a checklist, not run evidence. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

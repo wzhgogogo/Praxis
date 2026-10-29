@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -32,7 +33,7 @@ test("B1 source-returned Tabelog link has evidence-only copy and same-channel ve
   assert.equal(result.terms[0]!.citations[0]!.text,"Cancellations on the day cost 100%.");
   assert.equal(result.sourceSelection,"UNKNOWN");
   assert.deepEqual(result.linkCarries,["DATE","TIME","PARTY_SIZE"]);
-  assert.doesNotMatch(JSON.stringify(result),/selected|booked|fee|page\.text/i);
+  assert.doesNotMatch(JSON.stringify(result),/selected|booked|page\.text/i);
 });
 
 test("B1 verified TableCheck parameters carry the exact slot and always ask to check date and guests",()=>{
@@ -87,7 +88,7 @@ test("B1 omissions: unavailable or foreign G1 evidence never produces terms or a
     (s:BookingHandoffSource)=>{s.terms!.pages[0]!.sourceEntityId="13123457";},
     (s:BookingHandoffSource)=>{s.terms!.pages[0]!.readAt="2026-10-28T10:00:00.000Z";},
   ]) {const input=fixture();change(input.source);const view=rendered(input)!;assert.deepEqual(view.terms,[]);assert.equal(view.hint,undefined);}
-  const conflict=fixture();conflict.source.terms!.unresolvedCancellationConflict=true;
+  const conflict=fixture();conflict.source.terms!.cancellationConflict={japanese:structuredClone(conflict.source.terms!.cancellation!),english:structuredClone(conflict.source.terms!.cancellation!)};
   assert.deepEqual(rendered(conflict)!.terms.map(t=>t.label),["Card required"]);
   const absent=fixture();delete absent.source.terms;
   assert.deepEqual(rendered(absent)!.terms,[]);
@@ -106,8 +107,20 @@ test("B1 language conflict shows both originals and paraphrases without choosing
   terms.pages=[...terms.pages,{...terms.pages[0]!,url,text:quote}];
   Object.assign(terms,{cancellationConflict:{japanese,english}});
   const result=rendered(input)!;
-  assert.equal((result as unknown as {cancellationNotice:string}).cancellationNotice,"Cancellation terms differ between the Japanese and English pages");
+  assert.equal(result.cancellationNotice,"Cancellation terms differ between the Japanese and English pages");
   assert.equal(result.terms[0]!.citations[0]!.text,quote);
   assert.equal(result.terms[1]!.citations[0]!.text,"Cancellations on the day cost 100%.");
   assert.match(result.terms[0]!.label,/50%/);assert.match(result.hint!,/Confirm cancellation terms on the website/);
+});
+
+
+test("B1 fixed fee is proven by the captured English help text and never added to TableCheck",()=>{
+  const bytes=readFileSync(new URL("./fixtures/booking-handoff/tabelog-help-20261029.html",import.meta.url));
+  const result=rendered()!;assert.ok(result.platformFee);
+  assert.equal(createHash("sha256").update(bytes).digest("hex"),result.platformFee.documentSHA256);
+  assert.equal(result.platformFee.amountPerPersonJPY,440);
+  assert.equal(result.platformFee.userCancellationRefund,false);assert.equal(result.platformFee.restaurantCancellationRefund,true);
+  assert.equal(result.platformFee.sourceUrl,"https://tabelog.com/en/help");assert.equal(result.platformFee.checkedOn,"2026-10-29");
+  for(const quote of result.platformFee.quotes)assert.ok(bytes.toString("utf8").includes(quote));
+  assert.equal(rendered(tableCheck())!.platformFee,undefined);
 });

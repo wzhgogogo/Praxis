@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET：C同步main50a08361并保留A G2调度修复；用户批准ADR0049 Accepted（原C0048改号）。持久USER_REPORTED反馈与双语取消冲突先红后绿，Task/Outcome不变；两次公开GET均200，robots允许/en/help，440/用户取消不退/餐厅取消退均有原文。累计GET244/257，模型/Google/Live0。B1暂态合同2，既有共享版本不变；G3接线按指令等待B合main，本批不做。最终冻结门禁待执行。 [报告](../.eval-artifacts/phase3b/g5-b1-followup/report.md)。
+
 2026-10-29 CET：C G5 B1获准的离线子集完成，ADR0048 Proposed待用户批准。8f8cba13冻结689项；五门禁1207/174全绿，额外G2 4/4，10步前后净树。旧pax红→num_people/精确start_time绿；暂态交接/服务端两次校验/英文卡片及同店引用通过。A请求合同三处逐项授权并独立提交，首轮16红→所属26/26绿→全量1207/1207；来源页链接/Gold/评分未动。GET/模型/Google/Live0，不读.env，无共享版本改动。普通来源读者未接G3、反馈持久化/多语言严格条款/手续费证据待后续；仅推工作分支停复核，不合main。 [报告](../.eval-artifacts/phase3b/g5-b1/report.md)。
 
 2026-10-29 CET: G2 Sen requestConfirmed is UNKNOWN(null) by approved review; observed public ARIA positives/removal negatives and bound/mismatched response controls retained. G2 is scheduled alone before remaining4-worker fixtures; original180s test/classifier/mutation/12-page manifest unchanged. Matched2CPU37.5% pressure old180.090s timeout→exclusive89.221s PASS; ordinary old2CPU control138.062s PASS retained, not called a reproduction. Frozen445691b3/682 inputs: macOS/Linux five gates green, default1202, Chromium175; three consecutive ordinary2CPU full runs132.279/132.833/132.951s, all before/after clean. All174 prior browser names retained +1 public-control, +1 default native phase-order regression. VM deleted, no file restore, product/site/Guard/Pack/Prompt/Schema/State diff0, real calls0. [Report](../.eval-artifacts/phase3b/g2-sen-scheduling/report.md).

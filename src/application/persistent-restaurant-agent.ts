@@ -1,3 +1,5 @@
+import type { BookingHandoffView } from "../domains/restaurant/booking-handoff.js";
+import type { BookingFeedbackAnswer, BookingFeedbackPrompt } from "../domains/restaurant/booking-feedback.js";
 import { RESTAURANT_PAGE_QUESTION_BUDGET, type RestaurantPageQuestionLimits } from "../domains/restaurant/page-question-limits.js";
 import type { RestaurantPageQuestionPort, RestaurantPageAnswer } from "../domains/restaurant/page-question.js";
 import type { ModelRunUsage } from "./run-bounded-model-gateway.js";
@@ -538,6 +540,26 @@ export class PersistentRestaurantAgentApplication {
     const pending = this.withPreparingRead(record.rootTaskId,work); this.applyingUserMessages.set(key,pending);
     try { await pending; } finally { this.applyingUserMessages.delete(key); }
     return this.project(record);
+  }
+
+  async recordBookingDeparture(input:{userId:string;caseId:string;expectedVersion:number;requestId:string;handoff:BookingHandoffView}) {
+    await this.requireCase(input.userId,input.caseId);
+    const snapshot=await this.runtime.snapshot(input.caseId);
+    if(snapshot.version!==input.expectedVersion)throw new StaleTaskVersionError(input.expectedVersion,snapshot.version);
+    const offer=snapshot.domainState.availability[input.handoff.candidateId]?.find(item=>item.id===input.handoff.offerId);
+    if(!offer||offer.source!==input.handoff.provider)throw new Error("The handoff is no longer current");
+    return this.store.recordBookingDeparture({userId:input.userId,caseId:input.caseId,expectedVersion:input.expectedVersion,
+      requestId:input.requestId,candidateId:input.handoff.candidateId,offerId:input.handoff.offerId,provider:input.handoff.provider,now:this.clock.now().toISOString()});
+  }
+  async claimBookingFeedback(userId:string,caseId:string):Promise<BookingFeedbackPrompt|undefined> {
+    await this.requireCase(userId,caseId);
+    const departure=await this.store.claimBookingFeedback(userId,caseId,this.clock.now().toISOString());
+    return departure ? {departure,question:"Did you get the booking?",options:["YES","NO","SKIP"]} : undefined;
+  }
+  async answerBookingFeedback(input:{userId:string;caseId:string;departureId:string;answer:BookingFeedbackAnswer}) {
+    await this.requireCase(input.userId,input.caseId);
+    if(!["YES","NO","SKIP"].includes(input.answer))throw new Error("Feedback must be Yes, No or Skip");
+    return this.store.answerBookingFeedback({...input,now:this.clock.now().toISOString()});
   }
 
   async getCase(userId: string, caseId: string): Promise<RestaurantCaseView> {
