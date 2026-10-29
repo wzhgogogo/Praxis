@@ -1,5 +1,5 @@
 import type { ModelGateway } from "../../core/model/contracts.js";
-import { readQuotedRestaurantSourceFacts } from "../restaurant-facts/model-source-facts.js";
+import { readQuotedRestaurantSourceFacts, quotedRestaurantSourceEvidence } from "../restaurant-facts/model-source-facts.js";
 import { mergeQuotedSourceFacts } from "../restaurant-availability/quoted-source-fact-merge.js";
 import { checkedNamedSourceQuery, type NamedSourceAlternative } from "../restaurant-search/named-source-query.js";
 import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
@@ -29,7 +29,6 @@ import {
   parseTableCheckDiscoveryOutletUrls,
   tableCheckSearchResultBusy,
   parseTableCheckOutletIdentityWithEvidence,
-  parseTableCheckVerifiedHardCriteria,
   resolveTableCheckReservationTarget,
   tableCheckDiscoveryUrl,
   tableCheckPageExcerpt,
@@ -771,8 +770,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         sourceEntityId: selected.extraction.outlet.sourceEntityId, sourceUrl: selectedPage.url,
         entityMatch: selected.inspection.resolution, pageState: "EXTRACTION_FAILED"}).evidence.find(item=>item.kind==="ENTITY_MATCH") : undefined;
       const guideFacts = guideIdentity ? await readQuotedRestaurantSourceFacts({complete: input=>this.executor.readModel(signal,()=>this.options.sourceFactsModel!.complete(input))},
-        {candidate, identity:guideIdentity, page:selectedPage, readAt:guideReadAt},this.now,signal) : undefined;
-      const guidePrices = guideFacts?.priceFacts;
+        {candidate, identity:guideIdentity, page:selectedPage, readAt:guideReadAt, criteria:request.hardCriteria},this.now,signal) : undefined;
       let readWindow = request.timeWindow;
       const covered: Array<{earliest:string;latest:string;status:"EMPTY"|"AVAILABLE"}> = [];
       let coverageStop: "RESULT_FOUND"|"OBSERVED_TIMES_EXHAUSTED"|"TIME_QUERY_LIMIT"|"INCOMPLETE_RESULT" = "INCOMPLETE_RESULT";
@@ -789,13 +787,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           if (earliest < request.timeWindow.latest) uncovered.push({earliest, latest: request.timeWindow.latest, earliestExclusive, latestExclusive: false});
           result.check.timeWindowCoverage = {date: request.date, partySize: request.partySize, requestedWindow: {...request.timeWindow}, covered: [...covered], uncovered, stopReason: coverageStop};
         }
-        if (!guidePrices) return result;
-        const guideEvidence = this.ground(candidate, request, {
-          candidate, observedAt: guideFacts!.readAt, sourceEntityId: selected.extraction.outlet.sourceEntityId,
-          sourceUrl: selectedPage.url, entityMatch: selected.inspection.resolution,
-          pageState: "EXTRACTION_FAILED", priceFacts: guidePrices,
-        }).evidence;
-        return mergeQuotedSourceFacts(candidate.restaurant.id, result, guideEvidence);
+        const guideEvidence = guideIdentity && guideFacts ? quotedRestaurantSourceEvidence(guideIdentity, guideFacts) : undefined;
+        return guideEvidence ? mergeQuotedSourceFacts(candidate.restaurant.id, result, [guideIdentity!,guideEvidence]) : result;
       };
       if (isBrowserReadPathProhibited(this.options.networkPolicy, activeSelected.reservation.url)) {
         return ground({candidate, observedAt: this.now(), sourceEntityId: selected.extraction.outlet.sourceEntityId,
@@ -1004,7 +997,6 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         // A selected radio scopes inventory, never all visible menu prose.
         // This source has no observed public menu-to-category binding yet, so
         // scoped inventory leaves HARD facts for cited source judgment.
-        verifiedHardCriteria: assessed.serviceScope ? [] : parseTableCheckVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: tableCheckPageExcerpt(page),
       });
   }

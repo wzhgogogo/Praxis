@@ -93,7 +93,8 @@ test("c05 Kaga Router to Reducer retains the later availability-read source fact
 // own saved page still contains the budget; preserve that fresh metadata.
 test("C18 H002 current fact document carries same-page prices through judgment and Router to Reducer", async () => {
   const { createHash } = await import("node:crypto");
-  const { parseTabelogPriceFacts } = await import("../integrations/tabelog/tabelog-page-parser.js");
+  const { quotedMenuFixtureModel } = await import("../integrations/restaurant-facts/fixtures/quoted-menu-model.js");
+  const { sourcePriceElements, publicPriceText } = await import("../integrations/restaurant-availability/source-price-facts.js");
   const { NativeSourceFactRead } = await import("../integrations/restaurant-facts/native-source-facts.js");
   const { ModelRestaurantFactJudgment } = await import("../integrations/restaurant-facts/model-fact-judgment.js");
   const root = new URL("./fixtures/restaurant-presentation-evidence/", import.meta.url);
@@ -122,13 +123,15 @@ test("C18 H002 current fact document carries same-page prices through judgment a
       const binding = snapshots.find((s: any) => s.evidenceId === current.evidenceId);
       const html = await readFixture(new URL(binding.path, dir), "utf8");
       assert.equal(createHash("sha256").update(html).digest("hex"), binding.sha256);
-      const prices = parseTabelogPriceFacts({ url: current.sourceUrl!, html, text: "", title: "" });
-      assert.deepEqual([prices?.dinnerBudgetRangeYen?.min, prices?.dinnerBudgetRangeYen?.max], [8000, 9999]);
+      const priceBlock = sourcePriceElements(html,tag=>/^<p\b/iu.test(tag)).find(block=>/aria-label=["']Dinner["']/iu.test(block));
+      assert.ok(priceBlock,"saved page has public Dinner-labelled budget");
+      const dinnerQuote = publicPriceText(priceBlock);
+      const prices = { dinnerBudgetRangeYen: {min:8000,max:9999,quote:dinnerQuote,sourceUrl:current.sourceUrl!} };
       const identity = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "ENTITY_MATCH" && e.sourceUrl === current.sourceUrl)!;
       const statements = (current.claims.restaurantTypeFacts as string[]).map((text, i) => ({ id: `statement:${i}`, text }));
       const outlet = state.candidates.find(c => c.restaurant.id === id)!;
       const page = { url: current.sourceUrl!, html, title: outlet.restaurant.outletName,
-        text: [outlet.restaurant.outletName, outlet.restaurant.address, ...statements.map(s => s.text)].join("\n") };
+        text: [outlet.restaurant.outletName, outlet.restaurant.address, ...statements.map(s => s.text), dinnerQuote].join("\n") };
       const source = await new NativeSourceFactRead(
         { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 },
         { openSession: async () => ({
@@ -136,7 +139,7 @@ test("C18 H002 current fact document carries same-page prices through judgment a
           navigate: async () => undefined, snapshot: async () => page, observeControls: async () => [],
           click: async () => undefined, fill: async () => undefined, select: async () => [],
           waitFor: async () => undefined, screenshot: async () => new Uint8Array(), close: async () => undefined,
-        }) }, { async judge() { return { evidence: [] }; } }, () => current.observedAt,
+        }) }, { async judge() { return { evidence: [] }; } }, () => current.observedAt, undefined, undefined, undefined, undefined, undefined, quotedMenuFixtureModel,
       ).inspectFacts({ candidateIds: [id], candidates: [outlet], intent: state.intent! }, new AbortController().signal);
       const freshPrices = source.sourceDocuments?.find(d => d.candidateId === id)?.priceFacts;
       assert.deepEqual(freshPrices?.dinnerBudgetRangeYen, prices!.dinnerBudgetRangeYen, "native source producer retains same-page prices");

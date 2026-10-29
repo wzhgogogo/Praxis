@@ -28,7 +28,7 @@ export function composeLiveRestaurantFactRead(
   const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? restaurantPublicReadNetworkPolicy : undefined;
   return new GoogleThenWebsiteFactRead(
     google,
-    new GoogleListedWebsiteFactRead(limits, runtime, judgment, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy, onSourcePage),
+    new GoogleListedWebsiteFactRead(limits, runtime, judgment, now, new ModelBrowserReadActionDecision(model), browserBudget, onBrowserDiagnostic, networkPolicy, onSourcePage, model),
     judgment,
   );
 }

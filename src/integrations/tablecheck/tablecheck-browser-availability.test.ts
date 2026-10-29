@@ -874,7 +874,7 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
     assert.equal(input.purpose,"restaurant_source_facts");const rows=JSON.parse(input.messages[1]!.content).sourceDocument.statements;
     const titles=["Casual dinner 5 courses","[With one drink!] Casual dinner 5 courses","[2 hours of free flow included! ] Casual dinner 5 courses","#1 Most Popular Lunch Plan! 30 kinds of fresh vegetables, chef’s original deli dishes, and freshly baked popovers"];
     const starts=titles.map(title=>rows.findIndex((row:{text:string})=>row.text===title));assert.ok(starts.every(index=>index>=0));
-    return {invocationId:"guide-menu-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:starts.map((first,index)=>({firstStatementId:rows[first].id,lastStatementId:rows[(starts[index+1]??rows.length)-1].id,role:"COURSE"}))})};
+    return {invocationId:"guide-menu-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:starts.map((first,index)=>({firstStatementId:rows[first].id,lastStatementId:rows[(starts[index+1]??rows.length)-1].id,priceStatementId:rows.slice(first,starts[index+1]??rows.length).find((s:{text:string})=>/JPY|[¥￥円]/u.test(s.text))!.id,role:"COURSE"}))})};
   }};
   const session = new FixtureBrowserSession([guide, reservation]);
   const nativeDiagnostics: Array<{ nativeContinuity?: { confirmed: boolean; reason: string; observedSourceEntityId?: string } }> = [];
@@ -1575,7 +1575,7 @@ test("G3c TableCheck quotes class-renamed guide menus and keeps each price and r
     const doc = JSON.parse(input.messages[1]!.content).sourceDocument;
     return { invocationId: "source-menu-fixture", provider: "FIXTURE", model: "fixture", latencyMs: 0, finishReason: "TOOL_CALLS", outputText: JSON.stringify({ selections: quotes.map(quote => {
       const row = doc.statements.find((r: { text: string }) => r.text === quote); assert.ok(row);
-      return { firstStatementId: row.id, lastStatementId: row.id, role: "COURSE" };
+      return { firstStatementId: row.id, lastStatementId: row.id, priceStatementId: row.id, role: "COURSE" };
     }) }) };
   } };
   const options = { maxBrowserSessions: 2, sourceFactsModel };

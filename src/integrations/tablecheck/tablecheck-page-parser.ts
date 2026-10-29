@@ -1,4 +1,4 @@
-import { publicPriceText, sourcePriceElements, quotedCoursePrice } from "../restaurant-availability/source-price-facts.js";
+import { publicPriceText, sourcePriceElements } from "../restaurant-availability/source-price-facts.js";
 import type { BrowserPageControl, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { readDetailIdentityFields, type WithDetailIdentity } from "../restaurant-identity/detail-identity-fields.js";
 import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
@@ -833,32 +833,6 @@ export function hasTableCheckDisabledRequestControl(
   });
 }
 
-function aliases(criterion: string): string[] {
-  const normalized = criterion.trim().toLocaleLowerCase("en-US");
-  return normalized === "omakase" ? ["omakase", "おまかせ", "お任せ"] : [normalized];
-}
-
-/** Only menu/course/cuisine-labelled provider text can ground a HARD criterion. */
-export function parseTableCheckVerifiedHardCriteria(snapshot: BrowserSnapshot, hardCriteria: string[]): string[] {
-  const sourceText = [...snapshot.html.matchAll(/<(?:section|div|article|h[1-6])[^>]*(?:class|id)=["'][^"']*(?:menu|course|cuisine|featured)[^"']*["'][^>]*>([\s\S]{0,2400}?)<\//gi)]
-    .map((match) => plainText(match[1] ?? ""))
-    .join(" ")
-    .toLocaleLowerCase("ja-JP");
-  return hardCriteria.filter((criterion) => aliases(criterion).some((alias) => sourceText.includes(alias.toLocaleLowerCase("ja-JP"))));
-}
-
 export function tableCheckPageExcerpt(snapshot: BrowserSnapshot): string {
   return snapshot.text.replace(/\s+/g, " ").trim().slice(0, 600);
-}
-
-/** Source-owned menu cards. A plan listing never asserts its current inventory. */
-export function parseTableCheckPriceFacts(snapshot: BrowserSnapshot): import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts | undefined {
-  const prices: import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts = { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [] };
-  for (const card of sourcePriceElements(snapshot.html, tag => /data-testid=["']Menu Item Card["']/.test(tag))) {
-    const quote = publicPriceText(card);
-    const raw = card.match(/data-price=["'](\d+(?:\.0+)?)["']/)?.[1];
-    const value = raw && quotedCoursePrice(quote, snapshot.url, Number(raw));
-    if (value && /¥|JPY|円/.test(quote) && snapshot.text.replace(/\s+/g, " ").includes(quote)) prices.listedCoursePricesYen.push(value);
-  }
-  return prices.listedCoursePricesYen.length ? prices : undefined;
 }

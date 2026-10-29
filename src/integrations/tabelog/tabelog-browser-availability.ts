@@ -23,7 +23,6 @@ import {
   tabelogAvailabilityResultBusy,
   parseTabelogAvailabilitySlots,
   parseTabelogOutletIdentityWithEvidence,
-  parseTabelogVerifiedHardCriteria,
 } from "./tabelog-page-parser.js";
 import type {
   TabelogAvailabilityPageObservation,
@@ -590,8 +589,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         ? this.ground(candidate, request, { candidate, observedAt: menuReadAt, ...activeSource(), sourceUrl: page.url,
           entityMatch: activeIdentity, pageState: "EXTRACTION_FAILED" }).evidence.find(item => item.kind === "ENTITY_MATCH") : undefined;
       const menus = menuIdentity ? await readQuotedRestaurantSourceFacts({ complete: input => this.executor.readModel(signal, () => this.options.sourceFactsModel!.complete(input)) },
-        { candidate, identity: menuIdentity, page, readAt: menuReadAt }, this.now, signal) : undefined;
-      const menuEvidence = menus && (menus.priceFacts || menus.listedCourseDetails.length) ? this.ground(candidate, request, {
+        { candidate, identity: menuIdentity, page, readAt: menuReadAt, criteria: request.hardCriteria }, this.now, signal) : undefined;
+      const menuEvidence = menus && (menus.priceFacts || menus.listedCourseDetails.length || menus.sourceFieldQuotes.length) ? this.ground(candidate, request, {
         candidate, observedAt: menus.readAt, ...activeSource(), sourceUrl: menus.sourceUrl, entityMatch: activeIdentity,
         pageState: "EXTRACTION_FAILED", priceFacts: menus.priceFacts, listedCourseDetails: menus.listedCourseDetails, sourceFieldQuotes: menus.sourceFieldQuotes,
       }).evidence : [];
@@ -675,7 +674,6 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
         ...(immediateSlotNotOffered ? { failureCode: "IMMEDIATE_SLOT_NOT_OFFERED" } : {}),
         visibleSlots: slots,
         sourceFieldQuotes: parseTabelogSourceFieldQuotes(page).filter(q => q.field === "CATEGORY"),
-        verifiedHardCriteria: parseTabelogVerifiedHardCriteria(page, request.hardCriteria),
         excerpt: pageExcerpt(page),
       });
   }

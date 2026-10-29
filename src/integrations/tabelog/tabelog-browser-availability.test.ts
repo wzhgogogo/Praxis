@@ -806,9 +806,9 @@ test("Tabelog applies availability controls on the resolved outlet after inspect
   assert.equal(session.navigated.at(-1), selected.url);
 });
 
-test("recorded source price fragments retain exact ranges, course values, tax and quotes", async () => {
-  const { parseTabelogPriceFacts } = await import("./tabelog-page-parser.js");
-  const { parseTableCheckPriceFacts } = await import("../tablecheck/tablecheck-page-parser.js");
+test("recorded source price fragments retain exact ranges, course values, tax and quotes without private markers", async () => {
+  const { readQuotedRestaurantSourceFacts } = await import("../restaurant-facts/model-source-facts.js");
+  const { quotedMenuFixtureModel, fragmentVisibleText } = await import("../restaurant-facts/fixtures/quoted-menu-model.js");
   const expected = JSON.parse(await readFile(new URL("../../harness/browser/fixtures/restaurant-prices/expectations.json", import.meta.url), "utf8")).expected;
   const sourceUrls: Record<string, string> = {
     "ginza-sushi-sendou": "https://tabelog.com/en/tokyo/A1301/A130101/13295658/",
@@ -817,17 +817,18 @@ test("recorded source price fragments retain exact ranges, course values, tax an
     "tablecheck-recorded-menu": "https://www.tablecheck.com/en/alaska-asahi",
   };
   for (const [name, url] of Object.entries(sourceUrls)) {
-    const html = await readFile(new URL(`../../harness/browser/fixtures/restaurant-prices/${name}.html`, import.meta.url), "utf8");
-    const text = html.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
-    const snapshot = { url, html, text, title: name };
-    const facts = name.startsWith("tablecheck") ? parseTableCheckPriceFacts(snapshot) : parseTabelogPriceFacts(snapshot);
-    assert.ok(facts, name);
-    assert.deepEqual(facts.listedCoursePricesYen.map(price => price.amount), expected[name].courses, name);
-    if (expected[name].dinner) assert.deepEqual([facts.dinnerBudgetRangeYen?.min, facts.dinnerBudgetRangeYen?.max], expected[name].dinner);
-    if (expected[name].lunch) assert.deepEqual([facts.lunchBudgetRangeYen?.min, facts.lunchBudgetRangeYen?.max], expected[name].lunch);
-    assert.ok(facts.listedCoursePricesYen.every(price => price.sourceUrl === url && price.quote && price.tax === "INCLUDED"));
+    const saved = await readFile(new URL(`../../harness/browser/fixtures/restaurant-prices/${name}.html`, import.meta.url), "utf8");
+    for(const html of [saved,saved.replace(/\s(?:class|id|data-[\w-]+)=["'][^"']*["']/gu,"")]) {
+      const snapshot = { url, html, text:fragmentVisibleText(html), title: name };
+      const readAt="2026-10-29T10:00:00Z";
+      const facts = (await readQuotedRestaurantSourceFacts(quotedMenuFixtureModel,{candidate, page:snapshot,readAt,identity:{evidenceId:"recorded-price-id",candidateId:candidate.restaurant.id,kind:"ENTITY_MATCH",provider:name.startsWith("tablecheck")?"TABLECHECK":"TABELOG",sourceEntityId:name,sourceUrl:url,observedAt:readAt,requestFingerprint:"fixture",claims:{outletName:candidate.restaurant.outletName},entityMatch:{confidence:"HIGH",matchedBy:["EXACT_NAME_AND_ADDRESS"]}}},()=>readAt,new AbortController().signal))?.priceFacts;
+      assert.ok(facts, name);
+      assert.deepEqual(facts.listedCoursePricesYen.map(price => price.amount), expected[name].courses, name);
+      if (expected[name].dinner) assert.deepEqual([facts.dinnerBudgetRangeYen?.min, facts.dinnerBudgetRangeYen?.max], expected[name].dinner);
+      if (expected[name].lunch) assert.deepEqual([facts.lunchBudgetRangeYen?.min, facts.lunchBudgetRangeYen?.max], expected[name].lunch);
+      assert.ok(facts.listedCoursePricesYen.every(price => price.sourceUrl === url && price.quote && price.tax === "INCLUDED"),name+": original source/tax retained");
+    }
   }
-  assert.equal(parseTabelogPriceFacts({ url: sourceUrls["ginza-sushi-sendou"]!, title: "No price", html: "<p>Contact us</p>", text: "Contact us" }), undefined);
 });
 
 test("Tabelog existing read grounds recorded course prices even when inventory is UNKNOWN", async () => {
@@ -845,7 +846,7 @@ test("Tabelog existing read grounds recorded course prices even when inventory i
     assert.equal(input.purpose,"restaurant_source_facts");const rows=JSON.parse(input.messages[1]!.content).sourceDocument.statements;
     const first=rows.findIndex((row:{text:string})=>row.text==="Omakase Nigiri Course 16 items");
     const last=rows.findIndex((row:{text:string})=>row.text.includes("JPY 9,800"));assert.ok(first>=0&&last>=first);
-    return {invocationId:"recorded-menu-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:[{firstStatementId:rows[first].id,lastStatementId:rows[last].id,role:"COURSE"}]})};
+    return {invocationId:"recorded-menu-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:[{firstStatementId:rows[first].id,lastStatementId:rows[last].id,priceStatementId:rows.slice(first,last+1).find((s:{text:string})=>/JPY|[¥￥円]/u.test(s.text))!.id,role:"COURSE"}]})};
   }};
   const read = await new TabelogBrowserAvailability({ openSession: async () => session }, undefined, 5, {sourceFactsModel}).check({ candidates: [native], candidateIds: [native.restaurant.id], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
   const prices = read.evidence.find(item => item.kind === "RESTAURANT_FACT")?.priceFacts;
@@ -933,7 +934,7 @@ test("G3c Tabelog quotes a class-renamed menu through the source model and parse
     const document = JSON.parse(input.messages[1]!.content).sourceDocument;
     const statement = document.statements.find((row: { text: string }) => row.text === quote); assert.ok(statement);
     return { invocationId: "source-facts-fixture", provider: "FIXTURE", model: "fixture", latencyMs: 0, finishReason: "TOOL_CALLS",
-      outputText: JSON.stringify({ selections: [{ firstStatementId: statement.id, lastStatementId: statement.id, role: "COURSE" }] }) };
+      outputText: JSON.stringify({ selections: [{ firstStatementId: statement.id, lastStatementId: statement.id, priceStatementId: statement.id, role: "COURSE" }] }) };
   } };
   const options = { maxBrowserSessions: 2, sourceFactsModel };
   const budget = { totalModelCalls: 0, maxModelCalls: 1 };

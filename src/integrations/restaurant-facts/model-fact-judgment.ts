@@ -132,7 +132,7 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
           const selected = compact(text), field = compact(q.quote);
           if (!selected || !field) return [];
           if (selected.includes(field)) return [{ ...q }];
-          if (field.includes(selected)) return [{ ...q, quote: text }];
+          if (field.includes(selected)) return [{ ...q, quote: q.quote.includes("\n") ? q.quote : text }];
           return [];
         }));
       // Structured prices belong to the newly observed source document, not

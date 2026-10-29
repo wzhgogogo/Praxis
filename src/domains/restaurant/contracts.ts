@@ -448,6 +448,8 @@ export interface RestaurantAvailabilityRequest {
 
 /** A bounded read of source facts for an already-discovered outlet; never an availability query. */
 export interface RestaurantCandidateFactRequest {
+  /** G1 source acquisition only; no HARD/menu interpretation and no original-state write. */
+  capturePagesOnly?: true;
   candidateIds: string[];
   /** Bound by the Router from authoritative State; never supplied by the Agent. */
   candidates: RestaurantCandidate[];
