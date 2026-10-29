@@ -72,7 +72,8 @@ export async function readQuotedRestaurantSourceFacts(model: ModelGateway | unde
     const first=document.statements.findIndex(s=>s.id===row.firstStatementId),last=document.statements.findIndex(s=>s.id===row.lastStatementId);
     if(first<0||last<first||last-first>31)return undefined;
     for(let index=first;index<=last;index++){if(review.has(index)||used.has(index))return undefined;used.add(index);}
-    const restriction = (text: string) => /\bonly\b|number of people|\b(?:minimum|maximum|valid dates?|cancellation|conditions?)\b|人数|限定|利用条件|予約可能日|キャンセル/iu.test(text);
+    const restriction = (text: string) => /\bonly\b|number of people|\b(?:minimum|maximum|valid dates?|cancellation|conditions?)\b|人数|限定|利用条件|予約可能日|キャンセル/iu.test(text)
+      && !(amounts(text).length && /course|set menu|add[ -]?on|コース|套餐|オプション/iu.test(text));
     if (row.role === "COURSE" && [document.statements[first-1], document.statements[last+1]].some(s=>s && restriction(s.text))) return undefined;
     const quote=document.statements.slice(first,last+1).map(s=>s.text).join("\n");
     if(quote.length>1600||!compact(page.snapshot.text).includes(compact(quote)))return undefined;
