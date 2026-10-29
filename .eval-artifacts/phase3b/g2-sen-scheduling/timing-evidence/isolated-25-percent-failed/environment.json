@@ -1,0 +1,23 @@
+{
+  "sourceRef": "59e6866057b900e574e80f139bd62630939e0030",
+  "cpus": 2,
+  "affinity": [
+    0,
+    1
+  ],
+  "platform": "Linux-6.1.0-54-cloud-arm64-aarch64-with-glibc2.36",
+  "node": "v24.4.1",
+  "guestCommit": "813583254e4bb2476a0668b507382609dcac8939",
+  "routes": "Iface\tDestination\tGateway \tFlags\tRefCnt\tUse\tMetric\tMask\t\tMTU\tWindow\tIRTT                                                       \neth0\t00000000\t0205A8C0\t0003\t0\t0\t200\t00000000\t0\t0\t0                                                                             \neth0\t0005A8C0\t00000000\t0001\t0\t0\t200\t00FFFFFF\t0\t0\t0                                                                             \neth0\t0205A8C0\t00000000\t0005\t0\t0\t200\tFFFFFFFF\t0\t0\t0                                                                             \n",
+  "ipRules": "0:\tfrom all lookup local\n100:\tfrom all to 192.168.5.2 lookup main\n101:\tfrom all lookup 45000\n32766:\tfrom all lookup main\n32767:\tfrom all lookup default\n",
+  "ip6Rules": "0:\tfrom all lookup local\n101:\tfrom all lookup 45000\n32766:\tfrom all lookup main\n",
+  "egressProbe": "Routing lookup only, TEST-NET/documentation addresses; no packets or website GET.",
+  "cpuMax": "25000 100000\n",
+  "sourceSha256": {
+    "src/harness/browser/dom-change.test.ts": "27619477a73b376623e190ad7581f1f8d3e0777f815f588a6a67ebc8e4092085",
+    "src/eval/restaurant/dom-change/run.ts": "d13a91cefbc7d24b1dc859b038732e5d877d4e35736945f2491aab1e6f6e3374",
+    "package.json": "cf2464a24c32259d5a58b15f481ac36c714f454b6cbaf00907d85885b615bdb1"
+  },
+  "mode": "FIXED_EXCLUSIVE_G2_FOUR_FILE_COHORT_TWO_VCPU_CGROUP_25_PERCENT_TOTAL",
+  "modelGoogleWebsiteLive": 0
+}
