@@ -89,9 +89,9 @@ test("saved Tabelog calendar keeps hidden future dates and disabled guests out o
     assert.equal(controls.filter(control => /^Guests \d+$/.test(control.label)).every(control => control.disabled), true);
     assert.equal(tabelogQueryControlsRestricted(snapshot, controls, 2), true);
     assert.equal(tabelogQueryControlsRestricted(snapshot, controls, 10), false);
-    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-28"), "FULL");
-    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-29"), "PHONE_ONLY");
-    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-30"), "CLOSED");
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-28"), "UNOBSERVED");
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-29"), "UNOBSERVED");
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-30"), "UNOBSERVED");
     assert.equal(tabelogRequestedDateState(snapshot, "2026-10-01"), "UNOBSERVED", "hidden future month is not the current query surface");
     const snapshotRecord = trace.find(event => event.kind === "SNAPSHOT")!;
     const region = (snapshotRecord.detail as { queryRegions: Array<{ markup: string; computedVisibility: string }> }).queryRegions[0]!;
@@ -154,7 +154,7 @@ test("Tabelog Adapter consumes loading-to-restricted calendar without model acti
       timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
     }, new AbortController().signal);
     assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
-    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR");
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED");
     assert.equal(result.offers.length, 0);
   } finally { await executor.close(); }
 });

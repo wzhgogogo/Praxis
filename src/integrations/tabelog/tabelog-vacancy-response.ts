@@ -27,10 +27,7 @@ export function inspectTabelogVacancyResponse(snapshot: BrowserSnapshot, date: s
   const outletId = page?.pathname.match(/\/(\d+)\/$/)?.[1];
   if (!page || page.protocol !== "https:" || page.hostname.replace(/^www\./u, "") !== "tabelog.com" || !outletId) return unknown;
   // A newer contradictory or malformed reply invalidates the older observation.
-  const response = [...snapshot.responses ?? []].sort((a, b) => b.sequence - a.sequence).find(response => {
-    const url = URL.parse(response.url);
-    return url && TABELOG_VACANCY_RESPONSES.some(rule => url.origin === rule.origin && url.pathname === rule.pathname);
-  });
+  const response = latestVacancyResponse(snapshot);
   if (!response || response.status !== 200) return unknown;
   const requestUrl = new URL(response.url);
   for (const [field, expected] of [["rst_id", outletId], ["svps", String(partySize)]] as const) {
@@ -72,4 +69,18 @@ export function inspectTabelogVacancyResponse(snapshot: BrowserSnapshot, date: s
   }
   // Empty/unsupported collections are not independently bound no-stock proof.
   return slots.size ? { status: "OBSERVED", availableSlots: [...slots].sort(), hasExplicitSlotUi: true } : unknown;
+}
+
+function latestVacancyResponse(snapshot: BrowserSnapshot) {
+  return [...snapshot.responses ?? []].sort((a, b) => b.sequence - a.sequence).find(response => {
+    const url = URL.parse(response.url);
+    return url && TABELOG_VACANCY_RESPONSES.some(rule => url.origin === rule.origin && url.pathname === rule.pathname);
+  });
+}
+
+/** Response-observed day only; it is not inventory for another party or time. */
+export function observedTabelogResponseDate(snapshot: BrowserSnapshot, date: string): "SELECTABLE" | "UNOBSERVED" {
+  const body = object(latestVacancyResponse(snapshot)?.body);
+  if (!body || !Number.isSafeInteger(body.members) || Number(body.members) <= 0) return "UNOBSERVED";
+  return inspectTabelogVacancyResponse(snapshot, date, Number(body.members)).status === "OBSERVED" ? "SELECTABLE" : "UNOBSERVED";
 }

@@ -1,6 +1,6 @@
 import { publicPriceText, sourcePriceElements, quotedCoursePrice } from "../restaurant-availability/source-price-facts.js";
 import { decodeHTML } from "entities";
-import { tabelogCapturedSlots, tabelogQueryControlHints } from "./tabelog-query-controls.js";
+import { tabelogCapturedSlots } from "./tabelog-query-controls.js";
 
 export function tabelogSearchResultBusy(snapshot: BrowserSnapshot): boolean {
   return publicResultBusy(snapshot, /^(?:search results|restaurant results|restaurants|検索結果|レストラン一覧)$/iu);
@@ -239,44 +239,9 @@ function stripTags(value: string): string {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
-function timeIn(value: string): string | undefined {
-  return value.match(/\b([01]\d|2[0-3]):[0-5]\d\b/)?.[0];
-}
-
-function unavailable(value: string): boolean {
-  return /sold[\s-]?out|unavailable|disabled|full|満席|受付終了|予約不可/i.test(value);
-}
-
-function available(value: string): boolean {
-  return /is-available|available|vacancy|空席|予約可|reserve/i.test(value) && !unavailable(value);
-}
-
-/**
- * Extract only time controls carrying an explicit available/unavailable state.
- * A time appearing in ordinary prose, opening hours, or a header is never a slot.
- */
-export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request?: {date:string;partySize:number}): TabelogSlotParse {
-  if (snapshot.settlement === "PENDING") return { availableSlots: [], hasExplicitSlotUi: false };
-  const captured = request ? tabelogCapturedSlots(snapshot, request.date, request.partySize) : undefined;
-  if (captured) return captured;
-  // Public English outlet calendars need the exact bound response. Visible
-  // time templates cannot rescue a missing, stale or contradictory payload.
-  if (request && tabelogQueryControlHints(snapshot).length) return { availableSlots: [], hasExplicitSlotUi: false };
-  const slots = new Set<string>();
-  let hasExplicitSlotUi = false;
-  const element = /<(button|a|li|div)[^>]*?(?:data-(?:time|start-time)|class=["'][^"']*(?:slot|time|reserve|vacancy)[^"']*)[^>]*>([\s\S]{0,500}?)<\/\1>/gi;
-  for (const match of snapshot.html.matchAll(element)) {
-    const whole = match[0] ?? "";
-    // Hidden time templates are not a result for the selected date/party.
-    // Captured Sen pages retain these buttons while no times are displayed.
-    if (/\bis-hidden\b|aria-hidden=["']true["']|\bhidden(?:\s|=|>)|display\s*:\s*none|visibility\s*:\s*hidden/i.test(whole)) continue;
-    const content = `${whole} ${stripTags(match[2] ?? "")}`;
-    const time = whole.match(/data-(?:time|start-time)=["']([^"']+)["']/i)?.[1] ?? timeIn(content);
-    if (!time || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) continue;
-    hasExplicitSlotUi = true;
-    if (available(content)) slots.add(time);
-  }
-  return { availableSlots: [...slots].sort(), hasExplicitSlotUi };
+/** Exact captured source data is required in either language; prose/classes are not inventory. */
+export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request: { date: string; partySize: number }): TabelogSlotParse {
+  return tabelogCapturedSlots(snapshot, request.date, request.partySize) ?? { availableSlots: [], hasExplicitSlotUi: false };
 }
 
 function aliases(criterion: string): string[] {

@@ -1,6 +1,6 @@
 import type { BrowserControlHint, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { hasSelectedControlState } from "../../infrastructure/browser/control-selected-state.js";
-import { inspectTabelogVacancyResponse } from "./tabelog-vacancy-response.js";
+import { inspectTabelogVacancyResponse, observedTabelogResponseDate } from "./tabelog-vacancy-response.js";
 export { TABELOG_VACANCY_RESPONSES } from "./tabelog-vacancy-response.js";
 
 /** The page may render future calendars in hidden DOM while its current query is restricted. */
@@ -28,60 +28,11 @@ function hasClass(tag: string, name: string): boolean {
   return (attribute(tag, "class") ?? "").split(/\s+/).includes(name);
 }
 
-export type TabelogRequestedDateState = "SELECTABLE" | "CLOSED" | "FULL" | "PHONE_ONLY" | "UNOBSERVED";
+export type TabelogRequestedDateState = "SELECTABLE" | "UNOBSERVED";
 
-/** Source calendar day state, not a selected query or a time-specific inventory conclusion. */
+/** UNOBSERVED is UNKNOWN: private date classes never establish a business state. */
 export function tabelogRequestedDateState(snapshot: BrowserSnapshot, date: string): TabelogRequestedDateState {
-  if (!tabelogQueryControlHints(snapshot).length || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return "UNOBSERVED";
-  const [year, month, day] = date.split("-").map(Number);
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const stack: Array<{ name: string; hidden: boolean; booking: boolean }> = [];
-  const tables: Array<{ html: string; hidden: boolean }> = [];
-  let tableStart: { index: number; hidden: boolean } | undefined;
-  const hiddenTag = (tag: string) => hasClass(tag, "is-hidden") || /\shidden(?:\s|>|=)/i.test(tag)
-    || attribute(tag, "aria-hidden") === "true"
-    || /(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)\s*(?:;|$)/i.test(attribute(tag, "style") ?? "");
-  for (const token of snapshot.html.matchAll(/<!--[\s\S]*?-->|<script\b[^>]*>[\s\S]*?<\/script\s*>|<style\b[^>]*>[\s\S]*?<\/style\s*>|<\/?[a-z][^>]*>/gi)) {
-    const tag = token[0];
-    if (/^<!--|^<script\b|^<style\b/i.test(tag)) continue;
-    const closing = tag.match(/^<\/([a-z][\w-]*)/i);
-    if (closing) {
-      const name = closing[1]!.toLowerCase();
-      if (name === "table" && tableStart) {
-        tables.push({ html: snapshot.html.slice(tableStart.index, token.index + tag.length), hidden: tableStart.hidden });
-        tableStart = undefined;
-      }
-      const index = stack.map(item => item.name).lastIndexOf(name);
-      if (index >= 0) stack.length = index;
-      continue;
-    }
-    const name = tag.match(/^<([a-z][\w-]*)/i)?.[1]?.toLowerCase();
-    if (!name) continue;
-    const hidden = hiddenTag(tag) || stack.some(item => item.hidden);
-    const booking = hasClass(tag, "p-booking-calendar") || stack.some(item => item.booking);
-    if (name === "table" && booking && hasClass(tag, "p-booking-calendar__calendar")) tableStart = { index: token.index, hidden };
-    if (!new Set(["input", "br", "hr", "img", "meta", "link"]).has(name) && !tag.endsWith("/>")) stack.push({ name, hidden, booking });
-  }
-  const states: TabelogRequestedDateState[] = [];
-  for (const table of tables) {
-    if (table.hidden) continue;
-    const caption = table.html.match(/<caption\b[^>]*>[\s\S]*?<em\b[^>]*>\s*([A-Za-z]{3,9})\s+(\d{4})\s*<\/em>/i);
-    if (!caption || Number(caption[2]) !== year || monthNames.findIndex(name => name.toLowerCase() === caption[1]!.slice(0, 3).toLowerCase()) + 1 !== month) continue;
-    for (const cell of table.html.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)) {
-      const content = cell[1]!;
-      const dayLabel = content.match(/<span\b([^>]*)>\s*(\d{1,2})\s*<\/span>/i);
-      if (!dayLabel || !hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num") || Number(dayLabel[2]) !== day) continue;
-      const selected = content.match(/<(?:p|button)\b[^>]*\bdata-year=["'][^>]*>/i)?.[0] ?? "";
-      if ((hasClass(selected, "is-selectable") || hasSelectedControlState(attributes(selected)))
-        && Number(attribute(selected, "data-year")) === year && Number(attribute(selected, "data-month")) === month
-        && Number(attribute(selected, "data-day")) === day) states.push("SELECTABLE");
-      else if (hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num--closed")) states.push("CLOSED");
-      else if (hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num--full")) states.push("FULL");
-      else if (hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num--tel")) states.push("PHONE_ONLY");
-      else states.push("UNOBSERVED");
-    }
-  }
-  return states.length === 1 ? states[0]! : "UNOBSERVED";
+  return observedTabelogResponseDate(snapshot, date);
 }
 
 function attributes(tag: string): Record<string, string> {
@@ -157,7 +108,7 @@ export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string,
 
 /** Exact source-response binding: another merchant, date, party or stale selection is not stock. */
 export function tabelogCapturedSlots(snapshot: BrowserSnapshot, date: string, partySize: number): { availableSlots: string[]; hasExplicitSlotUi: boolean } | undefined {
-  if (!hasTabelogSelectedQuery(snapshot, date, partySize)) return undefined;
+  if (tabelogQueryControlHints(snapshot).length && !hasTabelogSelectedQuery(snapshot, date, partySize)) return undefined;
   const response = inspectTabelogVacancyResponse(snapshot, date, partySize);
   return response.status === "OBSERVED" ? { availableSlots: response.availableSlots, hasExplicitSlotUi: true } : undefined;
 }

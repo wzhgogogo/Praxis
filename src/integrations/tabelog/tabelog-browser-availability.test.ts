@@ -232,21 +232,21 @@ test("Tabelog identity parser extracts JSON-LD identity field provenance", () =>
   assert.equal(extraction.fields.phone.normalizedValue, "0311112222");
 });
 
-test("Tabelog slot parser ignores prose times and trusts only explicit available controls", () => {
-  const prose = parseTabelogAvailabilitySlots({ url: "https://tabelog.com/x/", title: "x", text: "Dinner starts at 19:00", html: "<p>営業時間 19:00</p>" });
-  const controls = parseTabelogAvailabilitySlots({ url: "https://tabelog.com/x/", title: "x", text: "", html: '<button class="slot is-available" data-time="19:00">19:00</button><button class="slot full" data-time="19:30">19:30</button>' });
+test("Tabelog slot parser ignores prose and class-only controls without a bound response", () => {
+  const prose = parseTabelogAvailabilitySlots({ url: "https://tabelog.com/x/", title: "x", text: "Dinner starts at 19:00", html: "<p>営業時間 19:00</p>" }, { date: "2026-08-05", partySize: 2 });
+  const controls = parseTabelogAvailabilitySlots({ url: "https://tabelog.com/x/", title: "x", text: "", html: '<button class="slot is-available" data-time="19:00">19:00</button><button class="slot full" data-time="19:30">19:30</button>' }, { date: "2026-08-05", partySize: 2 });
   assert.deepEqual(prose, { availableSlots: [], hasExplicitSlotUi: false });
-  assert.deepEqual(controls, { availableSlots: ["19:00"], hasExplicitSlotUi: true });
+  assert.deepEqual(controls, { availableSlots: [], hasExplicitSlotUi: false });
 });
 
-test("Tabelog reads the visible requested calendar restriction without treating loading or hidden projected dates as terminal", () => {
+test("Tabelog control restriction is observable but private day states and hidden projections remain unknown", () => {
   const closedDate = "2026-08-05";
   const calendar = (content: string, notice = "No available seats for 2 guests.") => ({
     url: "https://tabelog.com/en/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: notice,
     html: `<div class="p-booking-calendar"><table class="p-booking-calendar__calendar"><caption><em>Aug 2026</em></caption><tbody><tr><td>${content}</td></tr></tbody></table></div>`,
   });
   const closed = calendar('<span class="p-booking-calendar__day-num p-booking-calendar__day-num--closed">5</span>');
-  assert.equal(tabelogRequestedDateState(closed, closedDate), "CLOSED");
+  assert.equal(tabelogRequestedDateState(closed, closedDate), "UNOBSERVED");
   assert.equal(tabelogQueryControlsRestricted(closed, [{ label: "Guests 2", disabled: true }], 2), true);
 
   const loading = { ...closed, text: "Loading calendar availability" };
@@ -257,11 +257,11 @@ test("Tabelog reads the visible requested calendar restriction without treating 
     ...closed,
     html: `${closed.html}<div class="p-booking-calendar is-hidden"><table class="p-booking-calendar__calendar"><caption><em>Aug 2026</em></caption><tbody><tr><td><p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="5"></p><span class="p-booking-calendar__day-num">5</span></td></tr></tbody></table></div>`,
   };
-  assert.equal(tabelogRequestedDateState(visibleClosedWithHiddenFuture, closedDate), "CLOSED",
-    "a hidden projected calendar cannot reopen the current restricted request");
+  assert.equal(tabelogRequestedDateState(visibleClosedWithHiddenFuture, closedDate), "UNOBSERVED",
+    "neither visible nor hidden private classes establish a business day state");
 
   const selectable = calendar('<p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="5"></p><span class="p-booking-calendar__day-num">5</span>');
-  assert.equal(tabelogRequestedDateState(selectable, closedDate), "SELECTABLE");
+  assert.equal(tabelogRequestedDateState(selectable, closedDate), "UNOBSERVED");
 });
 
 class FixtureBrowserSession implements BrowserSession {

@@ -1,0 +1,62 @@
+{
+  "mode": "red",
+  "commit": "bcc122d3b6cef274be89d131b95ebcaa13d7ca27",
+  "startedAtCET": "2026-10-29T02:09:06.889739+01:00",
+  "runs": [
+    {
+      "name": "unit",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "src/integrations/tabelog/tabelog-response-only.test.ts"
+      ],
+      "exitCode": 1,
+      "accepted": true,
+      "seconds": 0.179265208,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "summary": {
+        "tests": 2,
+        "pass": 0,
+        "fail": 2,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "d2e189527f4cb95fcf299b1f92dbf4eee2c1c21434a3522632e14555b7a4a50b"
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "src/harness/browser/browser-read-tabelog-response-only.test.ts"
+      ],
+      "exitCode": 1,
+      "accepted": true,
+      "seconds": 1.735861042,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "summary": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "a3e48c33d45c7d56a267976fd416145f8f74bdb69d3d69d6ef9edbe74dba44b7"
+    }
+  ],
+  "allAccepted": true
+}

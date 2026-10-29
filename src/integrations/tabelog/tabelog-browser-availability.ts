@@ -31,7 +31,7 @@ import type {
   TabelogUserInterventionHandler,
 } from "./tabelog-contracts.js";
 
-import { hasTabelogSelectedQuery, tabelogQueryControlHints, tabelogQueryControlsRestricted, tabelogRequestedDateState, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
+import { hasTabelogSelectedQuery, tabelogQueryControlHints, tabelogQueryControlsRestricted, TABELOG_VACANCY_RESPONSES } from "./tabelog-query-controls.js";
 import { inspectTabelogVacancyResponse } from "./tabelog-vacancy-response.js";
 
 export function tabelogNameSearchCompletion(page: BrowserSnapshot): BrowserCompletionAssessment {
@@ -612,16 +612,10 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       if (!nativeSelectionConfirmed) {
         page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "AVAILABILITY", signal, session }), "AVAILABILITY");
         const visibleQueryControls = await session.observeControls?.(tabelogQueryControlHints(page)) ?? [];
-        const dateState = tabelogRequestedDateState(page, request.date);
-        const terminalDateRestriction = dateState === "CLOSED" || dateState === "FULL" || dateState === "PHONE_ONLY";
-        if (tabelogQueryControlsRestricted(page, visibleQueryControls, request.partySize) && terminalDateRestriction) {
-          const dateRestriction = { CLOSED: "TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR",
-            FULL: "TABELOG_REQUEST_DATE_FULL_ON_CALENDAR", PHONE_ONLY: "TABELOG_REQUEST_DATE_PHONE_ONLY_ON_CALENDAR" } as const;
+        if (tabelogQueryControlsRestricted(page, visibleQueryControls, request.partySize)) {
           return this.ground(candidate, request, {
             candidate, observedAt: this.now(), ...activeSource(), sourceUrl: page.url, priceFacts: parseTabelogPriceFacts(page), entityMatch: activeIdentity,
-            pageState: "EXTRACTION_FAILED", failureCode: dateState in dateRestriction
-              ? dateRestriction[dateState as keyof typeof dateRestriction] : "TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED",
-            excerpt: pageExcerpt(page),
+            pageState: "EXTRACTION_FAILED", failureCode: "TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED", excerpt: pageExcerpt(page),
           }, browser);
         }
         const query = await this.executor.runSkill({
