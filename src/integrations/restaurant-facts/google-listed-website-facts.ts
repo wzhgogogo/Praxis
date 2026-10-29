@@ -233,7 +233,7 @@ function mergeObservations(
   };
 }
 
-export export function requestedCommercialFields(intent: RestaurantCandidateFactRequest["intent"]): Array<keyof NonNullable<UntrustedRestaurantWebsiteObservation["publicCommercialTerms"]>> {
+export function requestedCommercialFields(intent: RestaurantCandidateFactRequest["intent"]): Array<keyof NonNullable<UntrustedRestaurantWebsiteObservation["publicCommercialTerms"]>> {
   const text = [intent.target?.query ?? "", ...intent.criteria.map(criterion => criterion.text)].join("\n");
   const fields: Array<keyof NonNullable<UntrustedRestaurantWebsiteObservation["publicCommercialTerms"]>> = [];
   if (/cancellation|キャンセル|取消/iu.test(text)) fields.push("cancellationTerms");
@@ -345,7 +345,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         if (observation) pages.set(landed.toString(), { observation, text: snapshot.text, snapshot: structuredClone(snapshot), observedAt: this.now() });
       };
       const materialize = (): { evidence: RestaurantCandidateFactRead["evidence"]; documents: NonNullable<RestaurantCandidateFactRead["sourceDocuments"]> } => {
-        const pageEvidence = [...pages.values()].flatMap(page => groundRestaurantWebsiteFacts(candidate, request.intent, page.observation).evidence.map(item => ({
+        const pageEvidence: RestaurantCandidateFactRead["evidence"] = [...pages.values()].flatMap(page => groundRestaurantWebsiteFacts(candidate, request.intent, page.observation).evidence.map(item => ({
           ...item, artifactRef: { kind: "DOM_EXCERPT" as const, reference: `website-visible:${websiteFactDocumentFingerprint(page.text)}` },
         })));
         for(const page of pages.values()){
