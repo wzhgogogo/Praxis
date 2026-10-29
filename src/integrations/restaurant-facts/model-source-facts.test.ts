@@ -39,3 +39,24 @@ test("source range preserves every intervening restriction and cancellation reje
  const result=await readQuotedRestaurantSourceFacts(model(request=>selection(request,0,2)),input(text),()=>time,signal());assert.equal(result?.listedCourseDetails[0],text);assert.equal(result?.priceFacts,undefined,"contradictory dinner/lunch-only scope is not an unrestricted comparable price");
  const controller=new AbortController();await assert.rejects(readQuotedRestaurantSourceFacts(model(request=>{controller.abort();return selection(request);}),input(),()=>time,controller.signal),{name:"AbortError"});
 });
+
+
+test("source facts select the actual quoted price line without detaching its complete conditions", async () => {
+ const text="Dinner course\nJPY 5,000 old catalog price\nJPY 8,000 tax included\nAvailable only for parties of 4 or more.";
+ const current=input(text);current.page.html='<h3>Dinner course</h3><del>JPY 5,000 old catalog price</del><p>JPY 8,000 tax included</p><p>Available only for parties of 4 or more.</p>';
+ const gateway=model(request=>{const body=selection(request,0,3);const rows=JSON.parse(request.messages[1]!.content).sourceDocument.statements;return {selections:[{...body.selections[0],priceStatementId:rows[2].id}]};});
+ const result=await readQuotedRestaurantSourceFacts(gateway,current,()=>time,signal());
+ assert.equal(result?.priceFacts?.listedCoursePricesYen[0]?.amount,8000,"current price comes from a selected original line, never the cheapest amount");
+ assert.equal(result?.listedCourseDetails[0],text,"all tax, catalog and party context remains verbatim");
+});
+
+test("source facts can cite unstructured merchant type prose with no private fields or menu prices", async () => {
+ const text="We serve sushi cuisine.";
+ const result=await readQuotedRestaurantSourceFacts(model(request=>{const rows=JSON.parse(request.messages[1]!.content).sourceDocument.statements;return {selections:[{firstStatementId:rows[0].id,lastStatementId:rows[0].id,role:"CATEGORY",priceStatementId:""}]};}),{...input(text),criteria:["sushi"]},()=>time,signal());
+ assert.deepEqual(result?.sourceFieldQuotes,[{field:"CATEGORY",quote:text,sourceUrl:url}],"same-page verbatim merchant prose remains available to the existing fact judgment");
+});
+
+test("source selection preserves a shared model budget failure instead of swallowing it as missing facts",async()=>{
+ const gateway:ModelGateway={async complete(){throw Object.assign(new Error("budget"),{code:"BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"});}};
+ await assert.rejects(readQuotedRestaurantSourceFacts(gateway,input(),()=>time,signal()),{code:"BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED"});
+});
