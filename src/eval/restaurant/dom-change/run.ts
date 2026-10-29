@@ -61,7 +61,7 @@ export function observeDomChangePage(spec: DomPage, snapshot: BrowserSnapshot, c
     // UI selection remains a diagnostic/navigation hint. A verified Tabelog
     // request needs the existing same-outlet/date/party response binding.
     const requestConfirmed = spec.site === "TABELOG"
-      ? tabelogCapturedSlots(snapshot, spec.request.date, spec.request.partySize) !== undefined : selected;
+      ? Boolean(snapshot.responses?.length) && tabelogCapturedSlots(snapshot, spec.request.date, spec.request.partySize) !== undefined : selected;
     if (requestConfirmed) facts.requestConfirmed = true;
     const bound = spec.site === "TABLECHECK" ? "queryComplete" in availability && availability.queryComplete
       : requestConfirmed && "availability" in completion && "complete" in completion.availability && completion.availability.complete;
