@@ -54,7 +54,15 @@ export async function readQuotedRestaurantSourceFacts(model: ModelGateway | unde
   const review = reviewStatementIndices(page.snapshot);
   const markup = page.snapshot.visibleHtml ?? page.snapshot.html;
   const regions = mealRegions(markup);
-  const deleted = sourcePriceElements(markup, tag => /^<del\b/iu.test(tag)).map(block => publicPriceText(block.replace(/^<del\b[^>]*>|<\/del>$/giu, "")));
+  const lineKey=(text:string)=>text.normalize("NFKC").replace(/\s+/gu,"");
+  const catalogueLines=sourcePriceElements(markup,tag=>/^<(?:p|div|span|td|li|del)\b/iu.test(tag))
+    .filter(block=>/<del\b/iu.test(block)).map(block=>({
+      original:publicPriceText(block.replace(/<\/?del\b[^>]*>/giu,"")),current:publicPriceText(block),
+    }));
+  const currentText=(text:string)=>{
+    const matches=[...new Set(catalogueLines.filter(line=>lineKey(line.original)===lineKey(text)).map(line=>line.current))];
+    return matches.length===1?matches[0]!:text;
+  };
   let output: unknown;
   try {
     const response = await model.complete({ taskId: readId, purpose: "restaurant_source_facts", promptVersion: RESTAURANT_SOURCE_FACTS_PROMPT_VERSION,
@@ -99,7 +107,6 @@ export async function readQuotedRestaurantSourceFacts(model: ModelGateway | unde
       continue;
     }
     const priced = priceIndex === undefined ? "" : document.statements[priceIndex]!.text;
-    const currentText = (text:string) => deleted.reduce((value,catalogue)=>value.replace(catalogue,""),text);
     const values = [...new Set(amounts(currentText(priced)))];
     const catalog = Boolean(priced) && !currentText(priced).trim();
     if (row.role === "COURSE") {

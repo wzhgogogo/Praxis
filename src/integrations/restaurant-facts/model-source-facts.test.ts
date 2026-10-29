@@ -33,8 +33,12 @@ test("source price ranges require quoted or public ARIA meal context; ambiguous 
  noLabel.page.html='<section aria-label="Dinner">JPY 6,000 - JPY 7,999</section>';
  const bound=await readQuotedRestaurantSourceFacts(model(request=>selection(request,0,0,"DINNER_BUDGET")),noLabel,()=>time,signal());assert.deepEqual(bound?.priceFacts?.dinnerBudgetRangeYen,{min:6000,max:7999,quote:noLabel.page.text,sourceUrl:url});
  const fee=input("Dinner course\nJPY 8,000 tax included\nAdditional service fee JPY 2,000.");
- const ambiguous=await readQuotedRestaurantSourceFacts(model(request=>selection(request,0,2)),fee,()=>time,signal());
- assert.equal(ambiguous?.priceFacts,undefined,"a selected base-price ID cannot hide a second current fee in the retained quote");
+ for(const catalogueElsewhere of [false,true]){
+  const current=structuredClone(fee);
+  if(catalogueElsewhere){current.page.text+="\nJPY 2,000";current.page.html+="<del>JPY 2,000</del>";}
+  const ambiguous=await readQuotedRestaurantSourceFacts(model(request=>selection(request,0,2)),current,()=>time,signal());
+  assert.equal(ambiguous?.priceFacts,undefined,"a selected base-price ID cannot hide a current fee, including when an unrelated catalog has the same amount");
+ }
  const multiple=await readQuotedRestaurantSourceFacts(model(request=>selection(request)),input("Dinner course: JPY 8,000, service fee JPY 2,000."),()=>time,signal());assert.equal(multiple?.priceFacts,undefined,"do not select a cheap amount from an ambiguous complete quote");
 });
 test("source range preserves every intervening restriction and cancellation rejects a late response",async()=>{
