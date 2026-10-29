@@ -1,0 +1,136 @@
+{
+  "sourceCommit": "0cd117e4834fb8df179fc42b1edc0a63090aba36",
+  "startedAtCET": "2026-10-29T14:07:45.167987+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g5-b1-main/verify.py"
+      ],
+      "startedAtCET": "2026-10-29T14:07:45.198897+01:00",
+      "finishedAtCET": "2026-10-29T14:07:45.549682+01:00",
+      "seconds": 0.351,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1-main/gates/integrity.log",
+      "sha256": "b4cfe5a43c131571681be6fb3c1e6de1800ebc0ff2dad71f4a60b80a9ae467aa"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-29T14:07:45.582746+01:00",
+      "finishedAtCET": "2026-10-29T14:07:46.093807+01:00",
+      "seconds": 0.511,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1-main/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-29T14:07:46.126736+01:00",
+      "finishedAtCET": "2026-10-29T14:07:46.337217+01:00",
+      "seconds": 0.211,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1-main/gates/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-29T14:07:46.370629+01:00",
+      "finishedAtCET": "2026-10-29T14:08:15.345778+01:00",
+      "seconds": 28.976,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1-main/gates/test.log",
+      "sha256": "00c5f84d0ee7b648eead6c06d5a2f11e93cb8de781219cb7ea80aff9a00eba26"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-29T14:08:15.380174+01:00",
+      "finishedAtCET": "2026-10-29T14:08:15.868148+01:00",
+      "seconds": 0.488,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1-main/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-29T14:08:15.901737+01:00",
+      "finishedAtCET": "2026-10-29T14:10:17.345254+01:00",
+      "seconds": 121.446,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1-main/gates/browser-fixture.log",
+      "sha256": "2758c52d6c702b189f276113e919eea4dbb6498217e15a68c72466cf3ec6b0df"
+    },
+    {
+      "name": "g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-10-29T14:10:17.379733+01:00",
+      "finishedAtCET": "2026-10-29T14:10:38.837162+01:00",
+      "seconds": 21.458,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1-main/gates/g2.log",
+      "sha256": "c6e20075dc764be6b21c1f8f194dbf8a02fc84c9a7965f28bf9406ee26828f52"
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g5-b1-main/verify.py"
+      ],
+      "startedAtCET": "2026-10-29T14:10:38.871602+01:00",
+      "finishedAtCET": "2026-10-29T14:10:39.184327+01:00",
+      "seconds": 0.313,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1-main/gates/integrity-after.log",
+      "sha256": "b4cfe5a43c131571681be6fb3c1e6de1800ebc0ff2dad71f4a60b80a9ae467aa"
+    }
+  ],
+  "newCalls": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-10-29T14:10:39.184691+01:00"
+}

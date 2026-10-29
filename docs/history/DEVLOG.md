@@ -5195,3 +5195,5 @@ Five approved consolidation items have individual successor proof, all originals
 ## 2026-10-29 CET：B1审定后合主线
 
 2026-10-29 CET：用户独立复核通过C B1 38974709（2CPU Linux1210/175、G2 5/5），批准合main。最新main50a08361已在祖先，产品源码不变；冻结后重跑五门禁/G2，净树发布并通知B保留ADR0049和迁移0010。普通启动仍不注入来源链接读者；Case只问一次与真实PG多连接缺口加入Live前清单。本批新增调用0，GET保持244/257；检索分析另分支、只写方案。
+
+验证完成：2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../../.eval-artifacts/phase3b/g5-b1-main/report.md)。
