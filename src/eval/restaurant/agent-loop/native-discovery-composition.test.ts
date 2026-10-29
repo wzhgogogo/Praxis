@@ -238,13 +238,23 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
   // the UNAVAILABLE/continue assertions using an explicit constructed source
   // response outside H001's requested window; do not derive it from the DOM,
   // task request, production parser or evaluator. Other source cases unchanged.
-  const fixtureBrowser = scenario === "TABELOG_CONTINUES" || scenario === "TABELOG_NEUTRAL_REGION_RECOVERS" ? {
+  const fixtureBrowser = {
     ...rawBrowser,
     async openSession(input: Parameters<typeof rawBrowser.openSession>[0]) {
       const session = await rawBrowser.openSession(input);
       return new Proxy(session, { get(target, key) {
         if (key === "snapshot") return async () => {
           const page = await target.snapshot();
+          // Constructed snapshot consistency, not new guide evidence: these
+          // course lines were already in sourcePages' visible text, but absent
+          // from its HTML. Public course paragraphs coexist with H1/address in
+          // dom-change/tablecheck-detail-nakamata.html.gz (HTML SHA-256
+          // 6b7e758fb3135f057a3aec19cf844971b24fc8cb65a7b34cd72decf70dc7eba0).
+          if (new URL(page.url).hostname === "www.tablecheck.com") {
+            const courses = page.text.split("\n").filter(line => /\bcourse\b/iu.test(line) && !page.html.includes(line));
+            return { ...page, html: page.html + courses.map(line => `<p>${line.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</p>`).join("") };
+          }
+          if (scenario !== "TABELOG_CONTINUES" && scenario !== "TABELOG_NEUTRAL_REGION_RECOVERS") return page;
           if (page.url !== "https://tabelog.com/tokyo/A1304/A130401/100/") return page;
           return { ...page, responses: [{ url: "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=100&svd=20260819&svps=2", status: 200,
             observedAt: "2026-08-18T10:00:00Z", sequence: 1, body: { base_date: { year: 2026, month: 8, day: 19 }, members: 2,
@@ -253,7 +263,7 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
         const value = Reflect.get(target, key, target); return typeof value === "function" ? value.bind(target) : value;
       } });
     },
-  } : rawBrowser;
+  };
   const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   let browserTraceSequence = 0;
   const browser = { ...(rawBrowser.readNetworkBoundaryCapability ? { readNetworkBoundaryCapability: rawBrowser.readNetworkBoundaryCapability } : {}), openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(

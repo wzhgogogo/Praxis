@@ -11,7 +11,7 @@ import { assessFixedSourceAcceptance } from "./fixed-source-acceptance.js";
 import { executeFixedSourceCase, type FixedSourceCaseExecution } from "./fixed-source-case-execution.js";
 import { loadRegisteredFixedSourceCase, type FixedSourceExpectation } from "./fixed-source-case-registry.js";
 import { RUN_DEADLINE_EXCEEDED } from "./live-run-deadline.js";
-import { scriptedSourceFacts } from "./current-development-fixed-sources.js";
+import { scriptedSourceFacts, scriptedOmakaseJudgment } from "./current-development-fixed-sources.js";
 
 function response(outputText: string, invocationId: string): ModelResponse {
   return { invocationId, provider: "FIXTURE", model: "deadline-control", outputText, finishReason: "TOOL_CALLS", latencyMs: 0 };
@@ -108,9 +108,10 @@ test("a frozen business clock cannot freeze the real outer deadline or admit a l
 test("a result that completes before the deadline retains its normal terminal outcome", async t => {
   t.mock.timers.enable({ apis: ["Date"], now: Date.now() });
   const { registration, materializedCase } = await loadRegisteredFixedSourceCase("h001");
-  const actions = ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"];
+  const actions = ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"];
   const model: ModelGateway = { async complete(request) {
     if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
+    if (request.purpose === "restaurant_fact_judgment") return scriptedOmakaseJudgment(request);
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       t.mock.timers.tick(100_000);
@@ -123,11 +124,12 @@ test("a result that completes before the deadline retains its normal terminal ou
         { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "omakase", polarity: "POSITIVE", strength: "HARD" } },
       ] }), "semantic");
     }
+    assert.equal(request.purpose, "restaurant_agent_decide", "only an Agent request may consume a planned action");
     const type = actions.shift();
     const payload = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as { context?: { candidates?: Array<{ id: string }>; readBudget?: { remainingMs: number } } };
     if (type === "SEARCH_RESTAURANTS") assert.equal(payload.context?.readBudget?.remainingMs, 400_000, "fixed-source Runner inherits semantic time rather than restarting its read clock");
     const candidateIds = payload.context?.candidates?.map((candidate) => candidate.id) ?? [];
-    return response(JSON.stringify({ type, question: "", relatedFields: [], retrievalHint: "", candidateIds: type === "CHECK_AVAILABILITY" || type === "PRESENT_RESULTS" ? candidateIds : [], candidateId: "", offerId: "", decisionSummary: "deadline normal control" }), `agent:${type}`);
+    return response(JSON.stringify({ type, question: "", relatedFields: [], retrievalHint: "", candidateIds: type === "CHECK_AVAILABILITY" || type === "INVESTIGATE_CANDIDATE_FACTS" || type === "PRESENT_RESULTS" ? candidateIds : [], candidateId: "", offerId: "", decisionSummary: "deadline normal control" }), `agent:${type}`);
   } };
   const result = await executeFixedSourceCase({ registration, materializedCase, model, taskId: "deadline:normal", deadlineMs: 500_000 });
   assert.deepEqual(result.execution, { status: "SUCCEEDED", loopStatus: "TERMINAL", phase: "PRESENT_RESULTS" });
