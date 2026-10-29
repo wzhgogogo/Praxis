@@ -1,10 +1,10 @@
 # Agent Gateway and Workspace
 
 - Status: Accepted
-- Document revision: 0.5
+- Document revision: 0.6
 - Last updated: 2026-10-29
 - Source of truth for: Web/Mobile Web入口、Conversation/Session/Case边界、用户可见Activity与Domain Workspace
-- Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md)
+- Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [Architecture Overview](OVERVIEW.md), [Task Runtime](TASK-RUNTIME.md), [Data, Context and Security](DATA-CONTEXT-SECURITY.md)
 
 ## 产品目标

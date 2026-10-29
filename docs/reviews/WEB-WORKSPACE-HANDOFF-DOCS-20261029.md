@@ -1,12 +1,12 @@
 # 前端第0步：工作区与来源交接文档复核
 
-- Status: Draft
-- Document revision: 0.1
+- Status: Accepted
+- Document revision: 0.2
 - Last updated: 2026-10-29
 - Source of truth for: 本轮文档切片的来源对照、补齐范围、验证结果与停止点；不替代产品、ADR或当前STATUS
 - Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md)
 - Related documents: [PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Visual Direction](../product/VISUAL-DIRECTION.md)
-- Evidence status: 文档同步待独立复核；已暴露设计输入，不是Clean Baseline或代码/Live验收
+- Evidence status: 第0步已由用户复核通过；下述初次检查与原决策保留为历史证据，小修见文末；不是代码/Live验收或Clean Baseline
 
 ## 切片承诺与来源
 
@@ -75,3 +75,9 @@ main已经包含B1的来源交接、服务端两次校验、独立持久化返�
 本轮文档完成后仅推送工作分支，保持main不变，等待第0步独立复核。没有创建`codex/feat-web-workspace-slice1`或启动代码。第1步的十项浏览器验收、五门禁、390×844主要画面截图以及停止条件统一见[视觉方向](../product/VISUAL-DIRECTION.md#第一段验收与停止点)。
 
 普通启动的B1来源链接读者/G3接线和首次TableCheck真实来源带入验证仍沿用main的已知缺口；本次文档工作不关闭它们。独立工作树保留供复核，原主工作区未提交的研究文档与演示稿保持原状。
+
+## 2026-10-29 用户复核通过与小修
+
+用户复核通过第0步a918b351，并明确以下改动：Human Takeover中位数指标第一版不适用；提示最多两行（一行选择项、一行核对项），取消冲突确认移到推荐卡片的取消规定旁；占位删除e.g.，证据第二行写TableCheck, checked 14:32。ADR-0050明确覆盖ADR-0049的两处呈现限制，原Decision及链接/证据规则不改。上文的一行提示与原文案检查是a918b351当时的历史证据，不作为新呈现规则。
+
+本轮文档小修检查见Git diff与交付记录；代码及浏览器验收未运行。按用户授权推送后开始第1步；视觉文档的第一段范围、验收与停止点在该时点移入独立切片计划。

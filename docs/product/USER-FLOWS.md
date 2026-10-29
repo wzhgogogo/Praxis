@@ -1,10 +1,10 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.20
+- Document revision: 0.21
 - Last updated: 2026-10-29
 - Source of truth for: 用户可见流程、确认点和终态
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Visual Direction](VISUAL-DIRECTION.md), [Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
 
 ## 三个位置与工作区视图
@@ -55,7 +55,7 @@ flowchart TD
     S --> T
 ```
 
-直接去来源网站不等待比较完成。已有合法同店公开来源页可供用户自行查看；带参B1缺少当前空位或链接证据时不得生成或展示，不以公开页入口声称有位或已带入。Praxis不进入预约工作流页验证链接、不接管来源会话、不提交预约。方案、价格、手续费、信用卡、取消规定和至多一行提示均沿用ADR-0049的证据与措辞规则。
+直接去来源网站不等待比较完成。已有合法同店公开来源页可供用户自行查看；带参B1缺少当前空位或链接证据时不得生成或展示，不以公开页入口声称有位或已带入。Praxis不进入预约工作流页验证链接、不接管来源会话、不提交预约。方案、价格、手续费、信用卡、取消规定沿用ADR-0049的证据与措辞规则；提示按ADR-0050最多两行（一行选择项、一行核对项），取消冲突确认提醒位于推荐卡片的取消规定旁。
 
 返回问题为`Did you get the booking?`，非阻断、每Case至多一次。新界面`Not yet`展示标签映射已有`NO`回答，关闭/跳过沿用已有Skip语义；不新增预约Outcome或反馈枚举。仍以服务端持久化claim保证并发、刷新和重启不重复询问，不能用前端记忆替代。
 

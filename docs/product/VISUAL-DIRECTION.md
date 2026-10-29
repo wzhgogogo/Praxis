@@ -1,16 +1,16 @@
 # Praxis 视觉方向
 
 - Status: Draft
-- Document revision: 0.3
+- Document revision: 0.4
 - Last updated: 2026-10-29
 - Source of truth for: Web 界面的视觉规则；不覆盖 Accepted PRD、ADR 或当前实现状态
-- Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md)
+- Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [User Flows](USER-FLOWS.md), [Agent Gateway and Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Booking Design Draft](BOOKING-DESIGN-DRAFT.md)
 - Evidence status: 设计已定、未实现；文档同步待复核，不是浏览器验收或Live能力证据
 
 用户 2026-10-29 选定“合并版”：白底，柔和阴影分层，实心群青胶囊按钮。[画布](https://claude.ai/artifact/VniECP5jzidQmknLSFyryM)是虚构示例，早于视觉规则0.2的收紧；冲突时以本文视觉规则为准。参考“合并版3候选 / 4订法”；开始、查找中及侧栏参考“群青 · Wabi式”和“A2安排列表”，不能据画布推断真实照片、进度数字、条款或预约能力。
 
-来源为`codex/docs-frontend-design-inputs`提交`947e741b093eecd0035ebbe9401195db029920eb`的视觉原稿0.2，原`design/VISUAL-DIRECTION-20261029.md`已归到本文件。本文0.3只补充来源、英文文案和第一段边界，以下视觉规则沿用0.2。用户在本轮明确确认：等宽字体只用于logo，信息用间距分隔；任务指令中数字/来源/进度使用Mono及文案中的中圆点不沿用。
+来源为`codex/docs-frontend-design-inputs`提交`947e741b093eecd0035ebbe9401195db029920eb`的视觉原稿0.2，原`design/VISUAL-DIRECTION-20261029.md`已归到本文件。本文0.4纳入第0步复核小修；颜色、字体与分层规则沿用0.2，出发提示与证据文案按本轮决定及ADR-0050更新。用户在本轮明确确认：等宽字体只用于logo，信息用间距分隔；任务指令中数字/来源/进度使用Mono及文案中的中圆点不沿用。
 
 界面语言：英文（第一版）。
 
@@ -121,7 +121,7 @@
 - 书签使用现有按Case隔离的备选接口，顶部显示实际备选数量。查看、保存和比较均不等于选定；查看上下文的归属校验见[Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md#当前查看上下文设计已定未实现)。
 - SSE按ID局部更新，保留当前卡片、未发送输入和展开状态；刷新恢复原视图及卡片。修改需求或停止后不接纳旧版本迟到结果。
 - 选定后在原工作区展开有来源依据的B1准备卡：渠道、方案、价格与手续费、信用卡及取消规定。主动作由`Choose this`切换为来源出发按钮，同一视图不同时突出两个群青实心主按钮；发送按钮仍为深色圆形。
-- 出发按钮只写经服务端核验的带入字段，下方至多一行提示；合法的“直接去来源网站”不等待比较。B1只用证实当前空位的渠道，缺证不拼造链接，不以普通公开来源页声称已带入或有位。
+- 出发按钮只写经服务端核验的带入字段，下方最多两行提示：一行选择项、一行核对项，空行不占位；合法的“直接去来源网站”不等待比较。B1只用证实当前空位的渠道，缺证不拼造链接，不以普通公开来源页声称已带入或有位。
 - 返回后非阻断地最多问一次；`Not yet`只是现有`NO`的展示文案，跳过沿用已有Skip，仍由服务端持久化claim保证不重问。用户自报不成为`BOOKED_VERIFIED`。
 
 第一段不做B2、B2+、图片链路、比较页、问答浮层、夜间模式、桌面精修或额外动效；问答复用现有回复区域。视觉0.2允许的光标闪动保留，新增动效仅限进度和卡片出现。来源链接生成、证据规则和按钮措辞不改，沿用ADR-0049及预约草案6.2中与之相容的部分。
@@ -133,7 +133,7 @@
 | 位置 | 文案 |
 | --- | --- |
 | 首页标题 | What do you want to plan? |
-| 首页占位 | e.g. A quiet dinner with friends in Shibuya on Saturday |
+| 首页占位 | A quiet dinner with friends in Shibuya on Saturday |
 | 工作区输入框 | Adjust anything? |
 | 抽屉标题 / 新建 | My plans / New plan |
 | 推测的条件 | Evening? |
@@ -141,7 +141,7 @@
 | 停止 | Stop |
 | 备选 | Saved 2；书签aria-label：Save for later |
 | 主按钮 | Choose this |
-| 证据 / 未查状态 | Available Sat 19:00　TableCheck 14:32 / Not checked |
+| 证据 / 未查状态 | 第一行：Available Sat 19:00；第二行：TableCheck, checked 14:32；未查：Not checked |
 | 推荐 | Recommended　TableCheck |
 | 出发按钮 | Continue on TableCheck ↗ / Date, time, 3 guests filled in |
 | 提示 | Pick Omakase Nigiri ¥9,800 and Counter |
@@ -152,7 +152,7 @@
 
 出发按钮的第二行描述同一按钮已带入的字段，不是另一个操作；只有通过ADR-0049校验的字段才可出现。不能用URL参数推断来源页面实际已选中方案/座位，出发按钮和提示不使用`selected`或`booked`。
 
-表内`Pick ... and Counter`仅在对应同店同渠道原文支持时显示。TableCheck还必须按ADR-0049保留`Check date and guests`；日英取消冲突时加入`Confirm cancellation terms on the website`。适用内容合并在至多一行提示中，不因视觉简化删掉必要确认要求、不另增解释清单，也不由模型裁决哪种取消条款更严格。
+表内`Pick ... and Counter`仅在对应同店同渠道原文支持时显示，独占选择项一行；TableCheck的`Check date and guests`独占核对项一行。两行均按适用证据显示，不填空白占位；出发提示不使用`selected`或`booked`。日英取消冲突的`Confirm cancellation terms on the website`移到推荐卡片的取消规定旁，与两种原文和英文转述一起显示，不再占出发提示行。此呈现变更见ADR-0050，来源、证据和不裁决严格程度的边界仍按ADR-0049。
 
 ## 第一段验收与停止点
 

@@ -1,10 +1,10 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.20
+- Document revision: 0.21
 - Last updated: 2026-10-29
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [User Flows](USER-FLOWS.md), [Visual Direction](VISUAL-DIRECTION.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
 
 ## 产品定义
@@ -113,7 +113,7 @@ Praxis第一版是一个面向在日外国人的Responsive English Web Agent，�
 - 原“具有预约意图的任务完成率 ≥ 50%”和“已验证预约的路线生成率 ≥ 95%”不作为第一版交接验收门槛；后续Pilot定义交接任务完成口径后再单列目标，不能沿用旧分母声称达标。
 - 错误宣称已选中/预约成功、Praxis未经授权外写和重复提交均为0；第一版不启用现实预约写入。
 - 第一段的工作区、取消、恢复、指代及B1交接以重复浏览器链路和视觉复核验收；设计已定不表示已经实现或通过Pilot。
-- 除最终确认外，单任务 Human Takeover 中位数不超过 1 次。
+- **第一版不适用：**除最终确认外，单任务 Human Takeover 中位数不超过 1 次。
 - 支持流程中刷新、重连和跨设备恢复后的Case状态一致率为100%，跨用户Case访问为0。
 
 

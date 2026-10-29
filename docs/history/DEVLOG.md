@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.342
+- Document revision: 4.343
 
 
 - Last updated: 2026-10-29
@@ -5204,3 +5204,9 @@ Five approved consolidation items have individual successor proof, all originals
 ## 2026-10-29 前端第0步：工作区与来源交接文档
 
 文档切片基于main00519783与用户指定设计输入947e741b；只补PRD/流程/Gateway中未被ADR-0049同步的主体缺口，B1代码与现有合同不改。视觉0.2的规则保留，用户明确Mono只用于logo、信息间距分隔；文档0.3补英文表与第一段边界。预约草案0.6保留为draft / not integrated，取消严格程度旧规则标明已被ADR-0049取代。新增工作区/查看上下文/视觉设计已定、未实现；第1步代码、B2/B2+及比较均未启动。不动A评测、B搜索/G3、C Google客户端或原主工作区未提交材料；业务模型/Google/餐厅来源/Live调用0。文档校验和交付边界见[复核说明](../reviews/WEB-WORKSPACE-HANDOFF-DOCS-20261029.md)，本轮只推工作分支停复核，不合main。
+
+<a id="dev-2026-10-29-web-docs-review-fixes"></a>
+
+## 2026-10-29 前端第0步复核通过与小修
+
+用户复核通过a918b351，要求Human Takeover中位数指标第一版不适用；出发提示分选择/核对最多两行，取消冲突确认靠近推荐卡片取消规定；占位删除e.g.，证据第二行改为TableCheck, checked 14:32。新增ADR-0050明确仅呈现条款替代，ADR-0049原Decision、链接和证据规则保留。视觉文档修订0.4；第一段范围/验收将在第1步开工时移到切片计划。仅文档小修，业务模型/Google/餐厅来源/Live调用0；随后按用户授权启动第1步，先核对取消与真实进度路径。

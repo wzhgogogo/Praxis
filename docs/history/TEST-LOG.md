@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.348
+- Document revision: 4.349
 
 
 - Last updated: 2026-10-29
@@ -5906,3 +5906,9 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 ## 2026-10-29 前端第0步文档验证
 
 验证对象仅为PRD、User Flows、Gateway、视觉/预约输入及导航/状态记录；按Test矩阵核对本地链接与新锚点、英文文案、视觉0.2规则保留、草案0.6正文留存、ADR-0049边界及diff范围，结果见[复核说明](../reviews/WEB-WORKSPACE-HANDOFF-DOCS-20261029.md)。代码五门禁、Playwright十项验收、390×844截图、Mock、Replay、Live Read-only和Controlled Live-write均未运行；它们不由本次文档检查或B1历史绿灯替代。业务模型/Google/餐厅来源真实调用0，未改源码、测试、脚本、Gold/回放或Schema，未读取.env。第1步须待文档独立复核通过后再做。
+
+<a id="test-2026-10-29-web-docs-review-fixes"></a>
+
+## 2026-10-29 前端第0步复核小修验证
+
+小修只按文档矩阵检查链接、英文文案、第一版指标与ADR-0050替代范围、diff；ADR-0049仅Status增加替代指引，原Decision保留。检查结果见第0步复核说明的追加记录。代码五门禁、Playwright及Live均未运行；业务模型/Google/餐厅来源调用0，不读取.env。第1步的实际取消/进度接线另行核对。
