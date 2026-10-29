@@ -1,0 +1,20 @@
+--- src/infrastructure/browser/playwright-read-network-guard.ts
++++ src/infrastructure/browser/playwright-read-network-guard.ts
+@@ -314,7 +314,7 @@
+     const url = new URL(value);
+     this.assertSafePreparedDocument(url);
+     if (!this.policy.documentOrigins.includes(url.origin) && !this.policy.genericPublicRead) throw new Error("Browser read document origin is not source-admitted");
+-    if (timeoutMs !== undefined) this.requestTimeoutMs = Math.max(1, timeoutMs);
++    if (timeoutMs !== undefined) this.requestTimeoutMs = Math.max(1, Math.min(5_000, timeoutMs));
+     this.documents.add(requestKey(url.toString()));
+     if (this.policy.genericPublicRead) this.genericOrigins.add(url.origin);
+   }
+@@ -324,7 +324,7 @@
+     const url = new URL(value);
+     this.assertSafePreparedDocument(url);
+     if (!/^https?:$/i.test(url.protocol)) throw new Error("Browser read document protocol is not admitted");
+-    if (timeoutMs !== undefined) this.requestTimeoutMs = Math.max(1, timeoutMs);
++    if (timeoutMs !== undefined) this.requestTimeoutMs = Math.max(1, Math.min(5_000, timeoutMs));
+     this.documents.add(requestKey(url.toString()));
+     if (this.policy.genericPublicRead) this.genericOrigins.add(url.origin);
+   }

@@ -1,0 +1,7 @@
+# Approved test maintenance — current slice (2026-10-29 CET)
+
+Expose the same product/Guard/replay failures with fewer duplicate tests and less fixture waiting. Input: reviewed audit b74aa584 and approved five-item list, main8d565812, local source/HTML/HAR construction only. Before removing each item, the surviving path must pass normally and reject its controlled fault in an isolated source copy. No product, site, Pack, Prompt, Schema, protected negative, authorization, idempotency or S0 rule changes.
+
+Acceptance: D01 English-regex removal with behavior coverage retained; D02/D03 transfer URL/run/sanitization assertions then remove duplicates; C01 retain source/replay date/party/time and zero receiver traffic in stronger capture; T01 replace fake6.1s wall time by TestContext clock, same6s/8s/100ms relations and 5s-cap red. Individually assess the five slow fixtures, keep one real-scale control per distinct deadline mechanism; don't shorten production waits or omit cases. Compare actual full default/4-worker Chromium counts and wall times in one environment. Freeze source/config/fixture SHAs before five clean gates, then push branch/main under user approval.
+
+Stop: newly required external calls, owner/version conflict, acceptance weakening, safety issue, two unsuccessful gate repair attempts or completion. Calls0, no .env. Evaluator is reused for G2; no grading/marker/baseline changes. Test duration measures only offline fixtures, not faster product/Live capability.

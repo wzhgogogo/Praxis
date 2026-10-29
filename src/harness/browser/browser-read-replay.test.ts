@@ -53,49 +53,6 @@ test("guarded HAR replay drives the production executor offline and keeps missin
   } finally { await executor.close(); await rm(directory, { recursive: true, force: true }); }
 });
 
-test("recorded public documents replay through the production TableCheck availability Adapter without a network escape", async () => {
-  const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
-  const directory = await mkdtemp(join(tmpdir(), "praxis-tablecheck-replay-"));
-  const guide = "https://www.tablecheck.com/en/fixture";
-  const requestUrl = "https://www.tablecheck.com/en/fixture?date=2026-10-08&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time";
-  const html = `<title>Fixture restaurant</title><h1>Fixture restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a>
-    <div data-testid="Venue Availability" data-selected-date="2026-10-08" data-pax="2"><section data-availability-state="complete"><a href="/en/fixture/reserve?start_date=2026-10-08&amp;num_people=2&amp;start_time=19:00">19:00</a></section></div>`;
-  // Recording receives observed source documents and only then writes its own
-  // sanitized HAR. The Adapter below has no hand-authored HAR input.
-  const recording = new BrowserReadRecording({ directory, runId: "tablecheck-capture" });
-  recording.recordSnapshot({ url: guide, title: "Fixture restaurant", text: "Fixture restaurant", html });
-  recording.recordSnapshot({ url: requestUrl, title: "Fixture restaurant", text: "Fixture restaurant", html });
-  const captured = await recording.finish();
-  assert.equal(captured.replay.status, "REPLAYABLE");
-  if (captured.replay.status !== "REPLAYABLE") throw new Error("fixture recording must be replayable");
-  const capturedHarPath = captured.replay.harPath;
-  const raw = new LocalPlaywrightChromium();
-  const policy = { documentOrigins: ["https://www.tablecheck.com"], genericPublicRead: true, staticResources: [], dynamicReads: [] } as const;
-  const runtime: BrowserRuntime = {
-    readNetworkBoundaryCapability: "ISOLATED_CONTEXT",
-    openSession: input => raw.openSession({ ...input, networkPolicy: policy, replayHarPath: capturedHarPath }),
-  };
-  const candidate = {
-    restaurant: {
-      id: "tablecheck:fixture", outletName: "Fixture restaurant", address: "1-1 Tokyo Fixture Street",
-      sourceIds: { tablecheck: "fixture", tablecheckNativeGuideUri: guide }, provenance: { fixture: "sanitized-har" },
-    }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const,
-  };
-  const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
-  try {
-    const result = await new TableCheckBrowserAvailability(executor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check({
-      candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-10-08", partySize: 2,
-      timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
-    }, new AbortController().signal);
-    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(result));
-    assert.deepEqual(result.offers.map(offer => offer.dateTime.slice(11, 16)), ["19:00"]);
-  } finally {
-    await executor.close();
-    await rm(directory, { recursive: true, force: true });
-  }
-});
-
-
 
 test("guarded dynamic TableCheck recording replays through the same production Adapter without receiver traffic", async () => {
   const { TableCheckBrowserAvailability } = await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
@@ -143,7 +100,8 @@ test("guarded dynamic TableCheck recording replays through the same production A
   const sourceExecutor = new BrowserTaskExecutor(traceBrowserRuntime(sourceRuntime, "TABLECHECK", () => 0, recording.snapshotSink()), { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   try {
     const source = await new TableCheckBrowserAvailability(sourceExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal);
-    assert.equal(source.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(source)); assert.ok(arrivals >= 1, "the guarded source task must consume its public dynamic response");
+    assert.equal(source.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(source));
+    assert.deepEqual(source.offers.map(offer => ({ date: offer.dateTime.slice(0, 10), time: offer.dateTime.slice(11, 16), partySize: offer.partySize })), [{ date: "2026-10-08", time: "19:00", partySize: 2 }]); assert.ok(arrivals >= 1, "the guarded source task must consume its public dynamic response");
     const captured = await recording.finish(); assert.equal(captured.replay.status, "REPLAYABLE"); if (captured.replay.status !== "REPLAYABLE") throw new Error("public dynamic capture must replay");
     const manifest = JSON.parse(await readFile(join(captured.path, "recording.json"), "utf8"));
     assert.equal(manifest.stylesheets.length, 1, "capture follows the real Guard response callback for loaded CSS");
@@ -159,7 +117,7 @@ test("guarded dynamic TableCheck recording replays through the same production A
     const replayRaw = new LocalPlaywrightChromium(); const replayRuntime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => replayRaw.openSession({ ...input, networkPolicy: policy, replayHarPath: capturedHarPath }) };
     const replayTrace: unknown[] = [];
     const replayExecutor = new BrowserTaskExecutor(traceBrowserRuntime(replayRuntime, "TABLECHECK", (_kind, detail) => { replayTrace.push(detail); return replayTrace.length; }), { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
-    try { const replay = await new TableCheckBrowserAvailability(replayExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal); assert.equal(replay.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(replay)); assert.equal(arrivals, beforeReplay, "replay consumes only recorded HAR responses"); assert.equal(replayTrace.some(detail => JSON.stringify(detail).includes('"pathname":"/slots"') && JSON.stringify(detail).includes('"outcome":"ADMITTED"')), true, "Replay must consume the recorded dynamic response"); }
+    try { const replay = await new TableCheckBrowserAvailability(replayExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal); assert.equal(replay.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(replay)); assert.deepEqual(replay.offers.map(offer => ({ date: offer.dateTime.slice(0, 10), time: offer.dateTime.slice(11, 16), partySize: offer.partySize })), [{ date: "2026-10-08", time: "19:00", partySize: 2 }]); assert.equal(arrivals, beforeReplay, "replay consumes only recorded HAR responses"); assert.equal(replayTrace.some(detail => JSON.stringify(detail).includes('"pathname":"/slots"') && JSON.stringify(detail).includes('"outcome":"ADMITTED"')), true, "Replay must consume the recorded dynamic response"); }
     finally { await replayExecutor.close(); }
   } finally { await sourceExecutor.close(); await new Promise<void>(resolve => receiver.close(() => resolve())); await rm(directory, { recursive: true, force: true }); }
 });

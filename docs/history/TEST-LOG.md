@@ -5844,3 +5844,7 @@ User signs off G1 from exhaustive independent review (Claude, 2026-10-28). Prese
 Effective scorer red: approved ALLERGY form rejected; same assertion green after reference-category membership. Existing8 scorer controls all pass, no tests added. Frozen input SHAs and historical-byte validation retained; five gates pending.
 
 2026-10-29 CET: G1 signoff verified on f05b61d8: five gates PASS, default1203/28.223s, Chromium175/106.809s, each before/after clean and frozen inputs intact. Date metadata normalized using clock tool UTC→Vienna CET; criteria and execution unchanged. Source calls0. [Signoff](../../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
+
+## TEST-2026-10-29-APPROVED-TEST-MAINTENANCE
+
+Five controlled faults each fail the intended surviving assertion; normal controls pass. Final default-focused50/50 green. Typecheck/diff checks pass; full frozen gates and timing/count comparison pending. Baseline full default1203/28.223s, Chromium175/106.809s. All timing samples use same environment, no production or external access. [Proofs](../../.eval-artifacts/phase3b/test-suite-maintenance/coverage-proofs/summary.json).

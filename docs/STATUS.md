@@ -744,3 +744,5 @@
 完整旧 STATUS 已移入 [月度历史快照](history/monthly/2026-10-status-baseline.md)；[月度摘要与逐条索引](history/README.md) 保留原始 DEVLOG／TEST-LOG。
 
 2026-10-29 CET: G1 signoff verified on f05b61d8: five gates PASS, default1203/28.223s, Chromium175/106.809s, each before/after clean and frozen inputs intact. Date metadata normalized using clock tool UTC→Vienna CET; criteria and execution unchanged. Source calls0. [Signoff](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
+
+2026-10-29 CET: Approved test maintenance candidate: D01/D02/D03/C01 redundancies removed only after five normal/mutant successor controls; T01 fake6.1s wait virtualized. P21 category/region bodies moved unchanged to existing4-way file scheduling; other long controls retained individually. Product/site/Pack/Prompt/Schema unchanged, calls0. Baseline1203/28.223s and175/106.809s; clean frozen gates pending. [Report](../.eval-artifacts/phase3b/test-suite-maintenance/report.md).
