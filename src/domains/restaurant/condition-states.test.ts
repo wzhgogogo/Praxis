@@ -110,9 +110,12 @@ test("quoted budget applicability keeps request-bound party, meal, weekday/date 
   assert.equal(result.status, row.expected, row.name);
   assert.equal(evidence.priceFacts!.listedCoursePricesYen[0]!.quote, `Dinner course JPY ${row.amount ?? 7000} including tax. ${row.clause}`.trim());
  }
- assert.equal(assessRestaurantConditions({...request, partySize: undefined}, [priced("For parties of 4 or more.")])[0]?.status, "NOT_CHECKED", "unknown party cannot establish applicability");
- assert.equal(assessRestaurantConditions({...request, date: undefined}, [priced("Wednesday only.")])[0]?.status, "NOT_CHECKED", "unknown date cannot establish weekday");
- assert.equal(assessRestaurantConditions({...request, timeWindow: undefined}, [priced("Dinner only.")])[0]?.status, "NOT_CHECKED", "unknown meal cannot establish a meal restriction");
+ const {partySize: _party, ...withoutParty} = request;
+ const {date: _date, ...withoutDate} = request;
+ const {timeWindow: _window, ...withoutTime} = request;
+ assert.equal(assessRestaurantConditions(withoutParty, [priced("For parties of 4 or more.")])[0]?.status, "NOT_CHECKED", "unknown party cannot establish applicability");
+ assert.equal(assessRestaurantConditions(withoutDate, [priced("Wednesday only.")])[0]?.status, "NOT_CHECKED", "unknown date cannot establish weekday");
+ assert.equal(assessRestaurantConditions(withoutTime, [priced("Dinner only.")])[0]?.status, "NOT_CHECKED", "unknown meal cannot establish a meal restriction");
  assert.equal(assessRestaurantConditions(request, [priced("For parties of 4 or more."), priced("")])[0]?.status, "MET", "an independent applicable price is retained");
  assert.equal(assessRestaurantConditions(request, [priced("For parties of 4 or more."), priced("", 9000)])[0]?.status, "NOT_MET", "the inapplicable cheap quote cannot override an applicable over-cap quote");
 });
