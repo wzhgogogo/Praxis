@@ -1,0 +1,17 @@
+{
+  "platform": "Linux-6.1.0-54-cloud-arm64-aarch64-with-glibc2.36",
+  "node": "v24.4.1",
+  "cpus": 2,
+  "hostFrozenRef": "445691b3233412e843e1fc56b0257cc320019919",
+  "guestOrHostCommit": "db33b140775a2cb3a768494070db944b7ce146dd",
+  "newModelGoogleWebsiteLive": 0,
+  "affinity": [
+    0,
+    1
+  ],
+  "ipRules": "0:\tfrom all lookup local\n100:\tfrom all to 192.168.5.2 lookup main\n101:\tfrom all lookup 45000\n32766:\tfrom all lookup main\n32767:\tfrom all lookup default\n",
+  "ip6Rules": "0:\tfrom all lookup local\n101:\tfrom all lookup 45000\n32766:\tfrom all lookup main\n",
+  "cpuCgroup": "0::/user.slice/user-501.slice/session-3.scope\n",
+  "pressure": "Ordinary2CPU, no extra quota",
+  "routes": "Iface\tDestination\tGateway \tFlags\tRefCnt\tUse\tMetric\tMask\t\tMTU\tWindow\tIRTT                                                       \neth0\t00000000\t0205A8C0\t0003\t0\t0\t200\t00000000\t0\t0\t0                                                                             \neth0\t0005A8C0\t00000000\t0001\t0\t0\t200\t00FFFFFF\t0\t0\t0                                                                             \neth0\t0205A8C0\t00000000\t0005\t0\t0\t200\tFFFFFFFF\t0\t0\t0                                                                             \n"
+}
