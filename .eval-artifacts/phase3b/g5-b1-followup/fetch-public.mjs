@@ -34,7 +34,9 @@ try{
  let decoded=result.body;const encoding=result.headers['content-encoding'];
  if(encoding==='gzip')decoded=gunzipSync(decoded);else if(encoding==='deflate')decoded=inflateSync(decoded);else if(encoding==='br')decoded=brotliDecompressSync(decoded);else if(encoding&&encoding!=='identity')throw Error('UNSUPPORTED_CONTENT_ENCODING');
  writeFileSync(root+'/'+kind+'.decoded.txt',decoded,{flag:'wx'});
- const meta={...start,completedAtCET:cet(),status:result.status,headers:result.headers,rawHeaders:result.rawHeaders,rawSHA256:sha(result.body),rawBytes:result.body.length,decodedSHA256:sha(decoded),decodedBytes:decoded.length,redirectFollowed:false,cookieSent:false};
+ const headers=Object.fromEntries(Object.entries(result.headers).filter(([key])=>key.toLowerCase()!=='set-cookie'));
+ const rawHeaders=[];for(let i=0;i<result.rawHeaders.length;i+=2)if(result.rawHeaders[i].toLowerCase()!=='set-cookie')rawHeaders.push(result.rawHeaders[i],result.rawHeaders[i+1]);
+ const meta={...start,completedAtCET:cet(),status:result.status,headers,rawHeaders,cookieResponseHeadersOmitted:true,rawSHA256:sha(result.body),rawBytes:result.body.length,decodedSHA256:sha(decoded),decodedBytes:decoded.length,redirectFollowed:false,cookieSent:false};
  writeFileSync(root+'/'+kind+'.meta.json',JSON.stringify(meta,null,2)+'\n',{flag:'wx'});
  console.log(JSON.stringify({kind,status:result.status,bytes:decoded.length,sha256:sha(decoded),location:result.headers.location??null}));
 }catch(error){writeFileSync(root+'/'+kind+'.meta.json',JSON.stringify({...start,completedAtCET:cet(),status:null,error:String(error)},null,2)+'\n',{flag:'wx'});throw error;}

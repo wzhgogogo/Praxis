@@ -92,3 +92,22 @@ test("B1 omissions: unavailable or foreign G1 evidence never produces terms or a
   const absent=fixture();delete absent.source.terms;
   assert.deepEqual(rendered(absent)!.terms,[]);
 });
+
+
+test("B1 language conflict shows both originals and paraphrases without choosing a stricter policy",()=>{
+  const input=fixture(),terms=input.source.terms!;
+  const english=structuredClone(terms.cancellation!);
+  const japanese=structuredClone(english);
+  assert.equal(english.status,"ANSWERED");assert.equal(japanese.status,"ANSWERED");
+  if(japanese.status!=="ANSWERED"||english.status!=="ANSWERED")throw Error("fixture");
+  const url="https://tabelog.com/tokyo/A1301/A130101/13123456/",quote="前日キャンセルは50％、当日は100％です。";
+  japanese.answer="Cancellation costs 50% the day before and 100% on the day.";
+  japanese.citations=[{...japanese.citations[0]!,url,text:quote}];japanese.checkedPages=[{url,readAt:input.context.now}];
+  terms.pages=[...terms.pages,{...terms.pages[0]!,url,text:quote}];
+  Object.assign(terms,{cancellationConflict:{japanese,english}});
+  const result=rendered(input)!;
+  assert.equal((result as unknown as {cancellationNotice:string}).cancellationNotice,"Cancellation terms differ between the Japanese and English pages");
+  assert.equal(result.terms[0]!.citations[0]!.text,quote);
+  assert.equal(result.terms[1]!.citations[0]!.text,"Cancellations on the day cost 100%.");
+  assert.match(result.terms[0]!.label,/50%/);assert.match(result.hint!,/Confirm cancellation terms on the website/);
+});
