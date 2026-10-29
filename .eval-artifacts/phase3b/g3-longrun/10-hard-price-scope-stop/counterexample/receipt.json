@@ -1,0 +1,24 @@
+{
+  "mode": "OFFLINE_REAL_ADAPTER_FIXTURE_MODEL_AND_PRODUCTION_HARD_PROJECTION",
+  "commit": "c8ff6bf70621c776c7b701727653a13bea02f4ef",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=G3c Tabelog quotes",
+    "src/integrations/tabelog/tabelog-browser-availability.test.ts"
+  ],
+  "exitCode": 1,
+  "seconds": 0.254347333,
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "originalHardConsumerExactMain": true,
+  "hardConsumerSha256": "116261708af0bc69e18011f386b751d84875bb89c6ec4ea40d10642ff3dfdc76",
+  "independentOracle": "literal source says available only for parties of at least 4; requested party 2; no other price proof",
+  "expected": "NOT_CHECKED",
+  "actual": "MET",
+  "sourceOrModelRealCalls": 0
+}

@@ -1,0 +1,53 @@
+{
+  "commit": "38998920be1c97eb92acb9154ffa11399d29edd8",
+  "runs": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "seconds": 0.543488166,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "native",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/infrastructure/browser/browser-source-model-budget.test.ts",
+        "src/integrations/restaurant-facts/model-page-question.test.ts",
+        "src/integrations/restaurant-facts/model-source-facts.test.ts",
+        "src/integrations/tabelog/tabelog-browser-availability.test.ts",
+        "src/integrations/tablecheck/tablecheck-browser-availability.test.ts",
+        "src/integrations/restaurant-availability/live-browser-availability.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 20.126023459,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "hard",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.20937341599999826,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

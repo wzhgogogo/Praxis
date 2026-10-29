@@ -1,0 +1,40 @@
+{
+  "status": "OFFLINE_COUNTEREXAMPLE_EXPECTATION_FOR_REVIEW",
+  "mode": "FIXTURE_MODEL_LOCAL_SOURCE_REAL_ADAPTER_PRODUCTION_HARD_PROJECTION",
+  "inputCommit": "c8ff6bf70621c776c7b701727653a13bea02f4ef",
+  "inputFreezeSha256": "76fdcb0888ee6b66d5df8cc6a8d0d96fa30d01d3b0745ded3de048203e292963",
+  "frozenPaths": 705,
+  "observations": [
+    {
+      "mode": "OFFLINE_SOURCE_TO_HARD_PRICE_SCOPE",
+      "requestedPartySize": 2,
+      "quotedMinimumPartySize": null,
+      "quote": "Seasonal dinner course: JPY 8,000, tax included; dinner only.",
+      "parsedAmount": 8000,
+      "independentExpected": "MET",
+      "actual": "MET",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+      "literalQuoteRetained": true,
+      "inventoryParty": 2,
+      "offerPrice": null,
+      "realCalls": 0
+    },
+    {
+      "mode": "OFFLINE_SOURCE_TO_HARD_PRICE_SCOPE",
+      "requestedPartySize": 2,
+      "quotedMinimumPartySize": 4,
+      "quote": "Seasonal dinner course: JPY 8,000, tax included; dinner only. Available only for parties of 4 or more.",
+      "parsedAmount": 8000,
+      "independentExpected": "NOT_CHECKED",
+      "actual": "MET",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+      "literalQuoteRetained": true,
+      "inventoryParty": 2,
+      "offerPrice": null,
+      "realCalls": 0
+    }
+  ],
+  "independentOracle": "literal source minParty=4; authoritative request party=2; no other source price proof; expected HARD cap NOT_CHECKED, not NOT_MET",
+  "stoppedWithoutChangingHardRule": true,
+  "currentDefaultRegressionIntentionallyRed": true
+}

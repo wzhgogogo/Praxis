@@ -1,0 +1,7 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/application/restaurant-agent-loop.test.ts(151,9): error TS2741: Property 'BROWSER_CANDIDATE_MODEL_BUDGET_EXCEEDED' is missing in type '{ readonly CONFIGURATION: "SYSTEM"; readonly INVALID_REQUEST: "SYSTEM"; readonly TIMEOUT: "SYSTEM"; readonly NETWORK: "SYSTEM"; readonly PROVIDER_RATE_LIMITED: "SYSTEM"; readonly PROVIDER_REJECTED: "SYSTEM"; ... 96 more ...; readonly WEBSITE_ENTITY_MATCH_UNCERTAIN: "BUSINESS"; }' but required in type 'Record<"GOOGLE_CONFIGURATION_ERROR" | "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" | "GOOGLE_LOCATION_AMBIGUOUS" | "GOOGLE_LOCATION_UNRESOLVED" | "GOOGLE_MALFORMED_RESPONSE" | "GOOGLE_NETWORK_FAILED" | ... 6 more ... | ModelGatewayErrorCode, "BUSINESS" | "SYSTEM">'.
+src/integrations/restaurant-availability/quoted-source-fact-merge.ts(9,34): error TS2322: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'.

@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET：G3 因 HARD 报价适用人数错判停止。实际 Adapter → fixture 模型选句 → 生产条件判断中，原文完整保留“8,000 日元、至少 4 人”，但 2 人请求仍为 MET；独立期望为 NOT_CHECKED。无限制报价正对照为 MET，库存人数绑定正常。HARD 消费方与 main `50a08361` 字节相同，未自行改规则；这是离线反例，没有 Live 错误交付。OBS-09 已实现，G3c 尚为草案；相关核心 49/49、原生 163/163、Chromium 14/14 通过，当前新增回归红灯保留，最终五门禁和严格 G2 尚未通过。A 的 Sen UNKNOWN 已在 main，因本次 S0 停止尚未同步。C 保护文件/断言及响应接口不变，真实调用 0；行数 3,970/Pack 482 仅参考。只推工作分支，等复核。 [报告](../.eval-artifacts/phase3b/g3-longrun/10-hard-price-scope-stop/report.md).
+
 2026-10-29 CET: OBS08/09 public-selection implementation removes class-selected authority and uses ARIA/live native state/exact bound responses; effective native/Chromium red→targeted and corresponding greens. Candidate 12f5dd0d: first four gates PASS (default 1216/1216), full Chromium 178/179; sole failure is the A-owned approved Sen UNKNOWN reference not yet on main. All per-gate statuses clean, no skips/restorations. C protected code/tests and vacancy-response output unchanged. Mark validation pending, preserve the failed gate, continue G3c under explicit user non-wait instruction; no baseline edit and no full/strict PASS claim. Calls0. [Report](../.eval-artifacts/phase3b/g3-longrun/08-public-selection/report.md).
 
 2026-10-29 CET: G1 single-sentence ID repair separately merged/pushed main `b2a3cbd3`, remote verified. G3 sync candidate `0073ec8d` retains A test consolidation, B corresponding test body and C protected code/assertions; exact authorized response input preserved. Five gates PASS (default 1213/1213; Chromium 178/178, 114.236 seconds), ordinary G2 4/4, per-gate clean, 691 frozen paths unchanged; HARD bytes identical. Ledger 475-id union preserves both sides; real calls 0. Sen reference decision remains pending: B recommends A record unsupported confirmation as unverified with separate public-evidence controls; baseline unchanged, shared-state/Sen/G3c unfinished. G3 remains unmerged. [Report](../.eval-artifacts/phase3b/g3-longrun/07-g1-main-sync/report.md).
@@ -85,7 +87,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.454
+- Document revision: 4.455
 - Last updated: 2026-10-29
 - Source of truth for: 当前实现、证据与下一道门槛
 
