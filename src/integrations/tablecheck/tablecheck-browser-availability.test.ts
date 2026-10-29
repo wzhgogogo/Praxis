@@ -244,16 +244,20 @@ test("TableCheck category scope binds every presented slot to a visible enabled 
   assert.equal(hasTableCheckScopeBoundSlot(page, [...controls, exact, { ...controls[0]!, id: "old-later", stableKey: "old-later", label: "19:30", href: current("/en/restaurant1/reserve/landing", "19:30") }], { date: "2026-08-05", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:30" } }, scope, ["19:00", "19:30"]), false);
 });
 
-test("TableCheck reads scoped menu text only from a real outer menu item", () => {
+test("TableCheck binds menu text through public scope labels when all private markers change", () => {
   const scopeControl: BrowserPageControl = {
     id: "sushi", stableKey: "sushi", kind: "RADIO", role: "radio", label: "Sushi", value: "sushi", checked: false,
     visible: true, disabled: false,
     structure: { tag: "INPUT", name: "reservation[service_category]", classes: ["radio_buttons"], dialogLabel: "", formClass: "reserveform", sliderCount: 0, radioGroupKey: "form:reserve|name:reservation[service_category]" },
   };
   const scoped = '<article class="menu-item"><h3 class="menu-item-title">Sushi Omakase</h3><div class="menu-item-data" data-service-categories="[&quot;sushi&quot;]"></div><p class="menu-item-description">Twelve pieces</p><input name="irrelevant"></article>';
-  const snapshot = (html: string): BrowserSnapshot => ({ url: "https://www.tablecheck.com/en/shops/example/reserve", title: "Example", text: "", html });
+  const snapshot = (html: string): BrowserSnapshot => ({ url: "https://www.tablecheck.com/en/shops/example/reserve", title: "Example", text: "Sushi Omakase\nTwelve pieces", html });
   assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped), [scopeControl]).map((item) => ({ value: item.serviceScope.value, text: item.text })), [{ value: "sushi", text: "Sushi Omakase\nTwelve pieces" }]);
-  assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped.replace('class="menu-item"', 'class="menu-item-title"')), [scopeControl]), [], "a title class prefix is not an outer menu container");
+  for (const changed of [scoped.replaceAll('menu-item', 'opaque'), scoped.replace('data-service-categories', 'data-opaque-categories')]) {
+    assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(changed), [scopeControl]).map(item=>({value:item.serviceScope.value,text:item.text})), [{value:"sushi",text:"Sushi Omakase\nTwelve pieces"}], "private markers are not scope evidence");
+  }
+  assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped), [{...scopeControl,label:"Bar"}]), [], "a private category value cannot override the visible service label");
+  assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped), [scopeControl,{...scopeControl,id:"other",stableKey:"other",structure:{...scopeControl.structure!,radioGroupKey:"another-owner"}}]), [], "equal labels in distinct groups cannot establish one owner");
   for (const hiddenMarkup of [
     `<!-- ${scoped} -->`,
     `<style>${scoped}</style>`,

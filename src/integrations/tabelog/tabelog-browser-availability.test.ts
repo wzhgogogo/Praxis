@@ -857,7 +857,7 @@ test("Tabelog existing read grounds recorded course prices even when inventory i
 test("Tabelog field quotations retain merchant courses separately from names/reviews and reject neighboring courses", async () => {
   const url="https://tabelog.com/en/tokyo/A0000/A000000/11111111/";
   const card=(title:string,href=url+"party/1/")=>`<div class="rstdtl-course-list js-rstdtl-course-list"><a href="${href}"><span class="rstdtl-course-list__course-title-text">${title}</span></a><p class="rstdtl-course-list__desc">Dinner bookings handled separately</p></div>`;
-  const html=`<h2 class="display-name">Omakase House</h2><div class="rstdtl-rvw"><a class="rstdtl-rvw__title-target">Wonderful Kaiseki</a>${card("Review Omakase Course")}</div><aside>${card("Neighbor Omakase")}</aside>${card("Lunch Omakase Course")}<div hidden>${card("Hidden Omakase")}</div><div aria-hidden="true">${card("Aria Hidden Omakase")}</div><div class="is-hidden">${card("Class Hidden Omakase")}</div>${card("Foreign Omakase",url.replace("11111111","22222222")+"party/1/")}<table class="rstinfo-table__table"><tr><th>Categories</th><td>Sushi, Japanese Cuisine</td></tr></table>`;
+  const html=`<h1 class="display-name">Omakase House</h1><div class="rstdtl-rvw" aria-label="Customer reviews"><a href="${url}dtlrvwlst/1/" class="rstdtl-rvw__title-target">Wonderful Kaiseki</a>${card("Review Omakase Course")}</div><aside>${card("Neighbor Omakase")}</aside>${card("Lunch Omakase Course")}<div hidden>${card("Hidden Omakase")}</div><div aria-hidden="true">${card("Aria Hidden Omakase")}</div><div class="is-hidden" style="display:none">${card("Class Hidden Omakase")}</div>${card("Foreign Omakase",url.replace("11111111","22222222")+"party/1/")}<table class="rstinfo-table__table"><tr><th>Categories</th><td>Sushi, Japanese Cuisine</td></tr></table>`;
   const q=parseTabelogSourceFieldQuotes({url,title:"Source",text:"",html});
   assert.ok(q.some(q=>q.field==="NAME"&&q.quote==="Omakase House"));
   assert.ok(q.some(q=>q.field==="CUSTOMER_REVIEW"&&q.quote==="Wonderful Kaiseki"));
@@ -873,7 +873,7 @@ test("Tabelog field quotations retain merchant courses separately from names/rev
 });
 
 
-test("Tabelog field quotations match class tokens with reordered and extra classes without JS hooks", () => {
+test("Tabelog field quotations survive private marker changes using visible labels and links", () => {
   const url = "https://tabelog.com/en/tokyo/A0000/A000000/11111111/";
   const expected = [
     { field: "NAME", quote: "Source Restaurant", sourceUrl: url, meal: "UNSPECIFIED" },
@@ -883,11 +883,11 @@ test("Tabelog field quotations match class tokens with reordered and extra class
   ];
   for (const classes of [
     { card: "js-rstdtl-course-list rstdtl-course-list", title: "emphasis rstdtl-course-list__course-title-text", description: "rstdtl-course-list__desc expanded", review: "highlight rstdtl-rvw__title-target", name: "display-name prominent" },
-    { card: "extra rstdtl-course-list another", title: "rstdtl-course-list__course-title-text emphasis", description: "expanded rstdtl-course-list__desc", review: "rstdtl-rvw__title-target highlight", name: "prominent display-name" },
+    { card: "opaque-a", title: "opaque-b", description: "opaque-c", review: "opaque-d", name: "opaque-e" },
   ]) {
-    const html = `<h2 class="${classes.name}">Source Restaurant</h2>
+    const html = `<h1 class="${classes.name}">Source Restaurant</h1>
       <h2 class="display-name-suffix">Not a name field</h2>
-      <a class="${classes.review}">Customer opinion</a>
+      <section aria-label="Customer reviews"><a href="${url}dtlrvwlst/1/" class="${classes.review}">Customer opinion</a></section>
       <div class="${classes.card}"><a href="${url}party/1/"><span class="${classes.title}">Lunch Omakase Course</span></a><p class="${classes.description}">Lunch course details</p></div>`;
     assert.deepEqual(parseTabelogSourceFieldQuotes({ url, title: "Source", text: "", html }), expected);
   }
