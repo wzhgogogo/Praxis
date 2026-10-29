@@ -1,6 +1,6 @@
-# source-quoted-qa-scorer@4
+# source-quoted-qa-scorer@5
 
-Current reference dataset: phase3b-qa-reviewed@2. Public questions: phase3b-qa-questions@3 (core sensitivity enum; no HALAL alias). Product ADR0046/Prompt/Schema/State are unchanged. All34 references remain REVIEWER_CONFIRMED by independent reviewer (Claude), 2026-10-27. Historical candidate bytes and old scores are retained.
+Current reference dataset: phase3b-qa-reviewed@4. Public questions: phase3b-qa-questions@3 (core sensitivity enum; no HALAL alias). Product ADR0046/Prompt/Schema/State are unchanged. All34 references remain REVIEWER_CONFIRMED by independent reviewer (Claude), 2026-10-27. Historical candidate bytes and old scores are retained.
 
 Q28/Q30 each permit two outcomes. NOT_STATED requires empty citations, correct category and confirmationRequired=true. Its source evidence is optional related context, not a required quotation. ANSWERED instead requires the related source phrase (Allergy information available / Beef short rib steak), correct category, confirmationRequired=true, and an explicit no-safety-guarantee / no-halal-certification limitation. The relatedAnswer reference holds the permitted grounded form; requiredQuotes at the NOT_STATED root is empty. Q30 is RELIGIOUS_DIET.
 
@@ -9,3 +9,7 @@ Known affirmative allergy-safety or halal-certification claims are rejected thro
 All NOT_STATED outputs follow ADR0046: no citations. All ANSWERED outputs still need grounded same-page/same-read quotes. Core confirmationRequired is preserved, not synthesized from a model-independent category. Presentation advice remains outside this core-only evaluation. Conflict Q26 still needs both originals, inconsistency and restaurant confirmation; mismatch remains UNVERIFIED. Q24/Q25 still prohibit fresh reads.
 
 The Runner never loads references. Its enforced deny/canary guards answers.reviewed.json during execution; a separate scorer reads the canonical g1-qa/answers.reviewed.json after execution. The former evaluator-only mirror is retired to avoid two sources of truth. Only the public questions and saved pages are available to B during implementation. No real-model evaluation until B Agent integration completes and the evaluation run is authorized.
+
+## Q14 post-result review adjustment (applied 2026-10-29 CET)
+
+Independent reviewer (Claude), 2026-10-28, and the user accept Q14 sensitivity NONE or ALLERGY: the natural question explicitly mentions egg and dairy. ALLERGY is a conservative interpretation and must keep confirmationRequired=true; NONE follows the usual false flag. Neither classification permits a suitability or safety conclusion. The reference's acceptedSensitiveCategories is checked as a set; every other question retains its existing single category and confirmation rule. Questions, product contracts and historical automatic outputs are unchanged. This was approved after exposure to the repeat results, not a clean prospective criterion. Full provenance: ../g1-six-repeat/criteria-change.json. Scorer@5 does not retrospectively relabel historical scorer@4 outputs.

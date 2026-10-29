@@ -11,7 +11,7 @@ export async function runQaEvaluation(input: { questions: string; references: st
     pages: Array<{ id: string; pagePath: string; pageSha256: string; storageSha256: string; storageEncoding: string; outlet: { id: string } }>;
     questions: Array<{ id: string; pageId: string; type: string; displayedOutlet: { candidateId: string }; readContext: { runId: string }; sensitiveCategory?: string }>;
   };
-  const references = JSON.parse(await readFile(input.references, "utf8")) as { answers: Array<{ questionId: string; status: QaReference["status"]; answerKind: QaReference["kind"]; candidateAnswer: string; approvedAnswers?: string[]; rejectedAnswers?: string[]; requiredQuotes?: string[]; forbiddenAnswerFragments?: string[]; confirmationRequired?: boolean; relatedAnswer?: QaReference["relatedAnswer"]; evidence: Array<{ quote: string }> }> };
+  const references = JSON.parse(await readFile(input.references, "utf8")) as { answers: Array<{ questionId: string; status: QaReference["status"]; answerKind: QaReference["kind"]; candidateAnswer: string; approvedAnswers?: string[]; rejectedAnswers?: string[]; requiredQuotes?: string[]; forbiddenAnswerFragments?: string[]; confirmationRequired?: boolean; relatedAnswer?: QaReference["relatedAnswer"]; acceptedSensitiveCategories?: QaReference["acceptedSensitiveCategories"]; evidence: Array<{ quote: string }> }> };
   const unreviewed = questions.questions.filter(question => references.answers.find(answer => answer.questionId === question.id)?.status !== "REVIEWER_CONFIRMED").map(question => question.id);
   if (unreviewed.length) {
     const result = { scorer: FACT_QA_SCORER, status: "NOT_READY", reason: "CANDIDATE_ANSWERS_ARE_NOT_ACCEPTANCE_GOLD", unreviewed, evaluated: 0, falseClaimCount: null, modelCalls: 0, sourceCalls: 0 };
@@ -36,6 +36,7 @@ export async function runQaEvaluation(input: { questions: string; references: st
     }
     rows.push({ questionId: question.id, ...scoreQaAnswer({ status: reference.status, kind: reference.answerKind,
       approvedAnswers: reference.approvedAnswers ?? [reference.candidateAnswer], ...(reference.rejectedAnswers ? { rejectedAnswers: reference.rejectedAnswers } : {}), requiredQuotes: reference.requiredQuotes ?? reference.evidence.map(row => row.quote), ...(reference.forbiddenAnswerFragments ? { forbiddenAnswerFragments: reference.forbiddenAnswerFragments } : {}),
+      ...(reference.acceptedSensitiveCategories ? { acceptedSensitiveCategories: reference.acceptedSensitiveCategories } : {}),
       ...(reference.confirmationRequired !== undefined ? { confirmationRequired: reference.confirmationRequired } : {}), ...(reference.relatedAnswer ? { relatedAnswer: reference.relatedAnswer } : {}),
       targetOutletId: question.displayedOutlet.candidateId, targetRunId: question.readContext.runId, pageId: page.id, pageSha256: page.pageSha256, sensitiveCategory: question.sensitiveCategory === "RELIGIOUS_DIET" ? "RELIGIOUS_DIET" : question.sensitiveCategory === "ALLERGY" ? "ALLERGY" : question.sensitiveCategory === "ACCESSIBILITY" ? "ACCESSIBILITY" : "NONE", notStatedQuestion: question.type === "页面未说明" },
     { ...read, outletId: page.outlet.id, text: text.get(page.id)! }, response.answer) });

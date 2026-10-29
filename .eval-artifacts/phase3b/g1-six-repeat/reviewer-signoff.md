@@ -1,0 +1,9 @@
+# G1 independent review and user signoff
+
+Recorded 2026-10-29 CET; reviewer: independent reviewer (Claude), 2026-10-28. Evidence is exposed development evaluation, not Clean Holdout. User signs off G1 with Q27 quality gap handed to B for fixture repair only.
+
+19 requests represent 18 trials: 14 PASS, 3 Q27 refusal FAIL, and one Q31-r2 trial with two transport-timeout attempts. False claims: 0 per exhaustive human review. Replacing these eighteen trials in the original 102 gives **97/102 correct, 3 quality failures, 2 timeouts; absence 23/24**. The other timeout is original Q20-r2. reviewer-judgments.json binds each attempt to raw evidence SHA; combined-review-summary.json lists all 102 trial judgments. Historical automatic results, original review, and original raw execution files are untouched.
+
+Q14 accepts NONE or conservative ALLERGY because egg/dairy are explicitly in the question. This was approved **after seeing results**; criteria-change.json records before/after, application time, reviewer and reference hashes. ALLERGY still requires confirmation. No suitability/safety conclusion is permitted. Dataset@4 / scorer@5 are evaluation-only changes; core Prompt/Schema and public questions remain unchanged. The old scorer rejects the now-approved conservative form; the same assertion passes after membership checking, with missing confirmation, unrelated categories and suitability claims still rejected. Unknown wording still requires independent review; this does not silently convert all historical automatic scores to PASS.
+
+Five gates: pending clean frozen run. Test maintenance is a subsequent separate branch. New real calls: 0.

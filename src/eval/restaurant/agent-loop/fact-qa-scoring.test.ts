@@ -35,6 +35,16 @@ test("G1 distinguishes honest absence, unsupported claims, bilingual conflict an
   const absent: QaReference = { ...reference, kind: "NOT_STATED", notStatedQuestion: true, approvedAnswers: ["页面未说明。"] };
   assert.equal(scoreQaAnswer(absent, read, { kind: "NOT_STATED", sensitiveCategory: "NONE", confirmationRequired: false, text: "页面未说明。", citations: [] }).status, "PASS");
   assert.equal(scoreQaAnswer(absent, read, current).falseClaimCount, 1);
+  // Local construction of the reviewer-approved post-result Q14 criterion.
+  const conservative = JSON.parse(JSON.stringify({ ...absent, acceptedSensitiveCategories: ["NONE", "ALLERGY"],
+    forbiddenAnswerFragments: ["This course is suitable for vegans."] })) as QaReference;
+  const missing: QaResponse = { kind: "NOT_STATED", sensitiveCategory: "NONE", confirmationRequired: false, text: "页面未说明。", citations: [] };
+  assert.equal(scoreQaAnswer(conservative, read, missing).status, "PASS");
+  assert.equal(scoreQaAnswer(conservative, read, { ...missing, sensitiveCategory: "ALLERGY", confirmationRequired: true }).status, "PASS", "approved conservative interpretation still requires confirmation");
+  assert.equal(scoreQaAnswer(conservative, read, { ...missing, sensitiveCategory: "ALLERGY", confirmationRequired: false }).status, "FAIL");
+  assert.equal(scoreQaAnswer(conservative, read, { ...missing, sensitiveCategory: "RELIGIOUS_DIET", confirmationRequired: true }).status, "FAIL");
+  assert.equal(scoreQaAnswer(conservative, read, { ...missing, text: "This course is suitable for vegans." }).falseClaimCount, 1);
+
   assert.equal(scoreQaAnswer({ ...reference, kind: "CONFLICT" }, read, current).status, "FAIL");
   assert.equal(scoreQaAnswer(reference, read, { ...current, citations: [] }).status, "FAIL");
   assert.equal(scoreQaAnswer({ ...reference, sensitiveCategory: "ALLERGY" }, read, current).status, "FAIL");

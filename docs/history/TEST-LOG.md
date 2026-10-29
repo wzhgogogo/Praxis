@@ -5836,3 +5836,9 @@ Actual six commands at9017a8cd: typecheck0.429s, arch0.166s, default1203 in35.97
 ## 2026-10-28 CET: Six-question schema3 real-model repeat
 
 2026-10-28 CET: A six-question schema3 repeat complete for review, on maineb1518f1/frozena019d8a3.18planned/19paid≤20 (17responses/2timeouts,1transport retry), source/Google/Live0. Explicit checks11/18:Q07/Q26/Q33 each3, Q31two/one unresolved transport;Q14wrongALLERGY3, Q27refusal3. Original scorer0PASS11FAIL8unknown; no rubric/reference/question changes. No detected false claims,14 automatic claim counts unknown and agent triage0 pending reviewer. Five gates1196/175 PASS/clean. Broad test audit now separate first-list slice; no test edits. [Report](../.eval-artifacts/phase3b/g1-six-repeat/report.md).
+
+## TEST-2026-10-29-G1-SIGNOFF
+
+User signs off G1 from exhaustive independent review (Claude, 2026-10-28). Preserve frozen six-repeat f80dacb0 in current main history; 19 calls/18 trials produce14 PASS/3 Q27 quality FAIL/one twice-timed-out Q31-r2. Replace six original question trials:97/102 correct,3 quality FAIL,2 timeouts, false claims0, absence23/24. Q27 handed to B fixture-only repair, no paid repeat. Q14 NONE/ALLERGY criterion explicitly revised after result exposure; dataset@4/scorer@5, confirmation and no-suitability constraints retained. Historical outputs and other33 references unchanged. Source/core/questions unchanged, new real calls0. [Review](../../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md). Five gates pending frozen verification.
+
+Effective scorer red: approved ALLERGY form rejected; same assertion green after reference-category membership. Existing8 scorer controls all pass, no tests added. Frozen input SHAs and historical-byte validation retained; five gates pending.

@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET: **G1 user signed off**, independent review97/102 correct,3 Q27 refusal failures,2 transport timeouts, false claims0, absence23/24. Q14 post-result NONE/ALLERGY criterion adjustment recorded explicitly (dataset@4/scorer@5); original auto-scores and evidence retained. B to fix Q27 sentence IDs with fixture, no paid rerun. Five gates pending; approved test maintenance is next separate slice. New real calls0. [Review](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
+
 2026-10-28 CET：A获批G2日期基线修订完成。5日期原/改名均UNKNOWN；Teppen PASS，Sen仅非日期requestConfirmed仍退化（保留给B控件组）。d477d691有效红→a6853be8绿；冻结9017a8cd六项标准检查全绿：默认1203/1203、Chromium175/175、普通G2 4/4，12次前后净树，676输入SHA不变。其余10个case、12保存页、评分器、变异规则和全部产品均未改。本批真实调用0；463条账本按id保留main441及A此前实花19。按用户批准直接发布main并通知B；六题与减测分支仍独立待复核。 [报告](../.eval-artifacts/phase3b/g2-calendar-response-baseline/report.md)。
 
 2026-10-28 CET：按用户批准的日历证据复核决定，A修订G2五个日期期望为UNKNOWN（null）。Teppen同次initial_vacancy仅HTTP200元数据，无正文；Sen原录制缺失、仅HTML/文本留存，225份固定Git归档未匹配原次材料。有效红灯PHONE_ONLY≠null→同断言绿；只改A证据投影/原G2检查/基线，评分器、变异、12页及产品不变。Teppen整页PASS；Sen日期PASS但非日期requestConfirmed仍丢失，整页诚实退化留待B控件组。普通G2及五门禁冻结后执行；本批真实调用0，先前19次实花按id并入账本。批准直接合main后通知B；其他A分支仍待复核。 [报告](../.eval-artifacts/phase3b/g2-calendar-response-baseline/report.md)。
