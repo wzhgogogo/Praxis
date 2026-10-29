@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.350
+- Document revision: 4.351
 
 
 - Last updated: 2026-10-29
@@ -5931,3 +5931,10 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 ## 2026-10-29 CET: Sen query-confirmation public evidence stop
 
 2026-10-29 CET: G3 response-evidence code `2d29aead` passed all five gates (default tests 1215/1215; Chromium 179/179) and ordinary G2 4/4. The authorized C input change preserves all protected logic and assertions. Diagnostic `03443767` then found that removing either Sen selected-state class changes `requestConfirmed` from true to false while public text, ARIA, native values, styles and local pixels stay identical; public positive controls detect changes. Work stops for reviewer/A resolution of the retained query-confirmation reference. No baseline or product change was made for this diagnostic. Shared selected-state work and G3c remain unfinished. The ledger retains all prior entries; new real calls are 0. Site lines 3,950 and Pack lines 478 are reference only. [Report](../../.eval-artifacts/phase3b/g3-longrun/06-sen-query-observability/report.md).
+
+
+<a id="test-2026-10-29-g3-g1-main-sync"></a>
+
+## 2026-10-29 CET: G3 sync after approved G1 main repair
+
+2026-10-29 CET: G1 single-sentence ID repair separately merged/pushed main `b2a3cbd3`, remote verified. G3 sync candidate `0073ec8d` retains A test consolidation, B corresponding test body and C protected code/assertions; exact authorized response input preserved. Five gates PASS (default 1213/1213; Chromium 178/178, 114.236 seconds), ordinary G2 4/4, per-gate clean, 691 frozen paths unchanged; HARD bytes identical. Ledger 475-id union preserves both sides; real calls 0. Sen reference decision remains pending: B recommends A record unsupported confirmation as unverified with separate public-evidence controls; baseline unchanged, shared-state/Sen/G3c unfinished. G3 remains unmerged. [Report](../../.eval-artifacts/phase3b/g3-longrun/07-g1-main-sync/report.md).

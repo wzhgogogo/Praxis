@@ -1,5 +1,7 @@
 # Integration Capability Matrix
 
+2026-10-29 CET: G1 single-sentence ID repair separately merged/pushed main `b2a3cbd3`, remote verified. G3 sync candidate `0073ec8d` retains A test consolidation, B corresponding test body and C protected code/assertions; exact authorized response input preserved. Five gates PASS (default 1213/1213; Chromium 178/178, 114.236 seconds), ordinary G2 4/4, per-gate clean, 691 frozen paths unchanged; HARD bytes identical. Ledger 475-id union preserves both sides; real calls 0. Sen reference decision remains pending: B recommends A record unsupported confirmation as unverified with separate public-evidence controls; baseline unchanged, shared-state/Sen/G3c unfinished. G3 remains unmerged. [Report](../../.eval-artifacts/phase3b/g3-longrun/07-g1-main-sync/report.md).
+
 2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
 
 2026-10-29 CET: G3 response-evidence code `2d29aead` passed all five gates (default tests 1215/1215; Chromium 179/179) and ordinary G2 4/4. The authorized C input change preserves all protected logic and assertions. Diagnostic `03443767` then found that removing either Sen selected-state class changes `requestConfirmed` from true to false while public text, ARIA, native values, styles and local pixels stay identical; public positive controls detect changes. Work stops for reviewer/A resolution of the retained query-confirmation reference. No baseline or product change was made for this diagnostic. Shared selected-state work and G3c remain unfinished. The ledger retains all prior entries; new real calls are 0. Site lines 3,950 and Pack lines 478 are reference only. [Report](../../.eval-artifacts/phase3b/g3-longrun/06-sen-query-observability/report.md).
@@ -29,7 +31,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.106
+- Document revision: 1.107
 
 
 - Last updated: 2026-10-29

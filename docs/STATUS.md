@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET: G1 single-sentence ID repair separately merged/pushed main `b2a3cbd3`, remote verified. G3 sync candidate `0073ec8d` retains A test consolidation, B corresponding test body and C protected code/assertions; exact authorized response input preserved. Five gates PASS (default 1213/1213; Chromium 178/178, 114.236 seconds), ordinary G2 4/4, per-gate clean, 691 frozen paths unchanged; HARD bytes identical. Ledger 475-id union preserves both sides; real calls 0. Sen reference decision remains pending: B recommends A record unsupported confirmation as unverified with separate public-evidence controls; baseline unchanged, shared-state/Sen/G3c unfinished. G3 remains unmerged. [Report](../.eval-artifacts/phase3b/g3-longrun/07-g1-main-sync/report.md).
+
 2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
 
 2026-10-29 CET: Approved five-item test maintenance verified on0cfe3064: five gates PASS plus fixedG2 4/4, each before/after clean,679 inputs unchanged. Same-machine complete commands: default1203→1200,28.223→27.364s; Chromium175→174,106.809→105.395s (single before/after pair, small observed reduction). Only approved four names removed; all others retained. Two moved P21 test bodies byte-identical; fake Guard wait uses test clock. Product/site/Pack/Prompt/Schema unchanged; calls0. [Report](../.eval-artifacts/phase3b/test-suite-maintenance/report.md).
@@ -81,7 +83,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.452
+- Document revision: 4.453
 - Last updated: 2026-10-29
 - Source of truth for: 当前实现、证据与下一道门槛
 
