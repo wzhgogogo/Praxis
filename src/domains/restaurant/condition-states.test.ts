@@ -95,6 +95,10 @@ test("quoted budget applicability keeps request-bound party, meal, weekday/date 
   {name: "lunch only cannot prove dinner", clause: "Lunch only.", expected: "NOT_CHECKED"},
   {name: "Japanese lunch only", clause: "ランチ限定", expected: "NOT_CHECKED"},
   {name: "matching dinner", clause: "Dinner only.", expected: "MET"},
+  {name: "excluded weekday", clause: "Not available on Wednesday.", expected: "NOT_CHECKED"},
+  {name: "weekday exclusion checked", clause: "Not available on Tuesday.", expected: "MET"},
+  {name: "unsupported spelled party", clause: "For four diners.", expected: "NOT_CHECKED"},
+  {name: "day substring is not weekday", clause: "Salmon course.", expected: "MET"},
   {name: "membership cannot be verified", clause: "Members only.", expected: "NOT_CHECKED"},
   {name: "advance booking cannot be verified", clause: "Advance reservation required.", expected: "NOT_CHECKED"},
   {name: "holiday cannot be verified", clause: "Weekdays excluding public holidays only.", expected: "NOT_CHECKED"},
@@ -116,6 +120,7 @@ test("quoted budget applicability keeps request-bound party, meal, weekday/date 
  assert.equal(assessRestaurantConditions(withoutParty, [priced("For parties of 4 or more.")])[0]?.status, "NOT_CHECKED", "unknown party cannot establish applicability");
  assert.equal(assessRestaurantConditions(withoutDate, [priced("Wednesday only.")])[0]?.status, "NOT_CHECKED", "unknown date cannot establish weekday");
  assert.equal(assessRestaurantConditions(withoutTime, [priced("Dinner only.")])[0]?.status, "NOT_CHECKED", "unknown meal cannot establish a meal restriction");
+ assert.equal(assessRestaurantConditions(withoutTime, [priced("")])[0]?.status, "NOT_CHECKED", "a meal-labelled price needs a requested meal");
  assert.equal(assessRestaurantConditions(request, [priced("For parties of 4 or more."), priced("")])[0]?.status, "MET", "an independent applicable price is retained");
  assert.equal(assessRestaurantConditions(request, [priced("For parties of 4 or more."), priced("", 9000)])[0]?.status, "NOT_MET", "the inapplicable cheap quote cannot override an applicable over-cap quote");
 });

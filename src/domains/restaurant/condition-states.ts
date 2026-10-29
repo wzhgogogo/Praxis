@@ -47,7 +47,7 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
     if (price) {
       const observations = facts.filter(fact => fact.provider !== "MODEL_JUDGMENT" && fact.priceFacts?.schemaVersion === "restaurant-price-facts@1").flatMap(fact => {
         const prices = fact.priceFacts!;
-        const courses = prices.listedCoursePricesYen.filter(item => item.kind === "MEAL" && (item.meal === "UNSPECIFIED" || !meal || item.meal === meal));
+        const courses = prices.listedCoursePricesYen.filter(item => item.kind === "MEAL" && (item.meal === "UNSPECIFIED" || item.meal === meal));
         const range = meal === "DINNER" ? prices.dinnerBudgetRangeYen : meal === "LUNCH" ? prices.lunchBudgetRangeYen : undefined;
         return [...courses.map(item => ({ min: item.amount, max: item.amount, quote: item.quote, sourceUrl: item.sourceUrl, tax: item.tax })), ...(range ? [{ ...range, tax: "UNSPECIFIED" }] : [])]
           .filter(item => quotedPriceApplicability(item.quote, {date:intent.date,partySize:intent.partySize,...(meal ? {meal} : {})}).status === "APPLICABLE")

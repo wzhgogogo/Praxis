@@ -63,20 +63,20 @@ export function quotedPriceApplicability(quote: string, request: QuotedPriceRequ
   consume(/(?:(?:available|served|offered)\s+(?:for\s+)?)?(lunch|dinner)\s*only\b/gu,m=>request.meal ? request.meal===m[1]!.toUpperCase() : undefined);
   consume(/(ランチ|昼食|ディナー|夕食)(?:限定|のみ)/gu,m=>request.meal ? request.meal===(/ランチ|昼食/u.test(m[1]!)?"LUNCH":"DINNER") : undefined);
   const weekday = requestDate ? new Date(requestDate+"T00:00:00Z").getUTCDay() : undefined;
-  consume(new RegExp(String.raw`(?:(?:available|valid|offered)\s+)?(?:only\s+)?(?:on\s+)?(`+dayToken+String.raw`(?:\s*(?:,\s*(?:and\s+)?|and\s+|to\s+|through\s+|[-–/]\s*)`+dayToken+String.raw`)*)(?:\s*only)?\b`,"gu"),m=>{
-    const tokens=[...m[1]!.matchAll(new RegExp(dayToken,"gu"))].map(day=>dayNumbers[day[0].slice(0,3)]!);
+  consume(new RegExp(String.raw`(?:(not available|unavailable|except)\s+(?:on\s+)?)?(?:(?:available|valid|offered)\s+)?(?:only\s+)?(?:on\s+)?(`+dayToken+String.raw`(?:\s*(?:,\s*(?:and\s+)?|and\s+|to\s+|through\s+|[-–/]\s*)`+dayToken+String.raw`)*)(?:\s*only)?\b`,"gu"),m=>{
+    const tokens=[...m[2]!.matchAll(new RegExp(dayToken,"gu"))].map(day=>dayNumbers[day[0].slice(0,3)]!);
     let days=tokens;
-    if(tokens.length===2 && /\bto\b|\bthrough\b|[-–]/u.test(m[1]!)){
+    if(tokens.length===2 && /\bto\b|\bthrough\b|[-–]/u.test(m[2]!)){
       days=[];for(let day=tokens[0]!;;day=(day+1)%7){days.push(day);if(day===tokens[1])break;}
     }
-    return weekday===undefined ? undefined : days.includes(weekday);
+    return weekday===undefined ? undefined : m[1] ? !days.includes(weekday) : days.includes(weekday);
   });
   consume(/(?:毎週)?([日月火水木金土])(?:曜日|曜)(?:限定|のみ)?/gu,m=>weekday===undefined ? undefined : weekday==="日月火水木金土".indexOf(m[1]!));
   consume(/(?:available\s+)?weekdays?(?:\s*only)?/gu,()=>weekday===undefined ? undefined : weekday>=1&&weekday<=5);
   consume(/(?:available\s+)?weekends?(?:\s*only)?/gu,()=>weekday===undefined ? undefined : weekday===0||weekday===6);
   // Menu composition and quoted tax are retained, not eligibility conditions.
-  remaining=remaining.replace(/(?:food|meal)\s+only|only\s+(?=(?:jpy|¥)\s*\d)/gu," ");
-  const unsupported = /\bonly\b|\b(?:minimum|maximum|limited|exclusive|members?|students?|adults?|children|holidays?|except|conditions?|restrictions?|required|must|deadline)\b|(?:valid|available)\s+(?:from|until|between|for|on|through)|advance\s+(?:reservation|booking)|(?:reservation|booking)\s+in advance|(?:people|persons?|guests)\s*\d|\d\s*(?:people|persons?|guests)|人数|名様|限定|利用期間|予約可能日|条件|要予約|祝日|平日|限り|除く|まで|から/iu;
+  remaining=remaining.replace(/tax\s+not\s+included|not\s+including\s+tax|(?:food|meal)\s+only|only\s+(?=(?:jpy|¥)\s*\d)/gu," ");
+  const unsupported = /\b(?:only|not)\b|\b(?:minimum|maximum|limited|exclusive|members?|students?|adults?|children|women|men|registered|holidays?|except|conditions?|restrictions?|required|must|deadline)\b|(?:valid|available)\s+(?:from|until|between|for|on|through)|advance\s+(?:reservation|booking)|(?:reservation|booking)\s+in advance|(?:people|persons?|guests|diners|participants)\s*\d|\d\s*(?:people|persons?|guests|diners|participants)|for\s+[^.!?\n]{0,50}\b(?:people|persons?|guests|diners|participants|couples?)\b|人数|名様|限定|利用期間|予約可能日|条件|要予約|祝日|平日|限り|除く|まで|から/iu;
   if(unsupported.test(remaining))check(remaining.trim(),undefined);
   return {status:inapplicable?"INAPPLICABLE":unknown?"UNVERIFIED":"APPLICABLE",reasons};
 }
