@@ -5882,3 +5882,10 @@ Actual six commands at9017a8cd: typecheck0.429s, arch0.166s, default1203 in35.97
 ## 2026-10-28 CET: Approved A calendar integration verified
 
 2026-10-28 CET: B G3 synchronized approved A calendar main8454fffa, frozen merge6c339ba7/687 inputs five gates1213/178 PASS (111.821s), ordinary G2 4/4, every before/after clean. G2 now11 PASS/1 honest loss: Teppen PASS, strict only Sen requestConfirmed remains. B product and approved A source bytes/HARD44197/C protected tests unchanged. Ledger469-id union preserves all prior rows, totals171model/242GET/11Google; sync increment0. C fixture patch NOT applied, human authorization pending; G3/G3c incomplete, publish work branch only. [Report](../../.eval-artifacts/phase3b/g3-longrun/04-calendar-main-sync/report.md).
+
+
+<a id="test-2026-10-29-g3-response-only"></a>
+
+## 2026-10-29 CET: G3 response-only slot/day evidence
+
+2026-10-29 CET: G3 Group05 response-only slots/day complete; user-authorized C response fixture diff applied, C logic/all assertions preserved. Effective native2/Chromium1 reds→green; frozen2d29aead690 inputs five gates1215/179 PASS (114.013s), ordinary G2 4/4, every before/after clean. Two evidenced gate repairs retained, no assertion reduction; HARD44197 bytes unchanged. Private DOM inventory/day inference retired; English selected-query/shared controls and G3c remain. Sites3950/Pack478 reference, ledger470 prior rows preserved, new real calls0. Push then continue Sen observation, no main merge. [Report](../../.eval-artifacts/phase3b/g3-longrun/05-response-only-slots-days/report.md).
