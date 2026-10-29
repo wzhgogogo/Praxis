@@ -46,3 +46,7 @@ Executable source is unchanged since the completed Group05 gates, so their verif
 Physical site TypeScript lines: 3,950; `source-packs.ts`: 478, for reference only. The ledger contains 471 unique ids and retains all 470 previous entries unchanged. Cumulative totals remain 171 model calls, 242 evaluation GETs and 11 Google calls. This batch adds **zero** real model, Google, website, Live, GET or environment calls. No `.env` or private QA answers were read. Validation here ran on macOS; no independent Linux result is claimed.
 
 Publish the work branch and stop for review. No G3 merge into main is authorized by this delivery.
+
+## Final remote freshness check
+
+After publication, `ls-remote` showed work branch `bb414cc715c064f35c43d74d43f56d7e789e9ff0` and a newer main `8d56581255c44f44b92b9d692ea785f8deaaaefb`. A fetch and a path-limited comparison confirmed that the G2 baseline and manifest are unchanged from integrated main `8454fffa`. The newer commits concern A's G1 repeat review and signoff, so the Sen reference conflict remains. The tested branch is retained at its frozen input state for review; the newer main was not merged during this stop. Private QA answers were not read. See [remote check](remote-check.json).
