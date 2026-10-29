@@ -5142,3 +5142,11 @@ Actual six commands at9017a8cd: typecheck0.429s, arch0.166s, default1203 in35.97
 User signs off G1 from exhaustive independent review (Claude, 2026-10-28). Preserve frozen six-repeat f80dacb0 in current main history; 19 calls/18 trials produce14 PASS/3 Q27 quality FAIL/one twice-timed-out Q31-r2. Replace six original question trials:97/102 correct,3 quality FAIL,2 timeouts, false claims0, absence23/24. Q27 handed to B fixture-only repair, no paid repeat. Q14 NONE/ALLERGY criterion explicitly revised after result exposure; dataset@4/scorer@5, confirmation and no-suitability constraints retained. Historical outputs and other33 references unchanged. Source/core/questions unchanged, new real calls0. [Review](../../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md). Five gates pending frozen verification.
 
 2026-10-29 CET: G1 signoff verified on f05b61d8: five gates PASS, default1203/28.223s, Chromium175/106.809s, each before/after clean and frozen inputs intact. Date metadata normalized using clock tool UTC→Vienna CET; criteria and execution unchanged. Source calls0. [Signoff](../../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
+
+## DEV-2026-10-29-APPROVED-TEST-MAINTENANCE
+
+Five approved consolidation items have individual successor proof, all originals protected. P21 process-sharing precheck abandoned after cancellation cleanup race; final implementation only splits byte-identical category/region test bodies under existing concurrency. Long scales retained per distinct transport mechanism, B-owned busy tests receive suggestions only. Product code unchanged. New real calls0. [Report](../../.eval-artifacts/phase3b/test-suite-maintenance/report.md).
+
+## DEV-2026-10-29-TEST-MAINTENANCE-VERIFIED
+
+2026-10-29 CET: Approved five-item test maintenance verified on0cfe3064: five gates PASS plus fixedG2 4/4, each before/after clean,679 inputs unchanged. Same-machine complete commands: default1203→1200,28.223→27.364s; Chromium175→174,106.809→105.395s (single before/after pair, small observed reduction). Only approved four names removed; all others retained. Two moved P21 test bodies byte-identical; fake Guard wait uses test clock. Product/site/Pack/Prompt/Schema unchanged; calls0. [Report](../../.eval-artifacts/phase3b/test-suite-maintenance/report.md).

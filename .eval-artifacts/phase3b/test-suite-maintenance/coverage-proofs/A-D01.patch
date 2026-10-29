@@ -1,0 +1,11 @@
+--- src/infrastructure/browser/browser-action-decision.ts
++++ src/infrastructure/browser/browser-action-decision.ts
+@@ -321,7 +321,7 @@
+       if (!nonBlank(value.targetRef) || (value.requestedState !== "CHECKED" && value.requestedState !== "UNCHECKED")) {
+         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");
+       }
+-      return { type: "SET_CHECKED", targetRef: value.targetRef, checked: value.requestedState === "CHECKED", reason };
++      return { type: "SET_CHECKED", targetRef: value.targetRef, checked: false, reason };
+     case "ADJUST_RANGE":
+       if (!nonBlank(value.targetRef) || (value.requestedState !== "INCREASE" && value.requestedState !== "DECREASE")) {
+         return rejectWire(value, observedTargetRefs, !nonBlank(value.targetRef) ? "$.targetRef" : "$.requestedState", !nonBlank(value.targetRef) ? value.targetRef : value.requestedState, !nonBlank(value.targetRef) ? "REQUIRED_NONBLANK" : "INVALID_STATE");

@@ -1,0 +1,134 @@
+[
+  {
+    "id": "A-D01",
+    "sourceRef": "8d56581255c44f44b92b9d692ea785f8deaaaefb",
+    "command": [
+      "node",
+      "--import",
+      "./scripts/test-filesystem-guard.mjs",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=browser prompt describes|restores only bounded|accepts page-level WAIT|canonical page-level WAIT|page-level Escape|ordinary observed query submit",
+      "src/infrastructure/browser/browser-action-decision.test.ts",
+      "src/infrastructure/browser/browser-task-executor.test.ts"
+    ],
+    "sourceSha256": "9b26ed43c4a8f0ae929fd521b84a772ab929c85d72ab914e08a58a717a95b02c",
+    "testInputsSha256": {
+      "src/infrastructure/browser/browser-action-decision.test.ts": "352a2cef8a1c37f358f55c43da813210633ba414006492d0adfb0c25a085946c",
+      "src/infrastructure/browser/browser-task-executor.test.ts": "eb89d823a0ba30694d3da4e280f988d761fca7bf3788c8f289d586f600f8dc3c"
+    },
+    "mode": "LOCAL_CONSTRUCTED_CONTROLLED_FAULT_NOT_WEBSITE_REPLAY",
+    "normalExit": 0,
+    "mutantExit": 1,
+    "expectedFailure": "strict browser wire restores only bounded",
+    "assertionFailure": true,
+    "patchSha256": "3c89414472b0eed443a7d93bb5f883b2efbf468d39bb9221bf01bba63d4ee998",
+    "normalLogSha256": "1b3857850f6ce1163bb6dad704c20acd39774e8167e6b1ae16c569dcff906a4e",
+    "redLogSha256": "75196ccac26a2fabe8047ab5e202bd4b0cdadd51c912057a2c6ff5ab68b9496e"
+  },
+  {
+    "id": "A-D02",
+    "sourceRef": "8d56581255c44f44b92b9d692ea785f8deaaaefb",
+    "command": [
+      "node",
+      "--import",
+      "./scripts/test-filesystem-guard.mjs",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=candidate fact investigation re-reads only",
+      "src/integrations/google/google-places-restaurant-search.test.ts"
+    ],
+    "sourceSha256": "9a0fc3171d98e70f2e682d1cdc636152923249a02af25deeb35bccc885ae5677",
+    "testInputsSha256": {
+      "src/integrations/google/google-places-restaurant-search.test.ts": "339490990972a51481a429dc8a3b5b966745fcbc6acd66dddee17172ce298688"
+    },
+    "mode": "LOCAL_CONSTRUCTED_CONTROLLED_FAULT_NOT_WEBSITE_REPLAY",
+    "normalExit": 0,
+    "mutantExit": 1,
+    "expectedFailure": "fact investigation must reuse the stable place ID",
+    "assertionFailure": true,
+    "patchSha256": "411805c02881c30cf90d308efb376c3d9ee18f65fbe38e6216da75dfada97fe2",
+    "normalLogSha256": "ca598af93a7da2a7a51a012422c8f1361deb661522e3160f292bafcfe4c72406",
+    "redLogSha256": "395fb79075ae008a85d75200d0130f31f1d755f9c20c9d495d83c03d558e944e"
+  },
+  {
+    "id": "A-D03",
+    "sourceRef": "8d56581255c44f44b92b9d692ea785f8deaaaefb",
+    "command": [
+      "node",
+      "--import",
+      "./scripts/test-filesystem-guard.mjs",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=failed sent Google requests",
+      "src/integrations/google/google-places-restaurant-search.test.ts"
+    ],
+    "sourceSha256": "9a0fc3171d98e70f2e682d1cdc636152923249a02af25deeb35bccc885ae5677",
+    "testInputsSha256": {
+      "src/integrations/google/google-places-restaurant-search.test.ts": "339490990972a51481a429dc8a3b5b966745fcbc6acd66dddee17172ce298688"
+    },
+    "mode": "LOCAL_CONSTRUCTED_CONTROLLED_FAULT_NOT_WEBSITE_REPLAY",
+    "normalExit": 0,
+    "mutantExit": 1,
+    "expectedFailure": "validation function is expected to return \"true\"",
+    "assertionFailure": true,
+    "patchSha256": "6b72df08df779194b68759f2cce65601b6f244e88c643d1781624f51d88554e9",
+    "normalLogSha256": "521473436932b1fb7be9367f2a5c39ed250e8b6724a217c2b9e3d05bf9567ff6",
+    "redLogSha256": "3709d438becdbcbc298a232f480a87f784720bc5950c6763749333c2de4356a9"
+  },
+  {
+    "id": "A-C01",
+    "sourceRef": "8d56581255c44f44b92b9d692ea785f8deaaaefb",
+    "command": [
+      "node",
+      "--import",
+      "./scripts/test-filesystem-guard.mjs",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=guarded dynamic TableCheck recording",
+      "src/harness/browser/browser-read-replay.test.ts"
+    ],
+    "sourceSha256": "abc9d40217cfa46cac6061d4d23af6e042f212e384d417b780ad5a99dce6d51a",
+    "testInputsSha256": {
+      "src/harness/browser/browser-read-replay.test.ts": "0899360aa2b2f57f7cef6f448330ffe8de84de5774143ab9b55c8fd78466b150"
+    },
+    "mode": "LOCAL_CONSTRUCTED_CONTROLLED_FAULT_NOT_WEBSITE_REPLAY",
+    "normalExit": 0,
+    "mutantExit": 1,
+    "expectedFailure": "REPLAYABLE",
+    "assertionFailure": true,
+    "patchSha256": "904629e4ba951fd5c27933b04d20db7311d0fc46b4bad3f24d11503f54b83798",
+    "normalLogSha256": "11f7e0bca5755ed24234adaecef23b9711156d6b16b49bc34d2a4324fe60af7c",
+    "redLogSha256": "d001d90e5e6161addbb5bc53293d7d61057930c998aa6274737d3519fe037982"
+  },
+  {
+    "id": "A-T01",
+    "sourceRef": "8d56581255c44f44b92b9d692ea785f8deaaaefb",
+    "command": [
+      "node",
+      "--import",
+      "./scripts/test-filesystem-guard.mjs",
+      "--import",
+      "tsx",
+      "--test",
+      "--test-name-pattern=beyond the action cap",
+      "src/infrastructure/browser/playwright-read-network-guard.test.ts"
+    ],
+    "sourceSha256": "fb4be39052ed48a813f35bbcea3bacbc36c7d9c251f072e063d67396589d1830",
+    "testInputsSha256": {
+      "src/infrastructure/browser/playwright-read-network-guard.test.ts": "8abd4218e794b17313302cc120f9fdc4897223f12107f87a492d222e729a965b"
+    },
+    "mode": "LOCAL_CONSTRUCTED_CONTROLLED_FAULT_NOT_WEBSITE_REPLAY",
+    "normalExit": 0,
+    "mutantExit": 1,
+    "expectedFailure": "fetch:0:5000",
+    "assertionFailure": true,
+    "patchSha256": "99501d31810db9114b84ea2a9ce382bf5b78124764a0e6401f7ecb9596c53eb1",
+    "normalLogSha256": "9ce06b6ee546b92795186b3bdbeacfcce0a33c4f7097f0ffa1dab62ab592f9ed",
+    "redLogSha256": "5b0db42781462f29532f7ba5d04cb9c5661f98d8ebf2883b87a9dee013368afb"
+  }
+]

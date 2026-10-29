@@ -1,0 +1,87 @@
+{
+  "status": "PROPOSED_AWAITING_REVIEW_NO_TEST_EDITS",
+  "baselineMain": "ba466eb3eff89cc3f934bafc2134a39c4b6d84ed",
+  "items": [
+    {
+      "id": "A-D01",
+      "action": "REMOVE",
+      "source": "src/infrastructure/browser/browser-action-decision.test.ts:205",
+      "reason": "唯一观察是系统Prompt六句英语的正则匹配；同义改写会失败，句子仍在而执行权限坏掉则通过。未模拟一次模型决策，既不验证动作正确也不验证真实模型遵循。删除这一文案形状测试，行为合同继续由下面实际解码/执行覆盖。",
+      "coveredBy": [
+        "src/infrastructure/browser/browser-action-decision.test.ts:121",
+        "src/infrastructure/browser/browser-action-decision.test.ts:139",
+        "src/infrastructure/browser/browser-task-executor.test.ts:127",
+        "src/infrastructure/browser/browser-task-executor.test.ts:153",
+        "src/infrastructure/browser/browser-task-executor.test.ts:206",
+        "src/harness/browser/browser-read-page-controls.test.ts:177"
+      ],
+      "requiredBeforeRemoval": "逐项核对checkbox/radio/range/scroll的wire、WAIT/Escape重新观察、装Guard才允许submit及未装时拒绝均仍有行为断言；不删除这些正负控制。不声称fixture验证真实模型遵循Prompt。",
+      "protectedBoundary": "六条regex本身未曾作为Live故障行为红灯；权限正负控制全部保留。历史来源79fc9548/e90dc94e/14000ed4只说明文案新增，不把其当模型质量证据。",
+      "cohort": "default",
+      "proposedTestReduction": 1,
+      "productEdits": false
+    },
+    {
+      "id": "A-D02",
+      "action": "MERGE_ASSERTIONS_THEN_REMOVE",
+      "source": "src/integrations/google/google-places-restaurant-search.test.ts:419",
+      "reason": "两条都构造Cafe One/place-1的同一GooglePlacesRestaurantSearch→search→inspectFacts→GooglePlacesClient路径；419行只额外断言第二个URL是/v1/places/place-1，383行已核对读取成功、营业时间和共享两次额度。保留更完整正常控制并加上该URL断言，省掉第二次同路径装配。",
+      "coveredBy": [
+        "src/integrations/google/google-places-restaurant-search.test.ts:383",
+        "src/integrations/google/google-places-restaurant-search.test.ts:372"
+      ],
+      "requiredBeforeRemoval": "383行捕获真实fixture传输URL，给search和inspectFacts同一显式runId=run-a，断言第二次是GET /v1/places/place-1且没有再次Text Search；原calls=2、COMPLETED、hoursMatch、metadata.discovery=1/placeDetails=1、第三次预算拒绝全部保留。372行继续覆盖不同Run隔离。受控把Details改成Text Search时该存活测试应失败。",
+      "protectedBoundary": "只合并正向已知Google店详情路径，不删除未知店、越界、错误身份、预算拒绝或S0评价；不改生产检索代码。",
+      "cohort": "default",
+      "proposedTestReduction": 1,
+      "productEdits": false
+    },
+    {
+      "id": "A-D03",
+      "action": "MERGE_ASSERTIONS_THEN_REMOVE",
+      "source": "src/integrations/google/google-places-restaurant-search.test.ts:451",
+      "reason": "451行在Search测试文件里直接调用GooglePlacesClient.textSearch，只有同一fetch抛Error后GOOGLE_NETWORK_FAILED和错误消息脱敏。463行已经从真正Search入口触发同一Client失败并核对失败计账；把原upstream diagnostic payload的不可见断言移入后，错误和预算可在一次失败上共同核对。",
+      "coveredBy": [
+        "src/integrations/google/google-places-restaurant-search.test.ts:463"
+      ],
+      "requiredBeforeRemoval": "463行fake fetch仍抛包含原字面量upstream diagnostic payload的Error；assert.rejects同时检查GOOGLE_NETWORK_FAILED及public error.message不含原payload。保留usage=1、failure分类、第二次在发送前预算拒绝，另确认传输日志不新增payload。受控把provider错误原文直接拼入public错误时该存活断言应失败。",
+      "protectedBoundary": "脱敏断言迁移而非删除；不删Guard、授权、幂等或独立S0检查。若Search层改写错误使其不再经过同一Client catch，取消此合并。",
+      "cohort": "default",
+      "proposedTestReduction": 1,
+      "productEdits": false
+    },
+    {
+      "id": "A-C01",
+      "action": "REMOVE_AFTER_STRONGER_CAPTURE_CHECK",
+      "source": "src/harness/browser/browser-read-replay.test.ts:56",
+      "reason": "第二条手工recordSnapshot构造同一Fixture restaurant两份静态文档，再走Recorder.finish→HAR→TableCheck Adapter，只断言REPLAYABLE、AVAILABLE和19:00。第三条使用同一店/日期2026-10-08/两人/19:00，实际Guard回调捕获脚本、CSS和/slots后原样回放，并独立核对receiver零新增流量，覆盖更强的录制交接。静态HTML解析仍由TableCheck多链接同店正向控制覆盖。",
+      "coveredBy": [
+        "src/harness/browser/browser-read-replay.test.ts:100",
+        "src/harness/browser/browser-read-tablecheck.test.ts:111"
+      ],
+      "requiredBeforeRemoval": "第三条在现有source/replay AVAILABLE断言之外明确保留offers.map(dateTime.slice(11,16))=[19:00]及partySize=2/date=2026-10-08；原receiver不变、/slots ADMITTED、JS/CSS字节保留均不删。111行继续验证静态guide的同店绑定和一个Offer。若强控制不覆盖旧静态输入的请求绑定分支，则保留第二条，不以减数优先。首条HAR miss负例不动。",
+      "protectedBoundary": "候选自身没有Guard-denied/HAR-miss负向输入或独立S0断言；这些在首条、replay-missing-response及Runner replay均保留。历史14000ed4是新录制正向控制，不退役旧F5引用修复红灯。",
+      "cohort": "chromium",
+      "proposedTestReduction": 1,
+      "baselineDurationMs": 796.574916,
+      "productEdits": false
+    },
+    {
+      "id": "A-T01",
+      "action": "KEEP_ALL_ASSERTIONS_REPLACE_FAKE_TIME",
+      "source": "src/infrastructure/browser/playwright-read-network-guard.test.ts:50",
+      "reason": "fakeRoute.fetch目前真实sleep6000/100ms后仅按传入timeout判定成功或超时，默认基线耗时6107ms；并未使用真实浏览器网络。可用Node test注入Date/setTimeout并按fake fetch已开始的条件推进，保留6000>5000、8000放行、100超时等同样时间关系。",
+      "coveredBy": [
+        "src/infrastructure/browser/playwright-read-network-guard.test.ts:50",
+        "src/harness/browser/read-network-redirect.test.ts:52",
+        "src/harness/browser/browser-read-stability.test.ts:122"
+      ],
+      "requiredBeforeRemoval": "这里不删除任何测试。原source-read deadline超过action cap、fetch timeout参数、fulfill/abort及READ_TIMEOUT断言全部保留；用旧5秒cap路径应仍有效红灯。先确认Node24测试计时器推进不会影响其他测试，限定单个TestContext；真实Chromium6.5秒来源加载控制和OPEN_LINK正常/剩余预算超时继续不改。若需要改生产Guard接口，回到复核安排，不扩张此次测试维护。",
+      "protectedBoundary": "Guard负向断言与原历史deadline红灯全保留，只替代fake transport的人为墙钟等待。",
+      "cohort": "default",
+      "proposedTestReduction": 0,
+      "baselineDurationMs": 6107.355417,
+      "productEdits": false
+    }
+  ]
+}

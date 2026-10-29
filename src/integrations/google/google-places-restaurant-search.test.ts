@@ -382,10 +382,12 @@ test("Google Places request budget is mechanical and isolated by persistent read
 
 test("candidate fact investigation re-reads only the known Google place and shares discovery budget", async () => {
   let calls = 0;
+  const requests: Array<{ url: string; method: string }> = [];
   const client = new GooglePlacesClient({
     apiKey: "key",
-    fetchImplementation: async (_url, init) => {
+    fetchImplementation: async (url, init) => {
       calls += 1;
+      requests.push({ url: String(url), method: init?.method ?? "GET" });
       const place = {
         id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", location: { latitude: 35.6, longitude: 139.7 },
         types: ["cafe", "food"], primaryType: "cafe",
@@ -401,9 +403,13 @@ test("candidate fact investigation re-reads only the known Google place and shar
     criteria: [{ text: "cafe", polarity: "POSITIVE" as const, strength: "HARD" as const }],
   };
   const search = new GooglePlacesRestaurantSearch(client, () => "2026-08-03T09:00:00.000Z", 10, { maxRequests: 2 });
-  const discovered = await search.search({ intent }, new AbortController().signal);
-  const facts = await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent }, new AbortController().signal);
+  const discovered = await search.search({ intent, readRunId: "run-a" }, new AbortController().signal);
+  const facts = await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent, readRunId: "run-a" }, new AbortController().signal);
   assert.equal(calls, 2);
+  assert.deepEqual(requests, [
+    { url: "https://places.googleapis.com/v1/places:searchText", method: "POST" },
+    { url: "https://places.googleapis.com/v1/places/place-1", method: "GET" },
+  ], "fact investigation must reuse the stable place ID without another text search");
   assert.equal(facts.factChecks[discovered.candidates[0]!.restaurant.id]?.status, "COMPLETED");
   assert.ok(facts.evidence.some((item) => item.kind === "RESTAURANT_FACT" && item.claims.openingHoursMatch === true));
   assert.deepEqual(facts.metadata.googleRequests, {
@@ -413,25 +419,9 @@ test("candidate fact investigation re-reads only the known Google place and shar
     discovery: 1,
     placeDetails: 1, reverseAddressObservation: 0,
   });
-  await assert.rejects(search.search({ intent }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
+  await assert.rejects(search.search({ intent, readRunId: "run-a" }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
 });
 
-test("candidate fact investigation uses Place Details by stable ID, never another text search", async () => {
-  const urls: string[] = [];
-  const client = new GooglePlacesClient({
-    apiKey: "key",
-    fetchImplementation: async (url, init) => {
-      urls.push(String(url));
-      const place = { id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", location: { latitude: 35.6, longitude: 139.7 }, types: ["cafe"] };
-      return new Response(JSON.stringify(init?.method === "GET" ? place : { places: [place] }), { status: 200 });
-    },
-  });
-  const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 2 });
-  const intent = { ...fixtureIntent, target: { goal: "RECOMMENDATION" as const, query: "cafe" } };
-  const discovered = await search.search({ intent, readRunId: "run-a" }, new AbortController().signal);
-  await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent, readRunId: "run-a" }, new AbortController().signal);
-  assert.match(urls[1] ?? "", /\/v1\/places\/place-1$/);
-});
 
 test("a fact read records exhausted shared discovery capacity without a second provider call", async () => {
   const client = new GooglePlacesClient({
@@ -448,25 +438,15 @@ test("a fact read records exhausted shared discovery capacity without a second p
   assert.equal(facts.metadata.failureCode, "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED");
 });
 
-test("Google Places classifies provider failure without exposing a response body", async () => {
-  const failed = new GooglePlacesClient({
-    apiKey: "key",
-    fetchImplementation: async () => { throw new Error("upstream diagnostic payload"); },
-  });
-  await assert.rejects(
-    failed.textSearch({ textQuery: "restaurant", pageSize: 1 }, new AbortController().signal),
-    (error: unknown) => error instanceof Error && "code" in error && error.code === "GOOGLE_NETWORK_FAILED" && !error.message.includes("upstream diagnostic payload"),
-  );
-
-});
 
 test("failed sent Google requests consume the same per-run local budget and remain separately accounted", async () => {
   const client = new GooglePlacesClient({
     apiKey: "key",
-    fetchImplementation: async () => { throw new Error("unreachable provider"); },
+    fetchImplementation: async () => { throw new Error("upstream diagnostic payload"); },
   });
   const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 1 });
-  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "failed-run" }, new AbortController().signal), { code: "GOOGLE_NETWORK_FAILED" });
+  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "failed-run" }, new AbortController().signal),
+    (error: unknown) => error instanceof Error && "code" in error && error.code === "GOOGLE_NETWORK_FAILED" && !error.message.includes("upstream diagnostic payload"));
   assert.deepEqual(search.googleRequestUsage("failed-run"), {
     limit: 1,
     total: 1,

@@ -1,0 +1,30 @@
+✖ P21 discovery uses DOM category links despite CSS and rejects foreign regions (24895.565166ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 25235.222333
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-discovery.test.ts:1:4175
+✖ P21 discovery uses DOM category links despite CSS and rejects foreign regions (24895.565166ms)
+  AssertionError [ERR_ASSERTION]: the test lifetime closes its isolated contexts
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/harness/browser/browser-read-discovery.test.ts:23:14)
+      at async TestHook.run (node:internal/test_runner/test:1069:7)
+      at async Test.runHook (node:internal/test_runner/test:980:9)
+      at async after (node:internal/test_runner/test:1020:9)
+      at async Test.run (node:internal/test_runner/test:1088:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }

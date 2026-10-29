@@ -1,0 +1,31 @@
+{
+  "schema": "phase3b-test-maintenance-comparison@1",
+  "recordedAtCET": "2026-10-29T02:36:29+01:00",
+  "baseMain": "8d56581255c44f44b92b9d692ea785f8deaaaefb",
+  "verifiedRef": "0cfe30640f818cd8f238f4a7d525c872fa66efae",
+  "timing": {
+    "test": {
+      "beforeCount": 1203,
+      "afterCount": 1200,
+      "beforeSeconds": 28.223,
+      "afterSeconds": 27.364,
+      "secondsDecrease": 0.859,
+      "percentDecrease": 3.044,
+      "samplesPerSide": 1
+    },
+    "test:browser:fixture": {
+      "beforeCount": 175,
+      "afterCount": 174,
+      "beforeSeconds": 106.809,
+      "afterSeconds": 105.395,
+      "secondsDecrease": 1.414,
+      "percentDecrease": 1.324,
+      "samplesPerSide": 1
+    }
+  },
+  "sampleLimit": "One before/after pair in the same environment; modest observed decrease, no stable performance guarantee.",
+  "inputHashesVerified": 679,
+  "allOtherRuntimeNamesRetained": true,
+  "allNonTestProductBytesUnchanged": true,
+  "realCalls": 0
+}

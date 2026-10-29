@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET: Approved five-item test maintenance verified on0cfe3064: five gates PASS plus fixedG2 4/4, each before/after clean,679 inputs unchanged. Same-machine complete commands: default1203→1200,28.223→27.364s; Chromium175→174,106.809→105.395s (single before/after pair, small observed reduction). Only approved four names removed; all others retained. Two moved P21 test bodies byte-identical; fake Guard wait uses test clock. Product/site/Pack/Prompt/Schema unchanged; calls0. [Report](../.eval-artifacts/phase3b/test-suite-maintenance/report.md).
+
 2026-10-29 CET: **G1 user signed off**, independent review97/102 correct,3 Q27 refusal failures,2 transport timeouts, false claims0, absence23/24. Q14 post-result NONE/ALLERGY criterion adjustment recorded explicitly (dataset@4/scorer@5); original auto-scores and evidence retained. B to fix Q27 sentence IDs with fixture, no paid rerun. Five gates pending; approved test maintenance is next separate slice. New real calls0. [Review](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
 
 2026-10-28 CET：A获批G2日期基线修订完成。5日期原/改名均UNKNOWN；Teppen PASS，Sen仅非日期requestConfirmed仍退化（保留给B控件组）。d477d691有效红→a6853be8绿；冻结9017a8cd六项标准检查全绿：默认1203/1203、Chromium175/175、普通G2 4/4，12次前后净树，676输入SHA不变。其余10个case、12保存页、评分器、变异规则和全部产品均未改。本批真实调用0；463条账本按id保留main441及A此前实花19。按用户批准直接发布main并通知B；六题与减测分支仍独立待复核。 [报告](../.eval-artifacts/phase3b/g2-calendar-response-baseline/report.md)。
@@ -744,3 +746,5 @@
 完整旧 STATUS 已移入 [月度历史快照](history/monthly/2026-10-status-baseline.md)；[月度摘要与逐条索引](history/README.md) 保留原始 DEVLOG／TEST-LOG。
 
 2026-10-29 CET: G1 signoff verified on f05b61d8: five gates PASS, default1203/28.223s, Chromium175/106.809s, each before/after clean and frozen inputs intact. Date metadata normalized using clock tool UTC→Vienna CET; criteria and execution unchanged. Source calls0. [Signoff](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
+
+2026-10-29 CET: Approved test maintenance candidate: D01/D02/D03/C01 redundancies removed only after five normal/mutant successor controls; T01 fake6.1s wait virtualized. P21 category/region bodies moved unchanged to existing4-way file scheduling; other long controls retained individually. Product/site/Pack/Prompt/Schema unchanged, calls0. Baseline1203/28.223s and175/106.809s; clean frozen gates pending. [Report](../.eval-artifacts/phase3b/test-suite-maintenance/report.md).

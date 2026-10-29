@@ -1,0 +1,38 @@
+✖ candidate fact investigation re-reads only the known Google place and shares discovery budget (14.357125ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 153.073375
+
+✖ failing tests:
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:21395
+✖ candidate fact investigation re-reads only the known Google place and shares discovery budget (14.357125ms)
+  AssertionError [ERR_ASSERTION]: fact investigation must reuse the stable place ID without another text search
+  + actual - expected
+  
+    [
+      {
+        method: 'POST',
+        url: 'https://places.googleapis.com/v1/places:searchText'
+      },
+      {
+        method: 'GET',
+  +     url: 'https://places.googleapis.com/v1/places:searchText'
+  -     url: 'https://places.googleapis.com/v1/places/place-1'
+      }
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-test-successors-ghp2g9jd/src/integrations/google/google-places-restaurant-search.test.ts:409:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ { url: 'https://places.googleapis.com/v1/places:searchText', method: 'POST' }, { url: 'https://places.googleapis.com/v1/places:searchText', method: 'GET' } ],
+    expected: [ { url: 'https://places.googleapis.com/v1/places:searchText', method: 'POST' }, { url: 'https://places.googleapis.com/v1/places/place-1', method: 'GET' } ],
+    operator: 'deepStrictEqual'
+  }

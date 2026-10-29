@@ -1,0 +1,33 @@
+✖ read network guard preserves the Executor source-read deadline beyond the action cap (3.622958ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 106.278542
+
+✖ failing tests:
+
+test at src/infrastructure/browser/playwright-read-network-guard.test.ts:1:2697
+✖ read network guard preserves the Executor source-read deadline beyond the action cap (3.622958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  +   'fetch:0:5000',
+  +   'abort'
+  -   'fetch:0:8000',
+  -   'fulfill'
+    ]
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-test-successors-ghp2g9jd/src/infrastructure/browser/playwright-read-network-guard.test.ts:69:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'fetch:0:5000', 'abort' ],
+    expected: [ 'fetch:0:8000', 'fulfill' ],
+    operator: 'deepStrictEqual'
+  }

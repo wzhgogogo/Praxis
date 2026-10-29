@@ -1,0 +1,10 @@
+--- src/eval/restaurant/agent-loop/runners/browser-read-recording.ts
++++ src/eval/restaurant/agent-loop/runners/browser-read-recording.ts
+@@ -102,6 +102,7 @@
+       if (!this.stylesheets.has(url)) this.loadedStylesheetRules.push(stylesheetRule);
+       this.stylesheets.set(url, sanitized);
+     }
++    if (new URL(url).pathname === "/slots") return; // Controlled lost response
+     this.responses.set(url, {
+       method: response.method as "GET" | "HEAD",
+       status: response.status,

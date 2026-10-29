@@ -1,0 +1,34 @@
+✖ failed sent Google requests consume the same per-run local budget and remain separately accounted (2.293417ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 143.775291
+
+✖ failing tests:
+
+test at src/integrations/google/google-places-restaurant-search.test.ts:1:25890
+✖ failed sent Google requests consume the same per-run local budget and remain separately accounted (2.293417ms)
+  AssertionError [ERR_ASSERTION]: The validation function is expected to return "true". Received false
+  
+  Caught error:
+  
+  GooglePlacesError: Google Places request failed: Error: upstream diagnostic payload
+      at async TestContext.<anonymous> (/private/tmp/praxis-test-successors-ghp2g9jd/src/integrations/google/google-places-restaurant-search.test.ts:475:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: GooglePlacesError: Google Places request failed: Error: upstream diagnostic payload
+        at GooglePlacesClient.requestJson (/private/tmp/praxis-test-successors-ghp2g9jd/src/integrations/google/google-places-client.ts:207:13)
+        at async GooglePlacesRestaurantSearch.search (/private/tmp/praxis-test-successors-ghp2g9jd/src/integrations/google/google-places-restaurant-search.ts:396:19)
+        at async waitForActual (node:assert:565:5)
+        at async strict.rejects (node:assert:686:25)
+        at async TestContext.<anonymous> (/private/tmp/praxis-test-successors-ghp2g9jd/src/integrations/google/google-places-restaurant-search.test.ts:475:3)
+        at async Test.run (node:internal/test_runner/test:1069:7)
+        at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3),
+    operator: 'rejects'
+  }
