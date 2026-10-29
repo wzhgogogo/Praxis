@@ -1,9 +1,10 @@
 from pathlib import Path
 import os,subprocess,time,json,hashlib,platform
-root=Path.cwd();out=Path('/tmp/g2-scheduling-red-cohort-medium');out.mkdir(exist_ok=False)
+root=Path.cwd();out=Path('/tmp/g2-scheduling-red-cohort-medium-policy');out.mkdir(exist_ok=False)
 assert os.cpu_count()==2 and os.sched_getaffinity(0)=={0,1}
 assert not subprocess.check_output(['git','status','--porcelain'])
-assert '00000000' not in [line.split()[1] for line in Path('/proc/net/route').read_text().splitlines()[1:]]
+assert subprocess.run(['ip','route','get','203.0.113.1'],stdout=subprocess.PIPE,stderr=subprocess.PIPE).returncode!=0
+assert subprocess.run(['ip','-6','route','get','2001:db8::1'],stdout=subprocess.PIPE,stderr=subprocess.PIPE).returncode!=0
 expected={
 'src/harness/browser/dom-change.test.ts':'',
 'src/eval/restaurant/dom-change/run.ts':'',
