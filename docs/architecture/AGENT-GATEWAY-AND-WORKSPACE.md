@@ -1,8 +1,8 @@
 # Agent Gateway and Workspace
 
 - Status: Accepted
-- Document revision: 0.6
-- Last updated: 2026-10-29
+- Document revision: 0.7
+- Last updated: 2026-10-30
 - Source of truth for: Web/Mobile Web入口、Conversation/Session/Case边界、用户可见Activity与Domain Workspace
 - Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [Architecture Overview](OVERVIEW.md), [Task Runtime](TASK-RUNTIME.md), [Data, Context and Security](DATA-CONTEXT-SECURITY.md)
@@ -44,9 +44,11 @@ Task Runtime → Policy → Execution → Verifier
 
 用户消息先经过Agent Gateway确定可信`userId`、`conversationId`和`caseId`。自然语言解析结果只能形成经过Schema校验的Event或Proposal；Task Runtime决定Durable Case State是否改变。Gateway从最新Task Snapshot和相关执行记录生成Case、Activity和Artifact视图。
 
-### 当前查看上下文（设计已定、未实现）
+<a id="当前查看上下文设计已定未实现"></a>
 
-工作区发送的消息请求须同时携带当前视图、正在看的候选ID及正在比较的候选ID集合，供`this one`、`these two`等指代使用。它们是客户端提出的交互上下文，不是可信业务状态或新的通用Context框架；具体请求字段在前端第一段按实际API统一接线。
+### 当前查看上下文（前端第一段离线实现）
+
+工作区发送的消息请求须同时携带当前视图、正在看的候选ID及正在比较的候选ID集合，供`this one`、`these two`等指代使用。它们是客户端提出的交互上下文，不是可信业务状态或新的通用Context框架；HTTP消息请求中的`viewContext`是必填对象：`view`为HOME、CONVERSATION、CANDIDATES、DETAILS、SAVED或HANDOFF；可选`candidateId`仅用于实际显示单一候选的CANDIDATES/DETAILS/HANDOFF；`comparedCandidateIds`为最多3个不重复ID，第一段前端始终发空数组。HOME不接受候选/比较引用；无当前卡片时不默填首家。
 
 Gateway先以认证身份核对Conversation与Case归属，再核对候选确实属于该Case、视图与候选引用一致，且语义动作仍适用于最新请求版本；不接纳跨用户、跨Case、未知或失效的引用。无有效指代对象时澄清，不默选第一家、不复用其他安排的对象。
 
@@ -118,7 +120,7 @@ Status: `implemented: Stage 2B Fixture subset + local Live Read-only composition
 
 当前未实现生产身份提供方、后台主动通知、跨任务Memory、Authorization UI、远程Takeover或生产执行进度。Live Read-only页面只展示已grounded的结果、来源链接和稳定失败原因；它没有预约、付款、取消、登录、PII提交、远程验证码控制或公网部署承诺。SSE重连采用“先发送最新完整Snapshot”的简单协议，不是持久消息队列；Activity由持久化Event ID确定性生成，从而允许客户端替换和去重。
 
-ADR-0049的B1交接、来源二次校验和独立持久化`USER_REPORTED`反馈已在main `00519783`整合；普通启动的来源链接读者/G3接线仍未启用，不据此宣称真实来源已验收。这里的取消不支持现实预约取消。当前SSE完整Snapshot协议可继续作为服务端投影输入；新前端须按ID合并，不能把它当作整页重建理由。新工作区外壳、查看上下文、逐家显示与恢复交互为设计已定、未实现，第0步复核通过后再实施。
+ADR-0049的B1交接、来源二次校验和独立持久化`USER_REPORTED`反馈已在main `00519783`整合；普通启动的来源链接读者/G3接线仍未启用，不据此宣称真实来源已验收。这里的取消不支持现实预约取消。当前SSE完整Snapshot协议可继续作为服务端投影输入；新前端须按ID合并，不能把它当作整页重建理由。新工作区外壳、查看上下文、逐家显示与恢复交互已在前端第一段工作分支完成本地Fixture浏览器链路，独立视觉复核及门禁状态见[计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。进度从当前轮持久事件与活动生命周期投影，首家复用生产证据资格；SSE完整Snapshot按候选ID保留交互位置。查找中SHORTLIST_UPDATED与完成的只读事件发生版本冲突时，Application仅在证明同run且所有中间事件均为备选编辑后，将该只读事件按最新版本重交一次；需求/停止/其他状态变化均不适用，不重跑来源读取。
 
 ## G1 displayed-restaurant follow-up (offline implementation)
 

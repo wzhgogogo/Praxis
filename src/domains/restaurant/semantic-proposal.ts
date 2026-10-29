@@ -5,7 +5,7 @@ import {
 } from "./contracts.js";
 
 export const RESTAURANT_SEMANTIC_PROPOSAL_PURPOSE = "restaurant_semantic_interpret";
-export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v26";
+export const RESTAURANT_SEMANTIC_PROPOSAL_PROMPT_VERSION = "v27";
 export const RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA = {
   name: "restaurant-semantic-proposal",
   version: "4",

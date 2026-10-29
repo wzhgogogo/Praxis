@@ -28,6 +28,13 @@ export interface RestaurantSemanticInterpretInput {
   referenceTime: string;
   timezone: "Asia/Tokyo";
   currentDraft?: RestaurantIntentDraft;
+  viewingContext?: RestaurantSemanticViewingContext;
+}
+
+export interface RestaurantSemanticViewingContext {
+  view: string;
+  candidate?: {id: string; outletName: string; address: string};
+  comparedCandidates: Array<{id: string; outletName: string; address: string}>;
 }
 
 export interface RestaurantSemanticModelAttempt {
@@ -111,9 +118,10 @@ function toAttempt(response: ModelResponse): RestaurantSemanticModelAttempt {
   };
 }
 
-function modelContext(draft: RestaurantIntentDraft | undefined): Record<string, unknown> {
-  if (!draft) return {};
+function modelContext(draft: RestaurantIntentDraft | undefined, viewingContext?: RestaurantSemanticViewingContext): Record<string, unknown> {
+  if (!draft) return viewingContext ? {viewingContext} : {};
   return {
+    ...(viewingContext ? {viewingContext} : {}),
     ...(draft.target ? {
       target: {
         goal: draft.target.goal,
@@ -157,6 +165,7 @@ export function buildRestaurantSemanticInterpreterSystemPrompt(input: {
   referenceTime: string;
   timezone: "Asia/Tokyo";
   currentDraft?: RestaurantIntentDraft;
+  viewingContext?: RestaurantSemanticViewingContext;
   retryAttempt: number;
 }): string {
   const retryInstruction =
@@ -170,7 +179,9 @@ Do not invent facts or repeat facts merely because they appear in context.
 
 Reference time: ${input.referenceTime}. Timezone: ${input.timezone}. This is context for recognizing relative language only: do not calculate dates, weekdays, offsets, or local clock values yourself.
 Current authoritative context is supplied only to understand corrections, replacements, refinements, confirmations, and negations:
-${JSON.stringify(modelContext(input.currentDraft))}
+${JSON.stringify(modelContext(input.currentDraft, input.viewingContext))}
+
+Viewing context identifies the outlet currently on screen, not a selected restaurant or a verified fact about it. Use its server-resolved identity only to resolve references such as "this one". Viewing, saving and comparing do not select an outlet or authorize a booking. Change the target or conditions only when requested by the current user message; never copy conditions from viewing context.
 
 Use YYYY-MM-DD dates, 24-hour HH:mm times, and JPY budgets.
 
@@ -484,6 +495,7 @@ export class RestaurantSemanticInterpreter {
                 referenceTime: input.referenceTime,
                 timezone: input.timezone,
                 ...(input.currentDraft ? { currentDraft: input.currentDraft } : {}),
+                ...(input.viewingContext ? {viewingContext:input.viewingContext} : {}),
                 retryAttempt: attemptNumber,
               }),
             },

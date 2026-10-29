@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.21
-- Last updated: 2026-10-29
+- Document revision: 0.22
+- Last updated: 2026-10-30
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Visual Direction](VISUAL-DIRECTION.md), [Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -17,7 +17,7 @@
 
 顶部仅有菜单、`praxis`加群青方块光标及新安排入口。工作区底部输入框为`Adjust anything?`。查看、展开、备选和明确选定分别处理；返回候选视图时回到原来的卡片。
 
-本节与下述新视觉、查看上下文和增量交互为2026-10-29已定设计，尚未实现。第0步只同步文档，复核通过后才进入代码切片。
+前端第一段在工作分支接通了本节的外壳、当前指代、逐家候选和B1呈现，本地Fixture两尺寸浏览器链路已通过；五门禁/独立视觉复核状态见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。比较页等后续范围仍未实现，真实来源读者/G3缺口保留。`Choose this`在本段只将该候选定位为B1准备对象，恢复到HANDOFF视图；不走旧写入选择/Authorization路径，也不创建提交Attempt。
 
 ## 明确空位与来源交接
 

@@ -5912,3 +5912,13 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 ## 2026-10-29 前端第0步复核小修验证
 
 小修只按文档矩阵检查链接、英文文案、第一版指标与ADR-0050替代范围、diff；ADR-0049仅Status增加替代指引，原Decision保留。检查结果见第0步复核说明的追加记录。代码五门禁、Playwright及Live均未运行；业务模型/Google/餐厅来源调用0，不读取.env。第1步的实际取消/进度接线另行核对。
+
+<a id="test-2026-10-30-web-workspace-slice1"></a>
+
+## 2026-10-30 前端第1步：开发验证与正式门禁待运行
+
+复用原W06/W09：真实HTTP/SSE后台生命周期取消/更新2/2通过（沙箱首轮仅listen EPERM，允许本地监听后通过）。B1/语义所属15项通过；默认1210/1210开发检查通过。新web-workspace.test.ts在390×844与1280×900各走完整生产HTTP/SSE、语义/编译/校验/路由/Reducer/PGlite链，覆盖十项指定验收；另测Tabelog取消冲突就近/原文/固定手续费。原来源事实刷新、晚到Case列表和G1引文/缺失/敏感三项UI回归改接新页面，退出旧selector/旧整页布局断言，共8/8通过。调用与数据来源均为本地Fixture；不是Replay或Live，不声称模型能正确解析所有this one或源网站已带入。
+
+有效产品反例：保存首家时第二家读取已阻塞，释放后目标1of3超时，真实状态FAILED并报告Stale task version expected3/actual4；窄冲突处理后同脚本通过。停止后后端已中止但页面Search stopped为空，改为读取本轮AGENT_LOOP_TERMINATED/CANCELLED后同断言通过。开发期Fixture预算小于生产动作最小时间、缺B1准备copy的请求指纹、旧UI mock缺字段及Playwright baseURL/旧selector等接线错误单独修正，不作为产品检错证据。
+
+正式五门禁需冻结提交后逐项运行并检查净树，结果与截图另附交付报告；未运行的真实模型/来源/Controlled Live-write/真实PostgreSQL多连接保持未运行，不由本地Chromium或PGlite替代。未改Gold、评分、私有Holdout、A/B/C保护文件，不读取.env。业务真实调用0。

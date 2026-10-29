@@ -5210,3 +5210,13 @@ Five approved consolidation items have individual successor proof, all originals
 ## 2026-10-29 前端第0步复核通过与小修
 
 用户复核通过a918b351，要求Human Takeover中位数指标第一版不适用；出发提示分选择/核对最多两行，取消冲突确认靠近推荐卡片取消规定；占位删除e.g.，证据第二行改为TableCheck, checked 14:32。新增ADR-0050明确仅呈现条款替代，ADR-0049原Decision、链接和证据规则保留。视觉文档修订0.4；第一段范围/验收将在第1步开工时移到切片计划。仅文档小修，业务模型/Google/餐厅来源/Live调用0；随后按用户授权启动第1步，先核对取消与真实进度路径。
+
+<a id="dev-2026-10-30-web-workspace-slice1"></a>
+
+## 2026-10-30 前端第1步：工作区与B1纵向切片
+
+第0步小修e3c48dbd已推并保留独立文档分支；从main00519783建立codex/feat-web-workspace-slice1后快进纳入文档。视觉的范围/验收移至[计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。英文首页、My plans/底部Profile、单卡/详情/备选/交接切换和刷新恢复替换旧页面；Geist自托管，Mono仅logo，数字tabular-nums。当前合同没有照片，显示首字与No photo，不猜来源照片或进度百分比。
+
+生产投影补当前轮进度与首家证据资格；消息必带viewContext，服务器核对归属/当前视图再交给原语义路径，不写selected。Choose this只打开B1准备定位，不触发旧的选定/授权/提交；来源二次校验、链接语法、返回一次USER_REPORTED均保留，按ADR0050拆最多两行提示与就近冲突提醒。查找中保存备选曾使在途读取因expected3/actual4终止：仅同run且全部中间事件SHORTLIST_UPDATED时重交已完成只读事件一次，不重查来源、不接纳需求修改/停止后的旧结果；停止状态改投影真实取消事件。
+
+语义Prompt26→27增加当前查看指代说明，无新增调用，Schema4/State24/TaskDefinition22及Agent29/Action5/Context17不变；真实模型质量未评价。新本地Fixture组合沿用既有源Fixture和生产两站Grounding，保留HTTP/SSE/Application/Runtime/PGlite完整链路；背景生命周期虽配置LIVE_READ，注入源/模型仍为Fixture，真实业务模型/Google/公开GET/Live/外写全0。不改A评测、B搜索/G3、C Google客户端。开发浏览器8/8和默认1210/1210已通过，正式净树五门禁与视觉复核待交付；本分支不合main。

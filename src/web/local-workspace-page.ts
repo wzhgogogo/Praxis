@@ -1,237 +1,92 @@
+import { WORKSPACE_CLIENT_SCRIPT } from "./workspace-client.js";
+
 export const LOCAL_WORKSPACE_PAGE = `<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Praxis — Agent Workspace</title>
-    <style>
-      :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #17221c; background: #f2efe7; }
-      * { box-sizing: border-box; } body { margin: 0; } button, textarea, input { font: inherit; }
-      button { border: 0; border-radius: 999px; padding: 10px 16px; background: #174d35; color: white; font-weight: 700; white-space: nowrap; cursor: pointer; }
-      button:disabled { opacity: .5; cursor: wait; } .secondary { background: #e1ebe4; color: #174d35; }
-      .eyebrow { color: #397259; font-weight: 800; letter-spacing: .09em; font-size: 11px; text-transform: uppercase; }
-      .notice { padding: 13px 15px; border: 1px solid #ddc568; border-radius: 12px; background: #fff2c9; line-height: 1.45; }
-      .hidden { display: none !important; } #login { max-width: 520px; margin: 10vh auto; padding: 28px; }
-      #login h1 { font-size: clamp(34px, 7vw, 54px); margin: 8px 0 14px; } #login form { display: grid; gap: 12px; margin-top: 24px; }
-      input, textarea { width: 100%; border: 1px solid #aeb8b0; background: white; border-radius: 11px; padding: 12px; }
-      textarea { min-height: 92px; resize: vertical; }
-      #workspace { min-height: 100vh; display: grid; grid-template-columns: 290px minmax(0, 1fr); }
-      aside { min-width: 0; border-right: 1px solid #d4d8d1; padding: 24px 18px; background: #e9ede6; }
-      .brand { font-size: 25px; font-weight: 850; margin: 4px 0 22px; } .side-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-      #case-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 16px; } .case-link { min-width: 0; white-space: normal; overflow-wrap: anywhere; text-align: left; width: 100%; border-radius: 12px; color: #25352c; background: transparent; padding: 12px; }
-      .case-link.active { background: white; box-shadow: 0 1px 0 #cad1ca; } .case-link small { display: block; color: #68756d; margin-top: 5px; }
-      main { padding: 28px clamp(18px, 5vw, 64px) 70px; max-width: 1120px; width: 100%; }
-      header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; } h1 { margin: 5px 0; font-size: clamp(30px, 5vw, 48px); }
-      .status { display: inline-block; margin-top: 8px; background: #dbeadf; color: #184c35; border-radius: 99px; padding: 5px 9px; font-size: 12px; font-weight: 800; }
-      #composer { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 10px; margin: 28px 0; }
-      .columns { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: 18px; }
-      section { min-width: 0; } .panel { background: rgba(255,255,255,.8); border: 1px solid #d8ddd6; border-radius: 15px; padding: 18px; margin-bottom: 14px; }
-      .panel h2 { font-size: 16px; margin: 0 0 14px; } .message { padding: 11px 13px; border-radius: 12px; margin: 8px 0; line-height: 1.48; white-space: pre-wrap; }
-      .message.USER { margin-left: 12%; background: #dce9df; } .message.ASSISTANT { margin-right: 12%; background: white; border: 1px solid #e0e4df; }
-      .candidate { border-top: 1px solid #e0e4df; padding: 14px 0; } .candidate:first-of-type { border-top: 0; padding-top: 0; }
-      .candidate a { display: inline-block; margin: 8px 12px 0 0; } .candidate h3 { margin: 0 0 5px; font-size: 16px; } .muted { color: #66736b; font-size: 13px; line-height: 1.45; }
-      .page-question-form { display: grid; gap: 8px; margin-top: 12px; } .page-answer { margin-top: 12px; border-left: 3px solid #b7cbbd; padding-left: 12px; } .page-answer blockquote { margin: 12px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-      .booking-handoff { margin-top: 12px; padding: 12px; border: 1px solid #b7cbbd; border-radius: 12px; } .booking-handoff .departure { display: block; width: fit-content; padding: 10px 14px; border-radius: 12px; background: #174d35; color: white; text-decoration: none; } .booking-handoff blockquote { margin: 6px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-      .activity { border-left: 2px solid #b7cbbd; padding: 0 0 16px 12px; } .activity strong { display: block; font-size: 14px; } .activity small { color: #78837c; }
-      @media (max-width: 760px) {
-        #workspace { display: block; } aside { position: sticky; top: 0; z-index: 3; border-right: 0; border-bottom: 1px solid #d4d8d1; padding: 12px 14px; }
-        .brand { margin: 0; font-size: 20px; } .side-head { align-items: center; } #case-list { display: flex; overflow-x: auto; margin-top: 10px; }
-        .case-link { min-width: 210px; background: rgba(255,255,255,.55); } main { padding: 22px 15px 60px; }
-        header { display: block; } .columns { grid-template-columns: 1fr; } #composer { grid-template-columns: 1fr; } #composer button { width: 100%; }
-      }
-    </style>
-  </head>
-  <body>
-    <section id="login">
-      <div class="eyebrow">Praxis · local workspace</div><h1>Your agent workspace</h1>
-      <p>Resume a restaurant case from desktop or mobile web with a server-side pilot identity.</p>
-      <div id="mode-notice" class="notice"><strong>Fixture only.</strong> No real model, live availability, notification, authorization, or booking. Local access token: <code>praxis-fixture-a</code>.</div>
-      <form id="login-form"><label for="access-token">Pilot access token</label><input id="access-token" autocomplete="off" required /><button>Enter workspace</button></form>
-      <p id="login-error" class="notice hidden"></p>
-    </section>
-    <div id="workspace" class="hidden">
-      <aside><div class="side-head"><div class="brand">Praxis</div><button id="new-case" class="secondary">New case</button></div><div id="case-list"></div></aside>
-      <main>
-        <header><div><div id="workspace-mode" class="eyebrow">Persistent restaurant agent · fixture</div><h1 id="case-title">Start a case</h1><span id="case-status" class="status hidden"></span></div><div><button id="refresh" class="secondary hidden">Refresh availability</button> <button id="cancel-run" class="secondary hidden">Stop current read</button> <button id="logout" class="secondary">Sign out</button></div></header>
-        <div id="read-boundary" class="notice">This workspace can persist and reconnect, but Fixture mode does not contact real sources.</div>
-        <form id="composer"><textarea id="message" required placeholder="Tonight at 7pm near Shinjuku for two, yakiniku, around 5000 yen each."></textarea><button id="send">Start case</button></form>
-        <button id="use-location" class="secondary hidden" type="button">Use device location</button><p id="location-help" class="muted hidden">If location is unavailable, type a nearby station, address, or district in the message box.</p>
-        <p id="error" class="notice hidden"></p>
-        <div id="booking-feedback" class="panel hidden" aria-label="Booking feedback" aria-live="polite"></div>
-        <div class="columns"><section><div class="panel"><h2>Conversation</h2><div id="messages" class="muted">No case selected.</div></div><div class="panel"><h2>Restaurant artifact</h2><div id="artifact" class="muted">Candidates will appear here.</div></div></section><section><div class="panel"><h2>Activity</h2><div id="activity" class="muted">Authoritative task events will appear here.</div></div></section></div>
-      </main>
-    </div>
-    <script>
-      const $ = (selector) => document.querySelector(selector);
-      const state = { cases: [], view: null, stream: null, navigation: 0, expiryTimer: null, feedbackChecked: new Set(), feedbackClaiming: new Set(), awaitingFeedback: new Set(), feedbackCaseId: null };
-      const login = $('#login'), workspace = $('#workspace'), list = $('#case-list'), title = $('#case-title'), status = $('#case-status'), modeNotice = $('#mode-notice'), workspaceMode = $('#workspace-mode'), readBoundary = $('#read-boundary');
-      const messages = $('#messages'), artifact = $('#artifact'), activity = $('#activity'), composer = $('#composer'), message = $('#message'), send = $('#send'), refresh = $('#refresh'), cancelRun = $('#cancel-run'), useLocation = $('#use-location'), locationHelp = $('#location-help'), error = $('#error');
-      const node = (tag, text, className) => { const item = document.createElement(tag); if (text !== undefined) item.textContent = text; if (className) item.className = className; return item; };
-      const feedbackPanel = $('#booking-feedback');
-      const requestId = () => crypto.randomUUID();
-      async function api(path, options) { const response = await fetch(path, { credentials: 'same-origin', ...options, headers: { 'content-type': 'application/json', ...(options && options.headers || {}) } }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || 'Request failed'); return payload; }
-      async function requestBookingFeedback() {
-        const view = state.view; if (!view || document.visibilityState === 'hidden') return;
-        const caseId = view.case.caseId;
-        if (!view.restaurant.bookingFeedbackAvailable && !state.awaitingFeedback.has(caseId)) return;
-        if (state.feedbackChecked.has(caseId) || state.feedbackClaiming.has(caseId)) return;
-        state.feedbackClaiming.add(caseId);
-        try {
-          const payload = await api('/api/cases/' + encodeURIComponent(caseId) + '/booking-feedback/claim', {method:'POST',body:'{}'});
-          state.feedbackChecked.add(caseId); state.awaitingFeedback.delete(caseId);
-          if (!payload.prompt || state.view?.case.caseId !== caseId) return;
-          const prompt = payload.prompt; state.feedbackCaseId = caseId;
-          feedbackPanel.replaceChildren(node('p', prompt.question)); feedbackPanel.classList.remove('hidden');
-          ['YES', 'NO', 'SKIP'].forEach(answer => {
-            const button = node('button', {YES:'Yes',NO:'No',SKIP:'Skip'}[answer], 'secondary'); button.type = 'button';
-            button.onclick = async () => {
-              const buttons = [...feedbackPanel.querySelectorAll('button')]; buttons.forEach(item => item.disabled = true);
-              try {
-                await api('/api/cases/' + encodeURIComponent(caseId) + '/booking-feedback', {method:'POST',body:JSON.stringify({departureId:prompt.departure.id,answer})});
-                if (state.view?.case.caseId === caseId) feedbackPanel.replaceChildren(node('p', 'Thanks — saved as your report.'));
-              } catch (reason) { buttons.forEach(item => item.disabled = false); showError(reason); }
-            };
-            feedbackPanel.append(button);
-          });
-        } catch (reason) { showError(reason); } finally { state.feedbackClaiming.delete(caseId); }
-      }
-      async function departForBooking(event, handoff) {
-        event.preventDefault(); const view = state.view; if (!view) return;
-        const popup = window.open('about:blank', '_blank');
-        if (!popup) { showError(new Error('Allow a new tab to continue on the source website.')); return; }
-        popup.opener = null;
-        try {
-          const payload = await api('/api/cases/' + encodeURIComponent(view.case.caseId) + '/booking-departures', {method:'POST',body:JSON.stringify({candidateId:handoff.candidateId,offerId:handoff.offerId,taskVersion:view.case.taskVersion,requestId:requestId()})});
-          state.feedbackChecked.delete(view.case.caseId); state.awaitingFeedback.add(view.case.caseId); popup.location.href = payload.url;
-        } catch (reason) { popup.close(); showError(reason); }
-      }
-      window.addEventListener('focus', requestBookingFeedback);
-      window.addEventListener('pageshow', requestBookingFeedback);
-      function showError(value, target = error) { target.textContent = value.message || String(value); target.classList.remove('hidden'); }
-      function clearError() { error.classList.add('hidden'); }
-      function openStream(caseId) { if (state.stream) state.stream.close(); state.stream = new EventSource('/api/cases/' + encodeURIComponent(caseId) + '/events'); const stream = state.stream; stream.addEventListener('case', (event) => { if (state.stream === stream && state.view && state.view.case.caseId === caseId) renderView(JSON.parse(event.data)); }); }
-      function renderList() { list.replaceChildren(); state.cases.forEach((item) => { const button = node('button', item.title, 'case-link' + (state.view && state.view.case.caseId === item.caseId ? ' active' : '')); button.append(node('small', item.status + ' · ' + item.phase)); button.onclick = () => loadCase(item.caseId); list.append(button); }); }
-      function renderView(view) {
-        clearTimeout(state.expiryTimer);
-        const now = Date.now();
-        const upcomingExpiry = Object.values(view.restaurant.availabilityChecks).map(check => Date.parse(check.displayExpiresAt)).filter(time => time > now).sort((a, b) => a - b)[0];
-        if (upcomingExpiry) state.expiryTimer = setTimeout(() => { if (state.view === view) renderView(view); }, Math.min(2147483647, upcomingExpiry - now + 1));
-        if (state.feedbackCaseId !== view.case.caseId) feedbackPanel.classList.add('hidden');
-        state.view = view; title.textContent = view.case.title; status.textContent = view.case.status + (view.case.pendingUserAction ? ' · ' + view.case.pendingUserAction : ''); status.classList.remove('hidden'); send.textContent = 'Send';
-        const factOnlyResult = view.restaurant.intentDraft && view.restaurant.intentDraft.target && view.restaurant.intentDraft.target.goal === 'RECOMMENDATION'; refresh.textContent = factOnlyResult ? 'Refresh recommendation facts' : 'Refresh availability'; refresh.classList.toggle('hidden', view.case.phase !== 'PRESENT_RESULTS'); refresh.disabled = Boolean(view.restaurant.pageQuestion && !view.restaurant.pageQuestion.result);
-        cancelRun.classList.toggle('hidden', view.mode !== 'LIVE_READ' || view.case.status !== 'ACTIVE');
-        const needsNearbyLocation = view.restaurant.intentDraft && String(view.restaurant.intentDraft.area && view.restaurant.intentDraft.area.query || '').toLowerCase() === 'nearby' && !(view.restaurant.intentDraft.area && view.restaurant.intentDraft.area.coordinates);
-        useLocation.classList.toggle('hidden', !needsNearbyLocation); locationHelp.classList.toggle('hidden', !needsNearbyLocation);
-        const live = view.mode === 'LIVE_READ'; workspaceMode.textContent = 'Persistent restaurant agent · ' + (live ? 'live read-only' : 'fixture'); modeNotice.innerHTML = live ? '<strong>Live read-only.</strong> Server-side sources may be contacted. No authorization, booking, payment, cancellation, account login, or personal-data submission is available.' : '<strong>Fixture only.</strong> No real model, live availability, notification, authorization, or booking. Local access token: <code>praxis-fixture-a</code>.'; readBoundary.textContent = live ? 'Live results appear only after the current source evidence is grounded. A source block, challenge, or missing evidence is shown as a failure, never as an available restaurant.' : 'This workspace can persist and reconnect, but Fixture mode does not contact real sources.';
-        messages.replaceChildren(); view.conversation.messages.forEach((item) => messages.append(node('div', item.content, 'message ' + item.role)));
-        artifact.replaceChildren(); if (!view.restaurant.candidates.length) artifact.append(node('p', view.restaurant.missingRequiredFields.length ? 'Needed: ' + view.restaurant.missingRequiredFields.join(', ') : 'No candidates yet.', 'muted'));
-        if (view.restaurant.searchLocation?.areaMatchBasis === 'NAMED_PLACE_RADIUS') artifact.prepend(node('p', 'Searching around ' + view.restaurant.searchLocation.label, 'muted'));
-        const presentedIds = view.restaurant.presentedCandidateIds || [];
-        const investigatedIds = view.restaurant.candidates.filter(candidate => view.restaurant.availabilityChecks[candidate.restaurant.id] || view.restaurant.currentFactEvidence.some(item => item.candidateId === candidate.restaurant.id && item.kind === 'RESTAURANT_FACT' && item.provider !== 'GOOGLE_PLACES')).map(candidate => candidate.restaurant.id);
-        const visibleIds = [...new Set([...presentedIds, ...investigatedIds])];
-        const visibleCandidates = view.restaurant.candidates.filter(candidate => !visibleIds.length || visibleIds.includes(candidate.restaurant.id)).slice(0, visibleIds.length ? 10 : 3);
-        const requestedInformation = [view.restaurant.intentDraft?.target?.query || '', ...(view.restaurant.intentDraft?.criteria || []).map(item => item.text)].join(' ');
-        visibleCandidates.forEach(candidate => {
-          const id = candidate.restaurant.id, card = node('div', undefined, 'candidate');
-          const check = view.restaurant.availabilityChecks[id];
-          const expired = Boolean(check && check.displayExpiresAt && Date.parse(check.displayExpiresAt) <= now);
-          const offers = expired ? [] : (view.restaurant.availability[id] || []).filter(offer => !offer.displayExpiresAt || Date.parse(offer.displayExpiresAt) > now);
-          const factOnly = view.restaurant.intentDraft?.target?.goal === 'RECOMMENDATION';
-          const facts = view.restaurant.currentFactEvidence.filter(item => item.candidateId === id && item.kind === 'RESTAURANT_FACT');
-          const checkEvidenceIds = check?.evidenceIds || [];
-          const source = view.restaurant.readEvidence.find(item => item.candidateId === id && item.sourceUrl && checkEvidenceIds.includes(item.evidenceId)) || facts.find(item => item.sourceUrl);
-          const statusDetail = expired ? 'Availability expired — refresh to check again' : offers[0] ? offers[0].dateTime + ' · ' + offers[0].source : check ? (check.reasonCode || check.status) : factOnly ? 'Source facts checked for this recommendation' : 'Availability not checked';
-          card.append(node('h3', candidate.restaurant.outletName), node('div', candidate.restaurant.address + (candidate.distanceObservation ? ' · ' + candidate.distanceObservation.meters + ' m from ' + (candidate.distanceObservation.centerBasis === 'NAMED_PLACE_RADIUS' ? 'requested place' : candidate.distanceObservation.centerBasis === 'TASK_LOCATION_RADIUS' ? 'your location' : 'evaluation location') : '') + ' · ' + statusDetail, 'muted'));
-          card.append(node('div', presentedIds.includes(id) && (factOnly || !expired) ? 'Evidence-grounded result' : 'Investigated candidate — not a verified result for the current request', 'muted'));
-          if (check && check.checkedAt) card.append(node('div', 'Availability checked: ' + new Date(check.checkedAt).toLocaleString(), 'muted'));
-          (view.restaurant.bookingHandoffs || []).filter(handoff => handoff.candidateId === id && !expired && Date.parse(handoff.displayExpiresAt) > now && offers.some(offer => offer.id === handoff.offerId)).forEach(handoff => {
-            const section = node('section', undefined, 'booking-handoff');
-            const direct = node('a', handoff.directLabel); direct.href = handoff.url; direct.target = '_blank'; direct.rel = 'noreferrer noopener';
-            const departure = node('a', handoff.continueLabel, 'departure'); departure.href = handoff.url; departure.target = '_blank'; departure.rel = 'noreferrer noopener';
-            direct.onclick = event => departForBooking(event, handoff); departure.onclick = event => departForBooking(event, handoff);
-            section.append(direct, departure);
-            if (handoff.cancellationNotice) section.append(node('p', handoff.cancellationNotice, 'notice'));
-            if (handoff.platformFee) {
-              const fee = handoff.platformFee; section.append(node('p', fee.label));
-              const details = node('details'); details.append(node('summary', 'Platform fee source'));
-              fee.quotes.forEach(quote => details.append(node('blockquote', quote)));
-              const source = node('a', 'Tabelog English help · checked ' + fee.checkedOn, 'muted'); source.href = fee.sourceUrl; source.target = '_blank'; source.rel = 'noreferrer noopener'; details.append(source); section.append(details);
-            }
-            if (handoff.hint) section.append(node('p', handoff.hint, 'muted booking-hint'));
-            handoff.terms.forEach(term => {
-              section.append(node('p', term.label));
-              term.citations.forEach(citation => {
-                section.append(node('blockquote', citation.text));
-                const source = node('a', 'Source · read ' + new Date(citation.readAt).toLocaleString('en-GB'), 'muted');
-                source.href = citation.url; source.target = '_blank'; source.rel = 'noreferrer noopener'; section.append(source);
-              });
-            });
-            card.append(section);
-          });
-          (view.restaurant.conditionStates?.[id] || []).forEach(condition => {
-            const label = condition.status === 'MET' ? 'met' : condition.status === 'NOT_MET' ? 'not met' : 'not checked';
-            card.append(node('p', condition.text + ' — ' + label + ': ' + condition.explanation));
-            condition.sources.forEach(source => { const fieldLabel = { CATEGORY: 'Source category', COURSE_TITLE: 'Course title', COURSE_DESCRIPTION: 'Course description', GOOGLE_TYPE: 'Observed type', NAME: 'Source name', CUSTOMER_REVIEW: 'Customer review', SOURCE_TEXT: 'Unclassified source text', PRICE: 'Observed price' }[source.field]; const link = node('a', fieldLabel + (source.meal && source.meal !== 'UNSPECIFIED' ? ' (' + source.meal.toLowerCase() + ')' : '') + ': ' + source.quote, 'muted'); link.href = source.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; card.append(link); });
-          });
-          let hasPrice = false, hasCancellation = false;
-          facts.forEach(fact => {
-            const claims = fact.claims, terms = [];
-            if (fact.priceFacts) {
-              [fact.priceFacts.dinnerBudgetRangeYen, fact.priceFacts.lunchBudgetRangeYen].filter(Boolean).forEach(range => { hasPrice = true; terms.push(range.quote); });
-              fact.priceFacts.listedCoursePricesYen.forEach(price => { hasPrice = true; terms.push(price.quote + ' — listed plan, availability not checked'); });
-            }
-            if (Array.isArray(claims.listedCourseDetails)) { hasPrice = true; terms.push('Listed courses — availability of each plan has not been checked:'); terms.push(...claims.listedCourseDetails); }
-            if (typeof claims.coursePriceYen === 'number') { hasPrice = true; terms.push('Course: ¥' + claims.coursePriceYen.toLocaleString() + (claims.coursePriceTax ? ' (' + String(claims.coursePriceTax).toLowerCase() + ' tax)' : '')); }
-            if (typeof claims.privateRoomMinimumYen === 'number') terms.push('Private-room minimum: ¥' + claims.privateRoomMinimumYen.toLocaleString());
-            if (typeof claims.cancellationTerms === 'string') { hasCancellation = true; terms.push(claims.cancellationTerms); }
-            if (typeof claims.noShowTerms === 'string') terms.push(claims.noShowTerms);
-            terms.forEach(term => card.append(node('p', term, 'muted')));
-            if (terms.length && fact.sourceUrl) { const link = node('a', 'Terms source', 'muted'); link.href = fact.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; card.append(link); }
-          });
-          if (!hasPrice && /course|price|套餐|コース/i.test(requestedInformation)) card.append(node('p', 'Course prices: not verified.', 'muted'));
-          if (!hasCancellation && /cancellation|キャンセル|取消/i.test(requestedInformation)) card.append(node('p', 'Cancellation terms: not verified.', 'muted'));
-          if (source) { const link = node('a', 'Open source page', 'muted'); link.href = source.sourceUrl; link.target = '_blank'; link.rel = 'noreferrer'; card.append(link); }
-          if (presentedIds.includes(id)) {
-            const form = node('form', undefined, 'page-question-form');
-            const input = node('input'); input.required = true; input.maxLength = 2000; input.placeholder = 'Ask about this restaurant'; input.setAttribute('aria-label', 'Question about ' + candidate.restaurant.outletName);
-            const ask = node('button', 'Ask restaurant question'); ask.type = 'submit';
-            ask.disabled = Boolean(view.restaurant.pageQuestion && !view.restaurant.pageQuestion.result);
-            form.append(input, ask);
-            form.onsubmit = async event => { event.preventDefault(); ask.disabled = true; try {
-              clearError(); const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/questions', {method:'POST',body:JSON.stringify({candidateId:id,question:input.value,taskVersion:state.view.case.taskVersion,requestId:requestId()})});
-              renderView(payload.view); openStream(payload.view.case.caseId);
-            } catch (reason) { showError(reason); ask.disabled = false; } };
-            card.append(form);
-          }
-          const question = view.restaurant.pageQuestion;
-          if (question && question.candidateId === id) {
-            const answer = node('section', undefined, 'page-answer'); answer.setAttribute('aria-label', 'Restaurant page answer');
-            answer.append(node('h4', question.question));
-            const result = question.result;
-            answer.append(node('p', !result ? 'Reading the restaurant page…' : result.status === 'ANSWERED' ? result.answer : result.status === 'NOT_STATED' ? 'Not stated on the page' : 'The page answer could not be verified.'));
-            if (result) {
-              if (result.confirmationRequired) answer.append(node('p', 'Please confirm with the restaurant', 'notice'));
-              (result.citations || []).forEach(citation => { const quote = node('blockquote', citation.text); const link = node('a', 'Source page'); link.href = citation.url; link.target = '_blank'; link.rel = 'noreferrer'; answer.append(quote,link,node('p','Read at: ' + citation.readAt,'muted')); });
-              if (result.status !== 'ANSWERED') result.checkedPages.forEach(page => { const link = node('a','Checked page'); link.href = page.url; link.target = '_blank'; link.rel = 'noreferrer'; answer.append(link,node('p','Read at: ' + page.readAt,'muted')); });
-            }
-            card.append(answer);
-          }
-          artifact.append(card);
-        });
-        activity.replaceChildren(); view.activities.slice().reverse().forEach((item) => { const row = node('div', undefined, 'activity'); row.append(node('strong', item.display.title)); row.append(node('div', item.display.detail || '', 'muted')); row.append(node('small', new Date(item.occurredAt).toLocaleString())); activity.append(row); });
-        const found = state.cases.findIndex((item) => item.caseId === view.case.caseId); if (found >= 0) state.cases[found] = view.case; else state.cases.unshift(view.case); renderList();
-      }
-      async function loadCases() { const navigation = state.navigation; const payload = await api('/api/cases'); state.cases = payload.cases; renderList(); if (navigation === state.navigation && state.cases[0]) await loadCase(state.cases[0].caseId); }
-      async function loadCase(caseId) { const navigation = ++state.navigation; if (state.stream) state.stream.close(); state.stream = null; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(caseId)); if (navigation !== state.navigation) return; renderView(payload.view); openStream(caseId); requestBookingFeedback(); } catch (reason) { if (navigation === state.navigation) showError(reason); } }
-      function resetCase() { state.navigation++; clearTimeout(state.expiryTimer); if (state.stream) state.stream.close(); state.stream = null; state.view = null; feedbackPanel.classList.add('hidden'); title.textContent = 'Start a case'; status.classList.add('hidden'); send.textContent = 'Start case'; messages.textContent = 'Describe the result you want to begin.'; artifact.textContent = 'Candidates will appear here.'; activity.textContent = 'Authoritative task events will appear here.'; renderList(); message.focus(); }
-      composer.addEventListener('submit', async (event) => { event.preventDefault(); send.disabled = true; try { clearError(); const path = state.view ? '/api/conversations/' + encodeURIComponent(state.view.conversation.id) + '/messages' : '/api/cases'; const body = state.view ? { message: message.value, taskVersion: state.view.case.taskVersion, requestId: requestId() } : { message: message.value, requestId: requestId() }; const payload = await api(path, { method: 'POST', body: JSON.stringify(body) }); message.value = ''; renderView(payload.view); openStream(payload.view.case.caseId); } catch (reason) { showError(reason); } finally { send.disabled = false; } });
-      refresh.onclick = async () => { if (!state.view) return; refresh.disabled = true; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/refresh', { method: 'POST', body: JSON.stringify({ taskVersion: state.view.case.taskVersion, requestId: requestId() }) }); renderView(payload.view); openStream(payload.view.case.caseId); } catch (reason) { showError(reason); } finally { refresh.disabled = false; } };
-      cancelRun.onclick = async () => { if (!state.view) return; cancelRun.disabled = true; try { clearError(); const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/run', { method: 'DELETE' }); renderView(payload.view); } catch (reason) { showError(reason); } finally { cancelRun.disabled = false; } };
-      useLocation.onclick = () => { if (!state.view || !navigator.geolocation) { showError(new Error('Device location is unavailable. Type a nearby station, address, or district instead.')); return; } useLocation.disabled = true; navigator.geolocation.getCurrentPosition(async (position) => { try { const payload = await api('/api/cases/' + encodeURIComponent(state.view.case.caseId) + '/location', { method: 'POST', body: JSON.stringify({ taskVersion: state.view.case.taskVersion, requestId: requestId(), latitude: position.coords.latitude, longitude: position.coords.longitude, accuracyMeters: position.coords.accuracy }) }); renderView(payload.view); openStream(payload.view.case.caseId); } catch (reason) { showError(reason); } finally { useLocation.disabled = false; } }, () => { useLocation.disabled = false; locationHelp.classList.remove('hidden'); showError(new Error('Location was not shared. Type a nearby station, address, or district to continue.')); }, { enableHighAccuracy: false, maximumAge: 0, timeout: 10000 }); };
-      $('#new-case').onclick = resetCase;
-      $('#login-form').addEventListener('submit', async (event) => { event.preventDefault(); try { await api('/api/session', { method: 'POST', body: JSON.stringify({ accessToken: $('#access-token').value }) }); login.classList.add('hidden'); workspace.classList.remove('hidden'); await loadCases(); } catch (reason) { showError(reason, $('#login-error')); } });
-      $('#logout').onclick = async () => { await api('/api/session', { method: 'DELETE' }); location.reload(); };
-      api('/api/session').then(() => { login.classList.add('hidden'); workspace.classList.remove('hidden'); return loadCases(); }).catch(() => {});
-    </script>
-  </body>
-</html>`;
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>praxis — Your plans</title>
+<style>
+@font-face{font-family:Geist;src:url('/assets/geist.woff2') format('woff2');font-weight:100 900;font-display:swap}
+@font-face{font-family:'Geist Mono';src:url('/assets/geist-mono.woff2') format('woff2');font-weight:100 900;font-display:swap}
+:root{font-family:Geist,Arial,sans-serif;font-size:15px;color:#15172B;background:#fff;font-variant-numeric:tabular-nums}
+*{box-sizing:border-box}body{margin:0}button,input,textarea{font:inherit;color:inherit}button,a{-webkit-tap-highlight-color:transparent}
+button{cursor:pointer;border:0;background:transparent;padding:10px 12px;border-radius:999px}button:disabled{opacity:.45;cursor:default}
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid #3D5AFE;outline-offset:4px}
+a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}h1,h2,h3,p{margin:0}h1,h2{font-size:24px;font-weight:600;letter-spacing:-.6px}
+h3{font-size:17px;font-weight:600}.muted{color:#5F6275;font-size:13px;line-height:1.5}[hidden]{display:none!important}
+.primary{background:#3D5AFE;color:#fff;border-radius:999px;min-height:52px;padding:12px 24px;font-weight:600;width:100%}
+.primary small{display:block;font-size:13px;font-weight:400;margin-top:3px}.quiet{background:#F5F6F9}
+svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+#topbar{height:76px;padding:16px 20px;display:flex;align-items:center;gap:10px;background:white;position:relative;z-index:5}
+.brand{font:600 24px 'Geist Mono',monospace;letter-spacing:-1.3px;display:inline-flex;align-items:center;gap:5px;line-height:1}
+.cursor{width:8px;height:16px;background:#3D5AFE;display:inline-block}.working .cursor{animation:blink 1s steps(2,start) infinite}
+#new-case{margin-left:auto;font-size:13px}#menu{padding:9px}
+#plans{position:fixed;inset:76px auto 0 0;width:264px;background:#fff;z-index:8;padding:28px 20px;box-shadow:8px 0 24px rgba(21,23,43,.06);display:flex;flex-direction:column}
+#plans h2{font-size:17px;letter-spacing:0;margin-bottom:24px}.case-link{display:block;width:100%;text-align:left;white-space:normal;border-radius:14px;padding:14px 12px;line-height:1.45}
+.case-link.active{background:#F5F6F9}.case-link span{display:block}.case-link small{font-size:13px;color:#5F6275;margin-top:5px;display:block}
+#case-list{overflow:auto;flex:1;display:flex;flex-direction:column;gap:4px}#profile{padding-top:20px;font-size:13px}#profile summary{list-style:none;padding:12px 0}#profile summary::-webkit-details-marker{display:none}#profile-name{font-size:13px}#logout{font-size:13px;padding-left:0}
+#backdrop{position:fixed;inset:76px 0 0;background:rgba(21,23,43,.12);z-index:7}
+main{max-width:660px;margin:auto;padding:32px 24px 40px}#home{min-height:62vh;display:flex;flex-direction:column;justify-content:center;gap:32px}
+#home h1{text-align:center}#case-workspace{padding-bottom:120px}.workspace-head{display:flex;align-items:flex-start;gap:12px;justify-content:space-between;margin-bottom:16px}
+#case-title{font-size:24px;max-width:420px;line-height:1.3}#saved{background:#fff;box-shadow:0 2px 8px rgba(21,23,43,.08);font-size:13px;white-space:nowrap}
+#request-conditions{font-size:13px;color:#5F6275;line-height:1.7;margin-bottom:24px}#progress{margin:20px 0 28px}
+.stage{display:flex;align-items:center;gap:12px;min-height:32px;font-size:13px;color:#5F6275;animation:appear .18s ease-out}
+.stage .mark{height:7px;width:7px;background:#15172B;flex:none}.stage.pending .mark{background:#E3E5EC}
+.stage.current .mark{height:15px;width:4px;background:#3D5AFE}.stage.current{color:#15172B}#stop{margin:8px 0 0 12px;text-decoration:underline;font-size:13px}
+#progress.has-card{display:flex;align-items:center;justify-content:space-between;margin:8px 0 20px}#progress.has-card .stage.done{display:none}#progress.has-card #stop{margin:0;padding-right:0}
+.candidate,.panel{padding:16px;background:#fff;border-radius:24px;box-shadow:0 8px 24px rgba(21,23,43,.08)}
+.photo{height:220px;background:#F5F6F9;border-radius:8px;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;margin-bottom:22px}
+.initial{font-size:24px;font-weight:600;color:#5F6275}.photo small{font-size:13px;color:#5F6275}
+#bookmark{position:absolute;top:12px;right:12px;width:42px;height:42px;background:#fff;padding:9px;box-shadow:0 2px 8px rgba(21,23,43,.08)}
+#bookmark[aria-pressed=true] svg{fill:#15172B}#restaurant-name{margin:0 4px 12px}#key-facts{margin:0 4px 18px;color:#5F6275;font-size:13px;display:flex;flex-wrap:wrap;gap:16px}
+#availability{margin:0 4px 4px;font-size:15px}#evidence{margin:0 4px 18px;font-size:13px;color:#5F6275}
+#availability::before{content:'';display:inline-block;height:6px;width:6px;box-shadow:inset 0 0 0 1px #5F6275;margin:0 8px 2px 0}#availability[data-status=available]::before{background:#15172B;box-shadow:none}
+#recommendation{margin:0 4px 22px;line-height:1.55}#card-actions{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+#card-actions button,#card-counter{font-size:13px}#card-counter{color:#5F6275}#details-button{padding-left:4px}#choose{margin-bottom:2px}
+.view-back{padding:8px 0;margin-bottom:18px;font-size:13px}#details h2,#handoff h2{margin:0 0 20px}
+#details-content,#handoff-terms{display:flex;flex-direction:column;gap:18px;font-size:15px;line-height:1.55}
+.fact{display:flex;flex-direction:column;gap:6px}.fact a,.fact blockquote{font-size:13px;color:#5F6275}.fact blockquote{margin:0;white-space:pre-wrap}
+.fact details{font-size:13px}summary{cursor:pointer;list-style:none}summary::-webkit-details-marker{display:none}.fact summary{text-decoration:underline}#refresh{font-size:13px;margin-top:16px;text-decoration:underline;padding-left:0}
+.saved-row{width:100%;display:flex;text-align:left;align-items:center;justify-content:space-between;gap:12px;padding:18px 4px;border-radius:12px}
+#saved-empty{padding:32px 0;color:#5F6275;font-size:13px}#handoff-provider{font-size:13px;color:#3D5AFE;font-weight:600;margin-bottom:12px}
+#handoff-terms{margin:20px 0 28px}#departure{display:block;text-align:center}.hint{font-size:13px;color:#5F6275;line-height:1.55;margin-top:7px}
+#direct-source{display:block;text-align:center;font-size:13px;margin:20px 0 4px;text-decoration:underline}#handoff-unavailable{line-height:1.6;font-size:13px;color:#5F6275}
+#messages{margin-top:24px;line-height:1.6;font-size:15px;white-space:pre-wrap}#question-panel{margin-top:20px}#question-panel input{border:0;border-radius:999px;box-shadow:0 6px 20px rgba(21,23,43,.08);padding:14px;width:100%;margin:10px 0}
+#question-result{line-height:1.6;font-size:13px;margin-top:14px}#question-send{font-size:13px;text-decoration:underline}
+#feedback{margin-top:24px;padding:20px 0}#feedback p{font-weight:600;margin-bottom:8px}#feedback .answers{display:flex;gap:8px;align-items:center}
+#feedback button{background:#F5F6F9;font-size:13px}#feedback-dismiss{margin-left:auto}#error{font-size:13px;line-height:1.6;margin:18px 0;color:#5F6275}
+#composer{display:flex;gap:10px;align-items:flex-end;border-radius:28px;padding:11px 12px 11px 20px;box-shadow:0 6px 20px rgba(21,23,43,.08);background:#fff;width:100%}
+#message{resize:none;border:0;outline:0;background:none;min-height:38px;max-height:140px;width:100%;padding:9px 0;line-height:1.45}
+#home #message{height:64px}
+#message::placeholder{color:#5F6275}#send{height:42px;width:42px;background:#15172B;color:#fff;flex:none;padding:10px}
+#workspace-composer{position:fixed;bottom:22px;left:24px;right:24px;z-index:6;max-width:612px;margin:auto}
+#use-location{font-size:13px;text-decoration:underline;margin:12px 0}#mode-note{font-size:13px;color:#5F6275;margin:12px 0;line-height:1.45}
+#login{max-width:380px;margin:15vh auto;padding:24px}#login h1{margin-bottom:24px}#login p{font-size:13px;color:#5F6275;line-height:1.6;margin-bottom:20px}
+#access-token{width:100%;border:0;border-radius:999px;padding:16px 20px;box-shadow:0 6px 20px rgba(21,23,43,.08);margin:10px 0 20px}
+@keyframes blink{to{opacity:0}}@keyframes appear{from{opacity:0}to{opacity:1}}
+@media(min-width:960px){body{padding-left:264px}#topbar{margin-left:-264px}#plans{display:flex!important}#backdrop{display:none!important}#menu{visibility:hidden}#workspace-composer{left:288px}}
+@media(max-width:959px){#plans:not(.open){display:none}#topbar{height:68px;padding:12px 16px}#plans{top:68px}#backdrop{top:68px}main{padding:26px 20px 32px}#workspace-composer{left:20px;right:20px;bottom:18px}.workspace-head{margin-bottom:14px}.photo{height:185px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style></head>
+<body>
+<section id="login" hidden><h1>Welcome to praxis</h1><p>Sign in to continue your plans.</p>
+<form id="login-form"><label for="access-token">Access token</label><input id="access-token" autocomplete="off" required/><button class="primary">Sign in</button></form>
+<p id="login-error" role="alert" hidden></p><p>Local Fixture access: praxis-fixture-a. No real reservations.</p></section>
+<div id="app" hidden>
+<header id="topbar"><button id="menu" aria-label="My plans" aria-expanded="false" aria-controls="plans"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a href="#" id="brand" class="brand" aria-label="praxis home">praxis<span class="cursor"></span></a><button id="new-case">New plan <span aria-hidden="true">+</span></button></header>
+<div id="backdrop" hidden></div><aside id="plans" aria-label="My plans"><h2>My plans</h2><nav id="case-list"></nav><details id="profile"><summary>Profile</summary><p id="profile-name"></p><button id="logout">Sign out</button></details></aside>
+<main><section id="home"><h1>What do you want to plan?</h1><div id="home-composer"></div></section>
+<section id="case-workspace" hidden><div class="workspace-head"><h1 id="case-title"></h1><button id="saved">Saved 0</button></div><p id="request-conditions"></p>
+<section id="progress" aria-label="Search progress" hidden><div id="stages"></div><button id="stop">Stop</button></section>
+<section id="feedback" hidden><p>Did you get the booking?</p><div class="answers"><button data-answer="YES">Yes</button><button data-answer="NO">Not yet</button><button id="feedback-dismiss" aria-label="Skip booking feedback" data-answer="SKIP">×</button></div></section>
+<section id="candidate-panel" hidden><article class="candidate" id="candidate-card"><div class="photo"><span class="initial" id="restaurant-initial"></span><small>No photo</small><button id="bookmark" aria-label="Save for later" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></button></div><h2 id="restaurant-name"></h2><div id="key-facts"></div><p id="availability"></p><p id="evidence" hidden></p><p id="recommendation"></p><div id="card-actions"><button id="details-button">Details</button><div><button id="previous" aria-label="Previous restaurant">←</button><span id="card-counter"></span><button id="next" aria-label="Next restaurant">→</button></div></div><button id="choose" class="primary">Choose this</button></article></section>
+<section id="details" class="panel" hidden><button id="details-back" class="view-back">← Back</button><h2 id="details-name"></h2><div id="details-content"></div><button id="refresh">Refresh availability</button><div id="question-panel"><h3>Ask about this restaurant</h3><form id="question-form"><input id="question" aria-label="Question about this restaurant" placeholder="What would you like to know?" required/><button id="question-send">Ask</button></form><div id="question-result"></div></div></section>
+<section id="saved-panel" class="panel" hidden><button id="saved-back" class="view-back">← Back</button><h2>Saved</h2><div id="saved-list"></div><p id="saved-empty">No places saved yet.</p></section>
+<section id="handoff" class="panel" hidden><button id="handoff-back" class="view-back">← Back</button><p id="handoff-provider"></p><h2 id="handoff-name"></h2><div id="handoff-terms"></div><p id="handoff-unavailable" hidden>No current booking handoff is available. You can check the source website or refresh availability.</p><a id="departure" class="primary" href="#" target="_blank" rel="noopener"><span id="departure-title"></span><small id="departure-fields"></small></a><p class="hint" id="selection-hint" hidden></p><p class="hint" id="verification-hint" hidden></p><a id="direct-source" href="#" target="_blank" rel="noopener noreferrer">Go to source website ↗</a></section>
+<div id="messages" aria-live="polite"></div>
+<button id="use-location" hidden>Use my location</button><p id="mode-note" hidden></p></section>
+<p id="error" role="alert" hidden></p>
+<div id="workspace-composer" hidden></div>
+<form id="composer"><textarea id="message" aria-label="Plan message" placeholder="A quiet dinner with friends in Shibuya on Saturday" rows="1" required></textarea><button id="send" aria-label="Send"><svg viewBox="0 0 24 24"><path d="m6 11 6-6 6 6M12 5v15"/></svg></button></form>
+</main></div>
+<script>${WORKSPACE_CLIENT_SCRIPT}</script>
+</body></html>`;

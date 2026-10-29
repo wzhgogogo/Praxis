@@ -43,6 +43,7 @@ import {
   type RestaurantCaseSummary,
   type RestaurantCaseView,
   type WorkspaceUser,
+  type WorkspaceViewContext,
   caseStatus,
   pendingAction,
 } from "./agent-workspace.js";
@@ -357,7 +358,25 @@ export class PersistentRestaurantAgentApplication {
     this.trajectories = new PostgresRestaurantAgentTrajectoryStore(options.database);
     const suppliedStateObserver = options.agentLoopOptions?.onStateUpdated;
     this.agentLoop = new RestaurantAgentLoopCoordinator(
-      this.runtime,
+      {
+        snapshot: taskId => this.runtime.snapshot(taskId),
+        dispatch: async (envelope, expectedVersion) => {
+          try { return await this.runtime.dispatch(envelope, expectedVersion); }
+          catch (error) {
+            // Saving a ready card must not invalidate an already-running read.
+            // Reapply only its completed read/presentation event, once, after
+            // proving every intervening transition was a shortlist edit.
+            if (!(error instanceof StaleTaskVersionError) || expectedVersion === undefined
+              || !["SEARCH_COMPLETED", "AVAILABILITY_CHECKED", "CANDIDATE_FACTS_CHECKED", "RESULTS_PRESENTED"].includes(envelope.event.type)) throw error;
+            const current = await this.runtime.snapshot(envelope.taskId);
+            const intervening = (await this.runtime.listEvents(envelope.taskId)).slice(expectedVersion, current.version);
+            if (current.runId !== envelope.trace.runId || !intervening.length
+              || intervening.length !== current.version - expectedVersion
+              || intervening.some(item => item.event.type !== "SHORTLIST_UPDATED")) throw error;
+            return this.runtime.dispatch(envelope, current.version);
+          }
+        },
+      },
       options.agentDecision,
       new RestaurantExecutionRouter(options.restaurantSearch, options.restaurantAvailability, options.executionRouterOptions, options.restaurantFacts, options.restaurantQuestions),
       this.trajectories,
@@ -440,6 +459,7 @@ export class PersistentRestaurantAgentApplication {
     message: string;
     requestId: string;
     expectedVersion: number;
+    viewContext?: WorkspaceViewContext;
   }): Promise<RestaurantCaseView> {
     const record = await this.requireConversation(input.userId, input.conversationId);
     const key = `${record.rootTaskId}\u0000${input.requestId}`;
@@ -462,9 +482,10 @@ export class PersistentRestaurantAgentApplication {
 
   private async submitMessageOnce(
     record: ConversationRecord,
-    input: { userId: string; conversationId: string; message: string; requestId: string; expectedVersion: number },
+    input: { userId: string; conversationId: string; message: string; requestId: string; expectedVersion: number; viewContext?: WorkspaceViewContext },
   ): Promise<RestaurantCaseView> {
     const beforeCancellation = await this.runtime.snapshot(record.rootTaskId);
+    const viewingContext = input.viewContext ? this.resolveViewingContext(beforeCancellation.domainState, input.viewContext) : undefined;
     if (beforeCancellation.version < input.expectedVersion) {
       throw new StaleTaskVersionError(input.expectedVersion, beforeCancellation.version);
     }
@@ -504,7 +525,7 @@ export class PersistentRestaurantAgentApplication {
     }
     await this.cancelActiveRead(record, "The user changed the request, so the earlier read-only investigation was cancelled.");
     const afterCancellation = await this.runtime.snapshot(record.rootTaskId);
-    await this.applyMessage(record, input.message, input.requestId, afterCancellation.version);
+    await this.applyMessage(record, input.message, input.requestId, afterCancellation.version, viewingContext);
     return this.project(record);
   }
 
@@ -829,14 +850,25 @@ export class PersistentRestaurantAgentApplication {
     };
   }
 
+  private resolveViewingContext(state: RestaurantTaskState, context: WorkspaceViewContext): import("../domains/restaurant/semantic-interpreter.js").RestaurantSemanticViewingContext {
+    if (context.view === "HOME" && (context.candidateId || context.comparedCandidateIds.length)) throw new Error("Home has no restaurant reference");
+    const outlet = (id: string) => {
+      const candidate = state.candidates.find(item => item.restaurant.id === id);
+      if (!candidate) throw new Error("Current view references a restaurant outside this Case");
+      return {id, outletName:candidate.restaurant.outletName, address:candidate.restaurant.address};
+    };
+    return {view:context.view, ...(context.candidateId ? {candidate:outlet(context.candidateId)} : {}), comparedCandidates:context.comparedCandidateIds.map(outlet)};
+  }
+
   private async applyMessage(
     record: ConversationRecord,
     message: string,
     requestId: string,
     expectedVersion: number,
+    viewingContext?: import("../domains/restaurant/semantic-interpreter.js").RestaurantSemanticViewingContext,
   ): Promise<void> {
     await this.withPreparingRead(record.rootTaskId, async () => {
-      const work = (signal?: AbortSignal) => this.applyMessageOnce(record, message, requestId, expectedVersion, signal);
+      const work = (signal?: AbortSignal) => this.applyMessageOnce(record, message, requestId, expectedVersion, signal, viewingContext);
       if (this.modelRunBudget) await this.modelRunBudget.run(record.rootTaskId, (signal) => work(signal));
       else await work();
     });
@@ -873,6 +905,7 @@ export class PersistentRestaurantAgentApplication {
     requestId: string,
     expectedVersion: number,
     runDeadlineSignal?: AbortSignal,
+    viewingContext?: import("../domains/restaurant/semantic-interpreter.js").RestaurantSemanticViewingContext,
   ): Promise<void> {
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
     const userEventId = `event:user:${hash(`${snapshot.id}:${requestId}`).slice(0, 32)}`;
@@ -884,6 +917,7 @@ export class PersistentRestaurantAgentApplication {
       message,
       referenceTime: this.clock.now().toISOString(),
       timezone: "Asia/Tokyo",
+      ...(viewingContext ? {viewingContext} : {}),
       ...(snapshot.domainState.intentDraft
         ? { currentDraft: snapshot.domainState.intentDraft }
         : {}),
@@ -1043,6 +1077,10 @@ export class PersistentRestaurantAgentApplication {
       this.store.hasUnpromptedBookingDeparture(record.id),
     ]);
     const state = snapshot.domainState;
+    const requestStart = events.findLastIndex(item => item.event.type === "SEMANTIC_PROPOSAL_COMPILED");
+    const requestEvents = events.slice(Math.max(0, requestStart));
+    const checked = new Set(requestEvents.flatMap(item => item.event.type === "AVAILABILITY_CHECKED" ? item.event.request.candidateIds : []));
+    const readyCandidateIds = state.candidates.filter(candidate => restaurantPresentationEvidenceIds(state, candidate.restaurant.id, this.clock.now().toISOString()) !== undefined).map(candidate => candidate.restaurant.id);
     const action = state.pageQuestion && !state.pageQuestion.result ? undefined : pendingAction(state.phase);
     const summary: RestaurantCaseSummary = {
       caseId: record.rootTaskId,
@@ -1102,6 +1140,11 @@ export class PersistentRestaurantAgentApplication {
         ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
         ...(state.searchContinuation?.locationContext ? { searchLocation: structuredClone(state.searchContinuation.locationContext) } : {}),
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
+        requestRevision: state.searchRevision,
+        readyCandidateIds,
+        progress: {active:this.activeReads.has(record.rootTaskId), stopped:requestEvents.some(item => item.event.type === "AGENT_LOOP_TERMINATED" && item.event.termination === "CANCELLED"),
+          ...(requestEvents.some(item => item.event.type === "SEARCH_COMPLETED") ? {discoveredCount:state.candidates.length} : {}),
+          ...(checked.size ? {checkedCount:checked.size} : {})},
         bookingFeedbackAvailable,
         candidates: state.candidates.map(candidate => ({ ...structuredClone(candidate), ...observedCandidateDistance(state.readEvidence, candidate.restaurant.id, snapshot.updatedAt) })),
         availability: structuredClone(state.availability),

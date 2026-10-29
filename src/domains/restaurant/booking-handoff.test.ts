@@ -28,7 +28,7 @@ test("B1 source-returned Tabelog link has evidence-only copy and same-channel ve
   assert.equal(result.url,"https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261102&visit_time=1900");
   assert.equal(result.directLabel,"Book on Tabelog");
   assert.equal(result.continueLabel,"Continue on Tabelog — date, time, 2 guests filled in");
-  assert.equal(result.hint,"Pick Omakase Nigiri ¥9,800");
+  assert.equal(result.selectionHint,"Pick Omakase Nigiri ¥9,800");
   assert.deepEqual(result.terms.map(t=>t.label),["Same-day cancellation costs 100%.","Card required"]);
   assert.equal(result.terms[0]!.citations[0]!.text,"Cancellations on the day cost 100%.");
   assert.equal(result.sourceSelection,"UNKNOWN");
@@ -40,7 +40,7 @@ test("B1 verified TableCheck parameters carry the exact slot and always ask to c
   const result=rendered(tableCheck())!; assert.ok(result);
   assert.equal(result.url,"https://www.tablecheck.com/en/shops/fixture-sushi/reserve?start_date=2026-11-02&start_time=19%3A00&num_people=2");
   assert.equal(result.continueLabel,"Continue on TableCheck — date, time, 2 guests filled in");
-  assert.equal(result.hint,"Check date and guests"); assert.deepEqual(result.terms,[]);
+  assert.equal(result.verificationHint,"Check date and guests"); assert.equal(result.selectionHint,undefined); assert.deepEqual(result.terms,[]);
 });
 
 test("B1 refuses wrong outlet, date, guests, slot, unsafe host/path and ambiguous parameters",()=>{
@@ -81,13 +81,13 @@ test("B1 revalidates a prepared object against changed request, source evidence 
 
 test("B1 omissions: unavailable or foreign G1 evidence never produces terms or a plan hint",()=>{
   const input=fixture();input.source.terms!.pages[0]!.text="No supported booking terms here.";
-  const result=rendered(input)!; assert.ok(result);assert.deepEqual(result.terms,[]);assert.equal(result.hint,undefined);
+  const result=rendered(input)!; assert.ok(result);assert.deepEqual(result.terms,[]);assert.equal(result.selectionHint,undefined);
   for(const change of [
     (s:BookingHandoffSource)=>{s.terms!.pages[0]!.provider="TABLECHECK";},
     (s:BookingHandoffSource)=>{s.terms!.pages[0]!.candidateId="other";},
     (s:BookingHandoffSource)=>{s.terms!.pages[0]!.sourceEntityId="13123457";},
     (s:BookingHandoffSource)=>{s.terms!.pages[0]!.readAt="2026-10-28T10:00:00.000Z";},
-  ]) {const input=fixture();change(input.source);const view=rendered(input)!;assert.deepEqual(view.terms,[]);assert.equal(view.hint,undefined);}
+  ]) {const input=fixture();change(input.source);const view=rendered(input)!;assert.deepEqual(view.terms,[]);assert.equal(view.selectionHint,undefined);}
   const conflict=fixture();conflict.source.terms!.cancellationConflict={japanese:structuredClone(conflict.source.terms!.cancellation!),english:structuredClone(conflict.source.terms!.cancellation!)};
   assert.deepEqual(rendered(conflict)!.terms.map(t=>t.label),["Card required"]);
   const absent=fixture();delete absent.source.terms;
@@ -110,7 +110,7 @@ test("B1 language conflict shows both originals and paraphrases without choosing
   assert.equal(result.cancellationNotice,"Cancellation terms differ between the Japanese and English pages");
   assert.equal(result.terms[0]!.citations[0]!.text,quote);
   assert.equal(result.terms[1]!.citations[0]!.text,"Cancellations on the day cost 100%.");
-  assert.match(result.terms[0]!.label,/50%/);assert.match(result.hint!,/Confirm cancellation terms on the website/);
+  assert.match(result.terms[0]!.label,/50%/);assert.equal(result.cancellationConfirmation,"Confirm cancellation terms on the website");
 });
 
 
