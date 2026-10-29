@@ -1,0 +1,33 @@
+2026-10-29 23:24:20.126 CST [69314] LOG:  starting PostgreSQL 17.10 (Homebrew) on aarch64-apple-darwin25.6.0, compiled by Apple clang version 21.0.0 (clang-2100.1.1.101), 64-bit
+2026-10-29 23:24:20.126 CST [69314] LOG:  listening on Unix socket "/private/tmp/praxis-b1-pg-yore3zv6/socket/.s.PGSQL.55430"
+2026-10-29 23:24:20.128 CST [69317] LOG:  database system was shut down at 2026-10-29 23:24:20 CST
+2026-10-29 23:24:20.130 CST [69314] LOG:  database system is ready to accept connections
+2026-10-29 23:29:20.386 CST [69315] LOG:  checkpoint starting: time
+2026-10-29 23:29:24.975 CST [69315] LOG:  checkpoint complete: wrote 48 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=4.586 s, sync=0.002 s, total=4.590 s; sync files=11, longest=0.001 s, average=0.001 s; distance=290 kB, estimate=290 kB; lsn=0/1561340, redo lsn=0/15612E8
+2026-10-29 23:31:26.648 CST [69791] ERROR:  duplicate key value violates unique constraint "restaurant_booking_feedback_once_per_case_idx"
+2026-10-29 23:31:26.648 CST [69791] DETAIL:  Key (conversation_id)=(conversation:case:index-control) already exists.
+2026-10-29 23:31:26.648 CST [69791] STATEMENT:  UPDATE restaurant_booking_departures SET prompted_at=$2 WHERE id=$1 RETURNING id
+2026-10-29 23:31:26.664 CST [69790] ERROR:  new row for relation "restaurant_booking_departures" violates check constraint "restaurant_booking_departures_provenance_check"
+2026-10-29 23:31:26.664 CST [69790] DETAIL:  Failing row contains (departure:8281f7c5-4a2b-4bc7-927d-34b439c90ebf, conversation:case:A, newer-departure, fixture:candidate, fixture:offer, TABELOG, 2026-10-29 20:01:00+08, 2026-10-29 20:10:00+08, YES, 2026-10-29 20:10:00+08, PROVIDER_CONFIRMED).
+2026-10-29 23:31:26.664 CST [69790] STATEMENT:  UPDATE restaurant_booking_departures SET provenance='PROVIDER_CONFIRMED' WHERE id=$1
+2026-10-29 23:31:26.666 CST [69801] ERROR:  new row for relation "restaurant_booking_departures" violates check constraint "restaurant_booking_departures_check"
+2026-10-29 23:31:26.666 CST [69801] DETAIL:  Failing row contains (departure:24068b27-de67-4fa3-a600-efd7446a8880, conversation:case:A, same-departure, fixture:candidate, fixture:offer, TABELOG, 2026-10-29 20:00:00+08, null, YES, 2026-10-29 20:10:00+08, USER_REPORTED).
+2026-10-29 23:31:26.666 CST [69801] STATEMENT:  UPDATE restaurant_booking_departures SET answer='YES',answered_at=$2 WHERE id=$1
+2026-10-29 23:31:26.742 CST [69314] LOG:  received fast shutdown request
+2026-10-29 23:31:26.743 CST [69314] LOG:  aborting any active transactions
+2026-10-29 23:31:26.743 CST [69314] LOG:  background worker "logical replication launcher" (PID 69320) exited with exit code 1
+2026-10-29 23:31:26.743 CST [69315] LOG:  shutting down
+2026-10-29 23:31:26.743 CST [69315] LOG:  checkpoint starting: shutdown immediate
+2026-10-29 23:31:26.797 CST [69315] LOG:  checkpoint complete: wrote 2002 buffers (12.2%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.041 s, sync=0.013 s, total=0.054 s; sync files=752, longest=0.001 s, average=0.001 s; distance=9537 kB, estimate=9537 kB; lsn=0/1EB1A58, redo lsn=0/1EB1A58
+2026-10-29 23:31:26.799 CST [69314] LOG:  database system is shut down
+2026-10-29 23:31:26.860 CST [69806] LOG:  starting PostgreSQL 17.10 (Homebrew) on aarch64-apple-darwin25.6.0, compiled by Apple clang version 21.0.0 (clang-2100.1.1.101), 64-bit
+2026-10-29 23:31:26.860 CST [69806] LOG:  listening on Unix socket "/private/tmp/praxis-b1-pg-yore3zv6/socket/.s.PGSQL.55430"
+2026-10-29 23:31:26.862 CST [69809] LOG:  database system was shut down at 2026-10-29 23:31:26 CST
+2026-10-29 23:31:26.868 CST [69806] LOG:  database system is ready to accept connections
+2026-10-29 23:31:27.279 CST [69806] LOG:  received fast shutdown request
+2026-10-29 23:31:27.279 CST [69806] LOG:  aborting any active transactions
+2026-10-29 23:31:27.280 CST [69806] LOG:  background worker "logical replication launcher" (PID 69812) exited with exit code 1
+2026-10-29 23:31:27.280 CST [69807] LOG:  shutting down
+2026-10-29 23:31:27.280 CST [69807] LOG:  checkpoint starting: shutdown immediate
+2026-10-29 23:31:27.281 CST [69807] LOG:  checkpoint complete: wrote 11 buffers (0.1%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.001 s, sync=0.001 s, total=0.001 s; sync files=8, longest=0.001 s, average=0.001 s; distance=23 kB, estimate=23 kB; lsn=0/1EB7958, redo lsn=0/1EB7958
+2026-10-29 23:31:27.282 CST [69806] LOG:  database system is shut down
