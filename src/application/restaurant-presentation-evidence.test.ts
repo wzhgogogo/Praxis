@@ -78,8 +78,18 @@ test("c05 Kaga Router to Reducer retains the later availability-read source fact
     { taskId: "saved-c05", runId: "saved-c05", now, createId: p => p }), /omitted current required evidence/);
 
 
-  const refreshed = structuredClone(state);
-  refreshed.factChecks![candidateId]!.checkedAt = now;
+  const clockOnly = structuredClone(state);
+  clockOnly.factChecks![candidateId]!.checkedAt = now;
+  assert.ok(restaurantCurrentFactEvidence(clockOnly, candidateId).some(e => e.evidenceId === laterFact), "a clock edit alone is not a later fact-investigation event");
+  const priorCheck = state.factChecks![candidateId]!;
+  const candidate = state.candidates.find(item => item.restaurant.id === candidateId)!;
+  const refreshed = restaurantBookingTaskDefinition.transition(state, {
+    type: "CANDIDATE_FACTS_CHECKED", request: { candidateIds: [candidateId], candidates: [candidate], intent: state.intent! },
+    factChecks: { [candidateId]: { ...priorCheck, checkedAt: now, sourceProvider: "TABELOG", sourceAttempts: [{ source: "TABELOG", outcome: "COMPLETED" }] } },
+    evidence: state.readEvidence.filter(item => priorCheck.evidenceIds.includes(item.evidenceId)),
+    metadata: { provider: "TABELOG", route: "GENERIC_BROWSER", latencyMs: 0 },
+  }, { taskId: "saved-c05", runId: "saved-c05", now, createId: prefix => prefix }).state;
+  assert.ok(refreshed.factChecks![candidateId]!.supersededEvidenceIds?.includes(laterFact), "the new source read records causal supersession");
   assert.ok(!restaurantCurrentFactEvidence(refreshed, candidateId).some(e => e.evidenceId === laterFact), "a later completed same-source fact read must not revive an earlier omitted fact");
   const superseded = structuredClone(state);
   superseded.factChecks![candidateId]!.supersededEvidenceIds = [laterFact];

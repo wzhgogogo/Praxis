@@ -1,5 +1,7 @@
 # Development Log
 
+2026-10-29 CET：G3等时戳引用产品缺陷修复：沿既有Reducer superseded因果记录与当前查位引用，不比较时间戳；State24/TaskDefinition22及A四文件不变。领域正反/UNKNOWN/显式替代绿，相关49/49；冻结A cf20522e原H001单例只换一个产品文件，引用0/3→3/3、独立REQUIRED_EVIDENCE未满足→满足、合格交付NO→YES。type/arch/build绿；默认1218/1231仍原13个A待同步失败；Chromium178/180，另2项在51b0d3de前后对照同失败；严格G2全部12页PASS。真实调用0，各检查净树，G3整体等待A同步，不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/15-equal-timestamp-evidence/report.md)。
+
 2026-10-29 CET：G3c通用原文/价格链路已接，独立Source Prompt/Schema2，私有价格/HARD快捷路径退役；核心27和实际对应141通过，旧HARD44197字节一致、481状态仅批准人数反例改变。最终fec90a36的type/arch绿，默认1217/1230，需同步A的共用评测来源工厂及3份相关模型fixture，按跨归属停止；未改A输入/评分或降低断言，build/Chromium/严格G2本候选未跑。G3未完成、不合main，等A接线安排；C保护与vacancy输出不变、真实调用0。站点3890/Pack482行仅参考。 [报告](../../.eval-artifacts/phase3b/g3-longrun/14-quoted-fact-reads/report.md)。
 
 2026-10-28 CET：C nr010店名仅HTML实体解码修复验收PASS，原页及两站3红→相关9绿，同名/门牌/楼层反例仍拒。整合main eb1518f1（含54b3dd2b），a9c4abe8冻结1171项；五门禁1203/175及G2 4/4全绿，10步前后净树。41份回放nr010/022/026均正确、既有23/23、错认0；规则/排序/地址电话及评分不改。本轮GET/模型/Google/Live0，441条历史账本并集合计152模型/242GET。按用户批准交付main，合入SHA以Git合并/远端核对为准，之后停止。 [报告](../../.eval-artifacts/phase3b/g4-name-entities/report.md)。
