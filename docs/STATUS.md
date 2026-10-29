@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET：G3c通用原文/价格链路已接，独立Source Prompt/Schema2，私有价格/HARD快捷路径退役；核心27和实际对应141通过，旧HARD44197字节一致、481状态仅批准人数反例改变。最终fec90a36的type/arch绿，默认1217/1230，需同步A的共用评测来源工厂及3份相关模型fixture，按跨归属停止；未改A输入/评分或降低断言，build/Chromium/严格G2本候选未跑。G3未完成、不合main，等A接线安排；C保护与vacancy输出不变、真实调用0。站点3890/Pack482行仅参考。 [报告](../.eval-artifacts/phase3b/g3-longrun/14-quoted-fact-reads/report.md)。
+
 2026-10-29 CET：G3c公开事实字段和菜单分区已离线验证，私有class/data不再证明字段/服务范围；两站改名红灯→123对应回归绿，Native范围隔离与全局原文保留。五门禁1225/180全绿，Chromium130.862秒，严格G2全部12页PASS，各项净树。C保护内容与vacancy输出不变，Prompt/State不变，真实调用0；站点3964/Pack482行仅参考。继续通用报价和事实读取，不合main。 [报告](../.eval-artifacts/phase3b/g3-longrun/13-public-fact-fields/report.md)。
 
 2026-10-29 CET：用户批准的报价适用核对已完成。沿现有Intent核对人数、日期、餐别等字面限制；367组旧输入/481状态仅原2人对至少4人的反例MET→NOT_CHECKED，原始报价保留，State/TaskDefinition不变。main50a08361已同步，五门禁1225/180全绿（浏览器128.959秒）、严格G2全部12页PASS/Tabelog6页PASS，各项净树。账本479条并集，真实调用0；C保护代码/断言及响应输出不变。G3c继续，G3不合main。 [报告](../.eval-artifacts/phase3b/g3-longrun/11-price-applicability/report.md)。

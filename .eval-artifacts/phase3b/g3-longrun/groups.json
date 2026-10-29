@@ -70,9 +70,11 @@
       "14",
       "18"
     ],
-    "status": "SLOT_DAY_RETIRED_SHARED_SELECTION_STOPPED_PUBLIC_EVIDENCE",
+    "status": "IMPLEMENTED_AND_STRICT_G2_VERIFIED_AT_A47B5AC6",
     "evidence": "pending-c-fixture/report.md",
-    "fixedCalendarBaseline": "A main8454fffa integrated; remaining Sen requestConfirmed unchanged."
+    "fixedCalendarBaseline": "A main8454fffa integrated; remaining Sen requestConfirmed unchanged.",
+    "previousStatus": "SLOT_DAY_RETIRED_SHARED_SELECTION_STOPPED_PUBLIC_EVIDENCE",
+    "resolution": "12-sen-main-sync/report.md"
   },
   {
     "group": "G3c course / price / facts",
@@ -85,8 +87,10 @@
       "35",
       "36"
     ],
-    "status": "NOT_IMPLEMENTED_AFTER_SEN_ACCEPTANCE_EVIDENCE_STOP",
-    "oldHardOutputChanged": false
+    "status": "IMPLEMENTED_BUT_NOT_ACCEPTED_A_FIXTURE_STOP",
+    "oldHardOutputChanged": false,
+    "previousStatus": "NOT_IMPLEMENTED_AFTER_SEN_ACCEPTANCE_EVIDENCE_STOP",
+    "resolution": "14-quoted-fact-reads/report.md"
   },
   {
     "group": "05 response-only slots and day states",
@@ -177,5 +181,19 @@
     "green": "cbfdb210",
     "testedCommit": "a47b5ac6",
     "report": "13-public-fact-fields/report.md"
+  },
+  {
+    "group": "14 generic quoted fact reads",
+    "status": "STOPPED_A_OWNED_FIXTURE",
+    "sourceCommit": "fec90a362404243e3cd93c47be00fca40ca43c3e",
+    "red": "4a7f8a31",
+    "correspondingGreen": "c47eeb82",
+    "defaultGate": {
+      "tests": 1230,
+      "pass": 1217,
+      "fail": 13
+    },
+    "report": "14-quoted-fact-reads/report.md",
+    "newRealCalls": 0
   }
 ]

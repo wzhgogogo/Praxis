@@ -1,0 +1,63 @@
+
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+Error [TransformError]: Transform failed with 1 error:
+/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/google-listed-website-facts.ts:236:7: ERROR: Unexpected "export"
+    at failureErrorWithLog (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:1748:15)
+    at /Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:1017:50
+    at responseCallbacks.<computed> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:884:9)
+    at handleIncomingPacket (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:939:12)
+    at Socket.readFromStdout (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:862:7)
+    at Socket.emit (node:events:507:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+
+Node.js v24.4.1
+✖ src/integrations/restaurant-facts/google-listed-website-facts.test.ts (115.886583ms)
+✔ source facts freeze the page and quote metadata before awaiting the model (1.9835ms)
+✔ source selection rejects model numbers, invented IDs, overlapping ranges and customer reviews (1.046084ms)
+✔ source price ranges require quoted or public ARIA meal context; ambiguous amounts remain unknown (0.832709ms)
+✔ source range preserves every intervening restriction and cancellation rejects a late response (0.539667ms)
+✔ source facts select the actual quoted price line without detaching its complete conditions (0.217625ms)
+✔ source facts can cite unstructured merchant type prose with no private fields or menu prices (0.108584ms)
+✔ source selection preserves a shared model budget failure instead of swallowing it as missing facts (0.115459ms)
+
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+Error [TransformError]: Transform failed with 1 error:
+/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/google-listed-website-facts.ts:236:7: ERROR: Unexpected "export"
+    at failureErrorWithLog (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:1748:15)
+    at /Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:1017:50
+    at responseCallbacks.<computed> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:884:9)
+    at handleIncomingPacket (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:939:12)
+    at Socket.readFromStdout (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/node_modules/esbuild/lib/main.js:862:7)
+    at Socket.emit (node:events:507:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)
+
+Node.js v24.4.1
+✖ src/integrations/restaurant-facts/quoted-fact-read.test.ts (128.565833ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 134.059709
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/google-listed-website-facts.test.ts:1:1
+✖ src/integrations/restaurant-facts/google-listed-website-facts.test.ts (115.886583ms)
+  'test failed'
+
+test at src/integrations/restaurant-facts/quoted-fact-read.test.ts:1:1
+✖ src/integrations/restaurant-facts/quoted-fact-read.test.ts (128.565833ms)
+  'test failed'
