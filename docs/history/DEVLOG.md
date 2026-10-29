@@ -5250,3 +5250,11 @@ Five approved consolidation items have individual successor proof, all originals
 ## 2026-10-29 CET: G3 HARD price-scope stop
 
 2026-10-29 CET：G3 因 HARD 报价适用人数错判停止。实际 Adapter → fixture 模型选句 → 生产条件判断中，原文完整保留“8,000 日元、至少 4 人”，但 2 人请求仍为 MET；独立期望为 NOT_CHECKED。无限制报价正对照为 MET，库存人数绑定正常。HARD 消费方与 main `50a08361` 字节相同，未自行改规则；这是离线反例，没有 Live 错误交付。OBS-09 已实现，G3c 尚为草案；相关核心 49/49、原生 163/163、Chromium 14/14 通过，当前新增回归红灯保留，最终五门禁和严格 G2 尚未通过。A 的 Sen UNKNOWN 已在 main，因本次 S0 停止尚未同步。C 保护文件/断言及响应接口不变，真实调用 0；行数 3,970/Pack 482 仅参考。只推工作分支，等复核。 [报告](../../.eval-artifacts/phase3b/g3-longrun/10-hard-price-scope-stop/report.md).
+
+## DEV-2026-10-29-G2-SEN-SCHEDULING
+
+2026-10-29 CET: G2 Sen requestConfirmed baseline approved true→UNKNOWN; A observation now reuses bound source response instead of UI-only selected diagnostic. Effective old-path true≠null red and same assertion green; public ARIA positive/removal unknown plus bound/mismatched response controls, fixed localG2 5/5. Classifier/mutation, other11 baselines and product/site code unchanged. Timing reproduction on original mainb2a3cbd3: ordinary2vCPU full174/174 PASS138.062s; bounded25%-total cgroup pressure full original suite underway, explicitly not the ordinary2CPU environment. No scheduling fix or larger180s timeout applied yet. Calls0, no.env. [Plan](../../.eval-artifacts/phase3b/g2-sen-scheduling/plan.md).
+
+## DEV-2026-10-29-G2-SEN-SCHEDULING-VERIFIED
+
+2026-10-29 CET: G2 Sen requestConfirmed is UNKNOWN(null) by approved review; observed public ARIA positives/removal negatives and bound/mismatched response controls retained. G2 is scheduled alone before remaining4-worker fixtures; original180s test/classifier/mutation/12-page manifest unchanged. Matched2CPU37.5% pressure old180.090s timeout→exclusive89.221s PASS; ordinary old2CPU control138.062s PASS retained, not called a reproduction. Frozen445691b3/682 inputs: macOS/Linux five gates green, default1202, Chromium175; three consecutive ordinary2CPU full runs132.279/132.833/132.951s, all before/after clean. All174 prior browser names retained +1 public-control, +1 default native phase-order regression. VM deleted, no file restore, product/site/Guard/Pack/Prompt/Schema/State diff0, real calls0. [Report](../../.eval-artifacts/phase3b/g2-sen-scheduling/report.md).

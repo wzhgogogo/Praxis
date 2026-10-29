@@ -1,0 +1,21 @@
+{
+  "mode": "LOCAL_CONSTRUCTED_NATIVE_NODE_CHILD_PROCESSES_NOT_WEBSITE_REPLAY",
+  "normalExit": 0,
+  "controlledOverlapExit": 1,
+  "targetAssertion": "remaining tests must not start during G2 held read",
+  "countsAndFailurePropagation": "3 exactly once; constructed child FAIL gives entry exit1 and2PASS1FAIL",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "src/harness/browser-fixture-scheduling.test.ts"
+  ],
+  "inputSha256": {
+    "scripts/run-browser-fixtures.mjs": "94efb36b9173b8a2087964aeb3a9b8732cdab73de795e4a1dafe9f219eba30e1",
+    "scripts/test-filesystem-guard.mjs": "55d568fb3fc24fefdf83b1fbce31259c727de2decf88e0360344a7ba18c86b8f",
+    "src/harness/browser-fixture-scheduling.test.ts": "0601ec033e6c31f16426f9b18394915d97a9a7cdfb0f55cbcf481257641ed3c3"
+  }
+}
