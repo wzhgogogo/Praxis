@@ -139,7 +139,7 @@ test("native TableCheck facts read an observed reserve menu as a scoped document
   // discard a whole reserve-page remainder as one flattened line.
   const venueParagraphs = Array.from({ length: 32 }, (_, index) =>
     `Venue policy ${index + 1}: ${index === 17 ? "This venue is hot pot only." : "public dining information."}`);
-  const reserve: BrowserSnapshot = { url: reserveUrl, title: "Restaurant 1", text: "Restaurant 1\n1-1 Shinjuku, Tokyo\nSushi omakase course\nBar snacks",
+  const reserve: BrowserSnapshot = { url: reserveUrl, title: "Restaurant 1", text: ["Restaurant 1","1-1 Shinjuku, Tokyo","Venue-wide policy: no fast food.",...venueParagraphs,"Sushi omakase course","Bar snacks"].join("\n"),
     html: [
       '<h1>Restaurant 1</h1><div class="address">1-1 Shinjuku, Tokyo</div><aside>Venue-wide policy: no fast food.</aside>',
       ...venueParagraphs.map((paragraph) => `<p>${paragraph}</p>`),

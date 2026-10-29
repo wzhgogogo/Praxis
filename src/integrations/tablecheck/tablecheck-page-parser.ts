@@ -105,33 +105,9 @@ function decodedAttribute(value: string): string {
 
 function markupAttribute(markup: string, name: string): string | undefined {
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const found = markup.match(new RegExp(`\\b${escaped}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, "i"));
+  const found = markup.match(new RegExp(`\\s${escaped}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, "i"));
   const value = found?.[1] ?? found?.[2] ?? found?.[3];
   return value === undefined ? undefined : decodedAttribute(value);
-}
-
-function menuCategoryValues(markup: string): string[] {
-  const raw = markupAttribute(markup, "data-service-categories");
-  if (!raw) return [];
-  try {
-    const values = JSON.parse(raw) as unknown;
-    return Array.isArray(values) && values.every((value) => typeof value === "string" && value.trim())
-      ? [...new Set(values.map((value) => value.trim()))]
-      : [];
-  } catch { return []; }
-}
-
-interface MenuMarkupNode {
-  name: string;
-  start: number;
-  contentStart: number;
-  menuContainer: boolean;
-  categories: Set<string>;
-}
-
-function isMenuContainer(markup: string): boolean {
-  // Metadata/title/description classes belong inside the outer `menu-item`.
-  return /(?:^|\s)menu-item(?:\s|$)/i.test(markupAttribute(markup, "class") ?? "");
 }
 
 /** Remove markup that browsers do not expose as DOM menu content, preserving offsets. */
@@ -150,14 +126,14 @@ function observedTableCheckServiceScopes(controls: readonly BrowserPageControl[]
     const value = control.value?.trim();
     const label = control.label.trim();
     if (control.kind !== "RADIO" || !control.visible || control.disabled || field !== "reservation[service_category]" || !group || !value || !label) continue;
-    scopes.set(value, { field, group, value, label });
+    scopes.set(`${group}\u0000${value}`, { field, group, value, label });
   }
   return scopes;
 }
 
 export interface TableCheckScopedMenuExcerpt {
   serviceScope: RestaurantServiceScope;
-  /** Public text structurally contained by the category-tagged menu item. */
+  /** Complete public menu text bound by the observed service label. */
   text: string;
 }
 
@@ -167,56 +143,51 @@ export interface TableCheckScopedMenuSourcePartition {
   unscopedText: string;
 }
 
-/**
- * Reads public menu category data only when a category-tagged element is
- * structurally inside a menu item and names a visible observed radio value.
- * It is cited source text, never an availability result.
- */
-export function parseTableCheckScopedMenuSourcePartition(
-  snapshot: BrowserSnapshot,
-  controls: readonly BrowserPageControl[],
-): TableCheckScopedMenuSourcePartition {
-  const html = tableCheckDomMarkup(snapshot.html);
-  if (!isTableCheckUrl(snapshot.url)) return { scoped: [], unscopedText: sourceText(html) };
-  const scopes = observedTableCheckServiceScopes(controls);
-  if (!scopes.size) return { scoped: [], unscopedText: sourceText(html) };
-  const nodes: MenuMarkupNode[] = [];
-  const excerpts = new Map<string, TableCheckScopedMenuExcerpt>();
-  const scopedRanges: Array<{ start: number; end: number }> = [];
-  const voidTags = new Set(["area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"]);
-  const tags = /<\s*(\/?)\s*([a-z][\w-]*)\b[^>]*>/gi;
-  for (let match = tags.exec(html); match; match = tags.exec(html)) {
-    const name = match[2]!.toLowerCase();
-    const markup = match[0];
-    if (match[1] !== "/") {
-      const owner = nodes.findLast(item => item.menuContainer);
-      for (const value of menuCategoryValues(markup)) owner?.categories.add(value);
-      if (!voidTags.has(name) && !/\/\s*>$/.test(markup)) {
-        nodes.push({ name, start: match.index, contentStart: tags.lastIndex, menuContainer: isMenuContainer(markup), categories: new Set<string>() });
-      }
+/** Bind cited menus to one public ARIA/heading/leading service label, never private data. */
+export function parseTableCheckScopedMenuSourcePartition(snapshot: BrowserSnapshot, controls: readonly BrowserPageControl[]): TableCheckScopedMenuSourcePartition {
+  const html=tableCheckDomMarkup(snapshot.visibleHtml??snapshot.html);
+  const compact=(text:string)=>text.normalize("NFKC").replace(/\s+/gu," ").trim().toLocaleLowerCase("en-US");
+  const visible=compact(snapshot.text);
+  const publicText=(markup:string)=>sourceText(markup).split("\n").filter(line=>visible.includes(compact(line))).join("\n");
+  if(!isTableCheckUrl(snapshot.url))return {scoped:[],unscopedText:publicText(html)};
+  const scopes=[...observedTableCheckServiceScopes(controls).values()];
+  if(!scopes.length)return {scoped:[],unscopedText:publicText(html)};
+  const stack:Array<{name:string;start:number;tag:string;hidden:boolean}>=[];
+  const candidates:Array<{start:number;end:number;text:string;scopes:RestaurantServiceScope[]}>=[];
+  const matchesLabel=(text:string,label:string)=>{
+    const value=compact(text),key=compact(label);
+    return value===key || value.startsWith(key)&&!/[\p{L}\p{N}]/u.test(value[key.length]??"");
+  };
+  for(const token of html.matchAll(/<\/?([a-z][\w-]*)\b[^>]*>/giu)){
+    const tag=token[0],name=token[1]!.toLowerCase();
+    if(!tag.startsWith("</")){
+      if(!/^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/u.test(name)&&!/\/\s*>$/u.test(tag))stack.push({name,start:token.index,tag,hidden:Boolean(stack.at(-1)?.hidden)||/\shidden(?:\s|=|>)|\saria-hidden=["']true["']|\sstyle=["'][^"']*(?:display\s*:\s*none|visibility\s*:\s*hidden)/iu.test(tag)});
       continue;
     }
-    const index = nodes.findLastIndex(node => node.name === name);
-    if (index < 0) continue;
-    // Drop malformed descendants when their ancestor closes; they must not
-    // carry category ownership into a later sibling.
-    const [node] = nodes.splice(index);
-    if (!node?.menuContainer || !node.categories.size) continue;
-    const text = sourceText(html.slice(node.contentStart, match.index));
-    if (!text) continue;
-    const observed = [...node.categories].map(value => scopes.get(value))
-      .filter((scope): scope is RestaurantServiceScope => scope !== undefined);
-    for (const serviceScope of observed) {
-      const fingerprint = `${serviceScope.field}\u0000${serviceScope.group}\u0000${serviceScope.value}\u0000${text}`;
-      excerpts.set(fingerprint, { serviceScope, text });
-    }
-    if (observed.length) scopedRanges.push({ start: node.start, end: match.index });
+    const index=stack.findLastIndex(node=>node.name===name);if(index<0)continue;
+    const [node]=stack.splice(index);if(!node||node.hidden||!/^(?:article|section|div)$/u.test(name))continue;
+    const block=html.slice(node.start,token.index+tag.length),text=publicText(block);if(!text)continue;
+    const titles=[...block.matchAll(/<h[1-6]\b[^>]*>([\s\S]*?)<\/h[1-6]>/giu)].map(m=>sourceText(m[1]!));
+    const aria=markupAttribute(node.tag,"aria-label");
+    const labels=(markupAttribute(node.tag,"aria-labelledby")??"").split(/\s+/u).filter(Boolean).flatMap(id=>{
+      const safe=id.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+      const found=html.match(new RegExp(`<([a-z][\\w-]*)\\b[^>]*\\bid=["']${safe}["'][^>]*>([\\s\\S]*?)<\\/\\1>`,'iu'));
+      return found?[sourceText(found[2]!)]:[];
+    });
+    const publicLabels=[...(aria?[aria]:[]),...labels,...titles,text.split("\n")[0]!];
+    const matched=scopes.filter(scope=>publicLabels.some(label=>matchesLabel(label,scope.label)));
+    const menuLike=/course|menu|plan|snacks|コース|メニュー|プラン|套餐/iu.test(text)||matched.length>0;
+    if(!menuLike||name==="div"&&!titles.length&&!aria&&!labels.length)continue;
+    candidates.push({start:node.start,end:token.index+tag.length,text,scopes:matched});
   }
-  let unscopedMarkup = html;
-  for (const range of scopedRanges.sort((left, right) => right.start - left.start)) {
-    unscopedMarkup = `${unscopedMarkup.slice(0, range.start)}${" ".repeat(range.end - range.start)}${unscopedMarkup.slice(range.end)}`;
-  }
-  return { scoped: [...excerpts.values()], unscopedText: sourceText(unscopedMarkup) };
+  const scoped:TableCheckScopedMenuExcerpt[]=[];
+  const minimal=candidates.filter(node=>!candidates.some(child=>child.start>node.start&&child.end<=node.end));
+  for(const node of minimal)if(node.scopes.length===1)scoped.push({serviceScope:node.scopes[0]!,text:node.text});
+  let remainder=html;
+  // Even an unbound menu cannot be reintroduced as an unscoped venue fact.
+  const outer=candidates.filter(node=>!candidates.some(parent=>parent.start<node.start&&parent.end>=node.end));
+  for(const node of outer.sort((a,b)=>b.start-a.start))remainder=remainder.slice(0,node.start)+" ".repeat(node.end-node.start)+remainder.slice(node.end);
+  return {scoped,unscopedText:publicText(remainder)};
 }
 
 export function parseTableCheckScopedMenuExcerpts(

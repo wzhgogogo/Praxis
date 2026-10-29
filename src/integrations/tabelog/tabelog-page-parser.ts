@@ -285,33 +285,57 @@ export function parseTabelogPriceFacts(snapshot: BrowserSnapshot): import("../..
 }
 
 
-/** Field roles are read from this outlet's markup, never guessed from a quote. */
+/** Public field labels and observed links, independent of private class/data. */
 export function parseTabelogSourceFieldQuotes(snapshot: BrowserSnapshot): import("../../domains/restaurant/contracts.js").RestaurantSourceFieldQuote[] {
   type Quote = import("../../domains/restaurant/contracts.js").RestaurantSourceFieldQuote;
   const clean = (s: string) => publicPriceText(s).replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
-  const hasClass = (tag: string, token: string) => (tag.match(/\sclass\s*=\s*(["'])([\s\S]*?)\1/i)?.[2] ?? "").split(/\s+/).includes(token);
   const output: Quote[] = [];
-  const add = (field: Quote["field"], markup: string, meal: Quote["meal"] = "UNSPECIFIED") => {
-    const quote = clean(markup); if (quote && quote.length <= 1600) output.push({ field, quote, sourceUrl: snapshot.url, meal });
+  const add = (field: Quote["field"], quote: string, meal: Quote["meal"] = "UNSPECIFIED") => {
+    if (quote && quote.length <= 1600 && !output.some(q => q.field === field && q.quote === quote && q.meal === meal)) output.push({field,quote,sourceUrl:snapshot.url,meal});
   };
-  for (const block of sourcePriceElements(snapshot.html, tag => hasClass(tag, "display-name"))) add("NAME", block);
-  for (const block of sourcePriceElements(snapshot.html, tag => hasClass(tag, "rstdtl-rvw__title-target"))) add("CUSTOMER_REVIEW", block);
-  let merchantHtml = snapshot.html;
-  for (const block of sourcePriceElements(merchantHtml, tag => /^<(?:aside|nav)\b/i.test(tag) || /class=["'][^"']*(?:rstdtl-rvw|recommend|related|neighbor|is-hidden)[^"']*["']/i.test(tag)).sort((a, b) => b.length - a.length)) merchantHtml = merchantHtml.replace(block, "");
-  for (const card of sourcePriceElements(merchantHtml, tag => hasClass(tag, "rstdtl-course-list"))) {
-    const ownRoot = snapshot.url.match(/^(https?:\/\/[^/]+\/en\/[^/]+\/[^/]+\/[^/]+\/\d{8}\/)/)?.[1];
-    if (ownRoot && [...card.matchAll(/href=["']([^"']*\/party\/[^"']*)["']/gi)].some(m => !m[1]!.startsWith(ownRoot + "party/"))) continue;
-    const title = sourcePriceElements(card, tag => /^<span\b/i.test(tag) && hasClass(tag, "rstdtl-course-list__course-title-text"))[0] ?? "";
-    const description = sourcePriceElements(card, tag => /^<p\b/i.test(tag) && hasClass(tag, "rstdtl-course-list__desc"))[0] ?? "";
-    const titleText = clean(title), whole = clean(card);
-    const meal: Quote["meal"] = /lunch|ランチ|昼食/i.test(titleText) ? "LUNCH" : /dinner|ディナー|夕食/i.test(titleText) ? "DINNER"
-      : /lunch|ランチ|昼食/i.test(whole) && !/dinner|ディナー|夕食/i.test(whole) ? "LUNCH" : /dinner|ディナー|夕食/i.test(whole) && !/lunch|ランチ|昼食/i.test(whole) ? "DINNER" : "UNSPECIFIED";
-    add("COURSE_TITLE", title, meal); add("COURSE_DESCRIPTION", description, meal);
+  const markup = publicMarkup(snapshot);
+  for (const heading of sourcePriceElements(markup, tag=>/^<h1\b/iu.test(tag))) add("NAME",clean(heading));
+  const reviewRanges: Array<{start:number;end:number}> = [];
+  const headings=[...markup.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1\s*>/giu)];
+  for (const [index,heading] of headings.entries()) {
+    if(!/^(?:reviews?|customer reviews?|user reviews?|口コミ|クチコミ|お客様の声)\s*[?？]?$/iu.test(clean(heading[2]!)))continue;
+    const next=headings.slice(index+1).find(other=>Number(other[1])<=Number(heading[1]));
+    const end=next?.index??markup.length;
+    reviewRanges.push({start:heading.index,end});
+    for(const title of headings.slice(index+1).filter(other=>other.index<end))add("CUSTOMER_REVIEW",clean(title[2]!));
   }
-  for (const table of sourcePriceElements(merchantHtml, tag => /^<table\b/i.test(tag) && /class=["'][^"']*rstinfo-table[^"']*["']/i.test(tag)))
-    for (const row of sourcePriceElements(table, tag => /^<tr\b/i.test(tag))) {
-      const heading = row.match(/<th\b[^>]*>([\s\S]*?)<\/th>/i)?.[1] ?? "";
-      if (/^(?:Categories|Cuisine|Genre)$/i.test(clean(heading))) add("CATEGORY", row.match(/<td\b[^>]*>([\s\S]*?)<\/td>/i)?.[1] ?? "");
+  const reviewRegion = (tag:string) => /aria-label=["'](?:customer |user )?reviews?["']/iu.test(tag);
+  for (const region of sourcePriceElements(markup,reviewRegion)) {
+    for(const link of sourcePriceElements(region,tag=>/^<a\b/iu.test(tag)))add("CUSTOMER_REVIEW",clean(link));
+  }
+  for(const link of sourcePriceElements(markup,tag=>/^<a\b/iu.test(tag)&&/href=["'][^"']*\/dtlrvwlst\//iu.test(tag)))add("CUSTOMER_REVIEW",clean(link));
+  let merchant = markup;
+  for(const range of reviewRanges.sort((a,b)=>b.start-a.start))merchant=merchant.slice(0,range.start)+" "+merchant.slice(range.end);
+  for(const region of sourcePriceElements(merchant,reviewRegion).sort((a,b)=>b.length-a.length))merchant=merchant.replace(region,"");
+  const href = (link:string) => link.match(/\bhref\s*=\s*["']([^"']+)["']/iu)?.[1];
+  const courseLink = (link:string) => {try{return /\/party\//u.test(new URL(href(link)??"",snapshot.url).pathname);}catch{return false;}};
+  const sourceRoot = new URL(snapshot.url); sourceRoot.search="";sourceRoot.hash="";
+  sourceRoot.pathname=sourceRoot.pathname.split("/party/")[0]!.replace(/\/$/u,"")+"/";
+  const ownLink = (link:string) => {try{const target=new URL(href(link)??"",snapshot.url);return target.origin===sourceRoot.origin&&target.pathname.startsWith(sourceRoot.pathname);}catch{return false;}};
+  const cards=sourcePriceElements(merchant,tag=>/^<(?:article|section|div)\b/iu.test(tag));
+  for(const link of sourcePriceElements(merchant,tag=>/^<a\b/iu.test(tag)).filter(courseLink)){
+    const title=clean(link);
+    if(!ownLink(link)||!title||/^(?:reserve|reservation|details?|set menu details|予約|詳細)$/iu.test(title))continue;
+    const card=cards.filter(card=>card.includes(link)&&/<p\b/iu.test(card)).sort((a,b)=>a.length-b.length)[0];
+    if(card&&sourcePriceElements(card,tag=>/^<a\b/iu.test(tag)).some(other=>courseLink(other)&&!ownLink(other)))continue;
+    const whole=card?clean(card):title;
+    const meal:Quote["meal"]=/lunch|ランチ|昼食/iu.test(title)?"LUNCH":/dinner|ディナー|夕食/iu.test(title)?"DINNER"
+      : /lunch|ランチ|昼食/iu.test(whole)&&!/dinner|ディナー|夕食/iu.test(whole)?"LUNCH":/dinner|ディナー|夕食/iu.test(whole)&&!/lunch|ランチ|昼食/iu.test(whole)?"DINNER":"UNSPECIFIED";
+    add("COURSE_TITLE",title,meal);
+    if(card)for(const paragraph of sourcePriceElements(card,tag=>/^<p\b/iu.test(tag))){
+      const text=clean(paragraph);
+      if(sourcePriceElements(paragraph,tag=>/^<a\b/iu.test(tag)).some(courseLink)||/^\d+\s*(?:items?|品)$/iu.test(text))continue;
+      if(text&&!/^(?:reserve|set menu details|JPY|¥|Number of people)\b/iu.test(text))add("COURSE_DESCRIPTION",text,meal);
     }
-  return output.slice(0, 32);
+  }
+  for(const table of sourcePriceElements(merchant,tag=>/^<table\b/iu.test(tag)))for(const row of sourcePriceElements(table,tag=>/^<tr\b/iu.test(tag))){
+    const label=clean(row.match(/<th\b[^>]*>([\s\S]*?)<\/th>/iu)?.[1]??"");
+    if(/^(?:categories|cuisines?|genres?|ジャンル|料理ジャンル)$/iu.test(label))add("CATEGORY",clean(row.match(/<td\b[^>]*>([\s\S]*?)<\/td>/iu)?.[1]??""));
+  }
+  return output.slice(0,32);
 }
