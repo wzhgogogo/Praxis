@@ -1,0 +1,24 @@
+✖ Chromium observes public selection, native checked values and a calendar day without a private child shape (713.852042ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1019.843083
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-public-selection.test.ts:1:331
+✖ Chromium observes public selection, native checked values and a calendar day without a private child shape (713.852042ms)
+  AssertionError [ERR_ASSERTION]: class-only state cannot suppress a legal action
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/browser-read-public-selection.test.ts:23:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: true,
+    operator: 'notStrictEqual'
+  }
