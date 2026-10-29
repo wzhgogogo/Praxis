@@ -14,3 +14,15 @@ for path in protected:
     old=subprocess.run(['git','show','b2a3cbd3:'+path],capture_output=True)
     if old.returncode==0:assert Path(path).read_bytes()==old.stdout,path
 print(json.dumps({'status':'PASS','frozenFiles':len(frozen['files']),'protectedG3AndSharedVersions':'UNCHANGED','ledger':'UNCHANGED','newRealCalls':0}))
+
+# User-authorized A-owned changes: invert exactly the three approved lines, then
+# compare complete files to main. This also protects website-provided links and Gold.
+changes={
+ 'src/harness/browser/browser-read-tablecheck.test.ts':('const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-09-16&num_people=2&start_time=19%3A00";','const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-09-16&pax=2";'),
+ 'src/eval/restaurant/agent-loop/current-development-fixed-sources.ts':('url.searchParams.get("num_people") !== String(inventory.partySize)','url.searchParams.get("pax") !== String(inventory.partySize)'),
+ 'src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts':('record.request.includes("num_people=4")','record.request.includes("pax=4")'),
+}
+for path,(new,old) in changes.items():
+    current=Path(path).read_text();assert current.count(new)==1
+    assert current.replace(new,old,1)==subprocess.check_output(['git','show','b2a3cbd3:'+path],text=True),path
+print(json.dumps({'authorizedAChanges':3,'sourcePageLinksGoldAndScoring':'BYTE_IDENTICAL_EXCEPT_APPROVED_REQUEST_LINES'}))

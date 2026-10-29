@@ -1,0 +1,28 @@
+{
+  "timeBasis": "Vienna CET UTC+1",
+  "authorization": "Explicit user replies in this chat, 2026-10-29; further A-only request parameter sync allowed, no Gold/source-page/score changes",
+  "changes": [
+    {
+      "path": "src/harness/browser/browser-read-tablecheck.test.ts",
+      "line": 147,
+      "change": "Praxis request URL only: pax=2 to num_people=2 plus start_time=19%3A00 (URL-encoded 19:00)",
+      "commit": "547dadc0bde4ba5fdb858dcebd0974ffb9a2982c",
+      "untouchedSourceInputs": "lines148/191 and other rendered-page links unchanged; preserve this request line when merging A concurrent G2 timeout fix"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/current-development-fixed-sources.ts",
+      "line": 222,
+      "change": "outgoing Praxis request validation get(pax) to get(num_people)",
+      "commit": "1fb345355bce19c98c333b151df93f87b596278c",
+      "untouchedSourceInputs": "line228 synthetic website-supplied pax links and all other response markup unchanged"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/current-development-fixed-sources.test.ts",
+      "line": 54,
+      "change": "coverage-gap trace expects num_people=4 instead of pax=4; rejection assertion unchanged",
+      "commit": "1fb345355bce19c98c333b151df93f87b596278c"
+    }
+  ],
+  "scope": "request contracts only; separate commits from product code",
+  "regressionProof": "request-contract-red-green.json"
+}

@@ -4,6 +4,10 @@ Status: implementation and formal verification in progress; ADR-0048 Proposed. N
 
 2026-10-29 CET：C启动G5 B1离线切片，最新main b2a3cbd3；ADR0048 Proposed。TableCheck旧pax有效红→num_people/精确start_time绿；暂态合同/服务端二次校验/最小英文卡片正在验证。现main缺G3 vacancy-response导出，不拼Tabelog链接、不改B三个保护文件；普通组合未启用B1来源读者。反馈持久化、多语言严格条款及平台手续费证据待ADR/后续接线。模型/GET/Google/Live0，不读.env，无共享版本变更。
 
+## Cross-ownership request contracts
+
+User-approved isolated commits: 547dadc0 (A browser fixture line147 outgoing URL) and 1fb34535 (A fixed-source request validator line222 and failure-trace expectation line54). Source-generated page links at148/191/228, Gold and scoring unchanged. Initial cda313f0 default test1191/1207 with16 failures; all16 labels now pass in the26/26 targeted suite. See cross-ownership.json and request-contract-red-green.json. Full final gates pending.
+
 ## Full Proposed ADR for user approval
 
 # ADR-0048: Source-bound B1 booking handoff
