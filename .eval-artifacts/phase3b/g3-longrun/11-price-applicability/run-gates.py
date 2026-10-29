@@ -8,6 +8,7 @@ p.add_argument('--freeze', type=Path, required=True)
 p.add_argument('--output', type=Path, required=True)
 p.add_argument('--browser-samples', type=int, default=1, choices=(1, 3))
 p.add_argument('--median-limit', type=float)
+p.add_argument('--reuse-first-four', type=Path)
 a = p.parse_args()
 root, out = a.worktree.resolve(), a.output.resolve()
 assert not out.is_relative_to(root)
@@ -30,6 +31,18 @@ result = {'mode': 'OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE', 'testedCommit': commit,
           'freezeSha256': hashlib.sha256(freeze_bytes).hexdigest(), 'runs': [], 'restorations': 0,
           'gatePolicy': 'All five gates must exit zero; existing E1 is not exempt in this slice',
           'chromiumConcurrency': 4, 'g2StrictRequired': True}
+if a.reuse_first_four:
+    prior = json.loads((a.reuse_first_four / 'gates.json').read_text())
+    old_freeze = json.loads(subprocess.check_output(['git','-C',str(root),'show',prior['testedCommit']+':'+str(a.freeze)],text=True))
+    allowed_outer_change = str(Path(__file__).resolve().relative_to(root))
+    for path, expected in old_freeze['files'].items():
+        if path != allowed_outer_change:
+            assert hashlib.sha256((root/path).read_bytes()).hexdigest() == expected, path
+    first = prior['runs'][:4]
+    assert [row['gate'] for row in first] == ['typecheck','arch-check','npm-test','build']
+    assert all(row['outcome']=='PASS' and not row['gitStatusBefore'] and not row['gitStatusAfter'] for row in first)
+    result['runs'] = [dict(row,reusedFromCommit=prior['testedCommit'],productInputsVerifiedUnchanged=True) for row in first]
+    result['reuseReason'] = 'Only the outer browser phase-log assertion changed after A scheduling merge; first four gates are byte-identical inputs.'
 def save():
     (out / 'gates.json').write_text(json.dumps(result, indent=2) + '\n')
 steps = [('typecheck', 1, ['npm', 'run', 'typecheck']),
@@ -38,6 +51,7 @@ steps = [('typecheck', 1, ['npm', 'run', 'typecheck']),
          *[('browser-fixture', n, ['npm', 'run', 'test:browser:fixture']) for n in range(1, a.browser_samples + 1)],
          ('dom-change', 1, ['npm', 'run', 'test:dom-change'])]
 for name, sample, command in steps:
+    if a.reuse_first_four and name in ('typecheck','arch-check','npm-test','build'): continue
     assert git('rev-parse', 'HEAD').strip() == commit
     assert not git('status', '--porcelain')
     row = {'gate': name, 'sample': sample, 'command': command, 'startedAtCET': now(),
@@ -64,7 +78,8 @@ for name, sample, command in steps:
     row['outcome'] = 'PASS' if row['exitCode'] == 0 else 'FAIL'
     if name == 'browser-fixture':
         row['healthPassed'] = any(line.startswith('✔ Live source health uses real Guard') for line in text.splitlines())
-        assert '--test-concurrency=4' in text
+        assert re.search(r'^\[browser fixtures\] remaining fixtures: \d+ files, concurrency 4$', text, re.M)
+        assert re.search(r'^\[browser fixtures\] G2 \(exclusive\): \d+ files, concurrency 1$', text, re.M)
     result['runs'].append(row); save()
     print('END', name, sample, row['outcome'], row['elapsedSeconds'], row['summary'], 'clean=' + str(not row['gitStatusAfter']), flush=True)
     if row['outcome'] == 'FAIL' or row['gitStatusAfter'] or name == 'browser-fixture' and not row['healthPassed']:
