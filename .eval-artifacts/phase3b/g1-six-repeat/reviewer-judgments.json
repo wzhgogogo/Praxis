@@ -1,0 +1,679 @@
+{
+  "schema": "phase3b-g1-repeat-reviewer-judgments@1",
+  "status": "REVIEWER_CONFIRMED",
+  "reviewer": "independent reviewer (Claude), 2026-10-28",
+  "recordedAtCET": "2026-10-29T02:25:17+01:00",
+  "authority": "User-supplied exhaustive review and G1 signoff; Q14 criterion revised after results were seen.",
+  "evaluatedCodeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94",
+  "historicalExecutionRef": "f80dacb0db1ed2ab3773522e4daaec8e68876e71",
+  "perAttemptInputSha256": "269b5dfa0aac6eaa93a93a2ec74b8f774b489df01aba1e313ffca334a70fa337",
+  "summary": {
+    "attempts": 19,
+    "trials": 18,
+    "attemptPass": 14,
+    "attemptFail": 3,
+    "attemptTransportTimeout": 2,
+    "trialPass": 14,
+    "trialQualityFail": 3,
+    "trialTimeout": 1,
+    "falseClaims": 0
+  },
+  "judgments": [
+    {
+      "slot": "Q07-r1-a1",
+      "questionId": "G1-Q07",
+      "repetition": 1,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q07-r1-a1/evaluation.json": "fed49cafdd250490d8b77f9c5967e942c596773a7657f4d8e978fab1243da67b",
+        "results/Q07-r1-a1/execution/core-results.json": "29c632ab130b5e8f4caa6ab836e8cf16dbe00b82babb54a16a44c11ff5d5d782",
+        "results/Q07-r1-a1/execution/model-invocations.json": "3e3f7d86ca8940c1464b5d437dee1a294e0d289de15a4477fbe8598ab011e77d",
+        "results/Q07-r1-a1/execution/reads.json": "78fd5dcf69dc36e70aba6c921dfed2ab231d61fa3ed45dd9b840039b9bc99eb0",
+        "results/Q07-r1-a1/execution/responses.json": "9eb94f78946373047fce18ca090cd98f1ece1c766f36ad2ff506c6c4de9728c8",
+        "results/Q07-r1-a1/execution/run.json": "54b26e984cbd2ab9d2dee2c24e35508aa7c38e3ac46acb65ffb77296be399c84",
+        "results/Q07-r1-a1/finished.json": "3b71cc9230b9de6af721848d22ba11912a90c424fcc336a8c5f8fc9c8f910e7c",
+        "results/Q07-r1-a1/model-request.json": "d98edc0a7481d239ad8c1d77505f9bd95daa91c0e62cd72d4b299be62e9a3d16",
+        "results/Q07-r1-a1/model-response.json": "cdee969585ffce7e17f75d603651f37c525fe1e65a733733099e1a078635b325",
+        "results/Q07-r1-a1/supplemental-checks.json": "89479b73c5d11e622e0c005c07840b66c3b5edccafe904018d767c7f6708da1d",
+        "results/Q07-r1-a1/triage.json": "2dfafe9ca7e78197ce95cda6caae0bc705102bcd9f5ffb2fd2a85e2929d4353a"
+      }
+    },
+    {
+      "slot": "Q07-r2-a1",
+      "questionId": "G1-Q07",
+      "repetition": 2,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q07-r2-a1/evaluation.json": "fed49cafdd250490d8b77f9c5967e942c596773a7657f4d8e978fab1243da67b",
+        "results/Q07-r2-a1/execution/core-results.json": "907b6529f63dd37fd24b2802162838024d8c513ae82ad353ba3c013b9f5c80bc",
+        "results/Q07-r2-a1/execution/model-invocations.json": "330b445ca100315acd3b30230a1b2ca7703d137b37eae8f71cf5199999fd175d",
+        "results/Q07-r2-a1/execution/reads.json": "78fd5dcf69dc36e70aba6c921dfed2ab231d61fa3ed45dd9b840039b9bc99eb0",
+        "results/Q07-r2-a1/execution/responses.json": "26716d1950e0f613e1b1f47c6ab142389d6619c12e01414d8e23d9ba1aad41a4",
+        "results/Q07-r2-a1/execution/run.json": "54b26e984cbd2ab9d2dee2c24e35508aa7c38e3ac46acb65ffb77296be399c84",
+        "results/Q07-r2-a1/finished.json": "7569a7fe7b77a9929a05cd2198de86ba9e827391de49c051c5f61c4e6cce20a8",
+        "results/Q07-r2-a1/model-request.json": "d98edc0a7481d239ad8c1d77505f9bd95daa91c0e62cd72d4b299be62e9a3d16",
+        "results/Q07-r2-a1/model-response.json": "8c4a169c4664cfe3d66c5060036ec192b3f9baec5c797efb4f8fadde877df4ad",
+        "results/Q07-r2-a1/supplemental-checks.json": "7c5c99af7b54ee486ed148d12c269363f551e6b4bf73049642ec587286ab4bef",
+        "results/Q07-r2-a1/triage.json": "61af879d855908b877e2c3f6eb60b40a1bc4b8b8e3bd5ed21832dc47e018968b"
+      }
+    },
+    {
+      "slot": "Q07-r3-a1",
+      "questionId": "G1-Q07",
+      "repetition": 3,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q07-r3-a1/evaluation.json": "fed49cafdd250490d8b77f9c5967e942c596773a7657f4d8e978fab1243da67b",
+        "results/Q07-r3-a1/execution/core-results.json": "866d536947df62f261f0ad108f6636f6fd1bc1ed1d72949b80a766e57558d060",
+        "results/Q07-r3-a1/execution/model-invocations.json": "e897509574db1dd9b36d6d66be9af375e56fcf58cd1cc46ed3350683286f0e2a",
+        "results/Q07-r3-a1/execution/reads.json": "78fd5dcf69dc36e70aba6c921dfed2ab231d61fa3ed45dd9b840039b9bc99eb0",
+        "results/Q07-r3-a1/execution/responses.json": "1b32aea58a5cb022e769c13dd047324e581701bd1341401e7b35eb4d7a24fd0f",
+        "results/Q07-r3-a1/execution/run.json": "54b26e984cbd2ab9d2dee2c24e35508aa7c38e3ac46acb65ffb77296be399c84",
+        "results/Q07-r3-a1/finished.json": "80aec95f664e47eb7f73333289c83b2c63ab2ce85a79399c31daf885cf626811",
+        "results/Q07-r3-a1/model-request.json": "d98edc0a7481d239ad8c1d77505f9bd95daa91c0e62cd72d4b299be62e9a3d16",
+        "results/Q07-r3-a1/model-response.json": "11d6fd4d09d855a6815214724006b021f02bc99a84db4a974b8d6180b4781832",
+        "results/Q07-r3-a1/supplemental-checks.json": "13bc5b48344e79a3f9cd2910a3085d61d9967bf7720d2360632012b6822f5108",
+        "results/Q07-r3-a1/triage.json": "61af879d855908b877e2c3f6eb60b40a1bc4b8b8e3bd5ed21832dc47e018968b"
+      }
+    },
+    {
+      "slot": "Q14-r1-a1",
+      "questionId": "G1-Q14",
+      "repetition": 1,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "REVIEWER_ACCEPTED_CONSERVATIVE_ALLERGY_INTERPRETATION_AFTER_RESULT_EXPOSURE",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q14-r1-a1/evaluation.json": "e20ecd5ef66a4cfbf5bc20ceedc07191c4899c4edeb4428ba43de382d80744d3",
+        "results/Q14-r1-a1/execution/core-results.json": "93b0e1016dfe5f5224b6d637d88f4955b43d2b551b8b6ee199e3ed6acfc365e7",
+        "results/Q14-r1-a1/execution/model-invocations.json": "632f727eba9a4b086b91c7358192776ad169314043087e4dec294f892091a484",
+        "results/Q14-r1-a1/execution/reads.json": "197a8d95c349384015edd707cc91288834d7bc898f8f1c991f23d77908ec25e6",
+        "results/Q14-r1-a1/execution/responses.json": "6c8af3047f70227e75fcc7442e68720c4f895db00fdd45f87476036fe8f611f7",
+        "results/Q14-r1-a1/execution/run.json": "61e0aa0fa429504e21d634513fe46bf474ccd9411469221d6281b20ab9a4376c",
+        "results/Q14-r1-a1/finished.json": "62c2c6398e49e0efab80d1a0ee9e8b2ce01fdf4d7e3029b2f3afa30a1b7f5ce6",
+        "results/Q14-r1-a1/model-request.json": "f6e70ffebb328c9c636ebc3ee18227977a504f5a7af3b88c1a840dc1d4b0eefe",
+        "results/Q14-r1-a1/model-response.json": "9eb1a7858f0f911c9788c33dda134b23878c244a4f37529cb4f5b203a9c02cb6",
+        "results/Q14-r1-a1/supplemental-checks.json": "77e68fbe1a7502cf59cfd236900b03c84391e0e4f59ad07792fdc54732dcd592",
+        "results/Q14-r1-a1/triage.json": "cf7c8e9c69670b4e13f892a1fcfd0f094921a94e8b45d30335e6b7bc2c75822b"
+      }
+    },
+    {
+      "slot": "Q14-r2-a1",
+      "questionId": "G1-Q14",
+      "repetition": 2,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "REVIEWER_ACCEPTED_CONSERVATIVE_ALLERGY_INTERPRETATION_AFTER_RESULT_EXPOSURE",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q14-r2-a1/evaluation.json": "e20ecd5ef66a4cfbf5bc20ceedc07191c4899c4edeb4428ba43de382d80744d3",
+        "results/Q14-r2-a1/execution/core-results.json": "93b0e1016dfe5f5224b6d637d88f4955b43d2b551b8b6ee199e3ed6acfc365e7",
+        "results/Q14-r2-a1/execution/model-invocations.json": "b9c8745e965a8a712f1d1e6a9f78d033358abac124c9937346da4da09e604614",
+        "results/Q14-r2-a1/execution/reads.json": "197a8d95c349384015edd707cc91288834d7bc898f8f1c991f23d77908ec25e6",
+        "results/Q14-r2-a1/execution/responses.json": "6c8af3047f70227e75fcc7442e68720c4f895db00fdd45f87476036fe8f611f7",
+        "results/Q14-r2-a1/execution/run.json": "61e0aa0fa429504e21d634513fe46bf474ccd9411469221d6281b20ab9a4376c",
+        "results/Q14-r2-a1/finished.json": "f3851e2df28d039ba522d1153ac1d176b9179de1bc961fc47a7cce6077d709ed",
+        "results/Q14-r2-a1/model-request.json": "f6e70ffebb328c9c636ebc3ee18227977a504f5a7af3b88c1a840dc1d4b0eefe",
+        "results/Q14-r2-a1/model-response.json": "8e822a1842a09dcb1f3dfd2413cd868d617502b5f546b275a516f99270eaa934",
+        "results/Q14-r2-a1/supplemental-checks.json": "77e68fbe1a7502cf59cfd236900b03c84391e0e4f59ad07792fdc54732dcd592",
+        "results/Q14-r2-a1/triage.json": "cf7c8e9c69670b4e13f892a1fcfd0f094921a94e8b45d30335e6b7bc2c75822b"
+      }
+    },
+    {
+      "slot": "Q14-r3-a1",
+      "questionId": "G1-Q14",
+      "repetition": 3,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "REVIEWER_ACCEPTED_CONSERVATIVE_ALLERGY_INTERPRETATION_AFTER_RESULT_EXPOSURE",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q14-r3-a1/evaluation.json": "e20ecd5ef66a4cfbf5bc20ceedc07191c4899c4edeb4428ba43de382d80744d3",
+        "results/Q14-r3-a1/execution/core-results.json": "93b0e1016dfe5f5224b6d637d88f4955b43d2b551b8b6ee199e3ed6acfc365e7",
+        "results/Q14-r3-a1/execution/model-invocations.json": "6977c7470f973de66450680a769952b249de5b07a9b432dacd4b6d65d121f608",
+        "results/Q14-r3-a1/execution/reads.json": "197a8d95c349384015edd707cc91288834d7bc898f8f1c991f23d77908ec25e6",
+        "results/Q14-r3-a1/execution/responses.json": "6c8af3047f70227e75fcc7442e68720c4f895db00fdd45f87476036fe8f611f7",
+        "results/Q14-r3-a1/execution/run.json": "61e0aa0fa429504e21d634513fe46bf474ccd9411469221d6281b20ab9a4376c",
+        "results/Q14-r3-a1/finished.json": "c2a76e3b3a351cc60368ee4589d74c5ee1b7030d278aedb60a9d43c85cc93115",
+        "results/Q14-r3-a1/model-request.json": "f6e70ffebb328c9c636ebc3ee18227977a504f5a7af3b88c1a840dc1d4b0eefe",
+        "results/Q14-r3-a1/model-response.json": "91b70f780bbbe4da9412f7ed5a603f748e21192de60879992b7dcfbead2672bb",
+        "results/Q14-r3-a1/supplemental-checks.json": "77e68fbe1a7502cf59cfd236900b03c84391e0e4f59ad07792fdc54732dcd592",
+        "results/Q14-r3-a1/triage.json": "cf7c8e9c69670b4e13f892a1fcfd0f094921a94e8b45d30335e6b7bc2c75822b"
+      }
+    },
+    {
+      "slot": "Q26-r1-a1",
+      "questionId": "G1-Q26",
+      "repetition": 1,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q26-r1-a1/evaluation.json": "b1927c3652288edf8cb7016fe914abadac2a9f9f875b6d913c3fda8a79a34c26",
+        "results/Q26-r1-a1/execution/core-results.json": "56766847f1c76b2f99d722bb6596ada377052de0cb778dc06955c761261fa9e9",
+        "results/Q26-r1-a1/execution/model-invocations.json": "44bf7e73b16141c80287bcc64b665e49a30cc685feb84ebb05808a414f2d42cd",
+        "results/Q26-r1-a1/execution/reads.json": "45824725f8ca22e5fd8fb3c1df8ff7435cc3e57439a9cb09a7272f47b8ddd3f2",
+        "results/Q26-r1-a1/execution/responses.json": "89b1972d742c7360da5dc90a4bd27de7e12505e7dc40adc3afb4c3e35f43d87f",
+        "results/Q26-r1-a1/execution/run.json": "85b8015d294c96806b8420b96bc4bbf81ea5b0ea45a36be02fb424dec78bd69d",
+        "results/Q26-r1-a1/finished.json": "2d094a8f837f0ff970bd0d9fdc6d67e880b7d7bc643d6d67ffa584ed3ca2deba",
+        "results/Q26-r1-a1/model-request.json": "01863651572dd1103fc2eb5a7a83b9a014fe606adb914bb6ffbe462184331a69",
+        "results/Q26-r1-a1/model-response.json": "468638599c4d0ddccbed1180105bc7272d7fe824410676a3417472da2b3b117c",
+        "results/Q26-r1-a1/supplemental-checks.json": "dc00a97d9104fd77e65e90645c3a7a12d1661cbeaaeab6b542e926dc50c7df7d",
+        "results/Q26-r1-a1/triage.json": "2c2cb9b2d39877abeb103462a3fb3107b406b8a269eec59728bf6476e2ed1cf5"
+      }
+    },
+    {
+      "slot": "Q26-r2-a1",
+      "questionId": "G1-Q26",
+      "repetition": 2,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q26-r2-a1/evaluation.json": "b1927c3652288edf8cb7016fe914abadac2a9f9f875b6d913c3fda8a79a34c26",
+        "results/Q26-r2-a1/execution/core-results.json": "f4c63ecdc9b90272075466670367eca95232f2b05e4796fcc6c880f1fcf66b9a",
+        "results/Q26-r2-a1/execution/model-invocations.json": "add71415ad316f8f487cfcca8e6983cdcca7dd11143ebd354d012d3f5b266ba8",
+        "results/Q26-r2-a1/execution/reads.json": "45824725f8ca22e5fd8fb3c1df8ff7435cc3e57439a9cb09a7272f47b8ddd3f2",
+        "results/Q26-r2-a1/execution/responses.json": "efb54b731d4cd2c9ac614eacf78d1c29b0989acda721c463ca31553264fd83e7",
+        "results/Q26-r2-a1/execution/run.json": "85b8015d294c96806b8420b96bc4bbf81ea5b0ea45a36be02fb424dec78bd69d",
+        "results/Q26-r2-a1/finished.json": "9568a78118d2209d4601bfcf6cfef51cd0ed071865d942c4a934ae41e4df0940",
+        "results/Q26-r2-a1/model-request.json": "01863651572dd1103fc2eb5a7a83b9a014fe606adb914bb6ffbe462184331a69",
+        "results/Q26-r2-a1/model-response.json": "a7c9e7fdffcbff06993985de2d3e5ff49cd71e487a031fb4cae938c3c55b116a",
+        "results/Q26-r2-a1/supplemental-checks.json": "ae95d5e6f337d0ed74370411315c3f0ec9ad7331ed44a0de103d1d5e3f419490",
+        "results/Q26-r2-a1/triage.json": "b54db2240fa3c602f41b3db4ab6e0d2e06446bce8d3b512bbd1a36eacc573b07"
+      }
+    },
+    {
+      "slot": "Q26-r3-a1",
+      "questionId": "G1-Q26",
+      "repetition": 3,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q26-r3-a1/evaluation.json": "b1927c3652288edf8cb7016fe914abadac2a9f9f875b6d913c3fda8a79a34c26",
+        "results/Q26-r3-a1/execution/core-results.json": "2d4e007531893e1dd44af31d8c7936cdf81b7dc99e4ea6f1f55509e8db499034",
+        "results/Q26-r3-a1/execution/model-invocations.json": "d1180424373e311d66bb599e2766d3c8f0083cad7d84bad758ff3e4fb8995aef",
+        "results/Q26-r3-a1/execution/reads.json": "45824725f8ca22e5fd8fb3c1df8ff7435cc3e57439a9cb09a7272f47b8ddd3f2",
+        "results/Q26-r3-a1/execution/responses.json": "d5cf90bb2bbebaec5737c058410a35ebf0662456c9b3a9dd90c641e51a4f5be1",
+        "results/Q26-r3-a1/execution/run.json": "85b8015d294c96806b8420b96bc4bbf81ea5b0ea45a36be02fb424dec78bd69d",
+        "results/Q26-r3-a1/finished.json": "08dc0d5d25f3f2e3bb83d0e2af48e48515c076a01d04537dc39756a118b55038",
+        "results/Q26-r3-a1/model-request.json": "01863651572dd1103fc2eb5a7a83b9a014fe606adb914bb6ffbe462184331a69",
+        "results/Q26-r3-a1/model-response.json": "bfc91f453e3b543b88e1c27fba46f0f736fa003d43ec610892b32d9298c8b5a0",
+        "results/Q26-r3-a1/supplemental-checks.json": "847d7e9e1661dd7d7c3a85b8bfa7b25219cc0ead71e2f9690ad1546060bf5c72",
+        "results/Q26-r3-a1/triage.json": "b54db2240fa3c602f41b3db4ab6e0d2e06446bce8d3b512bbd1a36eacc573b07"
+      }
+    },
+    {
+      "slot": "Q27-r1-a1",
+      "questionId": "G1-Q27",
+      "repetition": 1,
+      "attempt": 1,
+      "judgment": "FAIL",
+      "reason": "REFUSED_INVALID_SENTENCE_IDS_B_FIXTURE_FIX_PENDING",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q27-r1-a1/evaluation.json": "9afab8f329612f02af15347a04ede0eceb5588d7f27cd812cad0d0554f742e4b",
+        "results/Q27-r1-a1/execution/core-results.json": "8c7de78a04021d34590d7309b2fb3c0e86000f79b2f58733e690538b9a299fdb",
+        "results/Q27-r1-a1/execution/model-invocations.json": "b73c41d38632be99f9c85f9c7346fdece94a8ffb3413bbf75b1a49aa6306b800",
+        "results/Q27-r1-a1/execution/reads.json": "4d99087364b8528a3dc3e6d23552476f8651370aa7225bd10f0b74205644e2cb",
+        "results/Q27-r1-a1/execution/responses.json": "104501fd4bb8495eeb79fa6738e89570e528fced83c6b0e2c3dca557515c7dec",
+        "results/Q27-r1-a1/execution/run.json": "916225d19b4e583f6f45c01b2e2b55c8b2506b001de01af4d443d290cf9e8e72",
+        "results/Q27-r1-a1/finished.json": "cc1fbaeb6af57284ae84f050d57609d0c4f7a894616efc8fbb7f887962b26bf8",
+        "results/Q27-r1-a1/model-request.json": "da008ae762a93ef3e68dd5fb6e76617bde67f628be552210acb0af63ca99769c",
+        "results/Q27-r1-a1/model-response.json": "98981b747f2bb9409039d3603d84156b86f6e4108c0d4d8f21398471f41e1dbe",
+        "results/Q27-r1-a1/supplemental-checks.json": "7be9e80020e465dde77cac5de92f89412844853ad4d4e82bedf796ca2786d187",
+        "results/Q27-r1-a1/triage.json": "b45569e2d88ea715ac1a1bbec4faad8ef4559e38333fabe203245a45c8c30f0a"
+      }
+    },
+    {
+      "slot": "Q27-r2-a1",
+      "questionId": "G1-Q27",
+      "repetition": 2,
+      "attempt": 1,
+      "judgment": "FAIL",
+      "reason": "REFUSED_INVALID_SENTENCE_IDS_B_FIXTURE_FIX_PENDING",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q27-r2-a1/evaluation.json": "9afab8f329612f02af15347a04ede0eceb5588d7f27cd812cad0d0554f742e4b",
+        "results/Q27-r2-a1/execution/core-results.json": "7294a51843b8eeac2d373a89a43a3150378ef004e2c36d6e9a66452b74529177",
+        "results/Q27-r2-a1/execution/model-invocations.json": "1b236cb5f9714bd0253d4a65f468e493d1ab60311138e0ce9678cbdd6e3d5c3d",
+        "results/Q27-r2-a1/execution/reads.json": "4d99087364b8528a3dc3e6d23552476f8651370aa7225bd10f0b74205644e2cb",
+        "results/Q27-r2-a1/execution/responses.json": "104501fd4bb8495eeb79fa6738e89570e528fced83c6b0e2c3dca557515c7dec",
+        "results/Q27-r2-a1/execution/run.json": "916225d19b4e583f6f45c01b2e2b55c8b2506b001de01af4d443d290cf9e8e72",
+        "results/Q27-r2-a1/finished.json": "0ccd10aee826421eb21f3d81adc852c8b00e3ae1a7d385aacb1c98c8d3038dc3",
+        "results/Q27-r2-a1/model-request.json": "da008ae762a93ef3e68dd5fb6e76617bde67f628be552210acb0af63ca99769c",
+        "results/Q27-r2-a1/model-response.json": "3e1eeaa72cb27a54c233b0d429454b563d45a6420ac726a24a1d3d8cca3f7762",
+        "results/Q27-r2-a1/supplemental-checks.json": "7be9e80020e465dde77cac5de92f89412844853ad4d4e82bedf796ca2786d187",
+        "results/Q27-r2-a1/triage.json": "b45569e2d88ea715ac1a1bbec4faad8ef4559e38333fabe203245a45c8c30f0a"
+      }
+    },
+    {
+      "slot": "Q27-r3-a1",
+      "questionId": "G1-Q27",
+      "repetition": 3,
+      "attempt": 1,
+      "judgment": "FAIL",
+      "reason": "REFUSED_INVALID_SENTENCE_IDS_B_FIXTURE_FIX_PENDING",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q27-r3-a1/evaluation.json": "9afab8f329612f02af15347a04ede0eceb5588d7f27cd812cad0d0554f742e4b",
+        "results/Q27-r3-a1/execution/core-results.json": "8c7de78a04021d34590d7309b2fb3c0e86000f79b2f58733e690538b9a299fdb",
+        "results/Q27-r3-a1/execution/model-invocations.json": "eda8d9e1312c99e4e5df7c364ad68dab86042abfaa592c56ffb45d872dbc4953",
+        "results/Q27-r3-a1/execution/reads.json": "4d99087364b8528a3dc3e6d23552476f8651370aa7225bd10f0b74205644e2cb",
+        "results/Q27-r3-a1/execution/responses.json": "104501fd4bb8495eeb79fa6738e89570e528fced83c6b0e2c3dca557515c7dec",
+        "results/Q27-r3-a1/execution/run.json": "916225d19b4e583f6f45c01b2e2b55c8b2506b001de01af4d443d290cf9e8e72",
+        "results/Q27-r3-a1/finished.json": "b62ad96e155f54e829d9ed545b0ced9cfb14258cc9119e8e27b06c3f958ee20f",
+        "results/Q27-r3-a1/model-request.json": "da008ae762a93ef3e68dd5fb6e76617bde67f628be552210acb0af63ca99769c",
+        "results/Q27-r3-a1/model-response.json": "60abf6c83c84934c798cebf9279b0193577648bddea1965d71fd3b2ccf73bd17",
+        "results/Q27-r3-a1/supplemental-checks.json": "7be9e80020e465dde77cac5de92f89412844853ad4d4e82bedf796ca2786d187",
+        "results/Q27-r3-a1/triage.json": "b45569e2d88ea715ac1a1bbec4faad8ef4559e38333fabe203245a45c8c30f0a"
+      }
+    },
+    {
+      "slot": "Q31-r1-a1",
+      "questionId": "G1-Q31",
+      "repetition": 1,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q31-r1-a1/evaluation.json": "7d2c4d0f900433d2e87c2faacb173c00cbc13802e4b40f62fd6f23be5c8bf9cc",
+        "results/Q31-r1-a1/execution/core-results.json": "c650801b54e7c617e01327732916999d715bedf96265bceafdac2a1a3b6de980",
+        "results/Q31-r1-a1/execution/model-invocations.json": "a1c800b85af001f777987dfb88f85195da2eb3e3e4cd67c9b4c341c81ad152e1",
+        "results/Q31-r1-a1/execution/reads.json": "f26f8bd6453fac9fc1da99a8984feb92143c4ba558ed6ed213a1f0e9885fdec6",
+        "results/Q31-r1-a1/execution/responses.json": "b5bf4df656c501b6464f991666ff4993c55501322e12b68906118ab28df566e9",
+        "results/Q31-r1-a1/execution/run.json": "b19e2e105e908becc11d890aa042213abc1f9c525e10880fb9a194166199a42d",
+        "results/Q31-r1-a1/finished.json": "e9bcee7ea4526342f39d9d42e2cd6815c63e8d23c7e7fa5d3a550d73a3016328",
+        "results/Q31-r1-a1/model-request.json": "fdc49997ea5033ea95a5bb188ee947b8c96cb9639d5485fd689d1a1c30b39c37",
+        "results/Q31-r1-a1/model-response.json": "67e75e6824fe06b63d20632609b8aa3c69952ec163ae66b5bba50868d2b79b86",
+        "results/Q31-r1-a1/supplemental-checks.json": "458df9960feabe0109411cf362c87d5f9b40785874ef16ef3656ce0bc1aeb666",
+        "results/Q31-r1-a1/triage.json": "1abed9a10549e8607ff86e05d4b079231f963e73091b7b179c0ae03ed0e6a3ea"
+      }
+    },
+    {
+      "slot": "Q31-r2-a1",
+      "questionId": "G1-Q31",
+      "repetition": 2,
+      "attempt": 1,
+      "judgment": "TIMEOUT",
+      "reason": "TRANSPORT_TIMEOUT",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q31-r2-a1/evaluation.json": "354c97d4754405e772fb7f50dab7ef311fd4ce34751748bb78b860f9dabccc63",
+        "results/Q31-r2-a1/execution/core-results.json": "5107ff7bc02964859b8adece94a89fd1bb90232bd2fd2d5de3699a98c032ce0a",
+        "results/Q31-r2-a1/execution/model-invocations.json": "e838852ac3959db1293babc78814d184831c9010ceef610ad3d4e2a064b7bd09",
+        "results/Q31-r2-a1/execution/reads.json": "f26f8bd6453fac9fc1da99a8984feb92143c4ba558ed6ed213a1f0e9885fdec6",
+        "results/Q31-r2-a1/execution/responses.json": "6ab7b3bc7521b1b559378177de618946b0262ae0885152024fd023cab0f7a6ee",
+        "results/Q31-r2-a1/execution/run.json": "97fcb894edbb88723a1f774ba656aecb3ca5cfd225b4f80ef05e807a555a5f89",
+        "results/Q31-r2-a1/finished.json": "1d8bc0ac4c0dca40f4d8fd785c39f13c297fa5bf4e78c59351ef700024e79006",
+        "results/Q31-r2-a1/model-error.json": "2d9d25dd5e805a8c6eadc747d4e56a781561b0fc8966f30ccf0cea2631bb2530",
+        "results/Q31-r2-a1/model-request.json": "fdc49997ea5033ea95a5bb188ee947b8c96cb9639d5485fd689d1a1c30b39c37",
+        "results/Q31-r2-a1/supplemental-checks.json": "a0106a1e2f5a7aed25e83a1f8c74396378db89ddb091ca1de29cc9b83151db9d",
+        "results/Q31-r2-a1/triage.json": "3085da966daba0e0f67e67d7aedce1dff610ffb4b067856201dc19e149041b9d"
+      }
+    },
+    {
+      "slot": "Q31-r2-a2",
+      "questionId": "G1-Q31",
+      "repetition": 2,
+      "attempt": 2,
+      "judgment": "TIMEOUT",
+      "reason": "TRANSPORT_TIMEOUT",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q31-r2-a2/evaluation.json": "354c97d4754405e772fb7f50dab7ef311fd4ce34751748bb78b860f9dabccc63",
+        "results/Q31-r2-a2/execution/core-results.json": "5107ff7bc02964859b8adece94a89fd1bb90232bd2fd2d5de3699a98c032ce0a",
+        "results/Q31-r2-a2/execution/model-invocations.json": "f5241e5aa26419e3805c3c4cb1e61e07371fbb30b3ed0a6a81143a97db797a9a",
+        "results/Q31-r2-a2/execution/reads.json": "f26f8bd6453fac9fc1da99a8984feb92143c4ba558ed6ed213a1f0e9885fdec6",
+        "results/Q31-r2-a2/execution/responses.json": "6ab7b3bc7521b1b559378177de618946b0262ae0885152024fd023cab0f7a6ee",
+        "results/Q31-r2-a2/execution/run.json": "97fcb894edbb88723a1f774ba656aecb3ca5cfd225b4f80ef05e807a555a5f89",
+        "results/Q31-r2-a2/finished.json": "192d36541cc37154847b5ef2f585b1141d6c5174050f3976e38d22160d4c1a06",
+        "results/Q31-r2-a2/model-error.json": "2d9d25dd5e805a8c6eadc747d4e56a781561b0fc8966f30ccf0cea2631bb2530",
+        "results/Q31-r2-a2/model-request.json": "fdc49997ea5033ea95a5bb188ee947b8c96cb9639d5485fd689d1a1c30b39c37",
+        "results/Q31-r2-a2/supplemental-checks.json": "a0106a1e2f5a7aed25e83a1f8c74396378db89ddb091ca1de29cc9b83151db9d",
+        "results/Q31-r2-a2/triage.json": "9ab4d47f0260e9d04acd641fbc0293fdafdbe2a64ef5f0ab968d73554505392f"
+      }
+    },
+    {
+      "slot": "Q31-r3-a1",
+      "questionId": "G1-Q31",
+      "repetition": 3,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q31-r3-a1/evaluation.json": "7d2c4d0f900433d2e87c2faacb173c00cbc13802e4b40f62fd6f23be5c8bf9cc",
+        "results/Q31-r3-a1/execution/core-results.json": "7d2bec3aeae5b12b5f871e99ae2b1065f502490cb5d9824690d96af994ac0c03",
+        "results/Q31-r3-a1/execution/model-invocations.json": "2b60ce700f3a0adf9d720893f43b97285778d6ae2d59949ebdd49a6c4e3a8a9c",
+        "results/Q31-r3-a1/execution/reads.json": "f26f8bd6453fac9fc1da99a8984feb92143c4ba558ed6ed213a1f0e9885fdec6",
+        "results/Q31-r3-a1/execution/responses.json": "d8e65599966097de5bf53a36c1afd50610dd5570e1016692195923b5cf876094",
+        "results/Q31-r3-a1/execution/run.json": "b19e2e105e908becc11d890aa042213abc1f9c525e10880fb9a194166199a42d",
+        "results/Q31-r3-a1/finished.json": "2ece73a28cc3e7f64526c69429f59cd41b8d6786b9d6be38d8f11c34dc565c9d",
+        "results/Q31-r3-a1/model-request.json": "fdc49997ea5033ea95a5bb188ee947b8c96cb9639d5485fd689d1a1c30b39c37",
+        "results/Q31-r3-a1/model-response.json": "db90a7f7efdabc6320fa021daaf55145f19dde70e3f83c4834ead0863f2c8ad8",
+        "results/Q31-r3-a1/supplemental-checks.json": "c8abbd7ee2e2e010efee3a47694385dd37d7f7d9dd88ec60dd47bfc49f6332dd",
+        "results/Q31-r3-a1/triage.json": "1abed9a10549e8607ff86e05d4b079231f963e73091b7b179c0ae03ed0e6a3ea"
+      }
+    },
+    {
+      "slot": "Q33-r1-a1",
+      "questionId": "G1-Q33",
+      "repetition": 1,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q33-r1-a1/evaluation.json": "db766644f159f877728a3b81d098189b224fb1c3b8667ad6723c670021d208e0",
+        "results/Q33-r1-a1/execution/core-results.json": "4daf0d562f48e4b0729660d887cf016d0a29c78bd1e8c2905819569b8a192ea8",
+        "results/Q33-r1-a1/execution/model-invocations.json": "14642f43179f33db02edf8fbe686991f7435e15a8582cecfceac6ac387263329",
+        "results/Q33-r1-a1/execution/reads.json": "3de57960ffa2311b3f5abd41c67ebdbf50886182027f8e3c0efc987181eaf790",
+        "results/Q33-r1-a1/execution/responses.json": "97e53157e924a69a0c62981ce5e16761ee2d6888386fb366a7538f6cbfad8bd8",
+        "results/Q33-r1-a1/execution/run.json": "c847c6bf11b4345225fa58874f9397052b762154fe6c6e0d3b0b1553d77dc119",
+        "results/Q33-r1-a1/finished.json": "c16434176e6c5f22b0539060179b1fe605a08764458a92f0f788d22c5b705ef8",
+        "results/Q33-r1-a1/model-request.json": "8407709a6bbf83c0a0006305cca6eca7ee30467107ae313afbd15b938676ca7a",
+        "results/Q33-r1-a1/model-response.json": "3e54933ee0556941d5f99ae95aed9f934e51a4880d014d28f592574930cd2b96",
+        "results/Q33-r1-a1/supplemental-checks.json": "9d4f2eda8c3511f631de667e518d0fc2c18b0b8bcdd8fe1c208cd0656fbc852a",
+        "results/Q33-r1-a1/triage.json": "e707a70b45a6d0c1e26530a34902b39b0221f99e90ec7d23155be6f285fd25c2"
+      }
+    },
+    {
+      "slot": "Q33-r2-a1",
+      "questionId": "G1-Q33",
+      "repetition": 2,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q33-r2-a1/evaluation.json": "db766644f159f877728a3b81d098189b224fb1c3b8667ad6723c670021d208e0",
+        "results/Q33-r2-a1/execution/core-results.json": "4daf0d562f48e4b0729660d887cf016d0a29c78bd1e8c2905819569b8a192ea8",
+        "results/Q33-r2-a1/execution/model-invocations.json": "6a91f482133aab8db9adcba94d2417947f1d1f321c745e7861e2dba2274fb5b4",
+        "results/Q33-r2-a1/execution/reads.json": "3de57960ffa2311b3f5abd41c67ebdbf50886182027f8e3c0efc987181eaf790",
+        "results/Q33-r2-a1/execution/responses.json": "97e53157e924a69a0c62981ce5e16761ee2d6888386fb366a7538f6cbfad8bd8",
+        "results/Q33-r2-a1/execution/run.json": "c847c6bf11b4345225fa58874f9397052b762154fe6c6e0d3b0b1553d77dc119",
+        "results/Q33-r2-a1/finished.json": "9727ee73bf3395800f222c9a3af742a8b6093acd969f50c558923ab32e49f465",
+        "results/Q33-r2-a1/model-request.json": "8407709a6bbf83c0a0006305cca6eca7ee30467107ae313afbd15b938676ca7a",
+        "results/Q33-r2-a1/model-response.json": "69b63bcfd0912468186d2f0ac169ec2b8bd60c55f356c2846cf76bdacd4debc3",
+        "results/Q33-r2-a1/supplemental-checks.json": "9d4f2eda8c3511f631de667e518d0fc2c18b0b8bcdd8fe1c208cd0656fbc852a",
+        "results/Q33-r2-a1/triage.json": "e707a70b45a6d0c1e26530a34902b39b0221f99e90ec7d23155be6f285fd25c2"
+      }
+    },
+    {
+      "slot": "Q33-r3-a1",
+      "questionId": "G1-Q33",
+      "repetition": 3,
+      "attempt": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28",
+      "evidenceSha256": {
+        "results/Q33-r3-a1/evaluation.json": "db766644f159f877728a3b81d098189b224fb1c3b8667ad6723c670021d208e0",
+        "results/Q33-r3-a1/execution/core-results.json": "4daf0d562f48e4b0729660d887cf016d0a29c78bd1e8c2905819569b8a192ea8",
+        "results/Q33-r3-a1/execution/model-invocations.json": "9310107d1746c92c5dc67a5a2cfe46323fc48b16b92da7c931c43cb84522ac1e",
+        "results/Q33-r3-a1/execution/reads.json": "3de57960ffa2311b3f5abd41c67ebdbf50886182027f8e3c0efc987181eaf790",
+        "results/Q33-r3-a1/execution/responses.json": "97e53157e924a69a0c62981ce5e16761ee2d6888386fb366a7538f6cbfad8bd8",
+        "results/Q33-r3-a1/execution/run.json": "c847c6bf11b4345225fa58874f9397052b762154fe6c6e0d3b0b1553d77dc119",
+        "results/Q33-r3-a1/finished.json": "12fcfae35216a633dca410043fa56f1e65288ad5ff6fb1acb83e75fbacf4bbc4",
+        "results/Q33-r3-a1/model-request.json": "8407709a6bbf83c0a0006305cca6eca7ee30467107ae313afbd15b938676ca7a",
+        "results/Q33-r3-a1/model-response.json": "4c94d818539a97986de1bcd149de26750fd092be9721f8c10e91a0a40d567ea7",
+        "results/Q33-r3-a1/supplemental-checks.json": "9d4f2eda8c3511f631de667e518d0fc2c18b0b8bcdd8fe1c208cd0656fbc852a",
+        "results/Q33-r3-a1/triage.json": "e707a70b45a6d0c1e26530a34902b39b0221f99e90ec7d23155be6f285fd25c2"
+      }
+    }
+  ],
+  "trials": [
+    {
+      "slot": "Q07-r1",
+      "questionId": "G1-Q07",
+      "repetition": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q07-r1-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q07-r2",
+      "questionId": "G1-Q07",
+      "repetition": 2,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q07-r2-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q07-r3",
+      "questionId": "G1-Q07",
+      "repetition": 3,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q07-r3-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q14-r1",
+      "questionId": "G1-Q14",
+      "repetition": 1,
+      "judgment": "PASS",
+      "reason": "REVIEWER_ACCEPTED_CONSERVATIVE_ALLERGY_INTERPRETATION_AFTER_RESULT_EXPOSURE",
+      "attemptSlots": [
+        "Q14-r1-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q14-r2",
+      "questionId": "G1-Q14",
+      "repetition": 2,
+      "judgment": "PASS",
+      "reason": "REVIEWER_ACCEPTED_CONSERVATIVE_ALLERGY_INTERPRETATION_AFTER_RESULT_EXPOSURE",
+      "attemptSlots": [
+        "Q14-r2-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q14-r3",
+      "questionId": "G1-Q14",
+      "repetition": 3,
+      "judgment": "PASS",
+      "reason": "REVIEWER_ACCEPTED_CONSERVATIVE_ALLERGY_INTERPRETATION_AFTER_RESULT_EXPOSURE",
+      "attemptSlots": [
+        "Q14-r3-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q26-r1",
+      "questionId": "G1-Q26",
+      "repetition": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q26-r1-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q26-r2",
+      "questionId": "G1-Q26",
+      "repetition": 2,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q26-r2-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q26-r3",
+      "questionId": "G1-Q26",
+      "repetition": 3,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q26-r3-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q27-r1",
+      "questionId": "G1-Q27",
+      "repetition": 1,
+      "judgment": "FAIL",
+      "reason": "REFUSED_INVALID_SENTENCE_IDS_B_FIXTURE_FIX_PENDING",
+      "attemptSlots": [
+        "Q27-r1-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q27-r2",
+      "questionId": "G1-Q27",
+      "repetition": 2,
+      "judgment": "FAIL",
+      "reason": "REFUSED_INVALID_SENTENCE_IDS_B_FIXTURE_FIX_PENDING",
+      "attemptSlots": [
+        "Q27-r2-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q27-r3",
+      "questionId": "G1-Q27",
+      "repetition": 3,
+      "judgment": "FAIL",
+      "reason": "REFUSED_INVALID_SENTENCE_IDS_B_FIXTURE_FIX_PENDING",
+      "attemptSlots": [
+        "Q27-r3-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q31-r1",
+      "questionId": "G1-Q31",
+      "repetition": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q31-r1-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q31-r2",
+      "questionId": "G1-Q31",
+      "repetition": 2,
+      "judgment": "TIMEOUT",
+      "reason": "TRANSPORT_TIMEOUT",
+      "attemptSlots": [
+        "Q31-r2-a1",
+        "Q31-r2-a2"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q31-r3",
+      "questionId": "G1-Q31",
+      "repetition": 3,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q31-r3-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q33-r1",
+      "questionId": "G1-Q33",
+      "repetition": 1,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q33-r1-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q33-r2",
+      "questionId": "G1-Q33",
+      "repetition": 2,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q33-r2-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    },
+    {
+      "slot": "Q33-r3",
+      "questionId": "G1-Q33",
+      "repetition": 3,
+      "judgment": "PASS",
+      "reason": "CORRECT_PER_INDEPENDENT_REVIEW",
+      "attemptSlots": [
+        "Q33-r3-a1"
+      ],
+      "falseClaimCount": 0,
+      "reviewer": "independent reviewer (Claude), 2026-10-28"
+    }
+  ]
+}

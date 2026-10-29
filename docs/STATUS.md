@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-29 CET: **G1 user signed off**, independent review97/102 correct,3 Q27 refusal failures,2 transport timeouts, false claims0, absence23/24. Q14 post-result NONE/ALLERGY criterion adjustment recorded explicitly (dataset@4/scorer@5); original auto-scores and evidence retained. B to fix Q27 sentence IDs with fixture, no paid rerun. Five gates pending; approved test maintenance is next separate slice. New real calls0. [Review](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
+
 2026-10-28 CET：A获批G2日期基线修订完成。5日期原/改名均UNKNOWN；Teppen PASS，Sen仅非日期requestConfirmed仍退化（保留给B控件组）。d477d691有效红→a6853be8绿；冻结9017a8cd六项标准检查全绿：默认1203/1203、Chromium175/175、普通G2 4/4，12次前后净树，676输入SHA不变。其余10个case、12保存页、评分器、变异规则和全部产品均未改。本批真实调用0；463条账本按id保留main441及A此前实花19。按用户批准直接发布main并通知B；六题与减测分支仍独立待复核。 [报告](../.eval-artifacts/phase3b/g2-calendar-response-baseline/report.md)。
 
 2026-10-28 CET：按用户批准的日历证据复核决定，A修订G2五个日期期望为UNKNOWN（null）。Teppen同次initial_vacancy仅HTTP200元数据，无正文；Sen原录制缺失、仅HTML/文本留存，225份固定Git归档未匹配原次材料。有效红灯PHONE_ONLY≠null→同断言绿；只改A证据投影/原G2检查/基线，评分器、变异、12页及产品不变。Teppen整页PASS；Sen日期PASS但非日期requestConfirmed仍丢失，整页诚实退化留待B控件组。普通G2及五门禁冻结后执行；本批真实调用0，先前19次实花按id并入账本。批准直接合main后通知B；其他A分支仍待复核。 [报告](../.eval-artifacts/phase3b/g2-calendar-response-baseline/report.md)。
@@ -17,6 +19,10 @@
 2026-10-28 CET：C两项离线候选实现冻结ca15b75f；3有效红灯→相关56绿。nr010/022/026首屏认证店13/11/10→1；缺详情不宣称接纳。模型6/10，kazumasa和Sen各3/3真子串，GET/Google/Live0。23既有接纳全部保留在前五，16完整回放正确、7缺页，不退化整体验收仍未完成；旧结论不改，完整回归待复核，五门禁待运行。 报告 `.eval-artifacts/phase3b/g4-priority-fragments/report.md`。
 
 2026-10-28 CET：G4基准证据已合main fae69b48并核对远端。C从该main开始详情优先级/原名真子串离线切片；身份规则不变，Prompt/独立检索Schema拟3，Agent/State不变；模型≤10、GET/Google/Live0。三家认证详情及Sen详情缺于本次保存集，不冒充身份验证成功。工作分支改进待复核，G4整体签收仍待用户。
+
+2026-10-28 CET: A six-question schema3 repeat complete for review, on maineb1518f1/frozena019d8a3.18planned/19paid≤20 (17responses/2timeouts,1transport retry), source/Google/Live0. Explicit checks11/18:Q07/Q26/Q33 each3, Q31two/one unresolved transport;Q14wrongALLERGY3, Q27refusal3. Original scorer0PASS11FAIL8unknown; no rubric/reference/question changes. No detected false claims,14 automatic claim counts unknown and agent triage0 pending reviewer. Five gates1196/175 PASS/clean. Broad test audit now separate first-list slice; no test edits. [Report](../.eval-artifacts/phase3b/g1-six-repeat/report.md).
+
+2026-10-28 CET: A starts user-authorized six-question schema3 repeat on maineb1518f1. Q07/Q14/Q26/Q27/Q31/Q33×3,≤20 provider attempts, transport-only spare2/no schema retry, isolated ledger namespace. Original questions/reference/scorer unchanged; sourceConflict/confirmation, English, full sentence, comment-free NOT_STATED and NONE supplementary checks separate. Fixture preflight passes after correcting eval helper import path, real calls0. B G3 started; A broad audit begins as a separate list-only slice, no tests removed. [Plan](../.eval-artifacts/phase3b/g1-six-repeat/plan.md).
 
 2026-10-28 CET: Reviewed G1 dd87cfbb synchronized with main54b3dd2b accepted A clock repairs. Frozen2ccaab58/681 inputs: five gates1196/175 PASS (106.836s), ordinary G2 4/4, each before/after clean and restore0. Reviewed G1 source/HARD44197 bytes unchanged; ledger409 ids preserves both sides, new real calls0. User authorizes main publication; then new G3 Tabelog branch, protected C files untouched pending file-order review. [Report](../.eval-artifacts/phase3b/g1-quality-main/report.md).
 
@@ -46,6 +52,8 @@
 
 - Status: Accepted
 - Document revision: 4.447
+
+- Document revision: 4.445
 - Last updated: 2026-10-28
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -734,3 +742,5 @@
 - **历史 Phase 3 停止记录（保留诊断结论）：原始6＋续行139＝145/150模型调用，余5不足以完成剩余矩阵，不自动追加预算。** Tabelog发现同问题已到3轮；当时未进入Phase4／5／6；该前置门槛现由P1-A基线计划替代。Semantic／Gold／HARD／身份／半径与整单500s／50调用不变；诊断样本4调用不作为旧2调用的同预算改善。
 
 完整旧 STATUS 已移入 [月度历史快照](history/monthly/2026-10-status-baseline.md)；[月度摘要与逐条索引](history/README.md) 保留原始 DEVLOG／TEST-LOG。
+
+2026-10-29 CET: G1 signoff verified on f05b61d8: five gates PASS, default1203/28.223s, Chromium175/106.809s, each before/after clean and frozen inputs intact. Date metadata normalized using clock tool UTC→Vienna CET; criteria and execution unchanged. Source calls0. [Signoff](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).

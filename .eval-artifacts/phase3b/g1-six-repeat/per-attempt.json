@@ -1,0 +1,2162 @@
+[
+  {
+    "slot": "Q07-r1-a1",
+    "questionId": "G1-Q07",
+    "repetition": 1,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "nishi",
+      "answer": "The page lists 3,000 yen per person for an on-the-day cancellation, both with and without notice.",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "citations": [
+        {
+          "text": "On-the-day cancellation (no notice): 3,000 yen (per person)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q07-provided-read:identity"
+        },
+        {
+          "text": "On-the-day cancellation (with notice): 3,000 yen (same as above)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q07-provided-read:identity"
+        },
+        {
+          "text": "◆Cancellations or changes in the number of guests on the day of your visit may incur a \"cancellation fee.\"",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q07-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11606,
+          "outputTokens": 316,
+          "totalTokens": 11922
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "nishi",
+      "answer": "The page lists 3,000 yen per person for an on-the-day cancellation, both with and without notice.",
+      "citations": [
+        {
+          "text": "On-the-day cancellation (no notice): 3,000 yen (per person)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "On-the-day cancellation (with notice): 3,000 yen (same as above)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "◆Cancellations or changes in the number of guests on the day of your visit may incur a \"cancellation fee.\"",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q07",
+      "checks": {
+        "englishAnswer": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "The page lists 3,000 yen per person for an on-the-day cancellation, both with and without notice.",
+        "latinLetters": 73,
+        "japaneseCharacters": 0
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q07",
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_ENGLISH_ANSWER",
+      "basis": "Nishi merchant cancellation paragraph states3000yen per person for same-day with/without notice, all retained in exact current-page citations. English wording correct; frozen automatic paraphrase remains pending."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 4245,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "nishi:statement:135:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nishi:statement:135:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "nishi:statement:136:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nishi:statement:136:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "nishi:statement:134:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nishi:statement:134:sentence:0"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:22:25.549Z",
+    "finishedUTC": "2026-10-28T14:22:31.046Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q07-r2-a1",
+    "questionId": "G1-Q07",
+    "repetition": 2,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "nishi",
+      "answer": "The page lists 3,000 yen per person for an on-the-day cancellation, whether or not notice is given (the day-before fee is 2,000 yen). It also notes same-day cancellations or guest-count changes \"may incur a 'cancellation fee.'\"",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "citations": [
+        {
+          "text": "On-the-day cancellation (no notice): 3,000 yen (per person)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q07-provided-read:identity"
+        },
+        {
+          "text": "On-the-day cancellation (with notice): 3,000 yen (same as above)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q07-provided-read:identity"
+        },
+        {
+          "text": "◆Cancellations or changes in the number of guests on the day of your visit may incur a \"cancellation fee.\"",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q07-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11606,
+          "outputTokens": 352,
+          "totalTokens": 11958
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "nishi",
+      "answer": "The page lists 3,000 yen per person for an on-the-day cancellation, whether or not notice is given (the day-before fee is 2,000 yen). It also notes same-day cancellations or guest-count changes \"may incur a 'cancellation fee.'\"",
+      "citations": [
+        {
+          "text": "On-the-day cancellation (no notice): 3,000 yen (per person)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "On-the-day cancellation (with notice): 3,000 yen (same as above)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "◆Cancellations or changes in the number of guests on the day of your visit may incur a \"cancellation fee.\"",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q07",
+      "checks": {
+        "englishAnswer": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "The page lists 3,000 yen per person for an on-the-day cancellation, whether or not notice is given (the day-before fee is 2,000 yen). It also notes same-day cancellations or guest-count changes \"may incur a 'cancellation fee.'\"",
+        "latinLetters": 168,
+        "japaneseCharacters": 0
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q07",
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_ENGLISH_ANSWER_CITATION_COVERAGE_GAP",
+      "basis": "Same-day3000/person and prior-day2000 are present in saved Nishi cancellation paragraph. Extra day-before2000 is not among selected3 quotes: citation coverage gap retained. No false amount/branch or guarantee, all prose English."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 6927,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "nishi:statement:135:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nishi:statement:135:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "nishi:statement:136:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nishi:statement:136:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "nishi:statement:134:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nishi:statement:134:sentence:0"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:22:55.317Z",
+    "finishedUTC": "2026-10-28T14:23:03.340Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q07-r3-a1",
+    "questionId": "G1-Q07",
+    "repetition": 3,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "nishi",
+      "answer": "The page lists 3,000 yen per person for an on-the-day cancellation, whether or not notice is given (the day-before fee is 2,000 yen). It also notes that same-day cancellations or guest-count changes \"may incur a 'cancellation fee.'\"",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "citations": [
+        {
+          "text": "On-the-day cancellation (no notice): 3,000 yen (per person)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q07-provided-read:identity"
+        },
+        {
+          "text": "On-the-day cancellation (with notice): 3,000 yen (same as above)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q07-provided-read:identity"
+        },
+        {
+          "text": "◆Cancellations or changes in the number of guests on the day of your visit may incur a \"cancellation fee.\"",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q07-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11606,
+          "outputTokens": 353,
+          "totalTokens": 11959
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "nishi",
+      "answer": "The page lists 3,000 yen per person for an on-the-day cancellation, whether or not notice is given (the day-before fee is 2,000 yen). It also notes that same-day cancellations or guest-count changes \"may incur a 'cancellation fee.'\"",
+      "citations": [
+        {
+          "text": "On-the-day cancellation (no notice): 3,000 yen (per person)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "On-the-day cancellation (with notice): 3,000 yen (same as above)",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "◆Cancellations or changes in the number of guests on the day of your visit may incur a \"cancellation fee.\"",
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q07",
+      "checks": {
+        "englishAnswer": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "The page lists 3,000 yen per person for an on-the-day cancellation, whether or not notice is given (the day-before fee is 2,000 yen). It also notes that same-day cancellations or guest-count changes \"may incur a 'cancellation fee.'\"",
+        "latinLetters": 172,
+        "japaneseCharacters": 0
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q07",
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_ENGLISH_ANSWER_CITATION_COVERAGE_GAP",
+      "basis": "Same-day3000/person and prior-day2000 are present in saved Nishi cancellation paragraph. Extra day-before2000 is not among selected3 quotes: citation coverage gap retained. No false amount/branch or guarantee, all prose English."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 6018,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "nishi:statement:135:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nishi:statement:135:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "nishi:statement:136:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nishi:statement:136:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "nishi:statement:134:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nishi:statement:134:sentence:0"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:24:18.694Z",
+    "finishedUTC": "2026-10-28T14:24:25.784Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q14-r1-a1",
+    "questionId": "G1-Q14",
+    "repetition": 1,
+    "attempt": 1,
+    "core": {
+      "status": "NOT_STATED",
+      "candidateId": "sen",
+      "answer": null,
+      "sensitiveCategory": "ALLERGY",
+      "confirmationRequired": true,
+      "citations": [],
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11954,
+          "outputTokens": 107,
+          "totalTokens": 12061
+        }
+      }
+    },
+    "outcome": {
+      "status": "NOT_STATED",
+      "candidateId": "sen",
+      "answer": "",
+      "citations": [],
+      "sensitiveCategory": "ALLERGY",
+      "confirmationRequired": true,
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q14",
+      "checks": {
+        "categoryNone": false
+      },
+      "pass": false,
+      "evidence": {
+        "status": "NOT_STATED",
+        "answer": "",
+        "latinLetters": 0,
+        "japaneseCharacters": 0
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q14",
+      "status": "FAIL",
+      "reasons": [
+        "SENSITIVE_CATEGORY_MISMATCH",
+        "CONFIRMATION_REQUIRED_MISMATCH",
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "FAIL",
+      "notStated": "PASS",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "QUALITY_FAIL_CATEGORY_ALLERGY_INSTEAD_OF_NONE",
+      "basis": "Page absence remains correctly bounded NOT_STATED with no facts/citations. Question is vegan preference, reference/user require NONE; actual ALLERGY/confirmation true fails unchanged scorer and explicit extra check. No safety/suitability assertion, so stop-for-false-claim not triggered."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 3565,
+    "transportError": null,
+    "citationIdDiagnostics": [],
+    "startedUTC": "2026-10-28T14:26:57.900Z",
+    "finishedUTC": "2026-10-28T14:27:02.527Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q14-r2-a1",
+    "questionId": "G1-Q14",
+    "repetition": 2,
+    "attempt": 1,
+    "core": {
+      "status": "NOT_STATED",
+      "candidateId": "sen",
+      "answer": null,
+      "sensitiveCategory": "ALLERGY",
+      "confirmationRequired": true,
+      "citations": [],
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11954,
+          "outputTokens": 107,
+          "totalTokens": 12061
+        }
+      }
+    },
+    "outcome": {
+      "status": "NOT_STATED",
+      "candidateId": "sen",
+      "answer": "",
+      "citations": [],
+      "sensitiveCategory": "ALLERGY",
+      "confirmationRequired": true,
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q14",
+      "checks": {
+        "categoryNone": false
+      },
+      "pass": false,
+      "evidence": {
+        "status": "NOT_STATED",
+        "answer": "",
+        "latinLetters": 0,
+        "japaneseCharacters": 0
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q14",
+      "status": "FAIL",
+      "reasons": [
+        "SENSITIVE_CATEGORY_MISMATCH",
+        "CONFIRMATION_REQUIRED_MISMATCH",
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "FAIL",
+      "notStated": "PASS",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "QUALITY_FAIL_CATEGORY_ALLERGY_INSTEAD_OF_NONE",
+      "basis": "Page absence remains correctly bounded NOT_STATED with no facts/citations. Question is vegan preference, reference/user require NONE; actual ALLERGY/confirmation true fails unchanged scorer and explicit extra check. No safety/suitability assertion, so stop-for-false-claim not triggered."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 4152,
+    "transportError": null,
+    "citationIdDiagnostics": [],
+    "startedUTC": "2026-10-28T14:29:29.929Z",
+    "finishedUTC": "2026-10-28T14:29:35.232Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q14-r3-a1",
+    "questionId": "G1-Q14",
+    "repetition": 3,
+    "attempt": 1,
+    "core": {
+      "status": "NOT_STATED",
+      "candidateId": "sen",
+      "answer": null,
+      "sensitiveCategory": "ALLERGY",
+      "confirmationRequired": true,
+      "citations": [],
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11954,
+          "outputTokens": 107,
+          "totalTokens": 12061
+        }
+      }
+    },
+    "outcome": {
+      "status": "NOT_STATED",
+      "candidateId": "sen",
+      "answer": "",
+      "citations": [],
+      "sensitiveCategory": "ALLERGY",
+      "confirmationRequired": true,
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q14",
+      "checks": {
+        "categoryNone": false
+      },
+      "pass": false,
+      "evidence": {
+        "status": "NOT_STATED",
+        "answer": "",
+        "latinLetters": 0,
+        "japaneseCharacters": 0
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q14",
+      "status": "FAIL",
+      "reasons": [
+        "SENSITIVE_CATEGORY_MISMATCH",
+        "CONFIRMATION_REQUIRED_MISMATCH",
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "FAIL",
+      "notStated": "PASS",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "QUALITY_FAIL_CATEGORY_ALLERGY_INSTEAD_OF_NONE",
+      "basis": "Page absence remains correctly bounded NOT_STATED with no facts/citations. Question is vegan preference, reference/user require NONE; actual ALLERGY/confirmation true fails unchanged scorer and explicit extra check. No safety/suitability assertion, so stop-for-false-claim not triggered."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 2730,
+    "transportError": null,
+    "citationIdDiagnostics": [],
+    "startedUTC": "2026-10-28T14:29:55.231Z",
+    "finishedUTC": "2026-10-28T14:29:59.007Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q26-r1-a1",
+    "questionId": "G1-Q26",
+    "repetition": 1,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "matsumoto",
+      "answer": "The English and Japanese versions conflict. The English says the 10% service charge is added to all lunch orders, while the Japanese original says it applies at lunch only to customers ordering a course.",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": true,
+      "citations": [
+        {
+          "text": "(A 10% service charge will be added to all lunch orders.)",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q26-provided-read:identity"
+        },
+        {
+          "text": "（ランチ利用時はコースご注文のお客様のみサービス料10％を頂戴しております）",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q26-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11099,
+          "outputTokens": 278,
+          "totalTokens": 11377
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "matsumoto",
+      "answer": "The English and Japanese versions conflict. The English says the 10% service charge is added to all lunch orders, while the Japanese original says it applies at lunch only to customers ordering a course.",
+      "citations": [
+        {
+          "text": "(A 10% service charge will be added to all lunch orders.)",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "（ランチ利用時はコースご注文のお客様のみサービス料10％を頂戴しております）",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": true,
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q26",
+      "checks": {
+        "sourceConflict": true,
+        "confirmationRequired": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "The English and Japanese versions conflict. The English says the 10% service charge is added to all lunch orders, while the Japanese original says it applies at lunch only to customers ordering a course.",
+        "latinLetters": 164,
+        "japaneseCharacters": 0,
+        "rawSourceConflict": true,
+        "coreConfirmationRequired": true
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q26",
+      "status": "FAIL",
+      "reasons": [
+        "CONFIRMATION_REQUIRED_MISMATCH",
+        "MISSING_RESTAURANT_CONFIRMATION",
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "FAIL",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_CONFLICT_FLAGS_PASS_FROZEN_SCORER_FAIL",
+      "basis": "English all-lunch vs Japanese course-only clauses both verbatim cited, conflict explicitly described with no unilateral conclusion. Raw model sourceConflict=true and accepted core confirmationRequired=true satisfy user extra checks. Old scorer expects NONE->false and inline reminder; preserve those FAIL reasons."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 3983,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "matsumoto:statement:157:sentence:1",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "matsumoto:statement:157:sentence:1"
+        ]
+      },
+      {
+        "selectedId": "matsumoto:statement:159:sentence:1",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "matsumoto:statement:159:sentence:1"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:30:38.729Z",
+    "finishedUTC": "2026-10-28T14:30:43.848Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q26-r2-a1",
+    "questionId": "G1-Q26",
+    "repetition": 2,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "matsumoto",
+      "answer": "The English and Japanese versions conflict. The English says the 10% service charge applies to all lunch orders, while the Japanese original says it applies only to lunch customers who order a course. The page notes translations are automatic and advises checking with the restaurant.",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": true,
+      "citations": [
+        {
+          "text": "(A 10% service charge will be added to all lunch orders.)",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q26-provided-read:identity"
+        },
+        {
+          "text": "（ランチ利用時はコースご注文のお客様のみサービス料10％を頂戴しております）",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q26-provided-read:identity"
+        },
+        {
+          "text": "Please check with the restaurant for accurate information.",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q26-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11099,
+          "outputTokens": 346,
+          "totalTokens": 11445
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "matsumoto",
+      "answer": "The English and Japanese versions conflict. The English says the 10% service charge applies to all lunch orders, while the Japanese original says it applies only to lunch customers who order a course. The page notes translations are automatic and advises checking with the restaurant.",
+      "citations": [
+        {
+          "text": "(A 10% service charge will be added to all lunch orders.)",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "（ランチ利用時はコースご注文のお客様のみサービス料10％を頂戴しております）",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "Please check with the restaurant for accurate information.",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": true,
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q26",
+      "checks": {
+        "sourceConflict": true,
+        "confirmationRequired": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "The English and Japanese versions conflict. The English says the 10% service charge applies to all lunch orders, while the Japanese original says it applies only to lunch customers who order a course. The page notes translations are automatic and advises checking with the restaurant.",
+        "latinLetters": 233,
+        "japaneseCharacters": 0,
+        "rawSourceConflict": true,
+        "coreConfirmationRequired": true
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q26",
+      "status": "FAIL",
+      "reasons": [
+        "CONFIRMATION_REQUIRED_MISMATCH",
+        "MISSING_RESTAURANT_CONFIRMATION",
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "FAIL",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_CONFLICT_FLAGS_PASS_FROZEN_SCORER_FAIL",
+      "basis": "Both conflicting clauses preserved and attributed, plus same-page reminder to check restaurant. No chosen policy conclusion. sourceConflict/core-confirmation both true; frozen regex misses advises-checking wording and old NONE-based confirmation expectation. Old score retained."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 3805,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "matsumoto:statement:157:sentence:1",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "matsumoto:statement:157:sentence:1"
+        ]
+      },
+      {
+        "selectedId": "matsumoto:statement:159:sentence:1",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "matsumoto:statement:159:sentence:1"
+        ]
+      },
+      {
+        "selectedId": "matsumoto:statement:160:sentence:1",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "matsumoto:statement:160:sentence:1"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:31:42.577Z",
+    "finishedUTC": "2026-10-28T14:31:47.489Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q26-r3-a1",
+    "questionId": "G1-Q26",
+    "repetition": 3,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "matsumoto",
+      "answer": "The English and Japanese versions conflict. The English says the 10% service charge applies to all lunch orders, while the Japanese original says it applies only to lunch customers who order a course. The page notes translations may be inaccurate and advises checking with the restaurant.",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": true,
+      "citations": [
+        {
+          "text": "(A 10% service charge will be added to all lunch orders.)",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q26-provided-read:identity"
+        },
+        {
+          "text": "（ランチ利用時はコースご注文のお客様のみサービス料10％を頂戴しております）",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q26-provided-read:identity"
+        },
+        {
+          "text": "Please check with the restaurant for accurate information.",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q26-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11099,
+          "outputTokens": 347,
+          "totalTokens": 11446
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "matsumoto",
+      "answer": "The English and Japanese versions conflict. The English says the 10% service charge applies to all lunch orders, while the Japanese original says it applies only to lunch customers who order a course. The page notes translations may be inaccurate and advises checking with the restaurant.",
+      "citations": [
+        {
+          "text": "(A 10% service charge will be added to all lunch orders.)",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "（ランチ利用時はコースご注文のお客様のみサービス料10％を頂戴しております）",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "Please check with the restaurant for accurate information.",
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": true,
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13261619/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q26",
+      "checks": {
+        "sourceConflict": true,
+        "confirmationRequired": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "The English and Japanese versions conflict. The English says the 10% service charge applies to all lunch orders, while the Japanese original says it applies only to lunch customers who order a course. The page notes translations may be inaccurate and advises checking with the restaurant.",
+        "latinLetters": 236,
+        "japaneseCharacters": 0,
+        "rawSourceConflict": true,
+        "coreConfirmationRequired": true
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q26",
+      "status": "FAIL",
+      "reasons": [
+        "CONFIRMATION_REQUIRED_MISMATCH",
+        "MISSING_RESTAURANT_CONFIRMATION",
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "FAIL",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_CONFLICT_FLAGS_PASS_FROZEN_SCORER_FAIL",
+      "basis": "Both conflicting clauses preserved and attributed, plus same-page reminder to check restaurant. No chosen policy conclusion. sourceConflict/core-confirmation both true; frozen regex misses advises-checking wording and old NONE-based confirmation expectation. Old score retained."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 4471,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "matsumoto:statement:157:sentence:1",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "matsumoto:statement:157:sentence:1"
+        ]
+      },
+      {
+        "selectedId": "matsumoto:statement:159:sentence:1",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "matsumoto:statement:159:sentence:1"
+        ]
+      },
+      {
+        "selectedId": "matsumoto:statement:160:sentence:1",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "matsumoto:statement:160:sentence:1"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:32:38.940Z",
+    "finishedUTC": "2026-10-28T14:32:44.526Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q27-r1-a1",
+    "questionId": "G1-Q27",
+    "repetition": 1,
+    "attempt": 1,
+    "core": {
+      "status": "UNVERIFIED",
+      "candidateId": "sen",
+      "reason": "INVALID_MODEL_OUTPUT",
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11964,
+          "outputTokens": 338,
+          "totalTokens": 12302
+        }
+      }
+    },
+    "outcome": {
+      "status": "UNVERIFIED",
+      "candidateId": "sen",
+      "answer": "",
+      "citations": [],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": null,
+      "reason": "INVALID_MODEL_OUTPUT",
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q27",
+      "checks": {
+        "notStated": false,
+        "noCommentCitations": true
+      },
+      "pass": false,
+      "evidence": {
+        "status": "UNVERIFIED",
+        "answer": "",
+        "latinLetters": 0,
+        "japaneseCharacters": 0
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q27",
+      "status": "FAIL",
+      "reasons": [
+        "ANSWER_KIND_CONTRADICTS_REFERENCE",
+        "NOT_STATED_JUDGMENT_INCORRECT"
+      ],
+      "consistency": "FAIL",
+      "citations": "PASS",
+      "notStated": "FAIL",
+      "falseClaimCount": 0
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "QUALITY_FAIL_UNVERIFIED_INSTEAD_OF_NOT_STATED",
+      "basis": "Core rejected model output as INVALID_MODEL_OUTPUT and delivered no claim/citation. Required NOT_STATED not achieved; refusal remains a quality failure. Original raw output retained for explanation, not treated as accepted restaurant fact."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 3888,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "sen:statement:87",
+        "existsInObservedDocument": false,
+        "role": null,
+        "completeObservedUnit": false,
+        "sameQuoteObservedAtIds": [
+          "sen:statement:87:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "sen:statement:93",
+        "existsInObservedDocument": false,
+        "role": null,
+        "completeObservedUnit": false,
+        "sameQuoteObservedAtIds": [
+          "sen:statement:93:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "sen:statement:97",
+        "existsInObservedDocument": false,
+        "role": null,
+        "completeObservedUnit": false,
+        "sameQuoteObservedAtIds": [
+          "sen:statement:97:sentence:0"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:33:51.104Z",
+    "finishedUTC": "2026-10-28T14:33:56.126Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q27-r2-a1",
+    "questionId": "G1-Q27",
+    "repetition": 2,
+    "attempt": 1,
+    "core": {
+      "status": "UNVERIFIED",
+      "candidateId": "sen",
+      "reason": "INVALID_MODEL_OUTPUT",
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11964,
+          "outputTokens": 324,
+          "totalTokens": 12288
+        }
+      }
+    },
+    "outcome": {
+      "status": "UNVERIFIED",
+      "candidateId": "sen",
+      "answer": "",
+      "citations": [],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": null,
+      "reason": "INVALID_MODEL_OUTPUT",
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q27",
+      "checks": {
+        "notStated": false,
+        "noCommentCitations": true
+      },
+      "pass": false,
+      "evidence": {
+        "status": "UNVERIFIED",
+        "answer": "",
+        "latinLetters": 0,
+        "japaneseCharacters": 0
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q27",
+      "status": "FAIL",
+      "reasons": [
+        "ANSWER_KIND_CONTRADICTS_REFERENCE",
+        "NOT_STATED_JUDGMENT_INCORRECT"
+      ],
+      "consistency": "FAIL",
+      "citations": "PASS",
+      "notStated": "FAIL",
+      "falseClaimCount": 0
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "QUALITY_FAIL_UNVERIFIED_INSTEAD_OF_NOT_STATED",
+      "basis": "Core rejected model output as INVALID_MODEL_OUTPUT and delivered no claim/citation. Required NOT_STATED not achieved; refusal remains a quality failure. Original raw output retained for explanation, not treated as accepted restaurant fact."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 4032,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "sen:statement:87",
+        "existsInObservedDocument": false,
+        "role": null,
+        "completeObservedUnit": false,
+        "sameQuoteObservedAtIds": [
+          "sen:statement:87:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "sen:statement:93",
+        "existsInObservedDocument": false,
+        "role": null,
+        "completeObservedUnit": false,
+        "sameQuoteObservedAtIds": [
+          "sen:statement:93:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "sen:statement:97",
+        "existsInObservedDocument": false,
+        "role": null,
+        "completeObservedUnit": false,
+        "sameQuoteObservedAtIds": [
+          "sen:statement:97:sentence:0"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:34:53.651Z",
+    "finishedUTC": "2026-10-28T14:34:58.800Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q27-r3-a1",
+    "questionId": "G1-Q27",
+    "repetition": 3,
+    "attempt": 1,
+    "core": {
+      "status": "UNVERIFIED",
+      "candidateId": "sen",
+      "reason": "INVALID_MODEL_OUTPUT",
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 11964,
+          "outputTokens": 338,
+          "totalTokens": 12302
+        }
+      }
+    },
+    "outcome": {
+      "status": "UNVERIFIED",
+      "candidateId": "sen",
+      "answer": "",
+      "citations": [],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": null,
+      "reason": "INVALID_MODEL_OUTPUT",
+      "checkedPages": [
+        {
+          "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275802/",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q27",
+      "checks": {
+        "notStated": false,
+        "noCommentCitations": true
+      },
+      "pass": false,
+      "evidence": {
+        "status": "UNVERIFIED",
+        "answer": "",
+        "latinLetters": 0,
+        "japaneseCharacters": 0
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q27",
+      "status": "FAIL",
+      "reasons": [
+        "ANSWER_KIND_CONTRADICTS_REFERENCE",
+        "NOT_STATED_JUDGMENT_INCORRECT"
+      ],
+      "consistency": "FAIL",
+      "citations": "PASS",
+      "notStated": "FAIL",
+      "falseClaimCount": 0
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "QUALITY_FAIL_UNVERIFIED_INSTEAD_OF_NOT_STATED",
+      "basis": "Core rejected model output as INVALID_MODEL_OUTPUT and delivered no claim/citation. Required NOT_STATED not achieved; refusal remains a quality failure. Original raw output retained for explanation, not treated as accepted restaurant fact."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 3582,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "sen:statement:87",
+        "existsInObservedDocument": false,
+        "role": null,
+        "completeObservedUnit": false,
+        "sameQuoteObservedAtIds": [
+          "sen:statement:87:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "sen:statement:93",
+        "existsInObservedDocument": false,
+        "role": null,
+        "completeObservedUnit": false,
+        "sameQuoteObservedAtIds": [
+          "sen:statement:93:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "sen:statement:97",
+        "existsInObservedDocument": false,
+        "role": null,
+        "completeObservedUnit": false,
+        "sameQuoteObservedAtIds": [
+          "sen:statement:97:sentence:0"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:36:40.300Z",
+    "finishedUTC": "2026-10-28T14:36:44.932Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q31-r1-a1",
+    "questionId": "G1-Q31",
+    "repetition": 1,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "nakamata",
+      "answer": "Yes — the page states the restaurant has private rooms: 「和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。」",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "citations": [
+        {
+          "text": "和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。",
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q31-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 3469,
+          "outputTokens": 231,
+          "totalTokens": 3700
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "nakamata",
+      "answer": "Yes — the page states the restaurant has private rooms: 「和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。」",
+      "citations": [
+        {
+          "text": "和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。",
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q31",
+      "checks": {
+        "completeOriginalSentences": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "Yes — the page states the restaurant has private rooms: 「和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。」",
+        "latinLetters": 44,
+        "japaneseCharacters": 39,
+        "sentenceBoundaries": [
+          {
+            "quote": "和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。",
+            "foundAt": 692,
+            "completeSentence": true
+          }
+        ]
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q31",
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_COMPLETE_SENTENCE_REFERENCE",
+      "basis": "Nakamata private-room sentence is an exact43-character original quotation with preceding/ending Japanese sentence boundaries in independently rendered saved HTML. Core accepts it, answer attributes availability to page; no new branch/service/room-size fact."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 2673,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "nakamata:statement:21:sentence:3",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nakamata:statement:21:sentence:3"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:37:11.918Z",
+    "finishedUTC": "2026-10-28T14:37:15.643Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q31-r2-a1",
+    "questionId": "G1-Q31",
+    "repetition": 2,
+    "attempt": 1,
+    "core": {
+      "status": "UNVERIFIED",
+      "candidateId": "nakamata",
+      "reason": "MODEL_FAILED",
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "outcome": {
+      "status": "UNVERIFIED",
+      "candidateId": "nakamata",
+      "answer": "",
+      "citations": [],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": null,
+      "reason": "MODEL_FAILED",
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q31",
+      "checks": {
+        "completeOriginalSentences": false
+      },
+      "pass": false,
+      "evidence": {
+        "status": "UNVERIFIED",
+        "answer": "",
+        "latinLetters": 0,
+        "japaneseCharacters": 0,
+        "sentenceBoundaries": []
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q31",
+      "status": "FAIL",
+      "reasons": [
+        "ANSWER_KIND_CONTRADICTS_REFERENCE"
+      ],
+      "consistency": "FAIL",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": 0
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "TRANSPORT_FAILURE_NO_ASSERTION",
+      "basis": "Recorded single provider TIMEOUT; core MODEL_FAILED/no answer/citation. Immutable failed attempt retained. Frozen manifest allows one transport-only retry and total≤20."
+    },
+    "providerModel": null,
+    "latencyMs": null,
+    "transportError": {
+      "code": "TIMEOUT",
+      "providerStatus": null
+    },
+    "citationIdDiagnostics": [],
+    "startedUTC": "2026-10-28T14:38:40.225Z",
+    "finishedUTC": "2026-10-28T14:38:49.339Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q31-r2-a2",
+    "questionId": "G1-Q31",
+    "repetition": 2,
+    "attempt": 2,
+    "core": {
+      "status": "UNVERIFIED",
+      "candidateId": "nakamata",
+      "reason": "MODEL_FAILED",
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "outcome": {
+      "status": "UNVERIFIED",
+      "candidateId": "nakamata",
+      "answer": "",
+      "citations": [],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": null,
+      "reason": "MODEL_FAILED",
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q31",
+      "checks": {
+        "completeOriginalSentences": false
+      },
+      "pass": false,
+      "evidence": {
+        "status": "UNVERIFIED",
+        "answer": "",
+        "latinLetters": 0,
+        "japaneseCharacters": 0,
+        "sentenceBoundaries": []
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q31",
+      "status": "FAIL",
+      "reasons": [
+        "ANSWER_KIND_CONTRADICTS_REFERENCE"
+      ],
+      "consistency": "FAIL",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": 0
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "TRANSPORT_RETRY_FAILED_NO_ASSERTION",
+      "basis": "Transport retry again TIMEOUT. Core still has no assertion/citation. No further retry for this trial is allowed by frozen plan; both attempts retained."
+    },
+    "providerModel": null,
+    "latencyMs": null,
+    "transportError": {
+      "code": "TIMEOUT",
+      "providerStatus": null
+    },
+    "citationIdDiagnostics": [],
+    "startedUTC": "2026-10-28T14:41:54.943Z",
+    "finishedUTC": "2026-10-28T14:42:04.080Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q31-r3-a1",
+    "questionId": "G1-Q31",
+    "repetition": 3,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "nakamata",
+      "answer": "Yes. The page states the modern-Japanese interior includes private rooms (個室), suited to business entertaining, dinners and anniversaries.",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "citations": [
+        {
+          "text": "和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。",
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q31-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 3469,
+          "outputTokens": 212,
+          "totalTokens": 3681
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "nakamata",
+      "answer": "Yes. The page states the modern-Japanese interior includes private rooms (個室), suited to business entertaining, dinners and anniversaries.",
+      "citations": [
+        {
+          "text": "和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。",
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q31",
+      "checks": {
+        "completeOriginalSentences": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "Yes. The page states the modern-Japanese interior includes private rooms (個室), suited to business entertaining, dinners and anniversaries.",
+        "latinLetters": 112,
+        "japaneseCharacters": 2,
+        "sentenceBoundaries": [
+          {
+            "quote": "和モダンな店内には個室も備え、接待や会食、記念日など幅広いシーンでご利用いただけます。",
+            "foundAt": 692,
+            "completeSentence": true
+          }
+        ]
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q31",
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_COMPLETE_SENTENCE_REFERENCE",
+      "basis": "Nakamata private-room sentence is an exact43-character original quotation with preceding/ending Japanese sentence boundaries in independently rendered saved HTML. Core accepts it, answer attributes availability to page; no new branch/service/room-size fact."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 3517,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "nakamata:statement:21:sentence:3",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "nakamata:statement:21:sentence:3"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:44:00.173Z",
+    "finishedUTC": "2026-10-28T14:44:04.801Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q33-r1-a1",
+    "questionId": "G1-Q33",
+    "repetition": 1,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "alaska",
+      "answer": "The lunch course (ランチコース) is ¥3,300, service and tax included.",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "citations": [
+        {
+          "text": "ランチコース",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q33-provided-read:identity"
+        },
+        {
+          "text": "¥3,300Svc & tax incl.",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q33-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 2024,
+          "outputTokens": 225,
+          "totalTokens": 2249
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "alaska",
+      "answer": "The lunch course (ランチコース) is ¥3,300, service and tax included.",
+      "citations": [
+        {
+          "text": "ランチコース",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "¥3,300Svc & tax incl.",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q33",
+      "checks": {
+        "englishAnswer": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "The lunch course (ランチコース) is ¥3,300, service and tax included.",
+        "latinLetters": 37,
+        "japaneseCharacters": 5
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q33",
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_ENGLISH_PRICE_ANSWER",
+      "basis": "Alaska lunch heading and3300Svc&taxincl line from same frozen card are both exact quoted. English answer keeps price and included charges; Japanese menu title is source transcription, no current-sale guarantee."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 3634,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "alaska:statement:24:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "alaska:statement:24:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "alaska:statement:33:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "alaska:statement:33:sentence:0"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:45:12.663Z",
+    "finishedUTC": "2026-10-28T14:45:17.437Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q33-r2-a1",
+    "questionId": "G1-Q33",
+    "repetition": 2,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "alaska",
+      "answer": "The lunch course (ランチコース) is ¥3,300, service and tax included.",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "citations": [
+        {
+          "text": "ランチコース",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q33-provided-read:identity"
+        },
+        {
+          "text": "¥3,300Svc & tax incl.",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q33-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 2024,
+          "outputTokens": 225,
+          "totalTokens": 2249
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "alaska",
+      "answer": "The lunch course (ランチコース) is ¥3,300, service and tax included.",
+      "citations": [
+        {
+          "text": "ランチコース",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "¥3,300Svc & tax incl.",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q33",
+      "checks": {
+        "englishAnswer": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "The lunch course (ランチコース) is ¥3,300, service and tax included.",
+        "latinLetters": 37,
+        "japaneseCharacters": 5
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q33",
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_ENGLISH_PRICE_ANSWER",
+      "basis": "Alaska lunch heading and3300Svc&taxincl line from same frozen card are both exact quoted. English answer keeps price and included charges; Japanese menu title is source transcription, no current-sale guarantee."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 3065,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "alaska:statement:24:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "alaska:statement:24:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "alaska:statement:33:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "alaska:statement:33:sentence:0"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:46:33.120Z",
+    "finishedUTC": "2026-10-28T14:46:37.249Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  },
+  {
+    "slot": "Q33-r3-a1",
+    "questionId": "G1-Q33",
+    "repetition": 3,
+    "attempt": 1,
+    "core": {
+      "status": "ANSWERED",
+      "candidateId": "alaska",
+      "answer": "The lunch course (ランチコース) is ¥3,300, service and tax included.",
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "citations": [
+        {
+          "text": "ランチコース",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q33-provided-read:identity"
+        },
+        {
+          "text": "¥3,300Svc & tax incl.",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00",
+          "identityEvidenceId": "G1-Q33-provided-read:identity"
+        }
+      ],
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "modelUsage": {
+        "calls": 1,
+        "usage": {
+          "inputTokens": 2024,
+          "outputTokens": 225,
+          "totalTokens": 2249
+        }
+      }
+    },
+    "outcome": {
+      "status": "ANSWERED",
+      "candidateId": "alaska",
+      "answer": "The lunch course (ランチコース) is ¥3,300, service and tax included.",
+      "citations": [
+        {
+          "text": "ランチコース",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        },
+        {
+          "text": "¥3,300Svc & tax incl.",
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ],
+      "sensitiveCategory": "NONE",
+      "confirmationRequired": false,
+      "checkedPages": [
+        {
+          "url": "https://www.tablecheck.com/en/alaska-asahi",
+          "readAt": "2026-10-27T00:00:01+01:00"
+        }
+      ]
+    },
+    "extra": {
+      "scope": "User2026-10-28 explicit per-question checks; separate from unchanged scorer",
+      "question": "Q33",
+      "checks": {
+        "englishAnswer": true
+      },
+      "pass": true,
+      "evidence": {
+        "status": "ANSWERED",
+        "answer": "The lunch course (ランチコース) is ¥3,300, service and tax included.",
+        "latinLetters": 37,
+        "japaneseCharacters": 5
+      }
+    },
+    "automatic": {
+      "questionId": "G1-Q33",
+      "status": "NOT_EVALUATED",
+      "reasons": [
+        "PARAPHRASE_REQUIRES_REVIEW"
+      ],
+      "consistency": "NOT_EVALUATED",
+      "citations": "PASS",
+      "notStated": "NOT_APPLICABLE",
+      "falseClaimCount": null
+    },
+    "triage": {
+      "reviewer": "Codex source-grounding triage; independent reviewer pending",
+      "falseClaimCount": 0,
+      "decision": "SUPPORTED_ENGLISH_PRICE_ANSWER",
+      "basis": "Alaska lunch heading and3300Svc&taxincl line from same frozen card are both exact quoted. English answer keeps price and included charges; Japanese menu title is source transcription, no current-sale guarantee."
+    },
+    "providerModel": "deepseek-flash",
+    "latencyMs": 3285,
+    "transportError": null,
+    "citationIdDiagnostics": [
+      {
+        "selectedId": "alaska:statement:24:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "alaska:statement:24:sentence:0"
+        ]
+      },
+      {
+        "selectedId": "alaska:statement:33:sentence:0",
+        "existsInObservedDocument": true,
+        "role": "SOURCE_TEXT",
+        "completeObservedUnit": true,
+        "sameQuoteObservedAtIds": [
+          "alaska:statement:33:sentence:0"
+        ]
+      }
+    ],
+    "startedUTC": "2026-10-28T14:47:02.438Z",
+    "finishedUTC": "2026-10-28T14:47:06.805Z",
+    "codeRef": "a019d8a36f18fc94e094af766dbb4dc1f884eb94"
+  }
+]
