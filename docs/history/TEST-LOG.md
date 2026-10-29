@@ -5848,3 +5848,7 @@ Effective scorer red: approved ALLERGY form rejected; same assertion green after
 ## TEST-2026-10-29-APPROVED-TEST-MAINTENANCE
 
 Five controlled faults each fail the intended surviving assertion; normal controls pass. Final default-focused50/50 green. Typecheck/diff checks pass; full frozen gates and timing/count comparison pending. Baseline full default1203/28.223s, Chromium175/106.809s. All timing samples use same environment, no production or external access. [Proofs](../../.eval-artifacts/phase3b/test-suite-maintenance/coverage-proofs/summary.json).
+
+## TEST-2026-10-29-TEST-MAINTENANCE-VERIFIED
+
+2026-10-29 CET: Approved five-item test maintenance verified on0cfe3064: five gates PASS plus fixedG2 4/4, each before/after clean,679 inputs unchanged. Same-machine complete commands: default1203→1200,28.223→27.364s; Chromium175→174,106.809→105.395s (single before/after pair, small observed reduction). Only approved four names removed; all others retained. Two moved P21 test bodies byte-identical; fake Guard wait uses test clock. Product/site/Pack/Prompt/Schema unchanged; calls0. [Report](../../.eval-artifacts/phase3b/test-suite-maintenance/report.md).

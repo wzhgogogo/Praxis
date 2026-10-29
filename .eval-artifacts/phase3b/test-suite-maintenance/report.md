@@ -1,6 +1,6 @@
 # Approved test-suite maintenance — 2026-10-29 CET
 
-Status: frozen offline candidate, verification pending. Current baseline: main8d565812 (G1 signoff merged/pushed, remote SHA verified); this branch contains no new real calls. The original reviewed inventory/proposals remain at b74aa584; approved-proposals.json preserves that historical proposal without pretending it was already implemented. approval.json records the user's five-item approval.
+Status: verified offline result, ready for user-authorized main publication. Current baseline: main8d565812 (G1 signoff merged/pushed, remote SHA verified); this branch contains no new real calls. The original reviewed inventory/proposals remain at b74aa584; approved-proposals.json preserves that historical proposal without pretending it was already implemented. approval.json records the user's five-item approval.
 
 ## Approved items and surviving checks
 
@@ -34,6 +34,23 @@ Tabelog busy fixture tests (three saved busy pages ~3.008s; feasible busy recove
 
 ## Timing/count comparison and checks
 
-Full baseline commands ran serially, f05b61d8, same Apple M4/10 logical CPUs, Node24.4.1, existing4-worker Chromium entry point: **default1203/1203,28.223s; Chromium175/175,106.809s**. Main8d565812 executable tests are identical. Logs/SHAs and environment.json retained. After results pending; compare entire commands, not summed per-case timings. A single pair of offline samples is not a latency guarantee.
+Full baseline commands ran serially, f05b61d8, same Apple M4/10 logical CPUs, Node24.4.1, existing4-worker Chromium entry point: **default1203/1203,28.223s; Chromium175/175,106.809s**. Main8d565812 executable tests are identical. Logs/SHAs and environment.json retained. After results are below; compare entire commands, not summed per-case timings. A single pair of offline samples is not a latency guarantee.
 
-Expected count changes: default−3, Chromium−1; no new tests or hidden skips. Test names and body preservation checked separately. All non-test product/site/Pack/Prompt/Schema/State bytes must remain identical to main8d565812. Protected negative/auth/idempotency/S0 tests retained. Five gates and ordinaryG2 pending from clean frozen inputs; no restored files after gates. Source/model/Google/Live calls0, .env not read. Shared budget appends one zero-consumption id and retains all prior entries. User authorizes branch/main publication after greens; stop after delivery.
+Observed count changes: default−3, Chromium−1; no new tests or hidden skips. Test names and body preservation checked separately. All non-test product/site/Pack/Prompt/Schema/State bytes must remain identical to main8d565812. Protected negative/auth/idempotency/S0 tests retained. Five gates and ordinaryG2 all PASS from0cfe3064 clean frozen inputs; no restored files after gates. Source/model/Google/Live calls0, .env not read. Shared budget appends one zero-consumption id and retains all prior entries. User authorizes branch/main publication after greens; stop after delivery.
+
+## Completed verification (2026-10-29T02:36:29+01:00 CET)
+
+| Full command | Before count / seconds | After count / seconds | Result |
+| --- | ---: | ---: | --- |
+| npm test |1203 /28.223|1200 /27.364|PASS,−3 tests,0.859s observed decrease (3.044%)|
+| test:browser:fixture |175 /106.809|174 /105.395|PASS,−1 test,1.414s observed decrease (1.324%)|
+| typecheck / arch:check / build |n/a|0.432 /0.204 /0.422s|PASS|
+| fixed test:dom-change |unchanged G2 input|4/4 /20.857s|PASS, ordinary mode; no G3 claim|
+
+All6 commands before/after clean,679 source/config/fixture/Skill hashes unchanged; no restore, skipped/cancelled/todo/fail0. Runtime-name multiset loses exactly the three approved default names and one approved Chromium name; all others retained. Source test bodies in the two new files and all remaining discovery test content match their original bytes. All non-test product bytes unchanged. The observed whole-suite improvement is small and may include run variability; no median, CI speed guarantee or faster product behavior is claimed.
+
+Per-case after values: P21b38.700s, TableCheck32.340s, categories24.880s, regions18.876s, G2 saved pages17.493s. File separation does not inherently reduce each case's wall time; diagnosis and all durations retained in verification/slow-case-timing.json. T01 fake transport dropped6.107s→0.0043s per case; full default wall time dropped only0.859s because other concurrent work dominates. No timings are excluded. No real calls or B-owned test edits.
+
+G1 signoff is already main8d565812; Q27 quality gap remains B fixture-only, no paid rerun. This maintenance's source and both input/output evidence are frozen; five gates complete. Next action only: publish working branch and merge/push main as authorized, then stop.
+
+Proof inputs are exactly reconstructible from fixed Git8d565812 plus coverage-proofs/successor-input.patch (all four test-file SHAs equal the executed controls). Individual mutant patches are applied only after that overlay; input-reconstruction.json verifies the reconstruction. No obsolete executable test is retained in the default suite. Historical proof logs are not rewritten.

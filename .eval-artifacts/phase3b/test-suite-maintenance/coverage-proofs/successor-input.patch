@@ -1,0 +1,119 @@
+--- a/src/integrations/google/google-places-restaurant-search.test.ts
++++ b/src/integrations/google/google-places-restaurant-search.test.ts
+@@ -382,10 +382,12 @@
+ 
+ test("candidate fact investigation re-reads only the known Google place and shares discovery budget", async () => {
+   let calls = 0;
+-  const client = new GooglePlacesClient({
+-    apiKey: "key",
+-    fetchImplementation: async (_url, init) => {
++  const requests: Array<{ url: string; method: string }> = [];
++  const client = new GooglePlacesClient({
++    apiKey: "key",
++    fetchImplementation: async (url, init) => {
+       calls += 1;
++      requests.push({ url: String(url), method: init?.method ?? "GET" });
+       const place = {
+         id: "place-1", displayName: { text: "Cafe One" }, formattedAddress: "Tokyo", location: { latitude: 35.6, longitude: 139.7 },
+         types: ["cafe", "food"], primaryType: "cafe",
+@@ -401,9 +403,13 @@
+     criteria: [{ text: "cafe", polarity: "POSITIVE" as const, strength: "HARD" as const }],
+   };
+   const search = new GooglePlacesRestaurantSearch(client, () => "2026-08-03T09:00:00.000Z", 10, { maxRequests: 2 });
+-  const discovered = await search.search({ intent }, new AbortController().signal);
+-  const facts = await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent }, new AbortController().signal);
++  const discovered = await search.search({ intent, readRunId: "run-a" }, new AbortController().signal);
++  const facts = await search.inspectFacts({ candidateIds: [discovered.candidates[0]!.restaurant.id], candidates: discovered.candidates, intent, readRunId: "run-a" }, new AbortController().signal);
+   assert.equal(calls, 2);
++  assert.deepEqual(requests, [
++    { url: "https://places.googleapis.com/v1/places:searchText", method: "POST" },
++    { url: "https://places.googleapis.com/v1/places/place-1", method: "GET" },
++  ], "fact investigation must reuse the stable place ID without another text search");
+   assert.equal(facts.factChecks[discovered.candidates[0]!.restaurant.id]?.status, "COMPLETED");
+   assert.ok(facts.evidence.some((item) => item.kind === "RESTAURANT_FACT" && item.claims.openingHoursMatch === true));
+   assert.deepEqual(facts.metadata.googleRequests, {
+@@ -413,7 +419,7 @@
+     discovery: 1,
+     placeDetails: 1, reverseAddressObservation: 0,
+   });
+-  await assert.rejects(search.search({ intent }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
++  await assert.rejects(search.search({ intent, readRunId: "run-a" }, new AbortController().signal), { code: "GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED" });
+ });
+ 
+ test("candidate fact investigation uses Place Details by stable ID, never another text search", async () => {
+@@ -463,10 +469,11 @@
+ test("failed sent Google requests consume the same per-run local budget and remain separately accounted", async () => {
+   const client = new GooglePlacesClient({
+     apiKey: "key",
+-    fetchImplementation: async () => { throw new Error("unreachable provider"); },
++    fetchImplementation: async () => { throw new Error("upstream diagnostic payload"); },
+   });
+   const search = new GooglePlacesRestaurantSearch(client, undefined, 10, { maxRequests: 1 });
+-  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "failed-run" }, new AbortController().signal), { code: "GOOGLE_NETWORK_FAILED" });
++  await assert.rejects(search.search({ intent: fixtureIntent, readRunId: "failed-run" }, new AbortController().signal),
++    (error: unknown) => error instanceof Error && "code" in error && error.code === "GOOGLE_NETWORK_FAILED" && !error.message.includes("upstream diagnostic payload"));
+   assert.deepEqual(search.googleRequestUsage("failed-run"), {
+     limit: 1,
+     total: 1,
+--- a/src/harness/browser/browser-read-replay.test.ts
++++ b/src/harness/browser/browser-read-replay.test.ts
+@@ -143,7 +143,8 @@
+   const sourceExecutor = new BrowserTaskExecutor(traceBrowserRuntime(sourceRuntime, "TABLECHECK", () => 0, recording.snapshotSink()), { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+   try {
+     const source = await new TableCheckBrowserAvailability(sourceExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal);
+-    assert.equal(source.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(source)); assert.ok(arrivals >= 1, "the guarded source task must consume its public dynamic response");
++    assert.equal(source.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(source));
++    assert.deepEqual(source.offers.map(offer => ({ date: offer.dateTime.slice(0, 10), time: offer.dateTime.slice(11, 16), partySize: offer.partySize })), [{ date: "2026-10-08", time: "19:00", partySize: 2 }]); assert.ok(arrivals >= 1, "the guarded source task must consume its public dynamic response");
+     const captured = await recording.finish(); assert.equal(captured.replay.status, "REPLAYABLE"); if (captured.replay.status !== "REPLAYABLE") throw new Error("public dynamic capture must replay");
+     const manifest = JSON.parse(await readFile(join(captured.path, "recording.json"), "utf8"));
+     assert.equal(manifest.stylesheets.length, 1, "capture follows the real Guard response callback for loaded CSS");
+@@ -159,7 +160,7 @@
+     const replayRaw = new LocalPlaywrightChromium(); const replayRuntime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => replayRaw.openSession({ ...input, networkPolicy: policy, replayHarPath: capturedHarPath }) };
+     const replayTrace: unknown[] = [];
+     const replayExecutor = new BrowserTaskExecutor(traceBrowserRuntime(replayRuntime, "TABLECHECK", (_kind, detail) => { replayTrace.push(detail); return replayTrace.length; }), { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+-    try { const replay = await new TableCheckBrowserAvailability(replayExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal); assert.equal(replay.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(replay)); assert.equal(arrivals, beforeReplay, "replay consumes only recorded HAR responses"); assert.equal(replayTrace.some(detail => JSON.stringify(detail).includes('"pathname":"/slots"') && JSON.stringify(detail).includes('"outcome":"ADMITTED"')), true, "Replay must consume the recorded dynamic response"); }
++    try { const replay = await new TableCheckBrowserAvailability(replayExecutor, () => "2026-10-07T00:00:00.000Z", { networkPolicy: policy }).check(request, new AbortController().signal); assert.equal(replay.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE", JSON.stringify(replay)); assert.deepEqual(replay.offers.map(offer => ({ date: offer.dateTime.slice(0, 10), time: offer.dateTime.slice(11, 16), partySize: offer.partySize })), [{ date: "2026-10-08", time: "19:00", partySize: 2 }]); assert.equal(arrivals, beforeReplay, "replay consumes only recorded HAR responses"); assert.equal(replayTrace.some(detail => JSON.stringify(detail).includes('"pathname":"/slots"') && JSON.stringify(detail).includes('"outcome":"ADMITTED"')), true, "Replay must consume the recorded dynamic response"); }
+     finally { await replayExecutor.close(); }
+   } finally { await sourceExecutor.close(); await new Promise<void>(resolve => receiver.close(() => resolve())); await rm(directory, { recursive: true, force: true }); }
+ });
+--- a/src/infrastructure/browser/playwright-read-network-guard.test.ts
++++ b/src/infrastructure/browser/playwright-read-network-guard.test.ts
+@@ -47,16 +47,24 @@
+   return { route, calls };
+ }
+ 
+-test("read network guard preserves the Executor source-read deadline beyond the action cap", async () => {
++test("read network guard preserves the Executor source-read deadline beyond the action cap", async t => {
+   let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+   const guard = new PlaywrightReadNetworkGuard(policy);
+   await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
++  t.mock.timers.enable({ apis: ["Date", "setTimeout"], now: 0 });
++  const awaitFetch = async (calls: string[]) => {
++    for (let turn = 0; turn < 50 && !calls.some(call => call.startsWith("fetch:")); turn++) await Promise.resolve();
++    assert.ok(calls.some(call => call.startsWith("fetch:")), "the fake transport must start before advancing its clock");
++  };
+   guard.prepareNavigation("https://public.example/guide", 8_000);
+   const document = fakeRoute({ url: "https://public.example/guide", type: "document" });
+   await http(document.route);
+   const delayedPublicScript = fakeRoute({ url: "https://assets.example/public/calendar.js", type: "script", fetchDelayMs: 6_000 });
+   const startedAt = Date.now();
+-  await http(delayedPublicScript.route);
++  const pending = http(delayedPublicScript.route);
++  await awaitFetch(delayedPublicScript.calls);
++  t.mock.timers.tick(6_000);
++  await pending;
+   assert.ok(Date.now() - startedAt >= 5_900, "the controlled public read actually waited beyond the 5s action cap");
+   assert.deepEqual(delayedPublicScript.calls, ["fetch:0:8000", "fulfill"]);
+ 
+@@ -67,7 +75,10 @@
+   const shortDocument = fakeRoute({ url: "https://public.example/guide", type: "document" });
+   await shortHttp(shortDocument.route);
+   const exceeded = fakeRoute({ url: "https://assets.example/public/calendar.js", type: "script", fetchDelayMs: 250 });
+-  await shortHttp(exceeded.route);
++  const expired = shortHttp(exceeded.route);
++  await awaitFetch(exceeded.calls);
++  t.mock.timers.tick(100);
++  await expired;
+   assert.deepEqual(exceeded.calls, ["fetch:0:100", "abort"]);
+   assert.deepEqual(shortDeadline.snapshotDiagnostics().map(item => item.code), ["READ_TIMEOUT"]);
+ });

@@ -5146,3 +5146,7 @@ User signs off G1 from exhaustive independent review (Claude, 2026-10-28). Prese
 ## DEV-2026-10-29-APPROVED-TEST-MAINTENANCE
 
 Five approved consolidation items have individual successor proof, all originals protected. P21 process-sharing precheck abandoned after cancellation cleanup race; final implementation only splits byte-identical category/region test bodies under existing concurrency. Long scales retained per distinct transport mechanism, B-owned busy tests receive suggestions only. Product code unchanged. New real calls0. [Report](../../.eval-artifacts/phase3b/test-suite-maintenance/report.md).
+
+## DEV-2026-10-29-TEST-MAINTENANCE-VERIFIED
+
+2026-10-29 CET: Approved five-item test maintenance verified on0cfe3064: five gates PASS plus fixedG2 4/4, each before/after clean,679 inputs unchanged. Same-machine complete commands: default1203→1200,28.223→27.364s; Chromium175→174,106.809→105.395s (single before/after pair, small observed reduction). Only approved four names removed; all others retained. Two moved P21 test bodies byte-identical; fake Guard wait uses test clock. Product/site/Pack/Prompt/Schema unchanged; calls0. [Report](../../.eval-artifacts/phase3b/test-suite-maintenance/report.md).

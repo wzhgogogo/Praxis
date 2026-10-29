@@ -1,0 +1,14 @@
+{
+  "sourceRef": "8d56581255c44f44b92b9d692ea785f8deaaaefb",
+  "testInputsSha256": {
+    "src/integrations/google/google-places-restaurant-search.test.ts": "339490990972a51481a429dc8a3b5b966745fcbc6acd66dddee17172ce298688",
+    "src/harness/browser/browser-read-replay.test.ts": "0899360aa2b2f57f7cef6f448330ffe8de84de5774143ab9b55c8fd78466b150",
+    "src/infrastructure/browser/playwright-read-network-guard.test.ts": "8abd4218e794b17313302cc120f9fdc4897223f12107f87a492d222e729a965b",
+    "src/infrastructure/browser/browser-action-decision.test.ts": "352a2cef8a1c37f358f55c43da813210633ba414006492d0adfb0c25a085946c",
+    "src/infrastructure/browser/browser-task-executor.test.ts": "eb89d823a0ba30694d3da4e280f988d761fca7bf3788c8f289d586f600f8dc3c"
+  },
+  "exactlyMatchesExecutedProofInputs": true,
+  "overlayPatchSha256": "9dee10f26de7878c380af1a5c84dd57686a7062dd7dc8c71dffe79606b1382e8",
+  "reproduce": "Archive the fixed sourceRef; apply successor-input.patch, then each stored controlled-fault patch and recorded command in isolation. Preserve historical logs; write rerun output elsewhere.",
+  "mode": "LOCAL_CONSTRUCTED_CONTROLLED_FAULT_NOT_WEBSITE_REPLAY"
+}
