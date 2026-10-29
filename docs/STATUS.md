@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+- **2026-10-29 前端第0步文档同步：设计已定、未实现。** 以main `00519783`的ADR-0049 B1为基础，补齐在日外国人/英文产品定义、用户自行来源提交、三位置工作区、真实进度与停止、逐家候选和当前查看上下文；查看不等于选定。纳入设计输入 `947e741b`，视觉沿用0.2（文档0.3补英文表）：白底群青、Mono仅logo、信息间距分隔。BOOKED_VERIFIED及原70%预约指标第一版不适用；B1实现、来源证据与返回自报合同不改，普通来源链接读者/G3待接线缺口保留。新工作区、查看上下文和视觉均未实现，第1步未启动；仅推文档分支停复核，不合main，业务模型/Google/餐厅来源/Live调用0。[复核说明](reviews/WEB-WORKSPACE-HANDOFF-DOCS-20261029.md)。
+
 2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../.eval-artifacts/phase3b/g5-b1-main/report.md)。
 
 2026-10-29 CET：C G5 B1后续1–3完成待复核，已同步main50a08361并保留A调度修复。ADR0049 Accepted0.2；持久USER_REPORTED反馈并发/重启最多一次，Yes/No/Skip幂等且不改预约状态；日英取消冲突并列原文和英文转述，不判严格程度。手续费两GET均200，英文帮助原文支持440/用户取消不退/餐厅取消退；累计GET244/257，模型/Google/Live0。7542dde7冻结702项，五门禁1210/175、G2 5/5全绿，10步前后净树。既有Prompt/Schema/State/TaskDefinition不变，独立B1合同2；G3接线与首次TableCheck Live清单均未运行，仅推分支不合main。 [报告](../.eval-artifacts/phase3b/g5-b1-followup/report.md)。
@@ -65,7 +67,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.448
+- Document revision: 4.449
 
 - Document revision: 4.445
 - Last updated: 2026-10-29

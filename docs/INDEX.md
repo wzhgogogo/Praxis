@@ -1,8 +1,8 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.9
-- Last updated: 2026-10-23
+- Document revision: 1.10
+- Last updated: 2026-10-29
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -41,8 +41,10 @@ Accepted ADR
 
 ## 产品
 
-- [MVP PRD](product/MVP-PRD.md)：东京英文 Web 餐厅预约 MVP 的目标、范围和验收。
-- [User Flows](product/USER-FLOWS.md)：搜索、选择、执行、接管、验证、取消和变更流程。
+- [MVP PRD](product/MVP-PRD.md)：面向在日外国人的东京英文Web决策、准备与来源交接范围；第一版由用户在来源网站自行提交。
+- [User Flows](product/USER-FLOWS.md)：首页、My plans、安排工作区及查找、选店、交接、返回自报流程；新工作区设计已定、未实现。
+- [Web Visual Direction](product/VISUAL-DIRECTION.md)：用户选定的合并版视觉0.2、英文文案和前端第一段范围；Mono仅用于logo，信息靠间距分隔，待代码与视觉验收。
+- [Booking Design Draft 0.6](product/BOOKING-DESIGN-DRAFT.md)：draft / not integrated的历史方案输入；B1以Accepted ADR-0049为准，B2/B2+不属于前端第一段，原稿的取消严格程度与工作流读取不得覆盖ADR。
 
 ## 架构
 
@@ -62,6 +64,8 @@ Accepted ADR
 - [Capability Matrix](integrations/CAPABILITY-MATRIX.md)：DeepSeek、Google、Hot Pepper、TableCheck 和官网能力边界。
 
 ## 验证、阶段与历史
+
+- [前端第0步文档同步复核](reviews/WEB-WORKSPACE-HANDOFF-DOCS-20261029.md)：来源对照、补齐范围与文档检查；第1步代码和Playwright验收尚未启动。
 
 - [第二阶段签收原文（2026-10-23）](reviews/PHASE-2-SIGNOFF-20261023.md)：用户带缺口签收的不可改写快照；当前状态见STATUS。
 - [第二阶段分支历史快照](reviews/PHASE-2-BRANCH-INVENTORY-20261023.md)：签收时的分支、合并/tag/退役状态；删除提案已关闭，按用户决定保留全部远端分支。

@@ -1,10 +1,10 @@
 # Agent Gateway and Workspace
 
 - Status: Accepted
-- Document revision: 0.4
-- Last updated: 2026-10-28
+- Document revision: 0.5
+- Last updated: 2026-10-29
 - Source of truth for: Web/Mobile Web入口、Conversation/Session/Case边界、用户可见Activity与Domain Workspace
-- Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
+- Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md)
 - Related documents: [Architecture Overview](OVERVIEW.md), [Task Runtime](TASK-RUNTIME.md), [Data, Context and Security](DATA-CONTEXT-SECURITY.md)
 
 ## 产品目标
@@ -44,6 +44,16 @@ Task Runtime → Policy → Execution → Verifier
 
 用户消息先经过Agent Gateway确定可信`userId`、`conversationId`和`caseId`。自然语言解析结果只能形成经过Schema校验的Event或Proposal；Task Runtime决定Durable Case State是否改变。Gateway从最新Task Snapshot和相关执行记录生成Case、Activity和Artifact视图。
 
+### 当前查看上下文（设计已定、未实现）
+
+工作区发送的消息请求须同时携带当前视图、正在看的候选ID及正在比较的候选ID集合，供`this one`、`these two`等指代使用。它们是客户端提出的交互上下文，不是可信业务状态或新的通用Context框架；具体请求字段在前端第一段按实际API统一接线。
+
+Gateway先以认证身份核对Conversation与Case归属，再核对候选确实属于该Case、视图与候选引用一致，且语义动作仍适用于最新请求版本；不接纳跨用户、跨Case、未知或失效的引用。无有效指代对象时澄清，不默选第一家、不复用其他安排的对象。
+
+经校验的查看上下文只用于指代解析，仍须经过现有语义及动作校验路径。查看、加入备选、比较和恢复视图均不写明确选定状态；只有独立的用户选店动作可以选择，选店也不构成ADR-0049之外的写入Authorization。客户端不能通过候选ID、上下文或自带URL绕过来源证据与交接校验。
+
+前端第一段不实现比较页，未实际比较时不提供虚构比较对象。刷新、切换视图或SSE更新保留的当前卡片是交互定位；它与服务端权威选定、Task State和预约Outcome分离。
+
 ## 前台与后台生命周期
 
 前台Conversation可以使用：
@@ -69,13 +79,16 @@ Trigger / External Event
 
 第一阶段使用同一Responsive Web代码库，不建设原生App。最低体验包括：
 
-- `Active / Needs You / Waiting / Completed` Case列表；
-- Case详情中的Conversation、结构化Artifact和Activity Timeline；
+- 首页、`My plans`与安排工作区；移动端为左侧抽屉，桌面为常驻侧栏，复用现有Conversation/Case持久化；
+- 工作区内切换Conversation、候选、详情、备选、比较和预约准备，Activity仍来自权威事件投影；比较不属于前端第一段；
 - 可重连的服务端事件流；
 - 绑定用户和目标Action的短期Deep Link；
-- 在Mobile Web完成选择、补充信息、授权和Human Takeover恢复。
+- 在Mobile Web查看、补充、留作备选、明确选店及主动出发到来源网站；返回自报非阻断且最多一次；
+- 新工作区按ID增量接纳SSE投影，更新后保留输入、当前卡片与展开状态；刷新恢复原视图和当前候选，停止或需求更新后不接纳旧轮迟到结果。
 
-Web只提交用户意图和版本化Action，不持有Provider Secret，不推断权威状态。任何授权入口都展示Domain要求的完整对象、时间、价格和条款，并在执行前重新验证。
+Web只提交用户意图和版本化Action，不持有Provider Secret，不推断权威状态。第一版按ADR-0049只做决策、准备和用户自主来源交接，不提供代提交或远程接管；未来任何授权入口仍须展示Domain要求的完整对象、时间、价格和条款，并在执行前重新验证。
+
+查找进度只能投影实际事件及已知计数，三至四个阶段即可；不得模拟百分比。`Stop`必须调用现有后端取消能力，停止后结束进度并拒绝迟到卡片。若取消或进度生产端不存在，实施切片停止报告，不由前端模拟补齐。本轮仅写设计，不声称这些新交互已经实现。
 
 ## Domain Workspace
 
@@ -104,6 +117,8 @@ Restaurant在当前纵向切片内直接拥有自己的Artifact类型和Web组�
 Status: `implemented: Stage 2B Fixture subset + local Live Read-only composition`。当前模块化单体已经实现Pilot Session、PostgreSQL Conversation、`Conversation → Case → Root Task`映射、Case列表/详情、Domain Artifact、Event Activity和可重连SSE；Desktop/Mobile Web共享同一后端状态。`PRAXIS_RESTAURANT_PROVIDER_MODE`默认`FIXTURE`；显式`LIVE_READ`时服务端注入与H001相同的DeepSeek、Google和受控浏览器availability组合，缺任一gate/服务端配置会拒绝启动，绝不回落Fixture。Case仍是一对一Root Task投影，未新增通用Case Graph。
 
 当前未实现生产身份提供方、后台主动通知、跨任务Memory、Authorization UI、远程Takeover或生产执行进度。Live Read-only页面只展示已grounded的结果、来源链接和稳定失败原因；它没有预约、付款、取消、登录、PII提交、远程验证码控制或公网部署承诺。SSE重连采用“先发送最新完整Snapshot”的简单协议，不是持久消息队列；Activity由持久化Event ID确定性生成，从而允许客户端替换和去重。
+
+ADR-0049的B1交接、来源二次校验和独立持久化`USER_REPORTED`反馈已在main `00519783`整合；普通启动的来源链接读者/G3接线仍未启用，不据此宣称真实来源已验收。这里的取消不支持现实预约取消。当前SSE完整Snapshot协议可继续作为服务端投影输入；新前端须按ID合并，不能把它当作整页重建理由。新工作区外壳、查看上下文、逐家显示与恢复交互为设计已定、未实现，第0步复核通过后再实施。
 
 ## G1 displayed-restaurant follow-up (offline implementation)
 

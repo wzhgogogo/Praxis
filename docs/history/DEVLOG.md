@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.341
+- Document revision: 4.342
 
 
 - Last updated: 2026-10-29
@@ -5197,3 +5197,10 @@ Five approved consolidation items have individual successor proof, all originals
 2026-10-29 CET：用户独立复核通过C B1 38974709（2CPU Linux1210/175、G2 5/5），批准合main。最新main50a08361已在祖先，产品源码不变；冻结后重跑五门禁/G2，净树发布并通知B保留ADR0049和迁移0010。普通启动仍不注入来源链接读者；Case只问一次与真实PG多连接缺口加入Live前清单。本批新增调用0，GET保持244/257；检索分析另分支、只写方案。
 
 验证完成：2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../../.eval-artifacts/phase3b/g5-b1-main/report.md)。
+
+
+<a id="dev-2026-10-29-web-workspace-handoff-docs"></a>
+
+## 2026-10-29 前端第0步：工作区与来源交接文档
+
+文档切片基于main00519783与用户指定设计输入947e741b；只补PRD/流程/Gateway中未被ADR-0049同步的主体缺口，B1代码与现有合同不改。视觉0.2的规则保留，用户明确Mono只用于logo、信息间距分隔；文档0.3补英文表与第一段边界。预约草案0.6保留为draft / not integrated，取消严格程度旧规则标明已被ADR-0049取代。新增工作区/查看上下文/视觉设计已定、未实现；第1步代码、B2/B2+及比较均未启动。不动A评测、B搜索/G3、C Google客户端或原主工作区未提交材料；业务模型/Google/餐厅来源/Live调用0。文档校验和交付边界见[复核说明](../reviews/WEB-WORKSPACE-HANDOFF-DOCS-20261029.md)，本轮只推工作分支停复核，不合main。

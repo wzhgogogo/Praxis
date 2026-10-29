@@ -1,33 +1,35 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.19
+- Document revision: 0.20
 - Last updated: 2026-10-29
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
-- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
-- Related documents: [User Flows](USER-FLOWS.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
+- Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md)
+- Related documents: [User Flows](USER-FLOWS.md), [Visual Direction](VISUAL-DIRECTION.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
 
 ## 产品定义
 
-Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mobile浏览器。用户用自然语言描述东京餐厅需求，Praxis建立可跨会话恢复的Case，并按请求提供有来源支持的推荐或真实可订候选；用户从候选中选择并授权一家后，Praxis通过API、Browser Agent或Human Takeover推进预约，验证结果并准备路线。
+Praxis第一版是一个面向在日外国人的Responsive English Web Agent，同时支持Desktop与Mobile浏览器。用户用自然语言描述东京餐厅需求，Praxis建立可跨会话恢复的Case，提供有来源支持的推荐或当前空位，帮助用户决定并准备好预约；用户自己在来源网站完成登录、资料填写、条款确认和最终提交。
 
-核心价值不是“比 Google Maps 更会推荐”，而是继续完成 Google Maps、Hot Pepper、TableCheck 和餐厅官网之间断裂的执行链路。
+第一版的承诺是把选店、可信信息和来源交接接起来。按[ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md)，选定、准备交接、打开来源链接和返回自报均不构成Praxis代订、外部写授权或已验证预约。通用Policy、Authorization、幂等和Outcome边界继续有效，历史ADR不在本次文档同步中改写。
 
 ## 目标用户
 
-- 使用英文 Web 交互。
-- 可以在Desktop或Mobile浏览器开始、继续和接管同一Case。
-- 希望预订东京餐厅。
-- 不按国籍、居民或游客细分。
-- 能提供真实联系方式，并在登录、验证码、银行卡或条款确认时接管。
+- 在日本的外国人，包括游客、留学生及在日工作生活的人；餐厅范围仍为东京。
+- 使用英文Web界面，可以在Desktop或Mobile浏览器开始和继续同一Case。
+- 希望减少选店、核对空位、识别方案与条款、进入来源网站的操作负担。
+- 平台账户、日本手机号、语言或支付条件只在影响所选渠道时说明，不凭国籍、居民身份或界面语言推断资格。
+- 需要的真实联系方式、登录信息和信用卡由用户在来源网站自行提供，Praxis不接收或代填。
+
+界面语言由用户于2026-10-29确定为英文；原始店名和来源引文保留原文，不因此成为多语言界面承诺。
 
 本阶段验证 Agent 能力和用户价值，不据此宣称某一用户细分已达到 PMF。
 
-## 只读目标与预约闭环
+## 只读目标与来源交接
 
 按[ADR-0044](../decisions/0044-recommendation-availability-boundary.md)，明确订位/空位措辞（A）或具体钟点/数字钟点时段、已知或可推断人数的坐下正餐（B）为AVAILABILITY。A即使无日期/时间仍为查位目标，可先找店，按ADR-0026在查位前补问缺失时间；补充时间沿用原目标。既无到访日期/时间也无订位措辞的新请求为RECOMMENDATION，其余由语义模型判断，不凭人数或店型硬分类。推荐须满足地点、HARD条件和适用营业时间；参数充分时可有界补查空位，但不将未知、无预约入口或访问失败解释为无位或walk-in。当前请求下明确无位会排除该候选。空位目标必须取得对应门店、日期、人数和时段的当前slot；缺人数时补问，缺精确时间可先发现候选，不能降为普通推荐。接待方式与库存独立：明确walk-in不替代可订slot，缺少预约入口不产生walk-in结论。
 
-以下闭环描述明确空位/预约目标；普通推荐可在有依据的结果展示处完成，不强制进入授权与预约。当前开发验收映射见[H001–H005契约](../../src/eval/restaurant/agent-loop/cases/README.md)。
+以下流程描述明确空位/预约目标；普通推荐可在有依据的结果展示处完成。渠道与方案比较属于产品设计，不是B1前置条件，也不在前端第一段实现范围内。当前只读开发验收映射见[H001–H005契约](../../src/eval/restaurant/agent-loop/cases/README.md)。
 
 ```text
 自然语言需求
@@ -36,12 +38,12 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 → 跨来源搜索与实体合并
 → 检查指定时间、人数的真实空位
 → 有界调查后返回首批目标为 3 家不同、证据充分的候选
-→ 用户选择并授权一家
-→ 提交前重新验证
-→ API / Browser / Human Takeover
-→ 读取并验证回执
-→ 保存预约、取消入口、路线与出发时间
-→ 在Case与Activity Timeline中持续显示状态和下一步
+→ 用户明确选定一家
+→ 直接去来源网站，或先比较渠道与方案后出发
+→ 服务端按ADR-0049核对来源、当前请求、证据和交接链接
+→ 用户自行在来源网站确认并提交
+→ 返回后可选自报一次结果
+→ 在同一安排工作区继续查看候选、准备信息和自报记录
 ```
 
 按[ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md)，`no fast food`等餐厅类别排除禁止已知违规；有来源类别事实但判断未知的边界类型可以保留，不能宣称“已确认不是快餐”。连锁、便宜或出餐快本身不等于快餐。正向HARD仍须证据支持，过敏、污染、安全及无障碍等排除不适用此放宽。用户明确追加“不要拉面／回转寿司”通过普通需求更新收紧当前Task，不建立长期偏好。
@@ -53,52 +55,45 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 1. 提取日期、时间窗口、人数、区域、菜系、预算和用户明确提出的特殊要求；特殊要求不阻塞普通初步推荐，但一经声明的安全关键要求不得静默放宽。
 2. 只追问会阻塞搜索或预约的信息。
 3. 并行搜索多个来源，合并同店与不同分店。
-4. 空位/预约候选在后台记录空位查询时间，并提供价格依据、条款和执行方式；来源提供过敏处理信息时，候选卡须清晰展示处理状态、来源和确认要求。
+4. 空位候选保留来源和查询时间；价格、条款、信用卡及手续费只展示有当前同店、同渠道证据支持的内容。过敏等安全关键要求须展示来源和确认要求，不能由交接代替餐厅接受。
 5. 开放式找店的首批目标是3家不同、证据充分的候选；用户明确的数量取代默认目标，指定门店不机械扩展。空位目标中每家仍须有已验证对应slot；进入预约时还须有可执行预约路径。普通推荐按事实要求展示，不声称已有座位；不足目标时返回实际数量和受限原因，不以安全停止冒充用户目标完成。
 6. 结果批次是可恢复的只读选店会话：用户可查看、加入/移除备选、要求同条件另一批或提交明确反馈。已有合格未展示候选优先返回；池内不足才由现有有界调查续接，且不自动预约或形成长期偏好。
-7. 用户只选择并授权一家，不授权自动换店。
-8. 提交前重新验证空位和条款；发生实质变化时重新确认。
-9. 无API网站的浏览与受控操作是核心建设方向；有API可优先使用，无API时使用支持的Browser Adapter；登录、验证码、银行卡、3DS、CAPTCHA 和新增高风险条款触发 Human Takeover。
-10. 只有强完成信号存在时进入 `BOOKED_VERIFIED`。
-11. 预约失败或空位消失时刷新候选并让用户重新选择。
-12. 支持取消；修改统一为“创建并验证新预约，再取消旧预约”。
-13. 预约验证后提供 Google Maps 路线、交通时间和建议出发时间。
-14. 用户可以关闭页面后恢复同一Case，并看到最新候选、状态、下一步和关键Activity。
-15. Web提供`Active / Needs You / Waiting / Completed`视图；选择、授权、条款变化和Human Takeover可在Mobile Web完成。
-16. Conversation、解释文本和模型Working Plan不作为权威预约状态；Case视图必须从服务端Task、Authorization、Attempt、Evidence和Outcome投影。
+7. 用户通过`Choose this`明确选定一家；查看、备选和指代上下文不等于选定，选定也不授权任何外部提交或自动换店。
+8. 有合格来源交接时即可直接出发，不必等待渠道比较；出发前复用ADR-0049的服务端二次校验，条件变化或证据失效时旧交接失效，不拼造链接。
+9. 无API网站的受控读取继续建设；来源网站的登录、验证码、银行卡、支付和最终预约提交由用户独立完成，第一版不提供远程代订或接管后代提交。
+10. 返回后至多一次非阻断自报，只记`USER_REPORTED`，不转为`BOOKED_VERIFIED`；不回答也不追问。
+11. 用户修改需求或停止当前查找后，旧请求的迟到进度、卡片和交接不得重新出现；查找中提供`Stop`并使用服务端已有取消路径。
+12. 用户可以关闭页面后恢复同一Case；候选、备选按Case隔离，恢复原来的工作区视图和当前候选。
+13. 前端有首页、`My plans`抽屉（桌面常驻侧栏）和安排工作区三个位置；对话、候选、详情、备选、比较及预约准备在同一工作区内切换。
+14. 首家合格候选就绪后自动显示，其余逐家出现；只展示流程实际知道的进度数值，不编造百分比。此项与新工作区均为设计目标，尚待实现与浏览器验收。
+15. SSE按ID局部更新，保留当前卡片、未发送输入和展开状态；消息携带服务端校验后的当前查看上下文，用于理解`this one`等指代。
+16. Conversation、解释文本、模型Working Plan和前端查看状态不作为权威预约状态；事实和业务动作仍从服务端Domain/Application及Runtime投影。
 
 预算作为候选条件展示：明确每人上限属于 HARD，须有适用餐期的当前价格依据才可交付；超出或价格未知的门店不能作为合格结果。around/ideally 等 SOFT 预算保留其强度和比较含义，核对不满足或未核对时透明展示。条件行提供真实价格原文及来源，不把已列出的课程价格宣称为该课程已有空位。
 
-## 授权规则
+## 选择与交接边界
 
-候选卡中的 `Book this` 在完整展示餐厅、分店、日期时间、人数、套餐/座位、价格和取消条款时，同时代表选择与一次性授权。若当前Case有已声明的过敏Hard Constraint，则先展示Restaurant Domain定义的过敏披露Consent Card；只有用户确认本次披露内容后，才创建该一次性Authorization。
+`Choose this`仅表示明确选店；书签仅表示留作备选。来源出发按钮由用户主动点击，只打开服务端核验过的来源入口，不创建预约Authorization或提交Attempt。参数只可描述为`filled in`，不能从URL推断来源网站实际选中了条件、方案或座位。
 
-以下情况使授权失效：
+当前请求、门店、渠道、Offer或证据新鲜度不再匹配时，旧交接不得显示或沿用。合法同店来源入口与带参交接的可用范围均沿用ADR-0049；“直接去来源网站”的路径不得被渠道比较完成与否阻断，也不得绕过来源或证据校验。
 
-- 餐厅或分店变化；
-- 时间超出已展示范围；
-- 价格或最低消费增加；
-- 新增强制套餐、预付、不可退款或更严格取消条款；
-- 用户资料版本发生影响预约的变化；
-- Offer 已过期且重新验证结果不一致。
+通用一次性授权、过敏披露同意、提交幂等和结果不明禁止重试等规则仍约束任何未来外部写入路径；这些路径不属于第一版交接承诺。
 
 ## 结果定义
 
-- `BOOKED_VERIFIED`：成功页、平台订单状态或确认邮件包含匹配的预约编号、餐厅、时间和人数。
-- `PENDING_PROVIDER_CONFIRMATION`：预约请求已提交，但仍等待餐厅接受。
-- `OUTCOME_UNKNOWN`：无法证明成功或失败；禁止再次提交或改订其他餐厅。
-- `FAILED`：已明确失败且没有产生预约。
-- `CANCELLED_VERIFIED`：取消回执明确匹配原预约。
+第一版区分有依据的推荐、当前空位、准备好的来源交接与可选的`USER_REPORTED`反馈。没有证据或读取受限应如实显示未知及本轮范围；未找到当前合格结果不等于附近无店或整窗无位。查找停止只终止本轮读取，不表示取消任何现实预约。
+
+`BOOKED_VERIFIED`及`PENDING_PROVIDER_CONFIRMATION`、`OUTCOME_UNKNOWN`、`CANCELLED_VERIFIED`等预约写入Outcome在第一版**不适用**，本次不删除或修改通用State/Schema。未来如启用写入，`BOOKED_VERIFIED`仍须独立强回执，`OUTCOME_UNKNOWN`仍禁止盲目重试；用户回答Yes不满足该证据标准。
 
 ## 关键边界
 
 - 相对时间按 `Asia/Tokyo` 解析。
 - 只有吧台、吸烟区、强制套餐或不同时间可用时，不得当作原条件完全匹配。
-- 过敏、儿童、无障碍等备注未获餐厅明确接受时，只能标记“已提交请求”；过敏的候选卡信息和预约前披露同意以[Restaurant Booking Domain的详细规则](../domains/RESTAURANT-BOOKING.md#过敏与特殊要求)为准。
+- 过敏、儿童、无障碍等要求未获餐厅明确接受时，不得宣称已接受、已披露或已提交；候选事实与确认要求仍以[Restaurant Booking Domain的详细规则](../domains/RESTAURANT-BOOKING.md#过敏与特殊要求)为准。
 - 日本手机号、片假名、本地地址或支付方式为必填但用户不具备时，不伪造信息。
-- 提交后断网或超时先验证，不盲目重试。
-- 餐厅稍后主动取消时，任务重新进入需处理状态。
-- 未在 Capability Registry 验证的网站必须降级为接管或 Deep Link。
+- 交接后来源网站的实际选中状态和提交结果对Praxis仍未知，不自动读取该外部会话或重试预约。
+- 取消条款的日英页面冲突按ADR-0049并列展示原文和各自英文转述，不由模型或代码判断哪个更严格。
+- 不支持的来源如实说明限制；不扩大Guard权限、不以接管或未经核验的链接绕过边界。
 
 ## Non-goals
 
@@ -107,17 +102,17 @@ Praxis第一版是一个Responsive English Web Agent，同时支持Desktop与Mob
 - Slack、微信、Discord等多消息渠道和通用Agent App Store。
 - 电话预约、候补排队和线下登记。
 - 完整日语产品体验。
-- 自动保存或输入密码、验证码和银行卡。
-- 未经确认的付费、取消或候选替换。
-- 对任意餐厅官网承诺自动化。
+- 代订、预约提交、付款、取消和“先订新单再取消旧单”。
+- 平台登录接管、自动保存或输入密码、验证码、银行卡和其他个人资料。
+- 对任意餐厅官网承诺自动化，或把来源交接当作提交/成功保证。
 - 跨任务 Memory、个性化排序和 Standing Authorization。
 
 ## Pilot 指标
 
-- 支持路径端到端验证预约成功率 ≥ 70%。
-- 真实 Pilot 中具有预约意图的任务完成率 ≥ 50%。
-- 错误宣称成功、未经授权预约和重复提交均为 0。
-- 已验证预约的路线生成率 ≥ 95%。
+- **第一版不适用：**“支持路径端到端验证预约成功率 ≥ 70%”；交接、自报与已验证预约分别统计，不能以点击或Yes代替此历史指标。
+- 原“具有预约意图的任务完成率 ≥ 50%”和“已验证预约的路线生成率 ≥ 95%”不作为第一版交接验收门槛；后续Pilot定义交接任务完成口径后再单列目标，不能沿用旧分母声称达标。
+- 错误宣称已选中/预约成功、Praxis未经授权外写和重复提交均为0；第一版不启用现实预约写入。
+- 第一段的工作区、取消、恢复、指代及B1交接以重复浏览器链路和视觉复核验收；设计已定不表示已经实现或通过Pilot。
 - 除最终确认外，单任务 Human Takeover 中位数不超过 1 次。
 - 支持流程中刷新、重连和跨设备恢复后的Case状态一致率为100%，跨用户Case访问为0。
 

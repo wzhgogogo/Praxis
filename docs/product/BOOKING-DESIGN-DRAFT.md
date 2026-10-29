@@ -4,12 +4,22 @@
 - Document revision: 0.6
 - Last updated: 2026-10-28
 - Source of truth for: 本轮预约产品方案讨论；不覆盖 Accepted PRD、ADR 或当前实现状态
+- Evidence status: draft / not integrated；原稿中的探测与验证声明是历史讨论输入，不是本轮执行证据或Clean Baseline
+- Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md)
 - 取代：本文件 0.5 及更早版本
 - 依据：
-  - [渠道探测记录](BOOKING-CHANNEL-PROBE-20261015.md)（含用户 2026-10-16 的探测）；
-  - [预约链接验证](BOOKING-LINK-PROBE-20261028.md)（2026-10-28）；
+  - `BOOKING-CHANNEL-PROBE-20261015.md`（原稿引用，含用户2026-10-16探测；本仓库未附）；
+  - `BOOKING-LINK-PROBE-20261028.md`（原稿引用，2026-10-28；本仓库未附）；
   - 2026-10-27、10-28 与 Astra、Gemini 讨论后经核实保留的结论。
-- Related: [MVP 路线图草案](MVP-ROADMAP-DRAFT.md)
+- Related: `MVP-ROADMAP-DRAFT.md`（原稿引用，本仓库未附）；当前入口见[MVP PRD](MVP-PRD.md)、[User Flows](USER-FLOWS.md)、[视觉方向](VISUAL-DIRECTION.md)
+
+## 仓库归档与当前适用边界（2026-10-29）
+
+原稿0.6来自设计输入提交`947e741b093eecd0035ebbe9401195db029920eb`，原`roadmap/BOOKING-DESIGN-DRAFT.md`按仓库约定归入本目录。以下0.6正文保留为已暴露的讨论证据，不改写其历史观察或把未附探测材料当作已验证事实。
+
+当前B1以Accepted ADR-0049为准：只交接证实当前空位的同一渠道；Tabelog只用源响应的白名单`form_course`入口，不读取预约工作流验证链接；Select链接、跨渠道调查、B2/B2+均不在前端第一段。原稿3.2/4.3“按较严取消条款提示”已被用户2026-10-29决定取代，属于`superseded retrospective`：现在并列两种原文与各自英文转述，不由代码或模型判定严格程度。
+
+原稿6.2的“出发按钮写明带入字段、下方至多一行提示”继续适用；具体字段和提示服从ADR-0049，尤其TableCheck的`Check date and guests`及取消冲突的来源确认要求。来源文案不代表来源实际选中或已预约。界面英文文案及本轮视觉0.2决定统一见[视觉方向](VISUAL-DIRECTION.md#英文文案)。
 
 ## 0.6 相对 0.5 的变化（用户 2026-10-28 同意，先做出来再看）
 
