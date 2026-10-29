@@ -219,7 +219,7 @@ export function createCurrentDevelopmentFixedSources(
           source: "TABLECHECK", stage: "AVAILABILITY", request: target, candidateId: source.google.placeId,
           reason: "Availability is not configured for this legal TableCheck outlet",
         });
-        if (url.searchParams.get("start_date") !== inventory.date || url.searchParams.get("pax") !== String(inventory.partySize)) throw sourceGap({
+        if (url.searchParams.get("start_date") !== inventory.date || url.searchParams.get("num_people") !== String(inventory.partySize)) throw sourceGap({
           source: "TABLECHECK", stage: "AVAILABILITY", request: target, candidateId: source.google.placeId,
           reason: "No fixture inventory matches the requested date or party size",
         });

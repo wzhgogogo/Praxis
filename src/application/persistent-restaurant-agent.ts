@@ -1,3 +1,5 @@
+import type { BookingHandoffView } from "../domains/restaurant/booking-handoff.js";
+import type { BookingFeedbackAnswer, BookingFeedbackPrompt } from "../domains/restaurant/booking-feedback.js";
 import { RESTAURANT_PAGE_QUESTION_BUDGET, type RestaurantPageQuestionLimits } from "../domains/restaurant/page-question-limits.js";
 import type { RestaurantPageQuestionPort, RestaurantPageAnswer } from "../domains/restaurant/page-question.js";
 import type { ModelRunUsage } from "./run-bounded-model-gateway.js";
@@ -540,6 +542,26 @@ export class PersistentRestaurantAgentApplication {
     return this.project(record);
   }
 
+  async recordBookingDeparture(input:{userId:string;caseId:string;expectedVersion:number;requestId:string;handoff:BookingHandoffView}) {
+    await this.requireCase(input.userId,input.caseId);
+    const snapshot=await this.runtime.snapshot(input.caseId);
+    if(snapshot.version!==input.expectedVersion)throw new StaleTaskVersionError(input.expectedVersion,snapshot.version);
+    const offer=snapshot.domainState.availability[input.handoff.candidateId]?.find(item=>item.id===input.handoff.offerId);
+    if(!offer||offer.source!==input.handoff.provider)throw new Error("The handoff is no longer current");
+    return this.store.recordBookingDeparture({userId:input.userId,caseId:input.caseId,expectedVersion:input.expectedVersion,
+      requestId:input.requestId,candidateId:input.handoff.candidateId,offerId:input.handoff.offerId,provider:input.handoff.provider,now:this.clock.now().toISOString()});
+  }
+  async claimBookingFeedback(userId:string,caseId:string):Promise<BookingFeedbackPrompt|undefined> {
+    await this.requireCase(userId,caseId);
+    const departure=await this.store.claimBookingFeedback(userId,caseId,this.clock.now().toISOString());
+    return departure ? {departure,question:"Did you get the booking?",options:["YES","NO","SKIP"]} : undefined;
+  }
+  async answerBookingFeedback(input:{userId:string;caseId:string;departureId:string;answer:BookingFeedbackAnswer}) {
+    await this.requireCase(input.userId,input.caseId);
+    if(!["YES","NO","SKIP"].includes(input.answer))throw new Error("Feedback must be Yes, No or Skip");
+    return this.store.answerBookingFeedback({...input,now:this.clock.now().toISOString()});
+  }
+
   async getCase(userId: string, caseId: string): Promise<RestaurantCaseView> {
     return this.project(await this.requireCase(userId, caseId));
   }
@@ -1014,10 +1036,11 @@ export class PersistentRestaurantAgentApplication {
 
   private async project(record: ConversationRecord): Promise<RestaurantCaseView> {
     await this.finishInterruptedLiveRead(record);
-    const [snapshot, messages, events] = await Promise.all([
+    const [snapshot, messages, events, bookingFeedbackAvailable] = await Promise.all([
       this.runtime.snapshot(record.rootTaskId),
       this.store.listMessages(record.id),
       this.runtime.listEvents(record.rootTaskId),
+      this.store.hasUnpromptedBookingDeparture(record.id),
     ]);
     const state = snapshot.domainState;
     const action = state.pageQuestion && !state.pageQuestion.result ? undefined : pendingAction(state.phase);
@@ -1079,6 +1102,7 @@ export class PersistentRestaurantAgentApplication {
         ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
         ...(state.searchContinuation?.locationContext ? { searchLocation: structuredClone(state.searchContinuation.locationContext) } : {}),
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
+        bookingFeedbackAvailable,
         candidates: state.candidates.map(candidate => ({ ...structuredClone(candidate), ...observedCandidateDistance(state.readEvidence, candidate.restaurant.id, snapshot.updatedAt) })),
         availability: structuredClone(state.availability),
         availabilityChecks: structuredClone(state.availabilityChecks),

@@ -539,8 +539,17 @@ test("TableCheck resolves a real linked reservation page and only sets read para
   assert.deepEqual(target, { kind: "LINKED_PAGE", url: "https://www.tablecheck.com/en/restaurant1/reserve/landing?utm_source=tablecheck_portal" });
   assert.equal(
     tableCheckRequestedReservationUrl(target!, "2026-08-05", 2),
-    "https://www.tablecheck.com/en/restaurant1/reserve/landing?utm_source=tablecheck_portal&start_date=2026-08-05&pax=2",
+    "https://www.tablecheck.com/en/restaurant1/reserve/landing?utm_source=tablecheck_portal&start_date=2026-08-05&num_people=2",
   );
+  const exact = new URL(tableCheckRequestedReservationUrl(target!, "2026-08-05", 2, { earliest: "19:00", latest: "19:00" }));
+  assert.equal(exact.searchParams.get("num_people"), "2");
+  assert.equal(exact.searchParams.has("pax"), false);
+  assert.equal(exact.searchParams.get("start_time"), "19:00");
+  const oldSession = { kind: "LINKED_PAGE" as const, url: target!.url + "&pax=6&num_people=6&start_time=20:00" };
+  const broad = new URL(tableCheckRequestedReservationUrl(oldSession, "2026-08-05", 2, { earliest: "18:00", latest: "20:00" }));
+  assert.equal(broad.searchParams.get("num_people"), "2");
+  assert.equal(broad.searchParams.has("pax"), false);
+  assert.equal(broad.searchParams.has("start_time"), false, "a time window must not carry a stale or invented exact time");
 });
 
 test("TableCheck pre-fills only an exact observed guide request without turning it into inventory", () => {
@@ -919,7 +928,7 @@ test("TableCheck recovers one challenged canonical availability page through its
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
   assert.equal(session.navigations.filter((url) => url === "https://www.tablecheck.com/en/restaurant1").length, 2);
-  assert.equal(session.navigations.filter((url) => url === "https://www.tablecheck.com/ja/restaurant1/reserve/landing?start_date=2026-08-05&pax=2").length, 1);
+  assert.equal(session.navigations.filter((url) => url === "https://www.tablecheck.com/ja/restaurant1/reserve/landing?start_date=2026-08-05&num_people=2").length, 1);
 });
 
 test("TableCheck does not invent an alternate after a challenged high-identity outlet and retains that identity", async () => {
@@ -1017,7 +1026,7 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
   assert.equal(session.navigations.length, 3);
   assert.equal(session.navigations[0]?.includes("/en/japan/search?"), true);
   assert.equal(session.navigations[1], "https://www.tablecheck.com/en/restaurant1");
-  assert.equal(session.navigations[2], "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-08-05&pax=2");
+  assert.equal(session.navigations[2], "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-08-05&num_people=2");
   assert.equal(session.clicks, 0);
   assert.equal(session.fills, 0);
   assert.equal(session.closed, true);

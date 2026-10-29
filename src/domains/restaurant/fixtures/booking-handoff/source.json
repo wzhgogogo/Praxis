@@ -1,0 +1,183 @@
+{
+  "context": {
+    "candidate": {
+      "restaurant": {
+        "id": "fixture:outlet",
+        "outletName": "Fixture Sushi",
+        "address": "1-2-3 Tokyo (synthetic)",
+        "sourceIds": {
+          "tabelog": "13123456"
+        },
+        "provenance": {
+          "name": "synthetic"
+        }
+      },
+      "matchReasons": [],
+      "warnings": [
+        "Synthetic offline source; no actual availability."
+      ],
+      "executionConfidence": "HIGH"
+    },
+    "offer": {
+      "id": "fixture:offer",
+      "restaurantId": "fixture:outlet",
+      "source": "TABELOG",
+      "dateTime": "2026-11-02T19:00:00+09:00",
+      "timezone": "Asia/Tokyo",
+      "partySize": 2,
+      "bookingMode": "REQUEST",
+      "executionMode": "DEEPLINK",
+      "checkedAt": "2026-10-29T10:00:00.000Z",
+      "displayExpiresAt": "2026-10-29T10:10:00.000Z",
+      "expiresAt": "2026-10-29T10:00:00.000Z",
+      "bookingRecheckRequired": true
+    },
+    "check": {
+      "status": "AVAILABLE",
+      "checkedAt": "2026-10-29T10:00:00.000Z",
+      "displayExpiresAt": "2026-10-29T10:10:00.000Z",
+      "evidenceIds": [
+        "fixture:identity",
+        "fixture:availability"
+      ],
+      "sourceProvider": "TABELOG",
+      "requestFingerprint": "{\"date\":\"2026-11-02\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:30\"},\"partySize\":2}"
+    },
+    "request": {
+      "timezone": "Asia/Tokyo",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Fixture sushi"
+      },
+      "date": "2026-11-02",
+      "timeWindow": {
+        "earliest": "19:00",
+        "latest": "19:30"
+      },
+      "partySize": 2,
+      "area": {
+        "query": "Tokyo"
+      },
+      "criteria": []
+    },
+    "evidence": [
+      {
+        "evidenceId": "fixture:identity",
+        "kind": "ENTITY_MATCH",
+        "provider": "TABELOG",
+        "candidateId": "fixture:outlet",
+        "sourceEntityId": "13123456",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "observedAt": "2026-10-29T10:00:00.000Z",
+        "requestFingerprint": "fixture-only",
+        "claims": {},
+        "entityMatch": {
+          "confidence": "HIGH",
+          "matchedBy": [
+            "SYNTHETIC_SAME_OUTLET"
+          ]
+        }
+      },
+      {
+        "evidenceId": "fixture:availability",
+        "kind": "AVAILABILITY",
+        "provider": "TABELOG",
+        "candidateId": "fixture:outlet",
+        "sourceEntityId": "13123456",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "observedAt": "2026-10-29T10:00:00.000Z",
+        "displayExpiresAt": "2026-10-29T10:10:00.000Z",
+        "requestFingerprint": "source-fixture",
+        "claims": {
+          "date": "2026-11-02",
+          "partySize": 2,
+          "visibleSlots": [
+            "19:00"
+          ],
+          "inventoryStatus": "AVAILABLE"
+        },
+        "entityMatch": {
+          "confidence": "HIGH",
+          "matchedBy": [
+            "SYNTHETIC_SAME_OUTLET"
+          ]
+        }
+      }
+    ],
+    "now": "2026-10-29T10:00:00.000Z"
+  },
+  "source": {
+    "provider": "TABELOG",
+    "linkBasis": "SOURCE_RESPONSE",
+    "candidateId": "fixture:outlet",
+    "offerId": "fixture:offer",
+    "sourceEntityId": "13123456",
+    "availabilityEvidenceId": "fixture:availability",
+    "observedAt": "2026-10-29T10:00:00.000Z",
+    "url": "https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261102&visit_time=1900",
+    "terms": {
+      "pages": [
+        {
+          "candidateId": "fixture:outlet",
+          "provider": "TABELOG",
+          "sourceEntityId": "13123456",
+          "identityEvidenceId": "fixture:identity",
+          "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          "readAt": "2026-10-29T10:00:00.000Z",
+          "text": "Cancellations on the day cost 100%. A credit card is required. Omakase Nigiri ¥9,800"
+        }
+      ],
+      "cancellation": {
+        "status": "ANSWERED",
+        "candidateId": "fixture:outlet",
+        "answer": "Same-day cancellation costs 100%.",
+        "sensitiveCategory": "NONE",
+        "confirmationRequired": false,
+        "citations": [
+          {
+            "text": "Cancellations on the day cost 100%.",
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+            "readAt": "2026-10-29T10:00:00.000Z",
+            "identityEvidenceId": "fixture:identity"
+          }
+        ],
+        "checkedPages": [
+          {
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+            "readAt": "2026-10-29T10:00:00.000Z"
+          }
+        ]
+      },
+      "card": {
+        "requirement": "REQUIRED",
+        "answer": {
+          "status": "ANSWERED",
+          "candidateId": "fixture:outlet",
+          "answer": "A card is required.",
+          "sensitiveCategory": "NONE",
+          "confirmationRequired": false,
+          "citations": [
+            {
+              "text": "A credit card is required.",
+              "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+              "readAt": "2026-10-29T10:00:00.000Z",
+              "identityEvidenceId": "fixture:identity"
+            }
+          ],
+          "checkedPages": [
+            {
+              "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+              "readAt": "2026-10-29T10:00:00.000Z"
+            }
+          ]
+        }
+      },
+      "plan": {
+        "text": "Omakase Nigiri ¥9,800",
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "readAt": "2026-10-29T10:00:00.000Z",
+        "identityEvidenceId": "fixture:identity"
+      }
+    }
+  }
+}

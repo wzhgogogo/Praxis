@@ -1,3 +1,5 @@
+import { withBookingHandoffs } from "../application/restaurant-booking-handoff.js";
+import type { PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
 import { DeliveryReservedModelGateway } from "../application/delivery-reserved-model-gateway.js";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import { resolve } from "node:path";
@@ -98,7 +100,7 @@ class CaseEventHub {
   }
 }
 
-function json(response: ServerResponse, statusCode: number, payload: unknown, headers = {}): void {
+function sendJson(response: ServerResponse, statusCode: number, payload: unknown, headers = {}): void {
   response.writeHead(statusCode, { "content-type": "application/json; charset=utf-8", ...headers });
   response.end(JSON.stringify(payload));
 }
@@ -176,9 +178,20 @@ export interface LocalWebServerOptions {
   sessions: PilotSessionService;
   /** Optional diagnostic root. Omitting it keeps the server usable without filesystem output. */
   artifactDirectory?: string;
+  /** Cache-only reviewed source output. Absent in ordinary composition pending G3/ADR approval. */
+  bookingHandoffs?: {
+    readPrepared(view: RestaurantCaseView): readonly PreparedBookingHandoff[];
+    now(): string;
+  };
 }
 
 export function createLocalWebServer(options: LocalWebServerOptions): Server {
+  const project = (view: RestaurantCaseView): RestaurantCaseView => options.bookingHandoffs
+    ? withBookingHandoffs(view, options.bookingHandoffs.readPrepared(view), options.bookingHandoffs.now()) : view;
+  const json = (response: ServerResponse, status: number, payload: Record<string, unknown>, headers = {}): void => {
+    sendJson(response, status, payload.view ? {...payload, view: project(payload.view as RestaurantCaseView)} : payload, headers);
+  };
+  const emitCase = (response: ServerResponse, view: RestaurantCaseView): void => writeCaseEvent(response, project(view));
   const hub = new CaseEventHub();
   const unsubscribeUpdates = options.application.subscribeCaseUpdates((view) => hub.publish(view));
   const writtenArtifacts = new Set<string>();
@@ -243,6 +256,33 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
           view: await options.application.getCase(user.id, decodeURIComponent(caseMatch[1]!)),
         });
         return;
+      }
+      const departureMatch = /^\/api\/cases\/([^/]+)\/booking-departures$/.exec(url.pathname);
+      if (method === "POST" && departureMatch) {
+        const body=await readJson(request);
+        if(Object.keys(body).some(key=>!["candidateId","offerId","requestId","taskVersion"].includes(key)))throw new Error("Departure request has unexpected fields");
+        const caseId=decodeURIComponent(departureMatch[1]!);
+        const view=project(await options.application.getCase(user.id,caseId));
+        if(view.case.taskVersion!==requireVersion(body))throw new StaleTaskVersionError(requireVersion(body),view.case.taskVersion);
+        const candidateId=requireString(body,"candidateId"),offerId=requireString(body,"offerId");
+        const handoff=view.restaurant.bookingHandoffs?.find(item=>item.candidateId===candidateId&&item.offerId===offerId);
+        if(!handoff)throw new Error("No current verified source handoff");
+        const departure=await options.application.recordBookingDeparture({userId:user.id,caseId,expectedVersion:view.case.taskVersion,requestId:requireString(body,"requestId"),handoff});
+        json(response,201,{departure,url:handoff.url});return;
+      }
+      const feedbackMatch = /^\/api\/cases\/([^/]+)\/booking-feedback(?:\/(claim))?$/.exec(url.pathname);
+      if(method==="POST"&&feedbackMatch){
+        const body=await readJson(request),caseId=decodeURIComponent(feedbackMatch[1]!);
+        if(feedbackMatch[2]){
+          if(Object.keys(body).length)throw new Error("Prompt claim accepts no extra data");
+          const prompt=await options.application.claimBookingFeedback(user.id,caseId);
+          json(response,200,{prompt:prompt??null});return;
+        }
+        if(Object.keys(body).some(key=>!["departureId","answer"].includes(key)))throw new Error("Feedback accepts only departure ID and Yes/No/Skip");
+        const answer=requireString(body,"answer");
+        if(answer!=="YES"&&answer!=="NO"&&answer!=="SKIP")throw new Error("Feedback must be Yes, No or Skip");
+        const departure=await options.application.answerBookingFeedback({userId:user.id,caseId,departureId:requireString(body,"departureId"),answer});
+        json(response,200,{departure});return;
       }
       const refreshMatch = /^\/api\/cases\/([^/]+)\/refresh$/.exec(url.pathname);
       if (method === "POST" && refreshMatch) {
@@ -336,8 +376,8 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
           "cache-control": "no-cache, no-transform",
           connection: "keep-alive",
         });
-        writeCaseEvent(response, view);
-        const unsubscribe = hub.subscribe(caseId, (updated) => writeCaseEvent(response, updated));
+        emitCase(response, view);
+        const unsubscribe = hub.subscribe(caseId, (updated) => emitCase(response, updated));
         const heartbeat = setInterval(() => response.write(": keep-alive\n\n"), 15_000);
         request.on("close", () => {
           clearInterval(heartbeat);

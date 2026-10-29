@@ -1,0 +1,50 @@
+{
+  "status": "OFFLINE_FOLLOWUP_PASS_G3_DEFERRED",
+  "timeCET": "2026-10-29T12:23:51.413035+01:00",
+  "verifiedSourceCommit": "7542dde793dc83f37cfed082e59b63a45e5befa8",
+  "mainSynchronized": "50a0836148c5b026240a770de89c5d5357091355",
+  "ADR": "0049 Accepted revision0.2",
+  "frozenFiles": 702,
+  "gates": {
+    "typecheck": "PASS",
+    "arch:check": "PASS",
+    "npm test": {
+      "tests": 1210,
+      "pass": 1210,
+      "fail": 0
+    },
+    "build": "PASS",
+    "test:browser:fixture": {
+      "tests": 175,
+      "pass": 175,
+      "fail": 0
+    }
+  },
+  "extraG2": {
+    "tests": 5,
+    "pass": 5,
+    "fail": 0
+  },
+  "allTenStepsBeforeAfterClean": true,
+  "resources": {
+    "newCalls": {
+      "realModel": 0,
+      "google": 0,
+      "live": 0,
+      "evaluationPublicGET": 2
+    },
+    "sharedGETAfter": 244,
+    "sharedLimit": 257
+  },
+  "existingSharedVersionsAndG3Files": "UNCHANGED",
+  "G2Scheduler": "MAIN50a08361_BYTES_RETAINED",
+  "SQLMigration": "0010-restaurant-booking-handoff-feedback appended; prior9 byte-identical",
+  "notEvaluated": [
+    "real PostgreSQL deployment/multiple connections",
+    "real model cancellation-language/conflict quality",
+    "current source selection/inventory",
+    "booking outcome",
+    "G3 URL output connection (explicitly deferred)",
+    "first TableCheck Live prefill (checklist only)"
+  ]
+}

@@ -1,8 +1,8 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.17
-- Last updated: 2026-10-28
+- Document revision: 0.19
+- Last updated: 2026-10-29
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -165,3 +165,7 @@ The answer panel shows one short answer, verbatim source quotations in their ori
 Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
+
+## G5 B1 approved follow-up
+
+Current source-bound slot → two server URL checks → explicit Book/Continue click → persist Case departure → user-owned source tab. On return/focus or reload, atomically claim at most one feedback prompt per Case; respond Yes/No/Skip without follow-ups. Duplicate requests, unanswered prompts and restarts do not re-ask; only USER_REPORTED feedback changes, not booking state. Cancellation conflicts show Japanese and English originals with their paraphrases/citations and ask the user to confirm on the website. The first TableCheck Live must be checked by the user for actual date/time/guests, with num_people and encoded start_time=19%3A00; this is a checklist, not run evidence. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

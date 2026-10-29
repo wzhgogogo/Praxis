@@ -1,3 +1,7 @@
+import { randomUUID } from "node:crypto";
+import { StaleTaskVersionError } from "../../core/task-runtime/errors.js";
+import type { BookingDepartureReceipt, BookingFeedbackAnswer } from "../../domains/restaurant/booking-feedback.js";
+import type { SqlExecutor } from "./sql-database.js";
 import type { ConversationMessage, WorkspaceUser } from "../../application/agent-workspace.js";
 import type { SqlDatabase } from "./sql-database.js";
 
@@ -49,6 +53,24 @@ function conversation(row: ConversationRow): ConversationRecord {
     createdAt: toIsoString(row.created_at),
     updatedAt: toIsoString(row.updated_at),
   };
+}
+
+interface DepartureRow {
+  id:string; candidate_id:string; offer_id:string; provider:"TABELOG"|"TABLECHECK";
+  departed_at:unknown; prompted_at:unknown|null; answer:BookingFeedbackAnswer|null; answered_at:unknown|null;
+}
+function departure(row:DepartureRow,caseId:string):BookingDepartureReceipt {
+  return {id:row.id,caseId,candidateId:row.candidate_id,offerId:row.offer_id,provider:row.provider,
+    departedAt:toIsoString(row.departed_at),provenance:"USER_REPORTED",
+    ...(row.prompted_at ? {promptedAt:toIsoString(row.prompted_at)} : {}),
+    ...(row.answer ? {answer:row.answer} : {}),...(row.answered_at ? {answeredAt:toIsoString(row.answered_at)} : {})};
+}
+async function lockBookingCase(transaction:SqlExecutor,userId:string,caseId:string) {
+  const result=await transaction.query<{id:string;version:number}>(
+    `SELECT c.id, t.version FROM conversations c JOIN tasks t ON t.id=c.root_task_id
+     WHERE c.root_task_id=$1 AND c.user_id=$2 FOR UPDATE OF c, t`,[caseId,userId]);
+  if(!result.rows[0])throw new Error("Booking Case is not available");
+  return result.rows[0];
 }
 
 export class PostgresAgentWorkspaceStore {
@@ -204,4 +226,49 @@ export class PostgresAgentWorkspaceStore {
       createdAt: toIsoString(row.created_at),
     }));
   }
+  async hasUnpromptedBookingDeparture(conversationId:string):Promise<boolean> {
+    const result=await this.database.query<{available:boolean}>(`SELECT EXISTS (
+      SELECT 1 FROM restaurant_booking_departures WHERE conversation_id=$1
+    ) AND NOT EXISTS (
+      SELECT 1 FROM restaurant_booking_departures WHERE conversation_id=$1 AND prompted_at IS NOT NULL
+    ) AS available`,[conversationId]);
+    return result.rows[0]?.available===true;
+  }
+  async recordBookingDeparture(input:{userId:string;caseId:string;expectedVersion:number;requestId:string;candidateId:string;offerId:string;provider:"TABELOG"|"TABLECHECK";now:string}):Promise<BookingDepartureReceipt> {
+    return this.database.transaction(async transaction=>{
+      const record=await lockBookingCase(transaction,input.userId,input.caseId);
+      if(record.version!==input.expectedVersion)throw new StaleTaskVersionError(input.expectedVersion,record.version);
+      const prior=await transaction.query<DepartureRow>(`SELECT * FROM restaurant_booking_departures WHERE conversation_id=$1 AND request_id=$2`,[record.id,input.requestId]);
+      if(prior.rows[0]){
+        const row=prior.rows[0];if(row.candidate_id!==input.candidateId||row.offer_id!==input.offerId||row.provider!==input.provider)throw new Error("Departure request ID belongs to another handoff");
+        return departure(row,input.caseId);
+      }
+      const result=await transaction.query<DepartureRow>(`INSERT INTO restaurant_booking_departures
+        (id,conversation_id,request_id,candidate_id,offer_id,provider,departed_at)
+        VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,["departure:"+randomUUID(),record.id,input.requestId,input.candidateId,input.offerId,input.provider,input.now]);
+      return departure(result.rows[0]!,input.caseId);
+    });
+  }
+  async claimBookingFeedback(userId:string,caseId:string,now:string):Promise<BookingDepartureReceipt|undefined> {
+    return this.database.transaction(async transaction=>{
+      const record=await lockBookingCase(transaction,userId,caseId);
+      const asked=await transaction.query(`SELECT id FROM restaurant_booking_departures WHERE conversation_id=$1 AND prompted_at IS NOT NULL`,[record.id]);
+      if(asked.rows.length)return undefined;
+      const latest=await transaction.query<DepartureRow>(`SELECT * FROM restaurant_booking_departures WHERE conversation_id=$1 ORDER BY departed_at DESC,id DESC LIMIT 1`,[record.id]);
+      if(!latest.rows[0])return undefined;
+      const claimed=await transaction.query<DepartureRow>(`UPDATE restaurant_booking_departures SET prompted_at=$2 WHERE id=$1 AND prompted_at IS NULL RETURNING *`,[latest.rows[0].id,now]);
+      return claimed.rows[0] ? departure(claimed.rows[0],caseId) : undefined;
+    });
+  }
+  async answerBookingFeedback(input:{userId:string;caseId:string;departureId:string;answer:BookingFeedbackAnswer;now:string}):Promise<BookingDepartureReceipt> {
+    return this.database.transaction(async transaction=>{
+      const record=await lockBookingCase(transaction,input.userId,input.caseId);
+      const result=await transaction.query<DepartureRow>(`SELECT * FROM restaurant_booking_departures WHERE id=$1 AND conversation_id=$2`,[input.departureId,record.id]);
+      const row=result.rows[0];if(!row?.prompted_at)throw new Error("Feedback requires this Case's claimed departure prompt");
+      if(row.answer){if(row.answer!==input.answer)throw new Error("Feedback has already been recorded");return departure(row,input.caseId);}
+      const saved=await transaction.query<DepartureRow>(`UPDATE restaurant_booking_departures SET answer=$2,answered_at=$3 WHERE id=$1 RETURNING *`,[input.departureId,input.answer,input.now]);
+      return departure(saved.rows[0]!,input.caseId);
+    });
+  }
+
 }

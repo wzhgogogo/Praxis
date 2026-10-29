@@ -1,0 +1,19 @@
+{
+  "allowed": true,
+  "url": "https://tabelog.com/en/help",
+  "userAgent": "Praxis-B1-evidence/1.0",
+  "applicableGroup": "User-agent: *",
+  "matchedDisallow": null,
+  "rules": [
+    "/ad_mobile/",
+    "/rvwr/*/visitdtl/",
+    "/yoyaku/tabelog_booking/",
+    "/blog/to_blog",
+    "/btb/",
+    "/*_disallow_bot",
+    "/*_disallow_bot.js"
+  ],
+  "basis": "The observed public help path matches none of the wildcard-group Disallow rules. Other named crawler groups are retained in raw robots evidence; the request is the user-directed Praxis client above. No booking workflow is visited.",
+  "robotsDecodedSHA256": "126cafe6a1c8758c1d015f1a63921702074f922eadb2586cec34e69b0677947f",
+  "helpUrlProvenance": "href in saved src/integrations/restaurant-identity/fixtures/nr010-20261028.html"
+}

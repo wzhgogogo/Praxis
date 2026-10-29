@@ -1,8 +1,8 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.17
-- Last updated: 2026-10-28
+- Document revision: 0.19
+- Last updated: 2026-10-29
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md)
 - Related documents: [User Flows](USER-FLOWS.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -151,3 +151,7 @@ The answer panel shows one short answer, verbatim source quotations in their ori
 Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
+
+## G5 B1 approved follow-up
+
+B1 hands a current, server-checked source URL to the user. Each explicit departure is recorded separately from Task State. On return, an authenticated durable claim asks “Did you get the booking?” at most once per Case; Yes/No/Skip is USER_REPORTED, never BOOKED_VERIFIED. Japanese/English cancellation conflicts show both original quotations and one English paraphrase per page, the explicit conflict notice, and website-confirmation hint; neither model nor code ranks strictness. A fixed Tabelog English system-fee rule is supported by the2026-10-29 public help GET and date/SHA; TableCheck gets no inferred fee. Ordinary G3 source-link activation remains deferred. No real booking/model/Live is run. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

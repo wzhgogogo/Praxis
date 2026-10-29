@@ -1,10 +1,10 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.31
+- Document revision: 3.33
 
 
-- Last updated: 2026-10-28
+- Last updated: 2026-10-29
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
@@ -312,3 +312,7 @@ The answer panel shows one short answer, verbatim source quotations in their ori
 Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
+
+## G5 B1 approved follow-up
+
+Accepted ADR0049 replaces C’s earlier numbered0048 draft. restaurant-booking-handoff@2 is a transient contract with a pair of G1-admitted Japanese/English cancellation answers; there is no strictness ranking. Each cited original stays bound to this outlet/channel/page/read. No conflict retains one English sentence; incomplete conflict evidence is not replaced by a guessed policy. Separate restaurant_booking_departures records hold USER_REPORTED Yes/No/Skip, per-Case once-only prompt claims and idempotent departures; they never mutate Task State/Outcome. Existing Prompt/Schema/State24/TaskDefinition22 remain unchanged. Tabelog English platform-fee config cites the public help document and checked date; current-source preselection and G3 wiring remain unverified/deferred. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

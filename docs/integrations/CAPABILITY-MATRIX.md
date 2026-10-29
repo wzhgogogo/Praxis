@@ -9,7 +9,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.103
+- Document revision: 1.105
 
 
 - Last updated: 2026-10-29
@@ -392,3 +392,7 @@ G4 candidate validation (2026-10-28 CET): five gates1190/175 and G2 4/4 PASS wit
 2026-10-28 G4 nr010 entity-name repair: compare structured and rendered outlet names after one standard HTML entity decode. Detail ownership and the existing Tabelog/TableCheck name rules retain their original case/punctuation/containment/minimum-length behavior; address, phone, branch-conflict rules, ranking and scoring are unchanged. entities7.0.1 is installed from the local npm cache with --offline/--ignore-scripts; no source GET. Harness: exact nr010 raw-page fixture plus same-name other-area/door/floor and name-only rejection controls. Frozen whole identity-prefix Replay and merged-main gates are pending in `.eval-artifacts/phase3b/g4-name-entities/report.md`.
 
 G4 nr010 offline closure (2026-10-28 CET): exact saved page red→green; only name entity decoding, unchanged identity thresholds/ranking/address/phone. Merged-main sourcea9c4abe8 five gates1203/175 and G2 4/4 PASS, clean before/after. Frozen identity-prefix Replay nr010/022/026 correct, prior23/23 retained,0 wrong IDs; no new source GET/model/Google/Live. See `.eval-artifacts/phase3b/g4-name-entities/report.md`.
+
+## G5 B1 approved follow-up
+
+TableCheck linked-reserve URLs use num_people and exact start_time (19:00 serializes19%3A00); current site/session preselection is still unverified and on the first-Live user checklist. Tabelog English fee policy was read from https://tabelog.com/en/help on2026-10-29 after a robots check: two approved public GETs, no cookies/redirects/retries/workflow pages. Stored body hashes support JPY440 per guest, no refund for user cancellation and refund for restaurant-initiated cancellation. It is fixed dated platform policy, not merchant cancellation terms or inventory. Handoff/feedback/conflict behavior is offline only; G3 source-record connection awaits B main merge. Protected B files/Guard permissions are unchanged. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

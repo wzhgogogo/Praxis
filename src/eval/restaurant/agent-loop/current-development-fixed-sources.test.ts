@@ -50,7 +50,7 @@ test("fixed source keeps inventory with its own candidate and request scope", as
     date: "2026-08-20", partySize: 4, timeWindow: { earliest: "12:30", latest: "12:30" }, hardCriteria: ["vegetarian restaurant"],
   }, new AbortController().signal);
   assert.equal(wrongParty.availabilityChecks[second.restaurant.id]?.status, "UNKNOWN");
-  assert.ok(sources.calls.coverageGaps.some((record) => record.source === "TABLECHECK" && record.request.includes("pax=4")), `missing explicit fixture coverage gap: ${JSON.stringify(sources.calls.coverageGaps)}`);
+  assert.ok(sources.calls.coverageGaps.some((record) => record.source === "TABLECHECK" && record.request.includes("num_people=4")), `missing explicit fixture coverage gap: ${JSON.stringify(sources.calls.coverageGaps)}`);
 });
 
 async function discoveredCandidate(scenario: CurrentDevelopmentSourceScenario, runId: string) {

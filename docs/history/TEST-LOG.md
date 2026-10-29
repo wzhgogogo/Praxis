@@ -5860,6 +5860,18 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 
 2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
 
+<a id="test-2026-10-29-phase3b-g5-b1"></a>
+
+## 2026-10-29 CET：G5 B1 离线交接与 Proposed ADR0048
+
+2026-10-29 CET：C启动G5 B1离线切片，最新main b2a3cbd3；ADR0048 Proposed。TableCheck旧pax有效红→num_people/精确start_time绿；暂态合同/服务端二次校验/最小英文卡片正在验证。现main缺G3 vacancy-response导出，不拼Tabelog链接、不改B三个保护文件；普通组合未启用B1来源读者。反馈持久化、多语言严格条款及平台手续费证据待ADR/后续接线。模型/GET/Google/Live0，不读.env，无共享版本变更。
+
+证据：`.eval-artifacts/phase3b/g5-b1/`。红灯9bfd0166记录旧serializer实际pax；支持的精确请求及宽时段2/2针对性绿，领域/HTTP本地组合已绿，初轮正式门禁见attempt-01；批准请求合同同步后最终五门禁全绿。真实来源、源网站实际选中与预约结果均未评价。
+
+最终离线交付：2026-10-29 CET：C G5 B1获准的离线子集完成，ADR0048 Proposed待用户批准。8f8cba13冻结689项；五门禁1207/174全绿，额外G2 4/4，10步前后净树。旧pax红→num_people/精确start_time绿；暂态交接/服务端两次校验/英文卡片及同店引用通过。A请求合同三处逐项授权并独立提交，首轮16红→所属26/26绿→全量1207/1207；来源页链接/Gold/评分未动。GET/模型/Google/Live0，不读.env，无共享版本改动。普通来源读者未接G3、反馈持久化/多语言严格条款/手续费证据待后续；仅推工作分支停复核，不合main。
+
+验证源码 8f8cba13f3967dfc6bdee0ac5e2812dc722a3d35；最终门禁原件 gates.json，各项前后git status均空。typecheck/arch/build PASS，npm test1207/1207，Chromium174/174（106.8秒），常规G2 4/4；689项SHA前后相同。Web两站×桌面/手机4截图目视确认、外部请求0；旧页面缺Book链接有效红。A归属仅147/222/54三行请求合同改变，547dadc0与1fb34535独立提交，16失败名称均见26/26针对性绿，Source/Gold/Scorer字节保护通过。原始pax来源链接、三个B保护文件及共享版本均不变。报告全文附Proposed ADR0048；等待复核/批准和G3接线，未宣称当前网站或预约成功。
+
 ## TEST-2026-10-29-G2-SEN-SCHEDULING
 
 2026-10-29 CET: G2 Sen requestConfirmed baseline approved true→UNKNOWN; A observation now reuses bound source response instead of UI-only selected diagnostic. Effective old-path true≠null red and same assertion green; public ARIA positive/removal unknown plus bound/mismatched response controls, fixed localG2 5/5. Classifier/mutation, other11 baselines and product/site code unchanged. Timing reproduction on original mainb2a3cbd3: ordinary2vCPU full174/174 PASS138.062s; bounded25%-total cgroup pressure full original suite underway, explicitly not the ordinary2CPU environment. No scheduling fix or larger180s timeout applied yet. Calls0, no.env. [Plan](../../.eval-artifacts/phase3b/g2-sen-scheduling/plan.md).
@@ -5867,3 +5879,23 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 ## TEST-2026-10-29-G2-SEN-SCHEDULING-VERIFIED
 
 2026-10-29 CET: G2 Sen requestConfirmed is UNKNOWN(null) by approved review; observed public ARIA positives/removal negatives and bound/mismatched response controls retained. G2 is scheduled alone before remaining4-worker fixtures; original180s test/classifier/mutation/12-page manifest unchanged. Matched2CPU37.5% pressure old180.090s timeout→exclusive89.221s PASS; ordinary old2CPU control138.062s PASS retained, not called a reproduction. Frozen445691b3/682 inputs: macOS/Linux five gates green, default1202, Chromium175; three consecutive ordinary2CPU full runs132.279/132.833/132.951s, all before/after clean. All174 prior browser names retained +1 public-control, +1 default native phase-order regression. VM deleted, no file restore, product/site/Guard/Pack/Prompt/Schema/State diff0, real calls0. [Report](../../.eval-artifacts/phase3b/g2-sen-scheduling/report.md).
+
+<a id="test-2026-10-29-phase3b-g5-b1-followup"></a>
+
+## 2026-10-29 CET：G5 B1 Accepted0049后续
+
+2026-10-29 CET：C同步main50a08361并保留A G2调度修复；用户批准ADR0049 Accepted（原C0048改号）。持久USER_REPORTED反馈与双语取消冲突先红后绿，Task/Outcome不变；两次公开GET均200，robots允许/en/help，440/用户取消不退/餐厅取消退均有原文。累计GET244/257，模型/Google/Live0。B1暂态合同2，既有共享版本不变；G3接线按指令等待B合main，本批不做。最终冻结门禁待执行。
+
+旧API404≠201和旧冲突notice undefined有效红；领域7/7、真实HTTP/PGlite重启并发与三种自报选择初绿。原6b867b34证据保留，不按新规则重写旧分数。
+
+最终交付：2026-10-29 CET：C G5 B1后续1–3完成待复核，已同步main50a08361并保留A调度修复。ADR0049 Accepted0.2；持久USER_REPORTED反馈并发/重启最多一次，Yes/No/Skip幂等且不改预约状态；日英取消冲突并列原文和英文转述，不判严格程度。手续费两GET均200，英文帮助原文支持440/用户取消不退/餐厅取消退；累计GET244/257，模型/Google/Live0。7542dde7冻结702项，五门禁1210/175、G2 5/5全绿，10步前后净树。既有Prompt/Schema/State/TaskDefinition不变，独立B1合同2；G3接线与首次TableCheck Live清单均未运行，仅推分支不合main。
+
+首轮API404≠201、冲突notice缺失的有效红灯保留；修复后真实HTTP/PGlite链路含三个Case的Yes/No/Skip、4个并发claim、未回答/已回答重启不重问、重复幂等与跨用户/跨Case拒绝。独立回执表不写Task/Outcome。Web首次预检错误假定折叠来源链接可见，改为先展开后核对（失败日志保留）；两站真实本地Chromium用户点击/返回、双语引文/手续费与无自动访问均通过。真实Postgres多连接/当前网站带入/真实模型语义质量未运行。公开GET只2次，HTTP200原文raw/decoded SHA保留；匿名响应Set-Cookie发布前从元数据和三个未推送提交移除，不改正文、不使用Cookie、无需强推，批准6b867b34/main50a08361不改。最终冻结原件gates.json/verification.json，全部702 SHA前后不变。
+
+<a id="test-2026-10-29-g5-b1-main"></a>
+
+## 2026-10-29 CET：B1审定后合主线
+
+2026-10-29 CET：用户独立复核通过C B1 38974709（2CPU Linux1210/175、G2 5/5），批准合main。最新main50a08361已在祖先，产品源码不变；冻结后重跑五门禁/G2，净树发布并通知B保留ADR0049和迁移0010。普通启动仍不注入来源链接读者；Case只问一次与真实PG多连接缺口加入Live前清单。本批新增调用0，GET保持244/257；检索分析另分支、只写方案。
+
+验证完成：2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../../.eval-artifacts/phase3b/g5-b1-main/report.md)。
