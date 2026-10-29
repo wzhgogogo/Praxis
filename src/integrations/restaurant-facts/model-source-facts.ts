@@ -30,10 +30,10 @@ export async function readQuotedRestaurantSourceFacts(model: ModelGateway | unde
   signal.throwIfAborted();
   if (!model || input.page.settlement === "PENDING" || !/(?:JPY|[¥￥円]|(?:menu|course|コース|メニュー)[^\n]*\d)/iu.test(input.page.text)) return undefined;
   const readId = `source-facts:${input.identity.evidenceId}:${input.readAt}`;
-  const binding = {candidateId:input.candidate.restaurant.id,sourceUrl:input.page.url,readRunId:readId,startedAt:input.identity.observedAt};
   const page = structuredClone({candidateId:input.candidate.restaurant.id,readRunId:readId,requestedSourceUrl:input.page.url,identity:input.identity,snapshot:input.page,observedAt:input.readAt});
+  const binding = {candidateId:page.candidateId,sourceUrl:page.snapshot.url,readRunId:readId,startedAt:page.identity.observedAt};
   if (!isRestaurantFactPageBound(page,binding,now())) return undefined;
-  const document = createRestaurantFactSourceDocument(binding.candidateId,input.identity.evidenceId,page.snapshot.text,undefined,undefined,undefined,RESTAURANT_PAGE_QUESTION_LIMITS);
+  const document = createRestaurantFactSourceDocument(binding.candidateId,page.identity.evidenceId,page.snapshot.text,undefined,undefined,undefined,RESTAURANT_PAGE_QUESTION_LIMITS);
   if (!document.statements.length || compact(document.statements.map(s=>s.text).join("\n")) !== compact(page.snapshot.text)) return undefined;
   const review = reviewStatementIndices(page.snapshot);
   const markup = page.snapshot.visibleHtml ?? page.snapshot.html;
@@ -72,6 +72,8 @@ export async function readQuotedRestaurantSourceFacts(model: ModelGateway | unde
     const first=document.statements.findIndex(s=>s.id===row.firstStatementId),last=document.statements.findIndex(s=>s.id===row.lastStatementId);
     if(first<0||last<first||last-first>31)return undefined;
     for(let index=first;index<=last;index++){if(review.has(index)||used.has(index))return undefined;used.add(index);}
+    const restriction = (text: string) => /\bonly\b|number of people|\b(?:minimum|maximum|valid dates?|cancellation|conditions?)\b|人数|限定|利用条件|予約可能日|キャンセル/iu.test(text);
+    if (row.role === "COURSE" && [document.statements[first-1], document.statements[last+1]].some(s=>s && restriction(s.text))) return undefined;
     const quote=document.statements.slice(first,last+1).map(s=>s.text).join("\n");
     if(quote.length>1600||!compact(page.snapshot.text).includes(compact(quote)))return undefined;
     // Public <del> semantics may exclude an old catalog amount from numeric
@@ -80,19 +82,24 @@ export async function readQuotedRestaurantSourceFacts(model: ModelGateway | unde
     for(const del of sourcePriceElements(markup,tag=>/^<del\b/iu.test(tag))){const text=publicPriceText(del);if(text)priced=priced.replaceAll(text,"");}
     const values=[...new Set(amounts(priced))];
     if(row.role==="COURSE"){
-      const price=values.length===1&&quotedCoursePrice(quote,input.page.url,values[0]!);
-      if(price){facts.listedCoursePricesYen.push(price);courses.push(quote);fields.push({field:"COURSE_DESCRIPTION",quote,sourceUrl:input.page.url,meal:price.meal});}
+      const bothMeals = /lunch|ランチ|昼食/iu.test(quote) && /dinner|ディナー|夕食/iu.test(quote);
+      const onlyMeal = /(?:lunch|dinner)\s*only|(?:ランチ|ディナー|昼食|夕食)限定/iu.test(quote);
+      const negatedPrice = /\bnot\s+(?:(?:priced\s+)?(?:at|for)\s+)?(?:JPY|[¥￥])|(?:JPY|[¥￥])[^。.!?]{0,24}(?:ではない|ではありません)/iu.test(quote);
+      const price=values.length===1 && !(bothMeals && onlyMeal) && !negatedPrice && quotedCoursePrice(quote,page.snapshot.url,values[0]!);
+      courses.push(quote);
+      fields.push({field:"COURSE_DESCRIPTION",quote,sourceUrl:page.snapshot.url,meal:price ? price.meal : "UNSPECIFIED"});
+      if(price)facts.listedCoursePricesYen.push(price);
     }else{
       const meal=row.role==="DINNER_BUDGET"?"DINNER":"LUNCH";
       const label=meal==="DINNER"?/dinner|ディナー|夕食/iu:/lunch|ランチ|昼食/iu;
       const bound=label.test(quote)||regions.some(region=>label.test(region.label!)&&compact(region.text).includes(compact(quote)));
       if(bound&&values.length===2&&values[0]!<=values[1]!&&/[-–〜～]/u.test(priced)){
-        const price={min:values[0]!,max:values[1]!,quote,sourceUrl:input.page.url};
+        const price={min:values[0]!,max:values[1]!,quote,sourceUrl:page.snapshot.url};
         if(meal==="DINNER")facts.dinnerBudgetRangeYen=price;else facts.lunchBudgetRangeYen=price;
-        fields.push({field:"PRICE",quote,sourceUrl:input.page.url,meal});
+        fields.push({field:"PRICE",quote,sourceUrl:page.snapshot.url,meal});
       }
     }
   }
-  return {readAt:input.readAt,sourceUrl:input.page.url,listedCourseDetails:courses,sourceFieldQuotes:fields,
+  return {readAt:page.observedAt,sourceUrl:page.snapshot.url,listedCourseDetails:courses,sourceFieldQuotes:fields,
     ...(facts.listedCoursePricesYen.length||facts.dinnerBudgetRangeYen||facts.lunchBudgetRangeYen?{priceFacts:facts}:{})};
 }
