@@ -1,0 +1,110 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Horumon Matsuda HANARE Yakiniku Nakameguro",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "焼肉はなれ-よし-「旧ホルモン松田HANARE」",
+      "kind": "JAPANESE",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13235974",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13235974/",
+          "outletName": "Yakiniku Hanare Yoshi"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13235974/",
+      "query": "焼肉はなれ-よし-「旧ホルモン松田HANARE」",
+      "phase": "JAPANESE",
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "uncertainties": [
+    "ORIGINAL_SEARCH:RECORDED_NETWORK_FAILURE",
+    "UNRECORDED_FRAGMENT_PROPOSAL",
+    "DETAIL:MISSING_SAVED_PAGE:https://tabelog.com/en/tokyo/A1317/A131701/13235974/"
+  ],
+  "identity": {
+    "resolution": {
+      "confidence": "LOW",
+      "matchedBy": []
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-013",
+      "google": {
+        "placeId": "ChIJISv1DlyLGGARKtftbe6nzhM",
+        "outletName": {
+          "value": "Horumon Matsuda HANARE Yakiniku Nakameguro",
+          "normalizedValue": "horumonmatsudahanareyakinikunakameguro",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 2-chōme−18−９ 高伸ビル 2階 中 目黒",
+          "normalizedValue": "japan〒1530051tokyomegurocitykamimeguro2chōme−18−９高伸ビル2階中目黒",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-6303-3405",
+          "normalizedValue": "0363033405",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [],
+      "resolution": {
+        "confidence": "LOW",
+        "matchedBy": [],
+        "reason": "NO_OUTLETS_PARSED"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 2,
+    "details": 1,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-013",
+  "key": "main-nr-013",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-013.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Horumon%20Matsuda%20HANARE%20Yakiniku%20Nakameguro",
+      "kind": "SEARCH",
+      "query": "Horumon Matsuda HANARE Yakiniku Nakameguro",
+      "problem": "RECORDED_NETWORK_FAILURE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%E3%81%AF%E3%81%AA%E3%82%8C-%E3%82%88%E3%81%97-%E3%80%8C%E6%97%A7%E3%83%9B%E3%83%AB%E3%83%A2%E3%83%B3%E6%9D%BE%E7%94%B0HANARE%E3%80%8D",
+      "kind": "SEARCH",
+      "query": "焼肉はなれ-よし-「旧ホルモン松田HANARE」",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch3/optional/006-nr-013.body.html",
+      "sha256": "c729ab94f3d200ea4bb816cae48eaf6700e93a548e03964eddb7558f36c47c05",
+      "originLedgerId": "phase3b-c-batch3-call-get-006",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13235974/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "fragmentOrigin": {
+    "mode": "NOT_CAPTURED"
+  },
+  "japaneseOrigin": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-013.raw.json"
+}
