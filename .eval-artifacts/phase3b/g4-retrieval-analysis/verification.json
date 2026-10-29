@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "verifiedAtCET": "2026-10-29T14:27:06.750437+01:00",
+  "configurationCommit": "766764faf27b8900a9fcb33f6c2ebea53caea097",
+  "frozenInputs": 685,
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "sourceScriptsPackageBudgetDiff": "EMPTY_VS_MAIN00519783",
+  "newCalls": {
+    "Google": 0,
+    "realModel": 0,
+    "publicGET": 0,
+    "fullLive": 0,
+    "environmentReruns": 0
+  },
+  "noEnvReadOrLoaded": true,
+  "checks": [
+    "all input SHA",
+    "188 receipts including reruns vs 167 first-pass receipts",
+    "eight failure types/stages",
+    "Google same Place ID and source language",
+    "query-bound visible heading plus ItemList oracle",
+    "report local links",
+    "original evidence and ledger byte integrity"
+  ],
+  "productGates": "Reused main-integration0cd117e4 five gates + G2; analysis is docs/data only, not rerun",
+  "outputs": [
+    {
+      "path": ".eval-artifacts/phase3b/g4-retrieval-analysis/analysis.json",
+      "sha256": "8ff55f405878102a4185fb7297cd74ff166e24baa9ee2ddd5b16244ada70d706"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-retrieval-analysis/network-failures.json",
+      "sha256": "fc67d19ca8684cab711ff213e45b8bf7652a3c203d375e1a66eda147da537ece"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-retrieval-analysis/miss-cases.json",
+      "sha256": "e812f1388ec137b6133b015d94065c612ee50da97e3a47f42b5c302ebc60f914"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-retrieval-analysis/report.md",
+      "sha256": "07e9a3db11a8f23cd43b42989a2d0fb2c492cb18169a9bcb2f9a25ec573a1d1c"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-retrieval-analysis/verify.log",
+      "sha256": "9661333ac068b4f44d199bf3c41cc296c8421d02a474e9b4a8486712503b2827"
+    }
+  ]
+}
