@@ -1,10 +1,10 @@
 # Web Workspace Slice 2 Plan
 
 - Status: Draft
-- Document revision: 0.2
+- Document revision: 0.4
 - Last updated: 2026-10-30
 - Source of truth for: 第2段切片范围、接线、停止点与验收；不替代产品和ADR
-- Evidence status: draft / not integrated；工作分支局部Fixture实现，空结果续查待授权，未完成整段验收，真实调用0
+- Evidence status: draft / not integrated；首轮局部五门禁已通过，空结果有界续查已获准补做，未完成整段验收，真实调用0
 - Related documents: [Visual](product/VISUAL-DIRECTION.md), [Flows](product/USER-FLOWS.md), [Gateway](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
 
 ## 当前切片承诺
@@ -19,7 +19,7 @@
 - 条件没有通用无模型修改接口；本段只聚焦并预填Change <condition> to，仍走原消息路径。只对partySizeSource=INFERRED_CLOSED_PARTY加问号，不把日期表达/strength当推测。
 - 旧候选存在同Case的SEARCH_COMPLETED/RESULTS_PRESENTED事件中，project已读取这些事件；可复用原数据生成只读差异/历史备选名称投影。按有效需求更新/investigationRevision分组，不把searchRevision或another-batch当成新需求。原因只能来自当前适用的结构化判定，否则No longer matches；不能使用旧可用性作为当前事实。
 - 语义失败、来源尝试和结束记录在内部有类型化事件；只读投影须保留区分，不能解析助手/Activity自由文本。若某分类仍无确定信号，按用户停止条件暂停该项并报告。
-- **空结果续查待用户决定：** NO_VERIFIED_RESULT无法通过现有another-batch的应用和Reducer准入；已请求是否授权仅扩展同条件的只读续查。未获批准前不改该后端路径，不假造可用按钮或第二条查询执行路径。
+- **空结果续查已获准：** 初始NO_VERIFIED_RESULT无法通过another-batch准入，旧HTTP拒绝证据保留；用户于本轮批准下述有未查工作才续接的最小扩展，不能清空旧检查或重启发现计划。
 
 ## 接线与实施顺序
 
@@ -43,6 +43,12 @@ G1不能按当前对象绑定、拿不到上一需求候选、错误没有可区
 
 主输入框路由/回答面板与完整历史、条件胶囊、服务端差异/备选原因、批末续批、模型失败保留输入、部分来源失败、原生SSE恢复与过期refresh已接通；开发两尺寸21条（含第1段十一项所属脚本）通过。新增投影仅复用project已有事件和当前状态，无额外数据库往返、模型或来源调用。requirementRevision按有效条件事件分组；原误名requestRevision更名searchRevision并更新所属断言，仍独立验证真实新搜索，不保留旧字段兼容。
 
-空结果NO_VERIFIED_RESULT的Find more，以及同一终态全部来源失败后的Try again，共用同一个未开放的another-batch准入；未授权前不显示可用的假动作，不通过聊天让模型绕过。来源失败依显式FAILED尝试，UNKNOWN、正常UNAVAILABLE、未查候选及无attempts细节的成功检查不能说成“全部失败”；混合反例已红→绿。具体来源整体不明的故障保留未分类，不从自由文本造原因。
+原空结果准入阻断已按用户决定补做，Find more与全部来源失败Try again严格分开（见下）。来源失败须逐店显式FAILED尝试，UNKNOWN、正常UNAVAILABLE、未查候选及无attempt细节的检查不能说成“全部失败”；混合反例已红→绿，具体原因不明保留未知，不从自由文本造原因。没有新增Runtime通用能力、生产来源Adapter或G1执行路径。
 
-若批准扩展：仅复用既有another-batch URL与NEXT_BATCH_REPLENISHMENT_REQUESTED事件，在NO_VERIFIED_RESULT新增显式用户触发的同条件有界只读运行；不能只改phase门禁后沿用已耗尽/已失败的检查，否则不会真正重查。需明确失效当前读证据/续查游标、保存条件与用户备选、沿用现有幂等/版本/预算/取消入口；不伪造SEMANTIC_PROPOSAL_COMPILED，不新增条件修改事件、不增加自动重试或执行写入。TaskDefinition按行为升版，State仅在持久结构改变时升版。该后端闭环与真实无外部网络Fixture控制通过后，才可宣称两项动作完成；目前未修改Domain/Runtime。
+## 2026-10-30 续查批准后的收敛
+
+用户批准NO_VERIFIED_RESULT通过NEXT_BATCH_REPLENISHMENT_REQUESTED续查：**保留已有检查和游标，不失效、不重查已失败或不合格的店**；只有候选池有尚未调查对象，或同条件的既有来源续接有明确剩余工作时，服务端才投影canContinue=true。缺必要条件、全部来源失败、游标耗尽或没有剩余工作时为false，前端不推断。取消、幂等、版本和预算复用原入口。只清除上一轮收尾窗口以开启新的显式有界读取，不清空检查或重启发现计划；TaskDefinition22→23，State形状不变仍24。上一轮noVerifiedResult在pending batch期间作为已调查排除依据保留，新结果展示或显式全部失败刷新时移除，不新增持久字段。
+
+全部来源失败的Try again与上述路径分开：复用现有refresh URL和刷新事件，只允许服务端确认全部失败且必要条件齐全的既有候选，不转成Find more、不重跑语义。新增允许转移写入Flows/Gateway，保留原有展示结果刷新；不改B搜索/G3或G1执行。
+
+补真实HTTP/SSE/Runtime浏览器验收：池内未查与现有搜索续接均能取得新结果；全查过不显示Find more；续查中Stop拒收迟到卡片；双击只发起一次；已不合格/失败候选不再调查；同requestId不再触发读取，旧版本/跨用户拒绝。全部来源失败另测Try again从固定失败恢复到当前合格结果，不以点击400或终止为正向通过。首轮cbe036f5的五门禁1213/197和原件保留，新代码/输入重新冻结再全量验收。

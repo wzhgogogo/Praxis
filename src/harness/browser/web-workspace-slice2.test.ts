@@ -170,9 +170,14 @@ for(const size of sizes){
         await page.locator("#message").fill("Keep this adjustment draft");await page.locator("#empty-adjust").click();
         assert.equal(await page.locator("#message").evaluate(n=>n===document.activeElement),true);assert.equal(await page.locator("#message").inputValue(),"Keep this adjustment draft");
       }
+      assert.equal(await page.locator("#empty-more").isVisible(),false,"exhausted or fully failed sources cannot offer continuation");
       await capture(page,size.name+"-slice2-"+outcome);
-      // The continuation action is deliberately not counted as accepted here:
-      // the separate HTTP probe records the backend's current rejection.
+      if(outcome==="all-sources-failed"){
+        const before=host.requests.filter(r=>r.purpose==="restaurant_semantic_interpret").length;
+        host.recoverSources();const response=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith("/refresh"));await page.locator("#empty-retry").click();assert.equal((await response).status(),200);
+        await ready(page);assert.equal(await page.locator("#empty-state").isVisible(),false);assert.equal(host.requests.filter(r=>r.purpose==="restaurant_semantic_interpret").length,before);
+        assert.equal(host.providerCalls.length,6,"Try again refreshes the three failed outlets rather than using another-batch");await capture(page,size.name+"-slice2-retry-recovered");
+      }
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}
   });
 
@@ -198,5 +203,53 @@ for(const size of sizes){
       await page.locator("#next").click();await page.locator("#batch-end").waitFor({state:"visible"});assert.equal(await page.locator("#partial-source-note").isVisible(),true);
       await capture(page,size.name+"-slice2-partial-source");
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}
+  });
+}
+
+for(const size of sizes)for(const continuation of ["pool","search"] as const){
+  test("Workspace slice2 "+size.name+": empty continuation uses proven unread "+continuation+", is idempotent and never rereads rejected outlets",{timeout:30_000},async()=>{
+    const host=await startWorkspaceFixture({continuation}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size}),page=await context.newPage();
+    const posts:Array<{path:string;body:Record<string,unknown>}>=[];page.on("request",r=>{if(r.method()==="POST")posts.push({path:new URL(r.url()).pathname,body:r.postDataJSON()});});
+    try{
+      await start(page,host,"Dinner with a bounded continuation",0);
+      const id=await page.locator(".case-link.active").getAttribute("data-case-id");assert.ok(id);
+      const initial=(await(await page.request.get("/api/cases/"+encodeURIComponent(id))).json()).view;
+      assert.equal(initial.case.phase,"NO_VERIFIED_RESULT");assert.equal(initial.restaurant.readStatus.canContinue,true);assert.equal(initial.restaurant.readStatus.canRetry,false);
+      assert.equal(host.providerCalls.length,1);const rejected=host.providerCalls[0]!.candidateId;
+      if(continuation==="pool"){
+        const stranger=await browser.newContext({baseURL:host.baseUrl});try{
+          assert.equal((await stranger.request.post("/api/session",{data:{accessToken:"workspace-other"}})).status(),201);
+          assert.equal((await stranger.request.post("/api/cases/"+encodeURIComponent(id)+"/another-batch",{data:{taskVersion:initial.case.taskVersion,requestId:crypto.randomUUID()}})).status(),404);
+        }finally{await stranger.close();}
+      }
+      await page.locator("#message").fill("Keep this note through continuation");await capture(page,size.name+"-slice2-continue-"+continuation);
+      const response=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith("/another-batch"));
+      await page.locator("#empty-more").evaluate(button=>{(button as HTMLButtonElement).click();(button as HTMLButtonElement).click();});assert.equal((await response).status(),200);
+      await ready(page);assert.equal(posts.filter(p=>p.path.endsWith("/another-batch")).length,1);assert.equal(await page.locator("#message").inputValue(),"Keep this note through continuation");
+      assert.equal(host.providerCalls.filter(call=>call.candidateId===rejected).length,1,"failed/unavailable outlets stay investigated");
+      const current=(await(await page.request.get("/api/cases/"+encodeURIComponent(id))).json()).view;
+      assert.deepEqual(current.restaurant.intentDraft,initial.restaurant.intentDraft);assert.equal(current.restaurant.requirementRevision,initial.restaurant.requirementRevision);
+      assert.equal(host.searches.length,continuation==="pool"?1:2);
+      if(continuation==="search"){assert.equal(host.searches[1]!.continuation?.nextPageToken,"workspace-next");assert.deepEqual(host.searches[1]!.intent,host.searches[0]!.intent);}
+      const request=posts.find(p=>p.path.endsWith("/another-batch"))!,reads=host.providerCalls.length;
+      assert.equal((await page.request.post(request.path,{data:request.body})).status(),200);assert.equal(host.providerCalls.length,reads);
+      assert.equal((await page.request.post(request.path,{data:{...request.body,requestId:crypto.randomUUID()}})).status(),409);
+      const artifact=await host.application.exportReadArtifact(id);assert.equal((artifact.events as Array<{event:{type:string}}>).filter(item=>item.event.type==="NEXT_BATCH_REPLENISHMENT_REQUESTED").length,1);
+      await capture(page,size.name+"-slice2-continued-"+continuation);
+    }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}
+  });
+}
+
+for(const size of sizes){
+  test("Workspace slice2 "+size.name+": Stop during empty continuation discards the late source card",{timeout:30_000},async()=>{
+    const host=await startWorkspaceFixture({continuation:"pool"}),browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:size}),page=await context.newPage();
+    try{
+      await start(page,host,"Dinner to continue then stop",0);host.hold();await page.locator("#empty-more").click();await host.waitForCheck();
+      const stopped=page.waitForResponse(r=>r.request().method()==="DELETE"&&new URL(r.url()).pathname.endsWith("/run"));await page.getByRole("button",{name:"Stop",exact:true}).click();
+      await eventually(()=>host.providerCalls.some(call=>call.aborted));host.release();assert.equal((await stopped).status(),200);await page.locator("#progress").waitFor({state:"hidden"});
+      const id=await page.locator(".case-link.active").getAttribute("data-case-id");assert.ok(id);const view=(await(await page.request.get("/api/cases/"+encodeURIComponent(id))).json()).view;
+      assert.deepEqual(view.restaurant.readyCandidateIds,[]);assert.equal(await page.locator("#candidate-panel").isVisible(),false);assert.equal(host.providerCalls.length,2);
+      await page.reload();await page.locator("#case-workspace").waitFor({state:"visible"});assert.equal(await page.locator("#candidate-panel").isVisible(),false);await capture(page,size.name+"-slice2-continuation-stopped");
+    }catch(error){await failureDiagnostic(page,host);throw error;}finally{host.release();await context.close();await browser.close();await host.close();}
   });
 }

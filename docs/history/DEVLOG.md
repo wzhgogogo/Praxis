@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.348
+- Document revision: 4.349
 
 
 - Last updated: 2026-10-30
@@ -5274,3 +5274,11 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 主输入框按视图确定路由、回答底部面板与按店完整问答历史、条件胶囊预填、服务端需求差异/备选原因、正常批末续批、短失败文案、原生SSE恢复、过期refresh已接通。原State只投影最后一问，但既有PAGE_QUESTION事件可恢复完整历史，因此复用原事件而不新增存储或改G1路径。服务端投影复用原project已读取的事件与状态，无额外数据库/模型/来源调用；原因未知为No longer matches，重复保存不抹除原需求版本关联。误名requestRevision更名searchRevision并更新全部当前调用方，需求版本另投影，不新增兼容字段。Domain/Runtime、Prompt28、Proposal4、State24、TaskDefinition22、A评测/B搜索G3/C客户端未改。
 
 开发旧第1段/新两尺寸21条通过，另空结果Adjust两尺寸2条通过；来源分类混合成功反例红→绿，未知/未查不冒充全部失败。冻结后的完整五门禁、全部新短状态与截图待执行。NO_VERIFIED_RESULT的Find more和全部来源失败后的Try again缺少原接口准入，已询问未获准，不伪造可用动作。整段未完成，最小后端方案及当前证据见[报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)；新真实调用/Holdout0。
+
+<a id="dev-2026-10-30-web-slice2-continuation"></a>
+
+## 2026-10-30 用户批准有未查工作才续接
+
+此前cbe036f5冻结741项的局部五门禁1213/197全部通过、逐项净树；empty/all-failed两项another-batch400证据保留，不当作新允许行为的验收。用户批准后，TaskDefinition22→23、State24形状不变，NO_VERIFIED_RESULT只有完整条件及已知池内未查对象/同条件观察游标或计划剩余工作时才接受NEXT_BATCH_REPLENISHMENT_REQUESTED。保留旧检查/游标/备选，Context和Validator排除上一轮已调查对象；全部失败单走原refresh事件，不调用语义。两个入口复用版本、requestId幂等、有界预算、Stop和迟到丢弃，不重置发现计划，无新条件事件或问答存储。
+
+新增两尺寸续查/取消/失败恢复开发10/10、领域/投影37/37通过；最终全量冻结门禁及截图待执行。B来源搜索/G3、C Google、A评测、G1/B1执行及通用Runtime不改。只推第2段分支停复核，新增真实调用/Holdout0。[实现与验收](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。

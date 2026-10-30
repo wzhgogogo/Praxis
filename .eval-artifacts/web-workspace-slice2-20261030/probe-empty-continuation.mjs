@@ -10,7 +10,7 @@ globalThis.fetch=async(input,init)=>{
   assert.equal(url.origin,allowedOrigin,"This diagnostic permits only the current localhost Fixture");
   return nativeFetch(input,init);
 };
-const output=resolve(".eval-artifacts/web-workspace-slice2-20261030/empty-continuation");
+const output=resolve(".eval-artifacts/web-workspace-slice2-20261030/continuation-admission");
 mkdirSync(output,{recursive:true});
 const rows=[];
 for(const outcome of ["empty","all-sources-failed"]){
@@ -29,14 +29,16 @@ for(const outcome of ["empty","all-sources-failed"]){
       view=(await(await request("/api/cases/"+encodeURIComponent(view.case.caseId))).json()).view;
     }
     assert.equal(view.case.phase,"NO_VERIFIED_RESULT");
+    assert.equal(view.restaurant.readStatus.canContinue,false,"Exhausted and all-failed reads have no continuation");
+    assert.equal(view.restaurant.readStatus.canRetry,outcome==="all-sources-failed");
     const response=await request("/api/cases/"+encodeURIComponent(view.case.caseId)+"/another-batch",{taskVersion:view.case.taskVersion,requestId:crypto.randomUUID()});
     const payload=await response.json();
     assert.equal(response.status,400);
-    assert.equal(payload.error,"Another batch requires a currently presented restaurant result batch");
+    assert.equal(payload.error,"Another batch requires presented results or proven unread work");
     rows.push({outcome,phase:view.case.phase,readStatus:view.restaurant.readStatus,taskVersion:view.case.taskVersion,
       status:response.status,error:payload.error,fixtureModelCalls:host.requests.length,fixtureSourceReads:host.providerCalls.length,
       realModelCalls:0,sourceGET:0,Google:0,Live:0,Holdout:0});
   }finally{await host.close();}
 }
-writeFileSync(resolve(output,"result.json"),JSON.stringify({mode:"LOCAL_HTTP_FIXTURE",rows,verdict:"BACKEND_ADMISSION_MISSING_NOT_FRONTEND_COMPLETE"},null,2)+"\n",{flag:"wx"});
+writeFileSync(resolve(output,"result.json"),JSON.stringify({mode:"LOCAL_HTTP_FIXTURE",rows,verdict:"EXHAUSTED_AND_FAILED_NOT_CONTINUABLE"},null,2)+"\n",{flag:"wx"});
 console.log(JSON.stringify({status:"CONFIRMED",cases:rows.map(row=>({outcome:row.outcome,phase:row.phase,status:row.status})),realAPIRequests:0}));

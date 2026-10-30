@@ -122,7 +122,8 @@ export interface RestaurantWorkspaceReadProjection {
   readStatus: {
     kind: "PENDING" | "RESULTS" | "NO_QUALIFIED_RESULTS" | "ALL_SOURCES_FAILED" | "MODEL_FAILURE" | "OTHER_FAILURE";
     partialSourceFailure: boolean;
-    canFindMore: boolean;
+    canContinue: boolean;
+    canRetry: boolean;
   };
 }
 

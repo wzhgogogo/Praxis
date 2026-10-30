@@ -131,7 +131,7 @@ function renderReadState(end){
   const r=state.view.restaurant,status=r.readStatus;
   const empty=status.kind==='NO_QUALIFIED_RESULTS'||status.kind==='ALL_SOURCES_FAILED';
   show('empty-state',empty);show('understanding-error',status.kind==='MODEL_FAILURE');
-  if(empty){text('empty-message',status.kind==='ALL_SOURCES_FAILED'?"Couldn't reach the sources. Try again?":'Nothing matched yet.');show('empty-adjust',status.kind==='NO_QUALIFIED_RESULTS');show('empty-more',status.kind==='NO_QUALIFIED_RESULTS'&&status.canFindMore);show('empty-retry',status.kind==='ALL_SOURCES_FAILED'&&status.canFindMore);}
+  if(empty){text('empty-message',status.kind==='ALL_SOURCES_FAILED'?"Couldn't reach the sources. Try again?":'Nothing matched yet.');show('empty-adjust',status.kind==='NO_QUALIFIED_RESULTS');show('empty-more',status.kind==='NO_QUALIFIED_RESULTS'&&status.canContinue);show('empty-retry',status.kind==='ALL_SOURCES_FAILED'&&status.canRetry);$('empty-more').disabled=state.blocked;$('empty-retry').disabled=state.blocked;}
   const list=ids(),last=list.indexOf(state.ui.candidateId)===list.length-1;
   show('partial-source-note',status.partialSourceFailure&&!r.progress.active&&(end||(state.ui.view==='CANDIDATES'&&last)));
   return empty||status.kind==='MODEL_FAILURE';
@@ -206,7 +206,7 @@ function moveCard(delta){
 }
 $('previous').onclick=()=>moveCard(-1);$('next').onclick=()=>moveCard(1);
 $('details-button').onclick=()=>setView('DETAILS');$('details-back').onclick=()=>setView('CANDIDATES');$('saved').onclick=()=>setView('SAVED');$('saved-back').onclick=()=>setView('CANDIDATES');$('choose').onclick=()=>setView('HANDOFF');$('handoff-back').onclick=()=>setView('CANDIDATES');
-async function refreshCase(){try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/refresh',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});accept(p.view);}catch(error){report(error);}}
+async function refreshCase(){if(state.blocked)return;const nav=state.nav;state.blocked=true;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/refresh',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});if(nav!==state.nav)return;state.blocked=false;accept(p.view);}catch(error){if(nav===state.nav)report(error);}finally{if(nav===state.nav){state.blocked=false;render();}}}
 $('refresh').onclick=refreshCase;
 $('answer-backdrop').onclick=closeAnswer;$('answer-dismiss').onclick=closeAnswer;
 let answerDragY=null;$('answer-dismiss').onpointerdown=event=>{answerDragY=event.clientY;$('answer-dismiss').setPointerCapture(event.pointerId);};
@@ -217,7 +217,7 @@ async function findMore(){
   try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/another-batch',{method:'POST',body:JSON.stringify({taskVersion:state.view.case.taskVersion,requestId:requestId()})});if(nav!==state.nav)return;state.blocked=false;state.ui.atEnd=false;state.ui.candidateId=null;accept(p.view);}
   catch(error){if(nav===state.nav)report(error);}finally{if(nav===state.nav){state.blocked=false;render();}}
 }
-$('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=findMore;$('empty-adjust').onclick=()=>{$('message').focus({preventScroll:true});};
+$('find-more').onclick=findMore;$('empty-more').onclick=findMore;$('empty-retry').onclick=refreshCase;$('empty-adjust').onclick=()=>{$('message').focus({preventScroll:true});};
 async function depart(event){const h=currentHandoff();if(!h){event.preventDefault();await refreshCase();return;}event.preventDefault();const target=window.open('about:blank','_blank');if(target)target.opener=null;try{const p=await api('/api/cases/'+encodeURIComponent(state.view.case.caseId)+'/booking-departures',{method:'POST',body:JSON.stringify({candidateId:h.candidateId,offerId:h.offerId,taskVersion:state.view.case.taskVersion,requestId:requestId()})});localStorage.setItem(key(state.view.case.caseId)+':return','1');if(target)target.location.href=p.url;else throw new Error('Please allow this source tab to open.');}catch(error){if(target)target.close();report(error);}}
 $('departure').onclick=depart;$('direct-source').onclick=event=>{if(currentHandoff())void depart(event);};
 async function claimFeedback(){if(!state.view||state.feedback||state.claiming)return;const id=state.view.case.caseId;state.claiming=true;try{const p=await api('/api/cases/'+encodeURIComponent(id)+'/booking-feedback/claim',{method:'POST',body:'{}'});if(!state.view||state.view.case.caseId!==id)return;localStorage.removeItem(key(id)+':return');state.feedback=p.prompt||null;show('feedback',!!state.feedback);}catch(error){report(error);}finally{state.claiming=false;}}

@@ -262,7 +262,7 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
   // to reopen or count an already delivered restaurant again.
   const excludedFromPendingBatch = new Set(state.pendingResultBatchTarget === undefined
     ? []
-    : state.selectionSession?.deliveredCandidateIds ?? []);
+    : [...(state.selectionSession?.deliveredCandidateIds ?? []), ...(state.noVerifiedResult?.investigatedCandidateIds ?? [])]);
   const hardConflictedCandidates = new Set(state.candidates.filter((candidate) =>
     hasCurrentHardConflict(state, candidate.restaurant.id, intent)).map((candidate) => candidate.restaurant.id));
   const factInvestigableCandidateIds = presentation.filter((item) => {

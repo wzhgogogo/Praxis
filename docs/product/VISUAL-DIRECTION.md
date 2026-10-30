@@ -1,12 +1,12 @@
 # Praxis 视觉方向
 
 - Status: Draft
-- Document revision: 0.9
+- Document revision: 0.10
 - Last updated: 2026-10-30
 - Source of truth for: Web 界面的视觉规则；不覆盖 Accepted PRD、ADR 或当前实现状态
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [User Flows](USER-FLOWS.md), [Agent Gateway and Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Booking Design Draft](BOOKING-DESIGN-DRAFT.md)
-- Evidence status: 第1段已复核并快进合main4cbc521b；第2段工作分支局部Fixture实现，空结果续查待决定，不是Live能力证据；状态见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)
+- Evidence status: 第1段已复核并快进合main4cbc521b；第2段工作分支Fixture实现，追加续查后的最终门禁待运行，不是Live能力证据；状态见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)
 
 用户 2026-10-29 选定“合并版”：白底，柔和阴影分层，实心群青胶囊按钮。[画布](https://claude.ai/artifact/VniECP5jzidQmknLSFyryM)是虚构示例，早于视觉规则0.2的收紧；冲突时以本文视觉规则为准。参考“合并版3候选 / 4订法”；开始、查找中及侧栏参考“群青 · Wabi式”和“A2安排列表”，不能据画布推断真实照片、进度数字、条款或预约能力。
 
@@ -141,7 +141,7 @@
 
 修改条件后的计数用两个文字块加间距：2 removed、1 added；明细只列店名和结构化原因Over budget / Doesn't match the new time / No longer matches。备选保留，不合格条目下方显示同一原因。批末卡Any of these work?，Saved加次要色数字、Adjust为文字动作，Find more是唯一群青主动作。
 
-错误/空结果文案沿用用户指令：Nothing matched yet.；Some sources couldn't be checked.；Couldn't reach the sources. Try again?；Couldn't read that. Try rephrasing?；Reconnecting…；Check availability again。每项必须有确定信号与真实下一步，无后端准入的动作不假装实现。当前实现与停止点见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
+错误/空结果文案沿用用户指令：Nothing matched yet.；Some sources couldn't be checked.；Couldn't reach the sources. Try again?；Couldn't read that. Try rephrasing?；Reconnecting…；Check availability again。每项必须有确定信号与真实下一步；空结果只有服务端canContinue=true显示Find more，否则只显示Adjust；全部来源失败独立Try again，不混用续查。当前实现与验收见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
 
 来源与查看时间只有在对应证据存在时才出现。`Not checked`是诚实的未查状态，不附虚构来源或时间；不能伪装为已查实证据。来源原始引文可保留原语言，其标签和解释使用英文。
 

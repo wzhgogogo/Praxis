@@ -1,7 +1,7 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.18
+- Document revision: 1.19
 - Last updated: 2026-10-30
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -42,7 +42,7 @@ Accepted ADR
 ## 产品
 
 - [MVP PRD](product/MVP-PRD.md)：面向在日外国人的东京英文Web决策、准备与来源交接范围；第一版由用户在来源网站自行提交。
-- [User Flows](product/USER-FLOWS.md)：首页、My plans、安排工作区及查找、选店、交接、返回自报流程；第一段已完成本地Fixture浏览器链路，待独立视觉复核。
+- [User Flows](product/USER-FLOWS.md)：首页、My plans、安排工作区及查找、选店、交接、返回自报流程；第1段已复核合main，第2段状态见切片计划。
 - [Web Visual Direction](product/VISUAL-DIRECTION.md)：用户选定的合并版视觉规则及英文文案；Mono仅用于logo，信息靠间距分隔，实施范围/验收见切片计划。
 - [Booking Design Draft 0.6](product/BOOKING-DESIGN-DRAFT.md)：draft / not integrated的历史方案输入；B1以Accepted ADR-0049为准，B2/B2+不属于前端第一段，原稿的取消严格程度与工作流读取不得覆盖ADR。
 
@@ -65,7 +65,7 @@ Accepted ADR
 
 ## 验证、阶段与历史
 
-- [前端第2段实现与停止点](reviews/WEB-WORKSPACE-SLICE2-20261030.md)：单输入框/完整问答历史、条件、服务端差异、批末与错误的本地Fixture实现；空结果续查准入待决定，整段未验收，不是Live能力。
+- [前端第2段实现与复核](reviews/WEB-WORKSPACE-SLICE2-20261030.md)：单输入框/完整问答历史、条件、服务端差异、批末与错误；已获准补上服务端未查工作续接及独立失败刷新，最终门禁待运行，不是Live能力。
 
 - [SR04零API定位与合入复核](reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)：两条生产解析路径各10/10，SR04目标同v26；诊断透传修复及main404a766e同步；净树五门禁1211/181和两尺寸十一项通过，21张截图，工作分支待合入复核。
 
@@ -115,7 +115,7 @@ Accepted ADR
 
 ## 当前阶段计划
 
-- [Web Workspace Slice 2 Plan](WEB-WORKSPACE-SLICE2-PLAN.md)：从已快进合main的第1段4cbc521b开始，单输入框/条件/差异/收尾/错误；空结果续查准入待决定，真实调用0。
+- [Web Workspace Slice 2 Plan](WEB-WORKSPACE-SLICE2-PLAN.md)：从已快进合main的第1段4cbc521b开始，单输入框/条件/差异/收尾/错误及用户批准的有未查工作才续接；真实调用0。
 
 - [Web Workspace Slice 1 Plan](WEB-WORKSPACE-SLICE1-PLAN.md)：当前前端纵向切片范围、现有取消/进度链路、两尺寸浏览器验收与停止条件；业务真实调用0。
 

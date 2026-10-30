@@ -1,0 +1,93 @@
+{
+  "sourceCommit": "cbe036f506e2709389c2645448f5305508d37bad",
+  "main": "4cbc521bb9e4fb177e247266561bd90eb5d34e3f",
+  "manifestSHA256": "a62b5aaea5111f418a42b157989e83952ab082c6a0a04c8ccb23a781e1b19628",
+  "mode": "OFFLINE_AND_LOCAL_CHROMIUM_FIXTURE",
+  "realAPIRequests": 0,
+  "Holdout": "NOT_RUN",
+  "sourceGET": 0,
+  "Google": 0,
+  "externalWrites": 0,
+  "screenshotDirectory": "/private/tmp/praxis-slice2-20261030-screens",
+  "frozenFilesUnchanged": 741,
+  "checks": [
+    {
+      "name": "empty-continuation-diagnostic",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/web-workspace-slice2-20261030/probe-empty-continuation.mjs"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 1774,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 510,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 238,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 28888,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 529,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 136688,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    }
+  ]
+}

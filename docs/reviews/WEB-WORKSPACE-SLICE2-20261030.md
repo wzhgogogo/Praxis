@@ -1,45 +1,64 @@
-# 前端第2段实现与停止点
+# 前端第2段实现与复核
 
 - Status: Draft
-- Document revision: 0.1
+- Document revision: 0.2
 - Last updated: 2026-10-30
-- Source of truth for: 本段实现范围、真实Fixture验收、未完成项与复核依据
-- Evidence status: draft / not integrated；局部Fixture实现，不是整段验收通过或Live能力
-- Related documents: [计划](../WEB-WORKSPACE-SLICE2-PLAN.md), [视觉](../product/VISUAL-DIRECTION.md)
+- Source of truth for: 本段实现、验收原件、视觉自查和未验证边界
+- Evidence status: draft / not integrated；本地Fixture产品验证，不是Live或模型质量证据
+- Related documents: [计划](../WEB-WORKSPACE-SLICE2-PLAN.md), [视觉](../product/VISUAL-DIRECTION.md), [Flows](../product/USER-FLOWS.md), [Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md)
 
-## 结论与停止点
+## 交付状态
 
-第1段已按用户批准快进合main：404a766e → 4cbc521bb9e4fb177e247266561bd90eb5d34e3f，推送后核对远端一致。无新合并提交或附加内容，按指令没有为这次快进重跑门禁；[回执](../../.eval-artifacts/web-workspace-slice2-20261030/main-fast-forward.json)。第2段分支从该main创建，STATUS的合入记录只在第2段分支更新。
+第1段已按用户批准将main从404a766e快进至4cbc521bb9e4fb177e247266561bd90eb5d34e3f，推送后远端核对一致；无新合并提交或附加内容，按指令没有为该快进重跑门禁。[回执](../../.eval-artifacts/web-workspace-slice2-20261030/main-fast-forward.json)。第2段分支codex/feat-web-workspace-slice2从该main创建，STATUS合入记录只在第2段更新。
 
-主输入框、回答面板/完整问答历史、条件胶囊、服务端版本差异与备选原因、正常批末续批、模型理解失败、部分来源失败、真实SSE重连、过期refresh已接通，开发两尺寸21条通过，包含第1段十一项所在脚本。**整段尚未完成**：空结果Find more及同一终态全部来源失败后的Try again需要另开NO_VERIFIED_RESULT的真实只读续查准入；当前接口拒绝，已向用户询问，未获批准前不修改Domain/Runtime，也不通过聊天让模型绕过。
+五项界面已接通。原空结果动作阻断获用户追加批准后，已补上服务端canContinue及独立Try again；开发新增两尺寸10/10及领域/投影37/37通过。新代码的最终冻结五门禁与截图待运行，通过后只推本分支，不合main。此前cbe036f5的局部实现五门禁1213/197通过保留为历史检查点，不能替代追加状态机改动后的验收。
 
-## 实现与依据
+## 实现与合同
 
-- DETAILS的主输入框调用原questions并绑定当前展示candidateId；其他需求视图走messages，删除第二输入框/Ask链接。回答面板只放店名、原答案、来源和原确认提醒，外点/下滑收起，保留卡片、输入与定位。
-- 问答的原State/CaseView仅最近一条，但持久PAGE_QUESTION事件保存完整请求/结果。因此本段从已有事件按requestId/readRunId/candidateId恢复全部按店历史，完成事件逆序，不新增问答存储，不改G1执行、引文、敏感规则或20问限制；未采用“只能显示最后一条”的退让方案。
-- 条件始终为胶囊，只有INFERRED_CLOSED_PARTY人数带问号。没有通用无模型条件端点，本段仅聚焦/预填Change <condition> to并回到需求视图；结构化修改方案见计划，不新增事件。
-- 差异和历史备选来自服务端已读的同Case事件及当前状态，无新增数据库往返。searchRevision取代原误名requestRevision，仍是搜索计数；requirementRevision独立表示条件版本。removed/added比较两个条件版本内接纳的展示ID集合，查找中不发布差异；前端不比较缓存列表。
-- 原因只来自当前HARD价格判定或明确新时段NO_MATCHING_SLOT，未知为No longer matches。备选保留原ID/店名，不把旧库存当作当前可用性；重申已保存状态不会抹除原版本关联。
-- 一批最后一张之后为Any of these work?，可返回最后一张；Saved/Adjust为文字按钮，Find more唯一群青主动作，调用既有another-batch。原生EventSource error/open控制Reconnecting；明确过期时间触发Check availability again并走原refresh，不改B1链接/证据规则。
-- readStatus仅使用类型化状态，模型理解失败保留原文、正常无结果不说没店/没座。全部来源失败须有显式失败尝试、候选均已检查且没有成功检查；UNKNOWN、正常无位、未读候选或缺少attempt明细的成功检查不能被说成全失败。
+- 唯一主输入框由视图路由：DETAILS调用原questions，绑定当前候选；CANDIDATES/CONVERSATION调用messages。删除第二输入框和Ask链接。纯白底部面板显示店名、原答案/来源/敏感确认，外点、下滑或Escape收起，不清草稿、不移动卡片。
+- 原State仅投影最近一问，持久PAGE_QUESTION事件保留完整结果。本段按requestId/readRunId/candidateId恢复按店历史，完成事件逆序，You asked最新在上；无新问答存储或G1执行/引文/20问限制改动。G1仍在原PRESENT_RESULTS阶段使用，搜索未结束时不绕过其准入。
+- 条件持续显示胶囊，日期Mon, Nov 2，只有INFERRED_CLOSED_PARTY人数带问号。点击只聚焦预填Change <condition> to，并回到需求视图，避免误发G1；没有新增结构化修改事件。
+- 服务端复用project已读取的事件/状态产生revisionDiff、历史备选店名和原因，无额外投影数据库往返。searchRevision仍是搜索计数；requirementRevision按有效需求事件分组。新批完成后比较最近两个需求版本的展示ID，浏览器不做缓存差分。原因只来自当前HARD价格/新时间NO_MATCHING_SLOT，其他为No longer matches；备选保留，重复保存不抹除版本关联。
+- 最后一张之后为Any of these work?，Saved/Adjust文字动作，Find more唯一群青主动作，正常续批复用another-batch，返回仍是最后一张。模型失败保留原文；部分来源失败保留结果并在末尾提示；原生EventSource error/open控制Reconnecting；明确过期的交接走原refresh，不改B1链接/证据。
+- 空结果的canContinue由服务端证明：必要条件齐全，且池内有未调查候选，或匹配条件的既有观察游标/计划仍有未查工作。无游标、耗尽、缺字段、全部来源失败时为false。前端只按该字段显示Find more，否则只保留Adjust。NEXT_BATCH_REPLENISHMENT_REQUESTED保留旧检查和游标，Context及Validator排除上一轮已调查对象，不重新读取失败/不合格的店；只清除旧收尾窗口，复用原有界预算、Stop和迟到丢弃。
+- 全部来源失败须逐店有非空显式FAILED尝试且无成功检查，UNKNOWN/未查/无attempt不能冒充。Try again由canRetry准入，单独复用refresh和AVAILABILITY_REFRESH_REQUESTED重查失败候选，不调用语义、不转成续查。requestId重复不再触发读取，其他请求仍核对版本和归属。
+- TaskDefinition22→23；State24持久形状、Prompt28、Proposal4、G1/B1证据与链接规则不变。只改餐厅Domain的显式用户只读转移/准入；Runtime通用层、A评测、B来源搜索/G3和C Google客户端未改，无数据库迁移或重置。
 
-## 诊断与已有开发证据
+## 验收映射
 
-旧UI的主输入框在DETAILS仍为Adjust anything?，目标断言实际红；现有G1 UI测试改接单输入框后通过。新增两尺寸真实HTTP/SSE/Application/Runtime/PGlite脚本验证路由、问答隔离与最新顺序、条件来源、续批、断线恢复、过期刷新、版本差异/备选持久化、模型失败与部分来源失败；旧第1段及三项UI回归保留，共21/21开发通过。它们是本地Fixture，不是实时网站或模型质量评价。
+真实Chromium→HTTP/SSE→生产Application/Interpreter/Compiler/Validator/Router/Runtime/PGlite，只替换模型/来源/问答传输。两尺寸为390×844、1280×900。最终结果待冻结门禁，以下是脚本中的合同映射，不以按钮点击或局部状态代替真实链路。
 
-Fixture修正均未改生产规则：续批的固定模型遵守代码提供的已展示排除集；刷新观察/引文更新时间；变更20:00后来源链接使用实际观察slot，原错误19:00被B1门禁正确拒绝；首次请求three不误当已有草稿的修正。过期正常控制用来源明确给出的60秒有效期，仍在原500秒自动读取预算内。原10分钟显示期限超过500秒run预算的试验不能证明刷新后必然有新结果，本段没有扩大产品预算或绕过它。
+| 用户项 | 覆盖与独立预期 |
+|---|---|
+| 1 唯一输入框 | DETAILS的POST只有candidateId/question/requestId/taskVersion；其他视图走messages；可见输入只有一个 |
+| 2 面板保持 | 打开前后同一卡片DOM及标题位置、草稿不变；外点/下滑后原卡片 |
+| 3 按店历史 | A问→B问→回A再问，A最新在上，B不串入 |
+| 4 条件 | 推测4 guests?、明确3 guests；日期格式；点击focus及精确预填 |
+| 5 差异 | 固定旧3/新2，2 removed及1 added；价格/时段原因及无结构化依据的通用原因 |
+| 6 备选 | 两条旧备选仍在，名称/原因一致，重复保存和刷新后保留 |
+| 7 批末 | 最后卡→收尾→Saved/Adjust/返回；another-batch取得实际新候选 |
+| 8 六种状态 | 正常空结果、部分失败、全部失败、模型失败、断线、过期分别经真实链路；文案无附近没店/没有座位结论 |
+| 9 重连 | 主动断开真实HTTP SSE，原生重连条出现/消失，草稿/卡片不变 |
+| 10 第1段十一项 | 原web-workspace脚本保留全部行为，单独G1旧UI测试改接唯一输入框 |
 
-来源分类独立混合反例曾把“一个失败attempt，另一个AVAILABLE成功检查但无attempt细节”误说成全部失败；同一断言红→绿，现禁止这类误归因。真实来源质量、泛化、私有Holdout均未评价。
+追加五项：池内未查和既有搜索游标两条正向续查均取得新结果；已全查/游标耗尽不显示Find more；续查Stop后迟到卡片不接纳，刷新也不复活；同一时刻双击只发一个续查POST，同requestId重交不再读取；失败与无位旧候选读取数仍各一次。另测旧版本409、异用户404、缺必要条件/已用游标/错误条件指纹拒绝，以及跨目的重查旧失败对象被Validator拒绝。
 
-首次冻结4a4b762c的本地HTTP探针把既有登录接口成功201误写成200，在业务检查前失败，五门禁未运行；原件保留于gates目录。仅修正探针登录合同，生产代码/Fixture不变，重新冻结后再执行，不把此次脚本错误归为业务拒绝或验收通过。
+## 检错证据与历史检查点
 
-## 空结果续查的最小方案（待用户决定，未实现）
+旧详情主输入框placeholder仍为Adjust anything?的目标断言红；现有G1引用/敏感确认与按店历史在新入口通过。来源分类混合反例曾把“失败attempt加无attempt细节的AVAILABLE成功检查”误判全部失败，同一断言红→绿；现在逐店检查，另保留无attempt的UNKNOWN控制。[开发原件](../../.eval-artifacts/web-workspace-slice2-20261030/development/index.json)。
 
-1. 保留another-batch URL、版本/requestId幂等、归属、预算、取消与只读边界；新增NO_VERIFIED_RESULT准入，不扩大到预约/支付/取消或不明确结果。
-2. 不能只改phase检查：旧检查和耗尽游标会使它立即再结束。明确以原条件发起一次新的有界读取，失效当前读证据/游标、保留用户条件和备选，沿用原用户触发入口；不造语义提案，不让模型决定路由，不增加后台自动重试。
-3. 若能复用现有NEXT_BATCH_REPLENISHMENT_REQUESTED则不增加第二条执行链；按行为修订TaskDefinition，State仅在持久形状改变时升版，现有Schema/Prompt/Gold不为此调分。成功后用“原空结果/失败 → 显式点击 → 当前条件重查 → 可交付结果”的固定来源控制验收，不以按钮收到400冒充功能通过。
-4. 未获批准前，只报告该缺口。其余已授权功能继续验证，整段验收第8项的这两个动作保留未完成，不把五门禁或局部测试等同整段通过。
+Fixture修正没有改变生产规则：固定模型遵守已展示排除集，更新刷新观察时间；20:00查询的错误19:00链接曾被原B1拒绝，修正仅在Fixture。过期正向控制使用来源明确60秒有效期，在原500秒预算内刷新；没有扩大产品预算。新增空结果Fixture由原500秒时限的收尾窗口留下未查对象，下一次显式用户读取复用原预算入口，不手填中间State。
 
-## 最终门禁与截图
+首轮4a4b762c探针把既有登录201误写200，在业务检查前失败，五门禁未运行；[原件](../../.eval-artifacts/web-workspace-slice2-20261030/gates/gates.json)保留。仅修正探针后cbe036f5冻结741项，五门禁1213/197全绿，六步前后净树；[原件](../../.eval-artifacts/web-workspace-slice2-20261030/gates-final/gates.json)。当时empty/all-failed均400的[HTTP证据](../../.eval-artifacts/web-workspace-slice2-20261030/empty-continuation/result.json)属于扩展前历史，不作为当前动作失败结论。新增授权后的生产代码/输入另行冻结。
 
-待代码冻结后按五门禁逐项净树运行，附完整原件、两尺寸结果及主要新画面390×844截图，逐项对照视觉“不做”。未运行的检查不能写PASS；当前还不是最终交付结果。真实模型/Google/来源GET/Live/外部写入/Holdout为0，不加载生产凭据。
+## 评价边界与剩余范围
+
+四层：端到端为固定输入的工作区产品行为，最终门禁待运行；逐环节只对已冻结Fixture、HTTP操作及字面量预期判定，真实语义/发现/身份/来源质量NOT_EVALUATED；严重程度不宣称真实模型S0=0，外部模型/Google/来源GET/Live/外写调用均0；归因只到已证实的接口准入、投影、UI和Fixture接线，不推断当前网站能力。固定本地测试不等于Replay、真实模型或Live验收。
+
+结构化条件修改最小方案仍为draft / not integrated：显式用户Patch事件拟USER_CONDITIONS_UPDATED，仅白名单字段；校验归属、完整值域、跨字段约束、expectedVersion和requestId幂等；复用原需求失效/取消/迟到机制。实施时递增TaskDefinition；仅新增持久形状才递增State，Prompt/Proposal不因前端预填改版。本段不实现该事件。
+
+无图片链路/比较/B2/截图语音输入/夜间模式/桌面精修/新增问答存储。生产来源读者/G3接线、TableCheck实际带入和真实模型质量仍未验证；本段真实调用0，未加载.env或运行Holdout。
+
+## 最终门禁、截图与视觉自查
+
+待最新代码与输入冻结后补入最终原件、两尺寸结果、主要新画面截图及视觉“不做”逐项自查。已通过的旧冻结门禁不代替本次追加状态转移的验证。

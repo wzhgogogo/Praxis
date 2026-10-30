@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.354
+- Document revision: 4.355
 
 
 - Last updated: 2026-10-30
@@ -5976,3 +5976,11 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 旧详情主输入框placeholder目标反例红，改接现有G1后按店引用/敏感确认和新历史顺序通过。真实Chromium→HTTP/SSE→生产Application/Interpreter/Compiler/Validator/Router/Runtime/PGlite，仅替换模型/来源/问答传输；两尺寸旧第1段与新脚本开发21/21通过，另空结果Adjust2/2。显式失败attempt混合AVAILABLE成功但无attempt细节的反例曾误归全失败，同一断言红→绿；UNKNOWN/正常UNAVAILABLE/未查反例保留。Fixture错误的已展示排除集和20:00查询却19:00链接均由原门禁正确拒绝，修正只在Fixture；过期正常控制用来源明确60秒有效期，在原500秒预算内完成。
 
 上述是开发证据，不是最终净树门禁或Live结果。准备冻结代码、Fixture、脚本SHA，在净树运行五门禁并产出两尺寸截图；另用仅localhost fetch的探针保存empty/all-sources-failed两种原接口拒绝证据。第8项两种再次查找动作未完成，不能用全仓绿替代用户验收。真实模型/Google/来源GET/Live/外写/Holdout0，不读.env。[报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+<a id="test-2026-10-30-web-slice2-continuation"></a>
+
+## 2026-10-30 批准续查后的开发控制与再冻结
+
+首轮探针误写登录200，既有接口201导致业务前失败；原件保留。修正输入后cbe036f5净树五门禁1213默认/197 Chromium全绿，六步前后净树，741 SHA不变；它是用户批准续查前检查点。新续查Fixture通过原500秒收尾窗口留下未查对象，不手填中间State；池内未查（首店FAILED）及观察游标续接（首店UNAVAILABLE）均取得实际新结果，旧对象各只读一次。双击一个POST、requestId重复不再读取、旧版本409；Stop后释放真实迟到响应仍无新卡片，刷新也不复活。全部来源失败Try again经原refresh恢复三家结果，语义次数不增。两尺寸10/10开发通过，领域/投影37/37绿。
+
+固定新代码/Fixture/脚本后重跑五门禁及全部两尺寸脚本，补异用户/缺字段/耗尽游标和跨目的旧对象拒绝控制，结果待最终冻结运行。真实模型/Google/来源GET/Live/外写/Holdout0，不加载.env；A/B/C受保护路径不改。[报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。

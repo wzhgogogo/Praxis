@@ -14,7 +14,7 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
   const view=()=>({
     mode:"FIXTURE",case:{caseId:"case",title:"Compare restaurants",status:"ACTIVE",phase:"PRESENT_RESULTS",taskVersion:refreshed?2:1},
     conversation:{id:"conversation",messages:[]},activities:[],
-    restaurant:{requirementRevision:1,savedCandidates:[],questionHistory:[],readStatus:{kind:"RESULTS",partialSourceFailure:false,canFindMore:true},intentDraft:{target:{goal:"AVAILABILITY"}},missingRequiredFields:[],searchRevision:1,readyCandidateIds:["a"],progress:{active:false,stopped:false},
+    restaurant:{requirementRevision:1,savedCandidates:[],questionHistory:[],readStatus:{kind:"RESULTS",partialSourceFailure:false,canContinue:false,canRetry:false},intentDraft:{target:{goal:"AVAILABILITY"}},missingRequiredFields:[],searchRevision:1,readyCandidateIds:["a"],progress:{active:false,stopped:false},
       candidates:[{restaurant:{id:"a",outletName:"Cafe A",address:"Tokyo"}},{restaurant:{id:"b",outletName:"Discovery only",address:"Tokyo"}}],
       presentedCandidateIds:["a"],availability:{a:[{dateTime:"2026-09-18T19:00:00+09:00",source:"TABLECHECK",displayExpiresAt:new Date(Date.now()+(refreshed?600000:-600000)).toISOString()}]},
       availabilityChecks:{a:{status:"AVAILABLE",checkedAt:new Date(Date.now()-600000).toISOString(),displayExpiresAt:new Date(Date.now()+(refreshed?600000:-600000)).toISOString()}},
@@ -80,7 +80,7 @@ test("G1 Web asks only for the displayed outlet and renders quotes, absence and 
   const readAt="2026-10-27T16:00:00+01:00";let version=1,answer:Record<string,unknown>|undefined,questionText="",questionRequestId="";
   let variant:"answered"|"absence"|"sensitive"="answered";const submitted:Record<string,unknown>[]=[],history:Record<string,unknown>[]=[];
   const view=()=>({mode:"FIXTURE",case:{caseId:"case",title:"Restaurant follow-up",status:"NEEDS_YOU",phase:"PRESENT_RESULTS",taskVersion:version},
-    conversation:{id:"conversation",messages:[]},activities:[],restaurant:{requirementRevision:1,savedCandidates:[],questionHistory:history,readStatus:{kind:"RESULTS",partialSourceFailure:false,canFindMore:true},intentDraft:{target:{goal:"RECOMMENDATION"}},missingRequiredFields:[],
+    conversation:{id:"conversation",messages:[]},activities:[],restaurant:{requirementRevision:1,savedCandidates:[],questionHistory:history,readStatus:{kind:"RESULTS",partialSourceFailure:false,canContinue:false,canRetry:false},intentDraft:{target:{goal:"RECOMMENDATION"}},missingRequiredFields:[],
       searchRevision:1,readyCandidateIds:["a"],progress:{active:false,stopped:false},candidates:[{restaurant:{id:"a",outletName:"Merchant Cafe",address:"Tokyo"}}],
       presentedCandidateIds:["a"],availability:{},availabilityChecks:{},readEvidence:[],currentFactEvidence:[],
       ...(answer?{pageQuestion:{requestId:questionRequestId,candidateId:"a",question:questionText,result:answer}}:{})}});

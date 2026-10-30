@@ -14,7 +14,7 @@ import type { ModelGateway, ModelRequest, ModelResponse } from "../core/model/co
 import { ModelGatewayError } from "../core/model/errors.js";
 import type { RestaurantSemanticProposal } from "../domains/restaurant/semantic-proposal.js";
 import type { RestaurantCandidate, RestaurantSearchRequest, RestaurantAvailabilityRequest } from "../domains/restaurant/contracts.js";
-import { restaurantAvailabilityRequestFingerprint } from "../domains/restaurant/contracts.js";
+import { restaurantAvailabilityRequestFingerprint, restaurantSearchIntentFingerprint } from "../domains/restaurant/contracts.js";
 import { groundTabelogAvailability, groundTableCheckAvailability } from "../domains/restaurant/read-grounding.js";
 import { prepareBookingHandoff, type BookingHandoffContext, type BookingHandoffSource, type PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
 import { createLocalWebServer } from "../server/local-web-server.js";
@@ -36,13 +36,15 @@ class Database implements SqlDatabase {
 }
 
 /** Uses the existing B1 source fixture and restaurant fixture candidates. No external transport exists. */
-export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";semanticFailureMessage?:string}={}) {
+export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"TABELOG"|"TABLECHECK";cancellationConflict?:boolean;questions?:boolean;inferredParty?:boolean;extraCandidates?:boolean;sourceValidityMs?:number;revisionScenario?:"structured"|"missing";outcome?:"empty"|"all-sources-failed"|"partial";continuation?:"pool"|"search";semanticFailureMessage?:string}={}) {
   const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
   const pglite=await PGlite.create(),database=new Database(pglite),clock=new FakeClock(raw.context.now);
   await applyPostgresMigrations(database);
   let held=options.staged??false,release:()=>void=()=>{},gate=Promise.resolve(),checkStarted:()=>void=()=>{};
   let checking=new Promise<void>(resolve=>{checkStarted=resolve});
   const requests:ModelRequest[]=[], providerCalls:Array<{candidateId:string;partySize:number;aborted:boolean;completed:boolean}>=[];
+  const searches:RestaurantSearchRequest[]=[];
+  let failuresRecovered=false, reserveUsed=false;
   let candidates:RestaurantCandidate[]=[];
   const cache=new Map<string,PreparedBookingHandoff>();
   const questionRequests:RestaurantPageQuestionRequest[]=[],answers=new Map<string,RestaurantPageAnswer>();
@@ -77,16 +79,17 @@ export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"
       ];
       body={schemaVersion:"4",facts};
     } else if(request.purpose==="restaurant_agent_decide"){
-      const {context}=JSON.parse(request.messages.find(m=>m.role==="user")!.content) as {context:{candidates?:Array<{id:string}>;checkableCandidateIds?:string[];presentation?:Array<{candidateId:string;eligible:boolean}>;resultBatchTarget?:{excludeCandidateIds:string[]}}};
+      const {context}=JSON.parse(request.messages.find(m=>m.role==="user")!.content) as {context:{candidates?:Array<{id:string}>;checkableCandidateIds?:string[];legalActions?:{search:boolean};searchAvailability?:{available:boolean};presentation?:Array<{candidateId:string;eligible:boolean}>;resultBatchTarget?:{excludeCandidateIds:string[]}}};
       const ready=context.presentation?.filter(item=>item.eligible&&!context.resultBatchTarget?.excludeCandidateIds.includes(item.candidateId)).map(item=>item.candidateId)??[];
       body=ready.length>=3?strictAction("PRESENT_RESULTS",ready.slice(0,3)):!context.candidates?.length?strictAction("SEARCH_RESTAURANTS"):context.checkableCandidateIds?.length?
-        strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length?strictAction("PRESENT_RESULTS",ready):strictAction("END_READ");
+        strictAction("CHECK_AVAILABILITY",[context.checkableCandidateIds[0]!]):ready.length?strictAction("PRESENT_RESULTS",ready):options.continuation==="search"&&context.legalActions?.search?strictAction("SEARCH_RESTAURANTS"):strictAction("END_READ");
     } else throw new Error("No external model or unsupported fixture purpose: "+request.purpose);
     return {invocationId:"workspace-fixture:"+requests.length,provider:"FIXTURE",model:"workspace-fixed-boundary",outputText:JSON.stringify(body),finishReason:"TOOL_CALLS",latencyMs:0};
   }};
   const restaurant={
     executionRoute:"STRUCTURED_ADAPTER" as const,
     async search(request:RestaurantSearchRequest,signal:AbortSignal){
+      searches.push(structuredClone(request));
       const fixture=await base.search(request,signal);
       candidates=[structuredClone(raw.context.candidate),...fixture.candidates.slice(1)];
       candidates[0]!.matchReasons=[...fixture.candidates[0]!.matchReasons];
@@ -94,9 +97,10 @@ export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"
         const added={...structuredClone(fixture.candidates[2]!),restaurant:{...structuredClone(fixture.candidates[2]!.restaurant),id:"fixture-revision-added",outletName:"Fixture new option"}};
         candidates=options.revisionScenario==="missing"?[candidates[0]!,added]:[...candidates,added];
       }
-      if(options.extraCandidates)candidates.push(...fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{...structuredClone(item.restaurant),id:"fixture-later-"+index,outletName:"Fixture later restaurant "+(index+1)}})));
-      candidates.forEach((c,i)=>{const serial=c.restaurant.id==="fixture-revision-added"?99:i;c.restaurant.sourceIds={tabelog:String(13123456+serial),...(provider==="TABLECHECK"?{tablecheck:serial===99?"fixture-revision-new":"fixture-sushi"+(serial||"")}:{})};c.executionConfidence="HIGH";});
-      return {candidates,evidence:candidates.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:"Tokyo",areaMatch:true}})),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
+      if(options.extraCandidates||options.continuation==="pool")candidates.push(...fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{...structuredClone(item.restaurant),id:"fixture-later-"+index,outletName:"Fixture later restaurant "+(index+1)}})));
+      if(options.continuation==="search")candidates=searches.length===1?candidates.slice(0,1):fixture.candidates.map((item,index)=>({...structuredClone(item),restaurant:{...structuredClone(item.restaurant),id:"fixture-continuation-"+index,outletName:"Fixture continued restaurant "+(index+1)}}));
+      candidates.forEach((c,i)=>{const serial=c.restaurant.id==="fixture-revision-added"?99:c.restaurant.id.startsWith("fixture-continuation-")?100+i:i;c.restaurant.sourceIds={tabelog:String(13123456+serial),...(provider==="TABLECHECK"?{tablecheck:serial===99?"fixture-revision-new":"fixture-sushi"+(serial||"")}:{})};c.executionConfidence="HIGH";});
+      return {candidates,evidence:candidates.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:"Tokyo",areaMatch:true}})),...(options.continuation==="search"?{continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:searches.length===1?[]:["workspace-next"],pagesRead:searches.length,exhausted:searches.length>1,...(searches.length===1?{nextPageToken:"workspace-next"}:{})}}:{}),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
     },
     async check(request:RestaurantAvailabilityRequest,signal:AbortSignal){
       const id=request.candidateIds[0]!,index=candidates.findIndex(c=>c.restaurant.id===id);
@@ -109,13 +113,14 @@ export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"
       const sourceUrl=provider==="TABLECHECK"?"https://www.tablecheck.com/en/shops/"+sourceEntityId+"/reserve":"https://tabelog.com/en/tokyo/A1301/A130101/"+sourceEntityId+"/";
       const ground=provider==="TABLECHECK"?groundTableCheckAvailability:groundTabelogAvailability;
       const changed=!!options.revisionScenario&&request.partySize===3;
-      const failed=options.outcome==="all-sources-failed"||(options.outcome==="partial"&&index===1);
-      const noSlot=options.outcome==="empty"||(changed&&id==="fixture-restaurant-3");
+      const reserve=!!options.continuation&&!reserveUsed;
+      const failed=!failuresRecovered&&(options.outcome==="all-sources-failed"||(options.outcome==="partial"&&index===1)||(reserve&&options.continuation==="pool"));
+      const noSlot=reserve||options.outcome==="empty"||(changed&&id==="fixture-restaurant-3");
       const amount=changed&&id==="fixture-restaurant-2"?20_000:5_000;
       const result=ground(candidate,request,{candidateId:id,sourceEntityId,sourceUrl,observedAt:clock.now().toISOString(),...(options.sourceValidityMs?{sourceExpiresAt:new Date(clock.now().valueOf()+options.sourceValidityMs).toISOString()}:{}),requestedDate:"2026-11-02",requestedPartySize:request.partySize,visibleSlots:noSlot||failed?[]:[request.timeWindow.earliest],pageState:failed?"BOT_CHALLENGE":noSlot?"NO_MATCHING_SLOT":"AVAILABLE",entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]},
         ...(options.revisionScenario?{priceFacts:{schemaVersion:"restaurant-price-facts@1" as const,listedCoursePricesYen:[{amount,kind:"MEAL" as const,meal:"DINNER" as const,tax:"INCLUDED" as const,quote:"Dinner course ¥"+amount,sourceUrl}]}}:{})},clock.now().toISOString());
       const check={...result.check,sourceProvider:provider,requestFingerprint:restaurantAvailabilityRequestFingerprint(request),...(failed?{sourceAttempts:[{source:provider,outcome:"FAILED" as const,reasonCode:"BOT_CHALLENGE"}]}:{})};
-      if(!result.offers.length){call.completed=true;return {...result,availabilityChecks:{[id]:check},metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};}
+      if(!result.offers.length){if(reserve){reserveUsed=true;clock.advance(readLimits.maxAutomaticBrowserMs-19_000);}call.completed=true;return {...result,availabilityChecks:{[id]:check},metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};}
       const entity=result.evidence.find(e=>e.kind==="ENTITY_MATCH")!,availability=result.evidence.find(e=>e.kind==="AVAILABILITY")!;
       let source:BookingHandoffSource={...structuredClone(raw.source),observedAt:clock.now().toISOString(),candidateId:id,sourceEntityId,offerId:result.offers[0]!.id,availabilityEvidenceId:availability.evidenceId,
         url:index===0&&request.partySize===2?raw.source.url:"https://tabelog.com/en/booking/form_course/new?rcd="+sourceEntityId+"&member="+request.partySize+"&visit_date=20261102&visit_time="+result.offers[0]!.dateTime.slice(11,16).replace(":","")};
@@ -157,7 +162,8 @@ export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"
   const server=createLocalWebServer({application,sessions,bookingHandoffs:{readPrepared:()=>[...cache.values()],now:()=>clock.now().toISOString()}});
   const streams=new Set<ServerResponse>();server.on("request",(request,response)=>{if(request.url?.endsWith("/events")){streams.add(response);response.on("close",()=>streams.delete(response));}});
   server.listen(0,"127.0.0.1");await once(server,"listening");
-  return {baseUrl:"http://127.0.0.1:"+(server.address() as AddressInfo).port,application,clock,requests,providerCalls,questionRequests,
+  return {baseUrl:"http://127.0.0.1:"+(server.address() as AddressInfo).port,application,clock,requests,providerCalls,questionRequests,searches,
+    recoverSources(){failuresRecovered=true;},
     disconnectStreams(){for(const stream of streams)stream.end();},
     activeStreamCount(){return streams.size;},
     release(){held=false;release();},hold(){resetGate();},waitForCheck(){return checking;},

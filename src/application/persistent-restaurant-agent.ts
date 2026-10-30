@@ -1,6 +1,7 @@
 import type { BookingHandoffView } from "../domains/restaurant/booking-handoff.js";
 import type { BookingFeedbackAnswer, BookingFeedbackPrompt } from "../domains/restaurant/booking-feedback.js";
 import { projectWorkspaceRead } from "./workspace-read-projection.js";
+import { canContinueRestaurantRead, failedSourceRetryCandidateIds } from "../domains/restaurant/read-continuation.js";
 import { RESTAURANT_PAGE_QUESTION_BUDGET, type RestaurantPageQuestionLimits } from "../domains/restaurant/page-question-limits.js";
 import type { RestaurantPageQuestionPort, RestaurantPageAnswer } from "../domains/restaurant/page-question.js";
 import type { ModelRunUsage } from "./run-bounded-model-gateway.js";
@@ -671,9 +672,12 @@ export class PersistentRestaurantAgentApplication {
   }): Promise<RestaurantCaseView> {
     const record = await this.requireCase(input.userId, input.caseId);
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    const eventId = `event:user:${hash(`${snapshot.id}:${input.requestId}`).slice(0, 32)}`;
+    if ((await this.runtime.listEvents(record.rootTaskId)).some(item => item.id === eventId && (item.event.type === "NEXT_BATCH_REPLENISHMENT_REQUESTED" || item.event.type === "RESULTS_PRESENTED"))) return this.project(record);
     if (snapshot.domainState.pageQuestion && !snapshot.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
     if (snapshot.version !== input.expectedVersion) throw new StaleTaskVersionError(input.expectedVersion, snapshot.version);
-    if (snapshot.domainState.phase !== "PRESENT_RESULTS") throw new Error("Another batch requires a currently presented restaurant result batch");
+    const empty = snapshot.domainState.phase === "NO_VERIFIED_RESULT";
+    if (empty ? !canContinueRestaurantRead(snapshot.domainState, this.clock.now().toISOString()) : snapshot.domainState.phase !== "PRESENT_RESULTS") throw new Error("Another batch requires presented results or proven unread work");
     const delivered = new Set(snapshot.domainState.selectionSession?.deliveredCandidateIds ?? snapshot.domainState.presentedResults?.candidateIds ?? []);
     const candidates = snapshot.domainState.candidates
       .map((candidate) => candidate.restaurant.id)
@@ -716,8 +720,11 @@ export class PersistentRestaurantAgentApplication {
   }): Promise<RestaurantCaseView> {
     const record = await this.requireCase(input.userId, input.caseId);
     const snapshot = await this.runtime.snapshot(record.rootTaskId);
+    const eventId = `event:user:${hash(`${snapshot.id}:${input.requestId}`).slice(0, 32)}`;
+    if ((await this.runtime.listEvents(record.rootTaskId)).some(item => item.id === eventId && (item.event.type === "AVAILABILITY_REFRESH_REQUESTED" || item.event.type === "CANDIDATE_FACTS_REFRESH_REQUESTED"))) return this.project(record);
     if (snapshot.domainState.pageQuestion && !snapshot.domainState.pageQuestion.result) throw new Error("Finish or cancel the current restaurant question first");
-    const candidateIds = snapshot.domainState.presentedResults?.candidateIds;
+    const retryIds = failedSourceRetryCandidateIds(snapshot.domainState, this.clock.now().toISOString());
+    const candidateIds = retryIds.length ? retryIds : snapshot.domainState.presentedResults?.candidateIds;
     if (!candidateIds?.length) throw new Error("Refresh requires currently presented read-only results");
     const candidateIdsWithDisplayedSlots = candidateIds.filter((candidateId) =>
       (snapshot.domainState.availability[candidateId]?.length ?? 0) > 0 || snapshot.domainState.availabilityChecks[candidateId]?.status === "AVAILABLE",
@@ -726,10 +733,10 @@ export class PersistentRestaurantAgentApplication {
     // live slot is an inventory claim and must be refreshed as inventory.
     // Other shown recommendation candidates retain their ordinary bounded fact
     // refresh rather than forcing an availability read without visit inputs.
-    const refreshSlots = candidateIdsWithDisplayedSlots.length > 0;
+    const refreshSlots = retryIds.length > 0 || candidateIdsWithDisplayedSlots.length > 0;
     await this.runtime.dispatch(
       this.userEvent(snapshot, input.requestId, refreshSlots
-        ? { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: candidateIdsWithDisplayedSlots }
+        ? { type: "AVAILABILITY_REFRESH_REQUESTED", candidateIds: retryIds.length ? retryIds : candidateIdsWithDisplayedSlots }
         : { type: "CANDIDATE_FACTS_REFRESH_REQUESTED", candidateIds: [...candidateIds] }),
       input.expectedVersion,
     );
@@ -1138,7 +1145,7 @@ export class PersistentRestaurantAgentApplication {
       case: summary,
       conversation: { id: record.id, messages },
       restaurant: {
-        ...projectWorkspaceRead({ state, events, readyCandidateIds, active: this.activeReads.has(record.rootTaskId) }),
+        ...projectWorkspaceRead({ state, events, readyCandidateIds, active: this.activeReads.has(record.rootTaskId), now: this.clock.now().toISOString() }),
         ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
         ...(state.searchContinuation?.locationContext ? { searchLocation: structuredClone(state.searchContinuation.locationContext) } : {}),
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),

@@ -1,7 +1,7 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.23
+- Document revision: 0.24
 - Last updated: 2026-10-30
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -68,7 +68,7 @@ Praxis第一版是一个面向在日外国人的Responsive English Web Agent，�
 14. 首家合格候选就绪后自动显示，其余逐家出现；只展示流程实际知道的进度数值，不编造百分比。前端第一段已复核并快进合main4cbc521b，本地Fixture及视觉证据见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)；不代表Live或Pilot验收。
 15. SSE按ID局部更新，保留当前卡片、未发送输入和展开状态；消息携带服务端校验后的当前查看上下文，用于理解`this one`等指代。
 16. Conversation、解释文本、模型Working Plan和前端查看状态不作为权威预约状态；事实和业务动作仍从服务端Domain/Application及Runtime投影。
-17. 前端第2段由视图确定唯一输入框的路由：详情问当前店，候选/对话调整需求；已问记录按店展示。可点条件只预填需求输入；候选变化及不匹配备选原因来自服务端投影，未知不编。批末收尾与准确的短错误状态见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)，当前工作分支局部实现，空结果续查准入未开放，整段未验收。
+17. 前端第2段由视图确定唯一输入框的路由：详情问当前店，候选/对话调整需求；已问记录按店展示。可点条件只预填需求输入；候选变化及不匹配备选原因来自服务端投影，未知不编。空结果只在服务端证明仍有未查工作时提供Find more；已失败/不合格对象不再调查。全部来源失败的Try again走显式刷新，不能伪装为续查。工作分支实现与短状态验收见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)，不代表Live或Pilot。
 
 预算作为候选条件展示：明确每人上限属于 HARD，须有适用餐期的当前价格依据才可交付；超出或价格未知的门店不能作为合格结果。around/ideally 等 SOFT 预算保留其强度和比较含义，核对不满足或未核对时透明展示。条件行提供真实价格原文及来源，不把已列出的课程价格宣称为该课程已有空位。
 
@@ -144,7 +144,7 @@ After results are displayed, ask through the question field on one restaurant ca
 
 The answer panel shows one short answer, verbatim source quotations in their original language, source URLs and read times. `NOT_STATED` shows “Not stated on the page” and the pages actually checked. Sensitive categories or model-reported source contradictions add “Please confirm with the restaurant”; unverified answers are discarded. This does not establish HARD satisfaction, reception policy or availability.
 
-Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
+Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. At G1 integration, State24/TaskDefinition22 were unchanged; old State23 tasks are not silently migrated or reset.
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
 

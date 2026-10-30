@@ -6,6 +6,7 @@ import { assessRestaurantConditions, priceCondition } from "../domains/restauran
 import { restaurantCurrentFactEvidence } from "../domains/restaurant/read-assessment.js";
 import type { RestaurantWorkspaceReadProjection, WorkspaceCandidateChangeReason } from "./agent-workspace.js";
 import type { RestaurantPageQuestionState } from "../domains/restaurant/page-question.js";
+import { allRestaurantSourcesFailed, canContinueRestaurantRead, failedSourceRetryCandidateIds } from "../domains/restaurant/read-continuation.js";
 
 /** Read-only Case projection from its existing authoritative events. No model,
  * storage, new event or old availability is used as a current qualification. */
@@ -14,6 +15,7 @@ export function projectWorkspaceRead(input: {
   events: readonly RecordedEventEnvelope<RestaurantEvent>[];
   readyCandidateIds: readonly string[];
   active: boolean;
+  now: string;
 }): RestaurantWorkspaceReadProjection {
   const { state, readyCandidateIds } = input;
   const groups: Array<{ revision: number; draft: RestaurantIntentDraft | undefined; presented: Set<string>; events: RestaurantEvent[] }> = [];
@@ -72,17 +74,13 @@ export function projectWorkspaceRead(input: {
   } : undefined;
   const attempts = [...Object.values(state.availabilityChecks).flatMap(check => check.sourceAttempts ?? []),
     ...Object.values(state.factChecks ?? {}).flatMap(check => check.sourceAttempts ?? [])];
-  const failedAttempts = attempts.filter(attempt => attempt.outcome === "FAILED");
-  const allCandidatesChecked = state.candidates.every(candidate => state.availabilityChecks[candidate.restaurant.id] || state.factChecks?.[candidate.restaurant.id]);
-  const successfulCheck = Object.values(state.availabilityChecks).some(check => check.status === "AVAILABLE" || check.status === "UNAVAILABLE")
-    || Object.values(state.factChecks ?? {}).some(check => check.status === "COMPLETED");
   const unchecked = attempts.some(attempt => ["FAILED", "UNKNOWN", "SOURCE_UNSUPPORTED"].includes(attempt.outcome));
   const interpretation = group.events.findLast(event => event.type === "SEMANTIC_INTERPRETATION_FAILED" || event.type === "SEMANTIC_PROPOSAL_COMPILED");
   const modelFailed = interpretation?.type === "SEMANTIC_INTERPRETATION_FAILED" && interpretation.status === "MODEL_FAILURE";
   const kind = modelFailed ? "MODEL_FAILURE" : ready.size ? "RESULTS" : input.active ? "PENDING"
-    : finished && !successfulCheck && allCandidatesChecked && failedAttempts.length > 0 && failedAttempts.length === attempts.length ? "ALL_SOURCES_FAILED"
+    : finished && allRestaurantSourcesFailed(state) ? "ALL_SOURCES_FAILED"
     : state.phase === "NO_VERIFIED_RESULT" ? "NO_QUALIFIED_RESULTS" : state.phase === "FAILED" ? "OTHER_FAILURE" : "PENDING";
   return { requirementRevision: group.revision, questionHistory: [...completedQuestions.values()].reverse(), savedCandidates, ...(revisionDiff ? { revisionDiff } : {}),
     readStatus: { kind, partialSourceFailure: ready.size > 0 && unchecked,
-      canFindMore: state.phase === "PRESENT_RESULTS" && !!state.presentedResults?.candidateIds.length && !(state.pageQuestion && !state.pageQuestion.result) } };
+      canContinue: !input.active && canContinueRestaurantRead(state, input.now), canRetry: !input.active && failedSourceRetryCandidateIds(state, input.now).length > 0 } };
 }

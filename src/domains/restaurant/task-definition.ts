@@ -27,6 +27,7 @@ import { restaurantIntentPatchHasChanges } from "./semantic-compiler.js";
 import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "./read-assessment.js";
 import { defaultBatchDeliveryCandidateIds, validateRestaurantAction } from "./action-validator.js";
 import { restaurantReadStopIsSystem, restaurantUnverifiedReadSummary } from "./read-loop-termination.js";
+import { canContinueRestaurantRead, failedSourceRetryCandidateIds } from "./read-continuation.js";
 
 function requirePhase(state: Readonly<RestaurantTaskState>, allowed: RestaurantPhase[], eventType: string) {
   if (!allowed.includes(state.phase)) {
@@ -546,14 +547,15 @@ function transition(
       };
     }
     case "AVAILABILITY_REFRESH_REQUESTED": {
-      requirePhase(state, ["PRESENT_RESULTS"], event.type);
-      if (!state.presentedResults || event.candidateIds.length === 0 || new Set(event.candidateIds).size !== event.candidateIds.length) {
+      requirePhase(state, ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"], event.type);
+      const allowedIds = state.phase === "NO_VERIFIED_RESULT" ? failedSourceRetryCandidateIds(state, context.now) : state.presentedResults?.candidateIds ?? [];
+      if (!allowedIds.length || event.candidateIds.length === 0 || new Set(event.candidateIds).size !== event.candidateIds.length) {
         throw new Error("Availability refresh requires unique previously presented candidates");
       }
-      if (!event.candidateIds.every((candidateId) => state.presentedResults!.candidateIds.includes(candidateId))) {
+      if (!event.candidateIds.every((candidateId) => allowedIds.includes(candidateId))) {
         throw new Error("Availability refresh is limited to previously presented candidates");
       }
-      const { presentedResults: _presentedResults, failure: _failure, readEndWindow: _readEndWindow, ...remaining } = state;
+      const { presentedResults: _presentedResults, failure: _failure, readEndWindow: _readEndWindow, noVerifiedResult: _noResult, ...remaining } = state;
       return {
         state: { ...remaining, phase: "SEARCHING", refreshRequestedCandidateIds: [...event.candidateIds] },
         commands: [],
@@ -645,7 +647,7 @@ function transition(
       if (event.candidateIds.some(id => restaurantPresentationEvidenceIds(state, id, context.now)?.some(required => !citedEvidence.has(required)))) {
         throw new Error("Results presentation omitted current required evidence citations");
       }
-      const { pendingResultBatchTarget: _pendingResultBatchTarget, defaultBatchDeliveryWindow: _defaultBatchDeliveryWindow, ...remaining } = state;
+      const { pendingResultBatchTarget: _pendingResultBatchTarget, defaultBatchDeliveryWindow: _defaultBatchDeliveryWindow, noVerifiedResult: _noResult, ...remaining } = state;
       const resultBatchTarget = state.pendingResultBatchTarget === undefined
         ? undefined
         : { candidateCount: state.pendingResultBatchTarget, met: event.candidateIds.length === state.pendingResultBatchTarget };
@@ -666,14 +668,15 @@ function transition(
       };
     }
     case "NEXT_BATCH_REPLENISHMENT_REQUESTED": {
-      requirePhase(state, ["PRESENT_RESULTS"], event.type);
+      requirePhase(state, ["PRESENT_RESULTS", "NO_VERIFIED_RESULT"], event.type);
       if (!Number.isSafeInteger(event.targetCandidateCount) || event.targetCandidateCount < 1 || event.targetCandidateCount > 3) {
         throw new Error("A requested next result batch must have a bounded target of one to three candidates");
       }
-      if (!state.presentedResults?.candidateIds.length) throw new Error("Another result batch requires an existing presented batch");
+      if (state.phase === "NO_VERIFIED_RESULT" ? !canContinueRestaurantRead(state, context.now) : !state.presentedResults?.candidateIds.length) throw new Error("Another result batch requires presented results or proven unread work");
+      const { readEndWindow: _end, defaultBatchDeliveryWindow: _delivery, failure: _failure, ...remaining } = state;
       return {
         state: {
-          ...state,
+          ...remaining,
           phase: "SEARCHING",
           pendingResultBatchTarget: event.targetCandidateCount,
         },
@@ -846,7 +849,7 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "22",
+  version: "23",
   create() {
     return {
       schemaVersion: "24",

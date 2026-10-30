@@ -1,7 +1,7 @@
 # Agent Gateway and Workspace
 
 - Status: Accepted
-- Document revision: 0.9
+- Document revision: 0.10
 - Last updated: 2026-10-30
 - Source of truth for: Web/Mobile Web入口、Conversation/Session/Case边界、用户可见Activity与Domain Workspace
 - Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -134,7 +134,7 @@ After results are displayed, the main composer in DETAILS calls the existing que
 
 The answer panel shows one short answer, verbatim source quotations in their original language, source URLs and read times. `NOT_STATED` shows “Not stated on the page” and the pages actually checked. Sensitive categories add “Please confirm with the restaurant”; unverified answers are discarded. This does not establish HARD satisfaction, reception policy or availability.
 
-Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
+Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. At G1 integration, State24/TaskDefinition22 were unchanged; old State23 tasks are not silently migrated or reset.
 
 This slice has offline fixture and local Chromium evidence only. Real-model answer faithfulness, sensitivity classification and “not stated” accuracy await the independently scored G1 evaluation; no Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
 
@@ -144,4 +144,6 @@ Case project复用已读取的同一用户/Case事件，不新增表、State字�
 
 移除原因枚举为OVER_BUDGET、NEW_TIME_MISMATCH、NO_LONGER_MATCHES。预算/时段须有当前结构化判定，其他只能通用原因，不解析助手或Activity文本。questionHistory由PAGE_QUESTION_REQUESTED/COMPLETED按requestId、readRunId、candidateId绑定恢复，完成事件逆序；原引文/敏感标记、G1执行入口和20问限制不改。
 
-readStatus区分已有结果、无合格结果、明确的全部来源失败、语义MODEL_FAILURE及其他故障。全部失败须有显式失败尝试、候选均已检查且无成功检查；UNKNOWN、正常无位或缺少attempts细节的成功检查不冒充来源失败。canFindMore反映真实准入，当前空结果仍false，后端扩展待用户决定。实现与停止点见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
+readStatus区分已有结果、无合格结果、明确的全部来源失败、语义MODEL_FAILURE及其他故障。全部失败须逐店有非空的显式失败尝试且无成功检查；UNKNOWN、正常无位、未查或缺少attempt细节不冒充来源失败。按用户2026-10-30批准，TaskDefinition22→23，State24形状不变：NO_VERIFIED_RESULT可经NEXT_BATCH_REPLENISHMENT_REQUESTED回到SEARCHING，但服务端canContinue必须证明必要条件齐全、池内有未调查对象或已有匹配条件的观察游标/发现计划仍有未查工作。保留旧检查和游标，不重置来源计划；已有失败/不合格对象在Context及Validator中排除，模型不能改写这个边界。前端只消费canContinue，不自行推断。
+
+全部来源失败不走another-batch；服务端canRetry允许原refresh通过AVAILABILITY_REFRESH_REQUESTED显式重查全部已确认失败的候选，保留原有展示结果刷新，不运行语义。两个入口均先核对归属，requestId重交不再读取，其他请求仍核对版本；沿用原有界读取、Stop、迟到丢弃和预算。只清除上一轮收尾窗口，不清空检查/备选或新增条件修改事件。实现与验证见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
