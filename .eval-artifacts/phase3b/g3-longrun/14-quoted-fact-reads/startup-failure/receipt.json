@@ -1,0 +1,56 @@
+{
+  "commit": "7455fc16ceebe03ccca3218d22b1c42d3a8f30c2",
+  "phase": "green",
+  "runs": [
+    {
+      "name": "targets",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/restaurant-facts/model-source-facts.test.ts",
+        "src/integrations/restaurant-facts/quoted-fact-read.test.ts",
+        "src/integrations/restaurant-facts/google-listed-website-facts.test.ts"
+      ],
+      "exitCode": 1,
+      "timedOut": false,
+      "seconds": 0.216323125,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "legacy",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g3-longrun/11-price-applicability/compare-legacy.ts",
+        "/private/tmp/praxis-g3-quoted-green1-20261029/legacy-state-changes.json"
+      ],
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 0.161566084,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "exitCode": 1,
+      "timedOut": false,
+      "seconds": 0.16114791699999997,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

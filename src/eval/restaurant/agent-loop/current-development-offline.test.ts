@@ -6,7 +6,7 @@ import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/mo
 import { evaluateRestaurantHybridLiveArtifact } from "./diagnostic-evaluator.js";
 import { createHybridReadComposition } from "./hybrid-read-composition.js";
 import { HIGASHI_GINZA_EVALUATION_LOCATION } from "./live-evaluation-location.js";
-import { createCurrentDevelopmentFixedSources } from "./current-development-fixed-sources.js";
+import { createCurrentDevelopmentFixedSources, scriptedSourceFacts, scriptedOmakaseJudgment } from "./current-development-fixed-sources.js";
 import { currentDevelopmentSourceScenario } from "./current-development-source-scenarios.js";
 import { assessFixedSourceAcceptance } from "./fixed-source-acceptance.js";
 import { executeFixedSourceCase } from "./fixed-source-case-execution.js";
@@ -50,7 +50,7 @@ const PLANS: readonly Plan[] = [
       { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Shibuya" } },
       { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "omakase", polarity: "POSITIVE", strength: "HARD" } },
     ],
-    actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"], candidateBatchSize: 3,
+    actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"], candidateBatchSize: 3,
   },
   {
     id: "h002", referenceTime: "2026-08-19T16:22:00+08:00",
@@ -159,7 +159,7 @@ const EXPLICIT_TWO_OMAKASE_PLAN: Plan = {
     { field: "AREA", operation: "ASSERT", value: { kind: "AREA", query: "near Shibuya" } },
     { field: "CRITERION", operation: "ASSERT", value: { kind: "CRITERION", text: "omakase", polarity: "POSITIVE", strength: "HARD" } },
   ],
-  actions: ["SEARCH_RESTAURANTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
+  actions: ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"],
 };
 
 function modelResponse(outputText: string, invocationId: string): ModelResponse {
@@ -178,12 +178,14 @@ class FixedCurrentCaseModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
+    if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if(request.purpose==='restaurant_discovery_retrieval')return this.plan.retrievalChoice==='GENERAL'?modelResponse(JSON.stringify({choice:'GENERAL',keyword:'',criterionRef:'',generalRef:JSON.parse(request.messages.find(m=>m.role==='user')!.content).observation?.generalLists[0]?.ref??'',categoryUrl:'',reason:'Controlled general source retrieval, not a quality oracle'}),'fixture-retrieval'):scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       assert.ok(request.messages.some((message) => message.content.includes(this.rawContent)), "semantic model must receive the exact frozen user message");
       return modelResponse(JSON.stringify({ schemaVersion: "4", facts: this.plan.facts }), `semantic:${this.plan.id}`);
     }
     if (request.purpose === "restaurant_fact_judgment") {
+      if (!this.plan.factJudgments) return scriptedOmakaseJudgment(request);
       const payload = JSON.parse(request.messages.find((message) => message.role === "user")!.content) as {
         observations?: Array<{ evidenceId?: string }>;
       };
@@ -232,6 +234,7 @@ class TwoTurnStrengthUpgradeModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
+    if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
       this.semanticTurn += 1;
@@ -420,7 +423,7 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
       assert.equal(sources.calls.facts, 3); assert.equal(sources.calls.availability, 0);
       assert.equal(loop.status, "TERMINAL"); assert.equal(state.phase, "PRESENT_RESULTS");
     } else {
-      assert.equal(sources.calls.facts, ["h002", "h005"].includes(plan.id) ? 3 : 0);
+      assert.equal(sources.calls.facts, ["h001", "h002", "h005"].includes(plan.id) ? 3 : 0);
       assert.equal(sources.calls.availability, 3);
     }
     if (plan.id !== "h004" && plan.id !== "h005") {

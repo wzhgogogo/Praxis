@@ -1,0 +1,11 @@
+--- a/src/integrations/tabelog/tabelog-browser-availability.test.ts
++++ b/src/integrations/tabelog/tabelog-browser-availability.test.ts
+@@ -6,7 +6,7 @@
+     const session = new FixtureBrowserSession([
+       { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201%20Tokyo", title: "search", text: "No restaurants were found that match your search criteria", html: "" },
+       { url: "https://tabelog.com/en/rstLst/?sw=Restaurant%201", title: "search", text: "Restaurant 1", html: '<a class="list-rst__rst-name-target" href="https://tabelog.com/tokyo/A1304/A130401/123/">Restaurant 1</a>' },
+-      { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数", html: `<a href="tel:${matchingPhone ? "03-1111-2222" : "03-9999-8888"}">Call</a><select name="party"></select><select name="date"></select><button class="slot is-available" data-time="19:00">19:00</button>` },
++      { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Restaurant 1", text: "予約 人数", html: `<a href="tel:${matchingPhone ? "03-1111-2222" : "03-9999-8888"}">Call</a><select name="party"></select><select name="date"></select><button class="slot is-available" data-time="19:00">19:00</button>` , responses: [{ url: "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=123&svd=20260805&svps=2", status: 200, sequence: 1, observedAt: "2026-08-05T09:00:00Z", body: { base_date: { year: 2026, month: 8, day: 5 }, members: 2, selection: [{ time: "19:00", url: "/en/booking/form_course/new?rcd=123&member=2&visit_date=20260805&visit_time=1900" }] } }] },
+     ]);
+     const result = await new TabelogBrowserAvailability({ openSession: async () => session }, undefined, 5, {
+       onIdentityDiagnostic: diagnostic => { identity = diagnostic; },

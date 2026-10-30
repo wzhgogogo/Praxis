@@ -1,3 +1,4 @@
+import { quotedPriceApplicability } from "./quoted-price-applicability.js";
 import policy from "./condition-policy.json" with { type: "json" };
 import type { RestaurantReadEvidence, RestaurantSearchIntent, RestaurantSourceFieldQuote } from "./contracts.js";
 import type { RestaurantQuotedCoursePrice } from "./price-facts.js";
@@ -27,7 +28,7 @@ export function priceCondition(text: string, budget?: RestaurantSearchIntent["bu
   return { amount, around: /around|about|approximately|approx\.?|約/.test(value) };
 }
 
-export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, "criteria" | "budgetPerPerson" | "timeWindow">,
+export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, "criteria" | "budgetPerPerson" | "timeWindow" | "date" | "partySize">,
   facts: readonly RestaurantReadEvidence[]): RestaurantConditionState[] {
   if (policy.status !== "USER_APPROVED" || !(policy.aroundPriceTolerance >= 0 && policy.aroundPriceTolerance < 1)) throw Error("Unapproved restaurant price policy");
   const meal = intent.timeWindow?.earliest && intent.timeWindow.earliest >= "17:00" ? "DINNER"
@@ -46,13 +47,14 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
     if (price) {
       const observations = facts.filter(fact => fact.provider !== "MODEL_JUDGMENT" && fact.priceFacts?.schemaVersion === "restaurant-price-facts@1").flatMap(fact => {
         const prices = fact.priceFacts!;
-        const courses = prices.listedCoursePricesYen.filter(item => item.kind === "MEAL" && (item.meal === "UNSPECIFIED" || !meal || item.meal === meal));
+        const courses = prices.listedCoursePricesYen.filter(item => item.kind === "MEAL" && (item.meal === "UNSPECIFIED" || item.meal === meal));
         const range = meal === "DINNER" ? prices.dinnerBudgetRangeYen : meal === "LUNCH" ? prices.lunchBudgetRangeYen : undefined;
         return [...courses.map(item => ({ min: item.amount, max: item.amount, quote: item.quote, sourceUrl: item.sourceUrl, tax: item.tax })), ...(range ? [{ ...range, tax: "UNSPECIFIED" }] : [])]
+          .filter(item => quotedPriceApplicability(item.quote, {date:intent.date,partySize:intent.partySize,...(meal ? {meal} : {})}).status === "APPLICABLE")
           .filter(item => item.sourceUrl === fact.sourceUrl && item.quote && Number.isSafeInteger(item.min) && Number.isSafeInteger(item.max) && item.min > 0 && item.max >= item.min)
           .map(item => ({ ...item, evidenceId: fact.evidenceId }));
       });
-      if (!observations.length) return { ...base, explanation: "No applicable meal price was recorded; add-ons and lunch-only prices do not establish a dinner budget." };
+      if (!observations.length) return { ...base, explanation: "No applicable meal price was recorded; add-ons, mismatched meal/party/date conditions and unverified restrictions do not establish this budget." };
       const low = price.around ? price.amount * (1 - policy.aroundPriceTolerance) : 0;
       const high = price.around ? price.amount * (1 + policy.aroundPriceTolerance) : price.amount;
       let status: RestaurantConditionStatus = observations.some(item => item.min <= high && item.max >= low) ? "MET" : "NOT_MET";

@@ -1,0 +1,31 @@
+
+> praxis-zhixing@0.1.0 test:dom-change
+> node --import ./scripts/test-filesystem-guard.mjs --import tsx --test --test-concurrency=1 src/harness/browser/dom-change*.test.ts
+
+✔ G2 constructed normal control uses observed labels after every private marker changes (3799.597375ms)
+✔ G2 extends the F3 class-only mutation to every id and private data attribute (121.19875ms)
+✔ G2 rule two rewrites all bound ID references, leaves dangling/script references and preserves CSS (128.118958ms)
+✖ G2 saved pages preserve the frozen reference capability and reject new false claims (15896.444458ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20810.796583
+
+✖ failing tests:
+
+test at src/harness/browser/dom-change.test.ts:1:255
+✖ G2 saved pages preserve the frozen reference capability and reject new false claims (15896.444458ms)
+  AssertionError [ERR_ASSERTION]: tabelog-list-nerima: G3 requires PASS; current baseline only admits the same honest loss
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/dom-change.test.ts:24:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

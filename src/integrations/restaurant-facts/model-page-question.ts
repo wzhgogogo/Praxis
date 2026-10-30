@@ -1,3 +1,4 @@
+import { isRestaurantFactPageBound } from "./fact-page-binding.js";
 import type { ModelGateway, ModelUsage } from "../../core/model/contracts.js";
 import {
   createRestaurantFactSourceDocument, selectRestaurantFactStatements,
@@ -81,19 +82,10 @@ export class ModelRestaurantPageQuestion {
       ({ status: "UNVERIFIED", candidateId, reason, checkedPages, ...(modelUsage ? { modelUsage } : {}) });
     if (!input.question.trim() || !candidateId || !input.readContext.runId || !Number.isFinite(started)
       || !Number.isFinite(now) || started > now || !httpUrl(input.displayedOutlet.sourceUrl)) return reject("INVALID_QUESTION");
-    const bound = (page: RestaurantFactPageObservation): boolean => {
-      const identity = page.identity;
-      const readAt = Date.parse(page.observedAt), identityAt = Date.parse(identity.observedAt);
-      return page.candidateId === candidateId && identity.candidateId === candidateId
-        && page.readRunId === input.readContext.runId && page.requestedSourceUrl === input.displayedOutlet.sourceUrl
-        && identity.kind === "ENTITY_MATCH" && identity.entityMatch?.confidence === "HIGH"
-        && ["TABELOG", "TABLECHECK", "RESTAURANT_WEBSITE"].includes(identity.provider)
-        && !!identity.sourceEntityId && !!identity.evidenceId
-        && identity.sourceUrl === page.snapshot.url && httpUrl(page.snapshot.url)
-        && typeof identity.claims.outletName === "string" && !!identity.claims.outletName.trim()
-        && Number.isFinite(identityAt) && identityAt >= started && identityAt <= readAt
-        && Number.isFinite(readAt) && readAt >= started && readAt <= Date.parse(this.now());
-    };
+    const bound = (page: RestaurantFactPageObservation): boolean => isRestaurantFactPageBound(page, {
+      candidateId, sourceUrl: input.displayedOutlet.sourceUrl, readRunId: input.readContext.runId,
+      startedAt: input.readContext.startedAt,
+    }, this.now());
     let pages = input.cachedPages.filter(bound);
     if (!pages.length && this.readPages) {
       pages = (await this.readPages(input, signal)).filter(bound);

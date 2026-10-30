@@ -25,7 +25,7 @@ export interface BrowserExecutionDiagnostic {
     | "OPERATION_STARTED" | "OPERATION_FINISHED" | "OPERATION_FAILED"
     | "MODEL_DECISION_STARTED" | "MODEL_DECISION_FINISHED" | "MODEL_DECISION_FAILED"
     | "BUDGET_EXHAUSTED"
-    | "OBSERVED" | "SKILL_STARTED" | "METHOD_INCOMPLETE" | "MODEL_WIRE" | "MODEL_ACTION" | "MODEL_STOP" | "ASYNC_WAIT" | "POST_ACTION_VERIFIED" | "REJECTED" | "CLOSED";
+    | "OBSERVED" | "SKILL_STARTED" | "METHOD_INCOMPLETE" | "SOURCE_STRUCTURE_CHANGED" | "MODEL_WIRE" | "MODEL_ACTION" | "MODEL_STOP" | "ASYNC_WAIT" | "POST_ACTION_VERIFIED" | "REJECTED" | "CLOSED";
   elapsedMs: number;
   effectiveLimits?: BrowserReadLimits;
   /** Executor lifecycle accounting. `FINISHED` means the scope returned to its adapter, not an availability assertion. */
@@ -324,6 +324,16 @@ export class BrowserTaskExecutor {
   /** Adapters finish their own source attempt; this never asserts an availability result. */
   endProvider(outcome: "FINISHED" | "FAILED" | "ABANDONED" = "FINISHED", reason: BrowserExecutionReason = "ADAPTER_RETURNED"): void {
     this.finishProvider(outcome, reason);
+  }
+
+  /** A source validator reports required field/types only, never response values. */
+  reportSourceStructureChanged(input: Pick<BrowserSkillReadInput, "source" | "stage"> & {
+    url: string; observedAt: string; issue: { field: string; expected: string; actual: string };
+  }): void {
+    const page = URL.parse(input.url), observedAt = Date.parse(input.observedAt);
+    this.record({ source: input.source, stage: input.stage, event: "SOURCE_STRUCTURE_CHANGED",
+      ...(page ? { url: page.origin + page.pathname } : {}),
+      detail: JSON.stringify({ ...(Number.isFinite(observedAt) ? { observedAt: new Date(observedAt).toISOString() } : {}), ...input.issue }) });
   }
 
   private networkPolicy: BrowserReadNetworkPolicy | undefined;
@@ -1359,6 +1369,20 @@ export class BrowserTaskExecutor {
       }
       throw failure;
     }
+  }
+
+  /** Shared page-fact model work consumes the existing source/candidate/run budgets. */
+  async readModel<Value>(signal: AbortSignal, work: () => Promise<Value>): Promise<Value> {
+    this.assertActive(signal);
+    if (this.budget.totalModelCalls >= Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity)) {
+      throw new BrowserRuntimeError("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED", "Shared browser-model budget exhausted");
+    }
+    if (this.modelCalls >= this.options.maxModelCallsPerCandidate) {
+      throw new BrowserRuntimeError("BROWSER_CANDIDATE_MODEL_BUDGET_EXCEEDED", "Candidate browser-model budget exhausted");
+    }
+    if (this.remaining(1) <= 0) throw this.timeoutError("SOURCE_FACT_MODEL");
+    this.modelCalls++; this.budget.totalModelCalls++;
+    return this.bounded({signal}, "SOURCE_FACT_MODEL", work);
   }
 
   /**

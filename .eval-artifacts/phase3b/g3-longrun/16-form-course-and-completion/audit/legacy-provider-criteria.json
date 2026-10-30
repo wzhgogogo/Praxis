@@ -1,0 +1,18 @@
+{
+  "mode": "STATIC_PRODUCTION_CALL_CHAIN_AUDIT",
+  "atCET": "2026-10-30T07:27:09.079582+01:00",
+  "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+  "groundingProductionCallers": [
+    "TabelogBrowserAvailability.ground -> tabelogDiscoveryPack.availability.ground -> groundTabelogAvailability -> groundProviderAvailability",
+    "TableCheckBrowserAvailability.ground -> tableCheckDiscoveryPack.availability.ground -> groundTableCheckAvailability -> groundProviderAvailability"
+  ],
+  "nonemptyProviderObservationCriterionProducers": [],
+  "remainingPassThrough": [
+    "src/integrations/tabelog/tabelog-contracts.ts:152",
+    "src/integrations/tablecheck/tablecheck-contracts.ts:83",
+    "src/integrations/tabelog/tabelog-browser-availability.ts:712",
+    "src/integrations/tablecheck/tablecheck-browser-availability.ts:1022"
+  ],
+  "remainingLegacyProjection": "src/domains/restaurant/read-grounding.ts:540-561",
+  "followUp": "Remove unused provider-observation optional criterion fields/pass-through and legacy criterion-to-matchReasons projection together with corresponding old direct-construction tests; preserve the live stock/identity/price/quote grounding and legitimate Google/Source2 MODEL_JUDGMENT criterion claims. No cleanup implemented in this batch."
+}

@@ -1,0 +1,292 @@
+TAP version 13
+# Subtest: production composition shares one literal-fragment model proposal across both source searches
+ok 1 - production composition shares one literal-fragment model proposal across both source searches
+  ---
+  duration_ms: 11.135917
+  type: 'test'
+  ...
+# Subtest: Live browser composition keeps TableCheck then Tabelog in one session and closes it after the chain
+ok 2 - Live browser composition keeps TableCheck then Tabelog in one session and closes it after the chain
+  ---
+  duration_ms: 3.124541
+  type: 'test'
+  ...
+# Subtest: Live composition reuses a source-observed Hajime entrance across candidate batches, but re-identifies it
+ok 3 - Live composition reuses a source-observed Hajime entrance across candidate batches, but re-identifies it
+  ---
+  duration_ms: 15.745125
+  type: 'test'
+  ...
+# Subtest: Live composition clears observed TableCheck entrances when a read run ends
+ok 4 - Live composition clears observed TableCheck entrances when a read run ends
+  ---
+  duration_ms: 1.096875
+  type: 'test'
+  ...
+# Subtest: captured kf-h001 Sen after selecting the date still has no slot result and remains EXTRACTION_FAILED
+ok 5 - captured kf-h001 Sen after selecting the date still has no slot result and remains EXTRACTION_FAILED
+  ---
+  duration_ms: 71.529583
+  type: 'test'
+  ...
+# Subtest: three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity
+ok 6 - three recorded Tabelog busy pages remain source-busy UNKNOWN after one waited retry, before identity
+  ---
+  duration_ms: 3009.555166
+  type: 'test'
+  ...
+# Subtest: Tabelog busy retry can recover a known feasible control without bypassing identity
+ok 7 - Tabelog busy retry can recover a known feasible control without bypassing identity
+  ---
+  duration_ms: 2012.93825
+  type: 'test'
+  ...
+# Subtest: Tabelog source-busy delay cannot reset or outrun the existing provider deadline
+ok 8 - Tabelog source-busy delay cannot reset or outrun the existing provider deadline
+  ---
+  duration_ms: 252.883875
+  type: 'test'
+  ...
+# Subtest: Tabelog entity resolver is outlet-safe and rejects ambiguous branch matches
+ok 9 - Tabelog entity resolver is outlet-safe and rejects ambiguous branch matches
+  ---
+  duration_ms: 0.460125
+  type: 'test'
+  ...
+# Subtest: Tabelog accepts complete reordered address components but rejects an incomplete source address
+ok 10 - Tabelog accepts complete reordered address components but rejects an incomplete source address
+  ---
+  duration_ms: 0.192916
+  type: 'test'
+  ...
+# Subtest: Tabelog does not turn identical but insufficient abbreviated addresses into outlet proof
+ok 11 - Tabelog does not turn identical but insufficient abbreviated addresses into outlet proof
+  ---
+  duration_ms: 0.140666
+  type: 'test'
+  ...
+# Subtest: Tabelog entity inspection retains phone conflict diagnostics without rejecting complete same-outlet proof
+ok 12 - Tabelog entity inspection retains phone conflict diagnostics without rejecting complete same-outlet proof
+  ---
+  duration_ms: 0.177917
+  type: 'test'
+  ...
+# Subtest: Tabelog blocks HIGH identity for a stated floor conflict or a shared phone at a distinct branch
+ok 13 - Tabelog blocks HIGH identity for a stated floor conflict or a shared phone at a distinct branch
+  ---
+  duration_ms: 0.267333
+  type: 'test'
+  ...
+# Subtest: Tabelog shares the Japanese basement and Latin B1F identity normalization
+ok 14 - Tabelog shares the Japanese basement and Latin B1F identity normalization
+  ---
+  duration_ms: 0.751833
+  type: 'test'
+  ...
+# Subtest: Tabelog relative search links are enriched with page identity before an exact phone creates a HIGH outlet match
+ok 15 - Tabelog relative search links are enriched with page identity before an exact phone creates a HIGH outlet match
+  ---
+  duration_ms: 1.545916
+  type: 'test'
+  ...
+# Subtest: Tabelog parser reports every observed outlet; the native batch owns the detail cap
+ok 16 - Tabelog parser reports every observed outlet; the native batch owns the detail cap
+  ---
+  duration_ms: 0.459875
+  type: 'test'
+  ...
+# Subtest: Tabelog identity parser extracts JSON-LD identity field provenance
+ok 17 - Tabelog identity parser extracts JSON-LD identity field provenance
+  ---
+  duration_ms: 0.101583
+  type: 'test'
+  ...
+# Subtest: Tabelog slot parser ignores prose and class-only controls without a bound response
+ok 18 - Tabelog slot parser ignores prose and class-only controls without a bound response
+  ---
+  duration_ms: 0.069042
+  type: 'test'
+  ...
+# Subtest: Tabelog control restriction is observable but private day states and hidden projections remain unknown
+ok 19 - Tabelog control restriction is observable but private day states and hidden projections remain unknown
+  ---
+  duration_ms: 0.150334
+  type: 'test'
+  ...
+# Subtest: Tabelog executor grounds a deterministic browser observation and never submits
+ok 20 - Tabelog executor grounds a deterministic browser observation and never submits
+  ---
+  duration_ms: 1.047792
+  type: 'test'
+  ...
+# Subtest: Tabelog Tokyo discovery carries MARUNOUCHI BASE into outlet comparison without granting inventory
+ok 21 - Tabelog Tokyo discovery carries MARUNOUCHI BASE into outlet comparison without granting inventory
+  ---
+  duration_ms: 0.608333
+  type: 'test'
+  ...
+# Subtest: Tabelog reads a Google-listed merchant page through the identity gate before a wrong discovery branch
+ok 22 - Tabelog reads a Google-listed merchant page through the identity gate before a wrong discovery branch
+  ---
+  duration_ms: 0.933291
+  type: 'test'
+  ...
+# Subtest: Tabelog native result keeps its observed outlet ID and skips name search without self-matching a phone
+ok 23 - Tabelog native result keeps its observed outlet ID and skips name search without self-matching a phone
+  ---
+  duration_ms: 1.770125
+  type: 'test'
+  ...
+# Subtest: Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby source slot as unavailable
+ok 24 - Tabelog keeps an immediate non-slot UNKNOWN rather than treating a nearby source slot as unavailable
+  ---
+  duration_ms: 0.610459
+  type: 'test'
+  ...
+# Subtest: Tabelog bot challenge and external booking redirect remain non-available results
+ok 25 - Tabelog bot challenge and external booking redirect remain non-available results
+  ---
+  duration_ms: 0.737792
+  type: 'test'
+  ...
+# Subtest: Tabelog recovers one challenged canonical page through an observed alternate-language outlet
+ok 26 - Tabelog recovers one challenged canonical page through an observed alternate-language outlet
+  ---
+  duration_ms: 0.8205
+  type: 'test'
+  ...
+# Subtest: Tabelog rejects a challenged alternate that no longer proves the same outlet and keeps the earlier HIGH identity
+ok 27 - Tabelog rejects a challenged alternate that no longer proves the same outlet and keeps the earlier HIGH identity
+  ---
+  duration_ms: 0.514959
+  type: 'test'
+  ...
+# Subtest: Tabelog pauses a challenged local session for explicit human intervention, then resumes the same page/session without an automated retry
+ok 28 - Tabelog pauses a challenged local session for explicit human intervention, then resumes the same page/session without an automated retry
+  ---
+  duration_ms: 1.0865
+  type: 'test'
+  ...
+# Subtest: Tabelog fails closed when the challenge remains after an explicit resume signal
+ok 29 - Tabelog fails closed when the challenge remains after an explicit resume signal
+  ---
+  duration_ms: 0.307125
+  type: 'test'
+  ...
+# Subtest: Tabelog browser session budget returns UNKNOWN rather than reusing or over-opening a session
+ok 30 - Tabelog browser session budget returns UNKNOWN rather than reusing or over-opening a session
+  ---
+  duration_ms: 0.090625
+  type: 'test'
+  ...
+# Subtest: Tabelog browser startup failure remains observable and is not reported as an entity mismatch
+ok 31 - Tabelog browser startup failure remains observable and is not reported as an entity mismatch
+  ---
+  duration_ms: 0.177791
+  type: 'test'
+  ...
+# Subtest: Tabelog entity failure sends a sanitized search, detail, and comparison diagnostic to the eval sink
+ok 32 - Tabelog entity failure sends a sanitized search, detail, and comparison diagnostic to the eval sink
+  ---
+  duration_ms: 0.505333
+  type: 'test'
+  ...
+# Subtest: Tabelog search challenge records its cause while removing transient challenge tokens
+ok 33 - Tabelog search challenge records its cause while removing transient challenge tokens
+  ---
+  duration_ms: 0.224583
+  type: 'test'
+  ...
+# Subtest: Tabelog external booking detection ignores unrelated links and requires a booking link
+ok 34 - Tabelog external booking detection ignores unrelated links and requires a booking link
+  ---
+  duration_ms: 2.112041
+  type: 'test'
+  ...
+# Subtest: Tabelog captured vacancy binds source merchant, date, party and time rather than visible options
+ok 35 - Tabelog captured vacancy binds source merchant, date, party and time rather than visible options
+  ---
+  duration_ms: 2.058375
+  type: 'test'
+  ...
+# Subtest: Tabelog current public controls confirm selection without private hooks or hidden fields and reject contradictory inventory
+ok 36 - Tabelog current public controls confirm selection without private hooks or hidden fields and reject contradictory inventory
+  ---
+  duration_ms: 0.658542
+  type: 'test'
+  ...
+# Subtest: all 19 saved quick-validation selections match the independent source oracle without fabricating missing responses
+ok 37 - all 19 saved quick-validation selections match the independent source oracle without fabricating missing responses
+  ---
+  duration_ms: 62.165333
+  type: 'test'
+  ...
+# Subtest: Tabelog uses at most one validated Google-name fragment after an empty first screen, with original identity
+ok 38 - Tabelog uses at most one validated Google-name fragment after an empty first screen, with original identity
+  ---
+  duration_ms: 1.264417
+  type: 'test'
+  ...
+# Subtest: Tabelog nonempty wrong first screen uses one alternative only within the shared detail cap
+ok 39 - Tabelog nonempty wrong first screen uses one alternative only within the shared detail cap
+  ---
+  duration_ms: 0.49875
+  type: 'test'
+  ...
+# Subtest: Tabelog prioritizes the closest observed name before the five-detail cap without granting identity
+ok 40 - Tabelog prioritizes the closest observed name before the five-detail cap without granting identity
+  ---
+  duration_ms: 0.811417
+  type: 'test'
+  ...
+# Subtest: detail priority uses observed locality then distance for equal names and preserves unobserved ties
+ok 41 - detail priority uses observed locality then distance for equal names and preserves unobserved ties
+  ---
+  duration_ms: 0.164125
+  type: 'test'
+  ...
+# Subtest: Tabelog applies availability controls on the resolved outlet after inspecting other branches
+ok 42 - Tabelog applies availability controls on the resolved outlet after inspecting other branches
+  ---
+  duration_ms: 0.62725
+  type: 'test'
+  ...
+# Subtest: recorded source price fragments retain exact ranges, course values, tax and quotes
+ok 43 - recorded source price fragments retain exact ranges, course values, tax and quotes
+  ---
+  duration_ms: 2.428958
+  type: 'test'
+  ...
+# Subtest: Tabelog existing read grounds recorded course prices even when inventory is UNKNOWN
+ok 44 - Tabelog existing read grounds recorded course prices even when inventory is UNKNOWN
+  ---
+  duration_ms: 1.830625
+  type: 'test'
+  ...
+# Subtest: Tabelog field quotations retain merchant courses separately from names/reviews and reject neighboring courses
+ok 45 - Tabelog field quotations retain merchant courses separately from names/reviews and reject neighboring courses
+  ---
+  duration_ms: 22.116417
+  type: 'test'
+  ...
+# Subtest: Tabelog field quotations match class tokens with reordered and extra classes without JS hooks
+ok 46 - Tabelog field quotations match class tokens with reordered and extra classes without JS hooks
+  ---
+  duration_ms: 0.216208
+  type: 'test'
+  ...
+# Subtest: bound vacancy collections keep supported clock alternatives and never infer stock from unsupported rows
+ok 47 - bound vacancy collections keep supported clock alternatives and never infer stock from unsupported rows
+  ---
+  duration_ms: 12.401667
+  type: 'test'
+  ...
+1..47
+# tests 47
+# suites 0
+# pass 47
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6271.863

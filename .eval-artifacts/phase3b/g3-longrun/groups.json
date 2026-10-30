@@ -1,0 +1,314 @@
+[
+  {
+    "group": "0 rebase and public-evidence diagnosis",
+    "status": "COMPLETE_REVIEWED_DECISION_RECORDED",
+    "evidence": [
+      "preflight.json",
+      "calendar-observability.json",
+      "../../../../docs/decisions/0048-tabelog-calendar-response-evidence.md"
+    ],
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "01 latest audited vacancy response / structure drift",
+    "obs": [
+      "18"
+    ],
+    "status": "COMPLETE_SLICE_NOT_FULL_SLOT_RETIREMENT",
+    "commit": "da0546fb",
+    "report": "01-vacancy-responses/report.md",
+    "gates": "PASS1210/176",
+    "red": "native7 + Chromium1",
+    "green": "native7 + Chromium1",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "02 public list / semantic busy ownership",
+    "obs": [
+      "19",
+      "21"
+    ],
+    "status": "COMPLETE",
+    "commit": "f6154ca3",
+    "report": "02-public-list-busy/report.md",
+    "gates": "PASS1213/177",
+    "strictLists": "PASS",
+    "red": "native3 + Chromium1",
+    "green": "native3 + Chromium1",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "03 native acceleration mismatch / observed-control fallback",
+    "obs": [
+      "13",
+      "15",
+      "33"
+    ],
+    "status": "COMPLETE_FALLBACK_SLICE",
+    "commit": "6bb5ba78",
+    "report": "03-observed-control-fallback/report.md",
+    "gates": "PASS1213/178",
+    "red": "real Chromium final AVAILABLE assertion",
+    "green": "exact offer + wrong response UNKNOWN + native current values",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "04 approved A calendar main synchronization",
+    "status": "COMPLETE_INTEGRATION_ONLY",
+    "main": "8454fffa",
+    "testedCommit": "6c339ba7",
+    "gates": "PASS1213/178 ordinaryG2 4/4",
+    "g2Pages": {
+      "PASS": 11,
+      "DEGRADED_HONEST": 1,
+      "FAIL": 0
+    },
+    "strictRemaining": "Sen requestConfirmed",
+    "report": "04-calendar-main-sync/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "remaining date state / shared selection / non-English slot retirement",
+    "obs": [
+      "08",
+      "09",
+      "14",
+      "18"
+    ],
+    "status": "IMPLEMENTED_AND_STRICT_G2_VERIFIED_AT_A47B5AC6",
+    "evidence": "pending-c-fixture/report.md",
+    "fixedCalendarBaseline": "A main8454fffa integrated; remaining Sen requestConfirmed unchanged.",
+    "previousStatus": "SLOT_DAY_RETIRED_SHARED_SELECTION_STOPPED_PUBLIC_EVIDENCE",
+    "resolution": "12-sen-main-sync/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "G3c course / price / facts",
+    "obs": [
+      "22",
+      "23",
+      "24",
+      "29",
+      "30",
+      "35",
+      "36"
+    ],
+    "status": "IMPLEMENTED_BUT_NOT_ACCEPTED_A_FIXTURE_STOP",
+    "oldHardOutputChanged": false,
+    "previousStatus": "NOT_IMPLEMENTED_AFTER_SEN_ACCEPTANCE_EVIDENCE_STOP",
+    "resolution": "14-quoted-fact-reads/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "05 response-only slots and day states",
+    "status": "COMPLETE",
+    "testedCommit": "2d29aead",
+    "report": "05-response-only-slots-days/report.md",
+    "gates": "PASS1215/179",
+    "redGreen": "native2 + Chromium1",
+    "authorizedCInputApplied": true,
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "06 Sen selected-query public observability",
+    "status": "STOPPED_G2_SELECTED_QUERY_PUBLIC_EVIDENCE",
+    "diagnosticCommit": "03443767128708274f1717a0dd8a3e9449872afe",
+    "cases": 2,
+    "publiclyIdentical": true,
+    "positiveControlsDetectChange": true,
+    "productCodeChanged": false,
+    "report": "06-sen-query-observability/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "07 approved G1 main and A test-maintenance synchronization",
+    "status": "COMPLETE_SYNC_G3_REFERENCE_DECISION_PENDING",
+    "main": "b2a3cbd30e6f0c78486cf8b8671e7820a227d550",
+    "testedCommit": "0073ec8df89c0d33ac24e1b3a6c94cec5c0744c6",
+    "gates": "PASS 1213/178",
+    "ordinaryG2": "4/4",
+    "newRealCalls": 0,
+    "report": "07-g1-main-sync/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "08 public selection OBS08/09",
+    "status": "IMPLEMENTED_AND_STRICT_G2_VERIFIED_AFTER_APPROVED_MAIN_SYNC",
+    "candidate": "12f5dd0d23c4b5be4450d9a8ff7af7703c058af7",
+    "red": "41cec356",
+    "targetedGreen": "32a9d16c",
+    "relatedGreen": "12f5dd0d",
+    "defaultTests": "1216/1216",
+    "chromium": "178/179; only approved A Sen dependency",
+    "vacancyResponseApiChanged": false,
+    "report": "08-public-selection/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "09 quoted source menu/price draft",
+    "status": "DRAFT_RESUMED_AFTER_APPROVED_HARD_REPAIR",
+    "implementation": "650c7bfc",
+    "redAdapters": "f5103dcc",
+    "redCache": "182cb113",
+    "redRestriction": "cb752bea",
+    "greenCore": "91083d57 49/49",
+    "relatedNative": "38998920 163/163",
+    "relatedChromium": "650c7bfc 14/14",
+    "currentCounterexample": "c8ff6bf70621c776c7b701727653a13bea02f4ef",
+    "report": "09-quoted-menu-prices/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "10 HARD price scope stop",
+    "status": "RESOLVED_BY_USER_APPROVED_PRICE_APPLICABILITY_RULE",
+    "counterexampleCommit": "c8ff6bf70621c776c7b701727653a13bea02f4ef",
+    "independentExpected": "NOT_CHECKED",
+    "actual": "MET",
+    "requestedPartySize": 2,
+    "quotedMinimumPartySize": 4,
+    "A_baseline_main": "50a0836148c5b026240a770de89c5d5357091355",
+    "A_baseline_synced": false,
+    "realCalls": 0,
+    "report": "10-hard-price-scope-stop/report.md",
+    "previousStatus": "STOPPED_S0_CLASS_HARD_PRICE_SCOPE",
+    "resolution": "11-price-applicability/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "11 quoted price applicability",
+    "status": "OFFLINE_VERIFIED",
+    "testedCommit": "dc337a7b",
+    "report": "11-price-applicability/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "12 approved Sen main sync",
+    "status": "STRICT_G2_ALL_PASS",
+    "mergedMain": "50a08361",
+    "report": "12-sen-main-sync/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "13 public fact fields and menu scopes",
+    "status": "OFFLINE_VERIFIED",
+    "red": "a4006071",
+    "green": "cbfdb210",
+    "testedCommit": "a47b5ac6",
+    "report": "13-public-fact-fields/report.md",
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "14 generic quoted fact reads",
+    "status": "STOPPED_A_OWNED_FIXTURE",
+    "sourceCommit": "fec90a362404243e3cd93c47be00fca40ca43c3e",
+    "red": "4a7f8a31",
+    "correspondingGreen": "c47eeb82",
+    "defaultGate": {
+      "tests": 1230,
+      "pass": 1217,
+      "fail": 13
+    },
+    "report": "14-quoted-fact-reads/report.md",
+    "newRealCalls": 0,
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "15 equal-timestamp availability fact citations",
+    "status": "PRODUCT_FIX_VERIFIED_WAITING_A_FIXTURES",
+    "productCommit": "80797d48",
+    "relatedCommit": "50319f85",
+    "red": "24e3e8e8",
+    "AInputCommit": "cf20522e1a02a4bac07817b0416d12049fa024b8",
+    "sameTimestampCitations": "0/3 -> 3/3",
+    "independentRequiredEvidence": "NOT_SATISFIED -> SATISFIED",
+    "overallG3": "PENDING_A_SYNC",
+    "report": "15-equal-timestamp-evidence/report.md",
+    "newRealCalls": 0,
+    "finalVerification": {
+      "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+      "candidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+      "report": "16-form-course-and-completion/report.md"
+    }
+  },
+  {
+    "group": "16 verified original form_course links and final integration",
+    "status": "OFFLINE_COMPLETE_PENDING_REVIEW",
+    "red": "3271f92c",
+    "green": "3e6799f1",
+    "ACommit": "31398a77",
+    "mainCommit": "404a766e",
+    "testedCandidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+    "gates": "PASS1241/180",
+    "strictG2": "5/5 tests,12/12 pages PASS",
+    "report": "16-form-course-and-completion/report.md",
+    "newRealCalls": 0
+  }
+]

@@ -1,13 +1,16 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.34
+- Document revision: 3.36
 
 
-- Last updated: 2026-10-29
+- Last updated: 2026-10-30
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
+
+
+G3已核验Tabelog时段响应的OBSERVED输出保留每条form_course原链接（formCourseLinks: time/url）及同一最新响应来源（sourceResponse: sequence/url/observedAt）；不重建链接，不改变店号、日期、人数、时刻、origin/path或结构核验，UNKNOWN/changed不输出链接。库存包装器行为不变，B1消费另行接线。接口和离线证据见[G3完成报告](../../.eval-artifacts/phase3b/g3-longrun/16-form-course-and-completion/report.md)。
 
 3b原则及合同统一由对话B维护于[ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md)（revision0.2已Accepted并随G1核心合main；Agent/Web另批接入，C重复0047已撤除）：动作来自本次可观察页面、读取问答逐字引用并核对同店/本次读取。各能力实现状态分别验收。具名SPECIFIC_OUTLET在后续补充到访条件或仅改变推荐/查位目标时保留query/scope；当前用户明确换店/撤销时才替换。Semantic Prompt26，Proposal4/State23/TaskDefinition21不变；批次2真实模型静态世界具名24/24、开发目标15/15、严格0/15，原证据保留。
 
@@ -147,6 +150,8 @@ type RestaurantCandidate = {
 `SEARCH_RESTAURANTS`只产生`RestaurantCandidate`。`CHECK_AVAILABILITY`才产生`AvailabilityOffer`并按`candidateId`保存；没有当前展示证据的Candidate不得进入`PRESENT_RESULTS`。替代范围内但不在原时段的Offer必须标记`alternativeToRequestedTime`，不能借扩大查询窗口把它改写为原请求命中。展示新鲜不代表锁位或可提交预约；未来Booking必须重新核查同门店、日期、人数、时间、套餐、价格和重要条款，失败为未知而不是无位。
 
 `availabilityChecks[candidateId]`独立于Offer保存`AVAILABLE`、`UNAVAILABLE`、`UNKNOWN`或`SOURCE_UNSUPPORTED`、检查时间、Evidence引用及稳定原因码，并由Reducer绑定实际日期、时段和人数的请求指纹。它另保存独立的接待方式：`RESERVATION_SUPPORTED`、明确证据支持的`WALK_IN_SUPPORTED`、两者兼有或`UNKNOWN`。没有预约入口、`UNKNOWN`或当前无slot绝不自动证明walk-in；walk-in也不满足请求的可订slot。完整参数的事实推荐可由Agent选择作额外空位调查；同一当前请求的明确`UNAVAILABLE`必须有候选绑定、日期/人数匹配、`inventoryStatus=UNAVAILABLE`的来源记录，且会排除该候选，不能用先前“营业”事实重新展示。访问/解析/条件未生效仍为`UNKNOWN`；不同日期、人数或时段不会复用该结论。Google area HARD evidence只可来自与请求地点相等的结构化address component；格式化地址中的任意关键词不构成地点证明。Google的具体`primaryType`可为普通类型范围内的负向HARD条件记录同一来源的满足或冲突；宽泛`restaurant`/`cafe`/`food`和关键词缺失只能保留未知。查位来源由Source Pack注册的能力、候选已验证来源入口和确定性分派决定；Agent action不含provider。未完成的真实来源覆盖按阶段证据报告。两个来源的站点方法与受控通用页面动作经同一有界会话执行器；模型只能提议当前观察到的只读元素，无法决定来源、State、门店、日期、人数或Evidence。每个来源都必须用exact phone（日本显式`+81`与国内写法规范后比较）或normalized name+address建立同一Outlet的HIGH match，并确认正确日期/人数/Asia-Tokyo时段及可见新鲜slot才可产生Offer。`BOT_CHALLENGE`、页面/抽取异常、未找到可靠Outlet、外部跳转和浏览器失败只代表该provider失败，另一个可用来源仍可尝试；两个来源均不能安全产生结论时才以`AVAILABILITY_SOURCES_EXHAUSTED`成为候选级`UNKNOWN`。已观察到的Tabelog challenge必须先于identity判定成为`BOT_CHALLENGE`，不允许“零结果”占位改写成`ENTITY_MATCH_UNCERTAIN`。只有显式eval的local persistent session可在`BOT_CHALLENGE`后以脱敏`USER_INTERVENTION_REQUIRED`暂停，等人手完成站点要求；对应eval handler显式配置时，每个candidate/provider最多一次；恢复只读取已验证的同Outlet来源入口，challenge未消失仍返回`BOT_CHALLENGE`。这不是Agent语义澄清、不是Domain Evidence、不是生产Human Takeover Surface，也不降低HIGH identity或slot规则。Cloudflare和开发/eval-only的本地Playwright Chromium都只实现同一BrowserRuntime观察接口，绝不包含来源业务规则或写操作。会话尚未建立时的浏览器错误先于identity判定保留，绝不能被低置信度占位match误写为`ENTITY_MATCH_UNCERTAIN`；仅`BROWSER_RUNTIME_UNAVAILABLE`、全局模型预算耗尽和父级取消以原始Task根因终止，其他来源超时/运行时/解析故障均保持provider-scoped并允许继续合法来源链。
+
+当前同来源事实的替代以Reducer接纳事件的顺序为准：事实调查将此前原始事实累积记入 `supersededEvidenceIds`；后发生的查位所引用且未被替代的事实可补充当前证据，后续调查（包括UNKNOWN）仍排除旧查位事实。`observedAt`与`checkedAt`相等或不同都不能代替该因果记录；显式替代优先，时间戳仍用于原有新鲜度核对。
 
 ## Domain State
 
@@ -313,6 +318,10 @@ Current-run identity-bound pages are reused first. Each question now has an inde
 
 Independent review of the original 102 model answers was reported by the user: zero false claims, 84 correct answers and 23/24 correct absence judgments. The subsequent question Prompt/Schema3 repair has offline evidence only; A must independently rerun the six affected questions. It adds question-language enforcement, complete-sentence quotations, explicit review-only absence and dietary-preference guidance, and confirmation for source contradictions. No Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
 
+
+## 报价适用条件（2026-10-29用户批准）
+
+引用的报价没有附加限制时沿原规则比较。有人数、餐别、星期、日期范围等限制时，由代码从原文解析并与现有Intent核对；已知不适用或条件无法核实的报价不参与预算比较。没有其他适用报价为NOT_CHECKED，不能用一个不适用套餐推出NOT_MET。原始金额、原文及库存边界保留，不推断套餐可订性；State/TaskDefinition合同不变。[本批证据](../../.eval-artifacts/phase3b/g3-longrun/11-price-applicability/report.md)。
 ## G5 B1 approved follow-up
 
 Accepted ADR0049 replaces C’s earlier numbered0048 draft. restaurant-booking-handoff@2 is a transient contract with a pair of G1-admitted Japanese/English cancellation answers; there is no strictness ranking. Each cited original stays bound to this outlet/channel/page/read. No conflict retains one English sentence; incomplete conflict evidence is not replaced by a guessed policy. Separate restaurant_booking_departures records hold USER_REPORTED Yes/No/Skip, per-Case once-only prompt claims and idempotent departures; they never mutate Task State/Outcome. Existing Prompt/Schema/State24/TaskDefinition22 remain unchanged. Tabelog English platform-fee config cites the public help document and checked date; current-source preselection and G3 wiring remain unverified/deferred. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

@@ -1,0 +1,24 @@
+{
+  "mode": "OFFLINE_LOCAL_FIXTURE",
+  "phase": "red",
+  "commit": "3271f92c830a1dd30d331a6103101b9502b0041b",
+  "runs": [
+    {
+      "name": "target",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/tabelog/tabelog-vacancy-response.test.ts",
+        "src/integrations/tabelog/tabelog-public-selection.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 0.277613958,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

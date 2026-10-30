@@ -89,9 +89,9 @@ test("saved Tabelog calendar keeps hidden future dates and disabled guests out o
     assert.equal(controls.filter(control => /^Guests \d+$/.test(control.label)).every(control => control.disabled), true);
     assert.equal(tabelogQueryControlsRestricted(snapshot, controls, 2), true);
     assert.equal(tabelogQueryControlsRestricted(snapshot, controls, 10), false);
-    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-28"), "FULL");
-    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-29"), "PHONE_ONLY");
-    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-30"), "CLOSED");
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-28"), "UNOBSERVED");
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-29"), "UNOBSERVED");
+    assert.equal(tabelogRequestedDateState(snapshot, "2026-09-30"), "UNOBSERVED");
     assert.equal(tabelogRequestedDateState(snapshot, "2026-10-01"), "UNOBSERVED", "hidden future month is not the current query surface");
     const snapshotRecord = trace.find(event => event.kind === "SNAPSHOT")!;
     const region = (snapshotRecord.detail as { queryRegions: Array<{ markup: string; computedVisibility: string }> }).queryRegions[0]!;
@@ -154,7 +154,7 @@ test("Tabelog Adapter consumes loading-to-restricted calendar without model acti
       timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [],
     }, new AbortController().signal);
     assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
-    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABELOG_REQUEST_DATE_CLOSED_ON_CALENDAR");
+    assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABELOG_VISIBLE_QUERY_CONTROLS_RESTRICTED");
     assert.equal(result.offers.length, 0);
   } finally { await executor.close(); }
 });
@@ -195,17 +195,17 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const { parseTabelogAvailabilitySlots } = await import("../../integrations/tabelog/tabelog-page-parser.js");
     const sourceUrl = "https://tabelog.com/en/tokyo/A1301/A130103/13292459/";
     const html = `<h1>Restaurant 1</h1><p>1-1 Shinjuku, Tokyo</p><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p><div class="p-booking-calendar" style="display:none">
-      <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17">17</p>
-      <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20">20</p>
-      <button type="button" class="p-booking-calendar__people-button js-people-button is-active">2</button><button type="button" class="p-booking-calendar__people-button js-people-button">4</button>
-      <input type="hidden" class="js-people-hidden-value" value="2">
+      <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17" aria-label="Date 2026-09-17" aria-current="date">17</p>
+      <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20" aria-label="Date 2026-09-20">20</p>
+      <fieldset><legend>Guests</legend><button type="button" class="p-booking-calendar__people-button js-people-button is-active" aria-pressed="true">2</button><button type="button" class="p-booking-calendar__people-button js-people-button" aria-pressed="false">4</button>
+      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset>
       <button data-state="disabled" data-date="2026-9-16" type="button">Disabled date</button>
       <button class="p-booking-calendar__time-button js-time-button" data-time="1900" type="button">7:00 PM</button>
       </div><a href="https://social.example/restaurant">Official website</a>
       <script>
       setTimeout(()=>document.querySelector('.p-booking-calendar').style.display='block',150);
-      document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{document.querySelector('.is-current').classList.remove('is-current');el.classList.add('is-current')});
-      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');document.querySelector('input').value=el.textContent});
+      document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{const old=document.querySelector('.is-current');old.classList.remove('is-current');old.removeAttribute('aria-current');el.classList.add('is-current');el.setAttribute('aria-current','date')});
+      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{const old=document.querySelector('.is-active');old.classList.remove('is-active');old.setAttribute('aria-pressed','false');el.classList.add('is-active');el.setAttribute('aria-pressed','true');document.querySelector('input').value=el.textContent});
       </script>`;
     let calls = 0;
     const searchUrl = "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201";
@@ -237,7 +237,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       const snapshot = await session.snapshot();
       assert.equal(hasTabelogSelectedQuery(snapshot,"2026-09-20",4),true);
       assert.equal(hasTabelogSelectedQuery(snapshot,"2026-09-17",2),false);
-      assert.deepEqual(parseTabelogAvailabilitySlots(snapshot),{availableSlots:[],hasExplicitSlotUi:false});
+      assert.deepEqual(parseTabelogAvailabilitySlots(snapshot,{date:"2026-09-20",partySize:4}),{availableSlots:[],hasExplicitSlotUi:false});
       assert.equal(result.offers.length,0,"query options alone cannot establish inventory");
       assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode,"EXTRACTION_FAILED");
       assert.equal(calls,2,"production Adapter must reach the shared model loop");
@@ -259,26 +259,36 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     let html=`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p>
       <div class="rstdtl-course-list js-rstdtl-course-list"><span class="rstdtl-course-list__course-title-text">Seasonal lunch course</span><p class="rstdtl-course-list__desc">Lunch only, 11:30 to 14:00.</p><del>JPY 9,000</del><span class="rstdtl-course-list__price-num">JPY<em>8,000</em><span>（Price including tax）per person</span></span><dl class="rstdtl-course-list__course-rule"><dt>Number of people</dt><dd>2 - 4</dd></dl></div>
       <div class="p-booking-calendar">
-      <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17">17</p>
-      <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20">20</p>
-      <fieldset><legend>Guests</legend><button type="button" class="p-booking-calendar__people-button js-people-button is-active">2</button><button type="button" class="p-booking-calendar__people-button js-people-button">4</button>
-      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset><button type="button" class="p-booking-calendar__time-button" data-time="1845">6:45 PM</button></div>
+      <p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="9" data-day="17" aria-label="Date 2026-09-17" aria-current="date">17</p>
+      <p class="js-calendar-day-target is-selectable" data-year="2026" data-month="9" data-day="20" aria-label="Date 2026-09-20">20</p>
+      <fieldset><legend>Guests</legend><fieldset><legend>Guests</legend><button type="button" class="p-booking-calendar__people-button js-people-button is-active" aria-pressed="true">2</button><button type="button" class="p-booking-calendar__people-button js-people-button" aria-pressed="false">4</button>
+      <input type="hidden" class="js-people-hidden-value" value="2"></fieldset></fieldset><button type="button" class="p-booking-calendar__time-button" data-time="1845">6:45 PM</button></div>
       <script>function query(){fetch('${endpoint}?member='+document.querySelector('.p-booking-calendar__people-button.is-active').textContent);fetch('/unrelated.json')}
-      document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{document.querySelector('.is-current').classList.remove('is-current');el.classList.add('is-current');query()});
-      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{document.querySelector('.is-active').classList.remove('is-active');el.classList.add('is-active');const hidden=document.querySelector('input');if(hidden)hidden.value=el.textContent;query()});</script>`;
+      document.querySelectorAll('.js-calendar-day-target').forEach(el=>el.onclick=()=>{const old=document.querySelector('.is-current');old.classList.remove('is-current');old.removeAttribute('aria-current');el.classList.add('is-current');el.setAttribute('aria-current','date');query()});
+      document.querySelectorAll('.js-people-button').forEach(el=>el.onclick=()=>{const old=document.querySelector('.is-active');old.classList.remove('is-active');old.setAttribute('aria-pressed','false');el.classList.add('is-active');el.setAttribute('aria-pressed','true');const hidden=document.querySelector('input');if(hidden)hidden.value=el.textContent;query()});</script>`;
     if(markup==="current") html=html.replace(/<p class="js-calendar-day-target([^"]*)"([^>]*)>([^<]*)<\/p>/g,'<button type="button" class="p-booking-calendar__day$1"$2>$3</button>').replaceAll('js-calendar-day-target','p-booking-calendar__day').replaceAll('js-people-button','current-people-control');
     if(markup==="current") html=html.replace('<input type="hidden" class="js-people-hidden-value" value="2">','');
     const payload=(members:number,time:string)=>JSON.stringify({base_date:{year:2026,month:9,day:20},members,selection:{0:{time,url:`/en/booking/form_course/new?rcd=13292459&member=${members}&visit_date=20260920&visit_time=${time.replace(':','')}`}}});
     const pages={ [sourceUrl]:html,"https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201":`<a class="list-rst__rst-name-target" href="${sourceUrl}" data-address="1-1 Shinjuku, Tokyo">Restaurant 1</a>`,[endpoint+"?member=2"]:payload(2,"19:00"),[endpoint+"?member=4"]:payload(4,"18:45"),"https://tabelog.com/unrelated.json":JSON.stringify({private:"must not capture"}) };
-    let calls=0;
-    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){assert.equal(input.observation.targets.some(t=>t.label==="Booking time 6:45 PM"&&(t.availableActions?.length??0)>0),false,"time has no model action");const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.deepEqual(input.observation.targets.find(t=>t.label==="Date 2026-09-20")?.availableActions, [], "selected date remains evidence without a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:2});
+    let calls=0, sourceFactsCalls=0;
+    const sourceFactsModel: import("../../core/model/contracts.js").ModelGateway = {async complete(input){
+      sourceFactsCalls++;assert.equal(input.purpose,"restaurant_source_facts");
+      const rows=JSON.parse(input.messages[1]!.content).sourceDocument.statements;
+      const first=rows.findIndex((row:{text:string})=>row.text.startsWith("Seasonal lunch course"));
+      const last=rows.findIndex((row:{text:string})=>/2\s*-\s*4/.test(row.text));assert.ok(first>=0&&last>=first);
+      return {invocationId:"source-menu-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:[{firstStatementId:rows[first].id,lastStatementId:rows[last].id,priceStatementId:rows.slice(first,last+1).find((s:{text:string})=>/JPY|[¥￥円]/u.test(s.text))!.id,role:"COURSE"}]})};
+    }};
+    const executor=new BrowserTaskExecutor(localFixture(pages,runtimeKind),{ maxAutomaticElapsedMs: 300_000, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24, modelDecision:{async decide(input){assert.equal(input.observation.targets.some(t=>t.label==="Booking time 6:45 PM"&&(t.availableActions?.length??0)>0),false,"time has no model action");const field=++calls===1?"DATE" as const:"PARTY_SIZE" as const;if(calls===2)assert.deepEqual(input.observation.targets.find(t=>t.label==="Date 2026-09-20")?.availableActions, [], "selected date remains evidence without a repeat action");const target=input.observation.targets.find(t=>t.label===(field==="DATE"?"Date 2026-09-20":"Guests 4"));assert.ok(target);return {type:"CLICK_AUTHORITATIVE",field,targetRef:target.ref,reason:"Exact query"}}},maxModelCallsPerCandidate:3});
     const signal=new AbortController().signal;
     try{
-      const result=await new TabelogBrowserAvailability(executor).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[]},signal);
+      const result=await new TabelogBrowserAvailability(executor, undefined, 5, {sourceFactsModel}).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[]},signal);
       assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status,"AVAILABLE",JSON.stringify(result));
       assert.equal(result.offers.length,1);assert.match(result.offers[0]!.dateTime,/T18:45/);
-      const listed = result.evidence.find(item => item.kind === "RESTAURANT_FACT")?.claims;
-      assert.deepEqual(listed?.listedCourseDetails, ["Seasonal lunch course — JPY 8,000 （Price including tax）per person; Number of people 2 - 4. Lunch only, 11:30 to 14:00."]);
+      const listed = result.evidence.find(item => item.kind === "RESTAURANT_FACT" && item.claims.listedCourseDetails)?.claims;
+      assert.ok(Array.isArray(listed?.listedCourseDetails) && listed.listedCourseDetails.length===1);
+      const quotedCourse=String(listed.listedCourseDetails[0]).replace(/\s+/g," ");
+      for(const text of ["Seasonal lunch course","Lunch only, 11:30 to 14:00.","JPY","8,000","Price including tax","Number of people","2 - 4"]) assert.ok(quotedCourse.includes(text),text);
+      assert.equal(sourceFactsCalls,1,"one cached-page source selection is charged alongside two browser choices");
       assert.equal(listed?.coursePriceYen, undefined, "a listed lunch course is not the dinner offer price");
       assert.equal(result.offers[0]!.price, undefined);
       const session=await executor.acquire(signal,"TABELOG","AVAILABILITY");

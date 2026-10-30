@@ -91,6 +91,8 @@ export interface BrowserSnapshot {
   settlement?: "SETTLED" | "PENDING";
   url: string;
   html: string;
+  /** Browser-rendered evidence, excluding non-visible subtrees; never model supplied. */
+  visibleHtml?: string;
   text: string;
   title: string;
   /**
@@ -125,7 +127,6 @@ export interface BrowserControlHint {
   selector: string;
   labelPrefix: string;
   value: "TEXT" | "DATE_PARTS";
-  selectedClass?: string;
   /** Source has observed a navigation/write boundary; keep as evidence only. */
   observationOnly?: boolean;
 }

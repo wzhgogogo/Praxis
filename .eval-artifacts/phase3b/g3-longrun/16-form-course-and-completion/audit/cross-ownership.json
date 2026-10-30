@@ -1,0 +1,99 @@
+{
+  "testedCandidate": "d71316750cab29cadf3a4ef9b5423ead13f94903",
+  "reviewedA": [
+    {
+      "path": "src/eval/restaurant/agent-loop/current-development-fixed-sources.ts",
+      "A31398Sha256": "0c4715af05bcc6f6d10ab2abd16233405eb160235104ff6a10f56b0cb704e30a",
+      "currentSha256": "c337f4d8ff73e9d29f962bc3cdef5c01f1908be72d2318b9b52f8c97e87deb4c",
+      "sameAsReviewedA": false,
+      "onlyCanonicalParameterIntegration": true
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/current-development-offline.test.ts",
+      "A31398Sha256": "f88a3f9f236c6f015c69df4bd848c510a677f4100bdf09721f16666d448bbacb",
+      "currentSha256": "f88a3f9f236c6f015c69df4bd848c510a677f4100bdf09721f16666d448bbacb",
+      "sameAsReviewedA": true,
+      "onlyCanonicalParameterIntegration": false
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts",
+      "A31398Sha256": "a06e5fd55a6e3c6e2e34cb568e47d27b56565c6821b946f72db10ca449a1a66b",
+      "currentSha256": "a06e5fd55a6e3c6e2e34cb568e47d27b56565c6821b946f72db10ca449a1a66b",
+      "sameAsReviewedA": true,
+      "onlyCanonicalParameterIntegration": false
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "A31398Sha256": "4717f71dca430ef9c390b3f3e1865657d726c7323a2ab8743f541238e62606cb",
+      "currentSha256": "4717f71dca430ef9c390b3f3e1865657d726c7323a2ab8743f541238e62606cb",
+      "sameAsReviewedA": true,
+      "onlyCanonicalParameterIntegration": false
+    },
+    {
+      "path": "src/harness/browser/browser-read-request-binding.test.ts",
+      "A31398Sha256": "af60dacb432246b6872feb02833d1ed1235141b58ce5a2c3dc5a790bf0287344",
+      "currentSha256": "af60dacb432246b6872feb02833d1ed1235141b58ce5a2c3dc5a790bf0287344",
+      "sameAsReviewedA": true,
+      "onlyCanonicalParameterIntegration": false
+    }
+  ],
+  "protectedCFiles": [
+    {
+      "path": "src/integrations/tabelog/tabelog-entity-resolver.ts",
+      "sha256": "0aecc43b891a2a4ad08a0f05ca039cf0726d1b6a79796465146e17f7559f3852",
+      "unchanged": true
+    },
+    {
+      "path": "src/integrations/restaurant-search/named-source-query.ts",
+      "sha256": "1a2ac845bf4d301e6001fb1b82e6278468f134df940168d74752af804d444cbc",
+      "unchanged": true
+    },
+    {
+      "path": "src/integrations/restaurant-search/named-source-query.test.ts",
+      "sha256": "5817d619c8ab45d7b4d92d0a47fd4b33900e9803acbbdb0e9ea8d91feeb949fc",
+      "unchanged": true
+    },
+    {
+      "path": "src/integrations/restaurant-identity/detail-identity-fields.ts",
+      "sha256": "e4834a410b310e42ecd595976e38bd60dc0f3c5e0a33855f7a0f8b40b18c41cb",
+      "unchanged": true
+    },
+    {
+      "path": "src/integrations/restaurant-identity/detail-identity-fields.test.ts",
+      "sha256": "f164748873e2a48066b9b740cb47aa81bbdca70b6e733a404586db33b14f8766",
+      "unchanged": true
+    }
+  ],
+  "protectedCBlocks": [
+    {
+      "name": "Tabelog uses at most one validated Google-name fragment after an empty first screen, with original identity",
+      "originalSha256": "45c5f3d47bc655a0c6a601f6b7a3d013a35de30342a76521275a1d1507b8f8f2",
+      "currentSha256": "d2a535e49938b84c0f7b32698a4405b8a1223fa51e90cb253097f9d9a14b6a3f",
+      "onlyAuthorizedResponseInputChange": true,
+      "assertionsPreserved": true
+    },
+    {
+      "name": "Tabelog nonempty wrong first screen uses one alternative only within the shared detail cap",
+      "originalSha256": "7b6257ee137d2b1382ebdffc25b4ee743e568ae619a766faee5d0d16ca5c5680",
+      "currentSha256": "7b6257ee137d2b1382ebdffc25b4ee743e568ae619a766faee5d0d16ca5c5680",
+      "onlyAuthorizedResponseInputChange": false,
+      "assertionsPreserved": true
+    },
+    {
+      "name": "Tabelog prioritizes the closest observed name before the five-detail cap without granting identity",
+      "originalSha256": "410667df8a2a6f3e84f4ae590eb63b8c28c94eba4d2f81170266e2739a13c8ef",
+      "currentSha256": "410667df8a2a6f3e84f4ae590eb63b8c28c94eba4d2f81170266e2739a13c8ef",
+      "onlyAuthorizedResponseInputChange": false,
+      "assertionsPreserved": true
+    },
+    {
+      "name": "detail priority uses observed locality then distance for equal names and preserves unobserved ties",
+      "originalSha256": "a344051dcbf8704f62f387df7fa43402b397496f4f087dfcb9cf0655cc03884d",
+      "currentSha256": "a344051dcbf8704f62f387df7fa43402b397496f4f087dfcb9cf0655cc03884d",
+      "onlyAuthorizedResponseInputChange": false,
+      "assertionsPreserved": true
+    }
+  ],
+  "originalVacancyTestsAllRetained": true,
+  "AReplacementAssertionEvidence": ".eval-artifacts/phase3b/g3c-eval-fixtures/behavior-assertions/preservation.json"
+}

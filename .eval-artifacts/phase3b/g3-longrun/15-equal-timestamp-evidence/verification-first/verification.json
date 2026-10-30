@@ -1,0 +1,82 @@
+{
+  "mode": "OFFLINE_LOCAL_FIXTURE",
+  "testedCommit": "33ec8dd486f9d02dcdecd9b183d273553944135c",
+  "startedAtCET": "2026-10-29T15:41:07.440882+01:00",
+  "freezeSha256": "80beb4bdbe9bff95324e7eba177d99369edd2fc4175f680e4c903a5eb31e1aac",
+  "orchestrationSha256": "88a967e1e3b42d8a3fe372f6f51c96182421a3e37a5a9e9b32375a2633ed79bc",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "outcome": "PASS",
+      "seconds": 0.541677792,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "summary": {}
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "outcome": "PASS",
+      "seconds": 0.217214083,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "summary": {}
+    },
+    {
+      "gate": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 1,
+      "outcome": "FAIL",
+      "seconds": 30.895652208,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSha256": "a524321aafcb13e269106b6e238d5bb3cb9338b262fcf99b9cf531a5250af513",
+      "summary": {
+        "tests": 1231,
+        "pass": 1217,
+        "fail": 14,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "failingLeaves": [
+        "F5 provisional discovery crosses real Router/Reducer and retains bounded handoff to the next source",
+        "H001 confirms a ready TableCheck query through live controls without mistaking hidden or script loading text for a pending search",
+        "H001 native TableCheck batch continues after one nonqualifying outlet and presents the next",
+        "H001 native discovery uses an observed ordinary query submit only in its installed read boundary",
+        "H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list",
+        "H001 presents one investigated TableCheck current-batch result without reading a second TableCheck chunk",
+        "H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated",
+        "H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver",
+        "WP-A offline composition captures every model call including a timeout and links browser observations to DOM snapshots",
+        "a result that completes before the deadline retains its normal terminal outcome",
+        "an explicit result count travels from control input through authoritative State into fixed-source acceptance",
+        "c05 Kaga Router to Reducer retains the later availability-read source fact",
+        "h001"
+      ],
+      "knownUnresolvedAFixtures": false,
+      "newFailures": [
+        "c05 Kaga Router to Reducer retains the later availability-read source fact"
+      ]
+    }
+  ],
+  "restorations": 0,
+  "gatePolicy": "Known unresolved A fixture failures remain FAIL; continue the matrix only when every failing leaf is already recorded. Any new failure stops verification.",
+  "stopReason": "UNEXPECTED_FAILURE_OR_CHECKOUT_CHANGE"
+}

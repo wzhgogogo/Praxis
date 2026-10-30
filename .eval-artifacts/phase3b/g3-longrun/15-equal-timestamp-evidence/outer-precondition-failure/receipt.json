@@ -1,0 +1,25 @@
+{
+  "mode": "OFFLINE_REAL_COMPOSITION_FIXTURE_MODEL",
+  "phase": "red",
+  "BCommit": "16f9ba711bb8922e4043c467200b7fae80bfe73a",
+  "AFrozenCommit": "cf20522e1a02a4bac07817b0416d12049fa024b8",
+  "runs": [
+    {
+      "name": "domain",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/domains/restaurant/read-assessment.test.ts"
+      ],
+      "cwd": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing",
+      "exitCode": 1,
+      "seconds": 0.21040933299999998,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

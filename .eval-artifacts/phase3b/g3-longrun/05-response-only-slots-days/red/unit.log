@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: G3 slot claims require a data response, independent of private available/full classes
+not ok 1 - G3 slot claims require a data response, independent of private available/full classes
+  ---
+  duration_ms: 1.758125
+  type: 'test'
+  location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-response-only.test.ts:1:816'
+  failureType: 'testCodeFailure'
+  error: |-
+    without a data response a private class is not stock
+    + actual - expected
+    
+      {
+    +   availableSlots: [
+    +     '19:00'
+    +   ],
+    +   hasExplicitSlotUi: true
+    -   availableSlots: [],
+    -   hasExplicitSlotUi: false
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    availableSlots:
+    hasExplicitSlotUi: false
+  actual:
+    availableSlots:
+      0: '19:00'
+    hasExplicitSlotUi: true
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-response-only.test.ts:16:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1062:25)
+    Test.start (node:internal/test_runner/test:959:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17)
+  ...
+# Subtest: G3 day state without a corresponding data response is UNKNOWN, including private FULL/CLOSED/PHONE hints
+not ok 2 - G3 day state without a corresponding data response is UNKNOWN, including private FULL/CLOSED/PHONE hints
+  ---
+  duration_ms: 1.010458
+  type: 'test'
+  location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-response-only.test.ts:1:1661'
+  failureType: 'testCodeFailure'
+  error: |-
+    without a data response day status is unknown
+    + actual - expected
+    
+    + 'CLOSED'
+    - 'UNOBSERVED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'UNOBSERVED'
+  actual: 'CLOSED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-response-only.test.ts:25:12)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1062:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+    Test.postRun (node:internal/test_runner/test:1191:19)
+    Test.run (node:internal/test_runner/test:1119:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 152.58575

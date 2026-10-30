@@ -1,0 +1,85 @@
+{
+  "mode": "OFFLINE_REAL_COMPOSITION_FIXTURE_MODEL",
+  "phase": "green",
+  "BCommit": "80797d48ae8180b67e49b296eeea0fb7f0325532",
+  "AFrozenCommit": "cf20522e1a02a4bac07817b0416d12049fa024b8",
+  "runs": [
+    {
+      "name": "domain",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/domains/restaurant/read-assessment.test.ts"
+      ],
+      "cwd": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing",
+      "exitCode": 0,
+      "seconds": 0.272855333,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "a-original-case",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^H001 native first batch presents three source-bound Tabelog results without TableCheck$",
+        "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts"
+      ],
+      "cwd": "/private/tmp/praxis-g3-equal-stamp-green-20261029/a-frozen-checkout",
+      "exitCode": 0,
+      "seconds": 0.573989459,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ],
+  "AExecutionCommit": "85f154bf9098fe8830369571ce056a79dcf3ff65",
+  "AFourFilesSha256": {
+    "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts": "8e6b9a57880bf945c298b7e5a6ab50cbd5910f26d92eb06e36d7b0a98e4f5bd6",
+    "src/eval/restaurant/agent-loop/current-development-offline.test.ts": "d8b48f90bf9bf68272186f9a065917535294a9ba4842accd4b6018e8554c610b",
+    "src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts": "7dfbe911597af6c264b28d6647bc9d9fa12700926253c9fb8b4f759b3f9ab2c3",
+    "src/eval/restaurant/agent-loop/current-development-fixed-sources.ts": "af97fa37e589f8e5e3fc77078966e1104dd07c3be0c9ca555f7ef524746f998a"
+  },
+  "productFileSha256": "09b7413f3efbc92e8ca735f8a5bccfb86291fe8ec0e8b59f344d4eb8bcef4e60",
+  "presentationFacts": [
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/100",
+      "evidenceId": "evidence:restaurant:tabelog-hard-criteria:29e52317e9b0164eed3ea061",
+      "observedAt": "2026-08-19T07:20:00.000Z",
+      "checkedAt": "2026-08-19T07:20:00.000Z",
+      "currentCheckReferencesFact": true,
+      "presentationCitesFact": true
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/101",
+      "evidenceId": "evidence:restaurant:tabelog-hard-criteria:eff31065825ae82a55b36d15",
+      "observedAt": "2026-08-19T07:20:00.000Z",
+      "checkedAt": "2026-08-19T07:20:00.000Z",
+      "currentCheckReferencesFact": true,
+      "presentationCitesFact": true
+    },
+    {
+      "candidateId": "tabelog:tokyo/A1304/A130401/102",
+      "evidenceId": "evidence:restaurant:tabelog-hard-criteria:94b7bd0a4e90b622b2dd0f90",
+      "observedAt": "2026-08-19T07:20:00.000Z",
+      "checkedAt": "2026-08-19T07:20:00.000Z",
+      "currentCheckReferencesFact": true,
+      "presentationCitesFact": true
+    }
+  ],
+  "independentCompletion": "YES",
+  "sourceSequence": [
+    "SEARCH_RESTAURANTS",
+    "INVESTIGATE_CANDIDATE_FACTS",
+    "CHECK_AVAILABILITY",
+    "PRESENT_RESULTS"
+  ],
+  "independentRequiredEvidence": "SATISFIED"
+}

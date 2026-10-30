@@ -1,0 +1,36 @@
+TAP version 13
+# Subtest: G3 real Chromium failed native accelerator returns to observed date and party controls
+not ok 1 - G3 real Chromium failed native accelerator returns to observed date and party controls
+  ---
+  duration_ms: 5484.653625
+  type: 'test'
+  location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-control-fallback.test.ts:1:312'
+  failureType: 'testCodeFailure'
+  error: |-
+    a failed native accelerator must fall back to observed public controls
+    + actual - expected
+    
+    + 'UNKNOWN'
+    - 'AVAILABLE'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'AVAILABLE'
+  actual: 'UNKNOWN'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/browser-read-tabelog-control-fallback.test.ts:41:14)
+    runNextTicks (node:internal/process/task_queues:65:5)
+    process.processImmediate (node:internal/timers:473:9)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5778.263417

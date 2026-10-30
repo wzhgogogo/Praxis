@@ -1,0 +1,35 @@
+{
+  "mode": "red",
+  "commit": "551e6dd024237f89eec53e9e5c7ded167519badd",
+  "startedAtCET": "2026-10-28T17:07:25.173873+01:00",
+  "runs": [
+    {
+      "name": "chromium",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "src/harness/browser/browser-read-tabelog-control-fallback.test.ts"
+      ],
+      "exitCode": 1,
+      "accepted": true,
+      "seconds": 5.802135292,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "summary": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "5c09b6592251f26dc55727aa02d375b51814cbc28cee0b7874bd980f3a46be92"
+    }
+  ],
+  "allAccepted": true
+}

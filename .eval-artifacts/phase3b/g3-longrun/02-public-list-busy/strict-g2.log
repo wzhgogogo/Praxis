@@ -1,0 +1,35 @@
+
+> praxis-zhixing@0.1.0 test:dom-change
+> node --import ./scripts/test-filesystem-guard.mjs --import tsx --test --test-concurrency=1 src/harness/browser/dom-change*.test.ts
+
+✔ G2 constructed normal control uses observed labels after every private marker changes (3802.311125ms)
+✔ G2 extends the F3 class-only mutation to every id and private data attribute (133.962292ms)
+✔ G2 rule two rewrites all bound ID references, leaves dangling/script references and preserves CSS (130.637083ms)
+✖ G2 saved pages preserve the frozen reference capability and reject new false claims (16281.807875ms)
+ℹ {"id":"tabelog-list-nerima","classification":"PASS","referenceFacts":20,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-list-akabane","classification":"PASS","referenceFacts":1,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-01","classification":"PASS","referenceFacts":3,"lost":[],"sourceTransportCalls":0}
+ℹ {"id":"tabelog-detail-02","classification":"PASS","referenceFacts":3,"lost":[],"sourceTransportCalls":0}
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21226.26225
+
+✖ failing tests:
+
+test at src/harness/browser/dom-change.test.ts:1:255
+✖ G2 saved pages preserve the frozen reference capability and reject new false claims (16281.807875ms)
+  AssertionError [ERR_ASSERTION]: tabelog-calendar-teppen: G3 requires PASS; current baseline only admits the same honest loss
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/dom-change.test.ts:24:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

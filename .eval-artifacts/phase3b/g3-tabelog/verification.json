@@ -1,0 +1,28 @@
+{
+  "atCET": "2026-10-28T15:02:58.465865+01:00",
+  "status": "STOPPED_PROTECTED_FILE_ORDER",
+  "userInstruction": "2026-10-28 integration/G3 item3: if G3 needs tabelog-browser-availability.ts or tabelog-entity-resolver.ts, stop and report for reviewer sequencing",
+  "baseMain": "eb1518f1ad3f4fa8da4469c993b02d1b9f15ccf8",
+  "lineCountIsAcceptanceGate": false,
+  "strictG2": "EXPECTED_BASELINE_RED_NOT_REPAIRED",
+  "realTaskBehavior": "NOT_IMPLEMENTED_OR_EVALUATED",
+  "frozenInputs": 674,
+  "frozenInputsUnchanged": true,
+  "protectedFiles": {
+    "src/integrations/tabelog/tabelog-browser-availability.ts": {
+      "before": "2306200ed177b709dd93b35a7c1cb7b604c4cb38e716f2fbf7eb48b915b935bd",
+      "after": "2306200ed177b709dd93b35a7c1cb7b604c4cb38e716f2fbf7eb48b915b935bd"
+    },
+    "src/integrations/tabelog/tabelog-entity-resolver.ts": {
+      "before": "265ed934de089f4dc54914aa5ea70629b37cd9a45e8579a20e6eeb7957d011d2",
+      "after": "265ed934de089f4dc54914aa5ea70629b37cd9a45e8579a20e6eeb7957d011d2"
+    }
+  },
+  "executableTreeDiffFromMain": [],
+  "privateLogicDeleted": [],
+  "testsDeletedOrRewritten": [],
+  "gatesEvidence": "unchanged source reuses ../g1-quality-main/verification/gates.json (five gates plus ordinary G2)",
+  "newRealCalls": 0,
+  "neededProtectedFile": "src/integrations/tabelog/tabelog-browser-availability.ts",
+  "entityResolverNeededByCurrentG3Plan": false
+}

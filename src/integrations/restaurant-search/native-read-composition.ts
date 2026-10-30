@@ -31,7 +31,7 @@ export function composeNativeRestaurantRead(
   const questions = new RestaurantPageQuestionReader(model, (observe, scopedBudget, scopedModel = model, visits) => {
     const browser = visits ? pageQuestionRuntime(runtime, visits) : runtime;
     return new SourceAwareFactRead(
-      new NativeSourceFactRead(factLimits, browser, new ModelRestaurantFactJudgment(scopedModel, now), now, new ModelBrowserReadActionDecision(scopedModel), scopedBudget, onBrowserDiagnostic, networkPolicy, observe),
+      new NativeSourceFactRead(factLimits, browser, new ModelRestaurantFactJudgment(scopedModel, now), now, new ModelBrowserReadActionDecision(scopedModel), scopedBudget, onBrowserDiagnostic, networkPolicy, observe, scopedModel),
       composeLiveRestaurantFactRead(factLimits, google, browser, scopedModel, scopedBudget, now, onBrowserDiagnostic, observe),
     );
   }, now, nativeDiscoveryLimits.maxAutomaticElapsedMs ?? 500_000, browserBudget);

@@ -1,0 +1,84 @@
+{
+  "atCET": "2026-10-30T11:12:12.770443+01:00",
+  "approvedG3": "02163d39467a0a04f261ae2a6b426b292b1e185e",
+  "main": "4cbc521bb9e4fb177e247266561bd90eb5d34e3f",
+  "sourceConflicts": [],
+  "documentConflicts": [
+    {
+      "path": "docs/STATUS.md",
+      "inputSha256": {
+        "base": "ef4e6990643104f0e66de5f9dc003072c30f513b0cbf4a982970d8da6b45e686",
+        "ours": "423bf95aece7a245c190988c5677f1d9f27ecef2d7e828475c869ab3c3beb052",
+        "main": "473a3e5e79f790981bf8d3832701842aa37676d4f5d2e8b6553c3b9f46954bf9"
+      },
+      "resolvedSha256": "5aa0ca09a9243b0948c98e7bc0b9b1fbd4e2509fc2a42450f8194b3b294d0474",
+      "resolution": "Both chronological evidence bodies via union"
+    },
+    {
+      "path": "docs/decisions/README.md",
+      "inputSha256": {
+        "base": "1285ad26f5d3fb71fc6dd77501478a15ee660353b2a74b998ee2890a75160a03",
+        "ours": "a9faf0bd8791b062242a0fafc1ffc1086ede46da74432b12a8a427ffa85abe9c",
+        "main": "462d4b220006b9c5e40c70c821819c83e04bc63eaf7fc9aa9e8aab65e7afffef"
+      },
+      "resolvedSha256": "0841a47a45207d9a9262f851e97d95581642ddf813bb50c4d05808e8a463ddb4",
+      "resolution": "Both bodies via union; ADR0049 combines approval date with ADR0050 presentation supersession"
+    },
+    {
+      "path": "docs/history/DEVLOG.md",
+      "inputSha256": {
+        "base": "177e12db613546b24d12a11d67f0d0f0acc77c0907749729cdaeec257036be78",
+        "ours": "2357f31fa1ebf28b4ed5c9ffa49c175c235221053c4bcdb3347205362d717b5f",
+        "main": "e1ff40ab6a02c9cc0500036cc6a33db2187b2d02012a1bc42cef3e16626f4a92"
+      },
+      "resolvedSha256": "2b08cb3674326656c38bb58db610e4e8b262ead65407805bb41922f58487fa64",
+      "resolution": "Both bodies via union; one consolidated current revision header"
+    },
+    {
+      "path": "docs/history/TEST-LOG.md",
+      "inputSha256": {
+        "base": "bac2ba4b4988ed8a3ad1b9843cd67f05760483752eba3ca7968c411b260ab2bf",
+        "ours": "25b1400f41ac3aa046b119d34b72325342994582beb5297855dae3c37f95ee0c",
+        "main": "2507b9c7a5a45855afe674170ef02a4003adb2060b0488e710b69c698535b208"
+      },
+      "resolvedSha256": "1d4e305c9d2584084032f00e0981316de84e87bd95778a1329065fb9d1dfc18b",
+      "resolution": "Both bodies via union; one consolidated current revision header"
+    },
+    {
+      "path": "docs/history/monthly/2026-10-index.md",
+      "inputSha256": {
+        "base": "ae6c887bbc6dd3e884112726064734dd52ea8f13302f60cce98956b15f1d791e",
+        "ours": "734efb1ccabdda71292362148cc9c80935352445442d53ba637d4d54aca753f6",
+        "main": "e7023ee5c4d10dd5509a8b391a657c7b50befdf2ce05f5a413ff247b4954a326"
+      },
+      "resolvedSha256": "1db782019eb01ca5497e5764291bc3c4864b723c8fea07d04de06b9adb2be7f7",
+      "resolution": "Both bodies via union; one consolidated current revision header"
+    },
+    {
+      "path": "docs/history/monthly/2026-10.md",
+      "inputSha256": {
+        "base": "c83b77497a721a89f263fd494c006072ef84525163c2538150ce5c68dc1211f6",
+        "ours": "b141946978ab144bdd56d164b26ef90340820c322366ecce574b0bcc9f49ed24",
+        "main": "afe4aeb22e4fde074a85f7a0b14eb6c1be50e3e12d51ac18d3f932eff713e6a5"
+      },
+      "resolvedSha256": "c416c9f96ddd6e79758ee8a09e7d90f09eb54ac9a0a63e1218b0fefa65e2070f",
+      "resolution": "Both bodies via union; one consolidated current revision header"
+    }
+  ],
+  "ledger": {
+    "parentRows": {
+      "G3": 485,
+      "main": 469
+    },
+    "mergedRows": 485,
+    "allParentRowsPreserved": true,
+    "cumulative": {
+      "fullLive": 0,
+      "realModelCalls": 171,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 244,
+      "googleRequests": 11,
+      "restaurantWebsiteRequests": 244
+    }
+  }
+}

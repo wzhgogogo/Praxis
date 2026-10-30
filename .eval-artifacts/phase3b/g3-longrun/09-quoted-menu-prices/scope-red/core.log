@@ -1,0 +1,127 @@
+✔ G1 answers a payment question outside the original request conditions with an exact source quotation (5.670167ms)
+✔ G1 reuses current-run bound pages without opening a new session; whitespace is the only quote normalization (0.217417ms)
+✔ G1 an asynchronous model reply cannot attach a quotation to a subsequently mutated cache page (0.121083ms)
+▶ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment
+  ✔ fabricated quotation (0.132ms)
+  ✔ negation removed (0.121083ms)
+  ✔ other document (0.089125ms)
+  ✔ uncited answer (0.12ms)
+  ✔ URL override (0.104459ms)
+✔ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment (1.039416ms)
+✔ G1 same name is not the same outlet: existing identity reader rejects the other branch before model answering (0.426042ms)
+✔ G1 native page observer preserves the old fact result and only emits after existing same-outlet verification (3.119625ms)
+▶ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots
+  ✔ other run (0.056583ms)
+  ✔ old read (0.040125ms)
+  ✔ old identity (0.034292ms)
+  ✔ other candidate (0.030166ms)
+  ✔ weak identity (0.332791ms)
+  ✔ unbound source (0.047208ms)
+  ✔ non-page provider (0.046958ms)
+  ✔ redirect mismatch (0.033125ms)
+  ✔ loading (0.05325ms)
+  ✔ truncated line (0.062666ms)
+✔ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots (0.975167ms)
+▶ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes
+  ✔ ALLERGY (0.472084ms)
+  ✔ RELIGIOUS_DIET (0.118125ms)
+  ✔ ACCESSIBILITY (0.160667ms)
+✔ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes (0.8605ms)
+✔ G1 reception mode comes from explicit source text without inventory; time-sensitive source statements retain read time (0.138791ms)
+✔ G1 each quotation keeps its own page and read time; bounded excerpts cannot establish page silence (1.975375ms)
+✔ G1 saved merchant fragment is quoted in place with provenance; it is not a live or identity-validation claim (4.683833ms)
+✔ G1 propagates shared model-budget exhaustion and cancellation instead of inventing an answer (0.326417ms)
+✔ G1 revision returns a short English answer with Japanese table label and value quotations (0.110083ms)
+✔ G1 rejects a customer review quotation using the visible heading outline, independent of private markers (0.272ms)
+✔ G1 returns structured absence and confirmation flags without display boilerplate (0.128333ms)
+✔ G1 source limits are independent of HARD limits and reject genuinely oversized pages (0.526541ms)
+▶ G1 rejects missing or invalid model classifications and malformed answer fields
+  ✔ missing conflict flag (0.065541ms)
+  ✔ non-boolean conflict flag (0.036417ms)
+  ✔ missing category (0.03775ms)
+  ✔ unknown category (0.034458ms)
+  ✔ non-string category (0.040875ms)
+  ✔ empty answer (0.046792ms)
+  ✔ overlong answer (0.040041ms)
+✔ G1 rejects missing or invalid model classifications and malformed answer fields (0.451166ms)
+✔ G1 preserves a model's concise conflict answer and both source quotations (0.074875ms)
+✔ G1 review exclusion follows visible headings after private markers are renamed and preserves neighbouring merchant statements (0.176792ms)
+✔ G1 preserves parent IDs for unsplit lines while split lines require complete sentence citations (0.212083ms)
+✖ source facts freeze the page and quote metadata before awaiting the model (2.606875ms)
+✔ source selection rejects model numbers, invented IDs, overlapping ranges and customer reviews (0.901208ms)
+✔ source price ranges require quoted or public ARIA meal context; ambiguous amounts remain unknown (0.623833ms)
+✖ source range preserves every intervening restriction and cancellation rejects a late response (0.464875ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 47
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 149.528417
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-source-facts.test.ts:1:1555
+✖ source facts freeze the page and quote metadata before awaiting the model (2.606875ms)
+  AssertionError [ERR_ASSERTION]: a refreshed mutable cache cannot retarget an older quotation
+  + actual - expected
+  
+  + 'https://merchant.example/other-outlet'
+  - 'https://merchant.example/venue'
+                              ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-source-facts.test.ts:16:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'https://merchant.example/other-outlet',
+    expected: 'https://merchant.example/venue',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-source-facts.test.ts:4:1176
+✖ source range preserves every intervening restriction and cancellation rejects a late response (0.464875ms)
+  AssertionError [ERR_ASSERTION]: a selected range cannot detach adjacent meal/party restrictions
+  + actual - expected
+  
+  + {
+  +   listedCourseDetails: [
+  +     'Dinner course\nJPY 8,000 tax included'
+  +   ],
+  +   priceFacts: {
+  +     listedCoursePricesYen: [
+  +       {
+  +         amount: 8000,
+  +         kind: 'MEAL',
+  +         meal: 'DINNER',
+  +         quote: 'Dinner course\nJPY 8,000 tax included',
+  +         sourceUrl: 'https://merchant.example/venue',
+  +         tax: 'INCLUDED'
+  +       }
+  +     ],
+  +     schemaVersion: 'restaurant-price-facts@1'
+  +   },
+  +   readAt: '2026-10-29T09:00:00Z',
+  +   sourceFieldQuotes: [
+  +     {
+  +       field: 'COURSE_DESCRIPTION',
+  +       meal: 'DINNER',
+  +       quote: 'Dinner course\nJPY 8,000 tax included',
+  +       sourceUrl: 'https://merchant.example/venue'
+  +     }
+  +   ],
+  +   sourceUrl: 'https://merchant.example/venue'
+  + }
+  - undefined
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-source-facts.test.ts:38:132)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { readAt: '2026-10-29T09:00:00Z', sourceUrl: 'https://merchant.example/venue', listedCourseDetails: [ 'Dinner course\nJPY 8,000 tax included' ], sourceFieldQuotes: [ [Object] ], priceFacts: { schemaVersion: 'restaurant-price-facts@1', listedCoursePricesYen: [Array] } },
+    expected: undefined,
+    operator: 'strictEqual'
+  }

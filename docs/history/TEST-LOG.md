@@ -1,5 +1,13 @@
 # Test and Verification Log
 
+2026-10-30 CET：G3/G3c已复核签收，已同步main4cbc521b，统一候选8025362b五门禁全绿：默认1242/1242、Chromium186/186（130.563秒）、严格G2 5/5及12/12页面PASS；八项前后净树，721输入SHA不变。旧HARD44,197字节一致，481状态仅既有批准人数反例改变。源码冲突0，6份文档保留双方正文；按用户批准合入推送main，确切SHA以Git远端回执为准，随后通知C待命。真实调用0，账本486条。后续（本批不做）：删除无非空生产者的provider observation verifiedHardCriteria可选字段、透传、旧matchReasons投影与直接构造测试，保留Google及Source2 MODEL_JUDGMENT合法criterion claims；G3b等首次Live有时段TableCheck日历。 [报告](../../.eval-artifacts/phase3b/g3-main/report.md)。
+
+2026-10-30 CET：G3/G3c离线完成待复核。原form_course链接及响应sequence/URL/时间输出已补，核验规则不变；A31398a77已合，main404a766e已同步。冻结d7131675/718项：五门禁默认1241/Chromium180全绿（129.594秒），严格G2 5/5、12/12页面PASS，各项净树；旧HARD44,197字节一致、481状态仅已批准人数反例MET→NOT_CHECKED。A五文件/C唯一响应输入差异和旧provider失用分支单列，C保护代码/断言保留。真实调用0、账本485条，站点3900/Pack482行仅参考。G3b及真实模型/Live验证延期；只推G3工作分支，不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/16-form-course-and-completion/report.md)。
+
+2026-10-29 CET：G3等时戳引用产品缺陷修复：沿既有Reducer superseded因果记录与当前查位引用，不比较时间戳；State24/TaskDefinition22及A四文件不变。领域正反/UNKNOWN/显式替代绿，相关49/49；冻结A cf20522e原H001单例只换一个产品文件，引用0/3→3/3、独立REQUIRED_EVIDENCE未满足→满足、合格交付NO→YES。type/arch/build绿；默认1218/1231仍原13个A待同步失败；Chromium178/180，另2项在51b0d3de前后对照同失败；严格G2全部12页PASS。真实调用0，各检查净树，G3整体等待A同步，不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/15-equal-timestamp-evidence/report.md)。
+
+2026-10-29 CET：G3c通用原文/价格链路已接，独立Source Prompt/Schema2，私有价格/HARD快捷路径退役；核心27和实际对应141通过，旧HARD44197字节一致、481状态仅批准人数反例改变。最终fec90a36的type/arch绿，默认1217/1230，需同步A的共用评测来源工厂及3份相关模型fixture，按跨归属停止；未改A输入/评分或降低断言，build/Chromium/严格G2本候选未跑。G3未完成、不合main，等A接线安排；C保护与vacancy输出不变、真实调用0。站点3890/Pack482行仅参考。 [报告](../../.eval-artifacts/phase3b/g3-longrun/14-quoted-fact-reads/report.md)。
+
 2026-10-28 CET：C nr010店名仅HTML实体解码修复验收PASS，原页及两站3红→相关9绿，同名/门牌/楼层反例仍拒。整合main eb1518f1（含54b3dd2b），a9c4abe8冻结1171项；五门禁1203/175及G2 4/4全绿，10步前后净树。41份回放nr010/022/026均正确、既有23/23、错认0；规则/排序/地址电话及评分不改。本轮GET/模型/Google/Live0，441条历史账本并集合计152模型/242GET。按用户批准交付main，合入SHA以Git合并/远端核对为准，之后停止。 [报告](../../.eval-artifacts/phase3b/g4-name-entities/report.md)。
 
 2026-10-28 CET：用户复核通过C补页7/7、既有23/23、nr022/026正确及错认0；批准只修nr010店名HTML实体解码，红绿和分店反例后同步最新main并五门禁/G2净树合入推送。本批GET/模型/Google/Live0；身份门槛、排序和评分不改。
@@ -34,6 +42,31 @@
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
 
 > Historical record only. The current evidence summary and known gaps are maintained in [Current Status](../STATUS.md).
+
+## TEST-2026-10-28-G3-GROUP01-PREPARATION
+
+2026-10-28 CET: User approves calendar-response evidence decision (ADR0048): private class only navigation hint, no matching response→UNKNOWN; A owns fixed date baselines. B resumes G3 long batch with bound vacancy JSON/structure alert first, then controls/list/busy/G3c without waiting A. Group01 red tests frozen before source edits; C identity/ranking/fragments/tests retained, new real calls0. [Plan](../../.eval-artifacts/phase3b/g3-longrun/01-vacancy-responses/plan.md).
+
+
+## TEST-2026-10-28-G3-LONGRUN-PUBLIC-EVIDENCE-STOP
+
+2026-10-28 CET: G3 long batch rebased to mainba466eb3; original C file-order block resolved, C identity/ranking/fragment code and tests retained. STOPPED_A_OWNED_G2_PUBLIC_EVIDENCE:4 real-Chromium class-only counterfactuals change legacy day state while public text/ARIA/styles/pixels remain identical; fixed calendar references require unsupported status evidence. A/reviewer must restore provenance-bound public evidence or review the frozen baseline before B implements OBS14. No product/test edits. Frozenbfb38d2c/685 inputs five gates1203/175 PASS (106.556s), ordinary G2 4/4, per-check clean; strict G2 remains3/4 baseline red. HARD44197 bytes identical; sites3911/Pack478 reference only, ledger443 ids preserved, new real calls0. G3/G3c not complete; push rebased work branch only. [Report](../../.eval-artifacts/phase3b/g3-longrun/report.md).
+
+
+## TEST-2026-10-28-G3-LONGRUN-PREFLIGHT
+
+2026-10-28 CET: G3 long batch rebased onto C-integrated mainba466eb3, executable diff0. Browser-availability is B-owned for G3; C identity/ranking/fragments and protected tests retained. Freeze staged calendar/slot/list/G3c slices; initial public-observability check compares saved calendar text/ARIA/styles/pixels against private-class-only counterfactuals before replacing OBS14. Fixed G2 inputs remain A-owned. Real calls0; no State/TaskDefinition or Prompt changes. [Plan](../../.eval-artifacts/phase3b/g3-longrun/plan.md).
+
+
+## TEST-2026-10-28-G3-TABELOG-FILE-ORDER-STOP
+
+2026-10-28 CET: G1 reviewed quality fixes are main eb1518f1, remote verified; five gates1196/175 and ordinary G2 4/4 PASS/per-gate clean. G3 Tabelog STOPPED_PROTECTED_FILE_ORDER: actual calendar task wiring requires C-owned tabelog-browser-availability.ts43–48/587–655; both protected files unchanged, no product/test edits. Frozen8cc386a6/674 inputs strict G2 has expected nerima-list red (3/4 checks pass), task behavior NOT_IMPLEMENTED. ADR0047 records user decision: lines reference only; strict G2 + observed task behavior are acceptance. Real calls0, ledger410 ids preserved. Push G3 branch and wait reviewer sequencing. [Report](../../.eval-artifacts/phase3b/g3-tabelog/report.md).
+
+
+## TEST-2026-10-28-G3-TABELOG-FILE-ORDER-PREPARATION
+
+2026-10-28 CET: G1 quality fixes published and ls-remote verified at maineb1518f1 (five gates1196/175,ordinary G2 4/4, each clean). New G3 Tabelog branch starts here. User removes adapter line-count acceptance; ADR0047 records strict G2 plus actual observed task behaviour, lines3878/Pack478 reference only. Read-only audit finds quoted-calendar judgment/completion/grounding wiring in C-protected tabelog-browser-availability.ts; stop before product edits pending reviewer file order. No private logic/tests removed; real calls0. [G3 plan](../../.eval-artifacts/phase3b/g3-tabelog/plan.md).
+
 
 ## TEST-2026-10-28-G1-QUALITY-MAIN-VERIFIED
 
@@ -5807,6 +5840,26 @@ Same target failures precede pressure cutoff; preserve2passing full controls and
 2026-10-28 CET: Approved clock source173840b7 is verified for main publication. Latest maincab27890 already ancestor, executable diff0; frozen4e45e37a five gates1186/175 PASS and each before/after clean.665 inputs unchanged; independent2CPU review and prior three full Linux greens retained. No new real calls. B G1 fix not yet main: six-question repeat remains conditional; broad audit waits B G3. [Integration](../.eval-artifacts/phase3b/browser-fixture-clocks/main-integration/report.md).
 
 
+<a id="test-2026-10-28-g3-group01-vacancy"></a>
+
+## 2026-10-28 CET: G3 bound vacancy response group
+
+2026-10-28 CET: G3 Group01 complete: latest audited vacancy JSON binding and SOURCE_STRUCTURE_CHANGED fail-closed in Adapter/Executor. Valid reds7 native/1 real Chromium→same greens; frozen da0546fb five gates1210/176 PASS (107.281s), ordinary G2 4/4, each before/after clean. HARD44197 bytes identical; C code/four protected tests and A fixed inputs unchanged. Sites3969/Pack478 reference only; new real calls0. Push work branch then continue next group; G3/G3c not yet complete. [Report](../../.eval-artifacts/phase3b/g3-longrun/01-vacancy-responses/report.md).
+
+
+<a id="test-2026-10-28-g3-group02-public-list-busy"></a>
+
+## 2026-10-28 CET: G3 public list and semantic busy group
+
+2026-10-28 CET: G3 Group02 public result links/quoted same-card addresses and semantic busy ownership complete. Effective native3/Chromium1 reds→green; two gate repairs retained, final frozen f6154ca3 five gates1213/177 PASS (109.899s), ordinary G2 4/4, per-gate clean. Strict G2 lists and details PASS; first remaining calendar red retained pending A. HARD44197 bytes unchanged, C protected code/tests intact, sites4014/Pack478 reference, real calls0. Push branch then continue controls/G3c; no main merge. [Report](../../.eval-artifacts/phase3b/g3-longrun/02-public-list-busy/report.md).
+
+
+<a id="test-2026-10-28-g3-group03-ownership-stop"></a>
+
+## 2026-10-28 CET: G3 observed-control fallback and protected-fixture stop
+
+2026-10-28 CET: G3 Group03 observed-control fallback complete: actual Playwright accelerator failure red→Agent DATE/PARTY actions green, exact offer and contradictory-party UNKNOWN preserved. Frozen6bb5ba78 five gates1213/178 PASS (119.580s), ordinary G2 4/4, per-gate clean; HARD44197 bytes and C protected code/tests unchanged. Three groups verified/published; STOPPED_PROTECTED_C_FIXTURE_INPUT_AUTHORIZATION_PENDING, exact one-response fixture diff prepared and NOT applied. Calendar/shared selection/remaining slot and G3c unfinished; no full strict PASS/main merge. Sites4028/Pack478 reference, ledger446 ids, new real calls0. [Report](../../.eval-artifacts/phase3b/g3-longrun/report.md).
+
 <a id="test-2026-10-28-g2-calendar-evidence"></a>
 
 ## 2026-10-28 CET: Reviewer-approved G2 calendar response baseline
@@ -5860,6 +5913,53 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 
 2026-10-29 CET: G1 single-sentence ID refusal repaired on `e8e1bb29`: only genuinely split lines receive sentence suffixes; complete unsplit statements retain parent IDs. Effective old-code red → G1 file 45/45 green; partial quotes and split-paragraph parent IDs still rejected. All five gates PASS (default 1201/1201; Chromium 174/174, 109.000 seconds), ordinary G2 4/4, per-command clean worktree and 684 frozen inputs unchanged. Full HARD output remains 44,197 bytes, byte-identical. Prompt/Schema 3 and Agent/State/TaskDefinition unchanged; real calls 0. User approved separate main integration; G3 remains unfinished. [Report](../../.eval-artifacts/phase3b/g1-single-sentence-ids/report.md).
 
+<a id="test-2026-10-28-g3-calendar-main-sync-preparation"></a>
+
+## 2026-10-28 CET: Approved A calendar main synchronization
+
+2026-10-28 CET: B synchronizes approved A calendar-baseline main8454fffa at completed G3 group boundary. Only A three approved G2 files + history/ledger integrated; B product unchanged, C fixture patch still NOT applied/pending human authorization. 468-id union preserves both sides including prior A19 model calls; append sync0 row→469 ids. Freeze then five gates/ordinary/strict G2; new real calls0, no main publication by B. [Plan](../../.eval-artifacts/phase3b/g3-longrun/04-calendar-main-sync/plan.md).
+
+
+<a id="test-2026-10-28-g3-calendar-main-sync-verified"></a>
+
+## 2026-10-28 CET: Approved A calendar integration verified
+
+2026-10-28 CET: B G3 synchronized approved A calendar main8454fffa, frozen merge6c339ba7/687 inputs five gates1213/178 PASS (111.821s), ordinary G2 4/4, every before/after clean. G2 now11 PASS/1 honest loss: Teppen PASS, strict only Sen requestConfirmed remains. B product and approved A source bytes/HARD44197/C protected tests unchanged. Ledger469-id union preserves all prior rows, totals171model/242GET/11Google; sync increment0. C fixture patch NOT applied, human authorization pending; G3/G3c incomplete, publish work branch only. [Report](../../.eval-artifacts/phase3b/g3-longrun/04-calendar-main-sync/report.md).
+
+
+<a id="test-2026-10-29-g3-response-only"></a>
+
+## 2026-10-29 CET: G3 response-only slot/day evidence
+
+2026-10-29 CET: G3 Group05 response-only slots/day complete; user-authorized C response fixture diff applied, C logic/all assertions preserved. Effective native2/Chromium1 reds→green; frozen2d29aead690 inputs five gates1215/179 PASS (114.013s), ordinary G2 4/4, every before/after clean. Two evidenced gate repairs retained, no assertion reduction; HARD44197 bytes unchanged. Private DOM inventory/day inference retired; English selected-query/shared controls and G3c remain. Sites3950/Pack478 reference, ledger470 prior rows preserved, new real calls0. Push then continue Sen observation, no main merge. [Report](../../.eval-artifacts/phase3b/g3-longrun/05-response-only-slots-days/report.md).
+
+
+<a id="test-2026-10-29-g3-sen-query-evidence-stop"></a>
+
+## 2026-10-29 CET: Sen query-confirmation public evidence stop
+
+2026-10-29 CET: G3 response-evidence code `2d29aead` passed all five gates (default tests 1215/1215; Chromium 179/179) and ordinary G2 4/4. The authorized C input change preserves all protected logic and assertions. Diagnostic `03443767` then found that removing either Sen selected-state class changes `requestConfirmed` from true to false while public text, ARIA, native values, styles and local pixels stay identical; public positive controls detect changes. Work stops for reviewer/A resolution of the retained query-confirmation reference. No baseline or product change was made for this diagnostic. Shared selected-state work and G3c remain unfinished. The ledger retains all prior entries; new real calls are 0. Site lines 3,950 and Pack lines 478 are reference only. [Report](../../.eval-artifacts/phase3b/g3-longrun/06-sen-query-observability/report.md).
+
+
+<a id="test-2026-10-29-g3-g1-main-sync"></a>
+
+## 2026-10-29 CET: G3 sync after approved G1 main repair
+
+2026-10-29 CET: G1 single-sentence ID repair separately merged/pushed main `b2a3cbd3`, remote verified. G3 sync candidate `0073ec8d` retains A test consolidation, B corresponding test body and C protected code/assertions; exact authorized response input preserved. Five gates PASS (default 1213/1213; Chromium 178/178, 114.236 seconds), ordinary G2 4/4, per-gate clean, 691 frozen paths unchanged; HARD bytes identical. Ledger 475-id union preserves both sides; real calls 0. Sen reference decision remains pending: B recommends A record unsupported confirmation as unverified with separate public-evidence controls; baseline unchanged, shared-state/Sen/G3c unfinished. G3 remains unmerged. [Report](../../.eval-artifacts/phase3b/g3-longrun/07-g1-main-sync/report.md).
+
+
+<a id="test-2026-10-29-g3-public-selection"></a>
+
+## 2026-10-29 CET: G3 public selection pending approved Sen baseline
+
+2026-10-29 CET: OBS08/09 public-selection implementation removes class-selected authority and uses ARIA/live native state/exact bound responses; effective native/Chromium red→targeted and corresponding greens. Candidate 12f5dd0d: first four gates PASS (default 1216/1216), full Chromium 178/179; sole failure is the A-owned approved Sen UNKNOWN reference not yet on main. All per-gate statuses clean, no skips/restorations. C protected code/tests and vacancy-response output unchanged. Mark validation pending, preserve the failed gate, continue G3c under explicit user non-wait instruction; no baseline edit and no full/strict PASS claim. Calls0. [Report](../../.eval-artifacts/phase3b/g3-longrun/08-public-selection/report.md).
+
+
+<a id="test-2026-10-29-g3-hard-price-scope"></a>
+
+## 2026-10-29 CET: G3 HARD price-scope stop
+
+2026-10-29 CET：G3 因 HARD 报价适用人数错判停止。实际 Adapter → fixture 模型选句 → 生产条件判断中，原文完整保留“8,000 日元、至少 4 人”，但 2 人请求仍为 MET；独立期望为 NOT_CHECKED。无限制报价正对照为 MET，库存人数绑定正常。HARD 消费方与 main `50a08361` 字节相同，未自行改规则；这是离线反例，没有 Live 错误交付。OBS-09 已实现，G3c 尚为草案；相关核心 49/49、原生 163/163、Chromium 14/14 通过，当前新增回归红灯保留，最终五门禁和严格 G2 尚未通过。A 的 Sen UNKNOWN 已在 main，因本次 S0 停止尚未同步。C 保护文件/断言及响应接口不变，真实调用 0；行数 3,970/Pack 482 仅参考。只推工作分支，等复核。 [报告](../../.eval-artifacts/phase3b/g3-longrun/10-hard-price-scope-stop/report.md).
 <a id="test-2026-10-29-phase3b-g5-b1"></a>
 
 ## 2026-10-29 CET：G5 B1 离线交接与 Proposed ADR0048
@@ -5880,6 +5980,19 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 
 2026-10-29 CET: G2 Sen requestConfirmed is UNKNOWN(null) by approved review; observed public ARIA positives/removal negatives and bound/mismatched response controls retained. G2 is scheduled alone before remaining4-worker fixtures; original180s test/classifier/mutation/12-page manifest unchanged. Matched2CPU37.5% pressure old180.090s timeout→exclusive89.221s PASS; ordinary old2CPU control138.062s PASS retained, not called a reproduction. Frozen445691b3/682 inputs: macOS/Linux five gates green, default1202, Chromium175; three consecutive ordinary2CPU full runs132.279/132.833/132.951s, all before/after clean. All174 prior browser names retained +1 public-control, +1 default native phase-order regression. VM deleted, no file restore, product/site/Guard/Pack/Prompt/Schema/State diff0, real calls0. [Report](../../.eval-artifacts/phase3b/g2-sen-scheduling/report.md).
 
+
+<a id="test-2026-10-29-g3-price-applicability"></a>
+
+## 2026-10-29 CET：G3 报价适用修复和严格G2
+
+2026-10-29 CET：用户批准的报价适用核对已完成。沿现有Intent核对人数、日期、餐别等字面限制；367组旧输入/481状态仅原2人对至少4人的反例MET→NOT_CHECKED，原始报价保留，State/TaskDefinition不变。main50a08361已同步，五门禁1225/180全绿（浏览器128.959秒）、严格G2全部12页PASS/Tabelog6页PASS，各项净树。账本479条并集，真实调用0；C保护代码/断言及响应输出不变。G3c继续，G3不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/11-price-applicability/report.md)。
+
+
+<a id="test-2026-10-29-g3-public-fact-fields"></a>
+
+## 2026-10-29 CET：G3c公开事实字段与范围
+
+2026-10-29 CET：G3c公开事实字段和菜单分区已离线验证，私有class/data不再证明字段/服务范围；两站改名红灯→123对应回归绿，Native范围隔离与全局原文保留。五门禁1225/180全绿，Chromium130.862秒，严格G2全部12页PASS，各项净树。C保护内容与vacancy输出不变，Prompt/State不变，真实调用0；站点3964/Pack482行仅参考。继续通用报价和事实读取，不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/13-public-fact-fields/report.md)。
 <a id="test-2026-10-29-phase3b-g5-b1-followup"></a>
 
 ## 2026-10-29 CET：G5 B1 Accepted0049后续

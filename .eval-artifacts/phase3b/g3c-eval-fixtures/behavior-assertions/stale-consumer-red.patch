@@ -1,0 +1,13 @@
+diff --git a/src/harness/browser/browser-read-request-binding.test.ts b/src/harness/browser/browser-read-request-binding.test.ts
+index fba09677..ad4d4352 100644
+--- a/src/harness/browser/browser-read-request-binding.test.ts
++++ b/src/harness/browser/browser-read-request-binding.test.ts
+@@ -472,7 +472,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
+       sourceAttempts: [{ source: "TABELOG", outcome: "UNKNOWN", reasonCode: "NATIVE_HARD_FACTS_UNCONFIRMED" }],
+       reasonCode: "NATIVE_HARD_FACTS_UNCONFIRMED" };
+     const successor = restaurantBookingTaskDefinition.transition(refreshed, replacement, reducerContext).state;
+-    const successorFacts = restaurantCurrentFactEvidence(successor, candidateId);
++    const successorFacts = restaurantCurrentFactEvidence(state, candidateId); // CONTROLLED stale pre-refresh consumer
+     assert.ok(judgments.every(judgment => successor.readEvidence.some(evidence => evidence.evidenceId === judgment.evidenceId)),
+       "historical judgments remain auditable; the control must not delete them to hide stale facts");
+     assert.ok(judgments.every(judgment => !successorFacts.some(evidence => evidence.evidenceId === judgment.evidenceId)),
