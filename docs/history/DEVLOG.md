@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.349
+- Document revision: 4.350
 
 
 - Last updated: 2026-10-30
@@ -5282,3 +5282,5 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 此前cbe036f5冻结741项的局部五门禁1213/197全部通过、逐项净树；empty/all-failed两项another-batch400证据保留，不当作新允许行为的验收。用户批准后，TaskDefinition22→23、State24形状不变，NO_VERIFIED_RESULT只有完整条件及已知池内未查对象/同条件观察游标或计划剩余工作时才接受NEXT_BATCH_REPLENISHMENT_REQUESTED。保留旧检查/游标/备选，Context和Validator排除上一轮已调查对象；全部失败单走原refresh事件，不调用语义。两个入口复用版本、requestId幂等、有界预算、Stop和迟到丢弃，不重置发现计划，无新条件事件或问答存储。
 
 新增两尺寸续查/取消/失败恢复开发10/10、领域/投影37/37通过；最终全量冻结门禁及截图待执行。B来源搜索/G3、C Google、A评测、G1/B1执行及通用Runtime不改。只推第2段分支停复核，新增真实调用/Holdout0。[实现与验收](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+最终交付验证：cbcd667b67e1c9592cb7f737a907a93181139afc冻结742项SHA，五门禁1215/1215默认、203/203 Chromium（含G2 5）全绿，六步前后净树/HEAD一致。第2段22条+原工作区/G1脚本9条通过，两尺寸十项/新增五项和第1段十一项均覆盖。版本旧断言22已同步批准的23，原失败保留；首次卡片截图淡入中间帧改capture原生结束动画，不改产品动画。截图自查又发现模型失败提示在长卡下面，补同一视口断言两尺寸红→绿，将原节点移到条件下，草稿/卡片保持；40张新图仅此两图较已审查前轮变化，另21张回归图均留存。产品/输入不再变，补报告/附件后只推工作分支停复核，不合main；真实模型/Google/来源GET/Live/外写/Holdout0，无生产凭据或数据库重置。[最终报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。

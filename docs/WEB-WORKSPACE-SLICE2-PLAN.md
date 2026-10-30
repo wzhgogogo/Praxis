@@ -1,10 +1,10 @@
 # Web Workspace Slice 2 Plan
 
 - Status: Draft
-- Document revision: 0.4
+- Document revision: 0.5
 - Last updated: 2026-10-30
 - Source of truth for: 第2段切片范围、接线、停止点与验收；不替代产品和ADR
-- Evidence status: draft / not integrated；首轮局部五门禁已通过，空结果有界续查已获准补做，未完成整段验收，真实调用0
+- Evidence status: frozen regression；工作分支实现及本地Fixture验收通过，待复核未合main，真实调用0
 - Related documents: [Visual](product/VISUAL-DIRECTION.md), [Flows](product/USER-FLOWS.md), [Gateway](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
 
 ## 当前切片承诺
@@ -39,7 +39,7 @@ Playwright在390×844、1280×900各覆盖用户第2段十项，包括路由唯�
 
 G1不能按当前对象绑定、拿不到上一需求候选、错误没有可区分信号、需改A评测/B搜索G3/C Google、范围扩大或只能用局部测试替代真实链路时，按用户停止条件报告具体缺口与最小方案。
 
-## 实施记录与当前停止点
+## 实施记录与当前验证
 
 主输入框路由/回答面板与完整历史、条件胶囊、服务端差异/备选原因、批末续批、模型失败保留输入、部分来源失败、原生SSE恢复与过期refresh已接通；开发两尺寸21条（含第1段十一项所属脚本）通过。新增投影仅复用project已有事件和当前状态，无额外数据库往返、模型或来源调用。requirementRevision按有效条件事件分组；原误名requestRevision更名searchRevision并更新所属断言，仍独立验证真实新搜索，不保留旧字段兼容。
 
@@ -52,3 +52,5 @@ G1不能按当前对象绑定、拿不到上一需求候选、错误没有可区
 全部来源失败的Try again与上述路径分开：复用现有refresh URL和刷新事件，只允许服务端确认全部失败且必要条件齐全的既有候选，不转成Find more、不重跑语义。新增允许转移写入Flows/Gateway，保留原有展示结果刷新；不改B搜索/G3或G1执行。
 
 补真实HTTP/SSE/Runtime浏览器验收：池内未查与现有搜索续接均能取得新结果；全查过不显示Find more；续查中Stop拒收迟到卡片；双击只发起一次；已不合格/失败候选不再调查；同requestId不再触发读取，旧版本/跨用户拒绝。全部来源失败另测Try again从固定失败恢复到当前合格结果，不以点击400或终止为正向通过。首轮cbe036f5的五门禁1213/197和原件保留，新代码/输入重新冻结再全量验收。
+
+最终冻结cbcd667b67e1c9592cb7f737a907a93181139afc、742项SHA不变：五门禁默认1215/1215、Chromium203/203全绿，六步前后净树；本段22条及复用第1段/G1脚本9条均绿，390×844和1280×900原十项/新增五项及第1段十一项通过。模型失败提示可见性曾在截图自查发现遗漏，补两尺寸视口断言红→绿后移到条件下；全部40张新画面及21张回归图已保存，旧原件保留。Source/模型/Google/Live/Holdout0，未改A/B/C受保护路径或G1/B1执行，不新增图片/比较/B2/条件事件/问答存储。门禁后仅补报告与附件，推工作分支停复核，不合main。[最终报告与截图](reviews/WEB-WORKSPACE-SLICE2-20261030.md)。

@@ -1,0 +1,94 @@
+{
+  "sourceCommit": "cbcd667b67e1c9592cb7f737a907a93181139afc",
+  "main": "4cbc521bb9e4fb177e247266561bd90eb5d34e3f",
+  "manifestSHA256": "0b805fdc781659afacc05eaf360cb032a0313528f9ae5e95f8daaf8fd3131e9b",
+  "mode": "OFFLINE_AND_LOCAL_CHROMIUM_FIXTURE",
+  "realAPIRequests": 0,
+  "Holdout": "NOT_RUN",
+  "sourceGET": 0,
+  "Google": 0,
+  "externalWrites": 0,
+  "screenshotDirectory": "/private/tmp/praxis-slice2-20261030-delivery-screens",
+  "frozenFilesUnchanged": 742,
+  "checks": [
+    {
+      "name": "empty-continuation-diagnostic",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/web-workspace-slice2-20261030/probe-empty-continuation.mjs",
+        ".eval-artifacts/web-workspace-slice2-20261030/gates-delivery/admission"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 1852,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 531,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 241,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 28401,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 533,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 140106,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    }
+  ]
+}

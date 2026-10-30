@@ -1,12 +1,12 @@
 # Praxis 视觉方向
 
 - Status: Draft
-- Document revision: 0.10
+- Document revision: 0.11
 - Last updated: 2026-10-30
 - Source of truth for: Web 界面的视觉规则；不覆盖 Accepted PRD、ADR 或当前实现状态
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [User Flows](USER-FLOWS.md), [Agent Gateway and Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Booking Design Draft](BOOKING-DESIGN-DRAFT.md)
-- Evidence status: 第1段已复核并快进合main4cbc521b；第2段工作分支Fixture实现，追加续查后的最终门禁待运行，不是Live能力证据；状态见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)
+- Evidence status: 第1段已复核并快进合main4cbc521b；第2段工作分支本地Fixture/两尺寸验收通过，40张新画面已自查，待用户复核未合main，不是Live能力；见[第2段报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)
 
 用户 2026-10-29 选定“合并版”：白底，柔和阴影分层，实心群青胶囊按钮。[画布](https://claude.ai/artifact/VniECP5jzidQmknLSFyryM)是虚构示例，早于视觉规则0.2的收紧；冲突时以本文视觉规则为准。参考“合并版3候选 / 4订法”；开始、查找中及侧栏参考“群青 · Wabi式”和“A2安排列表”，不能据画布推断真实照片、进度数字、条款或预约能力。
 
@@ -107,9 +107,8 @@
 ## 待验证
 
 - 真实来源照片（偏暗、杂乱、缺图）下的效果；画布上有模拟的压力测试。
-- 英文文案下的排版。
-- 夜间模式、桌面布局。
-- 回答浮层、备选列表、比较页。
+- 英文文案、回答浮层和备选列表已完成本地Fixture的390×844及1280×900基础验证；真实来源内容压力仍待。
+- 夜间模式、桌面精修和比较页仍待，不属于本段。
 
 
 

@@ -1,17 +1,17 @@
 # 前端第2段实现与复核
 
 - Status: Draft
-- Document revision: 0.2
+- Document revision: 0.3
 - Last updated: 2026-10-30
 - Source of truth for: 本段实现、验收原件、视觉自查和未验证边界
-- Evidence status: draft / not integrated；本地Fixture产品验证，不是Live或模型质量证据
+- Evidence status: frozen regression；工作分支本地Fixture验收通过、待复核未合main，不是Live或模型质量证据
 - Related documents: [计划](../WEB-WORKSPACE-SLICE2-PLAN.md), [视觉](../product/VISUAL-DIRECTION.md), [Flows](../product/USER-FLOWS.md), [Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md)
 
 ## 交付状态
 
 第1段已按用户批准将main从404a766e快进至4cbc521bb9e4fb177e247266561bd90eb5d34e3f，推送后远端核对一致；无新合并提交或附加内容，按指令没有为该快进重跑门禁。[回执](../../.eval-artifacts/web-workspace-slice2-20261030/main-fast-forward.json)。第2段分支codex/feat-web-workspace-slice2从该main创建，STATUS合入记录只在第2段更新。
 
-五项界面已接通。原空结果动作阻断获用户追加批准后，已补上服务端canContinue及独立Try again；开发新增两尺寸10/10及领域/投影37/37通过。新代码的最终冻结五门禁与截图待运行，通过后只推本分支，不合main。此前cbe036f5的局部实现五门禁1213/197通过保留为历史检查点，不能替代追加状态机改动后的验收。
+五项界面及用户追加批准的canContinue/独立Try again已完成。最终代码冻结cbcd667b67e1c9592cb7f737a907a93181139afc、742项输入SHA不变，五门禁全绿：默认1215/1215、Chromium203/203（含G2 5/5）。390×844和1280×900覆盖本段十项、追加五项及第1段十一项；关键工作区脚本31/31（本段22、复用旧工作区/G1脚本9）。40张主要新画面及21张第1段回归截图已保存。只推codex/feat-web-workspace-slice2停复核，不合main。
 
 ## 实现与合同
 
@@ -26,7 +26,7 @@
 
 ## 验收映射
 
-真实Chromium→HTTP/SSE→生产Application/Interpreter/Compiler/Validator/Router/Runtime/PGlite，只替换模型/来源/问答传输。两尺寸为390×844、1280×900。最终结果待冻结门禁，以下是脚本中的合同映射，不以按钮点击或局部状态代替真实链路。
+真实Chromium→HTTP/SSE→生产Application/Interpreter/Compiler/Validator/Router/Runtime/PGlite，只替换模型/来源/问答传输。两尺寸390×844、1280×900的下列项目全部PASS，原始测试名/断言在web-workspace-slice2、web-workspace和browser-read-workspace所属脚本中；不以按钮点击或局部状态代替真实链路。
 
 | 用户项 | 覆盖与独立预期 |
 |---|---|
@@ -53,13 +53,13 @@ Fixture修正没有改变生产规则：固定模型遵守已展示排除集，�
 
 70447893追加转移后的冻结检查：诊断/typecheck/arch绿，默认1214/1215；唯一失败为restaurant-message-handler旧快照版本断言仍期望TaskDefinition22，实际为用户批准的23。[原件](../../.eval-artifacts/web-workspace-slice2-20261030/gates-continuation/gates.json)保留，build/Chromium尚未运行。只将所属版本断言更新23，未改任何语义输入/Gold/评分或生产行为，再冻结全量验证。
 
-48374ef4随后五门禁1215/203全绿，742项SHA及逐步净树确认。首次截图61张（40新画面/21回归），人工复核发现候选截图取到180ms淡入中间帧，原件保留；仅将第2段capture改为Playwright animations=disabled，使截图取有限动画结束状态，不增加固定sleep或改产品动画/样式。重新冻结后补稳定截图与最终门禁。
+48374ef4随后五门禁1215/203全绿，742项SHA及逐步净树确认。首次截图61张（40新画面/21回归），截图自查发现候选截图取到180ms淡入中间帧，原件保留；仅将第2段capture改为Playwright animations=disabled，使截图取有限动画结束状态，不增加固定sleep或改产品动画/样式。重新冻结后补稳定截图与最终门禁。
 
-27769434的稳定截图与五门禁1215/203再次通过；人工复核又发现理解失败短提示在长卡片下面、首屏不可见。原测试的isVisible只能证明元素参与布局，不能证明用户能看到。补“完整位于固定输入框上方”的同一视口断言，两尺寸均红；将原提示节点移到条件下方，卡片/草稿内容保持，复跑目标断言后再冻结交付。该项是本轮发现并修复的UI可见性缺口，不以全仓全绿掩盖。
+27769434的稳定截图与五门禁1215/203再次通过；截图自查又发现理解失败短提示在长卡片下面、首屏不可见。原测试的isVisible只能证明元素参与布局，不能证明用户能看到。补“完整位于固定输入框上方”的同一视口断言，两尺寸均红；将原提示节点移到条件下方，卡片/草稿内容保持，复跑目标断言后再冻结交付。该项是本轮发现并修复的UI可见性缺口，不以全仓全绿掩盖。
 
 ## 评价边界与剩余范围
 
-四层：端到端为固定输入的工作区产品行为，最终门禁待运行；逐环节只对已冻结Fixture、HTTP操作及字面量预期判定，真实语义/发现/身份/来源质量NOT_EVALUATED；严重程度不宣称真实模型S0=0，外部模型/Google/来源GET/Live/外写调用均0；归因只到已证实的接口准入、投影、UI和Fixture接线，不推断当前网站能力。固定本地测试不等于Replay、真实模型或Live验收。
+四层：端到端为固定输入的工作区产品行为，22个本段场景及9个复用场景全部PASS；逐环节只对冻结Fixture、HTTP操作及字面量预期判定，真实语义/发现/身份/来源质量NOT_EVALUATED；严重程度不宣称真实模型S0=0，已发现的提示不可见体验缺口以两尺寸红→绿关闭，外部模型/Google/来源GET/Live/外写调用均0；归因只到已证实的接口准入、投影、UI和Fixture接线，不推断当前网站能力。固定本地测试不等于Replay、真实模型或Live验收。命令总耗时有原件，逐条首个合格证据/首卡延迟、页面/操作耗时分解未采集，均NOT_EVALUATED，不作效率结论。
 
 结构化条件修改最小方案仍为draft / not integrated：显式用户Patch事件拟USER_CONDITIONS_UPDATED，仅白名单字段；校验归属、完整值域、跨字段约束、expectedVersion和requestId幂等；复用原需求失效/取消/迟到机制。实施时递增TaskDefinition；仅新增持久形状才递增State，Prompt/Proposal不因前端预填改版。本段不实现该事件。
 
@@ -67,4 +67,46 @@ Fixture修正没有改变生产规则：固定模型遵守已展示排除集，�
 
 ## 最终门禁、截图与视觉自查
 
-待最新代码与输入冻结后补入最终原件、两尺寸结果、主要新画面截图及视觉“不做”逐项自查。已通过的旧冻结门禁不代替本次追加状态转移的验证。
+冻结清单[gate-freeze-delivery.json](../../.eval-artifacts/web-workspace-slice2-20261030/gate-freeze-delivery.json)，SHA256为0b805fdc781659afacc05eaf360cb032a0313528f9ae5e95f8daaf8fd3131e9b。[运行回执](../../.eval-artifacts/web-workspace-slice2-20261030/gates-delivery/gates.json)包含六步前后净树、HEAD一致、742文件不变及真实调用0；门禁后仅增加报告/附件，产品/测试/输入字节不再改变。
+
+| 检查 | 结果 | 原件 |
+|---|---|---|
+| npm run typecheck | PASS | [日志](../../.eval-artifacts/web-workspace-slice2-20261030/gates-delivery/typecheck.log) |
+| npm run arch:check | PASS，0禁止依赖 | [日志](../../.eval-artifacts/web-workspace-slice2-20261030/gates-delivery/arch-check.log) |
+| npm test | 1215/1215，无skip/todo | [日志](../../.eval-artifacts/web-workspace-slice2-20261030/gates-delivery/test.log) |
+| npm run build | PASS | [日志](../../.eval-artifacts/web-workspace-slice2-20261030/gates-delivery/build.log) |
+| npm run test:browser:fixture | 203/203，无skip/todo，包含G2 5/5 | [日志](../../.eval-artifacts/web-workspace-slice2-20261030/gates-delivery/browser-fixture.log) |
+| localhost准入诊断（门禁外） | 已全查及全部失败均不可续接；仅全部失败canRetry=true | [HTTP原件](../../.eval-artifacts/web-workspace-slice2-20261030/gates-delivery/admission/result.json) |
+
+默认命令含净树校验28.401秒、Chromium140.106秒。所有PNG的尺寸、SHA和来源提交见[最终截图清单](../../.eval-artifacts/web-workspace-slice2-20261030/screenshots-delivery.json)。移动端20张全部目视核对（19张与上一轮已核对图字节相同，错误提示图重新核对）；桌面抽查回答/差异/续查/过期及新错误提示5张，另核对两尺寸长条款动作图。40张新画面中38张与前轮相同，仅模型失败的两尺寸图片因修复更新；61张全部核对尺寸/SHA。
+
+视觉“不做”自查：无斜体、全大写眉标、章节编号、代码面包屑或Emoji；未引入禁用字体，Mono仅logo；字号24/17/15/13、最小13、字重400/600；单层柔和阴影，无边框叠阴影、半透明叠色、毛玻璃、渐变或彩色左线；并列信息用间距，无中圆点/竖线分隔或下拉箭头；首页24px，无超大标题；每个主要状态至多一个群青实心主动作，其他动作文字；无额外图表/解释块，无进度/卡片/光标以外的新动效。全部英文UI，来源原文按G1保留。长内容可滚到固定输入框上方，理解失败提示在两尺寸首屏可见；无图片、比较、B2、夜间、语音截图输入或桌面精修。
+
+原始失败日志保留未改，git diff --check仅对归档日志的原空格行有提示；产品/文档/脚本diff检查干净。未读取生产凭据，未运行真实模型、Google、来源GET、Live、外部写入或Holdout。src/core、src/integrations、src/eval相对起点差异为0，G1/B1执行规则未改。
+
+| Screen | 390 x 844 | 1280 x 900 |
+|---|---|---|
+| Conditions | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-conditions.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-conditions.png) |
+| Answer panel | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-answer.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-answer.png) |
+| You asked | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-you-asked.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-you-asked.png) |
+| Changes with evidence | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-revision-structured.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-revision-structured.png) |
+| Changes without specific evidence | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-revision-missing.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-revision-missing.png) |
+| Saved with reasons | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-saved-structured.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-saved-structured.png) |
+| Saved with fallback reasons | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-saved-missing.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-saved-missing.png) |
+| Batch end | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-batch-end.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-batch-end.png) |
+| No qualified result; exhausted | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-empty.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-empty.png) |
+| All sources failed | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-all-sources-failed.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-all-sources-failed.png) |
+| Try again recovered | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-retry-recovered.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-retry-recovered.png) |
+| Model failure; visible guidance | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-model-failure.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-model-failure.png) |
+| Partial source failure | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-partial-source.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-partial-source.png) |
+| Reconnecting | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-reconnecting.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-reconnecting.png) |
+| Expired handoff | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-expired-handoff.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-expired-handoff.png) |
+| Continue unread pool | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-continue-pool.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-continue-pool.png) |
+| Continue observed search | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-continue-search.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-continue-search.png) |
+| New pool results | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-continued-pool.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-continued-pool.png) |
+| New search results | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-continued-search.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-continued-search.png) |
+| Continuation stopped | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-slice2-continuation-stopped.png) | [PNG](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-slice2-continuation-stopped.png) |
+
+[Long cancellation terms: mobile](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/mobile-cancellation-actions.png) / [desktop](../../.eval-artifacts/web-workspace-slice2-20261030/delivery/desktop-cancellation-actions.png).
+
+[Visual self-review record](../../.eval-artifacts/web-workspace-slice2-20261030/visual-review.json).
