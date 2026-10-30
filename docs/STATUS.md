@@ -1,5 +1,9 @@
 # Praxis 当前状态
 
+2026-10-30 CET：用户已复核通过d50f3e77；C证据合入前在fdd4aba5冻结718项，五门禁1210/175（内含G2 5/5）全绿，7步前后净树，输入SHA一致。原PG证据逐字节保留，src/迁移/受保护文件及账本不改；本次没有新数据库实验、凭据读取或来源/模型调用。按用户批准合main并推送，远端SHA由Git回执核对；发布后待命，G3/B1和日文检索仍等后续指令。 [报告](../.eval-artifacts/phase3b/b1-postgres-feedback-main/report.md)。
+
+2026-10-29 CET: C B1 real PostgreSQL17.10 verification PASS on unchanged main00519783. Frozen76c676a2/17 inputs: isolated index-negative control2 prompted rows versus original-index1 (23505); unmodified product eight physical connections yield one prompt, eight duplicate departure/answer submissions idempotent, cross-user/Case rejected. Node and database restart retain3 answered plus1 unanswered Case without re-asking; Task/Outcome/events/commands unchanged. Private Unix socket only, no PGlite/env/external calls; own cluster stopped and removed. Evidence pending review, branch only; G4 waits G3. [Report](../.eval-artifacts/phase3b/b1-postgres-feedback/report.md).
+
 - **2026-10-30 前端小修离线通过，语义新增运行失败已停：** 冻结56d283b0五门禁1211默认/181 Chromium全绿，各项前后净树；长条款两尺寸两入口完整可见可点，21张新截图。Prompt28无上下文4组字节SHA同v26，签收并发规则及文案小修完成。Fixture15/15后唯一真实10 API、重试0：9 PROPOSED、SR04-T01 MODEL_FAILURE/NETWORK、5后续上游阻断，严格0/15。10份HTTP200有效JSON与网关NETWORK并存，归因未定，不能宣称已确认模型语义退化或整体通过。已按规则停止，不改Prompt/网关、不补跑；79SHA不变，Google/来源GET/Live/Holdout0。单店问答合并留下一段，工作分支交复核、不合main。[四层/v26逐项/原件/截图](reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。
 
 - **2026-10-30 前端第1步离线切片完成，待复核：** 白底群青英文工作区、逐家卡片、真实进度/停止、按Case备选和视图/卡片恢复、当前查看上下文及B1新呈现已接通；390×844与1280×900的10项链路、Tabelog冲突/手续费和原三项UI回归通过。冻结4255fcf8五门禁全绿：默认1210/1210、Chromium180/180，各项前后净树；13张截图附报告。修复停止投影与边查边保存版本冲突，未改B1链接/证据规则。语义Prompt27（原26）增加当前指代，Schema4/State24/TaskDefinition22不变，真实模型质量未评。普通来源读者/G3、真实PG多连接、来源网站实际带入仍未验；图片/比较/B2不在本段。业务模型/Google/来源GET/Live/外部写入全0，不读.env；工作分支交复核、不合main。[复核报告](reviews/WEB-WORKSPACE-SLICE1-20261030.md)。
@@ -76,7 +80,7 @@
 - Document revision: 4.450
 
 - Document revision: 4.445
-- Last updated: 2026-10-29
+- Last updated: 2026-10-30
 - Source of truth for: 当前实现、证据与下一道门槛
 
 - **2026-10-28 CET：3b C批次3完成，停止待复核。** main基线90b464d8；29原保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝；用户确认去重12而非16，以及每店每来源最多两次检索，已写入报告供复核者核对。双站原名→一种逐字Google片段，独立named-query Prompt/Schema2，原身份与详情总额保持，Google增量0。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。G2仅两原页地址获批更新；17保存检索及4个UNKNOWN控制、12片段定位通过，7/8为历史混合探针，新Prompt2真实质量未评。只推C分支，申请复核通过后合main，B随后开始G3。[报告](../.eval-artifacts/phase3b/c-batch3/report.md)。

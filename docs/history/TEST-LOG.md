@@ -25,10 +25,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.349
+- Document revision: 4.350
 
 
-- Last updated: 2026-10-29
+- Last updated: 2026-10-30
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -5934,3 +5934,19 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 正式五门禁、Fixture→单次真实回归及四层对照待冻结后执行；计划15逻辑/最多15API，无API重试。仅从既有.env受控加载DeepSeek凭据，不复制或打印；本段不跑Holdout/Google/来源GET/Live。真实模型尚未启动，不把计划写成结果。模型新退化即停，原Gold/评分器/A评测执行源不改。[计划与结果入口](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。
 
 正式执行：56d283b0843aa1dbb945adcb9bdaf701e0cc22da五门禁1211/181及Fixture15/15通过，逐项前后净树；21截图。唯一真实10 API、重试0，9 PROPOSED、1 MODEL_FAILURE/NETWORK、5上游阻断，严格0/15；SR04-T01相对v26新增运行失败，按规则停止。10份HTTP200有效JSON与网关NETWORK并存，网关处理或外围记录路径归因未定，不断言模型语义退化；未改Prompt追分/网关/记录器，不重跑。网关usage9条66,593tokens，独立API原件10条74,043tokens，差额单列不漏算；79项SHA不变，Google/来源GET/Live/Holdout0，Gold/评分器/旧产物不改，工作分支交复核不合main。[四层/逐项/原件与截图](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。
+
+<a id="test-2026-10-29-b1-real-postgres"></a>
+
+## 2026-10-29 CET: B1 real PostgreSQL feedback verification
+
+2026-10-29 CET: C starts optional real PostgreSQL17.10 B1 verification on main00519783. Own temporary cluster, TCP disabled/private Unix socket. Freeze scripts then index-only red/green control and unmodified product app/store eight-connection claims/idempotency/owner isolation, process+database restart. No PGlite, no.env, no product/UI/A-eval/B file edits, external calls0. G4 remains pending G3 and separate instruction.
+
+Verified delivery: 2026-10-29 CET: C B1 real PostgreSQL17.10 verification PASS on unchanged main00519783. Frozen76c676a2/17 inputs: isolated index-negative control2 prompted rows versus original-index1 (23505); unmodified product eight physical connections yield one prompt, eight duplicate departure/answer submissions idempotent, cross-user/Case rejected. Node and database restart retain3 answered plus1 unanswered Case without re-asking; Task/Outcome/events/commands unchanged. Private Unix socket only, no PGlite/env/external calls; own cluster stopped and removed. Evidence pending review, branch only; G4 waits G3. [Report](../../.eval-artifacts/phase3b/b1-postgres-feedback/report.md).
+
+<a id="test-2026-10-30-b1-postgres-main"></a>
+
+## 2026-10-30 CET：审定PostgreSQL证据合主线
+
+2026-10-30 CET：用户复核通过C真实PostgreSQL证据d50f3e77并批准合main。最新origin/main00519783已在祖先，src/迁移/受保护文件不改；冻结原件和门禁输入后重跑五门禁，每项前后净树。只发布证据与文档，不重跑数据库、不加载.env、不调用来源或模型；通过后合main/push/ls-remote，随后待命。G3接线与日文检索仍等另行指令。 [计划](../../.eval-artifacts/phase3b/b1-postgres-feedback-main/plan.md)。
+
+验证完成：2026-10-30 CET：用户已复核通过d50f3e77；C证据合入前在fdd4aba5冻结718项，五门禁1210/175（内含G2 5/5）全绿，7步前后净树，输入SHA一致。原PG证据逐字节保留，src/迁移/受保护文件及账本不改；本次没有新数据库实验、凭据读取或来源/模型调用。按用户批准合main并推送，远端SHA由Git回执核对；发布后待命，G3/B1和日文检索仍等后续指令。 [报告](../../.eval-artifacts/phase3b/b1-postgres-feedback-main/report.md)。
