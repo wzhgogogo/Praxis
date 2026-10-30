@@ -1,7 +1,7 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.16
+- Document revision: 1.17
 - Last updated: 2026-10-30
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -112,6 +112,8 @@ Accepted ADR
 - [Post-change Verify](skills/post-change-verify/SKILL.md)
 
 ## 当前阶段计划
+
+- [Web Workspace Slice 2 Plan](WEB-WORKSPACE-SLICE2-PLAN.md)：从已快进合main的第1段4cbc521b开始，单输入框/条件/差异/收尾/错误；空结果续查准入待决定，真实调用0。
 
 - [Web Workspace Slice 1 Plan](WEB-WORKSPACE-SLICE1-PLAN.md)：当前前端纵向切片范围、现有取消/进度链路、两尺寸浏览器验收与停止条件；业务真实调用0。
 

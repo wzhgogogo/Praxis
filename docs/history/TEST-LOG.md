@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.352
+- Document revision: 4.353
 
 
 - Last updated: 2026-10-30
@@ -5960,3 +5960,11 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 复用Gateway连接/正文失败测试，正文接真实Interpreter，原诊断undefined反例红→17/17绿。安全原始errorName及最多三层cause名称/代码进入失败Observer记录与MODEL_FAILURE.providerError，不记录异常消息/URL/Headers/Secret，不改Prompt28/Schema4或重试。df60d11a修复后在4746b313同步main404a766e，5份历史/状态冲突保留双方，C的PG证据字节保留、源码/迁移未变。最终冻结净树五门禁与390×844/1280×900完整验收待执行，完成只推工作分支、不合main。[计划/结果](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
 
 最终验证：474febbaffbe7c2b22a26a698707e40b027b1980冻结736项，五门禁1211/1211默认、181/181 Chromium全绿（29.210/121.601秒）；每项前后净树、HEAD和输入SHA不变。两尺寸完整十项及长条款/取消冲突两个来源入口滚动后完整可见并实际点击，原来源/问答回归共9/9；21张PNG逐张目视与尺寸/SHA核对。56份原输入/守卫/v26评分材料、37份main PG证据字节不变。模型API/Google/来源GET/Live/外部写入/私有Holdout新增0。诊断机制关闭，原传输故障具体原因未确认，旧真实失败/严格0/15不改。门禁后只增报告/附件，推工作分支交合入复核、不合main。[结果与截图](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
+
+<a id="test-2026-10-30-web-slice2-start"></a>
+
+## 2026-10-30 第1段快进合主线与第2段开始
+
+用户批准快进且不重跑门禁。拉取后远端main仍404a766e且是4cbc521b祖先，净树；本地main登记在失效工作树（无.git），仅在当前工作树checkout忽略失效登记，不清理其他目录。ff-only至origin/codex/feat-web-workspace-slice1并推main，远端回读等于4cbc521bb9e4fb177e247266561bd90eb5d34e3f，无新合并提交、无额外内容。随后从该main建立codex/feat-web-workspace-slice2，STATUS记录随第2段，不新增main提交。
+
+第2段只读预检确认G1展示候选绑定和最近单条问答、旧候选完整事件及现有消息/续批/refresh；无模型结构化条件接口，按指令仅预填。空结果NO_VERIFIED_RESULT被another-batch应用/Reducer拒绝，已询问是否授权最小只读续查扩展；未获准不改。按[计划](../WEB-WORKSPACE-SLICE2-PLAN.md)推进不依赖它的前端；真实业务/模型/Google/来源/Live/Holdout0。
