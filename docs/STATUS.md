@@ -1,5 +1,9 @@
 # Praxis 当前状态
 
+2026-10-30 CET：用户已复核通过d50f3e77；C证据合入前在fdd4aba5冻结718项，五门禁1210/175（内含G2 5/5）全绿，7步前后净树，输入SHA一致。原PG证据逐字节保留，src/迁移/受保护文件及账本不改；本次没有新数据库实验、凭据读取或来源/模型调用。按用户批准合main并推送，远端SHA由Git回执核对；发布后待命，G3/B1和日文检索仍等后续指令。 [报告](../.eval-artifacts/phase3b/b1-postgres-feedback-main/report.md)。
+
+2026-10-29 CET: C B1 real PostgreSQL17.10 verification PASS on unchanged main00519783. Frozen76c676a2/17 inputs: isolated index-negative control2 prompted rows versus original-index1 (23505); unmodified product eight physical connections yield one prompt, eight duplicate departure/answer submissions idempotent, cross-user/Case rejected. Node and database restart retain3 answered plus1 unanswered Case without re-asking; Task/Outcome/events/commands unchanged. Private Unix socket only, no PGlite/env/external calls; own cluster stopped and removed. Evidence pending review, branch only; G4 waits G3. [Report](../.eval-artifacts/phase3b/b1-postgres-feedback/report.md).
+
 2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../.eval-artifacts/phase3b/g5-b1-main/report.md)。
 
 2026-10-29 CET：C G5 B1后续1–3完成待复核，已同步main50a08361并保留A调度修复。ADR0049 Accepted0.2；持久USER_REPORTED反馈并发/重启最多一次，Yes/No/Skip幂等且不改预约状态；日英取消冲突并列原文和英文转述，不判严格程度。手续费两GET均200，英文帮助原文支持440/用户取消不退/餐厅取消退；累计GET244/257，模型/Google/Live0。7542dde7冻结702项，五门禁1210/175、G2 5/5全绿，10步前后净树。既有Prompt/Schema/State/TaskDefinition不变，独立B1合同2；G3接线与首次TableCheck Live清单均未运行，仅推分支不合main。 [报告](../.eval-artifacts/phase3b/g5-b1-followup/report.md)。
@@ -65,10 +69,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.448
+- Document revision: 4.450
 
 - Document revision: 4.445
-- Last updated: 2026-10-29
+- Last updated: 2026-10-30
 - Source of truth for: 当前实现、证据与下一道门槛
 
 - **2026-10-28 CET：3b C批次3完成，停止待复核。** main基线90b464d8；29原保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝；用户确认去重12而非16，以及每店每来源最多两次检索，已写入报告供复核者核对。双站原名→一种逐字Google片段，独立named-query Prompt/Schema2，原身份与详情总额保持，Google增量0。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。G2仅两原页地址获批更新；17保存检索及4个UNKNOWN控制、12片段定位通过，7/8为历史混合探针，新Prompt2真实质量未评。只推C分支，申请复核通过后合main，B随后开始G3。[报告](../.eval-artifacts/phase3b/c-batch3/report.md)。

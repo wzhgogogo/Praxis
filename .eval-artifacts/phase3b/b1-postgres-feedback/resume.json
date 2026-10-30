@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "nodePID": 69815,
+  "priorNodePID": 69788,
+  "server": {
+    "started": "2026-10-29T15:31:26.861Z",
+    "tcp": null
+  },
+  "priorPostmasterStarted": "2026-10-29T15:24:20.127Z",
+  "schema": {
+    "migrations": [
+      {
+        "id": "0001-task-runtime"
+      },
+      {
+        "id": "0002-recovery-coordinator"
+      },
+      {
+        "id": "0003-goal-task-graph"
+      },
+      {
+        "id": "0004-task-triggers"
+      },
+      {
+        "id": "0005-agent-workspace"
+      },
+      {
+        "id": "0006-restaurant-agent-trajectory"
+      },
+      {
+        "id": "0007-restaurant-agent-trajectory-causal-refs"
+      },
+      {
+        "id": "0008-restaurant-agent-trajectory-decision-context"
+      },
+      {
+        "id": "0009-restaurant-live-read-trajectory"
+      },
+      {
+        "id": "0010-restaurant-booking-handoff-feedback"
+      }
+    ],
+    "columns": [
+      "id",
+      "conversation_id",
+      "request_id",
+      "candidate_id",
+      "offer_id",
+      "provider",
+      "departed_at",
+      "prompted_at",
+      "answer",
+      "answered_at",
+      "provenance"
+    ],
+    "indexes": [
+      {
+        "indexdef": "CREATE UNIQUE INDEX restaurant_booking_departures_conversation_id_request_id_key ON public.restaurant_booking_departures USING btree (conversation_id, request_id)"
+      },
+      {
+        "indexdef": "CREATE UNIQUE INDEX restaurant_booking_departures_pkey ON public.restaurant_booking_departures USING btree (id)"
+      },
+      {
+        "indexdef": "CREATE UNIQUE INDEX restaurant_booking_feedback_once_per_case_idx ON public.restaurant_booking_departures USING btree (conversation_id) WHERE (prompted_at IS NOT NULL)"
+      }
+    ],
+    "repeatApply": "UNCHANGED",
+    "schemaHash": "d19aa951d0f0fab3dd3af2e5271c2ad9ca0095772406adf19f6261e9481b87d6"
+  },
+  "casesNotReasked": 4,
+  "answeredCases": 3,
+  "unansweredCases": 1,
+  "laterDepartureSameCase": "NOT_REASKED",
+  "taskSnapshotHash": "8b6832f35abbc3bec46ecb0fcf642f3944c5cc62dc9e19643edfd775a5d71ba1",
+  "externalCalls": 0
+}

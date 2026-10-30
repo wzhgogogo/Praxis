@@ -1,0 +1,321 @@
+{
+  "schema": {
+    "migrations": [
+      {
+        "id": "0001-task-runtime"
+      },
+      {
+        "id": "0002-recovery-coordinator"
+      },
+      {
+        "id": "0003-goal-task-graph"
+      },
+      {
+        "id": "0004-task-triggers"
+      },
+      {
+        "id": "0005-agent-workspace"
+      },
+      {
+        "id": "0006-restaurant-agent-trajectory"
+      },
+      {
+        "id": "0007-restaurant-agent-trajectory-causal-refs"
+      },
+      {
+        "id": "0008-restaurant-agent-trajectory-decision-context"
+      },
+      {
+        "id": "0009-restaurant-live-read-trajectory"
+      },
+      {
+        "id": "0010-restaurant-booking-handoff-feedback"
+      }
+    ],
+    "columns": [
+      "id",
+      "conversation_id",
+      "request_id",
+      "candidate_id",
+      "offer_id",
+      "provider",
+      "departed_at",
+      "prompted_at",
+      "answer",
+      "answered_at",
+      "provenance"
+    ],
+    "indexes": [
+      {
+        "indexdef": "CREATE UNIQUE INDEX restaurant_booking_departures_conversation_id_request_id_key ON public.restaurant_booking_departures USING btree (conversation_id, request_id)"
+      },
+      {
+        "indexdef": "CREATE UNIQUE INDEX restaurant_booking_departures_pkey ON public.restaurant_booking_departures USING btree (id)"
+      },
+      {
+        "indexdef": "CREATE UNIQUE INDEX restaurant_booking_feedback_once_per_case_idx ON public.restaurant_booking_departures USING btree (conversation_id) WHERE (prompted_at IS NOT NULL)"
+      }
+    ],
+    "repeatApply": "UNCHANGED",
+    "schemaHash": "d19aa951d0f0fab3dd3af2e5271c2ad9ca0095772406adf19f6261e9481b87d6"
+  },
+  "server": {
+    "version": "PostgreSQL 17.10 (Homebrew) on aarch64-apple-darwin25.6.0, compiled by Apple clang version 21.0.0 (clang-2100.1.1.101), 64-bit",
+    "started": "2026-10-29T15:24:20.127Z",
+    "tcp": null
+  },
+  "nodePID": 69788,
+  "duplicateDeparturePIDs": [
+    69793,
+    69794,
+    69795,
+    69796,
+    69797,
+    69798,
+    69799,
+    69800
+  ],
+  "claimPIDs": [
+    69794,
+    69798,
+    69793,
+    69795,
+    69796,
+    69799,
+    69797,
+    69800
+  ],
+  "answerPIDs": [
+    69793,
+    69794,
+    69796,
+    69797,
+    69799,
+    69800,
+    69795,
+    69798
+  ],
+  "claimWinners": 1,
+  "duplicateDepartures": 8,
+  "duplicateAnswers": 8,
+  "firstDeparture": {
+    "id": "departure:24068b27-de67-4fa3-a600-efd7446a8880",
+    "caseId": "case:A",
+    "candidateId": "fixture:candidate",
+    "offerId": "fixture:offer",
+    "provider": "TABELOG",
+    "departedAt": "2026-10-29T12:00:00.000Z",
+    "provenance": "USER_REPORTED"
+  },
+  "rows": [
+    {
+      "conversation_id": "conversation:case:A",
+      "prompts": "1"
+    },
+    {
+      "conversation_id": "conversation:case:B",
+      "prompts": "1"
+    },
+    {
+      "conversation_id": "conversation:case:C",
+      "prompts": "1"
+    },
+    {
+      "conversation_id": "conversation:case:D",
+      "prompts": "1"
+    },
+    {
+      "conversation_id": "conversation:case:index-control",
+      "prompts": "1"
+    }
+  ],
+  "receipts": {
+    "case:A": {
+      "id": "departure:8281f7c5-4a2b-4bc7-927d-34b439c90ebf",
+      "caseId": "case:A",
+      "candidateId": "fixture:candidate",
+      "offerId": "fixture:offer",
+      "provider": "TABELOG",
+      "departedAt": "2026-10-29T12:01:00.000Z",
+      "provenance": "USER_REPORTED",
+      "promptedAt": "2026-10-29T12:10:00.000Z",
+      "answer": "YES",
+      "answeredAt": "2026-10-29T12:10:00.000Z"
+    },
+    "case:B": {
+      "id": "departure:df90945f-9ccf-4da4-81dc-dcf39d905f69",
+      "caseId": "case:B",
+      "candidateId": "fixture:candidate",
+      "offerId": "fixture:offer",
+      "provider": "TABELOG",
+      "departedAt": "2026-10-29T12:10:00.000Z",
+      "provenance": "USER_REPORTED",
+      "promptedAt": "2026-10-29T12:10:00.000Z",
+      "answer": "NO",
+      "answeredAt": "2026-10-29T12:10:00.000Z"
+    },
+    "case:C": {
+      "id": "departure:2475f9c4-8c32-461e-9cfa-84695c843508",
+      "caseId": "case:C",
+      "candidateId": "fixture:candidate",
+      "offerId": "fixture:offer",
+      "provider": "TABELOG",
+      "departedAt": "2026-10-29T12:10:00.000Z",
+      "provenance": "USER_REPORTED",
+      "promptedAt": "2026-10-29T12:10:00.000Z",
+      "answer": "SKIP",
+      "answeredAt": "2026-10-29T12:10:00.000Z"
+    },
+    "case:D": {
+      "id": "departure:f816fda6-3df8-4fd5-abce-4b6f1e744ea0",
+      "caseId": "case:D",
+      "candidateId": "fixture:candidate",
+      "offerId": "fixture:offer",
+      "provider": "TABELOG",
+      "departedAt": "2026-10-29T12:10:00.000Z",
+      "provenance": "USER_REPORTED",
+      "promptedAt": "2026-10-29T12:10:00.000Z"
+    }
+  },
+  "cases": [
+    [
+      "case:A",
+      "user-a"
+    ],
+    [
+      "case:B",
+      "user-a"
+    ],
+    [
+      "case:C",
+      "user-b"
+    ],
+    [
+      "case:D",
+      "user-a"
+    ]
+  ],
+  "taskSnapshot": {
+    "tasks": [
+      {
+        "id": "case:A",
+        "run_id": "run:case:A",
+        "task_type": "restaurant.booking",
+        "definition_version": "22",
+        "lifecycle_state": "CREATED",
+        "domain_state_schema_version": "24",
+        "domain_state": {
+          "phase": "UNDERSTANDING",
+          "candidates": [],
+          "availability": {},
+          "readEvidence": [],
+          "schemaVersion": "24",
+          "searchRevision": 0,
+          "availabilityChecks": {}
+        },
+        "outcome": null,
+        "version": 0,
+        "created_at": "2026-10-29T12:10:00.000Z",
+        "updated_at": "2026-10-29T12:10:00.000Z"
+      },
+      {
+        "id": "case:B",
+        "run_id": "run:case:B",
+        "task_type": "restaurant.booking",
+        "definition_version": "22",
+        "lifecycle_state": "CREATED",
+        "domain_state_schema_version": "24",
+        "domain_state": {
+          "phase": "UNDERSTANDING",
+          "candidates": [],
+          "availability": {},
+          "readEvidence": [],
+          "schemaVersion": "24",
+          "searchRevision": 0,
+          "availabilityChecks": {}
+        },
+        "outcome": null,
+        "version": 0,
+        "created_at": "2026-10-29T12:10:00.000Z",
+        "updated_at": "2026-10-29T12:10:00.000Z"
+      },
+      {
+        "id": "case:C",
+        "run_id": "run:case:C",
+        "task_type": "restaurant.booking",
+        "definition_version": "22",
+        "lifecycle_state": "CREATED",
+        "domain_state_schema_version": "24",
+        "domain_state": {
+          "phase": "UNDERSTANDING",
+          "candidates": [],
+          "availability": {},
+          "readEvidence": [],
+          "schemaVersion": "24",
+          "searchRevision": 0,
+          "availabilityChecks": {}
+        },
+        "outcome": null,
+        "version": 0,
+        "created_at": "2026-10-29T12:10:00.000Z",
+        "updated_at": "2026-10-29T12:10:00.000Z"
+      },
+      {
+        "id": "case:D",
+        "run_id": "run:case:D",
+        "task_type": "restaurant.booking",
+        "definition_version": "22",
+        "lifecycle_state": "CREATED",
+        "domain_state_schema_version": "24",
+        "domain_state": {
+          "phase": "UNDERSTANDING",
+          "candidates": [],
+          "availability": {},
+          "readEvidence": [],
+          "schemaVersion": "24",
+          "searchRevision": 0,
+          "availabilityChecks": {}
+        },
+        "outcome": null,
+        "version": 0,
+        "created_at": "2026-10-29T12:10:00.000Z",
+        "updated_at": "2026-10-29T12:10:00.000Z"
+      },
+      {
+        "id": "case:index-control",
+        "run_id": "run:case:index-control",
+        "task_type": "restaurant.booking",
+        "definition_version": "22",
+        "lifecycle_state": "CREATED",
+        "domain_state_schema_version": "24",
+        "domain_state": {
+          "phase": "UNDERSTANDING",
+          "candidates": [],
+          "availability": {},
+          "readEvidence": [],
+          "schemaVersion": "24",
+          "searchRevision": 0,
+          "availabilityChecks": {}
+        },
+        "outcome": null,
+        "version": 0,
+        "created_at": "2026-10-29T12:10:00.000Z",
+        "updated_at": "2026-10-29T12:10:00.000Z"
+      }
+    ],
+    "events": [],
+    "commands": []
+  },
+  "taskSnapshotHash": "8b6832f35abbc3bec46ecb0fcf642f3944c5cc62dc9e19643edfd775a5d71ba1",
+  "checks": {
+    "crossUser": "REJECTED",
+    "crossCase": "REJECTED",
+    "changedAnswer": "REJECTED",
+    "invalidEnum": "REJECTED",
+    "staleTask": "REJECTED",
+    "PIIColumns": "ABSENT",
+    "provenance": "USER_REPORTED_ONLY",
+    "taskStateOutcomeEventsCommands": "UNCHANGED"
+  },
+  "externalCalls": 0
+}
