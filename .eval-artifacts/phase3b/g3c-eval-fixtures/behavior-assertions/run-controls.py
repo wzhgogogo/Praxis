@@ -33,7 +33,7 @@ head = git("rev-parse", "HEAD")
 receipt = {"commit": head, "mode": "OFFLINE_LOCAL_CHROMIUM_FIXTURE_MODEL",
            "startedAtCET": datetime.datetime.now(datetime.timezone.utc).astimezone(ZoneInfo("Europe/Vienna")).isoformat(),
            "newRealCalls": 0, "runs": []}
-command = ["node", "--import", "./scripts/test-filesystem-guard.mjs", "--import", "tsx", "--test",
+command = ["node", "--import", "./scripts/test-filesystem-guard.mjs", "--import", "tsx", "--test", "--test-reporter=tap",
            "--test-name-pattern=^native dynamic Tabelog (AVAILABLE|UNAVAILABLE) reaches formal H001", source]
 
 
