@@ -1,0 +1,75 @@
+{
+  "sourceCommit": "474febbaffbe7c2b22a26a698707e40b027b1980",
+  "main": "404a766e300668230d23c75ee7486bb3dc7a1d43",
+  "manifestSHA256": "c8ca4f085a7109ccc53b24f51c6b96e61ef20b4220480b69cbaa7f7fcebc6137",
+  "mode": "OFFLINE_AND_LOCAL_CHROMIUM_FIXTURE",
+  "realAPIRequests": 0,
+  "screenshotDirectory": "/private/tmp/praxis-sr04-offline-20261030-screens",
+  "frozenFilesUnchanged": 736,
+  "checks": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 580,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 280,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 29210,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 537,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 121601,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "HEADUnchanged": true
+    }
+  ]
+}

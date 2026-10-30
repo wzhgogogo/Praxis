@@ -1,7 +1,7 @@
 # 前端第1步复核小修（2026-10-30）
 
 - Status: Draft
-- Document revision: 0.2
+- Document revision: 0.3
 - Last updated: 2026-10-30
 - Source of truth for: c67c9276复核小修、受控语义单次回归及合入复核证据
 - Related documents: [原交付](WEB-WORKSPACE-SLICE1-20261030.md), [切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md), [Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [视觉](../product/VISUAL-DIRECTION.md)
@@ -107,3 +107,7 @@ Saved零条只显示Saved；非零数字与文字用间距分开并用#5F6275。
 其余：[首页](assets/web-workspace-slice1-followup-20261030/mobile-home.png)、[候选与非零Saved](assets/web-workspace-slice1-followup-20261030/mobile-candidate.png)、[详情原Ask暂留](assets/web-workspace-slice1-followup-20261030/mobile-details.png)、[备选](assets/web-workspace-slice1-followup-20261030/mobile-saved.png)、[抽屉](assets/web-workspace-slice1-followup-20261030/mobile-drawer.png)、[返回](assets/web-workspace-slice1-followup-20261030/mobile-feedback.png)、[停止](assets/web-workspace-slice1-followup-20261030/mobile-stopped.png)。桌面其余对应PNG均在同目录。
 
 本轮收敛到报告与推送工作分支，未合main。需要用户复核新增网关失败后再决定是否做仅保存响应的离线定位；本轮不继续。
+
+## 2026-10-30 用户复核后的零API补充
+
+本报告上述真实运行原始分数、SR04失败与当时停止判断保留。用户后续批准离线定位：保存的10响应经原守卫克隆/无守卫各10/10正常，SR04完整提案及权威Draft/目标规则与v26相同，按其预定规则归为测试守卫或传输层，不计提示词退化，具体原异常不可追补。安全诊断透传修复红→绿，同步main404a766e后冻结474febba，净树五门禁1211/181及两尺寸十一项通过，21张新截图。新真实API及私有Holdout0，未补模型、未调Prompt；详见[独立补充报告](WEB-WORKSPACE-SR04-OFFLINE-20261030.md)，工作分支待合入复核。

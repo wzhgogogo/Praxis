@@ -1,12 +1,12 @@
 # Web Workspace Slice 1 Plan
 
 - Status: Draft
-- Document revision: 0.6
+- Document revision: 0.7
 - Last updated: 2026-10-30
 - Source of truth for: 本切片范围、验收链路、前置检查与停止条件；不替代产品/视觉规则
 - Related ADRs: [ADR-0006](decisions/0006-web-first-agent-workspace.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [PRD](product/MVP-PRD.md), [User Flows](product/USER-FLOWS.md), [Gateway](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Visual Direction](product/VISUAL-DIRECTION.md)
-- Evidence status: draft / not integrated；小修已获复核；SR04离线解析/目标同v26，诊断修复并同步main404a766e，最终五门禁待运行，未合main；不是Clean Baseline
+- Evidence status: draft / not integrated；小修已获复核；SR04离线解析/目标同v26，诊断修复并同步main404a766e，最终五门禁1211/181及两尺寸十一项已通过，工作分支待合入复核，未合main；不是Clean Baseline
 
 ## 当前切片承诺
 
@@ -93,3 +93,5 @@ Evaluator不适用：本轮不是模型质量评测，使用受控模型/来源�
 ## SR04零API后续（2026-10-30用户批准）
 
 先冻结并回放保存的10响应，各经原守卫克隆/无守卫一次，生产解析20/20正常；SR04现有评分器目标与v26相同。按预定规则归为测试守卫或传输层，不计提示词退化；不补真实模型，不跑Holdout，不调Prompt。原真实失败与严格0/15不改。修复Gateway失败记录及Interpreter失败结果安全原因透传，正文读取异常反例红→绿；已同步指定main404a766e，完整保留C的真实PG证据。冻结后重跑五门禁及两尺寸十项/新增长条款入口验收和截图，完成只推工作分支交合入复核。详见[本轮计划与证据](reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
+
+最终交付：474febba冻结736项五门禁全绿，默认1211/1211、Chromium181/181，各项前后净树、HEAD/SHA不变；两尺寸十项及长条款两入口完整可见/实际点击通过，21张新PNG及尺寸/SHA清单附本轮报告。原56份不可变响应/输入/评分材料和main的37份PG证据均逐字节保留。新真实调用/私有Holdout0，不补模型；诊断与本切片离线承诺完成，工作分支推送后停合入复核，不合main。
