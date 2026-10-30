@@ -11,7 +11,10 @@ export interface TabelogVacancyStructureIssue {
   actual: string;
 }
 export type TabelogVacancyObservation =
-  | { status: "OBSERVED"; availableSlots: string[]; hasExplicitSlotUi: true }
+  | { status: "OBSERVED"; availableSlots: string[]; hasExplicitSlotUi: true;
+      /** Already validated, verbatim response URLs; relative URLs stay relative. */
+      formCourseLinks: Array<{ time: string; url: string }>;
+      sourceResponse: { sequence: number; url: string; observedAt: string } }
   | { status: "UNKNOWN" }
   | { status: "SOURCE_STRUCTURE_CHANGED"; observedAt: string; issue: TabelogVacancyStructureIssue };
 
@@ -50,6 +53,7 @@ export function inspectTabelogVacancyResponse(snapshot: BrowserSnapshot, date: s
   if (responseDate !== date || body.members !== partySize) return unknown;
   if (!object(body.selection) && !Array.isArray(body.selection)) return changed("selection", "object or array", body.selection);
   const slots = new Set<string>();
+  const formCourseLinks: Array<{ time: string; url: string }> = [];
   for (const row of Object.values(body.selection as object)) {
     const value = object(row);
     if (!value) return changed("selection.row", "object", row);
@@ -66,9 +70,12 @@ export function inspectTabelogVacancyResponse(snapshot: BrowserSnapshot, date: s
     }
     if (link.searchParams.get("visit_time") !== value.time.replace(":", "")) return unknown;
     slots.add(value.time);
+    formCourseLinks.push({ time: value.time, url: value.url });
   }
   // Empty/unsupported collections are not independently bound no-stock proof.
-  return slots.size ? { status: "OBSERVED", availableSlots: [...slots].sort(), hasExplicitSlotUi: true } : unknown;
+  return slots.size ? { status: "OBSERVED", availableSlots: [...slots].sort(), hasExplicitSlotUi: true,
+    formCourseLinks: formCourseLinks.sort((a, b) => a.time.localeCompare(b.time)),
+    sourceResponse: { sequence: response.sequence, url: response.url, observedAt: response.observedAt } } : unknown;
 }
 
 function latestVacancyResponse(snapshot: BrowserSnapshot) {
