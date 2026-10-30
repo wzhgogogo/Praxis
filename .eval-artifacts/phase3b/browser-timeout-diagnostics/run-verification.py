@@ -64,7 +64,7 @@ for name,command in steps:
     receipt['runs'].append(row);(out/'verification.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print('END',name,code,row['elapsedSeconds'],row['summary'],flush=True)
     assert code==0,row
-    if name=='npm-test':assert row['summary']=={'tests':1243,'suites':0,'pass':1243,'fail':0,'cancelled':0,'skipped':0,'todo':0},row
+    if name=='npm-test':assert row['summary']=={'tests':1243,'suites':5,'pass':1243,'fail':0,'cancelled':0,'skipped':0,'todo':0},row
     if name.startswith('browser-'):
         assert row['summary']=={'tests':186,'suites':0,'pass':186,'fail':0,'cancelled':0,'skipped':0,'todo':0},row
         assert row['lifecycle']['allFileStartsEndsOnce'] and not row['lifecycle']['outerTimeout'],row
