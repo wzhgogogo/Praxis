@@ -1,0 +1,46 @@
+{
+  "mode": "LOCAL_HTTP_FIXTURE",
+  "rows": [
+    {
+      "outcome": "empty",
+      "phase": "NO_VERIFIED_RESULT",
+      "readStatus": {
+        "kind": "NO_QUALIFIED_RESULTS",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": false
+      },
+      "taskVersion": 6,
+      "status": 400,
+      "error": "Another batch requires presented results or proven unread work",
+      "fixtureModelCalls": 6,
+      "fixtureSourceReads": 3,
+      "realModelCalls": 0,
+      "sourceGET": 0,
+      "Google": 0,
+      "Live": 0,
+      "Holdout": 0
+    },
+    {
+      "outcome": "all-sources-failed",
+      "phase": "NO_VERIFIED_RESULT",
+      "readStatus": {
+        "kind": "ALL_SOURCES_FAILED",
+        "partialSourceFailure": false,
+        "canContinue": false,
+        "canRetry": true
+      },
+      "taskVersion": 6,
+      "status": 400,
+      "error": "Another batch requires presented results or proven unread work",
+      "fixtureModelCalls": 6,
+      "fixtureSourceReads": 3,
+      "realModelCalls": 0,
+      "sourceGET": 0,
+      "Google": 0,
+      "Live": 0,
+      "Holdout": 0
+    }
+  ],
+  "verdict": "EXHAUSTED_AND_FAILED_NOT_CONTINUABLE"
+}

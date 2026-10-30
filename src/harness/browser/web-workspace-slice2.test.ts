@@ -18,7 +18,7 @@ async function ready(page:Page,count=3){await page.waitForFunction(value=>docume
 async function capture(page:Page,name:string){
   const folder=process.env.PRAXIS_WORKSPACE_VISUAL_OUTPUT;if(!folder)return;
   await mkdir(folder,{recursive:true});await page.evaluate(()=>document.fonts.ready.then(()=>undefined));
-  await page.screenshot({path:join(folder,name+".png"),fullPage:false});
+  await page.screenshot({path:join(folder,name+".png"),fullPage:false,animations:"disabled"});
 }
 
 for(const size of sizes){
