@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-30 CET：C日文名候选已完成零真实调用的模拟及生产身份前缀：各原23/23、focus3/3、错认0；默认1263/1265仍红（同一个B1跨来源sourceProvider缺口子用例+父用例），type/arch/build和Chromium186/186、严格G2全12 PASS，10步前后净树、1674 SHA一致。绑定一行修复已请求用户窄授权但未动。8个详情URL+精确单次Google提案已物化；Beef原日文名/首屏尚无原件，完整最终GET清单NOT_EXECUTABLE，不用Gold/模板补造。共享486旧条目逐条保留、追加0调用记录，GET244/260；真实模型/Google/GET/Live0，不读.env。B1第一步已发main74afd956并远端核对；第二步未完成、不合main，推候选停等范围与来源依赖复核。 [报告](../.eval-artifacts/phase3b/g4-japanese-wiring/report.md)。
+
 2026-10-30 CET：B1已按批准发布并ls-remote核对main74afd956（五门禁1254/186、严格G2全12）。C另开日文名产品接线：原名→合法片段→同ID日文全文，前两词4+日文1、未用退还，详情上限不重置，Google额外Details进入既有run预算/导出，不改变身份/排序/库存/响应绑定。d17ee4bc冻结1571项；37主视图+4复跑的模拟及生产身份前缀均原23/23、focus3/3、错认0，缺页15主视图仍未评。新增普通HTTP已从NO_VERIFIED_RESULT走到PRESENT_RESULTS，但暴露先TableCheck失败再Tabelog成功的旧check.sourceProvider误归总resolver，B1按钮拒绝；保留断言及红灯，绑定修复已向用户申请一行窄授权、尚未实施。Beef同ID日文名及首屏未读，完整精确GET清单尚不能离线物化；当前真实调用0、GET244/260，历史486账本条目保留，模型/Google各0新增，不读取.env。候选不合main；门禁和缺页前沿随后归档交复核。 [计划](../.eval-artifacts/phase3b/g4-japanese-wiring/plan.md)。
 
 2026-10-30 CET：用户复核通过B1接线7e701207，按批准从main7c83e02e构造发布merge；源码与复核候选逐字一致。47c6c5ef冻结728项，五门禁默认1254/1254、Chromium186/186（129.171秒）和严格G2 5/5、12页PASS，8步前后净树。两入口原URL与所有拒绝/隔离控制沿现有默认套件重跑；ADR0050前端保留，复用两尺寸UI证据。Tabelog/TableCheck B1普通组合离线可用，内存缓存重启后等新查位，不改变现实预约状态。真实模型/Google/GET/Live/真实PG0，不读.env。按授权发布main，远端SHA以ls-remote为准；日文名接线另分支、清单复核前不请求。 [报告](../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md)。
@@ -144,7 +146,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.465
+- Document revision: 4.466
 - Last updated: 2026-10-30
 - Source of truth for: 当前实现、证据与下一道门槛
 
