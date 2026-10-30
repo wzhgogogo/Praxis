@@ -1,12 +1,12 @@
 # Web Workspace Slice 1 Plan
 
 - Status: Draft
-- Document revision: 0.5
+- Document revision: 0.6
 - Last updated: 2026-10-30
 - Source of truth for: 本切片范围、验收链路、前置检查与停止条件；不替代产品/视觉规则
 - Related ADRs: [ADR-0006](decisions/0006-web-first-agent-workspace.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [PRD](product/MVP-PRD.md), [User Flows](product/USER-FLOWS.md), [Gateway](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Visual Direction](product/VISUAL-DIRECTION.md)
-- Evidence status: draft / not integrated；小修与净树五门禁通过，单次语义新增运行失败已停，未合main；不是Clean Baseline
+- Evidence status: draft / not integrated；小修已获复核；SR04离线解析/目标同v26，诊断修复并同步main404a766e，最终五门禁待运行，未合main；不是Clean Baseline
 
 ## 当前切片承诺
 
@@ -89,3 +89,7 @@ Evaluator不适用：本轮不是模型质量评测，使用受控模型/来源�
 实际链路保留生产HTTP、SSE、Interpreter、Compiler、Validator、Router、Reducer、PGlite；模型/来源只替换为既有Fixture输入的受控传输。TableCheck和Tabelog分别通过其现有Grounding函数接纳合成观察，B1缓存经过原两次校验；不把本地接收器当作网站带入验证。SSE在后台生命周期中推进，但Fixture注入不属于真实LIVE_READ。语义Prompt26→27仅加入查看上下文说明，Schema4、State24、TaskDefinition22、Agent29/Action5/Context17不变，未运行真实模型质量评测。
 
 浏览器原反例暴露并关闭两个实际接线问题：停止事件未映射到stopped；查找中保存备选使在途读取写入发生版本冲突。后者只允许同run、全部中间事件为SHORTLIST_UPDATED的只读完成事件重新提交一次，不增加模型或来源调用，需求修改/停止仍拒旧结果。旧整页UI已替换，无兼容执行路径。图片、比较、B2/B2+、G3来源读者和现实提交均未加入。
+
+## SR04零API后续（2026-10-30用户批准）
+
+先冻结并回放保存的10响应，各经原守卫克隆/无守卫一次，生产解析20/20正常；SR04现有评分器目标与v26相同。按预定规则归为测试守卫或传输层，不计提示词退化；不补真实模型，不跑Holdout，不调Prompt。原真实失败与严格0/15不改。修复Gateway失败记录及Interpreter失败结果安全原因透传，正文读取异常反例红→绿；已同步指定main404a766e，完整保留C的真实PG证据。冻结后重跑五门禁及两尺寸十项/新增长条款入口验收和截图，完成只推工作分支交合入复核。详见[本轮计划与证据](reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。

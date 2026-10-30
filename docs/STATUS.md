@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+- **2026-10-30 SR04离线定位通过，最终合入复核验证中：** c1b5999e冻结103项，原10响应经有/无守卫各10/10生产Gateway与Interpreter正常；SR04完整提案/编译/权威Draft/目标评分均同v26，按用户规则归为测试守卫或传输层，不计提示词退化，原真实失败/严格0/15保留。修复失败Observer记录和Interpreter结果的安全原始错误名/cause代码透传，正文读取反例红→17项绿；Prompt28/Schema4不改。已同步指定main404a766e，保留C真实PG证据；五门禁及两尺寸完整链路即将重跑。本轮新API/Google/来源GET/Live/Holdout0，不加载真实凭据，不补模型；只推工作分支待复核、不合main。[本轮报告](reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
+
 2026-10-30 CET：用户已复核通过d50f3e77；C证据合入前在fdd4aba5冻结718项，五门禁1210/175（内含G2 5/5）全绿，7步前后净树，输入SHA一致。原PG证据逐字节保留，src/迁移/受保护文件及账本不改；本次没有新数据库实验、凭据读取或来源/模型调用。按用户批准合main并推送，远端SHA由Git回执核对；发布后待命，G3/B1和日文检索仍等后续指令。 [报告](../.eval-artifacts/phase3b/b1-postgres-feedback-main/report.md)。
 
 2026-10-29 CET: C B1 real PostgreSQL17.10 verification PASS on unchanged main00519783. Frozen76c676a2/17 inputs: isolated index-negative control2 prompted rows versus original-index1 (23505); unmodified product eight physical connections yield one prompt, eight duplicate departure/answer submissions idempotent, cross-user/Case rejected. Node and database restart retain3 answered plus1 unanswered Case without re-asking; Task/Outcome/events/commands unchanged. Private Unix socket only, no PGlite/env/external calls; own cluster stopped and removed. Evidence pending review, branch only; G4 waits G3. [Report](../.eval-artifacts/phase3b/b1-postgres-feedback/report.md).

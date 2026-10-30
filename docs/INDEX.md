@@ -1,7 +1,7 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.15
+- Document revision: 1.16
 - Last updated: 2026-10-30
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -64,6 +64,8 @@ Accepted ADR
 - [Capability Matrix](integrations/CAPABILITY-MATRIX.md)：DeepSeek、Google、Hot Pepper、TableCheck 和官网能力边界。
 
 ## 验证、阶段与历史
+
+- [SR04零API定位与合入复核](reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)：两条生产解析路径各10/10，SR04目标同v26；诊断透传修复及main404a766e同步，最终门禁与两尺寸验收。
 
 - [前端第1步复核小修](reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)：净树五门禁1211/181通过；单次真实10 API后SR04新增网关失败停止，四层/v26逐项/21截图；单店问答合并留下一段。
 

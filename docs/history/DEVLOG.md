@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.344
+- Document revision: 4.345
 
 
 - Last updated: 2026-10-30
@@ -5248,3 +5248,11 @@ Verified delivery: 2026-10-29 CET: C B1 real PostgreSQL17.10 verification PASS o
 2026-10-30 CET：用户复核通过C真实PostgreSQL证据d50f3e77并批准合main。最新origin/main00519783已在祖先，src/迁移/受保护文件不改；冻结原件和门禁输入后重跑五门禁，每项前后净树。只发布证据与文档，不重跑数据库、不加载.env、不调用来源或模型；通过后合main/push/ls-remote，随后待命。G3接线与日文检索仍等另行指令。 [计划](../../.eval-artifacts/phase3b/b1-postgres-feedback-main/plan.md)。
 
 验证完成：2026-10-30 CET：用户已复核通过d50f3e77；C证据合入前在fdd4aba5冻结718项，五门禁1210/175（内含G2 5/5）全绿，7步前后净树，输入SHA一致。原PG证据逐字节保留，src/迁移/受保护文件及账本不改；本次没有新数据库实验、凭据读取或来源/模型调用。按用户批准合main并推送，远端SHA由Git回执核对；发布后待命，G3/B1和日文检索仍等后续指令。 [报告](../../.eval-artifacts/phase3b/b1-postgres-feedback-main/report.md)。
+
+<a id="dev-2026-10-30-web-sr04-offline"></a>
+
+## 2026-10-30 SR04零API离线定位与诊断透传开发
+
+c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐一一致的有/无守卫生产Gateway/Interpreter各10/10 PROPOSED。SR04经现有Compiler/Runtime/scorer生成权威Draft，完整提案、Patch、Draft、目标/严格评分均与v26相同；按用户预定规则归为测试守卫或传输层，不计提示词退化，旧真实失败/严格0/15不改，不能区分原流/socket/克隆时序原因。新API/Google/来源GET/Live/Holdout0，不加载真实凭据或补跑模型。
+
+复用Gateway连接/正文失败测试，正文接真实Interpreter，原诊断undefined反例红→17/17绿。安全原始errorName及最多三层cause名称/代码进入失败Observer记录与MODEL_FAILURE.providerError，不记录异常消息/URL/Headers/Secret，不改Prompt28/Schema4或重试。df60d11a修复后在4746b313同步main404a766e，5份历史/状态冲突保留双方，C的PG证据字节保留、源码/迁移未变。最终冻结净树五门禁与390×844/1280×900完整验收待执行，完成只推工作分支、不合main。[计划/结果](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。

@@ -1,7 +1,7 @@
 # SR04 离线定位与前端合入复核
 
 - Status: Draft
-- Document revision: 0.2
+- Document revision: 0.3
 - Last updated: 2026-10-30
 - Source of truth for: 用户批准的零API SR04定位、诊断透传修复、main同步与复核证据
 - Related documents: [前次停止报告](WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md), [切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)
@@ -41,3 +41,9 @@ SR04原提案经Compiler与内存Runtime得到权威Draft。与v26同一消息�
 Gateway现在保留安全错误名及最多三层cause名称/代码，失败Observer记录与解释器`MODEL_FAILURE.providerError`携带相同诊断；超时也保留原始原因。名称/代码限制为64字符标识符，过滤配置密钥及Secret前缀，不保存异常消息、URL、Headers或socket内容。共用Core诊断类型，移除重复定义；Prompt28/Proposal Schema4和重试规则不变。
 
 原反例及相关Gateway/Interpreter文件17/17通过、typecheck通过；正文分支为原生Response/ReadableStream读取时抛错，并断言结构化表单失败结果、Observer原因相同、实际Fake fetch一次及敏感消息未保存。[绿灯](../../.eval-artifacts/web-workspace-sr04-offline-20261030/diagnostics/green.log)。这只关闭诊断丢失机制，不声称复现或修复了原网络失败。
+
+## main同步与最终验收计划
+
+诊断修复提交`df60d11a`；同步指定main `404a766e300668230d23c75ee7486bb3dc7a1d43`的合并提交`4746b313`。上游只有C已复核PostgreSQL证据和文档，没有可执行变化；5份状态/历史的追加冲突完整保留双方段落，修订号递增，没有手改A/B/C源码、迁移或账本。C原PG结论已随main纳入，本轮不重跑数据库。
+
+最终门禁在另一个提交冻结后的净树执行：typecheck、arch:check、npm test、build、完整test:browser:fixture；每项检查前后净树、HEAD和输入SHA。后者包含完整工作区390×844/1280×900的十项、长条款取消冲突的两入口可见/可点以及原来源/问答三项回归，不以17项局部测试替代实际HTTP/SSE/Runtime/PGlite/Chromium链路。截图另存，不覆盖前两批截图。五门禁不读取.env或调用真实模型/来源/Google，不跑Holdout、Postgres Live或Controlled write。
