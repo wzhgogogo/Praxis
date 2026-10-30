@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import type { ModelInvocationRecord, ModelRequest } from "../../core/model/contracts.js";
 import { ModelGatewayError } from "../../core/model/errors.js";
+import { RestaurantSemanticInterpreter } from "../../domains/restaurant/semantic-interpreter.js";
 import {
   RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA,
   RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA,
@@ -301,13 +302,19 @@ test("DeepSeek gateway records only the safe structured-output shape when a tool
 });
 
 // The real Node fetch failure is TypeError(cause.code=ECONNRESET).
-// Exercise the public gateway and persisted observer record, including body reads.
+// Exercise the public gateway and observer; body failures also cross the real
+// Semantic Interpreter boundary, where the diagnostic used to be discarded.
 test("DeepSeek gateway preserves safe transport causes without retries or body misclassification", async () => {
-  for (const phase of ["connect", "body"] as const) {
+  for (const phase of ["body", "connect"] as const) {
     const records: ModelInvocationRecord[] = [];
     let calls = 0;
+    const code = phase === "body" ? "UND_ERR_SOCKET" : "ECONNRESET";
+    const expectedDiagnostic = {
+      type: "TRANSPORT", errorName: "TypeError", code,
+      causes: [{ errorName: "Error", code }],
+    };
     const reset = new TypeError("private URL and credential must-not-log", {
-      cause: Object.assign(new Error("private socket detail must-not-log"), { code: "ECONNRESET" }),
+      cause: Object.assign(new Error("private socket detail must-not-log"), { code }),
     });
     const gateway = new DeepSeekModelGateway({
       apiKey: "test-key", model: "deepseek-v4-flash",
@@ -318,13 +325,31 @@ test("DeepSeek gateway preserves safe transport causes without retries or body m
         return new Response(new ReadableStream({ start(controller) { controller.error(reset); } }));
       },
     });
-    await assert.rejects(() => gateway.complete(request), (error: unknown) =>
-      error instanceof ModelGatewayError && error.code === "NETWORK"
-      && error.providerError?.type === "TRANSPORT" && error.providerError.code === "ECONNRESET");
+    if (phase === "body") {
+      const result = await new RestaurantSemanticInterpreter(gateway).interpret({
+        taskId: "failed-response-body", message: "Dinner for two in Ginza.",
+        referenceTime: "2026-08-05T09:00:00+09:00", timezone: "Asia/Tokyo",
+      });
+      assert.equal(result.status, "MODEL_FAILURE");
+      if (result.status !== "MODEL_FAILURE") assert.fail("Body read error must fail closed");
+      assert.equal(result.errorCode, "NETWORK");
+      assert.equal(result.retryable, true);
+      assert.equal(result.fallback, "STRUCTURED_FORM");
+      assert.deepEqual(result.attempts, []);
+      assert.deepEqual(result.providerError, expectedDiagnostic);
+      assert.equal(JSON.stringify(result).includes("must-not-log"), false);
+    } else {
+      await assert.rejects(() => gateway.complete(request), (error: unknown) => {
+        assert.ok(error instanceof ModelGatewayError);
+        assert.equal(error.code, "NETWORK");
+        assert.deepEqual(error.providerError, expectedDiagnostic);
+        return true;
+      });
+    }
     assert.equal(calls, 1);
     assert.equal(records.length, 1);
     assert.equal(records[0]?.errorCode, "NETWORK");
-    assert.deepEqual(records[0]?.providerError, { type: "TRANSPORT", code: "ECONNRESET" });
+    assert.deepEqual(records[0]?.providerError, expectedDiagnostic);
     assert.equal(JSON.stringify(records).includes("must-not-log"), false);
   }
 });

@@ -31,8 +31,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.349
-- Document revision: 4.342
+- Document revision: 4.350
 
 
 - Last updated: 2026-10-30
@@ -5310,6 +5309,41 @@ Five approved consolidation items have individual successor proof, all originals
 
 验证完成：2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../../.eval-artifacts/phase3b/g5-b1-main/report.md)。
 
+
+<a id="dev-2026-10-29-web-workspace-handoff-docs"></a>
+
+## 2026-10-29 前端第0步：工作区与来源交接文档
+
+文档切片基于main00519783与用户指定设计输入947e741b；只补PRD/流程/Gateway中未被ADR-0049同步的主体缺口，B1代码与现有合同不改。视觉0.2的规则保留，用户明确Mono只用于logo、信息间距分隔；文档0.3补英文表与第一段边界。预约草案0.6保留为draft / not integrated，取消严格程度旧规则标明已被ADR-0049取代。新增工作区/查看上下文/视觉设计已定、未实现；第1步代码、B2/B2+及比较均未启动。不动A评测、B搜索/G3、C Google客户端或原主工作区未提交材料；业务模型/Google/餐厅来源/Live调用0。文档校验和交付边界见[复核说明](../reviews/WEB-WORKSPACE-HANDOFF-DOCS-20261029.md)，本轮只推工作分支停复核，不合main。
+
+<a id="dev-2026-10-29-web-docs-review-fixes"></a>
+
+## 2026-10-29 前端第0步复核通过与小修
+
+用户复核通过a918b351，要求Human Takeover中位数指标第一版不适用；出发提示分选择/核对最多两行，取消冲突确认靠近推荐卡片取消规定；占位删除e.g.，证据第二行改为TableCheck, checked 14:32。新增ADR-0050明确仅呈现条款替代，ADR-0049原Decision、链接和证据规则保留。视觉文档修订0.4；第一段范围/验收将在第1步开工时移到切片计划。仅文档小修，业务模型/Google/餐厅来源/Live调用0；随后按用户授权启动第1步，先核对取消与真实进度路径。
+
+<a id="dev-2026-10-30-web-workspace-slice1"></a>
+
+## 2026-10-30 前端第1步：工作区与B1纵向切片
+
+第0步小修e3c48dbd已推并保留独立文档分支；从main00519783建立codex/feat-web-workspace-slice1后快进纳入文档。视觉的范围/验收移至[计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。英文首页、My plans/底部Profile、单卡/详情/备选/交接切换和刷新恢复替换旧页面；Geist自托管，Mono仅logo，数字tabular-nums。当前合同没有照片，显示首字与No photo，不猜来源照片或进度百分比。
+
+生产投影补当前轮进度与首家证据资格；消息必带viewContext，服务器核对归属/当前视图再交给原语义路径，不写selected。Choose this只打开B1准备定位，不触发旧的选定/授权/提交；来源二次校验、链接语法、返回一次USER_REPORTED均保留，按ADR0050拆最多两行提示与就近冲突提醒。查找中保存备选曾使在途读取因expected3/actual4终止：仅同run且全部中间事件SHORTLIST_UPDATED时重交已完成只读事件一次，不重查来源、不接纳需求修改/停止后的旧结果；停止状态改投影真实取消事件。
+
+语义Prompt26→27增加当前查看指代说明，无新增调用，Schema4/State24/TaskDefinition22及Agent29/Action5/Context17不变；真实模型质量未评价。新本地Fixture组合沿用既有源Fixture和生产两站Grounding，保留HTTP/SSE/Application/Runtime/PGlite完整链路；背景生命周期虽配置LIVE_READ，注入源/模型仍为Fixture，真实业务模型/Google/公开GET/Live/外写全0。不改A评测、B搜索/G3、C Google客户端。开发浏览器8/8和默认1210/1210已通过，正式净树五门禁与视觉复核待交付；本分支不合main。
+
+正式交付证据：4255fcf85b94e39a5be3760203b54ab9d831dd9c冻结后五门禁全绿，默认1210/1210、Chromium180/180（120.133秒），各项前后净树、HEAD不变。手机十画面与桌面三画面共13张截图归档；长条款滚动展示，不做桌面精修。代码冻结后只补报告/状态与证据附件，功能源码不变。第0步e3c48dbd和main00519783的远端SHA复核一致；本工作分支停独立视觉/代码复核，不合main。[报告](../reviews/WEB-WORKSPACE-SLICE1-20261030.md)。
+
+<a id="dev-2026-10-30-web-workspace-followup"></a>
+
+## 2026-10-30 前端第1步复核小修与语义单次回归计划
+
+用户签收c67c9276功能、边界、十项及同run/仅SHORTLIST_UPDATED重交一次规则；Gateway列明四事件/前提/排除，不扩大实现。按实际固定输入框高度投影内容留白和滚动安全区，长冲突条款两尺寸两个出发入口实际点击通过。Saved零条隐藏数字、非零次要色间距；推荐渠道正文色；Mon, Nov 2日期；调查中不显示总数；冲突只保留确认提醒；Date首字母大写。旧单店问答输入框合入主输入框留下一段，本轮未动。
+
+Prompt27→28将查看说明条件化；无上下文4组正文SHA与v26逐字一致，旧27四组不一致；其他共享Schema/State/TaskDefinition不改。用户授权现有15条回归单次真实DeepSeek，最多15 API、重试0，先Fixture。运行前冻结代码、Gold/输入/Scorer和79项SHA；专属传输守卫限制仅DeepSeek/第二次Schema拒发/总量15，原生产Schema尝试策略不改。采用v26最近修正补评15/15目标、14/15请求值、0/15严格，与原15条输入逐一相等；严格失败阻断策略/State版本不同列限定比较。当前业务模型0，实际启动与四层结果见[报告](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)，新退化即停，不调Prompt追分。
+
+正式执行：56d283b0843aa1dbb945adcb9bdaf701e0cc22da五门禁1211/181及Fixture15/15通过，逐项前后净树；21截图。唯一真实10 API、重试0，9 PROPOSED、1 MODEL_FAILURE/NETWORK、5上游阻断，严格0/15；SR04-T01相对v26新增运行失败，按规则停止。10份HTTP200有效JSON与网关NETWORK并存，网关处理或外围记录路径归因未定，不断言模型语义退化；未改Prompt追分/网关/记录器，不重跑。网关usage9条66,593tokens，独立API原件10条74,043tokens，差额单列不漏算；79项SHA不变，Google/来源GET/Live/Holdout0，Gold/评分器/旧产物不改，工作分支交复核不合main。[四层/逐项/原件与截图](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。
+
 <a id="dev-2026-10-29-b1-real-postgres"></a>
 
 ## 2026-10-29 CET: B1 real PostgreSQL feedback verification
@@ -5325,3 +5359,13 @@ Verified delivery: 2026-10-29 CET: C B1 real PostgreSQL17.10 verification PASS o
 2026-10-30 CET：用户复核通过C真实PostgreSQL证据d50f3e77并批准合main。最新origin/main00519783已在祖先，src/迁移/受保护文件不改；冻结原件和门禁输入后重跑五门禁，每项前后净树。只发布证据与文档，不重跑数据库、不加载.env、不调用来源或模型；通过后合main/push/ls-remote，随后待命。G3接线与日文检索仍等另行指令。 [计划](../../.eval-artifacts/phase3b/b1-postgres-feedback-main/plan.md)。
 
 验证完成：2026-10-30 CET：用户已复核通过d50f3e77；C证据合入前在fdd4aba5冻结718项，五门禁1210/175（内含G2 5/5）全绿，7步前后净树，输入SHA一致。原PG证据逐字节保留，src/迁移/受保护文件及账本不改；本次没有新数据库实验、凭据读取或来源/模型调用。按用户批准合main并推送，远端SHA由Git回执核对；发布后待命，G3/B1和日文检索仍等后续指令。 [报告](../../.eval-artifacts/phase3b/b1-postgres-feedback-main/report.md)。
+
+<a id="dev-2026-10-30-web-sr04-offline"></a>
+
+## 2026-10-30 SR04零API离线定位与诊断透传开发
+
+c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐一一致的有/无守卫生产Gateway/Interpreter各10/10 PROPOSED。SR04经现有Compiler/Runtime/scorer生成权威Draft，完整提案、Patch、Draft、目标/严格评分均与v26相同；按用户预定规则归为测试守卫或传输层，不计提示词退化，旧真实失败/严格0/15不改，不能区分原流/socket/克隆时序原因。新API/Google/来源GET/Live/Holdout0，不加载真实凭据或补跑模型。
+
+复用Gateway连接/正文失败测试，正文接真实Interpreter，原诊断undefined反例红→17/17绿。安全原始errorName及最多三层cause名称/代码进入失败Observer记录与MODEL_FAILURE.providerError，不记录异常消息/URL/Headers/Secret，不改Prompt28/Schema4或重试。df60d11a修复后在4746b313同步main404a766e，5份历史/状态冲突保留双方，C的PG证据字节保留、源码/迁移未变。最终冻结净树五门禁与390×844/1280×900完整验收待执行，完成只推工作分支、不合main。[计划/结果](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
+
+最终验证：474febbaffbe7c2b22a26a698707e40b027b1980冻结736项，五门禁1211/1211默认、181/181 Chromium全绿（29.210/121.601秒）；每项前后净树、HEAD和输入SHA不变。两尺寸完整十项及长条款/取消冲突两个来源入口滚动后完整可见并实际点击，原来源/问答回归共9/9；21张PNG逐张目视与尺寸/SHA核对。56份原输入/守卫/v26评分材料、37份main PG证据字节不变。模型API/Google/来源GET/Live/外部写入/私有Holdout新增0。诊断机制关闭，原传输故障具体原因未确认，旧真实失败/严格0/15不改。门禁后只增报告/附件，推工作分支交合入复核、不合main。[结果与截图](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。

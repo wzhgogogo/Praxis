@@ -1,4 +1,6 @@
 import { withBookingHandoffs } from "../application/restaurant-booking-handoff.js";
+import { workspaceViewContext } from "../application/agent-workspace.js";
+import { readFile } from "node:fs/promises";
 import type { PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
 import { DeliveryReservedModelGateway } from "../application/delivery-reserved-model-gateway.js";
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
@@ -208,6 +210,14 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
     try {
       const method = request.method ?? "GET";
       const url = new URL(request.url ?? "/", "http://127.0.0.1");
+      const fontFiles: Record<string,string> = {
+        "/assets/geist.woff2":"geist/files/geist-latin-wght-normal.woff2",
+        "/assets/geist-mono.woff2":"geist-mono/files/geist-mono-latin-wght-normal.woff2",
+      };
+      if (method === "GET" && fontFiles[url.pathname]) {
+        const font = await readFile(new URL("../../node_modules/@fontsource-variable/" + fontFiles[url.pathname], import.meta.url));
+        response.writeHead(200, {"content-type":"font/woff2", "cache-control":"public, max-age=3600"}); response.end(font); return;
+      }
       if (method === "GET" && url.pathname === "/") {
         response.writeHead(200, {
           "content-type": "text/html; charset=utf-8",
@@ -241,6 +251,8 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
       }
       if (method === "POST" && url.pathname === "/api/cases") {
         const body = await readJson(request);
+        const context = workspaceViewContext(body.viewContext);
+        if (context.view !== "HOME" || context.candidateId || context.comparedCandidateIds.length) throw new Error("New plans require home view context");
         const view = await options.application.createCase(
           user.id,
           requireString(body, "message"),
@@ -362,6 +374,7 @@ export function createLocalWebServer(options: LocalWebServerOptions): Server {
           message: requireString(body, "message"),
           requestId: requireString(body, "requestId"),
           expectedVersion: requireVersion(body),
+          viewContext: workspaceViewContext(body.viewContext),
         });
         hub.publish(view);
         json(response, 200, { view });

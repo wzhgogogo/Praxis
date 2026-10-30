@@ -269,6 +269,17 @@ async function api(
   path: string,
   options: RequestInit = {},
 ): Promise<{ response: Response; payload: Record<string, unknown> }> {
+  // These HTTP fixtures operate from Home or the conversation view unless a
+  // test explicitly supplies a candidate reference. No identity is inferred.
+  if (typeof options.body === "string" && (path === "/api/cases" || /\/messages$/.test(path))) {
+    try {
+      const body = JSON.parse(options.body) as Record<string, unknown>;
+      if (body && typeof body === "object" && !Array.isArray(body) && body.viewContext === undefined) {
+        body.viewContext = {view:path === "/api/cases" ? "HOME" : "CONVERSATION", comparedCandidateIds:[]};
+        options = {...options, body:JSON.stringify(body)};
+      }
+    } catch { /* Invalid-body tests must reach the real HTTP decoder. */ }
+  }
   const response = await fetch(`${baseUrl}${path}`, {
     ...options,
     headers: {

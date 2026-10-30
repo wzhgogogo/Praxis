@@ -1,0 +1,69 @@
+{
+  "sha": "4255fcf85b94e39a5be3760203b54ab9d831dd9c",
+  "mode": "OFFLINE_FIXTURE",
+  "realProviderCalls": 0,
+  "runs": [
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "elapsedSeconds": 0.511,
+      "before": "",
+      "after": "",
+      "counts": {},
+      "log": "typecheck.log"
+    },
+    {
+      "name": "arch-check",
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "elapsedSeconds": 0.226,
+      "before": "",
+      "after": "",
+      "counts": {},
+      "log": "arch-check.log"
+    },
+    {
+      "name": "test",
+      "command": "npm test",
+      "exitCode": 0,
+      "elapsedSeconds": 27.873,
+      "before": "",
+      "after": "",
+      "counts": {
+        "tests": 1210,
+        "pass": 1210,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "log": "test.log"
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "exitCode": 0,
+      "elapsedSeconds": 0.451,
+      "before": "",
+      "after": "",
+      "counts": {},
+      "log": "build.log"
+    },
+    {
+      "name": "browser-fixture",
+      "command": "npm run test:browser:fixture",
+      "exitCode": 0,
+      "elapsedSeconds": 120.133,
+      "before": "",
+      "after": "",
+      "counts": {
+        "tests": 180,
+        "pass": 180,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "log": "browser-fixture.log"
+    }
+  ]
+}

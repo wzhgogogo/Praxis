@@ -1,7 +1,7 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.27
+- Document revision: 1.28
 - Last updated: 2026-10-29
 
 
@@ -66,7 +66,8 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 | [0046](0046-observed-actions-and-source-quoted-answers.md) | **Accepted；用户2026-10-27批准revision 0.2文本** | 统一观察原则/G2验收/G1简短答案+引文合同；未接入口核心，不改变共享状态/权限 |
 | [0047](0047-g3-observed-task-behavior-acceptance.md) | Accepted；用户2026-10-28直接决定 | G3以严格DOM变异与真实任务行为验收，适配器行数仅参考；仅取代0046的行数门槛 |
 | [0048](0048-tabelog-calendar-response-evidence.md) | Accepted；独立复核2026-10-28、用户批准 | Tabelog日期状态只取自绑定的数据响应，class仅导航提示，无响应未知；A修订日历基线，B继续其它组 |
-| [0049](0049-source-bound-b1-booking-handoff.md) | **Accepted; user2026-10-29** | B1 source-bound departure, parallel bilingual cancellation evidence, dated English fee policy and durable USER_REPORTED return feedback |
+| [0049](0049-source-bound-b1-booking-handoff.md) | Accepted; user2026-10-29; hint presentation partially superseded by ADR-0050 | B1 source-bound departure, parallel bilingual cancellation evidence, dated English fee policy and durable USER_REPORTED return feedback |
+| [0050](0050-two-line-handoff-presentation.md) | Accepted; user2026-10-29 | 最多两行出发提示：选择项、核对项；取消冲突确认提醒靠近推荐卡片取消规定，B1链接/证据/自报规则不变 |
 
 ## 规则
 

@@ -58,7 +58,9 @@ export interface BookingHandoffView {
   url: string;
   directLabel: string;
   continueLabel: string;
-  hint?: string;
+  selectionHint?: string;
+  verificationHint?: string;
+  cancellationConfirmation?: "Confirm cancellation terms on the website";
   checkedAt: string;
   displayExpiresAt: string;
   knowledge: "SOURCE_OBSERVED_AVAILABILITY";
@@ -212,15 +214,15 @@ export function presentBookingHandoff(prepared: PreparedBookingHandoff, context:
     const label = {REQUIRED: "Card required", NOT_REQUIRED: "No card needed", MAY_REQUIRE: "May require a card"}[card.requirement];
     if (label) terms.push({label, citations: structuredClone(card.answer.citations)});
   }
-  const hints = source.provider === "TABLECHECK" ? ["Check date and guests"] : [];
-  if (conflict) hints.push("Confirm cancellation terms on the website");
   const plan = source.terms?.plan;
-  if (plan && !/[\r\n]/.test(plan.text) && checkedCitation(plan, source, context)) hints.push(`Pick ${plan.text}`);
+  const selectionHint = plan && !/[\r\n]/.test(plan.text) && checkedCitation(plan, source, context) ? `Pick ${plan.text}` : undefined;
   return {
     candidateId: source.candidateId, offerId: source.offerId, provider: source.provider, url: source.url,
     directLabel: `Book on ${name}`,
     continueLabel: `Continue on ${name} — date, time, ${context.offer.partySize} ${context.offer.partySize === 1 ? "guest" : "guests"} filled in`,
-    ...(hints.length ? { hint: hints.join(" · ") } : {}),
+    ...(selectionHint ? {selectionHint} : {}),
+    ...(source.provider === "TABLECHECK" ? {verificationHint: "Check date and guests"} : {}),
+    ...(cancellationNotice ? {cancellationConfirmation: "Confirm cancellation terms on the website" as const} : {}),
     checkedAt: source.observedAt,
     displayExpiresAt: new Date(Math.min(...[context.offer.displayExpiresAt!, context.check.displayExpiresAt!,
       ...[context.offer.sourceExpiresAt, context.check.expiresAt, evidence.displayExpiresAt, evidence.sourceExpiresAt, evidence.expiresAt].filter((value): value is string => value !== undefined)].map(Date.parse))).toISOString(),

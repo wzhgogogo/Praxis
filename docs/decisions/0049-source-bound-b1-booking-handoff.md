@@ -2,7 +2,9 @@
 
 ## Status
 
-**Accepted** — Document revision 0.2, 2026-10-29 (Vienna CET, UTC+1).
+**Accepted** — Document revision 0.3, 2026-10-29 (Vienna CET, UTC+1).
+
+Presentation-only clauses in sections 4 and 5 are **partially superseded by [ADR-0050](0050-two-line-handoff-presentation.md)**, approved by the user on 2026-10-29: departure hints may use two lines, and the cancellation-conflict confirmation sits beside the card's cancellation terms. The original Decision text below is retained; link provenance, evidence checks, write boundaries and return feedback remain in force.
 
 User approved on 2026-10-29. Renumbered from the reviewed C draft0048 because B owns0047/0048. The user also explicitly replaced the multilingual cancellation decision below on 2026-10-29. This grants no real reservation submission or shared Agent/State/TaskDefinition version changes.
 

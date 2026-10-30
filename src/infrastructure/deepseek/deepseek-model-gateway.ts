@@ -3,12 +3,13 @@ import {
   type ModelGateway,
   type ModelInvocationObserver,
   type ModelInvocationRecord,
+  type ModelProviderErrorDiagnostic,
   type ModelRequest,
   type ModelResponse,
   type ModelUsage,
   validateModelRequest,
 } from "../../core/model/contracts.js";
-import { ModelGatewayError, type ModelProviderErrorDiagnostic } from "../../core/model/errors.js";
+import { ModelGatewayError } from "../../core/model/errors.js";
 
 const DEEPSEEK_CHAT_COMPLETIONS_URL = "https://api.deepseek.com/chat/completions";
 const DEEPSEEK_BETA_CHAT_COMPLETIONS_URL = "https://api.deepseek.com/beta/chat/completions";
@@ -40,20 +41,24 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-// Retain only known transport codes, never exception messages, URLs or socket data.
-function transportDiagnostic(error: unknown): ModelProviderErrorDiagnostic {
-  const codes = new Set([
-    "ECONNRESET", "ECONNREFUSED", "ETIMEDOUT", "ENOTFOUND", "EAI_AGAIN",
-    "UND_ERR_CONNECT_TIMEOUT", "UND_ERR_SOCKET", "UND_ERR_HEADERS_TIMEOUT", "UND_ERR_BODY_TIMEOUT",
-    "CERT_HAS_EXPIRED", "DEPTH_ZERO_SELF_SIGNED_CERT", "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
-    "ERR_TLS_CERT_ALTNAME_INVALID",
-  ]);
+// Preserve error identity and cause codes, never messages, URLs or socket data.
+function transportDiagnostic(error: unknown, apiKey: string): ModelProviderErrorDiagnostic {
+  const diagnostic: ModelProviderErrorDiagnostic = { type: "TRANSPORT" };
+  const causes: NonNullable<ModelProviderErrorDiagnostic["causes"]> = [];
+  const identifier = (value: unknown, pattern: RegExp): string | undefined =>
+    typeof value === "string" && pattern.test(value) && !value.includes(apiKey)
+      && !/^(?:sk|key|token)[_-]/i.test(value) ? value : undefined;
   for (let depth = 0; depth < 4 && isRecord(error); depth++, error = error.cause) {
-    if (typeof error.code === "string" && codes.has(error.code)) {
-      return { type: "TRANSPORT", code: error.code };
-    }
+    const errorName = identifier(error.name, /^[A-Za-z][A-Za-z0-9_]{0,63}$/);
+    const code = identifier(error.code, /^[A-Z][A-Z0-9_]{0,63}$/);
+    if (depth === 0 && errorName) diagnostic.errorName = errorName;
+    if (code && !diagnostic.code) diagnostic.code = code;
+    if (depth > 0 && (errorName || code)) causes.push({
+      ...(errorName ? { errorName } : {}), ...(code ? { code } : {}),
+    });
   }
-  return { type: "TRANSPORT" };
+  if (causes.length) diagnostic.causes = causes;
+  return diagnostic;
 }
 
 function nonBlankEnvironmentValue(
@@ -417,11 +422,12 @@ export class DeepSeekModelGateway implements ModelGateway {
         "DeepSeek completion request timed out",
         "TIMEOUT",
         true,
+        undefined, undefined, transportDiagnostic(caught, this.config.apiKey),
       );
     }
     return new ModelGatewayError(
       "DeepSeek completion request failed at the network layer", "NETWORK", true,
-      undefined, undefined, transportDiagnostic(caught),
+      undefined, undefined, transportDiagnostic(caught, this.config.apiKey),
     );
   }
 

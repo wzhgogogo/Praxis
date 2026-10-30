@@ -12,6 +12,27 @@ import type {
 
 export type AgentWorkspaceMode = "FIXTURE" | "LIVE_READ";
 
+/** Client references only; the authenticated application resolves their ownership. */
+export interface WorkspaceViewContext {
+  view: "HOME" | "CONVERSATION" | "CANDIDATES" | "DETAILS" | "SAVED" | "HANDOFF";
+  candidateId?: string;
+  comparedCandidateIds: string[];
+}
+
+export function workspaceViewContext(value: unknown): WorkspaceViewContext {
+  if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("Current view context is required");
+  const item = value as Record<string, unknown>;
+  if (Object.keys(item).some(key => !["view", "candidateId", "comparedCandidateIds"].includes(key))
+    || !["HOME", "CONVERSATION", "CANDIDATES", "DETAILS", "SAVED", "HANDOFF"].includes(String(item.view))
+    || (item.candidateId !== undefined && (typeof item.candidateId !== "string" || !item.candidateId.trim()))
+    || !Array.isArray(item.comparedCandidateIds) || item.comparedCandidateIds.length > 3
+    || item.comparedCandidateIds.some(id => typeof id !== "string" || !id.trim())
+    || new Set(item.comparedCandidateIds).size !== item.comparedCandidateIds.length
+    || (item.candidateId !== undefined && !["CANDIDATES", "DETAILS", "HANDOFF"].includes(String(item.view)))
+    || (item.view === "HOME" && item.comparedCandidateIds.length > 0)) throw new Error("Invalid current view context");
+  return {view:item.view as WorkspaceViewContext["view"], ...(item.candidateId ? {candidateId:item.candidateId as string}:{}), comparedCandidateIds:[...item.comparedCandidateIds] as string[]};
+}
+
 export type CaseStatus = "ACTIVE" | "NEEDS_YOU" | "WAITING" | "COMPLETED";
 
 export type PendingUserAction =
@@ -99,6 +120,10 @@ export interface RestaurantCaseView {
     /** The source-observed center actually used; never a rewrite of the user's AREA. */
     searchLocation?: RestaurantSearchContinuation["locationContext"];
     missingRequiredFields: string[];
+    requestRevision: number;
+    /** Qualified from the current state, including results ready before the batch ends. */
+    readyCandidateIds: string[];
+    progress: { active: boolean; stopped: boolean; discoveredCount?: number; checkedCount?: number };
     candidates: Array<RestaurantCandidate & { distanceObservation?: CandidateDistanceObservation }>;
     availability: Record<string, AvailabilityOffer[]>;
     availabilityChecks: Record<string, RestaurantAvailabilityCheck>;

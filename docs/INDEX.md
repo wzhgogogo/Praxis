@@ -1,8 +1,8 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.9
-- Last updated: 2026-10-23
+- Document revision: 1.16
+- Last updated: 2026-10-30
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Project Positioning](PROJECT-POSITIONING.md)
@@ -41,8 +41,10 @@ Accepted ADR
 
 ## 产品
 
-- [MVP PRD](product/MVP-PRD.md)：东京英文 Web 餐厅预约 MVP 的目标、范围和验收。
-- [User Flows](product/USER-FLOWS.md)：搜索、选择、执行、接管、验证、取消和变更流程。
+- [MVP PRD](product/MVP-PRD.md)：面向在日外国人的东京英文Web决策、准备与来源交接范围；第一版由用户在来源网站自行提交。
+- [User Flows](product/USER-FLOWS.md)：首页、My plans、安排工作区及查找、选店、交接、返回自报流程；第一段已完成本地Fixture浏览器链路，待独立视觉复核。
+- [Web Visual Direction](product/VISUAL-DIRECTION.md)：用户选定的合并版视觉规则及英文文案；Mono仅用于logo，信息靠间距分隔，实施范围/验收见切片计划。
+- [Booking Design Draft 0.6](product/BOOKING-DESIGN-DRAFT.md)：draft / not integrated的历史方案输入；B1以Accepted ADR-0049为准，B2/B2+不属于前端第一段，原稿的取消严格程度与工作流读取不得覆盖ADR。
 
 ## 架构
 
@@ -62,6 +64,14 @@ Accepted ADR
 - [Capability Matrix](integrations/CAPABILITY-MATRIX.md)：DeepSeek、Google、Hot Pepper、TableCheck 和官网能力边界。
 
 ## 验证、阶段与历史
+
+- [SR04零API定位与合入复核](reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)：两条生产解析路径各10/10，SR04目标同v26；诊断透传修复及main404a766e同步；净树五门禁1211/181和两尺寸十一项通过，21张截图，工作分支待合入复核。
+
+- [前端第1步复核小修](reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)：净树五门禁1211/181通过；单次真实10 API后SR04新增网关失败停止，四层/v26逐项/21截图；单店问答合并留下一段。
+
+- [前端第1步复核](reviews/WEB-WORKSPACE-SLICE1-20261030.md)：工作区/B1完整Fixture链路、两尺寸十项验收、五门禁1210/180及主要画面截图；工作分支待复核，不是Live验收。
+
+- [前端第0步文档同步复核](reviews/WEB-WORKSPACE-HANDOFF-DOCS-20261029.md)：来源对照、补齐范围与文档检查；第0步已复核并小修推送；后续代码状态见切片计划。
 
 - [第二阶段签收原文（2026-10-23）](reviews/PHASE-2-SIGNOFF-20261023.md)：用户带缺口签收的不可改写快照；当前状态见STATUS。
 - [第二阶段分支历史快照](reviews/PHASE-2-BRANCH-INVENTORY-20261023.md)：签收时的分支、合并/tag/退役状态；删除提案已关闭，按用户决定保留全部远端分支。
@@ -102,6 +112,8 @@ Accepted ADR
 - [Post-change Verify](skills/post-change-verify/SKILL.md)
 
 ## 当前阶段计划
+
+- [Web Workspace Slice 1 Plan](WEB-WORKSPACE-SLICE1-PLAN.md)：当前前端纵向切片范围、现有取消/进度链路、两尺寸浏览器验收与停止条件；业务真实调用0。
 
 - [Agent 网站操作第一阶段 Playbook](AGENT-WEB-OPERATION-PHASE-1-PLAYBOOK.md)：第一阶段的目标、工作包、退出条件、预算与签收口径；当前进度见 STATUS。
 - [H001–H005 已知可行基线 Playbook](H001-H005-KNOWN-FEASIBLE-BASELINE-PLAYBOOK.md)：P1-A 细则（已完成）；已暴露开发诊断，非 Clean Baseline。其结论分类只用于 P1-A 至 P1-F，此后按 Eval Skill 的四层结构评价。
