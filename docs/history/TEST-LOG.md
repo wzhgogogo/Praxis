@@ -33,7 +33,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.356
+- Document revision: 4.357
 
 
 - Last updated: 2026-10-30
@@ -6101,3 +6101,11 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 最终结果：cbcd667b/742 SHA不变，typecheck/arch:check/npm test/build/test:browser:fixture全PASS；默认1215/1215约28.401s，Chromium203/203约140.106s（含G2 5/5），无skip/todo，六步前后净树且HEAD一致。22新场景加9旧工作区/G1场景覆盖390×844、1280×900的原十项/新增五项及第1段十一项。Source未查pool与观察游标均实际取得新结果，旧FAILED/UNAVAILABLE不重查；全部失败Try again经refresh恢复，旧版本409、异用户404、重复请求与Stop迟到均有实际链路控制。
 
 失败原件全保留：初探登录201/200错误、旧TaskDefinition22断言、淡入中间帧截图，以及视觉新发现的模型失败提示首屏不可见；后者两尺寸视口断言2红→2绿，最终短文案完整在固定输入框上方。61份最终PNG校验尺寸/SHA，20移动新画面目视（19字节相同复用，1新错误提示复核），桌面5关键画面和两尺寸长条款两入口抽查；旧图与旧门禁另存不覆盖。门禁后只有报告/附件，产品及输入SHA保持；业务模型/Google/来源GET/Live/外写/Holdout0，未加载.env或执行DB迁移/重置，工作分支交复核不合main。[最终原件/截图/边界](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+<a id="test-2026-10-30-web-slice2-main-sync"></a>
+
+## 2026-10-30 第2段合入前同步与零变化行反例
+
+de9e73bc合并已核对的main7c83e02e/G3，四份冲突文档正文保留；读证据因果规则和续查排除同时存在。新增断言复用原两尺寸真实Chromium→HTTP/SSE→生产Application/Interpreter/Compiler/Validator/Router/Runtime/PGlite，只替换模型/来源/问答传输。服务端revisionDiff确认0/0后，旧行仍显示，目标断言两尺寸均红；只改renderChanges可见性后，原两场景及四个非0差异/原因/备选控制6/6绿。未改Gold/评分、来源规则或验收输入，原失败保留。
+
+下一步在净树冻结新组合及全部源/Fixture输入SHA，重跑五门禁和390×844、1280×900原十项/追加五项/第1段十一项及本轮零变化行，结果待运行。结构化修改仍draft，真实模型/Google/来源GET/Live/外写/Holdout0，不加载.env；只推工作分支交ff-only合入复核，不更新main。[同步报告](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。

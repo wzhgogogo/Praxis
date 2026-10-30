@@ -1,7 +1,7 @@
 # Praxis 视觉方向
 
 - Status: Draft
-- Document revision: 0.11
+- Document revision: 0.12
 - Last updated: 2026-10-30
 - Source of truth for: Web 界面的视觉规则；不覆盖 Accepted PRD、ADR 或当前实现状态
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -138,7 +138,7 @@
 
 详情只保留主输入框，placeholder为Ask about this place，其他需求视图为Adjust anything?。回答使用纯白底部面板与单层柔和阴影，顶部一行店名，再放原答案、来源及G1确认提醒；外点或下滑收起。You asked按店展示已有问答，最新在上，无第二输入框。
 
-修改条件后的计数用两个文字块加间距：2 removed、1 added；明细只列店名和结构化原因Over budget / Doesn't match the new time / No longer matches。备选保留，不合格条目下方显示同一原因。批末卡Any of these work?，Saved加次要色数字、Adjust为文字动作，Find more是唯一群青主动作。
+修改条件后的计数用两个文字块加间距：2 removed、1 added；移除和新增均0时隐藏整行，任一非0仍显示。明细只列店名和结构化原因Over budget / Doesn't match the new time / No longer matches。备选保留，不合格条目下方显示同一原因。批末卡Any of these work?，Saved加次要色数字、Adjust为文字动作，Find more是唯一群青主动作。
 
 错误/空结果文案沿用用户指令：Nothing matched yet.；Some sources couldn't be checked.；Couldn't reach the sources. Try again?；Couldn't read that. Try rephrasing?；Reconnecting…；Check availability again。每项必须有确定信号与真实下一步；空结果只有服务端canContinue=true显示Find more，否则只显示Adjust；全部来源失败独立Try again，不混用续查。当前实现与验收见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
 

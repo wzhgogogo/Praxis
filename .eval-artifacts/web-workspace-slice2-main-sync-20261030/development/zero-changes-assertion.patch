@@ -1,0 +1,16 @@
+diff --git a/src/harness/browser/web-workspace-slice2.test.ts b/src/harness/browser/web-workspace-slice2.test.ts
+index f00dc338..cd0c3cd3 100644
+--- a/src/harness/browser/web-workspace-slice2.test.ts
++++ b/src/harness/browser/web-workspace-slice2.test.ts
+@@ -77,6 +77,11 @@ for(const size of sizes){
+       assert.equal(await page.locator("#request-conditions").getByRole("button",{name:"3 guests",exact:true}).count(),1);
+       assert.equal(await page.locator("#request-conditions").getByRole("button",{name:"3 guests?",exact:true}).count(),0);
+       assert.ok(posts.some(p=>p.path.includes("/conversations/")&&p.path.endsWith("/messages")));
++      const unchangedCase=await page.locator(".case-link.active").getAttribute("data-case-id");assert.ok(unchangedCase);
++      const unchanged=(await(await page.request.get("/api/cases/"+encodeURIComponent(unchangedCase))).json()).view.restaurant.revisionDiff;
++      assert.deepEqual([unchanged.removed.length,unchanged.added.length],[0,0],"the server confirms the candidate set is unchanged");
++      assert.equal(await page.locator("#revision-changes").isVisible(),false,"hide the changes row when both counts are zero");
++      assert.doesNotMatch(await page.locator("body").innerText(),/0 removed|0 added/);await capture(page,size.name+"-slice2-zero-changes");
+       await page.locator("#next").click();await page.locator("#next").click();const last=await page.locator("#restaurant-name").innerText();
+       await page.locator("#next").click();await page.getByRole("heading",{name:"Any of these work?",exact:true}).waitFor();
+       assert.equal(await page.locator("#candidate-panel").isVisible(),false);assert.equal(await page.locator("#end-saved").getAttribute("aria-label"),"Saved 1");

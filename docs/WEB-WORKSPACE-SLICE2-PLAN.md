@@ -1,10 +1,10 @@
 # Web Workspace Slice 2 Plan
 
 - Status: Draft
-- Document revision: 0.5
+- Document revision: 0.6
 - Last updated: 2026-10-30
 - Source of truth for: 第2段切片范围、接线、停止点与验收；不替代产品和ADR
-- Evidence status: frozen regression；工作分支实现及本地Fixture验收通过，待复核未合main，真实调用0
+- Evidence status: frozen regression；第2段9ca34bea已获用户复核通过，本轮同步main7c83e02e和隐藏零变化行待验证，未合main，真实调用0
 - Related documents: [Visual](product/VISUAL-DIRECTION.md), [Flows](product/USER-FLOWS.md), [Gateway](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
 
 ## 当前切片承诺
@@ -54,3 +54,9 @@ G1不能按当前对象绑定、拿不到上一需求候选、错误没有可区
 补真实HTTP/SSE/Runtime浏览器验收：池内未查与现有搜索续接均能取得新结果；全查过不显示Find more；续查中Stop拒收迟到卡片；双击只发起一次；已不合格/失败候选不再调查；同requestId不再触发读取，旧版本/跨用户拒绝。全部来源失败另测Try again从固定失败恢复到当前合格结果，不以点击400或终止为正向通过。首轮cbe036f5的五门禁1213/197和原件保留，新代码/输入重新冻结再全量验收。
 
 最终冻结cbcd667b67e1c9592cb7f737a907a93181139afc、742项SHA不变：五门禁默认1215/1215、Chromium203/203全绿，六步前后净树；本段22条及复用第1段/G1脚本9条均绿，390×844和1280×900原十项/新增五项及第1段十一项通过。模型失败提示可见性曾在截图自查发现遗漏，补两尺寸视口断言红→绿后移到条件下；全部40张新画面及21张回归图已保存，旧原件保留。Source/模型/Google/Live/Holdout0，未改A/B/C受保护路径或G1/B1执行，不新增图片/比较/B2/条件事件/问答存储。门禁后仅补报告与附件，推工作分支停复核，不合main。[最终报告与截图](reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+## 2026-10-30 合入前同步与零变化行
+
+用户复核通过9ca34bea，要求合入main前同步7c83e02e（含G3）再验收。本轮只在codex/feat-web-workspace-slice2合入该main，四份文档冲突保留双方正文，统一冲突页头；read-assessment.ts保留main的等时戳因果证据规则和本段的已调查对象排除，不改G3或续查规则。移除/新增均为0时隐藏整行，任一非0仍显示；复用已有两尺寸真实HTTP场景，服务端确认0/0后验证行隐藏，同时保留2/1及其原因/备选验收。结构化条件修改方案保持draft / not integrated，不新增事件。
+
+固定合并结果、代码/Fixture与输入SHA后，在净树重跑五门禁及390×844/1280×900全部验收：本段十项、追加五项、第1段十一项，加本轮零变化行。真实模型/Google/来源GET/Live/Holdout0；只推工作分支交合入复核。后续main按ff-only合入本分支，本轮不更新main。若整合后共享链路出错，保留实际反例，定位并报告，不降低断言或用局部测试替代完整门禁。[同步报告](reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。

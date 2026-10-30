@@ -77,6 +77,11 @@ for(const size of sizes){
       assert.equal(await page.locator("#request-conditions").getByRole("button",{name:"3 guests",exact:true}).count(),1);
       assert.equal(await page.locator("#request-conditions").getByRole("button",{name:"3 guests?",exact:true}).count(),0);
       assert.ok(posts.some(p=>p.path.includes("/conversations/")&&p.path.endsWith("/messages")));
+      const unchangedCase=await page.locator(".case-link.active").getAttribute("data-case-id");assert.ok(unchangedCase);
+      const unchanged=(await(await page.request.get("/api/cases/"+encodeURIComponent(unchangedCase))).json()).view.restaurant.revisionDiff;
+      assert.deepEqual([unchanged.removed.length,unchanged.added.length],[0,0],"the server confirms the candidate set is unchanged");
+      assert.equal(await page.locator("#revision-changes").isVisible(),false,"hide the changes row when both counts are zero");
+      assert.doesNotMatch(await page.locator("body").innerText(),/0 removed|0 added/);await capture(page,size.name+"-slice2-zero-changes");
       await page.locator("#next").click();await page.locator("#next").click();const last=await page.locator("#restaurant-name").innerText();
       await page.locator("#next").click();await page.getByRole("heading",{name:"Any of these work?",exact:true}).waitFor();
       assert.equal(await page.locator("#candidate-panel").isVisible(),false);assert.equal(await page.locator("#end-saved").getAttribute("aria-label"),"Saved 1");
@@ -85,6 +90,8 @@ for(const size of sizes){
       await page.locator("#message").fill("Keep this draft while finding more");await capture(page,size.name+"-slice2-batch-end");
       const response=page.waitForResponse(r=>new URL(r.url()).pathname.endsWith("/another-batch"));await page.locator("#find-more").click();assert.equal((await response).status(),200);
       await ready(page);assert.match(await page.locator("#restaurant-name").innerText(),/Fixture later restaurant/);
+      assert.equal(await page.locator("#revision-changes").isVisible(),true,"a nonzero addition still shows the changes row");
+      assert.deepEqual([await page.locator("#removed-count").innerText(),await page.locator("#added-count").innerText()],["0 removed","3 added"]);
       assert.equal(await page.locator("#message").inputValue(),"Keep this draft while finding more");
       assert.equal(posts.filter(p=>p.path.endsWith("/another-batch")).length,1);
     }catch(error){await failureDiagnostic(page,host);throw error;}finally{await context.close();await browser.close();await host.close();}

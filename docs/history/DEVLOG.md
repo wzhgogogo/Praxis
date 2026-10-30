@@ -33,7 +33,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.350
+- Document revision: 4.351
 
 
 - Last updated: 2026-10-30
@@ -5397,3 +5397,11 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 新增两尺寸续查/取消/失败恢复开发10/10、领域/投影37/37通过；最终全量冻结门禁及截图待执行。B来源搜索/G3、C Google、A评测、G1/B1执行及通用Runtime不改。只推第2段分支停复核，新增真实调用/Holdout0。[实现与验收](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
 
 最终交付验证：cbcd667b67e1c9592cb7f737a907a93181139afc冻结742项SHA，五门禁1215/1215默认、203/203 Chromium（含G2 5）全绿，六步前后净树/HEAD一致。第2段22条+原工作区/G1脚本9条通过，两尺寸十项/新增五项和第1段十一项均覆盖。版本旧断言22已同步批准的23，原失败保留；首次卡片截图淡入中间帧改capture原生结束动画，不改产品动画。截图自查又发现模型失败提示在长卡下面，补同一视口断言两尺寸红→绿，将原节点移到条件下，草稿/卡片保持；40张新图仅此两图较已审查前轮变化，另21张回归图均留存。产品/输入不再变，补报告/附件后只推工作分支停复核，不合main；真实模型/Google/来源GET/Live/外写/Holdout0，无生产凭据或数据库重置。[最终报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
+
+<a id="dev-2026-10-30-web-slice2-main-sync"></a>
+
+## 2026-10-30 第2段复核后同步G3与零变化行
+
+用户复核通过9ca34bea，要求合入前同步main7c83e02e；本轮已核对远端精确SHA。de9e73bc将其合入工作分支，四份文档冲突保留双方正文、冲突元数据统一下一revision；六份文档对两父提交12项非元数据行核对缺失0。read-assessment.ts自动保留G3的等时戳因果证据修复和本段续查排除，不改来源/G3规则。
+
+唯一产品改动为新增/移除均0隐藏整行。复用两尺寸完整HTTP问答→需求修改场景，服务端先确认0/0，隐藏行断言原2红；修复后连同非0差异、原因、备选相关6/6绿。待冻结新组合跑五门禁与两尺寸全部验收，不能用旧门禁代替。结构化条件修改方案仍draft / not integrated，不新增事件/状态，TaskDefinition23/State24及Prompt不因本修复变化。真实模型/Google/来源GET/Live/Holdout0，只推工作分支交合入复核，后续main ff-only，本轮不更新main。[报告](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。

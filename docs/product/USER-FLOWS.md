@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.24
+- Document revision: 0.25
 - Last updated: 2026-10-30
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -160,7 +160,7 @@ Current source-bound slot → two server URL checks → explicit Book/Continue c
 
 主输入框由视图确定路由：DETAILS发往已有单店questions接口并绑定当前展示候选；CANDIDATES/CONVERSATION发往需求消息。回答底部面板不重排当前卡片或清除草稿，外点/下滑收起。You asked按当前店显示持久事件已有的历史，最新在上，保留原引文与敏感确认；没有新增问答存储或修改G1执行规则。
 
-条件胶囊点击只聚焦预填Change <condition> to，按原消息链调整；只有明确来源标记的推测条件才带问号。新批完成后的removed/added、移除原因和不符合新条件的备选均来自服务端投影；不把搜索页数当需求版本，不从前端缓存或自由文本猜原因。
+条件胶囊点击只聚焦预填Change <condition> to，按原消息链调整；只有明确来源标记的推测条件才带问号。新批完成后的removed/added、移除原因和不符合新条件的备选均来自服务端投影；移除和新增均0时隐藏整行，任一非0仍显示。不把搜索页数当需求版本，不从前端缓存或自由文本猜原因。
 
 翻过最后候选显示Any of these work?，Saved/Adjust为文字动作，Find more调用原another-batch，返回仍是最后候选。来源读取失败但有合格结果时继续展示，末尾短提示；模型理解失败保留输入，断线Reconnecting自动恢复，明确过期的交接调用原refresh。没有合格结果只写Nothing matched yet.，不能写附近没店/没有空位。
 

@@ -114,7 +114,7 @@ function renderConditions(){
 }
 function changeReason(code){return ({OVER_BUDGET:'Over budget',NEW_TIME_MISMATCH:"Doesn't match the new time",NO_LONGER_MATCHES:'No longer matches'})[code]||'No longer matches';}
 function renderChanges(){
-  const diff=state.view.restaurant.revisionDiff;show('revision-changes',!!diff);if(!diff)return;
+  const diff=state.view.restaurant.revisionDiff,changed=!!diff&&(diff.removed.length>0||diff.added.length>0);show('revision-changes',changed);if(!changed)return;
   text('removed-count',diff.removed.length+' removed');text('added-count',diff.added.length+' added');
   const signature=JSON.stringify(diff);if(signature===state.diffKey)return;state.diffKey=signature;
   $('removed-list').replaceChildren(...diff.removed.map(item=>{const row=element('li');row.dataset.candidateId=item.candidateId;row.append(element('span',item.outletName),element('p',changeReason(item.reasonCode),'muted'));return row;}));
