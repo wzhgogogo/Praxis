@@ -187,6 +187,7 @@ for(const size of sizes){
       await start(page,host,"Dinner with friends");await page.locator("#next").click();const card=await page.locator("#restaurant-name").innerText(),reads=host.providerCalls.length;
       await page.locator("#message").fill(bad);await page.getByRole("button",{name:"Send",exact:true}).click();await page.locator("#understanding-error").waitFor({state:"visible"});
       assert.equal(await page.locator("#understanding-error").innerText(),"Couldn't read that. Try rephrasing?");assert.equal(await page.locator("#message").inputValue(),bad);
+      const notice=await page.locator("#understanding-error").boundingBox(),composer=await page.locator("#composer").boundingBox();assert.ok(notice&&composer&&notice.y>=0&&notice.y+notice.height<=composer.y,"the model-failure next step must be fully visible above the fixed composer");
       assert.equal(await page.locator("#restaurant-name").innerText(),card);assert.equal(host.providerCalls.length,reads);
       assert.equal(await page.locator("#messages").innerText(),"");await capture(page,size.name+"-slice2-model-failure");
       await page.locator("#message").fill("Make it three people");await page.getByRole("button",{name:"Send",exact:true}).click();await ready(page);

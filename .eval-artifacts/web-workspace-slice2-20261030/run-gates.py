@@ -6,9 +6,9 @@ import subprocess
 import time
 
 folder = Path('.eval-artifacts/web-workspace-slice2-20261030')
-output = folder / 'gates-visual'
-screens = Path('/private/tmp/praxis-slice2-20261030-visual-screens')
-manifest_path = folder / 'gate-freeze-visual.json'
+output = folder / 'gates-delivery'
+screens = Path('/private/tmp/praxis-slice2-20261030-delivery-screens')
+manifest_path = folder / 'gate-freeze-delivery.json'
 manifest = json.loads(manifest_path.read_text())
 
 def git(*args):
