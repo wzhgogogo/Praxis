@@ -1,7 +1,7 @@
 # Agent Gateway and Workspace
 
 - Status: Accepted
-- Document revision: 0.7
+- Document revision: 0.8
 - Last updated: 2026-10-30
 - Source of truth for: Web/Mobile Web入口、Conversation/Session/Case边界、用户可见Activity与Domain Workspace
 - Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -55,6 +55,12 @@ Gateway先以认证身份核对Conversation与Case归属，再核对候选确实
 经校验的查看上下文只用于指代解析，仍须经过现有语义及动作校验路径。查看、加入备选、比较和恢复视图均不写明确选定状态；只有独立的用户选店动作可以选择，选店也不构成ADR-0049之外的写入Authorization。客户端不能通过候选ID、上下文或自带URL绕过来源证据与交接校验。
 
 前端第一段不实现比较页，未实际比较时不提供虚构比较对象。刷新、切换视图或SSE更新保留的当前卡片是交互定位；它与服务端权威选定、Task State和预约Outcome分离。
+
+### 查找与备选并发规则（用户2026-10-30签收）
+
+只适用于Agent loop已经完成、准备持久化的`SEARCH_COMPLETED`、`AVAILABILITY_CHECKED`、`CANDIDATE_FACTS_CHECKED`和`RESULTS_PRESENTED`事件。首次按原任务版本提交发生`StaleTaskVersionError`时，Application读取当前Snapshot与中间事件；仅在当前runId与原事件trace.runId相同、中间事件数恰等于版本差且非空、并且所有中间事件均为`SHORTLIST_UPDATED`时，允许把同一个已完成事件按当前任务版本重新提交一次。仍经过Runtime版本校验与原Reducer，不重跑模型或来源读取；第二次冲突照常失败，不循环。
+
+需求修改、停止、其他Event插入、换run、无法完整核对事件记录、普通执行失败均不适用。选定、授权、提交、支付、取消现实预约、Verifier或Outcome事件不在允许事件集合内；来源新鲜度/证据/归属规则保持原校验，不因重交而放宽。该规则只解决界面保存备选与只读完成并发，不提供通用副作用重试许可。
 
 ## 前台与后台生命周期
 

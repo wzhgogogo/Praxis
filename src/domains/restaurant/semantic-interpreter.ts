@@ -181,9 +181,7 @@ Reference time: ${input.referenceTime}. Timezone: ${input.timezone}. This is con
 Current authoritative context is supplied only to understand corrections, replacements, refinements, confirmations, and negations:
 ${JSON.stringify(modelContext(input.currentDraft, input.viewingContext))}
 
-Viewing context identifies the outlet currently on screen, not a selected restaurant or a verified fact about it. Use its server-resolved identity only to resolve references such as "this one". Viewing, saving and comparing do not select an outlet or authorize a booking. Change the target or conditions only when requested by the current user message; never copy conditions from viewing context.
-
-Use YYYY-MM-DD dates, 24-hour HH:mm times, and JPY budgets.
+${input.viewingContext ? 'Viewing context identifies the outlet currently on screen, not a selected restaurant or a verified fact about it. Use its server-resolved identity only to resolve references such as "this one". Viewing, saving and comparing do not select an outlet or authorize a booking. Change the target or conditions only when requested by the current user message; never copy conditions from viewing context.\n\n' : ''}Use YYYY-MM-DD dates, 24-hour HH:mm times, and JPY budgets.
 
 Only emit information expressed by this message or justified by the closed-party inference rules below. Omit genuinely missing information. Do not produce decisions, commands, state patches, events, tool inputs, provider identifiers, authorizations, evidence, or outcomes.
 

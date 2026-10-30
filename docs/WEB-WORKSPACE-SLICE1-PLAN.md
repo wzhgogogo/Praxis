@@ -1,7 +1,7 @@
 # Web Workspace Slice 1 Plan
 
 - Status: Draft
-- Document revision: 0.3
+- Document revision: 0.4
 - Last updated: 2026-10-30
 - Source of truth for: 本切片范围、验收链路、前置检查与停止条件；不替代产品/视觉规则
 - Related ADRs: [ADR-0006](decisions/0006-web-first-agent-workspace.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
@@ -79,6 +79,8 @@ Evaluator不适用：本轮不是模型质量评测，使用受控模型/来源�
 5. 推送本工作分支，不合main，停止交复核。不运行真实模型、来源预检或任何Live。
 
 ## 实施记录（2026-10-30）
+
+用户已复核c67c9276的功能、边界与十项验收，并签收仅SHORTLIST_UPDATED/同run重交一次的规则；指定小修及唯一一次真实语义回归见[本轮计划/报告](reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。新增两尺寸长条款遮挡/两个出发入口实际点击验收；单店Ask输入框并入主输入框明确留下一段，本轮不改。模型最多15次、无API重试，先Fixture通过，遇新退化停下；Google/来源GET/Live为0。
 
 已有W06/W09取消/进度前置2/2通过。新浏览器脚本两尺寸覆盖上述10项，另补Tabelog取消冲突就近展示/手续费；保留并改接原来源事实刷新、晚到列表、G1引用问答三项回归，共8/8通过。正式五门禁在冻结4255fcf85b94e39a5be3760203b54ab9d831dd9c的净树逐项运行，默认1210/1210、完整Chromium180/180全绿，各项前后净树。截图、检错与完整日志见[复核报告](reviews/WEB-WORKSPACE-SLICE1-20261030.md)。本切片完成后停用户复核、不合main。
 

@@ -5222,3 +5222,11 @@ Five approved consolidation items have individual successor proof, all originals
 语义Prompt26→27增加当前查看指代说明，无新增调用，Schema4/State24/TaskDefinition22及Agent29/Action5/Context17不变；真实模型质量未评价。新本地Fixture组合沿用既有源Fixture和生产两站Grounding，保留HTTP/SSE/Application/Runtime/PGlite完整链路；背景生命周期虽配置LIVE_READ，注入源/模型仍为Fixture，真实业务模型/Google/公开GET/Live/外写全0。不改A评测、B搜索/G3、C Google客户端。开发浏览器8/8和默认1210/1210已通过，正式净树五门禁与视觉复核待交付；本分支不合main。
 
 正式交付证据：4255fcf85b94e39a5be3760203b54ab9d831dd9c冻结后五门禁全绿，默认1210/1210、Chromium180/180（120.133秒），各项前后净树、HEAD不变。手机十画面与桌面三画面共13张截图归档；长条款滚动展示，不做桌面精修。代码冻结后只补报告/状态与证据附件，功能源码不变。第0步e3c48dbd和main00519783的远端SHA复核一致；本工作分支停独立视觉/代码复核，不合main。[报告](../reviews/WEB-WORKSPACE-SLICE1-20261030.md)。
+
+<a id="dev-2026-10-30-web-workspace-followup"></a>
+
+## 2026-10-30 前端第1步复核小修与语义单次回归计划
+
+用户签收c67c9276功能、边界、十项及同run/仅SHORTLIST_UPDATED重交一次规则；Gateway列明四事件/前提/排除，不扩大实现。按实际固定输入框高度投影内容留白和滚动安全区，长冲突条款两尺寸两个出发入口实际点击通过。Saved零条隐藏数字、非零次要色间距；推荐渠道正文色；Mon, Nov 2日期；调查中不显示总数；冲突只保留确认提醒；Date首字母大写。旧单店问答输入框合入主输入框留下一段，本轮未动。
+
+Prompt27→28将查看说明条件化；无上下文4组正文SHA与v26逐字一致，旧27四组不一致；其他共享Schema/State/TaskDefinition不改。用户授权现有15条回归单次真实DeepSeek，最多15 API、重试0，先Fixture。运行前冻结代码、Gold/输入/Scorer和79项SHA；专属传输守卫限制仅DeepSeek/第二次Schema拒发/总量15，原生产Schema尝试策略不改。采用v26最近修正补评15/15目标、14/15请求值、0/15严格，与原15条输入逐一相等；严格失败阻断策略/State版本不同列限定比较。当前业务模型0，实际启动与四层结果见[报告](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)，新退化即停，不调Prompt追分。

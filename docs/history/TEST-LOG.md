@@ -5924,3 +5924,11 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 正式五门禁需冻结提交后逐项运行并检查净树，结果与截图另附交付报告；未运行的真实模型/来源/Controlled Live-write/真实PostgreSQL多连接保持未运行，不由本地Chromium或PGlite替代。未改Gold、评分、私有Holdout、A/B/C保护文件，不读取.env。业务真实调用0。
 
 正式五门禁结果：冻结4255fcf85b94e39a5be3760203b54ab9d831dd9c，typecheck/arch:check/build均PASS，默认1210/1210（27.873秒），完整Chromium180/180（120.133秒），各项前后git status为空。G2按原入口独占运行，再执行其余4-worker Fixture，未调时限、排除文件或新增skip。新两尺寸真实链路及原三项UI回归共8/8 PASS，13张截图PNG尺寸/SHA核对。B1 checkedLink/admitted/checkedCitation/checkedAnswer与父提交逐字一致；新增文档链接26项无缺失。冻结后仅归档报告、状态与证据，全部真实业务调用仍0。[原始日志/回执/截图](../reviews/WEB-WORKSPACE-SLICE1-20261030.md)。
+
+<a id="test-2026-10-30-web-workspace-followup"></a>
+
+## 2026-10-30 复核小修：冻结前检查与模型计划
+
+新两尺寸遮挡/完整命中与两入口真实本地接收器点击加入原浏览器回归，开发检查9/9；提示词所属9/9，4组无上下文正文SHA与v26相等、原27全部不等。传输守卫Fake控制15API上限及拒绝Schema第二次，0真实调用；对照脚本不变v26无新退化、已知2→3人数变坏有效检错。初稿几何断言错误命中胶囊透明圆角已更正，不算产品反例。79项输入/源文件SHA冻结，旧15条输入/Gold及参考时间与当前全部一致，使用已修正CONTEXT_CARRY补评而非旧3个假失败。
+
+正式五门禁、Fixture→单次真实回归及四层对照待冻结后执行；计划15逻辑/最多15API，无API重试。仅从既有.env受控加载DeepSeek凭据，不复制或打印；本段不跑Holdout/Google/来源GET/Live。真实模型尚未启动，不把计划写成结果。模型新退化即停，原Gold/评分器/A评测执行源不改。[计划与结果入口](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。

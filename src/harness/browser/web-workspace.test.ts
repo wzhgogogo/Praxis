@@ -67,8 +67,9 @@ for(const size of sizes){
       const plan=await createPlan(page,"Dinner with friends");
       await host.waitForCheck();
       await page.getByRole("heading",{name:"Fixture Sushi",exact:true}).waitFor();
-      assert.equal(await page.locator("#card-counter").innerText(),"1 of 1","first outlet is visible while the second source is still held");
-      assert.match(await page.locator("#stages").innerText(),/Checking availability 1 of 3/);
+      assert.equal(await page.locator("#card-counter").isVisible(),false,"candidate totals are hidden until the investigation finishes");
+      assert.equal(await page.locator("#card-counter").textContent(),"");
+      assert.match(await page.locator("#stages").innerText(),/Checking availability\s+1 checked/);
       assert.equal((await current(page,plan.case.caseId)).restaurant.progress.discoveredCount,3);
       assert.equal(host.providerCalls[1]?.completed,false);
       await capture(page,size.name+"-searching");
@@ -100,7 +101,11 @@ for(const size of sizes){
       assert.match(await page.locator("#handoff").innerText(),/Omakase Nigiri ¥9,800[\s\S]*Same-day cancellation costs 100%[\s\S]*Card required/);
       assert.equal(await page.locator("#selection-hint").innerText(),"Pick Omakase Nigiri ¥9,800");
       assert.equal(await page.locator("#verification-hint").innerText(),"Check date and guests");
+      assert.match(await page.locator("#request-conditions").innerText(),/Mon, Nov 2/);
+      assert.equal(await page.locator("#handoff-provider-name").evaluate(n=>getComputedStyle(n).color),"rgb(21, 23, 43)");
+      assert.equal(await page.locator("#handoff-recommended").evaluate(n=>getComputedStyle(n).color),"rgb(61, 90, 254)");
       const departureText=await page.locator("#departure").innerText();
+      assert.match(departureText,/Date, time, 2 guests filled in/);
       assert.match(departureText,/Continue on TableCheck[\s\S]*2 guests filled in/);
       assert.doesNotMatch(departureText+" "+await page.locator("#selection-hint").innerText()+" "+await page.locator("#verification-hint").innerText(),/\bselected\b|\bbooked\b/i);
       const quote=page.locator("#handoff-terms details").first();await quote.locator("summary").click();
@@ -123,12 +128,14 @@ for(const size of sizes){
       assert.equal(await page.locator("#feedback").isVisible(),false,"a claimed prompt never reappears after reload");
       await page.locator("#new-case").click();
       const other=await createPlan(page,"A second plan");await ready(page);
-      assert.equal(await page.locator("#saved").innerText(),"Saved 0");
+      assert.equal(await page.locator("#saved").getAttribute("aria-label"),"Saved");
+      assert.equal(await page.locator("#saved-count").isVisible(),false);
       await page.locator("#bookmark").click();await page.getByRole("button",{name:"Saved 1",exact:true}).waitFor();
       assert.equal((await current(page,plan.case.caseId)).restaurant.shortlistCandidateIds?.length,2);
       assert.equal((await current(page,other.case.caseId)).restaurant.shortlistCandidateIds?.length,1);
       await openPlan(page,plan.case.caseId);
-      assert.equal(await page.locator("#saved").innerText(),"Saved 2");
+      assert.equal(await page.locator("#saved").getAttribute("aria-label"),"Saved 2");
+      assert.equal(await page.locator("#saved-count").evaluate(n=>getComputedStyle(n).color),"rgb(95, 98, 117)");
       if(size.name==="mobile"){await page.locator("#menu").click();await capture(page,"mobile-drawer");await page.locator("#menu").click();}
       await page.locator("#handoff-back").click();await page.locator("#next").click();
       const viewedId=await page.locator("#candidate-card").getAttribute("data-candidate-id");
@@ -194,22 +201,46 @@ for(const size of sizes){
     }finally{host.release();await browser.close();await host.close();}
   });
 }
-test("Workspace B1 shows cancellation conflict beside terms and the evidenced Tabelog fee",{timeout:20_000},async()=>{
+for(const size of sizes)test("Workspace B1 "+size.name+": long conflict terms keep both source actions above the composer",{timeout:25_000},async()=>{
   const host=await startWorkspaceFixture({provider:"TABELOG",cancellationConflict:true});
-  const browser=await chromium.launch({headless:true}),page=await browser.newPage({baseURL:host.baseUrl,viewport:{width:390,height:844}});
+  const browser=await chromium.launch({headless:true}),context=await browser.newContext({baseURL:host.baseUrl,viewport:{width:size.width,height:size.height}}),page=await context.newPage();
+  let departures=0;
+  await context.route("https://tabelog.com/**",route=>{departures++;return route.fulfill({contentType:"text/html",body:"<h1>Fixture destination</h1>"});});
   try{
     await signIn(page,host.baseUrl,host.clock.now());await createPlan(page,"Dinner and booking terms");await ready(page);
     await page.locator("#choose").click();await page.locator("#departure").waitFor({state:"visible"});
     const conflict=page.locator('[data-kind="cancellation-conflict"]');
-    assert.match(await conflict.innerText(),/English page: Same-day cancellation costs 100%[\s\S]*Cancellation terms differ[\s\S]*Confirm cancellation terms on the website/);
+    assert.match(await conflict.innerText(),/English page: Same-day cancellation costs 100%[\s\S]*Confirm cancellation terms on the website/);
+    assert.doesNotMatch(await page.locator("#handoff").innerText(),/Cancellation terms differ/);
     assert.match(await page.locator("#handoff-terms").innerText(),/Japanese page: Cancellation costs 50%[\s\S]*System usage fee: ¥440 per guest/);
     assert.equal(await page.locator("#selection-hint").innerText(),"Pick Omakase Nigiri ¥9,800");
     assert.equal(await page.locator("#verification-hint").isVisible(),false);
     assert.doesNotMatch(await page.locator("#selection-hint").innerText(),/cancellation|selected|booked/i);
-    await capture(page,"mobile-cancellation-conflict");
-    await capture(page,"mobile-cancellation-actions","#departure");
-  }finally{await browser.close();await host.close();}
+    for(const summary of await page.locator("#handoff-terms summary").all())await summary.click();
+    await page.locator("#direct-source").scrollIntoViewIfNeeded();
+    await aboveComposer(page,["departure","direct-source"]);
+    await capture(page,size.name+"-cancellation-actions","#direct-source");
+    for(const id of ["departure","direct-source"]){
+      await page.locator("#"+id).scrollIntoViewIfNeeded();await aboveComposer(page,[id]);
+      const popupPromise=page.waitForEvent("popup");await page.locator("#"+id).click();const popup=await popupPromise;
+      await popup.getByRole("heading",{name:"Fixture destination",exact:true}).waitFor();await popup.close();await page.bringToFront();
+    }
+    assert.equal(departures,2,"both explicit actions must reach only the local source receiver");
+    await capture(page,size.name+"-cancellation-conflict");
+  }finally{await context.close();await browser.close();await host.close();}
 });
+
+async function aboveComposer(page:Page,ids:string[]){
+  await page.waitForFunction(ids=>{
+    const composer=document.getElementById("workspace-composer")!.getBoundingClientRect();
+    return ids.every(id=>{
+      const n=document.getElementById(id)!,r=n.getBoundingClientRect();
+      return r.top>=0&&r.bottom<=composer.top-8&&r.left>=0&&r.right<=innerWidth&&[
+        [(r.left+r.right)/2,r.top+2],[(r.left+r.right)/2,r.bottom-2],[(r.left+r.right)/2,(r.top+r.bottom)/2],
+      ].every(([x,y])=>n.contains(document.elementFromPoint(x!,y!)));
+    });
+  },ids,{timeout:5_000});
+}
 
 async function assertEventually(predicate:()=>boolean){
   const deadline=Date.now()+5_000;

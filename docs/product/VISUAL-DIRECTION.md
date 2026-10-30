@@ -1,7 +1,7 @@
 # Praxis 视觉方向
 
 - Status: Draft
-- Document revision: 0.7
+- Document revision: 0.8
 - Last updated: 2026-10-30
 - Source of truth for: Web 界面的视觉规则；不覆盖 Accepted PRD、ADR 或当前实现状态
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -124,12 +124,12 @@
 | 工作区输入框 | Adjust anything? |
 | 抽屉标题 / 新建 | My plans / New plan |
 | 推测的条件 | Evening? |
-| 进度 | Near Shibuya 23 / Quiet 9 / Checking availability 1 of 3 |
+| 进度 | Finding places / Places found / Checking availability 1 checked；查找中不显示候选总数，结束后卡片显示1 of 3 |
 | 停止 | Stop |
-| 备选 | Saved 2；书签aria-label：Save for later |
+| 备选 | Saved；有备选时显示Saved加间距和数字，数字为#5F6275；0不显示数字。书签aria-label：Save for later |
 | 主按钮 | Choose this |
-| 证据 / 未查状态 | 第一行：Available Sat 19:00；第二行：TableCheck, checked 14:32；未查：Not checked |
-| 推荐 | Recommended　TableCheck |
+| 证据 / 未查状态 | 第一行：Available Mon, Nov 2 19:00；第二行：TableCheck, checked 14:32；未查：Not checked |
+| 推荐 | Recommended（群青）加间距加TableCheck（正文色#15172B） |
 | 出发按钮 | Continue on TableCheck ↗ / Date, time, 3 guests filled in |
 | 提示 | Pick Omakase Nigiri ¥9,800 and Counter |
 | 返回 | Did you get the booking? — Yes / Not yet |
@@ -140,6 +140,10 @@
 出发按钮的第二行描述同一按钮已带入的字段，不是另一个操作；只有通过ADR-0049校验的字段才可出现。不能用URL参数推断来源页面实际已选中方案/座位，出发按钮和提示不使用`selected`或`booked`。
 
 表内`Pick ... and Counter`仅在对应同店同渠道原文支持时显示，独占选择项一行；TableCheck的`Check date and guests`独占核对项一行。两行均按适用证据显示，不填空白占位；出发提示不使用`selected`或`booked`。日英取消冲突的`Confirm cancellation terms on the website`移到推荐卡片的取消规定旁，与两种原文和英文转述一起显示，不再占出发提示行。此呈现变更见ADR-0050，来源、证据和不裁决严格程度的边界仍按ADR-0049。
+
+2026-10-30用户复核小修：日期统一`Mon, Nov 2`格式；取消冲突仅保留确认提醒，去掉`Cancellation terms differ…`展示行，原双语条款/原文保留。工作区底部按固定输入框的实际高度及底部间距留白，滚动安全区同样避开输入框，长条款下两个出发入口必须完整可见、可点。
+
+详情中的旧`Ask about this restaurant`输入框暂留；下一段并入主输入框，以当前查看对象隐式指代。本段不改这条单店问答路径。
 
 ## 实施计划
 

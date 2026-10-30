@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../core/model/contracts.js";
-import { RESTAURANT_SEMANTIC_REQUEST_TIMEOUT_MS, RestaurantSemanticInterpreter } from "./semantic-interpreter.js";
+import { RESTAURANT_SEMANTIC_REQUEST_TIMEOUT_MS, RestaurantSemanticInterpreter, buildRestaurantSemanticInterpreterSystemPrompt } from "./semantic-interpreter.js";
 import { RESTAURANT_SEMANTIC_PROPOSAL_JSON_SCHEMA, RESTAURANT_SEMANTIC_PROPOSAL_SCHEMA } from "./semantic-proposal.js";
 import { compileRestaurantSemanticProposal } from "./semantic-compiler.js";
 import { applyRestaurantIntentPatch } from "./intent-state.js";
@@ -19,6 +21,17 @@ class QueuedGateway implements ModelGateway {
     return reply;
   }
 }
+
+test("Semantic prompt without viewing context is byte-identical to v26; context instructions are conditional",()=>{
+  const baseline=JSON.parse(readFileSync(new URL("./fixtures/semantic-prompt-v26-sha.json",import.meta.url),"utf8")) as {rows:Array<{input:Parameters<typeof buildRestaurantSemanticInterpreterSystemPrompt>[0];sha256:string}>};
+  for(const row of baseline.rows){
+    const plain=buildRestaurantSemanticInterpreterSystemPrompt(row.input);
+    assert.equal(createHash("sha256").update(plain).digest("hex"),row.sha256);
+    assert.doesNotMatch(plain,/Viewing context identifies/);
+    const viewed=buildRestaurantSemanticInterpreterSystemPrompt({...row.input,viewingContext:{view:"DETAILS",candidate:{id:"outlet",outletName:"Current outlet",address:"Tokyo"},comparedCandidates:[]}});
+    assert.match(viewed,/Viewing context identifies/);assert.match(viewed,/"id":"outlet"/);
+  }
+});
 
 function response(outputText: string): ModelResponse {
   return {
@@ -65,7 +78,7 @@ test("Semantic Interpreter sends the proposal schema and separates user data fro
   assert.equal(gateway.calls.length, 1);
   const request = gateway.calls[0]!;
   assert.equal(request.purpose, "restaurant_semantic_interpret");
-  assert.equal(request.promptVersion, "v27");
+  assert.equal(request.promptVersion, "v28");
   assert.match(request.messages[0]!.content, /even when no visit date or time is given/);
   assert.match(request.messages[0]!.content, /neither a visit date\/time nor booking wording/);
   assert.match(request.messages[0]!.content, /keep its AVAILABILITY goal without re-emitting TARGET/);
