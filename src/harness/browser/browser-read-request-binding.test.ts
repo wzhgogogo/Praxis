@@ -288,6 +288,9 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   const { evaluateRestaurantHybridLiveArtifact } = await import("../../eval/restaurant/agent-loop/diagnostic-evaluator.js");
   const { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } = await import("../../eval/restaurant/agent-loop/live-case-materializer.js");
   const { scriptedSourceFacts } = await import("../../eval/restaurant/agent-loop/current-development-fixed-sources.js");
+  const { restaurantCurrentFactEvidence } = await import("../../domains/restaurant/read-assessment.js");
+  const { projectRestaurantAgentContext } = await import("../../domains/restaurant/agent-context.js");
+  const { restaurantBookingTaskDefinition } = await import("../../domains/restaurant/task-definition.js");
   const trace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   const rawRuntime = dynamicTabelogSourcePages({ result: outcome });
   const runtime = { openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(
@@ -295,7 +298,13 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   ) };
   const reply = (outputText: string, purpose: string) => ({ invocationId: purpose, provider: "FIXTURE" as const, model: "scripted-formal-browser", outputText, finishReason: "TOOL_CALLS" as const, latencyMs: 0 });
   const browserActions: string[] = [];
-  const sourceFactSelections: Array<{ promptVersion: string; schemaVersion: string; selections: unknown; selectedStatements: unknown }> = [];
+  const sourceFactSelections: Array<{
+    documentId: string; candidateId: string; identityEvidenceId: string;
+    promptVersion: string; schemaVersion: string;
+    selections: Array<{ firstStatementId: string; lastStatementId: string; role: string; priceStatementId: string }>;
+    selectedStatements: Array<{ id: string; text: string }>;
+  }> = [];
+  const agentContexts: import("../../domains/restaurant/agent-context.js").RestaurantAgentContext[] = [];
   let modelCalls = 0;
   let availabilityReadFirst = false;
   const model: import("../../core/model/contracts.js").ModelGateway = { async complete(request) {
@@ -307,9 +316,10 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
       // 34e82a5f3a2e882f261bf6e42cb54e5e75d0318e6a02b32c8d6047e76074057d.
       // Source2 returns original IDs/role only; never a verified HARD marker.
       const response = scriptedSourceFacts(request)!;
-      const output = JSON.parse(response.outputText) as { selections: Array<{ firstStatementId: string; lastStatementId: string }> };
-      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { sourceDocument: { statements: Array<{ id: string; text: string }> } };
-      sourceFactSelections.push({ promptVersion: request.promptVersion, schemaVersion: request.outputSchema.version,
+      const output = JSON.parse(response.outputText) as { selections: (typeof sourceFactSelections)[number]["selections"] };
+      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { sourceDocument: import("../../domains/restaurant/contracts.js").RestaurantFactSourceDocument };
+      sourceFactSelections.push({ documentId: input.sourceDocument.id, candidateId: input.sourceDocument.candidateId,
+        identityEvidenceId: input.sourceDocument.identityEvidenceId, promptVersion: request.promptVersion, schemaVersion: request.outputSchema.version,
         selections: output.selections, selectedStatements: input.sourceDocument.statements.filter(statement => output.selections.some(selection => selection.firstStatementId === statement.id)) });
       return response;
     }
@@ -342,10 +352,8 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
       return reply(JSON.stringify({ action: "CLICK_AUTHORITATIVE", targetRef: target.ref, authoritativeField: dateTarget ? "DATE" : "PARTY_SIZE", requestedState: "NONE", reason: "Choose the observed requested query value." }), request.purpose);
     }
     if (request.purpose === "restaurant_agent_decide") {
-      const context = (JSON.parse(request.messages.find(item => item.role === "user")!.content) as { context: {
-        factInvestigableCandidateIds?: string[]; checkableCandidateIds?: string[]; presentation?: Array<{ candidateId: string; eligible: boolean }>;
-        searchAvailability?: { available: boolean }; readCompletion?: { allowed: boolean };
-      } }).context;
+      const context = (JSON.parse(request.messages.find(item => item.role === "user")!.content) as { context: import("../../domains/restaurant/agent-context.js").RestaurantAgentContext }).context;
+      agentContexts.push(structuredClone(context));
       const eligible = context.presentation?.filter(item => item.eligible).map(item => item.candidateId) ?? [];
       const action = (type: string, candidateIds: string[] = []) => ({ type, question: "", relatedFields: [], retrievalHint: "", candidateIds, candidateId: "", offerId: "", decisionSummary: "Use current evidence" });
       // The real model legally checked availability before it requested a
@@ -393,8 +401,91 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
     modelVerifiedHardCriteria: state.readEvidence.filter(evidence => evidence.candidateId === candidateId && evidence.provider === "MODEL_JUDGMENT").map(evidence => evidence.claims.verifiedHardCriteria),
     conditionStates: state.presentedResults?.conditionStates,
     agentSequence: composition.trajectories.steps.map(step => step.agentAction?.type), browserActions }));
-  assert.ok(state.candidates.find((candidate) => candidate.restaurant.id === candidateId)?.matchReasons
-    .includes("Verified HARD criterion from source: omakase"));
+  // User-approved 2026-10-30 replacement: current evidence and the actual
+  // Agent context are authoritative; append-only matchReasons can go stale.
+  const currentFacts = restaurantCurrentFactEvidence(state, candidateId);
+  const judgments = currentFacts.filter(evidence => evidence.provider === "MODEL_JUDGMENT"
+    && Array.isArray(evidence.claims.verifiedHardCriteria) && evidence.claims.verifiedHardCriteria.includes("omakase"));
+  assert.ok(judgments.length > 0, "current facts must contain an accepted MODEL_JUDGMENT verifying omakase");
+  const factEvent = composition.runtime.eventLog.flatMap(({ event }) => event.type === "CANDIDATE_FACTS_CHECKED"
+    && event.request.candidateIds.includes(candidateId) ? [event] : []).at(-1);
+  assert.ok(factEvent, "the judgment must come from this composition's completed fact investigation");
+  assert.equal(factEvent.request.readRunId, `run:${taskId}:investigation:${state.investigationRevision ?? 0}`);
+  const acceptedIds = new Set(factEvent.factChecks[candidateId]!.evidenceIds);
+  const pageUrl = "https://tabelog.com/en/tokyo/A1304/A130401/100/";
+  for (const judgment of judgments) {
+    assert.equal(judgment.candidateId, candidateId);
+    assert.equal(judgment.observedAt, reference.toISOString());
+    assert.ok(acceptedIds.has(judgment.evidenceId) && factEvent.evidence.some(evidence => evidence.evidenceId === judgment.evidenceId));
+    const citations = judgment.claims.supportingEvidenceIds;
+    assert.ok(Array.isArray(citations) && citations.length > 0 && citations.every(id => typeof id === "string"),
+      "every accepted judgment must cite original source evidence");
+    for (const id of citations) {
+      const quote = currentFacts.find(evidence => evidence.evidenceId === id);
+      assert.ok(quote && quote.provider === "TABELOG" && quote.candidateId === candidateId
+        && acceptedIds.has(quote.evidenceId), "all judgment citations must be current same-outlet Source2 evidence");
+      assert.equal(quote.sourceUrl, pageUrl);
+      assert.deepEqual(quote.claims.restaurantTypeFacts, ["Omakase course"]);
+      const identity: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence | undefined = factEvent.evidence.find(evidence => evidence.kind === "ENTITY_MATCH"
+        && evidence.candidateId === candidateId && evidence.provider === quote.provider
+        && evidence.sourceEntityId === quote.sourceEntityId && evidence.sourceUrl === quote.sourceUrl
+        && evidence.entityMatch?.confidence === "HIGH");
+      assert.ok(identity && acceptedIds.has(identity.evidenceId), "the quote must be identity-bound in this same read");
+      const selection: (typeof sourceFactSelections)[number] | undefined = sourceFactSelections.find(item => item.documentId === quote.evidenceId
+        && item.candidateId === candidateId && item.identityEvidenceId === identity.evidenceId);
+      assert.ok(selection, "the quotation must originate in this read's observed Source2 document");
+      assert.deepEqual(selection.selectedStatements.map(statement => statement.text), ["Omakase course"]);
+      assert.deepEqual(quote.claims.sourceStatementIds, selection.selectedStatements.map(statement => statement.id));
+      assert.deepEqual(selection.selections, selection.selectedStatements.map(statement => ({
+        firstStatementId: statement.id, lastStatementId: statement.id, role: "COURSE", priceStatementId: "",
+      })), "Source2 selects a complete original statement and role, without supplying business facts");
+      assert.ok(factEvent.evidence.some(evidence => evidence.evidenceId === quote.evidenceId),
+        "a historical same-page quote cannot substitute for this read's accepted evidence");
+    }
+  }
+  const latestAgentCandidate = agentContexts.at(-1)?.candidates.find(candidate => candidate.id === candidateId);
+  assert.ok(latestAgentCandidate, "the actual last Agent context must still contain this candidate");
+  assert.ok(latestAgentCandidate.observedFacts.verifiedHardCriteria.includes("omakase"),
+    "the actual Agent decision context must expose the current verified omakase fact");
+  t.diagnostic(JSON.stringify({ outcome, control: "CURRENT_JUDGMENT_AND_ACTUAL_AGENT_CONTEXT", readRunId: factEvent.request.readRunId,
+    judgmentIds: judgments.map(judgment => judgment.evidenceId),
+    supportingEvidenceIds: judgments.flatMap(judgment => judgment.claims.supportingEvidenceIds),
+    agentVerifiedHardCriteria: latestAgentCandidate.observedFacts.verifiedHardCriteria }));
+  if (outcome === "AVAILABLE") {
+    const condition = state.presentedResults?.conditionStates[candidateId]?.find(item => item.text === "omakase");
+    assert.equal(condition?.status, "MET");
+    assert.ok(condition.evidenceIds.length > 0 && condition.evidenceIds.every(id => state.presentedResults!.evidenceIds.includes(id)),
+      "the displayed MET condition must cite evidence included in the displayed result");
+
+    // Local construction, not a website replay: a subsequent same-source
+    // investigation completes identity reading but accepts no fact judgment.
+    // Apply real reducer events to a clone; leave the actual run/trace intact.
+    const reducerContext = { taskId, runId: `run:${taskId}`, now: reference.toISOString(), createId: (prefix: string) => prefix };
+    const refreshed = restaurantBookingTaskDefinition.transition(structuredClone(state),
+      { type: "CANDIDATE_FACTS_REFRESH_REQUESTED", candidateIds: [candidateId] }, reducerContext).state;
+    const replacement = structuredClone(factEvent);
+    replacement.request.recheck = { reason: "USER_REQUESTED_REFRESH" };
+    replacement.request.readRunId = `local-follow-up:${taskId}`;
+    replacement.evidence = replacement.evidence.filter(evidence => evidence.kind === "ENTITY_MATCH");
+    replacement.factChecks[candidateId] = { status: "UNKNOWN", checkedAt: reference.toISOString(),
+      evidenceIds: replacement.evidence.map(evidence => evidence.evidenceId), sourceProvider: "TABELOG",
+      sourceAttempts: [{ source: "TABELOG", outcome: "UNKNOWN", reasonCode: "NATIVE_HARD_FACTS_UNCONFIRMED" }],
+      reasonCode: "NATIVE_HARD_FACTS_UNCONFIRMED" };
+    const successor = restaurantBookingTaskDefinition.transition(refreshed, replacement, reducerContext).state;
+    const successorFacts = restaurantCurrentFactEvidence(successor, candidateId);
+    assert.ok(judgments.every(judgment => successor.readEvidence.some(evidence => evidence.evidenceId === judgment.evidenceId)),
+      "historical judgments remain auditable; the control must not delete them to hide stale facts");
+    assert.ok(judgments.every(judgment => !successorFacts.some(evidence => evidence.evidenceId === judgment.evidenceId)),
+      "a replacement investigation must exclude every old accepted judgment from current facts");
+    assert.equal(successorFacts.some(evidence => Array.isArray(evidence.claims.verifiedHardCriteria)
+      && evidence.claims.verifiedHardCriteria.includes("omakase")), false, "current facts cannot retain an obsolete verified claim");
+    const successorCandidate = projectRestaurantAgentContext(successor, reference.toISOString()).candidates.find(candidate => candidate.id === candidateId);
+    assert.equal(successorCandidate?.observedFacts.verifiedHardCriteria.includes("omakase"), false,
+      "the next Agent context must not retain obsolete verified omakase after a replacement read");
+    t.diagnostic(JSON.stringify({ outcome, control: "LOCAL_CONSTRUCTED_FACT_REPLACEMENT", historicalJudgmentsRetained: judgments.length,
+      currentJudgmentIds: successorFacts.filter(evidence => evidence.provider === "MODEL_JUDGMENT").map(evidence => evidence.evidenceId),
+      agentVerifiedHardCriteria: successorCandidate.observedFacts.verifiedHardCriteria }));
+  }
   assert.deepEqual(browserActions, ["DATE", "PARTY_SIZE"], "request values must come from real observed DOM actions");
   const navigations = trace.filter(item => item.kind === "SESSION_CALL" && (item.detail as { method?: string }).method === "navigate")
     .map(item => (item.detail as { args: string[] }).args[0]!);
