@@ -1921,7 +1921,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
       }
       return {invocationId:"b1-g3-fixture",provider:"FIXTURE",model:"offline",latencyMs:0,finishReason:"TOOL_CALLS",outputText:JSON.stringify(output)};
     }};
-    const model = new RunBoundedModelGateway(fixture, 50, 20_000);
+    const model = new RunBoundedModelGateway(fixture, 50, readLimits.maxAutomaticBrowserMs);
     const google = new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async (_url,init) => {
       const query = init?.body ? JSON.parse(String(init.body)).textQuery : undefined;
       return new Response(JSON.stringify({places:query === "Shibuya" ? [{id:"b1-location",displayName:{text:"Shibuya"},types:["train_station"],location:{latitude:35.66,longitude:139.70}}]
