@@ -1,0 +1,26 @@
+{
+  "provenance": "Constructed protocol fixture; not a captured website response or Gold",
+  "request": { "date": "2026-11-03", "partySize": 2 },
+  "originalLinks": [
+    "https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261103&visit_time=1900",
+    "https://tabelog.com/en/booking/form_course/new?visit_time=1900&visit_date=20261103&member=2&rcd=13123456"
+  ],
+  "snapshot": {
+    "settlement": "SETTLED",
+    "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+    "title": "Constructed B1 protocol fixture",
+    "html": "",
+    "text": "",
+    "responses": [{
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20261103&svps=2",
+      "status": 200,
+      "sequence": 1,
+      "observedAt": "2026-10-30T05:30:00+01:00",
+      "body": {
+        "base_date": { "year": 2026, "month": 11, "day": 3 },
+        "members": 2,
+        "selection": { "0": { "time": "19:00", "url": "https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261103&visit_time=1900" } }
+      }
+    }]
+  }
+}

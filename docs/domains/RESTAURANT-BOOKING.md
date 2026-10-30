@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.35
+- Document revision: 3.37
 
 
 - Last updated: 2026-10-30
@@ -324,4 +324,11 @@ Independent review of the original 102 model answers was reported by the user: z
 引用的报价没有附加限制时沿原规则比较。有人数、餐别、星期、日期范围等限制时，由代码从原文解析并与现有Intent核对；已知不适用或条件无法核实的报价不参与预算比较。没有其他适用报价为NOT_CHECKED，不能用一个不适用套餐推出NOT_MET。原始金额、原文及库存边界保留，不推断套餐可订性；State/TaskDefinition合同不变。[本批证据](../../.eval-artifacts/phase3b/g3-longrun/11-price-applicability/report.md)。
 ## G5 B1 approved follow-up
 
-Accepted ADR0049 replaces C’s earlier numbered0048 draft. restaurant-booking-handoff@2 is a transient contract with a pair of G1-admitted Japanese/English cancellation answers; there is no strictness ranking. Each cited original stays bound to this outlet/channel/page/read. No conflict retains one English sentence; incomplete conflict evidence is not replaced by a guessed policy. Separate restaurant_booking_departures records hold USER_REPORTED Yes/No/Skip, per-Case once-only prompt claims and idempotent departures; they never mutate Task State/Outcome. Existing Prompt/Schema/State24/TaskDefinition22 remain unchanged. Tabelog English platform-fee config cites the public help document and checked date; current-source preselection and G3 wiring remain unverified/deferred. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
+Accepted ADR0049 replaces C’s earlier numbered0048 draft. restaurant-booking-handoff@2 is a transient contract with a pair of G1-admitted Japanese/English cancellation answers; there is no strictness ranking. Each cited original stays bound to this outlet/channel/page/read. No conflict retains one English sentence; incomplete conflict evidence is not replaced by a guessed policy. Separate restaurant_booking_departures records hold USER_REPORTED Yes/No/Skip, per-Case once-only prompt claims and idempotent departures; they never mutate Task State/Outcome. Existing Prompt/Schema/State24/TaskDefinition22 remain unchanged. Tabelog English platform-fee config cites the public help document and checked date; current-source preselection remains unverified; the G3 preparation-branch wiring is described below. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
+
+
+## B1 G3 wiring preparation branch (2026-10-30 CET)
+
+The preparation branch consumes G3 formCourseLinks/sourceResponse through a root-Task-isolated transient cache, bound to current HIGH same-outlet availability evidence and request. Both existing B1 checks remain. Absolute URLs are verbatim; root-relative URLs only gain the trusted source origin. Native full source IDs remain equal across candidate/evidence; rcd uses the numeric outlet component. No State/TaskDefinition/Prompt/Schema change or identity-threshold change. Restart with no cache yields no handoff or automatic source read. Current status and final main activation are in STATUS. [Evidence plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
+
+B1 rebase checkpoint (2026-10-30 CET): C is based on published G3 main7c83e02e. The source cache/root-task scope/assembly are unchanged from its prior preparation; full candidate/evidence identity, original URLs and both URL checks remain. ADR-0050 fields are inherited from main. C is still a review branch. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).

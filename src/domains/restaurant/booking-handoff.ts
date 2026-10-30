@@ -109,9 +109,11 @@ function checkedLink(source: BookingHandoffSource, context: BookingHandoffContex
   if (!url || !providerHost(url, source.provider)) return undefined;
   const date = context.request.date, party = String(context.request.partySize);
   if (source.provider === "TABELOG") {
+    // Native discovery retains its source path ID; rcd is that same outlet's numeric component.
+    const merchantId = source.sourceEntityId.match(/^(?:(?:en\/)?[a-z]+\/A\d+\/A\d+\/)?(\d+)$/)?.[1];
     if (source.linkBasis !== "SOURCE_RESPONSE" || url.pathname !== "/en/booking/form_course/new"
       || !queryOnly(url, ["rcd", "member", "visit_date", "visit_time"])
-      || url.searchParams.get("rcd") !== source.sourceEntityId || url.searchParams.get("member") !== party
+      || !merchantId || url.searchParams.get("rcd") !== merchantId || url.searchParams.get("member") !== party
       || url.searchParams.get("visit_date") !== date.replaceAll("-", "")
       || url.searchParams.get("visit_time") !== time.replace(":", "")) return undefined;
   } else {

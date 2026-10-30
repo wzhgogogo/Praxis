@@ -1,0 +1,473 @@
+{
+  "mode": "LIVE_READ",
+  "case": {
+    "caseId": "restaurant:54dd88d26ece8e98b09613f5",
+    "conversationId": "conversation:54dd88d26ece8e98b09613f5",
+    "rootTaskId": "restaurant:54dd88d26ece8e98b09613f5",
+    "title": "Tomorrow at 7pm for two in Shibuya, find a table.",
+    "status": "NEEDS_YOU",
+    "phase": "PRESENT_RESULTS",
+    "taskVersion": 4,
+    "updatedAt": "2026-08-08T09:00:00.000Z"
+  },
+  "conversation": {
+    "id": "conversation:54dd88d26ece8e98b09613f5",
+    "messages": [
+      {
+        "id": "message:0:15dcd92187ba8c46f0888525",
+        "role": "USER",
+        "content": "Tomorrow at 7pm for two in Shibuya, find a table.",
+        "createdAt": "2026-08-08T09:00:00.000Z"
+      },
+      {
+        "id": "message:1:15dcd92187ba8c46f0888525",
+        "role": "ASSISTANT",
+        "content": "Searching around Shibuya.\nThe case is now present results.",
+        "createdAt": "2026-08-08T09:00:00.000Z"
+      }
+    ]
+  },
+  "restaurant": {
+    "intentDraft": {
+      "area": {
+        "query": "Shibuya"
+      },
+      "date": "2026-08-09",
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "find a table"
+      },
+      "criteria": [],
+      "timezone": "Asia/Tokyo",
+      "partySize": 2,
+      "timeWindow": {
+        "latest": "19:00",
+        "earliest": "19:00"
+      },
+      "schemaVersion": "3",
+      "partySizeSource": "EXPLICIT",
+      "temporalResolution": {
+        "date": {
+          "basis": "EXPLICIT_DATE",
+          "expression": "tomorrow",
+          "resolvedDate": "2026-08-09"
+        },
+        "timezone": "Asia/Tokyo",
+        "timeWindow": {
+          "basis": "EXPLICIT_CLOCK",
+          "expression": "7pm",
+          "resolvedTimeWindow": {
+            "latest": "19:00",
+            "earliest": "19:00"
+          }
+        },
+        "policyVersion": "restaurant-temporal-materialization@6",
+        "referenceTime": "2026-08-08T09:00:00.000Z"
+      }
+    },
+    "searchLocation": {
+      "label": "Shibuya",
+      "latitude": 35.66,
+      "longitude": 139.7,
+      "radiusMeters": 1000,
+      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+    },
+    "missingRequiredFields": [],
+    "requestRevision": 1,
+    "readyCandidateIds": [
+      "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a"
+    ],
+    "progress": {
+      "active": false,
+      "stopped": false,
+      "discoveredCount": 1,
+      "checkedCount": 1
+    },
+    "bookingFeedbackAvailable": false,
+    "candidates": [
+      {
+        "warnings": [],
+        "restaurant": {
+          "id": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+          "address": "1-2-3 Shibuya Tokyo",
+          "sourceIds": {
+            "phone": "03-1234-5678",
+            "googlePlaces": "b1-g3-outlet",
+            "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/"
+          },
+          "outletName": "Fixture Sushi",
+          "provenance": {
+            "address": "evidence:restaurant:google-discovery:192f6e8809cf906d56ff6a02",
+            "sourceIds": "evidence:restaurant:google-discovery:192f6e8809cf906d56ff6a02",
+            "outletName": "evidence:restaurant:google-discovery:192f6e8809cf906d56ff6a02"
+          },
+          "coordinates": {
+            "lat": 35.66,
+            "lng": 139.7
+          }
+        },
+        "matchReasons": [
+          "Address explicitly matches requested area: Shibuya"
+        ],
+        "executionConfidence": "LOW",
+        "distanceObservation": {
+          "meters": 0,
+          "centerBasis": "NAMED_PLACE_RADIUS",
+          "source": "GOOGLE_PLACES"
+        }
+      }
+    ],
+    "availability": {
+      "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a": [
+        {
+          "id": "offer:tabelog:praxis:restaurant:2e1bffdeb4e09cbdc9b0763a:2026-08-09:19:00:2",
+          "source": "TABELOG",
+          "dateTime": "2026-08-09T19:00:00+09:00",
+          "timezone": "Asia/Tokyo",
+          "checkedAt": "2026-08-08T09:00:00.000Z",
+          "expiresAt": "2026-08-08T09:00:00.000Z",
+          "partySize": 2,
+          "bookingMode": "REQUEST",
+          "restaurantId": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+          "executionMode": "BROWSER",
+          "displayExpiresAt": "2026-08-08T09:10:00.000Z",
+          "bookingRecheckRequired": true
+        }
+      ]
+    },
+    "availabilityChecks": {
+      "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-08-08T09:00:00.000Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:64681e22e6e665602ad6965f",
+          "evidence:restaurant:tabelog-availability:5757e8dbee08feaf615ed772"
+        ],
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "displayExpiresAt": "2026-08-08T09:10:00.000Z",
+        "requestFingerprint": "{\"date\":\"2026-08-09\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    },
+    "readEvidence": [
+      {
+        "kind": "DISCOVERY",
+        "claims": {
+          "latitude": 35.66,
+          "longitude": 139.7,
+          "radiusMeters": 1000,
+          "resolvedPlaceId": "b1-location",
+          "resolvedPlaceName": "Shibuya",
+          "resolvedPlaceTypes": [
+            "train_station"
+          ],
+          "locationNameExactMatch": true,
+          "locationResolutionQuery": "Shibuya",
+          "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+        },
+        "provider": "GOOGLE_PLACES",
+        "evidenceId": "bcb5a7fdcc400d443a36f236cb8427bdef00616377821896d63ea8a809f2d150",
+        "observedAt": "2026-08-08T09:00:00.000Z",
+        "sourceEntityId": "b1-location",
+        "requestFingerprint": "47b50235f9351651a68662ec7514c7e09ef27a340b54df1e9dd50d9c6d62d346"
+      },
+      {
+        "kind": "DISCOVERY",
+        "claims": {
+          "types": [
+            "restaurant"
+          ],
+          "address": "1-2-3 Shibuya Tokyo",
+          "placeId": "b1-g3-outlet",
+          "areaMatch": true,
+          "areaQuery": "Shibuya",
+          "outletName": "Fixture Sushi",
+          "areaMatchBasis": "NAMED_PLACE_RADIUS",
+          "distanceMeters": 0,
+          "availabilityPath": "DIRECT_SOURCE_PAGE",
+          "evaluationLocationLabel": "Shibuya"
+        },
+        "provider": "GOOGLE_PLACES",
+        "evidenceId": "evidence:restaurant:google-discovery:192f6e8809cf906d56ff6a02",
+        "observedAt": "2026-08-08T09:00:00.000Z",
+        "candidateId": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+        "sourceEntityId": "b1-g3-outlet",
+        "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "address": "1-2-3 Shibuya Tokyo",
+          "placeId": "b1-g3-outlet",
+          "outletName": "Fixture Sushi"
+        },
+        "provider": "GOOGLE_PLACES",
+        "evidenceId": "evidence:restaurant:google-entity:192f6e8809cf906d56ff6a02",
+        "observedAt": "2026-08-08T09:00:00.000Z",
+        "candidateId": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+        "entityMatch": {
+          "matchedBy": [
+            "GOOGLE_PLACE_ID"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "b1-g3-outlet",
+        "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "websiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          "restaurantTypeFacts": [
+            "restaurant"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "evidenceId": "evidence:restaurant:google-facts:f94f5edcc6d0cc32dd3e9638",
+        "observedAt": "2026-08-08T09:00:00.000Z",
+        "candidateId": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+        "sourceEntityId": "b1-g3-outlet",
+        "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "claims": {
+          "outletName": "Fixture Sushi"
+        },
+        "provider": "TABELOG",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "evidenceId": "evidence:restaurant:tabelog-entity-match:64681e22e6e665602ad6965f",
+        "observedAt": "2026-08-08T09:00:00.000Z",
+        "candidateId": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+        "entityMatch": {
+          "matchedBy": [
+            "EXACT_PHONE"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+        "requestFingerprint": "bb917a1d8feab296ee81c760f02a35d39b3e98e8a6c794e6b273692ac4380e6d"
+      },
+      {
+        "kind": "AVAILABILITY",
+        "claims": {
+          "date": "2026-08-09",
+          "partySize": 2,
+          "visibleSlots": [
+            "19:00"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "inventoryStatus": "AVAILABLE"
+        },
+        "provider": "TABELOG",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "evidenceId": "evidence:restaurant:tabelog-availability:5757e8dbee08feaf615ed772",
+        "observedAt": "2026-08-08T09:00:00.000Z",
+        "artifactRef": {
+          "kind": "DOM_EXCERPT",
+          "reference": "sha256:5d1a838872ffca909fcf7014fe81a95797e63c8ab791e8dcc270e66c498507f2"
+        },
+        "candidateId": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+        "entityMatch": {
+          "matchedBy": [
+            "EXACT_PHONE"
+          ],
+          "confidence": "HIGH"
+        },
+        "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+        "displayExpiresAt": "2026-08-08T09:10:00.000Z",
+        "requestFingerprint": "86cfefbc4604ce3620cbca115755a87de81ffc1134bba4934f01af47b56b8f4f",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    ],
+    "currentFactEvidence": [
+      {
+        "kind": "RESTAURANT_FACT",
+        "claims": {
+          "websiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          "restaurantTypeFacts": [
+            "restaurant"
+          ]
+        },
+        "provider": "GOOGLE_PLACES",
+        "evidenceId": "evidence:restaurant:google-facts:f94f5edcc6d0cc32dd3e9638",
+        "observedAt": "2026-08-08T09:00:00.000Z",
+        "candidateId": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+        "sourceEntityId": "b1-g3-outlet",
+        "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+      }
+    ],
+    "presentedCandidateIds": [
+      "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a"
+    ],
+    "conditionStates": {
+      "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a": []
+    },
+    "viewedCandidateIds": [],
+    "shortlistCandidateIds": [],
+    "bookingHandoffs": [
+      {
+        "candidateId": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+        "offerId": "offer:tabelog:praxis:restaurant:2e1bffdeb4e09cbdc9b0763a:2026-08-09:19:00:2",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?visit_time=%31%39%30%30&member=2&rcd=13123456&visit_date=20260809",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+        "checkedAt": "2026-08-08T09:00:00.000Z",
+        "displayExpiresAt": "2026-08-08T09:10:00.000Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": []
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "artifactId": "artifact:candidates:restaurant:54dd88d26ece8e98b09613f5:1",
+      "caseId": "restaurant:54dd88d26ece8e98b09613f5",
+      "domain": "restaurant",
+      "type": "CANDIDATES",
+      "sourceVersion": 4,
+      "data": {
+        "candidates": [
+          {
+            "warnings": [],
+            "restaurant": {
+              "id": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+              "address": "1-2-3 Shibuya Tokyo",
+              "sourceIds": {
+                "phone": "03-1234-5678",
+                "googlePlaces": "b1-g3-outlet",
+                "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/"
+              },
+              "outletName": "Fixture Sushi",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:192f6e8809cf906d56ff6a02",
+                "sourceIds": "evidence:restaurant:google-discovery:192f6e8809cf906d56ff6a02",
+                "outletName": "evidence:restaurant:google-discovery:192f6e8809cf906d56ff6a02"
+              },
+              "coordinates": {
+                "lat": 35.66,
+                "lng": 139.7
+              }
+            },
+            "matchReasons": [
+              "Address explicitly matches requested area: Shibuya"
+            ],
+            "executionConfidence": "LOW",
+            "distanceObservation": {
+              "meters": 0,
+              "centerBasis": "NAMED_PLACE_RADIUS",
+              "source": "GOOGLE_PLACES"
+            }
+          }
+        ],
+        "availability": {
+          "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a": [
+            {
+              "id": "offer:tabelog:praxis:restaurant:2e1bffdeb4e09cbdc9b0763a:2026-08-09:19:00:2",
+              "source": "TABELOG",
+              "dateTime": "2026-08-09T19:00:00+09:00",
+              "timezone": "Asia/Tokyo",
+              "checkedAt": "2026-08-08T09:00:00.000Z",
+              "expiresAt": "2026-08-08T09:00:00.000Z",
+              "partySize": 2,
+              "bookingMode": "REQUEST",
+              "restaurantId": "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a",
+              "executionMode": "BROWSER",
+              "displayExpiresAt": "2026-08-08T09:10:00.000Z",
+              "bookingRecheckRequired": true
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "activities": [
+    {
+      "activityId": "activity:event:user:91ac6cf2f7f8cb681fe8e7fcc54a2420",
+      "caseId": "restaurant:54dd88d26ece8e98b09613f5",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:user:91ac6cf2f7f8cb681fe8e7fcc54a2420"
+      },
+      "type": "SEMANTIC_PROPOSAL_COMPILED",
+      "display": {
+        "title": "Request updated",
+        "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+      },
+      "occurredAt": "2026-08-08T09:00:00.000Z"
+    },
+    {
+      "activityId": "activity:event:restaurant-agent:68af7541-62ad-4ba6-8114-886324461cda",
+      "caseId": "restaurant:54dd88d26ece8e98b09613f5",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:restaurant-agent:68af7541-62ad-4ba6-8114-886324461cda"
+      },
+      "type": "SEARCH_COMPLETED",
+      "display": {
+        "title": "Restaurant search completed",
+        "detail": "1 discovery candidate(s) are ready for evidence checks."
+      },
+      "occurredAt": "2026-08-08T09:00:00.000Z"
+    },
+    {
+      "activityId": "activity:event:restaurant-agent:c752d7f3-bfee-4249-878f-7cd9f368d3e8",
+      "caseId": "restaurant:54dd88d26ece8e98b09613f5",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:restaurant-agent:c752d7f3-bfee-4249-878f-7cd9f368d3e8"
+      },
+      "type": "AVAILABILITY_CHECKED",
+      "display": {
+        "title": "Availability checked",
+        "detail": "1 evidence-grounded availability offer(s) were observed."
+      },
+      "occurredAt": "2026-08-08T09:00:00.000Z"
+    },
+    {
+      "activityId": "activity:event:restaurant-agent:96fe5520-166d-42b6-be02-8dfa3f8a0d7c",
+      "caseId": "restaurant:54dd88d26ece8e98b09613f5",
+      "sourceRef": {
+        "kind": "EVENT",
+        "id": "event:restaurant-agent:96fe5520-166d-42b6-be02-8dfa3f8a0d7c"
+      },
+      "type": "RESULTS_PRESENTED",
+      "display": {
+        "title": "Read-only results presented",
+        "detail": "1 evidence-grounded result(s) are ready."
+      },
+      "occurredAt": "2026-08-08T09:00:00.000Z"
+    }
+  ],
+  "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+}

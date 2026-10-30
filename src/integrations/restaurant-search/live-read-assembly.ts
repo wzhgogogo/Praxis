@@ -13,6 +13,7 @@ import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant
 import { LiveBrowserAvailability, type LiveBrowserAvailabilityOptions } from "../restaurant-availability/live-browser-availability.js";
 import { composeNativeRestaurantRead } from "./native-read-composition.js";
 import { candidateAvailabilityPath, restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
+import { TabelogBookingHandoffReader } from "../tabelog/tabelog-booking-handoff-reader.js";
 
 export interface LiveReadAssemblyConfig extends LiveReadInvestigationBudget {
   /** Existing Pack selection; controlled sources may explicitly restrict coverage. */
@@ -30,6 +31,8 @@ export interface LiveReadTransports {
   onTabelogIdentityDiagnostic?: LiveBrowserAvailabilityOptions["onTabelogIdentityDiagnostic"];
   onTabelogUserInterventionRequired?: LiveBrowserAvailabilityOptions["onTabelogUserInterventionRequired"];
   remainingModelCalls?: RestaurantAgentLoopOptions["remainingModelCalls"];
+  /** Persistent Web root task scope; absent outside that authenticated composition. */
+  currentTaskId?: () => string | undefined;
 }
 
 /** One production assembly for in-memory Runner, persistent Web and offline controls. */
@@ -40,6 +43,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   }
   const runCeilings = Object.freeze({ ...ceilings });
   const now = () => transports.clock.now().toISOString();
+  const bookingHandoffs = new TabelogBookingHandoffReader(transports.browser, transports.currentTaskId ?? (() => undefined), now);
   const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0, maxModelCalls: config.maxBrowserModelCallsTotal };
   const google = new GooglePlacesRestaurantSearch(transports.google, now, config.maxDiscoveryCandidates, { maxRequests: config.maxGoogleRequests });
   const native = composeNativeRestaurantRead(google, transports.browser, transports.model, browserBudget,
@@ -57,7 +61,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       maxElapsedMsPerProvider: config.maxFactProviderMs,
     }, packs);
   const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
-  const availability = new LiveBrowserAvailability(transports.browser, transports.model, {
+  const sourceAvailability = new LiveBrowserAvailability(bookingHandoffs.runtime, transports.model, {
     now, browserBudget,
     maxAvailabilitySourceBrowserSessions: config.maxAvailabilitySourceBrowserSessions,
     maxAvailabilitySourceCandidateMatches: config.maxAvailabilitySourceCandidateMatches,
@@ -73,6 +77,14 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     ...(transports.onTabelogIdentityDiagnostic ? { onTabelogIdentityDiagnostic: transports.onTabelogIdentityDiagnostic } : {}),
     ...(transports.onTabelogUserInterventionRequired ? { onTabelogUserInterventionRequired: transports.onTabelogUserInterventionRequired } : {}),
   });
+  const availability = {
+    executionRoute: sourceAvailability.executionRoute,
+    beginReadRun: () => sourceAvailability.beginReadRun(),
+    endReadRun: () => sourceAvailability.endReadRun(),
+    browserModelBudgetExhausted: () => sourceAvailability.browserModelBudgetExhausted(),
+    check: (request: Parameters<LiveBrowserAvailability["check"]>[0], signal: AbortSignal) =>
+      bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal)),
+  };
   const modelReadReserve = transports.model as ModelGateway & Partial<NonNullable<RestaurantExecutionRouterOptions["modelReadReserve"]>>;
   const router: RestaurantExecutionRouterOptions = {
     structuredReadTimeoutMs: config.maxStructuredReadMs,
@@ -111,5 +123,5 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       }) };
     },
   };
-  return { ...native, search, google, availability, router, loop, browserBudget, runCeilings };
+  return { ...native, search, google, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
 }
