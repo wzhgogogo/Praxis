@@ -1,5 +1,7 @@
 # Integration Capability Matrix
 
+2026-10-30 CET：G3/G3c已复核签收，已同步main4cbc521b，统一候选8025362b五门禁全绿：默认1242/1242、Chromium186/186（130.563秒）、严格G2 5/5及12/12页面PASS；八项前后净树，721输入SHA不变。旧HARD44,197字节一致，481状态仅既有批准人数反例改变。源码冲突0，6份文档保留双方正文；按用户批准合入推送main，确切SHA以Git远端回执为准，随后通知C待命。真实调用0，账本486条。后续（本批不做）：删除无非空生产者的provider observation verifiedHardCriteria可选字段、透传、旧matchReasons投影与直接构造测试，保留Google及Source2 MODEL_JUDGMENT合法criterion claims；G3b等首次Live有时段TableCheck日历。 [报告](../../.eval-artifacts/phase3b/g3-main/report.md)。
+
 2026-10-30 CET：G3/G3c离线完成待复核。原form_course链接及响应sequence/URL/时间输出已补，核验规则不变；A31398a77已合，main404a766e已同步。冻结d7131675/718项：五门禁默认1241/Chromium180全绿（129.594秒），严格G2 5/5、12/12页面PASS，各项净树；旧HARD44,197字节一致、481状态仅已批准人数反例MET→NOT_CHECKED。A五文件/C唯一响应输入差异和旧provider失用分支单列，C保护代码/断言保留。真实调用0、账本485条，站点3900/Pack482行仅参考。G3b及真实模型/Live验证延期；只推G3工作分支，不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/16-form-course-and-completion/report.md)。
 
 2026-10-29 CET：G3c通用原文/价格链路已接，独立Source Prompt/Schema2，私有价格/HARD快捷路径退役；核心27和实际对应141通过，旧HARD44197字节一致、481状态仅批准人数反例改变。最终fec90a36的type/arch绿，默认1217/1230，需同步A的共用评测来源工厂及3份相关模型fixture，按跨归属停止；未改A输入/评分或降低断言，build/Chromium/严格G2本候选未跑。G3未完成、不合main，等A接线安排；C保护与vacancy输出不变、真实调用0。站点3890/Pack482行仅参考。 [报告](../../.eval-artifacts/phase3b/g3-longrun/14-quoted-fact-reads/report.md)。

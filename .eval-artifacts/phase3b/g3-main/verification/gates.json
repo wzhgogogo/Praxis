@@ -1,0 +1,181 @@
+{
+  "mode": "OFFLINE_MOCK_AND_LOCAL_CHROMIUM",
+  "testedCommit": "8025362b44aa3f08137f4e9aab4e2f187556e310",
+  "startedAtCET": "2026-10-30T11:13:59.066399+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "d34dec44eb3d270810454a5c5892bc8868e877fa65377327b89123c44c0effcf",
+  "freezeSha256": "66a871fa94ef6f895e2d4b53d5e47724a405cead2307574c70d5083e2e9a835b",
+  "frozenPaths": 721,
+  "restorations": 0,
+  "gatePolicy": "Stop on any failure; no fixes, retries, or main publication on red",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-30T11:13:59.154203+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.509876,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-30T11:13:59.788080+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.233482,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-30T11:14:00.149384+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test.log",
+      "exitCode": 0,
+      "elapsedSeconds": 29.783914,
+      "summary": {
+        "tests": 1242,
+        "suites": 5,
+        "pass": 1242,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "582027d76c1386c0256db68770e3c733063886c28d39f46e8f27e5a51d596225",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-10-30T11:14:30.090729+01:00",
+      "gitStatusBefore": "",
+      "log": "build.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.499111,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-10-30T11:14:30.719236+01:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture.log",
+      "exitCode": 0,
+      "elapsedSeconds": 130.563106,
+      "summary": {
+        "tests": 186,
+        "suites": 0,
+        "pass": 186,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "e146ba32556ba051ee1e4cf02d71f5e368937f6dad272513c15b9d565bd21b14",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "strict-dom-change",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-10-30T11:16:41.416597+01:00",
+      "gitStatusBefore": "",
+      "log": "strict-dom-change.log",
+      "exitCode": 0,
+      "elapsedSeconds": 24.238029,
+      "summary": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "1942aff5c43abba13520bf9e8531a759b0edffa3815237ccf98e24486c0242da",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "legacy-states",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g3-longrun/11-price-applicability/compare-legacy.ts",
+        "/private/tmp/praxis-g3-main-8025362b-20261030/legacy-state-changes.json"
+      ],
+      "startedAtCET": "2026-10-30T11:17:05.788623+01:00",
+      "gitStatusBefore": "",
+      "log": "legacy-states.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.138596,
+      "summary": {},
+      "logSha256": "da573abd57ab80feb392b0f2c3a041fe3d34c0d349fb40480750b13cb7273007",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "startedAtCET": "2026-10-30T11:17:06.055588+01:00",
+      "gitStatusBefore": "",
+      "log": "hard-bytes.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.144154,
+      "summary": {},
+      "logSha256": "35fd00032ca19db45bb4ee7a7fae63364905df14b7426f6e5a14dd763231c520",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    }
+  ],
+  "acceptance": "SATISFIED",
+  "finishedAtCET": "2026-10-30T11:17:06.262183+01:00",
+  "freezeVerifiedAfter": true
+}
