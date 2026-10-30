@@ -1,0 +1,16 @@
+{
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "src/infrastructure/deepseek/deepseek-model-gateway.test.ts",
+    "src/domains/restaurant/semantic-interpreter.test.ts"
+  ],
+  "exitCode": 0,
+  "elapsedMs": 148,
+  "mode": "FAKE_FETCH",
+  "realAPIRequests": 0
+}

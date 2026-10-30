@@ -2,6 +2,7 @@ import type {
   ModelFinishReason,
   ModelGateway,
   ModelProvider,
+  ModelProviderErrorDiagnostic,
   ModelResponse,
   ModelUsage,
 } from "../../core/model/contracts.js";
@@ -72,6 +73,7 @@ export type RestaurantSemanticInterpretResult =
       status: "MODEL_FAILURE";
       errorCode: ModelGatewayErrorCode;
       retryable: boolean;
+      providerError?: ModelProviderErrorDiagnostic;
       fallback: "STRUCTURED_FORM";
       attempts: RestaurantSemanticModelAttempt[];
     };
@@ -522,6 +524,7 @@ export class RestaurantSemanticInterpreter {
           status: "MODEL_FAILURE",
           errorCode: modelError.code,
           retryable: modelError.retryable,
+          ...(modelError.providerError ? { providerError: modelError.providerError } : {}),
           fallback: "STRUCTURED_FORM",
           attempts,
         };

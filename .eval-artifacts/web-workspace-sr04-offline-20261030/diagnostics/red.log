@@ -1,0 +1,39 @@
+✖ DeepSeek gateway preserves safe transport causes without retries or body misclassification (9.272667ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 110.96825
+
+✖ failing tests:
+
+test at src/infrastructure/deepseek/deepseek-model-gateway.test.ts:1:8843
+✖ DeepSeek gateway preserves safe transport causes without retries or body misclassification (9.272667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   causes: [
+  -     {
+  -       code: 'UND_ERR_SOCKET',
+  -       errorName: 'Error'
+  -     }
+  -   ],
+  -   code: 'UND_ERR_SOCKET',
+  -   errorName: 'TypeError',
+  -   type: 'TRANSPORT'
+  - }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/infrastructure/deepseek/deepseek-model-gateway.test.ts:339:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { type: 'TRANSPORT', errorName: 'TypeError', code: 'UND_ERR_SOCKET', causes: [ [Object] ] },
+    operator: 'deepStrictEqual'
+  }

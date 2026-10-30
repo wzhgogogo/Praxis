@@ -72,6 +72,10 @@ export interface ModelProviderErrorDiagnostic {
   code?: string;
   type?: string;
   message?: string;
+  /** Transport identifiers only; no exception messages or arbitrary properties. */
+  errorName?: string;
+  /** At most three nested causes, containing bounded safe identifiers only. */
+  causes?: Array<{ errorName?: string; code?: string }>;
 }
 
 /**

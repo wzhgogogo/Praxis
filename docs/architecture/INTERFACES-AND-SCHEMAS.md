@@ -1,8 +1,8 @@
 # Interfaces and Schemas
 
 - Status: Accepted
-- Document revision: 3.11
-- Last updated: 2026-10-26
+- Document revision: 3.12
+- Last updated: 2026-10-30
 - Source of truth for: 公共接口、DTO、内部Tool、实现状态和版本规则
 - Related ADRs: [ADR Index](../decisions/README.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md)
 - Related documents: [Task Runtime](TASK-RUNTIME.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
@@ -221,6 +221,8 @@ type LeasedCommand<Command> = CommandEnvelope<Command> & {
 `RecoveryCoordinator` Claim `RECOVERY_REQUIRED` Command，通过Domain提供的`RecoveryEventFactory`产生Event。Coordinator本身不解释Domain State；Restaurant将其映射为`COMMIT_UNCERTAIN`，只允许进入Verify路径。Recovery Event和完成标记之间仍以确定性Event ID去重。
 
 ## Model Gateway
+
+2026-10-30 implemented：传输异常的安全诊断通过同一`ModelProviderErrorDiagnostic`同时进入`ModelInvocationRecord.providerError`及Semantic Interpreter的`MODEL_FAILURE.providerError`。`type: TRANSPORT`保留原始`errorName`、首个安全`code`及至多三层`causes`的错误名/代码；每个字段限64字符标识符并过滤配置密钥及Secret前缀，不记录异常消息、URL、Headers或socket内容。读取响应体失败仍归NETWORK，超时仍归TIMEOUT；均保留原因，不增加重试，也不把HTTP200当作解析成功。Provider HTTP拒绝原有脱敏诊断规则不变。
 
 Status: `implemented: connector contract + local Fixture use`。DeepSeek Provider连接只经过Fake Fetch Contract验证；Stage 2A的Local-only Fixture ModelGateway仅用于驱动真实Parser和Web状态路径，不代表真实模型调用或质量。
 

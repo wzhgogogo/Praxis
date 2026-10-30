@@ -1,3 +1,5 @@
+import type { ModelProviderErrorDiagnostic } from "./contracts.js";
+
 export type ModelGatewayErrorCode =
   | "CONFIGURATION"
   | "INVALID_REQUEST"
@@ -6,12 +8,6 @@ export type ModelGatewayErrorCode =
   | "PROVIDER_RATE_LIMITED"
   | "PROVIDER_REJECTED"
   | "MALFORMED_RESPONSE";
-
-export interface ModelProviderErrorDiagnostic {
-  code?: string;
-  type?: string;
-  message?: string;
-}
 
 export class ModelGatewayError extends Error {
   constructor(

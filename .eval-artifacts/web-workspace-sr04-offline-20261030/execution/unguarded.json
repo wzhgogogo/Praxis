@@ -1,0 +1,1184 @@
+{
+  "schema": "sr04-offline-replay@1",
+  "mode": "unguarded",
+  "realAPIRequests": 0,
+  "fakeFetchCalls": 10,
+  "sourceManifestSHA256": "ca72439e7020e042ebd5612e49d3f8915786a7c7da03fb7929e0356e1a04afb7",
+  "rows": [
+    {
+      "call": "call-01",
+      "sessionId": "SR01-complete-then-correct",
+      "turnId": "SR01-T01",
+      "responseSHA256": "d309b275df2ee0950b08c240ccd8dc1129d0005c7ff9ce0cca5f15221fa40f72",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Yakiniku restaurant in Shinjuku for two, tomorrow 19:00-19:30, under 5000 JPY per person",
+                "goalBasis": {
+                  "type": "SPECIFIC_TIME_MEAL",
+                  "reason": "Sit-down meal at an explicit clock range with a stated party size",
+                  "quotes": [
+                    "between 19:00 and 19:30",
+                    "for two people"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "between 19:00 and 19:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "BUDGET_PER_PERSON",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "BUDGET_PER_PERSON",
+                "max": 5000,
+                "currency": "JPY"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "c5020dd7-faa2-4a75-b7fa-5f3b44741766",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 7,
+            "usage": {
+              "inputTokens": 7058,
+              "outputTokens": 459,
+              "totalTokens": 7517
+            },
+            "providerRequestId": "02460bfa-d816-403d-b80d-a6964e83e184"
+          }
+        ]
+      }
+    },
+    {
+      "call": "call-02",
+      "sessionId": "SR02-incremental-completion",
+      "turnId": "SR02-T01",
+      "responseSHA256": "a96d9c026f212c77919fe9f6f83e812e6ace31ce9df5de2396452dbccfe4b407",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "goalBasis": {
+                  "type": "BOOKING_WORDING",
+                  "reason": "User explicitly asks for a table",
+                  "quotes": [
+                    "I need a table"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "5bcfbd30-7aac-48a4-a759-0de67ae504b1",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 1,
+            "usage": {
+              "inputTokens": 7040,
+              "outputTokens": 221,
+              "totalTokens": 7261
+            },
+            "providerRequestId": "6cac8765-ac5a-42bd-8f48-a7c034411344"
+          }
+        ]
+      }
+    },
+    {
+      "call": "call-03",
+      "sessionId": "SR03-named-target-then-complete",
+      "turnId": "SR03-T01",
+      "responseSHA256": "3e17fc1cafc5ce1c85788c04b06339fa2c8282c25c4a57c68d7dc8c230d8d4e9",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "User names a specific restaurant without visit time or booking wording",
+                  "quotes": [
+                    "I want Sushi Dai"
+                  ]
+                },
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "34ac6bbf-1440-4fe9-be13-85050fde4868",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 0,
+            "usage": {
+              "inputTokens": 7034,
+              "outputTokens": 149,
+              "totalTokens": 7183
+            },
+            "providerRequestId": "42831b7b-5837-4973-9d82-6c82ec7c259f"
+          }
+        ]
+      }
+    },
+    {
+      "call": "call-04",
+      "sessionId": "SR04-simple-complete",
+      "turnId": "SR04-T01",
+      "responseSHA256": "dcf89aa9013e552deadf982e6260300537c1c49f9265f99189e346ae74ba488e",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Japanese food restaurant in Ginza for four people tomorrow 18:00-18:30",
+                "goalBasis": {
+                  "type": "SPECIFIC_TIME_MEAL",
+                  "reason": "Sit-down meal at an explicit clock range with a stated party size",
+                  "quotes": [
+                    "between 18:00 and 18:30",
+                    "for four people"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "18:00",
+                "latest": "18:30",
+                "raw": "between 18:00 and 18:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 4,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Ginza"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "Japanese food",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "d12e3e61-1760-4fa8-b320-13d30136f7dd",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 0,
+            "usage": {
+              "inputTokens": 7049,
+              "outputTokens": 401,
+              "totalTokens": 7450
+            },
+            "providerRequestId": "ecb667b9-f887-4b7f-9813-0a8050ac1a49"
+          }
+        ]
+      }
+    },
+    {
+      "call": "call-05",
+      "sessionId": "SR05-relative-time-hard-soft-and-party-inference",
+      "turnId": "SR05-T01",
+      "responseSHA256": "60ec37000f7b2c08284cad964ecf4db92bb30e2089c647a221109e669954269b",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Restaurant recommendations near the office for Friday evening",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Broad evening request with no booking wording or explicit clock time; user wants options",
+                  "quotes": [
+                    "This Friday evening near our office"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "weekday": "FRIDAY",
+                "raw": "This Friday"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "EVENING",
+                "raw": "This Friday evening"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 4,
+                "source": "INFERRED_CLOSED_PARTY"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "near our office"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "no smoking",
+                "polarity": "NEGATIVE",
+                "strength": "HARD"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "quiet room",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "603a2b7e-e467-4c40-a68a-5f68527dd98e",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 1,
+            "usage": {
+              "inputTokens": 7053,
+              "outputTokens": 426,
+              "totalTokens": 7479
+            },
+            "providerRequestId": "8996aa8b-f927-4546-8f1d-acd108bac18a"
+          }
+        ]
+      }
+    },
+    {
+      "call": "call-06",
+      "sessionId": "SR06-approximate-budget-is-soft",
+      "turnId": "SR06-T01",
+      "responseSHA256": "13a7e5018cd3df2c25aea70ecd1e0854a80ee40547c42cb2b21056abb614a27b",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Nearby restaurant recommendations for tomorrow afternoon",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Exploratory request with a daypart and party but no booking wording or explicit clock time",
+                  "quotes": [
+                    "Tomorrow afternoon nearby for my parents and me"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "AFTERNOON",
+                "raw": "Tomorrow afternoon"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 3,
+                "source": "INFERRED_CLOSED_PARTY"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "nearby"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "around 3,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "ae45b98c-ebce-4fb6-b36b-2ceb4289215c",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 0,
+            "usage": {
+              "inputTokens": 7049,
+              "outputTokens": 382,
+              "totalTokens": 7431
+            },
+            "providerRequestId": "cc5f2ff4-a0df-4d07-b5c3-2cd1711af800"
+          }
+        ]
+      }
+    },
+    {
+      "call": "call-07",
+      "sessionId": "SR07-relative-offset-time",
+      "turnId": "SR07-T01",
+      "responseSHA256": "c1bf4a8e96718b0800739cc5925ea7e51c5e1335c32add8dc22b9b33aaac5c42",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Korean food near me in about 30 minutes for two people",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Relative offset with party size but no booking wording or explicit clock time; user wants options nearby",
+                  "quotes": [
+                    "In about 30 minutes near me for two people",
+                    "Korean food"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "relativeOffsetMinutes": 30,
+                "raw": "In about 30 minutes"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "near me"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "Korean food",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "dc8e8d1f-9f40-40dc-a287-47c49831c78e",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 0,
+            "usage": {
+              "inputTokens": 7042,
+              "outputTokens": 345,
+              "totalTokens": 7387
+            },
+            "providerRequestId": "ea65ce30-5460-45e1-b608-bef7c9bc5e8c"
+          }
+        ]
+      }
+    },
+    {
+      "call": "call-08",
+      "sessionId": "SR08-criterion-removal",
+      "turnId": "SR08-T01",
+      "responseSHA256": "be23d9f0b67fe3f8f64274603de972e20a6731d39a74dc42b15288e21bdc93f9",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "User asks for a sushi place tonight for two without booking wording or an explicit clock time",
+                  "quotes": [
+                    "Tonight at dinner in Ginza for two",
+                    "I need sushi, but not omakase"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TODAY",
+                "raw": "Tonight"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "EVENING",
+                "raw": "Tonight at dinner"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Ginza"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "sushi",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "omakase",
+                "polarity": "NEGATIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "7a1ee6cd-79e1-4a68-8926-19b6eb0b25a2",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 0,
+            "usage": {
+              "inputTokens": 7047,
+              "outputTokens": 441,
+              "totalTokens": 7488
+            },
+            "providerRequestId": "be87a350-5de0-4f7c-ad0a-f9265f3e48a7"
+          }
+        ]
+      }
+    },
+    {
+      "call": "call-09",
+      "sessionId": "SR09-relative-location-overwrite",
+      "turnId": "SR09-T01",
+      "responseSHA256": "395503755bd235109f0aacd3f1b9dc6818b937fd2563693dec0837e6797de18e",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Italian restaurant near my hotel for Saturday night",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Exploratory request for Italian food near the hotel with no booking wording or explicit clock time",
+                  "quotes": [
+                    "This Saturday night near my hotel for two people, Italian food."
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "weekday": "SATURDAY",
+                "raw": "This Saturday"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "EVENING",
+                "raw": "Saturday night"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "near my hotel"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "Italian food",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "24a44e78-91bc-48e4-81f2-fac0fce4e846",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 0,
+            "usage": {
+              "inputTokens": 7041,
+              "outputTokens": 378,
+              "totalTokens": 7419
+            },
+            "providerRequestId": "eca1ba2b-fab0-470e-bea6-5e6f41c28126"
+          }
+        ]
+      }
+    },
+    {
+      "call": "call-10",
+      "sessionId": "SR10-hard-budget",
+      "turnId": "SR10-T01",
+      "responseSHA256": "c30027266573dd36abd07b93640a06eac8c78324254a3ccf7203f3d7a8c3d0d7",
+      "fakeFetchCalls": 1,
+      "exactSavedWire": true,
+      "interpreted": {
+        "status": "PROPOSED",
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Restaurants in Shinjuku tomorrow after work for two, max 5,000 yen per person",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Broad after-work period with a party but no booking wording or explicit clock time",
+                  "quotes": [
+                    "Tomorrow after work in Shinjuku for two"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "AFTER_WORK",
+                "raw": "after work"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "BUDGET_PER_PERSON",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "BUDGET_PER_PERSON",
+                "max": 5000,
+                "currency": "JPY"
+              }
+            }
+          ]
+        },
+        "attempts": [
+          {
+            "invocationId": "257603f5-1541-498c-a0b0-82934a6aaa8f",
+            "provider": "DEEPSEEK",
+            "model": "deepseek-flash",
+            "purpose": "restaurant_semantic_interpret",
+            "promptVersion": "v28",
+            "outputSchema": {
+              "name": "restaurant-semantic-proposal",
+              "version": "4"
+            },
+            "finishReason": "TOOL_CALLS",
+            "latencyMs": 1,
+            "usage": {
+              "inputTokens": 7048,
+              "outputTokens": 380,
+              "totalTokens": 7428
+            },
+            "providerRequestId": "97d8d079-3ab5-4bac-ab1a-f769c140a0c4"
+          }
+        ]
+      }
+    }
+  ],
+  "records": [
+    {
+      "invocationId": "c5020dd7-faa2-4a75-b7fa-5f3b44741766",
+      "taskId": "offline:SR01-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 7,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7058,
+        "outputTokens": 459,
+        "totalTokens": 7517
+      },
+      "providerRequestId": "02460bfa-d816-403d-b80d-a6964e83e184"
+    },
+    {
+      "invocationId": "5bcfbd30-7aac-48a4-a759-0de67ae504b1",
+      "taskId": "offline:SR02-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7040,
+        "outputTokens": 221,
+        "totalTokens": 7261
+      },
+      "providerRequestId": "6cac8765-ac5a-42bd-8f48-a7c034411344"
+    },
+    {
+      "invocationId": "34ac6bbf-1440-4fe9-be13-85050fde4868",
+      "taskId": "offline:SR03-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7034,
+        "outputTokens": 149,
+        "totalTokens": 7183
+      },
+      "providerRequestId": "42831b7b-5837-4973-9d82-6c82ec7c259f"
+    },
+    {
+      "invocationId": "d12e3e61-1760-4fa8-b320-13d30136f7dd",
+      "taskId": "offline:SR04-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7049,
+        "outputTokens": 401,
+        "totalTokens": 7450
+      },
+      "providerRequestId": "ecb667b9-f887-4b7f-9813-0a8050ac1a49"
+    },
+    {
+      "invocationId": "603a2b7e-e467-4c40-a68a-5f68527dd98e",
+      "taskId": "offline:SR05-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7053,
+        "outputTokens": 426,
+        "totalTokens": 7479
+      },
+      "providerRequestId": "8996aa8b-f927-4546-8f1d-acd108bac18a"
+    },
+    {
+      "invocationId": "ae45b98c-ebce-4fb6-b36b-2ceb4289215c",
+      "taskId": "offline:SR06-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7049,
+        "outputTokens": 382,
+        "totalTokens": 7431
+      },
+      "providerRequestId": "cc5f2ff4-a0df-4d07-b5c3-2cd1711af800"
+    },
+    {
+      "invocationId": "dc8e8d1f-9f40-40dc-a287-47c49831c78e",
+      "taskId": "offline:SR07-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7042,
+        "outputTokens": 345,
+        "totalTokens": 7387
+      },
+      "providerRequestId": "ea65ce30-5460-45e1-b608-bef7c9bc5e8c"
+    },
+    {
+      "invocationId": "7a1ee6cd-79e1-4a68-8926-19b6eb0b25a2",
+      "taskId": "offline:SR08-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7047,
+        "outputTokens": 441,
+        "totalTokens": 7488
+      },
+      "providerRequestId": "be87a350-5de0-4f7c-ad0a-f9265f3e48a7"
+    },
+    {
+      "invocationId": "24a44e78-91bc-48e4-81f2-fac0fce4e846",
+      "taskId": "offline:SR09-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 0,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7041,
+        "outputTokens": 378,
+        "totalTokens": 7419
+      },
+      "providerRequestId": "eca1ba2b-fab0-470e-bea6-5e6f41c28126"
+    },
+    {
+      "invocationId": "257603f5-1541-498c-a0b0-82934a6aaa8f",
+      "taskId": "offline:SR10-T01",
+      "purpose": "restaurant_semantic_interpret",
+      "promptVersion": "v28",
+      "fallback": "STRUCTURED_FORM",
+      "provider": "DEEPSEEK",
+      "model": "deepseek-flash",
+      "responseFormat": "JSON_SCHEMA",
+      "outputSchema": {
+        "name": "restaurant-semantic-proposal",
+        "version": "4"
+      },
+      "outcome": "SUCCEEDED",
+      "latencyMs": 1,
+      "providerStatus": 200,
+      "usage": {
+        "inputTokens": 7048,
+        "outputTokens": 380,
+        "totalTokens": 7428
+      },
+      "providerRequestId": "97d8d079-3ab5-4bac-ab1a-f769c140a0c4"
+    }
+  ],
+  "passed": true
+}
