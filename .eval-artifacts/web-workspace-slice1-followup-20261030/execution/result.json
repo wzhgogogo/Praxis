@@ -1,0 +1,744 @@
+{
+  "evaluationClassification": {
+    "cohort": "DEVELOPMENT_DIAGNOSTIC",
+    "contaminationStatus": "PROMPT_AND_RESULT_EXPOSED",
+    "baselineEligible": false,
+    "reason": "The static restaurant-semantic-regression@5 labels are used for current architecture and prompt development."
+  },
+  "report": {
+    "evaluatorVersion": "4",
+    "datasetId": "restaurant-semantic-regression-v5",
+    "datasetVersion": "5",
+    "mode": "REAL_MODEL_MOCK_WORLD",
+    "attributionLevel": "DEVELOPMENT_STAGE_ORACLES",
+    "status": "COMPLETED",
+    "turns": [
+      {
+        "sessionId": "SR01-complete-then-correct",
+        "turnId": "SR01-T01",
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Semantic Proposal does not match the development-stage interpretation oracle"
+        ],
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Yakiniku restaurant in Shinjuku for two, tomorrow 19:00-19:30, under 5000 JPY per person",
+                "goalBasis": {
+                  "type": "SPECIFIC_TIME_MEAL",
+                  "reason": "Sit-down meal at an explicit clock range with a stated party size",
+                  "quotes": [
+                    "between 19:00 and 19:30",
+                    "for two people"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "earliest": "19:00",
+                "latest": "19:30",
+                "raw": "between 19:00 and 19:30"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "BUDGET_PER_PERSON",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "BUDGET_PER_PERSON",
+                "max": 5000,
+                "currency": "JPY"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "yakiniku",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sessionId": "SR01-complete-then-correct",
+        "turnId": "SR01-T02",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "errors": []
+      },
+      {
+        "sessionId": "SR02-incremental-completion",
+        "turnId": "SR02-T01",
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Semantic Proposal does not match the development-stage interpretation oracle"
+        ],
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "AVAILABILITY",
+                "query": "Table for two in Shinjuku",
+                "goalBasis": {
+                  "type": "BOOKING_WORDING",
+                  "reason": "User explicitly asks for a table",
+                  "quotes": [
+                    "I need a table"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sessionId": "SR02-incremental-completion",
+        "turnId": "SR02-T02",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "errors": []
+      },
+      {
+        "sessionId": "SR03-named-target-then-complete",
+        "turnId": "SR03-T01",
+        "status": "FAIL",
+        "firstFailureStage": "REDUCER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Authoritative Draft differs after a correct Proposal and compiled patch"
+        ],
+        "actualDraft": {
+          "schemaVersion": "3",
+          "timezone": "Asia/Tokyo",
+          "criteria": [],
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai",
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        },
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Sushi Dai",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "User names a specific restaurant without visit time or booking wording",
+                  "quotes": [
+                    "I want Sushi Dai"
+                  ]
+                },
+                "selectionScope": "SPECIFIC_OUTLET"
+              }
+            }
+          ]
+        },
+        "compiledPatch": {
+          "schemaVersion": "3",
+          "target": {
+            "goal": "RECOMMENDATION",
+            "query": "Sushi Dai",
+            "selectionScope": "SPECIFIC_OUTLET"
+          }
+        },
+        "goalBoundary": {
+          "category": "NO_TIME",
+          "status": "SATISFIED",
+          "actualGoal": "RECOMMENDATION",
+          "basis": {
+            "type": "JUDGMENT",
+            "reason": "User names a specific restaurant without visit time or booking wording",
+            "quotes": [
+              "I want Sushi Dai"
+            ]
+          },
+          "errors": []
+        },
+        "goldGoal": "RECOMMENDATION"
+      },
+      {
+        "sessionId": "SR03-named-target-then-complete",
+        "turnId": "SR03-T02",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "errors": []
+      },
+      {
+        "sessionId": "SR04-simple-complete",
+        "turnId": "SR04-T01",
+        "status": "FAIL",
+        "firstFailureStage": "MODEL_GATEWAY",
+        "modelStatus": "MODEL_FAILURE",
+        "errors": [
+          "Model gateway NETWORK"
+        ]
+      },
+      {
+        "sessionId": "SR05-relative-time-hard-soft-and-party-inference",
+        "turnId": "SR05-T01",
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Semantic Proposal does not match the development-stage interpretation oracle"
+        ],
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Restaurant recommendations near the office for Friday evening",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Broad evening request with no booking wording or explicit clock time; user wants options",
+                  "quotes": [
+                    "This Friday evening near our office"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "weekday": "FRIDAY",
+                "raw": "This Friday"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "EVENING",
+                "raw": "This Friday evening"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 4,
+                "source": "INFERRED_CLOSED_PARTY"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "near our office"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "no smoking",
+                "polarity": "NEGATIVE",
+                "strength": "HARD"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "quiet room",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sessionId": "SR06-approximate-budget-is-soft",
+        "turnId": "SR06-T01",
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Semantic Proposal does not match the development-stage interpretation oracle"
+        ],
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Nearby restaurant recommendations for tomorrow afternoon",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Exploratory request with a daypart and party but no booking wording or explicit clock time",
+                  "quotes": [
+                    "Tomorrow afternoon nearby for my parents and me"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "AFTERNOON",
+                "raw": "Tomorrow afternoon"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 3,
+                "source": "INFERRED_CLOSED_PARTY"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "nearby"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "around 3,000 yen per person",
+                "polarity": "POSITIVE",
+                "strength": "SOFT"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sessionId": "SR07-relative-offset-time",
+        "turnId": "SR07-T01",
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Semantic Proposal does not match the development-stage interpretation oracle"
+        ],
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Korean food near me in about 30 minutes for two people",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Relative offset with party size but no booking wording or explicit clock time; user wants options nearby",
+                  "quotes": [
+                    "In about 30 minutes near me for two people",
+                    "Korean food"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "relativeOffsetMinutes": 30,
+                "raw": "In about 30 minutes"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "near me"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "Korean food",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sessionId": "SR08-criterion-removal",
+        "turnId": "SR08-T01",
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Semantic Proposal does not match the development-stage interpretation oracle"
+        ],
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Sushi restaurant in Ginza for dinner tonight, not omakase",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "User asks for a sushi place tonight for two without booking wording or an explicit clock time",
+                  "quotes": [
+                    "Tonight at dinner in Ginza for two",
+                    "I need sushi, but not omakase"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TODAY",
+                "raw": "Tonight"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "EVENING",
+                "raw": "Tonight at dinner"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Ginza"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "sushi",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "omakase",
+                "polarity": "NEGATIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sessionId": "SR08-criterion-removal",
+        "turnId": "SR08-T02",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "errors": []
+      },
+      {
+        "sessionId": "SR09-relative-location-overwrite",
+        "turnId": "SR09-T01",
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Semantic Proposal does not match the development-stage interpretation oracle"
+        ],
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Italian restaurant near my hotel for Saturday night",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Exploratory request for Italian food near the hotel with no booking wording or explicit clock time",
+                  "quotes": [
+                    "This Saturday night near my hotel for two people, Italian food."
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "weekday": "SATURDAY",
+                "raw": "This Saturday"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "EVENING",
+                "raw": "Saturday night"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "near my hotel"
+              }
+            },
+            {
+              "field": "CRITERION",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "CRITERION",
+                "text": "Italian food",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "sessionId": "SR09-relative-location-overwrite",
+        "turnId": "SR09-T02",
+        "status": "BLOCKED_BY_UPSTREAM",
+        "errors": []
+      },
+      {
+        "sessionId": "SR10-hard-budget",
+        "turnId": "SR10-T01",
+        "status": "FAIL",
+        "firstFailureStage": "SEMANTIC_INTERPRETER",
+        "modelStatus": "PROPOSED",
+        "errors": [
+          "Semantic Proposal does not match the development-stage interpretation oracle"
+        ],
+        "proposal": {
+          "schemaVersion": "4",
+          "facts": [
+            {
+              "field": "TARGET",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TARGET",
+                "goal": "RECOMMENDATION",
+                "query": "Restaurants in Shinjuku tomorrow after work for two, max 5,000 yen per person",
+                "goalBasis": {
+                  "type": "JUDGMENT",
+                  "reason": "Broad after-work period with a party but no booking wording or explicit clock time",
+                  "quotes": [
+                    "Tomorrow after work in Shinjuku for two"
+                  ]
+                },
+                "selectionScope": "OPEN_ENDED"
+              }
+            },
+            {
+              "field": "DATE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "DATE",
+                "relativeDay": "TOMORROW",
+                "raw": "Tomorrow"
+              }
+            },
+            {
+              "field": "TIME_WINDOW",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "TIME_WINDOW",
+                "daypart": "AFTER_WORK",
+                "raw": "after work"
+              }
+            },
+            {
+              "field": "PARTY_SIZE",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "PARTY_SIZE",
+                "value": 2,
+                "source": "EXPLICIT"
+              }
+            },
+            {
+              "field": "AREA",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "AREA",
+                "query": "Shinjuku"
+              }
+            },
+            {
+              "field": "BUDGET_PER_PERSON",
+              "operation": "ASSERT",
+              "value": {
+                "kind": "BUDGET_PER_PERSON",
+                "max": 5000,
+                "currency": "JPY"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "summary": {
+      "totalTurns": 15,
+      "modelEvaluatedTurns": 10,
+      "passedTurns": 0,
+      "blockedTurns": 5,
+      "firstFailureStages": {
+        "SEMANTIC_INTERPRETER": 8,
+        "REDUCER": 1,
+        "MODEL_GATEWAY": 1
+      }
+    }
+  }
+}

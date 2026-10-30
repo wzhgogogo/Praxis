@@ -1,12 +1,12 @@
 # Web Workspace Slice 1 Plan
 
 - Status: Draft
-- Document revision: 0.4
+- Document revision: 0.5
 - Last updated: 2026-10-30
 - Source of truth for: 本切片范围、验收链路、前置检查与停止条件；不替代产品/视觉规则
 - Related ADRs: [ADR-0006](decisions/0006-web-first-agent-workspace.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [PRD](product/MVP-PRD.md), [User Flows](product/USER-FLOWS.md), [Gateway](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Visual Direction](product/VISUAL-DIRECTION.md)
-- Evidence status: draft / not integrated；工作分支本地Fixture验收与净树五门禁已通过，独立视觉/代码复核待用户，不是Clean Baseline
+- Evidence status: draft / not integrated；小修与净树五门禁通过，单次语义新增运行失败已停，未合main；不是Clean Baseline
 
 ## 当前切片承诺
 
@@ -79,6 +79,8 @@ Evaluator不适用：本轮不是模型质量评测，使用受控模型/来源�
 5. 推送本工作分支，不合main，停止交复核。不运行真实模型、来源预检或任何Live。
 
 ## 实施记录（2026-10-30）
+
+复核小修冻结56d283b0五门禁1211/181及Fixture15/15通过。唯一真实10 API、重试0；SR04-T01新增网关NETWORK，HTTP200完整JSON已保留，根因未定；9 PROPOSED、1失败、5后续阻断，严格0/15。按停止条件只归档/报告/推送，不调Prompt、不改网关或记录器、不追加模型。详见[四层/逐项报告](reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。
 
 用户已复核c67c9276的功能、边界与十项验收，并签收仅SHORTLIST_UPDATED/同run重交一次的规则；指定小修及唯一一次真实语义回归见[本轮计划/报告](reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。新增两尺寸长条款遮挡/两个出发入口实际点击验收；单店Ask输入框并入主输入框明确留下一段，本轮不改。模型最多15次、无API重试，先Fixture通过，遇新退化停下；Google/来源GET/Live为0。
 

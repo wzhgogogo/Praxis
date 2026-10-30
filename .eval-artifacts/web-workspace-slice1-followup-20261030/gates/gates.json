@@ -1,0 +1,62 @@
+{
+  "sourceCommit": "56d283b0843aa1dbb945adcb9bdaf701e0cc22da",
+  "runs": [
+    {
+      "name": "typecheck",
+      "command": "npm run typecheck",
+      "exitCode": 0,
+      "seconds": 0.463,
+      "before": "",
+      "after": "",
+      "counts": {}
+    },
+    {
+      "name": "arch-check",
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "seconds": 0.229,
+      "before": "",
+      "after": "",
+      "counts": {}
+    },
+    {
+      "name": "test",
+      "command": "npm test",
+      "exitCode": 0,
+      "seconds": 27.673,
+      "before": "",
+      "after": "",
+      "counts": {
+        "tests": 1211,
+        "pass": 1211,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "build",
+      "command": "npm run build",
+      "exitCode": 0,
+      "seconds": 0.512,
+      "before": "",
+      "after": "",
+      "counts": {}
+    },
+    {
+      "name": "browser-fixture",
+      "command": "npm run test:browser:fixture",
+      "exitCode": 0,
+      "seconds": 120.989,
+      "before": "",
+      "after": "",
+      "counts": {
+        "tests": 181,
+        "pass": 181,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      }
+    }
+  ]
+}

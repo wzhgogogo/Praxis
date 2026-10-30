@@ -1,7 +1,7 @@
 # Praxis 开发文档索引
 
 - Status: Accepted
-- Document revision: 1.14
+- Document revision: 1.15
 - Last updated: 2026-10-30
 - Source of truth for: 开发文档导航、阅读路径、文档职责和冲突处理
 - Related ADRs: [ADR Index](decisions/README.md)
@@ -65,7 +65,7 @@ Accepted ADR
 
 ## 验证、阶段与历史
 
-- [前端第1步复核小修](reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)：用户签收规则、遮挡/文案小修和Prompt28条件化；冻结后15条真实语义回归计划及v26逐项对照，单店问答合并留下一段。
+- [前端第1步复核小修](reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)：净树五门禁1211/181通过；单次真实10 API后SR04新增网关失败停止，四层/v26逐项/21截图；单店问答合并留下一段。
 
 - [前端第1步复核](reviews/WEB-WORKSPACE-SLICE1-20261030.md)：工作区/B1完整Fixture链路、两尺寸十项验收、五门禁1210/180及主要画面截图；工作分支待复核，不是Live验收。
 

@@ -5230,3 +5230,5 @@ Five approved consolidation items have individual successor proof, all originals
 用户签收c67c9276功能、边界、十项及同run/仅SHORTLIST_UPDATED重交一次规则；Gateway列明四事件/前提/排除，不扩大实现。按实际固定输入框高度投影内容留白和滚动安全区，长冲突条款两尺寸两个出发入口实际点击通过。Saved零条隐藏数字、非零次要色间距；推荐渠道正文色；Mon, Nov 2日期；调查中不显示总数；冲突只保留确认提醒；Date首字母大写。旧单店问答输入框合入主输入框留下一段，本轮未动。
 
 Prompt27→28将查看说明条件化；无上下文4组正文SHA与v26逐字一致，旧27四组不一致；其他共享Schema/State/TaskDefinition不改。用户授权现有15条回归单次真实DeepSeek，最多15 API、重试0，先Fixture。运行前冻结代码、Gold/输入/Scorer和79项SHA；专属传输守卫限制仅DeepSeek/第二次Schema拒发/总量15，原生产Schema尝试策略不改。采用v26最近修正补评15/15目标、14/15请求值、0/15严格，与原15条输入逐一相等；严格失败阻断策略/State版本不同列限定比较。当前业务模型0，实际启动与四层结果见[报告](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)，新退化即停，不调Prompt追分。
+
+正式执行：56d283b0843aa1dbb945adcb9bdaf701e0cc22da五门禁1211/181及Fixture15/15通过，逐项前后净树；21截图。唯一真实10 API、重试0，9 PROPOSED、1 MODEL_FAILURE/NETWORK、5上游阻断，严格0/15；SR04-T01相对v26新增运行失败，按规则停止。10份HTTP200有效JSON与网关NETWORK并存，网关处理或外围记录路径归因未定，不断言模型语义退化；未改Prompt追分/网关/记录器，不重跑。网关usage9条66,593tokens，独立API原件10条74,043tokens，差额单列不漏算；79项SHA不变，Google/来源GET/Live/Holdout0，Gold/评分器/旧产物不改，工作分支交复核不合main。[四层/逐项/原件与截图](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。

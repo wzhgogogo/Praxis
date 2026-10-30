@@ -1,0 +1,6 @@
+
+> praxis-zhixing@0.1.0 eval:restaurant:semantic:deepseek
+> node --env-file-if-exists=.env --import tsx src/eval/restaurant/semantic/runners/run-deepseek-regression.ts
+
+{"evaluationClassification":{"cohort":"DEVELOPMENT_DIAGNOSTIC","contaminationStatus":"PROMPT_AND_RESULT_EXPOSED","baselineEligible":false,"reason":"The static restaurant-semantic-regression@5 labels are used for current architecture and prompt development."},"report":{"evaluatorVersion":"4","datasetId":"restaurant-semantic-regression-v5","datasetVersion":"5","mode":"REAL_MODEL_MOCK_WORLD","status":"COMPLETED","summary":{"totalTurns":15,"modelEvaluatedTurns":10,"passedTurns":0,"blockedTurns":5,"firstFailureStages":{"SEMANTIC_INTERPRETER":8,"REDUCER":1,"MODEL_GATEWAY":1}}},"modelMetrics":{"modelCalls":10,"successfulCalls":9,"failedCalls":1,"retryCalls":0,"totalLatencyMs":22214,"providerModels":["DEEPSEEK:deepseek-flash","DEEPSEEK:deepseek-v4-flash"],"usage":{"reportedByCalls":9,"inputTokens":63412,"outputTokens":3181,"totalTokens":66593},"cost":{"status":"NOT_CONFIGURED"}},"diagnosticLog":{"format":"JSON","path":"/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/.eval-artifacts/restaurant-semantic/2026-10-30T04-22-27-292Z-restaurant-semantic-regression-5.json","privacy":"STATIC_RESTAURANT_SEMANTIC_REGRESSION_PROPOSALS_ONLY"}}
+.env not found. Continuing without it.

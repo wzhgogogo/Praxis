@@ -5932,3 +5932,5 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 新两尺寸遮挡/完整命中与两入口真实本地接收器点击加入原浏览器回归，开发检查9/9；提示词所属9/9，4组无上下文正文SHA与v26相等、原27全部不等。传输守卫Fake控制15API上限及拒绝Schema第二次，0真实调用；对照脚本不变v26无新退化、已知2→3人数变坏有效检错。初稿几何断言错误命中胶囊透明圆角已更正，不算产品反例。79项输入/源文件SHA冻结，旧15条输入/Gold及参考时间与当前全部一致，使用已修正CONTEXT_CARRY补评而非旧3个假失败。
 
 正式五门禁、Fixture→单次真实回归及四层对照待冻结后执行；计划15逻辑/最多15API，无API重试。仅从既有.env受控加载DeepSeek凭据，不复制或打印；本段不跑Holdout/Google/来源GET/Live。真实模型尚未启动，不把计划写成结果。模型新退化即停，原Gold/评分器/A评测执行源不改。[计划与结果入口](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。
+
+正式执行：56d283b0843aa1dbb945adcb9bdaf701e0cc22da五门禁1211/181及Fixture15/15通过，逐项前后净树；21截图。唯一真实10 API、重试0，9 PROPOSED、1 MODEL_FAILURE/NETWORK、5上游阻断，严格0/15；SR04-T01相对v26新增运行失败，按规则停止。10份HTTP200有效JSON与网关NETWORK并存，网关处理或外围记录路径归因未定，不断言模型语义退化；未改Prompt追分/网关/记录器，不重跑。网关usage9条66,593tokens，独立API原件10条74,043tokens，差额单列不漏算；79项SHA不变，Google/来源GET/Live/Holdout0，Gold/评分器/旧产物不改，工作分支交复核不合main。[四层/逐项/原件与截图](../reviews/WEB-WORKSPACE-SLICE1-FOLLOWUP-20261030.md)。
