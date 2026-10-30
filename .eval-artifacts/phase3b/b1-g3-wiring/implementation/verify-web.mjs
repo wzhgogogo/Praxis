@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
-import {writeFile} from 'node:fs/promises';
+import {mkdir,writeFile} from 'node:fs/promises';
 import {chromium} from 'playwright-core';
 import {LOCAL_WORKSPACE_PAGE} from '../../../../src/web/local-workspace-page.ts';
 
 // First produce a real persistent HTTP/assembly result; only the fixture transports
 // inside that test replace provider I/O. Then render that artifact in real Chromium.
-const root=new URL('./',import.meta.url);
+const root=new URL('./web-delivery/',import.meta.url);
+await mkdir(root);
 const run=spawnSync(process.execPath,['--import','./scripts/test-filesystem-guard.mjs','--import','tsx','--test','--test-reporter=tap','--test-name-pattern=B1 ordinary assembly','src/server/local-web-server.test.ts'],{
   env:{...process.env,PRAXIS_B1_UI_SNAPSHOT:'1'},encoding:'utf8',maxBuffer:4*1024*1024,timeout:60_000,
 });
