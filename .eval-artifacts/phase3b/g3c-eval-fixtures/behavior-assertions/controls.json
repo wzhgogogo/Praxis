@@ -1,0 +1,81 @@
+{
+  "commit": "0b4e3de785a1aa31fe45a01fc37212a65c550236",
+  "mode": "OFFLINE_LOCAL_CHROMIUM_FIXTURE_MODEL",
+  "startedAtCET": "2026-10-30T06:45:05.679711+01:00",
+  "newRealCalls": 0,
+  "runs": [
+    {
+      "name": "unaccepted-judgment-red",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "--test-name-pattern=^native dynamic Tabelog (AVAILABLE|UNAVAILABLE) reaches formal H001",
+        "src/harness/browser/browser-read-request-binding.test.ts"
+      ],
+      "cwd": "/private/tmp/praxis-g3c-behavior-controls-tap-20261030/unaccepted-judgment-red-checkout",
+      "exitCode": 1,
+      "elapsedSeconds": 10.933,
+      "expectedPass": 0,
+      "expectedFail": 2,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "082739cf494d0071e521e13a93ed1b962cd66311f373e680ac52bcb4fbaaff6f",
+      "inputCount": 706,
+      "verifiedExpectedOutcome": true
+    },
+    {
+      "name": "stale-consumer-red",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "--test-name-pattern=^native dynamic Tabelog (AVAILABLE|UNAVAILABLE) reaches formal H001",
+        "src/harness/browser/browser-read-request-binding.test.ts"
+      ],
+      "cwd": "/private/tmp/praxis-g3c-behavior-controls-tap-20261030/stale-consumer-red-checkout",
+      "exitCode": 1,
+      "elapsedSeconds": 10.533,
+      "expectedPass": 1,
+      "expectedFail": 1,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "48cea2e9a2248090d7a2f1516251a3329a5d44187b034ca27e3c0ed053c81b20",
+      "inputCount": 706,
+      "verifiedExpectedOutcome": true
+    },
+    {
+      "name": "behavior-green",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "--test-name-pattern=^native dynamic Tabelog (AVAILABLE|UNAVAILABLE) reaches formal H001",
+        "src/harness/browser/browser-read-request-binding.test.ts"
+      ],
+      "cwd": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing",
+      "exitCode": 0,
+      "elapsedSeconds": 10.525,
+      "expectedPass": 2,
+      "expectedFail": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "426a75e6f93bac01740e82dc7334367acd076c3f7f651d5669da44638d0958b8",
+      "inputCount": 706,
+      "verifiedExpectedOutcome": true
+    }
+  ],
+  "status": "EXPECTED_REDS_AND_GREEN_VERIFIED"
+}

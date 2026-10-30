@@ -1,0 +1,30 @@
+{
+  "commit": "69429d232c8e76d1003d56bd01b6b09ffdfd143e",
+  "mode": "OFFLINE_LOCAL_CHROMIUM_FIXTURE_MODEL",
+  "startedAtCET": "2026-10-30T06:44:31.495611+01:00",
+  "newRealCalls": 0,
+  "runs": [
+    {
+      "name": "unaccepted-judgment-red",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^native dynamic Tabelog (AVAILABLE|UNAVAILABLE) reaches formal H001",
+        "src/harness/browser/browser-read-request-binding.test.ts"
+      ],
+      "cwd": "/private/tmp/praxis-g3c-behavior-controls-20261030/unaccepted-judgment-red-checkout",
+      "exitCode": 1,
+      "elapsedSeconds": 10.933,
+      "expectedPass": 0,
+      "expectedFail": 2,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "a5550065a8160b24df6ed876007be4038cefd0ef43b82d56d3dd24777aeb54c0",
+      "inputCount": 706
+    }
+  ]
+}
