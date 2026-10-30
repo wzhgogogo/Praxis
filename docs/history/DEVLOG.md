@@ -5371,3 +5371,9 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 复用Gateway连接/正文失败测试，正文接真实Interpreter，原诊断undefined反例红→17/17绿。安全原始errorName及最多三层cause名称/代码进入失败Observer记录与MODEL_FAILURE.providerError，不记录异常消息/URL/Headers/Secret，不改Prompt28/Schema4或重试。df60d11a修复后在4746b313同步main404a766e，5份历史/状态冲突保留双方，C的PG证据字节保留、源码/迁移未变。最终冻结净树五门禁与390×844/1280×900完整验收待执行，完成只推工作分支、不合main。[计划/结果](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
 
 最终验证：474febbaffbe7c2b22a26a698707e40b027b1980冻结736项，五门禁1211/1211默认、181/181 Chromium全绿（29.210/121.601秒）；每项前后净树、HEAD和输入SHA不变。两尺寸完整十项及长条款/取消冲突两个来源入口滚动后完整可见并实际点击，原来源/问答回归共9/9；21张PNG逐张目视与尺寸/SHA核对。56份原输入/守卫/v26评分材料、37份main PG证据字节不变。模型API/Google/来源GET/Live/外部写入/私有Holdout新增0。诊断机制关闭，原传输故障具体原因未确认，旧真实失败/严格0/15不改。门禁后只增报告/附件，推工作分支交合入复核、不合main。[结果与截图](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
+
+<a id="dev-2026-10-30-b1-g3-output-dependency"></a>
+
+## 2026-10-30 CET：B1 G3接线接口依赖停止
+
+2026-10-30 CET：C从B当前G3提交8c66921a建立B1接线分支，预检发现保护文件vacancy-response核对链接后只返回时段、未返回原form_course URL；普通provider也未透传链接。按用户“B三文件不改/不另写解析器”的停止条件，先冻结只读接口反例，不改产品或A/前端。普通启动按钮红绿及拒绝反例尚未执行；不宣称接线完成，待B提供已核对原链接输出后再续。真实调用0，不读.env；准备证据推分支停报。 [计划](../../.eval-artifacts/phase3b/b1-g3-wiring/plan.md)。
