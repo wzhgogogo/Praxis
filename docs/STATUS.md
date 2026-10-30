@@ -4,6 +4,10 @@
 
 2026-10-30 CET：用户已批准G3/G3c 02163d39；复核者2核Linux五门禁1241/180及严格G2全绿。同步main4cbc521b后源码无冲突；6份文档双方正文保留，统一页头与ADR0049/0050说明，待冻结候选重跑五门禁和严格G2，全绿才发布main，任一失败即停。真实调用0。后续清理（本批不做）：provider observation verifiedHardCriteria无非空生产者，可选字段/透传/matchReasons旧文案投影及旧直接构造测试待删；Google和Source2 MODEL_JUDGMENT合法criterion claims保留。G3b等首次Live保存有时段TableCheck日历。 [计划](../.eval-artifacts/phase3b/g3-main/plan.md)。
 
+2026-10-30 CET：C已同步B的G3原链接输出02163d39（含main404a766e），B1普通服务端组合接线候选完成。按root Task隔离的暂态缓存只消费原解析器输出，响应引用/原URL保留；相对链接只补来源origin，原生路径ID只取对应rcd数字部分、完整身份核对不变。有效HTTP红灯PRESENT_RESULTS但按钮0→绿；缺链/日期/人数/时刻/店号/域名/路径/额外参数反例及同钟跨Case、重启缺缓存、过期/权限控制通过。B三文件、A评测/harness和前端未改，真实调用0；冻结五门禁/严格G2/UI验证后仅推准备分支，不合main，G3合main后仍须rebase再验。 [续行计划](../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md)。
+
+2026-10-30 CET：C B1接线按跨归属规则停止。基于B8c66921a，0ad7282d冻结8项；两条合法原链接均OBSERVED却输出同一19:00时段对象，原URL未保留，B1_EXACT_SOURCE_LINK_OUTPUT_MISSING有效红灯（exit1）。未改任何src/受保护文件、未另写解析器，调用0；按钮链路红绿/反例、五门禁与严格G2均未运行，接线未完成。推准备分支，待B提供已核对原链接输出；G3入main后再rebase及完整验证。 [报告](../.eval-artifacts/phase3b/b1-g3-wiring/report.md)。
+
 2026-10-30 CET：G3/G3c离线完成待复核。原form_course链接及响应sequence/URL/时间输出已补，核验规则不变；A31398a77已合，main404a766e已同步。冻结d7131675/718项：五门禁默认1241/Chromium180全绿（129.594秒），严格G2 5/5、12/12页面PASS，各项净树；旧HARD44,197字节一致、481状态仅已批准人数反例MET→NOT_CHECKED。A五文件/C唯一响应输入差异和旧provider失用分支单列，C保护代码/断言保留。真实调用0、账本485条，站点3900/Pack482行仅参考。G3b及真实模型/Live验证延期；只推G3工作分支，不合main。 [报告](../.eval-artifacts/phase3b/g3-longrun/16-form-course-and-completion/report.md)。
 
 2026-10-30 CET：C从B当前G3提交8c66921a建立B1接线分支，预检发现保护文件vacancy-response核对链接后只返回时段、未返回原form_course URL；普通provider也未透传链接。按用户“B三文件不改/不另写解析器”的停止条件，先冻结只读接口反例，不改产品或A/前端。普通启动按钮红绿及拒绝反例尚未执行；不宣称接线完成，待B提供已核对原链接输出后再续。真实调用0，不读.env；准备证据推分支停报。 [计划](../.eval-artifacts/phase3b/b1-g3-wiring/plan.md)。
@@ -128,7 +132,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.459
+- Document revision: 4.461
 - Last updated: 2026-10-29
 - Last updated: 2026-10-30
 - Source of truth for: 当前实现、证据与下一道门槛

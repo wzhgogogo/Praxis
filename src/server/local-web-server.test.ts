@@ -1940,7 +1940,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
     const readAssembly = createLiveReadAssembly({...readLimits,packs:[googlePlacesDiscoveryPack]}, {
       google,browser,model,clock,currentTaskId:()=>model.currentTaskId(),
     });
-    const running = await startServer(database,clock,{model,modelRunBudget:model,readAssembly,mode:"LIVE_READ",liveReadLimits:readAssembly.runCeilings});
+    let running = await startServer(database,clock,{model,modelRunBudget:model,readAssembly,mode:"LIVE_READ",liveReadLimits:readAssembly.runCeilings});
     try {
       const cookie = await login(running.baseUrl,"token-a");
       let last:RestaurantCaseView | undefined;
@@ -1972,6 +1972,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
             assert.equal(handoffs[0]!.directLabel,"Book on Tabelog");
             assert.equal(handoffs[0]!.sourceSelection,"UNKNOWN");
             last=view;
+            if(label === "original" && process.env.PRAXIS_B1_UI_SNAPSHOT === "1") console.log("B1_G3_HTTP_VIEW " + JSON.stringify(view));
           }else assert.equal(handoffs.length,0,"mismatched or unsupported link must hide the button");
         }finally{unsubscribe();}
       });
@@ -1979,6 +1980,15 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
       const stranger=await login(running.baseUrl,"token-b");
       assert.equal((await api(running.baseUrl,stranger,"/api/cases/"+encodeURIComponent(last.case.caseId))).response.status,404);
       const before=opens;
+      const current=(await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(last.case.caseId))).payload.view as RestaurantCaseView;
+      assert.equal(current.restaurant.bookingHandoffs?.[0]?.url,original,"other Cases with identical clocks/evidence IDs cannot replace this Case cache");
+      const freshAssembly=createLiveReadAssembly({...readLimits,packs:[googlePlacesDiscoveryPack]}, {google,browser,model,clock,currentTaskId:()=>model.currentTaskId()});
+      await running.close();
+      running=await startServer(database,clock,{model,modelRunBudget:model,readAssembly:freshAssembly,mode:"LIVE_READ"});
+      const restarted=(await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(last.case.caseId))).payload.view as RestaurantCaseView;
+      assert.deepEqual(restarted.restaurant.bookingHandoffs,[],"a new process cache cannot reconstruct a lost source URL from the offer");
+      assert.ok(Object.values(restarted.restaurant.availability).some(items=>items.length),"restart control retains fresh authoritative availability");
+      assert.equal(opens,before,"restart/projection never triggers a new source read");
       clock.advance(600_000);
       const stale=(await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(last.case.caseId))).payload.view as RestaurantCaseView;
       assert.deepEqual(stale.restaurant.bookingHandoffs,[]);

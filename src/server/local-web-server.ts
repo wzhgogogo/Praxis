@@ -180,7 +180,9 @@ export interface LocalWebServerOptions {
   sessions: PilotSessionService;
   /** Optional diagnostic root. Omitting it keeps the server usable without filesystem output. */
   artifactDirectory?: string;
-  /** Cache-only reviewed source output. Absent in ordinary composition pending G3/ADR approval. */
+  /** The same production read assembly used by the persistent application. */
+  readAssembly?: Pick<ReturnType<typeof createLiveReadAssembly>, "bookingHandoffs">;
+  /** Explicit cache-only reader for isolated composition controls. */
   bookingHandoffs?: {
     readPrepared(view: RestaurantCaseView): readonly PreparedBookingHandoff[];
     now(): string;
@@ -188,8 +190,9 @@ export interface LocalWebServerOptions {
 }
 
 export function createLocalWebServer(options: LocalWebServerOptions): Server {
-  const project = (view: RestaurantCaseView): RestaurantCaseView => options.bookingHandoffs
-    ? withBookingHandoffs(view, options.bookingHandoffs.readPrepared(view), options.bookingHandoffs.now()) : view;
+  const bookingHandoffs = options.bookingHandoffs ?? options.readAssembly?.bookingHandoffs;
+  const project = (view: RestaurantCaseView): RestaurantCaseView => bookingHandoffs
+    ? withBookingHandoffs(view, bookingHandoffs.readPrepared(view), bookingHandoffs.now()) : view;
   const json = (response: ServerResponse, status: number, payload: Record<string, unknown>, headers = {}): void => {
     sendJson(response, status, payload.view ? {...payload, view: project(payload.view as RestaurantCaseView)} : payload, headers);
   };
@@ -457,6 +460,7 @@ async function start(): Promise<void> {
     }),
     browser: browserRuntimeFromEnvironment(),
     ...(modelRunBudget?.remainingCalls ? { remainingModelCalls: (taskId: string) => modelRunBudget.remainingCalls(taskId) } : {}),
+    ...(modelRunBudget ? { currentTaskId: () => modelRunBudget.currentTaskId() } : {}),
   });
   const restaurantSearch = fixtureSearch ?? readAssembly!.search;
   const restaurantAvailability = fixtureSearch ?? readAssembly!.availability;
@@ -484,6 +488,7 @@ async function start(): Promise<void> {
     application,
     sessions,
     artifactDirectory: resolve(".eval-artifacts", "restaurant-web-read"),
+    ...(readAssembly ? { readAssembly } : {}),
   });
   server.listen(PORT, "127.0.0.1", () => {
     console.log(`Praxis ${providerMode === "FIXTURE" ? "fixture" : "Live read-only"} workspace is running at http://127.0.0.1:${PORT}`);

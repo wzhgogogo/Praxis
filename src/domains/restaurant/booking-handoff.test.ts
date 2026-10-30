@@ -124,3 +124,18 @@ test("B1 fixed fee is proven by the captured English help text and never added t
   for(const quote of result.platformFee.quotes)assert.ok(bytes.toString("utf8").includes(quote));
   assert.equal(rendered(tableCheck())!.platformFee,undefined);
 });
+
+
+test("B1 native Tabelog path ID binds the same numeric merchant without weakening full identity",()=>{
+  const input=fixture(),native="en/tokyo/A1301/A130101/13123456";
+  input.context.candidate.restaurant.sourceIds.tabelog=native;
+  input.source.sourceEntityId=native;
+  input.context.evidence.forEach(item=>{item.sourceEntityId=native;});
+  assert.equal(rendered(input)?.url,input.source.url);
+  for(const change of [
+    (x:ReturnType<typeof fixture>)=>{x.source.url=x.source.url.replace("rcd=13123456","rcd=99999999");},
+    (x:ReturnType<typeof fixture>)=>{x.context.candidate.restaurant.sourceIds.tabelog="tokyo/A1301/A130101/13123456";},
+    (x:ReturnType<typeof fixture>)=>{x.context.evidence[1]!.sourceEntityId="other/13123456";},
+    (x:ReturnType<typeof fixture>)=>{x.context.evidence[1]!.entityMatch!.confidence="LOW";},
+  ]){const changed=structuredClone(input);change(changed);assert.equal(rendered(changed),undefined);}
+});
