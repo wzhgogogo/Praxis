@@ -1,0 +1,45 @@
+▶ B1 ordinary assembly exposes only the exact G3 source link
+  ✔ original (53.358542ms)
+  ✔ relative (26.0245ms)
+  ✔ missing (32.489334ms)
+  ✔ date (19.388375ms)
+  ✔ party (18.515833ms)
+  ✔ time (22.829458ms)
+  ✔ outlet (17.693042ms)
+  ✔ domain (17.973958ms)
+  ✔ path (18.051583ms)
+  ✔ extra-query (22.405834ms)
+G4_JAPANESE_DIAGNOSTIC {"phase":"PRESENT_RESULTS","handoffs":0,"checks":{"praxis:restaurant:2e1bffdeb4e09cbdc9b0763a":{"status":"AVAILABLE","checkedAt":"2026-08-08T09:00:00.000Z","evidenceIds":["evidence:restaurant:tabelog-entity-match:64681e22e6e665602ad6965f","evidence:restaurant:tabelog-availability:5757e8dbee08feaf615ed772"],"receptionMode":"RESERVATION_SUPPORTED","sourceAttempts":[{"source":"TABLECHECK","outcome":"FAILED","reasonCode":"BROWSER_RUNTIME_FAILED"},{"source":"TABELOG","outcome":"AVAILABLE"}],"sourceProvider":"AVAILABILITY_SOURCE_RESOLVER","displayExpiresAt":"2026-08-08T09:10:00.000Z","requestFingerprint":"{\"date\":\"2026-08-09\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}","freshnessPolicyVersion":"restaurant-availability-display-freshness@1"}},"evidence":[{"kind":"DISCOVERY","provider":"GOOGLE_PLACES","sourceEntityId":"b1-location"},{"kind":"DISCOVERY","provider":"GOOGLE_PLACES","sourceEntityId":"b1-g3-outlet"},{"kind":"ENTITY_MATCH","provider":"GOOGLE_PLACES","sourceEntityId":"b1-g3-outlet","confidence":"HIGH"},{"kind":"RESTAURANT_FACT","provider":"GOOGLE_PLACES","sourceEntityId":"b1-g3-outlet"},{"kind":"ENTITY_MATCH","provider":"TABELOG","sourceEntityId":"en/tokyo/A1301/A130101/13123456","confidence":"HIGH"},{"kind":"AVAILABILITY","provider":"TABELOG","sourceEntityId":"en/tokyo/A1301/A130101/13123456","confidence":"HIGH"}],"resourceUsage":{"elapsedMs":20,"agentDecisions":3,"googleRequests":{"limit":100,"total":3,"discovery":1,"placeDetails":1,"namedPlaceResolution":1,"reverseAddressObservation":0},"modelCallsStarted":7},"navigations":["https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Fixture+Sushi+Tokyo&geo_latitude=35.66&geo_longitude=139.7&geo_distance=5km&auto_geolocate=false","https://tabelog.com/en/tokyo/rstLst/?sw=Fixture%20Sushi%20Tokyo","https://tabelog.com/en/tokyo/rstLst/?sw=Fixture%20Sushi","https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%99%E3%81%97%E6%9C%AC%E5%BA%97","https://tabelog.com/en/tokyo/A1301/A130101/13123456/"]}
+  ✖ japanese-name (24.293667ms)
+✖ B1 ordinary assembly exposes only the exact G3 source link (994.30175ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 10
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1433.145084
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:3:38673
+✖ japanese-name (24.293667ms)
+  AssertionError [ERR_ASSERTION]: ordinary startup assembly must supply the source reader without a test-prepared handoff
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1993:20)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1974:19)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:245:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1901:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

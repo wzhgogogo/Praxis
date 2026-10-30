@@ -13,6 +13,7 @@ import { restaurantPublicReadNetworkPolicy } from "./public-browser-read-network
 import { restaurantDiscoveryPacks } from "../restaurant-search/source-packs.js";
 import type { DiscoverySourcePack } from "../restaurant-search/source-packs.js";
 import { ModelNamedSourceQuery, type NamedSourceAlternative } from "../restaurant-search/named-source-query.js";
+import type { GooglePlacesSourceName } from "../google/google-places-contracts.js";
 
 export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
   now?: () => string;
@@ -37,6 +38,7 @@ export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
   packs?: readonly DiscoverySourcePack[];
   /** Offline Replay may bind a frozen fragment instead of a new model proposal. */
   alternativeSearch?: NamedSourceAlternative;
+  japaneseName?: (placeId: string, readRunId: string | undefined, signal: AbortSignal) => Promise<GooglePlacesSourceName>;
 }
 
 /**
@@ -81,7 +83,7 @@ export class LiveBrowserAvailability {
     this.namedQueries.clear();
   }
 
-  async check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead> {
+  async check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead> {
     const executor = new BrowserTaskExecutor(this.runtime, { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs,
       maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate,
       maxModelCallsTotal: this.options.maxModelCallsTotal,
@@ -101,6 +103,8 @@ export class LiveBrowserAvailability {
       ...(this.options.maxAvailabilitySourceCandidateMatches !== undefined ? { maxCandidateMatches: this.options.maxAvailabilitySourceCandidateMatches } : {}),
       tableCheckEntryLedger: this.tableCheckEntryLedger,
       alternativeSearch: this.options.alternativeSearch ?? this.namedQueries.alternative,
+      ...(this.options.japaneseName ? {japaneseName: (candidate: RestaurantAvailabilityRequest["candidates"][number], nameSignal: AbortSignal) =>
+        this.options.japaneseName!(candidate.restaurant.sourceIds.googlePlaces!, readRunId, nameSignal)} : {}),
       ...(this.options.onTableCheckIdentityDiagnostic ? { onTableCheckIdentityDiagnostic: this.options.onTableCheckIdentityDiagnostic } : {}),
       ...(this.options.onTabelogIdentityDiagnostic ? { onTabelogIdentityDiagnostic: this.options.onTabelogIdentityDiagnostic } : {}),
       ...(this.options.onTabelogUserInterventionRequired ? { onTabelogUserInterventionRequired: this.options.onTabelogUserInterventionRequired } : {}),

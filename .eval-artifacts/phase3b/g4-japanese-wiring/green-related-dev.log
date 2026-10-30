@@ -1,0 +1,49 @@
+✔ Japanese source names share the run's existing Google Details ceiling and cache across consumers (2.583292ms)
+✔ a sent Japanese-name failure consumes one Details request without retry by the second source (0.188542ms)
+✔ Tabelog shares the Japanese basement and Latin B1F identity normalization (5.78825ms)
+✔ Japanese retrieval reserves the fifth detail without weakening same-outlet identity (12.104417ms)
+✔ unused Japanese capacity returns the original fifth detail and a prior HIGH match costs no extra lookup (5.341959ms)
+▶ B1 ordinary assembly exposes only the exact G3 source link
+  ✔ original (53.769625ms)
+  ✔ relative (24.812167ms)
+  ✔ missing (32.006083ms)
+  ✔ date (19.505083ms)
+  ✔ party (19.443083ms)
+  ✔ time (23.4655ms)
+  ✔ outlet (18.51925ms)
+  ✔ domain (17.787625ms)
+  ✔ path (17.512666ms)
+  ✔ extra-query (23.131208ms)
+  ✖ japanese-name (23.891916ms)
+✖ B1 ordinary assembly exposes only the exact G3 source link (998.296042ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 15
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1481.9405
+
+✖ failing tests:
+
+test at src/server/local-web-server.test.ts:3:38673
+✖ japanese-name (23.891916ms)
+  AssertionError [ERR_ASSERTION]: ordinary startup assembly must supply the source reader without a test-prepared handoff
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1987:20)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1974:19)
+      at async withDatabase (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:245:5)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/server/local-web-server.test.ts:1901:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }

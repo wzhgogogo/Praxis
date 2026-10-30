@@ -1982,6 +1982,12 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
           const result=await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(created.case.caseId));
           const view=result.payload.view as RestaurantCaseView;
           const handoffs=view.restaurant.bookingHandoffs ?? [];
+          if(useJapanese && process.env.PRAXIS_G4_JAPANESE_DIAGNOSTIC === "1"){
+            const artifact=await running.application.exportReadArtifact(created.case.caseId);
+            console.log("G4_JAPANESE_DIAGNOSTIC "+JSON.stringify({phase:view.case.phase,handoffs:handoffs.length,checks:view.restaurant.availabilityChecks,
+              evidence:view.restaurant.readEvidence.map(e=>({kind:e.kind,provider:e.provider,sourceEntityId:e.sourceEntityId,confidence:e.entityMatch?.confidence})),
+              resourceUsage:artifact.resourceUsage,navigations:navigations.slice(navigationStart)}));
+          }
           if(accepted){
             assert.equal(view.case.phase,"PRESENT_RESULTS",JSON.stringify(view));
             assert.equal(handoffs.length,1,"ordinary startup assembly must supply the source reader without a test-prepared handoff");
