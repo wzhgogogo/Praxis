@@ -1,3 +1,5 @@
+import { prepareBookingHandoff, type BookingHandoffContext, type BookingHandoffSource, type PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
+import { groundTabelogAvailability } from "../domains/restaurant/read-grounding.js";
 import { RestaurantPageQuestionReader } from "../integrations/restaurant-facts/page-question-reader.js";
 import { GoogleListedWebsiteFactRead } from "../integrations/restaurant-facts/google-listed-website-facts.js";
 import { ModelRestaurantFactJudgment } from "../integrations/restaurant-facts/model-fact-judgment.js";
@@ -87,6 +89,7 @@ interface TestServer {
 }
 
 interface StartServerOptions {
+  bookingHandoffs?: import("./local-web-server.js").LocalWebServerOptions["bookingHandoffs"];
   readAssembly?: ReturnType<typeof createLiveReadAssembly>;
   restaurantQuestions?: import("../domains/restaurant/page-question.js").RestaurantPageQuestionPort;
   readTimeouts?: import("../application/restaurant-execution-router.js").RestaurantExecutionRouterOptions;
@@ -124,6 +127,7 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
   const server = createLocalWebServer({
     application,
     sessions,
+    ...(options.bookingHandoffs ? {bookingHandoffs:options.bookingHandoffs} : {}),
     ...(options.artifactDirectory ? { artifactDirectory: options.artifactDirectory } : {}),
   });
   server.listen(0, "127.0.0.1");
@@ -1769,5 +1773,112 @@ test("G1 async cancellation and newer question discard a late model answer", asy
       assert.ok(result.status==="UNVERIFIED"&&result.reason==="CANCELLED");
       assert.equal(cancelled.case.phase,"PRESENT_RESULTS","question cancellation does not destroy the displayed batch");
     } finally {releaseAppend();release?.();await server.application.stopActiveReads();await server.close();}
+  });
+});
+
+// Start/end: authenticated HTTP create -> Interpreter/Compiler/Agent/Validator/Router/Reducer/
+// PGlite -> server B1 projection. Only model transport and source I/O are fixtures.
+// Source JSON/query literals are independent of the URL checker; no website is contacted.
+test("B1 persistent HTTP composition projects a cached source link, rechecks it and isolates owners", async()=>{
+  await withDatabase(async({database,clock})=>{
+    const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};
+    clock.advance(Date.parse(raw.context.now)-clock.now().valueOf());
+    let cached:PreparedBookingHandoff[]=[];let sourceReads=0;
+    const restaurant:RestaurantSearchPort & RestaurantAvailabilityPort & RestaurantCandidateFactPort={
+      executionRoute:"STRUCTURED_ADAPTER",
+      async search(){return {candidates:[raw.context.candidate],evidence:[{evidenceId:"b1:area",kind:"DISCOVERY",provider:"GOOGLE_PLACES",candidateId:raw.context.candidate.restaurant.id,sourceEntityId:"synthetic-place",observedAt:clock.now().toISOString(),requestFingerprint:"b1:search",claims:{areaQuery:"Tokyo",areaMatch:true}}],metadata:{provider:"FIXTURE",route:"STRUCTURED_ADAPTER",latencyMs:0}};},
+      async check(request){
+        sourceReads++;
+        const grounded=groundTabelogAvailability(raw.context.candidate,request,{
+          candidateId:raw.context.candidate.restaurant.id,sourceEntityId:"13123456",sourceUrl:"https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          observedAt:clock.now().toISOString(),requestedDate:"2026-11-02",requestedPartySize:2,visibleSlots:["19:00"],pageState:"AVAILABLE",
+          entityMatch:{confidence:"HIGH",matchedBy:["SYNTHETIC_SAME_OUTLET"]},
+        },clock.now().toISOString());
+        const availability=grounded.evidence.find(e=>e.kind==="AVAILABILITY")!;
+        const source={...raw.source,offerId:grounded.offers[0]!.id,availabilityEvidenceId:availability.evidenceId};delete source.terms;
+        const prepared=prepareBookingHandoff(source,{candidate:raw.context.candidate,offer:grounded.offers[0]!,check:{...grounded.check,sourceProvider:"TABELOG",requestFingerprint:raw.context.check.requestFingerprint!},request:raw.context.request,evidence:grounded.evidence,now:clock.now().toISOString()});
+        assert.ok(prepared,"first server check must accept independent synthetic source response");cached=[prepared];
+        return {offers:grounded.offers,availabilityChecks:{[raw.context.candidate.restaurant.id]:grounded.check},evidence:grounded.evidence,metadata:{provider:"TABELOG",route:"STRUCTURED_ADAPTER",latencyMs:0}};
+      },
+      async inspectFacts(){throw new Error("B1 must not trigger a new source read for a link");},
+    };
+    const message="Book Fixture Sushi for 2026-11-02 at 19:00 for two in Tokyo.";
+    const proposal:RestaurantSemanticProposal={schemaVersion:"4",facts:[
+      {field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:"AVAILABILITY",query:"Fixture Sushi",selectionScope:"SPECIFIC_OUTLET",goalBasis:{type:"BOOKING_WORDING",reason:"Explicit booking request",quotes:["Book Fixture Sushi"]}}},
+      {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:"2026-11-02",raw:"2026-11-02"}},
+      {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:30",raw:"19:00"}},
+      {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:2,source:"EXPLICIT"}},
+      {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Tokyo"}},
+    ]};
+    let decision=0;
+    const model:ModelGateway={async complete(request){
+      const actions=[{type:"SEARCH_RESTAURANTS",candidateIds:[]},{type:"CHECK_AVAILABILITY",candidateIds:["fixture:outlet"]},{type:"PRESENT_RESULTS",candidateIds:["fixture:outlet"]}];
+      const action=request.purpose==="restaurant_agent_decide" ? actions[decision++] : undefined;
+      assert.ok(request.purpose==="restaurant_semantic_interpret" || action,"unexpected model fixture call");
+      return {invocationId:"b1-fixture:"+decision,provider:"FIXTURE",model:"b1-offline",latencyMs:0,finishReason:"TOOL_CALLS",
+        outputText:JSON.stringify(action ? {...action,question:"",relatedFields:[],retrievalHint:"",candidateId:"",offerId:"",decisionSummary:"Frozen B1 fixture"} : proposal)};
+    }};
+    let running=await startServer(database,clock,{restaurant,model,
+      bookingHandoffs:{readPrepared:()=>cached,now:()=>clock.now().toISOString()},
+    });
+    try {
+      const cookie=await login(running.baseUrl,"token-a");
+      const view=await createCase(running.baseUrl,cookie,"b1-create",message);
+      assert.equal(view.case.phase,"PRESENT_RESULTS");
+      assert.equal(view.restaurant.bookingHandoffs?.[0]?.url,"https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261102&visit_time=1900");
+      assert.equal(view.restaurant.selectedCandidateId,undefined);
+      const path="/api/cases/"+encodeURIComponent(view.case.caseId);
+      const leave=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-departure",taskVersion:view.case.taskVersion})});
+      assert.equal(leave.response.status,201,"a validated B1 departure must be durable before leaving");
+      const departure=leave.payload.departure as {id:string;provenance:string};assert.equal(departure.provenance,"USER_REPORTED");
+      const duplicate=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-departure",taskVersion:view.case.taskVersion})});
+      assert.equal((duplicate.payload.departure as {id:string}).id,departure.id);
+      assert.equal((await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"YES"})})).response.status,400,"answer before a prompt is not accepted");
+
+      cached[0]!.source.url=cached[0]!.source.url.replace("member=2","member=3");
+      const modified=(await api(running.baseUrl,cookie,path)).payload.view as RestaurantCaseView;
+      assert.deepEqual(modified.restaurant.bookingHandoffs,[],"second server check rejects a modified cache object");
+      cached[0]!.source.url=raw.source.url;
+      const stranger=await login(running.baseUrl,"token-b");
+      assert.equal((await api(running.baseUrl,stranger,path)).response.status,404);
+      clock.advance(600_000);
+      assert.deepEqual(((await api(running.baseUrl,cookie,path)).payload.view as RestaurantCaseView).restaurant.bookingHandoffs,[]);
+      assert.equal(sourceReads,1,"projection and expiry may not open any booking page or rerun availability");
+      // Recreate the complete server/application without a source cache; receipts must survive.
+      const before=await running.application.getCase("user-a",view.case.caseId);assert.equal(before.restaurant.bookingFeedbackAvailable,true);
+      await running.close();running=await startServer(database,clock);
+      const claims=await Promise.all(Array.from({length:4},()=>api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})));
+      const shown=claims.map(item=>item.payload.prompt).filter(Boolean) as Array<{question:string;departure:{id:string}}>;
+      assert.equal(shown.length,1,"concurrent clients can claim at most one prompt per Case");
+      assert.equal(shown[0]!.question,"Did you get the booking?");assert.equal(shown[0]!.departure.id,departure.id);
+      assert.equal((await api(running.baseUrl,stranger,path+"/booking-feedback/claim",{method:"POST",body:"{}"})).response.status,404);
+      await running.close();running=await startServer(database,clock);
+      assert.equal((await api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})).payload.prompt,null,"an unanswered prompt also survives restart without re-asking");
+      const answer=await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"YES"})});
+      assert.equal(answer.response.status,200);assert.equal((answer.payload.departure as {answer:string;provenance:string}).answer,"YES");
+      assert.equal((answer.payload.departure as {provenance:string}).provenance,"USER_REPORTED");
+      const repeated=await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"YES"})});assert.deepEqual(repeated.payload,answer.payload);
+      const changed=await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"NO"})});assert.equal(changed.response.status,400);
+      const privateData=await api(running.baseUrl,cookie,path+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:"YES",email:"do-not-store@example.invalid"})});assert.equal(privateData.response.status,400);
+      await running.close();running=await startServer(database,clock);
+      assert.equal((await api(running.baseUrl,cookie,path+"/booking-feedback/claim",{method:"POST",body:"{}"})).payload.prompt,null,"restart and answered/ignored prompts never re-ask");
+      const after=await running.application.getCase("user-a",view.case.caseId);
+      assert.equal(after.restaurant.bookingFeedbackAvailable,false);
+      assert.equal(after.case.taskVersion,before.case.taskVersion);assert.equal(after.case.phase,before.case.phase);
+      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,undefined);
+      const rows=await database.query<{count:string}>("SELECT COUNT(*) AS count FROM restaurant_booking_departures");assert.equal(Number(rows.rows[0]!.count),1);
+      for(const choice of ["NO","SKIP"] as const){
+        await running.close();decision=0;raw.source.observedAt=clock.now().toISOString();
+        running=await startServer(database,clock,{restaurant,model,bookingHandoffs:{readPrepared:()=>cached,now:()=>clock.now().toISOString()}});
+        const other=await createCase(running.baseUrl,cookie,"b1-"+choice,message),otherPath="/api/cases/"+encodeURIComponent(other.case.caseId);
+        const out=await api(running.baseUrl,cookie,otherPath+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:other.restaurant.bookingHandoffs![0]!.offerId,requestId:"depart-"+choice,taskVersion:other.case.taskVersion})});assert.equal(out.response.status,201);
+        const prompt=(await api(running.baseUrl,cookie,otherPath+"/booking-feedback/claim",{method:"POST",body:"{}"})).payload.prompt as {departure:{id:string}};assert.ok(prompt);
+        assert.equal((await api(running.baseUrl,cookie,otherPath+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:departure.id,answer:choice})})).response.status,400,"another Case's receipt cannot be used");
+        const saved=await api(running.baseUrl,cookie,otherPath+"/booking-feedback",{method:"POST",body:JSON.stringify({departureId:prompt.departure.id,answer:choice})});assert.equal(saved.response.status,200);assert.equal((saved.payload.departure as {answer:string}).answer,choice);
+        assert.equal((await api(running.baseUrl,cookie,otherPath+"/booking-feedback/claim",{method:"POST",body:"{}"})).payload.prompt,null);
+      }
+
+
+    } finally {await running.close();}
   });
 });

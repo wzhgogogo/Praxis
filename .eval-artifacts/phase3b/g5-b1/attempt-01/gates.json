@@ -1,0 +1,72 @@
+{
+  "sourceCommit": "cda313f0406e75e20c09182d5a698292f514fad0",
+  "mode": "OFFLINE_ONLY_NO_ENV_FILE",
+  "startedAtCET": "2026-10-29T08:33:28.325341+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/g5-b1/verify-inputs.py"
+      ],
+      "startedAtCET": "2026-10-29T08:33:28.358883+01:00",
+      "finishedAtCET": "2026-10-29T08:33:28.497573+01:00",
+      "seconds": 0.139,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1/gates/integrity.log",
+      "sha256": "223377e91675abb9bd602f228629f3c65ade59a533144238802986b279b05c3c"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-29T08:33:28.533123+01:00",
+      "finishedAtCET": "2026-10-29T08:33:28.990124+01:00",
+      "seconds": 0.457,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-29T08:33:29.023591+01:00",
+      "finishedAtCET": "2026-10-29T08:33:29.282976+01:00",
+      "seconds": 0.259,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1/gates/arch-check.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-29T08:33:29.316108+01:00",
+      "finishedAtCET": "2026-10-29T08:33:59.033225+01:00",
+      "seconds": 29.717,
+      "exitCode": 1,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/g5-b1/gates/test.log",
+      "sha256": "4aefadcd6dd4c1b1192ffc9f398fbbb9db754824003a578d0a376212e81b497f"
+    }
+  ],
+  "newRealCalls": 0,
+  "status": "FAIL"
+}

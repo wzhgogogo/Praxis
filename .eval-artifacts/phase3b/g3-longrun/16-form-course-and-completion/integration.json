@@ -1,0 +1,43 @@
+{
+  "ACommit": "31398a77263902951475620a81824ab8150d2709",
+  "AMergeCommit": "c0de163f52770dab4379a2f77971a6a7ff1502e8",
+  "mainCommit": "404a766e300668230d23c75ee7486bb3dc7a1d43",
+  "conflictedPaths": [
+    ".eval-artifacts/phase3b/budget.json",
+    "docs/STATUS.md",
+    "docs/decisions/README.md",
+    "docs/domains/RESTAURANT-BOOKING.md",
+    "docs/history/DEVLOG.md",
+    "docs/history/TEST-LOG.md",
+    "docs/history/monthly/2026-10-index.md",
+    "docs/history/monthly/2026-10.md",
+    "docs/integrations/CAPABILITY-MATRIX.md",
+    "src/eval/restaurant/agent-loop/current-development-fixed-sources.ts"
+  ],
+  "sourceResolution": {
+    "file": "src/eval/restaurant/agent-loop/current-development-fixed-sources.ts",
+    "basis": "Preserve the entire reviewed A file; inherit main canonical num_people in the original binding get and A newly added no-query has. No other source edits.",
+    "changes": [
+      "url.searchParams.get(\"pax\") -> get(\"num_people\")",
+      "url.searchParams.has(\"pax\") -> has(\"num_people\")"
+    ],
+    "resolvedSha256": "c337f4d8ff73e9d29f962bc3cdef5c01f1908be72d2318b9b52f8c97e87deb4c"
+  },
+  "docsResolution": "Union both sides; accepted ADR0047/0048/0049 retained; Domain document revision3.34 incorporates both sections.",
+  "ledger": {
+    "oursRows": 484,
+    "mainRows": 469,
+    "unionRows": 484,
+    "addedMainIds": [],
+    "sameIdConflicts": 0,
+    "allEntriesPreserved": true,
+    "cumulative": {
+      "fullLive": 0,
+      "realModelCalls": 171,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 244,
+      "googleRequests": 11,
+      "restaurantWebsiteRequests": 244
+    }
+  }
+}

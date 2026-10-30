@@ -443,7 +443,10 @@ export function tableCheckRequestedReservationUrl(
   }
   const url = new URL(target.url);
   url.searchParams.set("start_date", date);
-  url.searchParams.set("pax", String(partySize));
+  url.searchParams.delete("pax");
+  url.searchParams.set("num_people", String(partySize));
+  url.searchParams.delete("start_time");
+  if (timeWindow && timeWindow.earliest === timeWindow.latest) url.searchParams.set("start_time", timeWindow.earliest);
   return url.toString();
 }
 

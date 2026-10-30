@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
 - Status: Accepted
-- Document revision: 1.25
-- Last updated: 2026-10-28
+- Document revision: 1.27
+- Last updated: 2026-10-29
 
 
 - Source of truth for: 已接受架构决策及其替代关系
@@ -66,6 +66,7 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 | [0046](0046-observed-actions-and-source-quoted-answers.md) | **Accepted；用户2026-10-27批准revision 0.2文本** | 统一观察原则/G2验收/G1简短答案+引文合同；未接入口核心，不改变共享状态/权限 |
 | [0047](0047-g3-observed-task-behavior-acceptance.md) | Accepted；用户2026-10-28直接决定 | G3以严格DOM变异与真实任务行为验收，适配器行数仅参考；仅取代0046的行数门槛 |
 | [0048](0048-tabelog-calendar-response-evidence.md) | Accepted；独立复核2026-10-28、用户批准 | Tabelog日期状态只取自绑定的数据响应，class仅导航提示，无响应未知；A修订日历基线，B继续其它组 |
+| [0049](0049-source-bound-b1-booking-handoff.md) | **Accepted; user2026-10-29** | B1 source-bound departure, parallel bilingual cancellation evidence, dated English fee policy and durable USER_REPORTED return feedback |
 
 ## 规则
 
@@ -84,3 +85,5 @@ Accepted supplement [ADR-0036 G1](0036-tablecheck-reserve-read-supplement.md) ad
 - [ADR-0036脚本类型与预检补充](0036-script-request-types-and-preflight-draft.md)：第1–7条Accepted并离线实施；地点类型关联项未批准，留3f。当前来源reserve永久拒绝不变。
 
 - [ADR-0045收尾时间预留](0045-bounded-read-conclusion-reserve.md)：Accepted1.1，20秒+动作中位数准入、原截止−20秒取消和完整子结果交接已接线；离线结果及Live缺口见实施报告。ADR-0044的批准与revision1.1修正已按用户直接确认整合，见上表。
+
+0047/0048 are reserved by B’s G3 branch. C’s reviewed0048 draft is renumbered0049 by user decision; original draft/report remain historical evidence at6b867b34.

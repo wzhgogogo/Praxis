@@ -1,10 +1,10 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.32
+- Document revision: 3.34
 
 
-- Last updated: 2026-10-29
+- Last updated: 2026-10-30
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
@@ -319,3 +319,6 @@ Independent review of the original 102 model answers was reported by the user: z
 ## 报价适用条件（2026-10-29用户批准）
 
 引用的报价没有附加限制时沿原规则比较。有人数、餐别、星期、日期范围等限制时，由代码从原文解析并与现有Intent核对；已知不适用或条件无法核实的报价不参与预算比较。没有其他适用报价为NOT_CHECKED，不能用一个不适用套餐推出NOT_MET。原始金额、原文及库存边界保留，不推断套餐可订性；State/TaskDefinition合同不变。[本批证据](../../.eval-artifacts/phase3b/g3-longrun/11-price-applicability/report.md)。
+## G5 B1 approved follow-up
+
+Accepted ADR0049 replaces C’s earlier numbered0048 draft. restaurant-booking-handoff@2 is a transient contract with a pair of G1-admitted Japanese/English cancellation answers; there is no strictness ranking. Each cited original stays bound to this outlet/channel/page/read. No conflict retains one English sentence; incomplete conflict evidence is not replaced by a guessed policy. Separate restaurant_booking_departures records hold USER_REPORTED Yes/No/Skip, per-Case once-only prompt claims and idempotent departures; they never mutate Task State/Outcome. Existing Prompt/Schema/State24/TaskDefinition22 remain unchanged. Tabelog English platform-fee config cites the public help document and checked date; current-source preselection and G3 wiring remain unverified/deferred. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).

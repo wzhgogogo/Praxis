@@ -144,7 +144,7 @@ test("TableCheck form waits past old inventory until a current same-outlet slot 
   const candidate = structuredClone(fixtureCandidates[0]!);
   candidate.restaurant.sourceIds.phone = "03-1111-2222";
   const guide = "https://www.tablecheck.com/en/restaurant1";
-  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-09-16&pax=2";
+  const reserve = "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-09-16&num_people=2&start_time=19%3A00";
   const link = "/en/shops/restaurant1/reserve?start_date=2026-09-16&pax=2&start_time=19:00";
   const guideHtml = `<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"></div><script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", "@id": guide, acceptsReservations: reserve.split("?")[0] })}</script>`;
   const formHtml = `<h1>Restaurant 1</h1><form><input name="reservation[start_date]" value="2026-09-16"><select name="reservation[num_people_adult]"><option value="2" selected>2</option></select></form><section data-availability-state="complete" data-date="2026-09-15" data-pax="4"><button class="time-slot is-available" data-time="19:00">19:00</button></section><div id="fresh"></div><script>setTimeout(()=>{const a=document.createElement('a');a.href='${link}';a.textContent='19:00';document.getElementById('fresh').appendChild(a)},200)</script>`;

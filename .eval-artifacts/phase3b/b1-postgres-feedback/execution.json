@@ -1,0 +1,115 @@
+{
+  "sourceCommit": "76c676a2ea00e4338366a5aacc55f2b418c18c49",
+  "startedAtCET": "2026-10-29T16:31:26.182614+01:00",
+  "steps": [
+    {
+      "name": "red",
+      "startedAtCET": "2026-10-29T16:31:26.213826+01:00",
+      "finishedAtCET": "2026-10-29T16:31:26.473623+01:00",
+      "seconds": 0.26,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/b1-postgres-feedback/probe.mjs",
+        "red"
+      ],
+      "exitCode": 1,
+      "expectedExitCode": 1,
+      "log": ".eval-artifacts/phase3b/b1-postgres-feedback/red.log",
+      "sha256": "3b772b54d37dbf4f90ae238a5410ef7d63743038d7d2ca2a5c4b53607be08272",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "green",
+      "startedAtCET": "2026-10-29T16:31:26.507905+01:00",
+      "finishedAtCET": "2026-10-29T16:31:26.706080+01:00",
+      "seconds": 0.198,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/b1-postgres-feedback/probe.mjs",
+        "green"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "log": ".eval-artifacts/phase3b/b1-postgres-feedback/green.log",
+      "sha256": "1afbc955dc313b26e20a2a5aef05f12e5c4b1574561c9d25d6280cd84dfa7be9",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "restart",
+      "startedAtCET": "2026-10-29T16:31:26.739403+01:00",
+      "finishedAtCET": "2026-10-29T16:31:26.999652+01:00",
+      "seconds": 0.26,
+      "command": [
+        "/opt/homebrew/bin/pg_ctl",
+        "-D",
+        "/private/tmp/praxis-b1-pg-yore3zv6/data",
+        "-l",
+        "/private/tmp/praxis-b1-pg-yore3zv6/postgres.log",
+        "-w",
+        "-t",
+        "15",
+        "-m",
+        "fast",
+        "restart"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "log": ".eval-artifacts/phase3b/b1-postgres-feedback/restart.log",
+      "sha256": "8db95e2a0ec84c72c6d7118a29a204a2513b26251c88fbc2e2f5eb0bd8fbbd6a",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "resume",
+      "startedAtCET": "2026-10-29T16:31:27.033459+01:00",
+      "finishedAtCET": "2026-10-29T16:31:27.171272+01:00",
+      "seconds": 0.138,
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/b1-postgres-feedback/probe.mjs",
+        "resume"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "log": ".eval-artifacts/phase3b/b1-postgres-feedback/resume.log",
+      "sha256": "1fbc80118d7ab4cca86f4c58eec0ae35f58565c6c53c37a799c8d5995217f573",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "integrity-after",
+      "startedAtCET": "2026-10-29T16:31:27.204017+01:00",
+      "finishedAtCET": "2026-10-29T16:31:27.275900+01:00",
+      "seconds": 0.072,
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/b1-postgres-feedback/verify.py"
+      ],
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "log": ".eval-artifacts/phase3b/b1-postgres-feedback/integrity-after.log",
+      "sha256": "fbe215e2d02a8e15c3776fd90c34798e4b277980696c5798eeae5d3c023faf27",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ],
+  "newExternalCalls": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-10-29T16:31:27.464494+01:00",
+  "cleanup": {
+    "atCET": "2026-10-29T16:31:27.464238+01:00",
+    "stopExitCode": 0,
+    "ownedDataRemoved": true,
+    "root": "/private/tmp/praxis-b1-pg-yore3zv6",
+    "newExternalCalls": 0
+  }
+}
