@@ -1,6 +1,6 @@
 # Praxis 当前状态
 
-2026-10-30 CET：C按用户原授权在G3已合main后，将B1准备分支rebase到7c83e02e（含前端4cbc521b/ADR0050）。8个C提交重放，源码冲突0，文档双方记录保留；B三文件、A评测/harness、前端与ADR保持新main字节，C缓存/作用域/组合代码同20ff1466。字体依赖仅npm缓存离线恢复，不运行生命周期脚本；当前UI观察改用既有My plans→Choose this→交接入口。冻结后重跑五门禁/严格G2/两尺寸真实HTTP产物渲染，真实调用0、不读.env；只推C分支不合main。 [计划](../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/plan.md)。
+2026-10-30 CET：C B1接线已rebase到G3 main7c83e02e。ec58c3ec冻结725项，五门禁默认1254/Chromium186全绿（129.449s），严格G2 5/5及12页PASS；当前前端两尺寸两个入口保留原URL，Choose this写请求0。9步前后净树、SHA一致。B三文件、A评测/harness、前端/ADR/账本同main；C缓存/作用域/组合源码同20ff1466。npm依赖仅本机缓存离线恢复，不读.env，真实模型/Google/GET/Live/真实PG0。按原授权用精确lease更新C分支，未合main，交复核。 [报告](../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md)。
 
 2026-10-30 CET：G3/G3c已复核签收，已同步main4cbc521b，统一候选8025362b五门禁全绿：默认1242/1242、Chromium186/186（130.563秒）、严格G2 5/5及12/12页面PASS；八项前后净树，721输入SHA不变。旧HARD44,197字节一致，481状态仅既有批准人数反例改变。源码冲突0，6份文档保留双方正文；按用户批准合入推送main，确切SHA以Git远端回执为准，随后通知C待命。真实调用0，账本486条。后续（本批不做）：删除无非空生产者的provider observation verifiedHardCriteria可选字段、透传、旧matchReasons投影与直接构造测试，保留Google及Source2 MODEL_JUDGMENT合法criterion claims；G3b等首次Live有时段TableCheck日历。 [报告](../.eval-artifacts/phase3b/g3-main/report.md)。
 

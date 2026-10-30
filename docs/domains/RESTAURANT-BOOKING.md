@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.36
+- Document revision: 3.37
 
 
 - Last updated: 2026-10-30
@@ -330,3 +330,5 @@ Accepted ADR0049 replaces C’s earlier numbered0048 draft. restaurant-booking-h
 ## B1 G3 wiring preparation branch (2026-10-30 CET)
 
 The preparation branch consumes G3 formCourseLinks/sourceResponse through a root-Task-isolated transient cache, bound to current HIGH same-outlet availability evidence and request. Both existing B1 checks remain. Absolute URLs are verbatim; root-relative URLs only gain the trusted source origin. Native full source IDs remain equal across candidate/evidence; rcd uses the numeric outlet component. No State/TaskDefinition/Prompt/Schema change or identity-threshold change. Restart with no cache yields no handoff or automatic source read. Current status and final main activation are in STATUS. [Evidence plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
+
+B1 rebase checkpoint (2026-10-30 CET): C is based on published G3 main7c83e02e. The source cache/root-task scope/assembly are unchanged from its prior preparation; full candidate/evidence identity, original URLs and both URL checks remain. ADR-0050 fields are inherited from main. C is still a review branch. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).

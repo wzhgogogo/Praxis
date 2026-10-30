@@ -1,7 +1,7 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.23
+- Document revision: 0.24
 - Last updated: 2026-10-30
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -155,3 +155,5 @@ B1 hands a current, server-checked source URL to the user. Each explicit departu
 ## B1 G3 wiring preparation branch (2026-10-30 CET)
 
 On the preparation branch, a current verified Tabelog slot provides Book on Tabelog and Continue without waiting for comparison completion. The link carries the checked date, time and guests; actual source selection remains unknown. Missing, unsupported or expired link evidence hides these controls. This remains offline preparation; main activation and current-site preselection are not yet verified. [Evidence plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
+
+B1 rebase checkpoint (2026-10-30 CET): the C branch now includes published G3 and retains the approved ADR-0050 presentation. Source-link behavior has been rechecked offline; C wiring still awaits review and its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).

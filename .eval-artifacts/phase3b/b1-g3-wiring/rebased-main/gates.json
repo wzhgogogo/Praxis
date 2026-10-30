@@ -1,0 +1,164 @@
+{
+  "sourceCommit": "ec58c3ec40493ed6aa4960db96a1707b496b222f",
+  "startedAtCET": "2026-10-30T11:28:28.058278+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/verify.py"
+      ],
+      "environment": {},
+      "startedAtCET": "2026-10-30T11:28:28.090667+01:00",
+      "finishedAtCET": "2026-10-30T11:28:28.207536+01:00",
+      "seconds": 0.117,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/gates/integrity.log",
+      "sha256": "950eb4f62d634b2350fd8ee4e6a57271b5023fd48c9f719750b53cd109ceeda3"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "startedAtCET": "2026-10-30T11:28:28.242233+01:00",
+      "finishedAtCET": "2026-10-30T11:28:32.225437+01:00",
+      "seconds": 3.983,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/gates/typecheck.log",
+      "sha256": "640b0f352d8486884af68a241024f710a5527ae41e84ae31d2b9da75a6f7ca43"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "startedAtCET": "2026-10-30T11:28:32.259381+01:00",
+      "finishedAtCET": "2026-10-30T11:28:32.465594+01:00",
+      "seconds": 0.206,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/gates/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {},
+      "startedAtCET": "2026-10-30T11:28:32.499841+01:00",
+      "finishedAtCET": "2026-10-30T11:29:02.288582+01:00",
+      "seconds": 29.789,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/gates/test.log",
+      "sha256": "a0eb4382f95b4280020324ba4a175bd7b60ad2d9a2883ab5849803a2eb695430"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "startedAtCET": "2026-10-30T11:29:02.323659+01:00",
+      "finishedAtCET": "2026-10-30T11:29:02.844020+01:00",
+      "seconds": 0.52,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/gates/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "startedAtCET": "2026-10-30T11:29:02.879228+01:00",
+      "finishedAtCET": "2026-10-30T11:31:12.327808+01:00",
+      "seconds": 129.449,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/gates/browser-fixture.log",
+      "sha256": "68be2ffb4af220f0b06e2455ebe0b5f06b0e9a6deb1fc50043960b31f64c04dc"
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "startedAtCET": "2026-10-30T11:31:12.362588+01:00",
+      "finishedAtCET": "2026-10-30T11:31:36.449073+01:00",
+      "seconds": 24.086,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/gates/strict-g2.log",
+      "sha256": "d2bfeb40f0e45b753e3a7df2aec64492fc74f8d78e16498a7cfa917b6bcaa297"
+    },
+    {
+      "name": "web",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/verify-web.mjs"
+      ],
+      "environment": {},
+      "startedAtCET": "2026-10-30T11:31:36.484122+01:00",
+      "finishedAtCET": "2026-10-30T11:31:38.672732+01:00",
+      "seconds": 2.189,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/gates/web.log",
+      "sha256": "58ccdcb4f62582e657a3f114af7285f1e50997c97d4e992a0f84ddfc4b5724b6"
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/verify.py"
+      ],
+      "environment": {},
+      "startedAtCET": "2026-10-30T11:31:38.708379+01:00",
+      "finishedAtCET": "2026-10-30T11:31:38.882802+01:00",
+      "seconds": 0.174,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": ".eval-artifacts/phase3b/b1-g3-wiring/rebased-main/gates/integrity-after.log",
+      "sha256": "950eb4f62d634b2350fd8ee4e6a57271b5023fd48c9f719750b53cd109ceeda3"
+    }
+  ],
+  "newProviderCalls": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-10-30T11:31:38.883624+01:00"
+}

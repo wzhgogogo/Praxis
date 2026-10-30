@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.23
+- Document revision: 0.24
 - Last updated: 2026-10-30
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -159,4 +159,6 @@ Current source-bound slot → two server URL checks → explicit Book/Continue c
 
 ## B1 G3 wiring preparation branch (2026-10-30 CET)
 
-Preparation-branch flow: current Tabelog availability → Book/Continue link carrying the checked request → explicit user departure → existing once-only self-report feedback. No booking page opens automatically. After a server restart, missing transient link evidence hides the handoff; an explicit availability refresh can obtain it again. G3 main integration and final rebase/verification remain pending. [Evidence plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
+Preparation-branch flow: current Tabelog availability → Book/Continue link carrying the checked request → explicit user departure → existing once-only self-report feedback. No booking page opens automatically. After a server restart, missing transient link evidence hides the handoff; an explicit availability refresh can obtain it again. The original preparation preceded G3 main integration; the completed rebase checkpoint is below, and C’s own merge remains pending. [Evidence plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
+
+B1 rebase checkpoint (2026-10-30 CET): the current My plans → Choose this → handoff flow has been rechecked with source-bound links. Choose this remains a view change; no booking submission occurs. C wiring awaits review and its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
