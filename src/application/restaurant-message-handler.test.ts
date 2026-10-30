@@ -122,6 +122,6 @@ test("ADR-0044 real semantic handler and Reducer retain either goal and only ava
     assert.equal(result.snapshot.domainState.intentDraft?.partySize, goal === "AVAILABILITY" ? 2 : undefined);
     assert.equal(JSON.stringify(result.snapshot.domainState).includes("goalBasis"), false);
     assert.equal(result.snapshot.domainState.schemaVersion, "24");
-    assert.equal(result.snapshot.definitionVersion, "22");
+    assert.equal(result.snapshot.definitionVersion, "23");
   }
 });

@@ -51,6 +51,8 @@ Fixture修正没有改变生产规则：固定模型遵守已展示排除集，�
 
 首轮4a4b762c探针把既有登录201误写200，在业务检查前失败，五门禁未运行；[原件](../../.eval-artifacts/web-workspace-slice2-20261030/gates/gates.json)保留。仅修正探针后cbe036f5冻结741项，五门禁1213/197全绿，六步前后净树；[原件](../../.eval-artifacts/web-workspace-slice2-20261030/gates-final/gates.json)。当时empty/all-failed均400的[HTTP证据](../../.eval-artifacts/web-workspace-slice2-20261030/empty-continuation/result.json)属于扩展前历史，不作为当前动作失败结论。新增授权后的生产代码/输入另行冻结。
 
+70447893追加转移后的冻结检查：诊断/typecheck/arch绿，默认1214/1215；唯一失败为restaurant-message-handler旧快照版本断言仍期望TaskDefinition22，实际为用户批准的23。[原件](../../.eval-artifacts/web-workspace-slice2-20261030/gates-continuation/gates.json)保留，build/Chromium尚未运行。只将所属版本断言更新23，未改任何语义输入/Gold/评分或生产行为，再冻结全量验证。
+
 ## 评价边界与剩余范围
 
 四层：端到端为固定输入的工作区产品行为，最终门禁待运行；逐环节只对已冻结Fixture、HTTP操作及字面量预期判定，真实语义/发现/身份/来源质量NOT_EVALUATED；严重程度不宣称真实模型S0=0，外部模型/Google/来源GET/Live/外写调用均0；归因只到已证实的接口准入、投影、UI和Fixture接线，不推断当前网站能力。固定本地测试不等于Replay、真实模型或Live验收。
