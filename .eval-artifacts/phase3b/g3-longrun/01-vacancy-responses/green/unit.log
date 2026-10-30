@@ -1,0 +1,53 @@
+TAP version 13
+# Subtest: G3 vacancy schema drift is observable UNKNOWN, retaining outlet identity and never an offer
+    # Subtest: missing base date
+    ok 1 - missing base date
+      ---
+      duration_ms: 4.919583
+      type: 'test'
+      ...
+    # Subtest: changed member type
+    ok 2 - changed member type
+      ---
+      duration_ms: 0.879167
+      type: 'test'
+      ...
+    # Subtest: changed selection shape
+    ok 3 - changed selection shape
+      ---
+      duration_ms: 0.477125
+      type: 'test'
+      ...
+    # Subtest: changed row URL type
+    ok 4 - changed row URL type
+      ---
+      duration_ms: 0.36225
+      type: 'test'
+      ...
+    1..4
+ok 1 - G3 vacancy schema drift is observable UNKNOWN, retaining outlet identity and never an offer
+  ---
+  duration_ms: 7.067416
+  type: 'test'
+  ...
+# Subtest: G3 vacancy response keeps the exact source binding and latest-response rule
+ok 2 - G3 vacancy response keeps the exact source binding and latest-response rule
+  ---
+  duration_ms: 4.927209
+  type: 'test'
+  ...
+# Subtest: G3 response URL cannot contradict its body and shape diagnostics never contain response values
+ok 3 - G3 response URL cannot contradict its body and shape diagnostics never contain response values
+  ---
+  duration_ms: 0.649541
+  type: 'test'
+  ...
+1..3
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 130.473958

@@ -1,0 +1,39 @@
+{
+  "commit": "12d25eaab4035a06783c30a3f3307960d2b08b2f",
+  "mode": "LOCAL_CHROMIUM_CONSTRUCTED_FIXTURE",
+  "checks": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.56,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 14,
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "source2-reproduction",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^native dynamic Tabelog (AVAILABLE|UNAVAILABLE) reaches formal H001",
+        "src/harness/browser/browser-read-request-binding.test.ts"
+      ],
+      "exitCode": 1,
+      "elapsedSeconds": 12.334,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 14,
+      "rawLogSha256": "0e11aacb6eb922f0788944a0821b7aaec809f1247f5b4504f34b1f3140771445"
+    }
+  ]
+}

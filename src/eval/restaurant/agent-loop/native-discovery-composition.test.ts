@@ -27,6 +27,7 @@ import { BrowserReadRecording } from "./runners/browser-read-recording.js";
 import { traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
 
 import { center, date, reference, sourcePages, type SourceScenario } from "./native-fixed-source-pages.js";
+import { scriptedSourceFacts } from "./current-development-fixed-sources.js";
 
 function reply(outputText: string, purpose: string): ModelResponse {
   return { invocationId: purpose, provider: "FIXTURE", model: "scripted-boundary", outputText, finishReason: "TOOL_CALLS", latencyMs: 0 };
@@ -60,6 +61,7 @@ class H001NativeModel implements ModelGateway {
       throw new ModelGatewayError("Deliberate offline timeout", "TIMEOUT", true);
     }
     if (this.purposes.length > 50) throw new Error("H001 shared 50-call model ceiling exceeded");
+    if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if(request.purpose==='restaurant_discovery_retrieval'){
       const input=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
       const category=input.observation?.categories?.find((c:{label:string})=>c.label==='Sushi');
@@ -231,10 +233,41 @@ async function runScenario(scenario: SourceScenario, options: { postAvailability
     networkRequests,
     ...(options.bareReserveLink ? { bareReserveLink: true } : {}),
   });
+  // These two existing unavailable controls previously relied on a private
+  // is-unavailable class and an empty payload with no merchant binding. Keep
+  // the UNAVAILABLE/continue assertions using an explicit constructed source
+  // response outside H001's requested window; do not derive it from the DOM,
+  // task request, production parser or evaluator. Other source cases unchanged.
+  const fixtureBrowser = {
+    ...rawBrowser,
+    async openSession(input: Parameters<typeof rawBrowser.openSession>[0]) {
+      const session = await rawBrowser.openSession(input);
+      return new Proxy(session, { get(target, key) {
+        if (key === "snapshot") return async () => {
+          const page = await target.snapshot();
+          // Constructed snapshot consistency, not new guide evidence: these
+          // course lines were already in sourcePages' visible text, but absent
+          // from its HTML. Public course paragraphs coexist with H1/address in
+          // dom-change/tablecheck-detail-nakamata.html.gz (HTML SHA-256
+          // 6b7e758fb3135f057a3aec19cf844971b24fc8cb65a7b34cd72decf70dc7eba0).
+          if (new URL(page.url).hostname === "www.tablecheck.com") {
+            const courses = page.text.split("\n").filter(line => /\bcourse\b/iu.test(line) && !page.html.includes(line));
+            return { ...page, html: page.html + courses.map(line => `<p>${line.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</p>`).join("") };
+          }
+          if (scenario !== "TABELOG_CONTINUES" && scenario !== "TABELOG_NEUTRAL_REGION_RECOVERS") return page;
+          if (page.url !== "https://tabelog.com/tokyo/A1304/A130401/100/") return page;
+          return { ...page, responses: [{ url: "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=100&svd=20260819&svps=2", status: 200,
+            observedAt: "2026-08-18T10:00:00Z", sequence: 1, body: { base_date: { year: 2026, month: 8, day: 19 }, members: 2,
+              selection: [{ time: "23:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=2300" }] } }] };
+        };
+        const value = Reflect.get(target, key, target); return typeof value === "function" ? value.bind(target) : value;
+      } });
+    },
+  };
   const browserTrace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   let browserTraceSequence = 0;
   const browser = { ...(rawBrowser.readNetworkBoundaryCapability ? { readNetworkBoundaryCapability: rawBrowser.readNetworkBoundaryCapability } : {}), openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(
-    await rawBrowser.openSession(input), "TABLECHECK", (kind, detail) => {
+    await fixtureBrowser.openSession(input), "TABLECHECK", (kind, detail) => {
       const sequence = ++browserTraceSequence;
       browserTrace.push({ sequence, at: reference.toISOString(), kind, detail });
       return sequence;

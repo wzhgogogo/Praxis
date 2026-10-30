@@ -1,3 +1,4 @@
+import type { ModelGateway } from "../../core/model/contracts.js";
 import type { DiscoveryPackMetadata, DiscoveryQuery } from "../../domains/restaurant/discovery-planner.js";
 import type { GroundedAvailability, UntrustedProviderAvailabilityObservation } from "../../domains/restaurant/read-grounding.js";
 import { groundTabelogAvailability, groundTableCheckAvailability } from "../../domains/restaurant/read-grounding.js";
@@ -18,6 +19,7 @@ import type { NamedSourceAlternative } from "./named-source-query.js";
 
 export interface SourcePackAvailabilityProviderContext {
   executor: BrowserTaskExecutor;
+  sourceFactsModel?: ModelGateway;
   now?: () => string;
   maxBrowserSessions?: number;
   maxCandidateMatches?: number;
@@ -297,6 +299,7 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
         ? "DIRECT_SOURCE_PAGE" : "NAME_RESOLUTION",
     availabilityPriority: 10,
     createProvider: (context) => new TabelogBrowserAvailability(context.executor, context.now, context.maxCandidateMatches, {
+      ...(context.sourceFactsModel ? { sourceFactsModel: context.sourceFactsModel } : {}),
       ...(context.alternativeSearch ? { alternativeSearch: context.alternativeSearch } : {}),
       ...(context.maxBrowserSessions !== undefined ? { maxBrowserSessions: context.maxBrowserSessions } : {}),
       ...(context.onTabelogIdentityDiagnostic ? { onIdentityDiagnostic: context.onTabelogIdentityDiagnostic } : {}),
@@ -396,6 +399,7 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
         ? "DIRECT_SOURCE_PAGE" : "NAME_RESOLUTION",
     availabilityPriority: 20,
     createProvider: (context) => new TableCheckBrowserAvailability(context.executor, context.now, {
+      ...(context.sourceFactsModel ? { sourceFactsModel: context.sourceFactsModel } : {}),
       ...(context.alternativeSearch ? { alternativeSearch: context.alternativeSearch } : {}),
       ...(context.maxCandidateMatches !== undefined ? { maxCandidateMatches: context.maxCandidateMatches } : {}),
       ...(context.maxBrowserSessions !== undefined ? { maxBrowserSessions: context.maxBrowserSessions } : {}),

@@ -58,7 +58,7 @@ async function optionViewportState(locator: ElementHandle<SVGElement | HTMLEleme
  */
 export class PlaywrightControlRegistry {
   private revision = 0;
-  private targets = new Map<string, { element: ElementHandle<SVGElement | HTMLElement>; signature: string; selectedClass?: string; ownerId?: string; nodeIdentity?: string }>();
+  private targets = new Map<string, { element: ElementHandle<SVGElement | HTMLElement>; signature: string; ownerId?: string; nodeIdentity?: string }>();
   private nextNodeIdentity = 0;
 
   async dispose(): Promise<void> {
@@ -92,7 +92,7 @@ export class PlaywrightControlRegistry {
    * a hover/animation must not invalidate an otherwise identical observed
    * target before its one permitted action.
    */
-  private async snapshot(element: ElementHandle<SVGElement | HTMLElement>, selectedClass?: string): Promise<string | undefined> {
+  private async snapshot(element: ElementHandle<SVGElement | HTMLElement>): Promise<string | undefined> {
     const snapshot = await element.evaluate((node) => {
       if (!node.isConnected) return undefined;
       // Native controls may belong to a form through the `form` attribute,
@@ -171,8 +171,8 @@ export class PlaywrightControlRegistry {
         if (ownMonth) { controlGroupLabel = "Calendar"; calendarMonth = ownMonth; groupOwner = container; break; }
         const labelledBy = (container.getAttribute("aria-labelledby") ?? "").split(/\s+/).filter(Boolean);
         const explicit = monthReader.clean(container.getAttribute("aria-label") || labelledBy.map(id => document.getElementById(id)?.textContent ?? "").join(" "));
-        const labels = [...new Set([...container.children].filter(child => /^(?:LABEL|LEGEND|H[1-6])$/.test(child.tagName)
-          || [...child.classList].some(name => /(?:__|-)(?:label|title)$/.test(name)))
+        const labels = [...new Set([...container.children].filter(child => /^(?:LABEL|LEGEND|H[1-6]|P|SPAN)$/.test(child.tagName)
+          && child.getClientRects().length > 0 && !child.querySelector('input,select,button,a,[role="button"],[role="option"]'))
           .map(child => monthReader.clean(child.textContent)).filter(value => value && value.length <= 100))];
         if (explicit || labels.length === 1) { controlGroupLabel = (explicit || labels[0]!).slice(0, 160); groupOwner = container; break; }
         if (labels.length > 1) break;
@@ -209,7 +209,7 @@ export class PlaywrightControlRegistry {
         formOwner: form ? `${form.id || formIndex}` : "", radioGroupKey,
         formMethodOverride: node.getAttribute("formmethod"), formTarget: node.getAttribute("formtarget"),
         disabled: (node as HTMLElement).matches(":disabled") || node.getAttribute("aria-disabled") === "true" || node.getAttribute("data-state") === "disabled",
-        selectionAttributes: Object.fromEntries(["aria-selected", "aria-pressed", "aria-checked", "aria-current", "class"].map(name => [name, node.getAttribute(name)])),
+        selectionAttributes: Object.fromEntries(["aria-selected", "aria-pressed", "aria-checked", "aria-current"].map(name => [name, node.getAttribute(name)])),
         expanded: node.getAttribute("aria-expanded"), controls: node.getAttribute("aria-controls"),
         calendarDate, dataDate: node.getAttribute("data-date"), dataValue: node.getAttribute("data-value"),
         dateParts: [node.getAttribute("data-year"), node.getAttribute("data-month"), node.getAttribute("data-day")],
@@ -242,7 +242,7 @@ export class PlaywrightControlRegistry {
     if (!snapshot) return undefined;
     const { selectionAttributes, ...projection } = snapshot.projection;
     const { selectionAttributes: _selectionAttributes, ...signature } = snapshot.signature;
-    const selected = hasSelectedControlState(selectionAttributes, selectedClass);
+    const selected = hasSelectedControlState(selectionAttributes) || projection.checked === true;
     return JSON.stringify({ projection: { ...projection, selected }, signature: { ...signature, selected } });
   }
 
@@ -269,8 +269,8 @@ export class PlaywrightControlRegistry {
     return { signature: JSON.stringify(parsed.signature), projection: parsed.projection };
   }
 
-  private async actionSignature(element: ElementHandle<SVGElement | HTMLElement>, selectedClass?: string): Promise<string | undefined> {
-    const snapshot = await this.snapshot(element, selectedClass);
+  private async actionSignature(element: ElementHandle<SVGElement | HTMLElement>): Promise<string | undefined> {
+    const snapshot = await this.snapshot(element);
     return snapshot ? this.decodeSnapshot(snapshot).signature : undefined;
   }
 
@@ -306,7 +306,7 @@ export class PlaywrightControlRegistry {
         if (!await locator.isVisible()) { await release(); continue; }
         const optionState = await locator.getAttribute("role") === "option" ? await optionViewportState(locator) : undefined;
         if (optionState?.covered) { await release(); continue; }
-        const initialSnapshot = await this.snapshot(locator, group.hint?.selectedClass).catch(() => undefined);
+        const initialSnapshot = await this.snapshot(locator).catch(() => undefined);
         if (!initialSnapshot) { await release(); continue; }
         const { signature: initialSignature, projection } = this.decodeSnapshot(initialSnapshot);
         const disabled = projection.disabled === true;
@@ -382,7 +382,7 @@ export class PlaywrightControlRegistry {
         const blockedByActiveLayer = projection.blockedByActiveLayer === true;
         const structure = { tag: projection.tag, name: projection.name ?? "", classes: projection.classes ?? [], dialogLabel: projection.dialogLabel ?? "", formClass: projection.formClass ?? "", sliderCount: projection.sliderCount ?? 0, listboxId: projection.listboxId ?? "", ...(projection.radioGroupLabel ? { radioGroupLabel: projection.radioGroupLabel.slice(0, 240) } : {}), ...(projection.radioGroupKey ? { radioGroupKey: projection.radioGroupKey } : {}) };
         const id = `dom:${this.revision}:${controls.length + 1}`;
-        if (await this.actionSignature(locator, group.hint?.selectedClass).catch(() => undefined) !== initialSignature) { await release(); continue; }
+        if (await this.actionSignature(locator).catch(() => undefined) !== initialSignature) { await release(); continue; }
         let nodeIdentity: string | undefined;
         if (group.kind === "SELECT" || role === "combobox") {
           for (const previous of previousTargets.values()) {
@@ -395,7 +395,6 @@ export class PlaywrightControlRegistry {
           nodeIdentity ??= `control:${++this.nextNodeIdentity}`;
         }
         this.targets.set(id, { element: locator, signature: initialSignature,
-          ...(group.hint?.selectedClass ? { selectedClass: group.hint.selectedClass } : {}),
           ...(nodeIdentity ? { nodeIdentity } : {}) });
         controls.push({
           id,
@@ -456,14 +455,15 @@ export class PlaywrightControlRegistry {
         const number=Number(cell.textContent?.trim().match(/^(\d{1,2})(?:\D|$)/)?.[1]);
         if (!number || number>new Date(Date.UTC(year,month,0)).getUTCDate()) return [];
         const date=`${year}-${String(month).padStart(2,'0')}-${String(number).padStart(2,'0')}`;
-        const day = cell.querySelector(':scope > p') ?? cell;
-        const selectionAttributes = Object.fromEntries(["aria-selected", "aria-pressed", "aria-checked", "aria-current", "class"].map(name => [name, day.getAttribute(name)]));
+        const stateNodes = [cell, ...cell.querySelectorAll('[aria-selected],[aria-pressed],[aria-checked],[aria-current]')]
+          .filter(node => node === cell || node.getClientRects().length > 0 && node.textContent?.trim() === String(number));
+        const selectionAttributes = stateNodes.map(node => Object.fromEntries(["aria-selected", "aria-pressed", "aria-checked", "aria-current"].map(name => [name, node.getAttribute(name)])));
         return [{date,key:`calendar:${calendarIndex}:day:${index}`,selectionAttributes,controlGroupKey,calendarMonth:{year,month,caption:caption.replace(/\s+/g,' ').trim(),source:calendar.querySelector('caption')?'DOM caption' as const:'ARIA label' as const}}];
       });
     }));
     for (const day of days) {
       if (controls.some(control => control.value===day.date || control.label===`Date ${day.date}`)) continue;
-      controls.push({id:`dom:${this.revision}:calendar:${controls.length+1}`,stableKey:day.key,kind:'BUTTON',role:'gridcell',label:`Calendar date ${day.date}`,controlGroupLabel:'Calendar',controlGroupKey:day.controlGroupKey,calendarMonth:day.calendarMonth,value:day.date,calendarDate:day.date,...(hasSelectedControlState(day.selectionAttributes)?{selected:true}:{}),disabled:true,visible:true,observationOnly:true,structure:{tag:'TD',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
+      controls.push({id:`dom:${this.revision}:calendar:${controls.length+1}`,stableKey:day.key,kind:'BUTTON',role:'gridcell',label:`Calendar date ${day.date}`,controlGroupLabel:'Calendar',controlGroupKey:day.controlGroupKey,calendarMonth:day.calendarMonth,value:day.date,calendarDate:day.date,...(day.selectionAttributes.some(attributes => hasSelectedControlState(attributes))?{selected:true}:{}),disabled:true,visible:true,observationOnly:true,structure:{tag:'TD',name:'',classes:[],dialogLabel:'',formClass:'',sliderCount:0}});
     }
     const expanded = controls.filter(item => item.role === "combobox" && item.expanded === true);
     for (const control of controls.filter(item => item.role === "option")) {
@@ -484,13 +484,13 @@ export class PlaywrightControlRegistry {
     const observed = this.targets.get(id);
     if (!observed) return undefined;
     try {
-      if (await this.actionSignature(observed.element, observed.selectedClass) !== observed.signature
+      if (await this.actionSignature(observed.element) !== observed.signature
         || !await observed.element.isVisible() || await observed.element.isDisabled()) {
         throw new Error("Observed target changed, detached, hidden, or disabled");
       }
       if (observed.ownerId) {
         const owner = this.targets.get(observed.ownerId);
-        if (!owner || await this.actionSignature(owner.element, owner.selectedClass) !== owner.signature
+        if (!owner || await this.actionSignature(owner.element) !== owner.signature
           || !await owner.element.isVisible() || await owner.element.isDisabled()) {
           throw new Error("Observed option owner changed, detached, hidden, or disabled");
         }
@@ -509,8 +509,8 @@ export class PlaywrightControlRegistry {
         const viewport = await optionViewportState(observed.element);
         const owner = this.targets.get(observed.ownerId)!;
         if (viewport.clipped || viewport.covered
-          || await this.actionSignature(observed.element, observed.selectedClass) !== observed.signature
-          || await this.actionSignature(owner.element, owner.selectedClass) !== owner.signature)
+          || await this.actionSignature(observed.element) !== observed.signature
+          || await this.actionSignature(owner.element) !== owner.signature)
           throw new Error("Revealed option changed, lost its owner, or is covered");
       }
       return observed.element;

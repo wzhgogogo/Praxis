@@ -1,3 +1,5 @@
+import type { ModelGateway } from "../../core/model/contracts.js";
+import { readQuotedRestaurantSourceFacts, quotedRestaurantSourceEvidence, type QuotedRestaurantSourceFacts } from "./model-source-facts.js";
 import { createRestaurantFactSourceDocument as sourceDocument, type RestaurantFactPageObserver } from "./fact-source-document.js";
 import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
@@ -10,7 +12,7 @@ import type { BrowserReadNetworkPolicy, BrowserRuntime, BrowserSnapshot, Browser
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { inspectNativeOutletContinuity, sameNativeOutletUrl } from "../restaurant-availability/native-outlet-continuity.js";
-import { parseTabelogOutletIdentityWithEvidence, parseTabelogSourceFieldQuotes, parseTabelogPriceFacts } from "../tabelog/tabelog-page-parser.js";
+import { parseTabelogOutletIdentityWithEvidence, parseTabelogSourceFieldQuotes } from "../tabelog/tabelog-page-parser.js";
 import { hasTableCheckBotChallenge, hasTableCheckPageUnavailable, parseTableCheckOutletIdentityWithEvidence, parseTableCheckScopedMenuSourcePartition, resolveTableCheckReservationTarget, sameReservationOutlet, type TableCheckReservationTarget } from "../tablecheck/tablecheck-page-parser.js";
 import { candidateStructuredObservation, candidateVisibleObservation } from "./google-listed-website-facts.js";
 import type { RestaurantFactJudgmentPort } from "./model-fact-judgment.js";
@@ -75,6 +77,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
     /** Actual compositions provide the source-owned isolated read policy. */
     private readonly networkPolicy?: BrowserReadNetworkPolicy,
     private readonly onSourcePage?: RestaurantFactPageObserver,
+    private readonly sourceFactsModel?: ModelGateway,
   ) {}
 
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
@@ -111,6 +114,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         const session = await executor.acquire(signal, provider, "FACTS", this.networkPolicy);
         await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: sourceUrl });
         const documents: RestaurantFactSourceDocument[] = [];
+        const retained = new Map<string, {page: BrowserSnapshot; identity: RestaurantReadEvidence; readAt: string; frames: Array<{document: RestaurantFactSourceDocument; text: string}>; processed: boolean}>();
         const identities: RestaurantReadEvidence[] = [];
         const observedOfficialOrigins = new Set<string>();
         let tableCheckServiceControls: readonly BrowserPageControl[] = [];
@@ -134,14 +138,13 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           // When public markup partitions menu text by category, retain the
           // page remainder for venue-wide facts but never duplicate a scoped
           // menu container as an unscoped substitute.
-          const nextDocuments = scopedMenu?.scoped.length
-            ? [
-              ...scopedMenu.scoped.map((item) => sourceDocument(candidate.restaurant.id, identity.evidenceId, item.text, item.serviceScope)),
-              ...(scopedMenu.unscopedText ? [sourceDocument(candidate.restaurant.id, identity.evidenceId, scopedMenu.unscopedText)] : []),
-            ]
-            : [sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text, undefined, provider === "TABELOG" ? parseTabelogSourceFieldQuotes(page) : undefined, provider === "TABELOG" ? parseTabelogPriceFacts(page) : undefined)];
-          const additions = nextDocuments.filter((document) => !documents.some((item) => item.id === document.id));
-          documents.push(...additions);
+          const parts = scopedMenu?.scoped.length
+            ? [...scopedMenu.scoped.map(item=>({text:item.text,scope:item.serviceScope})),...(scopedMenu.unscopedText?[{text:scopedMenu.unscopedText,scope:undefined}]:[])]
+            : [{text:scopedMenu?.unscopedText ?? page.text,scope:undefined}];
+          const frames = parts.map(part=>({text:part.text,document:sourceDocument(candidate.restaurant.id,identity.evidenceId,part.text,part.scope,provider==="TABELOG"?parseTabelogSourceFieldQuotes(page):undefined)}));
+          const additions=frames.filter(frame=>!documents.some(item=>item.id===frame.document.id));
+          documents.push(...additions.map(frame=>frame.document));
+          if(additions.length)retained.set(createHash("sha256").update(identity.evidenceId+page.text).digest("hex"),{page:structuredClone(page),identity:structuredClone(identity),readAt:this.now(),frames:frames.map(frame=>({...frame,document:documents.find(d=>d.id===frame.document.id)!})),processed:false});
           this.onSourcePage?.(structuredClone({ candidateId: candidate.restaurant.id, readRunId: request.readRunId, requestedSourceUrl: sourceUrl, identity, snapshot: page, observedAt: this.now() }));
           return additions.length > 0;
         };
@@ -260,8 +263,37 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           const document = sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text);
           if (documents.some((item) => item.id === document.id)) return false;
           documents.push(document);
+          retained.set(document.id,{page:structuredClone(page),identity:structuredClone(identity),readAt:this.now(),frames:[{document,text:page.text}],processed:false});
           this.onSourcePage?.(structuredClone({ candidateId: candidate.restaurant.id, readRunId: request.readRunId, requestedSourceUrl: sourceUrl, identity, snapshot: page, observedAt: this.now() }));
           return true;
+        };
+        const enrichQuotations = async (): Promise<void> => {
+          if(!this.sourceFactsModel||request.capturePagesOnly)return;
+          const normalize=(text:string)=>text.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu," ").trim();
+          const compact=(text:string)=>text.replace(/\s+/gu," ").trim();
+          for(const row of retained.values()){
+            if(row.processed)continue;row.processed=true;
+            const publicFields=row.frames.flatMap(frame=>frame.document.sourceFieldQuotes??[]).filter(q=>["CATEGORY","COURSE_TITLE","COURSE_DESCRIPTION"].includes(q.field));
+            const criteria=request.intent.criteria.filter(c=>c.strength==="HARD"&&!publicFields.some(q=>(" "+normalize(q.quote)+" ").includes(" "+normalize(c.text)+" "))).map(c=>c.text);
+            const quoted=await readQuotedRestaurantSourceFacts({complete:input=>executor.readModel(signal,()=>{modelCalls++;return this.sourceFactsModel!.complete(input);})},{candidate,identity:row.identity,page:row.page,readAt:row.readAt,criteria},this.now,signal);
+            if(!quoted)continue;
+            const belongs=(quote:string,frame:typeof row.frames[number])=>{
+              const owners=row.frames.filter(f=>compact(f.text).includes(compact(quote)));return owners.length===1&&owners[0]===frame;
+            };
+            for(const frame of row.frames){
+              const fields=quoted.sourceFieldQuotes.filter(q=>belongs(q.quote,frame));
+              const prices=quoted.priceFacts;
+              const priceFacts=prices?{schemaVersion:prices.schemaVersion,listedCoursePricesYen:prices.listedCoursePricesYen.filter(q=>belongs(q.quote,frame)),
+                ...(prices.dinnerBudgetRangeYen&&belongs(prices.dinnerBudgetRangeYen.quote,frame)?{dinnerBudgetRangeYen:prices.dinnerBudgetRangeYen}:{}),
+                ...(prices.lunchBudgetRangeYen&&belongs(prices.lunchBudgetRangeYen.quote,frame)?{lunchBudgetRangeYen:prices.lunchBudgetRangeYen}:{})}:undefined;
+              const part:QuotedRestaurantSourceFacts={readAt:quoted.readAt,sourceUrl:quoted.sourceUrl,listedCourseDetails:quoted.listedCourseDetails.filter(q=>belongs(q,frame)),sourceFieldQuotes:fields,
+                ...(priceFacts&&(priceFacts.listedCoursePricesYen.length||priceFacts.dinnerBudgetRangeYen||priceFacts.lunchBudgetRangeYen)?{priceFacts}:{})};
+              if(fields.length)frame.document.sourceFieldQuotes=[...(frame.document.sourceFieldQuotes??[]),...fields];
+              if(part.priceFacts)frame.document.priceFacts=part.priceFacts;
+              const evidence=quotedRestaurantSourceEvidence(row.identity,part,frame.document.serviceScope);
+              if(evidence&&!identities.some(item=>item.evidenceId===evidence.evidenceId))identities.push(evidence);
+            }
+          }
         };
         const initial = await executor.snapshot({ source: provider, stage: "FACTS", signal, session });
         const initialControls = await executor.observeControls({ source: provider, stage: "FACTS", signal, session });
@@ -271,6 +303,12 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           continue;
         }
         retainOfficialOrigins(initialControls);
+        if(request.capturePagesOnly){
+          evidence.push(...identities);sourceDocuments.push(...documents);
+          factChecks[candidate.restaurant.id]={status:"COMPLETED",checkedAt,evidenceIds:identities.map(item=>item.evidenceId),sourceProvider:provider};
+          continue;
+        }
+        await enrichQuotations();
         // Judge the guide before reading an additional source surface. A
         // category menu is relevant only when this cited material leaves a
         // HARD condition unresolved; a sufficient ordinary guide stops here.
@@ -293,7 +331,8 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
             retainTableCheckReservationPage(reservationPage, reservationControls);
             retainOfficialOrigins(reservationControls);
             if (documents.length > documentsBefore) {
-              judged = await this.judgment.judge({ candidate, intent: request.intent, evidence: identities, sourceDocuments: documents });
+              await enrichQuotations();
+            judged = await this.judgment.judge({ candidate, intent: request.intent, evidence: identities, sourceDocuments: documents });
               modelCalls += judged.modelUsage?.calls ?? 0;
             }
           }
@@ -335,6 +374,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           // new cited material.  Preserve the preceding judgment instead of
           // spending another fact-judgment call on the same document set.
           if (documents.length > documentsBefore) {
+            await enrichQuotations();
             judged = await this.judgment.judge({ candidate, intent: request.intent, evidence: identities, sourceDocuments: documents });
             modelCalls += judged.modelUsage?.calls ?? 0;
           } else break;

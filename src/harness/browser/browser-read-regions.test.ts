@@ -24,7 +24,11 @@ test('P21c recorded regional links reach six controlled development results thro
   const referenceCase=/kagurazaka|nakameguro/.test(caseId);
   const sourceRoot='https://tabelog.com/en/tokyo/rstLst/';
   const rootInput=record.regionDecisions[0].input;
-  const projectedLinks=(input:any)=>input.observation.targets.filter((t:any)=>t.kind==='LINK'&&t.href&&t.availableActions.includes('OPEN_LINK')).map((t:any)=>`<a href="${t.href.replaceAll('&','&amp;')}">${t.label.replaceAll('&','&amp;').replaceAll('<','&lt;')}</a>`).join('');
+  // A projection of navigation targets is a menu, not a fabricated restaurant
+  // result list. The terminal constructed result below owns that semantic role.
+  // Retain every observed link without relying on a private name class to hide
+  // unrelated, unrecorded merchant details from the result parser.
+  const projectedLinks=(input:any)=>'<nav aria-label="Observed navigation">'+input.observation.targets.filter((t:any)=>t.kind==='LINK'&&t.href&&t.availableActions.includes('OPEN_LINK')).map((t:any)=>`<a href="${t.href.replaceAll('&','&amp;')}">${t.label.replaceAll('&','&amp;').replaceAll('<','&lt;')}</a>`).join('')+'</nav>';
   const route=referenceCase?[`https://tabelog.com/en/tokyo/${gold[caseId]}/`]:record.regionDecisions.flatMap((d:any)=>{
    const a=JSON.parse(d.outputText),t=d.input.observation.targets.find((t:any)=>t.ref===a.targetRef);
    return a.action==='OPEN_LINK'&&t?.href&&tabelogDiscoveryPack.browser!.directory!.isRegionEntrance(t.href)?[t.href]:[];
@@ -33,7 +37,7 @@ test('P21c recorded regional links reach six controlled development results thro
   const detail=`https://tabelog.com/tokyo/${gold[caseId]}/${gold[caseId]}01/13999999/`;
   const pages:Record<string,string>={[sourceRoot]:'<title>Projected observed region links</title>'+projectedLinks(rootInput)};
   for(const decision of record.regionDecisions.slice(1))pages[decision.input.observation.url]='<title>Projected observed region links</title>'+projectedLinks(decision.input);
-  pages[end]=`<title>Controlled known-feasible result</title><a class="list-rst__rst-name-target" href="${detail}">Controlled venue</a>`;
+  pages[end]=`<title>Controlled known-feasible result</title><section aria-label="Search results"><article><h2><a href="${detail}">Controlled venue</a></h2></article></section>`;
   pages[detail]=`<title>Controlled venue</title><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Controlled venue',address:'Tokyo',geo:{latitude:record.location.latitude,longitude:record.location.longitude}})}</script>`;
   const folder=await mkdtemp(join(tmpdir(),'p21c-offline-')),harPath=join(folder,'region.har');
   await writeFile(harPath,replayHarPages(pages));

@@ -1,5 +1,8 @@
+import { decodeHTML } from "entities";
 import type { BrowserControlHint, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { hasSelectedControlState } from "../../infrastructure/browser/control-selected-state.js";
+import { inspectTabelogVacancyResponse, observedTabelogResponseDate } from "./tabelog-vacancy-response.js";
+export { TABELOG_VACANCY_RESPONSES } from "./tabelog-vacancy-response.js";
 
 /** The page may render future calendars in hidden DOM while its current query is restricted. */
 export function tabelogQueryControlsRestricted(snapshot: BrowserSnapshot, controls: readonly { label: string; disabled: boolean }[], partySize: number): boolean {
@@ -22,173 +25,117 @@ export function tabelogQueryControlHints(snapshot: Readonly<BrowserSnapshot>): r
 function attribute(tag: string, name: string): string | undefined {
   return tag.match(new RegExp(`\\s${name}\\s*=["']([^"']*)["']`, "i"))?.[1];
 }
-function hasClass(tag: string, name: string): boolean {
-  return (attribute(tag, "class") ?? "").split(/\s+/).includes(name);
-}
+export type TabelogRequestedDateState = "SELECTABLE" | "UNOBSERVED";
 
-export type TabelogRequestedDateState = "SELECTABLE" | "CLOSED" | "FULL" | "PHONE_ONLY" | "UNOBSERVED";
-
-/** Source calendar day state, not a selected query or a time-specific inventory conclusion. */
+/** UNOBSERVED is UNKNOWN: private date classes never establish a business state. */
 export function tabelogRequestedDateState(snapshot: BrowserSnapshot, date: string): TabelogRequestedDateState {
-  if (!tabelogQueryControlHints(snapshot).length || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return "UNOBSERVED";
-  const [year, month, day] = date.split("-").map(Number);
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const stack: Array<{ name: string; hidden: boolean; booking: boolean }> = [];
-  const tables: Array<{ html: string; hidden: boolean }> = [];
-  let tableStart: { index: number; hidden: boolean } | undefined;
-  const hiddenTag = (tag: string) => hasClass(tag, "is-hidden") || /\shidden(?:\s|>|=)/i.test(tag)
-    || attribute(tag, "aria-hidden") === "true"
-    || /(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)\s*(?:;|$)/i.test(attribute(tag, "style") ?? "");
-  for (const token of snapshot.html.matchAll(/<!--[\s\S]*?-->|<script\b[^>]*>[\s\S]*?<\/script\s*>|<style\b[^>]*>[\s\S]*?<\/style\s*>|<\/?[a-z][^>]*>/gi)) {
-    const tag = token[0];
-    if (/^<!--|^<script\b|^<style\b/i.test(tag)) continue;
-    const closing = tag.match(/^<\/([a-z][\w-]*)/i);
-    if (closing) {
-      const name = closing[1]!.toLowerCase();
-      if (name === "table" && tableStart) {
-        tables.push({ html: snapshot.html.slice(tableStart.index, token.index + tag.length), hidden: tableStart.hidden });
-        tableStart = undefined;
-      }
-      const index = stack.map(item => item.name).lastIndexOf(name);
-      if (index >= 0) stack.length = index;
-      continue;
-    }
-    const name = tag.match(/^<([a-z][\w-]*)/i)?.[1]?.toLowerCase();
-    if (!name) continue;
-    const hidden = hiddenTag(tag) || stack.some(item => item.hidden);
-    const booking = hasClass(tag, "p-booking-calendar") || stack.some(item => item.booking);
-    if (name === "table" && booking && hasClass(tag, "p-booking-calendar__calendar")) tableStart = { index: token.index, hidden };
-    if (!new Set(["input", "br", "hr", "img", "meta", "link"]).has(name) && !tag.endsWith("/>")) stack.push({ name, hidden, booking });
-  }
-  const states: TabelogRequestedDateState[] = [];
-  for (const table of tables) {
-    if (table.hidden) continue;
-    const caption = table.html.match(/<caption\b[^>]*>[\s\S]*?<em\b[^>]*>\s*([A-Za-z]{3,9})\s+(\d{4})\s*<\/em>/i);
-    if (!caption || Number(caption[2]) !== year || monthNames.findIndex(name => name.toLowerCase() === caption[1]!.slice(0, 3).toLowerCase()) + 1 !== month) continue;
-    for (const cell of table.html.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)) {
-      const content = cell[1]!;
-      const dayLabel = content.match(/<span\b([^>]*)>\s*(\d{1,2})\s*<\/span>/i);
-      if (!dayLabel || !hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num") || Number(dayLabel[2]) !== day) continue;
-      const selected = content.match(/<(?:p|button)\b[^>]*\bdata-year=["'][^>]*>/i)?.[0] ?? "";
-      if ((hasClass(selected, "is-selectable") || hasSelectedControlState(attributes(selected)))
-        && Number(attribute(selected, "data-year")) === year && Number(attribute(selected, "data-month")) === month
-        && Number(attribute(selected, "data-day")) === day) states.push("SELECTABLE");
-      else if (hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num--closed")) states.push("CLOSED");
-      else if (hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num--full")) states.push("FULL");
-      else if (hasClass(`<span ${dayLabel[1]}>`, "p-booking-calendar__day-num--tel")) states.push("PHONE_ONLY");
-      else states.push("UNOBSERVED");
-    }
-  }
-  return states.length === 1 ? states[0]! : "UNOBSERVED";
+  return observedTabelogResponseDate(snapshot, date);
 }
 
 function attributes(tag: string): Record<string, string> {
   return Object.fromEntries([...tag.matchAll(/(?:^|\s)([\w:-]+)\s*=\s*["']([^"']*)["']/g)].map(match => [match[1]!.toLowerCase(), match[2]!]));
 }
 
-interface QueryElement { name: string; tag: string; content: string; hidden: boolean; booking: boolean; parent: QueryElement | undefined }
+interface QueryElement { name: string; tag: string; content: string; hidden: boolean; parent: QueryElement | undefined }
+const plain = (html: string): string => decodeHTML(html.replace(/<[^>]*>/gu, " ")).replace(/\s+/gu, " ").trim();
+const present = (tag: string, name: string): boolean => new RegExp(`\\s${name}(?:\\s|=|/?>)`, "iu").test(tag);
 
-/** Keep DOM ownership and explicit hidden ancestors; unrelated selected buttons are not people. */
+/** Public visible/native/ARIA evidence; private attributes are navigation hints only. */
 function queryElements(html: string): QueryElement[] {
-  const stack: Array<QueryElement & { start: number }> = [];
-  const result: QueryElement[] = [];
+  const stack: Array<QueryElement & { start: number }> = [], result: QueryElement[] = [];
   for (const token of html.matchAll(/<!--[\s\S]*?-->|<(?:script|style)\b[^>]*>[\s\S]*?<\/(?:script|style)\s*>|<\/?[a-z][^>]*>/gi)) {
     const tag = token[0];
     if (/^<!--|^<(?:script|style)\b/i.test(tag)) continue;
     const closing = tag.match(/^<\/([\w-]+)/i);
     if (closing) {
       const index = stack.map(item => item.name).lastIndexOf(closing[1]!.toLowerCase());
-      if (index >= 0) {
-        const element = stack[index]!;
-        element.content = html.slice(element.start, token.index);
-        stack.length = index;
-      }
+      if (index >= 0) { stack[index]!.content = html.slice(stack[index]!.start, token.index); stack.length = index; }
       continue;
     }
-    const name = tag.match(/^<([\w-]+)/i)?.[1]?.toLowerCase();
-    if (!name) continue;
+    const name = tag.match(/^<([\w-]+)/i)?.[1]?.toLowerCase(); if (!name) continue;
     const parent = stack.at(-1);
     const element = { name, tag, content: "", parent, start: token.index + tag.length,
-      hidden: Boolean(parent?.hidden) || hasClass(tag, "is-hidden") || /\shidden(?:\s|=|>)/i.test(tag)
-        || attribute(tag, "aria-hidden") === "true" || /(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)\s*(?:;|$)/i.test(attribute(tag, "style") ?? ""),
-      booking: Boolean(parent?.booking) || hasClass(tag, "p-booking-calendar") };
-    if (element.booking) result.push(element);
-    if (!new Set(["input", "br", "hr", "img", "meta", "link", "source", "wbr", "area", "embed", "param", "col", "base"]).has(name) && !tag.endsWith("/>")) stack.push(element);
+      hidden: Boolean(parent?.hidden) || present(tag, "hidden") || attribute(tag, "aria-hidden") === "true"
+        || attribute(tag, "type") === "hidden" || /(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)\s*(?:;|$)/i.test(attribute(tag, "style") ?? "") };
+    result.push(element);
+    if (!/^(?:input|br|hr|img|meta|link|source|wbr|area|embed|param|col|base)$/u.test(name) && !tag.endsWith("/>")) stack.push(element);
   }
   return result;
 }
 
-function inPeopleGroup(element: QueryElement): boolean {
-  if (element.name === "button" && hasClass(element.tag, "p-booking-calendar__people-button")) return true;
-  for (let current: QueryElement | undefined = element.parent; current?.booking; current = current.parent) {
-    if (hasClass(current.tag, "p-booking-calendar__people-button-box")) return true;
-    const label = attribute(current.tag, "aria-label") ?? (current.name === "fieldset"
-      ? current.content.match(/<legend\b[^>]*>([\s\S]*?)<\/legend>/i)?.[1]
-      : hasClass(current.tag, "p-booking-calendar__select") ? current.content.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] : undefined);
-    if (label && /^(?:guests?|people|party size|members?|人数)$/i.test(label.replace(/<[^>]*>/g, "").trim())) return true;
-  }
-  return false;
-}
-
-/** Selected query state is not inventory. A time option or hidden Reserve link is not a slot. */
-export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string, partySize: number): boolean {
-  if (!tabelogQueryControlHints(snapshot).length) return false;
-  const elements = queryElements(snapshot.html);
-  const selected = elements.filter(element => !element.hidden && hasSelectedControlState(attributes(element.tag)));
-  const selectedDates = selected.filter(element => ["data-year", "data-month", "data-day"].every(name => attribute(element.tag, name) !== undefined))
-    .map(element => ["data-year", "data-month", "data-day"].map(name => attribute(element.tag, name)))
-    .map(parts => parts.every(part => part && /^\d+$/.test(part)) ? `${parts[0]}-${parts[1]!.padStart(2, "0")}-${parts[2]!.padStart(2, "0")}` : undefined);
-  const selectedPeople = selected.filter(element => element.name === "button" && inPeopleGroup(element))
-    .map(element => {
-      const value = attribute(element.tag, "data-value");
-      const text = element.content.replace(/<[^>]*>/g, " ").trim().match(/^(\d+)(?:\s*(?:guests?|people|persons?|名|人))?$/i)?.[1];
-      if (value !== undefined && (!/^\d+$/.test(value) || text !== undefined && Number(text) !== Number(value))) return undefined;
-      return value !== undefined ? Number(value) : text !== undefined ? Number(text) : undefined;
-    });
-  const hiddenPeople = elements.filter(element => element.name === "input" && attribute(element.tag, "type") === "hidden" && inPeopleGroup(element))
-    .map(element => attribute(element.tag, "value"))
-    .map(value => value && /^\d+$/.test(value) ? Number(value) : undefined);
-  return selectedDates.length > 0 && selectedDates.every(value => value === date)
-    && selectedPeople.length > 0 && selectedPeople.every(value => value === partySize)
-    && hiddenPeople.every(value => value === partySize);
-}
-
-export const TABELOG_VACANCY_RESPONSES = [
-  { origin: "https://tabelog.com", pathname: "/en/booking/calendar/find_vacancy/" },
-  { origin: "https://tabelog.com", pathname: "/en/booking/calendar/find_vacancy" },
-] as const;
-
-/** Exact source-response binding: another merchant, date, party or stale selection is not stock. */
-export function tabelogCapturedSlots(snapshot: BrowserSnapshot, date: string, partySize: number): { availableSlots: string[]; hasExplicitSlotUi: boolean } | undefined {
-  if (!hasTabelogSelectedQuery(snapshot, date, partySize)) return undefined;
-  const outletId = new URL(snapshot.url).pathname.match(/\/(\d+)\/$/)?.[1];
-  for (const response of [...snapshot.responses ?? []].sort((a,b)=>b.sequence-a.sequence)) {
-    let responseUrl: URL;
-    try { responseUrl = new URL(response.url); } catch { continue; }
-    if (!TABELOG_VACANCY_RESPONSES.some(rule => responseUrl.origin === rule.origin && responseUrl.pathname === rule.pathname)) continue;
-    if (response.status !== 200) return undefined;
-    const body = response.body as { base_date?: {year?:number;month?:number;day?:number}; members?:number; selection?:unknown } | null;
-    if (!body || !body.base_date || body.members !== partySize) return undefined;
-    const d=body.base_date;
-    if (`${d.year}-${String(d.month).padStart(2,"0")}-${String(d.day).padStart(2,"0")}` !== date) return undefined;
-    if (!body.selection || typeof body.selection !== "object") return undefined;
-    const slots = new Set<string>();
-    for (const row of Object.values(body.selection)) {
-      if (!row || typeof row !== "object") return undefined;
-      const value=row as {time?:unknown;url?:unknown};
-      if (typeof value.url !== "string") return undefined;
-      let link: URL;
-      try { link=new URL(value.url,snapshot.url); } catch { return undefined; }
-      if (link.origin !== "https://tabelog.com" || link.pathname !== "/en/booking/form_course/new"
-        || link.searchParams.get("rcd") !== outletId || link.searchParams.get("member") !== String(partySize)
-        || link.searchParams.get("visit_date") !== date.replaceAll("-","")) return undefined;
-      if (typeof value.time !== "string" || !/^([01]\d|2[0-3]):[0-5]\d$/.test(value.time)) {
-        if (/^(?:2[4-9]|[3-9]\d)[0-5]\d$/.test(link.searchParams.get("visit_time") ?? "")) continue;
-        return undefined;
-      }
-      if (link.searchParams.get("visit_time") !== value.time.replace(":","")) return undefined;
-      slots.add(value.time);
+function publicLabel(element: QueryElement, elements: QueryElement[]): string {
+  const own = attribute(element.tag, "aria-label"); if (own) return plain(own);
+  const labelledBy = (attribute(element.tag, "aria-labelledby") ?? "").split(/\s+/u).filter(Boolean);
+  const labels = elements.filter(row => !row.hidden && labelledBy.includes(attribute(row.tag, "id") ?? ""));
+  if (labels.length) return labels.map(row => plain(row.content)).join(" ");
+  const id = attribute(element.tag, "id");
+  const explicit = id && elements.find(row => !row.hidden && row.name === "label" && attribute(row.tag, "for") === id);
+  if (explicit) return plain(explicit.content);
+  for (let owner = element.parent; owner; owner = owner.parent) {
+    if (owner.name === "label") {
+      const text = plain(owner.content.replace(/<select\b[^>]*>[\s\S]*?<\/select>|<input\b[^>]*>/giu, ""));
+      if (text) return text;
     }
-    return slots.size ? { availableSlots:[...slots].sort(),hasExplicitSlotUi:true } : undefined;
+    const label = attribute(owner.tag, "aria-label"); if (label) return plain(label);
+    const direct = elements.filter(row => row.parent === owner && !row.hidden && /^(?:legend|label|h[1-6]|p|span)$/u.test(row.name));
+    const field = direct.map(row => plain(row.content)).filter(text => /^(?:guests?|people|party size|members?|人数|date|日付)$/iu.test(text));
+    if (field.length === 1) return field[0]!;
   }
+  return "";
+}
+function publicDate(element: QueryElement): string | undefined {
+  const text = plain(attribute(element.tag, "aria-label") ?? element.content);
+  const iso = text.match(/(?:^|\D)(\d{4}-\d{2}-\d{2})(?:$|\D)/u)?.[1];
+  if (iso) return iso;
+  if (!/^\d{1,2}$/u.test(plain(element.content))) return undefined;
+  for (let owner: QueryElement | undefined = element; owner; owner = owner.parent) {
+    if (owner.name !== "table" && attribute(owner.tag, "role") !== "grid") continue;
+    const caption = attribute(owner.tag, "aria-label") ?? plain(owner.content.match(/<caption\b[^>]*>([\s\S]*?)<\/caption>/iu)?.[1] ?? "");
+    const english = caption.match(/(Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s+(\d{4})/iu);
+    const numeric = caption.match(/(\d{4})\s*[年/-]\s*(\d{1,2})/u);
+    const year = Number(english?.[2] ?? numeric?.[1]), month = english ? ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"].indexOf(english[1]!.slice(0,3).toLowerCase()) + 1 : Number(numeric?.[2]);
+    const day = Number(plain(element.content));
+    if (year && month > 0 && month <= 12 && day > 0 && day <= new Date(Date.UTC(year, month, 0)).getUTCDate()) return `${year}-${String(month).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+  }
+  return undefined;
+}
+
+/** Confirmation may come from visible public state or the latest exactly bound source response. */
+export function hasTabelogSelectedQuery(snapshot: BrowserSnapshot, date: string, partySize: number): boolean {
+  if (!/^https:\/\/tabelog\.com\/(?:en\/)?[^/?]+\/A\d+\/A\d+\/\d+\/(?:[?#]|$)/u.test(snapshot.url) || snapshot.settlement === "PENDING") return false;
+  const elements = queryElements(snapshot.visibleHtml ?? snapshot.html).filter(row => !row.hidden);
+  const dates: Array<string | undefined> = [], people: Array<number | undefined> = [];
+  for (const element of elements) {
+    const native = element.name === "input" && /^(?:date|number|radio|checkbox)$/iu.test(attribute(element.tag, "type") ?? "");
+    const selected = hasSelectedControlState(attributes(element.tag)) || element.name === "input" && /^(?:radio|checkbox)$/iu.test(attribute(element.tag, "type") ?? "") && present(element.tag,"checked");
+    const label = publicLabel(element, elements);
+    if (element.name === "select" || native && /^(?:date|number)$/iu.test(attribute(element.tag,"type") ?? "")) {
+      const options = elements.filter(row => row.name === "option" && row.parent === element);
+      const option = options.find(row => present(row.tag,"selected")) ?? options[0];
+      const value = element.name === "select" ? option && (attribute(option.tag,"value") ?? plain(option.content)) : attribute(element.tag,"value");
+      if (attribute(element.tag,"type") === "date" || /^(?:date|日付)$/iu.test(label)) dates.push(value);
+      else if (/^(?:guests?|people|party size|members?|人数)$/iu.test(label)) {
+        const number = value?.match(/^\d+(?:\s*(?:guests?|people|persons?|名|人))?$/iu)?.[0];
+        const textNumber = option && plain(option.content).match(/^(\d+)(?:\s*(?:guests?|people|persons?|名|人))?$/iu)?.[1];
+        people.push(number && (!textNumber || Number(textNumber) === Number.parseInt(number,10)) ? Number.parseInt(number,10) : undefined);
+      }
+    } else if (selected) {
+      const day = publicDate(element); if (day) dates.push(day);
+      if (/^(?:guests?|people|party size|members?|人数)$/iu.test(label)) {
+        const text = plain(element.content) || attribute(element.tag,"value") || "";
+        const value = attribute(element.tag,"value");
+        people.push(/^\d+(?:\s*(?:guests?|people|persons?|名|人))?$/iu.test(text)
+          && (value === undefined || /^\d+$/u.test(value) && Number(value) === Number.parseInt(text,10)) ? Number.parseInt(text,10) : undefined);
+      }
+    }
+  }
+  if (dates.some(value => value !== date) || people.some(value => value !== partySize)) return false;
+  return dates.length > 0 && people.length > 0 || inspectTabelogVacancyResponse(snapshot,date,partySize).status === "OBSERVED";
+}
+
+/** Latest source response still owns all inventory; selected controls alone never establish stock. */
+export function tabelogCapturedSlots(snapshot: BrowserSnapshot, date: string, partySize: number): { availableSlots: string[]; hasExplicitSlotUi: boolean } | undefined {
+  if (!hasTabelogSelectedQuery(snapshot,date,partySize)) return undefined;
+  const response = inspectTabelogVacancyResponse(snapshot,date,partySize);
+  return response.status === "OBSERVED" ? { availableSlots: response.availableSlots, hasExplicitSlotUi: true } : undefined;
 }

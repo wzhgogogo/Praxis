@@ -1,0 +1,21 @@
+{
+  "phase": "red",
+  "commit": "f5103dcc91a25200d4c5e5959d0c0e3f4b340526",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern=G3c .*quotes",
+    "src/integrations/tabelog/tabelog-browser-availability.test.ts",
+    "src/integrations/tablecheck/tablecheck-browser-availability.test.ts"
+  ],
+  "exitCode": 1,
+  "seconds": 0.31235579199999997,
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "freezeVerifiedAfter": true,
+  "newRealCalls": 0
+}

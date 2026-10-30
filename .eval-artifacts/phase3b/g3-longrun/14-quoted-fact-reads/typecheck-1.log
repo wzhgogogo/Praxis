@@ -1,0 +1,9 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/integrations/restaurant-facts/google-listed-website-facts.ts(236,8): error TS1030: 'export' modifier already seen.
+src/integrations/restaurant-facts/google-listed-website-facts.ts(355,37): error TS2379: Argument of type 'RestaurantReadEvidence' is not assignable to parameter of type '{ evidenceId: string; kind: RestaurantReadEvidenceKind; provider: RestaurantReadEvidenceProvider; candidateId?: string; sourceEntityId?: string; sourceUrl?: string; observedAt: string; ... 10 more ...; artifactRef: { kind: "DOM_EXCERPT"; reference: string; }; }' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  The types of 'artifactRef.kind' are incompatible between these types.
+    Type '"API_RESPONSE" | "DOM_EXCERPT" | "SCREENSHOT"' is not assignable to type '"DOM_EXCERPT"'.
+      Type '"API_RESPONSE"' is not assignable to type '"DOM_EXCERPT"'.

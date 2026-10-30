@@ -1,0 +1,5 @@
+# G3 sync after approved G1 repair
+
+2026-10-29 Vienna CET. Preserve published G3 head c0483509; merge user-approved G1 main b2a3cbd3, including A's approved test consolidation. No G3 product behaviour changes in this sync. Keep A's two test moves/deletions and all assertions; transfer only B's already-verified P21c navigation/result fixture projection to its new regions file. This is maintenance of the same B-corresponding test input, not additional A test work. C protected code and assertions remain unchanged, exact authorized response input retained.
+
+Ledger merged by id with exact shared-row equality and zero overwrite. Freeze source/outer scripts before five gates plus ordinary G2. Confirm old HARD bytes. Source/model/Google/site/Live/GET/environment calls 0; no .env or QA answers. Strict G2 Sen reference remains A-owned and is not changed. User asked for a recommendation; B recommended reviewer/A remove unsupported confirmation from known facts while retaining separate public-evidence positive/negative controls. Await decision on that premise; continue only independent authorized work.

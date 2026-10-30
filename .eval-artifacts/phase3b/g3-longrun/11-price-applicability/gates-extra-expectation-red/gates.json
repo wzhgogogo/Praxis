@@ -1,0 +1,78 @@
+{
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE",
+  "testedCommit": "de2035ef02206112c2da461b1d2692973978fc8b",
+  "startedAtCET": "2026-10-29T12:03:41.209320+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "cpuCount": 10,
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "b53d7af4b73352da2ecfe17ddfed6b8e349616fc11dfc5fe12fa0ffa6c30e9b3",
+  "freezeSha256": "c5549099e7d1baaad61535b90cba9637e94e4fa025aabe93aac6ad4cbbde268b",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-10-29T12:03:41.270092+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.500723,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "sample": 1,
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-10-29T12:03:41.849463+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check-1.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.182279,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "npm-test",
+      "sample": 1,
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-10-29T12:03:42.106265+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test-1.log",
+      "exitCode": 1,
+      "elapsedSeconds": 29.27412,
+      "summary": {
+        "tests": 1225,
+        "suites": 5,
+        "pass": 1224,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "344a8ed952eca05f838c08258616bb4472139d166c9914305b0cb7a8fcb0c892",
+      "gitStatusAfter": "",
+      "outcome": "FAIL"
+    }
+  ],
+  "restorations": 0,
+  "gatePolicy": "All five gates must exit zero; existing E1 is not exempt in this slice",
+  "chromiumConcurrency": 4,
+  "g2StrictRequired": true,
+  "stopReason": "UNAPPROVED_GATE_FAILURE_OR_CHECKOUT_CHANGE"
+}

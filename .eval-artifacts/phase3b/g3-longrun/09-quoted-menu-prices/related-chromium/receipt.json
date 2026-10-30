@@ -1,0 +1,19 @@
+{
+  "commit": "650c7bfcebb88aa56e1b47cd384388273c03b4c4",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=4",
+    "src/harness/browser/browser-read-tabelog.test.ts",
+    "src/harness/browser/browser-read-tabelog-control-fallback.test.ts",
+    "src/harness/browser/browser-read-public-selection.test.ts"
+  ],
+  "exitCode": 0,
+  "seconds": 20.060097625,
+  "gitStatusBefore": "",
+  "gitStatusAfter": ""
+}

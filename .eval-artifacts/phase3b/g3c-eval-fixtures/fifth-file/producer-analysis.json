@@ -1,0 +1,16 @@
+{
+  "marker": "Verified HARD criterion from source: omakase",
+  "productionMarkerProducers": [
+    {
+      "path": "src/domains/restaurant/read-grounding.ts",
+      "line": 561,
+      "text": "matchReasons: (observation.verifiedHardCriteria ?? []).map((criterion) => `Verified HARD criterion from source: ${criterion}`),"
+    }
+  ],
+  "producerInput": "observation.verifiedHardCriteria",
+  "tabelogSource2Assembly": "src/integrations/tabelog/tabelog-browser-availability.ts:591-597 passes quoted source fields/price/listed details, without verifiedHardCriteria",
+  "merge": "src/integrations/restaurant-availability/quoted-source-fact-merge.ts preserves existing matchReasons or []",
+  "judgment": "src/integrations/restaurant-facts/model-fact-judgment.ts produces claims.verifiedHardCriteria in MODEL_JUDGMENT evidence",
+  "reducer": "CANDIDATE_FACTS_CHECKED accepts facts but does not append candidate matchReasons; AVAILABILITY_CHECKED appends only provider candidateFactUpdates",
+  "conclusion": "Current legitimate Source2/judgment path has no projection into the retained marker. No product modification or fixture injection attempted."
+}

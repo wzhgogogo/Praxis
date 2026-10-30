@@ -1,0 +1,62 @@
+{
+  "mode": "green",
+  "commit": "da0546fbbb612a8386d56ced44357e0bdfd71650",
+  "startedAtCET": "2026-10-28T16:41:00.967593+01:00",
+  "runs": [
+    {
+      "name": "unit",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "src/integrations/tabelog/tabelog-vacancy-response.test.ts"
+      ],
+      "exitCode": 0,
+      "accepted": true,
+      "seconds": 0.154028417,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "summary": {
+        "tests": 7,
+        "pass": 7,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "9fd0c36c02b1d9309910bd97e7204562fe76aff24101452be8e5a0e21e8eda3a"
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "src/harness/browser/browser-read-tabelog-structure.test.ts"
+      ],
+      "exitCode": 0,
+      "accepted": true,
+      "seconds": 2.488348917,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "summary": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "ebaa62335cae859b76d3091c193d8310271c11e411da5aafebdfaaf200c112e1"
+    }
+  ],
+  "allAccepted": true
+}

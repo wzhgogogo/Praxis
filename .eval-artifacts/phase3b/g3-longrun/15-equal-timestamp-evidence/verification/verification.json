@@ -1,0 +1,116 @@
+{
+  "mode": "OFFLINE_LOCAL_FIXTURE",
+  "testedCommit": "50319f85ab3c9ff8c9fc383869e0807bc1952387",
+  "startedAtCET": "2026-10-29T15:45:45.972899+01:00",
+  "freezeSha256": "2bbee9a77bdfb79f3c022a066ca3425b103ebf6051cea8cc4db5047a4dc569bf",
+  "orchestrationSha256": "88a967e1e3b42d8a3fe372f6f51c96182421a3e37a5a9e9b32375a2633ed79bc",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "outcome": "PASS",
+      "seconds": 0.540609958,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "summary": {}
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "outcome": "PASS",
+      "seconds": 0.21715591699999992,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "summary": {}
+    },
+    {
+      "gate": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 1,
+      "outcome": "FAIL",
+      "seconds": 29.704531833,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSha256": "ea3835d3f1af9f6fa190bb5e9919e1ff3e362c12348aba023cbc0e32cdaa23e1",
+      "summary": {
+        "tests": 1231,
+        "pass": 1218,
+        "fail": 13,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "failingLeaves": [
+        "F5 provisional discovery crosses real Router/Reducer and retains bounded handoff to the next source",
+        "H001 confirms a ready TableCheck query through live controls without mistaking hidden or script loading text for a pending search",
+        "H001 native TableCheck batch continues after one nonqualifying outlet and presents the next",
+        "H001 native discovery uses an observed ordinary query submit only in its installed read boundary",
+        "H001 native discovery uses the shared browser model loop to reveal an observed TableCheck result list",
+        "H001 presents one investigated TableCheck current-batch result without reading a second TableCheck chunk",
+        "H001 rejects early end and short presentation after TableCheck discovery until its batch is investigated",
+        "H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver",
+        "WP-A offline composition captures every model call including a timeout and links browser observations to DOM snapshots",
+        "a result that completes before the deadline retains its normal terminal outcome",
+        "an explicit result count travels from control input through authoritative State into fixed-source acceptance",
+        "h001"
+      ],
+      "knownUnresolvedAFixtures": true,
+      "newFailures": []
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "outcome": "PASS",
+      "seconds": 0.5467585419999992,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "summary": {}
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 1,
+      "outcome": "FAIL",
+      "seconds": 130.364549458,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSha256": "fa098a02bb2adb0403725aefa75cb615f979e62f65ff6307c5f727ca277816e6",
+      "summary": {
+        "tests": 180,
+        "pass": 178,
+        "fail": 2,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "restorations": 0,
+  "gatePolicy": "Known unresolved A fixture failures remain FAIL; continue the matrix only when every failing leaf is already recorded. Any new failure stops verification.",
+  "stopReason": "UNEXPECTED_FAILURE_OR_CHECKOUT_CHANGE"
+}

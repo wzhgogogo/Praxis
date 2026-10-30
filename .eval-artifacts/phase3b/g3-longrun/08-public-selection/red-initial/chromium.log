@@ -1,0 +1,29 @@
+✖ Chromium observes public selection, native checked values and a calendar day without a private child shape (827.627542ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1160.500292
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-public-selection.test.ts:1:331
+✖ Chromium observes public selection, native checked values and a calendar day without a private child shape (827.627542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'MODEL_FAILURE'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/harness/browser/browser-read-public-selection.test.ts:26:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'MODEL_FAILURE',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }

@@ -1,0 +1,171 @@
+TAP version 13
+# Subtest: G3 vacancy schema drift is observable UNKNOWN, retaining outlet identity and never an offer
+    # Subtest: missing base date
+    not ok 1 - missing base date
+      ---
+      duration_ms: 7.605625
+      type: 'test'
+      location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:3:1618'
+      failureType: 'testCodeFailure'
+      error: |-
+        schema drift must have its own visible reason
+        + actual - expected
+        
+        + 'EXTRACTION_FAILED'
+        - 'SOURCE_STRUCTURE_CHANGED'
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 'SOURCE_STRUCTURE_CHANGED'
+      actual: 'EXTRACTION_FAILED'
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:47:12)
+        async Test.run (node:internal/test_runner/test:1069:7)
+        async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:43:44)
+        async Test.run (node:internal/test_runner/test:1069:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+      ...
+    # Subtest: changed member type
+    not ok 2 - changed member type
+      ---
+      duration_ms: 0.999625
+      type: 'test'
+      location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:3:1618'
+      failureType: 'testCodeFailure'
+      error: |-
+        schema drift must have its own visible reason
+        + actual - expected
+        
+        + 'EXTRACTION_FAILED'
+        - 'SOURCE_STRUCTURE_CHANGED'
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 'SOURCE_STRUCTURE_CHANGED'
+      actual: 'EXTRACTION_FAILED'
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:47:12)
+        async Test.run (node:internal/test_runner/test:1069:7)
+        async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:43:44)
+        async Test.run (node:internal/test_runner/test:1069:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+      ...
+    # Subtest: changed selection shape
+    not ok 3 - changed selection shape
+      ---
+      duration_ms: 0.563708
+      type: 'test'
+      location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:3:1618'
+      failureType: 'testCodeFailure'
+      error: |-
+        schema drift must have its own visible reason
+        + actual - expected
+        
+        + 'EXTRACTION_FAILED'
+        - 'SOURCE_STRUCTURE_CHANGED'
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 'SOURCE_STRUCTURE_CHANGED'
+      actual: 'EXTRACTION_FAILED'
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:47:12)
+        async Test.run (node:internal/test_runner/test:1069:7)
+        async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:43:44)
+        async Test.run (node:internal/test_runner/test:1069:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+      ...
+    # Subtest: changed row URL type
+    not ok 4 - changed row URL type
+      ---
+      duration_ms: 0.853709
+      type: 'test'
+      location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:3:1618'
+      failureType: 'testCodeFailure'
+      error: |-
+        schema drift must have its own visible reason
+        + actual - expected
+        
+        + 'EXTRACTION_FAILED'
+        - 'SOURCE_STRUCTURE_CHANGED'
+        
+      code: 'ERR_ASSERTION'
+      name: 'AssertionError'
+      expected: 'SOURCE_STRUCTURE_CHANGED'
+      actual: 'EXTRACTION_FAILED'
+      operator: 'strictEqual'
+      stack: |-
+        TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:47:12)
+        async Test.run (node:internal/test_runner/test:1069:7)
+        async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:43:44)
+        async Test.run (node:internal/test_runner/test:1069:7)
+        async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+      ...
+    1..4
+not ok 1 - G3 vacancy schema drift is observable UNKNOWN, retaining outlet identity and never an offer
+  ---
+  duration_ms: 10.494375
+  type: 'test'
+  location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:3:1188'
+  failureType: 'subtestsFailed'
+  error: '4 subtests failed'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: G3 vacancy response keeps the exact source binding and latest-response rule
+not ok 2 - G3 vacancy response keeps the exact source binding and latest-response rule
+  ---
+  duration_ms: 3.283167
+  type: 'test'
+  location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:3:2449'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'EXTRACTION_FAILED'
+    - 'SOURCE_STRUCTURE_CHANGED'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'SOURCE_STRUCTURE_CHANGED'
+  actual: 'EXTRACTION_FAILED'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:74:10)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+# Subtest: G3 response URL cannot contradict its body and shape diagnostics never contain response values
+not ok 3 - G3 response URL cannot contradict its body and shape diagnostics never contain response values
+  ---
+  duration_ms: 0.497459
+  type: 'test'
+  location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:3:3562'
+  failureType: 'testCodeFailure'
+  error: |-
+    request URL merchant contradicting the page is not bound evidence
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:79:10)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+  ...
+1..3
+# tests 7
+# suites 0
+# pass 0
+# fail 7
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 135.971542

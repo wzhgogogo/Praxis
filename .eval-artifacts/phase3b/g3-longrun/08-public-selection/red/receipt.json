@@ -1,0 +1,42 @@
+{
+  "phase": "red",
+  "commit": "41cec356d8201de64db7164d06ca120e5760e934",
+  "timeCET": "2026-10-29T08:14:48.913936+01:00",
+  "runs": [
+    {
+      "name": "native",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/infrastructure/browser/control-selected-state.test.ts",
+        "src/integrations/tabelog/tabelog-public-selection.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 0.148923,
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/harness/browser/browser-read-public-selection.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 1.043441583,
+      "gitStatusAfter": ""
+    }
+  ],
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "freezeVerifiedAfter": true,
+  "realCalls": 0
+}

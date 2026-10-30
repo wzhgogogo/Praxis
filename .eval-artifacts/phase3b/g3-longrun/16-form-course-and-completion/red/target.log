@@ -1,0 +1,141 @@
+✔ Tabelog query confirmation uses public native or ARIA values and rejects public contradictions (3.530333ms)
+✖ Tabelog class-only state is unknown; a precisely bound response works without private markers (3.049042ms)
+▶ G3 vacancy schema drift is observable UNKNOWN, retaining outlet identity and never an offer
+  ✔ missing base date (5.2435ms)
+  ✔ changed member type (0.86025ms)
+  ✔ changed selection shape (0.541291ms)
+  ✔ changed row URL type (0.761041ms)
+✔ G3 vacancy schema drift is observable UNKNOWN, retaining outlet identity and never an offer (7.884ms)
+✔ G3 vacancy response keeps the exact source binding and latest-response rule (6.794334ms)
+✔ G3 response URL cannot contradict its body and shape diagnostics never contain response values (1.155ms)
+✖ Tabelog vacancy returns each verified original form_course link and its latest response provenance (1.463208ms)
+✖ Tabelog vacancy exports no links for mismatched bindings, invalid targets or changed response shapes (0.412083ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 8
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 187.816
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-public-selection.test.ts:1:2240
+✖ Tabelog class-only state is unknown; a precisely bound response works without private markers (3.049042ms)
+  AssertionError [ERR_ASSERTION]: C-facing response output retains the validated original link and response provenance
+  + actual - expected
+  
+    {
+      availableSlots: [
+        '19:00'
+      ],
+  -   formCourseLinks: [
+  -     {
+  -       time: '19:00',
+  -       url: '/en/booking/form_course/new?rcd=123&member=2&visit_date=20261103&visit_time=1900'
+  -     }
+  -   ],
+      hasExplicitSlotUi: true,
+  -   sourceResponse: {
+  -     observedAt: '2026-10-29T09:00:00Z',
+  -     sequence: 1,
+  -     url: 'https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=123&svd=20261103&svps=2'
+  -   },
+      status: 'OBSERVED'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-public-selection.test.ts:34:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'OBSERVED', availableSlots: [ '19:00' ], hasExplicitSlotUi: true },
+    expected: { status: 'OBSERVED', availableSlots: [ '19:00' ], hasExplicitSlotUi: true, formCourseLinks: [ [Object] ], sourceResponse: { sequence: 1, url: 'https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=123&svd=20261103&svps=2', observedAt: '2026-10-29T09:00:00Z' } },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/tabelog/tabelog-vacancy-response.test.ts:3:5202
+✖ Tabelog vacancy returns each verified original form_course link and its latest response provenance (1.463208ms)
+  AssertionError [ERR_ASSERTION]: validated response URLs retain their exact form, encoding and query order, without reconstruction
+  + actual - expected
+  
+    {
+      availableSlots: [
+        '19:00',
+        '19:30'
+      ],
+  -   formCourseLinks: [
+  -     {
+  -       time: '19:00',
+  -       url: '/en/booking/form_course/new?visit_time=1900&rcd=123&member=2&visit_date=20261103&course_id=public%2fmenu+one'
+  -     },
+  -     {
+  -       time: '19:30',
+  -       url: 'https://tabelog.com/en/booking/form_course/new?member=2&visit_date=20261103&visit_time=1930&rcd=123&course_id=other%2Fmenu'
+  -     }
+  -   ],
+      hasExplicitSlotUi: true,
+  -   sourceResponse: {
+  -     observedAt: '2026-10-30T09:00:00Z',
+  -     sequence: 9,
+  -     url: 'https://tabelog.com/en/booking/calendar/find_vacancy?svps=2&svd=20261103&rst_id=123'
+  -   },
+      status: 'OBSERVED'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:110:12)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'OBSERVED', availableSlots: [ '19:00', '19:30' ], hasExplicitSlotUi: true },
+    expected: { status: 'OBSERVED', availableSlots: [ '19:00', '19:30' ], hasExplicitSlotUi: true, formCourseLinks: [ [Object], [Object] ], sourceResponse: { sequence: 9, url: 'https://tabelog.com/en/booking/calendar/find_vacancy?svps=2&svd=20261103&rst_id=123', observedAt: '2026-10-30T09:00:00Z' } },
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/tabelog/tabelog-vacancy-response.test.ts:3:5925
+✖ Tabelog vacancy exports no links for mismatched bindings, invalid targets or changed response shapes (0.412083ms)
+  AssertionError [ERR_ASSERTION]: unsupported after-midnight clocks remain excluded under the original rule
+  + actual - expected
+  
+    {
+      availableSlots: [
+        '19:00'
+      ],
+  -   formCourseLinks: [
+  -     {
+  -       time: '19:00',
+  -       url: '/en/booking/form_course/new?visit_time=1900&rcd=123&member=2&visit_date=20261103&course_id=public%2fmenu+one'
+  -     }
+  -   ],
+      hasExplicitSlotUi: true,
+  -   sourceResponse: {
+  -     observedAt: '2026-10-30T09:00:00Z',
+  -     sequence: 9,
+  -     url: 'https://tabelog.com/en/booking/calendar/find_vacancy?svps=2&svd=20261103&rst_id=123'
+  -   },
+      status: 'OBSERVED'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-vacancy-response.test.ts:139:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'OBSERVED', availableSlots: [ '19:00' ], hasExplicitSlotUi: true },
+    expected: { status: 'OBSERVED', availableSlots: [ '19:00' ], hasExplicitSlotUi: true, formCourseLinks: [ [Object] ], sourceResponse: { sequence: 9, url: 'https://tabelog.com/en/booking/calendar/find_vacancy?svps=2&svd=20261103&rst_id=123', observedAt: '2026-10-30T09:00:00Z' } },
+    operator: 'deepStrictEqual'
+  }

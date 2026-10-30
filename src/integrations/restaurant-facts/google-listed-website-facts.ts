@@ -1,3 +1,5 @@
+import type { ModelGateway } from "../../core/model/contracts.js";
+import { readQuotedRestaurantSourceFacts, quotedRestaurantSourceEvidence, type QuotedRestaurantSourceFacts } from "./model-source-facts.js";
 import type { RestaurantFactPageObserver } from "./fact-source-document.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
@@ -207,17 +209,6 @@ function labelledPublicCommercialTerms(lines: string[], html: string, sourceUrl:
     .filter(item => item.value.length > 0 && item.value.length <= 1600 && lines.join(" ").includes(item.value));
   const cancellationDefinitions = definitions.filter(item => /^(?:cancellation(?: policy)?|キャンセル(?:規定|ポリシー)?)$/iu.test(item.label));
   if (cancellationDefinitions.length === 1) terms.cancellationTerms = `${cancellationDefinitions[0]!.label}: ${cancellationDefinitions[0]!.value}`;
-  // Public OWST course-list contract, observed on 2026-09-16. Capture complete
-  // named cards; do not convert a displayed menu to a query-qualified offer.
-  if (new URL(sourceUrl).hostname.endsWith(".owst.jp")) {
-    const courses = [...html.matchAll(/<a\b[^>]*href=["']\/courses\/\d+["'][^>]*>([\s\S]*?)<\/a>/gi)].flatMap(match => {
-      const card = match[1]!;
-      if (!/class=["']courseName["']/.test(card) || !/class=["']coursePrice["']/.test(card)) return [];
-      const text = plain(card.replace(/<img\b[^>]*>/gi, ""));
-      return text.length <= 1600 && lines.join(" ").replace(/\s/g, "").includes(text.replace(/\s/g, "")) ? [text] : [];
-    });
-    if (courses.length) terms.listedCourseDetails = [...new Set(courses)].slice(0, 3);
-  }
   const cancellations = lines.filter(line => /^(?:cancellation(?: policy)?|キャンセル(?:規定|ポリシー)?)\s*[:：]\s*\S/iu.test(line));
   const noShows = lines.filter(line => /^(?:no[ -]?show|無断キャンセル)\s*[:：]\s*\S/iu.test(line));
   if (cancellations.length === 1) terms.cancellationTerms = cancellations[0]!;
@@ -315,6 +306,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
     private readonly onBrowserDiagnostic?: (diagnostic: BrowserExecutionDiagnostic) => void,
     private readonly networkPolicy?: BrowserReadNetworkPolicy,
     private readonly onSourcePage?: RestaurantFactPageObserver,
+    private readonly sourceFactsModel?: ModelGateway,
   ) {}
 
   async inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead> {
@@ -340,6 +332,8 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         // shared run budget still applies; this does not permit form submission.
 
       });
+      const quotations = new Map<string, QuotedRestaurantSourceFacts>();
+      const processed = new Set<string>();
       const pages = new Map<string, { observation: UntrustedRestaurantWebsiteObservation; text: string; snapshot: BrowserSnapshot; observedAt: string }>();
       const remember = (snapshot: BrowserSnapshot): void => {
         const landed = safeWebsiteUrl(snapshot.url);
@@ -348,12 +342,18 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
           candidateStructuredObservation(candidate, landed.toString(), checkedAt, snapshot.html),
           candidateVisibleObservation(candidate, landed.toString(), checkedAt, snapshot.text, snapshot.html),
         );
-        if (observation) pages.set(landed.toString(), { observation, text: snapshot.text, snapshot, observedAt: this.now() });
+        if (observation) pages.set(landed.toString(), { observation, text: snapshot.text, snapshot: structuredClone(snapshot), observedAt: this.now() });
       };
       const materialize = (): { evidence: RestaurantCandidateFactRead["evidence"]; documents: NonNullable<RestaurantCandidateFactRead["sourceDocuments"]> } => {
-        const pageEvidence = [...pages.values()].flatMap(page => groundRestaurantWebsiteFacts(candidate, request.intent, page.observation).evidence.map(item => ({
+        const pageEvidence: RestaurantCandidateFactRead["evidence"] = [...pages.values()].flatMap(page => groundRestaurantWebsiteFacts(candidate, request.intent, page.observation).evidence.map(item => ({
           ...item, artifactRef: { kind: "DOM_EXCERPT" as const, reference: `website-visible:${websiteFactDocumentFingerprint(page.text)}` },
         })));
+        for(const page of pages.values()){
+          const identity=pageEvidence.find(item=>item.kind==="ENTITY_MATCH"&&item.sourceUrl===page.observation.sourceUrl);
+          const quoted=quotations.get(page.observation.sourceUrl);
+          const fact=identity&&quoted?quotedRestaurantSourceEvidence(identity,quoted):undefined;
+          if(fact)pageEvidence.push(fact);
+        }
         let remainingText = 6_000;
         const documents: NonNullable<RestaurantCandidateFactRead["sourceDocuments"]> = [];
         for (const page of pages.values()) {
@@ -367,9 +367,24 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
             statements.push({ id: String(statements.length), text: line });
             remainingText -= line.length;
           }
-          if (statements.length) documents.push({ id, candidateId: candidate.restaurant.id, identityEvidenceId: identity.evidenceId, statements });
+          const quoted=quotations.get(page.observation.sourceUrl);
+          if (statements.length) documents.push({ id, candidateId: candidate.restaurant.id, identityEvidenceId: identity.evidenceId, statements,
+            ...(quoted?.sourceFieldQuotes.length?{sourceFieldQuotes:quoted.sourceFieldQuotes}:{}),...(quoted?.priceFacts?{priceFacts:quoted.priceFacts}:{}) });
         }
         return { evidence: pageEvidence, documents };
+      };
+      const enrichQuotations = async (): Promise<void> => {
+        if(!this.sourceFactsModel||request.capturePagesOnly)return;
+        const known=materialize().evidence;
+        for(const page of pages.values()){
+          const key=websiteFactDocumentFingerprint(page.observation.sourceUrl+page.text);if(processed.has(key))continue;processed.add(key);
+          const identity=known.find(item=>item.kind==="ENTITY_MATCH"&&item.sourceUrl===page.observation.sourceUrl);
+          if(!identity)continue;
+          const criteria=request.intent.criteria.filter(c=>c.strength==="HARD").map(c=>c.text);
+          const quoted=await readQuotedRestaurantSourceFacts({complete:input=>executor.readModel(signal,()=>{modelCalls++;return this.sourceFactsModel!.complete(input);})},
+            {candidate,identity,page:page.snapshot,readAt:page.observedAt,criteria},this.now,signal);
+          if(quoted)quotations.set(quoted.sourceUrl,quoted);
+        }
       };
       let failureCode: string | undefined;
       let judgedEvidence: RestaurantCandidateFactRead["evidence"] = [];
@@ -402,6 +417,13 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
           },
         });
         remember(generic.snapshot);
+        if(request.capturePagesOnly){
+          const captured=materialize();evidence.push(...captured.evidence);sourceDocuments.push(...captured.documents);
+          const high=captured.evidence.some(item=>item.kind==="ENTITY_MATCH"&&item.entityMatch?.confidence==="HIGH");
+          factChecks[candidate.restaurant.id]={status:high?"COMPLETED":"UNKNOWN",checkedAt,evidenceIds:captured.evidence.map(item=>item.evidenceId),...(!high?{reasonCode:"WEBSITE_STRUCTURED_IDENTITY_UNVERIFIED"}:{})};
+          continue;
+        }
+        await enrichQuotations();
         const initial = materialize();
         let currentSourceEvidence = initial.evidence;
         judgedDocuments = initial.documents;
@@ -429,6 +451,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
               },
             });
             remember(continued.snapshot);
+            await enrichQuotations();
             const next = materialize();
             if (next.evidence.every(item => item.kind !== "ENTITY_MATCH" || documentIdsBefore.has(item.artifactRef?.reference))) break;
             currentSourceEvidence = next.evidence;

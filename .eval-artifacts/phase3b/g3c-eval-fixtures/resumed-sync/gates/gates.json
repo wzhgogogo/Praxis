@@ -1,0 +1,106 @@
+{
+  "commit": "7b602ce9d9c33ead1661b519c0223a4c2c5b3452",
+  "startedAtCET": "2026-10-29T16:14:38.823088+01:00",
+  "mode": "OFFLINE_FIXTURE",
+  "inputCount": 703,
+  "checks": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environmentOverrides": {},
+      "exitCode": 0,
+      "status": "PASS",
+      "elapsedSeconds": 0.483,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 703,
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environmentOverrides": {},
+      "exitCode": 0,
+      "status": "PASS",
+      "elapsedSeconds": 0.174,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 703,
+      "rawLogSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environmentOverrides": {},
+      "exitCode": 0,
+      "status": "PASS",
+      "elapsedSeconds": 29.968,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 703,
+      "rawLogSha256": "12c393242998588e6899ddf32adbd57c3e0a0171ce920dd5a6668c50dd11bc57"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environmentOverrides": {},
+      "exitCode": 0,
+      "status": "PASS",
+      "elapsedSeconds": 0.5,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 703,
+      "rawLogSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environmentOverrides": {},
+      "exitCode": 1,
+      "status": "FAIL",
+      "elapsedSeconds": 129.715,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 703,
+      "rawLogSha256": "adc175d87c3ed226df0b8f544c20e5d58a2a9ec67b7f03841e2d9d997ea06e0e"
+    },
+    {
+      "name": "strict-dom-change",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environmentOverrides": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "status": "PASS",
+      "elapsedSeconds": 24.96,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 703,
+      "rawLogSha256": "8d82234d8b6caa20a8f94a725b1b0881a4e920820120eee5b8fd0eee707eb1a4"
+    }
+  ],
+  "status": "FAIL"
+}

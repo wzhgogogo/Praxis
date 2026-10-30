@@ -1,0 +1,78 @@
+{
+  "commit": "c47eeb8256b33ac57cf35a1b6e254b53c9196d75",
+  "phase": "green",
+  "runs": [
+    {
+      "name": "targets",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/restaurant-facts/model-source-facts.test.ts",
+        "src/integrations/restaurant-facts/quoted-fact-read.test.ts",
+        "src/integrations/restaurant-facts/google-listed-website-facts.test.ts"
+      ],
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 0.267453375,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "corresponding",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/tabelog/tabelog-browser-availability.test.ts",
+        "src/integrations/tablecheck/tablecheck-browser-availability.test.ts",
+        "src/integrations/restaurant-availability/native-outlet-continuity.test.ts",
+        "src/integrations/restaurant-facts/model-fact-judgment.test.ts",
+        "src/integrations/restaurant-facts/page-question-reader.test.ts",
+        "src/application/restaurant-presentation-evidence.test.ts"
+      ],
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 13.616132749999998,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "legacy",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g3-longrun/11-price-applicability/compare-legacy.ts",
+        "/private/tmp/praxis-g3-quoted-corresponding4-20261029/legacy-state-changes.json"
+      ],
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 0.1659200829999996,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "exitCode": 0,
+      "timedOut": false,
+      "seconds": 0.16227300000000078,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

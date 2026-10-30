@@ -1,0 +1,82 @@
+✔ G1 answers a payment question outside the original request conditions with an exact source quotation (6.05375ms)
+✔ G1 reuses current-run bound pages without opening a new session; whitespace is the only quote normalization (0.2455ms)
+✔ G1 an asynchronous model reply cannot attach a quotation to a subsequently mutated cache page (0.136083ms)
+▶ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment
+  ✔ fabricated quotation (0.140083ms)
+  ✔ negation removed (0.110875ms)
+  ✔ other document (0.093666ms)
+  ✔ uncited answer (0.099792ms)
+  ✔ URL override (0.104458ms)
+✔ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment (1.046916ms)
+✔ G1 same name is not the same outlet: existing identity reader rejects the other branch before model answering (0.48175ms)
+✔ G1 native page observer preserves the old fact result and only emits after existing same-outlet verification (3.306458ms)
+▶ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots
+  ✔ other run (0.394084ms)
+  ✔ old read (0.059625ms)
+  ✔ old identity (0.04025ms)
+  ✔ other candidate (0.032541ms)
+  ✔ weak identity (0.029167ms)
+  ✔ unbound source (0.036292ms)
+  ✔ non-page provider (0.036333ms)
+  ✔ redirect mismatch (0.03025ms)
+  ✔ loading (0.0485ms)
+  ✔ truncated line (0.068709ms)
+✔ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots (1.018958ms)
+▶ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes
+  ✔ ALLERGY (0.545375ms)
+  ✔ RELIGIOUS_DIET (0.137875ms)
+  ✔ ACCESSIBILITY (0.155042ms)
+✔ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes (0.941542ms)
+✔ G1 reception mode comes from explicit source text without inventory; time-sensitive source statements retain read time (0.16775ms)
+✔ G1 each quotation keeps its own page and read time; bounded excerpts cannot establish page silence (2.108667ms)
+✔ G1 saved merchant fragment is quoted in place with provenance; it is not a live or identity-validation claim (5.486917ms)
+✔ G1 propagates shared model-budget exhaustion and cancellation instead of inventing an answer (0.336917ms)
+✔ G1 revision returns a short English answer with Japanese table label and value quotations (0.115042ms)
+✔ G1 rejects a customer review quotation using the visible heading outline, independent of private markers (0.286333ms)
+✔ G1 returns structured absence and confirmation flags without display boilerplate (0.135583ms)
+✔ G1 source limits are independent of HARD limits and reject genuinely oversized pages (0.55425ms)
+▶ G1 rejects missing or invalid model classifications and malformed answer fields
+  ✔ missing conflict flag (0.0755ms)
+  ✔ non-boolean conflict flag (0.041875ms)
+  ✔ missing category (0.0435ms)
+  ✔ unknown category (0.0395ms)
+  ✔ non-string category (0.049541ms)
+  ✔ empty answer (0.045ms)
+  ✔ overlong answer (0.045834ms)
+✔ G1 rejects missing or invalid model classifications and malformed answer fields (0.503ms)
+✔ G1 preserves a model's concise conflict answer and both source quotations (0.076375ms)
+✔ G1 review exclusion follows visible headings after private markers are renamed and preserves neighbouring merchant statements (0.185208ms)
+✔ G1 preserves parent IDs for unsplit lines while split lines require complete sentence citations (0.220459ms)
+✖ source facts freeze the page and quote metadata before awaiting the model (2.482041ms)
+✔ source selection rejects model numbers, invented IDs, overlapping ranges and customer reviews (0.875292ms)
+✔ source price ranges require quoted or public ARIA meal context; ambiguous amounts remain unknown (0.589708ms)
+✔ source range preserves every intervening restriction and cancellation rejects a late response (0.329083ms)
+ℹ tests 49
+ℹ suites 0
+ℹ pass 48
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 174.240292
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-source-facts.test.ts:1:1555
+✖ source facts freeze the page and quote metadata before awaiting the model (2.482041ms)
+  AssertionError [ERR_ASSERTION]: a refreshed mutable cache cannot retarget an older quotation
+  + actual - expected
+  
+  + 'https://merchant.example/other-outlet'
+  - 'https://merchant.example/venue'
+                              ^
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-source-facts.test.ts:16:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'https://merchant.example/other-outlet',
+    expected: 'https://merchant.example/venue',
+    operator: 'strictEqual'
+  }

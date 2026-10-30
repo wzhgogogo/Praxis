@@ -61,7 +61,7 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
         if (!pages.length) {
           // The same identity-producing source chain, with fresh question-only counters.
           const reader = this.createFacts(this.observe, {totalModelCalls:0,maxModelCalls:this.limits.maxModelCalls}, model, visits);
-          await reader.inspectFacts({candidateIds:[id],candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},combined);
+          await reader.inspectFacts({capturePagesOnly:true,candidateIds:[id],candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},combined);
           combined.throwIfAborted();
           pages = cached();
         }

@@ -1,0 +1,144 @@
+✔ an identity-bound Google HARD exclusion stops website and model fact work (0.713959ms)
+✔ website facts require candidate-bound structured identity and do not promote visible prose (15.089291ms)
+✔ website prose without exact structured name and address remains unknown (0.895917ms)
+✔ candidate-bound visible opening hours are grounded when JSON-LD is absent (1.909208ms)
+✔ a differently punctuated but equivalent numbered address can identify the same outlet (0.512083ms)
+✔ a same-name page without the candidate address does not become an outlet fact (0.213375ms)
+✔ matching street numbers cannot bind same-name outlets in different cities (0.189083ms)
+✔ identity-only JSON-LD does not prevent the same page's visible facts from completing a gap (0.521834ms)
+✔ candidate-bound public commercial terms retain price, tax, room minimum, cancellation, and no-show as distinct evidence (0.774042ms)
+✔ the production website reader expands an observed public terms section before grounding its candidate-bound evidence (2.363583ms)
+✔ a cited website judgment drives one same-session observed menu follow-up for a missing HARD fact (0.859708ms)
+✔ a bare public yen amount does not become a price or room-minimum fact (0.371541ms)
+✔ two candidate website reads keep cross-page commercial evidence scoped to its matching restaurant (1.399459ms)
+✔ ambiguous amounts and multiple courses are not promoted to a single commercial price (0.972167ms)
+✔ missing requested cancellation facts remain unknown even when type and hours are known (0.385625ms)
+✔ commercial information requests continue from Google to a real website fact read without invented hard criteria (3.216125ms)
+✖ multilingual website facts retain cancellation and complete course cards across pages with separate citations (3.665125ms)
+✔ a telephone-link-bound page retains source statements without claiming the criterion (1.220166ms)
+✔ source facts freeze the page and quote metadata before awaiting the model (1.88225ms)
+✔ source selection rejects model numbers, invented IDs, overlapping ranges and customer reviews (1.010042ms)
+✔ source price ranges require quoted or public ARIA meal context; ambiguous amounts remain unknown (0.671833ms)
+✔ source range preserves every intervening restriction and cancellation rejects a late response (0.520667ms)
+✖ source facts select the actual quoted price line without detaching its complete conditions (1.028458ms)
+✖ source facts can cite unstructured merchant type prose with no private fields or menu prices (0.314333ms)
+✖ source selection preserves a shared model budget failure instead of swallowing it as missing facts (0.140792ms)
+✖ shared Web/Hybrid fact composition answers from class-free merchant prose through model citations (8.350166ms)
+✖ G1 page capture keeps identity and source text without spending a fact or menu model call (1.42525ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 21
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 210.151625
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/google-listed-website-facts.test.ts:1:19605
+✖ multilingual website facts retain cancellation and complete course cards across pages with separate citations (3.665125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'COMPLETED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/google-listed-website-facts.test.ts:362:14)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'COMPLETED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-source-facts.test.ts:4:2097
+✖ source facts select the actual quoted price line without detaching its complete conditions (1.028458ms)
+  AssertionError [ERR_ASSERTION]: current price comes from a selected original line, never the cheapest amount
+  + actual - expected
+  
+  + undefined
+  - 8000
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-source-facts.test.ts:49:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 8000,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-source-facts.test.ts:4:3068
+✖ source facts can cite unstructured merchant type prose with no private fields or menu prices (0.314333ms)
+  AssertionError [ERR_ASSERTION]: same-page verbatim merchant prose remains available to the existing fact judgment
+  + actual - expected
+  
+  + undefined
+  - [
+  -   {
+  -     field: 'CATEGORY',
+  -     quote: 'We serve sushi cuisine.',
+  -     sourceUrl: 'https://merchant.example/venue'
+  -   }
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-source-facts.test.ts:56:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ { field: 'CATEGORY', quote: 'We serve sushi cuisine.', sourceUrl: 'https://merchant.example/venue' } ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-source-facts.test.ts:4:3706
+✖ source selection preserves a shared model budget failure instead of swallowing it as missing facts (0.140792ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-source-facts.test.ts:61:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED' },
+    operator: 'rejects'
+  }
+
+test at src/integrations/restaurant-facts/quoted-fact-read.test.ts:1:1717
+✖ shared Web/Hybrid fact composition answers from class-free merchant prose through model citations (8.350166ms)
+  AssertionError [ERR_ASSERTION]: the actual shared composition must retain a verbatim source role when private fields are absent
+  + actual - expected
+  
+  + 'NOT_CHECKED'
+  - 'MET'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/quoted-fact-read.test.ts:33:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_CHECKED',
+    expected: 'MET',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/quoted-fact-read.test.ts:1:3482
+✖ G1 page capture keeps identity and source text without spending a fact or menu model call (1.42525ms)
+  AssertionError [ERR_ASSERTION]: a page question does not repeat the original HARD interpretation
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/quoted-fact-read.test.ts:44:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }

@@ -1,3 +1,4 @@
+import { decodeHTML } from "entities";
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { readFile } from "node:fs/promises";
@@ -243,16 +244,20 @@ test("TableCheck category scope binds every presented slot to a visible enabled 
   assert.equal(hasTableCheckScopeBoundSlot(page, [...controls, exact, { ...controls[0]!, id: "old-later", stableKey: "old-later", label: "19:30", href: current("/en/restaurant1/reserve/landing", "19:30") }], { date: "2026-08-05", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:30" } }, scope, ["19:00", "19:30"]), false);
 });
 
-test("TableCheck reads scoped menu text only from a real outer menu item", () => {
+test("TableCheck binds menu text through public scope labels when all private markers change", () => {
   const scopeControl: BrowserPageControl = {
     id: "sushi", stableKey: "sushi", kind: "RADIO", role: "radio", label: "Sushi", value: "sushi", checked: false,
     visible: true, disabled: false,
     structure: { tag: "INPUT", name: "reservation[service_category]", classes: ["radio_buttons"], dialogLabel: "", formClass: "reserveform", sliderCount: 0, radioGroupKey: "form:reserve|name:reservation[service_category]" },
   };
   const scoped = '<article class="menu-item"><h3 class="menu-item-title">Sushi Omakase</h3><div class="menu-item-data" data-service-categories="[&quot;sushi&quot;]"></div><p class="menu-item-description">Twelve pieces</p><input name="irrelevant"></article>';
-  const snapshot = (html: string): BrowserSnapshot => ({ url: "https://www.tablecheck.com/en/shops/example/reserve", title: "Example", text: "", html });
+  const snapshot = (html: string): BrowserSnapshot => ({ url: "https://www.tablecheck.com/en/shops/example/reserve", title: "Example", text: "Sushi Omakase\nTwelve pieces", html });
   assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped), [scopeControl]).map((item) => ({ value: item.serviceScope.value, text: item.text })), [{ value: "sushi", text: "Sushi Omakase\nTwelve pieces" }]);
-  assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped.replace('class="menu-item"', 'class="menu-item-title"')), [scopeControl]), [], "a title class prefix is not an outer menu container");
+  for (const changed of [scoped.replaceAll('menu-item', 'opaque'), scoped.replace('data-service-categories', 'data-opaque-categories')]) {
+    assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(changed), [scopeControl]).map(item=>({value:item.serviceScope.value,text:item.text})), [{value:"sushi",text:"Sushi Omakase\nTwelve pieces"}], "private markers are not scope evidence");
+  }
+  assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped), [{...scopeControl,label:"Bar"}]), [], "a private category value cannot override the visible service label");
+  assert.deepEqual(parseTableCheckScopedMenuExcerpts(snapshot(scoped), [scopeControl,{...scopeControl,id:"other",stableKey:"other",structure:{...scopeControl.structure!,radioGroupKey:"another-owner"}}]), [], "equal labels in distinct groups cannot establish one owner");
   for (const hiddenMarkup of [
     `<!-- ${scoped} -->`,
     `<style>${scoped}</style>`,
@@ -873,11 +878,17 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
   const menu = await readFile(new URL("../../harness/browser/fixtures/restaurant-prices/aloft-public-20261019.html", import.meta.url), "utf8");
   const guide = matchingOutletPage();
   guide.html += menu;
-  guide.text += " " + menu.replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ").trim();
+  guide.text += "\n" + decodeHTML(menu.replace(/<\/(?:div|section|article|p|h[1-6]|dl|dt|dd|tr|li)>/gi,"\n").replace(/<[^>]+>/g," ")).split("\n").map(line=>line.replace(/\s+/g," ").trim()).filter(Boolean).join("\n");
+  const sourceFactsModel: import("../../core/model/contracts.js").ModelGateway = {async complete(input){
+    assert.equal(input.purpose,"restaurant_source_facts");const rows=JSON.parse(input.messages[1]!.content).sourceDocument.statements;
+    const titles=["Casual dinner 5 courses","[With one drink!] Casual dinner 5 courses","[2 hours of free flow included! ] Casual dinner 5 courses","#1 Most Popular Lunch Plan! 30 kinds of fresh vegetables, chef’s original deli dishes, and freshly baked popovers"];
+    const starts=titles.map(title=>rows.findIndex((row:{text:string})=>row.text===title));assert.ok(starts.every(index=>index>=0));
+    return {invocationId:"guide-menu-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:starts.map((first,index)=>({firstStatementId:rows[first].id,lastStatementId:rows[(starts[index+1]??rows.length)-1].id,priceStatementId:rows.slice(first,starts[index+1]??rows.length).find((s:{text:string})=>/JPY|[¥￥円]/u.test(s.text))!.id,role:"COURSE"}))})};
+  }};
   const session = new FixtureBrowserSession([guide, reservation]);
   const nativeDiagnostics: Array<{ nativeContinuity?: { confirmed: boolean; reason: string; observedSourceEntityId?: string } }> = [];
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z",
-    { onIdentityDiagnostic: (diagnostic) => nativeDiagnostics.push(diagnostic) })
+    { sourceFactsModel, onIdentityDiagnostic: (diagnostic) => nativeDiagnostics.push(diagnostic) })
     .check({ ...request, candidateIds: [native.restaurant.id], candidates: [native], hardCriteria: [] }, new AbortController().signal);
   assert.equal(session.navigations.some((value) => value.includes("/japan/search")), false);
   assert.equal(result.availabilityChecks[native.restaurant.id]?.status, "AVAILABLE", JSON.stringify({ checks: result.availabilityChecks, navigations: session.navigations }));
@@ -886,7 +897,7 @@ test("TableCheck native guide uses its own ID and linked booking entrance withou
   assert.deepEqual(priceFact?.priceFacts?.listedCoursePricesYen.map(item => item.amount), [7000, 7500, 9800, 3000]);
   assert.equal(priceFact?.sourceUrl, guide.url, "the guide citation must not become the request page URL");
   const blocked = await new TableCheckBrowserAvailability({ openSession: async () => new FixtureBrowserSession([guide,
-    { ...reservation, text: "verify you are human", html: "" }]) }, () => "2026-08-05T09:00:00.000Z")
+    { ...reservation, text: "verify you are human", html: "" }]) }, () => "2026-08-05T09:00:00.000Z", {sourceFactsModel})
     .check({ ...request, candidateIds: [native.restaurant.id], candidates: [native], hardCriteria: [] }, new AbortController().signal);
   assert.equal(blocked.availabilityChecks[native.restaurant.id]?.status, "UNKNOWN");
   assert.equal(blocked.evidence.some(item => item.priceFacts?.listedCoursePricesYen[0]?.amount === 7000), true);
@@ -1017,7 +1028,8 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, fixture.expected, fixture.state + ":" + fixture.date);
   if (fixture.expected === "AVAILABLE") {
     assert.equal(result.offers[0]?.source, "TABLECHECK");
-    assert.deepEqual(result.evidence.map((item) => item.kind), ["ENTITY_MATCH", "RESTAURANT_FACT", "AVAILABILITY"]);
+    assert.deepEqual(result.evidence.map((item) => item.kind), ["ENTITY_MATCH", "AVAILABILITY"]);
+    assert.equal(result.evidence.some(item=>Array.isArray(item.claims.verifiedHardCriteria)),false,"private featured-menu class cannot discharge a HARD criterion; cited fact reading handles that separately");
   } else {
     assert.equal(result.offers.length, 0, "old or loading inventory cannot create an offer");
     assert.equal(result.evidence.some((item) => item.kind === "AVAILABILITY"), false);
@@ -1559,4 +1571,31 @@ test("group-window: an already prohibited candidate entrance is rejected before 
  const policy={documentOrigins:["https://www.tablecheck.com"],staticResources:[],dynamicReads:[],prohibitedPaths:[{hostname:"tablecheck.com",pathSegment:"reserve"}]};
  const result=await new TableCheckBrowserAvailability({async openSession(){opened++;throw Error("Prohibited entrance must never acquire browser");}},undefined,{networkPolicy:policy}).check({...request,candidates:[blocked]},new AbortController().signal);
  assert.equal(opened,0);assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"SOURCE_UNSUPPORTED");assert.equal(result.offers.length,0);assert.equal(result.evidence.some(e=>e.entityMatch?.confidence==="HIGH"),false);
+});
+
+
+test("G3c TableCheck quotes class-renamed guide menus and keeps each price and restriction together", async () => {
+  const quotes = ["Dinner course: JPY 8,000, tax included; dinner only.", "Lunch course: JPY 5,000, tax excluded; lunch only.", "Optional add-on: JPY 1,000, tax included.", "Dinner set menu: JPY 9,000, tax included."];
+  const native = { ...candidate, restaurant: { ...candidate.restaurant, id: "tablecheck:restaurant1", sourceIds: { tablecheck: "restaurant1", tablecheckNativeGuideUri: "https://www.tablecheck.com/en/restaurant1" } } };
+  const guide = matchingOutletPage(); guide.html += `<section class="renamed-484">${quotes.map(text => `<p>${text}</p>`).join("")}</section>`; guide.text += "\n" + quotes.join("\n");
+  const reservation: BrowserSnapshot = { url: "https://www.tablecheck.com/en/restaurant1/reserve/landing", title: "Restaurant 1 reservation", text: "Restaurant 1 2 guests 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section><a href="/en/restaurant1/reserve/landing?start_date=2026-08-05&pax=2&start_time=19:00">19:00</a>' };
+  let calls = 0;
+  const sourceFactsModel: import("../../core/model/contracts.js").ModelGateway = { async complete(input) {
+    calls++; assert.equal(input.purpose, "restaurant_source_facts");
+    const doc = JSON.parse(input.messages[1]!.content).sourceDocument;
+    return { invocationId: "source-menu-fixture", provider: "FIXTURE", model: "fixture", latencyMs: 0, finishReason: "TOOL_CALLS", outputText: JSON.stringify({ selections: quotes.map(quote => {
+      const row = doc.statements.find((r: { text: string }) => r.text === quote); assert.ok(row);
+      return { firstStatementId: row.id, lastStatementId: row.id, priceStatementId: row.id, role: "COURSE" };
+    }) }) };
+  } };
+  const options = { maxBrowserSessions: 2, sourceFactsModel };
+  const read = await new TableCheckBrowserAvailability({ openSession: async () => new FixtureBrowserSession([guide, reservation]) }, () => "2026-08-05T09:00:00Z", options)
+    .check({ ...request, candidates: [native], candidateIds: [native.restaurant.id], hardCriteria: [] }, new AbortController().signal);
+  const fact = read.evidence.find(row => row.priceFacts?.listedCoursePricesYen.length);
+  assert.ok(fact?.priceFacts, "selected guide quotations must produce source prices");
+  assert.deepEqual(fact.priceFacts.listedCoursePricesYen.map(row => row.amount), [8000,5000,1000,9000]);
+  assert.deepEqual(fact.priceFacts!.listedCoursePricesYen.map(row => row.quote), quotes);
+  assert.equal(fact.priceFacts!.listedCoursePricesYen[1]!.meal, "LUNCH"); assert.equal(fact.priceFacts!.listedCoursePricesYen[2]!.kind, "ADD_ON");
+  assert.equal(fact.sourceUrl, guide.url, "the reservation URL cannot replace the quoted guide URL");
+  assert.equal(calls, 1); assert.equal(read.offers[0]?.price, undefined);
 });

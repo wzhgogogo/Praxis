@@ -1,0 +1,21 @@
+diff --git a/src/harness/browser/browser-read-request-binding.test.ts b/src/harness/browser/browser-read-request-binding.test.ts
+index fba09677..8e510347 100644
+--- a/src/harness/browser/browser-read-request-binding.test.ts
++++ b/src/harness/browser/browser-read-request-binding.test.ts
+@@ -374,6 +374,16 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
+   } };
+   const google = new GooglePlacesClient({ apiKey: "fixture-only", fetchImplementation: async () => new Response(JSON.stringify({ places: [{ id: "shibuya", displayName: { text: "Shibuya" }, formattedAddress: "Shibuya, Tokyo", location: center, types: ["train_station"], addressComponents: [{ longText: "Tokyo", types: ["locality"] }] }] }), { status: 200 }) });
+   const native = createLiveReadAssembly(LIVE_READ_DEBUG_INVESTIGATION_BUDGET, { google, browser: runtime, model, clock: { now: () => reference } });
++  // CONTROLLED LOCAL FAULT: drop accepted judgments at the fact-port boundary.
++  // Keep COMPLETED and raw evidence so earlier checks cannot mask the new assertion.
++  const inspectFacts = native.facts.inspectFacts.bind(native.facts);
++  native.facts.inspectFacts = async (request, signal) => {
++    const read = await inspectFacts(request, signal);
++    const dropped = new Set(read.evidence.filter(item => item.provider === "MODEL_JUDGMENT").map(item => item.evidenceId));
++    return { ...read, evidence: read.evidence.filter(item => !dropped.has(item.evidenceId)),
++      factChecks: Object.fromEntries(Object.entries(read.factChecks).map(([id, value]) =>
++        [id, { ...value, evidenceIds: value.evidenceIds.filter(ref => !dropped.has(ref)) }])) };
++  };
+   const taskId = `native-dynamic-tabelog-formal:${outcome}`;
+   const composition = createHybridReadComposition({ taskId, runId: `run:${taskId}`, clock: { now: () => reference }, model, ...native });
+   const frozen = (await loadFrozenLiveCases(RESTAURANT_READ_DEVELOPMENT_CASE_PATH)).find(item => item.id === "h001")!;

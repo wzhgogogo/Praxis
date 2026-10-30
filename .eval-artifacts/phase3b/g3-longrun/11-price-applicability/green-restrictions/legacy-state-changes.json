@@ -1,0 +1,49 @@
+{
+  "mode": "FROZEN_DEFAULT_REGRESSION_ACTUAL_INPUTS",
+  "calls": 367,
+  "states": 481,
+  "changedStates": 1,
+  "changes": [
+    {
+      "call": 366,
+      "index": 0,
+      "criterion": "at most 8000 yen per person",
+      "strength": "HARD",
+      "oldStatus": "MET",
+      "newStatus": "NOT_CHECKED",
+      "intent": {
+        "criteria": [],
+        "budgetPerPerson": {
+          "max": 8000,
+          "currency": "JPY"
+        },
+        "date": "2026-08-05",
+        "partySize": 2,
+        "timeWindow": {
+          "earliest": "18:00",
+          "latest": "20:00"
+        }
+      },
+      "originalPrices": [
+        {
+          "amount": 8000,
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "quote": "Seasonal dinner course: JPY 8,000, tax included; dinner only. Available only for parties of 4 or more.",
+          "tax": "INCLUDED",
+          "meal": "DINNER",
+          "kind": "MEAL"
+        }
+      ],
+      "oldExplanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+      "newExplanation": "No applicable meal price was recorded; add-ons, mismatched meal/party/date conditions and unverified restrictions do not establish this budget.",
+      "oldSources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/123/",
+          "quote": "Seasonal dinner course: JPY 8,000, tax included; dinner only. Available only for parties of 4 or more.",
+          "field": "PRICE"
+        }
+      ],
+      "newSources": []
+    }
+  ]
+}

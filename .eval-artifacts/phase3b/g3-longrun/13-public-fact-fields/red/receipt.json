@@ -1,0 +1,54 @@
+{
+  "commit": "a400607120e96b5d358fcc13c6fa4e8025ed078f",
+  "phase": "red",
+  "runs": [
+    {
+      "name": "targets",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/tabelog/tabelog-browser-availability.test.ts",
+        "src/integrations/tablecheck/tablecheck-browser-availability.test.ts",
+        "src/integrations/restaurant-availability/native-outlet-continuity.test.ts",
+        "src/application/restaurant-presentation-evidence.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 13.438676083,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "legacy",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g3-longrun/11-price-applicability/compare-legacy.ts",
+        "/private/tmp/praxis-g3-public-fact-fields-red-20261029/legacy-state-changes.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.12583287499999862,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.13194945799999935,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

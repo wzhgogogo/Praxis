@@ -26,8 +26,9 @@ function reader(
   budget?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[5],
   diagnostic?: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[6],
   judgment: ConstructorParameters<typeof GoogleListedWebsiteFactRead>[2] = fixtureJudgment,
+  sourceFactsModel?: import("../../core/model/contracts.js").ModelGateway,
 ): GoogleListedWebsiteFactRead {
-  return new GoogleListedWebsiteFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, browser, judgment, now, decision, budget, diagnostic);
+  return new GoogleListedWebsiteFactRead({ maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, browser, judgment, now, decision, budget, diagnostic, undefined, undefined, sourceFactsModel);
 }
 
 const request: RestaurantCandidateFactRequest = {
@@ -343,14 +344,19 @@ test("multilingual website facts retain cancellation and complete course cards a
       metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: "2026-09-16T00:00:00Z" },
       async navigate(url) { current = url; },
       async snapshot() { return current.endsWith('/courses')
-        ? { url: current, title: "コース", text: `食堂一 ${phone}\n${course}`, html: '<a href="/courses/123"><h3 class="courseName">季節のコース</h3><ul><li>2 ～ 4名</li></ul><p class="coursePrice">13,000円 (税込)</p><p>ランチ限定、11:30〜14:00。</p></a>' }
+        ? { url: current, title: "コース", text: `食堂一 ${phone}\n${course}`, html: '<a href="/courses/123"><h3 class="opaque-title">季節のコース</h3><ul><li>2 ～ 4名</li></ul><p class="opaque-price">13,000円 (税込)</p><p>ランチ限定、11:30〜14:00。</p></a>' }
         : { url: current, title: "食堂一", text: `食堂一 ${phone}\nキャンセル規定\n当日100%。前日は50%。席のみ予約は1人13,000円。`, html: '<dl><dt>キャンセル規定</dt><dd>当日100%。前日は50%。席のみ予約は1人13,000円。</dd></dl>' }; },
       async observeControls() { return [{ id: "courses", stableKey: "courses", kind: "LINK" as const, role: "link", label: "コース", href: "https://venue.owst.jp/courses", disabled: false, visible: true }]; },
       async click() {}, async fill() {}, async select() { return []; }, async waitFor() {}, async waitForSettled() { return true; }, async screenshot() { return new Uint8Array(); }, async close() {},
     }; } };
     const revised: RestaurantCandidateFactRequest = { ...request, candidates: [{ ...request.candidates[0]!, restaurant: { ...request.candidates[0]!.restaurant, sourceIds: { phone: "03-1111-2222", googleWebsiteUri: "https://venue.owst.jp/" } } }], intent: { ...request.intent, target: { goal: "AVAILABILITY", query: "Compare course prices and cancellation policies" }, criteria: [] } };
     const budget = { totalModelCalls: 5, maxModelCalls: 20 };
-    const read = await reader(sourceRuntime, undefined, { async decide(input) { return input.observation.url.endsWith('/courses') ? { type: "COMPLETE", reason: "No further public page" } : { type: "OPEN_LINK", targetRef: input.observation.targets[0]!.ref, reason: "Read courses" }; } }, budget).inspectFacts(revised, new AbortController().signal);
+    const sourceFactsModel: import("../../core/model/contracts.js").ModelGateway = {async complete(input) {
+      const rows=JSON.parse(input.messages[1]!.content).sourceDocument.statements;
+      const at=rows.findIndex((row:{text:string})=>row.text===course);
+      return {invocationId:"quoted-website-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify({selections:at<0?[]:[{firstStatementId:rows[at].id,lastStatementId:rows[at].id,priceStatementId:rows[at].id,role:"COURSE"}]})};
+    }};
+    const read = await reader(sourceRuntime, undefined, { async decide(input) { return input.observation.url.endsWith('/courses') ? { type: "COMPLETE", reason: "No further public page" } : { type: "OPEN_LINK", targetRef: input.observation.targets[0]!.ref, reason: "Read courses" }; } }, budget, undefined, fixtureJudgment, sourceFactsModel).inspectFacts(revised, new AbortController().signal);
     const facts = read.evidence.filter(item => item.kind === "RESTAURANT_FACT");
     if (matchingPhone) {
       assert.equal(read.factChecks['cafe-a']?.status, "COMPLETED");

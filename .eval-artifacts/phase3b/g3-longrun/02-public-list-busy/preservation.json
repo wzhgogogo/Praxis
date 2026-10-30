@@ -1,0 +1,24 @@
+{
+  "protectedCFiles": {
+    "src/integrations/tabelog/tabelog-entity-resolver.ts": "0aecc43b891a2a4ad08a0f05ca039cf0726d1b6a79796465146e17f7559f3852",
+    "src/integrations/restaurant-search/named-source-query.ts": "1a2ac845bf4d301e6001fb1b82e6278468f134df940168d74752af804d444cbc",
+    "src/integrations/restaurant-search/named-source-query.test.ts": "5817d619c8ab45d7b4d92d0a47fd4b33900e9803acbbdb0e9ea8d91feeb949fc",
+    "src/integrations/restaurant-identity/detail-identity-fields.ts": "e4834a410b310e42ecd595976e38bd60dc0f3c5e0a33855f7a0f8b40b18c41cb",
+    "src/integrations/restaurant-identity/detail-identity-fields.test.ts": "f164748873e2a48066b9b740cb47aa81bbdca70b6e733a404586db33b14f8766"
+  },
+  "protectedCTestsUnchanged": [
+    "Tabelog uses at most one validated Google-name fragment after an empty first screen, with original identity",
+    "Tabelog nonempty wrong first screen uses one alternative only within the shared detail cap",
+    "Tabelog prioritizes the closest observed name before the five-detail cap without granting identity",
+    "detail priority uses observed locality then distance for equal names and preserves unobserved ties"
+  ],
+  "ledgerEntries": 445,
+  "inheritedMainEntriesPreserved": 441,
+  "HARD": {
+    "bytes": 44197,
+    "sha256": "9a3298bc5e004b99e41d80713e8913b68c336cfa594f6eb60599e310ee3fb633",
+    "fullNativeFactResult": true
+  },
+  "newRealCalls": 0,
+  "evalAndFixedFixtureDiff": []
+}

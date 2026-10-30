@@ -1,0 +1,31 @@
+✖ G3c Tabelog quotes a class-renamed menu through the source model and parses the quoted price (15.1295ms)
+ℹ {"mode":"OFFLINE_SOURCE_TO_HARD_PRICE_SCOPE","requestedPartySize":2,"quotedMinimumPartySize":null,"quote":"Seasonal dinner course: JPY 8,000, tax included; dinner only.","parsedAmount":8000,"independentExpected":"MET","actual":"MET","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130101/123/","literalQuoteRetained":true,"inventoryParty":2,"offerPrice":null,"realCalls":0}
+ℹ {"mode":"OFFLINE_SOURCE_TO_HARD_PRICE_SCOPE","requestedPartySize":2,"quotedMinimumPartySize":4,"quote":"Seasonal dinner course: JPY 8,000, tax included; dinner only. Available only for parties of 4 or more.","parsedAmount":8000,"independentExpected":"NOT_CHECKED","actual":"MET","sourceUrl":"https://tabelog.com/en/tokyo/A1301/A130101/123/","literalQuoteRetained":true,"inventoryParty":2,"offerPrice":null,"realCalls":0}
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 177.54225
+
+✖ failing tests:
+
+test at src/integrations/tabelog/tabelog-browser-availability.test.ts:4:2378
+✖ G3c Tabelog quotes a class-renamed menu through the source model and parses the quoted price (15.1295ms)
+  AssertionError [ERR_ASSERTION]: a price for at least four diners cannot establish a two-diner HARD cap
+  + actual - expected
+  
+  + 'MET'
+  - 'NOT_CHECKED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/tabelog/tabelog-browser-availability.test.ts:956:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'MET',
+    expected: 'NOT_CHECKED',
+    operator: 'strictEqual'
+  }

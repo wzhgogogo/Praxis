@@ -3,6 +3,7 @@
 - Status: **Accepted**（用户于2026-10-28批准revision 0.4问答质量小修）
 - Approval: **原则与 revision 0.2 文本均已由用户 2026-10-27 批准；revision 0.3独立预算及唯一动作限定修订、revision 0.4问答质量小修已由用户2026-10-28批准**
 - Document revision: 0.4
+- Superseded in part: [ADR-0047](0047-g3-observed-task-behavior-acceptance.md)（2026-10-28用户撤销适配器行数验收门槛；本稿历史Decision其余条款不变）
 - Last updated: 2026-10-28（Vienna CET，UTC+1）
 - Source of truth for: 3b观察原则、G1合同与G2/G3验收提案；不是已接入产品能力
 - Related ADRs: [0010](0010-restaurant-agent-loop-action-validation.md)、[0021](0021-cited-source-fact-investigation.md)、[0022](0022-current-source-fact-lifecycle-and-identity.md)、[0036](0036-generic-public-read-network-policy.md)、[0044](0044-recommendation-availability-boundary.md)、[0045](0045-bounded-read-conclusion-reserve.md)

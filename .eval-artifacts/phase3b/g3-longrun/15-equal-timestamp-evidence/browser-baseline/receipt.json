@@ -1,0 +1,90 @@
+{
+  "mode": "LOCAL_CHROMIUM_BASELINE_COMPARISON",
+  "BCommit": "eee5d73c479b29e1f8cf596576d1dab6ce5026c8",
+  "baselineCommit": "51b0d3deaae837e4b8063f1a10a159675a6fc9e7",
+  "fixtureSha256": "e5fdcf5de861498b47c0984569cf3d82d300012ce3b9b5893cd3e91d0e1b035d",
+  "runs": [
+    {
+      "label": "before",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^native dynamic Tabelog (AVAILABLE|UNAVAILABLE) reaches formal H001",
+        "src/harness/browser/browser-read-request-binding.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 10.573725915999999,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "summary": {
+        "tests": 2,
+        "pass": 0,
+        "fail": 2,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "failingNames": [
+        "native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence",
+        "native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence"
+      ]
+    },
+    {
+      "label": "after",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^native dynamic Tabelog (AVAILABLE|UNAVAILABLE) reaches formal H001",
+        "src/harness/browser/browser-read-request-binding.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 10.603160042,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "summary": {
+        "tests": 2,
+        "pass": 0,
+        "fail": 2,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "failingNames": [
+        "native dynamic Tabelog AVAILABLE reaches formal H001 presentation with page-owned query evidence",
+        "native dynamic Tabelog UNAVAILABLE reaches formal H001 TableCheck continuation and no verified result with page-owned query evidence"
+      ]
+    },
+    {
+      "label": "strict-dom-change",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "exitCode": 0,
+      "seconds": 24.909003875000003,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "summary": {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "failingNames": []
+    }
+  ],
+  "pairedFinding": "BOTH_BROWSER_FIXTURE_FAILURES_EXIST_ON_51B0D3DE_UNCHANGED_BY_THIS_REPAIR",
+  "fixtureUnmodified": true,
+  "frozenAfter": true
+}

@@ -1,13 +1,50 @@
-import { publicPriceText, sourcePriceElements, quotedCoursePrice } from "../restaurant-availability/source-price-facts.js";
-import { tabelogCapturedSlots, tabelogQueryControlHints } from "./tabelog-query-controls.js";
-import { resultRegionBusy } from "../restaurant-search/result-region-busy.js";
+import { publicPriceText, sourcePriceElements } from "../restaurant-availability/source-price-facts.js";
+import { decodeHTML } from "entities";
+import { tabelogCapturedSlots } from "./tabelog-query-controls.js";
 
 export function tabelogSearchResultBusy(snapshot: BrowserSnapshot): boolean {
-  return resultRegionBusy(snapshot.html, /(?:list-rst(?:\s|$|__)|search-results|result-list|rstlist|result-count)/i, /(?:calendar|booking|image|photo|recommend|suggest)/i);
+  return publicResultBusy(snapshot, /^(?:search results|restaurant results|restaurants|検索結果|レストラン一覧)$/iu);
 }
 
 export function tabelogAvailabilityResultBusy(snapshot: BrowserSnapshot): boolean {
-  return resultRegionBusy(snapshot.html, /(?:p-booking-calendar|vacancy|time-slots|availability-results)/i, /(?:calendar__calendar|calendar__month|image|photo|recommend|suggest)/i);
+  return publicResultBusy(snapshot, /^(?:availability|available times|reservation|reservations|booking|空席|空席確認|予約)$/iu);
+}
+
+/** Runtime rendering wins. DOM-only fixture inputs retain explicit public hidden semantics. */
+function publicMarkup(snapshot: BrowserSnapshot): string {
+  const stack: Array<{ name: string; hidden: boolean }> = [];
+  let output = "", offset = 0;
+  const html = (snapshot.visibleHtml ?? snapshot.html).replace(/<!--[\s\S]*?-->|<(script|style|template|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, "");
+  for (const token of html.matchAll(/<\/?([a-z][\w-]*)\b[^>]*>/gi)) {
+    if (!stack.at(-1)?.hidden) output += html.slice(offset, token.index);
+    const tag = token[0], name = token[1]!.toLowerCase();
+    if (tag.startsWith("</")) {
+      const index = stack.findLastIndex(node => node.name === name);
+      if (!stack.at(-1)?.hidden) output += tag;
+      if (index >= 0) stack.length = index;
+    } else {
+      const attributes = Object.fromEntries([...tag.slice(name.length + 1, -1).matchAll(/([\w:-]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/gu)]
+        .map(match => [match[1]!.toLowerCase(), match[2] ?? match[3] ?? match[4] ?? ""]));
+      const hidden = Boolean(stack.at(-1)?.hidden) || /^(?:nav|header|footer|aside)$/u.test(name)
+        || Object.hasOwn(attributes, "hidden") || attributes["aria-hidden"] === "true"
+        || /display\s*:\s*none|visibility\s*:\s*hidden/iu.test(attributes.style ?? "");
+      if (!hidden) output += tag;
+      if (!/^(?:area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)$/u.test(name) && !/\/\s*>$/u.test(tag)) stack.push({ name, hidden });
+    }
+    offset = token.index + tag.length;
+  }
+  return output + (stack.at(-1)?.hidden ? "" : html.slice(offset));
+}
+
+function publicResultBusy(snapshot: BrowserSnapshot, purpose: RegExp): boolean {
+  const markup = publicMarkup(snapshot);
+  return sourcePriceElements(markup, tag => /^<(?:main|section|article|div|form|table)\b/iu.test(tag)).some(region => {
+    const tag = region.slice(0, region.indexOf(">") + 1);
+    const label = tag.match(/aria-label\s*=\s*["']([^"']*)["']/iu)?.[1]
+      ?? region.match(/<h[1-6]\b[^>]*>([\s\S]*?)<\/h[1-6]>/iu)?.[1];
+    return label !== undefined && purpose.test(publicPriceText(label))
+      && /aria-busy\s*=\s*["']true["']|role\s*=\s*["']progressbar["']/iu.test(region);
+  });
 }
 import type { BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import type {
@@ -74,22 +111,30 @@ function canonicalTabelogUrl(snapshot: BrowserSnapshot): string | undefined {
 
 export function parseTabelogSearchOutlets(snapshot: BrowserSnapshot): TabelogOutletObservation[] {
   const results = new Map<string, TabelogOutletObservation>();
+  const markup = publicMarkup(snapshot);
+  const cards = sourcePriceElements(markup, tag => /^<(?:article|li)\b|\srole=["']listitem["']/iu.test(tag));
   const link = /<a[^>]+href=["']([^"'#?]+)[^"']*["'][^>]*>([\s\S]*?)<\/a>/gi;
-  for (const match of snapshot.html.matchAll(link)) {
+  for (const match of markup.matchAll(link)) {
     const sourceUrl = absoluteTabelogUrl(match[1] ?? "", snapshot.url);
-    const label = match[2]?.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-    if (!sourceUrl || !label || !isTabelogUrl(sourceUrl)) continue;
-    const tag = match[0] ?? "";
-    if (!/data-(?:address|phone)=|class=["'][^"']*(?:rst-name|restaurant[^"']*(?:name|title))[^"']*["']/i.test(tag)) continue;
+    const label = decodeHTML(publicPriceText(match[2] ?? ""));
+    if (!sourceUrl || !/^https:\/\/(?:www\.)?tabelog\.com\/(?:en\/)?[^/]+\/A\d+\/A\d+\/\d+\/$/iu.test(sourceUrl)
+      || !label || /^(?:photo(?:s)?|map|reviews?|reserve|book|view(?: details)?|写真|地図|口コミ|予約|\d+)$/iu.test(label)) continue;
     const entityId = sourceEntityId(sourceUrl);
-    const address = tag.match(/data-address=["']([^"']+)["']/i)?.[1];
-    const phone = tag.match(/data-phone=["']([^"']+)["']/i)?.[1];
+    // The smallest semantic card must refer to only this outlet. Private data
+    // attributes and a neighbouring card's address never establish identity.
+    const card = cards.filter(card => card.includes(match[0])).sort((a, b) => a.length - b.length)[0];
+    const ownCard = card && [...card.matchAll(link)].every(other => {
+      const href = absoluteTabelogUrl(other[1] ?? "", snapshot.url);
+      return !href || !/\/A\d+\/A\d+\/\d+\/$/u.test(href) || href === sourceUrl;
+    }) ? card : undefined;
+    const address = ownCard?.match(/<address\b[^>]*>([\s\S]*?)<\/address>/iu)?.[1];
+    const phone = ownCard?.match(/<a\b[^>]*href=["']tel:([^"']+)["']/iu)?.[1];
     results.set(entityId, {
       sourceEntityId: entityId,
       sourceUrl,
       outletName: label,
-      ...(address ? { address } : {}),
-      ...(phone ? { phone } : {}),
+      ...(address ? { address: decodeHTML(publicPriceText(address)) } : {}),
+      ...(phone ? { phone: decodeHTML(phone) } : {}),
     });
   }
   return [...results.values()];
@@ -194,131 +239,62 @@ function stripTags(value: string): string {
   return value.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
-function timeIn(value: string): string | undefined {
-  return value.match(/\b([01]\d|2[0-3]):[0-5]\d\b/)?.[0];
-}
-
-function unavailable(value: string): boolean {
-  return /sold[\s-]?out|unavailable|disabled|full|満席|受付終了|予約不可/i.test(value);
-}
-
-function available(value: string): boolean {
-  return /is-available|available|vacancy|空席|予約可|reserve/i.test(value) && !unavailable(value);
-}
-
-/**
- * Extract only time controls carrying an explicit available/unavailable state.
- * A time appearing in ordinary prose, opening hours, or a header is never a slot.
- */
-export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request?: {date:string;partySize:number}): TabelogSlotParse {
-  if (snapshot.settlement === "PENDING") return { availableSlots: [], hasExplicitSlotUi: false };
-  const captured = request ? tabelogCapturedSlots(snapshot, request.date, request.partySize) : undefined;
-  if (captured) return captured;
-  // Public English outlet calendars need the exact bound response. Visible
-  // time templates cannot rescue a missing, stale or contradictory payload.
-  if (request && tabelogQueryControlHints(snapshot).length) return { availableSlots: [], hasExplicitSlotUi: false };
-  const slots = new Set<string>();
-  let hasExplicitSlotUi = false;
-  const element = /<(button|a|li|div)[^>]*?(?:data-(?:time|start-time)|class=["'][^"']*(?:slot|time|reserve|vacancy)[^"']*)[^>]*>([\s\S]{0,500}?)<\/\1>/gi;
-  for (const match of snapshot.html.matchAll(element)) {
-    const whole = match[0] ?? "";
-    // Hidden time templates are not a result for the selected date/party.
-    // Captured Sen pages retain these buttons while no times are displayed.
-    if (/\bis-hidden\b|aria-hidden=["']true["']|\bhidden(?:\s|=|>)|display\s*:\s*none|visibility\s*:\s*hidden/i.test(whole)) continue;
-    const content = `${whole} ${stripTags(match[2] ?? "")}`;
-    const time = whole.match(/data-(?:time|start-time)=["']([^"']+)["']/i)?.[1] ?? timeIn(content);
-    if (!time || !/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) continue;
-    hasExplicitSlotUi = true;
-    if (available(content)) slots.add(time);
-  }
-  return { availableSlots: [...slots].sort(), hasExplicitSlotUi };
-}
-
-function aliases(criterion: string): string[] {
-  const normalized = criterion.trim().toLocaleLowerCase("en-US");
-  return normalized === "omakase" ? ["omakase", "おまかせ", "お任せ"] : [normalized];
-}
-
-/** Only genre/course/menu-labelled source text can support a HARD criterion. */
-export function parseTabelogVerifiedHardCriteria(snapshot: BrowserSnapshot, hardCriteria: string[]): string[] {
-  const sourceText = [...snapshot.html.matchAll(/<(?:[^>]+)(?:class|id)=["'][^"']*(?:genre|category|course|menu|cuisine)[^"']*["'][^>]*>([\s\S]{0,800}?)<\//gi)]
-    .map((match) => stripTags(match[1] ?? ""))
-    .join(" ")
-    .toLocaleLowerCase("ja-JP");
-  return hardCriteria.filter((criterion) => aliases(criterion).some((alias) => sourceText.includes(alias.toLocaleLowerCase("ja-JP"))));
+/** Exact captured source data is required in either language; prose/classes are not inventory. */
+export function parseTabelogAvailabilitySlots(snapshot: BrowserSnapshot, request?: { date: string; partySize: number }): TabelogSlotParse {
+  // An unscoped page observation has no authority to claim inventory.
+  return (request && tabelogCapturedSlots(snapshot, request.date, request.partySize)) ?? { availableSlots: [], hasExplicitSlotUi: false };
 }
 
 export function pageExcerpt(snapshot: BrowserSnapshot): string { return excerpt(snapshot.text); }
 
-/** Listed course cards are facts, not a promise that a plan fits this sitting. */
-export function parseTabelogListedCourses(snapshot: BrowserSnapshot): string[] {
-  const decode = (value: string) => value.replace(/&(?:amp|lt|gt|quot|#39|nbsp);/g, entity => ({ "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"', "&#39;": "'", "&nbsp;": " " })[entity] ?? entity);
-  const visible = snapshot.text.replace(/\s+/g, " ");
-  return snapshot.html.split(/<div\b[^>]*class=["']rstdtl-course-list js-rstdtl-course-list["'][^>]*>/i).slice(1).flatMap(card => {
-    const name = decode(stripTags(card.match(/<span\b[^>]*class=["']rstdtl-course-list__course-title-text["'][^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? ""));
-    const description = decode(stripTags(card.match(/<p\b[^>]*class=["']rstdtl-course-list__desc["'][^>]*>([\s\S]*?)<\/p>/i)?.[1] ?? ""));
-    const price = decode(stripTags(card.match(/<span\b[^>]*class=["']rstdtl-course-list__price-num["'][^>]*>([\s\S]*?)<\/span>/i)?.[1] ?? ""));
-    const party = stripTags(card.match(/<dl\b[^>]*class=["']rstdtl-course-list__course-rule["'][^>]*>([\s\S]*?)<\/dl>/i)?.[1] ?? "");
-    // Require the named card and displayed price, preserving tax, group limits
-    // and the whole description (including lunch-only restrictions). Never
-    // take a crossed-out catalog price or collapse multiple plans to one price.
-    if (!name || !price || !visible.includes(name) || !visible.replace(/\s/g, "").includes(price.replace(/\s/g, "")) || !/JPY\s*[\d,]+/.test(price)) return [];
-    const note = `${name} — ${price}${party ? `; ${party}` : ""}${description ? `. ${description}` : ""}`;
-    return note.length <= 1600 ? [note] : [];
-  }).slice(0, 3);
-}
-
-/** Prices from the same detail snapshot; no additional page or model read. */
-export function parseTabelogPriceFacts(snapshot: BrowserSnapshot): import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts | undefined {
-  const facts: import("../../domains/restaurant/price-facts.js").RestaurantPriceFacts = { schemaVersion: "restaurant-price-facts@1", listedCoursePricesYen: [] };
-  for (const block of sourcePriceElements(snapshot.html, tag => /class=["'][^"']*rdheader-budget__icon/.test(tag))) {
-    const quote = publicPriceText(block);
-    const amounts = [...quote.matchAll(/(?:JPY|¥)\s*([\d,]+)/g)].map(value => Number(value[1]!.replaceAll(",", "")));
-    if (amounts.length !== 2 || amounts.some(value => !Number.isSafeInteger(value) || value < 0) || amounts[0]! > amounts[1]!) continue;
-    const value = { min: amounts[0]!, max: amounts[1]!, quote, sourceUrl: snapshot.url };
-    if (/aria-label=["']Dinner["']/i.test(block)) facts.dinnerBudgetRangeYen = value;
-    if (/aria-label=["']Lunch["']/i.test(block)) facts.lunchBudgetRangeYen = value;
-  }
-  for (const block of sourcePriceElements(snapshot.html, tag => /class=["']rstdtl-course-list js-rstdtl-course-list["']/.test(tag))) {
-    const quote = publicPriceText(block);
-    const price = sourcePriceElements(block, tag => /class=["']rstdtl-course-list__price-num["']/.test(tag))[0];
-    const amount = price && publicPriceText(price).match(/(?:JPY|¥)\s*([\d,]+)/)?.[1];
-    const value = amount && quotedCoursePrice(quote, snapshot.url, Number(amount.replaceAll(",", "")));
-    const title = sourcePriceElements(block, tag => /class=["']rstdtl-course-list__course-title-text["']/.test(tag))[0];
-    const observed = snapshot.text.replace(/\s/g, "");
-    if (value && title && observed.includes(publicPriceText(title).replace(/\s/g, "")) && observed.includes(publicPriceText(price!).replace(/\s/g, ""))) facts.listedCoursePricesYen.push(value);
-  }
-  return facts.dinnerBudgetRangeYen || facts.lunchBudgetRangeYen || facts.listedCoursePricesYen.length ? facts : undefined;
-}
-
-
-/** Field roles are read from this outlet's markup, never guessed from a quote. */
+/** Public field labels and observed links, independent of private class/data. */
 export function parseTabelogSourceFieldQuotes(snapshot: BrowserSnapshot): import("../../domains/restaurant/contracts.js").RestaurantSourceFieldQuote[] {
   type Quote = import("../../domains/restaurant/contracts.js").RestaurantSourceFieldQuote;
   const clean = (s: string) => publicPriceText(s).replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'");
-  const hasClass = (tag: string, token: string) => (tag.match(/\sclass\s*=\s*(["'])([\s\S]*?)\1/i)?.[2] ?? "").split(/\s+/).includes(token);
   const output: Quote[] = [];
-  const add = (field: Quote["field"], markup: string, meal: Quote["meal"] = "UNSPECIFIED") => {
-    const quote = clean(markup); if (quote && quote.length <= 1600) output.push({ field, quote, sourceUrl: snapshot.url, meal });
+  const add = (field: Quote["field"], quote: string, meal: Quote["meal"] = "UNSPECIFIED") => {
+    if (quote && quote.length <= 1600 && !output.some(q => q.field === field && q.quote === quote && q.meal === meal)) output.push({field,quote,sourceUrl:snapshot.url,meal});
   };
-  for (const block of sourcePriceElements(snapshot.html, tag => hasClass(tag, "display-name"))) add("NAME", block);
-  for (const block of sourcePriceElements(snapshot.html, tag => hasClass(tag, "rstdtl-rvw__title-target"))) add("CUSTOMER_REVIEW", block);
-  let merchantHtml = snapshot.html;
-  for (const block of sourcePriceElements(merchantHtml, tag => /^<(?:aside|nav)\b/i.test(tag) || /class=["'][^"']*(?:rstdtl-rvw|recommend|related|neighbor|is-hidden)[^"']*["']/i.test(tag)).sort((a, b) => b.length - a.length)) merchantHtml = merchantHtml.replace(block, "");
-  for (const card of sourcePriceElements(merchantHtml, tag => hasClass(tag, "rstdtl-course-list"))) {
-    const ownRoot = snapshot.url.match(/^(https?:\/\/[^/]+\/en\/[^/]+\/[^/]+\/[^/]+\/\d{8}\/)/)?.[1];
-    if (ownRoot && [...card.matchAll(/href=["']([^"']*\/party\/[^"']*)["']/gi)].some(m => !m[1]!.startsWith(ownRoot + "party/"))) continue;
-    const title = sourcePriceElements(card, tag => /^<span\b/i.test(tag) && hasClass(tag, "rstdtl-course-list__course-title-text"))[0] ?? "";
-    const description = sourcePriceElements(card, tag => /^<p\b/i.test(tag) && hasClass(tag, "rstdtl-course-list__desc"))[0] ?? "";
-    const titleText = clean(title), whole = clean(card);
-    const meal: Quote["meal"] = /lunch|ランチ|昼食/i.test(titleText) ? "LUNCH" : /dinner|ディナー|夕食/i.test(titleText) ? "DINNER"
-      : /lunch|ランチ|昼食/i.test(whole) && !/dinner|ディナー|夕食/i.test(whole) ? "LUNCH" : /dinner|ディナー|夕食/i.test(whole) && !/lunch|ランチ|昼食/i.test(whole) ? "DINNER" : "UNSPECIFIED";
-    add("COURSE_TITLE", title, meal); add("COURSE_DESCRIPTION", description, meal);
+  const markup = publicMarkup(snapshot);
+  for (const heading of sourcePriceElements(markup, tag=>/^<h1\b/iu.test(tag))) add("NAME",clean(heading));
+  const reviewRanges: Array<{start:number;end:number}> = [];
+  const headings=[...markup.matchAll(/<h([1-6])\b[^>]*>([\s\S]*?)<\/h\1\s*>/giu)];
+  for (const [index,heading] of headings.entries()) {
+    if(!/^(?:reviews?|customer reviews?|user reviews?|口コミ|クチコミ|お客様の声)\s*[?？]?$/iu.test(clean(heading[2]!)))continue;
+    const next=headings.slice(index+1).find(other=>Number(other[1])<=Number(heading[1]));
+    const end=next?.index??markup.length;
+    reviewRanges.push({start:heading.index,end});
+    for(const title of headings.slice(index+1).filter(other=>other.index<end))add("CUSTOMER_REVIEW",clean(title[2]!));
   }
-  for (const table of sourcePriceElements(merchantHtml, tag => /^<table\b/i.test(tag) && /class=["'][^"']*rstinfo-table[^"']*["']/i.test(tag)))
-    for (const row of sourcePriceElements(table, tag => /^<tr\b/i.test(tag))) {
-      const heading = row.match(/<th\b[^>]*>([\s\S]*?)<\/th>/i)?.[1] ?? "";
-      if (/^(?:Categories|Cuisine|Genre)$/i.test(clean(heading))) add("CATEGORY", row.match(/<td\b[^>]*>([\s\S]*?)<\/td>/i)?.[1] ?? "");
+  const reviewRegion = (tag:string) => /aria-label=["'](?:customer |user )?reviews?["']/iu.test(tag);
+  for(const link of sourcePriceElements(markup,tag=>/^<a\b/iu.test(tag)&&/href=["'][^"']*\/dtlrvwlst\//iu.test(tag)))add("CUSTOMER_REVIEW",clean(link));
+  let merchant = markup;
+  for(const range of reviewRanges.sort((a,b)=>b.start-a.start))merchant=merchant.slice(0,range.start)+" "+merchant.slice(range.end);
+  for(const region of sourcePriceElements(merchant,reviewRegion).sort((a,b)=>b.length-a.length))merchant=merchant.replace(region,"");
+  const href = (link:string) => link.match(/\bhref\s*=\s*["']([^"']+)["']/iu)?.[1];
+  const courseLink = (link:string) => {try{return /\/party\/\d+(?:\/|$)/u.test(new URL(href(link)??"",snapshot.url).pathname);}catch{return false;}};
+  const sourceRoot = new URL(snapshot.url); sourceRoot.search="";sourceRoot.hash="";
+  sourceRoot.pathname=sourceRoot.pathname.split("/party/")[0]!.replace(/\/$/u,"")+"/";
+  const ownLink = (link:string) => {try{const target=new URL(href(link)??"",snapshot.url);return target.origin===sourceRoot.origin&&target.pathname.startsWith(sourceRoot.pathname);}catch{return false;}};
+  const cards=sourcePriceElements(merchant,tag=>/^<(?:article|section|div)\b/iu.test(tag));
+  for(const link of sourcePriceElements(merchant,tag=>/^<a\b/iu.test(tag)).filter(courseLink)){
+    const title=clean(link);
+    if(!ownLink(link)||!title||/^(?:reserve|reservation|details?|set menu details|menus?|courses?|予約|詳細)$/iu.test(title))continue;
+    const card=cards.filter(card=>card.includes(link)&&/<p\b/iu.test(card)).sort((a,b)=>a.length-b.length)[0];
+    if(card&&sourcePriceElements(card,tag=>/^<a\b/iu.test(tag)).some(other=>courseLink(other)&&!ownLink(other)))continue;
+    const whole=card?clean(card):title;
+    const meal:Quote["meal"]=/lunch|ランチ|昼食/iu.test(title)?"LUNCH":/dinner|ディナー|夕食/iu.test(title)?"DINNER"
+      : /lunch|ランチ|昼食/iu.test(whole)&&!/dinner|ディナー|夕食/iu.test(whole)?"LUNCH":/dinner|ディナー|夕食/iu.test(whole)&&!/lunch|ランチ|昼食/iu.test(whole)?"DINNER":"UNSPECIFIED";
+    add("COURSE_TITLE",title,meal);
+    if(card)for(const paragraph of sourcePriceElements(card,tag=>/^<p\b/iu.test(tag))){
+      const text=clean(paragraph);
+      if(sourcePriceElements(paragraph,tag=>/^<a\b/iu.test(tag)).some(courseLink)||/^\d+\s*(?:items?|品)$/iu.test(text))continue;
+      if(text&&!/^(?:reserve|set menu details|JPY|¥|Number of people)\b/iu.test(text))add("COURSE_DESCRIPTION",text,meal);
     }
-  return output.slice(0, 32);
+  }
+  for(const table of sourcePriceElements(merchant,tag=>/^<table\b/iu.test(tag)))for(const row of sourcePriceElements(table,tag=>/^<tr\b/iu.test(tag))){
+    const label=clean(row.match(/<th\b[^>]*>([\s\S]*?)<\/th>/iu)?.[1]??"");
+    if(/^(?:categories|cuisines?|genres?|ジャンル|料理ジャンル)$/iu.test(label))add("CATEGORY",clean(row.match(/<td\b[^>]*>([\s\S]*?)<\/td>/iu)?.[1]??""));
+  }
+  return [...output.filter(q=>q.field==="CATEGORY"),...output.filter(q=>q.field!=="CATEGORY")].slice(0,32);
 }
