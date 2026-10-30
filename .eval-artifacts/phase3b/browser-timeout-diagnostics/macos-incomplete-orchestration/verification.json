@@ -1,0 +1,66 @@
+{
+  "testedCommit": "09ce75361ea8cbed8d8314e622aac4b2e5258d58",
+  "mode": "OFFLINE_LOCAL_CHROMIUM_AND_FIXTURE_MODEL",
+  "environment": {
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "cpus": 10,
+    "node": "v24.4.1"
+  },
+  "startedAtCET": "2026-10-30T17:53:01.519934+01:00",
+  "frozenPaths": 718,
+  "newRealCalls": 0,
+  "runs": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.475,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.201,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 29.554,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "977cc5971c524204f98fb8f9ca50610ddf20b1bae218f74d4d502bf38e363628",
+      "summary": {
+        "tests": 1243,
+        "suites": 5,
+        "pass": 1243,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "status": "PASS"
+    }
+  ]
+}

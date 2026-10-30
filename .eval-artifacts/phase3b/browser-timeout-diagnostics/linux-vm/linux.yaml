@@ -1,0 +1,18 @@
+vmType: vz
+arch: aarch64
+images:
+- location: "file:///private/tmp/praxis-browser-timeout-20261031-vm/debian.qcow2"
+  arch: aarch64
+  digest: "sha512:f42866fe22b4baf9f0ed4f81d620064f2a4b86b18b92bfe3aaaa40babf6819d39cbf0caaaad13f4ae3e7c9f82cbd78b0c8cabadd8bc737ce13578e61fa86970c"
+cpus: 2
+memory: 6GiB
+disk: 24GiB
+plain: true
+mounts: []
+containerd:
+  system: false
+  user: false
+ssh:
+  loadDotSSHPubKeys: false
+  forwardAgent: false
+propagateProxyEnv: false
