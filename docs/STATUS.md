@@ -1,6 +1,6 @@
 # Praxis 当前状态
 
-2026-10-30 CET：用户复核通过C真实PostgreSQL证据d50f3e77并批准合main。最新origin/main00519783已在祖先，src/迁移/受保护文件不改；冻结原件和门禁输入后重跑五门禁，每项前后净树。只发布证据与文档，不重跑数据库、不加载.env、不调用来源或模型；通过后合main/push/ls-remote，随后待命。G3接线与日文检索仍等另行指令。 [计划](../.eval-artifacts/phase3b/b1-postgres-feedback-main/plan.md)。
+2026-10-30 CET：用户已复核通过d50f3e77；C证据合入前在fdd4aba5冻结718项，五门禁1210/175（内含G2 5/5）全绿，7步前后净树，输入SHA一致。原PG证据逐字节保留，src/迁移/受保护文件及账本不改；本次没有新数据库实验、凭据读取或来源/模型调用。按用户批准合main并推送，远端SHA由Git回执核对；发布后待命，G3/B1和日文检索仍等后续指令。 [报告](../.eval-artifacts/phase3b/b1-postgres-feedback-main/report.md)。
 
 2026-10-29 CET: C B1 real PostgreSQL17.10 verification PASS on unchanged main00519783. Frozen76c676a2/17 inputs: isolated index-negative control2 prompted rows versus original-index1 (23505); unmodified product eight physical connections yield one prompt, eight duplicate departure/answer submissions idempotent, cross-user/Case rejected. Node and database restart retain3 answered plus1 unanswered Case without re-asking; Task/Outcome/events/commands unchanged. Private Unix socket only, no PGlite/env/external calls; own cluster stopped and removed. Evidence pending review, branch only; G4 waits G3. [Report](../.eval-artifacts/phase3b/b1-postgres-feedback/report.md).
 
