@@ -14,7 +14,7 @@ test("browser fixture entry keeps G2 exclusive, retains every test and propagate
     await mkdir(fixture, { recursive: true }); await mkdir(join(directory, "scripts"));
     await symlink(resolve("node_modules"), join(directory, "node_modules"), "dir");
     await writeFile(join(directory, "package.json"), '{"type":"module"}\n');
-    for (const name of ["run-browser-fixtures.mjs", "test-filesystem-guard.mjs"])
+    for (const name of ["run-browser-fixtures.mjs", "browser-fixture-worker.mjs", "test-filesystem-guard.mjs"])
       await writeFile(join(directory, "scripts", name), await readFile(join("scripts", name)));
     const source = (name: string, fail: boolean) => `
       import test from 'node:test'; import assert from 'node:assert/strict';
@@ -46,5 +46,69 @@ test("browser fixture entry keeps G2 exclusive, retains every test and propagate
       assert.equal([...result.stdout.matchAll(/^ℹ pass (\d+)$/gm)].at(-1)?.[1], fail ? "2" : "3");
       assert.equal([...result.stdout.matchAll(/^ℹ fail (\d+)$/gm)].at(-1)?.[1], fail ? "1" : "0");
     }
+  } finally { await rm(directory, { recursive: true, force: true }); }
+});
+
+test("browser outer guard identifies unfinished files and retains buffered output", async t => {
+  // Local construction, not the intermittent Linux failure or website replay.
+  // Advance only the outer clock after genuine started/finished/output events;
+  // neither browser deadlines nor a machine-speed wait defines this oracle.
+  const directory = await mkdtemp(join(tmpdir(), "browser-fixture-timeout-"));
+  try {
+    const fixture = join(directory, "src/harness/browser");
+    await mkdir(fixture, { recursive: true }); await mkdir(join(directory, "scripts"));
+    await symlink(resolve("node_modules"), join(directory, "node_modules"), "dir");
+    await writeFile(join(directory, "package.json"), '{"type":"module"}\n');
+    for (const name of ["run-browser-fixtures.mjs", "browser-fixture-worker.mjs", "test-filesystem-guard.mjs"])
+      await writeFile(join(directory, "scripts", name), await readFile(join("scripts", name)));
+    const names = ["a-held", "b-finished", "c-held", "d-queued"];
+    for (const name of names) await writeFile(join(fixture, name + ".test.ts"), `
+      import test from 'node:test';
+      test(${JSON.stringify(name + " lifecycle step")}, async t => {
+        console.log(${JSON.stringify(name + " partial output")});
+        ${name === "b-finished" ? "" : `await new Promise(resolve => {
+          const timer = setInterval(() => {}, 1000);
+          t.signal.addEventListener('abort', () => { clearInterval(timer); resolve(); }, {once:true});
+        });`}
+      });`);
+    await writeFile(join(directory, "driver.mjs"), `
+      import assert from 'node:assert/strict';
+      import {runBrowserFixturePhase} from './scripts/run-browser-fixtures.mjs';
+      const files=${JSON.stringify(names)}.map(name=>new URL('./src/harness/browser/'+name+'.test.ts',import.meta.url).pathname);
+      let now=0, expire, output=false, finished=false, nextStarted=false, fired=false;
+      const check=()=>{if(output&&finished&&nextStarted&&!fired){fired=true;now=600000;expire()}};
+      const writeOut=process.stdout.write.bind(process.stdout), writeErr=process.stderr.write.bind(process.stderr);
+      process.stdout.write=(chunk,...args)=>{const result=writeOut(chunk,...args);if(String(chunk).includes('a-held partial output'))output=true;queueMicrotask(check);return result};
+      process.stderr.write=(chunk,...args)=>{
+        const result=writeErr(chunk,...args), line=String(chunk);
+        if(line.startsWith('[browser fixtures] {')) {
+          const event=JSON.parse(line.slice('[browser fixtures] '.length));
+          if(event.event==='FILE_END'&&event.file.endsWith('b-finished.test.ts'))finished=true;
+          if(event.event==='FILE_START'&&event.file.endsWith('c-held.test.ts'))nextStarted=true;
+        }
+        queueMicrotask(check);return result;
+      };
+      const result=await runBrowserFixturePhase({name:'constructed timeout',concurrency:2,files},{
+        now:()=>now,setTimeout:(callback,ms)=>{assert.equal(ms,600000);expire=callback;return 1},clearTimeout:()=>{},
+      });
+      assert.equal(fired,true);assert.equal(result.timedOut,true);process.exitCode=1;
+    `);
+    const env = { ...process.env }; delete env.NODE_TEST_CONTEXT;
+    const result = spawnSync(process.execPath, ["driver.mjs"], { cwd: directory, env, encoding: "utf8", timeout: 60_000 });
+    assert.ifError(result.error);
+    assert.equal(result.status, 1, result.stdout + result.stderr);
+    assert.match(result.stdout, /a-held partial output/);
+    assert.match(result.stdout, /b-finished partial output/, "ordered output behind the held file must survive timeout cleanup");
+    const rows = result.stderr.split("\n").filter(line => line.startsWith("[browser fixtures] {"))
+      .map(line => JSON.parse(line.slice("[browser fixtures] ".length)) as { event: string; file?: string; elapsedMs?: number; limitMs?: number; lastObservedTests?: string[]; notStarted?: string[] });
+    assert.equal(rows.filter(row => row.event === "OUTER_TIMEOUT").length, 1);
+    assert.equal(rows.find(row => row.event === "OUTER_TIMEOUT")?.limitMs, 600_000);
+    const unfinished = rows.filter(row => row.event === "UNFINISHED");
+    assert.deepEqual(unfinished.map(row => row.file).sort(), ["src/harness/browser/a-held.test.ts", "src/harness/browser/c-held.test.ts"]);
+    assert.ok(unfinished.every(row => row.elapsedMs === 600_000));
+    assert.ok(unfinished.find(row => row.file?.endsWith("a-held.test.ts"))?.lastObservedTests?.includes("a-held lifecycle step"));
+    assert.deepEqual(rows.find(row => row.event === "PHASE_PROGRESS")?.notStarted, ["src/harness/browser/d-queued.test.ts"]);
+    t.diagnostic(JSON.stringify({ mode: "LOCAL_CONSTRUCTION_INJECTED_OUTER_CLOCK", unfinished,
+      progress: rows.find(row => row.event === "PHASE_PROGRESS"), heldAndBufferedFinishedOutputRetained: true }));
   } finally { await rm(directory, { recursive: true, force: true }); }
 });

@@ -1,5 +1,10 @@
 # Praxis 当前状态
 
+
+## 2026-10-30 CET：浏览器外层保护诊断准备（待验证）
+
+从main7c83e02e建立A独立分支；600秒外层保护及G2原180秒/独占调度不变。旧入口在本地构造、缩短外层保护的对照中缺少未结束文件/耗时诊断（不是偶发600秒复现）；新入口通过Node生命周期独立通道记录文件，并取消后等待输出排空。所属原生回归2/2，完整五门禁与2核Linux五次全套尚待运行。产品及B/C测试不变，真实调用0，不合main。[计划](../.eval-artifacts/phase3b/browser-timeout-diagnostics/plan.md)。
+
 2026-10-30 CET：G3/G3c已复核签收，已同步main4cbc521b，统一候选8025362b五门禁全绿：默认1242/1242、Chromium186/186（130.563秒）、严格G2 5/5及12/12页面PASS；八项前后净树，721输入SHA不变。旧HARD44,197字节一致，481状态仅既有批准人数反例改变。源码冲突0，6份文档保留双方正文；按用户批准合入推送main，确切SHA以Git远端回执为准，随后通知C待命。真实调用0，账本486条。后续（本批不做）：删除无非空生产者的provider observation verifiedHardCriteria可选字段、透传、旧matchReasons投影与直接构造测试，保留Google及Source2 MODEL_JUDGMENT合法criterion claims；G3b等首次Live有时段TableCheck日历。 [报告](../.eval-artifacts/phase3b/g3-main/report.md)。
 
 2026-10-30 CET：用户已批准G3/G3c 02163d39；复核者2核Linux五门禁1241/180及严格G2全绿。同步main4cbc521b后源码无冲突；6份文档双方正文保留，统一页头与ADR0049/0050说明，待冻结候选重跑五门禁和严格G2，全绿才发布main，任一失败即停。真实调用0。后续清理（本批不做）：provider observation verifiedHardCriteria无非空生产者，可选字段/透传/matchReasons旧文案投影及旧直接构造测试待删；Google和Source2 MODEL_JUDGMENT合法criterion claims保留。G3b等首次Live保存有时段TableCheck日历。 [计划](../.eval-artifacts/phase3b/g3-main/plan.md)。
