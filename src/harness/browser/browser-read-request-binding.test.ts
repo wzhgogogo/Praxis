@@ -276,7 +276,7 @@ test("native Tabelog detail uses real local Chromium controls before accepting i
 });
 
 for (const outcome of ["AVAILABLE", "UNAVAILABLE"] as const) {
-test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAILABLE" ? "presentation" : "TableCheck continuation and no verified result"} with page-owned query evidence`, async () => {
+test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAILABLE" ? "presentation" : "TableCheck continuation and no verified result"} with page-owned query evidence`, async (t) => {
   const { dynamicTabelogSourcePages, center, date, reference } = await import("../../eval/restaurant/agent-loop/native-fixed-source-pages.js");
   const { traceBrowserSession } = await import("../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js");
   const { GooglePlacesClient } = await import("../../integrations/google/google-places-client.js");
@@ -287,6 +287,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   const { createHybridReadComposition } = await import("../../eval/restaurant/agent-loop/hybrid-read-composition.js");
   const { evaluateRestaurantHybridLiveArtifact } = await import("../../eval/restaurant/agent-loop/diagnostic-evaluator.js");
   const { loadFrozenLiveCases, RESTAURANT_READ_DEVELOPMENT_CASE_PATH } = await import("../../eval/restaurant/agent-loop/live-case-materializer.js");
+  const { scriptedSourceFacts } = await import("../../eval/restaurant/agent-loop/current-development-fixed-sources.js");
   const trace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   const rawRuntime = dynamicTabelogSourcePages({ result: outcome });
   const runtime = { openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(
@@ -294,10 +295,24 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   ) };
   const reply = (outputText: string, purpose: string) => ({ invocationId: purpose, provider: "FIXTURE" as const, model: "scripted-formal-browser", outputText, finishReason: "TOOL_CALLS" as const, latencyMs: 0 });
   const browserActions: string[] = [];
+  const sourceFactSelections: Array<{ promptVersion: string; schemaVersion: string; selections: unknown; selectedStatements: unknown }> = [];
   let modelCalls = 0;
   let availabilityReadFirst = false;
   const model: import("../../core/model/contracts.js").ModelGateway = { async complete(request) {
     assert.ok(++modelCalls <= 50, "the formal local composition retains its total model-call ceiling");
+    if (request.purpose === "restaurant_source_facts") {
+      // Local construction: this Chromium page already renders its full
+      // Omakase course sentence as visible text. Public menu layout reference:
+      // restaurant-prices/ginza-sushi-sendou.html, SHA-256
+      // 34e82a5f3a2e882f261bf6e42cb54e5e75d0318e6a02b32c8d6047e76074057d.
+      // Source2 returns original IDs/role only; never a verified HARD marker.
+      const response = scriptedSourceFacts(request)!;
+      const output = JSON.parse(response.outputText) as { selections: Array<{ firstStatementId: string; lastStatementId: string }> };
+      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { sourceDocument: { statements: Array<{ id: string; text: string }> } };
+      sourceFactSelections.push({ promptVersion: request.promptVersion, schemaVersion: request.outputSchema.version,
+        selections: output.selections, selectedStatements: input.sourceDocument.statements.filter(statement => output.selections.some(selection => selection.firstStatementId === statement.id)) });
+      return response;
+    }
     if (request.purpose === "restaurant_discovery_retrieval") {
       const input = JSON.parse(request.messages.find(item => item.role === "user")!.content);
       return reply(JSON.stringify({ choice: input.current ? "KEEP" : "KEYWORD", keyword: input.current ? "" : "omakase", criterionRef: input.current ? "" : "criterion:0", generalRef:'',categoryUrl: "", reason: "Controlled retrieval; preserve the current sparse source result." }), request.purpose);
@@ -371,6 +386,13 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   assert.ok(sourceFacts.length > 0);
   assert.ok(sourceFacts.every((evidence) => evidence.observedAt === reference.toISOString()),
     "native source facts use the controlled composition clock rather than wall time");
+  t.diagnostic(JSON.stringify({ outcome, modelCalls, sourceFactSelections, phase: state.phase,
+    availabilityStatus: state.availabilityChecks[candidateId]?.status, factCheck: state.factChecks?.[candidateId],
+    matchReasons: state.candidates.find(candidate => candidate.restaurant.id === candidateId)?.matchReasons,
+    sourceFieldQuotes: sourceFacts.flatMap(evidence => evidence.sourceFieldQuotes ?? []),
+    modelVerifiedHardCriteria: state.readEvidence.filter(evidence => evidence.candidateId === candidateId && evidence.provider === "MODEL_JUDGMENT").map(evidence => evidence.claims.verifiedHardCriteria),
+    conditionStates: state.presentedResults?.conditionStates,
+    agentSequence: composition.trajectories.steps.map(step => step.agentAction?.type), browserActions }));
   assert.ok(state.candidates.find((candidate) => candidate.restaurant.id === candidateId)?.matchReasons
     .includes("Verified HARD criterion from source: omakase"));
   assert.deepEqual(browserActions, ["DATE", "PARTY_SIZE"], "request values must come from real observed DOM actions");
