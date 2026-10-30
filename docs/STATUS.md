@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-10-30 CET：用户复核通过C真实PostgreSQL证据d50f3e77并批准合main。最新origin/main00519783已在祖先，src/迁移/受保护文件不改；冻结原件和门禁输入后重跑五门禁，每项前后净树。只发布证据与文档，不重跑数据库、不加载.env、不调用来源或模型；通过后合main/push/ls-remote，随后待命。G3接线与日文检索仍等另行指令。 [计划](../.eval-artifacts/phase3b/b1-postgres-feedback-main/plan.md)。
+
 2026-10-29 CET: C B1 real PostgreSQL17.10 verification PASS on unchanged main00519783. Frozen76c676a2/17 inputs: isolated index-negative control2 prompted rows versus original-index1 (23505); unmodified product eight physical connections yield one prompt, eight duplicate departure/answer submissions idempotent, cross-user/Case rejected. Node and database restart retain3 answered plus1 unanswered Case without re-asking; Task/Outcome/events/commands unchanged. Private Unix socket only, no PGlite/env/external calls; own cluster stopped and removed. Evidence pending review, branch only; G4 waits G3. [Report](../.eval-artifacts/phase3b/b1-postgres-feedback/report.md).
 
 2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../.eval-artifacts/phase3b/g5-b1-main/report.md)。
@@ -67,10 +69,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.449
+- Document revision: 4.450
 
 - Document revision: 4.445
-- Last updated: 2026-10-29
+- Last updated: 2026-10-30
 - Source of truth for: 当前实现、证据与下一道门槛
 
 - **2026-10-28 CET：3b C批次3完成，停止待复核。** main基线90b464d8；29原保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝；用户确认去重12而非16，以及每店每来源最多两次检索，已写入报告供复核者核对。双站原名→一种逐字Google片段，独立named-query Prompt/Schema2，原身份与详情总额保持，Google增量0。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。G2仅两原页地址获批更新；17保存检索及4个UNKNOWN控制、12片段定位通过，7/8为历史混合探针，新Prompt2真实质量未评。只推C分支，申请复核通过后合main，B随后开始G3。[报告](../.eval-artifacts/phase3b/c-batch3/report.md)。

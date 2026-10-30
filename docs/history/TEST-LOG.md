@@ -25,10 +25,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.347
+- Document revision: 4.348
 
 
-- Last updated: 2026-10-29
+- Last updated: 2026-10-30
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -5907,3 +5907,9 @@ Five controlled faults each fail the intended surviving assertion; normal contro
 2026-10-29 CET: C starts optional real PostgreSQL17.10 B1 verification on main00519783. Own temporary cluster, TCP disabled/private Unix socket. Freeze scripts then index-only red/green control and unmodified product app/store eight-connection claims/idempotency/owner isolation, process+database restart. No PGlite, no.env, no product/UI/A-eval/B file edits, external calls0. G4 remains pending G3 and separate instruction.
 
 Verified delivery: 2026-10-29 CET: C B1 real PostgreSQL17.10 verification PASS on unchanged main00519783. Frozen76c676a2/17 inputs: isolated index-negative control2 prompted rows versus original-index1 (23505); unmodified product eight physical connections yield one prompt, eight duplicate departure/answer submissions idempotent, cross-user/Case rejected. Node and database restart retain3 answered plus1 unanswered Case without re-asking; Task/Outcome/events/commands unchanged. Private Unix socket only, no PGlite/env/external calls; own cluster stopped and removed. Evidence pending review, branch only; G4 waits G3. [Report](../../.eval-artifacts/phase3b/b1-postgres-feedback/report.md).
+
+<a id="test-2026-10-30-b1-postgres-main"></a>
+
+## 2026-10-30 CET：审定PostgreSQL证据合主线
+
+2026-10-30 CET：用户复核通过C真实PostgreSQL证据d50f3e77并批准合main。最新origin/main00519783已在祖先，src/迁移/受保护文件不改；冻结原件和门禁输入后重跑五门禁，每项前后净树。只发布证据与文档，不重跑数据库、不加载.env、不调用来源或模型；通过后合main/push/ls-remote，随后待命。G3接线与日文检索仍等另行指令。 [计划](../../.eval-artifacts/phase3b/b1-postgres-feedback-main/plan.md)。
