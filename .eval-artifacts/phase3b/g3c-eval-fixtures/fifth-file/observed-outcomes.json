@@ -1,0 +1,230 @@
+{
+  "sourceCandidate": "12d25eaa",
+  "mode": "REAL_LOCAL_CHROMIUM_WITH_CONSTRUCTED_SOURCE_AND_FIXTURE_MODEL",
+  "records": [
+    {
+      "outcome": "AVAILABLE",
+      "modelCalls": 14,
+      "sourceFactSelections": [
+        {
+          "promptVersion": "2",
+          "schemaVersion": "2",
+          "selections": [
+            {
+              "firstStatementId": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "lastStatementId": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "role": "COURSE",
+              "priceStatementId": ""
+            }
+          ],
+          "selectedStatements": [
+            {
+              "id": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "text": "Omakase course",
+              "sourceRole": "SOURCE_TEXT"
+            }
+          ]
+        },
+        {
+          "promptVersion": "2",
+          "schemaVersion": "2",
+          "selections": [
+            {
+              "firstStatementId": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "lastStatementId": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "role": "COURSE",
+              "priceStatementId": ""
+            }
+          ],
+          "selectedStatements": [
+            {
+              "id": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "text": "Omakase course",
+              "sourceRole": "SOURCE_TEXT"
+            }
+          ]
+        }
+      ],
+      "phase": "PRESENT_RESULTS",
+      "availabilityStatus": "AVAILABLE",
+      "factCheck": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-08-19T07:20:00.000Z",
+        "evidenceIds": [
+          "evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b",
+          "quoted-source:c6e54935c8f66700dff525d8",
+          "tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a",
+          "fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"
+        ],
+        "sourceProvider": "TABELOG",
+        "supersededEvidenceIds": [
+          "evidence:restaurant:tabelog-hard-criteria:cf8f2a36bf037130c26a2289"
+        ]
+      },
+      "matchReasons": [
+        "Source coordinates within 1000 m of Shibuya"
+      ],
+      "sourceFieldQuotes": [
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Omakase course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/100/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Omakase course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/100/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Omakase course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/100/",
+          "meal": "UNSPECIFIED"
+        }
+      ],
+      "modelVerifiedHardCriteria": [
+        [
+          "omakase"
+        ]
+      ],
+      "conditionStates": {
+        "tabelog:en/tokyo/A1304/A130401/100": [
+          {
+            "text": "omakase",
+            "strength": "HARD",
+            "polarity": "POSITIVE",
+            "criterionRef": "criterion:0",
+            "status": "MET",
+            "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+            "evidenceIds": [
+              "fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a",
+              "tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"
+            ],
+            "sources": [
+              {
+                "field": "COURSE_DESCRIPTION",
+                "quote": "Omakase course",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/100/",
+                "meal": "UNSPECIFIED"
+              }
+            ]
+          }
+        ]
+      },
+      "agentSequence": [
+        "SEARCH_RESTAURANTS",
+        "CHECK_AVAILABILITY",
+        "INVESTIGATE_CANDIDATE_FACTS",
+        "PRESENT_RESULTS"
+      ],
+      "browserActions": [
+        "DATE",
+        "PARTY_SIZE"
+      ]
+    },
+    {
+      "outcome": "UNAVAILABLE",
+      "modelCalls": 18,
+      "sourceFactSelections": [
+        {
+          "promptVersion": "2",
+          "schemaVersion": "2",
+          "selections": [
+            {
+              "firstStatementId": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "lastStatementId": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "role": "COURSE",
+              "priceStatementId": ""
+            }
+          ],
+          "selectedStatements": [
+            {
+              "id": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "text": "Omakase course",
+              "sourceRole": "SOURCE_TEXT"
+            }
+          ]
+        },
+        {
+          "promptVersion": "2",
+          "schemaVersion": "2",
+          "selections": [
+            {
+              "firstStatementId": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "lastStatementId": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "role": "COURSE",
+              "priceStatementId": ""
+            }
+          ],
+          "selectedStatements": [
+            {
+              "id": "tabelog:en/tokyo/A1304/A130401/100:statement:2",
+              "text": "Omakase course",
+              "sourceRole": "SOURCE_TEXT"
+            }
+          ]
+        }
+      ],
+      "phase": "NO_VERIFIED_RESULT",
+      "availabilityStatus": "UNAVAILABLE",
+      "factCheck": {
+        "status": "COMPLETED",
+        "checkedAt": "2026-08-19T07:20:00.000Z",
+        "evidenceIds": [
+          "evidence:restaurant:native-fact-identity:42699ee7d91a36495c8a788b",
+          "quoted-source:c6e54935c8f66700dff525d8",
+          "tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a",
+          "fact-judgment:tabelog:en/tokyo/A1304/A130401/100:2026-08-19T07:20:00.000Z:tabelog:en/tokyo/A1304/A130401/100:document:b0e3b901e66d2a4a"
+        ],
+        "sourceProvider": "TABELOG",
+        "supersededEvidenceIds": []
+      },
+      "matchReasons": [
+        "Source coordinates within 1000 m of Shibuya"
+      ],
+      "sourceFieldQuotes": [
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Omakase course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/100/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Omakase course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/100/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Omakase course",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1304/A130401/100/",
+          "meal": "UNSPECIFIED"
+        }
+      ],
+      "modelVerifiedHardCriteria": [
+        [
+          "omakase"
+        ]
+      ],
+      "agentSequence": [
+        "SEARCH_RESTAURANTS",
+        "INVESTIGATE_CANDIDATE_FACTS",
+        "CHECK_AVAILABILITY",
+        "SEARCH_RESTAURANTS",
+        "SEARCH_RESTAURANTS",
+        "END_READ"
+      ],
+      "browserActions": [
+        "DATE",
+        "PARTY_SIZE"
+      ]
+    }
+  ],
+  "independentEvaluation": "NOT_REACHED_AFTER_REQUIRED_MARKER_ASSERTION",
+  "fullFiveGates": "NOT_RUN_STOP_PRODUCT_PROJECTION",
+  "strictG2": "NOT_RUN_STOP_PRODUCT_PROJECTION",
+  "newRealCalls": 0
+}
