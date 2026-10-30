@@ -20,8 +20,18 @@ environment={'platform':platform.platform(),'cpus':os.cpu_count(),'node':subproc
 if args.two_cpu:
     assert platform.system()=='Linux' and os.cpu_count()==2 and os.sched_getaffinity(0)=={0,1}
     environment['affinity']=sorted(os.sched_getaffinity(0))
-    environment['cpuMax']=Path('/sys/fs/cgroup/cpu.max').read_text() if Path('/sys/fs/cgroup/cpu.max').exists() else 'root max'
-    assert environment['cpuMax'].startswith('max'),environment
+    environment['cpuCgroup']=Path('/proc/self/cgroup').read_text()
+    relative=next(line.split('::',1)[1] for line in environment['cpuCgroup'].splitlines() if line.startswith('0::'))
+    cgroup_root=Path('/sys/fs/cgroup');group=cgroup_root/relative.lstrip('/')
+    quotas={}
+    while group==cgroup_root or cgroup_root in group.parents:
+        quota=group/'cpu.max'
+        if quota.exists():
+            quotas[str(quota)]=quota.read_text().strip()
+            assert quotas[str(quota)].startswith('max '),quotas
+        if group==cgroup_root:break
+        group=group.parent
+    environment['cpuMaxAncestors']=quotas # A root without cpu.max has no additional quota.
     for family,destination in (('-4','198.51.100.1'),('-6','2001:db8::1')):
         result=subprocess.run(['ip',family,'route','get',destination],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
         assert result.returncode!=0,(family,result.stdout)
