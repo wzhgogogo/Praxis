@@ -127,6 +127,7 @@ async function startServer(database: SqlDatabase, clock: FakeClock, options: Sta
   const server = createLocalWebServer({
     application,
     sessions,
+    ...(options.readAssembly ? {readAssembly:options.readAssembly} : {}),
     ...(options.bookingHandoffs ? {bookingHandoffs:options.bookingHandoffs} : {}),
     ...(options.artifactDirectory ? { artifactDirectory: options.artifactDirectory } : {}),
   });
@@ -1891,5 +1892,98 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
 
 
     } finally {await running.close();}
+  });
+});
+
+// Real persistent HTTP/assembly/Router/Reducer/availability/parser path; only model,
+// Google and BrowserSession transports are constructed fixtures. No prepared B1 record.
+test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
+  await withDatabase(async ({database, clock}) => {
+    const pageUrl = "https://tabelog.com/en/tokyo/A1301/A130101/13123456/";
+    const original = "https://tabelog.com/en/booking/form_course/new?visit_time=%31%39%30%30&member=2&rcd=13123456&visit_date=20260809";
+    let sourceLink: string | undefined = original;
+    let decisions = 0;
+    let opens = 0;
+    const navigations: string[] = [];
+    const fixture: ModelGateway = {async complete(request) {
+      let output: unknown;
+      if (request.purpose === "restaurant_semantic_interpret") output = availabilityProposal(2);
+      else if (request.purpose === "restaurant_source_facts") output = {selections: []};
+      else {
+        assert.equal(request.purpose, "restaurant_agent_decide");
+        const context = JSON.parse(request.messages[1]!.content).context;
+        const ids = context.candidates.map((c: {id:string}) => c.id);
+        const hasOffer = Object.values(context.availability).some(v => Array.isArray(v) && v.length);
+        const action = decisions++ === 0 ? {type:"SEARCH_RESTAURANTS",candidateIds:[]}
+          : decisions === 2 ? {type:"CHECK_AVAILABILITY",candidateIds:ids}
+          : hasOffer ? {type:"PRESENT_RESULTS",candidateIds:ids} : {type:"END_READ",candidateIds:[]};
+        output = {...action,question:"",relatedFields:[],retrievalHint:"",candidateId:"",offerId:"",decisionSummary:"Offline B1 transport fixture"};
+      }
+      return {invocationId:"b1-g3-fixture",provider:"FIXTURE",model:"offline",latencyMs:0,finishReason:"TOOL_CALLS",outputText:JSON.stringify(output)};
+    }};
+    const model = new RunBoundedModelGateway(fixture, 50, 20_000);
+    const google = new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async (_url,init) => {
+      const query = init?.body ? JSON.parse(String(init.body)).textQuery : undefined;
+      return new Response(JSON.stringify({places:query === "Shibuya" ? [{id:"b1-location",displayName:{text:"Shibuya"},types:["train_station"],location:{latitude:35.66,longitude:139.70}}]
+        : [{id:"b1-g3-outlet",displayName:{text:"Fixture Sushi"},formattedAddress:"1-2-3 Shibuya Tokyo",types:["restaurant"],location:{latitude:35.66,longitude:139.70},nationalPhoneNumber:"03-1234-5678",websiteUri:pageUrl}]}),{status:200});
+    }});
+    const browser: BrowserRuntime = {async openSession() {
+      opens++;
+      return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:clock.now().toISOString()},
+        async navigate(url) {navigations.push(url);assert.equal(url,pageUrl,"never open a workflow to check the link");},
+        async snapshot() {return {url:pageUrl,title:"Fixture Sushi",text:"Fixture Sushi Availability Guests 2 19:00",
+          html:`<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:"Fixture Sushi",address:"1-2-3 Shibuya Tokyo",telephone:"03-1234-5678"})}</script><select name="party"><option selected value="2">2 guests</option></select><select name="date"><option selected value="2026-08-09">2026-08-09</option></select>`,
+          responses:[{url:"https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20260809&svps=2",status:200,sequence:7,observedAt:clock.now().toISOString(),
+            body:{base_date:{year:2026,month:8,day:9},members:2,selection:sourceLink === undefined ? [] : [{time:"19:00",url:sourceLink}]}}]};},
+        async select(_selector,value) {return [value];},async click() {assert.fail("no booking click");},async fill(){},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
+    }};
+    const readAssembly = createLiveReadAssembly({...readLimits,packs:[googlePlacesDiscoveryPack]}, {
+      google,browser,model,clock,currentTaskId:()=>model.currentTaskId(),
+    });
+    const running = await startServer(database,clock,{model,modelRunBudget:model,readAssembly,mode:"LIVE_READ",liveReadLimits:readAssembly.runCeilings});
+    try {
+      const cookie = await login(running.baseUrl,"token-a");
+      let last:RestaurantCaseView | undefined;
+      for (const [label,link,accepted] of [
+        ["original",original,true],
+        ["relative",original.slice("https://tabelog.com".length),true],
+        ["missing",undefined,false],
+        ["date",original.replace("20260809","20260810"),false],
+        ["party",original.replace("member=2","member=3"),false],
+        ["time",original.replace("%31%39%30%30","1930"),false],
+        ["outlet",original.replace("rcd=13123456","rcd=99999999"),false],
+        ["domain",original.replace("tabelog.com","example.invalid"),false],
+        ["path",original.replace("/en/booking/form_course/new","/yoyaku/tabelog_booking/confirm"),false],
+        ["extra-query",original+"&redirect=https%3A%2F%2Fexample.invalid",false],
+      ] as const) await t.test(label,async()=>{
+        sourceLink=link;decisions=0;
+        let finish!:()=>void;const done=new Promise<void>(resolve=>{finish=resolve;});
+        const unsubscribe=running.application.subscribeReadFinished(()=>{finish();});
+        try {
+          const created=await createCase(running.baseUrl,cookie,"b1-g3-"+label,"Tomorrow at 7pm for two in Shibuya, find a table.");
+          await withinTestTimeout(done,"G3 availability and B1 projection");
+          const result=await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(created.case.caseId));
+          const view=result.payload.view as RestaurantCaseView;
+          const handoffs=view.restaurant.bookingHandoffs ?? [];
+          if(accepted){
+            assert.equal(view.case.phase,"PRESENT_RESULTS",JSON.stringify(view));
+            assert.equal(handoffs.length,1,"ordinary startup assembly must supply the source reader without a test-prepared handoff");
+            assert.equal(handoffs[0]!.url,original,"original bytes/order/encoding must survive, with only the source origin for a relative URL");
+            assert.equal(handoffs[0]!.directLabel,"Book on Tabelog");
+            assert.equal(handoffs[0]!.sourceSelection,"UNKNOWN");
+            last=view;
+          }else assert.equal(handoffs.length,0,"mismatched or unsupported link must hide the button");
+        }finally{unsubscribe();}
+      });
+      assert.ok(last);
+      const stranger=await login(running.baseUrl,"token-b");
+      assert.equal((await api(running.baseUrl,stranger,"/api/cases/"+encodeURIComponent(last.case.caseId))).response.status,404);
+      const before=opens;
+      clock.advance(600_000);
+      const stale=(await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(last.case.caseId))).payload.view as RestaurantCaseView;
+      assert.deepEqual(stale.restaurant.bookingHandoffs,[]);
+      assert.equal(opens,before,"projection/expiry may not open or re-read a source");
+      assert.ok(navigations.length>0);
+    }finally{await running.application.stopActiveReads();await running.close();}
   });
 });
