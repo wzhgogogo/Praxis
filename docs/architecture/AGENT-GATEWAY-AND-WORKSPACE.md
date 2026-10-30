@@ -1,7 +1,7 @@
 # Agent Gateway and Workspace
 
 - Status: Accepted
-- Document revision: 0.8
+- Document revision: 0.9
 - Last updated: 2026-10-30
 - Source of truth for: Web/Mobile Web入口、Conversation/Session/Case边界、用户可见Activity与Domain Workspace
 - Related ADRs: [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -130,10 +130,18 @@ ADR-0049的B1交接、来源二次校验和独立持久化`USER_REPORTED`反馈�
 
 ## G1 displayed-restaurant follow-up (offline implementation)
 
-After results are displayed, ask through the question field on one restaurant card. The authenticated server binds the displayed outlet, original user question, allowed source reader and current read run; code selects the sole legal `ANSWER_PAGE_QUESTION` without an Agent model call, still through Validator, Router and Reducer. The normal conversation composer continues to edit the restaurant request.
+After results are displayed, the main composer in DETAILS calls the existing question interface for the outlet currently in view; cards have no second question input. The authenticated server binds the displayed outlet, original user question, allowed source reader and current read run; code selects the sole legal `ANSWER_PAGE_QUESTION` without an Agent model call, still through Validator, Router and Reducer. In CANDIDATES/CONVERSATION, the composer continues to edit the restaurant request. The UI view determines routing; a model does not choose it.
 
 The answer panel shows one short answer, verbatim source quotations in their original language, source URLs and read times. `NOT_STATED` shows “Not stated on the page” and the pages actually checked. Sensitive categories add “Please confirm with the restaurant”; unverified answers are discarded. This does not establish HARD satisfaction, reception policy or availability.
 
 Current-run identity-bound pages are reused first. Each question now has an independent 60-second deadline from submission, at most three model calls and two new document visits across sessions, configured in page-question-limits.ts. A cache miss uses the same bound-outlet reader, Guard and supplied source pacing; a process restart may reread the bound outlet without a completed search budget. Twenty distinct accepted questions per conversation are counted from persistent events, including cancelled/unverified work; duplicate delivery does not count twice, and the next question asks the user to start a new search. Search results and search accounting remain unchanged. Cancellation, expiry or a newer question discards late output. State24/TaskDefinition22 are unchanged; old State23 tasks are not silently migrated or reset.
 
 This slice has offline fixture and local Chromium evidence only. Real-model answer faithfulness, sensitivity classification and “not stated” accuracy await the independently scored G1 evaluation; no Live quality claim is made. See [ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md).
+
+## 第2段只读工作区投影（工作分支）
+
+Case project复用已读取的同一用户/Case事件，不新增表、State字段、模型/来源调用或数据库往返。searchRevision表达搜索页/批次数，替代原误名requestRevision；requirementRevision按有效条件事件分组，与another-batch分开。revisionDiff只在批次结束后发布，比较最近两个条件版本内经Runtime接纳的展示ID集合；removed/added不由浏览器计算。savedCandidates从同Case历史恢复已保存对象的店名，仅当前合格对象标current，旧证据不成为当前可用性。
+
+移除原因枚举为OVER_BUDGET、NEW_TIME_MISMATCH、NO_LONGER_MATCHES。预算/时段须有当前结构化判定，其他只能通用原因，不解析助手或Activity文本。questionHistory由PAGE_QUESTION_REQUESTED/COMPLETED按requestId、readRunId、candidateId绑定恢复，完成事件逆序；原引文/敏感标记、G1执行入口和20问限制不改。
+
+readStatus区分已有结果、无合格结果、明确的全部来源失败、语义MODEL_FAILURE及其他故障。全部失败须有显式失败尝试、候选均已检查且无成功检查；UNKNOWN、正常无位或缺少attempts细节的成功检查不冒充来源失败。canFindMore反映真实准入，当前空结果仍false，后端扩展待用户决定。实现与停止点见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。

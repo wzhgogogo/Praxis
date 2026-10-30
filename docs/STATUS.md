@@ -1,6 +1,6 @@
 # Praxis 当前状态
 
-- **2026-10-30 第1段已合main，第2段开工：** 按用户批准，将远端main404a766e快进至4cbc521bb9e4fb177e247266561bd90eb5d34e3f并推送，回读远端SHA一致；无新合并提交或内容改动，按指令不重跑门禁。第2段codex/feat-web-workspace-slice2从该提交开始，合入记录只在本分支更新。单输入框问答/条件/差异/收尾/错误范围见[计划](WEB-WORKSPACE-SLICE2-PLAN.md)；空结果another-batch准入待用户决定，未擅改后端。第2段尚未实现/验收，新业务调用0。
+- **2026-10-30 第1段已合main，第2段局部实现，空结果续查待决定：** 按用户批准，将远端main404a766e快进至4cbc521bb9e4fb177e247266561bd90eb5d34e3f并推送，回读远端SHA一致；无新合并提交或内容改动，按指令不为快进重跑门禁。第2段codex/feat-web-workspace-slice2从该提交开始，合入记录只在本分支更新。单输入框/底部回答与按店完整历史、条件胶囊、服务端差异/备选原因、正常批末续批、模型失败保留输入、部分来源失败、原生SSE恢复和过期refresh已接通，旧第1段及新两尺寸开发21条、空结果Adjust两尺寸2条通过；最终五门禁待冻结后运行。NO_VERIFIED_RESULT的Find more及全部来源失败后的Try again缺少后端准入，已询问、未获准未改Domain/Runtime，整段未验收。新业务/模型/Google/来源/Live/Holdout调用0。[计划](WEB-WORKSPACE-SLICE2-PLAN.md) · [实现与停止点](reviews/WEB-WORKSPACE-SLICE2-20261030.md)。
 
 - **2026-10-30 SR04离线定位与最终验收通过，待合入复核：** c1b5999e冻结103项，原10响应有/无守卫各10/10经生产Gateway/Interpreter正常；SR04完整提案、编译Patch、权威Draft与目标/严格评分均同v26，按用户规则归为测试守卫或传输层，不计提示词退化，原真实失败/严格0/15保留。失败Observer记录与Interpreter结果已透传安全错误名/最多三层cause代码，正文异常反例红→17绿；Prompt28/Schema4不改。同步main404a766e，37份C PG证据字节保留；474febba冻结736项，五门禁1211/181全绿、各项前后净树，390×844/1280×900十项及长条款两入口验收通过，21张新截图。新API/Google/来源GET/Live/Holdout0，不加载真实凭据、不补模型。只推工作分支交合入复核，不合main；原流/克隆故障具体原因仍未确认，单店问答合并留下一段。[报告与截图](reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
 
@@ -81,7 +81,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.450
+- Document revision: 4.451
 
 - Document revision: 4.445
 - Last updated: 2026-10-30

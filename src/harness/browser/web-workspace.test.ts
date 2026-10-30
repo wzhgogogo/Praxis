@@ -192,7 +192,7 @@ for(const size of sizes){
       host.release();await ready(page);await assertEventually(()=>oldCall.completed);
       const view=await current(page,edited.case.caseId);
       assert.equal(view.restaurant.intentDraft?.partySize,3);
-      assert.ok(view.restaurant.requestRevision>edited.restaurant.requestRevision);
+      assert.ok(view.restaurant.searchRevision>edited.restaurant.searchRevision);
       const offers=Object.values(view.restaurant.availability).flat();
       assert.equal(offers.length,3);assert.ok(offers.every(o=>o.partySize===3),"old two-guest offers must not enter the new revision");
       assert.equal(view.restaurant.progress.active,false);

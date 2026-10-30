@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.22
+- Document revision: 0.23
 - Last updated: 2026-10-30
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -17,7 +17,7 @@
 
 顶部仅有菜单、`praxis`加群青方块光标及新安排入口。工作区底部输入框为`Adjust anything?`。查看、展开、备选和明确选定分别处理；返回候选视图时回到原来的卡片。
 
-前端第一段在工作分支接通了本节的外壳、当前指代、逐家候选和B1呈现，本地Fixture两尺寸浏览器链路已通过；五门禁/独立视觉复核状态见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。比较页等后续范围仍未实现，真实来源读者/G3缺口保留。`Choose this`在本段只将该候选定位为B1准备对象，恢复到HANDOFF视图；不走旧写入选择/Authorization路径，也不创建提交Attempt。
+前端第一段已复核并快进合main4cbc521b，接通了本节的外壳、当前指代、逐家候选和B1呈现；本地Fixture两尺寸浏览器链路、五门禁与视觉证据见[切片计划](../WEB-WORKSPACE-SLICE1-PLAN.md)。比较页等后续范围仍未实现，真实来源读者/G3缺口保留。`Choose this`在本段只将该候选定位为B1准备对象，恢复到HANDOFF视图；不走旧写入选择/Authorization路径，也不创建提交Attempt。
 
 ## 明确空位与来源交接
 
@@ -155,3 +155,13 @@ Independent review of the original 102 model answers was reported by the user: z
 ## G5 B1 approved follow-up
 
 Current source-bound slot → two server URL checks → explicit Book/Continue click → persist Case departure → user-owned source tab. On return/focus or reload, atomically claim at most one feedback prompt per Case; respond Yes/No/Skip without follow-ups. Duplicate requests, unanswered prompts and restarts do not re-ask; only USER_REPORTED feedback changes, not booking state. Cancellation conflicts show Japanese and English originals with their paraphrases/citations and ask the user to confirm on the website. The first TableCheck Live must be checked by the user for actual date/time/guests, with num_people and encoded start_time=19%3A00; this is a checklist, not run evidence. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
+
+## 第2段：问答、条件、变化与收尾
+
+主输入框由视图确定路由：DETAILS发往已有单店questions接口并绑定当前展示候选；CANDIDATES/CONVERSATION发往需求消息。回答底部面板不重排当前卡片或清除草稿，外点/下滑收起。You asked按当前店显示持久事件已有的历史，最新在上，保留原引文与敏感确认；没有新增问答存储或修改G1执行规则。
+
+条件胶囊点击只聚焦预填Change <condition> to，按原消息链调整；只有明确来源标记的推测条件才带问号。新批完成后的removed/added、移除原因和不符合新条件的备选均来自服务端投影；不把搜索页数当需求版本，不从前端缓存或自由文本猜原因。
+
+翻过最后候选显示Any of these work?，Saved/Adjust为文字动作，Find more调用原another-batch，返回仍是最后候选。来源读取失败但有合格结果时继续展示，末尾短提示；模型理解失败保留输入，断线Reconnecting自动恢复，明确过期的交接调用原refresh。没有合格结果只写Nothing matched yet.，不能写附近没店/没有空位。
+
+空结果及全部来源失败后的续查需要真实准入：现有another-batch只允许PRESENT_RESULTS，NO_VERIFIED_RESULT扩展待用户决定，不能用界面假动作或模型自然语言绕过。工作分支实现/未完成项见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)，不代表整段已验收。

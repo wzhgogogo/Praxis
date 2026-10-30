@@ -25,7 +25,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.347
+- Document revision: 4.348
 
 
 - Last updated: 2026-10-30
@@ -5266,3 +5266,11 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 用户批准快进且不重跑门禁。拉取后远端main仍404a766e且是4cbc521b祖先，净树；本地main登记在失效工作树（无.git），仅在当前工作树checkout忽略失效登记，不清理其他目录。ff-only至origin/codex/feat-web-workspace-slice1并推main，远端回读等于4cbc521bb9e4fb177e247266561bd90eb5d34e3f，无新合并提交、无额外内容。随后从该main建立codex/feat-web-workspace-slice2，STATUS记录随第2段，不新增main提交。
 
 第2段只读预检确认G1展示候选绑定和最近单条问答、旧候选完整事件及现有消息/续批/refresh；无模型结构化条件接口，按指令仅预填。空结果NO_VERIFIED_RESULT被another-batch应用/Reducer拒绝，已询问是否授权最小只读续查扩展；未获准不改。按[计划](../WEB-WORKSPACE-SLICE2-PLAN.md)推进不依赖它的前端；真实业务/模型/Google/来源/Live/Holdout0。
+
+<a id="dev-2026-10-30-web-slice2-implementation"></a>
+
+## 2026-10-30 第2段局部实现与空结果续查停止点
+
+主输入框按视图确定路由、回答底部面板与按店完整问答历史、条件胶囊预填、服务端需求差异/备选原因、正常批末续批、短失败文案、原生SSE恢复、过期refresh已接通。原State只投影最后一问，但既有PAGE_QUESTION事件可恢复完整历史，因此复用原事件而不新增存储或改G1路径。服务端投影复用原project已读取的事件与状态，无额外数据库/模型/来源调用；原因未知为No longer matches，重复保存不抹除原需求版本关联。误名requestRevision更名searchRevision并更新全部当前调用方，需求版本另投影，不新增兼容字段。Domain/Runtime、Prompt28、Proposal4、State24、TaskDefinition22、A评测/B搜索G3/C客户端未改。
+
+开发旧第1段/新两尺寸21条通过，另空结果Adjust两尺寸2条通过；来源分类混合成功反例红→绿，未知/未查不冒充全部失败。冻结后的完整五门禁、全部新短状态与截图待执行。NO_VERIFIED_RESULT的Find more和全部来源失败后的Try again缺少原接口准入，已询问未获准，不伪造可用动作。整段未完成，最小后端方案及当前证据见[报告](../reviews/WEB-WORKSPACE-SLICE2-20261030.md)；新真实调用/Holdout0。

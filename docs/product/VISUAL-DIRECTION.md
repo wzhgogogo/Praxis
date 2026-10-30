@@ -1,12 +1,12 @@
 # Praxis 视觉方向
 
 - Status: Draft
-- Document revision: 0.8
+- Document revision: 0.9
 - Last updated: 2026-10-30
 - Source of truth for: Web 界面的视觉规则；不覆盖 Accepted PRD、ADR 或当前实现状态
 - Related ADRs: [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [User Flows](USER-FLOWS.md), [Agent Gateway and Workspace](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Booking Design Draft](BOOKING-DESIGN-DRAFT.md)
-- Evidence status: 第0步已复核；第一段工作分支离线实现与五门禁已通过，独立视觉复核待用户，不是Live能力证据；截图见[报告](../reviews/WEB-WORKSPACE-SLICE1-20261030.md)
+- Evidence status: 第1段已复核并快进合main4cbc521b；第2段工作分支局部Fixture实现，空结果续查待决定，不是Live能力证据；状态见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)
 
 用户 2026-10-29 选定“合并版”：白底，柔和阴影分层，实心群青胶囊按钮。[画布](https://claude.ai/artifact/VniECP5jzidQmknLSFyryM)是虚构示例，早于视觉规则0.2的收紧；冲突时以本文视觉规则为准。参考“合并版3候选 / 4订法”；开始、查找中及侧栏参考“群青 · Wabi式”和“A2安排列表”，不能据画布推断真实照片、进度数字、条款或预约能力。
 
@@ -73,7 +73,7 @@
 - 发送按钮：深色圆形。
 - 备选：照片右上角白色圆形书签图标。
 - 证据：已查实用实心小方块，后面是来源与查看时间；未查用空心小方块；进行中用群青竖块。只在有证据时显示。
-- 条件：只在需求刚被理解时显示为可点的小胶囊；确认后收成一行普通文字。推测的条件写作 “Evening?”。
+- 条件：按用户2026-10-30第2段决定，持续显示为可点的小胶囊，覆盖原“确认后收成文字”条款。只有Draft明确标记的推测条件加问号；当前INFERRED_CLOSED_PARTY人数显示4 guests?，不能自行判断Evening等推测。
 - 无照片：浅底 + 店名首字 + “No photo”。
 - 并列信息用间距分开，不用中圆点或竖线当分隔符。
 
@@ -134,6 +134,14 @@
 | 提示 | Pick Omakase Nigiri ¥9,800 and Counter |
 | 返回 | Did you get the booking? — Yes / Not yet |
 | 无照片 | No photo |
+
+## 第2段组件与文案（2026-10-30）
+
+详情只保留主输入框，placeholder为Ask about this place，其他需求视图为Adjust anything?。回答使用纯白底部面板与单层柔和阴影，顶部一行店名，再放原答案、来源及G1确认提醒；外点或下滑收起。You asked按店展示已有问答，最新在上，无第二输入框。
+
+修改条件后的计数用两个文字块加间距：2 removed、1 added；明细只列店名和结构化原因Over budget / Doesn't match the new time / No longer matches。备选保留，不合格条目下方显示同一原因。批末卡Any of these work?，Saved加次要色数字、Adjust为文字动作，Find more是唯一群青主动作。
+
+错误/空结果文案沿用用户指令：Nothing matched yet.；Some sources couldn't be checked.；Couldn't reach the sources. Try again?；Couldn't read that. Try rephrasing?；Reconnecting…；Check availability again。每项必须有确定信号与真实下一步，无后端准入的动作不假装实现。当前实现与停止点见[第2段计划](../WEB-WORKSPACE-SLICE2-PLAN.md)。
 
 来源与查看时间只有在对应证据存在时才出现。`Not checked`是诚实的未查状态，不附虚构来源或时间；不能伪装为已查实证据。来源原始引文可保留原语言，其标签和解释使用英文。
 

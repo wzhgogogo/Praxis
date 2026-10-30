@@ -107,6 +107,25 @@ export interface RestaurantCaseSummary {
   updatedAt: string;
 }
 
+export type WorkspaceCandidateChangeReason = "OVER_BUDGET" | "NEW_TIME_MISMATCH" | "NO_LONGER_MATCHES";
+export interface RestaurantWorkspaceReadProjection {
+  requirementRevision: number;
+  /** Completed questions from this Case's existing events, newest first. */
+  questionHistory: import("../domains/restaurant/page-question.js").RestaurantPageQuestionState[];
+  savedCandidates: Array<{ candidateId: string; outletName: string; current: boolean; reasonCode?: WorkspaceCandidateChangeReason }>;
+  revisionDiff?: {
+    fromRevision: number;
+    toRevision: number;
+    removed: Array<{ candidateId: string; outletName: string; reasonCode: WorkspaceCandidateChangeReason }>;
+    added: Array<{ candidateId: string; outletName: string }>;
+  };
+  readStatus: {
+    kind: "PENDING" | "RESULTS" | "NO_QUALIFIED_RESULTS" | "ALL_SOURCES_FAILED" | "MODEL_FAILURE" | "OTHER_FAILURE";
+    partialSourceFailure: boolean;
+    canFindMore: boolean;
+  };
+}
+
 export interface RestaurantCaseView {
   mode: AgentWorkspaceMode;
   case: RestaurantCaseSummary;
@@ -114,13 +133,14 @@ export interface RestaurantCaseView {
     id: string;
     messages: ConversationMessage[];
   };
-  restaurant: {
+  restaurant: RestaurantWorkspaceReadProjection & {
     /** Current task-local request projection; coordinates are only returned to its authenticated owner. */
     intentDraft?: import("../domains/restaurant/contracts.js").RestaurantIntentDraft;
     /** The source-observed center actually used; never a rewrite of the user's AREA. */
     searchLocation?: RestaurantSearchContinuation["locationContext"];
     missingRequiredFields: string[];
-    requestRevision: number;
+    /** Search/page counter; requirementRevision tracks condition updates separately. */
+    searchRevision: number;
     /** Qualified from the current state, including results ready before the batch ends. */
     readyCandidateIds: string[];
     progress: { active: boolean; stopped: boolean; discoveredCount?: number; checkedCount?: number };

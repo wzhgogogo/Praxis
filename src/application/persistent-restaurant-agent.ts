@@ -1,5 +1,6 @@
 import type { BookingHandoffView } from "../domains/restaurant/booking-handoff.js";
 import type { BookingFeedbackAnswer, BookingFeedbackPrompt } from "../domains/restaurant/booking-feedback.js";
+import { projectWorkspaceRead } from "./workspace-read-projection.js";
 import { RESTAURANT_PAGE_QUESTION_BUDGET, type RestaurantPageQuestionLimits } from "../domains/restaurant/page-question-limits.js";
 import type { RestaurantPageQuestionPort, RestaurantPageAnswer } from "../domains/restaurant/page-question.js";
 import type { ModelRunUsage } from "./run-bounded-model-gateway.js";
@@ -1137,10 +1138,11 @@ export class PersistentRestaurantAgentApplication {
       case: summary,
       conversation: { id: record.id, messages },
       restaurant: {
+        ...projectWorkspaceRead({ state, events, readyCandidateIds, active: this.activeReads.has(record.rootTaskId) }),
         ...(state.intentDraft ? { intentDraft: structuredClone(state.intentDraft) } : {}),
         ...(state.searchContinuation?.locationContext ? { searchLocation: structuredClone(state.searchContinuation.locationContext) } : {}),
         missingRequiredFields: missingBlockingFields(state.intentDraft ?? {}),
-        requestRevision: state.searchRevision,
+        searchRevision: state.searchRevision,
         readyCandidateIds,
         progress: {active:this.activeReads.has(record.rootTaskId), stopped:requestEvents.some(item => item.event.type === "AGENT_LOOP_TERMINATED" && item.event.termination === "CANCELLED"),
           ...(requestEvents.some(item => item.event.type === "SEARCH_COMPLETED") ? {discoveredCount:state.candidates.length} : {}),

@@ -1,0 +1,32 @@
+✖ Workspace source failure copy requires explicit failed attempts, never unknown, unavailable or unread candidates (1.166125ms)
+✔ Workspace interpretation copy uses the recorded model status, not failure prose (0.111167ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 96.139208
+
+✖ failing tests:
+
+test at src/application/workspace-read-projection.test.ts:1:908
+✖ Workspace source failure copy requires explicit failed attempts, never unknown, unavailable or unread candidates (1.166125ms)
+  AssertionError [ERR_ASSERTION]: successful check without optional attempt detail
+  + actual - expected
+  
+  + 'ALL_SOURCES_FAILED'
+  - 'NO_QUALIFIED_RESULTS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/application/workspace-read-projection.test.ts:20:32)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'ALL_SOURCES_FAILED',
+    expected: 'NO_QUALIFIED_RESULTS',
+    operator: 'strictEqual'
+  }

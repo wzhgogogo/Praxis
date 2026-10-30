@@ -14,7 +14,7 @@ test("Web refresh replaces commercial terms and cites the displayed fact source"
   const view=()=>({
     mode:"FIXTURE",case:{caseId:"case",title:"Compare restaurants",status:"ACTIVE",phase:"PRESENT_RESULTS",taskVersion:refreshed?2:1},
     conversation:{id:"conversation",messages:[]},activities:[],
-    restaurant:{intentDraft:{target:{goal:"AVAILABILITY"}},missingRequiredFields:[],requestRevision:1,readyCandidateIds:["a"],progress:{active:false,stopped:false},
+    restaurant:{requirementRevision:1,savedCandidates:[],questionHistory:[],readStatus:{kind:"RESULTS",partialSourceFailure:false,canFindMore:true},intentDraft:{target:{goal:"AVAILABILITY"}},missingRequiredFields:[],searchRevision:1,readyCandidateIds:["a"],progress:{active:false,stopped:false},
       candidates:[{restaurant:{id:"a",outletName:"Cafe A",address:"Tokyo"}},{restaurant:{id:"b",outletName:"Discovery only",address:"Tokyo"}}],
       presentedCandidateIds:["a"],availability:{a:[{dateTime:"2026-09-18T19:00:00+09:00",source:"TABLECHECK",displayExpiresAt:new Date(Date.now()+(refreshed?600000:-600000)).toISOString()}]},
       availabilityChecks:{a:{status:"AVAILABLE",checkedAt:new Date(Date.now()-600000).toISOString(),displayExpiresAt:new Date(Date.now()+(refreshed?600000:-600000)).toISOString()}},
@@ -77,41 +77,49 @@ test("workspace New plan survives a late initial case-list response",async()=>{
 
 test("G1 Web asks only for the displayed outlet and renders quotes, absence and sensitive notice",async()=>{
   const browser=await chromium.launch({headless:true}),page=await browser.newPage({viewport:{width:1280,height:900}});
-  const readAt="2026-10-27T16:00:00+01:00";let version=1,answer:Record<string,unknown>|undefined,questionText="";
-  let variant:"answered"|"absence"|"sensitive"="answered";const submitted:Record<string,unknown>[]=[];
+  const readAt="2026-10-27T16:00:00+01:00";let version=1,answer:Record<string,unknown>|undefined,questionText="",questionRequestId="";
+  let variant:"answered"|"absence"|"sensitive"="answered";const submitted:Record<string,unknown>[]=[],history:Record<string,unknown>[]=[];
   const view=()=>({mode:"FIXTURE",case:{caseId:"case",title:"Restaurant follow-up",status:"NEEDS_YOU",phase:"PRESENT_RESULTS",taskVersion:version},
-    conversation:{id:"conversation",messages:[]},activities:[],restaurant:{intentDraft:{target:{goal:"RECOMMENDATION"}},missingRequiredFields:[],
-      requestRevision:1,readyCandidateIds:["a"],progress:{active:false,stopped:false},candidates:[{restaurant:{id:"a",outletName:"Merchant Cafe",address:"Tokyo"}}],
+    conversation:{id:"conversation",messages:[]},activities:[],restaurant:{requirementRevision:1,savedCandidates:[],questionHistory:history,readStatus:{kind:"RESULTS",partialSourceFailure:false,canFindMore:true},intentDraft:{target:{goal:"RECOMMENDATION"}},missingRequiredFields:[],
+      searchRevision:1,readyCandidateIds:["a"],progress:{active:false,stopped:false},candidates:[{restaurant:{id:"a",outletName:"Merchant Cafe",address:"Tokyo"}}],
       presentedCandidateIds:["a"],availability:{},availabilityChecks:{},readEvidence:[],currentFactEvidence:[],
-      ...(answer?{pageQuestion:{candidateId:"a",question:questionText,result:answer}}:{})}});
+      ...(answer?{pageQuestion:{requestId:questionRequestId,candidateId:"a",question:questionText,result:answer}}:{})}});
   try{
     await page.route("**/*",async route=>{
       const path=new URL(route.request().url()).pathname;
       if(path==="/")return route.fulfill({contentType:"text/html",body:LOCAL_WORKSPACE_PAGE});
       if(path.endsWith("/events")||path.startsWith("/assets/"))return route.abort();
       if(path==="/api/cases/case/questions"){
-        const body=route.request().postDataJSON();submitted.push(body);questionText=body.question;version++;
+        const body=route.request().postDataJSON();submitted.push(body);questionText=body.question;questionRequestId=body.requestId;version++;
         answer=variant==="absence"?{status:"NOT_STATED",candidateId:"a",answer:null,sensitiveCategory:"NONE",confirmationRequired:false,citations:[],checkedPages:[{url:"https://merchant.example/a",readAt}]}
           :{status:"ANSWERED",candidateId:"a",answer:variant==="sensitive"?"The page describes its access arrangements.":"They accept Visa and MasterCard.",sensitiveCategory:variant==="sensitive"?"ACCESSIBILITY":"NONE",confirmationRequired:variant==="sensitive",citations:[{text:variant==="sensitive"?"車椅子でのご来店はご相談ください。":"カード可（VISA、Master）",url:"https://merchant.example/a",readAt,identityEvidenceId:"fixture-identity"}],checkedPages:[{url:"https://merchant.example/a",readAt}]};
+        history.unshift({requestId:questionRequestId,candidateId:"a",question:questionText,result:answer});
       }
       return route.fulfill({json:path==="/api/cases"?{cases:[view().case]}:path==="/api/session"?{user:{id:"fixture"}}:{view:view()}});
     });
     await page.goto("https://workspace.example/");await page.getByRole("button",{name:/Restaurant follow-up/}).click();await page.locator("#details-button").click();
+    assert.equal(await page.locator("#message").getAttribute("placeholder"),"Ask about this place");
+    assert.equal(await page.locator("#details input, #details textarea").count(),0,"details must not own a second input");
     const ask=async(text:string)=>{
-      await page.getByRole("textbox",{name:"Question about Merchant Cafe",exact:true}).fill(text);
-      await page.getByRole("button",{name:"Ask",exact:true}).click();await page.getByRole("heading",{name:text,exact:true}).waitFor();
+      await page.locator("#message").fill(text);
+      await page.getByRole("button",{name:"Send",exact:true}).click();await page.locator("#answer-sheet").waitFor({state:"visible"});
+      assert.equal(await page.locator("#message").inputValue(),text);
+      assert.equal(await page.locator("#asked-question").innerText(),text);
+      assert.equal(await page.locator("#answer-place").innerText(),"Merchant Cafe");
     };
     await ask("Do they take credit cards?");await page.locator("#question-result summary").click();
     assert.deepEqual(Object.keys(submitted[0]!).sort(),["candidateId","question","requestId","taskVersion"]);
     assert.equal(submitted[0]!.candidateId,"a");assert.equal(submitted[0]!.taskVersion,1);
     assert.equal(await page.locator("#question-result blockquote").innerText(),"カード可（VISA、Master）");
-    assert.equal(await page.getByRole("link",{name:"Source page",exact:true}).getAttribute("href"),"https://merchant.example/a");
+    assert.equal(await page.locator("#answer-sheet").getByRole("link",{name:"Source page",exact:true}).getAttribute("href"),"https://merchant.example/a");
     assert.match(await page.locator("#question-result").innerText(),/They accept Visa and MasterCard/);
     assert.match(await page.locator("#question-result").innerText(),/Read at: 2026-10-27T16:00:00\+01:00/);
     assert.doesNotMatch(await page.locator("#question-result").innerText(),/Please confirm/);
+    await page.locator("#answer-dismiss").click();
     variant="absence";await ask("Does the page list a taxi service?");
     assert.match(await page.locator("#question-result").innerText(),/Not stated on the page/);
-    assert.equal(await page.getByRole("link",{name:"Checked page",exact:true}).getAttribute("href"),"https://merchant.example/a");
+    assert.equal(await page.locator("#answer-sheet").getByRole("link",{name:"Checked page",exact:true}).getAttribute("href"),"https://merchant.example/a");
+    await page.locator("#answer-dismiss").click();
     variant="sensitive";await page.setViewportSize({width:390,height:844});await ask("What does the page say about wheelchair access?");
     await page.locator("#question-result summary").click();
     assert.match(await page.locator("#question-result").innerText(),/Please confirm with the restaurant/);

@@ -1,0 +1,50 @@
+{"slice2Failure":{"phase":"NO_VERIFIED_RESULT","progress":{"active":false,"stopped":false,"discoveredCount":4,"checkedCount":4},"ready":[],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-hard-criteria:67a1b1aa1ffcce568651b328","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5","evidence:restaurant:tablecheck-hard-criteria:df99ff0c0dfe09de60ca49dc"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 mobile: server revision differences and saved reasons structured (11285.684291ms)
+{"slice2Failure":{"phase":"NO_VERIFIED_RESULT","progress":{"active":false,"stopped":false,"discoveredCount":2,"checkedCount":2},"ready":[],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-hard-criteria:67a1b1aa1ffcce568651b328","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5","evidence:restaurant:tablecheck-hard-criteria:df99ff0c0dfe09de60ca49dc"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 mobile: server revision differences and saved reasons missing (10984.197ms)
+{"slice2Failure":{"phase":"NO_VERIFIED_RESULT","progress":{"active":false,"stopped":false,"discoveredCount":4,"checkedCount":4},"ready":[],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-hard-criteria:67a1b1aa1ffcce568651b328","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5","evidence:restaurant:tablecheck-hard-criteria:df99ff0c0dfe09de60ca49dc"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 desktop: server revision differences and saved reasons structured (10976.593625ms)
+{"slice2Failure":{"phase":"NO_VERIFIED_RESULT","progress":{"active":false,"stopped":false,"discoveredCount":2,"checkedCount":2},"ready":[],"events":[{"type":"RESULTS_PRESENTED","evidenceIds":["evidence:restaurant:tablecheck-entity-match:0e57730da81250eac52cf184","area:fixture:outlet","evidence:restaurant:tablecheck-availability:212b08597936fbe75169f429","evidence:restaurant:tablecheck-hard-criteria:f46c3545e87c75d7676de58e","evidence:restaurant:tablecheck-entity-match:00e25386cd1c444dd3d1fef2","area:fixture-restaurant-2","evidence:restaurant:tablecheck-availability:c9631194a5d3232e5dbf4f12","evidence:restaurant:tablecheck-hard-criteria:67a1b1aa1ffcce568651b328","evidence:restaurant:tablecheck-entity-match:5f38defffda410314a0da8c7","area:fixture-restaurant-3","evidence:restaurant:tablecheck-availability:0dcad731e2284be3b92ed4c5","evidence:restaurant:tablecheck-hard-criteria:df99ff0c0dfe09de60ca49dc"],"candidateIds":["fixture:outlet","fixture-restaurant-2","fixture-restaurant-3"]}]}}
+✖ Workspace slice2 desktop: server revision differences and saved reasons missing (10967.398875ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 44640.516333
+
+✖ failing tests:
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:11443
+✖ Workspace slice2 mobile: server revision differences and saved reasons structured (11285.684291ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace-slice2.test.ts:124:18) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:11443
+✖ Workspace slice2 mobile: server revision differences and saved reasons missing (10984.197ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace-slice2.test.ts:124:18) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:11443
+✖ Workspace slice2 desktop: server revision differences and saved reasons structured (10976.593625ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace-slice2.test.ts:124:18) {
+    name: 'TimeoutError',
+    log: []
+  }
+
+test at src/harness/browser/web-workspace-slice2.test.ts:1:11443
+✖ Workspace slice2 desktop: server revision differences and saved reasons missing (10967.398875ms)
+  page.waitForFunction: Timeout 10000ms exceeded.
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/web-workspace-handoff-docs/Praxis-Zhixing/src/harness/browser/web-workspace-slice2.test.ts:124:18) {
+    name: 'TimeoutError',
+    log: []
+  }

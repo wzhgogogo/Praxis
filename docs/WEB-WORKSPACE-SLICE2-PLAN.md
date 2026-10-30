@@ -1,10 +1,10 @@
 # Web Workspace Slice 2 Plan
 
 - Status: Draft
-- Document revision: 0.1
+- Document revision: 0.2
 - Last updated: 2026-10-30
 - Source of truth for: 第2段切片范围、接线、停止点与验收；不替代产品和ADR
-- Evidence status: draft / not integrated；真实调用0，未实现/未验收
+- Evidence status: draft / not integrated；工作分支局部Fixture实现，空结果续查待授权，未完成整段验收，真实调用0
 - Related documents: [Visual](product/VISUAL-DIRECTION.md), [Flows](product/USER-FLOWS.md), [Gateway](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
 
 ## 当前切片承诺
@@ -15,7 +15,7 @@
 
 第1段4cbc521b已于本轮按用户批准，从远端main404a766e快进推送main；无新合并提交、无代码/文档附加改动、无门禁重跑。推送后确认远端main等于4cbc521bb9e4fb177e247266561bd90eb5d34e3f。第2段分支codex/feat-web-workspace-slice2以该提交为起点，STATUS的合入记录只在本分支更新。
 
-- G1 questions接口接受当前展示candidateId并核对归属/版本。只在原允许的PRESENT_RESULTS阶段使用，不改服务端G1路径、引文和敏感提示。投影只有全Case最近一次pageQuestion，本段只显示匹配当前店的这一条，不新增问答存储。
+- G1 questions接口接受当前展示candidateId并核对归属/版本。只在原允许的PRESENT_RESULTS阶段使用，不改服务端G1路径、引文和敏感提示。原状态投影只有最近一次pageQuestion，但持久事件保留请求/完成结果；本段只读恢复按店完整历史，最新在上，不新增问答存储。
 - 条件没有通用无模型修改接口；本段只聚焦并预填Change <condition> to，仍走原消息路径。只对partySizeSource=INFERRED_CLOSED_PARTY加问号，不把日期表达/strength当推测。
 - 旧候选存在同Case的SEARCH_COMPLETED/RESULTS_PRESENTED事件中，project已读取这些事件；可复用原数据生成只读差异/历史备选名称投影。按有效需求更新/investigationRevision分组，不把searchRevision或another-batch当成新需求。原因只能来自当前适用的结构化判定，否则No longer matches；不能使用旧可用性作为当前事实。
 - 语义失败、来源尝试和结束记录在内部有类型化事件；只读投影须保留区分，不能解析助手/Activity自由文本。若某分类仍无确定信号，按用户停止条件暂停该项并报告。
@@ -23,7 +23,7 @@
 
 ## 接线与实施顺序
 
-1. 主composer在DETAILS调用questions且绑定当前候选；CANDIDATES/CONVERSATION仍调用messages。删除第二输入框；回答白色底部面板显示店名、原答案和来源/确认提示，外点/下滑收起，卡片、草稿与定位保持。You asked只展示服务器最近一条且candidateId相同的问答。
+1. 主composer在DETAILS调用questions且绑定当前候选；CANDIDATES/CONVERSATION仍调用messages。删除第二输入框；回答白色底部面板显示店名、原答案和来源/确认提示，外点/下滑收起，卡片、草稿与定位保持。You asked从持久事件投影按店完整历史，按完成事件逆序；只显示candidateId相同的记录，不从聊天正文恢复引文。
 2. 条件胶囊使用服务端Draft；点击仅聚焦预填。保留英文日期、字号/颜色/单层阴影等视觉规则。用户最新胶囊决定覆盖视觉旧稿“确认后收文字”的组件条款。
 3. 服务端只读投影提供最近两个需求版本的removed/added与保存对象，不新增权威State。新批次完成后才展示变化；保存的ID继续保留，未知原因不编。若原日志不能恢复必要对象则停止。
 4. 正常批次最后一张之后显示Any of these work?，Find more唯一群青主动作，Saved/Adjust文字按钮，返回能到最后候选。Find more复用another-batch。
@@ -38,3 +38,11 @@ Playwright在390×844、1280×900各覆盖用户第2段十项，包括路由唯�
 不做图片、比较、B2、截图/语音输入、夜间/桌面精修、新结构化修改事件或问答存储。结构化修改只给方案：显式用户Patch事件（拟USER_CONDITIONS_UPDATED），归属/白名单/值域/版本/幂等校验，复用需求失效/取消边界，实施时升TaskDefinition；State若不新增字段保持，Prompt/Proposal不变。本段不实施该方案。
 
 G1不能按当前对象绑定、拿不到上一需求候选、错误没有可区分信号、需改A评测/B搜索G3/C Google、范围扩大或只能用局部测试替代真实链路时，按用户停止条件报告具体缺口与最小方案。
+
+## 实施记录与当前停止点
+
+主输入框路由/回答面板与完整历史、条件胶囊、服务端差异/备选原因、批末续批、模型失败保留输入、部分来源失败、原生SSE恢复与过期refresh已接通；开发两尺寸21条（含第1段十一项所属脚本）通过。新增投影仅复用project已有事件和当前状态，无额外数据库往返、模型或来源调用。requirementRevision按有效条件事件分组；原误名requestRevision更名searchRevision并更新所属断言，仍独立验证真实新搜索，不保留旧字段兼容。
+
+空结果NO_VERIFIED_RESULT的Find more，以及同一终态全部来源失败后的Try again，共用同一个未开放的another-batch准入；未授权前不显示可用的假动作，不通过聊天让模型绕过。来源失败依显式FAILED尝试，UNKNOWN、正常UNAVAILABLE、未查候选及无attempts细节的成功检查不能说成“全部失败”；混合反例已红→绿。具体来源整体不明的故障保留未分类，不从自由文本造原因。
+
+若批准扩展：仅复用既有another-batch URL与NEXT_BATCH_REPLENISHMENT_REQUESTED事件，在NO_VERIFIED_RESULT新增显式用户触发的同条件有界只读运行；不能只改phase门禁后沿用已耗尽/已失败的检查，否则不会真正重查。需明确失效当前读证据/续查游标、保存条件与用户备选、沿用现有幂等/版本/预算/取消入口；不伪造SEMANTIC_PROPOSAL_COMPILED，不新增条件修改事件、不增加自动重试或执行写入。TaskDefinition按行为升版，State仅在持久结构改变时升版。该后端闭环与真实无外部网络Fixture控制通过后，才可宣称两项动作完成；目前未修改Domain/Runtime。
