@@ -1,0 +1,142 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+  "searches": [
+    {
+      "query": "吉祥じ 和こん",
+      "kind": "ORIGINAL",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13245243",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+          "outletName": "Kichijoji Wakon"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+      "query": "吉祥じ 和こん",
+      "phase": "FIRST_FOUR"
+    }
+  ],
+  "uncertainties": [],
+  "identity": {
+    "resolution": {
+      "confidence": "HIGH",
+      "outlet": {
+        "sourceEntityId": "en/tokyo/A1320/A132001/13245243",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+        "outletName": "Kichijoji Wakon",
+        "address": "1800005 東京都武蔵野市御殿山1-3-7 もみじビル 1F",
+        "phone": "0422-26-7992"
+      },
+      "matchedBy": [
+        "EXACT_PHONE"
+      ]
+    },
+    "diagnostic": {
+      "candidateId": "g4:G4-ND-006",
+      "google": {
+        "placeId": "ChIJDXuo9d_vGGARwSHi6ABWYEY",
+        "outletName": {
+          "value": "吉祥じ 和こん",
+          "normalizedValue": "吉祥じ和こん",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "Japan, 〒180-0005 Tokyo, Musashino, Gotenyama, 1-chōme−3−７ もみじビル 1F",
+          "normalizedValue": "japan〒1800005tokyomusashinogotenyama1chōme−3−７もみじビル1f",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "0422-26-7992",
+          "normalizedValue": "0422267992",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13245243",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+          "outletName": {
+            "value": "Kichijoji Wakon",
+            "normalizedValue": "kichijojiwakon",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1800005 東京都武蔵野市御殿山1-3-7 もみじビル 1F",
+            "normalizedValue": "1800005東京都武蔵野市御殿山137もみじビル1f",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "0422-26-7992",
+            "normalizedValue": "0422267992",
+            "source": "SEARCH_RESULT"
+          },
+          "matchedContactPhone": {
+            "value": "0422-26-7992",
+            "role": "STORE",
+            "quote": "0422-26-7992",
+            "label": "Phone number",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "MATCH",
+            "phone": "MATCH"
+          },
+          "score": 6
+        }
+      ],
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1320/A132001/13245243",
+        "reason": "HIGH_EXACT_PHONE"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 1,
+    "details": 1,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "G4-ND-006",
+  "key": "main-G4-ND-006",
+  "view": "MAIN37",
+  "cohort": "NEW8",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-006.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%90%89%E7%A5%A5%E3%81%98%20%E5%92%8C%E3%81%93%E3%82%93",
+      "kind": "SEARCH",
+      "query": "吉祥じ 和こん",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-040.html",
+      "sha256": "e67b594bee5f68593c45e7ddf0fd812ed90270e4ca267c308474628cbc66cb23",
+      "originLedgerId": "phase3b-c-g4-cont-get-040",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13245243/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-041.html",
+      "sha256": "9a5a44eef51208cf0e86d960aa12ada6dd352235650d31ad24a4b84aa740840c",
+      "originLedgerId": "phase3b-c-g4-cont-get-041",
+      "realGET": 0
+    }
+  ],
+  "fragmentOrigin": {
+    "mode": "NOT_CAPTURED"
+  },
+  "japaneseOrigin": null
+}

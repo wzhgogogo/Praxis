@@ -1,0 +1,802 @@
+{
+  "status": "INDEPENDENT_SOURCE_AUDIT_NO_EXECUTION_REWRITE",
+  "note": "Early-failure fallback in frozen observer used FRAGMENT for all non-original searches. This audit labels actual names from frozen source originals, not from the observer or Gold. Retrieval behavior and identity scores are unchanged.",
+  "rows": [
+    {
+      "key": "main-nr-001",
+      "queries": [
+        {
+          "query": "Sushi Tatsu Shibuya",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-001.json",
+          "sourceSha256": "c2235bb852be70f8557a504be5b7d4e7d00d879e1f93a22127a2b3e8d8bd2771",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-001.html",
+          "searchPageSha256": "b7a9ad228599fc952e07103c309429fcff4c3791235b742b7e4f972d97fe289c",
+          "problem": null
+        },
+        {
+          "query": "Sushi Tatsu",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-001.json",
+          "sourceSha256": "c2235bb852be70f8557a504be5b7d4e7d00d879e1f93a22127a2b3e8d8bd2771",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-002.html",
+          "searchPageSha256": "cd892db60cb52a5863999e5e5849c28ef9aaaf1b4c663901734b1fd3a4012f5c",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "0ac6fbd822864204ff2911f150c1814600ad9a7ca2c3e5313140567cce821465"
+    },
+    {
+      "key": "main-nr-002",
+      "queries": [
+        {
+          "query": "焼肉おおにし 祐天寺店",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-002.json",
+          "sourceSha256": "c4c682fe1b9f50f20e3c0691aa939228e840e42bb011a55e8ab6ce342e737d97",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-006.html",
+          "searchPageSha256": "27fc7d454525d69e3e57e979057dbef8028e35f4d16f0ec30003f4121c60e5c7",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "ab75178a7839fb2eb0862808308fc17ca02cc87fb86980e9f66e48e708a88aec"
+    },
+    {
+      "key": "main-nr-003",
+      "queries": [
+        {
+          "query": "Washoku Dining Hana Kagura",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-003.json",
+          "sourceSha256": "dcd67f6e4923045aa09ded4bc77408642cf25db2e16de493a30a9bb64c806c14",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-008.html",
+          "searchPageSha256": "c63a1cf45d0b337aa9e0d812a4adac692041cb58f60c65553a33ce6d37e0e50f",
+          "problem": null
+        },
+        {
+          "query": "Hana Kagura",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-003.json",
+          "sourceSha256": "dcd67f6e4923045aa09ded4bc77408642cf25db2e16de493a30a9bb64c806c14",
+          "searchPagePath": null,
+          "searchPageSha256": null,
+          "problem": "RECORDED_NETWORK_FAILURE"
+        }
+      ],
+      "rawExecutionSha256": "050c1c162953f9847d79276284e665ec2a201d68f106cfb8ef679e3ae14ca2f9"
+    },
+    {
+      "key": "main-nr-004",
+      "queries": [
+        {
+          "query": "鮨処 みこし",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-004.json",
+          "sourceSha256": "e7edb5e906aa3a2073c94c61161dcd85eae5aaccd6b6da5aed3747e3c1291f45",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-010.html",
+          "searchPageSha256": "a2d8ce0e389afeb9b1531057dc131512fd0fbc78c4a0549218c7cbeba0a41165",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "8d1a044b04e24dc6c1ef88f593722736cadddbd6224dae4aa99be42c330514ea"
+    },
+    {
+      "key": "main-nr-005",
+      "queries": [
+        {
+          "query": "Ginhachi",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-005.json",
+          "sourceSha256": "ca53e121796be4c9c0c589b2a549b2f98287919c245b5767253a75cf01b23460",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-012.html",
+          "searchPageSha256": "51da03cc663500b6926630e4c86702254e95fac7e2cb69e2aae81d54a8cefcaf",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "20e63ab7be4f8f6e8ec7e859a3cb2dcbb571b346c463fc8fc84e76b3e380d284"
+    },
+    {
+      "key": "main-nr-006",
+      "queries": [
+        {
+          "query": "Sugata",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-006.json",
+          "sourceSha256": "355424c2ffd5e6d27528165de0e9565ef6e9fca3f1aed6fb35cda84c875131dc",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-018.html",
+          "searchPageSha256": "9e5764ce08cb22d7dd8791aff068695f47fa5c82b5a37c67e8511584c44c05a9",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "5166875c2df744b9c6f69742721d12a84d8587c5bacde0bd390bf0944558e685"
+    },
+    {
+      "key": "main-nr-007",
+      "queries": [
+        {
+          "query": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-007.json",
+          "sourceSha256": "cd9e56803b4aafcc50bc6a91000143e80b6ee8035b7c18f17c8fcdc095faaf8a",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-024.html",
+          "searchPageSha256": "2f73b202855d0a128dba3d1eb9f53710d5e1e39520636b4083e97772e4d8e507",
+          "problem": null
+        },
+        {
+          "query": "Beef Kitchen Nakameguro",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-007.json",
+          "sourceSha256": "cd9e56803b4aafcc50bc6a91000143e80b6ee8035b7c18f17c8fcdc095faaf8a",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-025.html",
+          "searchPageSha256": "0b6dbb5b324f01d3317b86c6df0eb44a9451a998a1a9a244e8c73186d47e37d0",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "d50424c4ebbf4610a812e7a80eb290abf2a7388930200299535ca4d69948c6f9"
+    },
+    {
+      "key": "main-nr-008",
+      "queries": [
+        {
+          "query": "Shibuya Kappo Sancho",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-008.json",
+          "sourceSha256": "65cfc59b6993f5b9a103a9cb2c6be32a1e3c97340cd0378aee0189bcd5a598af",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-026.html",
+          "searchPageSha256": "fc94c25948440fa7b582438cca6368deee34c514260041893875f6ee8ec61160",
+          "problem": null
+        },
+        {
+          "query": "Kappo Sancho",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-008.json",
+          "sourceSha256": "65cfc59b6993f5b9a103a9cb2c6be32a1e3c97340cd0378aee0189bcd5a598af",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-027.html",
+          "searchPageSha256": "6e489756b594b7fc11476bb2721ea3e0a90890dc29bce7ff01e023e66e366b05",
+          "problem": null
+        },
+        {
+          "query": "割烹 三長 渋谷",
+          "source": "JAPANESE",
+          "sourcePath": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-008.raw.json",
+          "sourceSha256": "f31d618a4e2e4213824838d09c41ab0b0ed995dc2e0c13b33e74319afe3396da",
+          "searchPagePath": ".eval-artifacts/phase3b/c-batch3/optional/002-nr-008.body.html",
+          "searchPageSha256": "059089e56d403ded3ab7aadb2678363087fa22d751b428877963f21801cf8282",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "cc9ee4bc8ff047400b0a2042d966ac914d818f66c8aed5f84337e178fc8dc560"
+    },
+    {
+      "key": "main-nr-009",
+      "queries": [
+        {
+          "query": "Naminoue shibuya",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-009.json",
+          "sourceSha256": "5921e7aac795367be122f28ff80062665b7aa206523a2a77b55d5fa662d849ba",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-028.html",
+          "searchPageSha256": "656464132fb1d34b4484319ac092892710ac8bd98ac0a69ef122280caaede5e2",
+          "problem": null
+        },
+        {
+          "query": "Naminoue",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-009.json",
+          "sourceSha256": "5921e7aac795367be122f28ff80062665b7aa206523a2a77b55d5fa662d849ba",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-029.html",
+          "searchPageSha256": "68542ce87a0604c6a6221479feab0d5e9d738f240eed4b511b0f6f0ba6c00beb",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "8ec529f77e783089de220704da62b3df1594dd12c3bcfb20123cb422e499e605"
+    },
+    {
+      "key": "main-nr-010",
+      "queries": [
+        {
+          "query": "Yakitori & Obanzai SAKAMOTO",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-010.json",
+          "sourceSha256": "3c6ea2a685d87b55f63d2ff0c61382172b3ed5f86a974873a0fc1c656fd5673b",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-033.html",
+          "searchPageSha256": "5de71339cdd85bc5438c3f9274e2d6eec3e6d661f54fd46332b68b4f015c76bd",
+          "problem": null
+        },
+        {
+          "query": "SAKAMOTO",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-010.json",
+          "sourceSha256": "3c6ea2a685d87b55f63d2ff0c61382172b3ed5f86a974873a0fc1c656fd5673b",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-034.html",
+          "searchPageSha256": "ded82dcd8016dc49bb5d0da3f00c43df826e432f0d907421e14725e9ce19ffa9",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "927e13e1e06b806102bee06110d073663360e4a64f08313c5f3f90f2135888fc"
+    },
+    {
+      "key": "main-nr-011",
+      "queries": [
+        {
+          "query": "日本料理 ほそ川 神楽坂",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-011.json",
+          "sourceSha256": "6e22bfb2de2792d79ae3ce7b1596fd3687ce178062da7eac39f2ba7db2dcc26c",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-040.html",
+          "searchPageSha256": "cf4d906c2cb2b4a279faa9a3d6b770909507afd5044dc3de66b37942161da67e",
+          "problem": null
+        },
+        {
+          "query": "ほそ川",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-011.json",
+          "sourceSha256": "6e22bfb2de2792d79ae3ce7b1596fd3687ce178062da7eac39f2ba7db2dcc26c",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-041.html",
+          "searchPageSha256": "fd9a682eec212f46f87ad172ce7bea42ee950d5c80542d94fdbfdd37da43fb1f",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "8ea7bef051089466dd9b00a7034b1665e4dfe8225ded205afaca5fa732dde892"
+    },
+    {
+      "key": "main-nr-012",
+      "queries": [
+        {
+          "query": "Sushi Rizaki",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-012.json",
+          "sourceSha256": "aef52aa8b34980840e9ddf022910767fa988f86e5fdfc2ffc659077d41d592af",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-047.html",
+          "searchPageSha256": "79d7a0953f9b4a7c10e51d8913febcb810fe68431dea1497f448cdbb411d9ba7",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "b24907c7fcc13e5bf51df9fe98b8e73dbe5508bf88dd5a8737d280bad8fb9954"
+    },
+    {
+      "key": "main-nr-013",
+      "queries": [
+        {
+          "query": "Horumon Matsuda HANARE Yakiniku Nakameguro",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-013.json",
+          "sourceSha256": "913cbd93d27dfaa9c3648e0eb7ec883f7fbad76ec89912cd415b006d20c7b968",
+          "searchPagePath": null,
+          "searchPageSha256": null,
+          "problem": "RECORDED_NETWORK_FAILURE"
+        }
+      ],
+      "rawExecutionSha256": "252b8fc05399e1779ad3e9b2c82baf5b6c7084ad5f721d332bbe8afacdfa39fc"
+    },
+    {
+      "key": "main-nr-014",
+      "queries": [
+        {
+          "query": "炭火焼肉ホルモンまんてん高架下",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-014.json",
+          "sourceSha256": "3f611370a8ca2a16c1764e1c434bf6dc56b4ce0778c2ee80be46855ebdc8f42f",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-054.html",
+          "searchPageSha256": "0c6332209752337daf63437186bdf31aeca736b7ee31f97cabd50a6cc6e1fc9b",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "c31b9eb9ee80c0de3e76f6e5986fd539416f80814602f1d39e2da4118d54a860"
+    },
+    {
+      "key": "main-nr-015",
+      "queries": [
+        {
+          "query": "Sushi Yamashiro Kichijoji",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-015.json",
+          "sourceSha256": "12103f149059ce09475d183723497a222dc99a0f4f42f0340f9e772b47145b89",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-056.html",
+          "searchPageSha256": "d3f62729e345e506e58142de60f115d2eadcb964ac2af83ae266c809fb674724",
+          "problem": null
+        },
+        {
+          "query": "Yamashiro",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-015.json",
+          "sourceSha256": "12103f149059ce09475d183723497a222dc99a0f4f42f0340f9e772b47145b89",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-057.html",
+          "searchPageSha256": "2d2dafb9adb0c0fb593ff5544edba21c63e2387451c608d4a009c6e70a7fa87e",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "9e1aaf0b352ed43eb080ef9fcbf00fb24760240461df598f5dfb0da44277f450"
+    },
+    {
+      "key": "main-nr-016",
+      "queries": [
+        {
+          "query": "焼き鳥と蕎麦 灯",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-016.json",
+          "sourceSha256": "d852be8e927302764929186e844c84999cfafba3a5b4a00b209efacafe701350",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-063.html",
+          "searchPageSha256": "c7790f028e6d343048f5d272926716e171134dc2c68f21741f843fac03fcc021",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "506895611bc5e7dfb9b332001c2153b56c38e5ac62389fd15a53d72a75f37f33"
+    },
+    {
+      "key": "main-nr-017",
+      "queries": [
+        {
+          "query": "Sushi Matsumoto Shibuya",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-017.json",
+          "sourceSha256": "3fb7969965ff2b47bbeb650021049c2304b01bfb9d813a5acfc7b58cf387ac0d",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-067.html",
+          "searchPageSha256": "48851c323f6b87b38d4a0f0993776b2c942e4e6387f30caf239a8f83b738fa3a",
+          "problem": null
+        },
+        {
+          "query": "Sushi Matsumoto",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-017.json",
+          "sourceSha256": "3fb7969965ff2b47bbeb650021049c2304b01bfb9d813a5acfc7b58cf387ac0d",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-068.html",
+          "searchPageSha256": "9cff49a5462ad8b4bf9f5bdbbb519c03be056cc7d34e57ab6a1dfee5c6c471e6",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "88f0eed7158fbd6322dfa7b09d2eccb882e27cb8aac826b28ad3a934c3c61bb4"
+    },
+    {
+      "key": "main-nr-018",
+      "queries": [
+        {
+          "query": "Yakiniku Ushicoco Nakameguro",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-018.json",
+          "sourceSha256": "e0d7da7a31c9c701eed61826d8c7af4965af4295aac603046fb248910f7d3dd8",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-074.html",
+          "searchPageSha256": "38c56a11e1636ff13b74d6928ad4d48f7398c20adfd484e0e317e8ce3f33d516",
+          "problem": null
+        },
+        {
+          "query": "Ushicoco",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-018.json",
+          "sourceSha256": "e0d7da7a31c9c701eed61826d8c7af4965af4295aac603046fb248910f7d3dd8",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-075.html",
+          "searchPageSha256": "4a0b55d473f25078a7cd2536d2d237837e3ad680bd598eb71485e165b9d2252b",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "b7f528c1460a867aa53765c63e24b21a33e30cee06ff4c18ff4e51ceba0fda28"
+    },
+    {
+      "key": "main-nr-019",
+      "queries": [
+        {
+          "query": "T nakameguro",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-019.json",
+          "sourceSha256": "8ad0ebe011f2e9d76ccdc0fb913d2391fb674ded3531b342a931d998cf392de4",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-081.html",
+          "searchPageSha256": "9282078ecba26d53b6424c4fd6b1344772bdc30150bf1aa0c5bc907ce0404398",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "4da374dea8324febbe776dd5936a0aa9c65adc30185db2589e6e478515ef731c"
+    },
+    {
+      "key": "main-nr-020",
+      "queries": [
+        {
+          "query": "Sushi kazumasa",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-020.json",
+          "sourceSha256": "a34f55fc72cb1b434cd7028be90c9482dd46e356133f75d5831214d2c5c0cb0e",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-087.html",
+          "searchPageSha256": "7bcc563e1b7667226b08dc4ef9aa645a48d9eaf296e70ddf811ec2540f756125",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "32fd87813d344d3cf34bbbb87dd40077d23883e75810c2174f5fc61deab54ef4"
+    },
+    {
+      "key": "main-nr-021",
+      "queries": [
+        {
+          "query": "焼肉 牛目黒",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-021.json",
+          "sourceSha256": "3b45d8b527d9e7fcd5cb52a4996fa6c4780fc532bbc36a3561c7331848a12136",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-090.html",
+          "searchPageSha256": "e83828c15db4c1e8a0417a2e29cbcd3bc249b165e189d9a248b7b1409e655883",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "4a19839b509149cddeec0eba9da342f303ed3a4b3fd2eb9c132975f0d962b620"
+    },
+    {
+      "key": "main-nr-022",
+      "queries": [
+        {
+          "query": "Sushi and Tempura Iwai Kichijoji",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-022.json",
+          "sourceSha256": "b24013a7d21d93d5dadf91b21f8ec03c286ccc6584439e77a6c2e777f4cbd208",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-092.html",
+          "searchPageSha256": "866197a17674a4602caf36447ed05e0ea499c6fe6898d5ad96f9b6cfc11ba0c8",
+          "problem": null
+        },
+        {
+          "query": "Iwai",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-022.json",
+          "sourceSha256": "b24013a7d21d93d5dadf91b21f8ec03c286ccc6584439e77a6c2e777f4cbd208",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-093.html",
+          "searchPageSha256": "893e42c6b04e83d1e9711d98f2f8ed87fb37cdf650ccc22adc8d68fa0b78791f",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "9ea8a97dd61c9ab0dfd8b0e4e340b8d929b3e70d191c4e90222103588263b1a7"
+    },
+    {
+      "key": "main-nr-024",
+      "queries": [
+        {
+          "query": "Nakameguro Yakiniku Togyumon",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-024.json",
+          "sourceSha256": "d6694d37b8395092816938a71011537d922bd042ccbe0ee86ccaf3e0e572f265",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-099.html",
+          "searchPageSha256": "ca29e9380a7dcc3819eb0abdf4d6311331f8c196e0b0db18cafda9a3dd8c0075",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "f5580c72d25d382ca35f2fb723855761119bf40f16434a33d140a0708e226277"
+    },
+    {
+      "key": "main-nr-025",
+      "queries": [
+        {
+          "query": "Sumi Sushi Shibuya",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-025.json",
+          "sourceSha256": "dcd318b97aa9ca14113b0540a1c4a725b234e8d46057f2e4b60116d230b2340f",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-101.html",
+          "searchPageSha256": "5fb0218d49c85ed9039abcbf4e11162660206e44c470c572e6da15fadbe23bf8",
+          "problem": null
+        },
+        {
+          "query": "Sumi Sushi",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-025.json",
+          "sourceSha256": "dcd318b97aa9ca14113b0540a1c4a725b234e8d46057f2e4b60116d230b2340f",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-102.html",
+          "searchPageSha256": "c3f4114efcd0379054202477a213963ff6cc505ce0fdfeb3c7fefd9a58c3a2f7",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "11cfb3e97b69653f6a187aef3d445f993e1d334e37459fdc88570f83668fc9b4"
+    },
+    {
+      "key": "main-nr-026",
+      "queries": [
+        {
+          "query": "Kushiyaki Bistro Fukumimi Ginza 6",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-026.json",
+          "sourceSha256": "8c98345aa9dee242798cbeccb5c7315a4d8d5e568045fbab91f8c08ed9d594e7",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-108.html",
+          "searchPageSha256": "2afc11f517ffe61808d86e76d50b9c349a5c31472bc0fe4f53bb79ff73173c02",
+          "problem": null
+        },
+        {
+          "query": "Fukumimi",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-026.json",
+          "sourceSha256": "8c98345aa9dee242798cbeccb5c7315a4d8d5e568045fbab91f8c08ed9d594e7",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-109.html",
+          "searchPageSha256": "781f15dccc235335029e755427d5dcc95f9cdcf29d3d485079bb0827f4cf0ee0",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "4c04a5077e072fcd14a419fb93d3e319181158c6130be9512eca8ea678f6f8e7"
+    },
+    {
+      "key": "main-nr-027",
+      "queries": [
+        {
+          "query": "Shibuya Sushi Jinnan",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-027.json",
+          "sourceSha256": "120848911ff16d132a485603faf89e84dc6c431c25f1f4415cae275c6c4dd514",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-001.html",
+          "searchPageSha256": "040cb05aa9e0740bc7249c3c96097f4fb5e1f155907fd40845fc812d389d2b9c",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "d4539f6925802a855eb1c9a54991635824da94818095ae6f39419db2cd77ba6f"
+    },
+    {
+      "key": "main-nr-028",
+      "queries": [
+        {
+          "query": "Ginza Bokujin",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-028.json",
+          "sourceSha256": "65a88015bb8807a704b6f145c45dba3e735fd9024a0bf5cc3d59f879d70f68e0",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-003.html",
+          "searchPageSha256": "ce6347b8506f69aa44724380cf9bfd17deafd3190244fbfc820c165285f342ab",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "a4c3e5f1d6cf4619fd9847d5065cca71c738f7e72f240a7645f95df09b619237"
+    },
+    {
+      "key": "main-nr-029",
+      "queries": [
+        {
+          "query": "焼肉 うし幸",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-029.json",
+          "sourceSha256": "9060f86a8d577c4952cabde831184d2a7521a72c3d795b48d632491eab71c0f3",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-005.html",
+          "searchPageSha256": "72f819a1b3d2bca5275e1ff0901f5ed227ca739b1fba54c54c279c3e3b82de88",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "2f62f38861b8b5f994f09ec97871c8b49abd296e40168d57e5f68e1cd78513ea"
+    },
+    {
+      "key": "main-nr-030",
+      "queries": [
+        {
+          "query": "Sushi Nasu",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-030.json",
+          "sourceSha256": "7680fda607692a0118d443aac2c34bcd1cc376bb23e77746c11fb4a40dc1b286",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-011.html",
+          "searchPageSha256": "2bac3e8a4590a3087d1d13037b0b72f10dcc8068e2c652525fde9ec371a445e0",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "a57cf41c35337f3cd03a0c27f6812be07325e7bb261ee9403874b455533862f7"
+    },
+    {
+      "key": "main-G4-ND-001",
+      "queries": [
+        {
+          "query": "Dengana Akabane",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-001.json",
+          "sourceSha256": "b01ddb03d453e2d1b9239309db49c067e5f94ef4ce7f253b0bf5db3001536f20",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-017.html",
+          "searchPageSha256": "dd09c9962912cfc4b7287d12e9a5399030df4cbe3ff21bc83f5135a84824f6e1",
+          "problem": null
+        },
+        {
+          "query": "Dengana",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-001.json",
+          "sourceSha256": "b01ddb03d453e2d1b9239309db49c067e5f94ef4ce7f253b0bf5db3001536f20",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-018.html",
+          "searchPageSha256": "7fdad5ce9320e16a15ca4ed5280b655604f5f5a55e81c696b9ecb4b41468a7f1",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "e3f4701e11a848bfe6a655b9fa368e2176b7e027592ced0d437519ab6f1d5f99"
+    },
+    {
+      "key": "main-G4-ND-002",
+      "queries": [
+        {
+          "query": "Ushigoro Bambina Carbone Nakameguro",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-002.json",
+          "sourceSha256": "e178e9b227c429519cc6a020f95c86ab24d26c63c12cd124aba06a476cfe0cce",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-024.html",
+          "searchPageSha256": "734e83ab9ff1862d1c2e8bd0185793a65b272ed0b8b9fa088af349b600d52403",
+          "problem": null
+        },
+        {
+          "query": "Ushigoro Bambina",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-002.json",
+          "sourceSha256": "e178e9b227c429519cc6a020f95c86ab24d26c63c12cd124aba06a476cfe0cce",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-025.html",
+          "searchPageSha256": "83d88d79a6f62ded14724bdc67732a4461664ec444b44fb04079121e7ff4d283",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "c0a98d9df5c19e6a5a71db91db16ed492f7832086a88ac4ef3ff7b1876b54b79"
+    },
+    {
+      "key": "main-G4-ND-003",
+      "queries": [
+        {
+          "query": "和泉鮨南口店",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-003.json",
+          "sourceSha256": "72fce2bbd4e5d0b4f85d7372fcc015497a69e192f72fec1ba02b4f675ba63c96",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-030.html",
+          "searchPageSha256": "4d1e33b10d5a598c7766464653e7fa0d78b763d1c94e10bb50d6d9b54136b5a5",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "9d1299d136d502cc8636c20641d5867aa4a7269494d609d6f052007276eb74e9"
+    },
+    {
+      "key": "main-G4-ND-004",
+      "queries": [
+        {
+          "query": "Waragamo",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-004.json",
+          "sourceSha256": "4856418bf3838d2ebe26ccde47619dde34f775cf6eaad23f891c451d713811c3",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-034.html",
+          "searchPageSha256": "ade9eb091b600058c9895cf9939dfe45e430bedbcfd7e836fa59f3b42be3ada5",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "b543615e6c40de4743f6dee2b52c13fc3e99f59aa5a3b82dc3ac65c1a8d06c55"
+    },
+    {
+      "key": "main-G4-ND-005",
+      "queries": [
+        {
+          "query": "Sen Kagurazaka",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-005.json",
+          "sourceSha256": "bab8e4ec7da5a4d43c8829c95f36a11e7719a57cfa59259d3673169b813abb35",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-039.html",
+          "searchPageSha256": "dc2651dfd8c19ff322e5b44538fe5cdc599e2a67935f1712546e042873bb37a4",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "74850bc8377f8f59199ad2887b18d1755baa30dfedb5723db0f4acfcdf56b4a5"
+    },
+    {
+      "key": "main-G4-ND-006",
+      "queries": [
+        {
+          "query": "吉祥じ 和こん",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-006.json",
+          "sourceSha256": "ef7f18597ac42793e5b8b89552adddb70d1b16641f50a6d586ea67eaa4aff30f",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-040.html",
+          "searchPageSha256": "e67b594bee5f68593c45e7ddf0fd812ed90270e4ca267c308474628cbc66cb23",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "3972997237732f02d2b2120012e0ea968e9dd1d189871d8add745a6517eb4dc6"
+    },
+    {
+      "key": "main-G4-ND-007",
+      "queries": [
+        {
+          "query": "Washokubiyori Osaketo Kagrazaka",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-007.json",
+          "sourceSha256": "73f9ab1d9661e1b54421559f4704f9932f4241f8b7394923978474adbc30e1bc",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-042.html",
+          "searchPageSha256": "2937b6905a854de89acd0c95f7b74296e07984ec046212c5551233346932d6ef",
+          "problem": null
+        },
+        {
+          "query": "Washokubiyori",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-007.json",
+          "sourceSha256": "73f9ab1d9661e1b54421559f4704f9932f4241f8b7394923978474adbc30e1bc",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-043.html",
+          "searchPageSha256": "7008e7e034ab1945a805f80c859d801387c04ffadedfc063e6056d5ac5c1d6cd",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "937da205b849707c9de1c39e2b8cee95f50bca72d6398a0dfd395f4cf1111be8"
+    },
+    {
+      "key": "main-G4-ND-008",
+      "queries": [
+        {
+          "query": "Godaime Hanayama Udon Ginza",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-008.json",
+          "sourceSha256": "29009e0e1115c30448f5c747fb79fe5c090cf68b58db78ce661c36e2d2b47f0a",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-049.html",
+          "searchPageSha256": "4a431af95d9f4579cf6b4039278f037ccc5182c62f7db988f249b9ca0254da50",
+          "problem": null
+        },
+        {
+          "query": "Hanayama Udon",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-008.json",
+          "sourceSha256": "29009e0e1115c30448f5c747fb79fe5c090cf68b58db78ce661c36e2d2b47f0a",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-050.html",
+          "searchPageSha256": "3306bad1ab4d1c0baaad8112c88148a6d73288a9b00e42117fbcea10ce2a1673",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "7096b55744bf3790e350567907023bbe83b0652a11cf9524c889330dec21fcec"
+    },
+    {
+      "key": "rerun-nr-001",
+      "queries": [
+        {
+          "query": "Sushi Tatsu Shibuya",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-001.json",
+          "sourceSha256": "f01710584908b2c0d12d33f727126e16824d13895fa9c8876727c1d77854c2f1",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-054.html",
+          "searchPageSha256": "b7a9ad228599fc952e07103c309429fcff4c3791235b742b7e4f972d97fe289c",
+          "problem": null
+        },
+        {
+          "query": "Sushi Tatsu",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-001.json",
+          "sourceSha256": "f01710584908b2c0d12d33f727126e16824d13895fa9c8876727c1d77854c2f1",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-055.html",
+          "searchPageSha256": "cd892db60cb52a5863999e5e5849c28ef9aaaf1b4c663901734b1fd3a4012f5c",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "34bf116b09b63c3abc6efed6efce8646c13ebe314a75531e41667f53de34cdb9"
+    },
+    {
+      "key": "rerun-nr-002",
+      "queries": [
+        {
+          "query": "焼肉おおにし 祐天寺店",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-002.json",
+          "sourceSha256": "d45127c794a81d0e1ff7833117d1616089c9ad4002059b077ac9078fa4aefc29",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-061.html",
+          "searchPageSha256": "27fc7d454525d69e3e57e979057dbef8028e35f4d16f0ec30003f4121c60e5c7",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "19d44e128f08b3991337f9df3e6ab1eeeb91ffa337d0e48a650242c39538adc7"
+    },
+    {
+      "key": "rerun-nr-003",
+      "queries": [
+        {
+          "query": "Washoku Dining Hana Kagura",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-003.json",
+          "sourceSha256": "76c2a4b988ca934633b50a352812aacef2e025701496ae9014826f27d9e089c0",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-063.html",
+          "searchPageSha256": "c63a1cf45d0b337aa9e0d812a4adac692041cb58f60c65553a33ce6d37e0e50f",
+          "problem": null
+        },
+        {
+          "query": "Hana Kagura",
+          "source": "FRAGMENT",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-003.json",
+          "sourceSha256": "76c2a4b988ca934633b50a352812aacef2e025701496ae9014826f27d9e089c0",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-064.html",
+          "searchPageSha256": "d714bdd611f27ebeb3028c8393deed22b64cf7c4394449f2c88089b052092b2e",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "4acfdafd0c01adffb563f83a691c21c63c4a4363c5a2e716219d1673504e4f2f"
+    },
+    {
+      "key": "rerun-nr-004",
+      "queries": [
+        {
+          "query": "鮨処 みこし",
+          "source": "ORIGINAL",
+          "sourcePath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/nr-004.json",
+          "sourceSha256": "5330820d52b40b33c78a7a6dc94de12d20e408afcf733ad1366a17691ec2d0fa",
+          "searchPagePath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-070.html",
+          "searchPageSha256": "a2d8ce0e389afeb9b1531057dc131512fd0fbc78c4a0549218c7cbeba0a41165",
+          "problem": null
+        }
+      ],
+      "rawExecutionSha256": "18adb93e5faaad2879e13d14fbdca9b89b3f40c1d809528825456de4439c8370"
+    }
+  ],
+  "realRequests": 0
+}

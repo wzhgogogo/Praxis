@@ -1,0 +1,91 @@
+{
+  "id": "nr-009",
+  "key": "main-nr-009",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Naminoue shibuya",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Naminoue",
+      "kind": "FRAGMENT",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1315/A131502/13195782/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Naminoue%20shibuya",
+      "kind": "SEARCH",
+      "query": "Naminoue shibuya",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-028.html",
+      "sha256": "656464132fb1d34b4484319ac092892710ac8bd98ac0a69ef122280caaede5e2",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Naminoue",
+      "kind": "SEARCH",
+      "query": "Naminoue",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-029.html",
+      "sha256": "68542ce87a0604c6a6221479feab0d5e9d738f240eed4b511b0f6f0ba6c00beb",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-031.html",
+      "sha256": "c897ce84f38ffac9c698f71390ab77e41a0ddc89adea6bb5e5c96c053754e4b3",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1315/A131502/13195782/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [
+    "DETAIL:MISSING_SAVED_PAGE"
+  ],
+  "diagnostic": null,
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Naminoue%20shibuya",
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Naminoue",
+    "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+    "https://tabelog.com/en/tokyo/A1315/A131502/13195782/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

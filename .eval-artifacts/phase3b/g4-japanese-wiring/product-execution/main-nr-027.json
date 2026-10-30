@@ -1,0 +1,175 @@
+{
+  "id": "nr-027",
+  "key": "main-nr-027",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "Shibuya Sushi Jinnan",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Sushi%20Jinnan",
+      "kind": "SEARCH",
+      "query": "Shibuya Sushi Jinnan",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-001.html",
+      "sha256": "040cb05aa9e0740bc7249c3c96097f4fb5e1f155907fd40845fc812d389d2b9c",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-002.html",
+      "sha256": "511ce7d0c76f123a1a49583b7ac612090c4aa5e60b365e015f6889c5ebeb3eda",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [],
+  "diagnostic": {
+    "candidateId": "g4:nr-027",
+    "google": {
+      "placeId": "ChIJZdJ4f1WNGGARMEU45iPP5Qk",
+      "outletName": {
+        "value": "Shibuya Sushi Jinnan",
+        "normalizedValue": "shibuyasushijinnan",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "Japan, 〒150-0041 Tokyo, Shibuya, Jinnan, 1-chōme−20−５ Vort Shibuya Briller, 9F",
+        "normalizedValue": "japan〒1500041tokyoshibuyajinnan1chōme−20−５vortshibuyabriller9f",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "03-6416-3220",
+        "normalizedValue": "0364163220",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1303/A130301/13307953",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+        "outletName": {
+          "value": "Shibuya Sushi Jinnan",
+          "normalizedValue": "shibuyasushijinnan",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1500041 東京都渋谷区神南1-20-5 Vort渋谷 Briller 9F",
+          "normalizedValue": "1500041東京都渋谷区神南1205vort渋谷briller9f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-6416-3220",
+          "normalizedValue": "0364163220",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "03-6416-3220",
+          "role": "STORE",
+          "quote": "03-6416-3220",
+          "label": "Phone number",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/"
+        },
+        "comparison": {
+          "outletName": "MATCH",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 8
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1303/A130301/13307953",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "Shibuya Sushi Jinnan"
+        }
+      ],
+      "detailLimit": 5
+    },
+    "search": {
+      "query": "Shibuya Sushi Jinnan",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Sushi%20Jinnan",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Sushi%20Jinnan",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 1,
+      "inspectedResultCount": 1
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1303/A130301/13307953",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+        "outletName": "Shibuya Sushi Jinnan"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1303/A130301/13307953",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+        "title": "Shibuya Sushi Jinnan Reservation - Shibuya/Sushi | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13307953/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Shibuya Sushi Jinnan",
+            "normalizedValue": "shibuyasushijinnan",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1500041 東京都渋谷区神南1-20-5 Vort渋谷 Briller 9F",
+            "normalizedValue": "1500041東京都渋谷区神南1205vort渋谷briller9f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-6416-3220",
+            "normalizedValue": "0364163220",
+            "source": "DOM"
+          }
+        }
+      }
+    ]
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Sushi%20Jinnan",
+    "https://tabelog.com/en/tokyo/A1303/A130301/13307953/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

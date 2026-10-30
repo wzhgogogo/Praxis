@@ -1,5 +1,7 @@
 # Development Log
 
+2026-10-30 CET：B1已按批准发布并ls-remote核对main74afd956（五门禁1254/186、严格G2全12）。C另开日文名产品接线：原名→合法片段→同ID日文全文，前两词4+日文1、未用退还，详情上限不重置，Google额外Details进入既有run预算/导出，不改变身份/排序/库存/响应绑定。d17ee4bc冻结1571项；37主视图+4复跑的模拟及生产身份前缀均原23/23、focus3/3、错认0，缺页15主视图仍未评。新增普通HTTP已从NO_VERIFIED_RESULT走到PRESENT_RESULTS，但暴露先TableCheck失败再Tabelog成功的旧check.sourceProvider误归总resolver，B1按钮拒绝；保留断言及红灯，绑定修复已向用户申请一行窄授权、尚未实施。Beef同ID日文名及首屏未读，完整精确GET清单尚不能离线物化；当前真实调用0、GET244/260，历史486账本条目保留，模型/Google各0新增，不读取.env。候选不合main；门禁和缺页前沿随后归档交复核。 [计划](../../.eval-artifacts/phase3b/g4-japanese-wiring/plan.md)。
+
 2026-10-30 CET：用户复核通过B1接线7e701207，按批准从main7c83e02e构造发布merge；源码与复核候选逐字一致。47c6c5ef冻结728项，五门禁默认1254/1254、Chromium186/186（129.171秒）和严格G2 5/5、12页PASS，8步前后净树。两入口原URL与所有拒绝/隔离控制沿现有默认套件重跑；ADR0050前端保留，复用两尺寸UI证据。Tabelog/TableCheck B1普通组合离线可用，内存缓存重启后等新查位，不改变现实预约状态。真实模型/Google/GET/Live/真实PG0，不读.env。按授权发布main，远端SHA以ls-remote为准；日文名接线另分支、清单复核前不请求。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md)。
 
 2026-10-30 CET：G3/G3c已复核签收，已同步main4cbc521b，统一候选8025362b五门禁全绿：默认1242/1242、Chromium186/186（130.563秒）、严格G2 5/5及12/12页面PASS；八项前后净树，721输入SHA不变。旧HARD44,197字节一致，481状态仅既有批准人数反例改变。源码冲突0，6份文档保留双方正文；按用户批准合入推送main，确切SHA以Git远端回执为准，随后通知C待命。真实调用0，账本486条。后续（本批不做）：删除无非空生产者的provider observation verifiedHardCriteria可选字段、透传、旧matchReasons投影与直接构造测试，保留Google及Source2 MODEL_JUDGMENT合法criterion claims；G3b等首次Live有时段TableCheck日历。 [报告](../../.eval-artifacts/phase3b/g3-main/report.md)。
@@ -35,7 +37,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.355
+- Document revision: 4.356
 
 
 - Last updated: 2026-10-30

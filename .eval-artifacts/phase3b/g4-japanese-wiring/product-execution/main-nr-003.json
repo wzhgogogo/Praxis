@@ -1,0 +1,61 @@
+{
+  "id": "nr-003",
+  "key": "main-nr-003",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Washoku Dining Hana Kagura",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Hana Kagura",
+      "kind": "FRAGMENT",
+      "ordered": []
+    }
+  ],
+  "details": [],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Washoku%20Dining%20Hana%20Kagura",
+      "kind": "SEARCH",
+      "query": "Washoku Dining Hana Kagura",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-008.html",
+      "sha256": "c63a1cf45d0b337aa9e0d812a4adac692041cb58f60c65553a33ce6d37e0e50f",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Hana%20Kagura",
+      "kind": "SEARCH",
+      "query": "Hana Kagura",
+      "problem": "RECORDED_NETWORK_FAILURE"
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [
+    "SEARCH:RECORDED_NETWORK_FAILURE"
+  ],
+  "diagnostic": null,
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Washoku%20Dining%20Hana%20Kagura",
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Hana%20Kagura"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

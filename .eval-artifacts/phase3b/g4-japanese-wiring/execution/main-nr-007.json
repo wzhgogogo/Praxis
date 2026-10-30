@@ -1,0 +1,93 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Beef Kitchen Nakameguro",
+      "kind": "FRAGMENT",
+      "ordered": []
+    }
+  ],
+  "details": [],
+  "uncertainties": [
+    "UNRECORDED_JAPANESE_NAME"
+  ],
+  "identity": {
+    "resolution": {
+      "confidence": "LOW",
+      "matchedBy": []
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-007",
+      "google": {
+        "placeId": "ChIJAQDkh0mLGGARbfy8WZ_dfIw",
+        "outletName": {
+          "value": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+          "normalizedValue": "wagyubeefyakinikubeefkitchennakameguro",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 2-chōme−44−８ ロ･カーサ上目黒 B1",
+          "normalizedValue": "japan〒1530051tokyomegurocitykamimeguro2chōme−44−８ロ･カーサ上目黒b1",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-5768-3601",
+          "normalizedValue": "0357683601",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [],
+      "resolution": {
+        "confidence": "LOW",
+        "matchedBy": [],
+        "reason": "NO_OUTLETS_PARSED"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 2,
+    "details": 0,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-007",
+  "key": "main-nr-007",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-007.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Wagyu%20beef%20Yakiniku%20Beef%20Kitchen%20Nakameguro",
+      "kind": "SEARCH",
+      "query": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-024.html",
+      "sha256": "2f73b202855d0a128dba3d1eb9f53710d5e1e39520636b4083e97772e4d8e507",
+      "originLedgerId": "phase3b-c-g4-e2e-get-024",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Beef%20Kitchen%20Nakameguro",
+      "kind": "SEARCH",
+      "query": "Beef Kitchen Nakameguro",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-025.html",
+      "sha256": "0b6dbb5b324f01d3317b86c6df0eb44a9451a998a1a9a244e8c73186d47e37d0",
+      "originLedgerId": "phase3b-c-g4-e2e-get-025",
+      "realGET": 0
+    }
+  ],
+  "fragmentOrigin": {
+    "prompt": "restaurant-named-source-query@2",
+    "mode": "FROZEN_RESPONSE_REPLAY_NOT_MODEL_QUALITY"
+  },
+  "japaneseOrigin": null
+}

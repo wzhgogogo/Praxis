@@ -1,0 +1,63 @@
+{
+  "id": "nr-002",
+  "key": "main-nr-002",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "焼肉おおにし 祐天寺店",
+      "kind": "ORIGINAL",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null,
+      "problem": "RECORDED_NETWORK_FAILURE"
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%E3%81%8A%E3%81%8A%E3%81%AB%E3%81%97%20%E7%A5%90%E5%A4%A9%E5%AF%BA%E5%BA%97",
+      "kind": "SEARCH",
+      "query": "焼肉おおにし 祐天寺店",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-006.html",
+      "sha256": "27fc7d454525d69e3e57e979057dbef8028e35f4d16f0ec30003f4121c60e5c7",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "RECORDED_NETWORK_FAILURE"
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [
+    "DETAIL:RECORDED_NETWORK_FAILURE"
+  ],
+  "diagnostic": null,
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%E3%81%8A%E3%81%8A%E3%81%AB%E3%81%97%20%E7%A5%90%E5%A4%A9%E5%AF%BA%E5%BA%97",
+    "https://tabelog.com/en/tokyo/A1317/A131701/13242327/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

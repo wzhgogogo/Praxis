@@ -1,0 +1,258 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Ushigoro Bambina Carbone Nakameguro",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Ushigoro Bambina",
+      "kind": "FRAGMENT",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13200116",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200116/",
+          "outletName": "Ushigoro Bambina Ginza"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130103/13162231",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130103/13162231/",
+          "outletName": "Ushigoro Bambina Shimbashi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13144971",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13144971/",
+          "outletName": "USHIGORO Bambina Ebisu honten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13169164",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13169164/",
+          "outletName": "Ushigoro Bambina Shibuya ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13178069",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13178069/",
+          "outletName": "Ushigoro Bambina Ebisu hirutoppu ten"
+        }
+      ]
+    },
+    {
+      "query": "炭火焼肉ホルモンうしごろ 中目黒店",
+      "kind": "JAPANESE",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13278133",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13278133/",
+          "outletName": "Sumibi Yakiniku Horumon Ushigoro Nakameguro ten"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13200116/",
+      "query": "Ushigoro Bambina",
+      "phase": "FIRST_FOUR"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130103/13162231/",
+      "query": "Ushigoro Bambina",
+      "phase": "FIRST_FOUR",
+      "problem": "MISSING_SAVED_PAGE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130302/13144971/",
+      "query": "Ushigoro Bambina",
+      "phase": "FIRST_FOUR"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13169164/",
+      "query": "Ushigoro Bambina",
+      "phase": "FIRST_FOUR",
+      "problem": "RECORDED_NETWORK_FAILURE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13278133/",
+      "query": "炭火焼肉ホルモンうしごろ 中目黒店",
+      "phase": "JAPANESE",
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "uncertainties": [
+    "DETAIL:MISSING_SAVED_PAGE:https://tabelog.com/en/tokyo/A1301/A130103/13162231/",
+    "DETAIL:RECORDED_NETWORK_FAILURE:https://tabelog.com/en/tokyo/A1303/A130301/13169164/",
+    "DETAIL:MISSING_SAVED_PAGE:https://tabelog.com/en/tokyo/A1317/A131701/13278133/"
+  ],
+  "identity": {
+    "resolution": {
+      "confidence": "LOW",
+      "matchedBy": []
+    },
+    "diagnostic": {
+      "candidateId": "g4:G4-ND-002",
+      "google": {
+        "placeId": "ChIJ0UKuqUmLGGAROsX4_lo24us",
+        "outletName": {
+          "value": "Ushigoro Bambina Carbone Nakameguro",
+          "normalizedValue": "ushigorobambinacarbonenakameguro",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 2-chōme−12−１１ TODA BLD 1F",
+          "normalizedValue": "japan〒1530051tokyomegurocitykamimeguro2chōme−12−１１todabld1f",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-6412-8929",
+          "normalizedValue": "0364128929",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1301/A130101/13200116",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200116/",
+          "outletName": {
+            "value": "Ushigoro Bambina Ginza",
+            "normalizedValue": "ushigorobambinaginza",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1040061 東京都中央区銀座5‐6‐13 西五番街ビル 3F",
+            "normalizedValue": "1040061東京都中央区銀座5613西五番街ビル3f",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-3573-4129",
+            "normalizedValue": "0335734129",
+            "source": "SEARCH_RESULT"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "CONFLICT",
+            "phone": "CONFLICT"
+          },
+          "score": 0
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13144971",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13144971/",
+          "outletName": {
+            "value": "USHIGORO Bambina Ebisu honten",
+            "normalizedValue": "ushigorobambinaebisuhonten",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1500022 東京都渋谷区恵比寿南2-1-2 ＲＫＦ恵比寿 1Ｆ",
+            "normalizedValue": "1500022東京都渋谷区恵比寿南212ｒｋｆ恵比寿1ｆ",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "source": "ABSENT"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "CONFLICT",
+            "phone": "MISSING_TABELOG"
+          },
+          "score": 0
+        }
+      ],
+      "resolution": {
+        "confidence": "LOW",
+        "matchedBy": [],
+        "bestSourceEntityId": "en/tokyo/A1301/A130101/13200116",
+        "reason": "KNOWN_PHONE_CONFLICT"
+      }
+    }
+  },
+  "deferred": [
+    "https://tabelog.com/en/tokyo/A1303/A130302/13178069/"
+  ],
+  "bounds": {
+    "searches": 3,
+    "details": 5,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "G4-ND-002",
+  "key": "main-G4-ND-002",
+  "view": "MAIN37",
+  "cohort": "NEW8",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-002.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ushigoro%20Bambina%20Carbone%20Nakameguro",
+      "kind": "SEARCH",
+      "query": "Ushigoro Bambina Carbone Nakameguro",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-024.html",
+      "sha256": "734e83ab9ff1862d1c2e8bd0185793a65b272ed0b8b9fa088af349b600d52403",
+      "originLedgerId": "phase3b-c-g4-cont-get-024",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ushigoro%20Bambina",
+      "kind": "SEARCH",
+      "query": "Ushigoro Bambina",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-025.html",
+      "sha256": "83d88d79a6f62ded14724bdc67732a4461664ec444b44fb04079121e7ff4d283",
+      "originLedgerId": "phase3b-c-g4-cont-get-025",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13200116/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-026.html",
+      "sha256": "b70e2dec11d157b6045b1e70d8f6137461830537267cc5a378142124eb43c174",
+      "originLedgerId": "phase3b-c-g4-cont-get-026",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130103/13162231/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130302/13144971/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-027.html",
+      "sha256": "f1e6951934ca8a39b3086007a452708c54c93c936c932cb0cbc9e42eceef7d08",
+      "originLedgerId": "phase3b-c-g4-cont-get-027",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13169164/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "RECORDED_NETWORK_FAILURE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%82%AD%E7%81%AB%E7%84%BC%E8%82%89%E3%83%9B%E3%83%AB%E3%83%A2%E3%83%B3%E3%81%86%E3%81%97%E3%81%94%E3%82%8D%20%E4%B8%AD%E7%9B%AE%E9%BB%92%E5%BA%97",
+      "kind": "SEARCH",
+      "query": "炭火焼肉ホルモンうしごろ 中目黒店",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch2/search/004-G4-ND-002.body.html",
+      "sha256": "9d23470b5c7a4f5135d52da1940ed59c2c79c888319fff0151dd34b2962505b0",
+      "originLedgerId": "phase3b-c-batch2-call-get-004",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13278133/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "fragmentOrigin": {
+    "prompt": "restaurant-named-source-query@2",
+    "mode": "FROZEN_RESPONSE_REPLAY_NOT_MODEL_QUALITY"
+  },
+  "japaneseOrigin": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/G4-ND-002.raw.json"
+}

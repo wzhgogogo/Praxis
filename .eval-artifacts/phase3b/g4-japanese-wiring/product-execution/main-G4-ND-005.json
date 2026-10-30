@@ -1,0 +1,99 @@
+{
+  "id": "G4-ND-005",
+  "key": "main-G4-ND-005",
+  "view": "MAIN37",
+  "cohort": "NEW8",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "Sen Kagurazaka",
+      "ordered": []
+    }
+  ],
+  "details": [],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sen%20Kagurazaka",
+      "kind": "SEARCH",
+      "query": "Sen Kagurazaka",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-039.html",
+      "sha256": "dc2651dfd8c19ff322e5b44538fe5cdc599e2a67935f1712546e042873bb37a4",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [
+    "UNRECORDED_JAPANESE_NAME"
+  ],
+  "diagnostic": {
+    "candidateId": "g4:G4-ND-005",
+    "google": {
+      "placeId": "ChIJjdT5wlqMGGARJtJeEFb-pqg",
+      "outletName": {
+        "value": "Sen Kagurazaka",
+        "normalizedValue": "senkagurazaka",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "3-chōme-1-43 Kagurazaka, Shinjuku City, Tokyo 162-0825, Japan",
+        "normalizedValue": "3chōme143kagurazakashinjukucitytokyo1620825japan",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "03-5261-7088",
+        "normalizedValue": "0352617088",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [],
+    "resolution": {
+      "confidence": "LOW",
+      "matchedBy": [],
+      "reason": "NO_OUTLETS_PARSED"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "Sen Kagurazaka"
+        }
+      ],
+      "detailLimit": 5,
+      "japanese": {
+        "status": "UNAVAILABLE",
+        "placeId": "ChIJjdT5wlqMGGARJtJeEFb-pqg",
+        "reasonCode": "GOOGLE_NETWORK_FAILED"
+      }
+    },
+    "search": {
+      "query": "Sen Kagurazaka",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Sen%20Kagurazaka",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Sen%20Kagurazaka",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 0,
+      "inspectedResultCount": 0
+    },
+    "searchResults": [],
+    "details": []
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Sen%20Kagurazaka"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

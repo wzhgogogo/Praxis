@@ -1,0 +1,99 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "焼肉おおにし 祐天寺店",
+      "kind": "ORIGINAL",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131701/13242327",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+          "outletName": "Yakiniku Oonishi Yuutenji ten"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+      "query": "焼肉おおにし 祐天寺店",
+      "phase": "FIRST_FOUR",
+      "problem": "RECORDED_NETWORK_FAILURE"
+    }
+  ],
+  "uncertainties": [
+    "DETAIL:RECORDED_NETWORK_FAILURE:https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+    "UNRECORDED_FRAGMENT_PROPOSAL",
+    "UNRECORDED_JAPANESE_NAME"
+  ],
+  "identity": {
+    "resolution": {
+      "confidence": "LOW",
+      "matchedBy": []
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-002",
+      "google": {
+        "placeId": "ChIJDaHIVGqLGGARfbqv1Ga8brI",
+        "outletName": {
+          "value": "焼肉おおにし 祐天寺店",
+          "normalizedValue": "焼肉おおにし祐天寺店",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "2-chōme-6-11 Yūtenji, Meguro City, Tokyo 153-0052, Japan",
+          "normalizedValue": "2chōme611yūtenjimegurocitytokyo1530052japan",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "050-5456-5059",
+          "normalizedValue": "05054565059",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [],
+      "resolution": {
+        "confidence": "LOW",
+        "matchedBy": [],
+        "reason": "NO_OUTLETS_PARSED"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 1,
+    "details": 1,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-002",
+  "key": "main-nr-002",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-002.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E8%82%89%E3%81%8A%E3%81%8A%E3%81%AB%E3%81%97%20%E7%A5%90%E5%A4%A9%E5%AF%BA%E5%BA%97",
+      "kind": "SEARCH",
+      "query": "焼肉おおにし 祐天寺店",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-006.html",
+      "sha256": "27fc7d454525d69e3e57e979057dbef8028e35f4d16f0ec30003f4121c60e5c7",
+      "originLedgerId": "phase3b-c-g4-e2e-get-006",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13242327/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "RECORDED_NETWORK_FAILURE"
+    }
+  ],
+  "fragmentOrigin": {
+    "mode": "NOT_CAPTURED"
+  },
+  "japaneseOrigin": null
+}

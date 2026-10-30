@@ -47,7 +47,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.115
+- Document revision: 1.116
 
 
 - Last updated: 2026-10-30
@@ -447,3 +447,9 @@ Harness: the real persistent HTTP/assembly/Router/Reducer/source-parser fixture 
 Historical B1 rebase checkpoint (2026-10-30 CET): C wiring has completed offline validation on published G3 with current HTTP and local Chromium entrances. No current-source, inventory or reservation validation was run; network permissions are unchanged and C still awaits its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
 
 Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is ready for the authorized main publication after fresh five gates1254/186 and strict G2 all12 pages PASS. Ordinary server startup now consumes the G3 admitted raw links without extra navigation; both server checks, ADR0050 UI and UNKNOWN source selection remain. Tabelog and TableCheck are offline usable; current-source prefill and booking are not claimed. In-memory Tabelog links are unavailable after restart until another availability check. [Release evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md).
+
+## G4 Japanese-name production candidate (2026-10-30 CET)
+
+Draft / not integrated: C wires original Google name → validated proper substring → same-Place-ID source Japanese full name (deduplicated) into Tabelog only. First two terms share four details; Japanese can use the fifth, unused capacity returns to already observed candidates; total remains five. Name/branch/address/phone rules, ranking and G3 stock response binding are unchanged. Existing Google Details counts/ceiling include one extra name request per unresolved Place ID/run, success/failure promises shared, source actual language retained. Runtime passes the already authoritative readRunId through the internal port without changing durable State or Prompt/Schema versions. TableCheck third-term retrieval is not enabled.
+
+The frozen37+4 simulation and production identity-prefix replay retain prior23/23 and focus3/3, wrong0; missing pages/inputs stay NOT_EVALUATED. A new actual HTTP chain reaches results after both original/fragment searches miss, but the existing multi-provider check attribution hides B1; sourceProvider repair is pending explicit scope approval. No assertion or identity rule relaxed. All real calls0; shared GET cap260/used244. Exact Beef website URL needs an unobserved Google source name, so request planning remains non-executable until separate source binding and review. [Plan](../../.eval-artifacts/phase3b/g4-japanese-wiring/plan.md).
