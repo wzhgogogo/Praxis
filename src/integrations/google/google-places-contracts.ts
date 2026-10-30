@@ -50,7 +50,7 @@ export interface GooglePlacesTextSearchRequest {
 
 export interface GooglePlacesRawPlace {
   id?: unknown;
-  displayName?: { text?: unknown };
+  displayName?: { text?: unknown; languageCode?: unknown };
   formattedAddress?: unknown;
   addressComponents?: unknown;
   location?: { latitude?: unknown; longitude?: unknown };
@@ -60,6 +60,13 @@ export interface GooglePlacesRawPlace {
   googleMapsUri?: unknown;
   websiteUri?: unknown;
   regularOpeningHours?: { weekdayDescriptions?: unknown };
+}
+
+/** A source-provided name, never a translation or an outlet identity verdict. */
+export interface GooglePlacesSourceName {
+  readonly placeId: string;
+  readonly text: string;
+  readonly languageCode: string | null;
 }
 
 export interface GooglePlacesTextSearchResponse {

@@ -47,6 +47,10 @@
 
 - **2026-10-29 前端第0步文档同步：设计已定、未实现。** 以main `00519783`的ADR-0049 B1为基础，补齐在日外国人/英文产品定义、用户自行来源提交、三位置工作区、真实进度与停止、逐家候选和当前查看上下文；查看不等于选定。纳入设计输入 `947e741b`，视觉沿用0.2（文档0.3补英文表）：白底群青、Mono仅logo、信息间距分隔。BOOKED_VERIFIED及原70%预约指标第一版不适用；B1实现、来源证据与返回自报合同不改，普通来源链接读者/G3待接线缺口保留。新工作区、查看上下文和视觉均未实现，第1步未启动；仅推文档分支停复核，不合main，业务模型/Google/餐厅来源/Live调用0。[复核说明](reviews/WEB-WORKSPACE-HANDOFF-DOCS-20261029.md)。
 
+2026-10-29 CET: C G4 Japanese-name preparation complete for review. Google run-scoped source-name reader (same ID, explicit ja, id/displayName only) is not connected to production. Offline 4+1: prior23/23 plus nr010/022/0263/3 retained, wrong0; main37=22 accepted/15 NOT_EVALUATED, rerun4=4 accepted. T certified result ranks6 in Japanese search with only1 slot and has no recorded fragment. Eight known detail URLs frozen; Beef name/search/detail URLs remain source-bound unknowns. Worst frontier14GET exceeds approved13, so manifest is NOT_EXECUTABLE and quota stays244/257. Frozen57bd09a5/855 SHA, five gates1216/175 + G25/5 PASS, ten steps clean. New real calls0; B paths/identity/shared versions unchanged. [Report](../.eval-artifacts/phase3b/g4-japanese-prep/report.md).
+
+2026-10-29 CET：B1已发布main00519783并ls-remote核对，B已收到ADR0049/迁移0010通知。C G4纯分析完成待复核：八例=4超时/4连接错误，搜索2/详情6，均Tabelog；同ID日文原名已存3/4，旧替代首屏3日文+1更短英文片段均含认证店，但身份增量未评价。T实际只查一次即耗尽5详情；第三次检索及4+1名额仅待批准方案，未实施。模型/Google/GET/Live新增0，GET244/257；685冻结SHA、源码及账本零差异核对通过。 [报告](../.eval-artifacts/phase3b/g4-retrieval-analysis/report.md)。
+
 2026-10-29 CET：C B1审定整合在0cd117e4冻结706项，五门禁1210/175及G2 5/5全绿，8步前后净树，冻结SHA不变。产品与38974709一致，main50a08361已在祖先；普通启动来源链接读者仍未注入。用户批准合main并推送，发布后通知B同步ADR0049/迁移0010；本次调用0、GET244/257，真实PG多连接与TableCheck用户带入保留Live前清单。 [报告](../.eval-artifacts/phase3b/g5-b1-main/report.md)。
 
 2026-10-29 CET：C G5 B1后续1–3完成待复核，已同步main50a08361并保留A调度修复。ADR0049 Accepted0.2；持久USER_REPORTED反馈并发/重启最多一次，Yes/No/Skip幂等且不改预约状态；日英取消冲突并列原文和英文转述，不判严格程度。手续费两GET均200，英文帮助原文支持440/用户取消不退/餐厅取消退；累计GET244/257，模型/Google/Live0。7542dde7冻结702项，五门禁1210/175、G2 5/5全绿，10步前后净树。既有Prompt/Schema/State/TaskDefinition不变，独立B1合同2；G3接线与首次TableCheck Live清单均未运行，仅推分支不合main。 [报告](../.eval-artifacts/phase3b/g5-b1-followup/report.md)。
@@ -138,8 +142,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.463
-- Last updated: 2026-10-30
+- Document revision: 4.464
 - Last updated: 2026-10-30
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -258,7 +261,7 @@
 - **2026-10-25-PHASE3A-PRIME-E1-KNOWN-F3:** 用户复核已确认健康目标修好，普通模式现调整4秒以恢复150秒内；双平台各3轮待运行。E1原fixture/断言保持，fetch/xhr差异交对话B的F3 Guard审计，不采纳历史草案；仅同名Failed to fetch登记为本批已知偶发，其余失败仍阻断。 [报告](../.eval-artifacts/phase3a-prime/health-fixture-4s-20261025/report.md)。
 
 - **2026-10-25-PHASE3A-PRIME-HEALTH-FIXTURE-STABILITY:** 停止点3健康fixture窗口修复停等复核：普通模式10秒、slow精确时序及红灯保留，生产10秒不改；目标健康用例六次完整运行均通过。macOS五门禁/完整三连绿154；Linux前四门禁1037全绿，Chromium154、154、153，独立E1 POST的fetch/xhr类型差异阻断三连绿。有界诊断2/8重现，仅留未应用一行fixture草案；按范围停止条件不合main。真实调用0，临时VM已清理。 [报告](../.eval-artifacts/phase3a-prime/stop3-health-fixture-stability-20261025/report.md)。
-- Document revision: 4.401
+
 - Last updated: 2026-10-25
 - Source of truth for: 当前实现、证据与下一道门槛
 
@@ -310,9 +313,9 @@
 - **2026-10-24-PHASE3A-PRIME-F2A-STOP2:** 批次2对话A离线候选完成，codex/fix-phase3a-prime-f2a，停止点2待复核，不等B/F5且未合main。正式执行函数保存SIGTERM/SIGINT、AbortSignal、deadline的已有记录；真实Chromium/Guard/HAR子进程四控制与关闭处理红灯通过，声明及边界S0均ABSENT，缺最终状态保持未知。Evaluator34/rubric30修复额外UNSPECIFIED；h-12完整上下文成对与单规则干预证明其他独立判断不变、派生结论随之变化；22/22、正常声明20/20，历史两中断未知保留。Recorder4按页判定，三旧录制0/74、0/109、0/56，缺静态依赖或原DOM不补造。最终五门禁1027/141与typecheck/arch/build全绿，单次20.182264/84.761184秒，各项后Git状态空、门禁恢复0；初轮缺快照回归已修复并保留。真实模型/Google/网站/Live0，适配器3864/pack473不变，报告Europe/Vienna。 [报告](../.eval-artifacts/phase3a-prime/f2a/report.md)。
 
 - **2026-10-24-PHASE3A-PRIME-F1B-REVIEWED-MAIN:** 用户明确批准F1b/F1完成，将f42715c2快进合入main并推送，远端核验SHA为f42715c2cb34a18764b664bd175576dfe2eaabe3。合入后该精确main五门禁一次全绿，默认1024/1024、Chromium137/137，单次20.212164/85.410666秒，每项后Git状态空。随后从该main开始F2a工作分支；原主工作区9份用户文件与HEAD保留，未删除分支。 [合入与门禁](../.eval-artifacts/phase3a-prime/f2a/main-integration.json)。
-- Document revision: 4.386
-- Document revision: 4.387
-- Document revision: 4.388
+
+
+
 - Last updated: 2026-10-24
 - Source of truth for: 当前实现、证据与下一道门槛
 

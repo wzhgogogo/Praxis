@@ -1,0 +1,126 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Shibuya Kappo Sancho",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Kappo Sancho",
+      "kind": "FRAGMENT",
+      "ordered": []
+    },
+    {
+      "query": "割烹 三長 渋谷",
+      "kind": "JAPANESE",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13160273",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+          "outletName": "Kappou Sanchou Shibuya"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "query": "割烹 三長 渋谷",
+      "phase": "JAPANESE",
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "uncertainties": [
+    "DETAIL:MISSING_SAVED_PAGE:https://tabelog.com/en/tokyo/A1303/A130301/13160273/"
+  ],
+  "identity": {
+    "resolution": {
+      "confidence": "LOW",
+      "matchedBy": []
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-008",
+      "google": {
+        "placeId": "ChIJdwvXdKqMGGARg-UfEdmCXFE",
+        "outletName": {
+          "value": "Shibuya Kappo Sancho",
+          "normalizedValue": "shibuyakapposancho",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "6-1 Maruyamachō, Shibuya, Tokyo 150-0044, Japan",
+          "normalizedValue": "61maruyamachōshibuyatokyo1500044japan",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-6455-1363",
+          "normalizedValue": "0364551363",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [],
+      "resolution": {
+        "confidence": "LOW",
+        "matchedBy": [],
+        "reason": "NO_OUTLETS_PARSED"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 3,
+    "details": 1,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-008",
+  "key": "main-nr-008",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-008.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Kappo%20Sancho",
+      "kind": "SEARCH",
+      "query": "Shibuya Kappo Sancho",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-026.html",
+      "sha256": "fc94c25948440fa7b582438cca6368deee34c514260041893875f6ee8ec61160",
+      "originLedgerId": "phase3b-c-g4-e2e-get-026",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kappo%20Sancho",
+      "kind": "SEARCH",
+      "query": "Kappo Sancho",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-027.html",
+      "sha256": "6e489756b594b7fc11476bb2721ea3e0a90890dc29bce7ff01e023e66e366b05",
+      "originLedgerId": "phase3b-c-g4-e2e-get-027",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%89%B2%E7%83%B9%20%E4%B8%89%E9%95%B7%20%E6%B8%8B%E8%B0%B7",
+      "kind": "SEARCH",
+      "query": "割烹 三長 渋谷",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch3/optional/002-nr-008.body.html",
+      "sha256": "059089e56d403ded3ab7aadb2678363087fa22d751b428877963f21801cf8282",
+      "originLedgerId": "phase3b-c-batch3-call-get-002",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "fragmentOrigin": {
+    "prompt": "restaurant-named-source-query@2",
+    "mode": "FROZEN_RESPONSE_REPLAY_NOT_MODEL_QUALITY"
+  },
+  "japaneseOrigin": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-008.raw.json"
+}

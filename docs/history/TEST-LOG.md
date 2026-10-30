@@ -6101,3 +6101,19 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 2026-10-30 CET：C按用户原授权在G3已合main后，将B1准备分支rebase到7c83e02e（含前端4cbc521b/ADR0050）。8个C提交重放，源码冲突0，文档双方记录保留；B三文件、A评测/harness、前端与ADR保持新main字节，C缓存/作用域/组合代码同20ff1466。字体依赖仅npm缓存离线恢复，不运行生命周期脚本；当前UI观察改用既有My plans→Choose this→交接入口。冻结后重跑五门禁/严格G2/两尺寸真实HTTP产物渲染，真实调用0、不读.env；只推C分支不合main。 [计划](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/plan.md)。
 
 复验完成：2026-10-30 CET：C B1接线已rebase到G3 main7c83e02e。ec58c3ec冻结725项，五门禁默认1254/Chromium186全绿（129.449s），严格G2 5/5及12页PASS；当前前端两尺寸两个入口保留原URL，Choose this写请求0。9步前后净树、SHA一致。B三文件、A评测/harness、前端/ADR/账本同main；C缓存/作用域/组合源码同20ff1466。npm依赖仅本机缓存离线恢复，不读.env，真实模型/Google/GET/Live/真实PG0。按原授权用精确lease更新C分支，未合main，交复核。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md)。
+
+<a id="test-2026-10-29-g4-retrieval-analysis"></a>
+
+## 2026-10-29 CET：G4检索只读分析
+
+2026-10-29 CET：B1已合并并推送main00519783，ls-remote核对，B已收到ADR0049/迁移0010同步通知。C从该main另开G4只读分析分支；原37家网络8例逐次归因及4家日文名线索，最多两方案，真实调用0。第三次检索/详情名额的合同变化仅列建议不实施，GET保持244/257。
+
+分析交付：2026-10-29 CET：B1已发布main00519783并ls-remote核对，B已收到ADR0049/迁移0010通知。C G4纯分析完成待复核：八例=4超时/4连接错误，搜索2/详情6，均Tabelog；同ID日文原名已存3/4，旧替代首屏3日文+1更短英文片段均含认证店，但身份增量未评价。T实际只查一次即耗尽5详情；第三次检索及4+1名额仅待批准方案，未实施。模型/Google/GET/Live新增0，GET244/257；685冻结SHA、源码及账本零差异核对通过。 推荐先复用原件、Google≤1/GET≤13/模型0；替代新鲜分组基准Google≤4/GET≤60/模型≤8，若直接选择后者需共享GET上限304，当前不分配额度。[报告](../../.eval-artifacts/phase3b/g4-retrieval-analysis/report.md)。
+
+<a id="test-2026-10-29-g4-japanese-prep"></a>
+
+## 2026-10-29 CET: G4 Japanese-name offline preparation
+
+2026-10-29 CET: C G4 scheme-one offline preparation frozen. Google same-ID ja name reader uses id/displayName only, run-local sharing; valid old-wire red and 3 green controls retained. Eval-only 4+1 simulation covers 37 main views plus four separately frozen reruns; unknown pages/proposals are not success. Product source search/B files unchanged; no shared versions or credentials. New calls0, GET244/257; exact known URLs and source-bound Beef slots to be reviewed, no live execution.
+
+Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for review. Google run-scoped source-name reader (same ID, explicit ja, id/displayName only) is not connected to production. Offline 4+1: prior23/23 plus nr010/022/0263/3 retained, wrong0; main37=22 accepted/15 NOT_EVALUATED, rerun4=4 accepted. T certified result ranks6 in Japanese search with only1 slot and has no recorded fragment. Eight known detail URLs frozen; Beef name/search/detail URLs remain source-bound unknowns. Worst frontier14GET exceeds approved13, so manifest is NOT_EXECUTABLE and quota stays244/257. Frozen57bd09a5/855 SHA, five gates1216/175 + G25/5 PASS, ten steps clean. New real calls0; B paths/identity/shared versions unchanged. [Report](../../.eval-artifacts/phase3b/g4-japanese-prep/report.md).

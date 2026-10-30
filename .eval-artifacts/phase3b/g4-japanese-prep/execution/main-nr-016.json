@@ -1,0 +1,230 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+  "searches": [
+    {
+      "query": "焼き鳥と蕎麦 灯",
+      "kind": "ORIGINAL",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13256151",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+          "outletName": "Yakitori to Soba Akari"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1314/A131401/13283581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1314/A131401/13283581/",
+          "outletName": "Yakitori to Soba Torimasa Hamamatsuchou ・ daimon ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1316/A131601/13305531",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1316/A131601/13305531/",
+          "outletName": "Yakitori to Soba Miyako Meguro ten"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+      "query": "焼き鳥と蕎麦 灯",
+      "phase": "FIRST_FOUR"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1314/A131401/13283581/",
+      "query": "焼き鳥と蕎麦 灯",
+      "phase": "FIRST_FOUR"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1316/A131601/13305531/",
+      "query": "焼き鳥と蕎麦 灯",
+      "phase": "FIRST_FOUR"
+    }
+  ],
+  "uncertainties": [],
+  "identity": {
+    "resolution": {
+      "confidence": "HIGH",
+      "outlet": {
+        "sourceEntityId": "en/tokyo/A1320/A132001/13256151",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+        "outletName": "Yakitori to Soba Akari",
+        "address": "1800004 東京都武蔵野市吉祥寺本町1-8-10 第85東京ビル 4F",
+        "phone": "03-4241-4563"
+      },
+      "matchedBy": [
+        "EXACT_PHONE"
+      ]
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-016",
+      "google": {
+        "placeId": "ChIJd1VkqtLvGGAR7_tybcLhGBc",
+        "outletName": {
+          "value": "焼き鳥と蕎麦 灯",
+          "normalizedValue": "焼き鳥と蕎麦灯",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "Japan, 〒180-0004 Tokyo, Musashino, Kichijōji Honchō, 1-chōme−8−１０ Kichijoji Ex, 4階",
+          "normalizedValue": "japan〒1800004tokyomusashinokichijōjihonchō1chōme−8−１０kichijojiex4階",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-4241-4563",
+          "normalizedValue": "0342414563",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1320/A132001/13256151",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+          "outletName": {
+            "value": "Yakitori to Soba Akari",
+            "normalizedValue": "yakitoritosobaakari",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1800004 東京都武蔵野市吉祥寺本町1-8-10 第85東京ビル 4F",
+            "normalizedValue": "1800004東京都武蔵野市吉祥寺本町1810第85東京ビル4f",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-4241-4563",
+            "normalizedValue": "0342414563",
+            "source": "SEARCH_RESULT"
+          },
+          "matchedContactPhone": {
+            "value": "03-4241-4563",
+            "role": "RESERVATION",
+            "quote": "03-4241-4563",
+            "label": "Phone number (for reservation and inquiry)",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "MATCH",
+            "phone": "MATCH"
+          },
+          "score": 6
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1314/A131401/13283581",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1314/A131401/13283581/",
+          "outletName": {
+            "value": "Yakitori to Soba Torimasa Hamamatsuchou ・ daimon ten",
+            "normalizedValue": "yakitoritosobatorimasahamamatsuchoudaimonten",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1050013 東京都港区浜松町2-1-6 ADsis Daimon 6F",
+            "normalizedValue": "1050013東京都港区浜松町216adsisdaimon6f",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-4241-4567",
+            "normalizedValue": "0342414567",
+            "source": "SEARCH_RESULT"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "CONFLICT",
+            "phone": "CONFLICT"
+          },
+          "score": 0
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1316/A131601/13305531",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1316/A131601/13305531/",
+          "outletName": {
+            "value": "Yakitori to Soba Miyako Meguro ten",
+            "normalizedValue": "yakitoritosobamiyakomeguroten",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1410021 東京都品川区上大崎2-12-7 目黒I-Nビル 6F",
+            "normalizedValue": "1410021東京都品川区上大崎2127目黒inビル6f",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-4241-4571",
+            "normalizedValue": "0342414571",
+            "source": "SEARCH_RESULT"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "CONFLICT",
+            "phone": "CONFLICT"
+          },
+          "score": 0
+        }
+      ],
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1320/A132001/13256151",
+        "reason": "HIGH_EXACT_PHONE"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 1,
+    "details": 3,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-016",
+  "key": "main-nr-016",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-016.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E7%84%BC%E3%81%8D%E9%B3%A5%E3%81%A8%E8%95%8E%E9%BA%A6%20%E7%81%AF",
+      "kind": "SEARCH",
+      "query": "焼き鳥と蕎麦 灯",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-063.html",
+      "sha256": "c7790f028e6d343048f5d272926716e171134dc2c68f21741f843fac03fcc021",
+      "originLedgerId": "phase3b-c-g4-e2e-get-063",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13256151/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-064.html",
+      "sha256": "99d9189b0dde2b258aae44e968b6ae58ed835f95b2ab84313d7c6a23fdfbed15",
+      "originLedgerId": "phase3b-c-g4-e2e-get-064",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1314/A131401/13283581/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-065.html",
+      "sha256": "3c3ebe8e9a61cd440f8482dba43a016ddf29a7903c22856f847f6f1e7754b5c2",
+      "originLedgerId": "phase3b-c-g4-e2e-get-065",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1316/A131601/13305531/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-066.html",
+      "sha256": "58ce7b812b829ddeb6ec74fb87622c84e0540121fcaf1378dfdbc9976850deab",
+      "originLedgerId": "phase3b-c-g4-e2e-get-066",
+      "realGET": 0
+    }
+  ],
+  "fragmentOrigin": {
+    "mode": "NOT_CAPTURED"
+  },
+  "japaneseOrigin": null
+}

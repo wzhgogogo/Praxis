@@ -13,6 +13,7 @@ import {
   type GooglePlacesTextSearchPage,
   type GooglePlacesTextSearchResponse,
   type GooglePlacesNearbySearchRequest,
+  type GooglePlacesSourceName,
 } from "./google-places-contracts.js";
 
 export interface GooglePlacesClientOptions {
@@ -148,6 +149,35 @@ export class GooglePlacesClient {
       signal,
       (payload) => payload as GooglePlacesRawPlace,
     );
+  }
+
+  /** Create once per run and share with both source consumers. Rejections are
+   * cached too: a second consumer must not silently retry a failed request. */
+  japaneseNamesForRun(signal: AbortSignal): (placeId: string) => Promise<GooglePlacesSourceName> {
+    const names = new Map<string, Promise<GooglePlacesSourceName>>();
+    return (placeId) => {
+      if (signal.aborted) return Promise.reject(new GooglePlacesError("GOOGLE_NETWORK_FAILED", "Google name run aborted"));
+      const id = placeId.replace(/^places\//, "").trim();
+      if (!id) return Promise.reject(new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google source name requires a place ID"));
+      let name = names.get(id);
+      if (!name) {
+        name = this.requestJson(
+          `${GOOGLE_PLACES_DETAILS_URL}/${encodeURIComponent(id)}?languageCode=ja`,
+          { method: "GET" }, "id,displayName", signal,
+          (payload) => {
+            const place = payload as GooglePlacesRawPlace;
+            if (!place || place.id !== id || typeof place.displayName?.text !== "string" || !place.displayName.text.trim()
+              || (place.displayName.languageCode !== undefined && (typeof place.displayName.languageCode !== "string" || !place.displayName.languageCode.trim()))) {
+              throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google source name has mismatched ID, missing text or invalid language");
+            }
+            return Object.freeze({ placeId: id, text: place.displayName.text,
+              languageCode: typeof place.displayName.languageCode === "string" ? place.displayName.languageCode : null });
+          },
+        );
+        names.set(id, name);
+      }
+      return name;
+    };
   }
 
   private async requestJson<T>(
