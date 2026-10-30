@@ -17,7 +17,7 @@ for(const outcome of ["empty","all-sources-failed"]){
   const host=await startWorkspaceFixture({outcome});allowedOrigin=host.baseUrl;
   try{
     const login=await fetch(host.baseUrl+"/api/session",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({accessToken:"workspace-fixture"})});
-    assert.equal(login.status,200);
+    assert.equal(login.status,201);
     const cookie=login.headers.get("set-cookie").split(";",1)[0];
     const request=async(path,body)=>fetch(host.baseUrl+path,{headers:{cookie,...(body?{"content-type":"application/json"}:{})},...(body?{method:"POST",body:JSON.stringify(body)}:{})});
     const created=await request("/api/cases",{message:"Dinner for source diagnostic",requestId:crypto.randomUUID(),viewContext:{view:"HOME",comparedCandidateIds:[]}});
