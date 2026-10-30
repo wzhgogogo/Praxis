@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.37
+- Document revision: 3.38
 
 
 - Last updated: 2026-10-30
@@ -331,4 +331,6 @@ Accepted ADR0049 replaces C’s earlier numbered0048 draft. restaurant-booking-h
 
 The preparation branch consumes G3 formCourseLinks/sourceResponse through a root-Task-isolated transient cache, bound to current HIGH same-outlet availability evidence and request. Both existing B1 checks remain. Absolute URLs are verbatim; root-relative URLs only gain the trusted source origin. Native full source IDs remain equal across candidate/evidence; rcd uses the numeric outlet component. No State/TaskDefinition/Prompt/Schema change or identity-threshold change. Restart with no cache yields no handoff or automatic source read. Current status and final main activation are in STATUS. [Evidence plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
 
-B1 rebase checkpoint (2026-10-30 CET): C is based on published G3 main7c83e02e. The source cache/root-task scope/assembly are unchanged from its prior preparation; full candidate/evidence identity, original URLs and both URL checks remain. ADR-0050 fields are inherited from main. C is still a review branch. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
+Historical B1 rebase checkpoint (2026-10-30 CET): C is based on published G3 main7c83e02e. The source cache/root-task scope/assembly are unchanged from its prior preparation; full candidate/evidence identity, original URLs and both URL checks remain. ADR-0050 fields are inherited from main. C is still a review branch. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
+
+Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is ready for the authorized main publication after fresh five gates1254/186 and strict G2 all12 pages PASS. Ordinary server startup now consumes the G3 admitted raw links without extra navigation; both server checks, ADR0050 UI and UNKNOWN source selection remain. Tabelog and TableCheck are offline usable; current-source prefill and booking are not claimed. In-memory Tabelog links are unavailable after restart until another availability check. [Release evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md).

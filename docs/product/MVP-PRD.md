@@ -1,7 +1,7 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.24
+- Document revision: 0.25
 - Last updated: 2026-10-30
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -149,11 +149,13 @@ Independent review of the original 102 model answers was reported by the user: z
 
 ## G5 B1 approved follow-up
 
-B1 hands a current, server-checked source URL to the user. Each explicit departure is recorded separately from Task State. On return, an authenticated durable claim asks “Did you get the booking?” at most once per Case; Yes/No/Skip is USER_REPORTED, never BOOKED_VERIFIED. Japanese/English cancellation conflicts show both original quotations and one English paraphrase per page, the explicit conflict notice, and website-confirmation hint; neither model nor code ranks strictness. A fixed Tabelog English system-fee rule is supported by the2026-10-29 public help GET and date/SHA; TableCheck gets no inferred fee. Ordinary G3 source-link activation on main remains deferred; the preparation-branch wiring is described below. No real booking/model/Live is run. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
+B1 hands a current, server-checked source URL to the user. Each explicit departure is recorded separately from Task State. On return, an authenticated durable claim asks “Did you get the booking?” at most once per Case; Yes/No/Skip is USER_REPORTED, never BOOKED_VERIFIED. Japanese/English cancellation conflicts show both original quotations and one English paraphrase per page, the explicit conflict notice, and website-confirmation hint; neither model nor code ranks strictness. A fixed Tabelog English system-fee rule is supported by the2026-10-29 public help GET and date/SHA; TableCheck gets no inferred fee. Ordinary G3 source-link activation is implemented with the reviewed main release below. No real booking/model/Live is run. See [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md).
 
 
 ## B1 G3 wiring preparation branch (2026-10-30 CET)
 
 On the preparation branch, a current verified Tabelog slot provides Book on Tabelog and Continue without waiting for comparison completion. The link carries the checked date, time and guests; actual source selection remains unknown. Missing, unsupported or expired link evidence hides these controls. This remains offline preparation; main activation and current-site preselection are not yet verified. [Evidence plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
 
-B1 rebase checkpoint (2026-10-30 CET): the C branch now includes published G3 and retains the approved ADR-0050 presentation. Source-link behavior has been rechecked offline; C wiring still awaits review and its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
+Historical B1 rebase checkpoint (2026-10-30 CET): the C branch now includes published G3 and retains the approved ADR-0050 presentation. Source-link behavior has been rechecked offline; C wiring still awaits review and its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
+
+Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is ready for the authorized main publication after fresh five gates1254/186 and strict G2 all12 pages PASS. Ordinary server startup now consumes the G3 admitted raw links without extra navigation; both server checks, ADR0050 UI and UNKNOWN source selection remain. Tabelog and TableCheck are offline usable; current-source prefill and booking are not claimed. In-memory Tabelog links are unavailable after restart until another availability check. [Release evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md).

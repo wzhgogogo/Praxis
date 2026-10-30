@@ -45,7 +45,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.113
+- Document revision: 1.114
 - Document revision: 1.105
 
 
@@ -441,6 +441,8 @@ The ordinary persistent Web assembly now supplies a Tabelog B1 reader on the pre
 
 The transient cache is isolated by root Task and bound to current availability evidence and request. Missing/invalid/expired links hide the handoff. After process restart a missing cache hides B1 without automatically reading the site; a user-triggered new availability read can produce a new source record. Source actual selection remains UNKNOWN. No State/TaskDefinition/Prompt/Schema or authorization change; TableCheck live preselection remains unverified.
 
-Harness: the real persistent HTTP/assembly/Router/Reducer/source-parser fixture in `src/server/local-web-server.test.ts` (B1 ordinary assembly) and its real-Chromium rendering of the generated HTTP artifact. This is offline preparation, not current-source or booking success. G3 is still a review branch: final rebase on G3-integrated main and repeat five gates plus strict G2 remain pending. [Plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
+Harness: the real persistent HTTP/assembly/Router/Reducer/source-parser fixture in `src/server/local-web-server.test.ts` (B1 ordinary assembly) and its real-Chromium rendering of the generated HTTP artifact. This is offline preparation, not current-source or booking success. This historical preparation checkpoint preceded the completed G3 main rebase and release verification below. [Plan](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md).
 
-B1 rebase checkpoint (2026-10-30 CET): C wiring has completed offline validation on published G3 with current HTTP and local Chromium entrances. No current-source, inventory or reservation validation was run; network permissions are unchanged and C still awaits its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
+Historical B1 rebase checkpoint (2026-10-30 CET): C wiring has completed offline validation on published G3 with current HTTP and local Chromium entrances. No current-source, inventory or reservation validation was run; network permissions are unchanged and C still awaits its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
+
+Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is ready for the authorized main publication after fresh five gates1254/186 and strict G2 all12 pages PASS. Ordinary server startup now consumes the G3 admitted raw links without extra navigation; both server checks, ADR0050 UI and UNKNOWN source selection remain. Tabelog and TableCheck are offline usable; current-source prefill and booking are not claimed. In-memory Tabelog links are unavailable after restart until another availability check. [Release evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md).
