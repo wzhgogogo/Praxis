@@ -1,10 +1,10 @@
 # Web Workspace Slice 2 Plan
 
 - Status: Draft
-- Document revision: 0.6
+- Document revision: 0.7
 - Last updated: 2026-10-30
 - Source of truth for: 第2段切片范围、接线、停止点与验收；不替代产品和ADR
-- Evidence status: frozen regression；第2段9ca34bea已获用户复核通过，本轮同步main7c83e02e和隐藏零变化行待验证，未合main，真实调用0
+- Evidence status: frozen regression；第2段9ca34bea已获用户复核通过，本轮main7c83e02e同步/零变化行以55d70963验证通过，待合入复核未合main，真实调用0
 - Related documents: [Visual](product/VISUAL-DIRECTION.md), [Flows](product/USER-FLOWS.md), [Gateway](architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [ADR-0049](decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](decisions/0050-two-line-handoff-presentation.md)
 
 ## 当前切片承诺
@@ -60,3 +60,5 @@ G1不能按当前对象绑定、拿不到上一需求候选、错误没有可区
 用户复核通过9ca34bea，要求合入main前同步7c83e02e（含G3）再验收。本轮只在codex/feat-web-workspace-slice2合入该main，四份文档冲突保留双方正文，统一冲突页头；read-assessment.ts保留main的等时戳因果证据规则和本段的已调查对象排除，不改G3或续查规则。移除/新增均为0时隐藏整行，任一非0仍显示；复用已有两尺寸真实HTTP场景，服务端确认0/0后验证行隐藏，同时保留2/1及其原因/备选验收。结构化条件修改方案保持draft / not integrated，不新增事件。
 
 固定合并结果、代码/Fixture与输入SHA后，在净树重跑五门禁及390×844/1280×900全部验收：本段十项、追加五项、第1段十一项，加本轮零变化行。真实模型/Google/来源GET/Live/Holdout0；只推工作分支交合入复核。后续main按ff-only合入本分支，本轮不更新main。若整合后共享链路出错，保留实际反例，定位并报告，不降低断言或用局部测试替代完整门禁。[同步报告](reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+
+本轮已完成：合并de9e73bc，最终代码冻结55d70963、763 SHA不变，五门禁1246默认/208 Chromium全绿、各项前后净树；两尺寸全部原十项/追加五项/第1段十一项及零变化行通过。0/0隐藏、0/3及2/1仍显示，保留旧反例；63张截图中59与原交付字节相同，2张批末更新及2张零变化新增已目视。相对7c83e02e的集成/评测/基础设施/phase3b保护内容不变，共享read-assessment仅保留已审核续查排除行。结构化条件修改仍draft / not integrated、未实施，真实调用0；报告/附件后不再改产品或输入，工作分支推送交合入复核，main后续ff-only。

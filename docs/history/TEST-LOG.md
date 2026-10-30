@@ -33,7 +33,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.357
+- Document revision: 4.358
 
 
 - Last updated: 2026-10-30
@@ -6109,3 +6109,7 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 de9e73bc合并已核对的main7c83e02e/G3，四份冲突文档正文保留；读证据因果规则和续查排除同时存在。新增断言复用原两尺寸真实Chromium→HTTP/SSE→生产Application/Interpreter/Compiler/Validator/Router/Runtime/PGlite，只替换模型/来源/问答传输。服务端revisionDiff确认0/0后，旧行仍显示，目标断言两尺寸均红；只改renderChanges可见性后，原两场景及四个非0差异/原因/备选控制6/6绿。未改Gold/评分、来源规则或验收输入，原失败保留。
 
 下一步在净树冻结新组合及全部源/Fixture输入SHA，重跑五门禁和390×844、1280×900原十项/追加五项/第1段十一项及本轮零变化行，结果待运行。结构化修改仍draft，真实模型/Google/来源GET/Live/外写/Holdout0，不加载.env；只推工作分支交ff-only合入复核，不更新main。[同步报告](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+
+最终新组合：55d70963/763 SHA不变，五门禁全绿，默认1246/1246约31.070s、Chromium208/208约148.923s（含G2 5/5），无skip/todo，各项前后净树、HEAD一致。两尺寸28条完整production composition及3条旧UI展示回归全部通过，覆盖原十项/追加五项/第1段十一项及本轮0/0隐藏；同一流程0/3仍显示，2/1与备选原因保留。共享读证据因果/旧对象排除及两个父提交正文保留有独立字节核对，不修改主线G3/评测输入或断言。
+
+63张新PNG全校验尺寸/SHA，59与原交付逐字节一致，仅2批末图更新、2零变化图新增，四图重新目视；旧失败/旧图片保留。门禁后仅补报告/附件，所有代码与输入仍同冻结；真实模型/Google/来源GET/Live/外写/Holdout0，无.env或数据库迁移/重置。结构化方案仍draft，本轮只推工作分支交合入复核，不改main，后续ff-only。[原件与截图](../reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。

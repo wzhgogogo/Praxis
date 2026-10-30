@@ -1,6 +1,6 @@
 # Praxis 当前状态
 
-- **2026-10-30 第2段复核后合入前同步，复验待执行：** 用户通过9ca34bea，按指令将最新main7c83e02e/G3合入工作分支，合并提交de9e73bc；四份文档冲突保留双方正文，6份文档/两父提交12项正文核对缺失0。read-assessment.ts保留G3因果证据与本段续查排除，未改G3或续查规则。唯一小修为新增/移除均0隐藏整行，真实HTTP两尺寸反例2红→相关6绿。下一步冻结新组合后跑五门禁与本段十项、追加五项、第1段十一项和零变化行；旧门禁不冒充本轮通过。结构化条件方案保持draft、不实施，真实模型/Google/来源GET/Live/Holdout0；只推工作分支交合入复核，main后续ff-only，本轮不更新main。[计划](WEB-WORKSPACE-SLICE2-PLAN.md) · [同步报告](reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
+- **2026-10-30 第2段合入前同步/小修复验通过，待合入复核：** 用户通过9ca34bea后，de9e73bc将main7c83e02e/G3合入工作分支，四份冲突文档保留双方正文，6文件/两父12项核对缺失0；共享read-assessment精确等于main加既有续查排除行。0/0变化行隐藏，原反例2红→相关6绿，0/3及2/1仍显示。最终冻结55d70963、763 SHA不变，五门禁默认1246/1246、Chromium208/208全绿，各项前后净树；390×844与1280×900本段十项、追加五项、第1段十一项及零变化行均通过。63图校验尺寸/SHA：59与前轮相同、2批末更新、2零变化新增，四图已自查。结构化条件方案仍draft无实施，TaskDefinition23/State24不变；相对main未改G3/集成/评测或phase3b证据。真实模型/Google/来源GET/Live/Holdout0，只推工作分支交合入复核，本轮未更新main，后续ff-only。[计划](WEB-WORKSPACE-SLICE2-PLAN.md) · [报告与截图](reviews/WEB-WORKSPACE-SLICE2-MAIN-SYNC-20261030.md)。
 
 2026-10-30 CET：G3/G3c已复核签收，已同步main4cbc521b，统一候选8025362b五门禁全绿：默认1242/1242、Chromium186/186（130.563秒）、严格G2 5/5及12/12页面PASS；八项前后净树，721输入SHA不变。旧HARD44,197字节一致，481状态仅既有批准人数反例改变。源码冲突0，6份文档保留双方正文；按用户批准合入推送main，确切SHA以Git远端回执为准，随后通知C待命。真实调用0，账本486条。后续（本批不做）：删除无非空生产者的provider observation verifiedHardCriteria可选字段、透传、旧matchReasons投影与直接构造测试，保留Google及Source2 MODEL_JUDGMENT合法criterion claims；G3b等首次Live有时段TableCheck日历。 [报告](../.eval-artifacts/phase3b/g3-main/report.md)。
 
@@ -129,7 +129,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.458
+- Document revision: 4.459
 
 - Document revision: 4.445
 - Last updated: 2026-10-30
