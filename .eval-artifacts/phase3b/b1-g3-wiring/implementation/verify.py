@@ -1,7 +1,7 @@
 from pathlib import Path
 import hashlib, json, subprocess
 root=Path('.eval-artifacts/phase3b/b1-g3-wiring/implementation')
-f=json.loads((root/'freeze.json').read_text())
+f=json.loads((root/'freeze-final.json').read_text())
 for row in f['files']:
     assert hashlib.sha256(Path(row['path']).read_bytes()).hexdigest()==row['sha256'], row['path']
 subprocess.run(['git','merge-base','--is-ancestor',f['baseG3Commit'],'HEAD'],check=True)

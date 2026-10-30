@@ -1972,7 +1972,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
             assert.equal(handoffs[0]!.directLabel,"Book on Tabelog");
             assert.equal(handoffs[0]!.sourceSelection,"UNKNOWN");
             last=view;
-            if(label === "original" && process.env.PRAXIS_B1_UI_SNAPSHOT === "1") console.log("B1_G3_HTTP_VIEW " + JSON.stringify(view));
+            if(label === "original" && process.env.PRAXIS_B1_UI_SNAPSHOT === "1") console.log("B1_G3_HTTP_VIEW " + Buffer.from(JSON.stringify(view)).toString("base64"));
           }else assert.equal(handoffs.length,0,"mismatched or unsupported link must hide the button");
         }finally{unsubscribe();}
       });

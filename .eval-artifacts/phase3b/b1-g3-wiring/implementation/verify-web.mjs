@@ -15,7 +15,7 @@ assert.equal(run.status,0,'HTTP composition must pass before UI verification');
 const prefix='# B1_G3_HTTP_VIEW ';
 const line=run.stdout.split('\n').find(line=>line.startsWith(prefix));
 assert.ok(line,'capture an actually generated HTTP projection, never a hand-prepared B1 record');
-const view=JSON.parse(line.slice(prefix.length));
+const view=JSON.parse(Buffer.from(line.slice(prefix.length),'base64').toString('utf8'));
 await writeFile(new URL('http-view.json',root),JSON.stringify(view,null,2)+'\n');
 const expected='https://tabelog.com/en/booking/form_course/new?visit_time=%31%39%30%30&member=2&rcd=13123456&visit_date=20260809';
 assert.equal(view.restaurant.bookingHandoffs[0].url,expected);
