@@ -1,0 +1,43 @@
+{
+  "base": "8c66921aa09f4c020732e3bea3d3241383e25689",
+  "sourceCandidate": "7b602ce9",
+  "changedExecutableFiles": [
+    "src/eval/restaurant/agent-loop/current-development-fixed-sources.ts",
+    "src/eval/restaurant/agent-loop/current-development-offline.test.ts",
+    "src/eval/restaurant/agent-loop/fixed-source-case-execution.test.ts",
+    "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts"
+  ],
+  "protectedByteIdenticalPaths": [
+    "src/core",
+    "src/application",
+    "src/domains",
+    "src/infrastructure",
+    "src/integrations",
+    "src/harness",
+    "src/eval/restaurant/agent-loop/cases",
+    "src/eval/restaurant/agent-loop/diagnostic-evaluator.ts",
+    "src/eval/restaurant/agent-loop/fixed-source-acceptance.ts",
+    "src/eval/restaurant/agent-loop/current-development-source-scenarios.ts",
+    "src/eval/restaurant/agent-loop/native-fixed-source-pages.ts",
+    "docs",
+    ".eval-artifacts/phase3b/budget.json"
+  ],
+  "nativeAllTestBodiesAndAssertionsByteIdentical": true,
+  "offlineAllTestBodiesByteIdenticalExceptFixtureAccounting": true,
+  "oneOldAssertionAdjustment": {
+    "path": "src/eval/restaurant/agent-loop/current-development-offline.test.ts",
+    "before": "assert.equal(sources.calls.facts, [\"h002\", \"h005\"].includes(plan.id) ? 3 : 0);",
+    "after": "assert.equal(sources.calls.facts, [\"h001\", \"h002\", \"h005\"].includes(plan.id) ? 3 : 0);",
+    "reason": "Fixture-private Google Details count now records the explicitly added fact action for three candidates; business results, source inventory and production budgets remain unchanged."
+  },
+  "lateCancellationAndBudgetCounterexamplesByteIdentical": true,
+  "noNewOrDeletedTestsByA": true,
+  "newRealCalls": {
+    "model": 0,
+    "google": 0,
+    "website": 0,
+    "evaluationGet": 0,
+    "live": 0
+  },
+  "envFileLoaded": false
+}

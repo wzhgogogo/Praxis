@@ -1,0 +1,75 @@
+{
+  "commit": "2c2913fe011ca5e87ee86990de8f408cc29f550e",
+  "recordedAtCET": "2026-10-29T15:09:32.573248+01:00",
+  "mode": "OFFLINE_SCRIPTED_COMPOSITION",
+  "checks": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "elapsedSeconds": 0.408,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 701,
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "elapsedSeconds": 0.169,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 701,
+      "rawLogSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "elapsedSeconds": 0.382,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 701,
+      "rawLogSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "product-defect-reproduction",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern=^H001 native first batch presents",
+        "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts"
+      ],
+      "exitCode": 1,
+      "status": "EXPECTED_DEFECT_REPRODUCED",
+      "elapsedSeconds": 0.496,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "frozenInputsUnchanged": 701,
+      "rawLogSha256": "ebf7ff323ab202ce2065f54650529886d2f6119e0edc49371c4a3c98646454ae"
+    }
+  ],
+  "finalFullNpmTest": "NOT_RUN_STOP_CONDITION_6",
+  "finalChromium": "NOT_RUN_STOP_CONDITION_6",
+  "strictDomChange": "NOT_RUN_STOP_CONDITION_6"
+}

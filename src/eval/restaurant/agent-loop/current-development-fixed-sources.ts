@@ -1,4 +1,4 @@
-import type { ModelGateway } from "../../../core/model/contracts.js";
+import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET, type LiveReadInvestigationBudget } from "../../../application/live-read-investigation-budget.js";
 import { createLiveReadAssembly } from "../../../integrations/restaurant-search/live-read-assembly.js";
 import { googlePlacesDiscoveryPack } from "../../../integrations/restaurant-search/source-packs.js";
@@ -37,6 +37,34 @@ export type FixedSourceCalls = {
 };
 
 export interface FixedSourceClock { now(): Date | string; }
+
+/** Constructed model transport, not a fact oracle: select only complete page rows. */
+export function scriptedSourceFacts(request: ModelRequest): ModelResponse | undefined {
+  if (request.purpose !== "restaurant_source_facts") return undefined;
+  if (request.promptVersion !== "2" || request.outputSchema.version !== "2") throw new Error("Expected Source facts Prompt/Schema 2");
+  const input = JSON.parse(request.messages.find(message => message.role === "user")!.content) as {
+    sourceDocument: { statements: Array<{ id: string; text: string; sourceRole: string }> };
+  };
+  const selections = input.sourceDocument.statements.flatMap(statement => {
+    if (statement.sourceRole !== "SOURCE_TEXT" || !/\b(?:course|lunch set|chef['’]s omakase dinner)\b/iu.test(statement.text)) return [];
+    return [{ firstStatementId: statement.id, lastStatementId: statement.id, role: "COURSE",
+      priceStatementId: /(?:JPY|[¥￥])\s*\d|\d[\d,]*\s*円/u.test(statement.text) ? statement.id : "" }];
+  });
+  return { invocationId: "scripted-source-facts", provider: "FIXTURE", model: "current-page-statements",
+    outputText: JSON.stringify({ selections }), finishReason: "TOOL_CALLS", latencyMs: 0 };
+}
+
+/** The fixed omakase control cites actual menu prose, never the outlet name. */
+export function scriptedOmakaseJudgment(request: ModelRequest): ModelResponse {
+  const input = JSON.parse(request.messages.find(message => message.role === "user")!.content) as {
+    sourceDocuments: Array<{ id: string; statements: Array<{ id: string; text: string }> }>;
+  };
+  const selected = input.sourceDocuments.flatMap(document => document.statements
+    .filter(statement => /\bomakase\b/iu.test(statement.text) && /\bcourse\b|chef['’]s omakase dinner/iu.test(statement.text))
+    .map(statement => ({ documentId: document.id, statementIds: [statement.id] })))[0];
+  return { invocationId: "scripted-omakase-judgment", provider: "FIXTURE", model: "current-page-statements", finishReason: "TOOL_CALLS", latencyMs: 0,
+    outputText: JSON.stringify({ sourceSelections: selected ? [selected] : [], judgments: selected ? [{ criterion: "omakase", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [selected.documentId] }] : [] }) };
+}
 
 function gap(record: FixedSourceCoverageGap): Error {
   return Object.assign(new Error("Fixed-source coverage gap: " + record.reason), {
@@ -157,7 +185,14 @@ export function createCurrentDevelopmentFixedSources(
     calls.facts++;
     observed("GOOGLE", "DETAILS", { candidateId: source.google.placeId, ...(source.websiteFacts ? { sampleCapturedAt: source.websiteFacts.sampleCapturedAt } : {}) });
     if (source.google.detailStatus === "NOT_FOUND") return new Response(JSON.stringify({ error: "configured not found" }), { status: 404 });
-    return new Response(JSON.stringify(googlePlace(source)), { status: 200 });
+    // Constructed Details may expose the existing public reservation entrance
+    // when this scenario has no separately configured official-site document.
+    // The menu stays on that page, never manufactured on the identity guide.
+    const details = googlePlace(source);
+    if (!source.websiteFacts && source.tableCheck && source.availability) {
+      details.websiteUri = "https://www.tablecheck.com" + source.tableCheck.reservationEntryPath + "/reserve/landing";
+    }
+    return new Response(JSON.stringify(details), { status: 200 });
   } });
   let browserTraceSequence = 0;
   const recordBrowserTrace = (kind: string, detail: unknown) => {
@@ -219,6 +254,21 @@ export function createCurrentDevelopmentFixedSources(
           source: "TABLECHECK", stage: "AVAILABILITY", request: target, candidateId: source.google.placeId,
           reason: "Availability is not configured for this legal TableCheck outlet",
         });
+        // Constructed public menu page: preserve the independently authored
+        // TableCheck identity, not the Google identity. Layout references:
+        // dom-change/tablecheck-detail-nakamata.html.gz, uncompressed SHA
+        // 6b7e758fb3135f057a3aec19cf844971b24fc8cb65a7b34cd72decf70dc7eba0;
+        // restaurant-prices/tablecheck-recorded-menu.html, SHA
+        // 2a625d0641b5b2824170a4a263c9ac68aac3017057b14afac84cdefd327f1f68.
+        // These are structure references, not replayed facts for synthetic shops.
+        const identityHtml = "<h1>" + tableCheck.displayName + "</h1><p>" + tableCheck.address + "</p><a href=\"tel:" + tableCheck.phone.replace(/\s/g, "") + "\">" + tableCheck.phone + "</a>";
+        const publicMenu = "<section><p>" + inventory.menuText + "</p></section>";
+        const identityText = [tableCheck.displayName, tableCheck.address, tableCheck.phone, inventory.menuText];
+        if (!url.searchParams.has("start_date") && !url.searchParams.has("pax")) {
+          page = { url: target, title: tableCheck.displayName, text: identityText.join("\n"), html: identityHtml + publicMenu };
+          observed("TABLECHECK", "MENU", { candidateId: source.google.placeId, sampleCapturedAt: inventory.sampleCapturedAt });
+          return;
+        }
         if (url.searchParams.get("start_date") !== inventory.date || url.searchParams.get("pax") !== String(inventory.partySize)) throw sourceGap({
           source: "TABLECHECK", stage: "AVAILABILITY", request: target, candidateId: source.google.placeId,
           reason: "No fixture inventory matches the requested date or party size",
@@ -226,8 +276,8 @@ export function createCurrentDevelopmentFixedSources(
         calls.availability++;
         observed("TABLECHECK", "AVAILABILITY", { candidateId: source.google.placeId, sampleCapturedAt: inventory.sampleCapturedAt });
         const slots = inventory.visibleSlots.map((slot) => "<a href=\"" + tableCheck.reservationEntryPath + "/reserve?start_date=" + inventory.date + "&amp;pax=" + inventory.partySize + "&amp;start_time=" + slot + "\"><button class=\"time-slot is-available\" data-time=\"" + slot + "\">" + slot + "</button></a>").join("");
-        page = { url: target, title: tableCheck.displayName, text: inventory.menuText + " " + inventory.visibleSlots.join(" "),
-          html: "<div data-testid=\"Venue Availability\" data-selected-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\"><section class=\"featured-menu\">" + inventory.menuText + "</section>" +
+        page = { url: target, title: tableCheck.displayName, text: [...identityText, ...inventory.visibleSlots].join("\n"),
+          html: identityHtml + publicMenu + "<div data-testid=\"Venue Availability\" data-selected-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\">" +
             (inventory.status === "UNAVAILABLE" ? "<section id=\"availability-results\" data-availability-state=\"empty\" data-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\"></section>" : "<section id=\"availability-results\" data-availability-state=\"complete\">" + slots + "</section>") + "</div>" };
       },
       snapshot: async () => { if (!page) throw sourceGap({ source: "BROWSER", stage: "SNAPSHOT", request: "<none>", reason: "Browser snapshot occurred before navigation" }); return page; },
