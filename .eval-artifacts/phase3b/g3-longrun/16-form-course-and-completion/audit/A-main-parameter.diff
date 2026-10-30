@@ -1,0 +1,19 @@
+diff --git a/src/eval/restaurant/agent-loop/current-development-fixed-sources.ts b/src/eval/restaurant/agent-loop/current-development-fixed-sources.ts
+index 1a53d66b..f0b9ce72 100644
+--- a/src/eval/restaurant/agent-loop/current-development-fixed-sources.ts
++++ b/src/eval/restaurant/agent-loop/current-development-fixed-sources.ts
+@@ -264,12 +264,12 @@ export function createCurrentDevelopmentFixedSources(
+         const identityHtml = "<h1>" + tableCheck.displayName + "</h1><p>" + tableCheck.address + "</p><a href=\"tel:" + tableCheck.phone.replace(/\s/g, "") + "\">" + tableCheck.phone + "</a>";
+         const publicMenu = "<section><p>" + inventory.menuText + "</p></section>";
+         const identityText = [tableCheck.displayName, tableCheck.address, tableCheck.phone, inventory.menuText];
+-        if (!url.searchParams.has("start_date") && !url.searchParams.has("pax")) {
++        if (!url.searchParams.has("start_date") && !url.searchParams.has("num_people")) {
+           page = { url: target, title: tableCheck.displayName, text: identityText.join("\n"), html: identityHtml + publicMenu };
+           observed("TABLECHECK", "MENU", { candidateId: source.google.placeId, sampleCapturedAt: inventory.sampleCapturedAt });
+           return;
+         }
+-        if (url.searchParams.get("start_date") !== inventory.date || url.searchParams.get("pax") !== String(inventory.partySize)) throw sourceGap({
++        if (url.searchParams.get("start_date") !== inventory.date || url.searchParams.get("num_people") !== String(inventory.partySize)) throw sourceGap({
+           source: "TABLECHECK", stage: "AVAILABILITY", request: target, candidateId: source.google.placeId,
+           reason: "No fixture inventory matches the requested date or party size",
+         });

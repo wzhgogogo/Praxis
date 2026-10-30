@@ -1,13 +1,16 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.34
+- Document revision: 3.35
 
 
 - Last updated: 2026-10-30
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
+
+
+G3已核验Tabelog时段响应的OBSERVED输出保留每条form_course原链接（formCourseLinks: time/url）及同一最新响应来源（sourceResponse: sequence/url/observedAt）；不重建链接，不改变店号、日期、人数、时刻、origin/path或结构核验，UNKNOWN/changed不输出链接。库存包装器行为不变，B1消费另行接线。接口和离线证据见[G3完成报告](../../.eval-artifacts/phase3b/g3-longrun/16-form-course-and-completion/report.md)。
 
 3b原则及合同统一由对话B维护于[ADR-0046](../decisions/0046-observed-actions-and-source-quoted-answers.md)（revision0.2已Accepted并随G1核心合main；Agent/Web另批接入，C重复0047已撤除）：动作来自本次可观察页面、读取问答逐字引用并核对同店/本次读取。各能力实现状态分别验收。具名SPECIFIC_OUTLET在后续补充到访条件或仅改变推荐/查位目标时保留query/scope；当前用户明确换店/撤销时才替换。Semantic Prompt26，Proposal4/State23/TaskDefinition21不变；批次2真实模型静态世界具名24/24、开发目标15/15、严格0/15，原证据保留。
 

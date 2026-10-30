@@ -1,5 +1,7 @@
 # Development Log
 
+2026-10-30 CET：G3/G3c离线完成待复核。原form_course链接及响应sequence/URL/时间输出已补，核验规则不变；A31398a77已合，main404a766e已同步。冻结d7131675/718项：五门禁默认1241/Chromium180全绿（129.594秒），严格G2 5/5、12/12页面PASS，各项净树；旧HARD44,197字节一致、481状态仅已批准人数反例MET→NOT_CHECKED。A五文件/C唯一响应输入差异和旧provider失用分支单列，C保护代码/断言保留。真实调用0、账本485条，站点3900/Pack482行仅参考。G3b及真实模型/Live验证延期；只推G3工作分支，不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/16-form-course-and-completion/report.md)。
+
 2026-10-29 CET：G3等时戳引用产品缺陷修复：沿既有Reducer superseded因果记录与当前查位引用，不比较时间戳；State24/TaskDefinition22及A四文件不变。领域正反/UNKNOWN/显式替代绿，相关49/49；冻结A cf20522e原H001单例只换一个产品文件，引用0/3→3/3、独立REQUIRED_EVIDENCE未满足→满足、合格交付NO→YES。type/arch/build绿；默认1218/1231仍原13个A待同步失败；Chromium178/180，另2项在51b0d3de前后对照同失败；严格G2全部12页PASS。真实调用0，各检查净树，G3整体等待A同步，不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/15-equal-timestamp-evidence/report.md)。
 
 2026-10-29 CET：G3c通用原文/价格链路已接，独立Source Prompt/Schema2，私有价格/HARD快捷路径退役；核心27和实际对应141通过，旧HARD44197字节一致、481状态仅批准人数反例改变。最终fec90a36的type/arch绿，默认1217/1230，需同步A的共用评测来源工厂及3份相关模型fixture，按跨归属停止；未改A输入/评分或降低断言，build/Chromium/严格G2本候选未跑。G3未完成、不合main，等A接线安排；C保护与vacancy输出不变、真实调用0。站点3890/Pack482行仅参考。 [报告](../../.eval-artifacts/phase3b/g3-longrun/14-quoted-fact-reads/report.md)。

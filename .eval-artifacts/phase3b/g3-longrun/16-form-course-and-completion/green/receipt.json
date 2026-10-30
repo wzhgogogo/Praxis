@@ -1,0 +1,70 @@
+{
+  "mode": "OFFLINE_LOCAL_FIXTURE",
+  "phase": "green",
+  "commit": "3e6799f101d40c656ba7739f1561dd9b0afb04b8",
+  "runs": [
+    {
+      "name": "target",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/tabelog/tabelog-vacancy-response.test.ts",
+        "src/integrations/tabelog/tabelog-public-selection.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 0.213282875,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "related",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/tabelog/tabelog-response-only.test.ts",
+        "src/integrations/tabelog/tabelog-browser-availability.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 13.526291542,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "legacy",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g3-longrun/11-price-applicability/compare-legacy.ts",
+        "/private/tmp/praxis-g3-form-course-green-20261030/legacy-state-changes.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.1618222920000001,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.16763066600000087,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}
