@@ -27,7 +27,7 @@ env = {key: os.environ[key] for key in ['PATH', 'HOME', 'TMPDIR', 'LANG'] if key
 env['PRAXIS_WORKSPACE_VISUAL_OUTPUT'] = str(screens)
 rows = []
 for name, command in [
-    ('empty-continuation-diagnostic', ['node', '--import', 'tsx', str(folder / 'probe-empty-continuation.mjs')]),
+    ('empty-continuation-diagnostic', ['node', '--import', 'tsx', str(folder / 'probe-empty-continuation.mjs'), str(output / 'admission')]),
     ('typecheck', ['npm', 'run', 'typecheck']),
     ('arch-check', ['npm', 'run', 'arch:check']),
     ('test', ['npm', 'test']),

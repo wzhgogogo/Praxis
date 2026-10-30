@@ -10,7 +10,8 @@ globalThis.fetch=async(input,init)=>{
   assert.equal(url.origin,allowedOrigin,"This diagnostic permits only the current localhost Fixture");
   return nativeFetch(input,init);
 };
-const output=resolve(".eval-artifacts/web-workspace-slice2-20261030/continuation-admission");
+assert.ok(process.argv[2],"Pass a fresh local diagnostic output directory");
+const output=resolve(process.argv[2]);
 mkdirSync(output,{recursive:true});
 const rows=[];
 for(const outcome of ["empty","all-sources-failed"]){
