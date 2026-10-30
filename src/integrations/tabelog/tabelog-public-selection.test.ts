@@ -31,6 +31,10 @@ test("Tabelog class-only state is unknown; a precisely bound response works with
     assert.equal(hasTabelogSelectedQuery(snapshot(html, [response]), date, 2), true);
     assert.deepEqual(tabelogCapturedSlots(snapshot(html, [response]), date, 2), { availableSlots: ["19:00"], hasExplicitSlotUi: true });
   }
-  assert.deepEqual(inspectTabelogVacancyResponse(snapshot("", [response]), date, 2), { status: "OBSERVED", availableSlots: ["19:00"], hasExplicitSlotUi: true }, "C-facing response output format stays unchanged");
+  assert.deepEqual(inspectTabelogVacancyResponse(snapshot("", [response]), date, 2), {
+    status: "OBSERVED", availableSlots: ["19:00"], hasExplicitSlotUi: true,
+    formCourseLinks: [{ time: "19:00", url: response.body.selection[0]!.url }],
+    sourceResponse: { sequence: response.sequence, url: response.url, observedAt: response.observedAt },
+  }, "C-facing response output retains the validated original link and response provenance");
   assert.equal(hasTabelogSelectedQuery(snapshot("", [response]), date, 3), false);
 });
