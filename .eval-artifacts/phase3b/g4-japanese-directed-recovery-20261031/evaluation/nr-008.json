@@ -1,0 +1,94 @@
+{
+  "id": "nr-008",
+  "verdict": "CORRECT_ACCEPTED",
+  "certifiedId": "13160273",
+  "observedAcceptedId": "13160273",
+  "independentReadProof": true,
+  "thirdTermContributedAcceptance": true,
+  "thirdTermCausalScope": "First production HIGH comes from a detail opened under the Japanese query; no claim about a separate full-five two-word counterfactual.",
+  "queries": [
+    {
+      "query": "Shibuya Kappo Sancho",
+      "source": "ORIGINAL",
+      "languageCode": null,
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shibuya%20Kappo%20Sancho",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-026.html",
+      "sha256": "fc94c25948440fa7b582438cca6368deee34c514260041893875f6ee8ec61160",
+      "origin": "FROZEN_REPLAY",
+      "certifiedOnFirstPage": false
+    },
+    {
+      "query": "Kappo Sancho",
+      "source": "FRAGMENT",
+      "languageCode": null,
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kappo%20Sancho",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-027.html",
+      "sha256": "6e489756b594b7fc11476bb2721ea3e0a90890dc29bce7ff01e023e66e366b05",
+      "origin": "FROZEN_REPLAY",
+      "certifiedOnFirstPage": false
+    },
+    {
+      "query": "割烹 三長 渋谷",
+      "source": "JAPANESE",
+      "languageCode": "ja",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%89%B2%E7%83%B9%20%E4%B8%89%E9%95%B7%20%E6%B8%8B%E8%B0%B7",
+      "bodyPath": ".eval-artifacts/phase3b/c-batch3/optional/002-nr-008.body.html",
+      "sha256": "059089e56d403ded3ab7aadb2678363087fa22d751b428877963f21801cf8282",
+      "origin": "FROZEN_REPLAY",
+      "certifiedOnFirstPage": true
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-01.body.html",
+      "sha256": "3800814636c3064bf7053c13e111c26c789f94f9e731789e5f1d0c0c2e5ac071",
+      "origin": "DIRECTED_GET",
+      "discoveryQuery": "割烹 三長 渋谷",
+      "ordinal": 1
+    }
+  ],
+  "actuallyAcquiredDetails": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T06:46:12.004+01:00",
+      "headersAtCET": "2026-10-31T06:46:14.203+01:00",
+      "bodyCompletedAtCET": "2026-10-31T06:46:15.288+01:00",
+      "finishedAtCET": "2026-10-31T06:46:15.288+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 05:46:14 GMT",
+        "retry-after": null
+      },
+      "headersMs": 2199,
+      "bodyMs": 1085,
+      "elapsedMs": 3284,
+      "bytesReceived": 141869,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "known-detail-01",
+      "knownId": "KNOWN-DETAIL-01",
+      "kind": "DETAIL",
+      "subjectId": "nr-008",
+      "ledgerId": "phase3b-C-g4-ja-directed-recovery-20261031-known-detail-01",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/requests/known-detail-01.body.html",
+      "sha256": "3800814636c3064bf7053c13e111c26c789f94f9e731789e5f1d0c0c2e5ac071",
+      "bodyComplete": true,
+      "failure": null
+    }
+  ],
+  "uncertainties": [],
+  "environmentFailures": [],
+  "sourceNetworkCallsInEvaluation": 0,
+  "inventoryEvaluated": false
+}
