@@ -1,0 +1,282 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Naminoue shibuya",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Naminoue",
+      "kind": "FRAGMENT",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13190728",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+          "outletName": "Minami Shibuya Nami no Ue"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1315/A131502/13195782",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131502/13195782/",
+          "outletName": "Bistro Naminoue Shokudo"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131703/13202996",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131703/13202996/",
+          "outletName": "Nami no"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130302/13175742",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130302/13175742/",
+          "outletName": "Nami no Ie"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1314/A131401/13279713",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1314/A131401/13279713/",
+          "outletName": "Hamamatsucho Namino Ue"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1319/A131902/13306726",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13306726/",
+          "outletName": "Kami No Te"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131715/13066442",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131715/13066442/",
+          "outletName": "Kaminoge"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1317/A131715/13318725",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131715/13318725/",
+          "outletName": "Pizzeria Il Veliero Kaminoge"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1302/A130203/13186757",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130203/13186757/",
+          "outletName": "Namiyoke Hatchobori"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+      "query": "Naminoue",
+      "phase": "FIRST_FOUR"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1315/A131502/13195782/",
+      "query": "Naminoue",
+      "phase": "FIRST_FOUR",
+      "problem": "MISSING_SAVED_PAGE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131703/13202996/",
+      "query": "Naminoue",
+      "phase": "FIRST_FOUR",
+      "problem": "RECORDED_NETWORK_FAILURE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130302/13175742/",
+      "query": "Naminoue",
+      "phase": "FIRST_FOUR",
+      "problem": "MISSING_SAVED_PAGE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1314/A131401/13279713/",
+      "query": "Naminoue",
+      "phase": "RETURNED_FIFTH"
+    }
+  ],
+  "uncertainties": [
+    "DETAIL:MISSING_SAVED_PAGE:https://tabelog.com/en/tokyo/A1315/A131502/13195782/",
+    "DETAIL:RECORDED_NETWORK_FAILURE:https://tabelog.com/en/tokyo/A1317/A131703/13202996/",
+    "DETAIL:MISSING_SAVED_PAGE:https://tabelog.com/en/tokyo/A1303/A130302/13175742/",
+    "UNRECORDED_JAPANESE_NAME"
+  ],
+  "identity": {
+    "resolution": {
+      "confidence": "HIGH",
+      "outlet": {
+        "sourceEntityId": "en/tokyo/A1303/A130301/13190728",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+        "outletName": "Minami Shibuya Nami no Ue",
+        "address": "1500011 東京都渋谷区東2-22-16",
+        "phone": "03-6427-9115"
+      },
+      "matchedBy": [
+        "EXACT_PHONE"
+      ]
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-009",
+      "google": {
+        "placeId": "ChIJvaI3zlyLGGARr6Q_TCfDmmI",
+        "outletName": {
+          "value": "Naminoue shibuya",
+          "normalizedValue": "naminoueshibuya",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "2-chōme-22-16 Higashi, Shibuya, Tokyo 150-0011, Japan",
+          "normalizedValue": "2chōme2216higashishibuyatokyo1500011japan",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-6427-9115",
+          "normalizedValue": "0364279115",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13190728",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+          "outletName": {
+            "value": "Minami Shibuya Nami no Ue",
+            "normalizedValue": "minamishibuyanaminoue",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1500011 東京都渋谷区東2-22-16",
+            "normalizedValue": "1500011東京都渋谷区東22216",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-6427-9115",
+            "normalizedValue": "0364279115",
+            "source": "SEARCH_RESULT"
+          },
+          "matchedContactPhone": {
+            "value": "03-6427-9115",
+            "role": "STORE",
+            "quote": "03-6427-9115",
+            "label": "Phone number",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13190728/"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "MATCH",
+            "phone": "MATCH"
+          },
+          "score": 6
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1314/A131401/13279713",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1314/A131401/13279713/",
+          "outletName": {
+            "value": "Hamamatsucho Namino Ue",
+            "normalizedValue": "hamamatsuchonaminoue",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1050013 東京都港区浜松町2-3-1 日本生命浜松町クレアタワー 104",
+            "normalizedValue": "1050013東京都港区浜松町231日本生命浜松町クレアタワー104",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-3433-6686",
+            "normalizedValue": "0334336686",
+            "source": "SEARCH_RESULT"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "CONFLICT",
+            "phone": "CONFLICT"
+          },
+          "score": 0
+        }
+      ],
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1303/A130301/13190728",
+        "reason": "HIGH_EXACT_PHONE"
+      }
+    }
+  },
+  "deferred": [
+    "https://tabelog.com/en/tokyo/A1319/A131902/13306726/",
+    "https://tabelog.com/en/tokyo/A1317/A131715/13066442/",
+    "https://tabelog.com/en/tokyo/A1317/A131715/13318725/",
+    "https://tabelog.com/en/tokyo/A1302/A130203/13186757/"
+  ],
+  "bounds": {
+    "searches": 2,
+    "details": 5,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-009",
+  "key": "main-nr-009",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-009.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Naminoue%20shibuya",
+      "kind": "SEARCH",
+      "query": "Naminoue shibuya",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-028.html",
+      "sha256": "656464132fb1d34b4484319ac092892710ac8bd98ac0a69ef122280caaede5e2",
+      "originLedgerId": "phase3b-c-g4-e2e-get-028",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Naminoue",
+      "kind": "SEARCH",
+      "query": "Naminoue",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-029.html",
+      "sha256": "68542ce87a0604c6a6221479feab0d5e9d738f240eed4b511b0f6f0ba6c00beb",
+      "originLedgerId": "phase3b-c-g4-e2e-get-029",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13190728/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-031.html",
+      "sha256": "c897ce84f38ffac9c698f71390ab77e41a0ddc89adea6bb5e5c96c053754e4b3",
+      "originLedgerId": "phase3b-c-g4-e2e-get-031",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1315/A131502/13195782/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131703/13202996/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "RECORDED_NETWORK_FAILURE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130302/13175742/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1314/A131401/13279713/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-030.html",
+      "sha256": "22dc83891ba6d97060b4d2e7d166b03719aa08dfd6f6b600025e17cc9b354789",
+      "originLedgerId": "phase3b-c-g4-e2e-get-030",
+      "realGET": 0
+    }
+  ],
+  "fragmentOrigin": {
+    "prompt": "restaurant-named-source-query@2",
+    "mode": "FROZEN_RESPONSE_REPLAY_NOT_MODEL_QUALITY"
+  },
+  "japaneseOrigin": null
+}

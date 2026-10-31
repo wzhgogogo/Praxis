@@ -1,0 +1,228 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+  "searches": [
+    {
+      "query": "和泉鮨南口店",
+      "kind": "ORIGINAL",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13113920",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+          "outletName": "Izumi Zushi Minamiguchi ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13020955",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13020955/",
+          "outletName": "Izumi Zushi Sakuragaoka ten"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13007244",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13007244/",
+          "outletName": "Izumi Zushi Honten"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+      "query": "和泉鮨南口店",
+      "phase": "FIRST_FOUR"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13020955/",
+      "query": "和泉鮨南口店",
+      "phase": "FIRST_FOUR"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13007244/",
+      "query": "和泉鮨南口店",
+      "phase": "FIRST_FOUR"
+    }
+  ],
+  "uncertainties": [],
+  "identity": {
+    "resolution": {
+      "confidence": "HIGH",
+      "outlet": {
+        "sourceEntityId": "en/tokyo/A1303/A130301/13113920",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+        "outletName": "Izumi Zushi Minamiguchi ten",
+        "address": "1500043 東京都渋谷区道玄坂1-5-5 藤木ビル 1F・B1",
+        "phone": "03-3463-7737"
+      },
+      "matchedBy": [
+        "EXACT_PHONE"
+      ]
+    },
+    "diagnostic": {
+      "candidateId": "g4:G4-ND-003",
+      "google": {
+        "placeId": "ChIJ7TXbt1eLGGAR-Q4sYu55H0w",
+        "outletName": {
+          "value": "和泉鮨南口店",
+          "normalizedValue": "和泉鮨南口店",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "1-chōme-5-5 Dōgenzaka, Shibuya, Tokyo 150-0043, Japan",
+          "normalizedValue": "1chōme55dōgenzakashibuyatokyo1500043japan",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-3463-7737",
+          "normalizedValue": "0334637737",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13113920",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+          "outletName": {
+            "value": "Izumi Zushi Minamiguchi ten",
+            "normalizedValue": "izumizushiminamiguchiten",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1500043 東京都渋谷区道玄坂1-5-5 藤木ビル 1F・B1",
+            "normalizedValue": "1500043東京都渋谷区道玄坂155藤木ビル1fb1",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-3463-7737",
+            "normalizedValue": "0334637737",
+            "source": "SEARCH_RESULT"
+          },
+          "matchedContactPhone": {
+            "value": "03-3463-7737",
+            "role": "RESERVATION",
+            "quote": "03-3463-7737",
+            "label": "Phone number (for reservation and inquiry)",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "MATCH",
+            "phone": "MATCH"
+          },
+          "score": 6
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13020955",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13020955/",
+          "outletName": {
+            "value": "Izumi Zushi Sakuragaoka ten",
+            "normalizedValue": "izumizushisakuragaokaten",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1500031 東京都渋谷区桜丘町15-3 堀ビル １Ｆ",
+            "normalizedValue": "1500031東京都渋谷区桜丘町153堀ビル１ｆ",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-3461-2640",
+            "normalizedValue": "0334612640",
+            "source": "SEARCH_RESULT"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "CONFLICT",
+            "phone": "CONFLICT"
+          },
+          "score": 0
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13007244",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13007244/",
+          "outletName": {
+            "value": "Izumi Zushi Honten",
+            "normalizedValue": "izumizushihonten",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1500031 東京都渋谷区桜丘町16-5",
+            "normalizedValue": "1500031東京都渋谷区桜丘町165",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "source": "ABSENT"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "CONFLICT",
+            "phone": "MISSING_TABELOG"
+          },
+          "score": 0
+        }
+      ],
+      "resolution": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "EXACT_PHONE"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1303/A130301/13113920",
+        "reason": "HIGH_EXACT_PHONE"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 1,
+    "details": 3,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "G4-ND-003",
+  "key": "main-G4-ND-003",
+  "view": "MAIN37",
+  "cohort": "NEW8",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e-continuation/execution/G4-ND-003.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E5%92%8C%E6%B3%89%E9%AE%A8%E5%8D%97%E5%8F%A3%E5%BA%97",
+      "kind": "SEARCH",
+      "query": "和泉鮨南口店",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-030.html",
+      "sha256": "4d1e33b10d5a598c7766464653e7fa0d78b763d1c94e10bb50d6d9b54136b5a5",
+      "originLedgerId": "phase3b-c-g4-cont-get-030",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13113920/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-031.html",
+      "sha256": "444548547cfbf2b052287b51eea8d85946be30ace3293b41b7578e1466dae406",
+      "originLedgerId": "phase3b-c-g4-cont-get-031",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13020955/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-032.html",
+      "sha256": "a0335ca12c2d4c41a20ea5bb1f80cf983476f25b21d5a40811ff036d4263fa9a",
+      "originLedgerId": "phase3b-c-g4-cont-get-032",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13007244/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-033.html",
+      "sha256": "9149930aab93a0550abfbfc3d56c94d325a920f6d2a87fee9c75c6f33c56af2c",
+      "originLedgerId": "phase3b-c-g4-cont-get-033",
+      "realGET": 0
+    }
+  ],
+  "fragmentOrigin": {
+    "mode": "NOT_CAPTURED"
+  },
+  "japaneseOrigin": null
+}

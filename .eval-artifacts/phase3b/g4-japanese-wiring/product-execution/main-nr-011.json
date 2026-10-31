@@ -1,0 +1,415 @@
+{
+  "id": "nr-011",
+  "key": "main-nr-011",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "日本料理 ほそ川 神楽坂",
+      "ordered": []
+    },
+    {
+      "kind": "FRAGMENT",
+      "query": "ほそ川",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E6%97%A5%E6%9C%AC%E6%96%99%E7%90%86%20%E3%81%BB%E3%81%9D%E5%B7%9D%20%E7%A5%9E%E6%A5%BD%E5%9D%82",
+      "kind": "SEARCH",
+      "query": "日本料理 ほそ川 神楽坂",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-040.html",
+      "sha256": "cf4d906c2cb2b4a279faa9a3d6b770909507afd5044dc3de66b37942161da67e",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%BB%E3%81%9D%E5%B7%9D",
+      "kind": "SEARCH",
+      "query": "ほそ川",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-041.html",
+      "sha256": "fd9a682eec212f46f87ad172ce7bea42ee950d5c80542d94fdbfdd37da43fb1f",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-042.html",
+      "sha256": "a96b2e515c0faea6ad727f13eb343d2f7827e88111821ceb09afaaf3ab5e0c9c",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-043.html",
+      "sha256": "9fb32ae48b8eb596ddb29e106869d7f4d3b3fe0bb748eac63d82d310718f12d7",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-044.html",
+      "sha256": "c633b8d7539feac9bc23ec7c5bf654fa26648a4fe3e2b451dc6d774c97275443",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-045.html",
+      "sha256": "cb6a5ef8131e842d404da5e65fa1f1a8464dc4698f7de950ccbbe7f7a282b011",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [],
+  "diagnostic": {
+    "candidateId": "g4:nr-011",
+    "google": {
+      "placeId": "ChIJzwk96emNGGARLBC1SA4JLIE",
+      "outletName": {
+        "value": "日本料理 ほそ川 神楽坂",
+        "normalizedValue": "日本料理ほそ川神楽坂",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "Japan, 〒162-0825 Tokyo, Shinjuku City, Kagurazaka, 3-chōme−６ 神楽坂館 1階",
+        "normalizedValue": "japan〒1620825tokyoshinjukucitykagurazaka3chōme−６神楽坂館1階",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "03-3267-0031",
+        "normalizedValue": "0332670031",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1309/A130905/13222581",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+        "outletName": {
+          "value": "Hosokawa",
+          "normalizedValue": "hosokawa",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1620825 東京都新宿区神楽坂3-6 神楽坂館 1F",
+          "normalizedValue": "1620825東京都新宿区神楽坂36神楽坂館1f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-3267-0031",
+          "normalizedValue": "0332670031",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "03-3267-0031",
+          "role": "STORE",
+          "quote": "03-3267-0031",
+          "label": "Phone number",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 6
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1312/A131201/13002967",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+        "outletName": {
+          "value": "Edo Soba Hosokawa",
+          "normalizedValue": "edosobahosokawa",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1300014 東京都墨田区亀沢1-6-5",
+          "normalizedValue": "1300014東京都墨田区亀沢165",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-3626-1125",
+          "normalizedValue": "0336261125",
+          "source": "DOM"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "CONFLICT",
+          "phone": "CONFLICT"
+        },
+        "score": 0
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1330/A133002/13040030",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+        "outletName": {
+          "value": "Soba Dokoro Hosokawa",
+          "normalizedValue": "sobadokorohosokawa",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1970024 東京都福生市牛浜60",
+          "normalizedValue": "1970024東京都福生市牛浜60",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "+81-42-551-1722",
+          "normalizedValue": "0425511722",
+          "source": "JSON_LD"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "CONFLICT",
+          "phone": "CONFLICT"
+        },
+        "score": 0
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1312/A131203/13067212",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+        "outletName": {
+          "value": "Soba Dokoro Hosokawa",
+          "normalizedValue": "sobadokorohosokawa",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1300003 東京都墨田区横川1-9-5",
+          "normalizedValue": "1300003東京都墨田区横川195",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "+81-3-3621-1362",
+          "normalizedValue": "0336211362",
+          "source": "JSON_LD"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "CONFLICT",
+          "phone": "CONFLICT"
+        },
+        "score": 0
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1309/A130905/13222581",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "日本料理 ほそ川 神楽坂"
+        },
+        {
+          "kind": "FRAGMENT",
+          "query": "ほそ川"
+        }
+      ],
+      "detailLimit": 5
+    },
+    "search": {
+      "query": "ほそ川",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%BB%E3%81%9D%E5%B7%9D",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%BB%E3%81%9D%E5%B7%9D",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 7,
+      "inspectedResultCount": 4
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1312/A131201/13002967",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+        "outletName": "Edo Soba Hosokawa"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1330/A133002/13040030",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+        "outletName": "Soba Dokoro Hosokawa"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1312/A131203/13067212",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+        "outletName": "Soba Dokoro Hosokawa"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1309/A130905/13222581",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+        "outletName": "Hosokawa"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1313/A131301/13294175",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13294175/",
+        "outletName": "Izakaya Hosokawa Irifune ten"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1313/A131305/13045826",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131305/13045826/",
+        "outletName": "Sakanaya Hosokawa"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1313/A131301/13271642",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1313/A131301/13271642/",
+        "outletName": "Izakaya Hosokawa"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1312/A131201/13002967",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+        "title": "Edo Soba Hosokawa - Ryogoku/Soba (Buckwheat noodles) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Edo Soba Hosokawa",
+            "normalizedValue": "edosobahosokawa",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1300014 東京都墨田区亀沢1-6-5",
+            "normalizedValue": "1300014東京都墨田区亀沢165",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-3626-1125",
+            "normalizedValue": "0336261125",
+            "source": "DOM"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1330/A133002/13040030",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+        "title": "Soba Dokoro Hosokawa - Ushihama/Soba (Buckwheat noodles) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Soba Dokoro Hosokawa",
+            "normalizedValue": "sobadokorohosokawa",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1970024 東京都福生市牛浜60",
+            "normalizedValue": "1970024東京都福生市牛浜60",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "+81-42-551-1722",
+            "normalizedValue": "0425511722",
+            "source": "JSON_LD"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1312/A131203/13067212",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+        "title": "Soba Dokoro Hosokawa - Oshiage/Soba (Buckwheat noodles) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Soba Dokoro Hosokawa",
+            "normalizedValue": "sobadokorohosokawa",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1300003 東京都墨田区横川1-9-5",
+            "normalizedValue": "1300003東京都墨田区横川195",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "+81-3-3621-1362",
+            "normalizedValue": "0336211362",
+            "source": "JSON_LD"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1309/A130905/13222581",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+        "title": "Hosokawa Reservation - Ushigome Kagurazaka/Japanese Cuisine | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13222581/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Hosokawa",
+            "normalizedValue": "hosokawa",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1620825 東京都新宿区神楽坂3-6 神楽坂館 1F",
+            "normalizedValue": "1620825東京都新宿区神楽坂36神楽坂館1f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-3267-0031",
+            "normalizedValue": "0332670031",
+            "source": "DOM"
+          }
+        }
+      }
+    ]
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=%E6%97%A5%E6%9C%AC%E6%96%99%E7%90%86%20%E3%81%BB%E3%81%9D%E5%B7%9D%20%E7%A5%9E%E6%A5%BD%E5%9D%82",
+    "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%BB%E3%81%9D%E5%B7%9D",
+    "https://tabelog.com/en/tokyo/A1312/A131201/13002967/",
+    "https://tabelog.com/en/tokyo/A1330/A133002/13040030/",
+    "https://tabelog.com/en/tokyo/A1312/A131203/13067212/",
+    "https://tabelog.com/en/tokyo/A1309/A130905/13222581/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

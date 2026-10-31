@@ -8,7 +8,7 @@ import type { RestaurantCandidateFactPort, RestaurantSearchPort } from "../../ap
 import { googleDiscoveryGeoDiagnostics, groundGoogleDiscovery, type GoogleDiscoveryGroundingInput, type UntrustedGooglePlaceObservation } from "../../domains/restaurant/read-grounding.js";
 import { restaurantSearchIntentFingerprint, type RestaurantCandidateFactRequest, type RestaurantSearchContinuation, type RestaurantSearchRead, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
 import { GooglePlacesClient } from "./google-places-client.js";
-import { GooglePlacesError, type GooglePlacesRawPlace } from "./google-places-contracts.js";
+import { GooglePlacesError, type GooglePlacesRawPlace, type GooglePlacesSourceName } from "./google-places-contracts.js";
 
 function string(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
@@ -178,6 +178,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
   /** One local workspace composes providers once, so counters must be keyed by
    * the persistent task run rather than accidentally shared by every user. */
   private readonly requestsPerformed = new Map<string, Omit<GoogleRequestUsage, "limit" | "total">>();
+  private readonly japaneseNames = new Map<string, Map<string, Promise<GooglePlacesSourceName>>>();
 
   constructor(
     private readonly client: GooglePlacesClient,
@@ -218,6 +219,26 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       total: counts.namedPlaceResolution + counts.discovery + counts.placeDetails + counts.reverseAddressObservation,
       ...counts,
     };
+  }
+
+  /** Source-owned name only, never identity proof. Both source consumers share
+   * this adapter/run cache and the existing Details request ceiling. */
+  japaneseName(placeId: string, readRunId: string | undefined, signal: AbortSignal): Promise<GooglePlacesSourceName> {
+    if (signal.aborted) return Promise.reject(signal.reason);
+    const id = placeId.replace(/^places\//, "").trim(), key = readRunId ?? "unscoped";
+    if (!id) return Promise.reject(new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google source name requires a place ID"));
+    const names = this.japaneseNames.get(key) ?? new Map<string, Promise<GooglePlacesSourceName>>();
+    this.japaneseNames.set(key, names);
+    let read = names.get(id);
+    if (!read) {
+      read = (async () => {
+        if (!this.hasBudget(readRunId)) throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED", "Google request ceiling before Japanese source name");
+        this.consumeRequest(readRunId, "placeDetails");
+        return this.client.japaneseNamesForRun(signal)(id);
+      })();
+      names.set(id, read);
+    }
+    return read;
   }
 
   private readonly addressObservations = new Map<string, { point: string; read: Promise<{ addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>; addressObservation: import("../../domains/restaurant/contracts.js").LocationAddressObservation }> }>();

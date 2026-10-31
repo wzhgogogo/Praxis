@@ -36,7 +36,7 @@ export interface RestaurantAvailabilityPort {
   browserModelBudgetExhausted?(): boolean;
   beginReadRun?(): void;
   endReadRun?(): void;
-  check(request: RestaurantAvailabilityRequest, signal: AbortSignal): Promise<RestaurantAvailabilityRead>;
+  check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead>;
 }
 
 export interface RestaurantCandidateFactPort {
@@ -416,7 +416,7 @@ export class RestaurantExecutionRouter {
               ? this.browserReadTimeoutMs
               : this.structuredReadTimeoutMs,
             async signal => {
-              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.availability.check(single, signal)), completed);
+              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.availability.check(single, signal, readRunId)), completed);
               return mergedAvailability(completed,request,fallback,now);
             },
             this.availability.executionRoute === "GENERIC_BROWSER",

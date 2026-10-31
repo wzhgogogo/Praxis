@@ -86,6 +86,12 @@ export interface TabelogEntityResolutionDiagnostic {
 
 export interface TabelogIdentityDiagnostic extends TabelogEntityResolutionDiagnostic {
   nativeContinuity?: NativeOutletContinuity;
+  /** Search planning only; none of these names establish outlet identity. */
+  nameRetrieval?: {
+    queries: Array<{kind:"ORIGINAL"|"FRAGMENT"|"JAPANESE"; query:string}>;
+    japanese?: {status:"OBSERVED"|"UNAVAILABLE"; placeId:string; languageCode?:string|null; reasonCode?:string};
+    detailLimit: number;
+  };
   search: {
     query: string;
     requestedUrl: string;

@@ -957,3 +957,56 @@ test("G3c Tabelog quotes a class-renamed menu through the source model and parse
   assert.equal(condition.status, minimumParty ? "NOT_CHECKED" : "MET", "a price for at least four diners cannot establish a two-diner HARD cap");
   }
 });
+
+// Adapter composition controls: source I/O is constructed, identity comparison
+// stays real. The five-detail allowance is shared by all observed search terms.
+test("Japanese retrieval reserves the fifth detail without weakening same-outlet identity", async () => {
+  const subject={...candidate,restaurant:{...candidate.restaurant,outletName:"Restaurant 1 Tokyo",sourceIds:{googlePlaces:"same-place",phone:"03-1111-2222"}}};
+  const first=Array.from({length:6},(_,i)=>`https://tabelog.com/tokyo/A1304/A130401/${9100+i}/`);
+  const japanese="https://tabelog.com/tokyo/A1304/A130401/9200/";
+  for(const conflict of [false,true]){
+    let page!:BrowserSnapshot,names=0,fragments=0;
+    const session=new FixtureBrowserSession([]);
+    session.navigate=async url=>{
+      session.navigated.push(url);
+      const query=new URL(url).searchParams.get("sw");
+      if(query!==null)page={url,title:"Search",text:"Public restaurant results",html:(query==="原文の店名"?[japanese]:first).map(link=>`<a href="${link}">${subject.restaurant.outletName}</a>`).join("")};
+      else page={url,title:"Restaurant",text:"Public identity",html:`<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:subject.restaurant.outletName,telephone:"03-1111-2222",address:url===japanese&&!conflict?subject.restaurant.address:"9-9 Shibuya, Tokyo"})}</script>`};
+    };
+    session.snapshot=async()=>page;
+    const result=await new TabelogBrowserAvailability({openSession:async()=>session},undefined,5,{
+      alternativeSearch:async()=>{fragments++;return "Restaurant 1";},
+      japaneseName:async original=>{names++;assert.deepEqual(original,subject);return {placeId:"same-place",text:"原文の店名",languageCode:"ja"};},
+    }).check({candidateIds:[subject.restaurant.id],candidates:[subject],date:fixtureIntent.date,partySize:2,timeWindow:fixtureIntent.timeWindow,hardCriteria:[]},new AbortController().signal);
+    assert.deepEqual(session.navigated.filter(url=>url.includes("rstLst")).map(url=>new URL(url).searchParams.get("sw")),[subject.restaurant.outletName,"Restaurant 1","原文の店名"]);
+    assert.deepEqual([...new Set(session.navigated.filter(url=>!url.includes("rstLst")))],[...first.slice(0,4),japanese]);
+    assert.equal(fragments,1);assert.equal(names,1);
+    assert.equal(result.evidence.some(e=>e.entityMatch?.confidence==="HIGH"),!conflict,"a same phone with a conflicting address remains rejected");
+  }
+});
+
+test("unused Japanese capacity returns the original fifth detail and a prior HIGH match costs no extra lookup", async () => {
+  const subject={...candidate,restaurant:{...candidate.restaurant,outletName:"Restaurant 1 Tokyo",sourceIds:{googlePlaces:"same-place",phone:"03-1111-2222"}}};
+  const first=Array.from({length:5},(_,i)=>`https://tabelog.com/tokyo/A1304/A130401/${9300+i}/`);
+  for(const mode of ["duplicate","empty","wrong-id","failure","prior-match"] as const){
+    let page!:BrowserSnapshot,names=0,fragments=0;
+    let diagnostic:import("./tabelog-contracts.js").TabelogIdentityDiagnostic|undefined;
+    const session=new FixtureBrowserSession([]);
+    session.navigate=async url=>{
+      session.navigated.push(url);const query=new URL(url).searchParams.get("sw");
+      if(query!==null)page={url,title:"Search",text:query==="原文の店名"?"No restaurants were found that match your search criteria":"Restaurants",html:query==="原文の店名"?"":first.map(link=>`<a href="${link}">${subject.restaurant.outletName}</a>`).join("")};
+      else page={url,title:"Restaurant",text:"Public identity",html:`<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:subject.restaurant.outletName,telephone:"03-1111-2222",address:url===first[mode==="prior-match"?0:4]?subject.restaurant.address:"9-9 Shibuya, Tokyo"})}</script>`};
+    };
+    session.snapshot=async()=>page;
+    const result=await new TabelogBrowserAvailability({openSession:async()=>session},undefined,5,{
+      alternativeSearch:async()=>{fragments++;return "Restaurant 1";},
+      japaneseName:async()=>{names++;if(mode==="failure")throw new TypeError("offline transport failed");return {placeId:mode==="wrong-id"?"another-place":"same-place",text:mode==="duplicate"?subject.restaurant.outletName.toUpperCase():"原文の店名",languageCode:"ja"};},
+      onIdentityDiagnostic:value=>{diagnostic=value;},
+    }).check({candidateIds:[subject.restaurant.id],candidates:[subject],date:fixtureIntent.date,partySize:2,timeWindow:fixtureIntent.timeWindow,hardCriteria:[]},new AbortController().signal);
+    assert.equal(result.evidence.some(e=>e.entityMatch?.confidence==="HIGH"),true,mode);
+    assert.deepEqual([...new Set(session.navigated.filter(url=>!url.includes("rstLst")))],first.slice(0,mode==="prior-match"?4:5),mode);
+    assert.equal(names,mode==="prior-match"?0:1);assert.equal(fragments,mode==="prior-match"?0:1);
+    if(mode==="failure")assert.equal(diagnostic?.nameRetrieval?.japanese?.reasonCode,"GOOGLE_NETWORK_FAILED");
+    if(mode==="wrong-id")assert.equal(diagnostic?.nameRetrieval?.japanese?.reasonCode,"GOOGLE_MALFORMED_RESPONSE");
+  }
+});

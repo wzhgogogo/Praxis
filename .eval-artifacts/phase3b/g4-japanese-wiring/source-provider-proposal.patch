@@ -1,0 +1,6 @@
+diff --git a/src/integrations/restaurant-availability/availability-source-resolver.ts b/src/integrations/restaurant-availability/availability-source-resolver.ts
+--- a/src/integrations/restaurant-availability/availability-source-resolver.ts
++++ b/src/integrations/restaurant-availability/availability-source-resolver.ts
+@@ -96,1 +96,2 @@
+                 ...structuredClone(check),
++                sourceProvider: provider.provider,

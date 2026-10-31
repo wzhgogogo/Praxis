@@ -1,0 +1,189 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Sushi kazumasa",
+      "kind": "ORIGINAL",
+      "ordered": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13275782",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+          "outletName": "Sushi Kazumasa"
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130701/13122868",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13122868/",
+          "outletName": "Sushi Kai Masa"
+        }
+      ]
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+      "query": "Sushi kazumasa",
+      "phase": "FIRST_FOUR"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/A130701/13122868/",
+      "query": "Sushi kazumasa",
+      "phase": "FIRST_FOUR"
+    }
+  ],
+  "uncertainties": [
+    "UNRECORDED_JAPANESE_NAME"
+  ],
+  "identity": {
+    "resolution": {
+      "confidence": "MEDIUM",
+      "outlet": {
+        "sourceEntityId": "en/tokyo/A1303/A130301/13275782",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+        "outletName": "Sushi Kazumasa",
+        "address": "1500002 東京都渋谷区渋谷2-2-2 青山ルカビル 1F",
+        "phone": "03-6434-1107"
+      },
+      "matchedBy": [
+        "NORMALIZED_NAME"
+      ]
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-020",
+      "google": {
+        "placeId": "ChIJZUCkUu2LGGARYtiJZeiBbis",
+        "outletName": {
+          "value": "Sushi kazumasa",
+          "normalizedValue": "sushikazumasa",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "Japan, 〒150-0043 Tokyo, Shibuya, 2-chōme−2−２ Luke Building, 1F",
+          "normalizedValue": "japan〒1500043tokyoshibuya2chōme−2−２lukebuilding1f",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-6434-1107",
+          "normalizedValue": "0364341107",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [
+        {
+          "sourceEntityId": "en/tokyo/A1303/A130301/13275782",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+          "outletName": {
+            "value": "Sushi Kazumasa",
+            "normalizedValue": "sushikazumasa",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1500002 東京都渋谷区渋谷2-2-2 青山ルカビル 1F",
+            "normalizedValue": "1500002東京都渋谷区渋谷222青山ルカビル1f",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-6434-1107",
+            "normalizedValue": "0364341107",
+            "source": "SEARCH_RESULT"
+          },
+          "matchedContactPhone": {
+            "value": "03-6434-1107",
+            "role": "STORE",
+            "quote": "03-6434-1107",
+            "label": "Phone number",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/"
+          },
+          "comparison": {
+            "outletName": "MATCH",
+            "address": "CONFLICT",
+            "phone": "MATCH"
+          },
+          "score": 2
+        },
+        {
+          "sourceEntityId": "en/tokyo/A1307/A130701/13122868",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1307/A130701/13122868/",
+          "outletName": {
+            "value": "Sushi Kai Masa",
+            "normalizedValue": "sushikaimasa",
+            "source": "SEARCH_RESULT"
+          },
+          "address": {
+            "value": "1060032 東京都港区六本木5-9-14 第7ビレッジ1F",
+            "normalizedValue": "1060032東京都港区六本木5914第7ビレッジ1f",
+            "source": "SEARCH_RESULT"
+          },
+          "phone": {
+            "value": "03-5413-0666",
+            "normalizedValue": "0354130666",
+            "source": "SEARCH_RESULT"
+          },
+          "comparison": {
+            "outletName": "CONFLICT",
+            "address": "CONFLICT",
+            "phone": "CONFLICT"
+          },
+          "score": 0
+        }
+      ],
+      "resolution": {
+        "confidence": "MEDIUM",
+        "matchedBy": [
+          "NORMALIZED_NAME"
+        ],
+        "bestSourceEntityId": "en/tokyo/A1303/A130301/13275782",
+        "reason": "KNOWN_PHONE_CONFLICT"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 1,
+    "details": 2,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-020",
+  "key": "main-nr-020",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-020.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20kazumasa",
+      "kind": "SEARCH",
+      "query": "Sushi kazumasa",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-087.html",
+      "sha256": "7bcc563e1b7667226b08dc4ef9aa645a48d9eaf296e70ddf811ec2540f756125",
+      "originLedgerId": "phase3b-c-g4-e2e-get-087",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13275782/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-088.html",
+      "sha256": "cb8c3709df61c810556ac62370c2bb190ed208a7c2a22d8a71c023149bdb0950",
+      "originLedgerId": "phase3b-c-g4-e2e-get-088",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1307/A130701/13122868/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-089.html",
+      "sha256": "fa425fce338d6f49067dff519fd5d41bb5fe245af1346d48cdf4993e44136ba4",
+      "originLedgerId": "phase3b-c-g4-e2e-get-089",
+      "realGET": 0
+    }
+  ],
+  "fragmentOrigin": {
+    "prompt": "restaurant-named-source-query@2",
+    "mode": "FROZEN_RESPONSE_REPLAY_NOT_MODEL_QUALITY"
+  },
+  "japaneseOrigin": null
+}

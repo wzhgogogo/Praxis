@@ -1,5 +1,23 @@
 # Test and Verification Log
 
+2026-10-31 CET：G4日文检索合入验证完成：用户已复核efee5a81，已同步main90559cc9；19263da4冻结727项，五门禁默认1272/1272、Chromium186/186（129.772秒）、标准及严格G2均5/5、严格12页全PASS；8项前后净树，285旧C产物/500账目原样保留，GET255/260不变。仅继承A三文件诊断；C排序、身份、绑定、Prompt/State不改。四家定向3正确/1未评、错认0，T第6位缺口不调整。按用户授权发布main，确切合入SHA以Git发布合并和ls-remote核对为准；本次模型/Google/GET/Live0，不读.env，完成后待命。 [合入报告](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md)。
+
+2026-10-31 CET：用户复核通过C efee5a81并批准合入main；6e0f134a已同步最新main90559cc9，产品无冲突，保留A三文件诊断和双方文档，账本500条/GET255/260不变。冻结合入候选后顺序重跑五门禁及严格G2，每项前后净树，任一失败即停；全绿才发布main并核对远端。四家定向证据保持3正确/1未评、错认0，T第6位缺口不改；本次真实模型/Google/网站GET/Live0，不读.env。 [合入计划](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/plan.md)。
+
+2026-10-31 CET：C按批准恢复G4定向实测完成待复核。bcba61cb单独冻结修正副本781项，原停批包47文件原样保留；内部上限/共享预算1，无模型端口，尝试即拒绝，四条身份回放均在调用前/finally/保存前三处断言0并关闭本地浏览器。Beef只用旧原件预检正确后继续原8详情，8/8均200、网络失败0；Beef/Kappo/Sumi正确接纳且日文词实际贡献3家，T已观察5详情不认错店，但缺历史片段，完整回归未评。不是新37家通过率。新增GET8、Google/模型/Live/robots/Beef请求0；共享GET255/260，491旧条目不变、追加8，并入最新main的A零调用记录1条（共500）。产品/身份/排序/评分口径不变；仅推工作分支、不合main。 [恢复报告](../../.eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/report.md)。
+
+2026-10-31 CET：用户已批准C按d2607b34修正提案恢复。仅外层新副本内部上限/共享预算1、无模型端口、尝试即中断和三处计数0断言，构造纳入浏览器清理；原47文件与STOPPED保留。先冻结本地Beef完整身份前缀和独立评分预检，通过后仅原8详情GET，Google/模型/Live0，不读.env；共享当前247/260，原491条保留。产品/策略/身份/评分口径不变，恢复未完成、不合main。 [恢复计划](../../.eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/plan.md)。
+
+2026-10-31 CET：C按批准启动G4四家分阶段定向实测，robots、同ID Google日文名、Beef日文首屏及1详情均200。随后外层Runner把执行器正整数内部上限误配为0，身份前缀构造即失败；按用户偏离即停规则停止，未请求已知8详情、未改冻结输入或追加请求。4家身份/错认/第三词接纳贡献均未评，不能当作37家新通过率；Beef首屏事后核对含认证店不等于接纳。网站2/14+robots1（共享计入）、Google1/1、模型/Live0；共享GET247/260，487旧条目完整保留、追加4。740冻结SHA/170旧接线产物及产品源码原样保留；只推C分支、不合main，外层Runner修正提案待复核。 [中断报告](../../.eval-artifacts/phase3b/g4-japanese-directed-20261031/report.md)。
+
+2026-10-31 CET：C获准范围外来源修正完成：e4b0e27e独立仅1文件+1行；19项红→绿，正向TABELOG且原B1交接1份、反向TABLECHECK，五路径除来源字段外全部相同，双失败完整原件一致，单源有效来源不变，attempts全不变。全部12处读取/局部使用及其它写入/类型/测试/历史脚本逐项影响已写报告。90c90a50冻结1585项，五门禁1271/1271、Chromium186/186（130.136秒）和严格G2 5/5、12页PASS；9步前后净树，142旧artifact原样保留，账本不变。真实模型/Google/GET/Live0，不读.env；Beef最终精确清单仍缺来源绑定、8个详情URL和单次Google提案未执行。推C工作分支停复核，不合main。 [报告](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/report.md)。
+
+2026-10-31 CET：用户已窄授权仅在resolver成功分支加一行sourceProvider: provider.provider，范围外修正独立提交e4b0e27e（1文件+1行）。743dca0d冻结有效红灯→同19项全绿：TableCheck失败后Tabelog成功来源TABELOG、B1原URL交接1份；反向TABLECHECK；五路径固定Date红绿对照除显式来源字段外全部返回值/attempts不变，双失败完整相同、单源有效来源不变。grep逐12处读取/局部使用说明影响，写入/类型/测试与冻结脚本单列。待冻结重跑五门禁与严格G2，原37+4回放证据保留；Beef清单仍缺来源原件、不执行提案。真实模型/Google/GET/Live0，不读.env，账本不变，不合main。 [计划](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/plan.md)。
+
+2026-10-30 CET：C日文名候选已完成零真实调用的模拟及生产身份前缀：各原23/23、focus3/3、错认0；默认1263/1265仍红（同一个B1跨来源sourceProvider缺口子用例+父用例），type/arch/build和Chromium186/186、严格G2全12 PASS，10步前后净树、1674 SHA一致。绑定一行修复已请求用户窄授权但未动。8个详情URL+精确单次Google提案已物化；Beef原日文名/首屏尚无原件，完整最终GET清单NOT_EXECUTABLE，不用Gold/模板补造。共享486旧条目逐条保留、追加0调用记录，GET244/260；真实模型/Google/GET/Live0，不读.env。B1第一步已发main74afd956并远端核对；第二步未完成、不合main，推候选停等范围与来源依赖复核。 [报告](../../.eval-artifacts/phase3b/g4-japanese-wiring/report.md)。
+
+2026-10-30 CET：B1已按批准发布并ls-remote核对main74afd956（五门禁1254/186、严格G2全12）。C另开日文名产品接线：原名→合法片段→同ID日文全文，前两词4+日文1、未用退还，详情上限不重置，Google额外Details进入既有run预算/导出，不改变身份/排序/库存/响应绑定。d17ee4bc冻结1571项；37主视图+4复跑的模拟及生产身份前缀均原23/23、focus3/3、错认0，缺页15主视图仍未评。新增普通HTTP已从NO_VERIFIED_RESULT走到PRESENT_RESULTS，但暴露先TableCheck失败再Tabelog成功的旧check.sourceProvider误归总resolver，B1按钮拒绝；保留断言及红灯，绑定修复已向用户申请一行窄授权、尚未实施。Beef同ID日文名及首屏未读，完整精确GET清单尚不能离线物化；当前真实调用0、GET244/260，历史486账本条目保留，模型/Google各0新增，不读取.env。候选不合main；门禁和缺页前沿随后归档交复核。 [计划](../../.eval-artifacts/phase3b/g4-japanese-wiring/plan.md)。
+
 <a id="test-browser-timeout-main-verified"></a>
 
 ## 2026-10-31 CET：已审浏览器超时诊断发布验证通过
@@ -59,10 +77,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.361
+- Document revision: 4.365
 
 
-- Last updated: 2026-10-30
+- Last updated: 2026-10-31
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -6125,3 +6143,19 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 2026-10-30 CET：C按用户原授权在G3已合main后，将B1准备分支rebase到7c83e02e（含前端4cbc521b/ADR0050）。8个C提交重放，源码冲突0，文档双方记录保留；B三文件、A评测/harness、前端与ADR保持新main字节，C缓存/作用域/组合代码同20ff1466。字体依赖仅npm缓存离线恢复，不运行生命周期脚本；当前UI观察改用既有My plans→Choose this→交接入口。冻结后重跑五门禁/严格G2/两尺寸真实HTTP产物渲染，真实调用0、不读.env；只推C分支不合main。 [计划](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/plan.md)。
 
 复验完成：2026-10-30 CET：C B1接线已rebase到G3 main7c83e02e。ec58c3ec冻结725项，五门禁默认1254/Chromium186全绿（129.449s），严格G2 5/5及12页PASS；当前前端两尺寸两个入口保留原URL，Choose this写请求0。9步前后净树、SHA一致。B三文件、A评测/harness、前端/ADR/账本同main；C缓存/作用域/组合源码同20ff1466。npm依赖仅本机缓存离线恢复，不读.env，真实模型/Google/GET/Live/真实PG0。按原授权用精确lease更新C分支，未合main，交复核。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md)。
+
+<a id="test-2026-10-29-g4-retrieval-analysis"></a>
+
+## 2026-10-29 CET：G4检索只读分析
+
+2026-10-29 CET：B1已合并并推送main00519783，ls-remote核对，B已收到ADR0049/迁移0010同步通知。C从该main另开G4只读分析分支；原37家网络8例逐次归因及4家日文名线索，最多两方案，真实调用0。第三次检索/详情名额的合同变化仅列建议不实施，GET保持244/257。
+
+分析交付：2026-10-29 CET：B1已发布main00519783并ls-remote核对，B已收到ADR0049/迁移0010通知。C G4纯分析完成待复核：八例=4超时/4连接错误，搜索2/详情6，均Tabelog；同ID日文原名已存3/4，旧替代首屏3日文+1更短英文片段均含认证店，但身份增量未评价。T实际只查一次即耗尽5详情；第三次检索及4+1名额仅待批准方案，未实施。模型/Google/GET/Live新增0，GET244/257；685冻结SHA、源码及账本零差异核对通过。 推荐先复用原件、Google≤1/GET≤13/模型0；替代新鲜分组基准Google≤4/GET≤60/模型≤8，若直接选择后者需共享GET上限304，当前不分配额度。[报告](../../.eval-artifacts/phase3b/g4-retrieval-analysis/report.md)。
+
+<a id="test-2026-10-29-g4-japanese-prep"></a>
+
+## 2026-10-29 CET: G4 Japanese-name offline preparation
+
+2026-10-29 CET: C G4 scheme-one offline preparation frozen. Google same-ID ja name reader uses id/displayName only, run-local sharing; valid old-wire red and 3 green controls retained. Eval-only 4+1 simulation covers 37 main views plus four separately frozen reruns; unknown pages/proposals are not success. Product source search/B files unchanged; no shared versions or credentials. New calls0, GET244/257; exact known URLs and source-bound Beef slots to be reviewed, no live execution.
+
+Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for review. Google run-scoped source-name reader (same ID, explicit ja, id/displayName only) is not connected to production. Offline 4+1: prior23/23 plus nr010/022/0263/3 retained, wrong0; main37=22 accepted/15 NOT_EVALUATED, rerun4=4 accepted. T certified result ranks6 in Japanese search with only1 slot and has no recorded fragment. Eight known detail URLs frozen; Beef name/search/detail URLs remain source-bound unknowns. Worst frontier14GET exceeds approved13, so manifest is NOT_EXECUTABLE and quota stays244/257. Frozen57bd09a5/855 SHA, five gates1216/175 + G25/5 PASS, ten steps clean. New real calls0; B paths/identity/shared versions unchanged. [Report](../../.eval-artifacts/phase3b/g4-japanese-prep/report.md).

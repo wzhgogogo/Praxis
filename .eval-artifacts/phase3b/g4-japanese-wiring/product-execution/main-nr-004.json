@@ -1,0 +1,63 @@
+{
+  "id": "nr-004",
+  "key": "main-nr-004",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "鮨処 みこし",
+      "kind": "ORIGINAL",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null,
+      "problem": "RECORDED_NETWORK_FAILURE"
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E9%AE%A8%E5%87%A6%20%E3%81%BF%E3%81%93%E3%81%97",
+      "kind": "SEARCH",
+      "query": "鮨処 みこし",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-010.html",
+      "sha256": "a2d8ce0e389afeb9b1531057dc131512fd0fbc78c4a0549218c7cbeba0a41165",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1323/A132301/13072420/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "RECORDED_NETWORK_FAILURE"
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [
+    "DETAIL:RECORDED_NETWORK_FAILURE"
+  ],
+  "diagnostic": null,
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=%E9%AE%A8%E5%87%A6%20%E3%81%BF%E3%81%93%E3%81%97",
+    "https://tabelog.com/en/tokyo/A1323/A132301/13072420/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

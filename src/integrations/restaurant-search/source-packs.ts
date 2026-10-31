@@ -16,6 +16,7 @@ import type { TabelogIdentityDiagnostic, TabelogUserInterventionHandler } from "
 import type { RestaurantAvailabilityProvider } from "../restaurant-availability/contracts.js";
 import type { BrowserTaskExecutor } from "../../infrastructure/browser/browser-task-executor.js";
 import type { NamedSourceAlternative } from "./named-source-query.js";
+import type { GooglePlacesSourceName } from "../google/google-places-contracts.js";
 
 export interface SourcePackAvailabilityProviderContext {
   executor: BrowserTaskExecutor;
@@ -24,6 +25,7 @@ export interface SourcePackAvailabilityProviderContext {
   maxBrowserSessions?: number;
   maxCandidateMatches?: number;
   alternativeSearch?: NamedSourceAlternative;
+  japaneseName?: (candidate: RestaurantCandidate, signal: AbortSignal) => Promise<GooglePlacesSourceName>;
   networkPolicy?: BrowserReadNetworkPolicy;
   tableCheckEntryLedger: TableCheckEntryLedger;
   onTableCheckIdentityDiagnostic?: (diagnostic: TableCheckIdentityDiagnostic) => void;
@@ -301,6 +303,7 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
     createProvider: (context) => new TabelogBrowserAvailability(context.executor, context.now, context.maxCandidateMatches, {
       ...(context.sourceFactsModel ? { sourceFactsModel: context.sourceFactsModel } : {}),
       ...(context.alternativeSearch ? { alternativeSearch: context.alternativeSearch } : {}),
+      ...(context.japaneseName ? { japaneseName: context.japaneseName } : {}),
       ...(context.maxBrowserSessions !== undefined ? { maxBrowserSessions: context.maxBrowserSessions } : {}),
       ...(context.onTabelogIdentityDiagnostic ? { onIdentityDiagnostic: context.onTabelogIdentityDiagnostic } : {}),
       ...(context.onTabelogUserInterventionRequired ? { onUserInterventionRequired: context.onTabelogUserInterventionRequired } : {}),

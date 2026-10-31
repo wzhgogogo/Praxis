@@ -1,9 +1,76 @@
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 import { GooglePlacesClient } from "./google-places-client.js";
 import { GOOGLE_PLACES_DETAILS_FIELD_MASK, GOOGLE_PLACES_RESTAURANT_FIELD_MASK } from "./google-places-contracts.js";
+
+const japaneseNames = JSON.parse(readFileSync(new URL("./fixtures/japanese-place-names.json", import.meta.url), "utf8")) as Array<{
+  id: string; displayName: { text: string; languageCode: string };
+}>;
+
+test("same-ID Japanese source names request only id and displayName with explicit ja", async () => {
+  const requests: Array<{ url: URL; mask: string | undefined }> = [];
+  const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (url, init) => {
+    const u = new URL(String(url));
+    requests.push({ url: u, mask: (init?.headers as Record<string, string>)["X-Goog-FieldMask"] });
+    const raw = japaneseNames.find(row => u.pathname.endsWith(`/${row.id}`));
+    assert.ok(raw);
+    return new Response(JSON.stringify(raw));
+  } });
+  const readName = client.japaneseNamesForRun(new AbortController().signal);
+  const names = [];
+  for (const row of japaneseNames) {
+    names.push(await readName(row.id));
+  }
+  assert.equal(requests.length, 3);
+  for (const r of requests) {
+    assert.equal(r.url.searchParams.get("languageCode"), "ja");
+    assert.equal(r.mask, "id,displayName");
+  }
+  assert.deepEqual(names.map(row => [row.text, row.languageCode]), [["割烹 三長 渋谷", "ja"], ["T 中目黒", "ja"], ["渋谷 鮨墨", "ja"]]);
+});
+
+test("Japanese source name reader shares one request across sources in a run and isolates the next run", async () => {
+  let calls = 0;
+  const first = japaneseNames[0]!;
+  const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => {
+    calls++;
+    return new Response(JSON.stringify(first));
+  } });
+  const run = client.japaneseNamesForRun(new AbortController().signal);
+  const [tabelog, tablecheck] = await Promise.all([run(first.id), run(`places/${first.id}`)]);
+  assert.equal(calls, 1);
+  assert.equal(tabelog, tablecheck);
+  assert.ok(Object.isFrozen(tabelog));
+  await client.japaneseNamesForRun(new AbortController().signal)(first.id);
+  assert.equal(calls, 2);
+});
+
+test("Japanese source names fail closed on ID or text errors and preserve actual language without a retry", async () => {
+  for (const raw of [{ id: "different", displayName: { text: "source text", languageCode: "ja" } },
+    { id: "expected", displayName: { text: "  ", languageCode: "ja" } },
+    { id: "expected", displayName: { text: "source text", languageCode: 9 } }, null]) {
+    let calls = 0;
+    const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => { calls++; return new Response(JSON.stringify(raw)); } });
+    const read = client.japaneseNamesForRun(new AbortController().signal);
+    await assert.rejects(read("expected"), { code: "GOOGLE_MALFORMED_RESPONSE" });
+    await assert.rejects(read("expected"), { code: "GOOGLE_MALFORMED_RESPONSE" });
+    assert.equal(calls, 1);
+  }
+  for (const languageCode of ["en", undefined]) {
+    const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => new Response(JSON.stringify({ id: "expected", displayName: { text: "  Actual source text  ", languageCode } })) });
+    const result = await client.japaneseNamesForRun(new AbortController().signal)("expected");
+    assert.equal(result.text, "  Actual source text  ");
+    assert.equal(result.languageCode, languageCode ?? null);
+  }
+  let calls = 0;
+  const controller = new AbortController(); controller.abort();
+  const client = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => { calls++; throw new Error("must not fetch"); } });
+  await assert.rejects(client.japaneseNamesForRun(controller.signal)("expected"), { code: "GOOGLE_NETWORK_FAILED" });
+  assert.equal(calls, 0);
+});
 
 test("Google Text Search carries an opaque page token and keeps its response field separate from Place Details", async () => {
   const requests: Array<{ body?: Record<string, unknown>; fieldMask?: string }> = [];

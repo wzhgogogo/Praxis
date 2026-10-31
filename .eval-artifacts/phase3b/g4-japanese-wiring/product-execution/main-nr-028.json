@@ -1,0 +1,175 @@
+{
+  "id": "nr-028",
+  "key": "main-nr-028",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "Ginza Bokujin",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginza%20Bokujin",
+      "kind": "SEARCH",
+      "query": "Ginza Bokujin",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-003.html",
+      "sha256": "ce6347b8506f69aa44724380cf9bfd17deafd3190244fbfc820c165285f342ab",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-004.html",
+      "sha256": "d5dbcf2641c34f9aae5d19df606b38dcf6c88883ddd9c3a64f6f9bb42c0bdef1",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [],
+  "diagnostic": {
+    "candidateId": "g4:nr-028",
+    "google": {
+      "placeId": "ChIJEVMmNeSLGGARwgDOnfP67As",
+      "outletName": {
+        "value": "Ginza Bokujin",
+        "normalizedValue": "ginzabokujin",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−7−１３ 成田屋ビル 7階",
+        "normalizedValue": "japan〒1040061tokyochuocityginza3chōme−7−１３成田屋ビル7階",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "03-5159-7366",
+        "normalizedValue": "0351597366",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+        "outletName": {
+          "value": "Ginza Bokujin",
+          "normalizedValue": "ginzabokujin",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1040061 東京都中央区銀座3-7-13 銀座成田屋ビル 7F",
+          "normalizedValue": "1040061東京都中央区銀座3713銀座成田屋ビル7f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-5159-7366",
+          "normalizedValue": "0351597366",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "03-5159-7366",
+          "role": "STORE",
+          "quote": "03-5159-7366",
+          "label": "Phone number",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/"
+        },
+        "comparison": {
+          "outletName": "MATCH",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 8
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1301/A130101/13310287",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "Ginza Bokujin"
+        }
+      ],
+      "detailLimit": 5
+    },
+    "search": {
+      "query": "Ginza Bokujin",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginza%20Bokujin",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Ginza%20Bokujin",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 1,
+      "inspectedResultCount": 1
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1301/A130101/13310287",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+        "outletName": "Ginza Bokujin"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1301/A130101/13310287",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+        "title": "Ginza Bokujin Reservation - Higashi Ginza/Izakaya (Japanese style tavern) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13310287/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Ginza Bokujin",
+            "normalizedValue": "ginzabokujin",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1040061 東京都中央区銀座3-7-13 銀座成田屋ビル 7F",
+            "normalizedValue": "1040061東京都中央区銀座3713銀座成田屋ビル7f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-5159-7366",
+            "normalizedValue": "0351597366",
+            "source": "DOM"
+          }
+        }
+      }
+    ]
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Ginza%20Bokujin",
+    "https://tabelog.com/en/tokyo/A1301/A130101/13310287/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

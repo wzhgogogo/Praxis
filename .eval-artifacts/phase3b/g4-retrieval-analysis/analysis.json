@@ -1,0 +1,96 @@
+{
+  "schema": "phase3b-g4-retrieval-analysis@1",
+  "mode": "OFFLINE_EXPOSED_EVIDENCE_ANALYSIS_NOT_NEW_E2E",
+  "main": "00519783b3f6a3e48a53a4a0a8b03c9621c8bcf7",
+  "frozenConfigurationCommit": "766764faf27b8900a9fcb33f6c2ebea53caea097",
+  "freezeSha256": "4fac95b6bc9098104f1807682aca02730d48c1360e726fdc55014255da2da0c7",
+  "frozenFiles": 685,
+  "firstPass37": {
+    "OLD29": {
+      "planned": 29,
+      "verdicts": {
+        "ENVIRONMENT_FAILURE": 7,
+        "CORRECT_ACCEPTED": 13,
+        "NOT_ACCEPTED": 9
+      },
+      "notAcceptedStages": {
+        "EMPTY_OR_TARGET_ABSENT_FIRST_PAGE": 4,
+        "TARGET_OUTSIDE_DETAIL_CAP": 3,
+        "MODEL_FRAGMENT_REJECTED": 1,
+        "IDENTITY_FIELDS_CONFLICT": 1
+      }
+    },
+    "NEW8": {
+      "planned": 8,
+      "verdicts": {
+        "CORRECT_ACCEPTED": 6,
+        "ENVIRONMENT_FAILURE": 1,
+        "NOT_ACCEPTED": 1
+      },
+      "notAcceptedStages": {
+        "MODEL_FRAGMENT_REJECTED": 1
+      }
+    }
+  },
+  "wrongAccepted": 0,
+  "firstPassNetworkFailure": {
+    "cases": 8,
+    "denominator": 37,
+    "percent": 21.622,
+    "byCategory": {
+      "TIMEOUT": 4,
+      "CONNECTION_ERROR_UNSPECIFIED": 4
+    },
+    "byStage": {
+      "DETAIL": 6,
+      "SEARCH": 2
+    },
+    "HTTPRequests": 167,
+    "failedHTTPRequests": 8,
+    "completedHTTPRequests": 159,
+    "percentOfHTTPRequests": 4.79,
+    "successElapsedMs": {
+      "min": 1458,
+      "median": 2863,
+      "p95NearestRank": 5861,
+      "max": 14745
+    },
+    "successfulRequestsAtLeast10s": [
+      {
+        "id": "phase3b-c-g4-e2e-get-025",
+        "elapsedMs": 12379
+      },
+      {
+        "id": "phase3b-c-g4-e2e-get-079",
+        "elapsedMs": 14745
+      }
+    ],
+    "failedElapsedMs": 122081,
+    "allHTTPElapsedMs": 641277,
+    "all188RequestsIncludingRerunsAndPartial": {
+      "requests": 188,
+      "failures": 8,
+      "elapsedMs": 694609
+    }
+  },
+  "japaneseSavedGoogleCountOf4": 3,
+  "previousAlternativeFirstPageHits": 4,
+  "resources": {
+    "newGoogle": 0,
+    "newModel": 0,
+    "newPublicGET": 0,
+    "newFullLive": 0,
+    "newEnvironmentRerun": 0,
+    "credentialFileReadOrLoaded": false,
+    "ledgerSha256": "ba4e4ef92006d42397437ef3054fa8b16bcc9949a1ef96342d716060b3a09f40",
+    "cumulative": {
+      "evaluationPublicGET": 244,
+      "realModelCalls": 171,
+      "googleRequests": 11,
+      "fullLive": 0,
+      "environmentReruns": 0
+    },
+    "publicGETLimit": 257,
+    "publicGETRemaining": 13
+  }
+}

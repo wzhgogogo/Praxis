@@ -1,0 +1,326 @@
+{
+  "status": "current executable / exposed directed regression; not Clean Baseline",
+  "batchId": "phase3b-C-g4-ja-directed-recovery-20261031",
+  "parentBatchId": "phase3b-C-g4-ja-directed-20261031",
+  "sourceCommit": "da452626874c4740954431ee26116b257dd67b9b",
+  "resumedFrom": "d2607b34f6bfd93f316af16b459ed463ddf56886",
+  "authorization": "USER_APPROVED_REPAIR_PROPOSAL_AND_RESUME_20261031",
+  "originalRoot": ".eval-artifacts/phase3b/g4-japanese-directed-20261031",
+  "knownDetails": [
+    {
+      "id": "KNOWN-DETAIL-01",
+      "subjectId": "nr-008",
+      "method": "GET",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13160273/",
+      "detailOrdinalInSimulatedCase": 1,
+      "phase": "JAPANESE",
+      "query": "割烹 三長 渋谷",
+      "observedIn": ".eval-artifacts/phase3b/c-batch3/optional/002-nr-008.body.html",
+      "observedSha256": "059089e56d403ded3ab7aadb2678363087fa22d751b428877963f21801cf8282",
+      "executionPath": ".eval-artifacts/phase3b/g4-japanese-wiring/execution/main-nr-008.json",
+      "condition": "Only if preceding reads did not establish HIGH identity and both per-store and shared budgets remain",
+      "missingFragmentProposal": false
+    },
+    {
+      "id": "KNOWN-DETAIL-02",
+      "subjectId": "nr-019",
+      "method": "GET",
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13251507/",
+      "detailOrdinalInSimulatedCase": 1,
+      "phase": "FIRST_FOUR",
+      "query": "T nakameguro",
+      "observedIn": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-081.html",
+      "observedSha256": "9282078ecba26d53b6424c4fd6b1344772bdc30150bf1aa0c5bc907ce0404398",
+      "executionPath": ".eval-artifacts/phase3b/g4-japanese-wiring/execution/main-nr-019.json",
+      "condition": "Only if preceding reads did not establish HIGH identity and both per-store and shared budgets remain",
+      "missingFragmentProposal": true
+    },
+    {
+      "id": "KNOWN-DETAIL-03",
+      "subjectId": "nr-019",
+      "method": "GET",
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13312101/",
+      "detailOrdinalInSimulatedCase": 2,
+      "phase": "FIRST_FOUR",
+      "query": "T nakameguro",
+      "observedIn": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-081.html",
+      "observedSha256": "9282078ecba26d53b6424c4fd6b1344772bdc30150bf1aa0c5bc907ce0404398",
+      "executionPath": ".eval-artifacts/phase3b/g4-japanese-wiring/execution/main-nr-019.json",
+      "condition": "Only if preceding reads did not establish HIGH identity and both per-store and shared budgets remain",
+      "missingFragmentProposal": true
+    },
+    {
+      "id": "KNOWN-DETAIL-04",
+      "subjectId": "nr-019",
+      "method": "GET",
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13244534/",
+      "detailOrdinalInSimulatedCase": 3,
+      "phase": "FIRST_FOUR",
+      "query": "T nakameguro",
+      "observedIn": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-081.html",
+      "observedSha256": "9282078ecba26d53b6424c4fd6b1344772bdc30150bf1aa0c5bc907ce0404398",
+      "executionPath": ".eval-artifacts/phase3b/g4-japanese-wiring/execution/main-nr-019.json",
+      "condition": "Only if preceding reads did not establish HIGH identity and both per-store and shared budgets remain",
+      "missingFragmentProposal": true
+    },
+    {
+      "id": "KNOWN-DETAIL-05",
+      "subjectId": "nr-019",
+      "method": "GET",
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13295672/",
+      "detailOrdinalInSimulatedCase": 5,
+      "phase": "JAPANESE",
+      "query": "T 中目黒",
+      "observedIn": ".eval-artifacts/phase3b/c-batch3/optional/010-nr-019.body.html",
+      "observedSha256": "9143d3c62166f1a7d0e0e7e6e7bd84af0c8633716ecb69f0db1ab6a34b7db48f",
+      "executionPath": ".eval-artifacts/phase3b/g4-japanese-wiring/execution/main-nr-019.json",
+      "condition": "Only if preceding reads did not establish HIGH identity and both per-store and shared budgets remain",
+      "missingFragmentProposal": true
+    },
+    {
+      "id": "KNOWN-DETAIL-06",
+      "subjectId": "nr-025",
+      "method": "GET",
+      "url": "https://tabelog.com/en/tokyo/A1322/A132205/13070885/",
+      "detailOrdinalInSimulatedCase": 3,
+      "phase": "FIRST_FOUR",
+      "query": "Sumi Sushi",
+      "observedIn": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-102.html",
+      "observedSha256": "c3f4114efcd0379054202477a213963ff6cc505ce0fdfeb3c7fefd9a58c3a2f7",
+      "executionPath": ".eval-artifacts/phase3b/g4-japanese-wiring/execution/main-nr-025.json",
+      "condition": "Only if preceding reads did not establish HIGH identity and both per-store and shared budgets remain",
+      "missingFragmentProposal": false
+    },
+    {
+      "id": "KNOWN-DETAIL-07",
+      "subjectId": "nr-025",
+      "method": "GET",
+      "url": "https://tabelog.com/en/tokyo/A1312/A131205/13071787/",
+      "detailOrdinalInSimulatedCase": 4,
+      "phase": "FIRST_FOUR",
+      "query": "Sumi Sushi",
+      "observedIn": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-102.html",
+      "observedSha256": "c3f4114efcd0379054202477a213963ff6cc505ce0fdfeb3c7fefd9a58c3a2f7",
+      "executionPath": ".eval-artifacts/phase3b/g4-japanese-wiring/execution/main-nr-025.json",
+      "condition": "Only if preceding reads did not establish HIGH identity and both per-store and shared budgets remain",
+      "missingFragmentProposal": false
+    },
+    {
+      "id": "KNOWN-DETAIL-08",
+      "subjectId": "nr-025",
+      "method": "GET",
+      "url": "https://tabelog.com/en/tokyo/A1303/A130301/13293469/",
+      "detailOrdinalInSimulatedCase": 5,
+      "phase": "JAPANESE",
+      "query": "渋谷 鮨墨",
+      "observedIn": ".eval-artifacts/phase3b/c-batch3/optional/012-nr-025.body.html",
+      "observedSha256": "92743b2bc9f908caa95f19939b24e7fc47cc9700796fe2ad8af143b31855da77",
+      "executionPath": ".eval-artifacts/phase3b/g4-japanese-wiring/execution/main-nr-025.json",
+      "condition": "Only if preceding reads did not establish HIGH identity and both per-store and shared budgets remain",
+      "missingFragmentProposal": false
+    }
+  ],
+  "limits": {
+    "websiteGET": 8,
+    "google": 0,
+    "model": 0,
+    "Live": 0,
+    "sharedGET": 260
+  },
+  "ledgerBefore": {
+    "entries": 491,
+    "evaluationPublicGET": 247,
+    "google": 12,
+    "realModel": 171
+  },
+  "frozenOriginalPacket": [
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/00-robots.manifest.json",
+      "sha256": "55a474f6bb8acad477d0854d9e2473ed53e7e952c5d0af76158675a7067beb3b"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/01-google.manifest.json",
+      "sha256": "b194f2f196d7224f295a0baa2dc852ce2e4efaf1e798e00520191884b4f2d3ce"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/02-beef-search.manifest.json",
+      "sha256": "fe961bbc7046f3c81748055669f788854d774930ff2058030074e697f4de4cc0"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/03-beef-details.manifest.json",
+      "sha256": "8473a080d97c37223a557c8f589e6ddf4d70e74d1dc3eae87f7339816f9995a1"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/04-known-nr-008.manifest.json",
+      "sha256": "ff23ea1846d3a504fbb74faee4eb839a75d8ccde5f686a99f6973dbaf198226c"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/04-known-nr-019.manifest.json",
+      "sha256": "d8153f3b6401f78047ccc58aa77b50c07c1b2f73b1689cd8d35b34ae4c8f05f7"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/04-known-nr-025.manifest.json",
+      "sha256": "6b3bfb48f699bab3b5a4c3904cba864a4a38b373e61184b6bc71f9a434a8cf1f"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/acquire.mjs",
+      "sha256": "ee0035b3a83760753310f2eedb4c4d6b4a5464b9a12bde014af0088dc042efeb"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/audit-stop.json",
+      "sha256": "91cdaa01989b84abcef96a9ef29187929ad6a78ef007dba4052650a7b12aafb9"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/audit-stop.py",
+      "sha256": "1e66810855dc95e795bc85cd08f038751869929c86830c6b36626f89d72b8722"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/beef-selection.json",
+      "sha256": "541e1300016031afa79dacbfdc05a16e9986a51dcf44c3c6375e6d98df7c7c11"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/credential-authorization.json",
+      "sha256": "2f05eee4c61c97172a867dd62a5b6579bea5bf7e0fa5d3b80835c519654109ce"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/delivery-sha256.json",
+      "sha256": "c981b781db822ca340e95a544cdd614b56830fbc1f15c20c406fc9f51ed776af"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/evaluate-case.mjs",
+      "sha256": "da21083fd71a63a9ef1e98789b2cc478229d0ae343b668ab694221f2a71b7d76"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/evaluation-runner-error.json",
+      "sha256": "4bdec6fbc024fc53d6302a4f56a2829c11d9362fa920336a8d54a7775e3cf301"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/freeze.json",
+      "sha256": "c8eca818394cf1aabd07665b7025c06b5b6868700280d510988bbc761b5f440c"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/google-name.json",
+      "sha256": "1c61fde7ac1e9f1f31c7dcc8f16f70832653524306678d4a67789a918a12a658"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/inputs.json",
+      "sha256": "dbe8774d79bd11185ba3e58fac59f04925e65a96aadac1b544b452d772f1382d"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/oracle-freeze.json",
+      "sha256": "cc71d08627883b1280cc30849f70c711c0a2f7e0096240837324dd934f18b1c6"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/plan-next.mjs",
+      "sha256": "e0594e658611c7045489692888d95c8e51160d2c354132e29afa458bec1dd4f6"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/plan.md",
+      "sha256": "17050d1335e89085080bd9587dd3bd13cfbd142dd778f2e944d8ac4cd585b2de"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/repair-proposal.md",
+      "sha256": "861e0a895270fab0d48b2631e276ea357df05b4f91696c8411e65c29e8facf8f"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/report.md",
+      "sha256": "c5a5b955a52618151072bd64714d2b8670714fba0ee4100f28308ae9d6c4e140"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-detail-1.body.html",
+      "sha256": "78c241f8f3be1d9350b1cc3fa78c408ea40c748d0c7ff24606ef90913e96c95a"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-detail-1.headers.json",
+      "sha256": "f70f2dc73162a14ef309c58a16714e2431226c4b0ba47f5f929684a27f819132"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-detail-1.result.json",
+      "sha256": "52525241f17a6cdbfc5d1df79309e4b968565198db7e9656d401159271010eb4"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-detail-1.started.json",
+      "sha256": "02f5153d1c920f0e5cd65be7b388c4943c10dcac02d1f25f314597f79d2ca5b5"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-search.body.html",
+      "sha256": "c0884d502236cf32b43ee7811df7fff6080c7b61f52695d43b6be5d8e4cdbe01"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-search.headers.json",
+      "sha256": "dfc76a28f335cdc82af67ea8020f3baa110e6338c218dd0df695dc7d9e7c37f5"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-search.result.json",
+      "sha256": "042492716b4bc92b04a474a4f6c6daa3c284293ffde42154415b45790ee0590f"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-search.started.json",
+      "sha256": "0829cb5896ba79a3757d178306a704f79e278f7e82d6065f7c10bb96dda477e2"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/google-name.body.json",
+      "sha256": "8833792d9143bc5b0145fe511aee0a2b4d2f997b97b3652f808e426c4788bc36"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/google-name.headers.json",
+      "sha256": "f2b2a3883a1ea3a271c295708cdb326cd63e865447c3c17601564e2f8029d686"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/google-name.result.json",
+      "sha256": "e39698eb4e745f00141677b39dada50422a1f2d56882305fa261618f343768b6"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/google-name.started.json",
+      "sha256": "76bfdb9b9f03bf725e5b90336fa53ede3cf204d9f04c292e16f93d1c9ab06455"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/robots.body.txt",
+      "sha256": "126cafe6a1c8758c1d015f1a63921702074f922eadb2586cec34e69b0677947f"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/robots.headers.json",
+      "sha256": "5a0f42cd84b1e31794772a3e84b69ef7c712974d6f729459dcc3482e20090bed"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/robots.result.json",
+      "sha256": "4c1bd44a8bf89dd21035f3fe65220d4adbc98159bbdd5aa4b75fd797e63370a7"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/robots.started.json",
+      "sha256": "5102410970d35b849d8cc40f07711965f7887fbf3099824df830bbb9cc4c23cd"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/robots-policy.json",
+      "sha256": "81f67fbb68363b70ee589a141682751e08e9f6ebf8eeb517e24a7e1829b19f47"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/score-case.py",
+      "sha256": "e86f7ccda91695ee4008d644387e22a48d9b7fb12794537156821a9fd30da783"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/self-test-final.log",
+      "sha256": "86be80b128ffcd28a84fb2c948eb359ad81dc6fb2dd92db416dd180540d7d38c"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/self-test.log",
+      "sha256": "86be80b128ffcd28a84fb2c948eb359ad81dc6fb2dd92db416dd180540d7d38c"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/self-test.mjs",
+      "sha256": "aabcac5c28d8b27ba7c3f3e80bac90ab5258b7f5adf2b4ecf6a88854fcdb4b79"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/started.json",
+      "sha256": "089fea1f4f9aee1bff9b97e4135e330749667b0e3606588b2f8d3e08ccb4e1a4"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/state.json",
+      "sha256": "dda6495bfb5c29b3178aef0336016ca91a5345887bd073ea56b61095d4683a99"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/transport.mjs",
+      "sha256": "41636f991b9f209b4879e0eaf43c984dfff46b2dae620c1d13fda7d0926cb4f4"
+    }
+  ]
+}

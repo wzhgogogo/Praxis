@@ -1,0 +1,77 @@
+{
+  "id": "nr-015",
+  "key": "main-nr-015",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Sushi Yamashiro Kichijoji",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Yamashiro",
+      "kind": "FRAGMENT",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13246986/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Yamashiro%20Kichijoji",
+      "kind": "SEARCH",
+      "query": "Sushi Yamashiro Kichijoji",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-056.html",
+      "sha256": "d3f62729e345e506e58142de60f115d2eadcb964ac2af83ae266c809fb674724",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Yamashiro",
+      "kind": "SEARCH",
+      "query": "Yamashiro",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-057.html",
+      "sha256": "2d2dafb9adb0c0fb593ff5544edba21c63e2387451c608d4a009c6e70a7fa87e",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1320/A132001/13246986/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [
+    "DETAIL:MISSING_SAVED_PAGE"
+  ],
+  "diagnostic": null,
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Sushi%20Yamashiro%20Kichijoji",
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Yamashiro",
+    "https://tabelog.com/en/tokyo/A1320/A132001/13246986/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

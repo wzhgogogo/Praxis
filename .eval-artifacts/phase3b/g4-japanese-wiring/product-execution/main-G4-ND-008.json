@@ -1,0 +1,341 @@
+{
+  "id": "G4-ND-008",
+  "key": "main-G4-ND-008",
+  "view": "MAIN37",
+  "cohort": "NEW8",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "Godaime Hanayama Udon Ginza",
+      "ordered": []
+    },
+    {
+      "kind": "FRAGMENT",
+      "query": "Hanayama Udon",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1315/A131504/13278423/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Godaime%20Hanayama%20Udon%20Ginza",
+      "kind": "SEARCH",
+      "query": "Godaime Hanayama Udon Ginza",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-049.html",
+      "sha256": "4a431af95d9f4579cf6b4039278f037ccc5182c62f7db988f249b9ca0254da50",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Hanayama%20Udon",
+      "kind": "SEARCH",
+      "query": "Hanayama Udon",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-050.html",
+      "sha256": "3306bad1ab4d1c0baaad8112c88148a6d73288a9b00e42117fbcea10ce2a1673",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-052.html",
+      "sha256": "182b842b68905a1912ffdb4373688b9b84fe1e2603445066794806142ab8ef25",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-053.html",
+      "sha256": "75bd9d8111c6667343a680760c25df19a6f4b72b2b1add54ff3bddaf791d3272",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1315/A131504/13278423/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-051.html",
+      "sha256": "4811b14ce58b3397a56bf41370d48ea8d6919f7e979d33f7de87c876390902ee",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-052.html",
+      "sha256": "182b842b68905a1912ffdb4373688b9b84fe1e2603445066794806142ab8ef25",
+      "realGET": 0
+    }
+  ],
+  "postIdentityIssues": [],
+  "uncertainties": [],
+  "diagnostic": {
+    "candidateId": "g4:G4-ND-008",
+    "google": {
+      "placeId": "ChIJ3Q5zleCLGGARnuvHr-FOgMM",
+      "outletName": {
+        "value": "Godaime Hanayama Udon Ginza",
+        "normalizedValue": "godaimehanayamaudonginza",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "3-chōme-14-13 Ginza, Chuo City, Tokyo 104-0061, Japan",
+        "normalizedValue": "3chōme1413ginzachuocitytokyo1040061japan",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "03-6264-7336",
+        "normalizedValue": "0362647336",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1301/A130101/13200630",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+        "outletName": {
+          "value": "Godaime Hanayama Udon Ginza ten",
+          "normalizedValue": "godaimehanayamaudonginzaten",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1040061 東京都中央区銀座3-14-13",
+          "normalizedValue": "1040061東京都中央区銀座31413",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-6264-7336",
+          "normalizedValue": "0362647336",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "03-6264-7336",
+          "role": "STORE",
+          "quote": "03-6264-7336",
+          "label": "Phone number",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/"
+        },
+        "comparison": {
+          "outletName": "MATCH",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 8
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1302/A130202/13266849",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+        "outletName": {
+          "value": "Godaime Hanayama Udon Nihonbashi",
+          "normalizedValue": "godaimehanayamaudonnihonbashi",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1030027 東京都中央区日本橋2-10-12 プレリー日本橋ビル 1F",
+          "normalizedValue": "1030027東京都中央区日本橋21012プレリー日本橋ビル1f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-6910-3808",
+          "normalizedValue": "0369103808",
+          "source": "DOM"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "CONFLICT",
+          "phone": "CONFLICT"
+        },
+        "score": 0
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1315/A131504/13278423",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131504/13278423/",
+        "outletName": {
+          "value": "Hanayama Udon Haneda eapoto gaaden ten",
+          "normalizedValue": "hanayamaudonhanedaeapotogaadenten",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1440041 東京都大田区羽田空港2-7-1 羽田エアポートガーデン 1F",
+          "normalizedValue": "1440041東京都大田区羽田空港271羽田エアポートガーデン1f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "+81-3-5579-7781",
+          "normalizedValue": "0355797781",
+          "source": "JSON_LD"
+        },
+        "comparison": {
+          "outletName": "CONFLICT",
+          "address": "CONFLICT",
+          "phone": "CONFLICT"
+        },
+        "score": 0
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1301/A130101/13200630",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "Godaime Hanayama Udon Ginza"
+        },
+        {
+          "kind": "FRAGMENT",
+          "query": "Hanayama Udon"
+        }
+      ],
+      "detailLimit": 5
+    },
+    "search": {
+      "query": "Hanayama Udon",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Hanayama%20Udon",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Hanayama%20Udon",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 3,
+      "inspectedResultCount": 3
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1301/A130101/13200630",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+        "outletName": "Godaime Hanayama Udon Ginza ten"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1302/A130202/13266849",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+        "outletName": "Godaime Hanayama Udon Nihonbashi"
+      },
+      {
+        "sourceEntityId": "en/tokyo/A1315/A131504/13278423",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1315/A131504/13278423/",
+        "outletName": "Hanayama Udon Haneda eapoto gaaden ten"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1301/A130101/13200630",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+        "title": "Godaime Hanayama Udon Ginza ten - Higashi Ginza/Udon (Wheat noodles) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Godaime Hanayama Udon Ginza ten",
+            "normalizedValue": "godaimehanayamaudonginzaten",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1040061 東京都中央区銀座3-14-13",
+            "normalizedValue": "1040061東京都中央区銀座31413",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-6264-7336",
+            "normalizedValue": "0362647336",
+            "source": "DOM"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1302/A130202/13266849",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+        "title": "Godaime Hanayama Udon Nihonbashi - Nihombashi/Udon (Wheat noodles) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Godaime Hanayama Udon Nihonbashi",
+            "normalizedValue": "godaimehanayamaudonnihonbashi",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1030027 東京都中央区日本橋2-10-12 プレリー日本橋ビル 1F",
+            "normalizedValue": "1030027東京都中央区日本橋21012プレリー日本橋ビル1f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-6910-3808",
+            "normalizedValue": "0369103808",
+            "source": "DOM"
+          }
+        }
+      },
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1315/A131504/13278423",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1315/A131504/13278423/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1315/A131504/13278423/",
+        "title": "Hanayama Udon Haneda eapoto gaaden ten - Haneda Airport Terminal 3/Udon (Wheat noodles) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1315/A131504/13278423/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Hanayama Udon Haneda eapoto gaaden ten",
+            "normalizedValue": "hanayamaudonhanedaeapotogaadenten",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1440041 東京都大田区羽田空港2-7-1 羽田エアポートガーデン 1F",
+            "normalizedValue": "1440041東京都大田区羽田空港271羽田エアポートガーデン1f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "+81-3-5579-7781",
+            "normalizedValue": "0355797781",
+            "source": "JSON_LD"
+          }
+        }
+      }
+    ]
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Godaime%20Hanayama%20Udon%20Ginza",
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Hanayama%20Udon",
+    "https://tabelog.com/en/tokyo/A1301/A130101/13200630/",
+    "https://tabelog.com/en/tokyo/A1302/A130202/13266849/",
+    "https://tabelog.com/en/tokyo/A1315/A131504/13278423/",
+    "https://tabelog.com/en/tokyo/A1301/A130101/13200630/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

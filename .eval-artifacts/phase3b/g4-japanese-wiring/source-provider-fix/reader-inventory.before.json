@@ -1,0 +1,248 @@
+{
+  "command": [
+    "git",
+    "grep",
+    "-n",
+    "-I",
+    "-w",
+    "sourceProvider",
+    "--",
+    "*.ts",
+    "*.tsx",
+    "*.js",
+    "*.mjs",
+    "*.py",
+    ":!.eval-private/**",
+    ":!.env*"
+  ],
+  "rows": [
+    {
+      "path": ".eval-artifacts/p1-g-20261012/P1-G2/extract-terminal-states.mjs",
+      "line": 27,
+      "code": " const enumKeys=new Set(['phase','status','code','reasonCode','failureCode','polarity','strength','goal','selectionScope','basis','partySizeSource','executionConfidence','source','outcome','sourceProvider','receptionMode','kind','provider','locationResolutionSource','areaMatchBasis','confidence','matchedBy','observationKind','inventoryStatus','field']);",
+      "class": "FROZEN_OUTER_EVIDENCE"
+    },
+    {
+      "path": ".eval-artifacts/p2-0-hardening-20261015/termination/extract-state.mjs",
+      "line": 9,
+      "code": " const enumKeys=new Set(['phase','status','code','reasonCode','failureCode','polarity','strength','goal','selectionScope','basis','partySizeSource','executionConfidence','source','outcome','sourceProvider','receptionMode','kind','provider','locationResolutionSource','areaMatchBasis','confidence','matchedBy','observationKind','inventoryStatus','field']);",
+      "class": "FROZEN_OUTER_EVIDENCE"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f3-small-fixes-20261026/integrated/timing-red/W12-shared-semantic-deadline-not-held/challenge.test.ts",
+      "line": 453,
+      "code": "          sourceProvider: \"GOOGLE_PLACES\" as const,",
+      "class": "FROZEN_OUTER_EVIDENCE"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f3-small-fixes-20261026/timing-red/W12-shared-semantic-deadline-not-held/challenge.test.ts",
+      "line": 452,
+      "code": "          sourceProvider: \"GOOGLE_PLACES\" as const,",
+      "class": "FROZEN_OUTER_EVIDENCE"
+    },
+    {
+      "path": ".eval-artifacts/phase3a-prime/f3-small-fixes-20261026/timing-valid-red/W12-shared-semantic-deadline-not-held/challenge.test.ts",
+      "line": 452,
+      "code": "          sourceProvider: \"GOOGLE_PLACES\" as const,",
+      "class": "FROZEN_OUTER_EVIDENCE"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g5-b1-followup/verify-web.mjs",
+      "line": 24,
+      "code": "   input.context.offer.source=provider;input.context.check.sourceProvider=provider;",
+      "class": "FROZEN_OUTER_EVIDENCE"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g5-b1/verify-web.mjs",
+      "line": 19,
+      "code": "   input.context.offer.source=provider;input.context.check.sourceProvider=provider;",
+      "class": "FROZEN_OUTER_EVIDENCE"
+    },
+    {
+      "path": "src/application/restaurant-execution-router.ts",
+      "line": 112,
+      "code": "    ...check, ...(!check.evidenceIds.length && !check.sourceProvider && !check.sourceAttempts ? {sourceProvider:read.metadata.provider} : {}),",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/application/restaurant-execution-router.ts",
+      "line": 124,
+      "code": "  const availabilityChecks: RestaurantAvailabilityRead[\"availabilityChecks\"]=Object.fromEntries(reads.flatMap(read=>Object.entries(read.availabilityChecks).map(([id,check])=>[id,{...check,sourceProvider:check.sourceProvider??read.metadata.provider}])));",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/application/restaurant-execution-router.ts",
+      "line": 353,
+      "code": "                return (check.sourceAttempts ?? [{ source: check.sourceProvider ?? read.metadata.provider, outcome: check.status, ...(check.reasonCode ? { reasonCode: check.reasonCode } : {}) }])",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/application/restaurant-presentation-evidence.test.ts",
+      "line": 88,
+      "code": "    factChecks: { [candidateId]: { ...priorCheck, checkedAt: now, sourceProvider: \"TABELOG\", sourceAttempts: [{ source: \"TABELOG\", outcome: \"COMPLETED\" }] } },",
+      "class": "TEST"
+    },
+    {
+      "path": "src/domains/restaurant/action-validator.test.ts",
+      "line": 94,
+      "code": "    factChecks: { [candidateId]: { status: \"COMPLETED\", checkedAt: now, evidenceIds: [\"identity\", \"omakase-fact\"], sourceProvider: \"TABELOG\" } },",
+      "class": "TEST"
+    },
+    {
+      "path": "src/domains/restaurant/action-validator.test.ts",
+      "line": 674,
+      "code": "    factChecks: { a: { status: \"COMPLETED\", checkedAt: now, evidenceIds: [\"old-facts\"], sourceProvider: \"RESTAURANT_WEBSITE\" } },",
+      "class": "TEST"
+    },
+    {
+      "path": "src/domains/restaurant/action-validator.test.ts",
+      "line": 687,
+      "code": "    factChecks: { a: { status: \"COMPLETED\", checkedAt: \"2026-08-05T10:00:00.000Z\", evidenceIds: [\"new-facts\"], sourceProvider: \"RESTAURANT_WEBSITE\" } },",
+      "class": "TEST"
+    },
+    {
+      "path": "src/domains/restaurant/agent-context.test.ts",
+      "line": 164,
+      "code": "    factChecks: { [candidateId]: { status: \"COMPLETED\", checkedAt: \"2026-08-05T09:00:00.000Z\", evidenceIds: [\"fact-a\"], sourceProvider: \"RESTAURANT_WEBSITE\" } },",
+      "class": "TEST"
+    },
+    {
+      "path": "src/domains/restaurant/agent-context.test.ts",
+      "line": 192,
+      "code": "        status: \"COMPLETED\", checkedAt: \"2026-08-05T09:00:00.000Z\", evidenceIds: [\"website-current\"], sourceProvider: \"RESTAURANT_WEBSITE\",",
+      "class": "TEST"
+    },
+    {
+      "path": "src/domains/restaurant/agent-context.ts",
+      "line": 165,
+      "code": "      ...(factCheck?.sourceAttempts ?? (factCheck?.sourceProvider ? [{ source: factCheck.sourceProvider, outcome: factCheck.status, ...(factCheck.reasonCode ? { reasonCode: factCheck.reasonCode } : {}) }] : [])),",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/agent-context.ts",
+      "line": 167,
+      "code": "      ...(availability?.sourceAttempts || !availability?.sourceProvider ? [] : [{ source: availability.sourceProvider, outcome: availability.status, ...(availability.reasonCode ? { reasonCode: availability.reasonCode } : {}) }]),",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/booking-handoff.test.ts",
+      "line": 17,
+      "code": "  input.context.offer.source=\"TABLECHECK\"; input.context.check.sourceProvider=\"TABLECHECK\";",
+      "class": "TEST"
+    },
+    {
+      "path": "src/domains/restaurant/booking-handoff.test.ts",
+      "line": 71,
+      "code": "    (c:BookingHandoffContext)=>{c.check.sourceProvider=\"TABLECHECK\";},",
+      "class": "TEST"
+    },
+    {
+      "path": "src/domains/restaurant/booking-handoff.ts",
+      "line": 147,
+      "code": "    || check.status !== \"AVAILABLE\" || check.sourceProvider !== source.provider",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/contracts.ts",
+      "line": 187,
+      "code": "  sourceProvider?: RestaurantReadExecutionMetadata[\"provider\"];",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/contracts.ts",
+      "line": 468,
+      "code": "  sourceProvider?: RestaurantReadExecutionMetadata[\"provider\"];",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/read-assessment.test.ts",
+      "line": 30,
+      "code": "  factChecks: { [candidateId]: { status: unknown ? \"UNKNOWN\" : \"COMPLETED\", checkedAt: at, sourceProvider: \"TABELOG\", evidenceIds: unknown ? [identity.evidenceId] : [identity.evidenceId, \"investigation-fact\"] } },",
+      "class": "TEST"
+    },
+    {
+      "path": "src/domains/restaurant/read-assessment.ts",
+      "line": 54,
+      "code": "    ?? (check?.sourceProvider ? [check.sourceProvider] : (check?.evidenceIds ?? []).flatMap(id => {",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/task-definition.ts",
+      "line": 383,
+      "code": "            ...checks.flatMap(check => [...(check.sourceProvider ? [check.sourceProvider] : []), ...(check.sourceAttempts ?? []).map(attempt => attempt.source)])])];",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/task-definition.ts",
+      "line": 514,
+      "code": "                ? evidenceProviders[0] as NonNullable<RestaurantCandidateFactCheck[\"sourceProvider\"]>",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/task-definition.ts",
+      "line": 516,
+      "code": "              const sourceProvider: RestaurantCandidateFactCheck[\"sourceProvider\"] = check.sourceProvider",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/task-definition.ts",
+      "line": 520,
+      "code": "                ?? (sourceProvider ? [sourceProvider] : evidenceProviders.filter((provider) => provider !== \"MODEL_JUDGMENT\")));",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/task-definition.ts",
+      "line": 530,
+      "code": "                ...(sourceProvider !== undefined ? { sourceProvider } : {}),",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/domains/restaurant/task-definition.ts",
+      "line": 585,
+      "code": "          sourceProvider: event.availabilityChecks[candidateId]!.sourceProvider ?? event.metadata.provider,",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/harness/browser/browser-read-request-binding.test.ts",
+      "line": 471,
+      "code": "      evidenceIds: replacement.evidence.map(evidence => evidence.evidenceId), sourceProvider: \"TABELOG\",",
+      "class": "TEST"
+    },
+    {
+      "path": "src/harness/workspace-fixture-server.ts",
+      "line": 102,
+      "code": "      const check={...result.check,sourceProvider:provider,requestFingerprint:restaurantAvailabilityRequestFingerprint(request)};",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/integrations/restaurant-facts/google-then-website-facts.ts",
+      "line": 120,
+      "code": "        sourceProvider: google.metadata.provider,",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/integrations/restaurant-facts/native-source-facts.ts",
+      "line": 308,
+      "code": "          factChecks[candidate.restaurant.id]={status:\"COMPLETED\",checkedAt,evidenceIds:identities.map(item=>item.evidenceId),sourceProvider:provider};",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/integrations/restaurant-facts/native-source-facts.ts",
+      "line": 386,
+      "code": "          evidenceIds: [...identities.map((item) => item.evidenceId), ...judged.evidence.map((item) => item.evidenceId)], sourceProvider: provider,",
+      "class": "PRODUCT_OR_TOOL"
+    },
+    {
+      "path": "src/server/local-web-server.test.ts",
+      "line": 477,
+      "code": "          sourceProvider: \"GOOGLE_PLACES\" as const,",
+      "class": "TEST"
+    },
+    {
+      "path": "src/server/local-web-server.test.ts",
+      "line": 1811,
+      "code": "        const prepared=prepareBookingHandoff(source,{candidate:raw.context.candidate,offer:grounded.offers[0]!,check:{...grounded.check,sourceProvider:\"TABELOG\",requestFingerprint:raw.context.check.requestFingerprint!},request:raw.context.request,evidence:grounded.evidence,now:clock.now().toISOString()});",
+      "class": "TEST"
+    }
+  ]
+}

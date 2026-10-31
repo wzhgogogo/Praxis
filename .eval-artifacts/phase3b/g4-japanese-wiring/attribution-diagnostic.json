@@ -1,0 +1,96 @@
+{
+  "status": "CONFIRMED_PREEXISTING_ATTRIBUTION_GAP_PENDING_USER_SCOPE_APPROVAL",
+  "evidenceLogSha256": "b8794841e0cb3a98ec3cb018c7e08d3a0f1e541d406fc158f3d26ed5e5907f14",
+  "observed": {
+    "phase": "PRESENT_RESULTS",
+    "handoffs": 0,
+    "checks": {
+      "praxis:restaurant:2e1bffdeb4e09cbdc9b0763a": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-08-08T09:00:00.000Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:64681e22e6e665602ad6965f",
+          "evidence:restaurant:tabelog-availability:5757e8dbee08feaf615ed772"
+        ],
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABLECHECK",
+            "outcome": "FAILED",
+            "reasonCode": "BROWSER_RUNTIME_FAILED"
+          },
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+        "displayExpiresAt": "2026-08-08T09:10:00.000Z",
+        "requestFingerprint": "{\"date\":\"2026-08-09\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    },
+    "evidence": [
+      {
+        "kind": "DISCOVERY",
+        "provider": "GOOGLE_PLACES",
+        "sourceEntityId": "b1-location"
+      },
+      {
+        "kind": "DISCOVERY",
+        "provider": "GOOGLE_PLACES",
+        "sourceEntityId": "b1-g3-outlet"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "provider": "GOOGLE_PLACES",
+        "sourceEntityId": "b1-g3-outlet",
+        "confidence": "HIGH"
+      },
+      {
+        "kind": "RESTAURANT_FACT",
+        "provider": "GOOGLE_PLACES",
+        "sourceEntityId": "b1-g3-outlet"
+      },
+      {
+        "kind": "ENTITY_MATCH",
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+        "confidence": "HIGH"
+      },
+      {
+        "kind": "AVAILABILITY",
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+        "confidence": "HIGH"
+      }
+    ],
+    "resourceUsage": {
+      "elapsedMs": 20,
+      "agentDecisions": 3,
+      "googleRequests": {
+        "limit": 100,
+        "total": 3,
+        "discovery": 1,
+        "placeDetails": 1,
+        "namedPlaceResolution": 1,
+        "reverseAddressObservation": 0
+      },
+      "modelCallsStarted": 7
+    },
+    "navigations": [
+      "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Fixture+Sushi+Tokyo&geo_latitude=35.66&geo_longitude=139.7&geo_distance=5km&auto_geolocate=false",
+      "https://tabelog.com/en/tokyo/rstLst/?sw=Fixture%20Sushi%20Tokyo",
+      "https://tabelog.com/en/tokyo/rstLst/?sw=Fixture%20Sushi",
+      "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%99%E3%81%97%E6%9C%AC%E5%BA%97",
+      "https://tabelog.com/en/tokyo/A1301/A130101/13123456/"
+    ]
+  },
+  "proposedChange": {
+    "file": "src/integrations/restaurant-availability/availability-source-resolver.ts",
+    "branch": "usable(check)",
+    "old": "...structuredClone(check),",
+    "new": "...structuredClone(check), sourceProvider: provider.provider,",
+    "requiresApproval": "Current user scope prohibits availability/response binding changes; not applied."
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "evaluator": "named-retrieval-4-plus-1@1",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Washoku Dining Hana Kagura",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Hana Kagura",
+      "kind": "FRAGMENT",
+      "ordered": []
+    },
+    {
+      "query": "花かぐら",
+      "kind": "JAPANESE",
+      "ordered": []
+    }
+  ],
+  "details": [],
+  "uncertainties": [
+    "FRAGMENT_SEARCH:RECORDED_NETWORK_FAILURE",
+    "JAPANESE_SEARCH:MISSING_SAVED_PAGE"
+  ],
+  "identity": {
+    "resolution": {
+      "confidence": "LOW",
+      "matchedBy": []
+    },
+    "diagnostic": {
+      "candidateId": "g4:nr-003",
+      "google": {
+        "placeId": "ChIJB08wk1qMGGARJqrpS0XdMes",
+        "outletName": {
+          "value": "Washoku Dining Hana Kagura",
+          "normalizedValue": "washokudininghanakagura",
+          "source": "GOOGLE_PLACES"
+        },
+        "address": {
+          "value": "3-chōme-1 Kagurazaka, Shinjuku City, Tokyo 162-0825, Japan",
+          "normalizedValue": "3chōme1kagurazakashinjukucitytokyo1620825japan",
+          "source": "GOOGLE_PLACES"
+        },
+        "phone": {
+          "value": "03-3260-0767",
+          "normalizedValue": "0332600767",
+          "source": "GOOGLE_PLACES"
+        }
+      },
+      "comparedOutlets": [],
+      "resolution": {
+        "confidence": "LOW",
+        "matchedBy": [],
+        "reason": "NO_OUTLETS_PARSED"
+      }
+    }
+  },
+  "deferred": [],
+  "bounds": {
+    "searches": 3,
+    "details": 0,
+    "realGET": 0,
+    "realModel": 0,
+    "google": 0
+  },
+  "scope": "EVAL_SIMULATION_NOT_PRODUCT_PATH_OR_LIVE",
+  "id": "nr-003",
+  "key": "main-nr-003",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "sourceExecutionPath": ".eval-artifacts/phase3b/g4-e2e/execution/nr-003.json",
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Washoku%20Dining%20Hana%20Kagura",
+      "kind": "SEARCH",
+      "query": "Washoku Dining Hana Kagura",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-008.html",
+      "sha256": "c63a1cf45d0b337aa9e0d812a4adac692041cb58f60c65553a33ce6d37e0e50f",
+      "originLedgerId": "phase3b-c-g4-e2e-get-008",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Hana%20Kagura",
+      "kind": "SEARCH",
+      "query": "Hana Kagura",
+      "problem": "RECORDED_NETWORK_FAILURE"
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E8%8A%B1%E3%81%8B%E3%81%90%E3%82%89",
+      "kind": "SEARCH",
+      "query": "花かぐら",
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "fragmentOrigin": {
+    "prompt": "restaurant-named-source-query@2",
+    "mode": "FROZEN_RESPONSE_REPLAY_NOT_MODEL_QUALITY"
+  },
+  "japaneseOrigin": ".eval-artifacts/phase3b/c-batch2/retrieval-inputs/google/nr-003.raw.json"
+}

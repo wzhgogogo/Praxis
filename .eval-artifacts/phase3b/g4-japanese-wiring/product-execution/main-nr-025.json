@@ -1,0 +1,105 @@
+{
+  "id": "nr-025",
+  "key": "main-nr-025",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Sumi Sushi Shibuya",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Sumi Sushi",
+      "kind": "FRAGMENT",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1312/A131204/13071509/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1324/A132401/13230824/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1322/A132205/13070885/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sumi%20Sushi%20Shibuya",
+      "kind": "SEARCH",
+      "query": "Sumi Sushi Shibuya",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-101.html",
+      "sha256": "5fb0218d49c85ed9039abcbf4e11162660206e44c470c572e6da15fadbe23bf8",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Sumi%20Sushi",
+      "kind": "SEARCH",
+      "query": "Sumi Sushi",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-102.html",
+      "sha256": "c3f4114efcd0379054202477a213963ff6cc505ce0fdfeb3c7fefd9a58c3a2f7",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1312/A131204/13071509/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-103.html",
+      "sha256": "57025d82c57285bd8765a0de498cbbb866f3e52726a204e22ae1d7dd5de8d9d4",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1324/A132401/13230824/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-104.html",
+      "sha256": "ac43bcfdc592889311f91a14690cf730d69a51459de18ce2f992fa0e17181a35",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1322/A132205/13070885/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [
+    "DETAIL:MISSING_SAVED_PAGE"
+  ],
+  "diagnostic": null,
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Sumi%20Sushi%20Shibuya",
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Sumi%20Sushi",
+    "https://tabelog.com/en/tokyo/A1312/A131204/13071509/",
+    "https://tabelog.com/en/tokyo/A1324/A132401/13230824/",
+    "https://tabelog.com/en/tokyo/A1322/A132205/13070885/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "mode": "FIXED_CLOCK_ADAPTER_AND_REAL_LOCAL_HTTP_WITH_FIXTURE_IO",
+  "cases": [
+    {
+      "case": "tablecheck-fails-tabelog-succeeds",
+      "sourceBefore": null,
+      "sourceAfter": "TABELOG",
+      "sourceAttemptsIdentical": true,
+      "allOtherFieldsIdentical": true,
+      "singleSourceEffectiveProviderUnchanged": false
+    },
+    {
+      "case": "tabelog-fails-tablecheck-succeeds",
+      "sourceBefore": null,
+      "sourceAfter": "TABLECHECK",
+      "sourceAttemptsIdentical": true,
+      "allOtherFieldsIdentical": true,
+      "singleSourceEffectiveProviderUnchanged": false
+    },
+    {
+      "case": "tablecheck-direct",
+      "sourceBefore": null,
+      "sourceAfter": "TABLECHECK",
+      "sourceAttemptsIdentical": true,
+      "allOtherFieldsIdentical": true,
+      "singleSourceEffectiveProviderUnchanged": true
+    },
+    {
+      "case": "tabelog-direct",
+      "sourceBefore": null,
+      "sourceAfter": "TABELOG",
+      "sourceAttemptsIdentical": true,
+      "allOtherFieldsIdentical": true,
+      "singleSourceEffectiveProviderUnchanged": true
+    },
+    {
+      "case": "both-fail",
+      "sourceBefore": null,
+      "sourceAfter": null,
+      "sourceAttemptsIdentical": true,
+      "allOtherFieldsIdentical": true,
+      "singleSourceEffectiveProviderUnchanged": false
+    }
+  ],
+  "ordinaryHTTP": {
+    "phase": "PRESENT_RESULTS",
+    "handoffsBefore": 0,
+    "handoffsAfter": 1,
+    "sourceBefore": "AVAILABILITY_SOURCE_RESOLVER",
+    "sourceAfter": "TABELOG",
+    "allOtherCheckFieldsIdentical": true,
+    "sourceNavigationEvidenceAndCallCountsIdentical": true,
+    "exactB1URL": "Same independent literal asserted by unchanged ordinary HTTP test"
+  },
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0,
+  "Live": 0
+}

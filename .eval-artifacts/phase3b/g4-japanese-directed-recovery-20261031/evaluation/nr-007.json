@@ -1,0 +1,93 @@
+{
+  "id": "nr-007",
+  "verdict": "CORRECT_ACCEPTED",
+  "certifiedId": "13054178",
+  "observedAcceptedId": "13054178",
+  "independentReadProof": true,
+  "thirdTermContributedAcceptance": true,
+  "thirdTermCausalScope": "First production HIGH comes from a detail opened under the Japanese query; no claim about a separate full-five two-word counterfactual.",
+  "queries": [
+    {
+      "query": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+      "source": "ORIGINAL",
+      "languageCode": null,
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Wagyu%20beef%20Yakiniku%20Beef%20Kitchen%20Nakameguro",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-024.html",
+      "sha256": "2f73b202855d0a128dba3d1eb9f53710d5e1e39520636b4083e97772e4d8e507",
+      "origin": "FROZEN_REPLAY",
+      "certifiedOnFirstPage": false
+    },
+    {
+      "query": "Beef Kitchen Nakameguro",
+      "source": "FRAGMENT",
+      "languageCode": null,
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Beef%20Kitchen%20Nakameguro",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-025.html",
+      "sha256": "0b6dbb5b324f01d3317b86c6df0eb44a9451a998a1a9a244e8c73186d47e37d0",
+      "origin": "FROZEN_REPLAY",
+      "certifiedOnFirstPage": false
+    },
+    {
+      "query": "ビーフキッチン 中目黒本店",
+      "source": "JAPANESE",
+      "languageCode": "ja",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%83%93%E3%83%BC%E3%83%95%E3%82%AD%E3%83%83%E3%83%81%E3%83%B3%20%E4%B8%AD%E7%9B%AE%E9%BB%92%E6%9C%AC%E5%BA%97",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-search.body.html",
+      "sha256": "c0884d502236cf32b43ee7811df7fff6080c7b61f52695d43b6be5d8e4cdbe01",
+      "origin": "DIRECTED_GET",
+      "certifiedOnFirstPage": true
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13054178/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-detail-1.body.html",
+      "sha256": "78c241f8f3be1d9350b1cc3fa78c408ea40c748d0c7ff24606ef90913e96c95a",
+      "origin": "DIRECTED_GET",
+      "discoveryQuery": "ビーフキッチン 中目黒本店",
+      "ordinal": 1
+    }
+  ],
+  "actuallyAcquiredDetails": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13054178/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T05:44:17.162+01:00",
+      "headersAtCET": "2026-10-31T05:44:19.036+01:00",
+      "bodyCompletedAtCET": "2026-10-31T05:44:19.666+01:00",
+      "finishedAtCET": "2026-10-31T05:44:19.667+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 04:44:19 GMT",
+        "retry-after": null
+      },
+      "headersMs": 1874,
+      "bodyMs": 631,
+      "elapsedMs": 2505,
+      "bytesReceived": 163190,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "beef-detail-1",
+      "kind": "DETAIL",
+      "subjectId": "nr-007",
+      "ledgerId": "phase3b-C-g4-ja-directed-20261031-beef-detail-1",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-detail-1.body.html",
+      "sha256": "78c241f8f3be1d9350b1cc3fa78c408ea40c748d0c7ff24606ef90913e96c95a",
+      "bodyComplete": true,
+      "failure": null
+    }
+  ],
+  "uncertainties": [],
+  "environmentFailures": [],
+  "sourceNetworkCallsInEvaluation": 0,
+  "inventoryEvaluated": false
+}

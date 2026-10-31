@@ -1,0 +1,24 @@
+{
+  "method": "GET",
+  "url": "https://places.googleapis.com/v1/places/ChIJAQDkh0mLGGARbfy8WZ_dfIw?languageCode=ja",
+  "fieldMask": "id,displayName",
+  "expectedPlaceId": "ChIJAQDkh0mLGGARbfy8WZ_dfIw",
+  "limit": 1,
+  "credential": "FUTURE_SERVER_RUNNER_ONLY_NO_ENV_READ_NOW",
+  "status": "PENDING_REVIEW_NO_EXECUTION",
+  "timeoutMs": 20000,
+  "cookie": false,
+  "followRedirect": false,
+  "retries": 0,
+  "sourceGooglePlaceId": {
+    "path": ".eval-artifacts/phase3b/g4-e2e/execution/nr-007.json",
+    "sha256": "cd9e56803b4aafcc50bc6a91000143e80b6ee8035b7c18f17c8fcdc095faaf8a"
+  },
+  "batchCeilings": {
+    "google": 1,
+    "websiteGET": 0,
+    "realModel": 0,
+    "Live": 0
+  },
+  "afterApprovedRead": "Freeze original Google response and SHA, verify original Place ID and actual language, materialize literal Beef Japanese first-screen URL; submit website list before any website request."
+}

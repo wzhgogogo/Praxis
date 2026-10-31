@@ -1,0 +1,22 @@
+{
+  "status": "ORCHESTRATION_INTERRUPTED",
+  "stop": "ORCHESTRATION_RUNNER_CONFIGURATION_INVALID",
+  "command": [
+    "node",
+    "--import",
+    "tsx",
+    ".eval-artifacts/phase3b/g4-japanese-directed-20261031/evaluate-case.mjs",
+    "nr-007"
+  ],
+  "exitCode": 1,
+  "name": "TypeError",
+  "message": "Explicit positive browser limit required: maxModelCallsPerCandidate",
+  "location": "src/infrastructure/browser/browser-task-executor.ts:292",
+  "sourceCommit": "04245362",
+  "runnerSHA256": "da21083fd71a63a9ef1e98789b2cc478229d0ae343b668ab694221f2a71b7d76",
+  "evidenceOrigin": "Observed exec-command stderr; copied verbatim message, no rerun",
+  "realRequestsAlreadyCompleted": 4,
+  "additionalSourceRequestsAfterError": 0,
+  "identityPrefixExecuted": false,
+  "modelCalls": 0
+}

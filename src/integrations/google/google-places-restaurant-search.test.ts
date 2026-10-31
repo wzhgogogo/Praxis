@@ -12,6 +12,37 @@ import { GooglePlacesClient } from "./google-places-client.js";
 import { buildGooglePlacesTextQuery, GooglePlacesRestaurantSearch } from "./google-places-restaurant-search.js";
 import { GOOGLE_PLACES_RESTAURANT_FIELD_MASK } from "./google-places-contracts.js";
 
+test("Japanese source names share the run's existing Google Details ceiling and cache across consumers", async () => {
+  const sent: string[] = [];
+  const adapter = new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async url=>{
+    sent.push(String(url));
+    return new Response(JSON.stringify({id:new URL(String(url)).pathname.split("/").at(-1),displayName:{text:"原文の店名",languageCode:"ja"}}));
+  }}),undefined,10,{maxRequests:1});
+  const signal=new AbortController().signal;
+  const both=await Promise.all([adapter.japaneseName("place-a","run-a",signal),adapter.japaneseName("places/place-a","run-a",signal)]);
+  assert.strictEqual(both[0],both[1]);
+  assert.equal(sent.length,1);
+  assert.deepEqual(adapter.googleRequestUsage("run-a"),{limit:1,total:1,namedPlaceResolution:0,discovery:0,placeDetails:1,reverseAddressObservation:0});
+  await assert.rejects(adapter.japaneseName("place-b","run-a",signal),{code:"GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED"});
+  assert.equal(sent.length,1,"no request beyond the combined ceiling");
+  await adapter.japaneseName("place-a","run-a",signal);
+  await adapter.japaneseName("place-a","run-b",signal);
+  assert.equal(sent.length,2,"different runs do not share a source observation");
+  const controller=new AbortController();controller.abort();
+  await assert.rejects(adapter.japaneseName("place-a","run-a",controller.signal));
+  assert.equal(sent.length,2);
+});
+
+test("a sent Japanese-name failure consumes one Details request without retry by the second source", async () => {
+  let sent=0;
+  const adapter=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async()=>{
+    sent++;return new Response(JSON.stringify({id:"different-place",displayName:{text:"別の店",languageCode:"ja"}}));
+  }}),undefined,10,{maxRequests:5});
+  for(let consumer=0;consumer<2;consumer++)await assert.rejects(adapter.japaneseName("place-a","run-a",new AbortController().signal),{code:"GOOGLE_MALFORMED_RESPONSE"});
+  assert.equal(sent,1);
+  assert.equal(adapter.googleRequestUsage("run-a").placeDetails,1);
+});
+
 test("ranked named geography accepts the saved spellings, keeps nearby geographic alternatives and rejects remote ambiguity", async () => {
   const captured = JSON.parse(readFileSync(new URL("./fixtures/phase2c-location-observations.json", import.meta.url), "utf8"));
   const center = { latitude: 35.6697, longitude: 139.7670 };

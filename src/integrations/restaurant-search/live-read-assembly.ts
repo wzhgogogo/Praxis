@@ -63,6 +63,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
   const sourceAvailability = new LiveBrowserAvailability(bookingHandoffs.runtime, transports.model, {
     now, browserBudget,
+    japaneseName: google.japaneseName.bind(google),
     maxAvailabilitySourceBrowserSessions: config.maxAvailabilitySourceBrowserSessions,
     maxAvailabilitySourceCandidateMatches: config.maxAvailabilitySourceCandidateMatches,
     maxModelCallsPerCandidate: config.maxBrowserModelCallsPerCandidate,
@@ -82,8 +83,10 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     beginReadRun: () => sourceAvailability.beginReadRun(),
     endReadRun: () => sourceAvailability.endReadRun(),
     browserModelBudgetExhausted: () => sourceAvailability.browserModelBudgetExhausted(),
-    check: (request: Parameters<LiveBrowserAvailability["check"]>[0], signal: AbortSignal) =>
-      bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal)),
+    check: async (request: Parameters<LiveBrowserAvailability["check"]>[0], signal: AbortSignal, readRunId?: string) => {
+      const read = await bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal, readRunId));
+      return {...read, metadata:{...read.metadata, googleRequests:google.googleRequestUsage(readRunId)}};
+    },
   };
   const modelReadReserve = transports.model as ModelGateway & Partial<NonNullable<RestaurantExecutionRouterOptions["modelReadReserve"]>>;
   const router: RestaurantExecutionRouterOptions = {

@@ -1,0 +1,91 @@
+{
+  "id": "G4-ND-002",
+  "key": "main-G4-ND-002",
+  "view": "MAIN37",
+  "cohort": "NEW8",
+  "status": "NOT_EVALUATED",
+  "acceptedUrl": null,
+  "searches": [
+    {
+      "query": "Ushigoro Bambina Carbone Nakameguro",
+      "kind": "ORIGINAL",
+      "ordered": []
+    },
+    {
+      "query": "Ushigoro Bambina",
+      "kind": "FRAGMENT",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13200116/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130103/13162231/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ushigoro%20Bambina%20Carbone%20Nakameguro",
+      "kind": "SEARCH",
+      "query": "Ushigoro Bambina Carbone Nakameguro",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-024.html",
+      "sha256": "734e83ab9ff1862d1c2e8bd0185793a65b272ed0b8b9fa088af349b600d52403",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Ushigoro%20Bambina",
+      "kind": "SEARCH",
+      "query": "Ushigoro Bambina",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-025.html",
+      "sha256": "83d88d79a6f62ded14724bdc67732a4461664ec444b44fb04079121e7ff4d283",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13200116/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e-continuation/responses/phase3b-c-g4-cont-get-026.html",
+      "sha256": "b70e2dec11d157b6045b1e70d8f6137461830537267cc5a378142124eb43c174",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1301/A130103/13162231/",
+      "kind": "DETAIL",
+      "query": null,
+      "problem": "MISSING_SAVED_PAGE"
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [
+    "DETAIL:MISSING_SAVED_PAGE"
+  ],
+  "diagnostic": null,
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Ushigoro%20Bambina%20Carbone%20Nakameguro",
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Ushigoro%20Bambina",
+    "https://tabelog.com/en/tokyo/A1301/A130101/13200116/",
+    "https://tabelog.com/en/tokyo/A1301/A130103/13162231/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}

@@ -1904,11 +1904,14 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
     let sourceLink: string | undefined = original;
     let decisions = 0;
     let opens = 0;
+    let useJapanese = false;
+    let japaneseLookups = 0;
     const navigations: string[] = [];
     const fixture: ModelGateway = {async complete(request) {
       let output: unknown;
       if (request.purpose === "restaurant_semantic_interpret") output = availabilityProposal(2);
       else if (request.purpose === "restaurant_source_facts") output = {selections: []};
+      else if (request.purpose === "restaurant_named_source_query") output = {field:"name",fragment:"Fixture Sushi"};
       else {
         assert.equal(request.purpose, "restaurant_agent_decide");
         const context = JSON.parse(request.messages[1]!.content).context;
@@ -1923,15 +1926,27 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
     }};
     const model = new RunBoundedModelGateway(fixture, 50, readLimits.maxAutomaticBrowserMs);
     const google = new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async (_url,init) => {
+      if (new URL(String(_url)).searchParams.get("languageCode") === "ja") {
+        japaneseLookups++;
+        assert.equal(new URL(String(_url)).pathname,"/v1/places/b1-g3-outlet");
+        assert.equal(new Headers(init?.headers).get("X-Goog-FieldMask"),"id,displayName");
+        return new Response(JSON.stringify({id:"b1-g3-outlet",displayName:{text:"すし本店",languageCode:"ja"}}));
+      }
       const query = init?.body ? JSON.parse(String(init.body)).textQuery : undefined;
       return new Response(JSON.stringify({places:query === "Shibuya" ? [{id:"b1-location",displayName:{text:"Shibuya"},types:["train_station"],location:{latitude:35.66,longitude:139.70}}]
-        : [{id:"b1-g3-outlet",displayName:{text:"Fixture Sushi"},formattedAddress:"1-2-3 Shibuya Tokyo",types:["restaurant"],location:{latitude:35.66,longitude:139.70},nationalPhoneNumber:"03-1234-5678",websiteUri:pageUrl}]}),{status:200});
+        : [{id:"b1-g3-outlet",displayName:{text:useJapanese ? "Fixture Sushi Tokyo" : "Fixture Sushi"},formattedAddress:"1-2-3 Shibuya Tokyo",types:["restaurant"],location:{latitude:35.66,longitude:139.70},nationalPhoneNumber:"03-1234-5678",...(useJapanese ? {} : {websiteUri:pageUrl})}]}),{status:200});
     }});
     const browser: BrowserRuntime = {async openSession() {
       opens++;
+      let currentUrl=pageUrl;
       return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:clock.now().toISOString()},
-        async navigate(url) {navigations.push(url);assert.equal(url,pageUrl,"never open a workflow to check the link");},
-        async snapshot() {return {url:pageUrl,title:"Fixture Sushi",text:"Fixture Sushi Availability Guests 2 19:00",
+        async navigate(url) {navigations.push(url);currentUrl=url;assert.ok(url===pageUrl || (useJapanese && new URL(url).pathname === "/en/tokyo/rstLst/"),"never open a workflow to check the link");},
+        async snapshot() {
+          if (new URL(currentUrl).pathname.includes("rstLst")) {
+            const found=new URL(currentUrl).searchParams.get("sw")==="すし本店";
+            return {url:currentUrl,title:"Search",text:found ? "すし本店" : "No restaurants were found that match your search criteria",html:found ? `<a href="${pageUrl}">すし本店</a>` : ""};
+          }
+          return {url:pageUrl,title:"Fixture Sushi",text:"Fixture Sushi Availability Guests 2 19:00",
           html:`<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:"Fixture Sushi",address:"1-2-3 Shibuya Tokyo",telephone:"03-1234-5678"})}</script><select name="party"><option selected value="2">2 guests</option></select><select name="date"><option selected value="2026-08-09">2026-08-09</option></select>`,
           responses:[{url:"https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20260809&svps=2",status:200,sequence:7,observedAt:clock.now().toISOString(),
             body:{base_date:{year:2026,month:8,day:9},members:2,selection:sourceLink === undefined ? [] : [{time:"19:00",url:sourceLink}]}}]};},
@@ -1955,8 +1970,10 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
         ["domain",original.replace("tabelog.com","example.invalid"),false],
         ["path",original.replace("/en/booking/form_course/new","/yoyaku/tabelog_booking/confirm"),false],
         ["extra-query",original+"&redirect=https%3A%2F%2Fexample.invalid",false],
+        ["japanese-name",original,true],
       ] as const) await t.test(label,async()=>{
-        sourceLink=link;decisions=0;
+        sourceLink=link;decisions=0;useJapanese=label==="japanese-name";
+        const navigationStart=navigations.length;
         let finish!:()=>void;const done=new Promise<void>(resolve=>{finish=resolve;});
         const unsubscribe=running.application.subscribeReadFinished(()=>{finish();});
         try {
@@ -1965,14 +1982,27 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
           const result=await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(created.case.caseId));
           const view=result.payload.view as RestaurantCaseView;
           const handoffs=view.restaurant.bookingHandoffs ?? [];
+          if(useJapanese && process.env.PRAXIS_G4_JAPANESE_DIAGNOSTIC === "1"){
+            const artifact=await running.application.exportReadArtifact(created.case.caseId);
+            console.log("G4_JAPANESE_DIAGNOSTIC "+JSON.stringify({phase:view.case.phase,handoffs:handoffs.length,checks:view.restaurant.availabilityChecks,
+              evidence:view.restaurant.readEvidence.map(e=>({kind:e.kind,provider:e.provider,sourceEntityId:e.sourceEntityId,confidence:e.entityMatch?.confidence})),
+              resourceUsage:artifact.resourceUsage,navigations:navigations.slice(navigationStart)}));
+          }
           if(accepted){
             assert.equal(view.case.phase,"PRESENT_RESULTS",JSON.stringify(view));
+            if(useJapanese)assert.equal(view.restaurant.availabilityChecks[view.restaurant.candidates[0]!.restaurant.id]?.sourceProvider,"TABELOG");
             assert.equal(handoffs.length,1,"ordinary startup assembly must supply the source reader without a test-prepared handoff");
             assert.equal(handoffs[0]!.url,original,"original bytes/order/encoding must survive, with only the source origin for a relative URL");
             assert.equal(handoffs[0]!.directLabel,"Book on Tabelog");
             assert.equal(handoffs[0]!.sourceSelection,"UNKNOWN");
             last=view;
             if(label === "original" && process.env.PRAXIS_B1_UI_SNAPSHOT === "1") console.log("B1_G3_HTTP_VIEW " + Buffer.from(JSON.stringify(view)).toString("base64"));
+            if(useJapanese){
+              assert.deepEqual(navigations.slice(navigationStart).filter(url=>url.includes("rstLst")).map(url=>new URL(url).searchParams.get("sw")),["Fixture Sushi Tokyo","Fixture Sushi","すし本店"]);
+              assert.equal(japaneseLookups,1,"one same-ID source name, after both earlier terms fail");
+              const artifact=await running.application.exportReadArtifact(created.case.caseId);
+              assert.equal((artifact.resourceUsage as {googleRequests?:{placeDetails:number}}).googleRequests?.placeDetails,1,"the source-name Details request appears in the ordinary run artifact");
+            }
           }else assert.equal(handoffs.length,0,"mismatched or unsupported link must hide the button");
         }finally{unsubscribe();}
       });

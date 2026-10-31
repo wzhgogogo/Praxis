@@ -1,0 +1,175 @@
+{
+  "id": "nr-024",
+  "key": "main-nr-024",
+  "view": "MAIN37",
+  "cohort": "OLD29",
+  "status": "MATCH",
+  "acceptedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+  "searches": [
+    {
+      "kind": "ORIGINAL",
+      "query": "Nakameguro Yakiniku Togyumon",
+      "ordered": []
+    }
+  ],
+  "details": [
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+      "phase": "PRODUCTION_PREFIX",
+      "query": null
+    }
+  ],
+  "reads": [
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nakameguro%20Yakiniku%20Togyumon",
+      "kind": "SEARCH",
+      "query": "Nakameguro Yakiniku Togyumon",
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-099.html",
+      "sha256": "ca29e9380a7dcc3819eb0abdf4d6311331f8c196e0b0db18cafda9a3dd8c0075",
+      "realGET": 0
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+      "kind": "DETAIL",
+      "query": null,
+      "bodyPath": ".eval-artifacts/phase3b/g4-e2e/responses/phase3b-c-g4-e2e-get-100.html",
+      "sha256": "c169e5d30ccfad56f06774cb941c6e6ee014df586a92cff394c8d973feb04285",
+      "realGET": 0
+    }
+  ],
+  "postIdentityReads": [],
+  "postIdentityIssues": [],
+  "uncertainties": [],
+  "diagnostic": {
+    "candidateId": "g4:nr-024",
+    "google": {
+      "placeId": "ChIJs65o_huLGGARB5AadChjJKU",
+      "outletName": {
+        "value": "Nakameguro Yakiniku Togyumon",
+        "normalizedValue": "nakameguroyakinikutogyumon",
+        "source": "GOOGLE_PLACES"
+      },
+      "address": {
+        "value": "Japan, 〒153-0051 Tokyo, Meguro City, Kamimeguro, 1-chōme−23−１ 中目黒アリーナ B1",
+        "normalizedValue": "japan〒1530051tokyomegurocitykamimeguro1chōme−23−１中目黒アリーナb1",
+        "source": "GOOGLE_PLACES"
+      },
+      "phone": {
+        "value": "03-6451-2939",
+        "normalizedValue": "0364512939",
+        "source": "GOOGLE_PLACES"
+      }
+    },
+    "comparedOutlets": [
+      {
+        "sourceEntityId": "en/tokyo/A1317/A131701/13290371",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+        "outletName": {
+          "value": "Nakameguro Yakiniku Togyu Mon",
+          "normalizedValue": "nakameguroyakinikutogyumon",
+          "source": "JSON_LD"
+        },
+        "address": {
+          "value": "1530051 東京都目黒区上目黒1-23-1 中目黒アリーナ B1F",
+          "normalizedValue": "1530051東京都目黒区上目黒1231中目黒アリーナb1f",
+          "source": "DOM"
+        },
+        "phone": {
+          "value": "03-6451-2939",
+          "normalizedValue": "0364512939",
+          "source": "DOM"
+        },
+        "matchedContactPhone": {
+          "value": "03-6451-2939",
+          "role": "STORE",
+          "quote": "03-6451-2939",
+          "label": "Phone number",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/"
+        },
+        "comparison": {
+          "outletName": "MATCH",
+          "address": "MATCH",
+          "phone": "MATCH"
+        },
+        "score": 8
+      }
+    ],
+    "resolution": {
+      "confidence": "HIGH",
+      "matchedBy": [
+        "EXACT_PHONE"
+      ],
+      "bestSourceEntityId": "en/tokyo/A1317/A131701/13290371",
+      "reason": "HIGH_EXACT_PHONE"
+    },
+    "nameRetrieval": {
+      "queries": [
+        {
+          "kind": "ORIGINAL",
+          "query": "Nakameguro Yakiniku Togyumon"
+        }
+      ],
+      "detailLimit": 5
+    },
+    "search": {
+      "query": "Nakameguro Yakiniku Togyumon",
+      "requestedUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Nakameguro%20Yakiniku%20Togyumon",
+      "finalUrl": "https://tabelog.com/en/tokyo/rstLst/?sw=Nakameguro%20Yakiniku%20Togyumon",
+      "title": "Best Restaurants in Tokyo | Tabelog",
+      "parsedResultCount": 1,
+      "inspectedResultCount": 1
+    },
+    "searchResults": [
+      {
+        "sourceEntityId": "en/tokyo/A1317/A131701/13290371",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+        "outletName": "Nakameguro Yakiniku Togyu Mon"
+      }
+    ],
+    "details": [
+      {
+        "searchResultSourceEntityId": "en/tokyo/A1317/A131701/13290371",
+        "requestedUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+        "finalUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+        "title": "Nakameguro Yakiniku Togyu Mon Reservation - Naka Meguro/Yakiniku (Japanese BBQ) | Tabelog",
+        "canonicalUrl": "https://tabelog.com/en/tokyo/A1317/A131701/13290371/",
+        "botChallenge": false,
+        "extracted": {
+          "outletName": {
+            "value": "Nakameguro Yakiniku Togyu Mon",
+            "normalizedValue": "nakameguroyakinikutogyumon",
+            "source": "JSON_LD"
+          },
+          "address": {
+            "value": "1530051 東京都目黒区上目黒1-23-1 中目黒アリーナ B1F",
+            "normalizedValue": "1530051東京都目黒区上目黒1231中目黒アリーナb1f",
+            "source": "DOM"
+          },
+          "phone": {
+            "value": "03-6451-2939",
+            "normalizedValue": "0364512939",
+            "source": "DOM"
+          }
+        }
+      }
+    ]
+  },
+  "googleRequests": {
+    "limit": 1,
+    "total": 0,
+    "namedPlaceResolution": 0,
+    "discovery": 0,
+    "placeDetails": 0,
+    "reverseAddressObservation": 0
+  },
+  "navigations": [
+    "https://tabelog.com/en/tokyo/rstLst/?sw=Nakameguro%20Yakiniku%20Togyumon",
+    "https://tabelog.com/en/tokyo/A1317/A131701/13290371/"
+  ],
+  "mode": "PRODUCTION_TABELOG_IDENTITY_PREFIX_ON_FROZEN_IO",
+  "availabilityEvaluation": "NOT_EVALUATED",
+  "sourceTransportCalls": 0,
+  "realModel": 0,
+  "realGoogle": 0,
+  "realGET": 0
+}
