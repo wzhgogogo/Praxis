@@ -99,6 +99,7 @@ export class AvailabilitySourceResolver {
               attempts.push({ candidateId, provider: provider.provider, outcome: check.status });
               availabilityChecks[candidateId] = {
                 ...structuredClone(check),
+                sourceProvider: provider.provider,
                 sourceAttempts: attempts
                   .filter((attempt) => attempt.candidateId === candidateId)
                   .map((attempt) => ({
