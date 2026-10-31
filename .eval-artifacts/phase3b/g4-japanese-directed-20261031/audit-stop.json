@@ -1,0 +1,330 @@
+{
+  "mode": "POST_STOP_FILE_AND_GIT_AUDIT_NO_EXECUTION_REPLAY_NO_REQUESTS",
+  "status": "PASS",
+  "recordedAtCET": "2026-10-31T05:49:45.520897+01:00",
+  "batchStatus": "STOPPED_ORCHESTRATION_INTERRUPTED",
+  "sourceCommit": "da452626874c4740954431ee26116b257dd67b9b",
+  "frozenFilesUnchanged": 740,
+  "sourceChanges": [],
+  "priorWiringArtifactsUnchanged": 170,
+  "priorLedgerEntriesPreserved": 487,
+  "newLedgerEntries": 4,
+  "cumulative": {
+    "fullLive": 0,
+    "realModelCalls": 171,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 247,
+    "googleRequests": 12,
+    "restaurantWebsiteRequests": 247
+  },
+  "batchCalls": {
+    "websiteGETExcludingRobots": 2,
+    "robotsGET": 1,
+    "robotsCountedInSharedGET": true,
+    "google": 1,
+    "realModels": 0,
+    "Live": 0
+  },
+  "requests": [
+    {
+      "url": "https://tabelog.com/robots.txt",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T05:42:40.326+01:00",
+      "headersAtCET": "2026-10-31T05:42:42.621+01:00",
+      "bodyCompletedAtCET": "2026-10-31T05:42:42.624+01:00",
+      "finishedAtCET": "2026-10-31T05:42:42.624+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/plain; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": "Fri, 30 Oct 2026 05:36:37 GMT",
+        "date": "Sat, 31 Oct 2026 04:42:43 GMT",
+        "retry-after": null
+      },
+      "headersMs": 2295,
+      "bodyMs": 3,
+      "elapsedMs": 2298,
+      "bytesReceived": 2810,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "robots",
+      "kind": "ROBOTS",
+      "subjectId": null,
+      "ledgerId": "phase3b-C-g4-ja-directed-20261031-robots",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/robots.body.txt",
+      "sha256": "126cafe6a1c8758c1d015f1a63921702074f922eadb2586cec34e69b0677947f",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "7760a8686c6cfe61921c486f6860b253abcf74da",
+      "chargedBeforeSend": true,
+      "previousFinishToStartSeconds": null
+    },
+    {
+      "url": "https://places.googleapis.com/v1/places/ChIJAQDkh0mLGGARbfy8WZ_dfIw?languageCode=ja",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T05:43:12.722+01:00",
+      "headersAtCET": "2026-10-31T05:43:13.792+01:00",
+      "bodyCompletedAtCET": "2026-10-31T05:43:13.793+01:00",
+      "finishedAtCET": "2026-10-31T05:43:13.793+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "application/json; charset=UTF-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 04:43:14 GMT",
+        "retry-after": null
+      },
+      "headersMs": 1069,
+      "bodyMs": 1,
+      "elapsedMs": 1070,
+      "bytesReceived": 144,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "google-name",
+      "kind": "GOOGLE",
+      "subjectId": "nr-007",
+      "ledgerId": "phase3b-C-g4-ja-directed-20261031-google-name",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/google-name.body.json",
+      "sha256": "8833792d9143bc5b0145fe511aee0a2b4d2f997b97b3652f808e426c4788bc36",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "bac7e06ab5f73e8a4f796b2d0295778ffec6a648",
+      "chargedBeforeSend": true,
+      "previousFinishToStartSeconds": 30.098
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%83%93%E3%83%BC%E3%83%95%E3%82%AD%E3%83%83%E3%83%81%E3%83%B3%20%E4%B8%AD%E7%9B%AE%E9%BB%92%E6%9C%AC%E5%BA%97",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T05:43:43.900+01:00",
+      "headersAtCET": "2026-10-31T05:43:46.514+01:00",
+      "bodyCompletedAtCET": "2026-10-31T05:43:47.050+01:00",
+      "finishedAtCET": "2026-10-31T05:43:47.050+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 04:43:47 GMT",
+        "retry-after": null
+      },
+      "headersMs": 2614,
+      "bodyMs": 536,
+      "elapsedMs": 3150,
+      "bytesReceived": 134680,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "beef-search",
+      "kind": "SEARCH",
+      "subjectId": "nr-007",
+      "ledgerId": "phase3b-C-g4-ja-directed-20261031-beef-search",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-search.body.html",
+      "sha256": "c0884d502236cf32b43ee7811df7fff6080c7b61f52695d43b6be5d8e4cdbe01",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "a08944683a19d5494200239938be54aa329c01e6",
+      "chargedBeforeSend": true,
+      "previousFinishToStartSeconds": 30.107
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13054178/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T05:44:17.162+01:00",
+      "headersAtCET": "2026-10-31T05:44:19.036+01:00",
+      "bodyCompletedAtCET": "2026-10-31T05:44:19.666+01:00",
+      "finishedAtCET": "2026-10-31T05:44:19.667+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 04:44:19 GMT",
+        "retry-after": null
+      },
+      "headersMs": 1874,
+      "bodyMs": 631,
+      "elapsedMs": 2505,
+      "bytesReceived": 163190,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "beef-detail-1",
+      "kind": "DETAIL",
+      "subjectId": "nr-007",
+      "ledgerId": "phase3b-C-g4-ja-directed-20261031-beef-detail-1",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-detail-1.body.html",
+      "sha256": "78c241f8f3be1d9350b1cc3fa78c408ea40c748d0c7ff24606ef90913e96c95a",
+      "bodyComplete": true,
+      "failure": null,
+      "manifestCommit": "28c34bb8246b252a35f56bf42c033551968b739b",
+      "chargedBeforeSend": true,
+      "previousFinishToStartSeconds": 30.112
+    }
+  ],
+  "timing": {
+    "requestElapsedSeconds": 9.023,
+    "betweenRequestsSeconds": 90.317,
+    "firstStartToLastFinishSeconds": 99.341
+  },
+  "networkFailures": 0,
+  "additionalRequestsAfterError": 0,
+  "postStopFirstScreenOracle": {
+    "path": ".eval-artifacts/phase3b/g4-e2e/gold.json",
+    "sha256": "ac6f5b804e2859aa82576fb408fb906f779d6cb82059c7798298b392bbf2f6e5",
+    "beefCertifiedFirstScreenHit": true,
+    "doesNotEstablishIdentityAcceptance": true
+  },
+  "cases": [
+    {
+      "id": "nr-007",
+      "name": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+      "plannedTerms": [
+        {
+          "source": "SAVED_GOOGLE_ORIGINAL_NAME",
+          "query": "Wagyu beef Yakiniku Beef Kitchen Nakameguro",
+          "executedInThisIdentityPrefix": false
+        },
+        {
+          "source": "SAVED_MODEL_FRAGMENT",
+          "query": "Beef Kitchen Nakameguro",
+          "executedInThisIdentityPrefix": false
+        },
+        {
+          "source": "SAME_ID_GOOGLE_JA",
+          "query": "ビーフキッチン 中目黒本店",
+          "languageCode": "ja",
+          "freshGoogleRead": true,
+          "executedInThisIdentityPrefix": false
+        }
+      ],
+      "freshSearchURLs": [
+        "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%83%93%E3%83%BC%E3%83%95%E3%82%AD%E3%83%83%E3%83%81%E3%83%B3%20%E4%B8%AD%E7%9B%AE%E9%BB%92%E6%9C%AC%E5%BA%97"
+      ],
+      "freshSearchCertifiedHit": true,
+      "freshDetailURLs": [
+        "https://tabelog.com/en/tokyo/A1317/A131701/13054178/"
+      ],
+      "acquiredDetailCount": 1,
+      "identityDetailsRead": 0,
+      "productionIdentityResult": "NOT_EVALUATED",
+      "reason": "ORCHESTRATION_INTERRUPTED_BEFORE_IDENTITY_PREFIX",
+      "thirdTermAcceptanceContribution": "NOT_EVALUATED"
+    },
+    {
+      "id": "nr-008",
+      "name": "Shibuya Kappo Sancho",
+      "plannedTerms": [
+        {
+          "source": "SAVED_GOOGLE_ORIGINAL_NAME",
+          "query": "Shibuya Kappo Sancho",
+          "executedInThisIdentityPrefix": false
+        },
+        {
+          "source": "SAVED_MODEL_FRAGMENT",
+          "query": "Kappo Sancho",
+          "executedInThisIdentityPrefix": false
+        },
+        {
+          "source": "SAME_ID_GOOGLE_JA",
+          "query": "割烹 三長 渋谷",
+          "languageCode": "ja",
+          "freshGoogleRead": false,
+          "executedInThisIdentityPrefix": false
+        }
+      ],
+      "freshSearchURLs": [],
+      "freshSearchCertifiedHit": "NOT_EVALUATED",
+      "freshDetailURLs": [],
+      "acquiredDetailCount": 0,
+      "identityDetailsRead": 0,
+      "productionIdentityResult": "NOT_EVALUATED",
+      "reason": "NOT_STARTED_AFTER_BATCH_STOP",
+      "thirdTermAcceptanceContribution": "NOT_EVALUATED"
+    },
+    {
+      "id": "nr-019",
+      "name": "T nakameguro",
+      "plannedTerms": [
+        {
+          "source": "SAVED_GOOGLE_ORIGINAL_NAME",
+          "query": "T nakameguro",
+          "executedInThisIdentityPrefix": false
+        },
+        {
+          "source": "UNRECORDED_FRAGMENT_NOT_FABRICATED",
+          "query": null,
+          "executedInThisIdentityPrefix": false
+        },
+        {
+          "source": "SAME_ID_GOOGLE_JA",
+          "query": "T 中目黒",
+          "languageCode": "ja",
+          "freshGoogleRead": false,
+          "executedInThisIdentityPrefix": false
+        }
+      ],
+      "freshSearchURLs": [],
+      "freshSearchCertifiedHit": "NOT_EVALUATED",
+      "freshDetailURLs": [],
+      "acquiredDetailCount": 0,
+      "identityDetailsRead": 0,
+      "productionIdentityResult": "NOT_EVALUATED",
+      "reason": "NOT_STARTED_AFTER_BATCH_STOP",
+      "thirdTermAcceptanceContribution": "NOT_EVALUATED"
+    },
+    {
+      "id": "nr-025",
+      "name": "Sumi Sushi Shibuya",
+      "plannedTerms": [
+        {
+          "source": "SAVED_GOOGLE_ORIGINAL_NAME",
+          "query": "Sumi Sushi Shibuya",
+          "executedInThisIdentityPrefix": false
+        },
+        {
+          "source": "SAVED_MODEL_FRAGMENT",
+          "query": "Sumi Sushi",
+          "executedInThisIdentityPrefix": false
+        },
+        {
+          "source": "SAME_ID_GOOGLE_JA",
+          "query": "渋谷 鮨墨",
+          "languageCode": "ja",
+          "freshGoogleRead": false,
+          "executedInThisIdentityPrefix": false
+        }
+      ],
+      "freshSearchURLs": [],
+      "freshSearchCertifiedHit": "NOT_EVALUATED",
+      "freshDetailURLs": [],
+      "acquiredDetailCount": 0,
+      "identityDetailsRead": 0,
+      "productionIdentityResult": "NOT_EVALUATED",
+      "reason": "NOT_STARTED_AFTER_BATCH_STOP",
+      "thirdTermAcceptanceContribution": "NOT_EVALUATED"
+    }
+  ],
+  "identitySummary": {
+    "correct": "NOT_EVALUATED",
+    "notAccepted": "NOT_EVALUATED",
+    "wrong": "NOT_EVALUATED",
+    "environmentFailures": 0,
+    "notEvaluated": 4
+  },
+  "requestBoundary": "FOUR_CAPTURED_REQUESTS_PASS_INDEPENDENT_URL_METHOD_TIMING_AND_FREEZE_AUDIT",
+  "claimSafety": "NOT_EVALUATED_NO_PRODUCT_IDENTITY_RESULT"
+}

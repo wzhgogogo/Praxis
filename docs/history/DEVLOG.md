@@ -1,5 +1,7 @@
 # Development Log
 
+2026-10-31 CET：C按批准启动G4四家分阶段定向实测，robots、同ID Google日文名、Beef日文首屏及1详情均200。随后外层Runner把执行器正整数内部上限误配为0，身份前缀构造即失败；按用户偏离即停规则停止，未请求已知8详情、未改冻结输入或追加请求。4家身份/错认/第三词接纳贡献均未评，不能当作37家新通过率；Beef首屏事后核对含认证店不等于接纳。网站2/14+robots1（共享计入）、Google1/1、模型/Live0；共享GET247/260，487旧条目完整保留、追加4。740冻结SHA/170旧接线产物及产品源码原样保留；只推C分支、不合main，外层Runner修正提案待复核。 [中断报告](../../.eval-artifacts/phase3b/g4-japanese-directed-20261031/report.md)。
+
 2026-10-31 CET：C获准范围外来源修正完成：e4b0e27e独立仅1文件+1行；19项红→绿，正向TABELOG且原B1交接1份、反向TABLECHECK，五路径除来源字段外全部相同，双失败完整原件一致，单源有效来源不变，attempts全不变。全部12处读取/局部使用及其它写入/类型/测试/历史脚本逐项影响已写报告。90c90a50冻结1585项，五门禁1271/1271、Chromium186/186（130.136秒）和严格G2 5/5、12页PASS；9步前后净树，142旧artifact原样保留，账本不变。真实模型/Google/GET/Live0，不读.env；Beef最终精确清单仍缺来源绑定、8个详情URL和单次Google提案未执行。推C工作分支停复核，不合main。 [报告](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/report.md)。
 
 2026-10-31 CET：用户已窄授权仅在resolver成功分支加一行sourceProvider: provider.provider，范围外修正独立提交e4b0e27e（1文件+1行）。743dca0d冻结有效红灯→同19项全绿：TableCheck失败后Tabelog成功来源TABELOG、B1原URL交接1份；反向TABLECHECK；五路径固定Date红绿对照除显式来源字段外全部返回值/attempts不变，双失败完整相同、单源有效来源不变。grep逐12处读取/局部使用说明影响，写入/类型/测试与冻结脚本单列。待冻结重跑五门禁与严格G2，原37+4回放证据保留；Beef清单仍缺来源原件、不执行提案。真实模型/Google/GET/Live0，不读.env，账本不变，不合main。 [计划](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/plan.md)。
