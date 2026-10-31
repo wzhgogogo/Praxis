@@ -1,5 +1,11 @@
 # Test and Verification Log
 
+<a id="test-browser-timeout-main-verified"></a>
+
+## 2026-10-31 CET：已审浏览器超时诊断发布验证通过
+
+用户批准055e1d1c合入；已同步main74afd956（含B1），冻结0e2e2098/721项，五门禁默认1255/1255、Chromium186/186（130.668秒）全绿，各项前后净树与SHA不变。三份诊断源码同已审055e1d1c，其他源码同最新main；四处文档两边记录保留，账本487并集完整。600秒/G2180秒与并发1/4不变，原2核5次证据保留、原卡死根因仍未知。本批只按批准发布合并到main并推送，精确main SHA以Git/ls-remote回执为准，之后待命；真实业务调用0、不读.env。[发布报告](../../.eval-artifacts/phase3b/browser-timeout-main/report.md)。
+
 <a id="test-browser-timeout-main-preparation"></a>
 
 ## 2026-10-31 CET：已审浏览器超时诊断合入准备
