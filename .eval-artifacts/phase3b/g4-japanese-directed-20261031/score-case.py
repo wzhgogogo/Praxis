@@ -3,7 +3,9 @@ from pathlib import Path
 from urllib.parse import urlparse
 import hashlib,json,re,sys
 R=Path('.eval-artifacts/phase3b/g4-japanese-directed-20261031')
-sid=sys.argv[-1];row=json.loads((R/'execution'/f'{sid}.json').read_text());gold=json.loads(Path('.eval-artifacts/phase3b/g4-e2e/gold.json').read_text())
+sid=sys.argv[-1];row=json.loads((R/'execution'/f'{sid}.json').read_text())
+for f in json.loads((R/'oracle-freeze.json').read_text())['files']:assert hashlib.sha256(Path(f['path']).read_bytes()).hexdigest()==f['sha256']
+gold=json.loads(Path('.eval-artifacts/phase3b/g4-e2e/gold.json').read_text())
 expected=next(r['rstId'] for r in gold['rows'] if r['id']==sid)
 def ident(url):
  u=urlparse(url or '');m=re.fullmatch(r'/(?:en/)?[a-z-]+/A\d+/A\d+/(\d+)/?',u.path)

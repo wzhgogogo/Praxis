@@ -44,7 +44,7 @@ export function underlyingCodes(error){
 }
 export async function timedGet(url,{fetchImplementation,headers,dispatcher,signal,onHeaders,timeoutMs=DEADLINE_MS}){
  const controller=new AbortController(),startedAtCET=cet(),start=performance.now(),chunks=[];
- let response,headersAtCET=null,bodyCompletedAtCET=null,headerMs=null,error=null,expired=false;
+ let response,headersAtCET=null,bodyCompletedAtCET=null,headerMs=null,error=null,transportError=null,expired=false;
  const relay=()=>controller.abort(signal.reason);if(signal?.aborted)relay();else signal?.addEventListener('abort',relay,{once:true});
  let timer;
  const expiry=new Promise((_,reject)=>{timer=setTimeout(()=>{expired=true;controller.abort();reject(Object.assign(Error('DEADLINE_EXCEEDED'),{code:'DEADLINE_EXCEEDED'}));},timeoutMs);});
@@ -54,12 +54,12 @@ export async function timedGet(url,{fetchImplementation,headers,dispatcher,signa
   if(response.status===429){await response.body?.cancel();return;}
   if(response.body){const reader=response.body.getReader();for(;;){const part=await reader.read();if(part.done)break;chunks.push(Buffer.from(part.value));}}
   bodyCompletedAtCET=cet();
- })(),expiry]);}catch(e){error=e;}finally{clearTimeout(timer);signal?.removeEventListener('abort',relay);}
+ })().catch(e=>{transportError=e;throw e;}),expiry]);}catch(e){error=e;}finally{clearTimeout(timer);signal?.removeEventListener('abort',relay);if(expired)await new Promise(resolve=>setImmediate(resolve));}
  const end=performance.now(),bytes=Buffer.concat(chunks),safeHeaders={};
  if(response)for(const name of ['content-type','content-encoding','last-modified','date','retry-after'])safeHeaders[name]=response.headers.get(name);
  const location=response?.headers.get('location');if(location){try{const u=new URL(location,url);safeHeaders.locationSanitized=u.origin+u.pathname;safeHeaders.locationHadQuery=!!u.search;}catch{safeHeaders.locationSanitized='<invalid>';}}
  const name=['Error','TypeError','TimeoutError','AbortError','AggregateError'].includes(error?.name)?error.name:'Error';
  return {bytes,complete:!!bodyCompletedAtCET,meta:{url,method:'GET',redirect:'manual',cookie:false,retries:0,timeoutMs,startedAtCET,headersAtCET,bodyCompletedAtCET,finishedAtCET:cet(),
   status:response?.status??null,responseHeaders:safeHeaders,headersMs:headerMs===null?null:Math.round(headerMs),bodyMs:headerMs===null?null:Math.round(end-start-headerMs),elapsedMs:Math.round(end-start),bytesReceived:bytes.length,
-  bodyRepresentation:'FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES',networkFailure:error?{reason:expired?'DEADLINE_EXCEEDED':'NETWORK_FAILED',phase:headersAtCET?'BODY':'BEFORE_HEADERS',name,underlyingCodes:underlyingCodes(error)}:null}};
+  bodyRepresentation:'FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES',networkFailure:error?{reason:expired?'DEADLINE_EXCEEDED':'NETWORK_FAILED',phase:headersAtCET?'BODY':'BEFORE_HEADERS',name,underlyingCodes:[...new Set([...underlyingCodes(error),...underlyingCodes(transportError)])],nativeErrorName:['Error','TypeError','TimeoutError','AbortError','AggregateError'].includes(transportError?.name)?transportError.name:null}:null}};
 }
