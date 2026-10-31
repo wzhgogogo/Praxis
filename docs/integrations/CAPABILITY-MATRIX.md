@@ -47,7 +47,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.118
+- Document revision: 1.119
 
 
 - Last updated: 2026-10-31
@@ -448,7 +448,19 @@ Historical B1 rebase checkpoint (2026-10-30 CET): C wiring has completed offline
 
 Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is ready for the authorized main publication after fresh five gates1254/186 and strict G2 all12 pages PASS. Ordinary server startup now consumes the G3 admitted raw links without extra navigation; both server checks, ADR0050 UI and UNKNOWN source selection remain. Tabelog and TableCheck are offline usable; current-source prefill and booking are not claimed. In-memory Tabelog links are unavailable after restart until another availability check. [Release evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md).
 
-## G4 Japanese-name production candidate (2026-10-30 CET)
+## G4 Japanese-name retrieval (2026-10-31 CET)
+
+User-approved implementation for main integration; publication status and the new merged-candidate gates are recorded in [STATUS](../STATUS.md) and the [release evidence](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md). Tabelog uses original Google name → one validated proper substring → the same-Place-ID Google Japanese full name, deduplicated. The first two terms share four details and Japanese has one reserved detail; unused capacity returns to already observed candidates, with five total and no reset. Existing name/branch/address/phone checks, sorting, G3 stock binding and both B1 URL checks remain. TableCheck keeps its prior two-term path.
+
+The Japanese name is source text with its actual language code, never a model translation. One extra Google Details read per unresolved Place ID/run uses only id,displayName with languageCode=ja, validates the returned ID/nonempty text and enters the existing request budget before dispatch; the two sources share that run's result, including failure. There is no retry, durable State/TaskDefinition change or Agent Prompt/Schema change.
+
+The accepted sourceProvider correction records the actual conclusive provider, closing the multi-provider B1 rejection without changing sourceAttempts, identity or inventory. Its reader-impact audit and exact one-line scope remain in the [reviewed evidence](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/report.md).
+
+Evidence remains separate: the exposed frozen37+4 simulation and production identity-prefix Replay retain prior23/23 and focus3/3 with no wrong acceptance; the four-store directed public-GET-plus-Replay test correctly accepts Beef, Kappo Sancho and Sumi Sushi under the Japanese term by exact phone and certified ID. T's observed path does not accept another outlet, but its missing historical fragment leaves the full regression NOT_EVALUATED; its certified outlet at rank6 remains outside the Japanese detail slot. This is no new37 success rate and makes no inventory or booking-success claim. [Directed evidence](../../.eval-artifacts/phase3b/g4-japanese-directed-recovery-20261031/report.md).
+
+### Historical preparation checkpoints (superseded retrospective)
+
+The following candidate-only descriptions are preserved as historical checkpoints; the accepted implementation and evidence scope above supersede their pending-state wording.
 
 Draft / not integrated: C wires original Google name → validated proper substring → same-Place-ID source Japanese full name (deduplicated) into Tabelog only. First two terms share four details; Japanese can use the fifth, unused capacity returns to already observed candidates; total remains five. Name/branch/address/phone rules, ranking and G3 stock response binding are unchanged. Existing Google Details counts/ceiling include one extra name request per unresolved Place ID/run, success/failure promises shared, source actual language retained. Runtime passes the already authoritative readRunId through the internal port without changing durable State or Prompt/Schema versions. TableCheck third-term retrieval is not enabled.
 
