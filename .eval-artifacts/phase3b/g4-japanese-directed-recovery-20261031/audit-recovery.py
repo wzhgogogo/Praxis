@@ -21,8 +21,16 @@ before=json.loads(git('show',inputs['resumedFrom']+':.eval-artifacts/phase3b/bud
 ledger=load('.eval-artifacts/phase3b/budget.json');by_id={e['id']:e for e in ledger['entries']}
 assert len(by_id)==len(ledger['entries'])
 for row in before['entries']:assert by_id[row['id']]==row,row['id']
-new=[e for e in ledger['entries'] if e['id'] not in {x['id'] for x in before['entries']}]
-assert len(new)<=8 and all(e['batch']==inputs['batchId'] for e in new)
+added=[e for e in ledger['entries'] if e['id'] not in {x['id'] for x in before['entries']}]
+new=[e for e in added if e.get('batch')==inputs['batchId']]
+foreign=[e for e in added if e.get('batch')!=inputs['batchId']]
+union=load(S/'ledger-union.json')
+assert foreign==union['addedRows']
+remote_bytes=git('show',union['remoteMain']+':.eval-artifacts/phase3b/budget.json')
+assert digest(remote_bytes)==union['remoteLedgerSHA256']
+remote_by_id={e['id']:e for e in json.loads(remote_bytes)['entries']}
+assert all(e==remote_by_id[e['id']] for e in foreign)
+assert len(new)<=8
 totals={k:sum(e.get(k,e.get('publicGET',0) if k=='evaluationPublicGET' else 0) for e in ledger['entries']) for k in ledger['cumulative']}
 assert totals==ledger['cumulative']
 assert sum(e['googleRequests'] for e in new)==sum(e['realModelCalls'] for e in new)==sum(e['fullLive'] for e in new)==0
@@ -76,7 +84,7 @@ accepted=sum(c['verdict']=='CORRECT_ACCEPTED' for c in cases)
 out={'status':'PASS','scope':'FOUR_TARGETED_PUBLIC_DETAIL_GETS_PLUS_FROZEN_PREFIX_REPLAY_NOT_NEW37_RATE',
  'recordedAtCET':datetime.now(timezone(timedelta(hours=1))).isoformat(),
  'originalPacketFilesUnchanged':len(inputs['frozenOriginalPacket']),'frozenFilesUnchanged':len(frozen),'productChanges':[],
- 'oldLedgerEntriesUnchanged':len(before['entries']),'newLedgerEntries':len(new),'cumulative':totals,
+ 'oldLedgerEntriesUnchanged':len(before['entries']),'newLedgerEntries':len(new),'remoteRowsAdded':len(foreign),'totalLedgerRows':len(ledger['entries']),'cumulative':totals,
  'recoveryCalls':{'websiteGET':len(rows),'google':0,'realModel':0,'Live':0,'robots':0,'BeefRequests':0},
  'directedBatchCallsIncludingPrior':{'websiteGETExcludingRobots':len(rows)+2,'robots':1,'google':1,'realModel':0,'Live':0},
  'requests':requests,'networkFailures':sum(bool(r['networkFailure']) for r in rows),
