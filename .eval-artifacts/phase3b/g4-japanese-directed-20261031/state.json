@@ -1,7 +1,7 @@
 {
   "status": "ACTIVE",
   "networkFailureStreak": 0,
-  "lastFinishedEpoch": 1793421827052,
+  "lastFinishedEpoch": 1793421859670,
   "results": [
     {
       "url": "https://tabelog.com/robots.txt",
@@ -102,6 +102,40 @@
       "ledgerId": "phase3b-C-g4-ja-directed-20261031-beef-search",
       "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-search.body.html",
       "sha256": "c0884d502236cf32b43ee7811df7fff6080c7b61f52695d43b6be5d8e4cdbe01",
+      "bodyComplete": true,
+      "failure": null
+    },
+    {
+      "url": "https://tabelog.com/en/tokyo/A1317/A131701/13054178/",
+      "method": "GET",
+      "redirect": "manual",
+      "cookie": false,
+      "retries": 0,
+      "timeoutMs": 20000,
+      "startedAtCET": "2026-10-31T05:44:17.162+01:00",
+      "headersAtCET": "2026-10-31T05:44:19.036+01:00",
+      "bodyCompletedAtCET": "2026-10-31T05:44:19.666+01:00",
+      "finishedAtCET": "2026-10-31T05:44:19.667+01:00",
+      "status": 200,
+      "responseHeaders": {
+        "content-type": "text/html; charset=utf-8",
+        "content-encoding": null,
+        "last-modified": null,
+        "date": "Sat, 31 Oct 2026 04:44:19 GMT",
+        "retry-after": null
+      },
+      "headersMs": 1874,
+      "bodyMs": 631,
+      "elapsedMs": 2505,
+      "bytesReceived": 163190,
+      "bodyRepresentation": "FETCH_DECODED_HTTP_BODY_UNMODIFIED_BYTES",
+      "networkFailure": null,
+      "id": "beef-detail-1",
+      "kind": "DETAIL",
+      "subjectId": "nr-007",
+      "ledgerId": "phase3b-C-g4-ja-directed-20261031-beef-detail-1",
+      "bodyPath": ".eval-artifacts/phase3b/g4-japanese-directed-20261031/requests/beef-detail-1.body.html",
+      "sha256": "78c241f8f3be1d9350b1cc3fa78c408ea40c748d0c7ff24606ef90913e96c95a",
       "bodyComplete": true,
       "failure": null
     }
