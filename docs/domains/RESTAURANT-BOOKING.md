@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.40
+- Document revision: 3.41
 
 
 - Last updated: 2026-10-31
@@ -342,3 +342,5 @@ Draft / not integrated: C wires original Google name → validated proper substr
 The frozen37+4 simulation and production identity-prefix replay retain prior23/23 and focus3/3, wrong0; missing pages/inputs stay NOT_EVALUATED. A new actual HTTP chain reaches results after both original/fragment searches miss, but the existing multi-provider check attribution hides B1; sourceProvider repair is pending explicit scope approval. No assertion or identity rule relaxed. All real calls0; shared GET cap260/used244. Exact Beef website URL needs an unobserved Google source name, so request planning remains non-executable until separate source binding and review. [Plan](../../.eval-artifacts/phase3b/g4-japanese-wiring/plan.md).
 
 User-approved out-of-original-scope attribution correction (2026-10-31 CET, candidate only): e4b0e27e adds exactly sourceProvider: provider.provider in the resolver conclusive-check branch. Real provider identity is recorded explicitly; status, sourceAttempts, inventory, identity and both B1 URL checks are unchanged. The prior TableCheck-failure→Tabelog-success HTTP case now emits the original B1 handoff; reverse/direct/failure controls and the complete reader-impact audit are recorded separately. Default/full fixture gates are pending for this candidate; no main merge or new external request. [Audit](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/reader-impact.md).
+
+Source-attribution follow-up offline verification PASS (2026-10-31 CET): the approved one-line e4b0e27e fix closes the multi-provider B1 rejection. All five gates1271/186 and strict G2 all12 pages PASS, each clean; reader audit lists all12 runtime/local-value uses and unchanged attempts. The G4 candidate remains unmerged. Real calls0; Beef exact request list remains source-dependent and no request proposal was executed. [Current follow-up report](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/report.md).
