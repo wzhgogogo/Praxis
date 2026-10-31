@@ -1,0 +1,111 @@
+{
+  "testedCommit": "0e2e2098745ff15ed3e67aae175877524d294813",
+  "mode": "OFFLINE_MOCK_AND_LOCAL_CHROMIUM",
+  "latestMain": "74afd9566ec5fb247792e57adb31bbaf2649cff3",
+  "approvedDiagnostic": "055e1d1c96a149229acc4242d9af31ff8e824032",
+  "frozenInputs": 721,
+  "startedAtCET": "2026-10-31T05:31:49.917887+01:00",
+  "newRealCalls": 0,
+  "runs": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "seconds": 0.507,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "seconds": 0.23,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "seconds": 30.471,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "494f54e0fa13393f9bee7c30b57ff3ca584ac5ebc173b4ec862287b1ba062166",
+      "summary": {
+        "tests": 1255,
+        "suites": 5,
+        "pass": 1255,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "seconds": 0.559,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "summary": {},
+      "status": "PASS"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "seconds": 130.668,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "8614070f1951dfa1acbc1d6bb4a5b475e8386d41d9022916423b484e753b5ddd",
+      "summary": {
+        "tests": 186,
+        "suites": 0,
+        "pass": 186,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "lifecycle": {
+        "files": 37,
+        "starts": 37,
+        "ends": 37,
+        "allOnce": true,
+        "outerTimeouts": 0
+      },
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "frozenInputsVerifiedAfter": true,
+  "finishedAtCET": "2026-10-31T05:34:33.223041+01:00"
+}
