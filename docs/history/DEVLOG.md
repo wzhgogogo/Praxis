@@ -1,5 +1,11 @@
 # Development Log
 
+<a id="dev-browser-timeout-main-preparation"></a>
+
+## 2026-10-31 CET：已审浏览器超时诊断合入准备
+
+用户批准055e1d1c发布。已同步最新main74afd956（含B1），三份诊断源码逐字保留，其余源码与main一致；四处文档冲突两边记录全留、487条账本并集无覆盖。冻结整合候选重跑五门禁，预期默认1255、Chromium186；600秒/G2180秒和并发1/4不变。原2核5次证据保留、卡死根因仍未知；本批只合入，不增加实现或真实调用，不读.env。全绿后合并推送main并核对远端，之后待命。[计划](../../.eval-artifacts/phase3b/browser-timeout-main/plan.md)。
+
 <a id="dev-browser-timeout-diagnostics-complete"></a>
 
 ## 2026-10-30 CET：浏览器外层超时诊断离线完成，原卡住未复现（待复核）
