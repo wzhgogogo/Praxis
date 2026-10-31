@@ -47,10 +47,10 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.116
+- Document revision: 1.117
 
 
-- Last updated: 2026-10-30
+- Last updated: 2026-10-31
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)
@@ -453,3 +453,5 @@ Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is r
 Draft / not integrated: C wires original Google name → validated proper substring → same-Place-ID source Japanese full name (deduplicated) into Tabelog only. First two terms share four details; Japanese can use the fifth, unused capacity returns to already observed candidates; total remains five. Name/branch/address/phone rules, ranking and G3 stock response binding are unchanged. Existing Google Details counts/ceiling include one extra name request per unresolved Place ID/run, success/failure promises shared, source actual language retained. Runtime passes the already authoritative readRunId through the internal port without changing durable State or Prompt/Schema versions. TableCheck third-term retrieval is not enabled.
 
 The frozen37+4 simulation and production identity-prefix replay retain prior23/23 and focus3/3, wrong0; missing pages/inputs stay NOT_EVALUATED. A new actual HTTP chain reaches results after both original/fragment searches miss, but the existing multi-provider check attribution hides B1; sourceProvider repair is pending explicit scope approval. No assertion or identity rule relaxed. All real calls0; shared GET cap260/used244. Exact Beef website URL needs an unobserved Google source name, so request planning remains non-executable until separate source binding and review. [Plan](../../.eval-artifacts/phase3b/g4-japanese-wiring/plan.md).
+
+User-approved out-of-original-scope attribution correction (2026-10-31 CET, candidate only): e4b0e27e adds exactly sourceProvider: provider.provider in the resolver conclusive-check branch. Real provider identity is recorded explicitly; status, sourceAttempts, inventory, identity and both B1 URL checks are unchanged. The prior TableCheck-failure→Tabelog-success HTTP case now emits the original B1 handoff; reverse/direct/failure controls and the complete reader-impact audit are recorded separately. Default/full fixture gates are pending for this candidate; no main merge or new external request. [Audit](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/reader-impact.md).
