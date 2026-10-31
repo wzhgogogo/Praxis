@@ -7170,6 +7170,23 @@
       "googleRequests": 0,
       "batchWebsiteGET": 0,
       "robotsExemptFromFourteen": true
+    },
+    {
+      "id": "phase3b-C-g4-ja-directed-20261031-google-name",
+      "batch": "phase3b-C-g4-ja-directed-20261031",
+      "conversation": "C",
+      "kind": "GOOGLE",
+      "subjectId": "nr-007",
+      "url": "https://places.googleapis.com/v1/places/ChIJAQDkh0mLGGARbfy8WZ_dfIw?languageCode=ja",
+      "recordedAtCET": "2026-10-31T05:43:12.711+01:00",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "restaurantWebsiteRequests": 0,
+      "googleRequests": 1,
+      "batchWebsiteGET": 0,
+      "robotsExemptFromFourteen": false
     }
   ],
   "cumulative": {
@@ -7177,7 +7194,7 @@
     "realModelCalls": 171,
     "environmentReruns": 0,
     "evaluationPublicGET": 245,
-    "googleRequests": 11,
+    "googleRequests": 12,
     "restaurantWebsiteRequests": 245
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
@@ -7223,5 +7240,5 @@
       "ledgerSha256": "0bbaa10002a27c2ba6b43b5549128040aa97762e4f1f4b4a9cc81cd425f2432e"
     }
   ],
-  "asOfCET": "2026-10-31T05:42:40.316+01:00"
+  "asOfCET": "2026-10-31T05:43:12.711+01:00"
 }
