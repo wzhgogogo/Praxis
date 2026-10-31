@@ -7187,15 +7187,32 @@
       "googleRequests": 1,
       "batchWebsiteGET": 0,
       "robotsExemptFromFourteen": false
+    },
+    {
+      "id": "phase3b-C-g4-ja-directed-20261031-beef-search",
+      "batch": "phase3b-C-g4-ja-directed-20261031",
+      "conversation": "C",
+      "kind": "SEARCH",
+      "subjectId": "nr-007",
+      "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%83%93%E3%83%BC%E3%83%95%E3%82%AD%E3%83%83%E3%83%81%E3%83%B3%20%E4%B8%AD%E7%9B%AE%E9%BB%92%E6%9C%AC%E5%BA%97",
+      "recordedAtCET": "2026-10-31T05:43:43.890+01:00",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "restaurantWebsiteRequests": 1,
+      "googleRequests": 0,
+      "batchWebsiteGET": 1,
+      "robotsExemptFromFourteen": false
     }
   ],
   "cumulative": {
     "fullLive": 0,
     "realModelCalls": 171,
     "environmentReruns": 0,
-    "evaluationPublicGET": 245,
+    "evaluationPublicGET": 246,
     "googleRequests": 12,
-    "restaurantWebsiteRequests": 245
+    "restaurantWebsiteRequests": 246
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
@@ -7240,5 +7257,5 @@
       "ledgerSha256": "0bbaa10002a27c2ba6b43b5549128040aa97762e4f1f4b4a9cc81cd425f2432e"
     }
   ],
-  "asOfCET": "2026-10-31T05:43:12.711+01:00"
+  "asOfCET": "2026-10-31T05:43:43.890+01:00"
 }
