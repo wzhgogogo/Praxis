@@ -1990,6 +1990,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
           }
           if(accepted){
             assert.equal(view.case.phase,"PRESENT_RESULTS",JSON.stringify(view));
+            if(useJapanese)assert.equal(view.restaurant.availabilityChecks[view.restaurant.candidates[0]!.restaurant.id]?.sourceProvider,"TABELOG");
             assert.equal(handoffs.length,1,"ordinary startup assembly must supply the source reader without a test-prepared handoff");
             assert.equal(handoffs[0]!.url,original,"original bytes/order/encoding must survive, with only the source origin for a relative URL");
             assert.equal(handoffs[0]!.directLabel,"Book on Tabelog");
