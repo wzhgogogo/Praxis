@@ -12,6 +12,8 @@
 
 从main7c83e02e建立A独立分支；600秒外层保护及G2原180秒/独占调度不变。旧入口在本地构造、缩短外层保护的对照中缺少未结束文件/耗时诊断（不是偶发600秒复现）；新入口通过Node生命周期独立通道记录文件，并取消后等待输出排空。所属原生回归2/2，完整五门禁与2核Linux五次全套尚待运行。产品及B/C测试不变，真实调用0，不合main。[计划](../../.eval-artifacts/phase3b/browser-timeout-diagnostics/plan.md)。
 
+2026-10-30 CET：用户复核通过B1接线7e701207，按批准从main7c83e02e构造发布merge；源码与复核候选逐字一致。47c6c5ef冻结728项，五门禁默认1254/1254、Chromium186/186（129.171秒）和严格G2 5/5、12页PASS，8步前后净树。两入口原URL与所有拒绝/隔离控制沿现有默认套件重跑；ADR0050前端保留，复用两尺寸UI证据。Tabelog/TableCheck B1普通组合离线可用，内存缓存重启后等新查位，不改变现实预约状态。真实模型/Google/GET/Live/真实PG0，不读.env。按授权发布main，远端SHA以ls-remote为准；日文名接线另分支、清单复核前不请求。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md)。
+
 2026-10-30 CET：G3/G3c已复核签收，已同步main4cbc521b，统一候选8025362b五门禁全绿：默认1242/1242、Chromium186/186（130.563秒）、严格G2 5/5及12/12页面PASS；八项前后净树，721输入SHA不变。旧HARD44,197字节一致，481状态仅既有批准人数反例改变。源码冲突0，6份文档保留双方正文；按用户批准合入推送main，确切SHA以Git远端回执为准，随后通知C待命。真实调用0，账本486条。后续（本批不做）：删除无非空生产者的provider observation verifiedHardCriteria可选字段、透传、旧matchReasons投影与直接构造测试，保留Google及Source2 MODEL_JUDGMENT合法criterion claims；G3b等首次Live有时段TableCheck日历。 [报告](../../.eval-artifacts/phase3b/g3-main/report.md)。
 
 2026-10-30 CET：G3/G3c离线完成待复核。原form_course链接及响应sequence/URL/时间输出已补，核验规则不变；A31398a77已合，main404a766e已同步。冻结d7131675/718项：五门禁默认1241/Chromium180全绿（129.594秒），严格G2 5/5、12/12页面PASS，各项净树；旧HARD44,197字节一致、481状态仅已批准人数反例MET→NOT_CHECKED。A五文件/C唯一响应输入差异和旧provider失用分支单列，C保护代码/断言保留。真实调用0、账本485条，站点3900/Pack482行仅参考。G3b及真实模型/Live验证延期；只推G3工作分支，不合main。 [报告](../../.eval-artifacts/phase3b/g3-longrun/16-form-course-and-completion/report.md)。
@@ -45,7 +47,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.356
+- Document revision: 4.361
 
 
 - Last updated: 2026-10-30
@@ -6085,3 +6087,29 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 复用Gateway连接/正文失败测试，正文接真实Interpreter，原诊断undefined反例红→17/17绿。安全原始errorName及最多三层cause名称/代码进入失败Observer记录与MODEL_FAILURE.providerError，不记录异常消息/URL/Headers/Secret，不改Prompt28/Schema4或重试。df60d11a修复后在4746b313同步main404a766e，5份历史/状态冲突保留双方，C的PG证据字节保留、源码/迁移未变。最终冻结净树五门禁与390×844/1280×900完整验收待执行，完成只推工作分支、不合main。[计划/结果](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
 
 最终验证：474febbaffbe7c2b22a26a698707e40b027b1980冻结736项，五门禁1211/1211默认、181/181 Chromium全绿（29.210/121.601秒）；每项前后净树、HEAD和输入SHA不变。两尺寸完整十项及长条款/取消冲突两个来源入口滚动后完整可见并实际点击，原来源/问答回归共9/9；21张PNG逐张目视与尺寸/SHA核对。56份原输入/守卫/v26评分材料、37份main PG证据字节不变。模型API/Google/来源GET/Live/外部写入/私有Holdout新增0。诊断机制关闭，原传输故障具体原因未确认，旧真实失败/严格0/15不改。门禁后只增报告/附件，推工作分支交合入复核、不合main。[结果与截图](../reviews/WEB-WORKSPACE-SR04-OFFLINE-20261030.md)。
+
+<a id="test-2026-10-30-b1-g3-output-dependency"></a>
+
+## 2026-10-30 CET：B1 G3接线接口依赖停止
+
+2026-10-30 CET：C从B当前G3提交8c66921a建立B1接线分支，预检发现保护文件vacancy-response核对链接后只返回时段、未返回原form_course URL；普通provider也未透传链接。按用户“B三文件不改/不另写解析器”的停止条件，先冻结只读接口反例，不改产品或A/前端。普通启动按钮红绿及拒绝反例尚未执行；不宣称接线完成，待B提供已核对原链接输出后再续。真实调用0，不读.env；准备证据推分支停报。 [计划](../../.eval-artifacts/phase3b/b1-g3-wiring/plan.md)。
+
+停止点证据：2026-10-30 CET：C B1接线按跨归属规则停止。基于B8c66921a，0ad7282d冻结8项；两条合法原链接均OBSERVED却输出同一19:00时段对象，原URL未保留，B1_EXACT_SOURCE_LINK_OUTPUT_MISSING有效红灯（exit1）。未改任何src/受保护文件、未另写解析器，调用0；按钮链路红绿/反例、五门禁与严格G2均未运行，接线未完成。推准备分支，待B提供已核对原链接输出；G3入main后再rebase及完整验证。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/report.md)。
+
+<a id="test-2026-10-30-b1-g3-wiring"></a>
+
+## 2026-10-30 CET：B1 G3原链接接线候选
+
+2026-10-30 CET：C已同步B的G3原链接输出02163d39（含main404a766e），B1普通服务端组合接线候选完成。按root Task隔离的暂态缓存只消费原解析器输出，响应引用/原URL保留；相对链接只补来源origin，原生路径ID只取对应rcd数字部分、完整身份核对不变。有效HTTP红灯PRESENT_RESULTS但按钮0→绿；缺链/日期/人数/时刻/店号/域名/路径/额外参数反例及同钟跨Case、重启缺缓存、过期/权限控制通过。B三文件、A评测/harness和前端未改，真实调用0；冻结五门禁/严格G2/UI验证后仅推准备分支，不合main，G3合main后仍须rebase再验。
+
+首轮HTTP fixture误设20秒总期限，等于既有20秒收尾保留窗，SEARCH被READ_TIME_RESERVED拒；该次不算红灯，原日志保留。改用原生产预算后，bcff9e1c同按钮断言0≠1成为有效红灯；对应正式输入与记录见[续行目录](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/plan.md)。
+
+最终准备结果：2026-10-30 CET：C B1 G3接线离线准备完成，依赖B02163d39。72e3745b冻结723项：五门禁默认1253/Chromium180全绿（130.955s），严格G2 5/5、12页PASS，真实HTTP产物经Chromium实际显示两个原链接按钮；9步前后净树、SHA一致。root Task缓存隔离/缺链错配白名单/原生ID完整核对/重启缺缓存/过期权限控制通过；两次服务端检查保留。B三文件、A评测/harness、前端和账本不改，真实模型/Google/GET/Live/真实PG0。TAP解码失败和输出隔离中止记录保留，最终完整PASS。最新main4cbc521b尚无G3；仅推准备分支，不合main，待G3入main后rebase及重验再复核。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/implementation/report.md)。
+
+<a id="test-2026-10-30-b1-g3-main-rebase"></a>
+
+## 2026-10-30 CET：B1 G3合main后重放与复验
+
+2026-10-30 CET：C按用户原授权在G3已合main后，将B1准备分支rebase到7c83e02e（含前端4cbc521b/ADR0050）。8个C提交重放，源码冲突0，文档双方记录保留；B三文件、A评测/harness、前端与ADR保持新main字节，C缓存/作用域/组合代码同20ff1466。字体依赖仅npm缓存离线恢复，不运行生命周期脚本；当前UI观察改用既有My plans→Choose this→交接入口。冻结后重跑五门禁/严格G2/两尺寸真实HTTP产物渲染，真实调用0、不读.env；只推C分支不合main。 [计划](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/plan.md)。
+
+复验完成：2026-10-30 CET：C B1接线已rebase到G3 main7c83e02e。ec58c3ec冻结725项，五门禁默认1254/Chromium186全绿（129.449s），严格G2 5/5及12页PASS；当前前端两尺寸两个入口保留原URL，Choose this写请求0。9步前后净树、SHA一致。B三文件、A评测/harness、前端/ADR/账本同main；C缓存/作用域/组合源码同20ff1466。npm依赖仅本机缓存离线恢复，不读.env，真实模型/Google/GET/Live/真实PG0。按原授权用精确lease更新C分支，未合main，交复核。 [报告](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md)。
