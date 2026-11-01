@@ -15,7 +15,8 @@ for(const provider of ["TABELOG","TABLECHECK"] as const)test(`B1 selected ${prov
     const selected=await f.select(),h=selected.restaurant.bookingHandoffs?.[0];assert.ok(h);
     assert.equal(selected.restaurant.selectedCandidateId,h.candidateId);
     assert.equal(h.provider,provider);assert.deepEqual(h.terms.map(t=>t.label),[cancellationAnswer,"Card required"]);
-    assert.deepEqual(h.terms.flatMap(t=>t.citations.map(c=>[c.text,c.url,c.readAt])),[[cancellationQuote,f.url,f.source.referenceTime],[cardQuote,f.url,f.source.referenceTime]]);
+    const readUrl=provider==="TABLECHECK"?f.url+"?date=2026-11-11&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time":f.url;
+    assert.deepEqual(h.terms.flatMap(t=>t.citations.map(c=>[c.text,c.url,c.readAt])),[[cancellationQuote,readUrl,f.source.referenceTime],[cardQuote,readUrl,f.source.referenceTime]]);
     assert.equal(questions(f).length,2);assert.equal(h.sourceSelection,"UNKNOWN");
     assert.ok(questions(f).every(item=>item.turn==="SELECTED"));
     const count=f.requests.length;await f.project();await f.project();assert.equal(f.requests.length,count,"Projection performs no model or source I/O");
@@ -83,7 +84,9 @@ test("B1 discards late terms on cancellation while keeping its qualified handoff
   let pending:Promise<unknown>|undefined;
   try{await f.initial();pending=f.select();let timer:ReturnType<typeof setTimeout>|undefined;
     try{await Promise.race([seen,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error("Terms did not reach model transport")),5000);})]);}finally{if(timer)clearTimeout(timer);}
-    const cancelling=f.cancel();release();await Promise.all([cancelling,pending]);const v=await f.project();
+    const signal=f.termsSignal;assert.ok(signal);const cancelling=f.cancel();
+    await new Promise<void>((resolve,reject)=>{if(signal.aborted){resolve();return;}const timer=setTimeout(()=>reject(new Error("Cancellation did not reach the existing fact read signal")),5000);signal.addEventListener("abort",()=>{clearTimeout(timer);resolve();},{once:true});});
+    release();await Promise.all([cancelling,pending]);const v=await f.project();
     assert.ok(v.restaurant.bookingHandoffs?.length);assert.deepEqual(v.restaurant.bookingHandoffs![0]!.terms,[]);await capture(f,"cancelled");
   }finally{release();if(pending)await pending;await f.close();}
 });

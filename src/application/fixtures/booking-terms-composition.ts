@@ -46,7 +46,7 @@ export async function bookingTermsComposition(options:Options={}){
   const japanese=original.replace(source.merchantQuote,japaneseQuote+"</p><p>"+cardQuote);
   const clock=new FakeClock(source.referenceTime),db=await PGlite.create(),database=new Database(db);await applyPostgresMigrations(database);
   const requests:Array<{turn:string;request:ModelRequest;response:ModelResponse}>=[],sourceCalls:Array<{turn:string;url:string;kind:string}>=[],sourcePages:unknown[]=[];
-  let turn="INITIAL",stage="",omit=options.notStated??false;
+  let turn="INITIAL",stage="",omit=options.notStated??false,termsSignal:AbortSignal|undefined;
   const transport:ModelGateway={async complete(request){
     let body:unknown;
     if(request.purpose==="restaurant_semantic_interpret"){
@@ -84,6 +84,7 @@ export async function bookingTermsComposition(options:Options={}){
   const model=new DeliveryReservedModelGateway(counted);
   const chrome=provider==="TABLECHECK"?localFixture({[url]:english,[exactGuideAvailabilityUrl(url,source.date,2,"19:00")]:english}):undefined;
   const browser:BrowserRuntime={async openSession(input){
+    if(stage==="FACTS")termsSignal=input.signal;
     const session=chrome?await chrome.openSession(input):undefined;
     const originalNavigate=session?.navigate.bind(session);
     let pageUrl=url;
@@ -111,8 +112,8 @@ export async function bookingTermsComposition(options:Options={}){
   await app.store.upsertUser({id:"terms-user",displayName:"Fixture"},clock.now().toISOString());
   let caseId="",conversationId="",version=0;
   const project=async()=>{const raw=await app.getCase("terms-user",caseId);version=raw.case.taskVersion;return withBookingHandoffs(raw,assembly.bookingHandoffs.readPrepared(raw),clock.now().toISOString());};
-  async function finished(work:()=>Promise<unknown>){let resolve!:()=>void;const done=new Promise<void>(r=>resolve=r);const unsubscribe=app.subscribeReadFinished(()=>resolve());let timer:ReturnType<typeof setTimeout>|undefined;try{await work();await Promise.race([done,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error("Fixture lifecycle not finished")),15000);})]);}finally{unsubscribe();if(timer)clearTimeout(timer);}}
-  return {app,assembly,clock,requests,sourceCalls,counted,url,source,
+  async function finished(work:()=>Promise<unknown>){let resolve!:()=>void,readFinished=false;const done=new Promise<void>(r=>resolve=r);const unsubscribe=app.subscribeReadFinished(()=>{readFinished=true;});const unsubscribeUpdate=app.subscribeCaseUpdates(()=>{if(readFinished)resolve();});let timer:ReturnType<typeof setTimeout>|undefined;try{await work();await Promise.race([done,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error("Fixture lifecycle not finished")),15000);})]);}finally{unsubscribe();unsubscribeUpdate();if(timer)clearTimeout(timer);}}
+  return {app,assembly,clock,requests,sourceCalls,counted,url,source,get termsSignal(){return termsSignal;},
     async initial(){await finished(async()=>{const v=await app.createCase("terms-user",source.initialRequest,"initial");caseId=v.case.caseId;conversationId=v.case.conversationId;});return project();},
     async select(){turn="SELECTED";await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"selected:"+version,expectedVersion:version,message:source.bookingFollowups[0]}));return project();},
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
