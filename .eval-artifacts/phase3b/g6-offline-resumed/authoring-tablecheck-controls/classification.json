@@ -1,0 +1,7 @@
+{
+  "status": "FIXTURE_AUTHORING_ERROR_NOT_PRODUCT_RED",
+  "inputGit": "0633fa46",
+  "reason": "A reserve-form page needs live browser values of reservation[start_date] and reservation[num_people_adult]. The source mock exposed neither the native form nor observed controls. REQUEST_SELECTION_UNCONFIRMED was correct; no availability positive or B1 conclusion was reached.",
+  "correctiveScope": "Use real local Chromium with intercepted source I/O and native named form fields. No observed-state flag, evidence or handoff is injected.",
+  "structureReference": "src/integrations/tablecheck/tablecheck-browser-availability.test.ts, TableCheck reservation form binds the selected date and adult count without inventing inventory"
+}

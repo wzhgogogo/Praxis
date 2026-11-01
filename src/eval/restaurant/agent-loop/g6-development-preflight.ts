@@ -23,6 +23,7 @@ import { googlePlacesDiscoveryPack } from "../../../integrations/restaurant-sear
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
 import { FakeClock } from "../../../harness/fake-clock.js";
 import { strictAction } from "../../../harness/restaurant-read-test-fixtures.js";
+import { exactGuideAvailabilityUrl, localFixture } from "../../../harness/browser/browser-read-test-fixtures.js";
 
 class LocalDatabase implements SqlDatabase {
   constructor(private readonly database: PGlite) {}
@@ -100,7 +101,7 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
   }};
   const counted = new RunBoundedModelGateway(fixtureModel,limits.maxModelCalls,limits.maxAutomaticBrowserMs);
   const model = new DeliveryReservedModelGateway(counted);
-  const browser: BrowserRuntime = {async openSession() {
+  const fixedBrowser: BrowserRuntime = {async openSession() {
     let url = pageUrl;
     return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime},
       async navigate(target) {
@@ -119,6 +120,23 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
       async select(_selector,value){return [value];},async click(){assert.fail("No submission/click transport in fixed source");},async fill(){assert.fail("No form filling in fixed source");},
       async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
   }};
+  // The form route requires live DOM values, not attributes masquerading as
+  // selected controls. Chromium observes them; only its source network is fixed.
+  const tablecheckBrowser = provider === "TABLECHECK" ? localFixture({
+    [pageUrl]: html,
+    [exactGuideAvailabilityUrl(pageUrl,source.date,source.partySize,source.time)]: html,
+  }) : undefined;
+  const browser: BrowserRuntime = tablecheckBrowser ? {async openSession(input) {
+    const session = await tablecheckBrowser.openSession(input);
+    const navigate = session.navigate.bind(session);
+    session.navigate = async target => {
+      sourceCalls.push({kind:"BROWSER_NAVIGATE",method:"GET",url:target,turn});
+      const actual=new URL(target),expected=new URL(pageUrl);
+      assert.equal(actual.origin+actual.pathname,expected.origin+expected.pathname,"Only the observed same-shop public source entrance is readable");
+      await navigate(target);
+    };
+    return session;
+  }} : fixedBrowser;
   const google = new GooglePlacesClient({apiKey:"local-fixture-key",fetchImplementation:async(url,init)=>{
     sourceCalls.push({kind:"FIXED_GOOGLE_TRANSPORT",method:init?.method ?? "GET",url:String(url),turn});
     const place = {id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:pageUrl,
