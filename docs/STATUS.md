@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-01 CET：C从B取页修复主线fceecaad新建TableCheck B1组装修复分支；A 02d01196测试及最小5文件输入原字节，e2de4d99冻结729项，实际PRESENT_RESULTS/AVAILABLE但交接空，断言Initial ordinary source cache must produce B1有效红灯。ce6f02a6并列旁听现有snapshot/observeControls的TableCheck读取器，A原测试绿、组件17/17绿；持久应用初始/选店后均正确B1，红绿初始来源IO逐项相同5次。Tabelog/B G3/领域双校验/A断言不改，模型/Google/GET/Live0，不读.env；待冻结五门禁和严格G2，完成仅推工作分支交复核、通知A，不合main。 [修复计划](../.eval-artifacts/phase3b/b1-tablecheck-composition-20261101/plan.md)。
+
 2026-11-01 CET：用户复核通过B a7860924并批准合入main。已同步main6db445ea和A原集成5683dcfb（只有所有者调度测试变化，B产品/其它源码原字节）；冻结d99a0c2b/727项，五门禁默认1288/1288、Chromium187/187（130.203秒）、严格G2 5/5测试及12/12页面PASS，旧HARD44,197字节一致。七项前后净树，无失败豁免或重试；门禁后仅归档/文档/零调用记账。504旧账目保留、追加至505、累计不变；真实调用0，不读.env/答案/私有留出集。按用户授权发布main并以Git合并和ls-remote作最终回执，随后待命；历史600秒挂起根因仍未知。 [合入验证报告](../.eval-artifacts/phase3b/g1-page-capture-main/report.md)。
 
 2026-11-01 CET：A调度事件同步修复完成待复核。基于B a7860924，受控延迟真实TEST_START复现原断言，等待父监听器消费后再触发原600秒时钟；20行原断言、首测试/断言尾段及60秒/G2180秒/600秒全部保留，B产品/生产脚本原字节。同延迟绿、普通整文件3次绿。17b9cb1d冻结721项，五门禁默认1288/1288、Chromium187/187（130.485秒）及严格G2 5/5、12页PASS，各项前后净树；归档前缀解析错误和首轮全部命令PASS原件另存。账本503旧条不变、A旧条已含、追加为504，真实调用0；不读.env/留出集/QA答案。只推A工作分支，不合main，G6未续跑；历史600秒卡死仍未知。 [报告](../.eval-artifacts/phase3b/fixture-scheduling-events/report.md)。

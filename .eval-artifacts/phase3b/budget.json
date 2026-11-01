@@ -7445,6 +7445,34 @@
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0,
       "note": "User-approved a7860924 with original owner A scheduling fix 5683dcfb. Frozen d99a0c2b five gates and strict G2 all green; no new external calls."
+    },
+    {
+      "id": "phase3b-A-g6-resumed-whole-composition-stop-20261101",
+      "conversation": "A",
+      "recordedAtCET": "2026-11-01T08:50:21.467542+01:00",
+      "mode": "OFFLINE_LOCAL_COMPOSITION",
+      "status": "STOPPED_TABLECHECK_B1_SOURCE_TO_HANDOFF_GAP",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "B page-capture sync: original P4 green, four path controlled checks 6/6 at e4518efa. New real-Chromium TableCheck AVAILABLE has no ordinary B1 handoff. Preserve product red and stop before paid replay or further Runner work. No .env/private holdout/QA answer access."
+    },
+    {
+      "id": "phase3b-C-tablecheck-b1-production-composition-offline-20261101",
+      "conversation": "C",
+      "timeCET": "2026-11-01T10:13:18.590620+01:00",
+      "mode": "LOCAL_CONSTRUCTED_SOURCE_REAL_LOCAL_CHROMIUM_PGLITE",
+      "status": "OFFLINE_ZERO_REAL_CALLS",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "report": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/report.md"
     }
   ],
   "cumulative": {
@@ -7517,5 +7545,5 @@
       "note": "Union A zero-call G6 stop row; preserve all 503 B rows. User G6 caps already approved 2026-11-01."
     }
   ],
-  "asOfCET": "2026-11-01T10:03:51.535104+01:00"
+  "asOfCET": "2026-11-01T10:13:18.590620+01:00"
 }
