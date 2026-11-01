@@ -77,10 +77,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.365
+- Document revision: 4.366
 
 
-- Last updated: 2026-10-31
+- Last updated: 2026-11-01
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -6159,3 +6159,10 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 2026-10-29 CET: C G4 scheme-one offline preparation frozen. Google same-ID ja name reader uses id/displayName only, run-local sharing; valid old-wire red and 3 green controls retained. Eval-only 4+1 simulation covers 37 main views plus four separately frozen reruns; unknown pages/proposals are not success. Product source search/B files unchanged; no shared versions or credentials. New calls0, GET244/257; exact known URLs and source-bound Beef slots to be reviewed, no live execution.
 
 Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for review. Google run-scoped source-name reader (same ID, explicit ja, id/displayName only) is not connected to production. Offline 4+1: prior23/23 plus nr010/022/0263/3 retained, wrong0; main37=22 accepted/15 NOT_EVALUATED, rerun4=4 accepted. T certified result ranks6 in Japanese search with only1 slot and has no recorded fragment. Eight known detail URLs frozen; Beef name/search/detail URLs remain source-bound unknowns. Worst frontier14GET exceeds approved13, so manifest is NOT_EXECUTABLE and quota stays244/257. Frozen57bd09a5/855 SHA, five gates1216/175 + G25/5 PASS, ten steps clean. New real calls0; B paths/identity/shared versions unchanged. [Report](../../.eval-artifacts/phase3b/g4-japanese-prep/report.md).
+
+
+## 2026-11-01 CET：G1追问页面获取修复（A调度测试门禁停止）
+
+2026-11-01 CET：G1追问capturePagesOnly产品修复已验证（唯一产品文件GoogleThenWebsiteFactRead，原事实读取无标志时不变）；A27cf175c原P4红NO_BOUND_PAGE/模型0→绿ANSWERED/模型1，同店原文“至少4人”条件保留，A评测输入原字节。事实/问答114、真实Guard2、Chromium187及严格G2全部12页PASS，旧HARD44,197字节一致；但默认1287/1288，唯一红灯为A的browser-fixture-scheduling.test.ts:109，文件同main。按归属停下等安排，未改A文件、不以重跑碰绿，未推送、不合main；真实调用0。
+
+实际分支codex/fix-phase3b-g1-page-capture；产品847359b3、候选789bfc02，完整红绿/失败/其余检查及SHA见[本批报告](../../.eval-artifacts/phase3b/g1-page-capture/report.md)。默认FAIL仍是FAIL，尚未推送或合main。

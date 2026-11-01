@@ -1,0 +1,150 @@
+✔ an identity-bound Google HARD exclusion stops website and model fact work (0.706542ms)
+✔ website facts require candidate-bound structured identity and do not promote visible prose (43.421417ms)
+✔ website prose without exact structured name and address remains unknown (1.591959ms)
+✔ candidate-bound visible opening hours are grounded when JSON-LD is absent (1.983292ms)
+✔ a differently punctuated but equivalent numbered address can identify the same outlet (0.587375ms)
+✔ a same-name page without the candidate address does not become an outlet fact (0.2635ms)
+✔ matching street numbers cannot bind same-name outlets in different cities (0.199667ms)
+✔ identity-only JSON-LD does not prevent the same page's visible facts from completing a gap (0.517792ms)
+✔ candidate-bound public commercial terms retain price, tax, room minimum, cancellation, and no-show as distinct evidence (0.814458ms)
+✔ the production website reader expands an observed public terms section before grounding its candidate-bound evidence (6.151417ms)
+✔ a cited website judgment drives one same-session observed menu follow-up for a missing HARD fact (1.019458ms)
+✔ a bare public yen amount does not become a price or room-minimum fact (0.416375ms)
+✔ two candidate website reads keep cross-page commercial evidence scoped to its matching restaurant (0.79025ms)
+✔ ambiguous amounts and multiple courses are not promoted to a single commercial price (0.884375ms)
+✔ missing requested cancellation facts remain unknown even when type and hours are known (0.332959ms)
+✔ commercial information requests continue from Google to a real website fact read without invented hard criteria (5.691458ms)
+✔ multilingual website facts retain cancellation and complete course cards across pages with separate citations (7.986667ms)
+✔ a telephone-link-bound page retains source statements without claiming the criterion (1.339875ms)
+✔ a cited model type judgment becomes auditable negative-condition evidence (3.008959ms)
+✔ a category conflict from a generic type needs a same-source HIGH grounded entity (12.321542ms)
+✔ a cited concrete type judgment can ground a positive HARD condition (0.166125ms)
+✔ a positive HARD criterion cannot be grounded by an uncited assertion or conflict label (0.094416ms)
+✔ an uncited model assertion cannot become a negative-condition fact (0.080083ms)
+✔ a broad source type cannot be promoted by the model into exclusion evidence (0.085375ms)
+✔ a cited restaurant-category UNKNOWN is auditable without becoming a verified-negative claim (1.350791ms)
+✔ a generic restaurant fact is sent only for the same negative category judgment and remains UNKNOWN (0.23675ms)
+✔ a venue name alone never becomes a fast-food fact, and non-category UNKNOWN stays fail-closed (0.384959ms)
+✔ a locality-cuisine UNKNOWN remains unverified while receiving authoritative locality context (0.335125ms)
+✔ candidate address and venue name alone never invoke or verify a locality-food criterion (0.077458ms)
+✔ a cited native-cuisine support remains a model judgment rather than a deterministic cuisine mapping (0.086208ms)
+✔ negative category raw judgments reach conversion and the current presentation gate without changing the source facts (2.577125ms)
+✔ website judgments preserve selected source statements and reject invented or cross-candidate citations (0.401083ms)
+✔ a selection spanning merchant and review fields preserves each complete field's own role (0.121125ms)
+✔ a model fact judgment keeps one cited service scope and rejects mixed scope citations (1.376042ms)
+▶ G1 quality language: Q07/Q33 reject predominantly Japanese answers to Latin questions
+  ✔ nishi (5.422083ms)
+  ✔ alaska (0.402708ms)
+✔ G1 quality language: Q07/Q33 reject predominantly Japanese answers to Latin questions (6.217ms)
+✔ G1 quality sentence: Q31 quotes a complete sentence within the saved 186-character paragraph (0.32275ms)
+✔ G1 sentence units retain punctuation, closing quotes, decimals, URLs and review roles (0.851083ms)
+✔ G1 quality reviews: Q27 prompt directs review-only information to NOT_STATED and comments remain uncitable (0.265459ms)
+✔ G1 quality conflict: Q26 model-reported source conflict derives confirmation without sensitive classification (0.173833ms)
+✔ G1 quality dietary preferences: Q14 prompt keeps vegan preferences in NONE unless allergies are involved (0.117833ms)
+✔ G1 answers a payment question outside the original request conditions with an exact source quotation (7.911584ms)
+✔ G1 reuses current-run bound pages without opening a new session; whitespace is the only quote normalization (0.35525ms)
+✔ G1 an asynchronous model reply cannot attach a quotation to a subsequently mutated cache page (0.167833ms)
+▶ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment
+  ✔ fabricated quotation (0.163042ms)
+  ✔ negation removed (0.13225ms)
+  ✔ other document (0.116125ms)
+  ✔ uncited answer (0.1125ms)
+  ✔ URL override (0.130708ms)
+✔ G1 rejects fabricated, partial, wrong-document and uncited answers, including a page that says nothing about payment (1.217625ms)
+✔ G1 same name is not the same outlet: existing identity reader rejects the other branch before model answering (0.479541ms)
+✔ G1 native page observer preserves the old fact result and only emits after existing same-outlet verification (4.498792ms)
+▶ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots
+  ✔ other run (0.0795ms)
+  ✔ old read (0.03725ms)
+  ✔ old identity (0.035291ms)
+  ✔ other candidate (0.030875ms)
+  ✔ weak identity (0.02875ms)
+  ✔ unbound source (0.035667ms)
+  ✔ non-page provider (0.031541ms)
+  ✔ redirect mismatch (0.029334ms)
+  ✔ loading (0.046917ms)
+  ✔ truncated line (1.248625ms)
+✔ G1 rejects stale runs, unbound identities, review providers, changed URLs and incomplete snapshots (1.945667ms)
+▶ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes
+  ✔ ALLERGY (1.442083ms)
+  ✔ RELIGIOUS_DIET (0.561375ms)
+  ✔ ACCESSIBILITY (0.226459ms)
+✔ G1 sensitive questions carry model categories and source paraphrases, rejecting yes/no prefixes (5.432583ms)
+✔ G1 reception mode comes from explicit source text without inventory; time-sensitive source statements retain read time (0.408625ms)
+✔ G1 each quotation keeps its own page and read time; bounded excerpts cannot establish page silence (6.71175ms)
+✔ G1 saved merchant fragment is quoted in place with provenance; it is not a live or identity-validation claim (8.14725ms)
+✔ G1 propagates shared model-budget exhaustion and cancellation instead of inventing an answer (0.403167ms)
+✔ G1 revision returns a short English answer with Japanese table label and value quotations (0.136334ms)
+✔ G1 rejects a customer review quotation using the visible heading outline, independent of private markers (0.32575ms)
+✔ G1 returns structured absence and confirmation flags without display boilerplate (0.157292ms)
+✔ G1 source limits are independent of HARD limits and reject genuinely oversized pages (0.763625ms)
+▶ G1 rejects missing or invalid model classifications and malformed answer fields
+  ✔ missing conflict flag (0.328542ms)
+  ✔ non-boolean conflict flag (0.225625ms)
+  ✔ missing category (0.081ms)
+  ✔ unknown category (0.056667ms)
+  ✔ non-string category (0.047042ms)
+  ✔ empty answer (0.045209ms)
+  ✔ overlong answer (0.050709ms)
+✔ G1 rejects missing or invalid model classifications and malformed answer fields (1.256542ms)
+✔ G1 preserves a model's concise conflict answer and both source quotations (0.116541ms)
+✔ G1 review exclusion follows visible headings after private markers are renamed and preserves neighbouring merchant statements (0.238916ms)
+✔ G1 preserves parent IDs for unsplit lines while split lines require complete sentence citations (0.262ms)
+✔ source facts freeze the page and quote metadata before awaiting the model (7.147541ms)
+✔ source selection rejects model numbers, invented IDs, overlapping ranges and customer reviews (5.632583ms)
+✔ source price ranges require quoted or public ARIA meal context; ambiguous amounts remain unknown (4.995083ms)
+✔ source range preserves every intervening restriction and cancellation rejects a late response (0.541ms)
+✔ source facts select the actual quoted price line without detaching its complete conditions (0.176042ms)
+✔ source facts can cite unstructured merchant type prose with no private fields or menu prices (0.10225ms)
+✔ source selection preserves a shared model budget failure instead of swallowing it as missing facts (0.107333ms)
+✔ G1 GOOGLE acquires a bound page without a HARD gap through the production composition (16.692167ms)
+✔ G1 TABELOG acquires a bound page without a HARD gap through the production composition (3.596667ms)
+✔ G1 TABLECHECK acquires a bound page without a HARD gap through the production composition (1.426958ms)
+✖ G1 page capture with no merchant statement yields NOT_STATED after reading, rather than NO_BOUND_PAGE (1.416458ms)
+▶ G1 same-name foreign outlet pages produce no answerable page
+  ✔ GOOGLE (1.126917ms)
+  ✔ TABELOG (0.818667ms)
+  ✔ TABLECHECK (0.314125ms)
+✔ G1 same-name foreign outlet pages produce no answerable page (2.450125ms)
+✔ G1 a genuinely read previous-run page cannot replace a failed fresh-run acquisition (0.730958ms)
+▶ G1 independent deadline and cancellation still constrain fresh acquisition
+  ✔ deadline already exhausted (0.073459ms)
+  ✔ cancel during acquisition; next question has a fresh scope (0.905167ms)
+✔ G1 independent deadline and cancellation still constrain fresh acquisition (1.081166ms)
+✔ G1 missing website stays unknown without a HARD model; ordinary no-gap facts still skip the website (0.387958ms)
+▶ capture-only bypasses the composition's HARD judge in both website and no-entry branches
+  ✔ website entry (0.1635ms)
+  ✔ no website entry (0.043458ms)
+✔ capture-only bypasses the composition's HARD judge in both website and no-entry branches (3.141542ms)
+✔ fresh question reads own independent model and browser counters, with no completed search context (12.968625ms)
+✔ question deadline actively cancels a pending read, without cancelling the next question (22.248292ms)
+✔ shared Web/Hybrid fact composition answers from class-free merchant prose through model citations (9.081917ms)
+✔ G1 page capture keeps identity and source text without spending a fact or menu model call (1.192292ms)
+ℹ tests 114
+ℹ suites 0
+ℹ pass 113
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 364.522125
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:1240
+✖ G1 page capture with no merchant statement yields NOT_STATED after reading, rather than NO_BOUND_PAGE (1.416458ms)
+  AssertionError [ERR_ASSERTION]: actual absence can be stated only after a bound page reaches the question model
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'NOT_STATED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:20:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'NOT_STATED',
+    operator: 'strictEqual'
+  }

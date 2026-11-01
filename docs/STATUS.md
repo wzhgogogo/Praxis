@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-01 CET：G1追问capturePagesOnly产品修复已验证（唯一产品文件GoogleThenWebsiteFactRead，原事实读取无标志时不变）；A27cf175c原P4红NO_BOUND_PAGE/模型0→绿ANSWERED/模型1，同店原文“至少4人”条件保留，A评测输入原字节。事实/问答114、真实Guard2、Chromium187及严格G2全部12页PASS，旧HARD44,197字节一致；但默认1287/1288，唯一红灯为A的browser-fixture-scheduling.test.ts:109，文件同main。按归属停下等安排，未改A文件、不以重跑碰绿，未推送、不合main；真实调用0。 [报告](../.eval-artifacts/phase3b/g1-page-capture/report.md)。
+
 2026-10-31 CET：G4日文检索合入验证完成：用户已复核efee5a81，已同步main90559cc9；19263da4冻结727项，五门禁默认1272/1272、Chromium186/186（129.772秒）、标准及严格G2均5/5、严格12页全PASS；8项前后净树，285旧C产物/500账目原样保留，GET255/260不变。仅继承A三文件诊断；C排序、身份、绑定、Prompt/State不改。四家定向3正确/1未评、错认0，T第6位缺口不调整。按用户授权发布main，确切合入SHA以Git发布合并和ls-remote核对为准；本次模型/Google/GET/Live0，不读.env，完成后待命。 [合入报告](../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md)。
 
 2026-10-31 CET：用户复核通过C efee5a81并批准合入main；6e0f134a已同步最新main90559cc9，产品无冲突，保留A三文件诊断和双方文档，账本500条/GET255/260不变。冻结合入候选后顺序重跑五门禁及严格G2，每项前后净树，任一失败即停；全绿才发布main并核对远端。四家定向证据保持3正确/1未评、错认0，T第6位缺口不改；本次真实模型/Google/网站GET/Live0，不读.env。 [合入计划](../.eval-artifacts/phase3b/g4-japanese-main-20261031/plan.md)。
