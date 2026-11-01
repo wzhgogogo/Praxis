@@ -1,0 +1,56 @@
+{
+  "atCET": "2026-11-01T07:27:00.131378+01:00",
+  "mode": "OFFLINE_LOCAL_CONSTRUCTED_PRODUCTION_COMPOSITION",
+  "phase": "green",
+  "BCommit": "847359b3f92647e36f73f1c8d47aa8da40d8b532",
+  "ACommit": "27cf175c341da74e4a55b7698fbe9187afadb7ff",
+  "executedCheckoutCommit": "64a7b902069095729896b92a9665edc240812821",
+  "onlyProductOverlayPaths": [
+    "src/integrations/restaurant-facts/google-then-website-facts.ts"
+  ],
+  "AInputsByteIdentical": true,
+  "command": [
+    "node",
+    "--import",
+    "tsx",
+    "src/eval/restaurant/agent-loop/g6-development-preflight.ts",
+    "--out",
+    "/private/tmp/praxis-g1-page-capture-green-20261101/execution",
+    "--path",
+    "P4"
+  ],
+  "exitCode": 0,
+  "elapsedSeconds": 1.075495208,
+  "answer": {
+    "answer": "The page says a private room is available for groups of four or more.",
+    "status": "ANSWERED",
+    "citations": [
+      {
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "text": "A private room is available for groups of four or more.",
+        "readAt": "2026-11-01T06:00:00.000Z",
+        "identityEvidenceId": "evidence:restaurant:website-entity:39e4b0a83f2e6260053c3543"
+      }
+    ],
+    "modelUsage": {
+      "calls": 1
+    },
+    "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+    "checkedPages": [
+      {
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "readAt": "2026-11-01T06:00:00.000Z"
+      }
+    ],
+    "sensitiveCategory": "NONE",
+    "confirmationRequired": false
+  },
+  "questionModelCalls": 1,
+  "realModelCalls": 0,
+  "publicGET": 0,
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "originalCheckoutStatusAfter": "",
+  "freezeSha256": "0e92d80821078bdef8b11c9d9f43b9d6b578c5d9d5993b9fbbe6fd0d0aa590ba",
+  "orchestrationSha256": "48372b966ce2dca855eafaa60c5b35f537973c11d9c74a7f90e0c1d5c5f47002"
+}

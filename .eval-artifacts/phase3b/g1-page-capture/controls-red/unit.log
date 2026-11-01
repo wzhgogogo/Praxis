@@ -1,0 +1,116 @@
+✖ G1 GOOGLE acquires a bound page without a HARD gap through the production composition (2.573208ms)
+✔ G1 TABELOG acquires a bound page without a HARD gap through the production composition (7.5805ms)
+✔ G1 TABLECHECK acquires a bound page without a HARD gap through the production composition (1.904708ms)
+✖ G1 page capture with no merchant statement yields NOT_STATED after reading, rather than NO_BOUND_PAGE (0.440083ms)
+▶ G1 same-name foreign outlet pages produce no answerable page
+  ✔ GOOGLE (0.230709ms)
+  ✔ TABELOG (0.576ms)
+  ✔ TABLECHECK (0.314166ms)
+✔ G1 same-name foreign outlet pages produce no answerable page (1.33375ms)
+✔ G1 a genuinely read previous-run page cannot replace a failed fresh-run acquisition (1.454541ms)
+▶ G1 independent deadline and cancellation still constrain fresh acquisition
+  ✔ deadline already exhausted (0.10825ms)
+  ✖ cancel during acquisition; next question has a fresh scope (0.3375ms)
+✖ G1 independent deadline and cancellation still constrain fresh acquisition (0.602417ms)
+✔ G1 missing website stays unknown without a HARD model; ordinary no-gap facts still skip the website (0.1885ms)
+▶ capture-only bypasses the composition's HARD judge in both website and no-entry branches
+  ✖ website entry (0.210417ms)
+  ✖ no website entry (0.086417ms)
+✖ capture-only bypasses the composition's HARD judge in both website and no-entry branches (3.130167ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 9
+ℹ fail 7
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 173.214166
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:224
+✖ G1 GOOGLE acquires a bound page without a HARD gap through the production composition (2.573208ms)
+  AssertionError [ERR_ASSERTION]: GOOGLE must reach the question model from a freshly read page
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'ANSWERED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:8:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'ANSWERED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:1240
+✖ G1 page capture with no merchant statement yields NOT_STATED after reading, rather than NO_BOUND_PAGE (0.440083ms)
+  AssertionError [ERR_ASSERTION]: actual absence can be stated only after a bound page reaches the question model
+  + actual - expected
+  
+  + 'UNVERIFIED'
+  - 'NOT_STATED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:20:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNVERIFIED',
+    expected: 'NOT_STATED',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:4244
+✖ cancel during acquisition; next question has a fresh scope (0.3375ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection (AbortError).
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:55:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:53:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { name: 'AbortError' },
+    operator: 'rejects'
+  }
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:6299
+✖ website entry (0.210417ms)
+  AssertionError [ERR_ASSERTION]: capture controls the existing website branch independently of HARD gaps
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:84:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:75:38)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/page-question-capture.test.ts:1:6299
+✖ no website entry (0.086417ms)
+  AssertionError [ERR_ASSERTION]: capture-only must not invoke either outer HARD judgment branch
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:85:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/page-question-capture.test.ts:75:38)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
