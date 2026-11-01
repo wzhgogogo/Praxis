@@ -107,7 +107,8 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
 
   async readBookingTerms(view:RestaurantCaseView,deadlineAt:string,parent:AbortSignal):Promise<void>{
     const selected=view.restaurant.selectedCandidateId,context=view.restaurant.sourceReadContext;
-    if(!selected||!context||view.case.phase!=="PRESENT_RESULTS")return;
+    if(!selected||!context||view.case.phase!=="PRESENT_RESULTS"
+      ||view.restaurant.intentDraft?.target?.selectionScope!=="SPECIFIC_OUTLET")return;
     const prepared=this.readLinks(view).find(item=>item.source.candidateId===selected);
     if(!prepared)return;
     const source=prepared.source,entry=this.entry(view,source);this.acceptQuestion(view,source,entry);
