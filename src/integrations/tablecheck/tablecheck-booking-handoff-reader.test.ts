@@ -39,7 +39,7 @@ function environment() {
     controls = observed;
     const id = c.candidate.restaurant.id;
     const request: RestaurantAvailabilityRequest = { candidateIds: [id], candidates: [c.candidate], date: c.request.date, partySize: c.request.partySize, timeWindow: c.request.timeWindow, hardCriteria: [] };
-    const read: RestaurantAvailabilityRead = { offers: [c.offer], availabilityChecks: { [id]: c.check }, evidence: c.evidence,
+    const read: RestaurantAvailabilityRead = { offers: [c.offer], availabilityChecks: { [id]: c.check }, evidence: [...c.evidence],
       metadata: { provider: "TABLECHECK", route: "GENERIC_BROWSER", latencyMs: 0 } };
     await reader.capture(request, new AbortController().signal, async () => {
       const s = await reader.runtime.openSession({ signal: new AbortController().signal });
