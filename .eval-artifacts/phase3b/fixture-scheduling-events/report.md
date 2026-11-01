@@ -38,7 +38,20 @@ These support this test synchronization repair. They do not identify or close th
 
 The first full six-command matrix at `8fcd73dc` had all command exit codes0: default1288, Chromium187 and strictG2 tests5; the raw spec diagnostics contain12 PASS pages. Its outer wrapper then failed its own page-list assertion because it recognized only the TAP `#` prefix instead of the actual spec `ℹ` prefix. `initial-matrix/` preserves every raw result, receipt, frozen configuration and that postprocessing failure. The parser alone is corrected to accept the two known Node diagnostic prefixes; product/test inputs stay identical. A fresh full matrix is frozen before execution, not repeated to hide a test failure.
 
-**PENDING:** Freeze and commit the combined B+A candidate; run unfiltered typecheck, arch:check, npm test, build, test:browser:fixture, then strict G2. Expected default1288, Chromium187 and strictG2 tests5/pages12 come from B's existing unchanged baseline. Every gate must start/end clean with frozen SHA checks. A green here does not rerun or accept G6; B's existing P4 causal green is preserved without spending model calls.
+**PASS** on frozen combined candidate `17b9cb1dcf62b9ca43f34ced1df7303f24063b8a`. All721 execution inputs stayed unchanged, every check had empty git status before/after, no test filters/skips/cancellation/todo. This candidate contains the entire B repair plus the one A test-file change.
+
+| Check | Result | Seconds |
+|---|---|---:|
+| typecheck | PASS | 0.436 |
+| arch-check | PASS | 0.196 |
+| npm-test | PASS 1288/1288 | 29.651 |
+| build | PASS | 0.53 |
+| browser-fixture | PASS 187/187 | 130.485 |
+| strict-g2 | PASS 5/5 | 24.26 |
+
+StrictG2 has12/12 page classifications PASS, bound to raw output in `verification/strict-pages.json`. Chromium completed all37 files once, outer timeouts0. `verification/gates.json` preserves complete commands/env overrides, clean statuses, input verification and raw log hashes. All other source/test and production scripts remain identical to B. `git diff --check` passes.
+
+This does not rerun or accept G6. B's existing P4 causal green remains intact; no real model was spent. The repaired test precondition is supported by the same delayed-worker red/green and the unfiltered full suite. The historical sporadic600-second hang remains unlocated.
 
 ## Scope, budget and delivery
 
