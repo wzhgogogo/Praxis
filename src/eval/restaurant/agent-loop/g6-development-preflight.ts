@@ -38,7 +38,10 @@ class LocalDatabase implements SqlDatabase {
   }
 }
 
-export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2" | "P3" | "P4" = "P1", variant = 0, provider: "TABELOG" | "TABLECHECK" = "TABELOG") {
+/** Local development inputs only: user wording, public source prose and model transport output. */
+export interface G6QuestionFixture { question: string; merchantQuote: string; answer: string; }
+
+export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2" | "P3" | "P4" = "P1", variant = 0, provider: "TABELOG" | "TABLECHECK" = "TABELOG", questionFixture?: G6QuestionFixture) {
   const source = JSON.parse(await readFile(new URL("./cases/g6-development/source.json", import.meta.url),"utf8")) as {
     referenceTime:string; outlet:{id:string;name:string;address:string;phone:string;latitude:number;longitude:number};
     pageUrl:string;date:string;time:string;partySize:number;initialRequest:string;bookingFollowups:string[];
@@ -47,7 +50,11 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
     tablecheck:{pageUrl:string;expectedHandoffUrl:string};
   };
   const pageUrl=provider==="TABLECHECK" ? source.tablecheck.pageUrl : source.pageUrl;
-  const html = await readFile(new URL(provider==="TABLECHECK" ? "./cases/g6-development/tablecheck.html" : "./cases/g6-development/outlet.html", import.meta.url),"utf8");
+  const originalHtml = await readFile(new URL(provider==="TABLECHECK" ? "./cases/g6-development/tablecheck.html" : "./cases/g6-development/outlet.html", import.meta.url),"utf8");
+  const merchantQuote = questionFixture?.merchantQuote ?? source.merchantQuote;
+  const question = questionFixture?.question ?? source.question;
+  const fixtureAnswer = questionFixture?.answer ?? "The page says a private room is available for groups of four or more.";
+  const html = originalHtml.replace(source.merchantQuote,merchantQuote);
   const clock = new FakeClock(source.referenceTime);
   const pglite = await PGlite.create(), database = new LocalDatabase(pglite);
   await applyPostgresMigrations(database);
@@ -76,10 +83,10 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
     else if (request.purpose === "browser_read_decide") body = {action:"COMPLETE",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"Constructed public page is fully readable."};
     else if (request.purpose === "restaurant_page_question") {
       const payload=JSON.parse(request.messages.find(m=>m.role==="user")!.content);
-      const doc=payload.sourceDocuments.find((d:{statements:Array<{text:string}>})=>d.statements.some(s=>s.text===source.merchantQuote));
+      const doc=payload.sourceDocuments.find((d:{statements:Array<{text:string}>})=>d.statements.some(s=>s.text===merchantQuote));
       assert.ok(doc,"The real G1 reader must supply the merchant sentence");
-      const sentence=doc.statements.find((s:{text:string})=>s.text===source.merchantQuote);
-      body={status:"ANSWERED",answer:"The page says a private room is available for groups of four or more.",citations:[{documentId:doc.id,statementId:sentence.id,quote:sentence.text}],sensitiveCategory:"NONE",sourceConflict:false};
+      const sentence=doc.statements.find((s:{text:string})=>s.text===merchantQuote);
+      body={status:"ANSWERED",answer:fixtureAnswer,citations:[{documentId:doc.id,statementId:sentence.id,quote:sentence.text}],sensitiveCategory:"NONE",sourceConflict:false};
     }
     else if (request.purpose === "restaurant_agent_decide") {
       const context = JSON.parse(request.messages.find(m=>m.role === "user")!.content).context as RestaurantAgentContext;
@@ -115,7 +122,7 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
         } else assert.equal(target,pageUrl,"Only the fixed public detail page is readable; no workflow or submission transport");
         url=target;
       },
-      async snapshot() {return {url,title:source.outlet.name,text:[source.outlet.name,source.outlet.address,source.outlet.phone,source.merchantQuote,"Availability","November 11, 2026. 2 guests. 19:00."].join("\n"),html,
+      async snapshot() {return {url,title:source.outlet.name,text:[source.outlet.name,source.outlet.address,source.outlet.phone,merchantQuote,"Availability","November 11, 2026. 2 guests. 19:00."].join("\n"),html,
         responses:provider==="TABLECHECK" ? [] : [{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};},
       async select(_selector,value){return [value];},async click(){assert.fail("No submission/click transport in fixed source");},async fill(){assert.fail("No form filling in fixed source");},
       async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
@@ -193,14 +200,14 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
     }
     if(path === "P4") {
       turn="G1_QUESTION";
-      await completed(()=>application.askRestaurantQuestion({userId:"g6-development-user",caseId:initial.case.caseId,candidateId:first,question:source.question,requestId:"g6-question",expectedVersion:initial.case.taskVersion}));
+      await completed(()=>application.askRestaurantQuestion({userId:"g6-development-user",caseId:initial.case.caseId,candidateId:first,question,requestId:"g6-question",expectedVersion:initial.case.taskVersion}));
       const after=project(await application.getCase("g6-development-user",initial.case.caseId));
       artifact={...artifact,after,afterArtifact:await application.exportReadArtifact(initial.case.caseId)};
       const answer=after.restaurant.pageQuestion?.result;
       assert.equal(answer?.status,"ANSWERED","Explicit bound G1 follow-up must reach the core");
       assert.ok(answer && answer.status === "ANSWERED");
       assert.equal(answer.candidateId,first);
-      assert.deepEqual(answer.citations.map(c=>[c.text,c.url,c.readAt]),[[source.merchantQuote,source.pageUrl,source.referenceTime]]);
+      assert.deepEqual(answer.citations.map(c=>[c.text,c.url,c.readAt]),[[merchantQuote,pageUrl,source.referenceTime]]);
     } else {
     turn = "BOOK_DISPLAYED";
     const boundary = requests.length;
