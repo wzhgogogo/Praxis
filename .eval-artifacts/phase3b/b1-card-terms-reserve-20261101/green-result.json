@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "commit": "677334e54d8cec278a77cc56c54b84f603d2fe9e",
+  "startedAtCET": "2026-11-01T16:41:55.155335+01:00",
+  "exitCode": 0,
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "src/application/restaurant-booking-terms-reserve.test.ts"
+  ],
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "realCalls": 0,
+  "envFileLoaded": false,
+  "rawSHA256": "2b04ab328088d6383c746f0741fe238bcb1c7a14dfc991c3c1cb7524bb2bb025"
+}
