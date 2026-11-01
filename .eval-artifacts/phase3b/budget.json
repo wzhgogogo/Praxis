@@ -2,10 +2,10 @@
   "schema": "phase3b-budget@1",
   "timezone": "CET UTC+01:00",
   "limits": {
-    "fullLive": 18,
-    "realModelCalls": 1000,
+    "fullLive": 26,
+    "realModelCalls": 1600,
     "environmentReruns": 4,
-    "evaluationPublicGET": 260
+    "evaluationPublicGET": 290
   },
   "entries": [
     {
@@ -7377,6 +7377,74 @@
       "publicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-A-g6-offline-preflight-20261101-stop",
+      "conversation": "A",
+      "batch": "G6 batch1 offline preparation",
+      "recordedAtCET": "2026-11-01T07:03:08.396418+01:00",
+      "mode": "OFFLINE_LOCAL_CONSTRUCTED_SOURCES",
+      "status": "STOPPED_PRODUCT_G1_PAGE_CAPTURE_GAP",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "P4 NO_BOUND_PAGE before question model. No real model replay, no credential loading, no private holdout read. G6 limits updated per user 2026-11-01; original 500 rows unchanged."
+    },
+    {
+      "id": "phase3b-B-g1-page-capture-20261101",
+      "conversation": "B",
+      "recordedAtCET": "2026-11-01T07:39:00.145945+01:00",
+      "mode": "OFFLINE_G1_CAPTURE_CAUSAL_REPRODUCTION",
+      "status": "PRODUCT_FIX_VERIFIED_DEFAULT_GATE_A_OWNED_FAILURE",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-B-g1-capture-known-a-diagnostics-20261101",
+      "conversation": "B",
+      "recordedAtCET": "2026-11-01T08:11:56.774193+01:00",
+      "mode": "OFFLINE_PAIRED_A_TEST_AND_FULL_GATES",
+      "status": "USER_CLASSIFIED_A_KNOWN_FAILURE_RETAINED",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-A-fixture-scheduling-event-sync-20261101",
+      "conversation": "A",
+      "timeCET": "2026-11-01T08:22:09.969368+01:00",
+      "mode": "OFFLINE_LOCAL_TEST_PROCESS",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "User-authorized A fixture synchronization repair on B a7860924. Real lifecycle delivery race reproduced; no product/production-script change. No .env or holdout/QA answer reads."
+    },
+    {
+      "id": "phase3b-B-g1-page-capture-reviewed-main-20261101",
+      "conversation": "B",
+      "recordedAtCET": "2026-11-01T10:03:51.535104+01:00",
+      "mode": "OFFLINE_REVIEWED_MAIN_INTEGRATION",
+      "status": "ALL_RELEASE_GATES_PASS",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "User-approved a7860924 with original owner A scheduling fix 5683dcfb. Frozen d99a0c2b five gates and strict G2 all green; no new external calls."
     }
   ],
   "cumulative": {
@@ -7434,7 +7502,20 @@
       "sourceGit": "90559cc956d5288d52c1762cdaa85aeb6c3fb8d7",
       "sourceSha256": "b9a258071714079d0410dec78072c6af5f700eea2ea0a7b81ebf9e794ec7665d",
       "note": "Union one A offline zero-call entry; preserve all existing entries exactly."
+    },
+    {
+      "conversation": "A-G6-offline",
+      "sourceGit": "27cf175c341da74e4a55b7698fbe9187afadb7ff",
+      "ledgerSha256": "70786598f8b7bd2cc649f6cffdb37f0c635022733f6e3f70ed6798a71b66fb23"
+    },
+    {
+      "conversation": "A-fixture-scheduling",
+      "sourceGit": "a7860924b8630a34318811b477af54e0f007d0b6",
+      "sourceSha256": "d37c5a6d8b199791c2b4e08e952157b000eadd25a42460d38b9579302b132d77",
+      "unionFromGit": "27cf175c341da74e4a55b7698fbe9187afadb7ff",
+      "unionFromSha256": "70786598f8b7bd2cc649f6cffdb37f0c635022733f6e3f70ed6798a71b66fb23",
+      "note": "Union A zero-call G6 stop row; preserve all 503 B rows. User G6 caps already approved 2026-11-01."
     }
   ],
-  "asOfCET": "2026-10-31T06:54:11.111145+01:00"
+  "asOfCET": "2026-11-01T10:03:51.535104+01:00"
 }

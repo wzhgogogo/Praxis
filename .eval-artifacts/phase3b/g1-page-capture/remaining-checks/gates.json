@@ -1,0 +1,105 @@
+{
+  "mode": "OFFLINE_MOCK_AND_LOCAL_CHROMIUM",
+  "testedCommit": "a2a5829a2243cf0089e80155369c43dbf50497b5",
+  "startedAtCET": "2026-11-01T07:32:38.180284+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "0021fc686fe47a98b1580c840de3213b823754735c9934e6c4985c49ff756ee7",
+  "freezeSha256": "7aeadfefe999f4a79489fcf79b2d0afd1e51314ac80cb7305965f3ac0691931d",
+  "frozenPaths": 728,
+  "restorations": 0,
+  "gatePolicy": "Stop on gate failure; preserve raw failure and diagnose ownership before any repair; never merge main",
+  "runs": [
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-11-01T07:32:38.266431+01:00",
+      "gitStatusBefore": "",
+      "log": "build.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.506761,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-11-01T07:32:38.899788+01:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture.log",
+      "exitCode": 0,
+      "elapsedSeconds": 129.629043,
+      "summary": {
+        "tests": 187,
+        "suites": 0,
+        "pass": 187,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "85419013a2dd7bc19448053767d815ad803c9706b1feaa87547cecd62e97abce",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "strict-dom-change",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-11-01T07:34:48.662823+01:00",
+      "gitStatusBefore": "",
+      "log": "strict-dom-change.log",
+      "exitCode": 0,
+      "elapsedSeconds": 24.277436,
+      "summary": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "f33c76bde4db279df6b82a2591f054089985baacb7833a6481c910c8fe763fc3",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "startedAtCET": "2026-11-01T07:35:13.074137+01:00",
+      "gitStatusBefore": "",
+      "log": "hard-bytes.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.140648,
+      "summary": {},
+      "logSha256": "35fd00032ca19db45bb4ee7a7fae63364905df14b7426f6e5a14dd763231c520",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    }
+  ],
+  "acceptance": "PARTIAL_CHECKS_PASS_DEFAULT_GATE_REMAINS_FAILED",
+  "finishedAtCET": "2026-11-01T07:35:13.277153+01:00",
+  "freezeVerifiedAfter": true,
+  "originalFailure": "npm test 1287/1288; browser-fixture-scheduling.test.ts:109; frozen candidate789bfc02"
+}

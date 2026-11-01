@@ -1,0 +1,343 @@
+{
+  "mode": "ISOLATED_ORIGINAL_TEST_AND_SCRIPT_CLOSURE",
+  "startedAtCET": "2026-11-01T08:06:55.313131+01:00",
+  "outerCommit": "e3782dfdb55fdd66f90b91224f1805c09ba575da",
+  "referenceFreezeSha256": "7a2480d9dc86dc3e2803ae85bf0482fbf2a1fb77655865ce002fc7620a308ef0",
+  "revisions": {
+    "main": "6db445ea9afdbe5debdc60efc1107f768434c555",
+    "B": "6162c128ab2ffccfd7121ef8c63f21fc70384d8d"
+  },
+  "runsPerRevision": 5,
+  "selection": "Entire file, both tests, no name/skip filter",
+  "G1ProductionCodeMaterialized": false,
+  "sameTestScriptsAndConfiguration": true,
+  "nodeVersion": "v24.4.1",
+  "runs": [
+    {
+      "revisionLabel": "main",
+      "sample": 1,
+      "atCET": "2026-11-01T08:06:58.352664+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.963794209,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "main-01.log",
+      "logSha256": "2601a67678f91e7dc1f314f382d3e0b5e6797de81e8306df655e8fce142bc090",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "revisionLabel": "B",
+      "sample": 1,
+      "atCET": "2026-11-01T08:07:01.395885+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.9104383339999997,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "B-01.log",
+      "logSha256": "55c9e190a09151eff76066c916ccee9c9a0e4c63bbe9b038234a33eea752a222",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "revisionLabel": "main",
+      "sample": 2,
+      "atCET": "2026-11-01T08:07:04.371501+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.8735455419999996,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "main-02.log",
+      "logSha256": "19336f77feefd7bbb0d24adc6ccf129cbf0fd943ed2352458fe5c013cd1018fe",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "revisionLabel": "B",
+      "sample": 2,
+      "atCET": "2026-11-01T08:07:07.289613+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.817725207999999,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "B-02.log",
+      "logSha256": "5574feed452181c7d8b260ad5d1428f8036cad593332efaa6f3894952966782f",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "revisionLabel": "main",
+      "sample": 3,
+      "atCET": "2026-11-01T08:07:10.291296+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.890327124999999,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "main-03.log",
+      "logSha256": "4a5a3984ce294ef9a114ce30a391a6188f8080c75ab8fc920d6b9159174bc98a",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "revisionLabel": "B",
+      "sample": 3,
+      "atCET": "2026-11-01T08:07:13.239112+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.8448372499999994,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "B-03.log",
+      "logSha256": "595b0c6864284ca3c0fed6c43f7666f62f0d35d7f352aab6559a1c752967002b",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "revisionLabel": "main",
+      "sample": 4,
+      "atCET": "2026-11-01T08:07:16.171362+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.831628833,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "main-04.log",
+      "logSha256": "559260eb92701ff1677ff37aec5f9a1d69b92b7a7fc9a1e42c5d173e0e1b637f",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "revisionLabel": "B",
+      "sample": 4,
+      "atCET": "2026-11-01T08:07:19.140898+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.867919666999999,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "B-04.log",
+      "logSha256": "eacba8286bf91ca8d5be16502ac0d8e07a2a4d1b080468ce580b1f70c13008f9",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "revisionLabel": "main",
+      "sample": 5,
+      "atCET": "2026-11-01T08:07:22.112509+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.870144500000002,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "main-05.log",
+      "logSha256": "0eecffb8ee3fd2c5ef545aae380a829f1c9f925adedc18fa334e6ed0985e7cd1",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "revisionLabel": "B",
+      "sample": 5,
+      "atCET": "2026-11-01T08:07:25.081374+01:00",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.8648216249999976,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "targetOutcome": "PASS",
+      "fileOutcome": "PASS",
+      "log": "B-05.log",
+      "logSha256": "7d1559de40a22c1cd72cc4e389102666147655ccecb7b744bcba92a92350bf41",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ],
+  "totals": {
+    "main": {
+      "filePass": 5,
+      "fileFail": 0,
+      "targetPass": 5,
+      "targetFail": 0
+    },
+    "B": {
+      "filePass": 5,
+      "fileFail": 0,
+      "targetPass": 5,
+      "targetFail": 0
+    }
+  },
+  "finishedAtCET": "2026-11-01T08:07:25.132693+01:00",
+  "closureHashesVerifiedAfter": true
+}

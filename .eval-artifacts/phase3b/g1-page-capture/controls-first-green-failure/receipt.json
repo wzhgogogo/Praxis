@@ -1,0 +1,42 @@
+{
+  "atCET": "2026-11-01T07:26:50.387412+01:00",
+  "mode": "OFFLINE_COMPONENT_AND_REAL_LOCAL_CHROMIUM",
+  "phase": "green",
+  "commit": "847359b3f92647e36f73f1c8d47aa8da40d8b532",
+  "freezeSha256": "0e92d80821078bdef8b11c9d9f43b9d6b578c5d9d5993b9fbbe6fd0d0aa590ba",
+  "orchestrationSha256": "572b2b178d39194d68afa5c49b7101e3ea82a15496578194cabc63770a7c8170",
+  "runs": [
+    {
+      "name": "unit",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/restaurant-facts/google-listed-website-facts.test.ts",
+        "src/integrations/restaurant-facts/model-fact-judgment.test.ts",
+        "src/integrations/restaurant-facts/model-page-question-quality.test.ts",
+        "src/integrations/restaurant-facts/model-page-question.test.ts",
+        "src/integrations/restaurant-facts/model-source-facts.test.ts",
+        "src/integrations/restaurant-facts/page-question-capture.test.ts",
+        "src/integrations/restaurant-facts/page-question-reader.test.ts",
+        "src/integrations/restaurant-facts/quoted-fact-read.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 0.453978792,
+      "summary": {
+        "tests": 114,
+        "pass": 113,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "44efdd58e38b9a557b750ea97f960815764bb5ffd78e71959e01b665ae0fe099",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

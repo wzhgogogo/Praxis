@@ -1,5 +1,17 @@
 # Test and Verification Log
 
+<a id="test-g1-page-capture-main"></a>
+
+2026-11-01 CET：用户复核通过B a7860924并批准合入main。已同步main6db445ea和A原集成5683dcfb（只有所有者调度测试变化，B产品/其它源码原字节）；冻结d99a0c2b/727项，五门禁默认1288/1288、Chromium187/187（130.203秒）、严格G2 5/5测试及12/12页面PASS，旧HARD44,197字节一致。七项前后净树，无失败豁免或重试；门禁后仅归档/文档/零调用记账。504旧账目保留、追加至505、累计不变；真实调用0，不读.env/答案/私有留出集。按用户授权发布main并以Git合并和ls-remote作最终回执，随后待命；历史600秒挂起根因仍未知。 [合入验证报告](../../.eval-artifacts/phase3b/g1-page-capture-main/report.md)。
+
+<a id="test-fixture-scheduling-events-verified"></a>
+
+2026-11-01 CET：A调度事件同步修复完成待复核。基于B a7860924，受控延迟真实TEST_START复现原断言，等待父监听器消费后再触发原600秒时钟；20行原断言、首测试/断言尾段及60秒/G2180秒/600秒全部保留，B产品/生产脚本原字节。同延迟绿、普通整文件3次绿。17b9cb1d冻结721项，五门禁默认1288/1288、Chromium187/187（130.485秒）及严格G2 5/5、12页PASS，各项前后净树；归档前缀解析错误和首轮全部命令PASS原件另存。账本503旧条不变、A旧条已含、追加为504，真实调用0；不读.env/留出集/QA答案。只推A工作分支，不合main，G6未续跑；历史600秒卡死仍未知。 [报告](../../.eval-artifacts/phase3b/fixture-scheduling-events/report.md)。
+
+<a id="test-fixture-scheduling-events-red-green"></a>
+
+2026-11-01 CET：A按用户指令在B a7860924上修复调度测试。自然全套一次1288/1288未复现；真实TEST_START消息受控延迟复现原lastObservedTests断言失败。仅生成driver等待实际held生命周期消息并在父监听器消费后检查，20行原断言/首用例/断言尾段原字节，60s/600s/G2180s不变；同延迟绿、普通整文件3次2/2。B产品和生产脚本不改，账本503旧条保留、A旧条已含不重复、追加为504、累计用量不变；真实调用0，不读.env/留出集/QA答案。待冻结完整B+A候选五门禁和严格G2，仅推A工作分支不合main；原600秒卡死仍未知。 [报告](../../.eval-artifacts/phase3b/fixture-scheduling-events/report.md)。
+
 2026-10-31 CET：G4日文检索合入验证完成：用户已复核efee5a81，已同步main90559cc9；19263da4冻结727项，五门禁默认1272/1272、Chromium186/186（129.772秒）、标准及严格G2均5/5、严格12页全PASS；8项前后净树，285旧C产物/500账目原样保留，GET255/260不变。仅继承A三文件诊断；C排序、身份、绑定、Prompt/State不改。四家定向3正确/1未评、错认0，T第6位缺口不调整。按用户授权发布main，确切合入SHA以Git发布合并和ls-remote核对为准；本次模型/Google/GET/Live0，不读.env，完成后待命。 [合入报告](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md)。
 
 2026-10-31 CET：用户复核通过C efee5a81并批准合入main；6e0f134a已同步最新main90559cc9，产品无冲突，保留A三文件诊断和双方文档，账本500条/GET255/260不变。冻结合入候选后顺序重跑五门禁及严格G2，每项前后净树，任一失败即停；全绿才发布main并核对远端。四家定向证据保持3正确/1未评、错认0，T第6位缺口不改；本次真实模型/Google/网站GET/Live0，不读.env。 [合入计划](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/plan.md)。
@@ -77,10 +89,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.365
+- Document revision: 4.368
 
 
-- Last updated: 2026-10-31
+- Last updated: 2026-11-01
 - Source of truth for: 每次验证结果、模式、未覆盖项和外部副作用
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Test Skill](../skills/test/SKILL.md), [Harness Design](../harness/HARNESS-DESIGN.md)
@@ -6159,3 +6171,17 @@ c1b5999e冻结103项与原守卫/10份响应，清单ca72439e；完整请求逐�
 2026-10-29 CET: C G4 scheme-one offline preparation frozen. Google same-ID ja name reader uses id/displayName only, run-local sharing; valid old-wire red and 3 green controls retained. Eval-only 4+1 simulation covers 37 main views plus four separately frozen reruns; unknown pages/proposals are not success. Product source search/B files unchanged; no shared versions or credentials. New calls0, GET244/257; exact known URLs and source-bound Beef slots to be reviewed, no live execution.
 
 Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for review. Google run-scoped source-name reader (same ID, explicit ja, id/displayName only) is not connected to production. Offline 4+1: prior23/23 plus nr010/022/0263/3 retained, wrong0; main37=22 accepted/15 NOT_EVALUATED, rerun4=4 accepted. T certified result ranks6 in Japanese search with only1 slot and has no recorded fragment. Eight known detail URLs frozen; Beef name/search/detail URLs remain source-bound unknowns. Worst frontier14GET exceeds approved13, so manifest is NOT_EXECUTABLE and quota stays244/257. Frozen57bd09a5/855 SHA, five gates1216/175 + G25/5 PASS, ten steps clean. New real calls0; B paths/identity/shared versions unchanged. [Report](../../.eval-artifacts/phase3b/g4-japanese-prep/report.md).
+
+
+## 2026-11-01 CET：G1追问页面获取修复（A调度测试门禁停止）
+
+2026-11-01 CET：G1追问capturePagesOnly产品修复已验证（唯一产品文件GoogleThenWebsiteFactRead，原事实读取无标志时不变）；A27cf175c原P4红NO_BOUND_PAGE/模型0→绿ANSWERED/模型1，同店原文“至少4人”条件保留，A评测输入原字节。事实/问答114、真实Guard2、Chromium187及严格G2全部12页PASS，旧HARD44,197字节一致；但默认1287/1288，唯一红灯为A的browser-fixture-scheduling.test.ts:109，文件同main。按归属停下等安排，未改A文件、不以重跑碰绿，未推送、不合main；真实调用0。
+
+实际分支codex/fix-phase3b-g1-page-capture；产品847359b3、候选789bfc02，完整红绿/失败/其余检查及SHA见[本批报告](../../.eval-artifacts/phase3b/g1-page-capture/report.md)。默认FAIL仍是FAIL，尚未推送或合main。
+
+
+## 2026-11-01 CET：G1交付与A调度已知失败对照
+
+2026-11-01 CET：按用户决定，B不修改A调度测试。main6db445ea/B6162c128各独立5次，均文件5通过/0失败、目标5通过/0失败；九份执行输入逐字相同且副本不含G1代码，单跑未复现全套失败，不称已修复。原默认1287/1288唯一失败保留为“A归属、与本次改动无关的已知失败”。本轮完整未过滤门禁默认1288/1288、Chromium187/187、严格G2 5/5及12/12页，type/arch/build和旧HARD字节均通过，各项净树/728 SHA不变。G1产品及A原P4因果绿灯不变；用户批准推B分支通知A，不合main。真实调用0，账本503条。
+
+完整未过滤命令、10次独立日志、原失败和冻结SHA见[最新交付报告](../../.eval-artifacts/phase3b/g1-page-capture/known-a-scheduling/report.md)。

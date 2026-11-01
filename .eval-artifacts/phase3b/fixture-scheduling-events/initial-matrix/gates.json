@@ -1,0 +1,131 @@
+{
+  "testedCommit": "8fcd73dcf3143ddd3f73b867612d9b23fa5024a8",
+  "baseB": "a7860924b8630a34318811b477af54e0f007d0b6",
+  "mode": "OFFLINE_FULL_B_PLUS_A_TEST_SYNC",
+  "frozenInputs": 721,
+  "realCalls": 0,
+  "runs": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environmentOverride": {},
+      "exitCode": 0,
+      "status": "PASS",
+      "seconds": 0.511,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "summary": {}
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environmentOverride": {},
+      "exitCode": 0,
+      "status": "PASS",
+      "seconds": 0.184,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "summary": {}
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environmentOverride": {},
+      "exitCode": 0,
+      "status": "PASS",
+      "seconds": 29.916,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "6d090e80e66bc978b1bcce91136fb4162443bc4ea0f474bcbe0d938bc6c72178",
+      "summary": {
+        "tests": 1288,
+        "suites": 5,
+        "pass": 1288,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environmentOverride": {},
+      "exitCode": 0,
+      "status": "PASS",
+      "seconds": 0.512,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "summary": {}
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environmentOverride": {},
+      "exitCode": 0,
+      "status": "PASS",
+      "seconds": 130.408,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "2ac7e65c3470e13683683dc8e177af3a3bff19131605f32192aa54fdb9ed954b",
+      "summary": {
+        "tests": 187,
+        "suites": 0,
+        "pass": 187,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environmentOverride": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "status": "PASS",
+      "seconds": 24.357,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "cf0cd515d2a373ed1baecb83b94304825e96ddd41d61d8e91f0d9a2f8f555daf",
+      "summary": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "startedAtCET": "2026-11-01T08:22:57.096913+01:00"
+}
