@@ -1,0 +1,7 @@
+{
+  "status": "FIXTURE_AUTHORING_ERROR_NOT_PRODUCT_RED",
+  "inputGit": "f0d04a74",
+  "reason": "Constructed source navigation whitelist omitted the existing public guide availability-query date/time/availability_format/availability_mode fields; it incorrectly permitted only B1 handoff keys. The browser source mock, not product Guard, rejected this legal read.",
+  "actualObservedQuery": "date=2026-11-11&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+  "correctiveScope": "Source I/O fixture allow-list only; no product/assertion/expected B1 link change."
+}

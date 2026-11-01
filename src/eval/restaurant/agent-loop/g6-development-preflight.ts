@@ -108,7 +108,9 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
         if(provider==="TABLECHECK"){
           const actual=new URL(target),expected=new URL(pageUrl);
           assert.equal(actual.origin+actual.pathname,expected.origin+expected.pathname,"Only the observed same-shop public source entrance is readable");
-          assert.ok([...actual.searchParams.keys()].every(k=>["start_date","start_time","num_people"].includes(k)));
+          // Public availability-query grammar is distinct from B1's handoff
+          // start_date/start_time fields (existing browser-read-test-fixtures).
+          assert.ok([...actual.searchParams.keys()].every(k=>["date","time","start_date","start_time","num_people","availability_format","availability_mode"].includes(k)));
         } else assert.equal(target,pageUrl,"Only the fixed public detail page is readable; no workflow or submission transport");
         url=target;
       },
