@@ -957,7 +957,7 @@ export class PersistentRestaurantAgentApplication {
     const readDeadline = questionDeadline ?? new Date(clockNow.valueOf() + (usage ? Math.max(0,usage.deadlineAt-usage.startedAt-usage.elapsedMs) : this.readTimeoutMs));
     if (this.workspaceMode === "FIXTURE") {
       const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal, readDeadline);
-      await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), runDeadlineSignal ?? new AbortController().signal);
+      if(!questionDeadline)await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), runDeadlineSignal ?? new AbortController().signal);
       await this.notifyReadFinished(record.rootTaskId, result);
       await this.appendAssistant(record, requestId);
       return;
@@ -976,7 +976,7 @@ export class PersistentRestaurantAgentApplication {
         await this.agentLoop.run(record.rootTaskId, signal, readDeadline);
         // B1 terms are optional read-only enrichment, before releasing this SAME
         // run's model scope/deadline. They never dispatch a Task/Outcome event.
-        await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), signal);
+        if(!questionDeadline)await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), signal);
       } catch (error) {
         await this.recordUnexpectedRunFailure(record, error);
       } finally {

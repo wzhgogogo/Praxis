@@ -8,6 +8,14 @@ async function capture(f:Fixture,label:string){
 }
 const questions=(f:Fixture)=>f.requests.filter(item=>item.request.purpose==="restaurant_page_question");
 
+test("B1 open request does not read terms merely because the Agent chose a candidate",async()=>{
+  const f=await bookingTermsComposition({agentSelectInitial:true});
+  try{const v=await f.initial();assert.ok(v.restaurant.selectedCandidateId);assert.ok(v.restaurant.bookingHandoffs?.length);
+    assert.equal(v.restaurant.intentDraft?.target?.selectionScope,"OPEN_ENDED");await capture(f,"agent-selection-only");
+    assert.equal(questions(f).length,0,"Only the user's outlet choice triggers automatic terms");assert.deepEqual(v.restaurant.bookingHandoffs![0]!.terms,[]);
+  }finally{await f.close();}
+});
+
 for(const provider of ["TABELOG","TABLECHECK"] as const)test(`B1 selected ${provider} outlet proactively acquires same-channel cancellation and card terms through ordinary composition`,async()=>{
   const f=await bookingTermsComposition({provider});
   try{
@@ -95,6 +103,9 @@ test("B1 drops expired G1 pages and enclosing-deadline output independently of i
   const f=await bookingTermsComposition();
   try{await f.initial();const before=await f.select();assert.equal(before.restaurant.bookingHandoffs![0]!.terms.length,2);f.clock.advance(500_001);
     const after=await f.project();assert.ok(after.restaurant.bookingHandoffs?.length);assert.deepEqual(after.restaurant.bookingHandoffs![0]!.terms,[]);await capture(f,"expired-pages");
+    const beforeQuestion=questions(f).length,fresh=await f.question();
+    assert.equal(fresh.restaurant.bookingHandoffs![0]!.terms[0]!.label,cancellationAnswer);
+    assert.equal(questions(f).length,beforeQuestion+1,"Fresh explicit G1 answer reuses B1 without opening another automatic budget");await capture(f,"fresh-explicit-reuse");
   }finally{await f.close();}
   let late!:Fixture;late=await bookingTermsComposition({onQuestion:()=>{late.clock.advance(500_001);}});
   try{await late.initial();const v=await late.select();assert.ok(v.restaurant.bookingHandoffs?.length);assert.deepEqual(v.restaurant.bookingHandoffs![0]!.terms,[]);assert.equal(questions(late).length,1);await capture(late,"deadline");}

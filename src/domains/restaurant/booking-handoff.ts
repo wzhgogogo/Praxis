@@ -194,7 +194,10 @@ function checkedCitation(citation: RestaurantPageCitation, source: BookingHandof
     && identity?.evidenceId===citation.identityEvidenceId && identity.kind==="ENTITY_MATCH"
     && identity.sourceUrl===page.url && Date.parse(identity.observedAt)>=Date.parse(context.readContext.startedAt)
     && Date.parse(identity.observedAt)<=Date.parse(page.readAt)
-    && (identity.provider===source.provider || identity.provider==="RESTAURANT_WEBSITE"));
+    && Boolean(identity.sourceEntityId)
+    && (identity.provider===source.provider
+      ? bookingHandoffPageMatches({provider:source.provider,sourceEntityId:identity.sourceEntityId!},page.url)
+      : identity.provider==="RESTAURANT_WEBSITE"));
   return Boolean(page && url && sameDocumentOutlet(url, source.provider, source.sourceEntityId)
     && boundWitness && identity?.candidateId === source.candidateId
     && (witnessed || identity.provider === source.provider && identity.sourceEntityId === source.sourceEntityId)
