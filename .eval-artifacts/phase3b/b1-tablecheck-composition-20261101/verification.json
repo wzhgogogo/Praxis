@@ -1,0 +1,166 @@
+{
+  "status": "PASS_READY_FOR_REVIEW_NOT_MERGED",
+  "baseMain": "fceecaad717eea21f7642f1b0b1cf35b0aea218e",
+  "gateCandidate": "34c2b4bcc3d8c3b21eafd2dcb0b799957efa5e13",
+  "counts": {
+    "test": {
+      "tests": 1306,
+      "pass": 1306,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "browser-fixture": {
+      "tests": 187,
+      "pass": 187,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "strict-g2": {
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    }
+  },
+  "strictG2Pages": [
+    {
+      "id": "tabelog-list-nerima",
+      "classification": "PASS",
+      "referenceFacts": 20,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-list-akabane",
+      "classification": "PASS",
+      "referenceFacts": 1,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-detail-01",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-detail-02",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-calendar-teppen",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {
+        "day:2026-09-29": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-28": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-30": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-calendar-sen",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {
+        "day:2026-10-22": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-10-01": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-list-ginza",
+      "classification": "PASS",
+      "referenceFacts": 1,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-list-akabane",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-detail-nakamata",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-detail-takahashiya",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-calendar-nakamata",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-calendar-kinri",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    }
+  ],
+  "AInputsUnchanged": 5,
+  "protectedFilesUnchanged": 8,
+  "newProductionFiles": [
+    "src/integrations/tablecheck/tablecheck-booking-handoff-reader.ts"
+  ],
+  "changedProductionFiles": [
+    "src/integrations/restaurant-search/live-read-assembly.ts"
+  ],
+  "modelRequestsInCapturedGreen": 9,
+  "realExternalCalls": 0,
+  "redInputCommit": "e2de4d99",
+  "productFixCommit": "ce6f02a6",
+  "initialTypecheckFailurePreserved": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/gates.json",
+  "typeFix": "C component fixture array copy only",
+  "finalFrozenFiles": 740
+}

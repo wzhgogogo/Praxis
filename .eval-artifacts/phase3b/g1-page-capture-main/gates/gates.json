@@ -1,0 +1,162 @@
+{
+  "mode": "OFFLINE_MOCK_AND_LOCAL_CHROMIUM",
+  "testedCommit": "d99a0c2bc782550703dee01044ee7468424980d2",
+  "startedAtCET": "2026-11-01T09:59:06.538711+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "6e2b7971ce48cc2f3a5f508b07eea9441021906f29ae98c30c6b6fbbfad90c53",
+  "freezeSha256": "55be532de8566eaeac2affeb6626f152434e01164fb75c1248efc571cd1baa12",
+  "frozenPaths": 727,
+  "restorations": 0,
+  "gatePolicy": "All gates must exit zero; no known-failure exemption; publish main only after success",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-01T09:59:06.627188+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.558708,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-01T09:59:07.315143+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.242224,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-01T09:59:07.686154+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test.log",
+      "exitCode": 0,
+      "elapsedSeconds": 29.635874,
+      "summary": {
+        "tests": 1288,
+        "suites": 5,
+        "pass": 1288,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "bdf8f5d26da75a77c3fe1bed6643723f057dbd8d68ce17ca827b0e4388e44f8e",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-11-01T09:59:37.508113+01:00",
+      "gitStatusBefore": "",
+      "log": "build.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.493743,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-11-01T09:59:38.131809+01:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture.log",
+      "exitCode": 0,
+      "elapsedSeconds": 130.203139,
+      "summary": {
+        "tests": 187,
+        "suites": 0,
+        "pass": 187,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "8608bfadac4d6d3f2e3d03e629c00787cf6501c6869f489b66ce3f9b91d713b9",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "strict-dom-change",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-11-01T10:01:48.465792+01:00",
+      "gitStatusBefore": "",
+      "log": "strict-dom-change.log",
+      "exitCode": 0,
+      "elapsedSeconds": 24.181364,
+      "summary": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "ffceec40caf93756bc3cd6a634dbce666280119463548493b686c75e358634f7",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "startedAtCET": "2026-11-01T10:02:12.782530+01:00",
+      "gitStatusBefore": "",
+      "log": "hard-bytes.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.143667,
+      "summary": {},
+      "logSha256": "35fd00032ca19db45bb4ee7a7fae63364905df14b7426f6e5a14dd763231c520",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    }
+  ],
+  "acceptance": "SATISFIED",
+  "finishedAtCET": "2026-11-01T10:02:12.988381+01:00",
+  "freezeVerifiedAfter": true
+}

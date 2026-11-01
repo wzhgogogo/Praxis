@@ -1,0 +1,12 @@
+{
+  "failedCandidate": "23e12948",
+  "firstGateSummary": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/gates.json",
+  "failure": "TS4104 readonly RestaurantReadEvidence[] assigned to mutable array in new C unit fixture",
+  "file": "src/integrations/tablecheck/tablecheck-booking-handoff-reader.test.ts",
+  "repair": "Copy the readonly context evidence into a new array; same values/assertions",
+  "productCodeChanged": false,
+  "AInputsChanged": false,
+  "firstFreezePreserved": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/attempt1-freeze.json",
+  "newGateRunner": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/run-gates-final.py",
+  "newRealCalls": 0
+}
