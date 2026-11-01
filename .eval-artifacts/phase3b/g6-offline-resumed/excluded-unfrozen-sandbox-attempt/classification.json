@@ -1,0 +1,5 @@
+{
+  "status": "EXCLUDED_NOT_FROZEN_ENVIRONMENT_FAILURE",
+  "reason": "git add rejected newly ignored evidence and the orchestration erroneously continued to invoke a sandboxed test before commit. No source browser launched; application reported Local Playwright Chromium could not launch a browser. No availability or B1 conclusion was reached.",
+  "correction": "Inputs then committed as 1e754b90 and the same test run with local browser launch permission; only that clean, committed run is accepted product-red evidence. No .env or actual external requests."
+}

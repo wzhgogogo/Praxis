@@ -1,0 +1,68 @@
+{
+  "status": "PRODUCT_RED_STOP",
+  "inputGit": "1e754b90785a0a8400c20d16d9bd3dbdbd2e3a4c",
+  "test": "G6 B1 TableCheck whole read composition emits a same-shop filled-in handoff after real availability",
+  "mode": "LOCAL_CONSTRUCTION_REAL_CHROMIUM_FIXED_NETWORK_NOT_REPLAY",
+  "expectedContract": "ADR-0049 section1: provide Book on TableCheck as soon as qualified slot/link evidence is available",
+  "observedPhase": "PRESENT_RESULTS",
+  "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+  "identityEvidenceId": "evidence:restaurant:tablecheck-entity-match:2d54fc8623aaf662562e8b08",
+  "check": {
+    "status": "AVAILABLE",
+    "checkedAt": "2026-11-01T06:00:00.000Z",
+    "evidenceIds": [
+      "evidence:restaurant:tablecheck-entity-match:2d54fc8623aaf662562e8b08",
+      "evidence:restaurant:tablecheck-availability:956ed4ad31f6ad32e8951a46"
+    ],
+    "receptionMode": "RESERVATION_SUPPORTED",
+    "sourceAttempts": [
+      {
+        "source": "TABLECHECK",
+        "outcome": "AVAILABLE"
+      }
+    ],
+    "sourceProvider": "TABLECHECK",
+    "displayExpiresAt": "2026-11-01T06:10:00.000Z",
+    "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+    "timeWindowCoverage": {
+      "date": "2026-11-11",
+      "covered": [
+        {
+          "latest": "19:00",
+          "status": "AVAILABLE",
+          "earliest": "19:00"
+        }
+      ],
+      "partySize": 2,
+      "uncovered": [],
+      "stopReason": "RESULT_FOUND",
+      "requestedWindow": {
+        "latest": "19:00",
+        "earliest": "19:00"
+      }
+    },
+    "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+  },
+  "offer": {
+    "id": "offer:tablecheck:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+    "source": "TABLECHECK",
+    "dateTime": "2026-11-11T19:00:00+09:00",
+    "timezone": "Asia/Tokyo",
+    "checkedAt": "2026-11-01T06:00:00.000Z",
+    "expiresAt": "2026-11-01T06:00:00.000Z",
+    "partySize": 2,
+    "bookingMode": "REQUEST",
+    "restaurantId": "praxis:restaurant:bd287442c716ac7439273cc9",
+    "executionMode": "BROWSER",
+    "displayExpiresAt": "2026-11-01T06:10:00.000Z",
+    "bookingRecheckRequired": true
+  },
+  "observedSourceReservationLink": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?start_date=2026-11-11&start_time=19%3A00&num_people=2",
+  "actualPreparedHandoffs": [],
+  "firstDeviation": "AVAILABLE and PRESENT_RESULTS but ordinary source handoff cache returns no TableCheck link; follow-up not reached",
+  "assertion": "Initial ordinary source cache must produce B1\n+ actual - expected\n\n+ undefined\n- 'praxis:restaurant:bd287442c716ac7439273cc9'\n",
+  "elapsedTestMs": 1945.1295,
+  "exitCode": 1,
+  "realModelCalls": 0,
+  "publicGET": 0
+}

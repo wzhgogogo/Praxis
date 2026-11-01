@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-01 CET：A续接G6后按整组装产品红灯再次停止（draft / not integrated）。已合入工作分支的B a7860924及A调度5683dcfb；原27cf175c五份P4输入不变，问答模型1次、ANSWERED且引用同店本页原文。e4518efa四路径及P1三措辞6/6、四类错误输出独立检查有效。新增1e754b90真实本地Chromium整组装测试已到TableCheck同店/日期/人数/19:00 AVAILABLE与PRESENT_RESULTS，但普通bookingHandoffs为空；Live组合仅装Tabelog缓存，按ADR0049及时提供交接的正断言失败，未改产品、未注入链接，交复核安排修复。其余整组装缺口逐项记无/NOT_RUN；真实模型回放0/80，G6 Runner/评测器/Live计划未完成；本候选五门禁及严格G2按停止规则NOT_RUN，新默认测试保留红灯。账本504旧项完整保留、追加为505，全部新增真实调用0、不读.env/私有留出集/QA答案；仅推A工作分支，不合main。[本次报告](../.eval-artifacts/phase3b/g6-offline-resumed/report.md)。
+
 2026-11-01 CET：G6停止点包装门禁全绿。冻结9b7e180c/423输入，typecheck、arch、默认1274/1274、build、Chromium186/186（130.255秒）通过，五项前后净树；37浏览器文件各完成一次，外层超时0。全部产品/B/C文件与main6db445ea相同，账本500旧条目/累计用量完整保留。P4 NO_BOUND_PAGE原始红灯未修，其他完整红绿/真实模型回放/Runner/Live计划仍未完成，停等复核安排B；真实模型/Google/GET/Live0、不读.env。只推工作分支，不合main。 [报告](../.eval-artifacts/phase3b/g6-offline/report.md)。
 
 2026-11-01 CET：G6批次1离线预检按产品缺口停止。基于main6db445ea，仅保存新留出集承诺SHA与校验器（2/2本地控制），原文/答案未读取。P1仅选店B1、P2缺人数后查位、P3缺日期先问均取得scripted正控制；P4实际持久组合执行ANSWER_PAGE_QUESTION后NO_BOUND_PAGE，Google→网页事实链忽略capturePagesOnly、无原搜索HARD缺口时不读网页，问答模型未到达。未改产品、不补造缓存/条件，交复核安排B；四路径完整红绿、真实模型回放、G6 Runner/评测器/Live计划尚未完成。仅包装五门禁待跑，真实模型/Google/GET/Live0、未加载.env；账本500旧条目保留、追加零调用，授权总上限更新26/1600/290/4。只推工作分支，不合main。 [报告](../.eval-artifacts/phase3b/g6-offline/report.md)。

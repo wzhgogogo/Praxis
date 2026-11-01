@@ -6188,3 +6188,14 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 2026-11-01 CET：按用户决定，B不修改A调度测试。main6db445ea/B6162c128各独立5次，均文件5通过/0失败、目标5通过/0失败；九份执行输入逐字相同且副本不含G1代码，单跑未复现全套失败，不称已修复。原默认1287/1288唯一失败保留为“A归属、与本次改动无关的已知失败”。本轮完整未过滤门禁默认1288/1288、Chromium187/187、严格G2 5/5及12/12页，type/arch/build和旧HARD字节均通过，各项净树/728 SHA不变。G1产品及A原P4因果绿灯不变；用户批准推B分支通知A，不合main。真实调用0，账本503条。
 
 完整未过滤命令、10次独立日志、原失败和冻结SHA见[最新交付报告](../../.eval-artifacts/phase3b/g1-page-capture/known-a-scheduling/report.md)。
+
+
+<a id="test-g6-resumed-tablecheck-b1-stop"></a>
+
+## 2026-11-01 CET：G6续接四路径控制及TableCheck整组装红灯
+
+模式：本地构造来源/scripted模型，非网站回放/Live；生产createLiveReadAssembly、持久应用、SQL迁移、解释/编译/状态/Router/核对链保留。P4原始五输入同27cf175c，在整合524dd8a9问答模型1次、同店本页逐字引用，exit0。e4518efa冻结四路径/三P1措辞，独立检查对输出副本的错店、缺人数提前B1、编造日期、虚构引用均拒绝；6/6（3.477秒），并非声称生产接受了坏模型响应。
+
+1e754b90冻结新TableCheck整组装测试：真实本地Chromium+拦截全部来源I/O，原生日期/人数控件及精确slot link由实际DOM读出；生产EXACT_PHONE身份、AVAILABLE和PRESENT_RESULTS通过，普通handoffs=[]，g6-development-preflight.ts:189“Initial ordinary source cache must produce B1”失败，exit1（1.945秒）。ADR0049 section1要求空位/链接证据可用即提供，未到后续预订回合。测试保留红灯，不skip/倒置/降断言。产品组合只装Tabelog缓存；不在A夹具补预制TableCheck链接。两次夹具错误和一次未提交沙箱启动失败均独立保留并排除，不冒充产品红灯。
+
+当前候选五门禁和严格G2均NOT_RUN（用户要求新整组装产品失败立即停止）；前批默认1288/Chromium187/严格G2全绿为历史，不能替代本候选。新A diff/SHA/范围与504账本原值保留核对见本批verification.json。真实模型/Google/网站GET/Live/environment全部新增0，未读取或加载.env；真实模型回放、其余整组装无项、完整Runner/独立评测器/Live计划NOT_RUN或NOT_IMPLEMENTED，批次1未完成。[报告](../../.eval-artifacts/phase3b/g6-offline-resumed/report.md)。

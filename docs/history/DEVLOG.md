@@ -5486,3 +5486,12 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 2026-11-01 CET：按用户决定，B不修改A调度测试。main6db445ea/B6162c128各独立5次，均文件5通过/0失败、目标5通过/0失败；九份执行输入逐字相同且副本不含G1代码，单跑未复现全套失败，不称已修复。原默认1287/1288唯一失败保留为“A归属、与本次改动无关的已知失败”。本轮完整未过滤门禁默认1288/1288、Chromium187/187、严格G2 5/5及12/12页，type/arch/build和旧HARD字节均通过，各项净树/728 SHA不变。G1产品及A原P4因果绿灯不变；用户批准推B分支通知A，不合main。真实调用0，账本503条。
 
 完整未过滤命令、10次独立日志、原失败和冻结SHA见[最新交付报告](../../.eval-artifacts/phase3b/g1-page-capture/known-a-scheduling/report.md)。
+<a id="dev-g6-resumed-tablecheck-b1-stop"></a>
+
+## 2026-11-01 CET：G6续接P4转绿，整组装TableCheck交接缺口停止
+
+基于批准的A27cf175c，工作分支合并B页面获取a7860924及A调度5683dcfb为524dd8a9，文档两边记录/504账本全部保留。原P4五输入逐字不变，实际问答模型1次、ANSWERED及同店原文引用；e4518efa补齐四路径错误输出独立检查和P1另两措辞，6/6。未读私有留出集或QA答案，未以额外HARD/缓存/另写读取器凑绿。
+
+按用户新增整组装清单，逐项区分实际组合与bound-page、Adapter、业务端口/预制交接注入的局部测试；先补TableCheck source→B1缺口。1e754b90冻结后真实本地Chromium仅截获来源I/O，生产身份/日期/人数/19:00空位/展示均通过，但普通交接缓存返回[]，ADR0049及时交接正断言失败。Live assembly仅装Tabelog缓存，capture/readPrepared仅处理TABELOG。未修产品、未注入TableCheck链接，保留活跃失败测试按停止条件交复核；其余无项待续，批次1未完成。夹具query/原生控件缺项及一次未提交沙箱调用失败均单独归档，不算产品红灯。
+
+真实模型回放0/80，Runner/评测器/Guard-F6统计/约8次Live计划NOT_IMPLEMENTED或NOT_RUN；当前五门禁与严格G2按显式产品停止规则NOT_RUN。账本504旧项原值保留、追加0调用记录为505，累计Live0/model171/GET255/environment0不变。只改A评测/构造来源/证据和记录，不改产品/B/C源码及共享版本；只推原A工作分支，不合main。[报告](../../.eval-artifacts/phase3b/g6-offline-resumed/report.md)、[覆盖清单](../../.eval-artifacts/phase3b/g6-offline-resumed/composition-coverage.md)。

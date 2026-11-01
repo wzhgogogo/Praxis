@@ -1,0 +1,73 @@
+{
+  "timeCET": "2026-11-01T08:51:26.707053+01:00",
+  "status": "PRODUCT_RED_PRESERVED_STOPPED",
+  "integrationGit": "524dd8a9826b6ea09de608071e60273915c283cf",
+  "testedProductRedGit": "1e754b90785a0a8400c20d16d9bd3dbdbd2e3a4c",
+  "originalP4InputsUnchangedAtIntegration": {
+    "src/eval/restaurant/agent-loop/g6-development-preflight.ts": true,
+    "src/eval/restaurant/agent-loop/cases/g6-development/source.json": true,
+    "src/eval/restaurant/agent-loop/cases/g6-development/outlet.html": true,
+    "src/eval/restaurant/agent-loop/holdout-commitment.ts": true,
+    "src/eval/restaurant/agent-loop/holdout-commitment.test.ts": true
+  },
+  "frozenInputs": {
+    "controlled-freeze.json": {
+      "git": "e4518efadf7394325ce5134f4975c39fa1576f54",
+      "allFrozenHashesMatch": true,
+      "files": {
+        "src/eval/restaurant/agent-loop/g6-development-preflight.ts": true,
+        "src/eval/restaurant/agent-loop/g6-development-checks.ts": true,
+        "src/eval/restaurant/agent-loop/g6-development-preflight.test.ts": true,
+        "src/eval/restaurant/agent-loop/cases/g6-development/source.json": true,
+        "src/eval/restaurant/agent-loop/cases/g6-development/outlet.html": true,
+        ".eval-artifacts/phase3b/g6-offline-resumed/plan.md": true
+      }
+    },
+    "booking-composition-freeze.json": {
+      "git": "1e754b90785a0a8400c20d16d9bd3dbdbd2e3a4c",
+      "allFrozenHashesMatch": true,
+      "files": {
+        "src/eval/restaurant/agent-loop/g6-development-preflight.ts": true,
+        "src/eval/restaurant/agent-loop/g6-booking-composition.test.ts": true,
+        "src/eval/restaurant/agent-loop/cases/g6-development/source.json": true,
+        "src/eval/restaurant/agent-loop/cases/g6-development/tablecheck.html": true,
+        "src/eval/restaurant/agent-loop/cases/g6-development/outlet.html": true,
+        ".eval-artifacts/phase3b/g6-offline-resumed/composition-coverage.md": true
+      }
+    }
+  },
+  "newSourceFilesOnlyAOwned": [
+    "src/eval/restaurant/agent-loop/cases/g6-development/source.json",
+    "src/eval/restaurant/agent-loop/cases/g6-development/tablecheck.html",
+    "src/eval/restaurant/agent-loop/g6-booking-composition.test.ts",
+    "src/eval/restaurant/agent-loop/g6-development-checks.ts",
+    "src/eval/restaurant/agent-loop/g6-development-preflight.test.ts",
+    "src/eval/restaurant/agent-loop/g6-development-preflight.ts"
+  ],
+  "productSitePacksPromptSchemaStateUnchangedFromIntegration": true,
+  "sourceFilesUnchangedSinceProductRed": true,
+  "newADiffCheck": "PASS git diff 524dd8a9 --check",
+  "inheritedRawLogNote": "B raw test logs from reviewed a7860924 are retained unchanged, including their historical whitespace. The new A diff check does not rewrite them.",
+  "budgetOldEntriesPreserved": 504,
+  "budgetEntriesNow": 505,
+  "budgetCumulativeUnchanged": true,
+  "gates": {
+    "typecheck": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "arch:check": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "npm test": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "build": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "test:browser:fixture": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "PRAXIS_G2_REQUIRE_PASS=1 test:dom-change": "NOT_RUN_EXPLICIT_PRODUCT_STOP"
+  },
+  "scopedResults": {
+    "originalP4": "PASS 524dd8a9 unmodified A input",
+    "fourPathsAndThreeWordings": "PASS 6/6 e4518efa",
+    "tablecheckWholeComposition": "FAIL_MISSING_B1_AFTER_AVAILABLE 1e754b90"
+  },
+  "newRealModelCalls": 0,
+  "newPublicGET": 0,
+  "newGoogleRequests": 0,
+  "newLive": 0,
+  "newEnvironmentReruns": 0,
+  "envLoaded": false
+}
