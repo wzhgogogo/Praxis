@@ -38,7 +38,7 @@ These support this test synchronization repair. They do not identify or close th
 
 The first full six-command matrix at `8fcd73dc` had all command exit codes0: default1288, Chromium187 and strictG2 tests5; the raw spec diagnostics contain12 PASS pages. Its outer wrapper then failed its own page-list assertion because it recognized only the TAP `#` prefix instead of the actual spec `ℹ` prefix. `initial-matrix/` preserves every raw result, receipt, frozen configuration and that postprocessing failure. The parser alone is corrected to accept the two known Node diagnostic prefixes; product/test inputs stay identical. A fresh full matrix is frozen before execution, not repeated to hide a test failure.
 
-**PASS** on frozen combined candidate `17b9cb1dcf62b9ca43f34ced1df7303f24063b8a`. All721 execution inputs stayed unchanged, every check had empty git status before/after, no test filters/skips/cancellation/todo. This candidate contains the entire B repair plus the one A test-file change.
+**PASS** on frozen combined candidate `17b9cb1dcf62b9ca43f34ced1df7303f24063b8a`. All 721 execution inputs stayed unchanged, every check had empty git status before/after, no test filters/skips/cancellation/todo. This candidate contains the entire B repair plus the one A test-file change.
 
 | Check | Result | Seconds |
 |---|---|---:|
@@ -49,9 +49,9 @@ The first full six-command matrix at `8fcd73dc` had all command exit codes0: def
 | browser-fixture | PASS 187/187 | 130.485 |
 | strict-g2 | PASS 5/5 | 24.26 |
 
-StrictG2 has12/12 page classifications PASS, bound to raw output in `verification/strict-pages.json`. Chromium completed all37 files once, outer timeouts0. `verification/gates.json` preserves complete commands/env overrides, clean statuses, input verification and raw log hashes. All other source/test and production scripts remain identical to B. `git diff --check` passes.
+StrictG2 has 12/12 page classifications PASS, bound to raw output in `verification/strict-pages.json`. Chromium completed all 37 files once, outer timeouts 0. `verification/gates.json` preserves complete commands/env overrides, clean statuses, input verification and raw log hashes. All other source/test and production scripts remain identical to B. `git diff --check` passes.
 
-This does not rerun or accept G6. B's existing P4 causal green remains intact; no real model was spent. The repaired test precondition is supported by the same delayed-worker red/green and the unfiltered full suite. The historical sporadic600-second hang remains unlocated.
+This does not rerun or accept G6. B's existing P4 causal green remains intact; no real model was spent. The repaired test precondition is supported by the same delayed-worker red/green and the unfiltered full suite. The historical sporadic 600-second hang remains unlocated.
 
 ## Scope, budget and delivery
 
