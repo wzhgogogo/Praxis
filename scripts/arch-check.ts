@@ -1,17 +1,17 @@
 import { readdir, readFile } from "node:fs/promises";
 import { dirname, relative, resolve, sep } from "node:path";
-import { evaluatorImportViolation } from "../src/eval/shared/evaluator-import-rule.js";
+import { assemblyCoreValueImport, evaluatorImportViolation, parseAssemblyBypassAllowlist } from "../src/eval/shared/evaluator-import-rule.js";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const sourceRoot = resolve(repositoryRoot, "src");
 
-async function typescriptFiles(directory: string): Promise<string[]> {
+async function sourceFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
   const nested = await Promise.all(
     entries.map((entry) => {
       const path = resolve(directory, entry.name);
-      if (entry.isDirectory()) return typescriptFiles(path);
-      return entry.isFile() && entry.name.endsWith(".ts") ? [path] : [];
+      if (entry.isDirectory()) return sourceFiles(path);
+      return entry.isFile() && (entry.name.endsWith(".ts") || sourcePath(path).startsWith("eval/") && entry.name.endsWith(".mjs")) ? [path] : [];
     }),
   );
   return nested.flat().sort();
@@ -23,6 +23,7 @@ function sourcePath(path: string): string {
 
 function importedSourcePath(importer: string, specifier: string): string | undefined {
   if (!specifier.startsWith(".")) return undefined;
+  // TS sources use .js specifiers; literal .mjs and .ts targets retain their identity.
   const resolved = resolve(dirname(importer), specifier).replace(/\.js$/, ".ts");
   const path = sourcePath(resolved);
   return path.startsWith("../") ? undefined : path;
@@ -67,18 +68,31 @@ function violation(importer: string, imported: string): string | undefined {
 }
 
 const failures: string[] = [];
-for (const file of await typescriptFiles(sourceRoot)) {
+let allowlist: ReturnType<typeof parseAssemblyBypassAllowlist>;
+try {
+  allowlist = parseAssemblyBypassAllowlist(JSON.parse(await readFile(resolve(sourceRoot, "eval/assembly-bypass-allowlist.json"), "utf8")));
+} catch (error) {
+  console.error(`Architecture check failed: invalid src/eval/assembly-bypass-allowlist.json: ${error instanceof Error ? error.message : String(error)}`);
+  process.exit(1);
+}
+const observedAssemblyImports = new Set<string>();
+for (const file of await sourceFiles(sourceRoot)) {
   const importer = sourcePath(file);
   const source = await readFile(file, "utf8");
   const imports = source.matchAll(/((?:import|export)\s+(?:(?:type\s+)?[\w*{},\s]+\s+from\s*)?|(?:import|require)\s*\(\s*)["']([^"']+)["']/g);
   for (const match of imports) {
     const imported = importedSourcePath(file, match[2]!);
-    const probeBoundary = evaluatorImportViolation(importer, imported ?? match[2]!, match[0]);
+    if (imported && assemblyCoreValueImport(importer, imported, match[0])) observedAssemblyImports.add(`src/${importer} -> src/${imported}`);
+    const probeBoundary = evaluatorImportViolation(importer, imported ?? match[2]!, match[0], allowlist);
     if (probeBoundary) { failures.push(`${importer} -> ${imported ?? match[2]!}: ${probeBoundary}`); continue; }
     if (!imported) continue;
     const reason = violation(importer, imported);
     if (reason) failures.push(`${importer} -> ${imported}: ${reason}`);
   }
+}
+for (const entry of allowlist) {
+  const pair = `${entry.file} -> ${entry.core}`;
+  if (!observedAssemblyImports.has(pair)) failures.push(`${pair}: stale assembly component exception; no matching value import remains`);
 }
 
 if (failures.length > 0) {

@@ -59,7 +59,7 @@ Discovery保存`RestaurantCandidate`，Availability按`candidateId → Availabil
 
 ADR-0009保留开放`criteria`集合；ADR-0029定义`HARD` / `SOFT` / `UNSPECIFIED`：仅HARD是证据/资格门槛，已表达但未标记强制或让步的条件保留为UNSPECIFIED非阻塞偏好。ADR-0010取代ADR-0007的确定性next-step部分，ADR-0011取代其中的Action Contract与Loop控制细节，ADR-0012定义不可变Migration、最小Agent Context和Proposal join，ADR-0013定义definitive failure后的Agent恢复、新Proposal/Authorization与Decision Context审计。已冻结的Progressive Decision Harness `statePatch` Contract仍不接入产品Task State。
 
-真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，轻量Fixture Driver只位于[`src/eval/restaurant/search-fixture`](../../src/eval/restaurant/search-fixture/fixture-application.ts)。
+真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，替代覆盖见[`src/harness/restaurant-harness.test.ts`](../../src/harness/restaurant-harness.test.ts)。
 
 ## Semantic Proposal, Compiler, Agent and Action Validator
 

@@ -1,0 +1,76 @@
+{
+  "head": "6db445ea9afdbe5debdc60efc1107f768434c555",
+  "maxAttempts": 3,
+  "reason": "bounded reproduction of the already observed cross-pipe race; no flags or fixtures changed",
+  "attempts": [
+    {
+      "attempt": 1,
+      "head": "6db445ea9afdbe5debdc60efc1107f768434c555",
+      "command": "npm test",
+      "startedAtCET": "2026-11-01T09:23:55.848552+01:00",
+      "finishedAtCET": "2026-11-01T09:24:25.522639+01:00",
+      "elapsedMs": 29674.396,
+      "exitCode": 0,
+      "beforeStatus": "",
+      "afterStatus": "",
+      "headUnchanged": true,
+      "sameFailureReproduced": false,
+      "failureTitles": [],
+      "summaries": [
+        "ℹ tests 1272",
+        "ℹ pass 1272",
+        "ℹ fail 0",
+        "ℹ duration_ms 29533.282167"
+      ],
+      "node": "v24.4.1",
+      "packageLockSha256": "d1a627efe43364f9627eb8883d0b88aaca8adc2da85e7ed1dd3a4cda57b3c5ab"
+    },
+    {
+      "attempt": 2,
+      "head": "6db445ea9afdbe5debdc60efc1107f768434c555",
+      "command": "npm test",
+      "startedAtCET": "2026-11-01T09:24:25.586519+01:00",
+      "finishedAtCET": "2026-11-01T09:24:55.263322+01:00",
+      "elapsedMs": 29677.212,
+      "exitCode": 0,
+      "beforeStatus": "",
+      "afterStatus": "",
+      "headUnchanged": true,
+      "sameFailureReproduced": false,
+      "failureTitles": [],
+      "summaries": [
+        "ℹ tests 1272",
+        "ℹ pass 1272",
+        "ℹ fail 0",
+        "ℹ duration_ms 29510.041625"
+      ],
+      "node": "v24.4.1",
+      "packageLockSha256": "d1a627efe43364f9627eb8883d0b88aaca8adc2da85e7ed1dd3a4cda57b3c5ab"
+    },
+    {
+      "attempt": 3,
+      "head": "6db445ea9afdbe5debdc60efc1107f768434c555",
+      "command": "npm test",
+      "startedAtCET": "2026-11-01T09:24:55.327290+01:00",
+      "finishedAtCET": "2026-11-01T09:25:25.342364+01:00",
+      "elapsedMs": 30015.487,
+      "exitCode": 1,
+      "beforeStatus": "",
+      "afterStatus": "",
+      "headUnchanged": true,
+      "sameFailureReproduced": true,
+      "failureTitles": [
+        "✖ browser outer guard identifies unfinished files and retains buffered output"
+      ],
+      "summaries": [
+        "ℹ tests 1272",
+        "ℹ pass 1271",
+        "ℹ fail 1",
+        "ℹ duration_ms 29849.202583"
+      ],
+      "node": "v24.4.1",
+      "packageLockSha256": "d1a627efe43364f9627eb8883d0b88aaca8adc2da85e7ed1dd3a4cda57b3c5ab"
+    }
+  ],
+  "reproduced": true
+}

@@ -7,6 +7,17 @@
 2026-11-01 CET：C B1条款定向整组装11/11通过（A原取消追问不改）；两渠道主动取消/卡、已接纳复用、日英冲突、错店/渠道、共享模型20次封顶、取消/过期/未写均有实际链路证据，链接继续有效。前两轮C测试包装/URL及时序原件保留；另补原凭据ID矛盾的条款二次展示单测红灯→收紧，以及Agent内部选店不等于用户选店的整组装红灯→以权威SPECIFIC_OUTLET约束主动读取；不改Agent/State/链接接纳规则。ADR0049追加11-01决定。待最终冻结五门禁/严格G2和独立产物核验；真实调用0，不读.env；账本main507与A508完整并集后追加C零调用为509，累计用量不变。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
 
 2026-11-01 CET：C开始用户批准的B1卡片条款生产切片，从main74dd2faf开分支；A31ba2a84原测试/取消输入/helper三文件逐字导入，冻结后先取G1已接纳但B1 terms为空的原目标红灯。主动读取只为已选且已有交接的店，复用G1并沿用选店轮预算；不改Agent/State版本、B G3及A断言，真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+<a id="dev-2026-11-01-eval-assembly-gate-main-publication"></a>
+
+2026-11-01 CET：用户复核通过0e24d9ab并批准直接合main。核对远端74dd2faf已为祖先，在本工作树以main为第一父创建普通合并，初始完整树等于获批候选，只追加合入文档；不触碰其他对话工作树，不改源码/规则/例外/测试/样本。730冻结输入和全部旧门禁证据保持，复用原验收，不新增运行。正常推main并ls-remote核对后，按用户授权通知A/B/C新SHA与factory/组件白名单边界，之后待命。真实调用0、不读.env。[记录](../../.eval-artifacts/phase3b/eval-assembly-gate/main-publication-20261101/report.md)。
+
+<a id="dev-2026-11-01-eval-assembly-components-split"></a>
+
+2026-11-01 CET：按用户转述的复核第3节原样迁出三条native组件测试；核心导入和局部retrieval替身随迁，两条白名单改指向新文件，composition无例外。三条正文逐字SHA一致、静态test调用71不变；只删例外说明中失效的同文件factory从句，不改生产、样本或门禁规则。9cd4c8e冻结730项后arch和默认1308/1308全绿，type/build同绿，四项单次净树。用户确认原复核在Claude项目且无需取得；仅推原分支待复核，不合main，真实调用0、不读.env。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/component-split-20261101/report.md)。
+
+<a id="dev-2026-11-01-eval-assembly-gate-main-sync"></a>
+
+2026-11-01 CET：按用户既定交接合入获批main74dd2faf到组装门禁分支，原调度修复仅随main取得。六处文档冲突保留双方正文，产品与传入main相同，原门禁/白名单/SF退役/机械清理及A新G6输入不改；44份原门禁证据逐字保留。冻结b5e804b8/729项，五门禁全绿，默认1308、Chromium187，原调度断言在完整套件通过。仅补归档/状态，不新增能力、真实模型、Google、网站或Live，不读.env；推工作分支交独立复核，不合main。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/main-sync-74dd2faf/report.md)。
 
 2026-11-01 CET：获批TableCheck B1普通组装合入验证完成。main fceecaad已在ffe8fc8e祖先，源码/config原字节；dfc3bc2b冻结735项，八步前后净树，默认1306/1306、Chromium187/187（131.777秒）、标准及严格G2均5/5、严格12页PASS。原修复包36文件、A原5文件和账本507条原样保留（GET255/290、模型171）；无失败豁免/重试，真实调用0、不读.env。按用户批准正常发布main并以Git合并及ls-remote作最终SHA回执，随后通知A与测试优化对话待命；本地离线验证不代表真实网站选中或预约。 [合入报告](../../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/report.md)。
 
@@ -27,6 +38,16 @@
 <a id="dev-fixture-scheduling-events-prepared"></a>
 
 2026-11-01 CET：A按用户指令在B a7860924上修复调度测试。自然全套一次1288/1288未复现；真实TEST_START消息受控延迟复现原lastObservedTests断言失败。仅生成driver等待实际held生命周期消息并在父监听器消费后检查，20行原断言/首用例/断言尾段原字节，60s/600s/G2180s不变；同延迟绿、普通整文件3次2/2。B产品和生产脚本不改，账本503旧条保留、A旧条已含不重复、追加为504、累计用量不变；真实调用0，不读.env/留出集/QA答案。待冻结完整B+A候选五门禁和严格G2，仅推A工作分支不合main；原600秒卡死仍未知。 [报告](../../.eval-artifacts/phase3b/fixture-scheduling-events/report.md)。
+
+<a id="dev-2026-11-01-eval-assembly-gate-evidence"></a>
+
+2026-11-01 CET：组装门禁证据归档，执行代码冻结da92154c；9个隔离正常/反例对照均核对真实退出码和目标错误，未改工作分支生产源码或C文件。SF四文件/命令退役、命名检索模拟保留；用户追加批准两处当前引用最小清理，历史原文不改。五门禁4/5，唯一默认调度失败已在干净main6db445ea同命令第3次复现，前两次通过及单文件对照全保留；按用户安排，修复C5683dcfb待先合main，本分支再同步重跑。本候选只推工作分支交独立复核，不合main、不宣称全绿或Live能力；真实调用0。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
+
+<a id="dev-2026-11-01-eval-assembly-gate"></a>
+
+2026-11-01 CET：按已通过停止点1复核与用户SF退役授权实施组装门禁，当前待冻结五门禁。复用arch:check扫描与既有Evaluator依赖规则，加入eval MJS、25核心、24文件/核心组件例外的严格及陈旧检查；退役旧SF四文件/命令/两处说明，保留命名检索模拟。原有测试行为/生产代码未改，Web测试仅纠正范围注释；Test Skill仅加一条签收边界。旧临时副本TS/MJS都漏拦已保存，后续目标红绿在同一隔离工作树；真实调用0，五门禁前先冻结。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
+
+2026-11-01 CET：组装门禁仅完成停止点 1 静态盘点，`draft / not integrated`。从远端 main `6db445ea` 在独立工作树建立 `codex/chore-eval-assembly-gate`，未触碰原工作区资料。记录全部 eval Runner、程序化入口、独立评分入口，以及默认组合/集成声明的实际调用路径；混合 composition 文件按具体入口区分。已有 arch:check 可承接规则，核心集合/分类/白名单留待复核；不实现门禁，不改 A/B/C 文件。真实模型/Google/网站/Live0，不读.env；推报告后停。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/stop1-report.md)。
 
 2026-10-31 CET：G4日文检索合入验证完成：用户已复核efee5a81，已同步main90559cc9；19263da4冻结727项，五门禁默认1272/1272、Chromium186/186（129.772秒）、标准及严格G2均5/5、严格12页全PASS；8项前后净树，285旧C产物/500账目原样保留，GET255/260不变。仅继承A三文件诊断；C排序、身份、绑定、Prompt/State不改。四家定向3正确/1未评、错认0，T第6位缺口不调整。按用户授权发布main，确切合入SHA以Git发布合并和ls-remote核对为准；本次模型/Google/GET/Live0，不读.env，完成后待命。 [合入报告](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md)。
 

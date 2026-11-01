@@ -7,6 +7,13 @@
 2026-11-01 CET：C B1条款定向整组装11/11通过（A原取消追问不改）；两渠道主动取消/卡、已接纳复用、日英冲突、错店/渠道、共享模型20次封顶、取消/过期/未写均有实际链路证据，链接继续有效。前两轮C测试包装/URL及时序原件保留；另补原凭据ID矛盾的条款二次展示单测红灯→收紧，以及Agent内部选店不等于用户选店的整组装红灯→以权威SPECIFIC_OUTLET约束主动读取；不改Agent/State/链接接纳规则。ADR0049追加11-01决定。待最终冻结五门禁/严格G2和独立产物核验；真实调用0，不读.env；账本main507与A508完整并集后追加C零调用为509，累计用量不变。 [计划](../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
 
 2026-11-01 CET：C开始用户批准的B1卡片条款生产切片，从main74dd2faf开分支；A31ba2a84原测试/取消输入/helper三文件逐字导入，冻结后先取G1已接纳但B1 terms为空的原目标红灯。主动读取只为已选且已有交接的店，复用G1并沿用选店轮预算；不改Agent/State版本、B G3及A断言，真实调用0、不读.env。 [计划](../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+2026-11-01 CET：组装门禁0e24d9ab已获独立复核通过和用户合入批准；main仍74dd2faf且为祖先，直接普通合并发布。获批代码/730输入不变，只补合入记录；复用默认1308/1308、Chromium187/187及组件迁移后arch/type/build全绿，三条正文/断言原样、composition零例外。25核心/24精确组件例外规则进入main，发布后ls-remote核对并通知A/B/C按组装入口或组件清单执行，然后待命。无新测试、真实调用0、不读.env。[合入记录](../.eval-artifacts/phase3b/eval-assembly-gate/main-publication-20261101/report.md)。
+
+2026-11-01 CET：按复核第3节将native-discovery-composition的三条组件测试原样迁出；正文/断言逐字SHA相同，两个例外只指向native-discovery-components，composition无例外。冻结9cd4c8e/730输入，arch通过、默认仍1308/1308，typecheck/build通过，四项单次且前后净树，无新增/过滤/跳过/重试；产品、规则、样本及旧证据不改。只推原分支交复核，不合main，真实调用0、不读.env。[迁移及实际执行证据](../.eval-artifacts/phase3b/eval-assembly-gate/component-split-20261101/report.md)。
+
+2026-11-01 CET：组装门禁同步获批main74dd2faf后复验全绿，冻结b5e804b8/729输入：typecheck、arch、build通过，默认1308/1308、Chromium187/187（130.747秒），五项各一次、前后净树且HEAD/SHA不变，无跳过/重试/豁免。原调度修复随main取得，44份旧证据、25核心/24例外、A新G6五文件及产品源码原字节保留；SF当前引用再次清零。上一轮4/5与旧main失败不覆盖；本分支仅交独立复核，不合main，真实调用0、不读.env。[本轮完整报告](../.eval-artifacts/phase3b/eval-assembly-gate/main-sync-74dd2faf/report.md)。
+
+2026-11-01 CET：组装门禁按用户既定交接同步获批 main74dd2faf，其中已含原调度修复5683dcfb；只合 main，不取C分支文件。代码无冲突，双方历史正文/旧门禁证据/A新增G6输入保留，原25核心与24例外不扩展。冻结729项输入待净树五门禁，不宣布全绿；真实调用0、不读.env、不合main。[复验计划](../.eval-artifacts/phase3b/eval-assembly-gate/main-sync-74dd2faf/report.md)。
 
 2026-11-01 CET：获批TableCheck B1普通组装合入验证完成。main fceecaad已在ffe8fc8e祖先，源码/config原字节；dfc3bc2b冻结735项，八步前后净树，默认1306/1306、Chromium187/187（131.777秒）、标准及严格G2均5/5、严格12页PASS。原修复包36文件、A原5文件和账本507条原样保留（GET255/290、模型171）；无失败豁免/重试，真实调用0、不读.env。按用户批准正常发布main并以Git合并及ls-remote作最终SHA回执，随后通知A与测试优化对话待命；本地离线验证不代表真实网站选中或预约。 [合入报告](../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/report.md)。
 
@@ -25,6 +32,12 @@
 2026-11-01 CET：按用户决定，B不修改A调度测试。main6db445ea/B6162c128各独立5次，均文件5通过/0失败、目标5通过/0失败；九份执行输入逐字相同且副本不含G1代码，单跑未复现全套失败，不称已修复。原默认1287/1288唯一失败保留为“A归属、与本次改动无关的已知失败”。本轮完整未过滤门禁默认1288/1288、Chromium187/187、严格G2 5/5及12/12页，type/arch/build和旧HARD字节均通过，各项净树/728 SHA不变。G1产品及A原P4因果绿灯不变；用户批准推B分支通知A，不合main。真实调用0，账本503条。 [最新交付报告](../.eval-artifacts/phase3b/g1-page-capture/known-a-scheduling/report.md)。
 
 2026-11-01 CET：G1追问capturePagesOnly产品修复已验证（唯一产品文件GoogleThenWebsiteFactRead，原事实读取无标志时不变）；A27cf175c原P4红NO_BOUND_PAGE/模型0→绿ANSWERED/模型1，同店原文“至少4人”条件保留，A评测输入原字节。事实/问答114、真实Guard2、Chromium187及严格G2全部12页PASS，旧HARD44,197字节一致；但默认1287/1288，唯一红灯为A的browser-fixture-scheduling.test.ts:109，文件同main。按归属停下等安排，未改A文件、不以重跑碰绿，未推送、不合main；真实调用0。 [报告](../.eval-artifacts/phase3b/g1-page-capture/report.md)。
+
+2026-11-01 CET：组装门禁候选完成并交复核，尚未满足五门禁全绿。25核心/24组件精确对、TS/MJS禁入、严格/陈旧检查的9个隔离对照全部符合预期；SF退役及当前引用清理获准完成，生产/Prompt/Gold/原断言不改。冻结da92154c的719输入，五项前后净树：type/arch/build、Chromium186/186通过；默认1273/1274唯一调度事件红项在干净main6db445ea第3次同命令复现（前2次通过），单文件两边2/2，源测试/脚本逐字一致。按用户指令列既有失败，C5683dcfb待合入，本分支不取C文件；复核者安排C先合main，再同步重跑。真实调用0、不读.env，不合main。[完整报告与原始证据](../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
+
+2026-11-01 CET：组装门禁停止点1已复核通过，SF依赖经用户批准退役；停止点2实施待冻结验证。arch:check沿用原入口，扩展eval MJS和值导入禁入，25核心/24组件精确对、严格解析及陈旧检查；未用/类型导入机械清理，Web夹具只纠正范围注释。SF退役前替代回归77/77，规则及独立Evaluator定向141/141；隔离红绿和净树五门禁尚待完成，不宣称整批签收。真实调用0、不读.env，不合main。[报告](../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
+
+2026-11-01 CET：组装门禁停止点 1 盘点完成待复核（`draft / not integrated`），基线 main `6db445ea`，独立分支 `codex/chore-eval-assembly-gate`。逐项核对 eval Runner/执行与评分入口及默认测试的组合声明；现有 arch:check 的逐文件导入规则可承接目录禁入与白名单，无需新框架。G1 固定页仍仅组件问答证据；SF fixture、G1/B1 部分 HTTP 组合声明的绕过和核心候选名单交复核确认。仅文档，无产品/评测/测试源码、规则或 Skill 改动；未运行五门禁，真实业务调用0、不读.env。按指令仅推工作分支，停止点 2 尚未授权。[盘点报告](../.eval-artifacts/phase3b/eval-assembly-gate/stop1-report.md)。
 
 2026-10-31 CET：G4日文检索合入验证完成：用户已复核efee5a81，已同步main90559cc9；19263da4冻结727项，五门禁默认1272/1272、Chromium186/186（129.772秒）、标准及严格G2均5/5、严格12页全PASS；8项前后净树，285旧C产物/500账目原样保留，GET255/260不变。仅继承A三文件诊断；C排序、身份、绑定、Prompt/State不改。四家定向3正确/1未评、错认0，T第6位缺口不调整。按用户授权发布main，确切合入SHA以Git发布合并和ls-remote核对为准；本次模型/Google/GET/Live0，不读.env，完成后待命。 [合入报告](../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md)。
 

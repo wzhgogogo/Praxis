@@ -1,0 +1,55 @@
+{
+  "recordedAtCET": "2026-11-01T14:48:10.211166+01:00",
+  "baselineCommit": "975ff23a5044d2d177df4779cbc40622bd6bb34e",
+  "from": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+  "to": "src/eval/restaurant/agent-loop/native-discovery-components.test.ts",
+  "originalSourceSha256": "94fb05abde3c5f4f6f40384458148f1fbcb8fcfd807ea2412b945c58c054e7ff",
+  "remainingCompositionSha256": "e573ffe6db627c6b4c34ae6ab3a6681dbe32e96de800075a410363b166cf7dbb",
+  "componentSourceSha256": "298666d24cc6b54ce8e6310480e7816dd571ccacb3706c852cfa56ce9124a17c",
+  "testsMoved": [
+    {
+      "test": "native source session acquisition consumes the remaining source window and retains an unstarted detail entrance",
+      "originalStartLine": 427,
+      "originalEndLine": 452,
+      "testBodySha256": "7225eb143069ec0b27e925047c0904ac65deb9a23901dcf0ab502e55bde623fe",
+      "testBodyBytes": 2250,
+      "beforeTestBodySha256": "7225eb143069ec0b27e925047c0904ac65deb9a23901dcf0ab502e55bde623fe",
+      "afterTestBodySha256": "7225eb143069ec0b27e925047c0904ac65deb9a23901dcf0ab502e55bde623fe",
+      "newStartLine": 14
+    },
+    {
+      "test": "the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches",
+      "originalStartLine": 455,
+      "originalEndLine": 500,
+      "testBodySha256": "2f3ae364ac9a300cc5f9d74c1b6beccfddcc5b7124b437446acbd3af63d5e802",
+      "testBodyBytes": 3975,
+      "beforeTestBodySha256": "2f3ae364ac9a300cc5f9d74c1b6beccfddcc5b7124b437446acbd3af63d5e802",
+      "afterTestBodySha256": "2f3ae364ac9a300cc5f9d74c1b6beccfddcc5b7124b437446acbd3af63d5e802",
+      "newStartLine": 41
+    },
+    {
+      "test": "coordinate-only discovery passes source-attributed address observations, including failure, to browser input",
+      "originalStartLine": 883,
+      "originalEndLine": 900,
+      "testBodySha256": "01b1732a8ea1f6dff9475c96d92a774dbb6fa0815aac776d00c8e47e6bcea67e",
+      "testBodyBytes": 2528,
+      "beforeTestBodySha256": "01b1732a8ea1f6dff9475c96d92a774dbb6fa0815aac776d00c8e47e6bcea67e",
+      "afterTestBodySha256": "01b1732a8ea1f6dff9475c96d92a774dbb6fa0815aac776d00c8e47e6bcea67e",
+      "newStartLine": 89
+    }
+  ],
+  "retrievalHelperSha256": "7ef9a170255acaef4c294129a9300616510a6b6b007ccae226b96d922602e9fa",
+  "literalTestCallMultisetPreserved": true,
+  "originalLiteralTestCalls": 71,
+  "remainingCompositionLiteralTestCalls": 68,
+  "componentLiteralTestCalls": 3,
+  "allowlistEntriesBefore": 24,
+  "allowlistEntriesAfter": 24,
+  "movedCoreExceptions": [
+    "src/integrations/google/google-places-restaurant-search.ts",
+    "src/integrations/restaurant-search/native-restaurant-search.ts"
+  ],
+  "remainingCompositionExceptions": 0,
+  "assertionsChanged": false,
+  "whitelistDescriptionChange": "Remove the obsolete same-file factory clause after separating component and composition files."
+}

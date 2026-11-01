@@ -117,7 +117,6 @@ npm脚本按`动作:domain:对象:模式`命名：
 ```text
 eval:restaurant:semantic:fixture
 eval:restaurant:semantic:holdout:preflight
-eval:restaurant:search:fixture
 ```
 
 命令名不包含当前架构版本；历史命令只在历史日志中保留。

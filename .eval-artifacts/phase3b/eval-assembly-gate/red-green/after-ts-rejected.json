@@ -1,0 +1,19 @@
+{
+  "name": "after-ts-rejected",
+  "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+  "startedAtCET": "2026-11-01T09:14:59.398552+01:00",
+  "finishedAtCET": "2026-11-01T09:14:59.580723+01:00",
+  "command": "npm run arch:check",
+  "expectedExitCode": 1,
+  "actualExitCode": 1,
+  "requiredMessages": [
+    "eval/assembly-gate-negative.ts -> integrations/restaurant-facts/model-page-question.ts: eval assembly gate"
+  ],
+  "messagesMatched": true,
+  "allowlistSha256": "8c02791f8dc08e98e472f9901c9879d925ba304e11d61dd4d78b1ed352c3c786",
+  "probeFiles": {
+    "assembly-gate-negative.ts": "import { ModelRestaurantPageQuestion } from \"../integrations/restaurant-facts/model-page-question.js\";\nexport const componentUnderTest = ModelRestaurantPageQuestion;\n"
+  },
+  "temporaryStatus": "?? src/eval/assembly-gate-negative.ts\n",
+  "passed": true
+}

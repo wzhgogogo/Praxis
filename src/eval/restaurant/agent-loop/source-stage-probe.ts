@@ -17,7 +17,7 @@ import {
   type RestaurantSearchRead,
 } from "../../../domains/restaurant/contracts.js";
 import { NativeRestaurantSearch, directoryEntryReplacementAllowed } from "../../../integrations/restaurant-search/native-restaurant-search.js";
-import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
+import type { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
 import {
   browserReadActionTargetReplayFingerprint,
   decodeBrowserReadActionWire,

@@ -1,0 +1,171 @@
+{
+  "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+  "mainBaseline": "74dd2faf6ac8ef99492c86eaf3d57d7244b1745c",
+  "inputCount": 729,
+  "nodeVersion": "v24.4.1",
+  "startedAtCET": "2026-11-01T14:02:57.043996+01:00",
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": "npm run typecheck",
+      "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+      "startedAtCET": "2026-11-01T14:02:57.118749+01:00",
+      "finishedAtCET": "2026-11-01T14:02:57.626400+01:00",
+      "elapsedMs": 507.61,
+      "exitCode": 0,
+      "timedOut": false,
+      "before": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "after": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "summary": {},
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gzipLogSha256": "c18f3e6f8c5294a227ce64bac5e4096a3d1f92a4d21b8686dcb072cc1717e546",
+      "log": "verification/typecheck.log.gz",
+      "passed": true
+    },
+    {
+      "gate": "arch-check",
+      "command": "npm run arch:check",
+      "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+      "startedAtCET": "2026-11-01T14:02:57.770161+01:00",
+      "finishedAtCET": "2026-11-01T14:02:57.999617+01:00",
+      "elapsedMs": 229.422,
+      "exitCode": 0,
+      "timedOut": false,
+      "before": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "after": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "summary": {},
+      "rawLogSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gzipLogSha256": "ed37f0f55fc69af94cfe7e210b3745b798dc6578344af6cedb0d44e1560d4f39",
+      "log": "verification/arch-check.log.gz",
+      "passed": true
+    },
+    {
+      "gate": "test",
+      "command": "npm test",
+      "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+      "startedAtCET": "2026-11-01T14:02:58.145502+01:00",
+      "finishedAtCET": "2026-11-01T14:03:28.299069+01:00",
+      "elapsedMs": 30153.683,
+      "exitCode": 0,
+      "timedOut": false,
+      "before": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "after": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "summary": {
+        "tests": 1308,
+        "pass": 1308,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "rawLogSha256": "801f84a17647d8b2a3679288e58da58254fffe72c24f84849f448b02eba0fe87",
+      "gzipLogSha256": "8933e1d7855f2fe8285eb7478d1661fcaebbf48e6380bac675a3dd63f8cf42e2",
+      "log": "verification/test.log.gz",
+      "passed": true
+    },
+    {
+      "gate": "build",
+      "command": "npm run build",
+      "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+      "startedAtCET": "2026-11-01T14:03:28.513793+01:00",
+      "finishedAtCET": "2026-11-01T14:03:29.016904+01:00",
+      "elapsedMs": 503.079,
+      "exitCode": 0,
+      "timedOut": false,
+      "before": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "after": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "summary": {},
+      "rawLogSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gzipLogSha256": "a553805f9e6bf293e03bcaef987e41853c67e7d21aaa5eab9fc33e385e4dbcb2",
+      "log": "verification/build.log.gz",
+      "passed": true
+    },
+    {
+      "gate": "test-browser-fixture",
+      "command": "npm run test:browser:fixture",
+      "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+      "startedAtCET": "2026-11-01T14:03:29.168504+01:00",
+      "finishedAtCET": "2026-11-01T14:05:39.914560+01:00",
+      "elapsedMs": 130746.762,
+      "exitCode": 0,
+      "timedOut": false,
+      "before": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "after": {
+        "head": "b5e804b808326bd8b4938a3e10acf735a8590407",
+        "status": "",
+        "changedFrozenInputs": [],
+        "changedPriorEvidence": [],
+        "valid": true
+      },
+      "summary": {
+        "tests": 187,
+        "pass": 187,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "rawLogSha256": "0b27e7f92c2821c06c45734a4679fd5617d5a6e48dff774523b1fea92de4d3a4",
+      "gzipLogSha256": "d5192191b5982e4024874d26203f378c957b66cf138c19f770ab93c965e53b51",
+      "log": "verification/test-browser-fixture.log.gz",
+      "passed": true
+    }
+  ],
+  "lastUpdatedAtCET": "2026-11-01T14:05:39.997219+01:00",
+  "finishedAtCET": "2026-11-01T14:05:39.997482+01:00",
+  "allFivePassed": true
+}
