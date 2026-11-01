@@ -37,14 +37,16 @@ class LocalDatabase implements SqlDatabase {
   }
 }
 
-export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2" | "P3" | "P4" = "P1", variant = 0) {
+export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2" | "P3" | "P4" = "P1", variant = 0, provider: "TABELOG" | "TABLECHECK" = "TABELOG") {
   const source = JSON.parse(await readFile(new URL("./cases/g6-development/source.json", import.meta.url),"utf8")) as {
     referenceTime:string; outlet:{id:string;name:string;address:string;phone:string;latitude:number;longitude:number};
     pageUrl:string;date:string;time:string;partySize:number;initialRequest:string;bookingFollowups:string[];
     vacancy:{url:string;body:unknown};merchantQuote:string;
     recommendationRequest:string;uncheckedBookingRequest:string;partyReply:string;undatedRequest:string;dateReply:string;question:string;
+    tablecheck:{pageUrl:string;expectedHandoffUrl:string};
   };
-  const html = await readFile(new URL("./cases/g6-development/outlet.html", import.meta.url),"utf8");
+  const pageUrl=provider==="TABLECHECK" ? source.tablecheck.pageUrl : source.pageUrl;
+  const html = await readFile(new URL(provider==="TABLECHECK" ? "./cases/g6-development/tablecheck.html" : "./cases/g6-development/outlet.html", import.meta.url),"utf8");
   const clock = new FakeClock(source.referenceTime);
   const pglite = await PGlite.create(), database = new LocalDatabase(pglite);
   await applyPostgresMigrations(database);
@@ -99,17 +101,25 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
   const counted = new RunBoundedModelGateway(fixtureModel,limits.maxModelCalls,limits.maxAutomaticBrowserMs);
   const model = new DeliveryReservedModelGateway(counted);
   const browser: BrowserRuntime = {async openSession() {
-    let url = source.pageUrl;
+    let url = pageUrl;
     return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime},
-      async navigate(target) { sourceCalls.push({kind:"BROWSER_NAVIGATE",method:"GET",url:target,turn});assert.equal(target,source.pageUrl,"Only the fixed public detail page is readable; no workflow or submission transport");url=target; },
+      async navigate(target) {
+        sourceCalls.push({kind:"BROWSER_NAVIGATE",method:"GET",url:target,turn});
+        if(provider==="TABLECHECK"){
+          const actual=new URL(target),expected=new URL(pageUrl);
+          assert.equal(actual.origin+actual.pathname,expected.origin+expected.pathname,"Only the observed same-shop public source entrance is readable");
+          assert.ok([...actual.searchParams.keys()].every(k=>["start_date","start_time","num_people"].includes(k)));
+        } else assert.equal(target,pageUrl,"Only the fixed public detail page is readable; no workflow or submission transport");
+        url=target;
+      },
       async snapshot() {return {url,title:source.outlet.name,text:[source.outlet.name,source.outlet.address,source.outlet.phone,source.merchantQuote,"Availability","November 11, 2026. 2 guests. 19:00."].join("\n"),html,
-        responses:[{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};},
+        responses:provider==="TABLECHECK" ? [] : [{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};},
       async select(_selector,value){return [value];},async click(){assert.fail("No submission/click transport in fixed source");},async fill(){assert.fail("No form filling in fixed source");},
       async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
   }};
   const google = new GooglePlacesClient({apiKey:"local-fixture-key",fetchImplementation:async(url,init)=>{
     sourceCalls.push({kind:"FIXED_GOOGLE_TRANSPORT",method:init?.method ?? "GET",url:String(url),turn});
-    const place = {id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:source.pageUrl,
+    const place = {id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:pageUrl,
       location:{latitude:source.outlet.latitude,longitude:source.outlet.longitude},types:["restaurant"]};
     const query = init?.body ? JSON.parse(String(init.body)).textQuery : undefined;
     return new Response(JSON.stringify(init?.method === "POST" ? {places:query === "Shibuya" ? [{id:"g6-development-station",displayName:{text:"Shibuya"},types:["train_station"],location:place.location}] : [place]} : place),{status:200});
@@ -137,7 +147,7 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
     const created = await completed(()=>application.createCase("g6-development-user",initialRequest,"g6-initial"));
     const initial = project(await application.getCase("g6-development-user",created.case.caseId));
     const initialArtifact = await application.exportReadArtifact(initial.case.caseId);
-    artifact = {mode:"OFFLINE_LOCAL_CONSTRUCTED_SOURCES",path,variant,initialRequest,initial,initialArtifact};
+    artifact = {mode:"OFFLINE_LOCAL_CONSTRUCTED_SOURCES",path,variant,provider,initialRequest,initial,initialArtifact};
     if(path === "P3") {
       assert.equal(initial.case.phase,"NEEDS_INPUT","Undated named request must ask before any availability read");
       assert.equal(initial.restaurant.intentDraft?.date,undefined,"No autonomous date may enter State");
@@ -192,7 +202,11 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
     const handoff = after.restaurant.bookingHandoffs?.find(h=>h.candidateId===first);
     assert.ok(handoff,"G6-P1: booking follow-up must keep an admitted B1 handoff");
     assert.match(handoff.continueLabel,/filled in/);
-    assert.equal(handoff.url,(source.vacancy.body as {selection:Array<{url:string}>}).selection[0]!.url);
+    if(provider==="TABLECHECK"){
+      const url=new URL(handoff.url),expected=new URL(source.tablecheck.expectedHandoffUrl);
+      assert.equal(url.origin+url.pathname,expected.origin+expected.pathname);
+      assert.deepEqual([...url.searchParams.entries()].sort(),[...expected.searchParams.entries()].sort());
+    } else assert.equal(handoff.url,(source.vacancy.body as {selection:Array<{url:string}>}).selection[0]!.url);
     }
     }
     assert.ok(!sourceCalls.some(c=>c.kind==="BROWSER_NAVIGATE"&&/form_course|yoyaku|payment|confirm|checkout/.test(new URL(c.url).pathname)),"No workflow request in this turn");
