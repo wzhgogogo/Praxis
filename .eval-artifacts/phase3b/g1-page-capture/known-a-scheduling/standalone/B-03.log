@@ -1,0 +1,11 @@
+✔ browser fixture entry keeps G2 exclusive, retains every test and propagates a child failure (2579.445333ms)
+✔ browser outer guard identifies unfinished files and retains buffered output (149.603917ms)
+ℹ {"mode":"LOCAL_CONSTRUCTION_INJECTED_OUTER_CLOCK","unfinished":[{"phase":"constructed timeout","event":"UNFINISHED","file":"src/harness/browser/a-held.test.ts","elapsedMs":600000,"lastObservedTests":["a-held lifecycle step"]},{"phase":"constructed timeout","event":"UNFINISHED","file":"src/harness/browser/c-held.test.ts","elapsedMs":600000,"lastObservedTests":[]}],"progress":{"phase":"constructed timeout","event":"PHASE_PROGRESS","started":3,"ended":1,"notStarted":["src/harness/browser/d-queued.test.ts"],"note":"Test events can be buffered; lastObservedTests are observations, not proof of the currently blocked test."},"heldAndBufferedFinishedOutputRetained":true}
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2815.390625

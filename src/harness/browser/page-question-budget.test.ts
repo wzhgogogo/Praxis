@@ -40,3 +40,26 @@ test("G1 question permits two document visits across sessions, blocks the third 
     } finally {await session.close();}
   } finally {server.closeAllConnections();server.close();await once(server,"close");}
 });
+
+test("G1 fresh Google page capture keeps the real Guard ahead of an unreviewed checkout, with a public-page control", {timeout:30_000},async()=>{
+  const { pageQuestionCaptureFixture, captureQuote }=await import("../../integrations/restaurant-facts/fixtures/page-question-capture.js");
+  const received:string[]=[];let html="";
+  const server=createServer((request,response)=>{received.push(request.method+" "+request.url);response.setHeader("content-type","text/html");response.end(html);});
+  server.listen(0,"127.0.0.1");await once(server,"listening");
+  const origin="http://127.0.0.1:"+(server.address() as AddressInfo).port;
+  const raw=new LocalPlaywrightChromium();let installed=0;
+  const runtime:import("../../infrastructure/browser/browser-runtime.js").BrowserRuntime={readNetworkBoundaryCapability:raw.readNetworkBoundaryCapability,async openSession(input){
+    const session=await raw.openSession(input);assert.equal(session.metadata.readNetworkBoundary,"INSTALLED");installed++;return session;
+  }};
+  try {
+    const blocked=pageQuestionCaptureFixture("GOOGLE",runtime,origin+"/checkout");html=blocked.page.html;
+    const result=await blocked.assembly.questions.answerQuestion(blocked.input,new AbortController().signal);
+    assert.equal(installed,1,"page-capture acquisition must reach the installed Guard, rather than stop at the original no-gap check");
+    assert.equal(result.status,"UNVERIFIED");assert.deepEqual(result.checkedPages,[]);assert.deepEqual(blocked.seen.requests,[],"no question or fact model after Guard rejection");
+    assert.deepEqual(received,[],"the prohibited document never reached the independent HTTP receiver");
+    const permitted=pageQuestionCaptureFixture("GOOGLE",runtime,origin+"/merchant");html=permitted.page.html;
+    const answered=await permitted.assembly.questions.answerQuestion(permitted.input,new AbortController().signal);
+    assert.equal(answered.status,"ANSWERED","the same guarded acquisition can read a permitted merchant page");assert.ok(answered.status==="ANSWERED");
+    assert.equal(answered.citations[0]?.text,captureQuote);assert.deepEqual(received,["GET /merchant"]);
+  } finally {server.closeAllConnections();server.close();await once(server,"close");}
+});

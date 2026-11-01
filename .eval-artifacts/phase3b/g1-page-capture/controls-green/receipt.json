@@ -1,0 +1,84 @@
+{
+  "atCET": "2026-11-01T07:27:51.622927+01:00",
+  "mode": "OFFLINE_COMPONENT_AND_REAL_LOCAL_CHROMIUM",
+  "phase": "green",
+  "commit": "26562d9f314ca4616871c586886764af22fe5dfb",
+  "freezeSha256": "737e063d4dbe9dc319d5cff2ff3017fc445eb3149dca2e66eaed25900d41811f",
+  "orchestrationSha256": "572b2b178d39194d68afa5c49b7101e3ea82a15496578194cabc63770a7c8170",
+  "runs": [
+    {
+      "name": "unit",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/integrations/restaurant-facts/google-listed-website-facts.test.ts",
+        "src/integrations/restaurant-facts/model-fact-judgment.test.ts",
+        "src/integrations/restaurant-facts/model-page-question-quality.test.ts",
+        "src/integrations/restaurant-facts/model-page-question.test.ts",
+        "src/integrations/restaurant-facts/model-source-facts.test.ts",
+        "src/integrations/restaurant-facts/page-question-capture.test.ts",
+        "src/integrations/restaurant-facts/page-question-reader.test.ts",
+        "src/integrations/restaurant-facts/quoted-fact-read.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 0.45723908300000005,
+      "summary": {
+        "tests": 114,
+        "pass": 114,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "7e838ece328b553fe8326d1832be4c31b1d02dc3aabac45da0020d7e4f8361b9",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "guard",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/harness/browser/page-question-budget.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.35116575,
+      "summary": {
+        "tests": 2,
+        "pass": 2,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "adda9e1ef20cd170fd2440553b6104e24957b92f8c64370527d9516ce67a4345",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.189126833,
+      "summary": {},
+      "logSha256": "35fd00032ca19db45bb4ee7a7fae63364905df14b7426f6e5a14dd763231c520",
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

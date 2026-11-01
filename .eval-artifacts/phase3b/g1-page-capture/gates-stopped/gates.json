@@ -1,0 +1,73 @@
+{
+  "mode": "OFFLINE_MOCK_AND_LOCAL_CHROMIUM",
+  "testedCommit": "789bfc024042c774243cd36b6771be9c30894ae9",
+  "startedAtCET": "2026-11-01T07:29:17.587692+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "3fd38c885cca7816851b0c87f0123586b89d6486455243c7b580bfc3ea9b78f3",
+  "freezeSha256": "7aeadfefe999f4a79489fcf79b2d0afd1e51314ac80cb7305965f3ac0691931d",
+  "frozenPaths": 728,
+  "restorations": 0,
+  "gatePolicy": "Stop on gate failure; preserve raw failure and diagnose ownership before any repair; never merge main",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-01T07:29:17.677946+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.509492,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-01T07:29:18.313042+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.183336,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-01T07:29:18.626318+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test.log",
+      "exitCode": 1,
+      "elapsedSeconds": 29.663042,
+      "summary": {
+        "tests": 1288,
+        "suites": 5,
+        "pass": 1287,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "e824c137829c87f57bd6bf1e9c684474a372c679cdfc64aa48f4c02403e8f148",
+      "gitStatusAfter": "",
+      "outcome": "FAIL"
+    }
+  ],
+  "stopReason": "GATE_FAILURE_OR_CHECKOUT_CHANGE"
+}

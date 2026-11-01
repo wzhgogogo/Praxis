@@ -1,0 +1,171 @@
+{
+  "mode": "OFFLINE_MOCK_AND_LOCAL_CHROMIUM",
+  "testedCommit": "bf65a67a59978974fe9dd90757f6935fed216238",
+  "startedAtCET": "2026-11-01T08:08:24.923608+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "nodeVersion": "v24.4.1",
+  "orchestrationSha256": "a923fe576e1b69d67bc52abd16c90f1f95560ab59a6ead23db2413cc37962159",
+  "freezeSha256": "e4777e576c073bff789dada42495cdde4558549f215578851565e56750696b95",
+  "frozenPaths": 728,
+  "restorations": 0,
+  "gatePolicy": "Run entire default suite. Only the user-classified A scheduling failure may continue, while its row remains FAIL. Any other failure stops. No main merge.",
+  "runs": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-01T08:08:25.009765+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.454739,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS",
+      "knownAOwnedFailure": false
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-01T08:08:25.591985+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.187093,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS",
+      "knownAOwnedFailure": false
+    },
+    {
+      "gate": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-01T08:08:25.903038+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test.log",
+      "exitCode": 0,
+      "elapsedSeconds": 30.626316,
+      "summary": {
+        "tests": 1288,
+        "suites": 5,
+        "pass": 1288,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "dabad56756b9afed5bf52082b22e124f65d412d85bf266ad3985ab31f6c46ebd",
+      "gitStatusAfter": "",
+      "outcome": "PASS",
+      "knownAOwnedFailure": false
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-11-01T08:08:56.701132+01:00",
+      "gitStatusBefore": "",
+      "log": "build.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.562885,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusAfter": "",
+      "outcome": "PASS",
+      "knownAOwnedFailure": false
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-11-01T08:08:57.395147+01:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture.log",
+      "exitCode": 0,
+      "elapsedSeconds": 130.350978,
+      "summary": {
+        "tests": 187,
+        "suites": 0,
+        "pass": 187,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "bb78d84a291070e4a9e2741a421bee41f391108e36774c5951557bc885d2afec",
+      "gitStatusAfter": "",
+      "outcome": "PASS",
+      "knownAOwnedFailure": false
+    },
+    {
+      "gate": "strict-dom-change",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-11-01T08:11:07.881884+01:00",
+      "gitStatusBefore": "",
+      "log": "strict-dom-change.log",
+      "exitCode": 0,
+      "elapsedSeconds": 24.468324,
+      "summary": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "956179492a3b2cee4406d13aa79ad88544752b9789195e1ac91f336c45781925",
+      "gitStatusAfter": "",
+      "outcome": "PASS",
+      "knownAOwnedFailure": false
+    },
+    {
+      "gate": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "startedAtCET": "2026-11-01T08:11:32.484265+01:00",
+      "gitStatusBefore": "",
+      "log": "hard-bytes.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.127356,
+      "summary": {},
+      "logSha256": "35fd00032ca19db45bb4ee7a7fae63364905df14b7426f6e5a14dd763231c520",
+      "gitStatusAfter": "",
+      "outcome": "PASS",
+      "knownAOwnedFailure": false
+    }
+  ],
+  "acceptance": "READY_FOR_REVIEW_WITH_RETAINED_USER_CLASSIFIED_A_FAILURE",
+  "allGatesPassedThisRun": true,
+  "knownAFlakeStillOpen": true,
+  "finishedAtCET": "2026-11-01T08:11:32.673431+01:00",
+  "freezeVerifiedAfter": true
+}

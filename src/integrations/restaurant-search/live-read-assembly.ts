@@ -14,6 +14,7 @@ import { LiveBrowserAvailability, type LiveBrowserAvailabilityOptions } from "..
 import { composeNativeRestaurantRead } from "./native-read-composition.js";
 import { candidateAvailabilityPath, restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
 import { TabelogBookingHandoffReader } from "../tabelog/tabelog-booking-handoff-reader.js";
+import { TableCheckBookingHandoffReader } from "../tablecheck/tablecheck-booking-handoff-reader.js";
 
 export interface LiveReadAssemblyConfig extends LiveReadInvestigationBudget {
   /** Existing Pack selection; controlled sources may explicitly restrict coverage. */
@@ -43,7 +44,15 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   }
   const runCeilings = Object.freeze({ ...ceilings });
   const now = () => transports.clock.now().toISOString();
-  const bookingHandoffs = new TabelogBookingHandoffReader(transports.browser, transports.currentTaskId ?? (() => undefined), now);
+  const taskId = transports.currentTaskId ?? (() => undefined);
+  const tabelogHandoffs = new TabelogBookingHandoffReader(transports.browser, taskId, now);
+  const tablecheckHandoffs = new TableCheckBookingHandoffReader(tabelogHandoffs.runtime, taskId, now);
+  const bookingHandoffs = {
+    runtime: tablecheckHandoffs.runtime, now,
+    capture: (request: Parameters<typeof tablecheckHandoffs.capture>[0], signal: AbortSignal, read: () => ReturnType<typeof tablecheckHandoffs.capture>) =>
+      tabelogHandoffs.capture(request, signal, () => tablecheckHandoffs.capture(request, signal, read)),
+    readPrepared: (view: Parameters<typeof tablecheckHandoffs.readPrepared>[0]) => [...tabelogHandoffs.readPrepared(view), ...tablecheckHandoffs.readPrepared(view)],
+  };
   const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0, maxModelCalls: config.maxBrowserModelCallsTotal };
   const google = new GooglePlacesRestaurantSearch(transports.google, now, config.maxDiscoveryCandidates, { maxRequests: config.maxGoogleRequests });
   const native = composeNativeRestaurantRead(google, transports.browser, transports.model, browserBudget,

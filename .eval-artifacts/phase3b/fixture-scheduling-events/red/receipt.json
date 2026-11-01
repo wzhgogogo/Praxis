@@ -1,0 +1,31 @@
+{
+  "mode": "old",
+  "kind": "CONTROLLED_REAL_LIFECYCLE_DELIVERY_ORDER_NOT_NATURAL_ENV_REPRODUCTION",
+  "baseGit": "a7860924b8630a34318811b477af54e0f007d0b6",
+  "sourceSha256": "dbe65c47005b3f32fedecf069651c279428dd715d4b0fdcca952d927ff3dec9b",
+  "originalAssertionLinesIdentical": true,
+  "runs": [
+    {
+      "label": "controlled",
+      "controlledDelivery": true,
+      "command": [
+        "/opt/homebrew/bin/node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 1,
+      "seconds": 2.864,
+      "rawLogSha256": "5411c59b106678453a9cf06088b8c37793151b2c456f795a0658cc14b7a17efc",
+      "probeOnlyChangedCopies": {
+        "src/harness/browser-fixture-scheduling.test.ts": "68eac65035b6357350b13ca95d187b8bfbb1996702456b80780e27c789bad6f2",
+        "scripts/browser-fixture-worker.mjs": "b3faa559d02adeb963cf6f1a42dde8eb443967b8c80615d1bea17a23cfa24399"
+      }
+    }
+  ],
+  "startedAtCET": "2026-11-01T08:19:46.359369+01:00"
+}
