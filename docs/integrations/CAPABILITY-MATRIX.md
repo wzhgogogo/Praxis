@@ -53,7 +53,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.122
+- Document revision: 1.124
 
 
 - Last updated: 2026-11-01
@@ -475,3 +475,11 @@ The frozen37+4 simulation and production identity-prefix replay retain prior23/2
 User-approved out-of-original-scope attribution correction (2026-10-31 CET, candidate only): e4b0e27e adds exactly sourceProvider: provider.provider in the resolver conclusive-check branch. Real provider identity is recorded explicitly; status, sourceAttempts, inventory, identity and both B1 URL checks are unchanged. The prior TableCheck-failure→Tabelog-success HTTP case now emits the original B1 handoff; reverse/direct/failure controls and the complete reader-impact audit are recorded separately. Default/full fixture gates are pending for this candidate; no main merge or new external request. [Audit](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/reader-impact.md).
 
 Source-attribution follow-up offline verification PASS (2026-10-31 CET): the approved one-line e4b0e27e fix closes the multi-provider B1 rejection. All five gates1271/186 and strict G2 all12 pages PASS, each clean; reader audit lists all12 runtime/local-value uses and unchanged attempts. The G4 candidate remains unmerged. Real calls0; Beef exact request list remains source-dependent and no request proposal was executed. [Current follow-up report](../../.eval-artifacts/phase3b/g4-japanese-wiring/source-provider-fix/report.md).
+
+## TableCheck B1 ordinary assembly correction (2026-11-01 CET)
+
+User-approved implementation for main publication ([release evidence](../../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/report.md)): TableCheck source-link preparation is now wired into the same ordinary live-read assembly as Tabelog. Earlier TableCheck injected-cache greens did not cover this edge; A's unchanged whole persistent-composition regression demonstrated AVAILABLE with an empty handoff and then passes after this correction. This closes a local assembly gap, not live website/prefill certification.
+
+Separate source-specific readers share the existing browser read through passive wrappers. TableCheck taps only already occurring snapshot/observeControls results, retains visible enabled same-shop reserve LINK entrances with root-task/evidence/request/expiry binding, and deterministically serializes only an actual exact available offer. A source link already carrying contradictory date/party/time is rejected; a broad window alone never supplies a chosen time. No new navigation, control read, workflow verification or model request is added. Original Tabelog reader bytes and source-returned URL behavior remain unchanged. ADR-0049's generation and projection checks, grammar, freshness and no-submit/no-PII boundaries remain.
+
+Evidence is local constructed model/source I/O, real local Chromium, persistent PGlite and actual Router/Reducer/projection; A's five imported files remain byte-identical. Initial/selected projections carry TableCheck date/time/guests plus filled-in wording and Check date and guests; sourceSelection remains UNKNOWN. Component rejection/isolation/expiry controls are separate from the whole-chain positive. Current gates/publication status is in [STATUS](../STATUS.md); [evidence plan](../../.eval-artifacts/phase3b/b1-tablecheck-composition-20261101/plan.md). No State/TaskDefinition/Prompt/Schema version changes, real source request or booking claim.
