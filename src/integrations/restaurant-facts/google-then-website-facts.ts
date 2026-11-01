@@ -90,13 +90,15 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
     const google = await this.google.inspectFacts(request, signal);
     const candidates: RestaurantCandidate[] = request.candidates.flatMap((candidate) => {
       const uri = websitePointer(google, candidate.restaurant.id) ?? candidateWebsitePointer(candidate);
-      return uri && needsWebsiteFactEvidence(google, candidate.restaurant.id, request.intent) ? [{
+      // Explicit question acquisition needs a page, independently of the
+      // original fact gaps. The same website reader still binds its identity.
+      return uri && (request.capturePagesOnly || needsWebsiteFactEvidence(google, candidate.restaurant.id, request.intent)) ? [{
         ...candidate,
         restaurant: { ...candidate.restaurant, sourceIds: { ...candidate.restaurant.sourceIds, googleWebsiteUri: uri } },
       }] : [];
     });
     if (!candidates.length) {
-      const judgments = this.judgment
+      const judgments = this.judgment && !request.capturePagesOnly
         ? await Promise.all(request.candidates.filter((candidate) => !hasExplicitHardConflict(google, candidate.restaurant.id, request.intent))
           .map((candidate) => this.judgment!.judge({ candidate, intent: request.intent, evidence: google.evidence })))
         : [];
@@ -135,7 +137,7 @@ export class GoogleThenWebsiteFactRead implements RestaurantCandidateFactPort {
       };
     }
     const sourceEvidence = [...google.evidence, ...website.evidence];
-    const judgments = this.judgment
+    const judgments = this.judgment && !request.capturePagesOnly
       ? await Promise.all(request.candidates.filter((candidate) => !hasExplicitHardConflict(google, candidate.restaurant.id, request.intent)
         // The website reader may already have made the bounded cited judgment
         // in its own browser session to decide whether to follow a source link.
