@@ -1,5 +1,7 @@
 # Development Log
 
+2026-11-01 CET：组装门禁仅完成停止点 1 静态盘点，`draft / not integrated`。从远端 main `6db445ea` 在独立工作树建立 `codex/chore-eval-assembly-gate`，未触碰原工作区资料。记录全部 eval Runner、程序化入口、独立评分入口，以及默认组合/集成声明的实际调用路径；混合 composition 文件按具体入口区分。已有 arch:check 可承接规则，核心集合/分类/白名单留待复核；不实现门禁，不改 A/B/C 文件。真实模型/Google/网站/Live0，不读.env；推报告后停。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/stop1-report.md)。
+
 2026-10-31 CET：G4日文检索合入验证完成：用户已复核efee5a81，已同步main90559cc9；19263da4冻结727项，五门禁默认1272/1272、Chromium186/186（129.772秒）、标准及严格G2均5/5、严格12页全PASS；8项前后净树，285旧C产物/500账目原样保留，GET255/260不变。仅继承A三文件诊断；C排序、身份、绑定、Prompt/State不改。四家定向3正确/1未评、错认0，T第6位缺口不调整。按用户授权发布main，确切合入SHA以Git发布合并和ls-remote核对为准；本次模型/Google/GET/Live0，不读.env，完成后待命。 [合入报告](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md)。
 
 2026-10-31 CET：用户复核通过C efee5a81并批准合入main；6e0f134a已同步最新main90559cc9，产品无冲突，保留A三文件诊断和双方文档，账本500条/GET255/260不变。冻结合入候选后顺序重跑五门禁及严格G2，每项前后净树，任一失败即停；全绿才发布main并核对远端。四家定向证据保持3正确/1未评、错认0，T第6位缺口不改；本次真实模型/Google/网站GET/Live0，不读.env。 [合入计划](../../.eval-artifacts/phase3b/g4-japanese-main-20261031/plan.md)。

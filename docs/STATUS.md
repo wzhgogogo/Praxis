@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-01 CET：组装门禁停止点 1 盘点完成待复核（`draft / not integrated`），基线 main `6db445ea`，独立分支 `codex/chore-eval-assembly-gate`。逐项核对 eval Runner/执行与评分入口及默认测试的组合声明；现有 arch:check 的逐文件导入规则可承接目录禁入与白名单，无需新框架。G1 固定页仍仅组件问答证据；SF fixture、G1/B1 部分 HTTP 组合声明的绕过和核心候选名单交复核确认。仅文档，无产品/评测/测试源码、规则或 Skill 改动；未运行五门禁，真实业务调用0、不读.env。按指令仅推工作分支，停止点 2 尚未授权。[盘点报告](../.eval-artifacts/phase3b/eval-assembly-gate/stop1-report.md)。
+
 2026-10-31 CET：G4日文检索合入验证完成：用户已复核efee5a81，已同步main90559cc9；19263da4冻结727项，五门禁默认1272/1272、Chromium186/186（129.772秒）、标准及严格G2均5/5、严格12页全PASS；8项前后净树，285旧C产物/500账目原样保留，GET255/260不变。仅继承A三文件诊断；C排序、身份、绑定、Prompt/State不改。四家定向3正确/1未评、错认0，T第6位缺口不调整。按用户授权发布main，确切合入SHA以Git发布合并和ls-remote核对为准；本次模型/Google/GET/Live0，不读.env，完成后待命。 [合入报告](../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md)。
 
 2026-10-31 CET：用户复核通过C efee5a81并批准合入main；6e0f134a已同步最新main90559cc9，产品无冲突，保留A三文件诊断和双方文档，账本500条/GET255/260不变。冻结合入候选后顺序重跑五门禁及严格G2，每项前后净树，任一失败即停；全绿才发布main并核对远端。四家定向证据保持3正确/1未评、错认0，T第6位缺口不改；本次真实模型/Google/网站GET/Live0，不读.env。 [合入计划](../.eval-artifacts/phase3b/g4-japanese-main-20261031/plan.md)。
