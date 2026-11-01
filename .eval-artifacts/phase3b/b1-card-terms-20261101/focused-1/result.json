@@ -1,0 +1,21 @@
+{
+  "status": "FAILED",
+  "commit": "ecbaed1a5e38a6c44041d78bc2f0432d18752682",
+  "startedAtCET": "2026-11-01T15:30:59.388061+01:00",
+  "exitCode": 1,
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "src/eval/restaurant/agent-loop/g6-booking-terms-composition.test.ts",
+    "src/application/restaurant-booking-terms-composition.test.ts"
+  ],
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "realCalls": 0,
+  "envFileLoaded": false
+}

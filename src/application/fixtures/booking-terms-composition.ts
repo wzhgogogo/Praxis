@@ -45,7 +45,7 @@ export async function bookingTermsComposition(options:Options={}){
   const english=original.replace(source.merchantQuote,prose)+(options.conflict?`<a href="${ja}">日本語</a>`:"");
   const japanese=original.replace(source.merchantQuote,japaneseQuote+"</p><p>"+cardQuote);
   const clock=new FakeClock(source.referenceTime),db=await PGlite.create(),database=new Database(db);await applyPostgresMigrations(database);
-  const requests:Array<{turn:string;request:ModelRequest;response:ModelResponse}>=[],sourceCalls:Array<{turn:string;url:string;kind:string}>=[];
+  const requests:Array<{turn:string;request:ModelRequest;response:ModelResponse}>=[],sourceCalls:Array<{turn:string;url:string;kind:string}>=[],sourcePages:unknown[]=[];
   let turn="INITIAL",stage="",omit=options.notStated??false;
   const transport:ModelGateway={async complete(request){
     let body:unknown;
@@ -85,16 +85,17 @@ export async function bookingTermsComposition(options:Options={}){
   const chrome=provider==="TABLECHECK"?localFixture({[url]:english,[exactGuideAvailabilityUrl(url,source.date,2,"19:00")]:english}):undefined;
   const browser:BrowserRuntime={async openSession(input){
     const session=chrome?await chrome.openSession(input):undefined;
+    const originalNavigate=session?.navigate.bind(session);
     let pageUrl=url;
     const navigate=async(target:string)=>{
       assert.ok(!/form_course|yoyaku|payment|confirm|checkout|account/.test(new URL(target).pathname));
       sourceCalls.push({turn,url:target,kind:"BROWSER_NAVIGATE"});pageUrl=target;
       if(stage==="FACTS"&&options.wrongPage)pageUrl=options.wrongPage==="CHANNEL"?"https://www.tablecheck.com/en/shops/other-channel/reserve":url.replace("13123456","13999999");
-      if(session)await session.navigate(pageUrl);
+      if(originalNavigate)await originalNavigate(pageUrl);
     };
-    if(session){const snapshot=session.snapshot.bind(session);session.navigate=navigate;session.snapshot=async()=>{const p=await snapshot();return omit?{...p,text:p.text.replace(cancellationQuote,"").replace(cardQuote,"")}:p;};return session;}
+    if(session){const snapshot=session.snapshot.bind(session);session.navigate=navigate;session.snapshot=async()=>{const original=await snapshot();const p=omit?{...original,text:original.text.replace(cancellationQuote,"").replace(cardQuote,"")}:original;sourcePages.push({turn,page:structuredClone(p)});return p;};return session;}
     return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime},navigate,
-      async snapshot(){const jp=pageUrl===ja;const text=[source.outlet.name,source.outlet.address,source.outlet.phone,...(omit?[]:[jp?japaneseQuote:cancellationQuote,cardQuote]),"Availability","November 11, 2026. 2 guests. 19:00."].join("\n");return {url:pageUrl,title:source.outlet.name,text,html:(jp?japanese:english).replace(omit?cancellationQuote:"__unused__",""),responses:stage==="FACTS"?[]:[{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};},
+      async snapshot(){const jp=pageUrl===ja;const text=[source.outlet.name,source.outlet.address,source.outlet.phone,...(omit?[]:[jp?japaneseQuote:cancellationQuote,cardQuote]),"Availability","November 11, 2026. 2 guests. 19:00."].join("\n");const p={url:pageUrl,title:source.outlet.name,text,html:(jp?japanese:english).replace(omit?cancellationQuote:"__unused__",""),responses:stage==="FACTS"?[]:[{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};sourcePages.push({turn,page:structuredClone(p)});return p;},
       async observeControls(){return options.conflict&&pageUrl===url?[{id:"lang-ja",stableKey:"lang-ja",kind:"LINK" as const,role:"link",label:"日本語",href:ja,visible:true,disabled:false}]:[];},
       async select(_selector,value){return [value];},async click(){assert.fail("No click transport");},async fill(){assert.fail("No form transport");},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
   }};
@@ -117,6 +118,6 @@ export async function bookingTermsComposition(options:Options={}){
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
     project,omitTerms(){omit=true;},async cancel(){return app.cancelCase("terms-user",caseId);},
     async close(){await app.stopActiveReads();await db.close();},
-    artifact:async()=>({requests,sourceCalls,view:await project(),run:counted.usage(caseId),execution:await app.exportReadArtifact(caseId),realCalls:0}),
+    artifact:async()=>({requests,sourceCalls,sourcePages,view:await project(),run:counted.usage(caseId),execution:await app.exportReadArtifact(caseId),realCalls:0}),
   };
 }
