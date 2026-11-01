@@ -7,6 +7,9 @@ import { ModelRestaurantPageQuestion } from "./model-page-question.js";
 import { RunBoundedModelGateway } from "../../application/run-bounded-model-gateway.js";
 import { RESTAURANT_PAGE_QUESTION_BUDGET, type RestaurantPageQuestionLimits } from "../../domains/restaurant/page-question-limits.js";
 import type { QuestionPageVisits } from "./page-question-read-budget.js";
+import { isDeepStrictEqual } from "node:util";
+import { isRestaurantFactPageBound } from "./fact-page-binding.js";
+import type { RestaurantPageQuestionState } from "../../domains/restaurant/page-question.js";
 
 /** The existing fact readers are the sole producers of identity-bound pages. */
 export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort {
@@ -15,9 +18,10 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
   private readonly questionModel: RunBoundedModelGateway;
   private readonly observe: RestaurantFactPageObserver;
   private readonly pages = new Map<string, RestaurantFactPageObservation>();
+  private readonly answered = new Map<string, {input:RestaurantPageQuestionRequest; answer:RestaurantPageAnswer; pages:RestaurantFactPageObservation[]}>();
 
   constructor(
-    model: ModelGateway,
+    private readonly model: ModelGateway,
     private readonly createFacts: (observe: RestaurantFactPageObserver, budget?: BrowserExecutionBudget, model?: ModelGateway, visits?: QuestionPageVisits) => RestaurantCandidateFactPort,
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly retentionMs = 500_000,
@@ -35,6 +39,39 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
   private expire(): void {
     const cutoff = Date.parse(this.now()) - this.retentionMs;
     for (const [key, page] of this.pages) if (Date.parse(page.observedAt) < cutoff) this.pages.delete(key);
+    for (const [key, answer] of this.answered) if (answer.pages.every(page=>Date.parse(page.observedAt)<cutoff)) this.answered.delete(key);
+  }
+
+  /** Frozen current G1 observations; no new transport, parsing or identity rule. */
+  currentPages(context:{runId:string;startedAt:string}, candidateId:string): RestaurantFactPageObservation[] {
+    this.expire();
+    return structuredClone([...this.pages.values()].filter(page=>isRestaurantFactPageBound(page,{candidateId,
+      sourceUrl:page.requestedSourceUrl,readRunId:context.runId,startedAt:context.startedAt},this.now())));
+  }
+
+  /** Reuse only an answer actually admitted into the current authoritative view. */
+  admittedQuestion(q:RestaurantPageQuestionState, context:{runId:string;startedAt:string}) {
+    const saved=this.answered.get(JSON.stringify([q.readRunId,q.candidateId,q.requestId]));
+    if(!saved || q.readRunId!==context.runId || !isDeepStrictEqual(q.result,saved.answer))return undefined;
+    const current=this.currentPages(context,q.candidateId);
+    if(!saved.pages.every(page=>current.some(item=>isDeepStrictEqual(item,page))))return undefined;
+    return structuredClone(saved);
+  }
+
+  /** B1 uses the ORIGINAL fact reader/model, not the explicit question budget. */
+  async captureBookingPages(input:RestaurantPageQuestionRequest,signal:AbortSignal):Promise<void> {
+    signal.throwIfAborted();
+    await this.facts.inspectFacts({capturePagesOnly:true,captureLinkedTranslation:true,candidateIds:[input.candidate.restaurant.id],
+      candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},signal);
+    signal.throwIfAborted();
+  }
+
+  async answerBookingQuestion(input:RestaurantPageQuestionRequest,pages:readonly RestaurantFactPageObservation[],signal:AbortSignal):Promise<RestaurantPageAnswer> {
+    signal.throwIfAborted();
+    if(Date.parse(this.now())>=Date.parse(input.readContext.deadlineAt))return {status:"UNVERIFIED",candidateId:input.candidate.restaurant.id,reason:"BUDGET_EXHAUSTED",checkedPages:[]};
+    return new ModelRestaurantPageQuestion(this.model,undefined,this.now).answer({question:input.question,
+      displayedOutlet:{candidateId:input.candidate.restaurant.id,sourceUrl:pages[0]?.requestedSourceUrl??""},
+      readContext:input.readContext,cachedPages:pages},signal);
   }
 
   async answerQuestion(input: RestaurantPageQuestionRequest, signal: AbortSignal): Promise<RestaurantPageAnswer> {
@@ -47,8 +84,9 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
     if (expired()) return failure("BUDGET_EXHAUSTED");
     const cached = () => [...this.pages.values()].filter(p => p.candidateId === id && p.readRunId === input.readContext.runId
       && Date.parse(p.observedAt) >= Date.parse(input.readContext.startedAt));
+    let usedPages:RestaurantFactPageObservation[]=[];
     try {
-      return await this.questionModel.run(JSON.stringify([input.readContext.runId, id, input.requestId]), async budgetSignal => {
+      const answer=await this.questionModel.run(JSON.stringify([input.readContext.runId, id, input.requestId]), async budgetSignal => {
         const combined = AbortSignal.any([signal, budgetSignal]);
         const visits: QuestionPageVisits = {used:0,limit:this.limits.maxNewPageVisits,exhausted:false};
         let modelExhausted = false;
@@ -68,11 +106,15 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
         if (expired() || visits.exhausted || modelExhausted) return failure("BUDGET_EXHAUSTED");
         const sourceUrl = pages[0]?.requestedSourceUrl;
         if (!sourceUrl) return failure("NO_BOUND_PAGE");
+        usedPages=structuredClone(pages);
         const result = await new ModelRestaurantPageQuestion(model, undefined, this.now).answer({question:input.question,displayedOutlet:{candidateId:id,sourceUrl},
           readContext:{runId:input.readContext.runId,startedAt:input.readContext.startedAt},cachedPages:pages},combined);
         combined.throwIfAborted();
         return expired() || modelExhausted ? failure("BUDGET_EXHAUSTED") : result;
       }, deadlineAt);
+      if(!signal.aborted && answer.status!=="UNVERIFIED")this.answered.set(JSON.stringify([input.readContext.runId,id,input.requestId]),
+        {input:structuredClone(input),answer:structuredClone(answer),pages:usedPages});
+      return answer;
     } catch (error) {
       if (signal.aborted) throw signal.reason;
       return failure(expired() || budgetError(error) ? "BUDGET_EXHAUSTED" : "SOURCE_READ_FAILED");

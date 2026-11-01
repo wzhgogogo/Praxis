@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.44
+- Document revision: 3.45
 
 
 - Last updated: 2026-11-01
@@ -364,3 +364,8 @@ User-approved implementation for main publication ([release evidence](../../.eva
 Separate source-specific readers share the existing browser read through passive wrappers. TableCheck taps only already occurring snapshot/observeControls results, retains visible enabled same-shop reserve LINK entrances with root-task/evidence/request/expiry binding, and deterministically serializes only an actual exact available offer. A source link already carrying contradictory date/party/time is rejected; a broad window alone never supplies a chosen time. No new navigation, control read, workflow verification or model request is added. Original Tabelog reader bytes and source-returned URL behavior remain unchanged. ADR-0049's generation and projection checks, grammar, freshness and no-submit/no-PII boundaries remain.
 
 Evidence is local constructed model/source I/O, real local Chromium, persistent PGlite and actual Router/Reducer/projection; A's five imported files remain byte-identical. Initial/selected projections carry TableCheck date/time/guests plus filled-in wording and Check date and guests; sourceSelection remains UNKNOWN. Component rejection/isolation/expiry controls are separate from the whole-chain positive. Current gates/publication status is in [STATUS](../STATUS.md); [evidence plan](../../.eval-artifacts/phase3b/b1-tablecheck-composition-20261101/plan.md). No State/TaskDefinition/Prompt/Schema version changes, real source request or booking claim.
+
+
+## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
+
+B1条款由现有G1生产事实链产生，按根Task、当前investigation、门店和交接渠道隔离。仅已选且有有效交接时主动读取；原始HIGH身份凭据（包括通过Google网站入口产生的RESTAURANT_WEBSITE命名空间）、实际同店来源URL、页面全文、run及读取时间保留在服务端临时条款证据内，不改写原凭据或Task State。显示前再核对同店/渠道/运行/逐字/时效；Tabelog路径ID与数字rcd只是既有同店ID的表记。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。

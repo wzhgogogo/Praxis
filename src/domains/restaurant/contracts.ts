@@ -450,6 +450,8 @@ export interface RestaurantAvailabilityRequest {
 export interface RestaurantCandidateFactRequest {
   /** G1 source acquisition only; no HARD/menu interpretation and no original-state write. */
   capturePagesOnly?: true;
+  /** B1 may read one actually observed same-outlet language link via the same fact reader. */
+  captureLinkedTranslation?: true;
   candidateIds: string[];
   /** Bound by the Router from authoritative State; never supplied by the Agent. */
   candidates: RestaurantCandidate[];

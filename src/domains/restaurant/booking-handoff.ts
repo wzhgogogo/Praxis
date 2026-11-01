@@ -15,6 +15,7 @@ export interface BookingHandoffContext {
   request: RestaurantBookingIntent;
   evidence: readonly RestaurantReadEvidence[];
   now: string;
+  readContext?: {runId:string;startedAt:string};
 }
 export interface BookingHandoffPage {
   candidateId: string;
@@ -25,6 +26,10 @@ export interface BookingHandoffPage {
   readAt: string;
   /** Current, identity-bound G1 cache text; never included in a Web projection. */
   text: string;
+  /** G1's original HIGH witness (its namespace may be RESTAURANT_WEBSITE). */
+  identity?: RestaurantReadEvidence;
+  readRunId?: string;
+  expiresAt?: string;
 }
 export interface BookingHandoffTerms {
   pages: readonly BookingHandoffPage[];
@@ -97,7 +102,13 @@ function providerHost(url: URL, provider: BookingHandoffProvider): boolean {
 function sameDocumentOutlet(url: URL, provider: BookingHandoffProvider, id: string): boolean {
   if (!providerHost(url, provider)) return false;
   if (provider === "TABLECHECK") return tableCheckPath(url) === shopId(id);
-  return url.pathname.match(/^\/(?:en\/)?[a-z]+\/A\d+\/A\d+\/(\d+)\//)?.[1] === id;
+  const merchant=id.match(/^(?:(?:en\/)?[a-z]+\/A\d+\/A\d+\/)?(\d+)$/)?.[1];
+  return merchant!==undefined && url.pathname.match(/^\/(?:en\/)?[a-z]+\/A\d+\/A\d+\/(\d+)\//)?.[1] === merchant;
+}
+/** Same public outlet grammar for G1 term pages; never a workflow URL. */
+export function bookingHandoffPageMatches(source:Pick<BookingHandoffSource,"provider"|"sourceEntityId">,value:string):boolean {
+  const url=safeUrl(value);
+  return Boolean(url && sameDocumentOutlet(url,source.provider,source.sourceEntityId));
 }
 function queryOnly(url: URL, keys: readonly string[]): boolean {
   return [...url.searchParams.keys()].every(key => keys.includes(key) && url.searchParams.getAll(key).length === 1);
@@ -175,11 +186,19 @@ function checkedCitation(citation: RestaurantPageCitation, source: BookingHandof
   const page = terms.pages.find(item => item.url === citation.url && item.readAt === citation.readAt
     && item.identityEvidenceId === citation.identityEvidenceId && item.candidateId === source.candidateId
     && item.sourceEntityId === source.sourceEntityId && item.provider === source.provider);
-  const identity = context.evidence.find(item => item.evidenceId === citation.identityEvidenceId);
+  const identity = page?.identity ?? context.evidence.find(item => item.evidenceId === citation.identityEvidenceId);
   const url = safeUrl(citation.url);
+  const witnessed=page?.identity!==undefined;
+  const boundWitness=!witnessed || Boolean(context.readContext && page.readRunId===context.readContext.runId
+    && fresh(page.expiresAt,Date.parse(context.now)) && Date.parse(page.readAt)>=Date.parse(context.readContext.startedAt)
+    && identity?.evidenceId===citation.identityEvidenceId && identity.kind==="ENTITY_MATCH"
+    && identity.sourceUrl===page.url && Date.parse(identity.observedAt)>=Date.parse(context.readContext.startedAt)
+    && Date.parse(identity.observedAt)<=Date.parse(page.readAt)
+    && (identity.provider===source.provider || identity.provider==="RESTAURANT_WEBSITE"));
   return Boolean(page && url && sameDocumentOutlet(url, source.provider, source.sourceEntityId)
-    && identity?.candidateId === source.candidateId && identity.provider === source.provider
-    && identity.sourceEntityId === source.sourceEntityId && identity.entityMatch?.confidence === "HIGH"
+    && boundWitness && identity?.candidateId === source.candidateId
+    && (witnessed || identity.provider === source.provider && identity.sourceEntityId === source.sourceEntityId)
+    && identity.entityMatch?.confidence === "HIGH"
     && Number.isFinite(Date.parse(page.readAt)) && Date.parse(page.readAt) <= Date.parse(context.now)
     && page.text.includes(citation.text));
 }

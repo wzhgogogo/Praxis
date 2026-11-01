@@ -304,6 +304,20 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         }
         retainOfficialOrigins(initialControls);
         if(request.capturePagesOnly){
+          if(request.captureLinkedTranslation){
+            const english=new URL(initial.url).pathname.startsWith("/en/");
+            const translation=initialControls.find(control=>{
+              if(control.kind!=="LINK"||!control.visible||control.disabled||control.blockedByActiveLayer||!control.href)return false;
+              try{return sameNativeOutletUrl(provider,sourceUrl,control.href)
+                && new URL(control.href).pathname.startsWith("/en/")!==english
+                && !isBrowserReadPathProhibited(this.networkPolicy,control.href);}catch{return false;}
+            });
+            if(translation?.href){
+              await executor.navigate({source:provider,stage:"FACTS",signal,allowedOrigins:[new URL(sourceUrl).origin],session,url:translation.href,observed:true});
+              const page=await executor.snapshot({source:provider,stage:"FACTS",signal,session});
+              retainNativePage(page,await executor.observeControls({source:provider,stage:"FACTS",signal,session}));
+            }
+          }
           evidence.push(...identities);sourceDocuments.push(...documents);
           factChecks[candidate.restaurant.id]={status:"COMPLETED",checkedAt,evidenceIds:identities.map(item=>item.evidenceId),sourceProvider:provider};
           continue;

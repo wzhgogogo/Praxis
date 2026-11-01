@@ -53,7 +53,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.124
+- Document revision: 1.125
 
 
 - Last updated: 2026-11-01
@@ -483,3 +483,8 @@ User-approved implementation for main publication ([release evidence](../../.eva
 Separate source-specific readers share the existing browser read through passive wrappers. TableCheck taps only already occurring snapshot/observeControls results, retains visible enabled same-shop reserve LINK entrances with root-task/evidence/request/expiry binding, and deterministically serializes only an actual exact available offer. A source link already carrying contradictory date/party/time is rejected; a broad window alone never supplies a chosen time. No new navigation, control read, workflow verification or model request is added. Original Tabelog reader bytes and source-returned URL behavior remain unchanged. ADR-0049's generation and projection checks, grammar, freshness and no-submit/no-PII boundaries remain.
 
 Evidence is local constructed model/source I/O, real local Chromium, persistent PGlite and actual Router/Reducer/projection; A's five imported files remain byte-identical. Initial/selected projections carry TableCheck date/time/guests plus filled-in wording and Check date and guests; sourceSelection remains UNKNOWN. Component rejection/isolation/expiry controls are separate from the whole-chain positive. Current gates/publication status is in [STATUS](../STATUS.md); [evidence plan](../../.eval-artifacts/phase3b/b1-tablecheck-composition-20261101/plan.md). No State/TaskDefinition/Prompt/Schema version changes, real source request or booking claim.
+
+
+## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
+
+B1选店条款接入现有G1读取和问答，两个来源均不新增解析器、独立抓取或额度。主动读取可通过事实reader/Guard读取一个实际观察到的同店语言链接；仅有预算时解析冲突双方英文转述。固定手续费不改，无法核实时不显示对应条款，库存及链接判断不受影响。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。

@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.25
+- Document revision: 0.26
 - Last updated: 2026-10-30
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -164,3 +164,8 @@ Preparation-branch flow: current Tabelog availability → Book/Continue link car
 Historical B1 rebase checkpoint (2026-10-30 CET): the current My plans → Choose this → handoff flow has been rechecked with source-bound links. Choose this remains a view change; no booking submission occurs. C wiring awaits review and its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
 
 Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is ready for the authorized main publication after fresh five gates1254/186 and strict G2 all12 pages PASS. Ordinary server startup now consumes the G3 admitted raw links without extra navigation; both server checks, ADR0050 UI and UNKNOWN source selection remain. Tabelog and TableCheck are offline usable; current-source prefill and booking are not claimed. In-memory Tabelog links are unavailable after restart until another availability check. [Release evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md).
+
+
+## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
+
+用户选定已核实有空位且有B1链接的门店后，服务端在该次读取预算与deadline内用G1补齐取消规定、是否需要订位信用卡；英文转述及原文/页面/时间随卡片呈现。已问过且当前绑定的答案复用，不重复回答模型调用；未知/失败省略条款，Book on来源按钮不等条款完成才可用。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
