@@ -22,10 +22,10 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
 
   constructor(
     private readonly model: ModelGateway,
-    private readonly createFacts: (observe: RestaurantFactPageObserver, budget?: BrowserExecutionBudget, model?: ModelGateway, visits?: QuestionPageVisits) => RestaurantCandidateFactPort,
+    private readonly createFacts: (observe: RestaurantFactPageObserver, budget?: BrowserExecutionBudget, model?: ModelGateway, visits?: QuestionPageVisits, beforeRead?:()=>void) => RestaurantCandidateFactPort,
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly retentionMs = 500_000,
-    browserBudget?: BrowserExecutionBudget,
+    private readonly browserBudget?: BrowserExecutionBudget,
     private readonly limits: Readonly<RestaurantPageQuestionLimits> = RESTAURANT_PAGE_QUESTION_BUDGET,
   ) {
     this.questionModel = new RunBoundedModelGateway(model, limits.maxModelCalls, limits.maxElapsedMs, () => Date.parse(this.now()));
@@ -60,16 +60,27 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
 
   /** B1 uses the ORIGINAL fact reader/model, not the explicit question budget. */
   async captureBookingPages(input:RestaurantPageQuestionRequest,signal:AbortSignal):Promise<void> {
-    signal.throwIfAborted();
-    await this.facts.inspectFacts({capturePagesOnly:true,captureLinkedTranslation:true,candidateIds:[input.candidate.restaurant.id],
+    const beforeRead=()=>this.beforeBookingRead(input,signal);
+    beforeRead();
+    const model:ModelGateway={complete:request=>{beforeRead();return this.model.complete(request);}};
+    const facts=this.createFacts(this.observe,this.browserBudget,model,undefined,beforeRead);
+    await facts.inspectFacts({capturePagesOnly:true,captureLinkedTranslation:true,candidateIds:[input.candidate.restaurant.id],
       candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},signal);
+    beforeRead();
+  }
+
+  /** B1 supplies the enclosing deadline minus reserve; never a fresh allowance. */
+  private beforeBookingRead(input:RestaurantPageQuestionRequest,signal:AbortSignal):void {
     signal.throwIfAborted();
+    const deadline=Date.parse(input.readContext.deadlineAt);
+    if(!Number.isFinite(deadline)||Date.parse(this.now())>=deadline)throw Object.assign(new Error("B1 terms reached the conclusion reserve before a read"),{code:"DELIVERY_RESERVE_REACHED"});
   }
 
   async answerBookingQuestion(input:RestaurantPageQuestionRequest,pages:readonly RestaurantFactPageObservation[],signal:AbortSignal):Promise<RestaurantPageAnswer> {
     signal.throwIfAborted();
     if(Date.parse(this.now())>=Date.parse(input.readContext.deadlineAt))return {status:"UNVERIFIED",candidateId:input.candidate.restaurant.id,reason:"BUDGET_EXHAUSTED",checkedPages:[]};
-    return new ModelRestaurantPageQuestion(this.model,undefined,this.now).answer({question:input.question,
+    const model:ModelGateway={complete:request=>{this.beforeBookingRead(input,signal);return this.model.complete(request);}};
+    return new ModelRestaurantPageQuestion(model,undefined,this.now).answer({question:input.question,
       displayedOutlet:{candidateId:input.candidate.restaurant.id,sourceUrl:pages[0]?.requestedSourceUrl??""},
       readContext:input.readContext,cachedPages:pages},signal);
   }

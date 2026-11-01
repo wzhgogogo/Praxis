@@ -6,6 +6,7 @@ import { completeRestaurantSearchIntent } from "../../domains/restaurant/intent-
 import type { RestaurantPageAnswer, RestaurantPageQuestionRequest } from "../../domains/restaurant/page-question.js";
 import type { RestaurantFactPageObservation } from "./fact-source-document.js";
 import type { RestaurantPageQuestionReader } from "./page-question-reader.js";
+import { RESTAURANT_READ_CONCLUSION_RESERVE_MS } from "../../domains/restaurant/read-time-reserve.js";
 
 type Topic="cancellation"|"card";
 type Answer={answer:RestaurantPageAnswer;pages:RestaurantFactPageObservation[]};
@@ -114,11 +115,12 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
     const source=prepared.source,entry=this.entry(view,source);this.acceptQuestion(view,source,entry);
     if(entry.attempted)return;
     entry.attempted=true;
+    const readDeadline=Date.parse(deadlineAt)-RESTAURANT_READ_CONCLUSION_RESERVE_MS;
     const available=()=>this.taskId()===view.case.rootTaskId && (this.remaining(view.case.rootTaskId)??0)>0
-      && Date.parse(this.now())<Date.parse(deadlineAt);
+      && Date.parse(this.now())<readDeadline;
     const controller=new AbortController();
     const signal=AbortSignal.any([parent,controller.signal]);
-    const timer=setTimeout(()=>controller.abort(new Error("B1 terms reached the enclosing read deadline")),Math.max(0,Date.parse(deadlineAt)-Date.parse(this.now())));
+    const timer=setTimeout(()=>controller.abort(Object.assign(new Error("B1 terms reached the conclusion reserve"),{code:"DELIVERY_RESERVE_REACHED"})),Math.max(0,readDeadline-Date.parse(this.now())));
     try{
       if(signal.aborted||!available())throw new Error("No remaining enclosing read budget");
       const authoritative=this.context(view,source),intent=completeRestaurantSearchIntent(view.restaurant.intentDraft);
@@ -131,7 +133,7 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
         ? {tabelog:source.sourceEntityId,tabelogNativeDetailUri:bound.sourceUrl}
         : {tablecheck:source.sourceEntityId,tablecheckNativeGuideUri:bound.sourceUrl};
       const input:RestaurantPageQuestionRequest={requestId:"b1-terms",question:cancellationQuestion,candidate,intent,
-        readContext:{...context,deadlineAt}};
+        readContext:{...context,deadlineAt:new Date(readDeadline).toISOString()}};
       let pages=this.pages(view,source);
       if(!pages.length){await this.questions.captureBookingPages(input,signal);pages=this.pages(view,source);}
       if(!pages.length)return;
@@ -140,7 +142,7 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
         signal.throwIfAborted();
         const answer=await this.questions.answerBookingQuestion({...input,question},documents,signal);
         signal.throwIfAborted();
-        if(Date.parse(this.now())>=Date.parse(deadlineAt) || answer.status==="UNVERIFIED"&&answer.reason==="BUDGET_EXHAUSTED")throw new Error("B1 terms read budget exhausted");
+        if(Date.parse(this.now())>=readDeadline || answer.status==="UNVERIFIED"&&answer.reason==="BUDGET_EXHAUSTED")throw new Error("B1 terms read budget exhausted");
         return {answer,pages:structuredClone(documents)};
       };
       if(!this.current(entry.cancellation,view,source))entry.cancellation=await ask(cancellationQuestion);
@@ -155,6 +157,7 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
       }
       if(!this.current(entry.card,view,source))entry.card=await ask(cardQuestion);
       signal.throwIfAborted();
+      if(Date.parse(this.now())>=readDeadline)throw new Error("B1 terms reached the conclusion reserve");
     }catch{entry.blocked=true;}finally{clearTimeout(timer);}
   }
 }
