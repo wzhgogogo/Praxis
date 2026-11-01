@@ -44,7 +44,6 @@ src/eval/
 npm run eval:restaurant:semantic:fixture
 npm run eval:restaurant:semantic:holdout:preflight
 npm run eval:restaurant:semantic:holdout:preflight:complete
-npm run eval:restaurant:search:fixture
 ```
 
 真实模型命令需要各自的显式付费或数据暴露门禁：

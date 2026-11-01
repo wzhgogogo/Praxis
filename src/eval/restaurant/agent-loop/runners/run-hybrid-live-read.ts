@@ -19,7 +19,7 @@ import type { BrowserRuntime, BrowserSnapshot } from "../../../../infrastructure
 import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/browser/browser-task-executor.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import type { GooglePlacesClientOptions } from "../../../../integrations/google/google-places-client.js";
-import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
+import type { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
 import { discoveryPackNetworkPolicy } from "../../../../integrations/restaurant-search/source-packs.js";
 import { createLiveReadAssembly } from "../../../../integrations/restaurant-search/live-read-assembly.js";
 import type { TableCheckIdentityDiagnostic } from "../../../../integrations/tablecheck/tablecheck-contracts.js";

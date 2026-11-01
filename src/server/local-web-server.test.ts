@@ -1521,8 +1521,10 @@ test("Stage 2B continues an incomplete request and enforces optimistic concurren
 });
 
 
-// Full persistent HTTP composition; only model transport and merchant browser I/O are fixtures.
-// The ordinary identity parser, G1 core, Agent, Validator, Router and Reducer remain real.
+// Persistent HTTP/Agent/Validator/Router/Reducer controls with real identity parsing and G1 core.
+// A manually built PageQuestionReader/GoogleListedWebsiteFactRead and a stub search Port warm
+// the page cache. This bypasses live-read-assembly and GoogleThenWebsiteFactRead; it does not
+// prove production page acquisition. Full G1 assembly coverage belongs to a separate test.
 function questionSessionFixture(clock: FakeClock, output?: (request: ModelRequest) => unknown) {
   const calls = {model:0,search:0,facts:0,availability:0,pages:0};
   let beforeAnswer: (()=>Promise<void>) | undefined;
@@ -1788,9 +1790,10 @@ test("G1 async cancellation and newer question discard a late model answer", asy
   });
 });
 
-// Start/end: authenticated HTTP create -> Interpreter/Compiler/Agent/Validator/Router/Reducer/
-// PGlite -> server B1 projection. Only model transport and source I/O are fixtures.
-// Source JSON/query literals are independent of the URL checker; no website is contacted.
+// Authenticated HTTP/Interpreter/Compiler/Agent/Validator/Router/Reducer/PGlite -> B1 projection.
+// Business Ports, evidence and handoff cache are constructed here, bypassing live-read-assembly;
+// this verifies projection/rechecks/owner isolation, not production source-link acquisition.
+// The "B1 ordinary assembly" test below covers the actual factory/source-response chain.
 test("B1 persistent HTTP composition projects a cached source link, rechecks it and isolates owners", async()=>{
   await withDatabase(async({database,clock})=>{
     const raw=JSON.parse(await readFile(new URL("../domains/restaurant/fixtures/booking-handoff/source.json",import.meta.url),"utf8")) as {context:BookingHandoffContext;source:BookingHandoffSource};

@@ -1,0 +1,173 @@
+{
+  "revision": 1,
+  "entries": [
+    {
+      "file": "src/eval/restaurant/agent-loop/browser-read-probe.ts",
+      "core": "src/integrations/tablecheck/tablecheck-entity-resolver.ts",
+      "category": "组件评测",
+      "proves": "单页探针中，将操作者给定候选与已打开的 TableCheck 身份资料比较。",
+      "cannotSignOff": "不能签收生产候选发现、取页、身份到库存的接线或完整查位。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/browser-read-probe.ts",
+      "core": "src/integrations/tabelog/tabelog-entity-resolver.ts",
+      "category": "组件评测",
+      "proves": "单页探针中，将操作者给定候选与已打开的 Tabelog 身份资料比较。",
+      "cannotSignOff": "不能签收生产候选发现、取页、身份到库存的接线或完整查位。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/locality-fact-judgment-matrix.test.ts",
+      "core": "src/integrations/restaurant-facts/model-fact-judgment.ts",
+      "category": "组件评测",
+      "proves": "固定独立候选、条件与资料上的 HARD 判断及模型 wire 契约。",
+      "cannotSignOff": "不能签收来源资料取得、身份绑定或事实读取到生产交付的完整链。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/name-resolution-method-a.ts",
+      "core": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "category": "组件评测",
+      "proves": "从预给候选驱动 Tabelog 搜索和身份前缀，在库存阶段开始前停止。",
+      "cannotSignOff": "不能签收候选发现、Google 日文名接线、实际库存或完整生产组装。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/name-resolution-method-a.ts",
+      "core": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "category": "组件评测",
+      "proves": "从预给候选驱动 TableCheck 搜索和身份前缀，在库存阶段开始前停止。",
+      "cannotSignOff": "不能签收候选发现、跨来源提示接线、实际库存或完整生产组装。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "core": "src/integrations/google/google-places-restaurant-search.ts",
+      "category": "组件评测",
+      "proves": "仅文件中直接构造的会话余量、Router 三来源 cursor、coordinate-only 地址输入组件控制。",
+      "cannotSignOff": "这些直接构造控制不能签收 Web/Runner 生产组装；同文件经 factory 的场景须按各自真实路径另行核验。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts",
+      "core": "src/integrations/restaurant-search/native-restaurant-search.ts",
+      "category": "组件评测",
+      "proves": "仅文件中直接构造的会话余量、Router 三来源 cursor、coordinate-only 地址输入组件控制。",
+      "cannotSignOff": "这些直接构造控制不能签收 Web/Runner 生产组装；同文件经 factory 的场景须按各自真实路径另行核验。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/phase2-discovery-plan.test.ts",
+      "core": "src/integrations/google/google-places-restaurant-search.ts",
+      "category": "组件评测",
+      "proves": "发现计划对命名地点半径常量的局部契约，只导入 NAMED_PLACE_NEARBY_RADIUS_METERS。",
+      "cannotSignOff": "不能签收 Google 地点取得、生产检索执行或组装配置一致性。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/runners/run-browser-case-slice.ts",
+      "core": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "category": "组件评测",
+      "proves": "预给候选与请求的 Tabelog 浏览器和 Adapter 执行切片。",
+      "cannotSignOff": "不能签收候选发现、生产共享预算组装或完整 Agent 调查交付。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/runners/run-browser-case-slice.ts",
+      "core": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "category": "组件评测",
+      "proves": "预给候选与请求的 TableCheck 浏览器和 Adapter 执行切片。",
+      "cannotSignOff": "不能签收候选发现、生产共享预算组装或完整 Agent 调查交付。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/runners/run-d1-fact-judgment-controls.ts",
+      "core": "src/integrations/restaurant-facts/model-fact-judgment.ts",
+      "category": "组件评测",
+      "proves": "固定已有 evidence 的六个 HARD 判断与局部接纳控制。",
+      "cannotSignOff": "不能签收实际来源读取、身份/引用生产或来源到交付的完整组装。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/runners/run-locality-fact-judgment-matrix.ts",
+      "core": "src/integrations/restaurant-facts/model-fact-judgment.ts",
+      "category": "组件评测",
+      "proves": "固定 locality/category-negative 资料矩阵的判断质量。",
+      "cannotSignOff": "不能签收资料取得、当前性、跨来源身份或完整生产调查。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
+      "core": "src/integrations/restaurant-search/discovery-retrieval-planner.ts",
+      "category": "组件评测",
+      "proves": "冻结 source-stage 的检索提议与单来源发现切片。",
+      "cannotSignOff": "不能签收生产 factory 的来源调度、共享配置或完整发现到交付。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
+      "core": "src/integrations/google/google-places-restaurant-search.ts",
+      "category": "组件评测",
+      "proves": "冻结 source-stage 的命名地点与 Google 发现阶段观察。",
+      "cannotSignOff": "不能签收生产检索选路、来源协作和完整 Agent 调查交付。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
+      "core": "src/integrations/restaurant-availability/live-browser-availability.ts",
+      "category": "组件评测",
+      "proves": "冻结候选与请求的单来源身份/查位阶段及原始回放。",
+      "cannotSignOff": "不能签收生产 factory 的来源组合、来源发现或整单预算/状态/展示链。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
+      "core": "src/integrations/restaurant-facts/google-listed-website-facts.ts",
+      "category": "组件评测",
+      "proves": "有意跳过 Google-first 短路的官网资料读取阶段。",
+      "cannotSignOff": "不能签收 Google→官网组合、capturePagesOnly、G1 生产取页或完整事实调查。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts",
+      "core": "src/integrations/restaurant-facts/model-fact-judgment.ts",
+      "category": "组件评测",
+      "proves": "source-stage 官网读取中的资料判断子链。",
+      "cannotSignOff": "不能签收完整事实来源选路、状态接纳或用户交付。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe.test.ts",
+      "core": "src/integrations/google/google-places-restaurant-search.ts",
+      "category": "组件评测",
+      "proves": "固定来源下 source-stage native/Google 局部请求与预算契约。",
+      "cannotSignOff": "不能签收 factory 的完整选路、真实 Google 行为或最终交付。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/source-stage-probe.ts",
+      "core": "src/integrations/restaurant-search/native-restaurant-search.ts",
+      "category": "组件评测",
+      "proves": "冻结单来源的 Native 发现阶段和保留详情 chunk 控制。",
+      "cannotSignOff": "不能签收生产 factory 的多来源组装、完整 Agent/Runtime 或事实查位交付。"
+    },
+    {
+      "file": "src/eval/restaurant/dom-change/run.ts",
+      "core": "src/integrations/tabelog/tabelog-browser-availability.ts",
+      "category": "组件评测",
+      "proves": "仅调用完成条件函数，比较保存 DOM 私有标记变异前后的观测。",
+      "cannotSignOff": "不能签收实际请求控件填入、availability Adapter 组装或当前网站查位。"
+    },
+    {
+      "file": "src/eval/restaurant/dom-change/run.ts",
+      "core": "src/integrations/tablecheck/tablecheck-browser-availability.ts",
+      "category": "组件评测",
+      "proves": "仅调用完成条件函数，比较保存 DOM 私有标记变异前后的观测。",
+      "cannotSignOff": "不能签收实际请求控件填入、availability Adapter 组装或当前网站查位。"
+    },
+    {
+      "file": "src/eval/restaurant/fact-qa/core-adapter.ts",
+      "core": "src/integrations/restaurant-facts/model-page-question.ts",
+      "category": "组件评测",
+      "proves": "G1 已绑定保存页面、合成身份/run/时间上下文的问答与引用质量。",
+      "cannotSignOff": "不能签收生产页面取得、GoogleThenWebsite/capturePagesOnly、真实身份绑定、缓存刷新或完整 Web 追问。"
+    },
+    {
+      "file": "src/eval/restaurant/search-fixture/named-retrieval-simulation.ts",
+      "core": "src/integrations/restaurant-search/named-source-query.ts",
+      "category": "组件评测",
+      "proves": "保存资料上的 4+1 检索模拟及 named-retrieval-simulation.test.ts 的片段控制。",
+      "cannotSignOff": "不能签收生产检索调度、Google 日文名接线、共享预算或 G4 整组装。"
+    },
+    {
+      "file": "src/eval/restaurant/search-fixture/named-retrieval-simulation.ts",
+      "core": "src/integrations/tabelog/tabelog-entity-resolver.ts",
+      "category": "组件评测",
+      "proves": "保存资料上的排序/同店判断模拟及 named-retrieval-simulation.test.ts 的正常和冲突对照。",
+      "cannotSignOff": "不能签收生产搜索/详情取得、Google 日文名接线或 G4 整组装。"
+    }
+  ]
+}
