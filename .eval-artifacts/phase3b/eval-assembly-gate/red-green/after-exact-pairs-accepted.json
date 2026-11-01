@@ -1,0 +1,20 @@
+{
+  "name": "after-exact-pairs-accepted",
+  "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+  "startedAtCET": "2026-11-01T09:15:29.184396+01:00",
+  "finishedAtCET": "2026-11-01T09:15:29.366454+01:00",
+  "command": "npm run arch:check",
+  "expectedExitCode": 0,
+  "actualExitCode": 0,
+  "requiredMessages": [
+    "Architecture check passed: 0 forbidden source dependencies"
+  ],
+  "messagesMatched": true,
+  "allowlistSha256": "4c47fa0c663b09e59e0d526e5086890a190b56c975e9519158efb779d325f329",
+  "probeFiles": {
+    "assembly-gate-negative.ts": "import { ModelRestaurantPageQuestion } from \"../integrations/restaurant-facts/model-page-question.js\";\nexport const componentUnderTest = ModelRestaurantPageQuestion;\n",
+    "assembly-gate-negative.mjs": "import { ModelRestaurantPageQuestion } from \"../integrations/restaurant-facts/model-page-question.js\";\nexport const componentUnderTest = ModelRestaurantPageQuestion;\n"
+  },
+  "temporaryStatus": " M src/eval/assembly-bypass-allowlist.json\n?? src/eval/assembly-gate-negative.mjs\n?? src/eval/assembly-gate-negative.ts\n",
+  "passed": true
+}

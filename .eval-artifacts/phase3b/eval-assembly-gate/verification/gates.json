@@ -1,0 +1,71 @@
+{
+  "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+  "inputCount": 719,
+  "gates": [
+    {
+      "gate": "typecheck",
+      "command": "npm run typecheck",
+      "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+      "startedAtCET": "2026-11-01T09:16:25.114137+01:00",
+      "finishedAtCET": "2026-11-01T09:16:25.588644+01:00",
+      "elapsedMs": 474.511,
+      "exitCode": 0,
+      "beforeStatus": "",
+      "afterStatus": "",
+      "frozenInputsUnchanged": true,
+      "passed": true
+    },
+    {
+      "gate": "arch-check",
+      "command": "npm run arch:check",
+      "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+      "startedAtCET": "2026-11-01T09:16:25.630262+01:00",
+      "finishedAtCET": "2026-11-01T09:16:25.878816+01:00",
+      "elapsedMs": 248.556,
+      "exitCode": 0,
+      "beforeStatus": "",
+      "afterStatus": "",
+      "frozenInputsUnchanged": true,
+      "passed": true
+    },
+    {
+      "gate": "test",
+      "command": "npm test",
+      "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+      "startedAtCET": "2026-11-01T09:16:25.919374+01:00",
+      "finishedAtCET": "2026-11-01T09:16:55.778526+01:00",
+      "elapsedMs": 29859.567,
+      "exitCode": 1,
+      "beforeStatus": "",
+      "afterStatus": "",
+      "frozenInputsUnchanged": true,
+      "passed": false
+    },
+    {
+      "gate": "build",
+      "command": "npm run build",
+      "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+      "startedAtCET": "2026-11-01T09:20:36.351862+01:00",
+      "finishedAtCET": "2026-11-01T09:20:36.872887+01:00",
+      "elapsedMs": 520.928,
+      "exitCode": 0,
+      "beforeStatus": "",
+      "afterStatus": "",
+      "frozenInputsUnchanged": true,
+      "passed": true
+    },
+    {
+      "gate": "test-browser-fixture",
+      "command": "npm run test:browser:fixture",
+      "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+      "startedAtCET": "2026-11-01T09:20:36.973014+01:00",
+      "finishedAtCET": "2026-11-01T09:22:47.342340+01:00",
+      "elapsedMs": 130371.099,
+      "exitCode": 0,
+      "beforeStatus": "",
+      "afterStatus": "",
+      "frozenInputsUnchanged": true,
+      "passed": true
+    }
+  ]
+}

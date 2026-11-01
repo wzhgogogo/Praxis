@@ -7,8 +7,6 @@ import type { BrowserExecutionDiagnostic } from "../../../../infrastructure/brow
 import type { BrowserRuntime } from "../../../../infrastructure/browser/browser-runtime.js";
 import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
-import { GooglePlacesRestaurantSearch } from "../../../../integrations/google/google-places-restaurant-search.js";
-import { LiveBrowserAvailability } from "../../../../integrations/restaurant-availability/live-browser-availability.js";
 import { createLiveReadAssembly } from "../../../../integrations/restaurant-search/live-read-assembly.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../../application/live-read-investigation-budget.js";
 import { diagnosticFailureCode, startDiagnosticRun } from "../../../shared/diagnostic-run.js";

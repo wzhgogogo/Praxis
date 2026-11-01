@@ -1,0 +1,17 @@
+{
+  "name": "after-g1-exception-removed",
+  "head": "da92154c3fc9a37c97b016ec4025e46bba67445d",
+  "startedAtCET": "2026-11-01T09:15:32.547382+01:00",
+  "finishedAtCET": "2026-11-01T09:15:32.728642+01:00",
+  "command": "npm run arch:check",
+  "expectedExitCode": 1,
+  "actualExitCode": 1,
+  "requiredMessages": [
+    "eval/restaurant/fact-qa/core-adapter.ts -> integrations/restaurant-facts/model-page-question.ts: eval assembly gate"
+  ],
+  "messagesMatched": true,
+  "allowlistSha256": "bab329b2ff258a3a7414e3d42afafd4e23bfbe43aa54ac8f70df568bfa832194",
+  "probeFiles": {},
+  "temporaryStatus": " M src/eval/assembly-bypass-allowlist.json\n",
+  "passed": true
+}
