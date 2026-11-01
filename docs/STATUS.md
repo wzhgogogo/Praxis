@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-01 CET：A已同步已复核TableCheck B1 main74dd2faf为2923c4e1，原5输入/测试未改，TableCheck交接及四路径控制7/7；前次source→link缺口关闭。继续用户整组装清单时，ff17d370冻结新取消条款正例：真实G1页面获取/模型1次/同店同页逐字引用均已接纳，普通Tabelog交接链接正常，但terms=[]，ADR0049第5条的G1→卡片条款桥接缺失，首个新增行为断言失败。按用户失败即停规则保留活跃红灯、不改产品/不注入条款，交复核安排；剩余无项/模型回放/Runner等未完成，当前五门禁与严格G2 NOT_RUN。507账本旧项原值保留、追加为508；新增真实模型/Google/GET/Live/environment全0，不读.env/私有留出集/QA答案。只推A原工作分支，不合main；旧停止证据原样保留。[本次报告](../.eval-artifacts/phase3b/g6-whole-composition-after-tablecheck/report.md)。
+
 2026-11-01 CET：A续接G6后按整组装产品红灯再次停止（draft / not integrated）。已合入工作分支的B a7860924及A调度5683dcfb；原27cf175c五份P4输入不变，问答模型1次、ANSWERED且引用同店本页原文。e4518efa四路径及P1三措辞6/6、四类错误输出独立检查有效。新增1e754b90真实本地Chromium整组装测试已到TableCheck同店/日期/人数/19:00 AVAILABLE与PRESENT_RESULTS，但普通bookingHandoffs为空；Live组合仅装Tabelog缓存，按ADR0049及时提供交接的正断言失败，未改产品、未注入链接，交复核安排修复。其余整组装缺口逐项记无/NOT_RUN；真实模型回放0/80，G6 Runner/评测器/Live计划未完成；本候选五门禁及严格G2按停止规则NOT_RUN，新默认测试保留红灯。账本504旧项完整保留、追加为505，全部新增真实调用0、不读.env/私有留出集/QA答案；仅推A工作分支，不合main。[本次报告](../.eval-artifacts/phase3b/g6-offline-resumed/report.md)。
 
 2026-11-01 CET：G6停止点包装门禁全绿。冻结9b7e180c/423输入，typecheck、arch、默认1274/1274、build、Chromium186/186（130.255秒）通过，五项前后净树；37浏览器文件各完成一次，外层超时0。全部产品/B/C文件与main6db445ea相同，账本500旧条目/累计用量完整保留。P4 NO_BOUND_PAGE原始红灯未修，其他完整红绿/真实模型回放/Runner/Live计划仍未完成，停等复核安排B；真实模型/Google/GET/Live0、不读.env。只推工作分支，不合main。 [报告](../.eval-artifacts/phase3b/g6-offline/report.md)。

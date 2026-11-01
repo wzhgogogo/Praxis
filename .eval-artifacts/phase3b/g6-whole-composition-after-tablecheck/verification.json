@@ -1,0 +1,56 @@
+{
+  "timeCET": "2026-11-01T14:00:15.758729+01:00",
+  "status": "NEW_B1_CANCELLATION_COMPOSITION_PRODUCT_RED_STOP",
+  "reviewedMain": "74dd2faf6ac8ef99492c86eaf3d57d7244b1745c",
+  "integrationGit": "2923c4e1aeda65e6a5ac9371a08f0ab52aa0c279",
+  "testedRedGit": "ff17d37043d1b6226bb8782a4d481849d116289f",
+  "priorTablecheckFiveInputsUnchangedDuringSevenControlRun": {
+    "src/eval/restaurant/agent-loop/g6-booking-composition.test.ts": true,
+    "src/eval/restaurant/agent-loop/g6-development-preflight.ts": true,
+    "src/eval/restaurant/agent-loop/cases/g6-development/source.json": true,
+    "src/eval/restaurant/agent-loop/cases/g6-development/outlet.html": true,
+    "src/eval/restaurant/agent-loop/cases/g6-development/tablecheck.html": true
+  },
+  "priorControls": "PASS 7/7 at2923c4e1, before new optional question fixture",
+  "newFreezeHashes": {
+    "src/eval/restaurant/agent-loop/g6-development-preflight.ts": true,
+    "src/eval/restaurant/agent-loop/g6-booking-terms-composition.test.ts": true,
+    "src/eval/restaurant/agent-loop/cases/g6-development/cancellation-question.json": true,
+    "src/eval/restaurant/agent-loop/cases/g6-development/source.json": true,
+    "src/eval/restaurant/agent-loop/cases/g6-development/outlet.html": true,
+    "src/eval/restaurant/agent-loop/cases/g6-development/tablecheck.html": true,
+    ".eval-artifacts/phase3b/g6-whole-composition-after-tablecheck/plan.md": true
+  },
+  "allFrozenHashesMatch": true,
+  "sourceChangedOnlyAOwned": [
+    "src/eval/restaurant/agent-loop/cases/g6-development/cancellation-question.json",
+    "src/eval/restaurant/agent-loop/g6-booking-terms-composition.test.ts",
+    "src/eval/restaurant/agent-loop/g6-development-preflight.ts"
+  ],
+  "productionBAndCSourceSitePacksPromptSchemaStateUnchanged": true,
+  "sourceUnchangedSinceProductRed": true,
+  "newDiffCheck": "PASS git diff2923c4e1 --check",
+  "gates": {
+    "typecheck": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "arch:check": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "npm test": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "build": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "test:browser:fixture": "NOT_RUN_EXPLICIT_PRODUCT_STOP",
+    "strictG2": "NOT_RUN_EXPLICIT_PRODUCT_STOP"
+  },
+  "productRed": "G1 ANSWERED with exact source quote; source link exists; ordinary terms empty",
+  "preflightExecutionStatusRetained": "PASS for base P4 path; independent terms assertion FAIL",
+  "ledgerPreservedEntries": 507,
+  "ledgerTotal": 508,
+  "cumulativeUnchanged": true,
+  "limitsUnchanged": true,
+  "paidReplayCalls": 0,
+  "newLive": 0,
+  "newPublicGET": 0,
+  "newGoogleRequests": 0,
+  "newRestaurantWebsiteRequests": 0,
+  "newEnvironmentReruns": 0,
+  "envLoaded": false,
+  "privateHoldoutOpened": false,
+  "qaAnswersOpened": false
+}

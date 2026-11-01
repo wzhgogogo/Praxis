@@ -1,0 +1,82 @@
+{
+  "mode": "LOCAL_CONSTRUCTION_SCRIPTED_MODEL_FIXED_SOURCE_IO",
+  "status": "PRODUCT_RED_STOP",
+  "frozenGit": "ff17d37043d1b6226bb8782a4d481849d116289f",
+  "basePreflightStatus": "PASS",
+  "firstFailedAssertion": "B1 must carry the already admitted same-outlet same-channel G1 cancellation answer and source quote",
+  "assertionLocation": "src/eval/restaurant/agent-loop/g6-booking-terms-composition.test.ts:28",
+  "actualQuestion": "What is this restaurant's same-day cancellation policy?",
+  "actualAnswer": {
+    "answer": "Same-day cancellations cost 100% of the course price.",
+    "status": "ANSWERED",
+    "citations": [
+      {
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "text": "Cancellations on the reservation date are charged at 100% of the course price.",
+        "readAt": "2026-11-01T06:00:00.000Z",
+        "identityEvidenceId": "evidence:restaurant:website-entity:39e4b0a83f2e6260053c3543"
+      }
+    ],
+    "modelUsage": {
+      "calls": 1
+    },
+    "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+    "checkedPages": [
+      {
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "readAt": "2026-11-01T06:00:00.000Z"
+      }
+    ],
+    "sensitiveCategory": "NONE",
+    "confirmationRequired": false
+  },
+  "actualHandoff": {
+    "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+    "offerId": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+    "provider": "TABELOG",
+    "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111",
+    "directLabel": "Book on Tabelog",
+    "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+    "checkedAt": "2026-11-01T06:00:00.000Z",
+    "displayExpiresAt": "2026-11-01T06:10:00.000Z",
+    "platformFee": {
+      "provider": "TABELOG",
+      "channel": "ENGLISH_BOOKING",
+      "amountPerPersonJPY": 440,
+      "userCancellationRefund": false,
+      "restaurantCancellationRefund": true,
+      "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+      "sourceUrl": "https://tabelog.com/en/help",
+      "checkedOn": "2026-10-29",
+      "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+      "quotes": [
+        "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+        "Please note that no refunds will be issued for cancellations made for customer reasons.",
+        "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+      ]
+    },
+    "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+    "linkCarries": [
+      "DATE",
+      "TIME",
+      "PARTY_SIZE"
+    ],
+    "sourceSelection": "UNKNOWN",
+    "terms": []
+  },
+  "expectedSourceQuote": "Cancellations on the reservation date are charged at 100% of the course price.",
+  "expectedEnglishCopy": "Same-day cancellations cost 100% of the course price.",
+  "sourceQuoteFoundInConstructedPublicPage": true,
+  "expectedSameCandidate": "praxis:restaurant:bd287442c716ac7439273cc9",
+  "sameCandidateHandoffPresent": true,
+  "sameChannel": "TABELOG",
+  "termsEmpty": true,
+  "exitCode": 1,
+  "testElapsedMs": 818.399083,
+  "commandElapsedMs": 1243.155875,
+  "paidModelCalls": 0,
+  "live": 0,
+  "publicGET": 0,
+  "next": "Reviewer assigns product bridge; keep G1/identity/page/run/freshness validation and both B1 checks. No fixture terms injection.",
+  "literalQuotePresentInActualQuestionSourceDocument": true
+}

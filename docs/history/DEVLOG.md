@@ -5507,3 +5507,14 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 按用户新增整组装清单，逐项区分实际组合与bound-page、Adapter、业务端口/预制交接注入的局部测试；先补TableCheck source→B1缺口。1e754b90冻结后真实本地Chromium仅截获来源I/O，生产身份/日期/人数/19:00空位/展示均通过，但普通交接缓存返回[]，ADR0049及时交接正断言失败。Live assembly仅装Tabelog缓存，capture/readPrepared仅处理TABELOG。未修产品、未注入TableCheck链接，保留活跃失败测试按停止条件交复核；其余无项待续，批次1未完成。夹具query/原生控件缺项及一次未提交沙箱调用失败均单独归档，不算产品红灯。
 
 真实模型回放0/80，Runner/评测器/Guard-F6统计/约8次Live计划NOT_IMPLEMENTED或NOT_RUN；当前五门禁与严格G2按显式产品停止规则NOT_RUN。账本504旧项原值保留、追加0调用记录为505，累计Live0/model171/GET255/environment0不变。只改A评测/构造来源/证据和记录，不改产品/B/C源码及共享版本；只推原A工作分支，不合main。[报告](../../.eval-artifacts/phase3b/g6-offline-resumed/report.md)、[覆盖清单](../../.eval-artifacts/phase3b/g6-offline-resumed/composition-coverage.md)。
+
+
+<a id="dev-g6-cancellation-terms-composition-stop"></a>
+
+## 2026-11-01 CET：TableCheck原红灯关闭，G1取消条款到B1卡片整组装再停
+
+收到C按用户授权的新main通知74dd2faf，A将已复核修复整合为2923c4e1，双方记录/507账本值全部保留；未对产品作新改动。原A TableCheck测试/helper和3输入保持已审字节，原样TableCheck B1加六个P1–P4控制7/7（4.577秒），source→link旧缺口关闭。
+
+按用户新增整组装清单继续补B1条款：仅给本地构造的同店页面/fixture模型/用户问题更换取消政策原文，实际G1reader取页、调用并核对引用，不注入State/evidence/source.terms/prepared handoff。ff17d370冻结后的首次执行已G1 ANSWERED、同店同页原文/URL/readAt均接纳，Tabelog链接和AVAILABLE仍正常，但普通handoff.terms=[]，第28行“B1 must carry the already admitted same-outlet same-channel G1 cancellation answer and source quote”失败（818.399ms）。Accepted ADR0049第5条要求已取得取消条款进入卡片，两个生产prepareBookingHandoff调用方均不提供terms；领域注入正例不能替代这条接线。按用户新失败即停，保留红灯交复核安排，不改B/C或其他产品文件。
+
+更新逐项整组装清单，未覆盖的G2/G3fallback/报价HARD/B1其他条款反馈/Guard-F6仍明确无/NOT_RUN，批次1未完成。真实模型回放0/80，完整Runner/独立评测器/Live计划未继续；当前五门禁/严格G2按产品停止规则NOT_RUN，不能沿用C历史全绿。账本507旧项保持、追加零调用项为508，实际累计171模型/255GET/0Live/0环境不变；不读.env/私有原文/QA答案，只推工作分支不合main。[报告](../../.eval-artifacts/phase3b/g6-whole-composition-after-tablecheck/report.md)。

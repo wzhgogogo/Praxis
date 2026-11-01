@@ -6211,3 +6211,14 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 1e754b90冻结新TableCheck整组装测试：真实本地Chromium+拦截全部来源I/O，原生日期/人数控件及精确slot link由实际DOM读出；生产EXACT_PHONE身份、AVAILABLE和PRESENT_RESULTS通过，普通handoffs=[]，g6-development-preflight.ts:189“Initial ordinary source cache must produce B1”失败，exit1（1.945秒）。ADR0049 section1要求空位/链接证据可用即提供，未到后续预订回合。测试保留红灯，不skip/倒置/降断言。产品组合只装Tabelog缓存；不在A夹具补预制TableCheck链接。两次夹具错误和一次未提交沙箱启动失败均独立保留并排除，不冒充产品红灯。
 
 当前候选五门禁和严格G2均NOT_RUN（用户要求新整组装产品失败立即停止）；前批默认1288/Chromium187/严格G2全绿为历史，不能替代本候选。新A diff/SHA/范围与504账本原值保留核对见本批verification.json。真实模型/Google/网站GET/Live/environment全部新增0，未读取或加载.env；真实模型回放、其余整组装无项、完整Runner/独立评测器/Live计划NOT_RUN或NOT_IMPLEMENTED，批次1未完成。[报告](../../.eval-artifacts/phase3b/g6-offline-resumed/report.md)。
+
+
+<a id="test-g6-cancellation-terms-composition-stop"></a>
+
+## 2026-11-01 CET：TableCheck原样7/7，取消条款新整组装红灯
+
+零真实调用、本地构造来源/scripted模型。基线2923c4e1含用户已复核main74dd2faf：原02d01196 TableCheck测试/helper/3输入未改，实际createLiveReadAssembly→持久应用+本地Chromium I/O、原B1断言绿；六个P1–P4控制含三P1措辞共同7/7（4.577秒）。输出保存在post-tablecheck-seven-controls.log.gz。
+
+新测试g6-booking-terms-composition.test.ts只替换用户问题/公开商家文字/fixture模型答案，维持真实G1获取、身份/原文核对、状态/Router、实际缓存及B1两次检查。ff17d370冻结并净树首次运行：前置ANSWERED/模型1次/同店同页原文+readAt/当前AVAILABLE/原交接链接均通过，terms=[]，目标取消条款+引文正断言失败，exit1（测试818.399ms、命令1.243秒）。基础preflight.json的PASS仅表示原P4/G1/链接完成，独立条款评价另存FAIL，不覆盖原执行结论；无fixture/Schema启动失败，不skip、不倒置断言、不注入已核实条款。
+
+当前新候选五门禁与严格G2 NOT_RUN，依据用户“整组装新失败即停”；C此前1306/187/严格G2全绿仅为历史。输入SHA/原产物/范围与507账本逐id原值保留核对、diff check见verification.json。真实模型/Google/网站GET/Live/环境全部新增0，不读取或加载.env/私有留出集/QA答案。其他无项和G6准备未完成，推分支交复核不合main。[报告](../../.eval-artifacts/phase3b/g6-whole-composition-after-tablecheck/report.md)。
