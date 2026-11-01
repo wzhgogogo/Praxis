@@ -1,0 +1,16 @@
+{
+  "status": "MATCHING_ASSERTION_RED_REPRODUCED",
+  "targetLineInProbe": 110,
+  "targetAssertion": "assert.ok(unfinished.find(row => row.file?.endsWith(\"a-held.test.ts\"))?.lastObservedTests?.includes(\"a-held lifecycle step\"));",
+  "rawLogSha256": "5411c59b106678453a9cf06088b8c37793151b2c456f795a0658cc14b7a17efc",
+  "originalAssertionsIdentical": true,
+  "assertionLineCount": 20,
+  "wrapperPostCheckError": "Original Node spec output did not print assertion source text; first wrapper expected that text. Target stack line independently resolves to the unchanged lastObservedTests assertion. Preserve original failing wrapper output; do not count it as product or gate failure.",
+  "naturalCompleteSuiteAttempt": {
+    "exitCode": 0,
+    "tests": 1288,
+    "pass": 1288,
+    "fail": 0,
+    "durationMs": 30744.52575
+  }
+}

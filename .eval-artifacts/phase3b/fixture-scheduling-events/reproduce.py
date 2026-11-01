@@ -36,8 +36,8 @@ for controlled in [True]+([False]*3 if mode=='fixed' else []):
             expression=text[start:end].replace('  writeSync(3, ','  const message = ',1).removesuffix(');')+';'
             delivery='''
   if (!file && start && data.name === 'a-held lifecycle step') {
-    let watcher;
-    const release = () => { if (existsSync('lifecycle-ready')) { watcher?.close(); writeSync(3, message); } };
+    let watcher, sent = false;
+    const release = () => { if (!sent && existsSync('lifecycle-ready')) { sent = true; watcher?.close(); writeSync(3, message); } };
     watcher = watch(process.cwd(), release);
     release();
   } else writeSync(3, message);'''
@@ -55,7 +55,9 @@ for controlled in [True]+([False]*3 if mode=='fixed' else []):
         receipt['runs'].append(row);(out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
         print(mode,label,result.returncode,row['seconds'],flush=True)
         if mode=='old':
-            assert result.returncode==1 and b'lastObservedTests' in raw and b'a-held lifecycle step' in raw,raw[-3000:]
+            target=next(i+1 for i,line in enumerate((work/files[0]).read_text().splitlines()) if 'assert.ok(unfinished.find' in line and 'lastObservedTests' in line)
+            locations=[int(x) for x in re.findall(rb'browser-fixture-scheduling\.test\.ts:(\d+):\d+\)',raw)]
+            assert result.returncode==1 and target in locations and b'actual: false' in raw,raw[-3000:]
         else:assert result.returncode==0,raw[-3000:]
     finally:shutil.rmtree(work)
 receipt['status']='EXPECTED_RED_REPRODUCED' if mode=='old' else 'PASS'

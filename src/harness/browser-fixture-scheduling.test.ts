@@ -73,10 +73,13 @@ test("browser outer guard identifies unfinished files and retains buffered outpu
       });`);
     await writeFile(join(directory, "driver.mjs"), `
       import assert from 'node:assert/strict';
+      import childProcess from 'node:child_process';
+      import {syncBuiltinESMExports} from 'node:module';
       import {runBrowserFixturePhase} from './scripts/run-browser-fixtures.mjs';
       const files=${JSON.stringify(names)}.map(name=>new URL('./src/harness/browser/'+name+'.test.ts',import.meta.url).pathname);
       let now=0, expire, output=false, finished=false, nextStarted=false, fired=false;
-      const check=()=>{if(output&&finished&&nextStarted&&!fired){fired=true;now=600000;expire()}};
+      let heldStarted=false;
+      const check=()=>{if(output&&finished&&nextStarted&&heldStarted&&!fired){fired=true;now=600000;expire()}};
       const writeOut=process.stdout.write.bind(process.stdout), writeErr=process.stderr.write.bind(process.stderr);
       process.stdout.write=(chunk,...args)=>{const result=writeOut(chunk,...args);if(String(chunk).includes('a-held partial output'))output=true;queueMicrotask(check);return result};
       process.stderr.write=(chunk,...args)=>{
@@ -88,9 +91,26 @@ test("browser outer guard identifies unfinished files and retains buffered outpu
         }
         queueMicrotask(check);return result;
       };
+      // stdout and the lifecycle pipe are independent. Observe the genuine
+      // TEST_START and check after the parent's listener consumes that chunk.
+      const originalSpawn=childProcess.spawn;
+      childProcess.spawn=(...args)=>{
+        const child=originalSpawn(...args);let lifecycle='';
+        child.stdio[3].on('data',chunk=>{
+          lifecycle+=String(chunk);let newline;
+          while((newline=lifecycle.indexOf('\\n'))>=0){
+            const event=JSON.parse(lifecycle.slice(0,newline));lifecycle=lifecycle.slice(newline+1);
+            if(event.event==='TEST_START'&&event.file.endsWith('a-held.test.ts')&&event.name==='a-held lifecycle step')heldStarted=true;
+          }
+          queueMicrotask(check);
+        });
+        return child;
+      };
+      syncBuiltinESMExports();
       const result=await runBrowserFixturePhase({name:'constructed timeout',concurrency:2,files},{
         now:()=>now,setTimeout:(callback,ms)=>{assert.equal(ms,600000);expire=callback;return 1},clearTimeout:()=>{},
       });
+      childProcess.spawn=originalSpawn;syncBuiltinESMExports();
       assert.equal(fired,true);assert.equal(result.timedOut,true);process.exitCode=1;
     `);
     const env = { ...process.env }; delete env.NODE_TEST_CONTEXT;
