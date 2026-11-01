@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-01 CET：G6停止点包装门禁全绿。冻结9b7e180c/423输入，typecheck、arch、默认1274/1274、build、Chromium186/186（130.255秒）通过，五项前后净树；37浏览器文件各完成一次，外层超时0。全部产品/B/C文件与main6db445ea相同，账本500旧条目/累计用量完整保留。P4 NO_BOUND_PAGE原始红灯未修，其他完整红绿/真实模型回放/Runner/Live计划仍未完成，停等复核安排B；真实模型/Google/GET/Live0、不读.env。只推工作分支，不合main。 [报告](../.eval-artifacts/phase3b/g6-offline/report.md)。
+
 2026-11-01 CET：G6批次1离线预检按产品缺口停止。基于main6db445ea，仅保存新留出集承诺SHA与校验器（2/2本地控制），原文/答案未读取。P1仅选店B1、P2缺人数后查位、P3缺日期先问均取得scripted正控制；P4实际持久组合执行ANSWER_PAGE_QUESTION后NO_BOUND_PAGE，Google→网页事实链忽略capturePagesOnly、无原搜索HARD缺口时不读网页，问答模型未到达。未改产品、不补造缓存/条件，交复核安排B；四路径完整红绿、真实模型回放、G6 Runner/评测器/Live计划尚未完成。仅包装五门禁待跑，真实模型/Google/GET/Live0、未加载.env；账本500旧条目保留、追加零调用，授权总上限更新26/1600/290/4。只推工作分支，不合main。 [报告](../.eval-artifacts/phase3b/g6-offline/report.md)。
 
 2026-10-31 CET：G4日文检索合入验证完成：用户已复核efee5a81，已同步main90559cc9；19263da4冻结727项，五门禁默认1272/1272、Chromium186/186（129.772秒）、标准及严格G2均5/5、严格12页全PASS；8项前后净树，285旧C产物/500账目原样保留，GET255/260不变。仅继承A三文件诊断；C排序、身份、绑定、Prompt/State不改。四家定向3正确/1未评、错认0，T第6位缺口不调整。按用户授权发布main，确切合入SHA以Git发布合并和ls-remote核对为准；本次模型/Google/GET/Live0，不读.env，完成后待命。 [合入报告](../.eval-artifacts/phase3b/g4-japanese-main-20261031/report.md)。

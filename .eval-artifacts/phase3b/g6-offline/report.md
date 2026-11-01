@@ -45,7 +45,17 @@ New real model **0/80**, full Live **0**, public GET **0**, Google **0**, enviro
 
 Only A eval files, required evidence/budget and status/history are changed; all product, B/C, Prompt/Schema/State and existing fixtures remain byte-identical to base. The partial preflight's P4 command intentionally exits1 and is preserved as an explicit integration red, not weakened/skipped/reversed to pass. The default checksum tests do not claim to cover that product behavior.
 
-Five-gate packaging verification: **PENDING**. Every gate will run from one frozen clean commit with clean status before/after and input SHA checks. Raw logs and results will be archived below; no G6 business work resumes during packaging.
+Five-gate packaging verification: **PASS**, tested commit `9b7e180c309db489f2497a08a241f5b6a81a204b`; 423 frozen input SHAs unchanged. All five gates have empty git status before and after. `verification/gates.json` and exact raw compressed logs preserve the evidence; no G6 business work resumed during packaging.
+
+| Gate | Result | Elapsed seconds |
+|---|---|---:|
+| typecheck | PASS | 0.512 |
+| arch-check | PASS | 0.186 |
+| npm-test | PASS 1274/1274 | 30.671 |
+| build | PASS | 0.51 |
+| browser-fixture | PASS 186/186 | 130.255 |
+
+Chromium completed all 37 files once, with no outer timeout. `git diff --check` passes. Product P4 remains RED; these default and local Chromium gates do not execute or certify that dedicated failing preflight.
 
 ## Next review decision
 

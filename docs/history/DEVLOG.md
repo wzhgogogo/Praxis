@@ -1,5 +1,9 @@
 # Development Log
 
+<a id="dev-g6-offline-stop-verified"></a>
+
+2026-11-01 CET：G6停止点包装门禁全绿。冻结9b7e180c/423输入，typecheck、arch、默认1274/1274、build、Chromium186/186（130.255秒）通过，五项前后净树；37浏览器文件各完成一次，外层超时0。全部产品/B/C文件与main6db445ea相同，账本500旧条目/累计用量完整保留。P4 NO_BOUND_PAGE原始红灯未修，其他完整红绿/真实模型回放/Runner/Live计划仍未完成，停等复核安排B；真实模型/Google/GET/Live0、不读.env。只推工作分支，不合main。 [报告](../../.eval-artifacts/phase3b/g6-offline/report.md)。
+
 <a id="dev-g6-offline-product-stop"></a>
 
 2026-11-01 CET：G6批次1离线预检按产品缺口停止。基于main6db445ea，仅保存新留出集承诺SHA与校验器（2/2本地控制），原文/答案未读取。P1仅选店B1、P2缺人数后查位、P3缺日期先问均取得scripted正控制；P4实际持久组合执行ANSWER_PAGE_QUESTION后NO_BOUND_PAGE，Google→网页事实链忽略capturePagesOnly、无原搜索HARD缺口时不读网页，问答模型未到达。未改产品、不补造缓存/条件，交复核安排B；四路径完整红绿、真实模型回放、G6 Runner/评测器/Live计划尚未完成。仅包装五门禁待跑，真实模型/Google/GET/Live0、未加载.env；账本500旧条目保留、追加零调用，授权总上限更新26/1600/290/4。只推工作分支，不合main。 [报告](../../.eval-artifacts/phase3b/g6-offline/report.md)。

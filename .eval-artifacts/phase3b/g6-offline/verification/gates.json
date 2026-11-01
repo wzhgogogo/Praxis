@@ -1,0 +1,102 @@
+{
+  "testedCommit": "9b7e180c309db489f2497a08a241f5b6a81a204b",
+  "mode": "OFFLINE_PACKAGING_ONLY_PRODUCT_P4_STILL_RED",
+  "frozenInputs": 423,
+  "newRealCalls": 0,
+  "runs": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "seconds": 0.512,
+      "status": "PASS",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "summary": {}
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "seconds": 0.186,
+      "status": "PASS",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "summary": {}
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "seconds": 30.671,
+      "status": "PASS",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "2a872e6fdef2245c0278c8142318a4b524daef2d3c2e20a074ba60d641c67484",
+      "summary": {
+        "tests": 1274,
+        "suites": 5,
+        "pass": 1274,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "seconds": 0.51,
+      "status": "PASS",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "summary": {}
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "seconds": 130.255,
+      "status": "PASS",
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawLogSha256": "60468554eb87bcedf4ad5e3f76b88d23083f23b22fc9029577bd22f28aebe475",
+      "summary": {
+        "tests": 186,
+        "suites": 0,
+        "pass": 186,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      }
+    }
+  ],
+  "startedAtCET": "2026-11-01T07:04:00.563277+01:00",
+  "status": "PASS",
+  "frozenInputsVerifiedAfter": true,
+  "finishedAtCET": "2026-11-01T07:06:43.385887+01:00"
+}
