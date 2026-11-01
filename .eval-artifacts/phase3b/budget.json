@@ -2,10 +2,10 @@
   "schema": "phase3b-budget@1",
   "timezone": "CET UTC+01:00",
   "limits": {
-    "fullLive": 18,
-    "realModelCalls": 1000,
+    "fullLive": 26,
+    "realModelCalls": 1600,
     "environmentReruns": 4,
-    "evaluationPublicGET": 260
+    "evaluationPublicGET": 290
   },
   "entries": [
     {
@@ -7377,6 +7377,21 @@
       "publicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-A-g6-offline-preflight-20261101-stop",
+      "conversation": "A",
+      "batch": "G6 batch1 offline preparation",
+      "recordedAtCET": "2026-11-01T07:03:08.396418+01:00",
+      "mode": "OFFLINE_LOCAL_CONSTRUCTED_SOURCES",
+      "status": "STOPPED_PRODUCT_G1_PAGE_CAPTURE_GAP",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "P4 NO_BOUND_PAGE before question model. No real model replay, no credential loading, no private holdout read. G6 limits updated per user 2026-11-01; original 500 rows unchanged."
     }
   ],
   "cumulative": {
@@ -7434,7 +7449,13 @@
       "sourceGit": "90559cc956d5288d52c1762cdaa85aeb6c3fb8d7",
       "sourceSha256": "b9a258071714079d0410dec78072c6af5f700eea2ea0a7b81ebf9e794ec7665d",
       "note": "Union one A offline zero-call entry; preserve all existing entries exactly."
+    },
+    {
+      "conversation": "A-G6-start",
+      "sourceGit": "6db445ea9afdbe5debdc60efc1107f768434c555",
+      "sourceSha256": "715044294fd5aba6d079d29aacb9d3786696d4c52a0c2d5bd53ed66117c03d21",
+      "note": "Preserve all 500 entries; G6 authorized caps 26/1600/290/4."
     }
   ],
-  "asOfCET": "2026-10-31T06:54:11.111145+01:00"
+  "asOfCET": "2026-11-01T07:03:08.396418+01:00"
 }
