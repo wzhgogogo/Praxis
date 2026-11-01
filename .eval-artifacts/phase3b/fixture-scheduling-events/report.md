@@ -36,6 +36,8 @@ These support this test synchronization repair. They do not identify or close th
 
 ## Whole B candidate verification
 
+The first full six-command matrix at `8fcd73dc` had all command exit codes0: default1288, Chromium187 and strictG2 tests5; the raw spec diagnostics contain12 PASS pages. Its outer wrapper then failed its own page-list assertion because it recognized only the TAP `#` prefix instead of the actual spec `ℹ` prefix. `initial-matrix/` preserves every raw result, receipt, frozen configuration and that postprocessing failure. The parser alone is corrected to accept the two known Node diagnostic prefixes; product/test inputs stay identical. A fresh full matrix is frozen before execution, not repeated to hide a test failure.
+
 **PENDING:** Freeze and commit the combined B+A candidate; run unfiltered typecheck, arch:check, npm test, build, test:browser:fixture, then strict G2. Expected default1288, Chromium187 and strictG2 tests5/pages12 come from B's existing unchanged baseline. Every gate must start/end clean with frozen SHA checks. A green here does not rerun or accept G6; B's existing P4 causal green is preserved without spending model calls.
 
 ## Scope, budget and delivery

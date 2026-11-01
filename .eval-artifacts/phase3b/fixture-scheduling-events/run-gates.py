@@ -40,7 +40,7 @@ for name,cmd in steps:
         expected={'npm-test':1288,'browser-fixture':187,'strict-g2':5}[name]
         assert summary['tests']==summary['pass']==expected and all(summary.get(k)==0 for k in ('fail','cancelled','skipped','todo')),row
     if name=='strict-g2':
-        pages=[json.loads(x[2:]) for x in text.splitlines() if x.startswith('# {') and '"classification"' in x]
+        pages=[json.loads(x[2:]) for x in text.splitlines() if x.startswith(('# {','ℹ {')) and '"classification"' in x]
         assert len(pages)==12 and all(p['classification']=='PASS' for p in pages),pages
         (out/'strict-pages.json').write_text(json.dumps(pages,indent=2)+'\n')
 receipt.update(status='PASS',finishedAtCET=datetime.datetime.now(datetime.timezone.utc).astimezone(ZoneInfo('Europe/Vienna')).isoformat(),frozenInputsVerifiedAfter=True)
