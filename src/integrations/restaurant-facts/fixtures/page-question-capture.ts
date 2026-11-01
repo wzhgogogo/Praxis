@@ -26,7 +26,7 @@ export function pageQuestionCaptureFixture(source: "GOOGLE" | "TABELOG" | "TABLE
       const document=documents.find(d=>d.statements.some(s=>s.text===captureQuote));
       output=document ? {status:"ANSWERED",answer:"The page states that Visa and MasterCard are accepted.",sensitiveCategory:"NONE",sourceConflict:false,
         citations:[{documentId:document.id,statementId:document.statements.find(s=>s.text===captureQuote)!.id,quote:captureQuote}]}
-        : {status:"NOT_STATED",answer:"",sensitiveCategory:"NONE",sourceConflict:false,citations:[]};
+        : {status:"NOT_STATED",answer:null,sensitiveCategory:"NONE",sourceConflict:false,citations:[]};
     }
     return {invocationId:"capture-fixture",provider:"FIXTURE",model:"fixture",finishReason:"TOOL_CALLS",latencyMs:0,outputText:JSON.stringify(output)};
   }};
