@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.26
+- Document revision: 0.27
 - Last updated: 2026-10-30
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -169,3 +169,8 @@ Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is r
 ## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
 
 用户选定已核实有空位且有B1链接的门店后，服务端在该次读取预算与deadline内用G1补齐取消规定、是否需要订位信用卡；英文转述及原文/页面/时间随卡片呈现。已问过且当前绑定的答案复用，不重复回答模型调用；未知/失败省略条款，Book on来源按钮不等条款完成才可用。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+
+
+## B1 terms conclusion reserve (2026-11-01 CET; approved main integration)
+
+选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。

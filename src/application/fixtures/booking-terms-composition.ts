@@ -93,7 +93,7 @@ export async function bookingTermsComposition(options:Options={}){
   const model=new DeliveryReservedModelGateway(counted);
   const chrome=provider==="TABLECHECK"?localFixture({[url]:english,[exactGuideAvailabilityUrl(url,source.date,2,"19:00")]:english}):undefined;
   const browser:BrowserRuntime={async openSession(input){
-    if(stage==="FACTS"){termsSignal=input.signal;mark("FACTS_SESSION_BEGIN");}
+    if(stage==="FACTS"){termsSignal=input.signal;mark("FACTS_SESSION_BEGIN");input.signal.addEventListener("abort",()=>{mark("FACTS_ABORT",{reasonCode:input.signal.reason?.code??"CANCELLED"});},{once:true});}
     const session=chrome?await chrome.openSession(input):undefined;
     const originalNavigate=session?.navigate.bind(session);
     let pageUrl=url;
