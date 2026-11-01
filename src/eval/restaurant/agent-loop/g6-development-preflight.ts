@@ -81,7 +81,7 @@ export async function runG6DevelopmentPreflight(output: string) {
     let url = source.pageUrl;
     return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime},
       async navigate(target) { sourceCalls.push({kind:"BROWSER_NAVIGATE",method:"GET",url:target});assert.equal(target,source.pageUrl,"Only the fixed public detail page is readable; no workflow or submission transport");url=target; },
-      async snapshot() {return {url,title:source.outlet.name,text:[source.outlet.name,source.outlet.address,source.outlet.phone,source.merchantQuote,"November 11, 2026. 2 guests. 19:00."].join("\n"),html,
+      async snapshot() {return {url,title:source.outlet.name,text:[source.outlet.name,source.outlet.address,source.outlet.phone,source.merchantQuote,"Availability","November 11, 2026. 2 guests. 19:00."].join("\n"),html,
         responses:[{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};},
       async select(_selector,value){return [value];},async click(){assert.fail("No submission/click transport in fixed source");},async fill(){assert.fail("No form filling in fixed source");},
       async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
