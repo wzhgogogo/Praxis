@@ -49,7 +49,7 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
   const pglite = await PGlite.create(), database = new LocalDatabase(pglite);
   await applyPostgresMigrations(database);
   const requests: Array<{turn:string;request:ModelRequest;response:ModelResponse}> = [];
-  const sourceCalls: Array<{kind:string;method:string;url:string}> = [];
+  const sourceCalls: Array<{kind:string;method:string;url:string;turn:string}> = [];
   let turn = "INITIAL", semanticCount = 0;
   const response = (body: unknown): ModelResponse => ({invocationId:`g6-script:${requests.length+1}`,provider:"FIXTURE",model:"g6-fixed-boundary",outputText:JSON.stringify(body),latencyMs:0,finishReason:"TOOL_CALLS"});
   const fixtureModel: ModelGateway = {async complete(request) {
@@ -101,14 +101,14 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
   const browser: BrowserRuntime = {async openSession() {
     let url = source.pageUrl;
     return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime},
-      async navigate(target) { sourceCalls.push({kind:"BROWSER_NAVIGATE",method:"GET",url:target});assert.equal(target,source.pageUrl,"Only the fixed public detail page is readable; no workflow or submission transport");url=target; },
+      async navigate(target) { sourceCalls.push({kind:"BROWSER_NAVIGATE",method:"GET",url:target,turn});assert.equal(target,source.pageUrl,"Only the fixed public detail page is readable; no workflow or submission transport");url=target; },
       async snapshot() {return {url,title:source.outlet.name,text:[source.outlet.name,source.outlet.address,source.outlet.phone,source.merchantQuote,"Availability","November 11, 2026. 2 guests. 19:00."].join("\n"),html,
         responses:[{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};},
       async select(_selector,value){return [value];},async click(){assert.fail("No submission/click transport in fixed source");},async fill(){assert.fail("No form filling in fixed source");},
       async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
   }};
   const google = new GooglePlacesClient({apiKey:"local-fixture-key",fetchImplementation:async(url,init)=>{
-    sourceCalls.push({kind:"FIXED_GOOGLE_TRANSPORT",method:init?.method ?? "GET",url:String(url)});
+    sourceCalls.push({kind:"FIXED_GOOGLE_TRANSPORT",method:init?.method ?? "GET",url:String(url),turn});
     const place = {id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:source.pageUrl,
       location:{latitude:source.outlet.latitude,longitude:source.outlet.longitude},types:["restaurant"]};
     const query = init?.body ? JSON.parse(String(init.body)).textQuery : undefined;
@@ -187,7 +187,7 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
       after=project(await application.getCase("g6-development-user",initial.case.caseId));
     }
     const afterArtifact = await application.exportReadArtifact(initial.case.caseId);
-    artifact = {...artifact,followup:source.bookingFollowups[0],after,afterArtifact,boundary,requests,sourceCalls};
+    artifact = {...artifact,followup:path === "P2" ? source.uncheckedBookingRequest : source.bookingFollowups[variant],after,afterArtifact,boundary,requests,sourceCalls};
     assert.equal(after.restaurant.selectedCandidateId,first,"G6-P1: booking follow-up must select the explicitly displayed outlet");
     const handoff = after.restaurant.bookingHandoffs?.find(h=>h.candidateId===first);
     assert.ok(handoff,"G6-P1: booking follow-up must keep an admitted B1 handoff");
