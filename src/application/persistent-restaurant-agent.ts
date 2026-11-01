@@ -289,7 +289,7 @@ export interface PersistentRestaurantAgentOptions {
   restaurantSearch: RestaurantSearchPort;
   restaurantAvailability: RestaurantAvailabilityPort;
   restaurantFacts?: RestaurantCandidateFactPort;
-  restaurantQuestions?: RestaurantPageQuestionPort;
+  restaurantQuestions?: RestaurantPageQuestionPort & Partial<import("./restaurant-booking-handoff.js").RestaurantBookingTermsRead>;
   pageQuestionLimits?: Readonly<RestaurantPageQuestionLimits>;
   workspaceMode?: AgentWorkspaceMode;
   executionRouterOptions: RestaurantExecutionRouterOptions;
@@ -330,6 +330,7 @@ export class PersistentRestaurantAgentApplication {
   private readonly modelRunBudget: PersistentRestaurantAgentOptions["modelRunBudget"];
   private readonly pageQuestionLimits: Readonly<RestaurantPageQuestionLimits>;
   private readonly readTimeoutMs: number;
+  private readonly bookingTerms: PersistentRestaurantAgentOptions["restaurantQuestions"];
   private readonly activeReads = new Map<string, ActiveRead>();
   /** Current-process semantic work owns a task before the asynchronous loop exists. */
   private readonly preparingReads = new Map<string, number>();
@@ -346,6 +347,7 @@ export class PersistentRestaurantAgentApplication {
     this.modelRunBudget = options.modelRunBudget;
     this.pageQuestionLimits = options.pageQuestionLimits ?? RESTAURANT_PAGE_QUESTION_BUDGET;
     this.readTimeoutMs = options.agentLoopOptions.timeoutMs;
+    this.bookingTerms = options.restaurantQuestions;
     this.interpreter = options.semanticInterpreter;
     this.partySizeSupplementResolver = options.partySizeSupplementResolver;
     this.store = new PostgresAgentWorkspaceStore(options.database);
@@ -955,6 +957,7 @@ export class PersistentRestaurantAgentApplication {
     const readDeadline = questionDeadline ?? new Date(clockNow.valueOf() + (usage ? Math.max(0,usage.deadlineAt-usage.startedAt-usage.elapsedMs) : this.readTimeoutMs));
     if (this.workspaceMode === "FIXTURE") {
       const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal, readDeadline);
+      if(!questionDeadline)await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), runDeadlineSignal ?? new AbortController().signal);
       await this.notifyReadFinished(record.rootTaskId, result);
       await this.appendAssistant(record, requestId);
       return;
@@ -971,6 +974,9 @@ export class PersistentRestaurantAgentApplication {
       try {
         const signal = runDeadlineSignal ? AbortSignal.any([controller.signal, runDeadlineSignal]) : controller.signal;
         await this.agentLoop.run(record.rootTaskId, signal, readDeadline);
+        // B1 terms are optional read-only enrichment, before releasing this SAME
+        // run's model scope/deadline. They never dispatch a Task/Outcome event.
+        if(!questionDeadline)await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), signal);
       } catch (error) {
         await this.recordUnexpectedRunFailure(record, error);
       } finally {
@@ -1159,6 +1165,7 @@ export class PersistentRestaurantAgentApplication {
           ...(state.selectionSession.resultBatchTarget ? { resultBatchTarget: structuredClone(state.selectionSession.resultBatchTarget) } : {}),
         } : {}),
         ...(state.pageQuestion ? { pageQuestion: structuredClone(state.pageQuestion) } : {}),
+        sourceReadContext: {runId:snapshot.runId+":investigation:"+String(state.investigationRevision??0),startedAt:snapshot.createdAt},
         ...(state.selectedCandidateId ? { selectedCandidateId: state.selectedCandidateId } : {}),
       },
       artifacts,

@@ -15,6 +15,7 @@ import { composeNativeRestaurantRead } from "./native-read-composition.js";
 import { candidateAvailabilityPath, restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
 import { TabelogBookingHandoffReader } from "../tabelog/tabelog-booking-handoff-reader.js";
 import { TableCheckBookingHandoffReader } from "../tablecheck/tablecheck-booking-handoff-reader.js";
+import { RestaurantBookingTerms } from "../restaurant-facts/booking-terms.js";
 
 export interface LiveReadAssemblyConfig extends LiveReadInvestigationBudget {
   /** Existing Pack selection; controlled sources may explicitly restrict coverage. */
@@ -47,7 +48,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   const taskId = transports.currentTaskId ?? (() => undefined);
   const tabelogHandoffs = new TabelogBookingHandoffReader(transports.browser, taskId, now);
   const tablecheckHandoffs = new TableCheckBookingHandoffReader(tabelogHandoffs.runtime, taskId, now);
-  const bookingHandoffs = {
+  const bookingLinks = {
     runtime: tablecheckHandoffs.runtime, now,
     capture: (request: Parameters<typeof tablecheckHandoffs.capture>[0], signal: AbortSignal, read: () => ReturnType<typeof tablecheckHandoffs.capture>) =>
       tabelogHandoffs.capture(request, signal, () => tablecheckHandoffs.capture(request, signal, read)),
@@ -69,6 +70,10 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       maxElapsedMsPerCandidate: config.maxFactBrowserMs,
       maxElapsedMsPerProvider: config.maxFactProviderMs,
     }, packs);
+  const terms = new RestaurantBookingTerms(native.questions, bookingLinks.readPrepared, taskId,
+    transports.remainingModelCalls ?? (()=>undefined), now, config.maxAutomaticBrowserMs);
+  const bookingHandoffs = {...bookingLinks,readPrepared:terms.readPrepared};
+  const questions=Object.assign(native.questions,{readBookingTerms:terms.readBookingTerms.bind(terms)});
   const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
   const sourceAvailability = new LiveBrowserAvailability(bookingHandoffs.runtime, transports.model, {
     now, browserBudget,
@@ -135,5 +140,5 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       }) };
     },
   };
-  return { ...native, search, google, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
+  return { ...native, questions, search, google, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
 }

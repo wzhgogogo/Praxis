@@ -1,5 +1,16 @@
 # Development Log
 
+2026-11-01 CET：C B1条款20秒保留补丁已全绿，按用户批准合main。原5cda产品4红→677334e5同6项绿，96494220同步main1d65b8e8；fff001f2冻结764项，默认1327/1327、Chromium187/187（130.452秒）、标准/严格G2各5/5、12页PASS，9步前后净树。独立7帧开始均>20000ms，旧14帧可见交接不变；逐I/O/model重核且deadline减20秒取消，close保留。A原三文件/B G3/Prompt/State不改；G1文件范围与助手实际追加延迟已附报告（串行5.305ms，注入80ms后88.073ms；并发另列），非Live性能。510账目/154旧产物保留、累计不变，真实调用0，不读.env。正常发布main、ls-remote核对后通知A待命，SHA以Git回执为准。 [报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)。
+
+2026-11-01 CET：C已在5cda89b7产品原字节取得4个保留区红灯，677334e5同6项实际组装全部绿；20001可开始、20000零取页/模型、两次模型间及语言导航前重核、deadline减20秒主动取消，链接保留。固定I/O助手消息等待约5.3ms，注入2×40ms模型等待后约88.1ms，均为实际持久追加观察。96494220同步main1d65b8e8，保留4处双方文档/16项main源码及账本510条、累计不变；不改A/B受保护文件。待冻结合并候选五门禁/严格G2及独立起始时刻核验，真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。
+
+2026-11-01 CET：C按复核补B1条款20秒保留；先在5cda89b7产品原字节上冻结C自有实际组装边界20001/20000、模型间跨区、语言导航及提前取消反例。A原三文件/B G3不改，旁听实际助手消息持久追加并量测等待。修后同步main1d65b8e8，完整五门禁/严格G2全绿才合main推送；真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。
+
+2026-11-01 CET：C B1卡片条款离线完成待复核。b6e155bd冻结748项，A原取消测试及helper原字节绿；默认1319/1319、Chromium187/187（130.264秒）、标准/严格G2均5/5、12页PASS，独立14帧+原A产物核验12条C引文。选店主动同渠道取消/卡，已有答案复用；冲突两页并列，异店/渠道/旧run/过期/预算/取消省略条款且B1保留。身份见证及Agent非用户选择两反例红→绿；前两轮C测试错误原件保留，完整门禁一次全绿、10步净树。ADR0049仅追加11-01决定；Agent/G1 Prompt、State/TaskDefinition、B G3、前端和原链接读取器不改。真实调用0、不读.env/独立答案/私有留出集；账本509条累计不变。仅推C分支不合main，通知A停复核。 [报告](../../.eval-artifacts/phase3b/b1-card-terms-20261101/report.md)。
+
+2026-11-01 CET：C B1条款定向整组装11/11通过（A原取消追问不改）；两渠道主动取消/卡、已接纳复用、日英冲突、错店/渠道、共享模型20次封顶、取消/过期/未写均有实际链路证据，链接继续有效。前两轮C测试包装/URL及时序原件保留；另补原凭据ID矛盾的条款二次展示单测红灯→收紧，以及Agent内部选店不等于用户选店的整组装红灯→以权威SPECIFIC_OUTLET约束主动读取；不改Agent/State/链接接纳规则。ADR0049追加11-01决定。待最终冻结五门禁/严格G2和独立产物核验；真实调用0，不读.env；账本main507与A508完整并集后追加C零调用为509，累计用量不变。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+
+2026-11-01 CET：C开始用户批准的B1卡片条款生产切片，从main74dd2faf开分支；A31ba2a84原测试/取消输入/helper三文件逐字导入，冻结后先取G1已接纳但B1 terms为空的原目标红灯。主动读取只为已选且已有交接的店，复用G1并沿用选店轮预算；不改Agent/State版本、B G3及A断言，真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
 <a id="dev-2026-11-01-eval-assembly-gate-main-publication"></a>
 
 2026-11-01 CET：用户复核通过0e24d9ab并批准直接合main。核对远端74dd2faf已为祖先，在本工作树以main为第一父创建普通合并，初始完整树等于获批候选，只追加合入文档；不触碰其他对话工作树，不改源码/规则/例外/测试/样本。730冻结输入和全部旧门禁证据保持，复用原验收，不新增运行。正常推main并ls-remote核对后，按用户授权通知A/B/C新SHA与factory/组件白名单边界，之后待命。真实调用0、不读.env。[记录](../../.eval-artifacts/phase3b/eval-assembly-gate/main-publication-20261101/report.md)。
@@ -119,7 +130,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.363
+- Document revision: 4.365
 
 
 - Last updated: 2026-11-01

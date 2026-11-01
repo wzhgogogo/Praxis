@@ -1,0 +1,30 @@
+{
+  "status": "EXPECTED_CONTRACT_RED",
+  "commit": "ea7ac199ccee34abee995f93de51899cbfb0b6ac",
+  "startedAtCET": "2026-11-01T14:48:11.810092+01:00",
+  "exitCode": 1,
+  "assertion": "B1 must carry the already admitted same-outlet same-channel G1 cancellation answer and source quote",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "src/eval/restaurant/agent-loop/g6-booking-terms-composition.test.ts"
+  ],
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "realCalls": 0,
+  "envFileLoaded": false,
+  "logs": [
+    {
+      "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/red/raw.log",
+      "sha256": "53243101357f61822d9bf3201dfbac65eed9cc921ffe1faf6d35b88926b4d477"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/red/preflight.json",
+      "sha256": "a0eeccb200611c64703a401e9dc8302be4880aa593dc25dc610b978269120fae"
+    }
+  ]
+}

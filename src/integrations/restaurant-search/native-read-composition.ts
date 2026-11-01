@@ -28,8 +28,8 @@ export function composeNativeRestaurantRead(
 ) {
   const selectedPacks = packs ?? restaurantDiscoveryPacks;
   const networkPolicy = runtime.readNetworkBoundaryCapability === "ISOLATED_CONTEXT" ? discoveryPackNetworkPolicy(selectedPacks) : undefined;
-  const questions = new RestaurantPageQuestionReader(model, (observe, scopedBudget, scopedModel = model, visits) => {
-    const browser = visits ? pageQuestionRuntime(runtime, visits) : runtime;
+  const questions = new RestaurantPageQuestionReader(model, (observe, scopedBudget, scopedModel = model, visits, beforeRead) => {
+    const browser = visits||beforeRead ? pageQuestionRuntime(runtime, visits, beforeRead) : runtime;
     return new SourceAwareFactRead(
       new NativeSourceFactRead(factLimits, browser, new ModelRestaurantFactJudgment(scopedModel, now), now, new ModelBrowserReadActionDecision(scopedModel), scopedBudget, onBrowserDiagnostic, networkPolicy, observe, scopedModel),
       composeLiveRestaurantFactRead(factLimits, google, browser, scopedModel, scopedBudget, now, onBrowserDiagnostic, observe),

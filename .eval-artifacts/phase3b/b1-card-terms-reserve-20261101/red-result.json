@@ -1,0 +1,21 @@
+{
+  "status": "EXPECTED_FOUR_CONTRACT_REDS",
+  "commit": "620aab983d8d8af18a401ee8fbef6f28a6960e70",
+  "startedAtCET": "2026-11-01T16:39:28.920044+01:00",
+  "exitCode": 1,
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-concurrency=1",
+    "src/application/restaurant-booking-terms-reserve.test.ts"
+  ],
+  "gitStatusBefore": "",
+  "gitStatusAfter": "",
+  "realCalls": 0,
+  "envFileLoaded": false,
+  "rawSHA256": "b6270592be093ee9a690ab13d037090c56cd61dcb513ade3ed460ba4e65d6ea2"
+}
