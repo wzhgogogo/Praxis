@@ -1,5 +1,9 @@
 # Test and Verification Log
 
+<a id="test-2026-11-01-eval-assembly-components-split"></a>
+
+2026-11-01 CET：native组件迁移冻结9cd4c8e/730项，typecheck、arch、完整npm test1308/1308、build均单次通过，各项前后净树/HEAD/SHA不变，fail/cancelled/skipped/todo为0。三条测试正文迁移前后逐字相同，各在默认日志出现一次；静态test调用总数71=68+3，24条例外中两条迁移，composition零例外。生产/样本/规则和全部旧门禁证据保留；本轮不重复未变的Chromium187项、不新增Live，真实调用0、不读.env。只推工作分支交复核。[完整记录](../../.eval-artifacts/phase3b/eval-assembly-gate/component-split-20261101/report.md)。
+
 <a id="test-2026-11-01-eval-assembly-gate-main-sync"></a>
 
 2026-11-01 CET：b5e804b8在main74dd2faf后冻结729项输入，依次单次typecheck/arch/npm test/build/Chromium全绿：默认1308/1308、浏览器187/187（130.747秒），均fail/cancelled/skipped/todo为0；五项前后净树、HEAD/输入及44份旧门禁证据SHA不变，无过滤/重试/豁免。旧4/5、main三次对照和9项受控检错保留，规则原字节未变而不重复同样变异。再次rg确认当前无SF退役引用，新TC读取器无eval直接引用但未擅自扩展核心名单。全部离线，无真实模型/来源/Live、不读.env；仅推候选分支待复核。[完整原始输出与机器记录](../../.eval-artifacts/phase3b/eval-assembly-gate/main-sync-74dd2faf/report.md)。

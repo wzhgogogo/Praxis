@@ -1,5 +1,9 @@
 # Development Log
 
+<a id="dev-2026-11-01-eval-assembly-components-split"></a>
+
+2026-11-01 CET：按用户转述的复核第3节原样迁出三条native组件测试；核心导入和局部retrieval替身随迁，两条白名单改指向新文件，composition无例外。三条正文逐字SHA一致、静态test调用71不变；只删例外说明中失效的同文件factory从句，不改生产、样本或门禁规则。9cd4c8e冻结730项后arch和默认1308/1308全绿，type/build同绿，四项单次净树。用户确认原复核在Claude项目且无需取得；仅推原分支待复核，不合main，真实调用0、不读.env。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/component-split-20261101/report.md)。
+
 <a id="dev-2026-11-01-eval-assembly-gate-main-sync"></a>
 
 2026-11-01 CET：按用户既定交接合入获批main74dd2faf到组装门禁分支，原调度修复仅随main取得。六处文档冲突保留双方正文，产品与传入main相同，原门禁/白名单/SF退役/机械清理及A新G6输入不改；44份原门禁证据逐字保留。冻结b5e804b8/729项，五门禁全绿，默认1308、Chromium187，原调度断言在完整套件通过。仅补归档/状态，不新增能力、真实模型、Google、网站或Live，不读.env；推工作分支交独立复核，不合main。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/main-sync-74dd2faf/report.md)。

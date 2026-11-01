@@ -1,0 +1,57 @@
+{
+  "recordedAtCET": "2026-11-01T14:50:47.653633+01:00",
+  "baselineCommit": "975ff23a5044d2d177df4779cbc40622bd6bb34e",
+  "gateCommit": "9cd4c8e4123b743fe335c3ab3d5324239040d6fb",
+  "frozenInputsUnchanged": 730,
+  "priorEvidenceFilesUnchanged": 56,
+  "tests": [
+    {
+      "test": "native source session acquisition consumes the remaining source window and retains an unstarted detail entrance",
+      "testBodySha256": "7225eb143069ec0b27e925047c0904ac65deb9a23901dcf0ab502e55bde623fe",
+      "baselineDefaultExecutions": 1,
+      "currentDefaultExecutions": 1
+    },
+    {
+      "test": "the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches",
+      "testBodySha256": "2f3ae364ac9a300cc5f9d74c1b6beccfddcc5b7124b437446acbd3af63d5e802",
+      "baselineDefaultExecutions": 1,
+      "currentDefaultExecutions": 1
+    },
+    {
+      "test": "coordinate-only discovery passes source-attributed address observations, including failure, to browser input",
+      "testBodySha256": "01b1732a8ea1f6dff9475c96d92a774dbb6fa0815aac776d00c8e47e6bcea67e",
+      "baselineDefaultExecutions": 1,
+      "currentDefaultExecutions": 1
+    }
+  ],
+  "compositionRemainderExactAfterSpecifiedRemovals": true,
+  "literalTestCallMultisetUnchanged": true,
+  "compositionExceptions": 0,
+  "componentExceptions": 2,
+  "totalExceptionsUnchanged": 24,
+  "otherAllowanceEntriesUnchanged": true,
+  "executableFilesChanged": [
+    "src/eval/assembly-bypass-allowlist.json",
+    "src/eval/restaurant/agent-loop/native-discovery-components.test.ts",
+    "src/eval/restaurant/agent-loop/native-discovery-composition.test.ts"
+  ],
+  "allFourGatesPassedOnce": true,
+  "defaultTestCountBefore": 1308,
+  "defaultTestCountAfter": 1308,
+  "packageScriptsUnchanged": true,
+  "browserNotRerunBecauseCodeAndFixturesUnchanged": true,
+  "realModelGoogleWebsiteLiveCalls": 0,
+  "envRead": false,
+  "reviewRequirementsConfirmedDirectlyByUser": true,
+  "reportLinks": [
+    "test-move-equivalence.json",
+    "gates.json",
+    "source-inputs-sha256.json",
+    "verification/typecheck.log.gz",
+    "verification/arch-check.log.gz",
+    "verification/test.log.gz",
+    "verification/build.log.gz",
+    "final-verification.json",
+    "evidence-sha256.json"
+  ]
+}
