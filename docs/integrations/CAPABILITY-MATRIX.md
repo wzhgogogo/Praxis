@@ -53,7 +53,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.123
+- Document revision: 1.124
 
 
 - Last updated: 2026-11-01
@@ -478,7 +478,7 @@ Source-attribution follow-up offline verification PASS (2026-10-31 CET): the app
 
 ## TableCheck B1 ordinary assembly correction (2026-11-01 CET)
 
-Current C candidate / not integrated: TableCheck source-link preparation is now wired into the same ordinary live-read assembly as Tabelog. Earlier TableCheck injected-cache greens did not cover this edge; A's unchanged whole persistent-composition regression demonstrated AVAILABLE with an empty handoff and then passes after this correction. This closes a local assembly gap, not live website/prefill certification.
+User-approved implementation for main publication ([release evidence](../../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/report.md)): TableCheck source-link preparation is now wired into the same ordinary live-read assembly as Tabelog. Earlier TableCheck injected-cache greens did not cover this edge; A's unchanged whole persistent-composition regression demonstrated AVAILABLE with an empty handoff and then passes after this correction. This closes a local assembly gap, not live website/prefill certification.
 
 Separate source-specific readers share the existing browser read through passive wrappers. TableCheck taps only already occurring snapshot/observeControls results, retains visible enabled same-shop reserve LINK entrances with root-task/evidence/request/expiry binding, and deterministically serializes only an actual exact available offer. A source link already carrying contradictory date/party/time is rejected; a broad window alone never supplies a chosen time. No new navigation, control read, workflow verification or model request is added. Original Tabelog reader bytes and source-returned URL behavior remain unchanged. ADR-0049's generation and projection checks, grammar, freshness and no-submit/no-PII boundaries remain.
 

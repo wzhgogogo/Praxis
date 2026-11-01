@@ -1,5 +1,7 @@
 # Development Log
 
+2026-11-01 CET：用户复核通过TableCheck B1修复ffe8fc8e并批准合入main。最新main fceecaad已在分支祖先，同步后产品/config与复核候选原字节；A原测试/5输入、Tabelog/B G3、两次校验与账本507条/GET255/290不变。冻结后重跑五门禁和严格G2，各步前后净树，任一失败停；全绿才正常快进发布main、ls-remote核对并通知A与测试优化对话，之后待命。本次真实调用0、不读.env。 [合入计划](../../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/plan.md)。
+
 2026-11-01 CET：C TableCheck B1普通组装修复完成待复核。main fceecaad上A原测试有效红→并列TC来源读取器后绿；A测试/helper/构造输入5文件与02d01196原字节。只旁听已有snapshot/observeControls，不导航；初始及选店后均有同店精确2026-11-11/19:00/2人filled-in交接，红绿初始来源IO逐项相同5次。组件17项含错店/日期/人数/时段/宽窗无精确时刻/域名路径/隔离过期与二次校验均绿。首轮C测试readonly类型失败保留，复制数组后34c2b4bc冻结740项：五门禁默认1306/1306、Chromium187/187、标准及严格G2均5/5、严格12页PASS，8步前后净树。Tabelog/B G3/领域/前端不改，真实模型/Google/网站/Live0，账本507条并集累计255/290GET及171模型不变。不合main，推分支后通知A，停复核。 [修复报告](../../.eval-artifacts/phase3b/b1-tablecheck-composition-20261101/report.md)。
 
 2026-11-01 CET：C从B取页修复主线fceecaad新建TableCheck B1组装修复分支；A 02d01196测试及最小5文件输入原字节，e2de4d99冻结729项，实际PRESENT_RESULTS/AVAILABLE但交接空，断言Initial ordinary source cache must produce B1有效红灯。ce6f02a6并列旁听现有snapshot/observeControls的TableCheck读取器，A原测试绿、组件17/17绿；持久应用初始/选店后均正确B1，红绿初始来源IO逐项相同5次。Tabelog/B G3/领域双校验/A断言不改，模型/Google/GET/Live0，不读.env；待冻结五门禁和严格G2，完成仅推工作分支交复核、通知A，不合main。 [修复计划](../../.eval-artifacts/phase3b/b1-tablecheck-composition-20261101/plan.md)。
