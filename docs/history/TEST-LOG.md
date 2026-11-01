@@ -1,5 +1,9 @@
 # Test and Verification Log
 
+<a id="test-2026-11-01-eval-assembly-gate-evidence"></a>
+
+2026-11-01 CET：da92154c冻结719项输入，typecheck/arch/build通过，Chromium186/186（外层130.371s）；npm test1273/1274，唯一browser-fixture-scheduling.test.ts:109失败。五项实际执行前后净树、HEAD/输入SHA不变。干净main6db445ea同命令3次：1272/1272、1272/1272、1271/1272且相同109:12断言；主线及候选单文件都2/2。故归档“既有失败，修复在C5683dcfb，待合入”，不跳过/放宽断言，不取C代码；尚非五门禁全绿。新门禁9个隔离对照及定向141/141通过；SF退役前77/77、退役后rg无当前旧引用。真实模型/Google/网站/Live0、不读.env；旧日志/复核原文保留。[报告、原始日志、SHA及机器记录](../../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
+
 <a id="test-2026-11-01-eval-assembly-gate"></a>
 
 2026-11-01 CET：组装门禁停止点2，SF删除前harness/application/Web替代回归77/77，规则与既有独立Evaluator定向141/141；旧门禁TS/MJS反例均误通过(exit0)，不是有效拦截。正常当前arch及预检typecheck通过；隔离故意违规和五门禁待冻结执行，绝不把启动/模块/环境错误计入拦截。Test Skill仍是唯一矩阵，额外实验只验证本门禁。真实模型/来源/Live0，不读.env。[报告与日志](../../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。

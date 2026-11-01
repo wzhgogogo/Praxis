@@ -1,5 +1,9 @@
 # Development Log
 
+<a id="dev-2026-11-01-eval-assembly-gate-evidence"></a>
+
+2026-11-01 CET：组装门禁证据归档，执行代码冻结da92154c；9个隔离正常/反例对照均核对真实退出码和目标错误，未改工作分支生产源码或C文件。SF四文件/命令退役、命名检索模拟保留；用户追加批准两处当前引用最小清理，历史原文不改。五门禁4/5，唯一默认调度失败已在干净main6db445ea同命令第3次复现，前两次通过及单文件对照全保留；按用户安排，修复C5683dcfb待先合main，本分支再同步重跑。本候选只推工作分支交独立复核，不合main、不宣称全绿或Live能力；真实调用0。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
+
 <a id="dev-2026-11-01-eval-assembly-gate"></a>
 
 2026-11-01 CET：按已通过停止点1复核与用户SF退役授权实施组装门禁，当前待冻结五门禁。复用arch:check扫描与既有Evaluator依赖规则，加入eval MJS、25核心、24文件/核心组件例外的严格及陈旧检查；退役旧SF四文件/命令/两处说明，保留命名检索模拟。原有测试行为/生产代码未改，Web测试仅纠正范围注释；Test Skill仅加一条签收边界。旧临时副本TS/MJS都漏拦已保存，后续目标红绿在同一隔离工作树；真实调用0，五门禁前先冻结。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。

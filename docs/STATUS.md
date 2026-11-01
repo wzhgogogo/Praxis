@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-01 CET：组装门禁候选完成并交复核，尚未满足五门禁全绿。25核心/24组件精确对、TS/MJS禁入、严格/陈旧检查的9个隔离对照全部符合预期；SF退役及当前引用清理获准完成，生产/Prompt/Gold/原断言不改。冻结da92154c的719输入，五项前后净树：type/arch/build、Chromium186/186通过；默认1273/1274唯一调度事件红项在干净main6db445ea第3次同命令复现（前2次通过），单文件两边2/2，源测试/脚本逐字一致。按用户指令列既有失败，C5683dcfb待合入，本分支不取C文件；复核者安排C先合main，再同步重跑。真实调用0、不读.env，不合main。[完整报告与原始证据](../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
+
 2026-11-01 CET：组装门禁停止点1已复核通过，SF依赖经用户批准退役；停止点2实施待冻结验证。arch:check沿用原入口，扩展eval MJS和值导入禁入，25核心/24组件精确对、严格解析及陈旧检查；未用/类型导入机械清理，Web夹具只纠正范围注释。SF退役前替代回归77/77，规则及独立Evaluator定向141/141；隔离红绿和净树五门禁尚待完成，不宣称整批签收。真实调用0、不读.env，不合main。[报告](../.eval-artifacts/phase3b/eval-assembly-gate/stop2-report.md)。
 
 2026-11-01 CET：组装门禁停止点 1 盘点完成待复核（`draft / not integrated`），基线 main `6db445ea`，独立分支 `codex/chore-eval-assembly-gate`。逐项核对 eval Runner/执行与评分入口及默认测试的组合声明；现有 arch:check 的逐文件导入规则可承接目录禁入与白名单，无需新框架。G1 固定页仍仅组件问答证据；SF fixture、G1/B1 部分 HTTP 组合声明的绕过和核心候选名单交复核确认。仅文档，无产品/评测/测试源码、规则或 Skill 改动；未运行五门禁，真实业务调用0、不读.env。按指令仅推工作分支，停止点 2 尚未授权。[盘点报告](../.eval-artifacts/phase3b/eval-assembly-gate/stop1-report.md)。
