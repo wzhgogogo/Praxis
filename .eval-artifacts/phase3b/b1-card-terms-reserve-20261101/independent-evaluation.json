@@ -1,0 +1,122 @@
+{
+  "status": "PASS",
+  "scope": "Actual production assembly integration regressions with fixed external I/O, not new Live/G6 capability signoff",
+  "layer1": {
+    "reserveCases": 7,
+    "reviewedBehaviorFramesUnchanged": 14,
+    "rows": [
+      {
+        "case": "boundary-20001",
+        "readStarts": 4,
+        "minimumRemainingAtStartMs": 20001,
+        "questionStarts": 2,
+        "pageStarts": 1,
+        "terms": 2,
+        "linkPreserved": true,
+        "termsMs": 28.185583999999835,
+        "assistantAfterReadyMs": 36.441624999999476,
+        "appendAfterTermsMs": 2.1159999999999854,
+        "result": "PASS"
+      },
+      {
+        "case": "boundary-20000",
+        "readStarts": 0,
+        "minimumRemainingAtStartMs": null,
+        "questionStarts": 0,
+        "pageStarts": 0,
+        "terms": 0,
+        "linkPreserved": true,
+        "termsMs": 5.597208000000137,
+        "assistantAfterReadyMs": 64.28066599999966,
+        "appendAfterTermsMs": 47.357332999999926,
+        "result": "PASS"
+      },
+      {
+        "case": "between-models",
+        "readStarts": 3,
+        "minimumRemainingAtStartMs": 30000,
+        "questionStarts": 1,
+        "pageStarts": 1,
+        "terms": 0,
+        "linkPreserved": true,
+        "termsMs": 5.1805829999993875,
+        "assistantAfterReadyMs": 15.000624999999673,
+        "appendAfterTermsMs": 3.622624999999971,
+        "result": "PASS"
+      },
+      {
+        "case": "before-language-navigation",
+        "readStarts": 2,
+        "minimumRemainingAtStartMs": 30000,
+        "questionStarts": 0,
+        "pageStarts": 1,
+        "terms": 0,
+        "linkPreserved": true,
+        "termsMs": 39.003999999998996,
+        "assistantAfterReadyMs": 51.50737500000105,
+        "appendAfterTermsMs": 10.26929200000086,
+        "result": "PASS"
+      },
+      {
+        "case": "early-abort",
+        "readStarts": 2,
+        "minimumRemainingAtStartMs": 20001,
+        "questionStarts": 0,
+        "pageStarts": 1,
+        "terms": 0,
+        "linkPreserved": true,
+        "termsMs": 1.5474579999990965,
+        "assistantAfterReadyMs": 68.27429200000006,
+        "appendAfterTermsMs": 47.40266700000029,
+        "result": "PASS"
+      },
+      {
+        "case": "assistant-wait-0",
+        "readStarts": 4,
+        "minimumRemainingAtStartMs": 499991,
+        "questionStarts": 2,
+        "pageStarts": 1,
+        "terms": 2,
+        "linkPreserved": true,
+        "termsMs": 80.7627080000002,
+        "assistantAfterReadyMs": 84.53716700000041,
+        "appendAfterTermsMs": 1.5689590000001772,
+        "result": "PASS"
+      },
+      {
+        "case": "assistant-wait-40",
+        "readStarts": 4,
+        "minimumRemainingAtStartMs": 499994,
+        "questionStarts": 2,
+        "pageStarts": 1,
+        "terms": 2,
+        "linkPreserved": true,
+        "termsMs": 100.25116600000001,
+        "assistantAfterReadyMs": 103.53879099999904,
+        "appendAfterTermsMs": 1.6798749999998108,
+        "result": "PASS"
+      }
+    ]
+  },
+  "layer2": {
+    "noNewReadInLast20000ms": "PASS",
+    "perModelAndLanguageNavigationRecheck": "PASS",
+    "earlyReadCancellation": "PASS",
+    "durableAssistantAfterTerms": "PASS",
+    "G1OriginalExplicitQuestionAndHandoffBehavior": "PASS"
+  },
+  "layer3": {
+    "lateReadStartsInControlledRuns": 0,
+    "realSourceAndRealModel": "NOT_RUN"
+  },
+  "layer4": {
+    "cause": "Optional terms used whole deadline and capture had no per-step reserve guard",
+    "fix": "Existing reserve constant, shortened child deadline and per-transport guard through G1 factory"
+  },
+  "realCalls": {
+    "model": 0,
+    "google": 0,
+    "websiteGET": 0,
+    "live": 0
+  }
+}

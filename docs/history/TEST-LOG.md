@@ -1,5 +1,7 @@
 # Test and Verification Log
 
+2026-11-01 CET：C B1条款20秒保留补丁已全绿，按用户批准合main。原5cda产品4红→677334e5同6项绿，96494220同步main1d65b8e8；fff001f2冻结764项，默认1327/1327、Chromium187/187（130.452秒）、标准/严格G2各5/5、12页PASS，9步前后净树。独立7帧开始均>20000ms，旧14帧可见交接不变；逐I/O/model重核且deadline减20秒取消，close保留。A原三文件/B G3/Prompt/State不改；G1文件范围与助手实际追加延迟已附报告（串行5.305ms，注入80ms后88.073ms；并发另列），非Live性能。510账目/154旧产物保留、累计不变，真实调用0，不读.env。正常发布main、ls-remote核对后通知A待命，SHA以Git回执为准。 [报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)。
+
 2026-11-01 CET：C已在5cda89b7产品原字节取得4个保留区红灯，677334e5同6项实际组装全部绿；20001可开始、20000零取页/模型、两次模型间及语言导航前重核、deadline减20秒主动取消，链接保留。固定I/O助手消息等待约5.3ms，注入2×40ms模型等待后约88.1ms，均为实际持久追加观察。96494220同步main1d65b8e8，保留4处双方文档/16项main源码及账本510条、累计不变；不改A/B受保护文件。待冻结合并候选五门禁/严格G2及独立起始时刻核验，真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。
 
 2026-11-01 CET：C按复核补B1条款20秒保留；先在5cda89b7产品原字节上冻结C自有实际组装边界20001/20000、模型间跨区、语言导航及提前取消反例。A原三文件/B G3不改，旁听实际助手消息持久追加并量测等待。修后同步main1d65b8e8，完整五门禁/严格G2全绿才合main推送；真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。
@@ -128,7 +130,7 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.370
+- Document revision: 4.371
 
 
 - Last updated: 2026-11-01
