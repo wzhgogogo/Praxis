@@ -1,0 +1,86 @@
+{
+  "mode": "fixed",
+  "kind": "CONTROLLED_REAL_LIFECYCLE_DELIVERY_ORDER_NOT_NATURAL_ENV_REPRODUCTION",
+  "baseGit": "a7860924b8630a34318811b477af54e0f007d0b6",
+  "sourceSha256": "ee79a1d8572b5f8d19464c095271525bef31bc4b794fbb8195d4a7e60d1dd744",
+  "originalAssertionLinesIdentical": true,
+  "runs": [
+    {
+      "label": "controlled",
+      "controlledDelivery": true,
+      "command": [
+        "/opt/homebrew/bin/node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.88,
+      "rawLogSha256": "cae13f8645cbfde2a06456c03e303951247cf1f44f96a139f16ec6962ed9c4d6",
+      "probeOnlyChangedCopies": {
+        "src/harness/browser-fixture-scheduling.test.ts": "c1e2d3aa2cc9b2c5717b1b0b5e5c96fc97914ae28ca955c1e20965124e5e2806",
+        "scripts/browser-fixture-worker.mjs": "483b9af4acbdb969e27ae766dfdce1ca05141d63bb7aa6aa46784f42fa1b0f2d"
+      }
+    },
+    {
+      "label": "ordinary-1",
+      "controlledDelivery": false,
+      "command": [
+        "/opt/homebrew/bin/node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.847,
+      "rawLogSha256": "72ee720e586e356368e9f38a76527d6d0495877e49bc12244e65f5e2462dae07",
+      "probeOnlyChangedCopies": {}
+    },
+    {
+      "label": "ordinary-2",
+      "controlledDelivery": false,
+      "command": [
+        "/opt/homebrew/bin/node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.843,
+      "rawLogSha256": "af633b488c3458709a958b3c5fa1a403a9ff5c258e32df7d066634cf8e1c3249",
+      "probeOnlyChangedCopies": {}
+    },
+    {
+      "label": "ordinary-3",
+      "controlledDelivery": false,
+      "command": [
+        "/opt/homebrew/bin/node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=spec",
+        "src/harness/browser-fixture-scheduling.test.ts"
+      ],
+      "exitCode": 0,
+      "seconds": 2.888,
+      "rawLogSha256": "d93e8955ca5808fb2d88a0423dd338c01a6d41b2cfff4529ceb591da23c9687b",
+      "probeOnlyChangedCopies": {}
+    }
+  ],
+  "startedAtCET": "2026-11-01T08:20:40.915267+01:00",
+  "status": "PASS"
+}
