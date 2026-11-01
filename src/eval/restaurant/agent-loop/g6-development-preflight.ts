@@ -37,11 +37,12 @@ class LocalDatabase implements SqlDatabase {
   }
 }
 
-export async function runG6DevelopmentPreflight(output: string) {
+export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2" | "P3" | "P4" = "P1", variant = 0) {
   const source = JSON.parse(await readFile(new URL("./cases/g6-development/source.json", import.meta.url),"utf8")) as {
     referenceTime:string; outlet:{id:string;name:string;address:string;phone:string;latitude:number;longitude:number};
     pageUrl:string;date:string;time:string;partySize:number;initialRequest:string;bookingFollowups:string[];
     vacancy:{url:string;body:unknown};merchantQuote:string;
+    recommendationRequest:string;uncheckedBookingRequest:string;partyReply:string;undatedRequest:string;dateReply:string;question:string;
   };
   const html = await readFile(new URL("./cases/g6-development/outlet.html", import.meta.url),"utf8");
   const clock = new FakeClock(source.referenceTime);
@@ -55,25 +56,42 @@ export async function runG6DevelopmentPreflight(output: string) {
     let body: unknown;
     if (request.purpose === "restaurant_semantic_interpret") {
       const message = JSON.parse(request.messages.find(m=>m.role === "user")!.content.slice("User restaurant message as JSON string: ".length)) as string;
-      const target: RestaurantSemanticProposal["facts"][number] = {field:"TARGET",operation:semanticCount++ ? "CORRECT" : "ASSERT",value:{kind:"TARGET",goal:"AVAILABILITY",query:turn === "INITIAL" ? "restaurant in Shibuya" : source.outlet.name,
-        selectionScope:turn === "INITIAL" ? "OPEN_ENDED" : "SPECIFIC_OUTLET",...(turn === "INITIAL" ? {requestedResultCount:1} : {}),goalBasis:{type:"BOOKING_WORDING",reason:"Explicit controlled development request",quotes:[message]}}};
-      body = {schemaVersion:"4",facts:turn === "INITIAL" ? [target,
-        {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:source.date,raw:"November 11, 2026"}},
-        {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:source.time,latest:source.time,raw:"7 PM"}},
-        {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:source.partySize,source:"EXPLICIT"}},
-        {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Shibuya"}},
-      ] : [target]};
+      const recommendation = path === "P2" && turn === "INITIAL";
+      const open = turn === "INITIAL" && path !== "P3";
+      const target: RestaurantSemanticProposal["facts"][number] = {field:"TARGET",operation:semanticCount++ ? "CORRECT" : "ASSERT",value:{kind:"TARGET",goal:recommendation ? "RECOMMENDATION" : "AVAILABILITY",query:open ? "restaurant in Shibuya" : source.outlet.name,
+        selectionScope:open ? "OPEN_ENDED" : "SPECIFIC_OUTLET",...(open ? {requestedResultCount:1} : {}),goalBasis:{type:recommendation ? "JUDGMENT" : "BOOKING_WORDING",reason:"Explicit controlled development request",quotes:[message]}}};
+      const date: RestaurantSemanticProposal["facts"][number] = {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:source.date,raw:"November 11, 2026"}};
+      const time: RestaurantSemanticProposal["facts"][number] = {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:source.time,latest:source.time,raw:"7 PM"}};
+      const party: RestaurantSemanticProposal["facts"][number] = {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:source.partySize,source:"EXPLICIT"}};
+      const area: RestaurantSemanticProposal["facts"][number] = {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Shibuya"}};
+      const facts = turn === "ADD_PARTY" ? [party] : turn === "ADD_DATE" ? [date]
+        : turn !== "INITIAL" ? path === "P2" ? [target,date,time] : [target]
+        : recommendation ? [target,area] : path === "P3" ? [target,time,party,area] : [target,date,time,party,area];
+      body = {schemaVersion:"4",facts};
     } else if (request.purpose === "restaurant_source_facts") body = {selections:[]};
+    else if (request.purpose === "restaurant_party_size_supplement") body = {status:"UNKNOWN",partySize:0};
+    else if (request.purpose === "browser_read_decide") body = {action:"COMPLETE",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"Constructed public page is fully readable."};
+    else if (request.purpose === "restaurant_page_question") {
+      const payload=JSON.parse(request.messages.find(m=>m.role==="user")!.content);
+      const doc=payload.sourceDocuments.find((d:{statements:Array<{text:string}>})=>d.statements.some(s=>s.text===source.merchantQuote));
+      assert.ok(doc,"The real G1 reader must supply the merchant sentence");
+      const sentence=doc.statements.find((s:{text:string})=>s.text===source.merchantQuote);
+      body={status:"ANSWERED",answer:"The page says a private room is available for groups of four or more.",citations:[{documentId:doc.id,statementId:sentence.id,quote:sentence.text}],sensitiveCategory:"NONE",sourceConflict:false};
+    }
     else if (request.purpose === "restaurant_agent_decide") {
       const context = JSON.parse(request.messages.find(m=>m.role === "user")!.content).context as RestaurantAgentContext;
       const ids = context.candidates.map(c=>c.id), id = ids[0];
       const offer = id ? context.availability[id]?.[0] : undefined;
-      if (!ids.length) body = strictAction("SEARCH_RESTAURANTS");
+      if (context.missingBlockingFields.length && context.intentDraft?.target?.goal === "AVAILABILITY") body={...strictAction("ASK_USER"),question:context.missingBlockingFields.includes("date") ? "Which date would you like?" : "How many people?",relatedFields:context.missingBlockingFields};
+      else if (!ids.length) body = strictAction("SEARCH_RESTAURANTS");
+      else if (context.intentDraft?.target?.goal === "RECOMMENDATION") body = context.presentation.some(p=>p.eligible)
+        ? strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId))
+        : strictAction("INVESTIGATE_CANDIDATE_FACTS",context.factInvestigableCandidateIds?.slice(0,1) ?? []);
       else if (!offer) body = strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1) ?? []);
       // B1 selects the outlet, not an automatically executable booking offer.
       // Read-only slots intentionally require a booking recheck for the legacy
       // proposal path; B1 is independently checked by the source-link cache.
-      else if (turn !== "INITIAL" && context.selectedCandidateId !== id) body = {...strictAction("SELECT_CANDIDATE"),candidateId:id};
+      else if ((path === "P1" || path === "P2") && turn !== "INITIAL" && context.selectedCandidateId !== id) body = {...strictAction("SELECT_CANDIDATE"),candidateId:id};
       else body = strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId));
     } else throw new Error("Unconfigured fixture purpose: " + request.purpose);
     const result = response(body); requests.push({turn,request:structuredClone(request),response:result}); return result;
@@ -115,20 +133,59 @@ export async function runG6DevelopmentPreflight(output: string) {
   await mkdir(output,{recursive:true});
   let artifact: Record<string,unknown> = {};
   try {
-    const created = await completed(()=>application.createCase("g6-development-user",source.initialRequest,"g6-initial"));
+    const initialRequest=path === "P2" ? source.recommendationRequest : path === "P3" ? source.undatedRequest : source.initialRequest;
+    const created = await completed(()=>application.createCase("g6-development-user",initialRequest,"g6-initial"));
     const initial = project(await application.getCase("g6-development-user",created.case.caseId));
     const initialArtifact = await application.exportReadArtifact(initial.case.caseId);
-    artifact = {mode:"OFFLINE_LOCAL_CONSTRUCTED_SOURCES",initial,initialArtifact};
+    artifact = {mode:"OFFLINE_LOCAL_CONSTRUCTED_SOURCES",path,variant,initialRequest,initial,initialArtifact};
+    if(path === "P3") {
+      assert.equal(initial.case.phase,"NEEDS_INPUT","Undated named request must ask before any availability read");
+      assert.equal(initial.restaurant.intentDraft?.date,undefined,"No autonomous date may enter State");
+      assert.equal(sourceCalls.length,0,"No provider read before a concrete date");
+      assert.ok(initial.activities.some(a=>a.type === "AGENT_ASKED_USER"));
+      turn="ADD_DATE";
+      await completed(()=>application.submitMessage({userId:"g6-development-user",conversationId:initial.case.conversationId,requestId:"g6-add-date",expectedVersion:initial.case.taskVersion,message:source.dateReply}));
+      const after=project(await application.getCase("g6-development-user",initial.case.caseId));
+      artifact={...artifact,after,afterArtifact:await application.exportReadArtifact(initial.case.caseId)};
+      assert.equal(after.case.phase,"PRESENT_RESULTS");
+      assert.equal(after.restaurant.intentDraft?.date,source.date);
+      assert.ok(after.restaurant.bookingHandoffs?.length);
+    } else {
     assert.equal(initial.case.phase,"PRESENT_RESULTS","Initial normal control must deliver, before testing a follow-up");
     const first = initial.restaurant.presentedCandidateIds?.[0];
     assert.ok(first,"Initial control must have an actual displayed outlet");
-    assert.equal(initial.restaurant.availabilityChecks[first]?.status,"AVAILABLE");
-    assert.equal(initial.restaurant.bookingHandoffs?.[0]?.candidateId,first,"Initial ordinary source cache must produce B1");
+    if(path !== "P2") {
+      assert.equal(initial.restaurant.availabilityChecks[first]?.status,"AVAILABLE");
+      assert.equal(initial.restaurant.bookingHandoffs?.[0]?.candidateId,first,"Initial ordinary source cache must produce B1");
+    } else {
+      assert.equal(Object.keys(initial.restaurant.availabilityChecks).length,0,"Recommendation control must not already have a slot");
+      assert.equal(initial.restaurant.bookingHandoffs?.length ?? 0,0);
+    }
+    if(path === "P4") {
+      turn="G1_QUESTION";
+      await completed(()=>application.askRestaurantQuestion({userId:"g6-development-user",caseId:initial.case.caseId,candidateId:first,question:source.question,requestId:"g6-question",expectedVersion:initial.case.taskVersion}));
+      const after=project(await application.getCase("g6-development-user",initial.case.caseId));
+      artifact={...artifact,after,afterArtifact:await application.exportReadArtifact(initial.case.caseId)};
+      const answer=after.restaurant.pageQuestion?.result;
+      assert.equal(answer?.status,"ANSWERED","Explicit bound G1 follow-up must reach the core");
+      assert.ok(answer && answer.status === "ANSWERED");
+      assert.equal(answer.candidateId,first);
+      assert.deepEqual(answer.citations.map(c=>[c.text,c.url,c.readAt]),[[source.merchantQuote,source.pageUrl,source.referenceTime]]);
+    } else {
     turn = "BOOK_DISPLAYED";
     const boundary = requests.length;
     await completed(()=>application.submitMessage({userId:"g6-development-user",conversationId:initial.case.conversationId,requestId:"g6-book-displayed",expectedVersion:initial.case.taskVersion,
-      message:source.bookingFollowups[0]!,viewContext:{view:"DETAILS",candidateId:first,comparedCandidateIds:[]}}));
-    const after = project(await application.getCase("g6-development-user",initial.case.caseId));
+      message:path === "P2" ? source.uncheckedBookingRequest : source.bookingFollowups[variant]!,viewContext:{view:"DETAILS",candidateId:first,comparedCandidateIds:[]}}));
+    let after = project(await application.getCase("g6-development-user",initial.case.caseId));
+    if(path === "P2") {
+      artifact={...artifact,missingParty:after};
+      assert.equal(after.case.phase,"NEEDS_INPUT");
+      assert.equal(after.restaurant.intentDraft?.partySize,undefined);
+      assert.equal(after.restaurant.bookingHandoffs?.length ?? 0,0,"No B1 from a recommendation or missing guests");
+      turn="ADD_PARTY";
+      await completed(()=>application.submitMessage({userId:"g6-development-user",conversationId:initial.case.conversationId,requestId:"g6-add-party",expectedVersion:after.case.taskVersion,message:source.partyReply}));
+      after=project(await application.getCase("g6-development-user",initial.case.caseId));
+    }
     const afterArtifact = await application.exportReadArtifact(initial.case.caseId);
     artifact = {...artifact,followup:source.bookingFollowups[0],after,afterArtifact,boundary,requests,sourceCalls};
     assert.equal(after.restaurant.selectedCandidateId,first,"G6-P1: booking follow-up must select the explicitly displayed outlet");
@@ -136,9 +193,11 @@ export async function runG6DevelopmentPreflight(output: string) {
     assert.ok(handoff,"G6-P1: booking follow-up must keep an admitted B1 handoff");
     assert.match(handoff.continueLabel,/filled in/);
     assert.equal(handoff.url,(source.vacancy.body as {selection:Array<{url:string}>}).selection[0]!.url);
+    }
+    }
     assert.ok(!sourceCalls.some(c=>c.kind==="BROWSER_NAVIGATE"&&/form_course|yoyaku|payment|confirm|checkout/.test(new URL(c.url).pathname)),"No workflow request in this turn");
-    await writeFile(join(output,"preflight.json"),JSON.stringify({...artifact,status:"PASS",realModelCalls:0,publicGET:0},null,2)+"\n",{flag:"wx"});
-    return {status:"PASS",output};
+    await writeFile(join(output,"preflight.json"),JSON.stringify({...artifact,requests,sourceCalls,status:"PASS",realModelCalls:0,publicGET:0},null,2)+"\n",{flag:"wx"});
+    return {status:"PASS",path,variant,output};
   } catch (error) {
     await writeFile(join(output,"preflight.json"),JSON.stringify({...artifact,status:"FAILED",failure:{name:error instanceof Error?error.name:"Error",message:error instanceof Error?error.message:"Unknown failure"},requests,sourceCalls,realModelCalls:0,publicGET:0},null,2)+"\n",{flag:"wx"});
     throw error;
@@ -146,7 +205,7 @@ export async function runG6DevelopmentPreflight(output: string) {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  const args=process.argv.slice(2);if(args.length!==2||args[0]!=="--out")throw new Error("Usage: g6-development-preflight.ts --out <new-output-directory>");
-  try {console.log(JSON.stringify(await runG6DevelopmentPreflight(resolve(args[1]!))));}
+  const args=process.argv.slice(2);if(args.length!==4||args[0]!=="--out"||args[2]!=="--path"||!["P1","P2","P3","P4"].includes(args[3]!))throw new Error("Usage: g6-development-preflight.ts --out <new-output-directory> --path P1|P2|P3|P4");
+  try {console.log(JSON.stringify(await runG6DevelopmentPreflight(resolve(args[1]!),args[3] as "P1"|"P2"|"P3"|"P4")));}
   catch(error){console.error(error instanceof Error?error.message:"G6 preflight failed");process.exitCode=1;}
 }
