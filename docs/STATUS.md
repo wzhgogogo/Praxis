@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-01 CET：组装门禁同步获批main74dd2faf后复验全绿，冻结b5e804b8/729输入：typecheck、arch、build通过，默认1308/1308、Chromium187/187（130.747秒），五项各一次、前后净树且HEAD/SHA不变，无跳过/重试/豁免。原调度修复随main取得，44份旧证据、25核心/24例外、A新G6五文件及产品源码原字节保留；SF当前引用再次清零。上一轮4/5与旧main失败不覆盖；本分支仅交独立复核，不合main，真实调用0、不读.env。[本轮完整报告](../.eval-artifacts/phase3b/eval-assembly-gate/main-sync-74dd2faf/report.md)。
+
 2026-11-01 CET：组装门禁按用户既定交接同步获批 main74dd2faf，其中已含原调度修复5683dcfb；只合 main，不取C分支文件。代码无冲突，双方历史正文/旧门禁证据/A新增G6输入保留，原25核心与24例外不扩展。冻结729项输入待净树五门禁，不宣布全绿；真实调用0、不读.env、不合main。[复验计划](../.eval-artifacts/phase3b/eval-assembly-gate/main-sync-74dd2faf/report.md)。
 
 2026-11-01 CET：获批TableCheck B1普通组装合入验证完成。main fceecaad已在ffe8fc8e祖先，源码/config原字节；dfc3bc2b冻结735项，八步前后净树，默认1306/1306、Chromium187/187（131.777秒）、标准及严格G2均5/5、严格12页PASS。原修复包36文件、A原5文件和账本507条原样保留（GET255/290、模型171）；无失败豁免/重试，真实调用0、不读.env。按用户批准正常发布main并以Git合并及ls-remote作最终SHA回执，随后通知A与测试优化对话待命；本地离线验证不代表真实网站选中或预约。 [合入报告](../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/report.md)。

@@ -1,0 +1,35 @@
+{
+  "recordedAtCET": "2026-11-01T14:06:39.503612+01:00",
+  "command": [
+    "rg",
+    "-n",
+    "--glob",
+    "!docs/history/**",
+    "--glob",
+    "!docs/superseded/**",
+    "--glob",
+    "!docs/reviews/**",
+    "eval:restaurant:search:fixture|runLocalSearchFixtureEval|FixtureRestaurantSearchApplication|search-fixture/(eval(\\.test)?|fixture-application|run)\\.(ts|js)",
+    "README.md",
+    "AGENTS.md",
+    "docs",
+    "src",
+    "scripts",
+    "package.json"
+  ],
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "",
+  "historicalDirectoriesExcludedAndUnchanged": true,
+  "newCoreOutsideConfirmedScope": {
+    "command": [
+      "rg",
+      "-n",
+      "tablecheck-booking-handoff-reader",
+      "src/eval"
+    ],
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": ""
+  }
+}

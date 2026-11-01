@@ -1,5 +1,9 @@
 # Development Log
 
+<a id="dev-2026-11-01-eval-assembly-gate-main-sync"></a>
+
+2026-11-01 CET：按用户既定交接合入获批main74dd2faf到组装门禁分支，原调度修复仅随main取得。六处文档冲突保留双方正文，产品与传入main相同，原门禁/白名单/SF退役/机械清理及A新G6输入不改；44份原门禁证据逐字保留。冻结b5e804b8/729项，五门禁全绿，默认1308、Chromium187，原调度断言在完整套件通过。仅补归档/状态，不新增能力、真实模型、Google、网站或Live，不读.env；推工作分支交独立复核，不合main。[报告](../../.eval-artifacts/phase3b/eval-assembly-gate/main-sync-74dd2faf/report.md)。
+
 2026-11-01 CET：获批TableCheck B1普通组装合入验证完成。main fceecaad已在ffe8fc8e祖先，源码/config原字节；dfc3bc2b冻结735项，八步前后净树，默认1306/1306、Chromium187/187（131.777秒）、标准及严格G2均5/5、严格12页PASS。原修复包36文件、A原5文件和账本507条原样保留（GET255/290、模型171）；无失败豁免/重试，真实调用0、不读.env。按用户批准正常发布main并以Git合并及ls-remote作最终SHA回执，随后通知A与测试优化对话待命；本地离线验证不代表真实网站选中或预约。 [合入报告](../../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/report.md)。
 
 2026-11-01 CET：用户复核通过TableCheck B1修复ffe8fc8e并批准合入main。最新main fceecaad已在分支祖先，同步后产品/config与复核候选原字节；A原测试/5输入、Tabelog/B G3、两次校验与账本507条/GET255/290不变。冻结后重跑五门禁和严格G2，各步前后净树，任一失败停；全绿才正常快进发布main、ls-remote核对并通知A与测试优化对话，之后待命。本次真实调用0、不读.env。 [合入计划](../../.eval-artifacts/phase3b/b1-tablecheck-main-20261101/plan.md)。
