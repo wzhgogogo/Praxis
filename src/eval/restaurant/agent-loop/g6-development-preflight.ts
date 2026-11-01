@@ -70,7 +70,10 @@ export async function runG6DevelopmentPreflight(output: string) {
       const offer = id ? context.availability[id]?.[0] : undefined;
       if (!ids.length) body = strictAction("SEARCH_RESTAURANTS");
       else if (!offer) body = strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1) ?? []);
-      else if (turn !== "INITIAL" && context.selectedCandidateId !== id) body = {...strictAction("SELECT_CANDIDATE"),candidateId:id,offerId:offer.id};
+      // B1 selects the outlet, not an automatically executable booking offer.
+      // Read-only slots intentionally require a booking recheck for the legacy
+      // proposal path; B1 is independently checked by the source-link cache.
+      else if (turn !== "INITIAL" && context.selectedCandidateId !== id) body = {...strictAction("SELECT_CANDIDATE"),candidateId:id};
       else body = strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId));
     } else throw new Error("Unconfigured fixture purpose: " + request.purpose);
     const result = response(body); requests.push({turn,request:structuredClone(request),response:result}); return result;
