@@ -50,6 +50,7 @@ export function experienceMetrics(input: { raw: RecordValue; run: RecordValue; v
       ? [{ type: body.type, elapsedMs: t-start, ref: runRef(`/events/${index}`) }] : [];
   });
   const traces = [...rows(record(run.diagnostics).browserTrace),...rows(record(run.sourceTrace).browserTrace),...rows(raw.browserTrace)];
+  const traceRefs=[...(Array.isArray(record(run.diagnostics).browserTrace)?[runRef("/diagnostics/browserTrace")]:[]),...(Array.isArray(record(run.sourceTrace).browserTrace)?[runRef("/sourceTrace/browserTrace")]:[]),...(Array.isArray(raw.browserTrace)?[ref("/browserTrace")]:[])];
   const calls: Array<{ method: string; url?: string; at: number; index: number }> = [], sourceSpans: Array<[number,number]> = [], systemSpans: Array<[number,number]> = [], repeated: Array<[number,number]> = [];
   const seen = new Set<string>(), traceGaps: string[] = [];
   const unique = [...new Map(traces.map((row,index) => [`${row.sequence ?? index}:${row.kind}:${row.at}`,row])).values()];
@@ -78,10 +79,10 @@ export function experienceMetrics(input: { raw: RecordValue; run: RecordValue; v
     const duration = number(row.latencyMs), settled = epoch(row.settledAt), from = epoch(row.startedAt) ?? (duration !== undefined && settled !== undefined ? settled-duration : undefined);
     return from !== undefined && duration !== undefined && duration >= 0 ? [[from,from+duration] as [number,number]] : [];
   });
-  const navigationMs = sourceSpans.length ? measured(intervalUnion(sourceSpans),"SOURCE_IO_OPERATION_PROXY_INCLUDES_BROWSER_PROCESSING",[runRef("/diagnostics/browserTrace")]) : missingMetric("SOURCE_IO_OPERATION_PROXY","Timestamped matched navigation boundaries missing.");
+  const navigationMs = sourceSpans.length ? measured(intervalUnion(sourceSpans),"SOURCE_IO_OPERATION_PROXY_INCLUDES_BROWSER_PROCESSING",traceRefs) : missingMetric("SOURCE_IO_OPERATION_PROXY","Timestamped matched navigation boundaries missing.");
   const urlScope=record(record(evaluation.investigationMetrics).urls);
   const reload = urlScope.status==="OBSERVED"&&urlScope.scope==="FULL_RECORDED_NAVIGATIONS"&&sourceSpans.length && !traceGaps.length && elapsed !== undefined && elapsed > 0
-    ? measured(intervalUnion(repeated)/elapsed,"EXACT_RECORDED_NAVIGATION_RELOAD_INTERVAL_UNION_RATIO",[runRef("/diagnostics/browserTrace")])
+    ? measured(intervalUnion(repeated)/elapsed,"EXACT_RECORDED_NAVIGATION_RELOAD_INTERVAL_UNION_RATIO",traceRefs)
     : missingMetric("RELOAD_DURATION_RATIO","Counts alone or incomplete/redacted trace do not establish exact reload duration.");
   const conversation = record(view.conversation), messages = rows(conversation.messages);
   const viewPointer=raw.view?"/view":raw.after?"/after":raw.initial?"/initial":"";
@@ -150,10 +151,11 @@ export function experienceMetrics(input: { raw: RecordValue; run: RecordValue; v
     }
   }
   const cet=(value:number|undefined)=>value===undefined?null:new Date(value+3_600_000).toISOString().replace("Z","+01:00");
-  return {gateEffect:"NONE",timing:{startBasis:start!==undefined?"RUN_START_PROXY":"NOT_EVALUATED",absoluteTimesCET:{runStart:cet(start),observationComplete:cet(start!==undefined&&complete.value!==null?start+complete.value:undefined),serverPresentation:cet(presentation)},elapsed:elapsed!==undefined?measured(elapsed,"RECORDED_RUN_ELAPSED",[runRef("/resourceUsage"),runRef("/startedAt"),runRef("/finishedAt")]):missingMetric("RUN_ELAPSED","Missing valid elapsed/start/end."),
+  const elapsedRefs=start!==undefined&&finish!==undefined?[runRef("/startedAt"),runRef("/finishedAt")]:[runRef("/resourceUsage/elapsedMs")];
+  return {gateEffect:"NONE",timing:{startBasis:start!==undefined?"RUN_START_PROXY":"NOT_EVALUATED",absoluteTimesCET:{runStart:cet(start),observationComplete:cet(start!==undefined&&complete.value!==null?start+complete.value:undefined),serverPresentation:cet(presentation)},elapsed:elapsed!==undefined?measured(elapsed,"RECORDED_RUN_ELAPSED",elapsedRefs):missingMetric("RUN_ELAPSED","Missing valid elapsed/start/end."),
     firstSupportedObservationComplete:complete,firstServerPresentation:atPresentation,observationToPresentation:delay,acceptanceEvents:acceptance,
     uiVisible:missingMetric("UI_VISIBLE","No client render acknowledgement."),turnResponses,
     stageBreakdown:run.stageTimings ?? restaurantRunStageTimings(run,input.decisions),repeatedLoads:{counts:record(evaluation.investigationMetrics).urls??null,durationRatio:reload},
-    externalVsSystem:{navigationOperation:navigationMs,googleWait:missingMetric("GOOGLE_WAIT","No independently timestamped Google response boundary supplied."),modelWallMs:modelSpans.length?measured(intervalUnion(modelSpans),"RECORDED_MODEL_INTERVAL_UNION",[runRef("/modelInvocations")]):missingMetric("MODEL_WALL_TIME","Counters alone cannot place model intervals."),systemOperationMs:systemSpans.length?measured(intervalUnion(systemSpans),"RECORDED_NON_NAVIGATION_OPERATION_UNION",[runRef("/diagnostics/browserTrace")]):missingMetric("SYSTEM_OPERATION_WALL_TIME","Timestamped operation pairs missing."),gaps:traceGaps,additive:false}},
+    externalVsSystem:{navigationOperation:navigationMs,googleWait:missingMetric("GOOGLE_WAIT","No independently timestamped Google response boundary supplied."),modelWallMs:modelSpans.length?measured(intervalUnion(modelSpans),"RECORDED_MODEL_INTERVAL_UNION",[runRef("/modelInvocations")]):missingMetric("MODEL_WALL_TIME","Counters alone cannot place model intervals."),systemOperationMs:systemSpans.length?measured(intervalUnion(systemSpans),"RECORDED_NON_NAVIGATION_OPERATION_UNION",traceRefs):missingMetric("SYSTEM_OPERATION_WALL_TIME","Timestamped operation pairs missing."),gaps:traceGaps,additive:false}},
     clarifications:{excess,missing,excessQuestions:excessRows,missingQuestions:missingRows},conditions:structuredClone(evaluation.conditionStates??null),softPreferenceObservations:structuredClone(evaluation.softPreferenceObservations??null),explicitOrdering:ordering};
 }

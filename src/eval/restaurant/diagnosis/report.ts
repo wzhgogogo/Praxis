@@ -120,8 +120,15 @@ export function buildRunDiagnosis(input: {artifact:unknown;evaluation?:unknown;s
     const blocker=record(w.blocker),bid=stage(blocker.stage),scope=String(w.outletName??w.sourceId??i),ref=er(`/witnessFunnel/${i}`);
     if(bid)hypotheses.push(issue(bid,"HYPOTHESIS",String(blocker.reason??"Existing witness blocker hypothesis."),[ref],scope,`witness-blocker:${i}`));
     if(w.feasible!=="SUPPORTED")continue;
-    const gap=record(w.discovery).status==="NOT_FOUND"?"DISCOVERY":record(w.identity).status==="NOT_READ"?"IDENTITY":record(w.facts).status==="NOT_READ"?"FACTS_HARD":bid;
-    if(gap)coverage.push(issue(gap,"CONFIRMED","Existing feasible witness has an observed coverage gap; this does not reclassify the run.",[ref],scope,`witness-coverage:${i}`));
+    const gaps:Array<{stage:Stage;field:string;value:unknown}>=[];
+    if(record(w.discovery).status==="NOT_FOUND")gaps.push({stage:"DISCOVERY",field:"discovery/status",value:"NOT_FOUND"});
+    if(record(w.identity).status==="NOT_READ")gaps.push({stage:"IDENTITY",field:"identity/status",value:"NOT_READ"});
+    if(record(w.facts).status==="NOT_READ")gaps.push({stage:"FACTS_HARD",field:"facts/status",value:"NOT_READ"});
+    const recorded=record(w.availability).recorded;
+    if(Array.isArray(recorded)&&!recorded.length)gaps.push({stage:"AVAILABILITY",field:"availability/recorded",value:[]});
+    if(w.presented==="NO")gaps.push({stage:"PRESENTATION",field:"presented",value:"NO"});
+    const gap=gaps[0]; // Only explicit saved coverage fields, never the blocker hypothesis.
+    if(gap)coverage.push(issue(gap.stage,"CONFIRMED",`Feasible witness coverage: ${gap.field} = ${JSON.stringify(gap.value)}; not a run correctness or causal conclusion.`,[er(`/witnessFunnel/${i}/${gap.field}`),er(`/witnessFunnel/${i}/feasible`)],scope,`witness-coverage:${i}`));
   }
   confirmed.sort(byStage);coverage.sort(byStage);hypotheses.sort(byStage);
   const first=confirmed[0]??null,qualified=record(e.outcome).type==="QUALIFIED_DELIVERY";
@@ -167,7 +174,7 @@ export function summarizeDiagnoses(reports:RunDiagnosis[],plannedRunIds?:string[
   if(plannedRunIds&&reports.some((_,i)=>!plannedRunIds.includes(ids[i]!)))throw Error("UNPLANNED_RUN_IN_SUMMARY");
   const cells=new Map<string,string[]>(),cases=new Map<string,unknown[]>();
   for(const [i,r]of reports.entries()){
-    const severity=record(r.summary.severity);const level=["S0","S1","S2","S3","S4"].find(s=>record(severity[s]).status==="PRESENT")??"NO_CONFIRMED_SEVERITY_OR_UNASSESSED";
+    const severity=record(r.summary.severity);const level=["S0","S1","S2","S3","S4"].find(s=>record(severity[s]).status==="PRESENT"||s==="S0"&&["S0_DECLARATION","S0_BOUNDARY"].some(part=>record(severity[part]).status==="PRESENT"))??"NO_CONFIRMED_SEVERITY_OR_UNASSESSED";
     const key=`${r.firstPoint.stage??r.firstPoint.status} × ${level}`,list=cells.get(key)??[];list.push(ids[i]!);cells.set(key,list);
     const group=cases.get(r.caseId??"UNKNOWN_CASE")??[];group.push({runId:ids[i],artifactRunId:r.runId,outcome:r.summary.outcome,firstPoint:r.firstPoint,evaluation:r.inputs.evaluation,version:r.evaluationMetadata});cases.set(r.caseId??"UNKNOWN_CASE",group);
   }

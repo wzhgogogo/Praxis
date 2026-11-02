@@ -6,7 +6,7 @@ import { gunzipSync } from "node:zlib";
 import { buildRunDiagnosis, renderRunDiagnosis, summarizeDiagnoses } from "./report.js";
 import type { DiagnosisContext, RunDiagnosis, TurnAssessments } from "./report.js";
 import type { ExperienceGold } from "./experience.js";
-import { record } from "./records.js";
+import { record, rows } from "./records.js";
 import type { SourceRef } from "./records.js";
 
 export const digest = (bytes: string | Uint8Array) => createHash("sha256").update(bytes).digest("hex");
@@ -86,7 +86,12 @@ export async function generateRecordedDiagnoses(manifestPath:string,output:strin
   const planned=Array.isArray(m.plannedRunIds)&&m.plannedRunIds.every(x=>typeof x==="string")?m.plannedRunIds as string[]:undefined;
   const summary={...summarizeDiagnoses(reports,planned),manifest:loaded.source,paths};
   await writeFile(resolve(output,"summary.json"),JSON.stringify(summary,null,2)+"\n",{flag:"wx"});
-  const markdown=`# 跨运行诊断汇总\n\n只读已有产物；不改判定，不设体验门槛。时间口径 CET。\n\n## 分母\n\n\x60\x60\x60json\n${JSON.stringify(summary.denominators,null,2)}\n\x60\x60\x60\n\n## 首点 × 严重程度\n\n| 首点 × 严重程度 | 次数 | 运行 ID |\n| --- | --- | --- |\n${summary.firstPointBySeverity.map(c=>`| ${c.cell} | ${c.count} | ${c.runIds.join(", ")} |`).join("\n")}\n\n## 同用例多次运行\n\n\x60\x60\x60json\n${JSON.stringify(summary.sameCaseAttempts,null,2)}\n\x60\x60\x60\n\n## 体验分布\n\n\x60\x60\x60json\n${JSON.stringify(summary.experience,null,2)}\n\x60\x60\x60\n`;
+  const width=Math.max(1,...summary.sameCaseAttempts.map(c=>c.attempts.length));
+  const attemptsTable=`| 用例 | ${Array.from({length:width},(_,i)=>`第${i+1}次`).join(" | ")} |\n| --- | ${Array.from({length:width},()=>"---").join(" | ")} |\n`+summary.sameCaseAttempts.map(c=>{
+    const attempts=rows(c.attempts);
+    return `| ${c.caseId} | ${Array.from({length:width},(_,i)=>{const a=attempts[i];return a?`${a.runId}: ${record(a.outcome).type??"未评"}; ${record(a.firstPoint).stage??record(a.firstPoint).status}`:"—";}).join(" | ")} |`;
+  }).join("\n");
+  const markdown=`# 跨运行诊断汇总\n\n只读已有产物；不改判定，不设体验门槛。时间口径 CET。版本/Gold分层与原分母依据一并保留；总体分布仅描述，不代表不同版本可比。\n\n## 分母\n\n\x60\x60\x60json\n${JSON.stringify({counts:summary.denominators,definitions:summary.denominatorNotes},null,2)}\n\x60\x60\x60\n\n## 首点 × 严重程度\n\n| 首点 × 严重程度 | 次数 | 运行 ID |\n| --- | --- | --- |\n${summary.firstPointBySeverity.map(c=>`| ${c.cell} | ${c.count} | ${c.runIds.join(", ")} |`).join("\n")}\n\n## 同用例多次运行\n\n${attemptsTable}\n\n版本/Gold分层：\n\n\x60\x60\x60json\n${JSON.stringify(summary.cohorts,null,2)}\n\x60\x60\x60\n\n## 体验分布\n\n\x60\x60\x60json\n${JSON.stringify(summary.experience,null,2)}\n\x60\x60\x60\n`;
   await writeFile(resolve(output,"summary.md"),markdown,{flag:"wx"});return summary;
 }
 if(process.argv[1]&&pathToFileURL(resolve(process.argv[1])).href===import.meta.url){

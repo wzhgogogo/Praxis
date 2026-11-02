@@ -74,6 +74,14 @@ test("three reporting columns preserve confirmed scope, feasible witness coverag
   const unknown=structuredClone(missed);for(const row of unknown.evaluation.witnessFunnel)row.feasible="NOT_EVALUATED";
   unknown.evaluationSource={path:"test-only-mutated-evaluation.json",sha256:hash(JSON.stringify(unknown.evaluation))};
   const h=buildRunDiagnosis(unknown);assert.equal(h.witnessCoverageObservations.length,0);assert.equal(h.firstPoint.certainty,"HYPOTHESIS");
+  const observed=structuredClone(normal);
+  // Test-only saved-output mutation: a blocker alone cannot create an absent
+  // stage when every corresponding recorded coverage field says observed.
+  for(const row of observed.evaluation.witnessFunnel){row.facts.status="OBSERVED";row.blocker.stage="IDENTITY";}
+  observed.evaluationSource={path:"test-only-observed-evaluation.json",sha256:hash(JSON.stringify(observed.evaluation))};
+  const blockerOnly=buildRunDiagnosis(observed);
+  assert.equal(blockerOnly.witnessCoverageObservations.length,0,"blocker hypotheses must not become confirmed coverage gaps");
+  assert.ok(blockerOnly.hypothesizedBottlenecks.every(x=>x.certainty==="HYPOTHESIS"));
   const noOracle=buildRunDiagnosis({artifact:{},source:{path:"empty.json",sha256:hash("{}")}});
   assert.equal(noOracle.firstPoint.status,"NOT_EVALUATED");assert.equal(noOracle.firstConfirmedDeviation,null);
 });
