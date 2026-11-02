@@ -46,7 +46,7 @@ function environment() {
       await s.snapshot(); await s.observeControls!(); await s.close(); return read;
     });
     // Deliberate unit projection stub, never an injected artifact in the A whole-chain test.
-    return { case: { rootTaskId: root }, restaurant: { intentDraft: c.request, candidates: [c.candidate],
+    return { case: { rootTaskId: root, phase: "SEARCHING" }, restaurant: { readyCandidateIds: [id], intentDraft: c.request, candidates: [c.candidate],
       availability: { [id]: [c.offer] }, availabilityChecks: { [id]: c.check }, readEvidence: c.evidence } } as unknown as RestaurantCaseView;
   }
   return { reader, capture, calls, root: (value: string | undefined) => { root = value; }, now: (value: string) => { now = value; } };

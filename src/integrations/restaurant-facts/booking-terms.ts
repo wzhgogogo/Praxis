@@ -1,7 +1,7 @@
 import { isDeepStrictEqual } from "node:util";
 import type { RestaurantCaseView } from "../../application/agent-workspace.js";
 import type { RestaurantBookingTermsRead } from "../../application/restaurant-booking-handoff.js";
-import { bookingHandoffPageMatches, prepareBookingHandoff, type BookingHandoffSource, type BookingHandoffTerms, type PreparedBookingHandoff } from "../../domains/restaurant/booking-handoff.js";
+import { bookingHandoffCandidateIds, bookingHandoffPageMatches, prepareBookingHandoff, type BookingHandoffSource, type BookingHandoffTerms, type PreparedBookingHandoff } from "../../domains/restaurant/booking-handoff.js";
 import { completeRestaurantSearchIntent } from "../../domains/restaurant/intent-state.js";
 import type { RestaurantPageAnswer, RestaurantPageQuestionRequest } from "../../domains/restaurant/page-question.js";
 import type { RestaurantFactPageObservation } from "./fact-source-document.js";
@@ -109,6 +109,7 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
   async readBookingTerms(view:RestaurantCaseView,deadlineAt:string,parent:AbortSignal):Promise<void>{
     const selected=view.restaurant.selectedCandidateId,context=view.restaurant.sourceReadContext;
     if(!selected||!context||view.case.phase!=="PRESENT_RESULTS"
+      ||!bookingHandoffCandidateIds(view.case.phase,view.restaurant.presentedCandidateIds,view.restaurant.readyCandidateIds).includes(selected)
       ||view.restaurant.intentDraft?.target?.selectionScope!=="SPECIFIC_OUTLET")return;
     const prepared=this.readLinks(view).find(item=>item.source.candidateId===selected);
     if(!prepared)return;

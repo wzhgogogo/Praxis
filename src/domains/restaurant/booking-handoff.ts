@@ -2,12 +2,18 @@ import { TABELOG_ENGLISH_SYSTEM_FEE } from "./booking-platform-fees.js";
 import {
   restaurantAvailabilityRequestFingerprint,
   type AvailabilityOffer, type RestaurantAvailabilityCheck, type RestaurantBookingIntent,
-  type RestaurantCandidate, type RestaurantReadEvidence,
+  type RestaurantCandidate, type RestaurantReadEvidence, type RestaurantPhase,
 } from "./contracts.js";
 import type { RestaurantPageAnswer, RestaurantPageCitation } from "./page-question.js";
 
 /** Transient B1 contract only: no Task State, submission authority or verified outcome. */
 export type BookingHandoffProvider = "TABELOG" | "TABLECHECK";
+
+/** Same eligible set as the workspace: selecting an outlet grants no bypass. */
+export function bookingHandoffCandidateIds(phase: RestaurantPhase, presented: readonly string[] | undefined, ready: readonly string[]): readonly string[] {
+  return phase === "PRESENT_RESULTS" ? presented ?? [] : ready ?? [];
+}
+
 export interface BookingHandoffContext {
   candidate: RestaurantCandidate;
   offer: AvailabilityOffer;
