@@ -5,7 +5,8 @@ import { PersistentRestaurantAgentApplication, PilotSessionService } from "../..
 import { RunBoundedModelGateway } from "../../../../application/run-bounded-model-gateway.js";
 import { DeliveryReservedModelGateway } from "../../../../application/delivery-reserved-model-gateway.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET, type LiveReadInvestigationBudget } from "../../../../application/live-read-investigation-budget.js";
-import { withBookingHandoffs, type RestaurantCaseView } from "../../../../application/agent-workspace.js";
+import type { RestaurantCaseView } from "../../../../application/agent-workspace.js";
+import { withBookingHandoffs } from "../../../../application/restaurant-booking-handoff.js";
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../../../core/model/contracts.js";
 import type { RuntimeClock } from "../../../../core/task-runtime/contracts.js";
 import { RestaurantSemanticInterpreter } from "../../../../domains/restaurant/semantic-interpreter.js";

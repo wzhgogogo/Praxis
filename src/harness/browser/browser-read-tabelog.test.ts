@@ -159,14 +159,28 @@ test("Tabelog Adapter consumes loading-to-restricted calendar without model acti
   } finally { await executor.close(); }
 });
 
-for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
-  test(`${runtimeKind} retires a real Chromium session after a delayed failed navigation`, async () => {
+for (const [runtimeKind,lateDispatch] of [["LOCAL",false],["CLOUDFLARE_SESSION",false],["LOCAL",true]] as const) {
+  test(`${runtimeKind} retires a real Chromium session after a delayed failed navigation${lateDispatch ? " (source dispatch follows retirement)" : ""}`, async () => {
     const failedUrl = "https://www.tablecheck.com/en/delayed-failure";
     let releaseOld!: () => void;
     let oldFinished!: () => void;
     const release = new Promise<void>(resolve => { releaseOld = resolve; });
     const finished = new Promise<void>(resolve => { oldFinished = resolve; });
-    const runtime = localFixture({ [url]: "<title>Fresh page</title><h1>New candidate</h1>" }, runtimeKind, { url: failedUrl, release, finished: oldFinished });
+    const raw = localFixture({ [url]: "<title>Fresh page</title><h1>New candidate</h1>" }, runtimeKind, { url: failedUrl, release, finished: oldFinished });
+    let releaseDispatch!:()=>void,oldClosed!:()=>void;
+    const dispatch=new Promise<void>(r=>{releaseDispatch=r;}),retired=new Promise<void>(r=>{oldClosed=r;});
+    let sessions=0;
+    const runtime:BrowserRuntime={async openSession(input){
+      const session=await raw.openSession(input),first=sessions++===0;
+      return new Proxy(session,{get(target,key){
+        if(key==="navigate")return async(...args:Parameters<BrowserSession["navigate"]>)=>{
+          if(first&&lateDispatch){await dispatch;}
+          return target.navigate(...args);
+        };
+        if(key==="close")return async()=>{await target.close();if(first)oldClosed();};
+        const value=Reflect.get(target,key,target);return typeof value==="function"?value.bind(target):value;
+      }});
+    }};
     const executor = new BrowserTaskExecutor(runtime, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
     const signal = new AbortController().signal;
     executor.beginCandidate("failed");
@@ -181,7 +195,13 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       assert.notEqual(freshSession, failedSession);
       await executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       assert.match((await executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal })).text, /New candidate/);
+      if(lateDispatch){
+        await retired;
+        if(process.env.PRAXIS_G6_NAV_TRACE==="1")console.log("G6_NAVIGATION_OLD_SESSION_RETIRED_BEFORE_DISPATCH");
+      }
+      releaseDispatch();
       releaseOld();
+      if(lateDispatch&&process.env.PRAXIS_G6_NAV_TRACE==="1")console.log("G6_NAVIGATION_WAITING_FOR_OLD_FIXTURE_FINISHED");
       await finished;
       assert.match((await executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal })).text, /New candidate/);
     } finally { await executor.close(); }
