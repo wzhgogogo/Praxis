@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.47
+- Document revision: 3.48
 
 
 - Last updated: 2026-11-02
@@ -375,6 +375,6 @@ B1条款由现有G1生产事实链产生，按根Task、当前investigation、�
 
 选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。
 
-## Explicit booking message records user choice (2026-11-02 CET; offline candidate)
+## Explicit booking message records user choice (2026-11-02 CET; approved main integration)
 
-Per ADR0049, an accepted SPECIFIC_OUTLET / BOOKING_WORDING message can record a uniquely matched outlet through the existing CANDIDATE_SELECTED event, without an Agent selection action. Code checks full-name uniqueness and a prior displayed candidate binding or existing HIGH entity evidence; ambiguity/partial references remain unselected. The accepted message event retains only a pending choice marker, never raw goalBasis or a new State field, so a party-only reply can resume that original choice after the normal candidate reset. New non-booking targets, semantic failure/conflict and mismatched current candidates cannot reuse it. USER event causation and a USER_MESSAGE trajectory distinguish this from Agent selection. Repeated same candidate/offer selection is a no-op. This grants no booking/authorization, changes no goal or source identity rule, and skips no availability. The existing same-turn B1 terms acquisition, budget/cancellation/reuse and 20-second reserve are unchanged. G1 questions, open recommendations and departures do not create choices. Evidence is saved-response/local-source composition only; main/Live acceptance remains pending review.
+Per ADR0049, an accepted SPECIFIC_OUTLET / BOOKING_WORDING message can record a uniquely matched outlet through the existing CANDIDATE_SELECTED event, without an Agent selection action. Code checks full-name uniqueness and a prior displayed candidate binding or existing HIGH entity evidence; ambiguity/partial references remain unselected. The accepted message event retains only a pending choice marker, never raw goalBasis or a new State field, so a party-only reply can resume that original choice after the normal candidate reset. New non-booking targets, semantic failure/conflict and mismatched current candidates cannot reuse it. USER event causation and a USER_MESSAGE trajectory distinguish this from Agent selection. Repeated same candidate/offer selection is a no-op. This grants no booking/authorization, changes no goal or source identity rule, and skips no availability. The existing same-turn B1 terms acquisition, budget/cancellation/reuse and 20-second reserve are unchanged. G1 questions, open recommendations and departures do not create choices. The user reported independent review passed and approved main integration. Evidence remains saved-response/local-source composition; Live assessment is separate.
