@@ -1,0 +1,49 @@
+{
+  "status": "READY_FOR_APPROVED_D3_TO_D7",
+  "atCET": "2026-11-02T16:52:18.359612+01:00",
+  "testedCommit": "dde27e4c77a09093d89fefc3db7544d2bc171cf3",
+  "mainFix": "d4d8ea33a4cf32b01601474f02ad89c538bf3f69",
+  "sourceInputs": 770,
+  "ledgerRowsBefore": 620,
+  "cumulativeBefore": {
+    "fullLive": 1,
+    "realModelCalls": 264,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 262,
+    "googleRequests": 19,
+    "restaurantWebsiteRequests": 1392
+  },
+  "D1Rerun": false,
+  "w1FreshUntilCET": "2026-11-03T14:37:41.723+01:00",
+  "frozenInputs": {
+    "w1Pack": {
+      "path": ".eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/w1-continuation.pack.json",
+      "sha256": "5755c69ed220bf8d40c82744d191a94a9f35bb0f2cc26edd8a7c1d51bbf31f6f"
+    },
+    "w1Evidence": {
+      "path": ".eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/w1-reviewed-evidence.json",
+      "sha256": "6ce693a92a626249a30c46aa236dc48ab9a9134e8512b28f5d3e2675ef989dd3"
+    },
+    "w2Pack": {
+      "path": ".eval-artifacts/phase3b/g6-development-live/split-resume-20261102/w2-2000.pack.json",
+      "sha256": "e38afaeb40707c94b9feede40e1aa675a90be249f037653b4a8e6a41b2928f09"
+    },
+    "w2CertificationConfig": {
+      "path": ".eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/w2-recertification-config.json",
+      "sha256": "755c57608cace7c8392ff7d11621861f97eec26a3062ca385f04ede148e3b20a"
+    },
+    "D1Review": {
+      "path": ".eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/D1-reviewer-judgment.json",
+      "sha256": "38b48cd53eb7a43e5722c424a1df7155cbc2ad6469914390b58c1cfa10f878ad"
+    },
+    "developmentPublicGETBaseline": 255,
+    "alreadyUsed": 7,
+    "ceiling": 25,
+    "noD1Rerun": true,
+    "latestRunDateVienna": "2026-11-04",
+    "w1OriginalCertificateAt": "2026-11-02T13:37:41.723Z",
+    "w1OriginalExpiresCET": "2026-11-03T14:37:41.723+01:00"
+  },
+  "gates": "All five + strict G2 and original terms control PASS; status before/after empty",
+  "credentials": "Node --env-file in approved Live process only; no key/file inspection"
+}
