@@ -34,6 +34,8 @@ interface Options {
   provider?:"TABELOG"|"TABLECHECK";conflict?:boolean;notStated?:boolean;maxCalls?:number;
   wrongPage?:"SHOP"|"CHANNEL";onQuestion?:(request:ModelRequest)=>Promise<void>|void;
   agentSelectInitial?:boolean;
+  unverifiedHard?:boolean;
+  beforePresent?:()=>Promise<void>;
   beforeTerms?:(deadlineAt:string)=>void;
   afterFactControls?:(url:string)=>void;
   onFactNavigate?:(url:string,signal:AbortSignal)=>Promise<void>;
@@ -72,6 +74,7 @@ export async function bookingTermsComposition(options:Options={}){
         {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:00",raw:"7 PM"}},
         {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:2,source:"EXPLICIT"}},
         {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Shibuya"}}]};
+      if(options.unverifiedHard)(body as {facts:unknown[]}).facts.push({field:"CRITERION",operation:"ASSERT",value:{kind:"CRITERION",text:"kushikatsu",polarity:"POSITIVE",strength:"HARD"}});
       if(options.selectionReplay){
         const value=body as {facts:Array<{field:string;value:Record<string,unknown>}>};
         const target=value.facts[0]!.value;
@@ -88,7 +91,12 @@ export async function bookingTermsComposition(options:Options={}){
     }else if(request.purpose==="restaurant_agent_decide"){
       const context=JSON.parse(request.messages.find(m=>m.role==="user")!.content).context as RestaurantAgentContext;
       const id=context.candidates[0]?.id;
-      if(options.selectionReplay){
+      if(options.unverifiedHard){
+        body=!id?strictAction("SEARCH_RESTAURANTS")
+          :!context.availability[id]?.length?strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1)??[])
+          :context.factInvestigableCandidateIds?.length?strictAction("INVESTIGATE_CANDIDATE_FACTS",context.factInvestigableCandidateIds.slice(0,1))
+          :strictAction("END_READ");
+      }else if(options.selectionReplay){
         if(context.intentDraft?.target?.goal==="AVAILABILITY"&&context.missingBlockingFields.length)body={...strictAction("ASK_USER"),question:"How many people?",relatedFields:context.missingBlockingFields};
         else if(!id)body=strictAction("SEARCH_RESTAURANTS");
         else if(context.intentDraft?.target?.goal==="RECOMMENDATION")body=context.presentation.some(p=>p.eligible)?strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId)):strictAction("INVESTIGATE_CANDIDATE_FACTS",context.factInvestigableCandidateIds?.slice(0,1)??[]);
@@ -102,6 +110,7 @@ export async function bookingTermsComposition(options:Options={}){
       }else body=!id?strictAction("SEARCH_RESTAURANTS") : !context.availability[id]?.length?strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1)??[])
         :(turn!=="INITIAL"||options.agentSelectInitial)&&context.selectedCandidateId!==id?{...strictAction("SELECT_CANDIDATE"),candidateId:id}
         :strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId));
+      if((body as {type:string}).type==="PRESENT_RESULTS")await options.beforePresent?.();
     }else if(request.purpose==="restaurant_page_question"){
       await options.onQuestion?.(request);
       const payload=JSON.parse(request.messages.find(m=>m.role==="user")!.content);
@@ -167,7 +176,7 @@ export async function bookingTermsComposition(options:Options={}){
   const project=async()=>{const raw=await app.getCase("terms-user",caseId);version=raw.case.taskVersion;return withBookingHandoffs(raw,assembly.bookingHandoffs.readPrepared(raw),clock.now().toISOString());};
   async function finished(work:()=>Promise<unknown>){let resolve!:()=>void,readFinished=false;const done=new Promise<void>(r=>resolve=r);const unsubscribe=app.subscribeReadFinished(()=>{readFinished=true;});const unsubscribeUpdate=app.subscribeCaseUpdates(()=>{if(readFinished)resolve();});let timer:ReturnType<typeof setTimeout>|undefined;try{await work();await Promise.race([done,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error("Fixture lifecycle not finished")),15000);})]);}finally{unsubscribe();unsubscribeUpdate();if(timer)clearTimeout(timer);}}
   return {app,assembly,clock,requests,sourceCalls,counted,url,source,timeline,get termsSignal(){return termsSignal;},
-    async initial(){await finished(async()=>{const message=options.selectionReplay?.path==="P2"?source.recommendationRequest:options.selectionReplay?.path==="NAMED"?source.uncheckedBookingRequest+" For two people.":source.initialRequest;const v=await app.createCase("terms-user",message,"initial");caseId=v.case.caseId;conversationId=v.case.conversationId;});return project();},
+    async initial(){await finished(async()=>{const message=options.selectionReplay?.path==="P2"?source.recommendationRequest:options.selectionReplay?.path==="NAMED"?source.uncheckedBookingRequest+" For two people.":source.initialRequest+(options.unverifiedHard?" I require kushikatsu.":"");const v=await app.createCase("terms-user",message,"initial");caseId=v.case.caseId;conversationId=v.case.conversationId;});return project();},
     async select(message?:string){turn="SELECTED";const viewed=await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"selected:"+version,expectedVersion:version,message:message??(options.selectionReplay?.path==="P2"?source.uncheckedBookingRequest:source.bookingFollowups[0]),viewContext:{view:"DETAILS",candidateId:viewed.restaurant.presentedCandidateIds![0]!,comparedCandidateIds:[]}}));return project();},
     async party(){turn="ADD_PARTY";await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"party:"+version,expectedVersion:version,message:source.partyReply}));return project();},
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
