@@ -1,5 +1,9 @@
 # Test and Verification Log
 
+<a id="test-2026-11-02-run-diagnosis-report-stop1"></a>
+
+2026-11-02修订指令，CET口径：诊断报告停止点1仅静态检查JSON/路径/压缩与解压SHA/既有评价到原产物绑定/链接/diff范围。输入22条为20份result+2份原中断包，5条主校准是其中子集；9份多回合原件与24个来源文件只读。四组99→128等时间仅核对字段可用性，未生成运行诊断、未开展人工一致率校准；未跑五门禁、未执行历史运行或评价器。标签文件未读，判定/样本/代码不改，真实模型/Google/网站/Live0、不读.env。推分支停复核。[静态记录与设计](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。
+
 2026-11-01 CET：C B1条款20秒保留补丁已全绿，按用户批准合main。原5cda产品4红→677334e5同6项绿，96494220同步main1d65b8e8；fff001f2冻结764项，默认1327/1327、Chromium187/187（130.452秒）、标准/严格G2各5/5、12页PASS，9步前后净树。独立7帧开始均>20000ms，旧14帧可见交接不变；逐I/O/model重核且deadline减20秒取消，close保留。A原三文件/B G3/Prompt/State不改；G1文件范围与助手实际追加延迟已附报告（串行5.305ms，注入80ms后88.073ms；并发另列），非Live性能。510账目/154旧产物保留、累计不变，真实调用0，不读.env。正常发布main、ls-remote核对后通知A待命，SHA以Git回执为准。 [报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)。
 
 2026-11-01 CET：C已在5cda89b7产品原字节取得4个保留区红灯，677334e5同6项实际组装全部绿；20001可开始、20000零取页/模型、两次模型间及语言导航前重核、deadline减20秒主动取消，链接保留。固定I/O助手消息等待约5.3ms，注入2×40ms模型等待后约88.1ms，均为实际持久追加观察。96494220同步main1d65b8e8，保留4处双方文档/16项main源码及账本510条、累计不变；不改A/B受保护文件。待冻结合并候选五门禁/严格G2及独立起始时刻核验，真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。

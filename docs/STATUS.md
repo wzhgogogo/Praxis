@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-02指令修订／CET口径：运行诊断报告只完成停止点1盘点设计，draft / not integrated。从main efeab254开codex/chore-run-diagnosis-report；13环节及体验指标逐项列来源、到达与独立判断分开，JSON草案/5条P1-F及22条E1/9份多回合产物路径SHA已登记。神乐坂人工查位与既有发现漏斗有分歧；多回合独立判定、真实用户时间与追问Gold不足保留未评。另确认新目录默认glob与生产判断禁入范围需复核；无实现/校准/五门禁运行，不改A/产品/判定/Gold，真实调用0、不读.env。推分支后停复核，不合main。[盘点与设计](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。
+
 2026-11-01 CET：C B1条款20秒保留补丁已全绿，按用户批准合main。原5cda产品4红→677334e5同6项绿，96494220同步main1d65b8e8；fff001f2冻结764项，默认1327/1327、Chromium187/187（130.452秒）、标准/严格G2各5/5、12页PASS，9步前后净树。独立7帧开始均>20000ms，旧14帧可见交接不变；逐I/O/model重核且deadline减20秒取消，close保留。A原三文件/B G3/Prompt/State不改；G1文件范围与助手实际追加延迟已附报告（串行5.305ms，注入80ms后88.073ms；并发另列），非Live性能。510账目/154旧产物保留、累计不变，真实调用0，不读.env。正常发布main、ls-remote核对后通知A待命，SHA以Git回执为准。 [报告](../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)。
 
 2026-11-01 CET：C已在5cda89b7产品原字节取得4个保留区红灯，677334e5同6项实际组装全部绿；20001可开始、20000零取页/模型、两次模型间及语言导航前重核、deadline减20秒主动取消，链接保留。固定I/O助手消息等待约5.3ms，注入2×40ms模型等待后约88.1ms，均为实际持久追加观察。96494220同步main1d65b8e8，保留4处双方文档/16项main源码及账本510条、累计不变；不改A/B受保护文件。待冻结合并候选五门禁/严格G2及独立起始时刻核验，真实调用0、不读.env。 [计划](../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。
