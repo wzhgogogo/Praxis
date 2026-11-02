@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-02 CET：A按用户批准把浏览器fixture生命周期修复单独从main549061e8提取。两份harness来自获复核49e37c55，先晚调度回归配main旧helper取红，再同断言绿；不带G6 Runner/评价器/产品/版本，不改budget原值、不加载.env，真实调用0。完整净树五门禁/严格G2通过后直接发布main并通知B/C，随后G6同步。 [计划](../.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/plan.md)。
+
 2026-11-02 CET：运行诊断8bc20f8a已独立复核通过并获用户合入批准，五门禁后普通合入本地main814dfa6c。最新远端efeab254本已在获批祖先中，无新增同步代码；冻结862项、五项前后净树，默认1342/1342、Chromium187/187及type/arch/build全通过。合并树与获批版本完全相同，其后仅追加发布文档，最终main SHA以正常push/ls-remote回执为准，完成后待命。原2/5校准、44条/27店0身份补全和Konya未确认结论保留，A真实grader红灯对接仍延期；产品/评测输入/历史原件不改，真实调用0、不读.env。[合入与门禁记录](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/report.md)。
 
 2026-11-02 CET：运行诊断复核三项补充完成，待独立复核，不合main。E1三份见证登记44条/27店全量盘点，无合格的跨来源逐字电话/完整日文地址对照；按用户追加决定登记原SHA不变，不重跑22次Evaluator。原Konya“已归因到评测器”撤回，改为疑似匹配、缺独立身份证据未确认。单次13份报告摘要均第27行结束，原始JSON在附录；覆盖汇总另表，含已交付且按SUPPORTED/未评分层。原判定/首点/漏斗/体验不变，原始校准仍2/5，8时间点不变；h002/中目黑说明旧人工混淆覆盖和首点。3c9f3289冻结862项，五门禁前后净树：默认1342/1342、Chromium187/187及type/arch/build通过；旧114交付SHA及22原评价保留。A真实grader红灯对接仍延期，产品/评价器/Gold不改，真实调用0、不读.env。仅推原工作分支交复核。[补充报告](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。

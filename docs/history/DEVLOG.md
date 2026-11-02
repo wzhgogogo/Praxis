@@ -1,5 +1,8 @@
 # Development Log
 
+<a id="dev-browser-fixture-lifecycle-main-20261102"></a>
+2026-11-02 CET：A按用户批准把浏览器fixture生命周期修复单独从main549061e8提取。两份harness来自获复核49e37c55，先晚调度回归配main旧helper取红，再同断言绿；不带G6 Runner/评价器/产品/版本，不改budget原值、不加载.env，真实调用0。完整净树五门禁/严格G2通过后直接发布main并通知B/C，随后G6同步。 [计划](../../.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/plan.md)。
+
 <a id="dev-2026-11-02-run-diagnosis-report-stop1"></a>
 
 2026-11-02修订指令，CET口径：运行诊断报告从最新main efeab254独立开分支，仅完成停止点1设计/字段盘点。原判定照搬、观察到达与通过分开，体验指标不作门槛；登记5条主校准、22条冻结输入和9份已合main多回合产物，不重跑/重评。保留首点口径分歧、缺逐环节独立结论/消息时钟/追问Gold等未评边界，指出新目录glob及生产判断禁入范围缺口待复核。仅文档/草案，不碰A未合分支、产品/Prompt/Schema/State/判定，真实调用0、不读.env；推分支后停止，不合main。[设计](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。
