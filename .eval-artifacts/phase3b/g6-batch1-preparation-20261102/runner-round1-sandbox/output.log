@@ -1,0 +1,126 @@
+
+> praxis-zhixing@0.1.0 test:g6:assembly
+> node --import ./scripts/test-filesystem-guard.mjs --import tsx --test --test-concurrency=1 src/eval/restaurant/agent-loop/g6/*.test.ts
+
+✖ G6 capability RENAMED: observed controls reach current response-bound presentation (1969.659917ms)
+✖ G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation (1771.938917ms)
+✔ G6 capability PRICE_MATCH: only applicable original quotation supports HARD budget MET (569.233334ms)
+✔ G6 capability PRICE_PARTY: only applicable original quotation supports HARD budget MET (531.618292ms)
+✔ G6 capability PRICE_DATE: only applicable original quotation supports HARD budget MET (523.363333ms)
+✔ G6 capability PRICE_MEAL: only applicable original quotation supports HARD budget MET (520.735ms)
+✔ G6 capability G4: same-ID Japanese lookup drives the third source query to the same outlet (521.849ms)
+✖ G6 capability G1 Web: authenticated question acquires a page through the production read assembly (510.238792ms)
+✖ G6 capability B1 fee and feedback: source-acquired handoff survives authenticated departure and user report (518.785709ms)
+✔ G6 independent evaluator accepts original slot/link/identity/page binding and never consults production eligibility (1.315375ms)
+✔ G6 independent S0 control: post-run slot absent (0.444417ms)
+✔ G6 independent S0 control: workflow URL (0.117167ms)
+✔ G6 independent S0 control: booked copy (0.1615ms)
+✔ G6 independent S0 control: invented date (0.098625ms)
+✔ G6 independent S0 control: other branch (0.102625ms)
+✔ G6 independent S0 control: other outlet quote (0.144708ms)
+✔ G6 independent S0 control: previous run quote (0.0915ms)
+✔ G6 independent S0 control: review quote (0.090666ms)
+✔ G6 independent S0 control: uncited yes (0.093084ms)
+✔ G6 independent S0 control: allergy guarantee (0.133667ms)
+✔ G6 independent S0 control: unauthorized actual request (0.07475ms)
+✔ G6 independent S0 control: unsupported SOFT satisfaction (0.061ms)
+✔ G6 missing recording/witness is NOT_EVALUATED, not a fabricated-claim verdict or a zero-S0 certification (0.065708ms)
+✔ G6 novel paraphrase cannot earn zero-S0 certification solely by citing a correct sentence (0.057208ms)
+✔ G6 independent HARD price control: wrong date (0.120083ms)
+✔ G6 independent HARD price control: wrong partySize (0.041167ms)
+✔ G6 independent HARD price control: wrong meal (0.053084ms)
+✔ G6 independent no-delivery repeats the witness and records a still-available witness as a capability miss (0.082625ms)
+✖ G6 capability Guard: actual production assembly admits current public data and blocks workflow before source transport (5.972542ms)
+✔ G6 capability F6: source time crossing leaves only bounded honest ending in the actual root composition (781.83175ms)
+✔ G6 capability F6 selected-outlet terms: C production assembly preserves B1 at the strict twenty-second boundary (1134.742625ms)
+✔ G6 serial Runner obtains G1 pages through Live assembly, records all channels, checks each slot and stops before the next slot on independent S0 (1431.288459ms)
+✔ G6 frozen pack refuses changed bytes before constructing any source transport (1.267125ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 28
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12269.339666
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:1228
+✖ G6 capability RENAMED: observed controls reach current response-bound presentation (1969.659917ms)
+  AssertionError [ERR_ASSERTION]: Root production composition must deliver after source controls are observed
+  + actual - expected
+  
+  + 'FAILED'
+  - 'PRESENT_RESULTS'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:26:12)
+      at control (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:12:51)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:25:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:1228
+✖ G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation (1771.938917ms)
+  AssertionError [ERR_ASSERTION]: Root production composition must deliver after source controls are observed
+  + actual - expected
+  
+  + 'FAILED'
+  - 'PRESENT_RESULTS'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:26:12)
+      at control (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:12:51)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:25:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:5022
+✖ G6 capability G1 Web: authenticated question acquires a page through the production read assembly (510.238792ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:6348
+✖ G6 capability B1 fee and feedback: source-acquired handoff survives authenticated departure and user report (518.785709ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/guard-reserve.test.ts:1:919
+✖ G6 capability Guard: actual production assembly admits current public data and blocks workflow before source transport (5.972542ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1918:21)
+      at listenInCluster (node:net:1997:12)
+      at node:net:2206:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
