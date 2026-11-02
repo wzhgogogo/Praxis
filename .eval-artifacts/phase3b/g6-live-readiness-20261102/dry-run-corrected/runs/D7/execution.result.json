@@ -1,0 +1,3607 @@
+{
+  "schemaVersion": "phase3b-g6-run@1",
+  "mode": "FIXTURE",
+  "runId": "g6-D7-1793685640000-6",
+  "view": {
+    "mode": "LIVE_READ",
+    "case": {
+      "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "title": "Could you find a kushikatsu place near Akabane with a table for 2 on …",
+      "status": "NEEDS_YOU",
+      "phase": "PRESENT_RESULTS",
+      "taskVersion": 6,
+      "updatedAt": "2026-11-03T06:00:40.000Z"
+    },
+    "conversation": {
+      "id": "conversation:adfd4a4bd5922ec763f289d8",
+      "messages": [
+        {
+          "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+          "role": "USER",
+          "content": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+          "createdAt": "2026-11-03T06:00:40.000Z"
+        },
+        {
+          "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+          "role": "ASSISTANT",
+          "content": "Searching around Shibuya.\nThe case is now present results.",
+          "createdAt": "2026-11-03T06:00:40.000Z"
+        }
+      ]
+    },
+    "restaurant": {
+      "intentDraft": {
+        "area": {
+          "query": "Shibuya"
+        },
+        "date": "2026-11-11",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "restaurant in Shibuya",
+          "selectionScope": "OPEN_ENDED",
+          "requestedResultCount": 1
+        },
+        "criteria": [],
+        "timezone": "Asia/Tokyo",
+        "partySize": 2,
+        "timeWindow": {
+          "latest": "19:00",
+          "earliest": "19:00"
+        },
+        "schemaVersion": "3",
+        "partySizeSource": "EXPLICIT",
+        "temporalResolution": {
+          "date": {
+            "basis": "EXPLICIT_DATE",
+            "expression": "November 11, 2026",
+            "resolvedDate": "2026-11-11"
+          },
+          "timezone": "Asia/Tokyo",
+          "timeWindow": {
+            "basis": "EXPLICIT_CLOCK",
+            "expression": "7 PM",
+            "resolvedTimeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            }
+          },
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-11-03T06:00:40.000Z"
+        }
+      },
+      "searchLocation": {
+        "label": "Shibuya",
+        "latitude": 35.66,
+        "longitude": 139.7,
+        "radiusMeters": 1000,
+        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+      },
+      "missingRequiredFields": [],
+      "requestRevision": 3,
+      "readyCandidateIds": [
+        "praxis:restaurant:bd287442c716ac7439273cc9"
+      ],
+      "progress": {
+        "active": false,
+        "stopped": false,
+        "discoveredCount": 1,
+        "checkedCount": 1
+      },
+      "bookingFeedbackAvailable": false,
+      "candidates": [
+        {
+          "warnings": [],
+          "restaurant": {
+            "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+            "address": "1-2-3 Shibuya Tokyo",
+            "sourceIds": {
+              "phone": "03-1234-5678",
+              "googlePlaces": "g6-development-outlet",
+              "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+              "discoverySourceId": "google-places"
+            },
+            "outletName": "G6 Development Sushi",
+            "provenance": {
+              "address": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+              "sourceIds": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+              "outletName": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa"
+            },
+            "coordinates": {
+              "lat": 35.66,
+              "lng": 139.7
+            }
+          },
+          "matchReasons": [
+            "Address explicitly matches requested area: Shibuya"
+          ],
+          "executionConfidence": "LOW",
+          "distanceObservation": {
+            "meters": 0,
+            "centerBasis": "NAMED_PLACE_RADIUS",
+            "source": "GOOGLE_PLACES"
+          }
+        }
+      ],
+      "availability": {
+        "praxis:restaurant:bd287442c716ac7439273cc9": [
+          {
+            "id": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+            "source": "TABELOG",
+            "dateTime": "2026-11-11T19:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "checkedAt": "2026-11-03T06:00:40.000Z",
+            "expiresAt": "2026-11-03T06:00:40.000Z",
+            "partySize": 2,
+            "bookingMode": "REQUEST",
+            "restaurantId": "praxis:restaurant:bd287442c716ac7439273cc9",
+            "executionMode": "BROWSER",
+            "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+            "bookingRecheckRequired": true
+          }
+        ]
+      },
+      "availabilityChecks": {
+        "praxis:restaurant:bd287442c716ac7439273cc9": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-11-03T06:00:40.000Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:470bff10ac94a3290080fa89",
+            "evidence:restaurant:tabelog-availability:2f9eae16293422e6ab8c2a64"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "sourceAttempts": [
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+          "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      "readEvidence": [
+        {
+          "kind": "DISCOVERY",
+          "claims": {
+            "types": [
+              "restaurant"
+            ],
+            "address": "1-2-3 Shibuya Tokyo",
+            "placeId": "g6-development-outlet",
+            "areaMatch": true,
+            "areaQuery": "Shibuya",
+            "outletName": "G6 Development Sushi",
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "distanceMeters": 0,
+            "availabilityPath": "DIRECT_SOURCE_PAGE",
+            "evaluationLocationLabel": "Shibuya"
+          },
+          "provider": "GOOGLE_PLACES",
+          "evidenceId": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+          "observedAt": "2026-11-03T06:00:40.000Z",
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "sourceEntityId": "g6-development-outlet",
+          "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+        },
+        {
+          "kind": "ENTITY_MATCH",
+          "claims": {
+            "address": "1-2-3 Shibuya Tokyo",
+            "placeId": "g6-development-outlet",
+            "outletName": "G6 Development Sushi"
+          },
+          "provider": "GOOGLE_PLACES",
+          "evidenceId": "evidence:restaurant:google-entity:56f9aadd501b4a32c353f0aa",
+          "observedAt": "2026-11-03T06:00:40.000Z",
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "entityMatch": {
+            "matchedBy": [
+              "GOOGLE_PLACE_ID"
+            ],
+            "confidence": "HIGH"
+          },
+          "sourceEntityId": "g6-development-outlet",
+          "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+        },
+        {
+          "kind": "RESTAURANT_FACT",
+          "claims": {
+            "websiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+            "restaurantTypeFacts": [
+              "restaurant"
+            ]
+          },
+          "provider": "GOOGLE_PLACES",
+          "evidenceId": "evidence:restaurant:google-facts:f8d29921aa3e860ce502236e",
+          "observedAt": "2026-11-03T06:00:40.000Z",
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "sourceEntityId": "g6-development-outlet",
+          "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+        },
+        {
+          "kind": "ENTITY_MATCH",
+          "claims": {
+            "outletName": "G6 Development Sushi"
+          },
+          "provider": "TABELOG",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          "evidenceId": "evidence:restaurant:tabelog-entity-match:470bff10ac94a3290080fa89",
+          "observedAt": "2026-11-03T06:00:40.000Z",
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "entityMatch": {
+            "matchedBy": [
+              "EXACT_PHONE"
+            ],
+            "confidence": "HIGH"
+          },
+          "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+          "requestFingerprint": "e75c743bb1e97db77cf6db7955f1930d768a1b933c4a265c202bf1b91114870e"
+        },
+        {
+          "kind": "AVAILABILITY",
+          "claims": {
+            "date": "2026-11-11",
+            "partySize": 2,
+            "visibleSlots": [
+              "19:00"
+            ],
+            "receptionMode": "RESERVATION_SUPPORTED",
+            "inventoryStatus": "AVAILABLE"
+          },
+          "provider": "TABELOG",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          "evidenceId": "evidence:restaurant:tabelog-availability:2f9eae16293422e6ab8c2a64",
+          "observedAt": "2026-11-03T06:00:40.000Z",
+          "artifactRef": {
+            "kind": "DOM_EXCERPT",
+            "reference": "sha256:a68278fc290530a1da303eecff33c61a898444b1854e533454b0b2ceac991cff"
+          },
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "entityMatch": {
+            "matchedBy": [
+              "EXACT_PHONE"
+            ],
+            "confidence": "HIGH"
+          },
+          "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+          "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+          "requestFingerprint": "76873c9eae4f27a6ca7428143038aedc95852122638a8733f45e8a5df75a9d9d",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      ],
+      "currentFactEvidence": [
+        {
+          "kind": "RESTAURANT_FACT",
+          "claims": {
+            "websiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+            "restaurantTypeFacts": [
+              "restaurant"
+            ]
+          },
+          "provider": "GOOGLE_PLACES",
+          "evidenceId": "evidence:restaurant:google-facts:f8d29921aa3e860ce502236e",
+          "observedAt": "2026-11-03T06:00:40.000Z",
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "sourceEntityId": "g6-development-outlet",
+          "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+        }
+      ],
+      "presentedCandidateIds": [
+        "praxis:restaurant:bd287442c716ac7439273cc9"
+      ],
+      "conditionStates": {
+        "praxis:restaurant:bd287442c716ac7439273cc9": []
+      },
+      "viewedCandidateIds": [],
+      "shortlistCandidateIds": [],
+      "resultBatchTarget": {
+        "met": true,
+        "candidateCount": 1
+      },
+      "sourceReadContext": {
+        "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+        "startedAt": "2026-11-03T06:00:40.000Z"
+      },
+      "bookingHandoffs": [
+        {
+          "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+          "offerId": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+          "provider": "TABELOG",
+          "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111",
+          "directLabel": "Book on Tabelog",
+          "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+          "checkedAt": "2026-11-03T06:00:40.000Z",
+          "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+          "platformFee": {
+            "provider": "TABELOG",
+            "channel": "ENGLISH_BOOKING",
+            "amountPerPersonJPY": 440,
+            "userCancellationRefund": false,
+            "restaurantCancellationRefund": true,
+            "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+            "sourceUrl": "https://tabelog.com/en/help",
+            "checkedOn": "2026-10-29",
+            "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+            "quotes": [
+              "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+              "Please note that no refunds will be issued for cancellations made for customer reasons.",
+              "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+            ]
+          },
+          "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+          "linkCarries": [
+            "DATE",
+            "TIME",
+            "PARTY_SIZE"
+          ],
+          "sourceSelection": "UNKNOWN",
+          "terms": []
+        }
+      ]
+    },
+    "artifacts": [
+      {
+        "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:3",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "domain": "restaurant",
+        "type": "CANDIDATES",
+        "sourceVersion": 6,
+        "data": {
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+                "address": "1-2-3 Shibuya Tokyo",
+                "sourceIds": {
+                  "phone": "03-1234-5678",
+                  "googlePlaces": "g6-development-outlet",
+                  "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "G6 Development Sushi",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+                  "sourceIds": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+                  "outletName": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa"
+                },
+                "coordinates": {
+                  "lat": 35.66,
+                  "lng": 139.7
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: Shibuya"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 0,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            }
+          ],
+          "availability": {
+            "praxis:restaurant:bd287442c716ac7439273cc9": [
+              {
+                "id": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-11T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-03T06:00:40.000Z",
+                "expiresAt": "2026-11-03T06:00:40.000Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:bd287442c716ac7439273cc9",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+                "bookingRecheckRequired": true
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "activities": [
+      {
+        "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+        },
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "display": {
+          "title": "Request updated",
+          "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:108b3907-defe-4f2e-be0e-13ff47ac15e0",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:108b3907-defe-4f2e-be0e-13ff47ac15e0"
+        },
+        "type": "SEARCH_COMPLETED",
+        "display": {
+          "title": "Restaurant search completed",
+          "detail": "0 discovery candidate(s) are ready for evidence checks."
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:a9c8245b-f517-4b5b-bc12-510dfac82f98",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:a9c8245b-f517-4b5b-bc12-510dfac82f98"
+        },
+        "type": "SEARCH_COMPLETED",
+        "display": {
+          "title": "Restaurant search completed",
+          "detail": "0 discovery candidate(s) are ready for evidence checks."
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:de7b5d26-9977-4809-a53f-d5d280864d1c",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:de7b5d26-9977-4809-a53f-d5d280864d1c"
+        },
+        "type": "SEARCH_COMPLETED",
+        "display": {
+          "title": "Restaurant search completed",
+          "detail": "1 discovery candidate(s) are ready for evidence checks."
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:bffc8a28-46e3-4dab-b666-c0d05774e363",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:bffc8a28-46e3-4dab-b666-c0d05774e363"
+        },
+        "type": "AVAILABILITY_CHECKED",
+        "display": {
+          "title": "Availability checked",
+          "detail": "1 evidence-grounded availability offer(s) were observed."
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:3dbaca56-3548-4a4a-a112-1ca4bf4394c4",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:3dbaca56-3548-4a4a-a112-1ca4bf4394c4"
+        },
+        "type": "RESULTS_PRESENTED",
+        "display": {
+          "title": "Read-only results presented",
+          "detail": "1 evidence-grounded result(s) are ready."
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z"
+      }
+    ],
+    "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+  },
+  "execution": {
+    "schemaVersion": "1",
+    "mode": "WEB_READ",
+    "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+    "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "materializedCase": {
+      "semantic": {
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "restaurant in Shibuya",
+          "selectionScope": "OPEN_ENDED",
+          "requestedResultCount": 1
+        },
+        "date": {
+          "value": "2026-11-11"
+        },
+        "party_size": 2,
+        "party_size_source": "EXPLICIT",
+        "time": {
+          "value": "19:00"
+        },
+        "location": {
+          "value": "Shibuya",
+          "relation": "NEAR"
+        },
+        "criteria": []
+      }
+    },
+    "requestMetadata": {
+      "sha256": "5782368be59fb5a3c84720d5eaa0c852eec93561f68450d23ea164241efc950a"
+    },
+    "events": [
+      {
+        "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "SEMANTIC_PROPOSAL_COMPILED",
+          "patch": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "November 11, 2026",
+                "resolvedDate": "2026-11-11"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-03T06:00:40.000Z"
+            }
+          },
+          "partySizeSourceMessageRequestId": "user:g6-create"
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "trace": {
+          "actor": "USER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:108b3907-defe-4f2e-be0e-13ff47ac15e0",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "SEARCH_COMPLETED",
+          "request": {
+            "intent": {
+              "area": {
+                "query": "Shibuya"
+              },
+              "date": "2026-11-11",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "restaurant in Shibuya",
+                "selectionScope": "OPEN_ENDED",
+                "requestedResultCount": 1
+              },
+              "criteria": [],
+              "timezone": "Asia/Tokyo",
+              "partySize": 2,
+              "timeWindow": {
+                "latest": "19:00",
+                "earliest": "19:00"
+              }
+            },
+            "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+          },
+          "evidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.66,
+                "longitude": 139.7,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "g6-station",
+                "resolvedPlaceName": "Shibuya",
+                "resolvedPlaceTypes": [
+                  "train_station"
+                ],
+                "locationNameExactMatch": true,
+                "locationResolutionQuery": "Shibuya",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "80f0d326761be0defac11d7e2791d1a82eb300a5bb504567e0e9bc2a05162f4c",
+              "observedAt": "2026-11-03T06:00:40.000Z",
+              "sourceEntityId": "g6-station",
+              "requestFingerprint": "4e549d6bfe1933d1690f56f2fa012978670635645ae417e5bb2cd874eb5a01e3"
+            }
+          ],
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "provider": "TABELOG",
+            "latencyMs": 2,
+            "failureCode": "DIRECTORY_NATIVE_DISCOVERY_FAILED",
+            "googleRequests": {
+              "limit": 40,
+              "total": 1,
+              "discovery": 0,
+              "placeDetails": 0,
+              "namedPlaceResolution": 1,
+              "reverseAddressObservation": 0
+            },
+            "nativeDiscoveryFunnel": {
+              "source": "TABELOG",
+              "accepted": 0,
+              "batchCap": 5,
+              "rejected": [],
+              "pagesRead": 0,
+              "retrieval": {
+                "history": [],
+                "rewrites": 0,
+                "regionPages": 1,
+                "retrievalPages": 0
+              },
+              "batchEnded": true,
+              "sourceEnded": true,
+              "parsedOutlets": 0,
+              "sourcePageCap": 7,
+              "rawSourceLinks": 0,
+              "regionEntrances": {
+                "flowId": "8480101b-6fb8-4bb8-b6ab-1447b06ba67b",
+                "entries": [],
+                "sourceId": "tabelog",
+                "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+              },
+              "sourceDetailCap": 10,
+              "sourceElapsedMs": 1,
+              "sourceExhausted": "UNKNOWN",
+              "inspectedOutlets": 0,
+              "batchLimitReached": false,
+              "progressionReason": "SOURCE_FAILURE",
+              "deferredByBatchCap": [],
+              "sourceElapsedCapMs": 90000,
+              "listingObservations": [],
+              "sourceDetailAttempts": 0,
+              "sourceTimeLimitReached": false
+            }
+          },
+          "candidates": [],
+          "continuation": {
+            "exhausted": false,
+            "pagesRead": 0,
+            "discoveryPlan": {
+              "cursor": 1,
+              "entries": [
+                {
+                  "query": {
+                    "category": "restaurant",
+                    "location": {
+                      "label": "Shibuya",
+                      "latitude": 35.66,
+                      "longitude": 139.7,
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                    },
+                    "positiveCriteria": []
+                  },
+                  "sourceId": "tabelog"
+                },
+                {
+                  "query": {
+                    "category": "restaurant",
+                    "location": {
+                      "label": "Shibuya",
+                      "latitude": 35.66,
+                      "longitude": 139.7,
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                    },
+                    "positiveCriteria": []
+                  },
+                  "sourceId": "tablecheck"
+                },
+                {
+                  "query": {
+                    "category": "restaurant",
+                    "location": {
+                      "label": "Shibuya",
+                      "latitude": 35.66,
+                      "longitude": 139.7,
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                    },
+                    "positiveCriteria": []
+                  },
+                  "sourceId": "google-places"
+                }
+              ]
+            },
+            "sourceProgress": {
+              "sourceId": "tabelog",
+              "elapsedMs": 1,
+              "pagesRead": 0,
+              "retrieval": {
+                "history": [],
+                "rewrites": 0,
+                "regionPages": 1,
+                "retrievalPages": 0
+              },
+              "detailAttempts": 0,
+              "regionEntrances": {
+                "flowId": "8480101b-6fb8-4bb8-b6ab-1447b06ba67b",
+                "entries": [],
+                "sourceId": "tabelog",
+                "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+              },
+              "pendingSourceIds": [],
+              "inspectedSourceIds": [],
+              "visitedListingUrls": [],
+              "pendingSourceEntries": []
+            },
+            "usedPageTokens": [],
+            "deferredSources": [],
+            "lastFailureCode": "DIRECTORY_NATIVE_DISCOVERY_FAILED",
+            "locationContext": {
+              "label": "Shibuya",
+              "latitude": 35.66,
+              "longitude": 139.7,
+              "radiusMeters": 1000,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS"
+            },
+            "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"restaurant in Shibuya\",\"selectionScope\":\"OPEN_ENDED\",\"requestedResultCount\":1},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"Shibuya\"},\"criteria\":[]}",
+            "currentDiscoveryBatch": {
+              "sourceId": "tabelog",
+              "candidateIds": []
+            }
+          }
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "trace": {
+          "actor": "ADAPTER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:restaurant-agent:108b3907-defe-4f2e-be0e-13ff47ac15e0",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:a9c8245b-f517-4b5b-bc12-510dfac82f98",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "SEARCH_COMPLETED",
+          "request": {
+            "intent": {
+              "area": {
+                "query": "Shibuya"
+              },
+              "date": "2026-11-11",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "restaurant in Shibuya",
+                "selectionScope": "OPEN_ENDED",
+                "requestedResultCount": 1
+              },
+              "criteria": [],
+              "timezone": "Asia/Tokyo",
+              "partySize": 2,
+              "timeWindow": {
+                "latest": "19:00",
+                "earliest": "19:00"
+              }
+            },
+            "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "continuation": {
+              "exhausted": false,
+              "pagesRead": 0,
+              "discoveryPlan": {
+                "cursor": 1,
+                "entries": [
+                  {
+                    "query": {
+                      "category": "restaurant",
+                      "location": {
+                        "label": "Shibuya",
+                        "latitude": 35.66,
+                        "longitude": 139.7,
+                        "radiusMeters": 1000,
+                        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                      },
+                      "positiveCriteria": []
+                    },
+                    "sourceId": "tabelog"
+                  },
+                  {
+                    "query": {
+                      "category": "restaurant",
+                      "location": {
+                        "label": "Shibuya",
+                        "latitude": 35.66,
+                        "longitude": 139.7,
+                        "radiusMeters": 1000,
+                        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                      },
+                      "positiveCriteria": []
+                    },
+                    "sourceId": "tablecheck"
+                  },
+                  {
+                    "query": {
+                      "category": "restaurant",
+                      "location": {
+                        "label": "Shibuya",
+                        "latitude": 35.66,
+                        "longitude": 139.7,
+                        "radiusMeters": 1000,
+                        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                      },
+                      "positiveCriteria": []
+                    },
+                    "sourceId": "google-places"
+                  }
+                ]
+              },
+              "sourceProgress": {
+                "sourceId": "tabelog",
+                "elapsedMs": 1,
+                "pagesRead": 0,
+                "retrieval": {
+                  "history": [],
+                  "rewrites": 0,
+                  "regionPages": 1,
+                  "retrievalPages": 0
+                },
+                "detailAttempts": 0,
+                "regionEntrances": {
+                  "flowId": "8480101b-6fb8-4bb8-b6ab-1447b06ba67b",
+                  "entries": [],
+                  "sourceId": "tabelog",
+                  "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+                },
+                "pendingSourceIds": [],
+                "inspectedSourceIds": [],
+                "visitedListingUrls": [],
+                "pendingSourceEntries": []
+              },
+              "usedPageTokens": [],
+              "deferredSources": [],
+              "lastFailureCode": "DIRECTORY_NATIVE_DISCOVERY_FAILED",
+              "locationContext": {
+                "label": "Shibuya",
+                "latitude": 35.66,
+                "longitude": 139.7,
+                "radiusMeters": 1000,
+                "areaMatchBasis": "NAMED_PLACE_RADIUS"
+              },
+              "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"restaurant in Shibuya\",\"selectionScope\":\"OPEN_ENDED\",\"requestedResultCount\":1},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"Shibuya\"},\"criteria\":[]}",
+              "currentDiscoveryBatch": {
+                "sourceId": "tabelog",
+                "candidateIds": []
+              }
+            }
+          },
+          "evidence": [],
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "provider": "TABLECHECK",
+            "latencyMs": 1,
+            "failureCode": "AGENT_EXECUTION_FAILED",
+            "googleRequests": {
+              "limit": 40,
+              "total": 1,
+              "discovery": 0,
+              "placeDetails": 0,
+              "namedPlaceResolution": 1,
+              "reverseAddressObservation": 0
+            },
+            "nativeDiscoveryFunnel": {
+              "source": "TABLECHECK",
+              "accepted": 0,
+              "batchCap": 5,
+              "rejected": [],
+              "pagesRead": 0,
+              "retrieval": {
+                "history": [],
+                "rewrites": 0,
+                "selection": {
+                  "reason": "General retrieval: no positive criteria.",
+                  "accepted": true
+                },
+                "regionPages": 0,
+                "retrievalPages": 0
+              },
+              "batchEnded": true,
+              "sourceEnded": true,
+              "parsedOutlets": 0,
+              "sourcePageCap": 3,
+              "rawSourceLinks": 0,
+              "sourceDetailCap": 10,
+              "sourceElapsedMs": 0,
+              "sourceExhausted": "UNKNOWN",
+              "inspectedOutlets": 0,
+              "batchLimitReached": false,
+              "progressionReason": "SOURCE_FAILURE",
+              "deferredByBatchCap": [],
+              "sourceElapsedCapMs": 90000,
+              "listingObservations": [],
+              "sourceDetailAttempts": 0,
+              "sourceTimeLimitReached": false
+            }
+          },
+          "candidates": [],
+          "continuation": {
+            "exhausted": false,
+            "pagesRead": 0,
+            "discoveryPlan": {
+              "cursor": 2,
+              "entries": [
+                {
+                  "query": {
+                    "category": "restaurant",
+                    "location": {
+                      "label": "Shibuya",
+                      "latitude": 35.66,
+                      "longitude": 139.7,
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                    },
+                    "positiveCriteria": []
+                  },
+                  "sourceId": "tabelog"
+                },
+                {
+                  "query": {
+                    "category": "restaurant",
+                    "location": {
+                      "label": "Shibuya",
+                      "latitude": 35.66,
+                      "longitude": 139.7,
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                    },
+                    "positiveCriteria": []
+                  },
+                  "sourceId": "tablecheck"
+                },
+                {
+                  "query": {
+                    "category": "restaurant",
+                    "location": {
+                      "label": "Shibuya",
+                      "latitude": 35.66,
+                      "longitude": 139.7,
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                    },
+                    "positiveCriteria": []
+                  },
+                  "sourceId": "google-places"
+                }
+              ],
+              "textRetrieval": {
+                "reason": "General retrieval: no positive criteria.",
+                "accepted": true
+              }
+            },
+            "sourceProgress": {
+              "sourceId": "tablecheck",
+              "elapsedMs": 0,
+              "pagesRead": 0,
+              "retrieval": {
+                "history": [],
+                "rewrites": 0,
+                "selection": {
+                  "reason": "General retrieval: no positive criteria.",
+                  "accepted": true
+                },
+                "regionPages": 0,
+                "retrievalPages": 0
+              },
+              "detailAttempts": 0,
+              "pendingSourceIds": [],
+              "inspectedSourceIds": [],
+              "visitedListingUrls": [],
+              "pendingSourceEntries": []
+            },
+            "usedPageTokens": [],
+            "deferredSources": [
+              {
+                "progress": {
+                  "sourceId": "tabelog",
+                  "elapsedMs": 1,
+                  "pagesRead": 0,
+                  "retrieval": {
+                    "history": [],
+                    "rewrites": 0,
+                    "regionPages": 1,
+                    "retrievalPages": 0
+                  },
+                  "detailAttempts": 0,
+                  "regionEntrances": {
+                    "flowId": "8480101b-6fb8-4bb8-b6ab-1447b06ba67b",
+                    "entries": [],
+                    "sourceId": "tabelog",
+                    "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+                  },
+                  "pendingSourceIds": [],
+                  "inspectedSourceIds": [],
+                  "visitedListingUrls": [],
+                  "pendingSourceEntries": []
+                },
+                "pagesRead": 0,
+                "usedPageTokens": []
+              }
+            ],
+            "lastFailureCode": "AGENT_EXECUTION_FAILED",
+            "locationContext": {
+              "label": "Shibuya",
+              "latitude": 35.66,
+              "longitude": 139.7,
+              "radiusMeters": 1000,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS"
+            },
+            "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"restaurant in Shibuya\",\"selectionScope\":\"OPEN_ENDED\",\"requestedResultCount\":1},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"Shibuya\"},\"criteria\":[]}",
+            "currentDiscoveryBatch": {
+              "sourceId": "tablecheck",
+              "candidateIds": []
+            }
+          }
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "trace": {
+          "actor": "ADAPTER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:restaurant-agent:a9c8245b-f517-4b5b-bc12-510dfac82f98",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:de7b5d26-9977-4809-a53f-d5d280864d1c",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "SEARCH_COMPLETED",
+          "request": {
+            "intent": {
+              "area": {
+                "query": "Shibuya"
+              },
+              "date": "2026-11-11",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "restaurant in Shibuya",
+                "selectionScope": "OPEN_ENDED",
+                "requestedResultCount": 1
+              },
+              "criteria": [],
+              "timezone": "Asia/Tokyo",
+              "partySize": 2,
+              "timeWindow": {
+                "latest": "19:00",
+                "earliest": "19:00"
+              }
+            },
+            "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "continuation": {
+              "exhausted": false,
+              "pagesRead": 0,
+              "discoveryPlan": {
+                "cursor": 2,
+                "entries": [
+                  {
+                    "query": {
+                      "category": "restaurant",
+                      "location": {
+                        "label": "Shibuya",
+                        "latitude": 35.66,
+                        "longitude": 139.7,
+                        "radiusMeters": 1000,
+                        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                      },
+                      "positiveCriteria": []
+                    },
+                    "sourceId": "tabelog"
+                  },
+                  {
+                    "query": {
+                      "category": "restaurant",
+                      "location": {
+                        "label": "Shibuya",
+                        "latitude": 35.66,
+                        "longitude": 139.7,
+                        "radiusMeters": 1000,
+                        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                      },
+                      "positiveCriteria": []
+                    },
+                    "sourceId": "tablecheck"
+                  },
+                  {
+                    "query": {
+                      "category": "restaurant",
+                      "location": {
+                        "label": "Shibuya",
+                        "latitude": 35.66,
+                        "longitude": 139.7,
+                        "radiusMeters": 1000,
+                        "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                      },
+                      "positiveCriteria": []
+                    },
+                    "sourceId": "google-places"
+                  }
+                ],
+                "textRetrieval": {
+                  "reason": "General retrieval: no positive criteria.",
+                  "accepted": true
+                }
+              },
+              "sourceProgress": {
+                "sourceId": "tablecheck",
+                "elapsedMs": 0,
+                "pagesRead": 0,
+                "retrieval": {
+                  "history": [],
+                  "rewrites": 0,
+                  "selection": {
+                    "reason": "General retrieval: no positive criteria.",
+                    "accepted": true
+                  },
+                  "regionPages": 0,
+                  "retrievalPages": 0
+                },
+                "detailAttempts": 0,
+                "pendingSourceIds": [],
+                "inspectedSourceIds": [],
+                "visitedListingUrls": [],
+                "pendingSourceEntries": []
+              },
+              "usedPageTokens": [],
+              "deferredSources": [
+                {
+                  "progress": {
+                    "sourceId": "tabelog",
+                    "elapsedMs": 1,
+                    "pagesRead": 0,
+                    "retrieval": {
+                      "history": [],
+                      "rewrites": 0,
+                      "regionPages": 1,
+                      "retrievalPages": 0
+                    },
+                    "detailAttempts": 0,
+                    "regionEntrances": {
+                      "flowId": "8480101b-6fb8-4bb8-b6ab-1447b06ba67b",
+                      "entries": [],
+                      "sourceId": "tabelog",
+                      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+                    },
+                    "pendingSourceIds": [],
+                    "inspectedSourceIds": [],
+                    "visitedListingUrls": [],
+                    "pendingSourceEntries": []
+                  },
+                  "pagesRead": 0,
+                  "usedPageTokens": []
+                }
+              ],
+              "lastFailureCode": "AGENT_EXECUTION_FAILED",
+              "locationContext": {
+                "label": "Shibuya",
+                "latitude": 35.66,
+                "longitude": 139.7,
+                "radiusMeters": 1000,
+                "areaMatchBasis": "NAMED_PLACE_RADIUS"
+              },
+              "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"restaurant in Shibuya\",\"selectionScope\":\"OPEN_ENDED\",\"requestedResultCount\":1},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"Shibuya\"},\"criteria\":[]}",
+              "currentDiscoveryBatch": {
+                "sourceId": "tablecheck",
+                "candidateIds": []
+              }
+            }
+          },
+          "evidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "restaurant"
+                ],
+                "address": "1-2-3 Shibuya Tokyo",
+                "placeId": "g6-development-outlet",
+                "areaMatch": true,
+                "areaQuery": "Shibuya",
+                "outletName": "G6 Development Sushi",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 0,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "evaluationLocationLabel": "Shibuya"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+              "observedAt": "2026-11-03T06:00:40.000Z",
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "sourceEntityId": "g6-development-outlet",
+              "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1-2-3 Shibuya Tokyo",
+                "placeId": "g6-development-outlet",
+                "outletName": "G6 Development Sushi"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "evidence:restaurant:google-entity:56f9aadd501b4a32c353f0aa",
+              "observedAt": "2026-11-03T06:00:40.000Z",
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "g6-development-outlet",
+              "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+                "restaurantTypeFacts": [
+                  "restaurant"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "evidence:restaurant:google-facts:f8d29921aa3e860ce502236e",
+              "observedAt": "2026-11-03T06:00:40.000Z",
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "sourceEntityId": "g6-development-outlet",
+              "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+            }
+          ],
+          "metadata": {
+            "route": "STRUCTURED_ADAPTER",
+            "provider": "GOOGLE_PLACES",
+            "latencyMs": 1,
+            "googleRequests": {
+              "limit": 40,
+              "total": 2,
+              "discovery": 1,
+              "placeDetails": 0,
+              "namedPlaceResolution": 1,
+              "reverseAddressObservation": 0
+            },
+            "googleGeoDiagnostics": {
+              "center": {
+                "latitude": 35.66,
+                "longitude": 139.7
+              },
+              "candidates": [
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "g6-development-outlet",
+                  "distanceMeters": 0,
+                  "sourceCoordinates": {
+                    "latitude": 35.66,
+                    "longitude": 139.7
+                  }
+                }
+              ],
+              "requestMode": "LOCATION_RESTRICTION_CIRCLE",
+              "providerMode": "GOOGLE_NEARBY_SEARCH",
+              "radiusMeters": 1000,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "exactRadiusGate": "ENFORCED"
+            }
+          },
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+                "address": "1-2-3 Shibuya Tokyo",
+                "sourceIds": {
+                  "phone": "03-1234-5678",
+                  "googlePlaces": "g6-development-outlet",
+                  "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "G6 Development Sushi",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+                  "sourceIds": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+                  "outletName": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa"
+                },
+                "coordinates": {
+                  "lat": 35.66,
+                  "lng": 139.7
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: Shibuya"
+              ],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "continuation": {
+            "exhausted": true,
+            "pagesRead": 1,
+            "discoveryPlan": {
+              "cursor": 3,
+              "entries": [
+                {
+                  "query": {
+                    "category": "restaurant",
+                    "location": {
+                      "label": "Shibuya",
+                      "latitude": 35.66,
+                      "longitude": 139.7,
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                    },
+                    "positiveCriteria": []
+                  },
+                  "sourceId": "tabelog"
+                },
+                {
+                  "query": {
+                    "category": "restaurant",
+                    "location": {
+                      "label": "Shibuya",
+                      "latitude": 35.66,
+                      "longitude": 139.7,
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                    },
+                    "positiveCriteria": []
+                  },
+                  "sourceId": "tablecheck"
+                },
+                {
+                  "query": {
+                    "category": "restaurant",
+                    "location": {
+                      "label": "Shibuya",
+                      "latitude": 35.66,
+                      "longitude": 139.7,
+                      "radiusMeters": 1000,
+                      "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                    },
+                    "positiveCriteria": []
+                  },
+                  "sourceId": "google-places"
+                }
+              ],
+              "textRetrieval": {
+                "reason": "General retrieval: no positive criteria.",
+                "accepted": true
+              }
+            },
+            "usedPageTokens": [],
+            "deferredSources": [
+              {
+                "progress": {
+                  "sourceId": "tabelog",
+                  "elapsedMs": 1,
+                  "pagesRead": 0,
+                  "retrieval": {
+                    "history": [],
+                    "rewrites": 0,
+                    "regionPages": 1,
+                    "retrievalPages": 0
+                  },
+                  "detailAttempts": 0,
+                  "regionEntrances": {
+                    "flowId": "8480101b-6fb8-4bb8-b6ab-1447b06ba67b",
+                    "entries": [],
+                    "sourceId": "tabelog",
+                    "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+                  },
+                  "pendingSourceIds": [],
+                  "inspectedSourceIds": [],
+                  "visitedListingUrls": [],
+                  "pendingSourceEntries": []
+                },
+                "pagesRead": 0,
+                "usedPageTokens": []
+              },
+              {
+                "progress": {
+                  "sourceId": "tablecheck",
+                  "elapsedMs": 0,
+                  "pagesRead": 0,
+                  "retrieval": {
+                    "history": [],
+                    "rewrites": 0,
+                    "selection": {
+                      "reason": "General retrieval: no positive criteria.",
+                      "accepted": true
+                    },
+                    "regionPages": 0,
+                    "retrievalPages": 0
+                  },
+                  "detailAttempts": 0,
+                  "pendingSourceIds": [],
+                  "inspectedSourceIds": [],
+                  "visitedListingUrls": [],
+                  "pendingSourceEntries": []
+                },
+                "pagesRead": 0,
+                "usedPageTokens": []
+              }
+            ],
+            "locationContext": {
+              "label": "Shibuya",
+              "latitude": 35.66,
+              "longitude": 139.7,
+              "radiusMeters": 1000,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS"
+            },
+            "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"restaurant in Shibuya\",\"selectionScope\":\"OPEN_ENDED\",\"requestedResultCount\":1},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"Shibuya\"},\"criteria\":[]}",
+            "sourceRequestContext": {
+              "textQuery": "nearby:restaurant"
+            },
+            "currentDiscoveryBatch": {
+              "sourceId": "google-places",
+              "candidateIds": [
+                "praxis:restaurant:bd287442c716ac7439273cc9"
+              ]
+            }
+          }
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "trace": {
+          "actor": "ADAPTER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:restaurant-agent:de7b5d26-9977-4809-a53f-d5d280864d1c",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:bffc8a28-46e3-4dab-b666-c0d05774e363",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "AVAILABILITY_CHECKED",
+          "offers": [
+            {
+              "id": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+              "source": "TABELOG",
+              "dateTime": "2026-11-11T19:00:00+09:00",
+              "timezone": "Asia/Tokyo",
+              "checkedAt": "2026-11-03T06:00:40.000Z",
+              "expiresAt": "2026-11-03T06:00:40.000Z",
+              "partySize": 2,
+              "bookingMode": "REQUEST",
+              "restaurantId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "executionMode": "BROWSER",
+              "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+              "bookingRecheckRequired": true
+            }
+          ],
+          "request": {
+            "date": "2026-11-11",
+            "partySize": 2,
+            "candidates": [
+              {
+                "warnings": [],
+                "restaurant": {
+                  "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+                  "address": "1-2-3 Shibuya Tokyo",
+                  "sourceIds": {
+                    "phone": "03-1234-5678",
+                    "googlePlaces": "g6-development-outlet",
+                    "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+                    "discoverySourceId": "google-places"
+                  },
+                  "outletName": "G6 Development Sushi",
+                  "provenance": {
+                    "address": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+                    "sourceIds": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+                    "outletName": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa"
+                  },
+                  "coordinates": {
+                    "lat": 35.66,
+                    "lng": 139.7
+                  }
+                },
+                "matchReasons": [
+                  "Address explicitly matches requested area: Shibuya"
+                ],
+                "executionConfidence": "LOW"
+              }
+            ],
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "candidateIds": [
+              "praxis:restaurant:bd287442c716ac7439273cc9"
+            ],
+            "hardCriteria": []
+          },
+          "evidence": [
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "G6 Development Sushi"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:470bff10ac94a3290080fa89",
+              "observedAt": "2026-11-03T06:00:40.000Z",
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+              "requestFingerprint": "e75c743bb1e97db77cf6db7955f1930d768a1b933c4a265c202bf1b91114870e"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-11",
+                "partySize": 2,
+                "visibleSlots": [
+                  "19:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:2f9eae16293422e6ab8c2a64",
+              "observedAt": "2026-11-03T06:00:40.000Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:a68278fc290530a1da303eecff33c61a898444b1854e533454b0b2ceac991cff"
+              },
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+              "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+              "requestFingerprint": "76873c9eae4f27a6ca7428143038aedc95852122638a8733f45e8a5df75a9d9d",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          ],
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "browser": {
+              "engine": "CHROMIUM",
+              "startedAt": "2026-11-03T06:00:40.000Z",
+              "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM"
+            },
+            "provider": "TABELOG",
+            "latencyMs": 8,
+            "googleRequests": {
+              "limit": 40,
+              "total": 2,
+              "discovery": 1,
+              "placeDetails": 0,
+              "namedPlaceResolution": 1,
+              "reverseAddressObservation": 0
+            },
+            "providerAttempts": [
+              {
+                "outcome": "AVAILABLE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9"
+              }
+            ],
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:bd287442c716ac7439273cc9": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-03T06:00:40.000Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:470bff10ac94a3290080fa89",
+                "evidence:restaurant:tabelog-availability:2f9eae16293422e6ab8c2a64"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          }
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "trace": {
+          "actor": "ADAPTER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:restaurant-agent:bffc8a28-46e3-4dab-b666-c0d05774e363",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:3dbaca56-3548-4a4a-a112-1ca4bf4394c4",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "RESULTS_PRESENTED",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:470bff10ac94a3290080fa89",
+            "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+            "evidence:restaurant:tabelog-availability:2f9eae16293422e6ab8c2a64",
+            "evidence:restaurant:google-entity:56f9aadd501b4a32c353f0aa",
+            "evidence:restaurant:google-facts:f8d29921aa3e860ce502236e"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ]
+        },
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "trace": {
+          "actor": "SYSTEM",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:restaurant-agent:3dbaca56-3548-4a4a-a112-1ca4bf4394c4",
+          "schemaVersion": "1"
+        }
+      }
+    ],
+    "trajectories": [
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:1",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 1,
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "stateVersionBefore": 1,
+        "stateHashBefore": "f7d3955f8fc93d297330ead8e71b1ad541e05c054cc7e9cec21230fe6127b111",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:108b3907-defe-4f2e-be0e-13ff47ac15e0"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "17",
+        "decisionContext": {
+          "now": "2026-11-03T06:00:40.000Z",
+          "phase": "UNDERSTANDING",
+          "candidates": [],
+          "readBudget": {
+            "remainingMs": 500000,
+            "conclusionReserveMs": 20000
+          },
+          "intentDraft": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "November 11, 2026",
+                "resolvedDate": "2026-11-11"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-03T06:00:40.000Z"
+            }
+          },
+          "availability": {},
+          "legalActions": {
+            "search": true,
+            "endRead": false,
+            "presentResults": [],
+            "checkAvailability": [],
+            "answerPageQuestion": false,
+            "investigateCandidateFacts": []
+          },
+          "presentation": [],
+          "schemaVersion": "17",
+          "readCompletion": {
+            "reason": "No actual source investigation is recorded",
+            "allowed": false,
+            "investigationRecorded": false,
+            "unresolvedCandidateIds": []
+          },
+          "availabilityChecks": {},
+          "searchAvailability": {
+            "available": true
+          },
+          "missingBlockingFields": []
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS"
+        },
+        "decisionSummary": "synthetic boundary action",
+        "modelAttempt": {
+          "model": "LOCAL_WIRING_ONLY",
+          "purpose": "restaurant_agent_decide",
+          "provider": "FIXTURE",
+          "latencyMs": 0,
+          "finishReason": "TOOL_CALLS",
+          "invocationId": "development-dry:D7",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "promptVersion": "29"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 2,
+          "failureCode": "DIRECTORY_NATIVE_DISCOVERY_FAILED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 0,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "regionPages": 1,
+              "retrievalPages": 0
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 0,
+            "regionEntrances": {
+              "flowId": "8480101b-6fb8-4bb8-b6ab-1447b06ba67b",
+              "entries": [],
+              "sourceId": "tabelog",
+              "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+            },
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 1,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [
+            "80f0d326761be0defac11d7e2791d1a82eb300a5bb504567e0e9bc2a05162f4c"
+          ],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "stateVersionAfter": 2,
+        "stateHashAfter": "8a0dbb09a08d0ba0ee557f726d3ea49c691f49731910008bf3f5b7ca7fa23c32",
+        "stepOutcome": "EXECUTED"
+      },
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:2",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 2,
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "stateVersionBefore": 2,
+        "stateHashBefore": "fbc5cf215ffffeb61e1cf0b79fec60fefd793e1ea3ea3421742305411810e752",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:a9c8245b-f517-4b5b-bc12-510dfac82f98"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "17",
+        "decisionContext": {
+          "now": "2026-11-03T06:00:40.000Z",
+          "phase": "SEARCHING",
+          "intent": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            }
+          },
+          "candidates": [],
+          "readBudget": {
+            "remainingMs": 500000,
+            "conclusionReserveMs": 20000
+          },
+          "intentDraft": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "November 11, 2026",
+                "resolvedDate": "2026-11-11"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-03T06:00:40.000Z"
+            }
+          },
+          "availability": {},
+          "legalActions": {
+            "search": true,
+            "endRead": false,
+            "presentResults": [],
+            "checkAvailability": [],
+            "answerPageQuestion": false,
+            "investigateCandidateFacts": []
+          },
+          "presentation": [],
+          "schemaVersion": "17",
+          "readCompletion": {
+            "reason": "A bounded discovery-plan source remains unread",
+            "allowed": false,
+            "investigationRecorded": true,
+            "unresolvedCandidateIds": []
+          },
+          "resultBatchTarget": {
+            "candidateCount": 1,
+            "excludeCandidateIds": []
+          },
+          "availabilityChecks": {},
+          "searchAvailability": {
+            "available": true
+          },
+          "missingBlockingFields": []
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS"
+        },
+        "decisionSummary": "synthetic boundary action",
+        "modelAttempt": {
+          "model": "LOCAL_WIRING_ONLY",
+          "purpose": "restaurant_agent_decide",
+          "provider": "FIXTURE",
+          "latencyMs": 0,
+          "finishReason": "TOOL_CALLS",
+          "invocationId": "development-dry:D7",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "promptVersion": "29"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABLECHECK",
+          "latencyMs": 1,
+          "failureCode": "AGENT_EXECUTION_FAILED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABLECHECK",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 0,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "General retrieval: no positive criteria.",
+                "accepted": true
+              },
+              "regionPages": 0,
+              "retrievalPages": 0
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 3,
+            "rawSourceLinks": 0,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 0,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "stateVersionAfter": 3,
+        "stateHashAfter": "7995d46839e565635ddad9a24ffda17034f11573d9c8d6cf22510e85a9238466",
+        "stepOutcome": "EXECUTED"
+      },
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:3",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 3,
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "stateVersionBefore": 3,
+        "stateHashBefore": "a23383f61d5b6448c5f5809e7f2d28641659982a22e723d2eaf80c6a635013a4",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:de7b5d26-9977-4809-a53f-d5d280864d1c"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "17",
+        "decisionContext": {
+          "now": "2026-11-03T06:00:40.000Z",
+          "phase": "SEARCHING",
+          "intent": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            }
+          },
+          "candidates": [],
+          "readBudget": {
+            "remainingMs": 500000,
+            "conclusionReserveMs": 20000
+          },
+          "intentDraft": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "November 11, 2026",
+                "resolvedDate": "2026-11-11"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-03T06:00:40.000Z"
+            }
+          },
+          "availability": {},
+          "legalActions": {
+            "search": true,
+            "endRead": false,
+            "presentResults": [],
+            "checkAvailability": [],
+            "answerPageQuestion": false,
+            "investigateCandidateFacts": []
+          },
+          "presentation": [],
+          "schemaVersion": "17",
+          "readCompletion": {
+            "reason": "A bounded discovery-plan source remains unread",
+            "allowed": false,
+            "investigationRecorded": true,
+            "unresolvedCandidateIds": []
+          },
+          "resultBatchTarget": {
+            "candidateCount": 1,
+            "excludeCandidateIds": []
+          },
+          "availabilityChecks": {},
+          "searchAvailability": {
+            "available": true
+          },
+          "missingBlockingFields": []
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS"
+        },
+        "decisionSummary": "synthetic boundary action",
+        "modelAttempt": {
+          "model": "LOCAL_WIRING_ONLY",
+          "purpose": "restaurant_agent_decide",
+          "provider": "FIXTURE",
+          "latencyMs": 0,
+          "finishReason": "TOOL_CALLS",
+          "invocationId": "development-dry:D7",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "promptVersion": "29"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "center": {
+              "latitude": 35.66,
+              "longitude": 139.7
+            },
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "g6-development-outlet",
+                "distanceMeters": 0,
+                "sourceCoordinates": {
+                  "latitude": 35.66,
+                  "longitude": 139.7
+                }
+              }
+            ],
+            "requestMode": "LOCATION_RESTRICTION_CIRCLE",
+            "providerMode": "GOOGLE_NEARBY_SEARCH",
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "exactRadiusGate": "ENFORCED"
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "1 candidates discovered; 1 newly accepted",
+          "evidenceIds": [
+            "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+            "evidence:restaurant:google-entity:56f9aadd501b4a32c353f0aa",
+            "evidence:restaurant:google-facts:f8d29921aa3e860ce502236e"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ]
+        },
+        "stateVersionAfter": 4,
+        "stateHashAfter": "82e5b9bf7d0b10d81e2b3bcb25397404337aa4e0f2518014987a84676477b402",
+        "stepOutcome": "EXECUTED"
+      },
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:4",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 4,
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "stateVersionBefore": 4,
+        "stateHashBefore": "037108edf89656ff3b84d7972a83ec587f6a8b844c68ffee1c061c8153d117a7",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:bffc8a28-46e3-4dab-b666-c0d05774e363"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "17",
+        "decisionContext": {
+          "now": "2026-11-03T06:00:40.000Z",
+          "phase": "SEARCHING",
+          "intent": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            }
+          },
+          "candidates": [
+            {
+              "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "address": "1-2-3 Shibuya Tokyo",
+              "warnings": [],
+              "outletName": "G6 Development Sushi",
+              "matchReasons": [
+                "Address explicitly matches requested area: Shibuya"
+              ],
+              "observedFacts": {
+                "commercialNotes": [],
+                "openingHoursMatch": false,
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": []
+              },
+              "sourceAttempts": [],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "sourceCategories": [
+                {
+                  "source": "GOOGLE_PLACES",
+                  "values": [
+                    "restaurant"
+                  ]
+                }
+              ],
+              "distanceObservation": {
+                "meters": 0,
+                "source": "GOOGLE_PLACES",
+                "centerBasis": "NAMED_PLACE_RADIUS"
+              },
+              "executionConfidence": "LOW"
+            }
+          ],
+          "readBudget": {
+            "remainingMs": 500000,
+            "conclusionReserveMs": 20000
+          },
+          "intentDraft": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "November 11, 2026",
+                "resolvedDate": "2026-11-11"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-03T06:00:40.000Z"
+            }
+          },
+          "availability": {},
+          "legalActions": {
+            "search": false,
+            "endRead": false,
+            "presentResults": [],
+            "checkAvailability": [
+              "praxis:restaurant:bd287442c716ac7439273cc9"
+            ],
+            "answerPageQuestion": false,
+            "investigateCandidateFacts": [
+              "praxis:restaurant:bd287442c716ac7439273cc9"
+            ]
+          },
+          "presentation": [
+            {
+              "eligible": false,
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "missingReason": "Candidate praxis:restaurant:bd287442c716ac7439273cc9 lacks fresh evidenced availability for the authoritative request"
+            }
+          ],
+          "schemaVersion": "17",
+          "readCompletion": {
+            "reason": "Discovery source google-places candidate praxis:restaurant:bd287442c716ac7439273cc9 still needs its fact read before current-batch delivery",
+            "allowed": false,
+            "investigationRecorded": true,
+            "unresolvedCandidateIds": [
+              "praxis:restaurant:bd287442c716ac7439273cc9"
+            ]
+          },
+          "resultBatchTarget": {
+            "candidateCount": 1,
+            "excludeCandidateIds": []
+          },
+          "availabilityChecks": {},
+          "searchAvailability": {
+            "reason": "NATIVE_FIRST_BATCH_PENDING",
+            "available": false
+          },
+          "checkableCandidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ],
+          "missingBlockingFields": [],
+          "factInvestigableCandidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ]
+        },
+        "agentAction": {
+          "type": "CHECK_AVAILABILITY",
+          "candidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ]
+        },
+        "decisionSummary": "synthetic boundary action",
+        "modelAttempt": {
+          "model": "LOCAL_WIRING_ONLY",
+          "purpose": "restaurant_agent_decide",
+          "provider": "FIXTURE",
+          "latencyMs": 0,
+          "finishReason": "TOOL_CALLS",
+          "invocationId": "development-dry:D7",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "promptVersion": "29"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "startedAt": "2026-11-03T06:00:40.000Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM"
+          },
+          "provider": "TABELOG",
+          "latencyMs": 8,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "providerAttempts": [
+            {
+              "outcome": "AVAILABLE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        },
+        "observation": {
+          "type": "AVAILABILITY",
+          "detail": "1 offers observed",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:470bff10ac94a3290080fa89",
+            "evidence:restaurant:tabelog-availability:2f9eae16293422e6ab8c2a64"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ]
+        },
+        "stateVersionAfter": 5,
+        "stateHashAfter": "75102569c05adbed4184c97345b69eecbea6fb90c20f1f6cb7d464d8d8ce02c1",
+        "stepOutcome": "EXECUTED"
+      },
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:5",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 5,
+        "occurredAt": "2026-11-03T06:00:40.000Z",
+        "stateVersionBefore": 5,
+        "stateHashBefore": "2ea259daa03bbf4ba176fb2554b8c095151a7fcbea77663aeccc657e3ff9659d",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:3dbaca56-3548-4a4a-a112-1ca4bf4394c4"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "17",
+        "decisionContext": {
+          "now": "2026-11-03T06:00:40.000Z",
+          "phase": "SEARCHING",
+          "intent": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            }
+          },
+          "candidates": [
+            {
+              "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "address": "1-2-3 Shibuya Tokyo",
+              "warnings": [],
+              "outletName": "G6 Development Sushi",
+              "matchReasons": [
+                "Address explicitly matches requested area: Shibuya"
+              ],
+              "observedFacts": {
+                "commercialNotes": [],
+                "openingHoursMatch": false,
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": []
+              },
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "sourceCategories": [
+                {
+                  "source": "GOOGLE_PLACES",
+                  "values": [
+                    "restaurant"
+                  ]
+                }
+              ],
+              "distanceObservation": {
+                "meters": 0,
+                "source": "GOOGLE_PLACES",
+                "centerBasis": "NAMED_PLACE_RADIUS"
+              },
+              "executionConfidence": "LOW"
+            }
+          ],
+          "readBudget": {
+            "remainingMs": 500000,
+            "conclusionReserveMs": 20000
+          },
+          "intentDraft": {
+            "area": {
+              "query": "Shibuya"
+            },
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "November 11, 2026",
+                "resolvedDate": "2026-11-11"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-03T06:00:40.000Z"
+            }
+          },
+          "availability": {
+            "praxis:restaurant:bd287442c716ac7439273cc9": [
+              {
+                "id": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+                "dateTime": "2026-11-11T19:00:00+09:00",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-03T06:10:40.000Z"
+              }
+            ]
+          },
+          "legalActions": {
+            "search": false,
+            "endRead": false,
+            "presentResults": [
+              "praxis:restaurant:bd287442c716ac7439273cc9"
+            ],
+            "checkAvailability": [],
+            "answerPageQuestion": false,
+            "investigateCandidateFacts": [
+              "praxis:restaurant:bd287442c716ac7439273cc9"
+            ]
+          },
+          "presentation": [
+            {
+              "eligible": true,
+              "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9"
+            }
+          ],
+          "schemaVersion": "17",
+          "readCompletion": {
+            "reason": "Discovery source google-places candidate praxis:restaurant:bd287442c716ac7439273cc9 still needs its fact read before current-batch delivery",
+            "allowed": false,
+            "investigationRecorded": true,
+            "unresolvedCandidateIds": []
+          },
+          "resultBatchTarget": {
+            "candidateCount": 1,
+            "excludeCandidateIds": []
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:bd287442c716ac7439273cc9": {
+              "status": "AVAILABLE",
+              "receptionMode": "RESERVATION_SUPPORTED"
+            }
+          },
+          "searchAvailability": {
+            "reason": "NATIVE_FIRST_BATCH_PENDING",
+            "available": false
+          },
+          "missingBlockingFields": [],
+          "factInvestigableCandidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ]
+        },
+        "agentAction": {
+          "type": "PRESENT_RESULTS",
+          "candidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ]
+        },
+        "decisionSummary": "synthetic boundary action",
+        "modelAttempt": {
+          "model": "LOCAL_WIRING_ONLY",
+          "purpose": "restaurant_agent_decide",
+          "provider": "FIXTURE",
+          "latencyMs": 0,
+          "finishReason": "TOOL_CALLS",
+          "invocationId": "development-dry:D7",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "promptVersion": "29"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "observation": {
+          "type": "RESULTS_PRESENTED",
+          "detail": "1 grounded restaurant result(s) presented"
+        },
+        "stateVersionAfter": 6,
+        "stateHashAfter": "f2c9551b5f1fb7695022fb099d676216c1ac4048f79fbd1450ddb188bc861b23",
+        "stepOutcome": "TERMINAL"
+      }
+    ],
+    "finalSnapshot": {
+      "id": "restaurant:adfd4a4bd5922ec763f289d8",
+      "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+      "taskType": "restaurant.booking",
+      "definitionVersion": "22",
+      "lifecycleState": "WAITING_USER",
+      "domainState": {
+        "phase": "PRESENT_RESULTS",
+        "intent": {
+          "area": {
+            "query": "Shibuya"
+          },
+          "date": "2026-11-11",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurant in Shibuya",
+            "selectionScope": "OPEN_ENDED",
+            "requestedResultCount": 1
+          },
+          "criteria": [],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:00",
+            "earliest": "19:00"
+          }
+        },
+        "candidates": [
+          {
+            "warnings": [],
+            "restaurant": {
+              "id": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "address": "1-2-3 Shibuya Tokyo",
+              "sourceIds": {
+                "phone": "03-1234-5678",
+                "googlePlaces": "g6-development-outlet",
+                "googleWebsiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+                "discoverySourceId": "google-places"
+              },
+              "outletName": "G6 Development Sushi",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+                "sourceIds": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+                "outletName": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa"
+              },
+              "coordinates": {
+                "lat": 35.66,
+                "lng": 139.7
+              }
+            },
+            "matchReasons": [
+              "Address explicitly matches requested area: Shibuya"
+            ],
+            "executionConfidence": "LOW"
+          }
+        ],
+        "factChecks": {},
+        "intentDraft": {
+          "area": {
+            "query": "Shibuya"
+          },
+          "date": "2026-11-11",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "restaurant in Shibuya",
+            "selectionScope": "OPEN_ENDED",
+            "requestedResultCount": 1
+          },
+          "criteria": [],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "19:00",
+            "earliest": "19:00"
+          },
+          "schemaVersion": "3",
+          "partySizeSource": "EXPLICIT",
+          "temporalResolution": {
+            "date": {
+              "basis": "EXPLICIT_DATE",
+              "expression": "November 11, 2026",
+              "resolvedDate": "2026-11-11"
+            },
+            "timezone": "Asia/Tokyo",
+            "timeWindow": {
+              "basis": "EXPLICIT_CLOCK",
+              "expression": "7 PM",
+              "resolvedTimeWindow": {
+                "latest": "19:00",
+                "earliest": "19:00"
+              }
+            },
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-11-03T06:00:40.000Z"
+          }
+        },
+        "availability": {
+          "praxis:restaurant:bd287442c716ac7439273cc9": [
+            {
+              "id": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+              "source": "TABELOG",
+              "dateTime": "2026-11-11T19:00:00+09:00",
+              "timezone": "Asia/Tokyo",
+              "checkedAt": "2026-11-03T06:00:40.000Z",
+              "expiresAt": "2026-11-03T06:00:40.000Z",
+              "partySize": 2,
+              "bookingMode": "REQUEST",
+              "restaurantId": "praxis:restaurant:bd287442c716ac7439273cc9",
+              "executionMode": "BROWSER",
+              "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+              "bookingRecheckRequired": true
+            }
+          ]
+        },
+        "readEvidence": [
+          {
+            "kind": "DISCOVERY",
+            "claims": {
+              "types": [
+                "restaurant"
+              ],
+              "address": "1-2-3 Shibuya Tokyo",
+              "placeId": "g6-development-outlet",
+              "areaMatch": true,
+              "areaQuery": "Shibuya",
+              "outletName": "G6 Development Sushi",
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "distanceMeters": 0,
+              "availabilityPath": "DIRECT_SOURCE_PAGE",
+              "evaluationLocationLabel": "Shibuya"
+            },
+            "provider": "GOOGLE_PLACES",
+            "evidenceId": "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+            "observedAt": "2026-11-03T06:00:40.000Z",
+            "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+            "sourceEntityId": "g6-development-outlet",
+            "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+          },
+          {
+            "kind": "ENTITY_MATCH",
+            "claims": {
+              "address": "1-2-3 Shibuya Tokyo",
+              "placeId": "g6-development-outlet",
+              "outletName": "G6 Development Sushi"
+            },
+            "provider": "GOOGLE_PLACES",
+            "evidenceId": "evidence:restaurant:google-entity:56f9aadd501b4a32c353f0aa",
+            "observedAt": "2026-11-03T06:00:40.000Z",
+            "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+            "entityMatch": {
+              "matchedBy": [
+                "GOOGLE_PLACE_ID"
+              ],
+              "confidence": "HIGH"
+            },
+            "sourceEntityId": "g6-development-outlet",
+            "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+          },
+          {
+            "kind": "RESTAURANT_FACT",
+            "claims": {
+              "websiteUri": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+              "restaurantTypeFacts": [
+                "restaurant"
+              ]
+            },
+            "provider": "GOOGLE_PLACES",
+            "evidenceId": "evidence:restaurant:google-facts:f8d29921aa3e860ce502236e",
+            "observedAt": "2026-11-03T06:00:40.000Z",
+            "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+            "sourceEntityId": "g6-development-outlet",
+            "requestFingerprint": "e7cead14315c3db971ab060d6b2c0f73690e992a10d0f43fff0d96512fc42426"
+          },
+          {
+            "kind": "ENTITY_MATCH",
+            "claims": {
+              "outletName": "G6 Development Sushi"
+            },
+            "provider": "TABELOG",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+            "evidenceId": "evidence:restaurant:tabelog-entity-match:470bff10ac94a3290080fa89",
+            "observedAt": "2026-11-03T06:00:40.000Z",
+            "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+            "entityMatch": {
+              "matchedBy": [
+                "EXACT_PHONE"
+              ],
+              "confidence": "HIGH"
+            },
+            "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+            "requestFingerprint": "e75c743bb1e97db77cf6db7955f1930d768a1b933c4a265c202bf1b91114870e"
+          },
+          {
+            "kind": "AVAILABILITY",
+            "claims": {
+              "date": "2026-11-11",
+              "partySize": 2,
+              "visibleSlots": [
+                "19:00"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "inventoryStatus": "AVAILABLE"
+            },
+            "provider": "TABELOG",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+            "evidenceId": "evidence:restaurant:tabelog-availability:2f9eae16293422e6ab8c2a64",
+            "observedAt": "2026-11-03T06:00:40.000Z",
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "sha256:a68278fc290530a1da303eecff33c61a898444b1854e533454b0b2ceac991cff"
+            },
+            "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+            "entityMatch": {
+              "matchedBy": [
+                "EXACT_PHONE"
+              ],
+              "confidence": "HIGH"
+            },
+            "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+            "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+            "requestFingerprint": "76873c9eae4f27a6ca7428143038aedc95852122638a8733f45e8a5df75a9d9d",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+          }
+        ],
+        "schemaVersion": "24",
+        "searchRevision": 3,
+        "presentedResults": {
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:470bff10ac94a3290080fa89",
+            "evidence:restaurant:google-discovery:56f9aadd501b4a32c353f0aa",
+            "evidence:restaurant:tabelog-availability:2f9eae16293422e6ab8c2a64",
+            "evidence:restaurant:google-entity:56f9aadd501b4a32c353f0aa",
+            "evidence:restaurant:google-facts:f8d29921aa3e860ce502236e"
+          ],
+          "presentedAt": "2026-11-03T06:00:40.000Z",
+          "candidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ],
+          "conditionStates": {
+            "praxis:restaurant:bd287442c716ac7439273cc9": []
+          }
+        },
+        "selectionSession": {
+          "resultBatchTarget": {
+            "met": true,
+            "candidateCount": 1
+          },
+          "viewedCandidateIds": [],
+          "deliveredCandidateIds": [
+            "praxis:restaurant:bd287442c716ac7439273cc9"
+          ],
+          "shortlistCandidateIds": []
+        },
+        "availabilityChecks": {
+          "praxis:restaurant:bd287442c716ac7439273cc9": {
+            "status": "AVAILABLE",
+            "checkedAt": "2026-11-03T06:00:40.000Z",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:470bff10ac94a3290080fa89",
+              "evidence:restaurant:tabelog-availability:2f9eae16293422e6ab8c2a64"
+            ],
+            "receptionMode": "RESERVATION_SUPPORTED",
+            "sourceAttempts": [
+              {
+                "source": "TABELOG",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "sourceProvider": "TABELOG",
+            "displayExpiresAt": "2026-11-03T06:10:40.000Z",
+            "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+          }
+        },
+        "searchContinuation": {
+          "exhausted": true,
+          "pagesRead": 1,
+          "discoveryPlan": {
+            "cursor": 3,
+            "entries": [
+              {
+                "query": {
+                  "category": "restaurant",
+                  "location": {
+                    "label": "Shibuya",
+                    "latitude": 35.66,
+                    "longitude": 139.7,
+                    "radiusMeters": 1000,
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                  },
+                  "positiveCriteria": []
+                },
+                "sourceId": "tabelog"
+              },
+              {
+                "query": {
+                  "category": "restaurant",
+                  "location": {
+                    "label": "Shibuya",
+                    "latitude": 35.66,
+                    "longitude": 139.7,
+                    "radiusMeters": 1000,
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                  },
+                  "positiveCriteria": []
+                },
+                "sourceId": "tablecheck"
+              },
+              {
+                "query": {
+                  "category": "restaurant",
+                  "location": {
+                    "label": "Shibuya",
+                    "latitude": 35.66,
+                    "longitude": 139.7,
+                    "radiusMeters": 1000,
+                    "areaMatchBasis": "NAMED_PLACE_RADIUS"
+                  },
+                  "positiveCriteria": []
+                },
+                "sourceId": "google-places"
+              }
+            ],
+            "textRetrieval": {
+              "reason": "General retrieval: no positive criteria.",
+              "accepted": true
+            }
+          },
+          "usedPageTokens": [],
+          "deferredSources": [
+            {
+              "progress": {
+                "sourceId": "tabelog",
+                "elapsedMs": 1,
+                "pagesRead": 0,
+                "retrieval": {
+                  "history": [],
+                  "rewrites": 0,
+                  "regionPages": 1,
+                  "retrievalPages": 0
+                },
+                "detailAttempts": 0,
+                "regionEntrances": {
+                  "flowId": "8480101b-6fb8-4bb8-b6ab-1447b06ba67b",
+                  "entries": [],
+                  "sourceId": "tabelog",
+                  "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+                },
+                "pendingSourceIds": [],
+                "inspectedSourceIds": [],
+                "visitedListingUrls": [],
+                "pendingSourceEntries": []
+              },
+              "pagesRead": 0,
+              "usedPageTokens": []
+            },
+            {
+              "progress": {
+                "sourceId": "tablecheck",
+                "elapsedMs": 0,
+                "pagesRead": 0,
+                "retrieval": {
+                  "history": [],
+                  "rewrites": 0,
+                  "selection": {
+                    "reason": "General retrieval: no positive criteria.",
+                    "accepted": true
+                  },
+                  "regionPages": 0,
+                  "retrievalPages": 0
+                },
+                "detailAttempts": 0,
+                "pendingSourceIds": [],
+                "inspectedSourceIds": [],
+                "visitedListingUrls": [],
+                "pendingSourceEntries": []
+              },
+              "pagesRead": 0,
+              "usedPageTokens": []
+            }
+          ],
+          "locationContext": {
+            "label": "Shibuya",
+            "latitude": 35.66,
+            "longitude": 139.7,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS"
+          },
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"restaurant in Shibuya\",\"selectionScope\":\"OPEN_ENDED\",\"requestedResultCount\":1},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"Shibuya\"},\"criteria\":[]}",
+          "sourceRequestContext": {
+            "textQuery": "nearby:restaurant"
+          },
+          "currentDiscoveryBatch": {
+            "sourceId": "google-places",
+            "candidateIds": [
+              "praxis:restaurant:bd287442c716ac7439273cc9"
+            ]
+          }
+        },
+        "investigationRevision": 1
+      },
+      "outcome": null,
+      "version": 6,
+      "createdAt": "2026-11-03T06:00:40.000Z",
+      "updatedAt": "2026-11-03T06:00:40.000Z"
+    },
+    "loop": {
+      "status": "TERMINAL"
+    },
+    "resourceUsage": {
+      "elapsedMs": 0,
+      "agentDecisions": 5,
+      "googleRequests": {
+        "limit": 40,
+        "total": 2,
+        "discovery": 1,
+        "placeDetails": 0,
+        "namedPlaceResolution": 1,
+        "reverseAddressObservation": 0
+      },
+      "modelCallsStarted": 6
+    },
+    "resourceAccounting": {
+      "browserModelCalls": "UNKNOWN",
+      "cost": "UNKNOWN"
+    },
+    "limits": {
+      "maxModelCalls": 50,
+      "maxDiscoveryCandidates": 10,
+      "maxGoogleRequests": 40,
+      "maxStructuredReadMs": 30000,
+      "maxAvailabilitySourceBrowserSessions": 3,
+      "maxAvailabilitySourceCandidateMatches": 3,
+      "maxAvailabilityReads": 20,
+      "maxBrowserRuntimeFallbacks": 1,
+      "maxBrowserModelCallsPerCandidate": 20,
+      "maxBrowserModelCallsTotal": 120,
+      "maxBrowserOperationsPerCandidate": 80,
+      "maxFactModelCallsPerCandidate": 4,
+      "maxFactBrowserOperationsPerCandidate": 24,
+      "maxFactBrowserMs": 45000,
+      "maxFactProviderMs": 30000,
+      "maxCandidateBrowserMs": 60000,
+      "maxProviderBrowserMs": 45000,
+      "maxAutomaticBrowserMs": 500000,
+      "maxAgentSteps": 30,
+      "maxRejectedActions": 5
+    },
+    "safety": {
+      "policy": "READ_ONLY_CODE_PATH",
+      "externalSideEffectCount": "NOT_MEASURED"
+    }
+  },
+  "turns": [],
+  "witnesses": [
+    {
+      "checkedAt": "2026-11-03T06:00:05.000Z",
+      "kind": "BEFORE",
+      "target": {
+        "candidateId": "witness-W1",
+        "name": "Kushi Katsu Dengana Akabane ten",
+        "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+        "provider": "TABELOG",
+        "sourceEntityId": "13108466",
+        "date": "2026-11-11",
+        "time": "19:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "identityText": [
+          "Kushi Katsu Dengana Akabane ten",
+          "1-15-1"
+        ]
+      },
+      "evidenceMode": "AVAILABILITY",
+      "exists": true,
+      "vacancy": {
+        "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-live-readiness-20261102/dry-run-corrected/runs/D1/witness/002-vacancy.body",
+        "phase": "BEFORE",
+        "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13108466&svd=20261111&svps=2&svt=1900",
+        "candidateId": "witness-W1",
+        "body": {
+          "base_date": {
+            "year": 2026,
+            "month": 11,
+            "day": 11
+          },
+          "members": 2,
+          "selection": [
+            {
+              "time": "19:00",
+              "url": "https://tabelog.com/en/booking/form_course/new?rcd=13108466&visit_date=20261111&visit_time=1900&member=2"
+            }
+          ]
+        }
+      },
+      "responseSHA256": "1b8f63a234f3f408be34499eafc1198ec5bda74b52a2b72693cfbe2546d62ebc",
+      "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-live-readiness-20261102/dry-run-corrected/runs/D1/witness/001-detail.body",
+      "detailSHA256": "ab56168ef1929148595c226bf2274352c0556303cfc4e3a810b17971152d58b8"
+    },
+    {
+      "checkedAt": "2026-11-03T06:00:45.000Z",
+      "kind": "AFTER",
+      "target": {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "name": "G6 Development Sushi",
+        "address": "1-2-3 Shibuya Tokyo",
+        "phone": "03-1234-5678",
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+        "date": "2026-11-11",
+        "time": "19:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "identityText": [
+          "G6 Development Sushi",
+          "1-2-3 Shibuya Tokyo"
+        ]
+      },
+      "evidenceMode": "AVAILABILITY",
+      "exists": true,
+      "vacancy": {
+        "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-live-readiness-20261102/dry-run-corrected/runs/D7/witness/001-vacancy.body",
+        "phase": "AFTER",
+        "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "body": {
+          "base_date": {
+            "year": 2026,
+            "month": 11,
+            "day": 11
+          },
+          "members": 2,
+          "selection": [
+            {
+              "time": "19:00",
+              "url": "https://tabelog.com/en/booking/form_course/new?rcd=13123456&visit_date=20261111&visit_time=1900&member=2"
+            }
+          ]
+        }
+      },
+      "responseSHA256": "92d25e2f973bbeaa45fd29456c1bc690fa82d817c82254955e07e8226598f8f8"
+    }
+  ],
+  "recordingConfig": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  }
+}

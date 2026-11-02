@@ -1,0 +1,484 @@
+{
+  "schemaVersion": "browser-read-recording@5",
+  "stylesheets": [],
+  "status": "RECORDED",
+  "entries": [
+    {
+      "sequence": 1,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-11-03T06:00:30.000Z"
+      }
+    },
+    {
+      "sequence": 2,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://tabelog.com/en/tokyo/rstLst/",
+          {
+            "timeoutMs": 35000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 3,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "Error",
+          "message": "Constructed source has no response for this public entrance"
+        }
+      }
+    },
+    {
+      "sequence": 4,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-11-03T06:00:30.000Z"
+      }
+    },
+    {
+      "sequence": 5,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://www.tablecheck.com/en/japan/search",
+          {
+            "timeoutMs": 35000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 6,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "Error",
+          "message": "Constructed source has no response for this public entrance"
+        }
+      }
+    },
+    {
+      "sequence": 7,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-11-03T06:00:30.000Z"
+      }
+    },
+    {
+      "sequence": 8,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          {
+            "timeoutMs": 20000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 9,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 10,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 11,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 12,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "title": "G6 Development Sushi",
+        "textSha256": "2e66a2616d3fa1c9292a99bd93cbaaf373cc91009663d86bcf679dd5aed2d071",
+        "textLength": 151,
+        "htmlSha256": "d41a3e1273dd90d4ac44754adfe76128eea27ad0a9d99e8850d44bef592c8f38",
+        "htmlLength": 847,
+        "observedStateTags": [],
+        "queryRegions": [],
+        "priceRegions": [],
+        "responses": [
+          {
+            "url": "https://tabelog.com/en/booking/calendar/find_vacancy/",
+            "status": 200,
+            "observedAt": "2026-11-03T06:00:30.000Z",
+            "sequence": 1,
+            "body": {
+              "base_date": {
+                "year": 2026,
+                "month": 11,
+                "day": 11
+              },
+              "members": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 13,
+      "kind": "NETWORK",
+      "detail": []
+    },
+    {
+      "sequence": 14,
+      "kind": "RECORDING_SCREENSHOT_OMITTED",
+      "detail": {
+        "reason": "NO_LAYOUT_MASK_CAPABILITY"
+      }
+    },
+    {
+      "sequence": 15,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+          {
+            "timeoutMs": 20000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 16,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 17,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 18,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 19,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "title": "G6 Development Sushi",
+        "textSha256": "2e66a2616d3fa1c9292a99bd93cbaaf373cc91009663d86bcf679dd5aed2d071",
+        "textLength": 151,
+        "htmlSha256": "d41a3e1273dd90d4ac44754adfe76128eea27ad0a9d99e8850d44bef592c8f38",
+        "htmlLength": 847,
+        "observedStateTags": [],
+        "queryRegions": [],
+        "priceRegions": [],
+        "responses": [
+          {
+            "url": "https://tabelog.com/en/booking/calendar/find_vacancy/",
+            "status": 200,
+            "observedAt": "2026-11-03T06:00:30.000Z",
+            "sequence": 1,
+            "body": {
+              "base_date": {
+                "year": 2026,
+                "month": 11,
+                "day": 11
+              },
+              "members": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 20,
+      "kind": "NETWORK",
+      "detail": []
+    },
+    {
+      "sequence": 21,
+      "kind": "RECORDING_SCREENSHOT_OMITTED",
+      "detail": {
+        "reason": "NO_LAYOUT_MASK_CAPABILITY"
+      }
+    },
+    {
+      "sequence": 22,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "select",
+        "args": [
+          "select[name*='party'], select[name*='person'], select[name*='guest']",
+          "2",
+          {
+            "timeoutMs": 5000
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 23,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "select",
+        "result": [
+          "2"
+        ]
+      }
+    },
+    {
+      "sequence": 24,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 25,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 26,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "select",
+        "args": [
+          "select[name*='date'], select[id*='date']",
+          "2026-11-11",
+          {
+            "timeoutMs": 5000
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 27,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "select",
+        "result": [
+          "2026-11-11"
+        ]
+      }
+    },
+    {
+      "sequence": 28,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 29,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 30,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+        "title": "G6 Development Sushi",
+        "textSha256": "2e66a2616d3fa1c9292a99bd93cbaaf373cc91009663d86bcf679dd5aed2d071",
+        "textLength": 151,
+        "htmlSha256": "d41a3e1273dd90d4ac44754adfe76128eea27ad0a9d99e8850d44bef592c8f38",
+        "htmlLength": 847,
+        "observedStateTags": [],
+        "queryRegions": [],
+        "priceRegions": [],
+        "responses": [
+          {
+            "url": "https://tabelog.com/en/booking/calendar/find_vacancy/",
+            "status": 200,
+            "observedAt": "2026-11-03T06:00:30.000Z",
+            "sequence": 1,
+            "body": {
+              "base_date": {
+                "year": 2026,
+                "month": 11,
+                "day": 11
+              },
+              "members": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 31,
+      "kind": "NETWORK",
+      "detail": []
+    },
+    {
+      "sequence": 32,
+      "kind": "RECORDING_SCREENSHOT_OMITTED",
+      "detail": {
+        "reason": "NO_LAYOUT_MASK_CAPABILITY"
+      }
+    }
+  ],
+  "pages": [
+    {
+      "snapshot": 1,
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0001.html"
+      }
+    },
+    {
+      "snapshot": 2,
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0002.html"
+      }
+    },
+    {
+      "snapshot": 3,
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0003.html"
+      }
+    }
+  ],
+  "documents": [
+    {
+      "snapshot": 1,
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "file": "snapshot-0001.html"
+    },
+    {
+      "snapshot": 2,
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "file": "snapshot-0002.html"
+    },
+    {
+      "snapshot": 3,
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "file": "snapshot-0003.html"
+    }
+  ],
+  "screenshot": "NOT_CAPTURED_NO_SANITIZER",
+  "screenshots": [],
+  "replay": {
+    "status": "REPLAYABLE",
+    "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+    "harPath": "replay.har"
+  },
+  "contentSha256": "fd1d5a3e3d5bdc3f5d293e52ae83141e54fc2b55f779e392b575cfcf0077f3bc"
+}

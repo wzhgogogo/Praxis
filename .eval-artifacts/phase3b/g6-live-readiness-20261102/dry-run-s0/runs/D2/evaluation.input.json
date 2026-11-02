@@ -1,0 +1,128 @@
+{
+  "runId": "g6-D2-1793685610000-1",
+  "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+  "mode": "FIXTURE",
+  "artifactRefs": [
+    "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-live-readiness-20261102/dry-run-s0/runs/D2/execution.result.json"
+  ],
+  "request": {
+    "dates": [
+      "2026-11-11"
+    ],
+    "partySize": 2,
+    "time": "19:00"
+  },
+  "delivered": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "name": "G6 Development Sushi",
+      "address": "1-2-3 Shibuya Tokyo",
+      "phone": "03-1234-5678",
+      "provider": "TABLECHECK",
+      "sourceEntityId": "shops/g6-development-sushi",
+      "date": "2026-11-11",
+      "time": "19:00",
+      "partySize": 2
+    }
+  ],
+  "handoffs": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "offerId": "offer:tablecheck:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+      "provider": "TABLECHECK",
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?start_date=2026-11-11&num_people=2&start_time=19%3A00",
+      "directLabel": "Book on TableCheck",
+      "continueLabel": "Continue on TableCheck — date, time, 2 guests filled in",
+      "verificationHint": "Check date and guests",
+      "checkedAt": "2026-11-03T06:00:10.000Z",
+      "displayExpiresAt": "2026-11-03T06:10:10.000Z",
+      "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+      "linkCarries": [
+        "DATE",
+        "TIME",
+        "PARTY_SIZE"
+      ],
+      "sourceSelection": "UNKNOWN",
+      "terms": []
+    }
+  ],
+  "answers": [],
+  "pages": [
+    {
+      "ref": "local-https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+      "name": "G6 Development Sushi",
+      "address": "1-2-3 Shibuya Tokyo",
+      "merchantText": "A private room is available for groups of four or more.",
+      "observedLinks": [
+        "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?start_date=2026-11-11&start_time=19%3A00&num_people=2"
+      ],
+      "merchantScope": "EXCERPTS",
+      "runId": "g6-D2-1793685610000-1",
+      "readAt": "2026-11-03T06:00:10.000Z"
+    },
+    {
+      "ref": "local-https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?date=2026-11-11&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?date=2026-11-11&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+      "name": "G6 Development Sushi",
+      "address": "1-2-3 Shibuya Tokyo",
+      "merchantText": "A private room is available for groups of four or more.",
+      "observedLinks": [
+        "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?start_date=2026-11-11&start_time=19%3A00&num_people=2"
+      ],
+      "merchantScope": "EXCERPTS",
+      "runId": "g6-D2-1793685610000-1",
+      "readAt": "2026-11-03T06:00:10.000Z"
+    }
+  ],
+  "vacancy": [
+    {
+      "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-live-readiness-20261102/dry-run-s0/runs/D2/witness/002-vacancy.body",
+      "phase": "BEFORE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13186922&svd=20261111&svps=2&svt=1900",
+      "candidateId": "witness-W2",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?rcd=13186922&visit_date=20261111&visit_time=1900&member=2"
+          }
+        ]
+      }
+    }
+  ],
+  "requests": [],
+  "witnesses": [
+    {
+      "candidateId": "witness-W2",
+      "name": "のどぐろ専門 銀座 中俣",
+      "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+      "provider": "TABELOG",
+      "sourceEntityId": "13186922",
+      "date": "2026-11-11",
+      "time": "19:00",
+      "partySize": 2,
+      "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+      "identityText": [
+        "4-10-12"
+      ],
+      "allowDetailOnlyCertificate": true
+    }
+  ],
+  "boundedNoResult": false,
+  "deadline": {
+    "elapsedMs": 2054.704542,
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "priceClaims": [],
+  "softClaims": []
+}

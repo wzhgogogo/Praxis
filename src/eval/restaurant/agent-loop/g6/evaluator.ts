@@ -48,6 +48,13 @@ export function independentVacancy(value:G6Vacancy,expected:G6Delivered):{known:
   return {known:true,slots,links,reason:"BOUND_PUBLIC_RESPONSE"};
 }
 
+/** The user's visible conclusion must bound both the investigation and result. */
+export function hasBoundedNoResultConclusion(text:string){
+  const value=text.replace(/\s+/gu," ");
+  return /\b(?:bounded|within (?:this|the))\b.{0,80}\b(?:search|investigation|read)\b/iu.test(value)
+    &&/\b(?:no (?:verified )?results?|could not verify|did not verify)\b/iu.test(value);
+}
+
 export function evaluateG6(input:G6EvaluationInput){
   const checks:G6Check[]=[];
   const add=(rule:string,status:CheckStatus,severity:G6Check["severity"],subject:string,reason:string,evidenceRefs:string[]=[])=>checks.push({rule,status,severity,subject,reason,evidenceRefs});

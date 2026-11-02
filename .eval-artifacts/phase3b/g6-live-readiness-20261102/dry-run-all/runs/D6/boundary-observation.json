@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "phase3b-g6-boundary-observation@1",
+  "elapsedMs": 506.5873330000004,
+  "exceeded500Seconds": false,
+  "sourceReadsStartedInReserve": 0,
+  "termsWorkStartedInReserve": 0,
+  "forbiddenRequestsReachedSource": 0,
+  "readStarts": [
+    {
+      "kind": "READ",
+      "purpose": "restaurant_semantic_interpret",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "READ",
+      "purpose": "OPEN_SESSION",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "READ",
+      "purpose": "navigate",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "READ",
+      "purpose": "restaurant_semantic_interpret",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "READ",
+      "purpose": "restaurant_semantic_interpret",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "OPEN_SESSION",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "TERMS_READ",
+      "purpose": "navigate",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "atMs": 1793685635000,
+      "deadlineAtMs": 1793686135000
+    }
+  ],
+  "googleRequests": 4,
+  "modelCalls": 9,
+  "semanticAttemptsByTurn": {
+    "INITIAL": 1,
+    "book-recommendation": 2
+  },
+  "semanticSchemaRetries": 1
+}

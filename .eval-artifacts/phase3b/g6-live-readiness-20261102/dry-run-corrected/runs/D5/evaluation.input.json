@@ -1,0 +1,209 @@
+{
+  "runId": "g6-D5-1793685630000-4",
+  "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+  "mode": "FIXTURE",
+  "artifactRefs": [
+    "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-live-readiness-20261102/dry-run-corrected/runs/D5/execution.result.json"
+  ],
+  "request": {
+    "dates": [
+      "2026-11-11"
+    ],
+    "partySize": 2,
+    "time": "19:00"
+  },
+  "delivered": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "name": "G6 Development Sushi",
+      "address": "1-2-3 Shibuya Tokyo",
+      "phone": "03-1234-5678",
+      "provider": "TABELOG",
+      "sourceEntityId": "en/tokyo/A1301/A130101/13123456",
+      "date": "2026-11-11",
+      "time": "19:00",
+      "partySize": 2
+    }
+  ],
+  "handoffs": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "offerId": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+      "provider": "TABELOG",
+      "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111",
+      "directLabel": "Book on Tabelog",
+      "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+      "checkedAt": "2026-11-03T06:00:30.000Z",
+      "displayExpiresAt": "2026-11-03T06:10:30.000Z",
+      "platformFee": {
+        "provider": "TABELOG",
+        "channel": "ENGLISH_BOOKING",
+        "amountPerPersonJPY": 440,
+        "userCancellationRefund": false,
+        "restaurantCancellationRefund": true,
+        "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+        "sourceUrl": "https://tabelog.com/en/help",
+        "checkedOn": "2026-10-29",
+        "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+        "quotes": [
+          "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+          "Please note that no refunds will be issued for cancellations made for customer reasons.",
+          "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+        ]
+      },
+      "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+      "linkCarries": [
+        "DATE",
+        "TIME",
+        "PARTY_SIZE"
+      ],
+      "sourceSelection": "UNKNOWN",
+      "terms": []
+    }
+  ],
+  "answers": [],
+  "pages": [
+    {
+      "ref": "local-https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+      "name": "G6 Development Sushi",
+      "address": "1-2-3 Shibuya Tokyo",
+      "merchantText": "A private room is available for groups of four or more.",
+      "observedLinks": [
+        "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?start_date=2026-11-11&start_time=19%3A00&num_people=2"
+      ],
+      "merchantScope": "EXCERPTS",
+      "runId": "g6-D5-1793685630000-4",
+      "readAt": "2026-11-03T06:00:30.000Z"
+    }
+  ],
+  "vacancy": [
+    {
+      "ref": "captured-snapshot:0:response:1",
+      "phase": "SOURCE_CAPTURE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111"
+          }
+        ]
+      }
+    },
+    {
+      "ref": "captured-snapshot:1:response:1",
+      "phase": "SOURCE_CAPTURE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111"
+          }
+        ]
+      }
+    },
+    {
+      "ref": "captured-snapshot:2:response:1",
+      "phase": "SOURCE_CAPTURE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111"
+          }
+        ]
+      }
+    },
+    {
+      "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-live-readiness-20261102/dry-run-corrected/runs/D1/witness/002-vacancy.body",
+      "phase": "BEFORE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13108466&svd=20261111&svps=2&svt=1900",
+      "candidateId": "witness-W1",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?rcd=13108466&visit_date=20261111&visit_time=1900&member=2"
+          }
+        ]
+      }
+    },
+    {
+      "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-live-readiness-20261102/dry-run-corrected/runs/D5/witness/001-vacancy.body",
+      "phase": "AFTER",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13123456&svd=20261111&svps=2&svt=1900",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "body": {
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11
+        },
+        "members": 2,
+        "selection": [
+          {
+            "time": "19:00",
+            "url": "https://tabelog.com/en/booking/form_course/new?rcd=13123456&visit_date=20261111&visit_time=1900&member=2"
+          }
+        ]
+      }
+    }
+  ],
+  "requests": [],
+  "witnesses": [
+    {
+      "candidateId": "witness-W1",
+      "name": "Kushi Katsu Dengana Akabane ten",
+      "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+      "provider": "TABELOG",
+      "sourceEntityId": "13108466",
+      "date": "2026-11-11",
+      "time": "19:00",
+      "partySize": 2,
+      "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "identityText": [
+        "Kushi Katsu Dengana Akabane ten",
+        "1-15-1"
+      ]
+    }
+  ],
+  "boundedNoResult": false,
+  "deadline": {
+    "elapsedMs": 504.47470800000065,
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "priceClaims": [],
+  "softClaims": []
+}

@@ -1,0 +1,716 @@
+{
+  "schemaVersion": "browser-read-recording@5",
+  "stylesheets": [],
+  "status": "RECORDED",
+  "entries": [
+    {
+      "sequence": 1,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-11-02T09:14:15.282Z"
+      }
+    },
+    {
+      "sequence": 2,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://tabelog.com/en/tokyo/rstLst/",
+          {
+            "timeoutMs": 35000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 3,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "Error",
+            "message": "page.goto: net::ERR_FAILED at https://tabelog.com/en/tokyo/rstLst/\nCall log:\n\u001b[2m  - navigating to \"https://tabelog.com/en/tokyo/rstLst/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+          }
+        }
+      }
+    },
+    {
+      "sequence": 4,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-11-02T09:14:15.378Z"
+      }
+    },
+    {
+      "sequence": 5,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://www.tablecheck.com/en/japan/search",
+          {
+            "timeoutMs": 35000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 6,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "Error",
+            "message": "page.goto: net::ERR_FAILED at https://www.tablecheck.com/en/japan/search\nCall log:\n\u001b[2m  - navigating to \"https://www.tablecheck.com/en/japan/search\", waiting until \"domcontentloaded\"\u001b[22m\n"
+          }
+        }
+      }
+    },
+    {
+      "sequence": 7,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-11-02T09:14:15.482Z"
+      }
+    },
+    {
+      "sequence": 8,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+          {
+            "timeoutMs": 20000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 9,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 10,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 11,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 12,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+        "title": "G6 Development Sushi",
+        "textSha256": "07ce4f25201360d5bcc968f6de8155a56dcf1663cc46050c566649dd388098c0",
+        "textLength": 165,
+        "pageId": "page:1",
+        "htmlSha256": "18157038202fff2fb3d156d09135610e752743f33e96476512174c7a6cf94c65",
+        "htmlLength": 1097,
+        "observedStateTags": [
+          {
+            "tag": "DIV",
+            "data-selected-date": "2026-11-11",
+            "data-pax": "2"
+          },
+          {
+            "tag": "BUTTON",
+            "class": "time-slot is-available",
+            "data-time": "19:00"
+          }
+        ],
+        "queryRegions": [
+          {
+            "markup": "<div data-testid=\"Venue Availability\">\n<section><a data-reservation-source=\"/en/shops/g6-development-sushi/reserve\" data-reservation-date=\"2026-11-11\" data-reservation-party=\"2\" data-reservation-time=\"19:00\"><button class=\"time-slot is-available\">19:00</button></a></section>\n</div>",
+            "truncated": false,
+            "ancestorMarkupHidden": false,
+            "computedVisibility": "UNKNOWN"
+          }
+        ],
+        "priceRegions": [],
+        "responses": []
+      }
+    },
+    {
+      "sequence": 13,
+      "kind": "NETWORK",
+      "detail": []
+    },
+    {
+      "sequence": 14,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+          {
+            "timeoutMs": 20000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 15,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 16,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 17,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 18,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+        "title": "G6 Development Sushi",
+        "textSha256": "07ce4f25201360d5bcc968f6de8155a56dcf1663cc46050c566649dd388098c0",
+        "textLength": 165,
+        "pageId": "page:1",
+        "htmlSha256": "18157038202fff2fb3d156d09135610e752743f33e96476512174c7a6cf94c65",
+        "htmlLength": 1097,
+        "observedStateTags": [
+          {
+            "tag": "DIV",
+            "data-selected-date": "2026-11-11",
+            "data-pax": "2"
+          },
+          {
+            "tag": "BUTTON",
+            "class": "time-slot is-available",
+            "data-time": "19:00"
+          }
+        ],
+        "queryRegions": [
+          {
+            "markup": "<div data-testid=\"Venue Availability\">\n<section><a data-reservation-source=\"/en/shops/g6-development-sushi/reserve\" data-reservation-date=\"2026-11-11\" data-reservation-party=\"2\" data-reservation-time=\"19:00\"><button class=\"time-slot is-available\">19:00</button></a></section>\n</div>",
+            "truncated": false,
+            "ancestorMarkupHidden": false,
+            "computedVisibility": "UNKNOWN"
+          }
+        ],
+        "priceRegions": [],
+        "responses": []
+      }
+    },
+    {
+      "sequence": 19,
+      "kind": "NETWORK",
+      "detail": []
+    },
+    {
+      "sequence": 20,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+        "title": "G6 Development Sushi",
+        "textSha256": "07ce4f25201360d5bcc968f6de8155a56dcf1663cc46050c566649dd388098c0",
+        "textLength": 165,
+        "pageId": "page:1",
+        "htmlSha256": "2ae263389e22563361f6bb08ba05faeeb2e2ac79f69e8af4963776c6a679448d",
+        "htmlLength": 1106,
+        "observedStateTags": [
+          {
+            "tag": "DIV",
+            "data-selected-date": "2026-11-11",
+            "data-pax": "2"
+          },
+          {
+            "tag": "BUTTON",
+            "class": "time-slot is-available",
+            "data-time": "19:00"
+          }
+        ],
+        "queryRegions": [
+          {
+            "markup": "<div data-testid=\"Venue Availability\">\n<section><a data-reservation-source=\"/en/shops/g6-development-sushi/reserve\" data-reservation-date=\"2026-11-11\" data-reservation-party=\"2\" data-reservation-time=\"19:00\"><button class=\"time-slot is-available\">19:00</button></a></section>\n</div>",
+            "truncated": false,
+            "ancestorMarkupHidden": false,
+            "computedVisibility": "UNKNOWN"
+          }
+        ],
+        "priceRegions": [],
+        "responses": []
+      }
+    },
+    {
+      "sequence": 21,
+      "kind": "NETWORK",
+      "detail": []
+    },
+    {
+      "sequence": 22,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "captureResponses",
+        "args": [
+          [
+            {
+              "origin": "https://www.tablecheck.com/",
+              "pathname": "/en/shops/g6-development-sushi/available"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "sequence": 23,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "captureResponses"
+      }
+    },
+    {
+      "sequence": 24,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+          {
+            "timeoutMs": 20000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 25,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 26,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "waitForSettled",
+        "args": [
+          {
+            "url": "",
+            "title": "",
+            "text": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0
+            },
+            "html": {
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "length": 0,
+              "observedStateTags": []
+            }
+          },
+          700
+        ]
+      }
+    },
+    {
+      "sequence": 27,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "waitForSettled",
+        "result": true
+      }
+    },
+    {
+      "sequence": 28,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+        "title": "G6 Development Sushi",
+        "textSha256": "07ce4f25201360d5bcc968f6de8155a56dcf1663cc46050c566649dd388098c0",
+        "textLength": 165,
+        "pageId": "page:1",
+        "htmlSha256": "18157038202fff2fb3d156d09135610e752743f33e96476512174c7a6cf94c65",
+        "htmlLength": 1097,
+        "observedStateTags": [
+          {
+            "tag": "DIV",
+            "data-selected-date": "2026-11-11",
+            "data-pax": "2"
+          },
+          {
+            "tag": "BUTTON",
+            "class": "time-slot is-available",
+            "data-time": "19:00"
+          }
+        ],
+        "queryRegions": [
+          {
+            "markup": "<div data-testid=\"Venue Availability\">\n<section><a data-reservation-source=\"/en/shops/g6-development-sushi/reserve\" data-reservation-date=\"2026-11-11\" data-reservation-party=\"2\" data-reservation-time=\"19:00\"><button class=\"time-slot is-available\">19:00</button></a></section>\n</div>",
+            "truncated": false,
+            "ancestorMarkupHidden": false,
+            "computedVisibility": "UNKNOWN"
+          }
+        ],
+        "priceRegions": [],
+        "responses": []
+      }
+    },
+    {
+      "sequence": 29,
+      "kind": "NETWORK",
+      "detail": []
+    },
+    {
+      "sequence": 30,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+        "title": "G6 Development Sushi",
+        "textSha256": "07ce4f25201360d5bcc968f6de8155a56dcf1663cc46050c566649dd388098c0",
+        "textLength": 165,
+        "pageId": "page:1",
+        "htmlSha256": "2ae263389e22563361f6bb08ba05faeeb2e2ac79f69e8af4963776c6a679448d",
+        "htmlLength": 1106,
+        "observedStateTags": [
+          {
+            "tag": "DIV",
+            "data-selected-date": "2026-11-11",
+            "data-pax": "2"
+          },
+          {
+            "tag": "BUTTON",
+            "class": "time-slot is-available",
+            "data-time": "19:00"
+          }
+        ],
+        "queryRegions": [
+          {
+            "markup": "<div data-testid=\"Venue Availability\">\n<section><a data-reservation-source=\"/en/shops/g6-development-sushi/reserve\" data-reservation-date=\"2026-11-11\" data-reservation-party=\"2\" data-reservation-time=\"19:00\"><button class=\"time-slot is-available\">19:00</button></a></section>\n</div>",
+            "truncated": false,
+            "ancestorMarkupHidden": false,
+            "computedVisibility": "UNKNOWN"
+          }
+        ],
+        "priceRegions": [],
+        "responses": []
+      }
+    },
+    {
+      "sequence": 31,
+      "kind": "NETWORK",
+      "detail": []
+    },
+    {
+      "sequence": 32,
+      "kind": "CONTROLS",
+      "detail": {
+        "snapshotSequence": 26,
+        "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+        "totalObserved": 5,
+        "scope": "ALL_OBSERVED_REDACTED",
+        "controls": [
+          {
+            "id": "dom:1:1",
+            "structure": {
+              "tag": "A",
+              "name": "",
+              "classes": [],
+              "dialogLabel": "",
+              "formClass": "",
+              "sliderCount": 0,
+              "listboxId": ""
+            },
+            "stableKey": "a[href],[role=link]|link||03-1234-5678||0",
+            "kind": "LINK",
+            "role": "link",
+            "label": "[REDACTED_PHONE]",
+            "controlGroupLabel": "Unlabelled group",
+            "href": "tel:03-1234-5678",
+            "disabled": false,
+            "visible": true
+          },
+          {
+            "id": "dom:1:2",
+            "structure": {
+              "tag": "A",
+              "name": "",
+              "classes": [],
+              "dialogLabel": "",
+              "formClass": "",
+              "sliderCount": 0,
+              "listboxId": ""
+            },
+            "stableKey": "a[href],[role=link]|link||19:00||1",
+            "kind": "LINK",
+            "role": "link",
+            "label": "19:00",
+            "controlGroupLabel": "Unlabelled group",
+            "href": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+            "disabled": false,
+            "visible": true,
+            "reservationBinding": {
+              "source": "/en/shops/g6-development-sushi/reserve",
+              "date": "2026-11-11",
+              "party": "2",
+              "time": "19:00"
+            }
+          },
+          {
+            "id": "dom:1:3",
+            "structure": {
+              "tag": "BUTTON",
+              "name": "",
+              "classes": [
+                "time-slot",
+                "is-available"
+              ],
+              "dialogLabel": "",
+              "formClass": "",
+              "sliderCount": 0,
+              "listboxId": ""
+            },
+            "stableKey": "button,[role=button],[role=option],input[role=combobox][aria-readonly=true]|button||19:00||0",
+            "kind": "BUTTON",
+            "role": "button",
+            "label": "19:00",
+            "controlGroupLabel": "Unlabelled group",
+            "disabled": false,
+            "visible": true
+          },
+          {
+            "id": "dom:1:4",
+            "structure": {
+              "tag": "SELECT",
+              "name": "reservation[num_people_adult]",
+              "classes": [],
+              "dialogLabel": "",
+              "formClass": "",
+              "sliderCount": 0,
+              "listboxId": ""
+            },
+            "stableKey": "select|combobox||||control:1",
+            "kind": "SELECT",
+            "role": "combobox",
+            "label": "Guests 2 guests",
+            "controlGroupLabel": "Guests 2 guests",
+            "controlGroupKey": "dom-group:BODY:1/FORM:6/LABEL:1/SELECT:0",
+            "value": "2",
+            "formMethod": "GET",
+            "disabled": false,
+            "visible": true,
+            "options": [
+              {
+                "value": "2",
+                "label": "2 guests",
+                "selected": true,
+                "disabled": false
+              }
+            ]
+          },
+          {
+            "id": "dom:1:5",
+            "structure": {
+              "tag": "INPUT",
+              "name": "reservation[start_date]",
+              "classes": [],
+              "dialogLabel": "",
+              "formClass": "",
+              "sliderCount": 0,
+              "listboxId": ""
+            },
+            "stableKey": "input:not([type=checkbox]):not([type=radio]):not([type=range]):not([role=combobox][aria-readonly=true]),textarea,[role=textbox]:not([role=combobox])|textbox||Date||0",
+            "kind": "INPUT",
+            "role": "textbox",
+            "label": "Date",
+            "controlGroupLabel": "Unlabelled group",
+            "value": "2026-11-11",
+            "formMethod": "GET",
+            "disabled": false,
+            "visible": true
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "snapshot": 1,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0001.html"
+      }
+    },
+    {
+      "snapshot": 2,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0002.html"
+      }
+    },
+    {
+      "snapshot": 3,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0003.html"
+      }
+    },
+    {
+      "snapshot": 4,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?date=2026-11-11&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0004.html"
+      }
+    },
+    {
+      "snapshot": 5,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?date=2026-11-11&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0005.html"
+      }
+    }
+  ],
+  "documents": [
+    {
+      "snapshot": 1,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+      "file": "snapshot-0001.html"
+    },
+    {
+      "snapshot": 2,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+      "file": "snapshot-0002.html"
+    },
+    {
+      "snapshot": 3,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+      "file": "snapshot-0003.html"
+    },
+    {
+      "snapshot": 4,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?date=2026-11-11&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+      "file": "snapshot-0004.html"
+    },
+    {
+      "snapshot": 5,
+      "url": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve?date=2026-11-11&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
+      "file": "snapshot-0005.html"
+    }
+  ],
+  "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+  "screenshots": [
+    {
+      "snapshot": 1,
+      "status": "LAYOUT_ONLY_CONTENT_MASKED",
+      "file": "screenshot-0001.png"
+    },
+    {
+      "snapshot": 2,
+      "status": "LAYOUT_ONLY_CONTENT_MASKED",
+      "file": "screenshot-0002.png"
+    },
+    {
+      "snapshot": 3,
+      "status": "LAYOUT_ONLY_CONTENT_MASKED",
+      "file": "screenshot-0003.png"
+    },
+    {
+      "snapshot": 4,
+      "status": "LAYOUT_ONLY_CONTENT_MASKED",
+      "file": "screenshot-0004.png"
+    },
+    {
+      "snapshot": 5,
+      "status": "LAYOUT_ONLY_CONTENT_MASKED",
+      "file": "screenshot-0005.png"
+    }
+  ],
+  "replay": {
+    "status": "REPLAYABLE",
+    "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+    "harPath": "replay.har"
+  },
+  "contentSha256": "9cba4be8136676bf93205ac8f4b4ccaf1a2bd9f9c55f51f2c0fcd7976ca77127"
+}

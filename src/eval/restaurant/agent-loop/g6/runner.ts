@@ -10,7 +10,7 @@ import { BrowserReadRecording } from "../runners/browser-read-recording.js";
 import { traceBrowserRuntime } from "../runners/browser-case-slice-evidence.js";
 import { createHybridDecisionCapture } from "../runners/run-hybrid-live-read.js";
 import { createG6Session,G6_USER } from "./session.js";
-import { evaluateG6,type G6EvaluationInput,type G6Delivered,type G6Vacancy,type G6OraclePage } from "./evaluator.js";
+import { evaluateG6,hasBoundedNoResultConclusion,type G6EvaluationInput,type G6Delivered,type G6Vacancy,type G6OraclePage } from "./evaluator.js";
 import { recordingQualification,reserveObservations,type ReadStartObservation } from "./observations.js";
 import { chargeG6,recordG6SourceCounts } from "./budget.js";
 import { createWitnessReader,type G6Witness,type WitnessReceipt } from "./witness.js";
@@ -47,12 +47,18 @@ function capturedVacancies(snapshots:readonly {page:BrowserSnapshot;at:string}[]
   const d=delivery.find(d=>d.provider==="TABELOG"&&r.url.includes("find_vacancy")&&new URL(r.url).searchParams.get("rst_id")===d.sourceEntityId.match(/(?:^|\/)(\d+)\/?$/u)?.[1]);
   return d?[{ref:`captured-snapshot:${i}:response:${r.sequence}`,phase:"SOURCE_CAPTURE" as const,url:r.url,candidateId:d.candidateId,body:r.body}]:[];
 }));}
+function oracleCandidateId(spec:G6Case,id:string,view:RestaurantCaseView){
+  if(id!==spec.witness?.candidateId)return id;
+  const phone=(value:string|undefined)=>value?.replace(/\D/gu,"").replace(/^81/u,"0");
+  const matches=view.restaurant.candidates.filter(c=>(spec.oracle.qualificationOracles??[]).some(o=>o.name===c.restaurant.outletName&&Boolean(o.phone&&phone(o.phone)===phone(c.restaurant.sourceIds.phone)||o.address&&o.address===c.restaurant.address)));
+  return matches.length===1?matches[0]!.restaurant.id:undefined;
+}
 function bindOraclePages(spec:G6Case,view:RestaurantCaseView,runId:string,snapshots:readonly {page:BrowserSnapshot;at:string}[]):G6OraclePage[]{
   const answer=view.restaurant.pageQuestion?.result;
   return spec.oracle.pages.flatMap(p=>{
-    const frame=snapshots.find(s=>s.page.url===p.url&&s.page.text.includes(p.merchantText));if(!frame)return [];
+    const candidateId=oracleCandidateId(spec,p.candidateId,view);const frame=snapshots.find(s=>s.page.url===p.url&&s.page.text.includes(p.merchantText));if(!frame||!candidateId)return [];
     const citation=answer?.status!=="UNVERIFIED"?answer?.citations.find(c=>c.url===p.url):undefined;
-    return [{...p,merchantScope:p.merchantScope??"EXCERPTS",runId,readAt:citation?.readAt??frame.at}];
+    return [{...p,candidateId,merchantScope:p.merchantScope??"EXCERPTS",runId,readAt:citation?.readAt??frame.at}];
   });
 }
 
@@ -141,9 +147,9 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       const input:G6EvaluationInput={runId,caseId:view.case.caseId,mode:pack.mode,artifactRefs:[join(slot,"execution.result.json")],request:spec.oracle.request,
         delivered:deliveries,handoffs:view.restaurant.bookingHandoffs??[],answers:question?[{...question,citations:question.status==="UNVERIFIED"?[]:question.citations}]:[],pages:bindOraclePages(spec,view,runId,snapshots),vacancy:[...capturedVacancies(snapshots,deliveries),...witnesses.flatMap(w=>w.vacancy?[w.vacancy]:[])],
         requests:forwarded,
-        ...(spec.oracle.questions?{questions:spec.oracle.questions}:{}),...(spec.oracle.qualificationOracles?{qualificationOracles:spec.oracle.qualificationOracles}:{}),...(spec.oracle.priceOracles?{priceOracles:spec.oracle.priceOracles}:{}),
+        ...(spec.oracle.questions?{questions:spec.oracle.questions.flatMap(q=>{const candidateId=oracleCandidateId(spec,q.candidateId,view!);return candidateId?[{...q,candidateId}]:[];})}:{}),...(spec.oracle.qualificationOracles?{qualificationOracles:spec.oracle.qualificationOracles}:{}),...(spec.oracle.priceOracles?{priceOracles:spec.oracle.priceOracles}:{}),
         ...(spec.oracle.reviewedReadRules?{reviewedReadRules:spec.oracle.reviewedReadRules}:{}),
-        ...(spec.witness&&witnesses[0]?.exists===true?{witnesses:[spec.witness]}:{}),boundedNoResult:/no verified|could not verify|within (?:this|the) (?:bounded )?search/iu.test(view.conversation.messages.filter(m=>m.role==="ASSISTANT").at(-1)?.content??""),
+        ...(spec.witness&&witnesses[0]?.exists===true?{witnesses:[spec.witness]}:{}),boundedNoResult:hasBoundedNoResultConclusion(view.conversation.messages.filter(m=>m.role==="ASSISTANT").at(-1)?.content??""),
         deadline:{elapsedMs,readStartsInReserve:readStarts.filter(r=>r.kind!=="CONCLUSION_MODEL"&&r.atMs>=r.deadlineAtMs-20_000).length,termsStartsInReserve:readStarts.filter(r=>(r.kind==="TERMS_READ"||r.kind==="TERMS_MODEL")&&r.atMs>=r.deadlineAtMs-20_000).length}};
       const presentedConditions=Object.entries(view.restaurant.conditionStates??{}).filter(([id])=>deliveries.some(d=>d.candidateId===id));
       input.priceClaims=presentedConditions.flatMap(([candidateId,conditions])=>conditions.filter(c=>c.strength==="HARD"&&(c.sources.some(s=>s.field==="PRICE")||/yen|jpy|円|¥|budget|price/iu.test(c.text))).map(c=>({candidateId,hardStatus:c.status,

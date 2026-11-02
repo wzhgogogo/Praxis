@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "browser-read-recording@5",
+  "stylesheets": [],
+  "status": "RECORDED",
+  "entries": [
+    {
+      "sequence": 1,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-11-03T06:00:35.000Z"
+      }
+    },
+    {
+      "sequence": 2,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://tabelog.com/en/tokyo/rstLst/",
+          {
+            "timeoutMs": 35000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 3,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "Error",
+          "message": "Constructed source has no response for this public entrance"
+        }
+      }
+    },
+    {
+      "sequence": 4,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-11-03T06:00:35.000Z"
+      }
+    },
+    {
+      "sequence": 5,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://tabelog.com/en/tokyo/rstLst/",
+          {
+            "timeoutMs": 35000,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 6,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "Error",
+          "message": "Constructed source has no response for this public entrance"
+        }
+      }
+    }
+  ],
+  "pages": [],
+  "documents": [],
+  "screenshot": "NOT_CAPTURED_NO_SANITIZER",
+  "screenshots": [],
+  "replay": {
+    "status": "NOT_REPLAYABLE",
+    "reason": "NO_CAPTURED_PUBLIC_DOCUMENT"
+  },
+  "contentSha256": "d10537ee1f839a08264fdbd764859b029f605bbfdbe6b2376d5803996c108b2c"
+}
