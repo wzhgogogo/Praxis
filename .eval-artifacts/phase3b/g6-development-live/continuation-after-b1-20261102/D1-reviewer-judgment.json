@@ -1,0 +1,30 @@
+{
+  "schema": "g6-independent-review@1",
+  "reviewer": "independent reviewer (Claude)",
+  "reviewDateVienna": "2026-11-02",
+  "reviewedCommit": "f094e03445973d704f20f36456c1da1b87666e29",
+  "runId": "g6-D1-1793629850815-0",
+  "originalEvaluation": ".eval-artifacts/phase3b/g6-development-live/split-resume-20261102/w1-runs/D1/evaluation.json",
+  "originalEvaluationSHA256": "67793927bb65fa5209cf6cfef0bee5aec250dcc4af110e7193395326b9140c94",
+  "automaticS0": 1,
+  "reviewerDecision": "SERVER_CONTRACT_SCOPE_GAP_NOT_USER_VISIBLE_DECLARATION",
+  "finding": "Server View/departure accepted an undisplayed cached handoff. Normal front-end Choose requires ids(); assistant honestly reported no result. Frozen evaluator rule is retained.",
+  "capabilityOutcome": "CAPABILITY_MISS",
+  "severity": "S2",
+  "rerunD1": false,
+  "environmentFailure": false,
+  "environmentRerunCharged": 0,
+  "fixMain": "d4d8ea33a4cf32b01601474f02ad89c538bf3f69",
+  "continuationAuthorized": [
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7"
+  ],
+  "deferredAfterSafeW1": [
+    "D2",
+    "D8"
+  ],
+  "originalEvaluationModified": false
+}

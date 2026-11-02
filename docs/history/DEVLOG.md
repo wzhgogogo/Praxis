@@ -1,5 +1,13 @@
 # Development Log
 
+<a id="dev-2026-11-02-b1-visible-candidates-verified"></a>
+
+2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。
+
+<a id="dev-2026-11-02-b1-visible-candidates"></a>
+
+2026-11-02 CET：C按用户批准修复B1对外候选集合。有效整组装红灯1bf90606：HARD kushikatsu未核实，NO_VERIFIED_RESULT/无就绪展示却泄交接，HTTP离开201；39d7823f同四项全绿，隐藏交接清空且离开400。共享领域集合函数用于投影和条款入口，准备缓存保留，SEARCHING就绪→展示→用户选店两项条款正控制不退化。只补C自有TableCheck组件桩的phase/ready输入，不改断言；A eval/harness、G6/B1 HTTP测试、B G3/前端及版本原字节不变。第一次夹具端口遗漏/本机监听沙箱失败单列保留，不冒充目标红灯。账本与A f094e034原618条并集后加C零调用为619，main限额不提高。冻结后待五门禁/严格G2；真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。
+
 <a id="dev-g6-w1-d1-stop-20261102"></a>
 2026-11-02 CET：G6按用户决定今天启动W1，D1 457.351秒有界结束、交付0；自动B1_LINK S0=1后立即停批。返回投影含未展示Kushiman缓存交接，原响应确有同URL且未开表单；实际用户卡片是否展示未被记录，原分数保留待复核，不宣称S0=0。来源越界独立1130/1130检查通过；Dengana正确详情链接已解析但14.814秒导航超时，事后见证仍有位，CAPABILITY_MISS。其余W1五槽/W2认证及两槽均未启动、不填0。三录制17/48页准入、Google7/7及决策23/23；769源SHA不变。共享618条保留591原值，累计Live1/26、模型264/1600、公开GET262/390，开发7/25；环境重跑0。只推工作分支交复核，不合main。 [完整停批报告](../../.eval-artifacts/phase3b/g6-development-live/split-resume-20261102/report.md)。
 

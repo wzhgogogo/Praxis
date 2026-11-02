@@ -1,5 +1,13 @@
 # Test and Verification Log
 
+<a id="test-2026-11-02-b1-visible-candidates-verified"></a>
+
+2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。
+
+<a id="test-2026-11-02-b1-visible-candidates-targeted"></a>
+
+2026-11-02 CET：C B1集合投影定向先红后绿：1bf90606四测试1绿3红（真实绑定但未就绪交接、HTTP 201、selected隐藏店多2次条款调用），39d7823f同输入4/4绿（HTTP 400、条款调用0）；正控制链接/原文/两项条款保持。均createLiveReadAssembly+持久应用/Router/Reducer，外部I/O为固定夹具；不一致DTO另列为组件边界，不当整组装结果。初次预检无查位缓存且EPERM，保留但不作为目标红灯。五门禁尚待冻结运行，不报告Live改善；所有真实调用0。 [原件](../../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。
+
 <a id="test-g6-w1-d1-stop-20261102"></a>
 2026-11-02 CET：G6按用户决定今天启动W1，D1 457.351秒有界结束、交付0；自动B1_LINK S0=1后立即停批。返回投影含未展示Kushiman缓存交接，原响应确有同URL且未开表单；实际用户卡片是否展示未被记录，原分数保留待复核，不宣称S0=0。来源越界独立1130/1130检查通过；Dengana正确详情链接已解析但14.814秒导航超时，事后见证仍有位，CAPABILITY_MISS。其余W1五槽/W2认证及两槽均未启动、不填0。三录制17/48页准入、Google7/7及决策23/23；769源SHA不变。共享618条保留591原值，累计Live1/26、模型264/1600、公开GET262/390，开发7/25；环境重跑0。只推工作分支交复核，不合main。 [完整停批报告](../../.eval-artifacts/phase3b/g6-development-live/split-resume-20261102/report.md)。
 

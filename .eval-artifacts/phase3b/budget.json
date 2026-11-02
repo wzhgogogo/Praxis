@@ -8720,6 +8720,36 @@
       "googleRequests": 7,
       "restaurantWebsiteRequests": 1130,
       "note": "Actual source transport starts; no quotas charged twice; witness GETs have their own rows."
+    },
+    {
+      "id": "phase3b-C-b1-visible-candidates-offline-20261102",
+      "conversation": "C",
+      "slice": "B1 projection limited to presented or ready candidates",
+      "timeCET": "2026-11-02T16:17:00.588968+01:00",
+      "mode": "OFFLINE_FIXTURE",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "g6-D1-review-20261102-server-scope",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:35:00.817003+00:00",
+      "mode": "INDEPENDENT_REVIEW_ANNOTATION",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "runId": "g6-D1-1793629850815-0",
+      "automaticS0": 1,
+      "reviewerDecision": "SERVER_CONTRACT_SCOPE_GAP_NOT_USER_VISIBLE_DECLARATION",
+      "capabilityOutcome": "CAPABILITY_MISS",
+      "severity": "S2",
+      "reviewRef": ".eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/D1-reviewer-judgment.json",
+      "note": "自动 S0=1；复核裁定：服务端投影范围缺口，非用户可见声明。原评价不改，D1不重跑，不占环境重跑。"
     }
   ],
   "cumulative": {
@@ -8802,7 +8832,13 @@
       "sourceGit": "49e37c5552f262e42515b1023cd0d1dab0606629",
       "ledgerSha256": "5d9c3e7612557b0674e09bb0b7314429f92c8ff4704b59cf6d5deac835e43c68",
       "note": "Union all 58 A-only rows; common rows identical. C real calls zero."
+    },
+    {
+      "conversation": "A-G6-D1",
+      "sourceGit": "f094e03445973d704f20f36456c1da1b87666e29",
+      "ledgerSha256": "ed05b503cedd1a4a502eccf4b4de857e751d509cdb8e1f8974180dcc905781a6",
+      "note": "Union all 48 A-only rows, identical common rows. Preserve main limits; A branch declares GET 390 separately, not applied by this zero-call C slice."
     }
   ],
-  "asOfCET": "2026-11-02T14:45:24.655905+01:00"
+  "asOfCET": "2026-11-02T16:35:00.808780+01:00"
 }
