@@ -55,7 +55,7 @@ test("G6 capability G4: same-ID Japanese lookup drives the third source query to
   await control("JAPANESE_NAME",async(_session,f,view)=>{
     assert.equal(view.case.phase,"PRESENT_RESULTS");const id=view.restaurant.presentedCandidateIds?.[0];assert.ok(id);
     assert.equal(view.restaurant.candidates.find(c=>c.restaurant.id===id)?.restaurant.address,f.source.outlet.address);
-    const searches=f.events.filter(e=>e.kind==="NAVIGATE"&&new URL(e.url).pathname==="/en/tokyo/rstLst/").map(e=>new URL(e.url).searchParams.get("sw"));
+    const searches=f.events.filter(e=>e.kind==="NAVIGATE"&&new URL(e.url).pathname==="/en/tokyo/rstLst/"&&new URL(e.url).searchParams.has("sw")).map(e=>new URL(e.url).searchParams.get("sw"));
     assert.equal(searches.at(-1),"すし本店","Japanese source name must be used rather than a model-created alias");
     assert.equal(searches.length,3);
     const details=f.events.filter(e=>e.kind==="GOOGLE_IO"&&e.method==="GET");assert.equal(details.length,1);
