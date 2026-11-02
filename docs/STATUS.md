@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-02 CET：A已按用户补充2将两harness fixture生命周期小修独立发布main31d482aa，ls-remote核对并通知B/C；小分支有效红绿、默认1342/Chromium188/严格G2 12页全绿，不含G6 Runner/评价器。G6随后同步该main，四处文档双方保留、main510账目原值在569项并集中；763源/配置SHA与已全绿86720163相同，复用G6完整1350/188+51/严格12页验证。模型228/GET255/Live0累计不变，补回放仍等C获批合main（0/20），本轮真实调用0，不加载.env。 [同步证明](../.eval-artifacts/phase3b/g6-live-readiness-20261102/browser-fixture-main-sync.json)。
+
 2026-11-02 CET：A G6六项启动准备最终离线通过，待复核/用户Live批准。86720163冻结763项，默认1350/1350、原Chromium188/188加G6 51/51、严格G2 5/5与12页PASS，type/arch/build及原条款控制全绿，7项前后净树；首轮A引用映射红灯保留、具体候选绑定已修。W2/八槽11-11请求/SHA/20次补回放合同与命令/链接模板/条件化GET估算齐全；本地8槽及S0停批只证接线。C ec93c249未合main，补回放0/20；认证/Live未运行，不加载.env，产品与诊断目录相对main549061e8零差异，账本569条、旧值及累计228模型/255GET/0Live不变。只推工作分支不合main。 [报告](../.eval-artifacts/phase3b/g6-live-readiness-20261102/report.md)。
 
 2026-11-02 CET：G6就绪首轮门禁发现A Runner引用映射回归：具体候选ID被误当逻辑见证引用、G1独立页缺失，G6 50/51（原Chromium188/188、默认1350/1350及其余已运行检查绿）。仅witness-*逻辑引用才映射后，原Runner四断言4/4绿、测试原字节；原红灯/执行评价保留，不改产品/C。重新冻结完整门禁，严格G2待运行；真实调用仍0。
@@ -17,6 +19,9 @@
 2026-11-01 CET：G6停止点包装门禁全绿。冻结9b7e180c/423输入，typecheck、arch、默认1274/1274、build、Chromium186/186（130.255秒）通过，五项前后净树；37浏览器文件各完成一次，外层超时0。全部产品/B/C文件与main6db445ea相同，账本500旧条目/累计用量完整保留。P4 NO_BOUND_PAGE原始红灯未修，其他完整红绿/真实模型回放/Runner/Live计划仍未完成，停等复核安排B；真实模型/Google/GET/Live0、不读.env。只推工作分支，不合main。 [报告](../.eval-artifacts/phase3b/g6-offline/report.md)。
 
 2026-11-01 CET：G6批次1离线预检按产品缺口停止。基于main6db445ea，仅保存新留出集承诺SHA与校验器（2/2本地控制），原文/答案未读取。P1仅选店B1、P2缺人数后查位、P3缺日期先问均取得scripted正控制；P4实际持久组合执行ANSWER_PAGE_QUESTION后NO_BOUND_PAGE，Google→网页事实链忽略capturePagesOnly、无原搜索HARD缺口时不读网页，问答模型未到达。未改产品、不补造缓存/条件，交复核安排B；四路径完整红绿、真实模型回放、G6 Runner/评测器/Live计划尚未完成。仅包装五门禁待跑，真实模型/Google/GET/Live0、未加载.env；账本500旧条目保留、追加零调用，授权总上限更新26/1600/290/4。只推工作分支，不合main。 [报告](../.eval-artifacts/phase3b/g6-offline/report.md)。
+2026-11-02 CET：浏览器fixture生命周期修复已达到用户批准的main发布门槛。独立分支仅逐字提取49e37c55两份harness；af11c443晚调度+旧helper出现真实退休/等待标记后8秒保护红灯，b0285800同控制0.888秒绿。737 SHA全程不变，默认1342/1342、Chromium188/188（149.341秒）、严格G2 5/5及12页PASS，type/arch/build全绿，7项前后净树。原断言、30ms/180s/600s不改，不带G6 Runner/评价器，不改产品/版本/脚本/package和账本，真实调用0不加载.env。正常推送main并ls-remote核对后通知B/C，再同步G6分支；最终SHA以Git发布回执为准。 [报告](../.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/report.md)。
+
+2026-11-02 CET：A按用户批准把浏览器fixture生命周期修复单独从main549061e8提取。两份harness来自获复核49e37c55，先晚调度回归配main旧helper取红，再同断言绿；不带G6 Runner/评价器/产品/版本，不改budget原值、不加载.env，真实调用0。完整净树五门禁/严格G2通过后直接发布main并通知B/C，随后G6同步。 [计划](../.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/plan.md)。
 
 2026-11-02 CET：运行诊断8bc20f8a已独立复核通过并获用户合入批准，五门禁后普通合入本地main814dfa6c。最新远端efeab254本已在获批祖先中，无新增同步代码；冻结862项、五项前后净树，默认1342/1342、Chromium187/187及type/arch/build全通过。合并树与获批版本完全相同，其后仅追加发布文档，最终main SHA以正常push/ls-remote回执为准，完成后待命。原2/5校准、44条/27店0身份补全和Konya未确认结论保留，A真实grader红灯对接仍延期；产品/评测输入/历史原件不改，真实调用0、不读.env。[合入与门禁记录](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/report.md)。
 

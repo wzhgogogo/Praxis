@@ -76,3 +76,11 @@ aa194c0e首轮默认1350/1350、type/arch/build及原条款通过，原Chromium1
 原Chromium188是G2独占5+其余183之和；不要再把5/183/188重复相加。G6另串行运行51项。原始日志无损gzip归档，archive-logs.json同时记录原始/压缩SHA；gate-green/gates.json为控制器原输出，gate-results.json补明确分组。final-local-captures.tar.gz保存本地实际组装帧和串行Runner两槽执行/独立评价，逐文件SHA见final-capture-sha256.json。
 
 相对获批main549061e8，产品、两个网站目录/source-packs及src/eval/restaurant/diagnosis均零差异；本轮仅A评测/harness/Runner和文档。569项账本ID唯一，main510项原值及A历史57次计费完整保留；模型228/1600、公开GET255/290、Live0/26，环境重跑0/4不变。本轮没有真实调用、没读取或加载.env。当前C ec93c249只在工作分支，补回放未执行（0/20）；Live及认证仍等用户批准。工作分支推送后停止，不合main。
+
+## 后续：浏览器fixture小修已单独发布main并同步
+
+用户补充2批准后，A从main549061e8单独提取已复核49e37c55的两个harness文件，取得旧helper受控8秒红灯、同断言0.888秒绿，main候选b0285800净树五门禁默认1342/1342、Chromium188/188、严格G2 5/5及12页PASS后，正常fast-forward发布main31d482aa（独立分支同SHA），ls-remote已核对。已通过用户授权的线程消息通知B、C。
+
+G6分支现同步该main；四处文档冲突双方记录全部保留，main510项账目原值完整在G6的569项并集中。G6的763份源/配置SHA与已全绿86720163逐字相同，因此复用该完整验证（默认1350、原Chromium188+G6 51、严格12页），不把main小分支的1342误当G6计数，也不无谓重跑未变化的源码。发布只含两harness与必要文档/证据，G6 Runner/评价器未进入main。
+
+来源和并集证明见browser-fixture-main-sync.json；独立修复报告在同仓库.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/report.md。C产品修复尚未在该main，付费补回放仍0/20；本轮真实模型、公开GET、Google和Live全0，未读取或加载.env。继续原先的C后补回放/Live批准边界。
