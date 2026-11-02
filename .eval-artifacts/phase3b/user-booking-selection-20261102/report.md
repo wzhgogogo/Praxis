@@ -1,6 +1,6 @@
 # User-message booking selection
 
-- Status: draft / not integrated; one remaining legacy HTTP expectation awaits narrow approval before final gates.
+- Status: offline candidate / not integrated; all three narrow test-contract approvals applied, final clean-tree gates pending.
 - Branch: codex/fix-phase3b-user-booking-selection. No main merge is authorized.
 - Initial base main: efeab25483cf58011b7505c32d6da857e41c2533. Latest main549061e8392bfb6224d1ac9ca78671714d330e2c was synchronized in ad2ee3a8; four documentation conflicts retain both sides, upstream diagnosis source/config bytes are unchanged.
 - Green product: 4413e4ffea10ba844dc59d9efc25977b18b873e5.
@@ -26,7 +26,7 @@ The same nine assertions pass at 4413e4ff. P1/P2 still return PRESENT_RESULTS, n
 
 ## Legacy test contracts and narrow approvals
 
-The first full default suite was 1335/1336. An old HTTP assertion required no selection for the explicit Book Fixture Sushi message with SPECIFIC_OUTLET/BOOKING_WORDING. The user approved changing only line1844 to fixture:outlet; d26af10a records it separately. That rerun then reached a second old expectation at line1883, after feedback/restarts, also requiring undefined. Its invariant should compare the post-feedback selection with the selection before feedback. Approval for only that comparison is pending. Other assertions and business inputs remain unchanged.
+The first full default suite was 1335/1336. An old HTTP assertion required no selection for the explicit Book Fixture Sushi message with SPECIFIC_OUTLET/BOOKING_WORDING. The user approved changing only line1844 to fixture:outlet; d26af10a records it separately. That rerun then reached a second old expectation at line1883, after feedback/restarts, also requiring undefined. Its invariant should compare the post-feedback selection with the selection before feedback. The user explicitly approved only that comparison; remaining-http-approval.json records the application. Other assertions and business inputs remain unchanged.
 
 The first Chromium suite was 185/187. Both failures were the same mobile/desktop Workspace reference test: Check this one was expected to leave selection empty, but its model double supplied BOOKING_WORDING. The user approved only changing the refer branch basis to JUDGMENT in src/harness/workspace-fixture-server.ts. d5483bec changes that tag alone; goal/scope/query/reason/quotes and every browser assertion remain unchanged. The original six Chromium Workspace tests then pass 6/6. A src/eval and src/harness/browser files and B's three G3 files remain byte-identical.
 
@@ -42,4 +42,4 @@ The shared ledger unions all main510 entries with A49e37c55's 58 additional entr
 
 ## Final gate and delivery status
 
-After the last approved legacy expectation is synchronized, freeze the final inputs and finish five green gates plus strict G2 with clean status before/after each. Push only the work branch, verify ls-remote and notify A. Do not merge main. Final gate results and delivery SHA will be recorded here after completion.
+All approved expectations are synchronized. Freeze the final inputs and finish five green gates plus strict G2 with clean status before/after each. Push only the work branch, verify ls-remote and notify A. Do not merge main. Final gate results and delivery SHA will be recorded here after completion.

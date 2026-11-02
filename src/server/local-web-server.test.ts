@@ -1880,7 +1880,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       const after=await running.application.getCase("user-a",view.case.caseId);
       assert.equal(after.restaurant.bookingFeedbackAvailable,false);
       assert.equal(after.case.taskVersion,before.case.taskVersion);assert.equal(after.case.phase,before.case.phase);
-      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,undefined);
+      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,before.restaurant.selectedCandidateId);
       const rows=await database.query<{count:string}>("SELECT COUNT(*) AS count FROM restaurant_booking_departures");assert.equal(Number(rows.rows[0]!.count),1);
       for(const choice of ["NO","SKIP"] as const){
         await running.close();decision=0;raw.source.observedAt=clock.now().toISOString();
