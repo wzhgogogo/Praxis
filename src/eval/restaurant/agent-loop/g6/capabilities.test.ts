@@ -31,7 +31,10 @@ for(const kind of ["RENAMED","CONTROL_FALLBACK"] as const)test(`G6 capability ${
     assert.ok(actions.some(a=>a.action==="FILL_AUTHORITATIVE"&&a.authoritativeField==="DATE"),"Date must come from an observed public input");
     assert.ok(actions.some(a=>a.action==="CHOOSE_OPTION"&&a.authoritativeField==="PARTY_SIZE"),"Guests must come from an observed public option");
     assert.ok(f.snapshots.some(s=>s.responses?.some(r=>r.url===f.source.vacancy.url)),"The current source response must actually have been captured");
-    if(kind==="RENAMED")assert.ok(f.markerMaps.length,"All private marker families must actually be mutated");
+    if(kind==="RENAMED"){
+      assert.ok(f.markerMaps.length,"All private marker families must actually be mutated");
+      assert.ok(f.markerMaps.every(m=>m.integrity.valid&&m.integrity.visibleTextPreserved),"An invalid semantic-reference mutation cannot earn a capability pass");
+    }
   });
 });
 

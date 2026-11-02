@@ -37,6 +37,8 @@ class LocalDatabase implements SqlDatabase {
 /** Shared eval/Runner composition. No business Port, State or accepted-evidence override. */
 export async function createG6Session(input:Omit<LiveReadTransports,"currentTaskId"|"remainingModelCalls"> & {
   packs?:readonly DiscoverySourcePack[];limits?:LiveReadInvestigationBudget;
+  /** Runner-owned episode bound across user turns, using the existing budget API. */
+  episode?:{deadlineAtMs:number;remainingModelCalls:()=>number};
 }) {
   const clock:RuntimeClock=input.clock,limits=input.limits??G6_LIMITS;
   const raw=await PGlite.create(),database=new LocalDatabase(raw);await applyPostgresMigrations(database);
@@ -47,7 +49,10 @@ export async function createG6Session(input:Omit<LiveReadTransports,"currentTask
     catch(error){call.error=error instanceof Error?error.message:"MODEL_TRANSPORT_FAILED";throw error;}
     finally{call.elapsedMs=performance.now()-start;}
   }};
-  const budget=new RunBoundedModelGateway(transport,limits.maxModelCalls,limits.maxAutomaticBrowserMs,()=>clock.now().valueOf());
+  const budget=new class extends RunBoundedModelGateway {
+    override run<T>(taskId:string,work:(signal:AbortSignal)=>Promise<T>,deadlineAt?:number):Promise<T>{return super.run(taskId,work,Math.min(deadlineAt??Infinity,input.episode?.deadlineAtMs??Infinity));}
+    override remainingCalls(taskId:string):number|undefined{const own=super.remainingCalls(taskId);return own===undefined?own:Math.min(own,input.episode?.remainingModelCalls()??Infinity);}
+  }(transport,limits.maxModelCalls,limits.maxAutomaticBrowserMs,()=>clock.now().valueOf());
   const model=new DeliveryReservedModelGateway(budget);
   const assembly=createLiveReadAssembly({...limits,...(input.packs?{packs:input.packs}:{})}, {
     ...input,model,clock,currentTaskId:()=>budget.currentTaskId(),remainingModelCalls:id=>budget.remainingCalls(id),
@@ -59,10 +64,11 @@ export async function createG6Session(input:Omit<LiveReadTransports,"currentTask
   await application.store.upsertUser({id:G6_USER,displayName:"G6 development fixture"},clock.now().toISOString());
   const project=(view:RestaurantCaseView)=>withBookingHandoffs(view,assembly.bookingHandoffs.readPrepared(view),clock.now().toISOString());
   async function finished<T>(work:()=>Promise<T>,timeoutMs=limits.maxAutomaticBrowserMs+1_000):Promise<T> {
-    let resolve!:()=>void;const done=new Promise<void>(r=>{resolve=r;});
-    const unsubscribe=application.subscribeReadFinished(()=>resolve());let timer:ReturnType<typeof setTimeout>|undefined;
+    let resolve!:()=>void,readFinished=false;const done=new Promise<void>(r=>{resolve=r;});
+    const unsubscribe=application.subscribeReadFinished(()=>{readFinished=true;});
+    const updates=application.subscribeCaseUpdates(()=>{if(readFinished)resolve();});let timer:ReturnType<typeof setTimeout>|undefined;
     try {const result=await work();await Promise.race([done,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error("G6 read lifecycle did not finish")),timeoutMs);})]);return result;}
-    finally{unsubscribe();if(timer)clearTimeout(timer);}
+    finally{unsubscribe();updates();if(timer)clearTimeout(timer);}
   }
   return {application,assembly,budget,model,calls,clock,database,project,finished,
     async view(caseId:string){return project(await application.getCase(G6_USER,caseId));},

@@ -37,7 +37,7 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
   const html=`<!doctype html><html lang="en"><head><title>${source.outlet.name}</title><style>.merchant-name{font-weight:bold}</style></head><body><main aria-labelledby="merchant-title">${identity}<h2>Restaurant information</h2>${paragraphs.map(p=>`<p class="public-copy" data-testid="merchant-copy">${p}</p>`).join("")}<h2>Availability</h2>${controls}</main></body></html>`;
   const text=[source.outlet.name,source.outlet.address,source.outlet.phone,...paragraphs,"Availability",`${source.date}. 2 guests. 19:00.`].join("\n");
   let realPage:Page|undefined;
-  const markerMaps:unknown[]=[];
+  const markerMaps:Array<Awaited<ReturnType<typeof renamePrivateMarkers>>> = [];
   const fake:BrowserRuntime={async openSession(){let current=source.pageUrl;return {
     metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:clock.now().toISOString()},
     async navigate(url){observed("NAVIGATE",url);if(url!==source.pageUrl&&!(kind==="JAPANESE_NAME"&&new URL(url).origin==="https://tabelog.com"&&new URL(url).pathname==="/en/tokyo/rstLst/"))throw Error("Constructed source has no response for this public entrance");current=url;},
@@ -63,11 +63,16 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
   // Fixed transport owns all HTTP. Do not add a second route.fetch that could
   // bypass interception. The Guard acceptance case uses a dedicated guarded I/O.
   const browser:BrowserRuntime={async openSession(input){const session=await raw.openSession(input);return new Proxy(session,{get(target,key){
-    if(key==="navigate")return async(...args:Parameters<typeof session.navigate>)=>{await target.navigate(...args);if(kind==="RENAMED"&&realPage)markerMaps.push(await renamePrivateMarkers(realPage,"g6-whole-assembly@1"));};
+    if(key==="navigate")return async(...args:Parameters<typeof session.navigate>)=>{await target.navigate(...args);if(kind==="RENAMED"&&realPage){
+      const mutation=await renamePrivateMarkers(realPage,"g6-whole-assembly@1");
+      // Saved-page G2 disables scripts. This constructed control page instead
+      // executes its name-based event handlers; record that distinction.
+      markerMaps.push({...mutation,inlineScriptsExecuted:true});
+    }};
     if(key==="snapshot")return async()=>{const page=await target.snapshot();snapshots.push(structuredClone(page));return page;};
     const v=Reflect.get(target,key,target);return typeof v==="function"?v.bind(target):v;
   }});}};
-  const google=new GooglePlacesClient({apiKey:"local-g6-source-key",fetchImplementation:async(url,init)=>{
+  const googleFetch:typeof fetch=async(url,init)=>{
     observed("GOOGLE_IO",String(url),init?.method??"GET");
     const place={id:source.outlet.id,displayName:{text:kind==="JAPANESE_NAME"?"G6 Development Sushi Tokyo":source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,
       location:{latitude:source.outlet.latitude,longitude:source.outlet.longitude},types:["restaurant"],...(kind!=="JAPANESE_NAME"?{websiteUri:source.pageUrl}:{})};
@@ -75,7 +80,8 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
     const body=init?.method==="POST"?{places:query==="Shibuya"?[{id:"g6-station",displayName:{text:"Shibuya"},types:["train_station"],location:place.location}]:[place]}
       :{...place,...(kind==="JAPANESE_NAME"?{displayName:{text:"すし本店"}}:{})};
     return new Response(JSON.stringify(body),{status:200});
-  }});
+  };
+  const google=new GooglePlacesClient({apiKey:"local-g6-source-key",fetchImplementation:googleFetch});
   const factAttempts=new Set<string>();
   const model:ModelGateway={async complete(input){let body:unknown;
     const data=()=>JSON.parse(input.messages.find(m=>m.role==="user")!.content);
@@ -124,5 +130,5 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
     else throw Error("Unconfigured G6 model transport purpose "+input.purpose);
     return {invocationId:"g6-source:"+input.purpose,provider:"FIXTURE",model:"g6-public-source-controls",outputText:JSON.stringify(body),latencyMs:0,finishReason:"TOOL_CALLS"} satisfies ModelResponse;
   }};
-  return {kind,source,request,clock,model,google,browser,events,snapshots,markerMaps,html,text,course};
+  return {kind,source,request,clock,model,google,googleFetch,browser,events,snapshots,markerMaps,html,text,course};
 }
