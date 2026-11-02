@@ -1,5 +1,9 @@
 # Development Log
 
+<a id="dev-2026-11-02-run-diagnosis-report-stop1"></a>
+
+2026-11-02修订指令，CET口径：运行诊断报告从最新main efeab254独立开分支，仅完成停止点1设计/字段盘点。原判定照搬、观察到达与通过分开，体验指标不作门槛；登记5条主校准、22条冻结输入和9份已合main多回合产物，不重跑/重评。保留首点口径分歧、缺逐环节独立结论/消息时钟/追问Gold等未评边界，指出新目录glob及生产判断禁入范围缺口待复核。仅文档/草案，不碰A未合分支、产品/Prompt/Schema/State/判定，真实调用0、不读.env；推分支后停止，不合main。[设计](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。
+
 2026-11-01 CET：C B1条款20秒保留补丁已全绿，按用户批准合main。原5cda产品4红→677334e5同6项绿，96494220同步main1d65b8e8；fff001f2冻结764项，默认1327/1327、Chromium187/187（130.452秒）、标准/严格G2各5/5、12页PASS，9步前后净树。独立7帧开始均>20000ms，旧14帧可见交接不变；逐I/O/model重核且deadline减20秒取消，close保留。A原三文件/B G3/Prompt/State不改；G1文件范围与助手实际追加延迟已附报告（串行5.305ms，注入80ms后88.073ms；并发另列），非Live性能。510账目/154旧产物保留、累计不变，真实调用0，不读.env。正常发布main、ls-remote核对后通知A待命，SHA以Git回执为准。 [报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)。
 
 2026-11-01 CET：C已在5cda89b7产品原字节取得4个保留区红灯，677334e5同6项实际组装全部绿；20001可开始、20000零取页/模型、两次模型间及语言导航前重核、deadline减20秒主动取消，链接保留。固定I/O助手消息等待约5.3ms，注入2×40ms模型等待后约88.1ms，均为实际持久追加观察。96494220同步main1d65b8e8，保留4处双方文档/16项main源码及账本510条、累计不变；不改A/B受保护文件。待冻结合并候选五门禁/严格G2及独立起始时刻核验，真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。
@@ -5524,3 +5528,23 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 2026-11-01 CET：按用户决定，B不修改A调度测试。main6db445ea/B6162c128各独立5次，均文件5通过/0失败、目标5通过/0失败；九份执行输入逐字相同且副本不含G1代码，单跑未复现全套失败，不称已修复。原默认1287/1288唯一失败保留为“A归属、与本次改动无关的已知失败”。本轮完整未过滤门禁默认1288/1288、Chromium187/187、严格G2 5/5及12/12页，type/arch/build和旧HARD字节均通过，各项净树/728 SHA不变。G1产品及A原P4因果绿灯不变；用户批准推B分支通知A，不合main。真实调用0，账本503条。
 
 完整未过滤命令、10次独立日志、原失败和冻结SHA见[最新交付报告](../../.eval-artifacts/phase3b/g1-page-capture/known-a-scheduling/report.md)。
+
+<a id="dev-2026-11-02-run-diagnosis-report-stop2"></a>
+
+## 2026-11-02 CET：运行诊断报告停止点2候选
+
+按停止点1复核决定实施，只定位和度量，不重判。新代码仅eval/restaurant/diagnosis；实际evaluateArtifactAfterFinish保存评价后生成不可覆盖JSON/Markdown，报告错误独立sidecar，原outcome/severity/execution不变。13环节到达与判断分开，首个确认偏离/可行见证覆盖/永远HYPOTHESIS的blocker三栏分开；合格交付无确认偏离时首点明确无确认偏离。现有productionJudgment禁入范围扩到新目录，默认glob仅追加该目录，无新检查框架。
+
+钩子修前实际正常评价已保存但诊断0→修后1；blocker-only目标断言2≠0→修后0，推测仍保留；临时副本值导入生产判断旧漏拦→修后精确拒绝，type-only及正常控制绿。12项行为覆盖包括实际Evaluator接线、四组时间、追问/排序正反、不可覆盖与汇总分母。独立人工对照只由compare入口读取，生成器不读labels、不按运行ID写规则。5份单轮/8份多回合正式报告的545个自产指针可定位，5份既有判定均深相等；来源51文件SHA不变。
+
+5e490a69/854项最终冻结，净树五门禁1339/1339、Chromium187/187及type/arch/build全绿，各一次。首点原始2/5，四组8时间点均≤2秒；神乐坂见证匹配和h002/中目黑新旧口径分歧全部保留，不删分母。A真实逐环节grader红灯对接按用户决定延期且未完成；多回合缺独立结论、真实消息时钟、追问Gold保持未评。产品/Prompt/State/Schema/Gold/见证/A文件不改；历史运行和历史评价不重执行，真实模型/Google/网站/Live0，不读.env。开发诊断证据已暴露，非Clean Baseline。仅推工作分支待独立复核，不合main。[交付](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。
+
+<a id="dev-2026-11-02-run-diagnosis-review-followup"></a>
+
+## 2026-11-02 CET：诊断报告复核三项补充
+
+按用户最后更正完成2a全量盘点：E1三份登记含备用44条/27店，既有页面原始JSON-LD与20份result的原始visibleTextExcerpt逐字核对，无可接纳两源电话或完整日文地址对照。原Konya同店判断仅由名称/地区推断，电话+81-3-3266-1611与050-3184-1511不同且缺地址；撤回已确认评测器缺陷的归因，改为疑似/缺证未确认。按明确例外不改登记、不生成新见证SHA、不重评22例；原文件及22份原评价逐字保留。旧人工标签不改，原始2/5保留，h002/中目黑说明旧人工混淆覆盖与首点。
+
+Markdown结论优先：13份摘要均前27行，三栏带确定性、13环节短引用、关键时间与未评计数，正文每店一行七列漏斗；全部原始JSON移文末。覆盖汇总独立于首点，计入已交付，SUPPORTED与可行性未评分层，门店数与运行×门店次数分开。两项具体目标红灯→绿；另修正LOCATION既有来源指针遗漏，节点状态/判定不变。比较oracle@2要求显式归因级别，未提供拒绝，不默认确认；生成器不读人工归类。
+
+3c9f3289/862项冻结，09:28–09:30 CET净树八步（报告三条＋五门禁）全通过，默认1342/1342、Chromium187/187。15项诊断行为进入默认套件；原判定、首点、漏斗、体验及8时间点不变，557自产引用可定位。仅diagnosis四文件改动，产品/Evaluator/Gold/见证/Prompt/State/A文件不改。身份缺证和A真实grader红灯仍保留；开发归档已暴露，非Clean Baseline。真实模型/Google/网站/Live0、不读.env或labels，仅推工作分支交复核，不合main。[补充报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。

@@ -1,5 +1,9 @@
 # Test and Verification Log
 
+<a id="test-2026-11-02-run-diagnosis-report-stop1"></a>
+
+2026-11-02修订指令，CET口径：诊断报告停止点1仅静态检查JSON/路径/压缩与解压SHA/既有评价到原产物绑定/链接/diff范围。输入22条为20份result+2份原中断包，5条主校准是其中子集；9份多回合原件与24个来源文件只读。四组99→128等时间仅核对字段可用性，未生成运行诊断、未开展人工一致率校准；未跑五门禁、未执行历史运行或评价器。标签文件未读，判定/样本/代码不改，真实模型/Google/网站/Live0、不读.env。推分支停复核。[静态记录与设计](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。
+
 2026-11-01 CET：C B1条款20秒保留补丁已全绿，按用户批准合main。原5cda产品4红→677334e5同6项绿，96494220同步main1d65b8e8；fff001f2冻结764项，默认1327/1327、Chromium187/187（130.452秒）、标准/严格G2各5/5、12页PASS，9步前后净树。独立7帧开始均>20000ms，旧14帧可见交接不变；逐I/O/model重核且deadline减20秒取消，close保留。A原三文件/B G3/Prompt/State不改；G1文件范围与助手实际追加延迟已附报告（串行5.305ms，注入80ms后88.073ms；并发另列），非Live性能。510账目/154旧产物保留、累计不变，真实调用0，不读.env。正常发布main、ls-remote核对后通知A待命，SHA以Git回执为准。 [报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)。
 
 2026-11-01 CET：C已在5cda89b7产品原字节取得4个保留区红灯，677334e5同6项实际组装全部绿；20001可开始、20000零取页/模型、两次模型间及语言导航前重核、deadline减20秒主动取消，链接保留。固定I/O助手消息等待约5.3ms，注入2×40ms模型等待后约88.1ms，均为实际持久追加观察。96494220同步main1d65b8e8，保留4处双方文档/16项main源码及账本510条、累计不变；不改A/B受保护文件。待冻结合并候选五门禁/严格G2及独立起始时刻核验，真实调用0、不读.env。 [计划](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。
@@ -6226,3 +6230,25 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 2026-11-01 CET：按用户决定，B不修改A调度测试。main6db445ea/B6162c128各独立5次，均文件5通过/0失败、目标5通过/0失败；九份执行输入逐字相同且副本不含G1代码，单跑未复现全套失败，不称已修复。原默认1287/1288唯一失败保留为“A归属、与本次改动无关的已知失败”。本轮完整未过滤门禁默认1288/1288、Chromium187/187、严格G2 5/5及12/12页，type/arch/build和旧HARD字节均通过，各项净树/728 SHA不变。G1产品及A原P4因果绿灯不变；用户批准推B分支通知A，不合main。真实调用0，账本503条。
 
 完整未过滤命令、10次独立日志、原失败和冻结SHA见[最新交付报告](../../.eval-artifacts/phase3b/g1-page-capture/known-a-scheduling/report.md)。
+
+<a id="test-2026-11-02-run-diagnosis-report-stop2"></a>
+
+## 2026-11-02 CET：运行诊断停止点2验证
+
+源码5e490a6921120a2557b65ccec7e9132411ff8a33，冻结854项（含51历史来源）；07:29–07:32 CET依次生成5份单轮、8份多回合及比较报告，然后运行五门禁：npm run typecheck exit0；npm run arch:check exit0；npm test 1339通过/0失败/0跳过/todo；npm run build exit0；npm run test:browser:fixture真实本地Chromium187通过/0失败/0跳过/todo，外层142.201秒。八步前后status为空、HEAD及全部冻结SHA不变，各完整门禁仅一次，无过滤/重试/豁免。之后只归档文档证据，无源码变化。原始完整日志gzip及压缩/解压SHA见[执行回执](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/execution.json)。
+
+12项定向对照进入默认套件。有效红灯：真实评价后报告数量0≠1；blocker-only误升覆盖2≠0；临时隔离副本productionJudgment值导入被arch精确拒绝（文件和模块），type-only/正常控制通过。不是任意运行错误算检错：开发中不完整TIMEOUT中断样本被实际Evaluator正确判未评，修为有效SIGTERM记录，不改规则，原日志保留。追问已给再问1/正常0，缺字段无来源填值1/正常提问0；100米/500米排序正反、距离缺失未评、无排序NOT_APPLICABLE；报告/评价异常和不可覆盖均有正常反例控制。
+
+五例首点原始一致率2/5，所有三处分歧保留：h002/中目黑按复核批准的新首点定义为合格无确认偏离，与旧人工发现覆盖分类不同；神乐坂归因评测器Chiso/Chisou见证匹配，原候选/UNKNOWN及评价NOT_FOUND均有SHA/字段指针。人工未给确定性，5项确定性比较未评。8个时间点均≤2秒，无超差；非实际用户发送/屏幕渲染时长。原51来源未改，5份既有outcome/severity/execution深相等，13份报告545自产引用定位通过。
+
+多回合能到达五个节点并附证据，缺真实逐环节结论仍未评；C原文绑定核验仅附同SHA原件，不推广为grader。TEST_INTERFACE_SAMPLE只证明读取，A真实B1/条款/取页首点红灯对接明确未完成。缺Gold/消息时钟不填0，不设体验门槛。本轮全部离线，历史运行/评价不重执行；受控测试实际调用离线Evaluator，真实模型/Google/网站/Live0、不读.env或labels。不是Clean Baseline或真实来源/模型签收。仅推分支交复核，不合main。[完整报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。
+
+<a id="test-2026-11-02-run-diagnosis-review-followup"></a>
+
+## 2026-11-02 CET：诊断复核补充验证
+
+源码3c9f328999eea9d8cfaf5533b96524a0af812387，862项冻结；09:28–09:30 CET八步各前后净树、HEAD及SHA不变。五门禁各一次：typecheck/arch/build exit0；默认1342通过/0失败/跳过/todo；真实本地Chromium187通过/0失败/跳过/todo（外层131.367秒，Runner131.174秒）。本地Node v24.4.1/npm11.4.2，未联网安装或运行Live，原始完整gzip日志及双SHA在[执行回执](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/execution.json)。
+
+修前两项实际目标断言失败：开头缺首点/链路/时间，汇总无已交付覆盖观察；修后15项全绿。原始严重程度、漏斗与条件JSON深相等移附录，13份摘要第27行结束，557自产引用定位通过。LOCATION已到达无引用的额外目标红灯→补已有字段指针，不改节点/判定。覆盖重复运行对照2家/4次；实际5例显示SUPPORTED发现3、事实2，未确认可行性发现7单列，h002/中目黑首点仍无确认偏离。比较输入缺归因级别拒绝，疑似Konya不再报告为确认缺陷。
+
+2a全量44登记/27店缺证表，0可补两源逐字身份，三份登记SHA不变。按用户最新明确例外，历史Evaluator重跑0，不宣称22条新评分无变化；逐项核对22份既有评价与1d590c05原字节一致，原result/中断包SHA不变。原始校准仍2/5，8时间点不变且≤2秒；撤回已归因评测器的旧推断，Konya改为疑似匹配、缺独立身份证据未确认；旧标签和旧报告不覆盖。真实模型/Google/网站/Live0，不读.env或labels。A实际多回合grader红灯未完成、来源身份缺证和HARD未核对的历史口径未修改，非Clean Baseline/真实网站或模型验收。仅推分支交复核，不合main。[补充报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。

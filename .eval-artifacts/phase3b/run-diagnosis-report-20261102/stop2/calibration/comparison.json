@@ -1,0 +1,307 @@
+{
+  "schema": "run-diagnosis-calibration@1",
+  "inputs": {
+    "summary": {
+      "path": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/primary-reports/summary.json",
+      "sha256": "483ba6fd4c57f077bd42e8a939e19bda874252117fc00e3dedce122849817068"
+    },
+    "oracle": {
+      "path": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/comparison-oracle.json",
+      "sha256": "e7363cfa600e7734725ae71657527b72476fc82f0fce53c68c7aa27a436164f1"
+    },
+    "reviewedFirstPointRule": {
+      "path": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/review-decisions.md",
+      "sha256": "66baf8df1b790f02437afab5c4becba10a5e61f9fbb8c5248505e85b125a2533"
+    }
+  },
+  "stageAgreement": {
+    "matched": 2,
+    "total": 5,
+    "ratio": 0.4
+  },
+  "results": [
+    {
+      "runId": "p1fA-kf-h001-a1",
+      "expectedStage": null,
+      "observedStage": null,
+      "stageMatch": true,
+      "category": "STAGE_MATCH",
+      "explanation": null,
+      "source": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/calibration-reference.md; user instruction section 4.1 and confirmed stop2 review",
+      "evidence": [],
+      "certainty": {
+        "expected": "NOT_SPECIFIED",
+        "observed": null,
+        "status": "NOT_EVALUATED"
+      },
+      "timings": [
+        {
+          "name": "observationComplete",
+          "expected": 99,
+          "observed": 99.285,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.2849999999999966
+        },
+        {
+          "name": "presentation",
+          "expected": 128,
+          "observed": 127.987,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.01300000000000523
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h002-a1",
+      "expectedStage": "DISCOVERY",
+      "observedStage": null,
+      "stageMatch": false,
+      "category": "HISTORICAL_SCOPE_DIFFERS_FROM_REVIEWED_FIRST_POINT_RULE",
+      "explanation": "The approved rule explicitly selects no confirmed deviation for a qualified delivery without a confirmed deviation. The historical manual category describes discovery coverage, not that newly defined primary first point. Both values are retained; no label or evaluator result is changed.",
+      "source": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/calibration-reference.md; user instruction section 4.1 and confirmed stop2 review",
+      "evidence": [],
+      "certainty": {
+        "expected": "NOT_SPECIFIED",
+        "observed": null,
+        "status": "NOT_EVALUATED"
+      },
+      "timings": [
+        {
+          "name": "observationComplete",
+          "expected": 122,
+          "observed": 122.051,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.05100000000000193
+        },
+        {
+          "name": "presentation",
+          "expected": 149,
+          "observed": 148.895,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.10499999999998977
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kf-h004-a1",
+      "expectedStage": "UNDERSTANDING",
+      "observedStage": "UNDERSTANDING",
+      "stageMatch": true,
+      "category": "STAGE_MATCH",
+      "explanation": null,
+      "source": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/calibration-reference.md; user instruction section 4.1 and confirmed stop2 review",
+      "evidence": [],
+      "certainty": {
+        "expected": "NOT_SPECIFIED",
+        "observed": "CONFIRMED",
+        "status": "NOT_EVALUATED"
+      },
+      "timings": [
+        {
+          "name": "observationComplete",
+          "expected": 292,
+          "observed": 292.402,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.4019999999999868
+        },
+        {
+          "name": "presentation",
+          "expected": 304,
+          "observed": 304.149,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.1490000000000009
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kagurazaka-a1",
+      "expectedStage": "AVAILABILITY",
+      "observedStage": "DISCOVERY",
+      "stageMatch": false,
+      "category": "DISAGREEMENT_ATTRIBUTED_TO_EVALUATOR",
+      "explanation": "Reviewer independently confirmed Chiso Konya is an existing TableCheck candidate with UNKNOWN availability; the old witness records Chisou Konya and its @29 cross-source identity matching misses the spelling. Disagreement belongs to evaluator witness matching, not a run-ID diagnosis rule. No roster or matching rule changed.",
+      "source": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/calibration-reference.md; user instruction section 4.1 and confirmed stop2 review",
+      "evidence": [
+        {
+          "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kagurazaka-a1.result.json.gz",
+          "sha256": "1a5f6955e890450a2627e4c81866648bd5c5d51e265d53ae87956ad11969d596",
+          "pointer": "/finalSnapshot/domainState/candidates/1/restaurant/outletName"
+        },
+        {
+          "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kagurazaka-a1.result.json.gz",
+          "sha256": "1a5f6955e890450a2627e4c81866648bd5c5d51e265d53ae87956ad11969d596",
+          "pointer": "/finalSnapshot/domainState/availabilityChecks/tablecheck:konya/status"
+        },
+        {
+          "path": ".eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review/evaluations/p1fA-kagurazaka-a1.evaluation.29.01574306-d919-476b-b1d6-ce889b5d68af.json",
+          "sha256": "98049d218f5f1592133273f8a7d2729f8c466e12323250f7c359b7716a93a44c",
+          "pointer": "/witnessFunnel/2/outletName"
+        }
+      ],
+      "certainty": {
+        "expected": "NOT_SPECIFIED",
+        "observed": "CONFIRMED",
+        "status": "NOT_EVALUATED"
+      },
+      "timings": [
+        {
+          "name": "observationComplete",
+          "observed": null,
+          "status": "NOT_APPLICABLE",
+          "absoluteDifferenceSeconds": null
+        },
+        {
+          "name": "presentation",
+          "observed": null,
+          "status": "NOT_APPLICABLE",
+          "absoluteDifferenceSeconds": null
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-nakameguro-a1",
+      "expectedStage": "DISCOVERY",
+      "observedStage": null,
+      "stageMatch": false,
+      "category": "HISTORICAL_SCOPE_DIFFERS_FROM_REVIEWED_FIRST_POINT_RULE",
+      "explanation": "The approved rule explicitly selects no confirmed deviation for a qualified delivery without a confirmed deviation. The historical manual category describes discovery coverage, not that newly defined primary first point. Both values are retained; no label or evaluator result is changed.",
+      "source": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/calibration-reference.md; user instruction section 4.1 and confirmed stop2 review",
+      "evidence": [],
+      "certainty": {
+        "expected": "NOT_SPECIFIED",
+        "observed": null,
+        "status": "NOT_EVALUATED"
+      },
+      "timings": [
+        {
+          "name": "observationComplete",
+          "expected": 208,
+          "observed": 208.105,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.10499999999998977
+        },
+        {
+          "name": "presentation",
+          "expected": 247,
+          "observed": 247.079,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.07900000000000773
+        }
+      ]
+    }
+  ],
+  "disagreements": [
+    {
+      "runId": "p1fA-kf-h002-a1",
+      "expectedStage": "DISCOVERY",
+      "observedStage": null,
+      "stageMatch": false,
+      "category": "HISTORICAL_SCOPE_DIFFERS_FROM_REVIEWED_FIRST_POINT_RULE",
+      "explanation": "The approved rule explicitly selects no confirmed deviation for a qualified delivery without a confirmed deviation. The historical manual category describes discovery coverage, not that newly defined primary first point. Both values are retained; no label or evaluator result is changed.",
+      "source": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/calibration-reference.md; user instruction section 4.1 and confirmed stop2 review",
+      "evidence": [],
+      "certainty": {
+        "expected": "NOT_SPECIFIED",
+        "observed": null,
+        "status": "NOT_EVALUATED"
+      },
+      "timings": [
+        {
+          "name": "observationComplete",
+          "expected": 122,
+          "observed": 122.051,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.05100000000000193
+        },
+        {
+          "name": "presentation",
+          "expected": 149,
+          "observed": 148.895,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.10499999999998977
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-kagurazaka-a1",
+      "expectedStage": "AVAILABILITY",
+      "observedStage": "DISCOVERY",
+      "stageMatch": false,
+      "category": "DISAGREEMENT_ATTRIBUTED_TO_EVALUATOR",
+      "explanation": "Reviewer independently confirmed Chiso Konya is an existing TableCheck candidate with UNKNOWN availability; the old witness records Chisou Konya and its @29 cross-source identity matching misses the spelling. Disagreement belongs to evaluator witness matching, not a run-ID diagnosis rule. No roster or matching rule changed.",
+      "source": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/calibration-reference.md; user instruction section 4.1 and confirmed stop2 review",
+      "evidence": [
+        {
+          "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kagurazaka-a1.result.json.gz",
+          "sha256": "1a5f6955e890450a2627e4c81866648bd5c5d51e265d53ae87956ad11969d596",
+          "pointer": "/finalSnapshot/domainState/candidates/1/restaurant/outletName"
+        },
+        {
+          "path": ".eval-artifacts/calibration-phase1-20261015/inputs/p1fA-kagurazaka-a1.result.json.gz",
+          "sha256": "1a5f6955e890450a2627e4c81866648bd5c5d51e265d53ae87956ad11969d596",
+          "pointer": "/finalSnapshot/domainState/availabilityChecks/tablecheck:konya/status"
+        },
+        {
+          "path": ".eval-artifacts/e1-evaluator-20261016/calibration-20261016-rubric25-review/evaluations/p1fA-kagurazaka-a1.evaluation.29.01574306-d919-476b-b1d6-ce889b5d68af.json",
+          "sha256": "98049d218f5f1592133273f8a7d2729f8c466e12323250f7c359b7716a93a44c",
+          "pointer": "/witnessFunnel/2/outletName"
+        }
+      ],
+      "certainty": {
+        "expected": "NOT_SPECIFIED",
+        "observed": "CONFIRMED",
+        "status": "NOT_EVALUATED"
+      },
+      "timings": [
+        {
+          "name": "observationComplete",
+          "observed": null,
+          "status": "NOT_APPLICABLE",
+          "absoluteDifferenceSeconds": null
+        },
+        {
+          "name": "presentation",
+          "observed": null,
+          "status": "NOT_APPLICABLE",
+          "absoluteDifferenceSeconds": null
+        }
+      ]
+    },
+    {
+      "runId": "p1fA-nakameguro-a1",
+      "expectedStage": "DISCOVERY",
+      "observedStage": null,
+      "stageMatch": false,
+      "category": "HISTORICAL_SCOPE_DIFFERS_FROM_REVIEWED_FIRST_POINT_RULE",
+      "explanation": "The approved rule explicitly selects no confirmed deviation for a qualified delivery without a confirmed deviation. The historical manual category describes discovery coverage, not that newly defined primary first point. Both values are retained; no label or evaluator result is changed.",
+      "source": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/calibration-reference.md; user instruction section 4.1 and confirmed stop2 review",
+      "evidence": [],
+      "certainty": {
+        "expected": "NOT_SPECIFIED",
+        "observed": null,
+        "status": "NOT_EVALUATED"
+      },
+      "timings": [
+        {
+          "name": "observationComplete",
+          "expected": 208,
+          "observed": 208.105,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.10499999999998977
+        },
+        {
+          "name": "presentation",
+          "expected": 247,
+          "observed": 247.079,
+          "status": "WITHIN_TWO_SECONDS",
+          "absoluteDifferenceSeconds": 0.07900000000000773
+        }
+      ]
+    }
+  ],
+  "certaintyDifferences": [],
+  "timeDifferences": [],
+  "noRuntimeIdRules": true,
+  "producerReadHumanLabels": false,
+  "gateEffect": "NONE"
+}
