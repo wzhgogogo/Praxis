@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-02 CET：G6开发Live公开认证停批，Live计划8/启动0/可评0。5次串行GET（记账间隔≥5s），W1 Dengana11-11/19:00/2在本次响应有位，名址电话核对通过；W2 Tabelog有17–18/20–21时段但无19，不能标DETAIL_ONLY；TC公开详情电话对照未获响应，仅TypeError，当前跨渠道身份未知。未reviewed/导入、未启动任何模型/Live，不重试、不猜URL。四份200原始body/SHA和第5失败尝试全存；584旧账目原值保留，加授权行和5GET为590，GET260/390、开发5/20余15，模型241、Live0不变。八槽S0/Guard/F6/页合格率均NOT_RUN/null；无新日历/回放/D8链接。源码/冻结pack不变，本轮五门禁NOT_RUN，复用已获用户独立复核cc97绿灯。只推工作分支，停复核等决定。 [停批报告](../.eval-artifacts/phase3b/g6-development-live/approval-20261102/report.md)。
+
 2026-11-02 CET：用户已批准G6开发八槽在11-03/04运行（固定11-11/19:00/2），每槽500s/50模型/40Google，合计8 Live/400模型/开发GET20；全球公开GET290→390专留留出集，不挪开发限额。先公开认证W1/W2+TC电话，三项条件全满足才在获批日期开跑；当前仍11-02，只做认证，任何缺证停批不猜测、不自动重跑。三录制、逐槽独立S0/页合格率/schema重试/Guard/F6按已冻Runner；源码/pack不变，账本原584项全部保留，此批准行无调用，不加载.env。 [授权与冻结](../.eval-artifacts/phase3b/g6-development-live/approval-20261102/authorization.json)。
 
 2026-11-02 CET：A已同步C批准main f992a8ac，四轮受影响预订补回放4/4通过。真实模型13/20（逐fetch前计账），P1三措辞各SEARCH→CHECK→PRESENT，P2先ASK人数再同流程；4轮均为代码USER选店事件且因果指向原用户语义，无模型SELECT，每轮两次FIXTURE条款NOT_STATED，卡片省略并filled in，独立S0=0。先发现并保留A fixture空候选误PRESENT红灯，仅修合法SEARCH传输；原输入/期望不变，修后5415882a净树七项：默认1359/原Chromium188+G6 51/严格G2 12页、type/arch/build全绿，768源SHA不变。账本571并集旧值保留后新增13到584，模型241/1600、GET255/290、Live0/26；未执行Live/GET，凭据仅Node --env-file注入，产品/诊断相对main零差异。停工作分支复核，Live仍等批准。 [报告](../.eval-artifacts/phase3b/g6-live-readiness-20261102/c-main-booking-replay/report.md)。

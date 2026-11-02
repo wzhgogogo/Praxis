@@ -8348,15 +8348,75 @@
       "restaurantWebsiteRequests": 0,
       "environmentReruns": 0,
       "note": "User approved G6 D1-D8 on 2026-11-03 or 11-04 Vienna: <=8 Live, <=400 models, <=20 public GET including certification/postcheck, no automatic environment rerun. Global publicGET limit 290->390 for holdout reserve; development remains20. Holdout max3 Tabelog deliveries/slot confirmed. No calls in this approval row."
+    },
+    {
+      "id": "g6-development-cert-1793626656333-13108466:GET:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T13:37:36.333Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "detail; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-development-cert-1793626656333-13108466:GET:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T13:37:41.339Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "vacancy; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-development-cert-1793626661723-13186922:GET:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T13:37:46.347Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "detail; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-development-cert-1793626661723-13186922:GET:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T13:37:51.355Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "vacancy; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-development-tablecheck-identity-1793626676361",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T13:37:56.365Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "W2 public guide identity/phone only; no cookie/form/retry"
     }
   ],
   "cumulative": {
     "fullLive": 0,
     "realModelCalls": 241,
     "environmentReruns": 0,
-    "evaluationPublicGET": 255,
+    "evaluationPublicGET": 260,
     "googleRequests": 12,
-    "restaurantWebsiteRequests": 255
+    "restaurantWebsiteRequests": 260
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
@@ -8432,5 +8492,5 @@
       "note": "Union all 58 A-only rows; common rows identical. C real calls zero."
     }
   ],
-  "asOfCET": "2026-11-02T14:36:58.245467+01:00"
+  "asOfCET": "2026-11-02T14:45:24.655905+01:00"
 }
