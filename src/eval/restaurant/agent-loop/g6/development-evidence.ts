@@ -9,30 +9,34 @@ import { assertDevelopmentDates } from "./development-pack.js";
 import { chargeG6 } from "./budget.js";
 import { independentVacancy } from "./evaluator.js";
 const hash=(b:Buffer|string)=>createHash("sha256").update(b).digest("hex");
+export function publicGETError(error:unknown){
+  return error instanceof Error ? JSON.parse(JSON.stringify(error,["name","message","code","cause","errors"])) : {name:"UnknownError",message:String(error)};
+}
 type Oracle=Omit<G6Case["oracle"],"request">;
 export interface DevelopmentEvidence {schemaVersion:"g6-development-evidence@1";packSHA256:string;reviewed:boolean;reviewer:string;reviewedAt:string;identityChecks:{name:boolean;address:boolean;phone:boolean};w2ConfirmedNoOnline:boolean;publicGETAttempts:number;captureRef:string;captureSHA256:string;getRecords:Array<{path:string;sha256:string}>;certificates:WitnessReceipt[];oracles:Record<string,Oracle>;}
 
 /** Authorization is supplied by the human outside this tool; this command is
  * prepared now but must only be invoked after the user approves development Live. */
-export async function captureDevelopmentWitnesses(pack:G6Pack,packSHA256:string,out:string,transport:typeof fetch=fetch,budgetPath=resolve(".eval-artifacts/phase3b/budget.json")){
+export async function captureDevelopmentWitnesses(pack:G6Pack,packSHA256:string,out:string,transport:typeof fetch=fetch,budgetPath=resolve(".eval-artifacts/phase3b/budget.json"),timingControls:{now?:()=>number;wait?:(ms:number)=>Promise<void>}={}){
   assertDevelopmentDates(new Date().toLocaleDateString("sv-SE",{timeZone:"Europe/Vienna"}),pack.cases[0]?.witness?.date);
+  const now=timingControls.now??Date.now,wait=timingControls.wait??(ms=>new Promise<void>(r=>setTimeout(r,ms))),ceiling=pack.witnessGETLimit??0;
   await mkdir(out,{recursive:false});let count=0;const timing={last:-Infinity},certificates:WitnessReceipt[]=[],failures:unknown[]=[];
   const targets=[...new Map(pack.cases.flatMap(c=>c.witness?[[c.witness.sourceEntityId,c.witness] as const]:[])).values()];
-  for(const w of targets){const directory=join(out,w.sourceEntityId),reader=createWitnessReader({directory,budgetPath,runId:"g6-development-cert-"+Date.now()+"-"+w.sourceEntityId,fetch:transport,requestTiming:timing,beforeGET:()=>{if(count>=20)throw Error("Development20GET limit before transmission");count++;}});
+  for(const w of targets){const directory=join(out,w.sourceEntityId),reader=createWitnessReader({directory,budgetPath,runId:"g6-development-cert-"+Date.now()+"-"+w.sourceEntityId,fetch:transport,now,wait,requestTiming:timing,beforeGET:()=>{if(count>=ceiling)throw Error("Development GET limit before transmission");count++;}});
     try{const receipt=await reader.read(w,"BEFORE",true);certificates.push(receipt);if(receipt.exists===false)failures.push({sourceEntityId:w.sourceEntityId,reason:"SLOT_NOT_AVAILABLE"});}
-    catch(error){failures.push({sourceEntityId:w.sourceEntityId,reason:error instanceof Error?error.name:"CERTIFICATION_FAILED",directory});}
+    catch(error){failures.push({sourceEntityId:w.sourceEntityId,reason:error instanceof Error?error.name:"CERTIFICATION_FAILED",detail:publicGETError(error),directory});}
   }
   // A fresh public TableCheck guide (never reserve/form) lets the operator
   // compare W2 phone as well as the already-reviewed bilingual address.
   const tablecheckURL="https://www.tablecheck.com/en/nakamata-nodoguro-ginza",tablecheckPath=join(out,"tablecheck-identity.body");
   try{
-    const wait=5000-(Date.now()-timing.last);if(wait>0)await new Promise(r=>setTimeout(r,wait));
-    if(count>=20)throw Error("Development20GET ceiling");count++;
-    await chargeG6(budgetPath,"g6-development-tablecheck-identity-"+Date.now(),"evaluationPublicGET","W2 public guide identity/phone only; no cookie/form/retry");timing.last=Date.now();
+    const delay=5000-(now()-timing.last);if(delay>0)await wait(delay);
+    if(count>=ceiling)throw Error("Development GET ceiling");count++;
+    await chargeG6(budgetPath,"g6-development-tablecheck-identity-"+Date.now(),"evaluationPublicGET","W2 public guide identity/phone only; no cookie/form/retry");timing.last=now();
     const response=await transport(tablecheckURL,{method:"GET",credentials:"omit",redirect:"manual",signal:AbortSignal.timeout(20_000)}),body=Buffer.from(await response.arrayBuffer());if(body.length>8_000_000)throw Error("Public identity response too large");
     await writeFile(tablecheckPath,body,{flag:"wx"});await writeFile(tablecheckPath+".json",JSON.stringify({url:tablecheckURL,status:response.status,checkedAt:new Date().toISOString(),sha256:hash(body),cookiesSent:false,retried:false},null,2)+"\n",{flag:"wx"});
     if(response.status!==200)failures.push({source:"TABLECHECK_IDENTITY",status:response.status});
-  }catch(error){failures.push({source:"TABLECHECK_IDENTITY",reason:error instanceof Error?error.name:"PUBLIC_GET_FAILED"});}
+  }catch(error){failures.push({source:"TABLECHECK_IDENTITY",reason:error instanceof Error?error.name:"PUBLIC_GET_FAILED",detail:publicGETError(error)});}
   // Review is deliberately not auto-confirmed from mere pointer/address matches.
   // The reviewer must inspect raw pages (including phone and online block),
   // attach complete-request oracles, and explicitly confirm any W2 detail-only
@@ -49,7 +53,8 @@ export async function importDevelopmentEvidence(pack:G6Pack,packSHA256:string,pa
   const bytes=await artifact(path);if(hash(bytes)!==sha256)throw Error("Development evidence SHA mismatch");const input=JSON.parse(bytes.toString()) as DevelopmentEvidence;
   if(input.schemaVersion!=="g6-development-evidence@1"||input.packSHA256!==packSHA256||!input.reviewed||!input.reviewer||!input.identityChecks.name||!input.identityChecks.address||!input.identityChecks.phone)throw Error("Fresh witness name/address/phone review is required; no Live started");
   const capture=await artifact(input.captureRef);if(hash(capture)!==input.captureSHA256||JSON.parse(capture.toString()).publicGETAttempts!==input.publicGETAttempts)throw Error("Witness attempt count binding mismatch");
-  if(!Number.isSafeInteger(input.publicGETAttempts)||input.publicGETAttempts<input.getRecords.length||input.publicGETAttempts>20||!input.getRecords.length||input.getRecords.length>20)throw Error("Unexpected publicGET evidence count");for(const r of input.getRecords)if(hash(await artifact(r.path))!==r.sha256)throw Error("Witness raw response changed");
+  const ceiling=pack.witnessGETLimit??0;
+  if(!Number.isSafeInteger(input.publicGETAttempts)||input.publicGETAttempts<input.getRecords.length||input.publicGETAttempts>ceiling||!input.getRecords.length||input.getRecords.length>ceiling)throw Error("Unexpected publicGET evidence count");for(const r of input.getRecords)if(hash(await artifact(r.path))!==r.sha256)throw Error("Witness raw response changed");
   const expected=[...new Map(pack.cases.flatMap(c=>c.witness?[[c.witness.sourceEntityId,c.witness] as const]:[])).values()];
   for(const target of expected){const r=input.certificates.find(r=>r.target.sourceEntityId===target.sourceEntityId);if(!r||r.target.detailUrl!==target.detailUrl||r.target.date!==target.date||r.target.time!==target.time||r.target.partySize!==target.partySize||!r.detailRef||!r.detailSHA256||hash(await artifact(r.detailRef))!==r.detailSHA256)throw Error("Certificate target/body binding mismatch");
     const age=now-Date.parse(r.checkedAt);if(!Number.isFinite(age)||age<0||age>=86_400_000)throw Error("Certificate outside24h");
