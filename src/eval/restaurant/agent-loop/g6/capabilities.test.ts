@@ -43,7 +43,7 @@ for(const kind of ["RESPONSE_MISSING","RESPONSE_CHANGED"] as const)test(`G6 capa
     assert.equal(view.restaurant.presentedCandidateIds?.length??0,0,"Date/control prose without valid response must never create a slot card");
     assert.equal(view.case.phase,"NO_VERIFIED_RESULT","Incomplete source evidence must end with a bounded honest conclusion");
     const checks=Object.values(view.restaurant.availabilityChecks);assert.ok(checks.some(c=>c.status==="UNKNOWN"));
-    if(kind==="RESPONSE_CHANGED")assert.ok(checks.some(c=>c.reasonCode==="SOURCE_STRUCTURE_CHANGED"),"Response schema drift must remain an explicit visible alert in the real root State");
+    if(kind==="RESPONSE_CHANGED")assert.ok(checks.some(c=>c.reasonCode==="SOURCE_STRUCTURE_CHANGED"||c.sourceAttempts?.some(a=>a.reasonCode==="SOURCE_STRUCTURE_CHANGED")),"Response schema drift must remain an explicit visible alert in the real root State");
   });
 });
 

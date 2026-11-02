@@ -12,7 +12,7 @@ import { createHybridDecisionCapture } from "../runners/run-hybrid-live-read.js"
 import { createG6Session,G6_USER } from "./session.js";
 import { evaluateG6,type G6EvaluationInput,type G6Delivered,type G6Vacancy,type G6OraclePage } from "./evaluator.js";
 import { recordingQualification,reserveObservations,type ReadStartObservation } from "./observations.js";
-import { chargeG6 } from "./budget.js";
+import { chargeG6,recordG6SourceCounts } from "./budget.js";
 import { createWitnessReader,type G6Witness,type WitnessReceipt } from "./witness.js";
 
 export type G6Trigger="DISPLAYED_RESULTS"|"DISPLAYED_AVAILABLE"|"ASKED_FOR_DATE"|"ASKED_FOR_PARTY";
@@ -152,7 +152,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
     }catch(error){failure=error instanceof Error?error.message:"G6_RUN_FAILED";stopReason=failure;receipts.push({id:spec.id,status:"FAILED",path:slot,reason:failure});
       await writeFile(join(slot,"failure.json"),JSON.stringify({failure,turns,witnesses},null,2)+"\n",{flag:"wx"});
     }finally{
-      if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();const decisions=await capture.finish(failure),recorded=await recording.finish();
+      if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();if(pack.mode==="LIVE_READ")await recordG6SourceCounts(dependencies.budgetPath,runId+":SOURCE_IO",googleCalls,forwarded.length);const decisions=await capture.finish(failure),recorded=await recording.finish();
       await writeFile(join(slot,"recording-observation.json"),JSON.stringify({recordingConfig:pack.recording,decisions,...recordingQualification(recorded)},null,2)+"\n",{flag:"wx"});
     }
     await writeFile(join(output,"batch.json"),JSON.stringify({schemaVersion:"phase3b-g6-batch@1",serial:true,stopReason:stopReason??null,slots:receipts},null,2)+"\n");

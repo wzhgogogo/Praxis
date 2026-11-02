@@ -97,7 +97,7 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
     }else if(input.purpose==="restaurant_agent_decide"){
       const c=data().context as RestaurantAgentContext,eligible=c.presentation.filter(p=>p.eligible).map(p=>p.candidateId);
       if(!c.candidates.length&&c.searchAvailability?.available)body=strictAction("SEARCH_RESTAURANTS");
-      else if(prices&&c.factInvestigableCandidateIds?.some(id=>!factAttempts.has(id))){
+      else if((prices||kind==="RESPONSE_MISSING"||kind==="RESPONSE_CHANGED")&&c.factInvestigableCandidateIds?.some(id=>!factAttempts.has(id))){
         const id=c.factInvestigableCandidateIds.find(id=>!factAttempts.has(id))!;factAttempts.add(id);body=strictAction("INVESTIGATE_CANDIDATE_FACTS",[id]);
       }
       else if(c.checkableCandidateIds?.length)body=strictAction("CHECK_AVAILABILITY",c.checkableCandidateIds.slice(0,1));

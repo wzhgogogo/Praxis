@@ -1,0 +1,52 @@
+✖ G6 capability RESPONSE_MISSING: visible date/guests never replace missing or changed vacancy data (785.273125ms)
+✖ G6 capability RESPONSE_CHANGED: visible date/guests never replace missing or changed vacancy data (517.2155ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1760.211584
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:2601
+✖ G6 capability RESPONSE_MISSING: visible date/guests never replace missing or changed vacancy data (785.273125ms)
+  AssertionError [ERR_ASSERTION]: Incomplete source evidence must end with a bounded honest conclusion
+  + actual - expected
+  
+  + 'NEEDS_INPUT'
+  - 'NO_VERIFIED_RESULT'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:44:12)
+      at control (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:12:51)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:42:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NEEDS_INPUT',
+    expected: 'NO_VERIFIED_RESULT',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:2601
+✖ G6 capability RESPONSE_CHANGED: visible date/guests never replace missing or changed vacancy data (517.2155ms)
+  AssertionError [ERR_ASSERTION]: Incomplete source evidence must end with a bounded honest conclusion
+  + actual - expected
+  
+  + 'NEEDS_INPUT'
+  - 'NO_VERIFIED_RESULT'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:44:12)
+      at control (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:12:51)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:42:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NEEDS_INPUT',
+    expected: 'NO_VERIFIED_RESULT',
+    operator: 'strictEqual'
+  }
