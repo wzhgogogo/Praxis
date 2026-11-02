@@ -2,7 +2,7 @@
 
 ## Status
 
-**Accepted** — Document revision 0.5, 2026-11-02 (Vienna CET, UTC+1).
+**Accepted** — Document revision 0.6, 2026-11-02 (Vienna CET, UTC+1).
 
 Presentation-only clauses in sections 4 and 5 are **partially superseded by [ADR-0050](0050-two-line-handoff-presentation.md)**, approved by the user on 2026-10-29: departure hints may use two lines, and the cancellation-conflict confirmation sits beside the card's cancellation terms. The original Decision text below is retained; link provenance, evidence checks, write boundaries and return feedback remain in force.
 
@@ -94,3 +94,9 @@ When the accepted semantic interpretation of the current user message has a SPEC
 The compiled user-message event retains only a code-admitted pending-choice marker and, when uniquely bound, the displayed candidate ID. Original goalBasis, reason and quotations remain outside durable Draft/State and ordinary logs. A party-only supplement may carry that original authoritative event's choice request; a new target without a newly admitted booking choice, semantic failure or conflict clears it. The loop rechecks the current target and candidates before dispatching selection, with USER trace/causation to the accepted message event and a USER_MESSAGE trajectory that contains no fabricated Agent action. Candidate resets and all current identity/availability checks remain in force. No State or TaskDefinition change is required.
 
 An Agent SELECT_CANDIDATE remains available. Repeating the same candidate/offer is a successful no-op, with no second selection event. Open-ended recommendations, an explicit G1 question, an Agent's internal choice and a Book-on departure never become code-recorded user choices. Selection authorizes no booking, emits no BOOKING_PROPOSED and skips no availability read. Missing guests are asked first; after fresh current availability produces a valid same-channel B1 handoff, the unchanged selected-outlet terms reader runs in the same turn under its original budget, cancellation and 20-second reserve. This appends the approved user-choice decision only.
+
+## User decision appended 2026-11-02: outward eligibility
+
+A prepared source handoff is projected only for a candidate in `presentedCandidateIds` while the Case is in `PRESENT_RESULTS`; in every other phase it must belong to `readyCandidateIds`. A missing presented set is empty. `selectedCandidateId` never bypasses this boundary. This matches the workspace's visible/ready candidate set and prevents a valid availability link for a HARD-unverified, unpresented outlet from being exposed as a booking handoff.
+
+The prepared cache may remain for later eligible presentation. Departure validation uses the same outward projection and rejects a hidden outlet through the existing “No current verified source handoff” path; selected-outlet terms acquisition uses the same eligibility boundary before any reading. Both existing server link validations, source-link binding, terms evidence, fee configuration, and booking authority remain unchanged. No State, TaskDefinition or Prompt version changes. This appends the user's approved projection restriction only.

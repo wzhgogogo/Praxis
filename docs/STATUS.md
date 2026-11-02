@@ -1,3 +1,7 @@
+2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。
+
+2026-11-02 CET：C开始用户已批准的B1投影修复：PRESENT_RESULTS只认已展示集合，其他阶段只认就绪集合；selected不绕过集合，准备缓存保留。普通组装+HTTP先红后绿，正控制覆盖SEARCHING就绪、展示及用户选店条款；A/B受保护文件与版本不动，真实调用0。门禁全绿后按授权同步main、合入推送并通知A。 [计划](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。
+
 # Praxis 当前状态
 
 2026-11-02 CET：C 用户预订选择 ec93c249 已获独立复核及合入批准。原 main549061e8 的1351/187/严格G2全绿证据原样保留；A随后发布fixture生命周期修复，439fceeb同步main31d482aa并保留双方五处文档记录，恰两份fixture文件与主线原字节一致。最终冻结881项，九步前后净树：默认1351/1351、Chromium188/188、严格G2 5/5及12页PASS，独立九份组装产物PASS，无超时/重试。选店产品/State/TaskDefinition/Prompt/Schema/条款逻辑与复核源不变，95份旧产物保留，账本570条保留原569条及累计数，本次真实调用0、不读.env。按用户批准正常合入并推送main，以Git合并和ls-remote为最终SHA凭据，随后通知A、C待命。全名相等之外的部分名/跨语言名称仍交Agent，保持已批准的保守限制。 [Report](../.eval-artifacts/phase3b/user-booking-selection-main-20261102/report.md)
