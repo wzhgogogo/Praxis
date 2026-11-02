@@ -1,0 +1,100 @@
+{
+  "baselineCommit": "9341985540e5a6909f1344634a5817248e4e3786",
+  "beforeRows": 620,
+  "beforeRowsPreserved": true,
+  "afterRows": 626,
+  "newRows": [
+    {
+      "id": "g6-D3-1793634743154-0:LIVE",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:23.155Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 1,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "Frozen G6 serial slot; browser, decisions and Google recording on"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:MODEL:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:23.902Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 1,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "restaurant_semantic_interpret"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:MODEL:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:28.442Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 1,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "restaurant_agent_decide"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:GET:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:30.561Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "detail; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:GET:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:35.567Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "vacancy; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:SOURCE_IO",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:35.983Z",
+      "mode": "G6_SOURCE_IO_OBSERVATION",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "Actual source transport starts; no quotas charged twice; witness GETs have their own rows."
+    }
+  ],
+  "delta": {
+    "fullLive": 1,
+    "realModelCalls": 2,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 2,
+    "googleRequests": 0,
+    "restaurantWebsiteRequests": 2
+  },
+  "cumulative": {
+    "fullLive": 2,
+    "realModelCalls": 266,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 264,
+    "googleRequests": 19,
+    "restaurantWebsiteRequests": 1394
+  },
+  "developmentGETUsed": 9,
+  "developmentGETLimit": 25,
+  "developmentGETRemaining": 16,
+  "D1ReviewAnnotationPreserved": true,
+  "D1Rerun": false,
+  "environmentReruns": 0
+}

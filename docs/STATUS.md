@@ -1,5 +1,7 @@
 2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。
 
+2026-11-02 CET：A已同步main d4d8ea33，最终净树五门禁1363/188+54及严格G2 12页全绿，770源SHA未变。续跑仅D3启动：7.406秒后因独立area缺失合法ASK_USER，未进入搜索/浏览器，预订回合未发；自动S0=0，但等待澄清被冻结评价器归为unboundedEnd，NOT_EVALUATED并INDEPENDENT_EVIDENCE_REVIEW_REQUIRED停批。D4–D7/W2认证及D2/D8未启动，不补area不重跑不改评分。两次立即后验仍有位；累计Live2/26、模型266/1600、GET264/390，开发9/25，账本620原值保留加6为626，环境重跑0。D1自动S0=1/人工裁定服务端范围非用户可见声明/S2已独立记账、原评价不改；本批未验收B1/F6 Live。只推工作分支交复核、不合main。 [完整报告](../.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/report.md)。
+
 2026-11-02 CET：A同步main d4d8ea33的B1范围修复，文档两边保留、预算619并集加D1复核旁注为620，GET390保持用户已批准值。D1自动S0=1/原评价不改，复核裁定服务端合同范围缺口、非用户可见声明，能力CAPABILITY_MISS/S2、不重跑不占环境额度。仅G6评测侧补wall轨迹和W2五槽续跑准入，两个有效红灯→8/8绿；D3–D7原文/认证/开发7次GET继承、W2仍20:00，待新冻结净树五门禁/严格G2后串行实跑。任何S0/安全缺证停批，不改产品/评分/版本，不合main。 [切片与冻结](../.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/plan.md)。
 
 2026-11-02 CET：C开始用户已批准的B1投影修复：PRESENT_RESULTS只认已展示集合，其他阶段只认就绪集合；selected不绕过集合，准备缓存保留。普通组装+HTTP先红后绿，正控制覆盖SEARCHING就绪、展示及用户选店条款；A/B受保护文件与版本不动，真实调用0。门禁全绿后按授权同步main、合入推送并通知A。 [计划](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。

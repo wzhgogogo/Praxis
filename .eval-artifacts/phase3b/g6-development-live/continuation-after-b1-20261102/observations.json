@@ -1,0 +1,527 @@
+{
+  "mode": "OFFLINE_METRICS_NOT_REGRADED",
+  "slots": [
+    {
+      "id": "D3",
+      "group": "w1-runs",
+      "runId": "g6-D3-1793634743154-0",
+      "verdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": true
+      },
+      "evaluationSHA256": "6f692800db94e136c3d08b9c7ad0601a7960d588751970962544f4f7854c674e",
+      "nonPassingChecks": [
+        {
+          "rule": "BOUNDED_NO_RESULT",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+          "reason": "No-delivery wording must describe this bounded investigation",
+          "evidenceRefs": []
+        },
+        {
+          "rule": "NO_DELIVERY_WITNESS",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "witness-W1",
+          "reason": "Independently qualified witness still has the slot",
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/w1-runs/D3/witness/002-vacancy.body"
+          ]
+        }
+      ],
+      "phase": "NEEDS_INPUT",
+      "delivered": [],
+      "turns": [
+        {
+          "id": "book-first",
+          "status": "NOT_SENT",
+          "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+        }
+      ],
+      "handoffs": [],
+      "question": null,
+      "elapsedMs": 7405.5755,
+      "modelCalls": 2,
+      "modelsByPurpose": {
+        "restaurant_semantic_interpret": {
+          "count": 1,
+          "latencyMs": 4510
+        },
+        "restaurant_agent_decide": {
+          "count": 1,
+          "latencyMs": 2081
+        }
+      },
+      "googleRequests": 0,
+      "schemaRetries": 0,
+      "exclusiveWallMs": {
+        "UNATTRIBUTED": 814.575439453125,
+        "MODEL:restaurant_semantic_interpret": 4510.0,
+        "MODEL:restaurant_agent_decide": 2081.0
+      },
+      "operationInclusiveMs": {},
+      "unfinishedOperations": [],
+      "timingLimit": "Method spans are source-operation proxies, not pure network latency. Parallel overlap uses model-first exclusive attribution. Google wait and complete-evidence timestamp remain unassessed; no timing establishes qualification.",
+      "firstServerPresentationCET": null,
+      "firstCompleteQualifiedEvidenceAt": null,
+      "screenRenderingObserved": false,
+      "F6": {
+        "exceeded500Seconds": false,
+        "sourceReadsStartedInReserve": 0,
+        "termsWorkStartedInReserve": 0
+      },
+      "guardForbiddenReachedSource": 0,
+      "actions": [
+        {
+          "step": 1,
+          "atCET": "2026-11-02T16:52:30.528000+01:00",
+          "action": {
+            "type": "ASK_USER",
+            "question": "Which area should I search in for Kushi Katsu Dengana Akabane ten on November 11, 2026 at 7:00 PM for 2 people? (For example, the neighborhood or station area you have in mind.)",
+            "relatedFields": [
+              "area"
+            ]
+          },
+          "metadata": null,
+          "outcome": "WAITING_USER"
+        }
+      ],
+      "witnessFunnel": {
+        "found": false,
+        "candidateId": null,
+        "candidate": null,
+        "factCheck": null,
+        "availabilityCheck": null,
+        "presented": false,
+        "certificatesAndPostChecks": [
+          {
+            "checkedAt": "2026-11-02T13:37:41.723Z",
+            "kind": "BEFORE",
+            "target": {
+              "candidateId": "witness-W1",
+              "name": "Kushi Katsu Dengana Akabane ten",
+              "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+              "provider": "TABELOG",
+              "sourceEntityId": "13108466",
+              "date": "2026-11-11",
+              "time": "19:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "identityText": [
+                "Kushi Katsu Dengana Akabane ten",
+                "1-15-1"
+              ]
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/84f4c1f9-certification/13108466/002-vacancy.body",
+              "phase": "BEFORE",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13108466&svd=20261111&svps=2&svt=1900",
+              "candidateId": "witness-W1",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "12:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1200"
+                  },
+                  "1": {
+                    "time": "12:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1215"
+                  },
+                  "2": {
+                    "time": "12:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1230"
+                  },
+                  "3": {
+                    "time": "12:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1245"
+                  },
+                  "4": {
+                    "time": "13:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1300"
+                  },
+                  "5": {
+                    "time": "13:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1315"
+                  },
+                  "6": {
+                    "time": "13:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1330"
+                  },
+                  "7": {
+                    "time": "13:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1345"
+                  },
+                  "8": {
+                    "time": "14:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1400"
+                  },
+                  "9": {
+                    "time": "14:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1415"
+                  },
+                  "10": {
+                    "time": "14:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1430"
+                  },
+                  "11": {
+                    "time": "14:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1445"
+                  },
+                  "12": {
+                    "time": "15:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1500"
+                  },
+                  "13": {
+                    "time": "15:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1515"
+                  },
+                  "14": {
+                    "time": "15:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1530"
+                  },
+                  "15": {
+                    "time": "15:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1545"
+                  },
+                  "16": {
+                    "time": "16:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1600"
+                  },
+                  "17": {
+                    "time": "16:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1615"
+                  },
+                  "18": {
+                    "time": "16:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1630"
+                  },
+                  "19": {
+                    "time": "16:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1645"
+                  },
+                  "20": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1700"
+                  },
+                  "21": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1715"
+                  },
+                  "22": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1730"
+                  },
+                  "23": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1745"
+                  },
+                  "24": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1800"
+                  },
+                  "25": {
+                    "time": "18:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1815"
+                  },
+                  "26": {
+                    "time": "18:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1830"
+                  },
+                  "27": {
+                    "time": "18:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1845"
+                  },
+                  "28": {
+                    "time": "19:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1900"
+                  },
+                  "29": {
+                    "time": "19:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1915"
+                  },
+                  "30": {
+                    "time": "19:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1930"
+                  },
+                  "31": {
+                    "time": "19:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1945"
+                  },
+                  "32": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2000"
+                  },
+                  "33": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2015"
+                  },
+                  "34": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2030"
+                  },
+                  "35": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2045"
+                  },
+                  "36": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2100"
+                  },
+                  "37": {
+                    "time": "21:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2115"
+                  },
+                  "38": {
+                    "time": "21:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2130"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "19:00"
+              }
+            },
+            "responseSHA256": "80ea0fc34ffa66b65787870d1bd48c15033a2e512b041065752ec480d681245e",
+            "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/84f4c1f9-certification/13108466/001-detail.body",
+            "detailSHA256": "f7dfe3a1e5ae6a030f09e6a1652b54ed12f977fc6f5ca5f797f79d756b543282"
+          },
+          {
+            "checkedAt": "2026-11-02T15:52:35.969Z",
+            "kind": "NO_DELIVERY_AFTER",
+            "target": {
+              "candidateId": "witness-W1",
+              "name": "Kushi Katsu Dengana Akabane ten",
+              "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+              "provider": "TABELOG",
+              "sourceEntityId": "13108466",
+              "date": "2026-11-11",
+              "time": "19:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "identityText": [
+                "Kushi Katsu Dengana Akabane ten",
+                "1-15-1"
+              ]
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/w1-runs/D3/witness/002-vacancy.body",
+              "phase": "NO_DELIVERY_AFTER",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13108466&svd=20261111&svps=2&svt=1900",
+              "candidateId": "witness-W1",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "12:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1200"
+                  },
+                  "1": {
+                    "time": "12:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1215"
+                  },
+                  "2": {
+                    "time": "12:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1230"
+                  },
+                  "3": {
+                    "time": "12:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1245"
+                  },
+                  "4": {
+                    "time": "13:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1300"
+                  },
+                  "5": {
+                    "time": "13:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1315"
+                  },
+                  "6": {
+                    "time": "13:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1330"
+                  },
+                  "7": {
+                    "time": "13:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1345"
+                  },
+                  "8": {
+                    "time": "14:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1400"
+                  },
+                  "9": {
+                    "time": "14:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1415"
+                  },
+                  "10": {
+                    "time": "14:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1430"
+                  },
+                  "11": {
+                    "time": "14:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1445"
+                  },
+                  "12": {
+                    "time": "15:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1500"
+                  },
+                  "13": {
+                    "time": "15:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1515"
+                  },
+                  "14": {
+                    "time": "15:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1530"
+                  },
+                  "15": {
+                    "time": "15:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1545"
+                  },
+                  "16": {
+                    "time": "16:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1600"
+                  },
+                  "17": {
+                    "time": "16:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1615"
+                  },
+                  "18": {
+                    "time": "16:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1630"
+                  },
+                  "19": {
+                    "time": "16:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1645"
+                  },
+                  "20": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1700"
+                  },
+                  "21": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1715"
+                  },
+                  "22": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1730"
+                  },
+                  "23": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1745"
+                  },
+                  "24": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1800"
+                  },
+                  "25": {
+                    "time": "18:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1815"
+                  },
+                  "26": {
+                    "time": "18:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1830"
+                  },
+                  "27": {
+                    "time": "18:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1845"
+                  },
+                  "28": {
+                    "time": "19:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1900"
+                  },
+                  "29": {
+                    "time": "19:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1915"
+                  },
+                  "30": {
+                    "time": "19:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1930"
+                  },
+                  "31": {
+                    "time": "19:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1945"
+                  },
+                  "32": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2000"
+                  },
+                  "33": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2015"
+                  },
+                  "34": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2030"
+                  },
+                  "35": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2045"
+                  },
+                  "36": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2100"
+                  },
+                  "37": {
+                    "time": "21:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2115"
+                  },
+                  "38": {
+                    "time": "21:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2130"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "19:00"
+              }
+            },
+            "responseSHA256": "80ea0fc34ffa66b65787870d1bd48c15033a2e512b041065752ec480d681245e",
+            "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/w1-runs/D3/witness/001-detail.body",
+            "detailSHA256": "db6db17e0cf3cd05b6d2c423c920f7e16f0acb147a396478b7f726ccfea84d61"
+          }
+        ]
+      },
+      "recording": {
+        "recordingConfig": {
+          "browser": true,
+          "decisions": true,
+          "googleResponses": true
+        },
+        "decisions": {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/w1-runs/D3/execution.decisions.jsonl",
+          "sha256": "e411b975545e4e5d8b1f26afa146b1ba6caffb53bb227938ee6e49b6641cc942",
+          "callsStarted": 2,
+          "rowsWritten": 2,
+          "errors": []
+        },
+        "schemaVersion": "phase3b-g6-recording-observation@1",
+        "status": "RECORDED",
+        "qualifiedPages": 0,
+        "totalPages": 0,
+        "ratio": null,
+        "pages": [],
+        "recordingPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/w1-runs/D3/recordings/g6-D3-1793634743154-0",
+        "replayStatus": "NOT_REPLAYABLE"
+      },
+      "googleResponsesInHAR": 0,
+      "uncapturedScriptsOriginPathOnly": [],
+      "calendarCandidates": []
+    }
+  ]
+}

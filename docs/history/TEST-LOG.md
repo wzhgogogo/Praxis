@@ -1,5 +1,8 @@
 # Test and Verification Log
 
+<a id="test-g6-d3-clarification-stop-20261102"></a>
+2026-11-02 CET：A已同步main d4d8ea33，最终净树五门禁1363/188+54及严格G2 12页全绿，770源SHA未变。续跑仅D3启动：7.406秒后因独立area缺失合法ASK_USER，未进入搜索/浏览器，预订回合未发；自动S0=0，但等待澄清被冻结评价器归为unboundedEnd，NOT_EVALUATED并INDEPENDENT_EVIDENCE_REVIEW_REQUIRED停批。D4–D7/W2认证及D2/D8未启动，不补area不重跑不改评分。两次立即后验仍有位；累计Live2/26、模型266/1600、GET264/390，开发9/25，账本620原值保留加6为626，环境重跑0。D1自动S0=1/人工裁定服务端范围非用户可见声明/S2已独立记账、原评价不改；本批未验收B1/F6 Live。只推工作分支交复核、不合main。 [完整报告](../../.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/report.md)。
+
 <a id="test-g6-continuation-after-b1-20261102"></a>
 2026-11-02 CET：A同步main d4d8ea33的B1范围修复，文档两边保留、预算619并集加D1复核旁注为620，GET390保持用户已批准值。D1自动S0=1/原评价不改，复核裁定服务端合同范围缺口、非用户可见声明，能力CAPABILITY_MISS/S2、不重跑不占环境额度。仅G6评测侧补wall轨迹和W2五槽续跑准入，两个有效红灯→8/8绿；D3–D7原文/认证/开发7次GET继承、W2仍20:00，待新冻结净树五门禁/严格G2后串行实跑。任何S0/安全缺证停批，不改产品/评分/版本，不合main。 [切片与冻结](../../.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/plan.md)。
 

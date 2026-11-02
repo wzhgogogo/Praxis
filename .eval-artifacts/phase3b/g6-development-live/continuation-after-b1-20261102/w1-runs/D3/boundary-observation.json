@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "phase3b-g6-boundary-observation@1",
+  "elapsedMs": 7405.5755,
+  "exceeded500Seconds": false,
+  "sourceReadsStartedInReserve": 0,
+  "termsWorkStartedInReserve": 0,
+  "forbiddenRequestsReachedSource": 0,
+  "readStarts": [
+    {
+      "kind": "READ",
+      "purpose": "restaurant_semantic_interpret",
+      "atMs": 1793634743905,
+      "deadlineAtMs": 1793635243154
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "atMs": 1793634748444,
+      "deadlineAtMs": 1793635243154
+    }
+  ],
+  "googleRequests": 0,
+  "modelCalls": 2,
+  "semanticAttemptsByTurn": {
+    "INITIAL": 1
+  },
+  "semanticSchemaRetries": 0
+}
