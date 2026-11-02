@@ -8,6 +8,12 @@
 
 2026-11-02 CET：C用户消息选店离线修复，main efeab254上A原P1/P2 PRESENT_RESULTS回放及具名/来源4红→4413e4ff同9项全绿。复用现有选择事件，USER来源与消息因果链，跨补人数由已接纳事件携带待解析请求；非唯一、非订位、开放推荐/G1/出发不记选择，重复同店/offer幂等。State24/TaskDefinition22、Agent Prompt、G1条款及A/B受保护文件不改。原始响应不改，真实调用0，不读.env；待冻结完整五门禁/严格G2与独立核验，只推工作分支交复核、不合main。 [计划](../../.eval-artifacts/phase3b/user-booking-selection-20261102/plan.md)。
 
+<a id="test-browser-fixture-lifecycle-main-verified-20261102"></a>
+2026-11-02 CET：浏览器fixture生命周期修复已达到用户批准的main发布门槛。独立分支仅逐字提取49e37c55两份harness；af11c443晚调度+旧helper出现真实退休/等待标记后8秒保护红灯，b0285800同控制0.888秒绿。737 SHA全程不变，默认1342/1342、Chromium188/188（149.341秒）、严格G2 5/5及12页PASS，type/arch/build全绿，7项前后净树。原断言、30ms/180s/600s不改，不带G6 Runner/评价器，不改产品/版本/脚本/package和账本，真实调用0不加载.env。正常推送main并ls-remote核对后通知B/C，再同步G6分支；最终SHA以Git发布回执为准。 [报告](../../.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/report.md)。
+
+<a id="test-browser-fixture-lifecycle-main-20261102"></a>
+2026-11-02 CET：A按用户批准把浏览器fixture生命周期修复单独从main549061e8提取。两份harness来自获复核49e37c55，先晚调度回归配main旧helper取红，再同断言绿；不带G6 Runner/评价器/产品/版本，不改budget原值、不加载.env，真实调用0。完整净树五门禁/严格G2通过后直接发布main并通知B/C，随后G6同步。 [计划](../../.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/plan.md)。
+
 <a id="test-2026-11-02-run-diagnosis-report-stop1"></a>
 
 2026-11-02修订指令，CET口径：诊断报告停止点1仅静态检查JSON/路径/压缩与解压SHA/既有评价到原产物绑定/链接/diff范围。输入22条为20份result+2份原中断包，5条主校准是其中子集；9份多回合原件与24个来源文件只读。四组99→128等时间仅核对字段可用性，未生成运行诊断、未开展人工一致率校准；未跑五门禁、未执行历史运行或评价器。标签文件未读，判定/样本/代码不改，真实模型/Google/网站/Live0、不读.env。推分支停复核。[静态记录与设计](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。

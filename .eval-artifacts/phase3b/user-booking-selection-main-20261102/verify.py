@@ -5,7 +5,10 @@ freeze=json.loads((r/'freeze.json').read_text())
 for f in freeze['files']:
     assert hashlib.sha256(Path(f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']
 approved='ec93c249d7525e2c642bc0f0f0058522cf3b3428'
-assert not subprocess.check_output(['git','diff',approved,'--','src','scripts','package.json','package-lock.json','tsconfig.json','tsconfig.build.json'],text=True)
+allowed=json.loads((r/'allowed-main-source.json').read_text())['paths']
+changed=subprocess.check_output(['git','diff','--name-only',approved,'--','src','scripts','package.json','package-lock.json','tsconfig.json','tsconfig.build.json'],text=True).splitlines()
+assert sorted(changed)==sorted(f['path'] for f in allowed),changed
+for f in allowed:assert hashlib.sha256(Path(f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']
 preserved=json.loads((r/'preserved.json').read_text())
 for f in preserved['oldArtifacts']:
     assert hashlib.sha256(Path(f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']
