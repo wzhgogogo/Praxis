@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-02 CET：G6批次1准备停止点交付。56ecf553净树完整五门禁全绿：默认1335/1335、原Chromium188/188加串行G6固定组46/46、严格G2 5/5及12页PASS、原条款1/1，751源SHA不变。原构建声明类型失败及触发器旧码红灯均保留，A修后验证；未改产品/站点/版本/诊断目录。能力签收清单、Runner/独立JSON合同/三类录制和8槽计划已齐，真实模型57次固定回放52符合/5偏离仍待复核，不能当Live通过；Live/GET/Google/环境重跑0。模型累计228/1600、账本568项且510旧项原值保留。只推A工作分支不合main；D2/D8见证指针待冻结、历史卡住根因未证。 [报告](../.eval-artifacts/phase3b/g6-batch1-preparation-20261102/report.md)。
+
 2026-11-02 CET：A续接G6准备，同步已复核main efeab254；原取消条款断言已绿，完成整组装能力清单、串行Runner/独立评价器/三类录制与8槽开发计划。2核旧目标30次未自然复现，fixture生命周期受控红灯后修复、90次绿，历史510秒根因仍未证。真实模型固定上下文57次无重试，合同校正后52符合/5偏离（4次未SELECT、1次缺schemaVersion），旧分数与原输出保留待复核。新增Live/公开GET/Google/环境重跑0；模型累计228/1600，账本510旧项原值保留，共568项。产品/站点/版本/诊断目录不改；不合main，候选冻结后跑五门禁及严格G2。 [本批报告](../.eval-artifacts/phase3b/g6-batch1-preparation-20261102/report.md)。
 
 2026-11-01 CET：A已同步已复核TableCheck B1 main74dd2faf为2923c4e1，原5输入/测试未改，TableCheck交接及四路径控制7/7；前次source→link缺口关闭。继续用户整组装清单时，ff17d370冻结新取消条款正例：真实G1页面获取/模型1次/同店同页逐字引用均已接纳，普通Tabelog交接链接正常，但terms=[]，ADR0049第5条的G1→卡片条款桥接缺失，首个新增行为断言失败。按用户失败即停规则保留活跃红灯、不改产品/不注入条款，交复核安排；剩余无项/模型回放/Runner等未完成，当前五门禁与严格G2 NOT_RUN。507账本旧项原值保留、追加为508；新增真实模型/Google/GET/Live/environment全0，不读.env/私有留出集/QA答案。只推A原工作分支，不合main；旧停止证据原样保留。[本次报告](../.eval-artifacts/phase3b/g6-whole-composition-after-tablecheck/report.md)。

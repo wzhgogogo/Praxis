@@ -1,0 +1,1 @@
+Superseded audit text, not an active Runner or compatibility path. Bytes unchanged; .txt extension retires the executable copies after the isolated control. Original before/after Git inputs and log remain, current regression is src/eval/restaurant/agent-loop/g6/runner.test.ts. No production core was replaced.
