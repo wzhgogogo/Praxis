@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { basename, dirname, resolve } from "node:path";
+import { basename, dirname, relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { gunzipSync } from "node:zlib";
 import { buildRunDiagnosis, renderRunDiagnosis, summarizeDiagnoses } from "./report.js";
@@ -81,7 +81,7 @@ export async function generateRecordedDiagnoses(manifestPath:string,output:strin
     const result=await writeRecordedDiagnosis({artifact:input.artifact,...(input.evaluation?{evaluation:input.evaluation}:{}),prefix:resolve(output,input.id),attemptId:input.id,...(input.context?{context:input.context}:{})});
     // The manifest label is an attempt identity, never a diagnostic rule.
     reports.push(result.report);
-    paths.push({id:input.id,jsonPath:result.jsonPath,markdownPath:result.markdownPath,sha256:digest(await readFile(result.jsonPath))});
+    paths.push({id:input.id,jsonPath:relative(process.cwd(),result.jsonPath),markdownPath:relative(process.cwd(),result.markdownPath),sha256:digest(await readFile(result.jsonPath))});
   }
   const planned=Array.isArray(m.plannedRunIds)&&m.plannedRunIds.every(x=>typeof x==="string")?m.plannedRunIds as string[]:undefined;
   const summary={...summarizeDiagnoses(reports,planned),manifest:loaded.source,paths};
