@@ -12,3 +12,11 @@ split-resume-20261102/w1-runs/D1/recordings/*/recording.json -diff -text
 
 # Continuation D3 raw public witness bytes.
 continuation-after-b1-20261102/w1-runs/D3/witness/*.body -diff -text
+
+# D4 immutable source payloads; no whitespace or newline rewriting.
+d4-d6-safety-only/runs/D4/witness/*.body -diff -text
+d4-d6-safety-only/runs/D4/recordings/*/snapshot-*.html -diff -text
+d4-d6-safety-only/runs/D4/recordings/*/diagnostic/*.html -diff -text
+d4-d6-safety-only/runs/D4/recordings/*/stylesheet-*.css -diff -text
+d4-d6-safety-only/runs/D4/recordings/*/replay.har -diff -text
+d4-d6-safety-only/runs/D4/recordings/*/recording.json -diff -text

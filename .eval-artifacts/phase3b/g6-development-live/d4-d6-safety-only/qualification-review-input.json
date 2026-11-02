@@ -1,0 +1,93 @@
+{
+  "mode": "OFFLINE_REVIEW_INPUT_NOT_A_NEW_QUALIFICATION_ORACLE",
+  "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+  "name": "やきとん大王 赤羽店",
+  "merchantQuoteObservations": [
+    {
+      "snapshot": 78,
+      "path": ".eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/runs/D4/recordings/g6-D4-1793636444457-0/diagnostic/snapshot-0078.html",
+      "sha256": "d3e35ab277c44e43f552d9c6b40909f4dcbf3d1a289752378397122b26cd946f",
+      "quote": "揚げ物メニュー：串カツ、アジフライなど",
+      "literalVisibleTextPresent": true,
+      "merchantNamePresent": true,
+      "phoneDigitsPresent": false
+    }
+  ],
+  "rawGoogleObservations": [
+    {
+      "harEntryIndex": 80,
+      "id": "ChIJD2M-Jx2TGGARYC8xs1rxXxY",
+      "displayName": {
+        "text": "やきとん大王 赤羽店",
+        "languageCode": "ja"
+      },
+      "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−23−６ 三晃ビル 1・2F",
+      "phone": "03-5939-7750",
+      "location": {
+        "latitude": 35.780183199999996,
+        "longitude": 139.7208911
+      }
+    },
+    {
+      "harEntryIndex": 85,
+      "id": "ChIJD2M-Jx2TGGARYC8xs1rxXxY",
+      "displayName": {
+        "text": "やきとん大王 赤羽店",
+        "languageCode": "ja"
+      },
+      "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−23−６ 三晃ビル 1・2F",
+      "phone": "03-5939-7750",
+      "location": {
+        "latitude": 35.780183199999996,
+        "longitude": 139.7208911
+      }
+    }
+  ],
+  "HAR": ".eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/runs/D4/recordings/g6-D4-1793636444457-0/replay.har",
+  "HARSHA256": "67e354e4ecec2ec348a3bb977a41fd5106c08dcb3adf87707d2b40a52ec3cafa",
+  "frozenCenterReference": ".eval-artifacts/phase3b/g6-development-live/split-resume-20261102/w1-qualification-basis.json",
+  "frozenCenterReferenceSHA256": "656d32354a6e2e962f2ee9236dd69475304dc8a7f55737eb75150c39c07f8e1a",
+  "center": {
+    "latitude": 35.777745100000004,
+    "longitude": 139.7210653,
+    "radiusMeters": 1000,
+    "placeId": "ChIJWX3QWB2TGGARPRJlTdnE96Q",
+    "name": "Akabane Station",
+    "source": {
+      "path": ".eval-artifacts/phase2c-holdout/witness-certification-20261023/reads/01-centers-and-listings/center-01.attempt-1.body.json",
+      "sha256": "28562706d3b24303387f875fed6af3166dc0e81fc6e7dcb2fc20156f3e787980"
+    },
+    "usedPlace": "Akabane"
+  },
+  "mechanicalDistanceMeters": 271.5594176943886,
+  "radiusMeters": 1000,
+  "productionConditionStates": {
+    "praxis:restaurant:c446fe0b901cca8ffb43b42e": [
+      {
+        "text": "kushikatsu",
+        "status": "NOT_CHECKED",
+        "sources": [
+          {
+            "field": "CATEGORY",
+            "quote": "揚げ物メニュー：串カツ、アジフライなど",
+            "sourceUrl": "https://www.1bangai.org/daioh"
+          }
+        ],
+        "polarity": "POSITIVE",
+        "strength": "HARD",
+        "evidenceIds": [
+          "fact-judgment:praxis:restaurant:c446fe0b901cca8ffb43b42e:2026-11-02T16:27:28.159Z:website-document:f6ca6b6e87c2294ddabf86a9c639bc8baff89d1bf84a2b921f969bab36eed256"
+        ],
+        "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+        "criterionRef": "criterion:0"
+      }
+    ]
+  },
+  "reviewNeeded": [
+    "Does this merchant menu quote meet the complete kushikatsu-place HARD meaning?",
+    "Frozen reviewed oracles covered W1 Dengana only; this outlet was not pre-certified.",
+    "Current production eligibility=true while displayed HARD condition status=NOT_CHECKED; review the two projections."
+  ],
+  "originalEvaluationUnchanged": true,
+  "noMoreGETs": true
+}

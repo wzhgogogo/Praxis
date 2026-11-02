@@ -1,5 +1,8 @@
 # Test and Verification Log
 
+<a id="test-g6-d4-safety-review-stop"></a>
+2026-11-02 CET（客户端11-03）：A新安全停批策略完成红绿及净树全门禁，历史D3仅stopBatch变化、D1仍S0停，评分与定义不变。D4 483.348秒展示Yakiton Daio1家，完整资格及B1来源两项安全NOT_EVALUATED后正确停批，D6未启动。HAR原B1链接确实存在，A读取器用四参数见证规则拒绝来源第五参数exclude_unavailable_time；新店仅有串カツ菜单原文，需独立HARD审查，且生产eligible与显示NOT_CHECKED差异单列。G1追问因收尾预留未发。Recorder12/94页，模型32、Google8、独立请求2206全PASS/越界0，F6无保留区新读且未超500；3POST为合法日历。D7取消非失败，具名四槽仍待C；本次不修评分或产品、不续跑。账本627原值保留加35为662，累计Live3/26、模型298/1600、GET265/390，开发10/25余15、环境重跑0。 [完整报告](../../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/report.md)。
+
 <a id="test-g6-d4-d6-safety-policy"></a>
 2026-11-02 CET：按用户复核记录D3能力未达/不必要追问/S0=0（原评价不改），D7取消且不计失败，具名四槽等C通知。本批只改A Runner/评价器停批：S0或安全缺证/额度仍停，安全PASS的能力NOT_EVALUATED记RECORDED_NOT_EVALUATED并继续；历史D3仅stopBatch改变、D1仍停且全部评分逐字段不变，整组装下一槽可启动，34/34绿。冻结D4/D6原文和开发9/25继承，待净树五门禁/严格G2后串行跑；不改产品或评分规则，不合main。 [切片与冻结](../../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/plan.md)。
 
