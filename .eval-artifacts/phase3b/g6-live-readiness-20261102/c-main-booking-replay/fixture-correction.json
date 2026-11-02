@@ -1,0 +1,22 @@
+{
+  "status": "LOCAL_MODEL_SCRIPT_CORRECTION_NOT_PRODUCT_CHANGE",
+  "redSourceCommit": "6b140e8d",
+  "redOutput": "../booking-replay-fixture",
+  "firstDeviation": {
+    "file": "src/eval/restaurant/agent-loop/g6/booking-replay.ts",
+    "function": "runBookingReplay fixture ModelGateway.complete",
+    "observedLegalActions": {
+      "search": true,
+      "presentResults": []
+    },
+    "scriptedOutput": {
+      "type": "PRESENT_RESULTS",
+      "candidateIds": []
+    },
+    "runtimeRejection": "Model action was invalid: PRESENT_RESULTS requires one or more candidateIds"
+  },
+  "CSelectionSemanticMarkerPresent": true,
+  "fix": "If there are no candidates, script SEARCH_RESTAURANTS before considering availability/presentation, as the existing main preflight model already does. No input/source/oracle/expectation edits.",
+  "inputSHA256": "6c14aacf8291c5cf4fe8dfab8be1f36314fc49796658810218269b04da4cbc4a",
+  "paidCallsBeforeCorrection": 0
+}
