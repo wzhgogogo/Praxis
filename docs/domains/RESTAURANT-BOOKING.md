@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.44
+- Document revision: 3.46
 
 
 - Last updated: 2026-11-01
@@ -59,7 +59,7 @@ Discovery保存`RestaurantCandidate`，Availability按`candidateId → Availabil
 
 ADR-0009保留开放`criteria`集合；ADR-0029定义`HARD` / `SOFT` / `UNSPECIFIED`：仅HARD是证据/资格门槛，已表达但未标记强制或让步的条件保留为UNSPECIFIED非阻塞偏好。ADR-0010取代ADR-0007的确定性next-step部分，ADR-0011取代其中的Action Contract与Loop控制细节，ADR-0012定义不可变Migration、最小Agent Context和Proposal join，ADR-0013定义definitive failure后的Agent恢复、新Proposal/Authorization与Decision Context审计。已冻结的Progressive Decision Harness `statePatch` Contract仍不接入产品Task State。
 
-真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，轻量Fixture Driver只位于[`src/eval/restaurant/search-fixture`](../../src/eval/restaurant/search-fixture/fixture-application.ts)。
+真实Search Source、Availability、Request Booking、Human Takeover、取消、变更与路线仍为`proposed`。当前产品应用见[`Persistent Restaurant Agent`](../../src/application/persistent-restaurant-agent.ts)，替代覆盖见[`src/harness/restaurant-harness.test.ts`](../../src/harness/restaurant-harness.test.ts)。
 
 ## Semantic Proposal, Compiler, Agent and Action Validator
 
@@ -364,3 +364,13 @@ User-approved implementation for main publication ([release evidence](../../.eva
 Separate source-specific readers share the existing browser read through passive wrappers. TableCheck taps only already occurring snapshot/observeControls results, retains visible enabled same-shop reserve LINK entrances with root-task/evidence/request/expiry binding, and deterministically serializes only an actual exact available offer. A source link already carrying contradictory date/party/time is rejected; a broad window alone never supplies a chosen time. No new navigation, control read, workflow verification or model request is added. Original Tabelog reader bytes and source-returned URL behavior remain unchanged. ADR-0049's generation and projection checks, grammar, freshness and no-submit/no-PII boundaries remain.
 
 Evidence is local constructed model/source I/O, real local Chromium, persistent PGlite and actual Router/Reducer/projection; A's five imported files remain byte-identical. Initial/selected projections carry TableCheck date/time/guests plus filled-in wording and Check date and guests; sourceSelection remains UNKNOWN. Component rejection/isolation/expiry controls are separate from the whole-chain positive. Current gates/publication status is in [STATUS](../STATUS.md); [evidence plan](../../.eval-artifacts/phase3b/b1-tablecheck-composition-20261101/plan.md). No State/TaskDefinition/Prompt/Schema version changes, real source request or booking claim.
+
+
+## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
+
+B1条款由现有G1生产事实链产生，按根Task、当前investigation、门店和交接渠道隔离。仅已选且有有效交接时主动读取；原始HIGH身份凭据（包括通过Google网站入口产生的RESTAURANT_WEBSITE命名空间）、实际同店来源URL、页面全文、run及读取时间保留在服务端临时条款证据内，不改写原凭据或Task State。显示前再核对同店/渠道/运行/逐字/时效；Tabelog路径ID与数字rcd只是既有同店ID的表记。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+
+
+## B1 terms conclusion reserve (2026-11-01 CET; approved main integration)
+
+选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。

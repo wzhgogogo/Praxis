@@ -19,7 +19,6 @@
     "eval:restaurant:semantic:holdout:baseline": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/semantic/runners/run-holdout.ts",
     "eval:restaurant:semantic:holdout:exposed-regression": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/semantic/runners/run-exposed-holdout-regression.ts",
     "eval:restaurant:semantic:holdout:exposed-regression:analyze": "node --import tsx src/eval/restaurant/semantic/runners/run-exposed-holdout-regression-analysis.ts",
-    "eval:restaurant:search:fixture": "node --import tsx src/eval/restaurant/search-fixture/run.ts",
     "eval:restaurant:agent-loop:hybrid-live-read": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-hybrid-live-read.ts",
     "eval:restaurant:agent-loop:fixed-source-model": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-current-development-fixed-source-model.ts",
     "eval:restaurant:agent-loop:native-fixed-source-model": "node --env-file-if-exists=.env --import tsx src/eval/restaurant/agent-loop/runners/run-native-fixed-source-model.ts",

@@ -1,7 +1,7 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.25
+- Document revision: 0.27
 - Last updated: 2026-10-30
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -159,3 +159,13 @@ On the preparation branch, a current verified Tabelog slot provides Book on Tabe
 Historical B1 rebase checkpoint (2026-10-30 CET): the C branch now includes published G3 and retains the approved ADR-0050 presentation. Source-link behavior has been rechecked offline; C wiring still awaits review and its own main merge. [Evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/rebased-main/report.md).
 
 Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is ready for the authorized main publication after fresh five gates1254/186 and strict G2 all12 pages PASS. Ordinary server startup now consumes the G3 admitted raw links without extra navigation; both server checks, ADR0050 UI and UNKNOWN source selection remain. Tabelog and TableCheck are offline usable; current-source prefill and booking are not claimed. In-memory Tabelog links are unavailable after restart until another availability check. [Release evidence](../../.eval-artifacts/phase3b/b1-g3-wiring/main-release/report.md).
+
+
+## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
+
+用户2026-11-01决定：选店且有当前B1交接后，主动读取同店同渠道的取消与订位信用卡条款；原文、英文转述、URL及读取时间上卡片，不为全部候选读取。已接纳的当前同页答案复用；缺证/过期/预算/取消不显示条款，链接照常。日英冲突并列，手续费配置保持。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+
+
+## B1 terms conclusion reserve (2026-11-01 CET; approved main integration)
+
+选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。

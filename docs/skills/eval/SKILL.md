@@ -242,7 +242,6 @@ R6对无结果记录同时要求：终态failure、search failure或remainingGap
 | --- | --- | --- |
 | 语义开发回归 | `npm run eval:restaurant:semantic:fixture` / `...:deepseek` | 前者是离线契约，后者是授权真实模型诊断；均非Clean Baseline |
 | 私有Holdout准备 | `npm run eval:restaurant:semantic:holdout:preflight` | 标注与状态检查 |
-| 搜索本地纵向检查 | `npm run eval:restaurant:search:fixture` | 本地Fixture链，停在授权前 |
 | 固定来源或Hybrid只读 | `npm run eval:restaurant:agent-loop:fixed-source-model` / `...:hybrid-live-read` | 前者受控来源，后者本次真实只读；都不证明预约成功 |
 | 已有artifact补评 | `npm run eval:restaurant:agent-loop:artifact` | 结论支持性与终止行为 |
 | 决策回放 | `run-decision-replay.ts`（原样、注入、history模式） | 单步决策在冻结输入上的表现 |

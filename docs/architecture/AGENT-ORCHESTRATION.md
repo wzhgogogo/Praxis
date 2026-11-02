@@ -1,7 +1,7 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.28
+- Document revision: 3.30
 - Last updated: 2026-10-28
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
@@ -120,3 +120,13 @@ ADR-0046 follow-up uses Agent Prompt29, action Schema5, Context17, State24 and T
 The page cache is server-side and keyed by run/outlet/entry/page. Native and Google-listed-website readers produce its observations only after the existing identity checks. The same readers handle cache misses. As approved in ADR0046 revision0.3, every explicit question owns 60 seconds from submission, three model calls and two new document visits across sessions. The reader uses independent model/browser counters, never the completed search scope; restart can reread the bound outlet. The single no-argument action is selected by code and still validated/routed/reduced; its trajectory has an explicit code-selection summary and no fabricated modelAttempt. Twenty distinct accepted questions per conversation are counted from existing persistent events, surviving restart and deduplicating request IDs. Open-ended search decisions remain model-selected. Pending questions are cancelled or completed before changing the read; local shortlist/browse remain state-only. Structured output is projected to English Web, with original-language quotes and explicit read times. Independent model quality scoring remains pending.
 
 Question Prompt/Schema3 adds a model-only sourceConflict boolean; code derives the existing confirmationRequired from sensitivity OR sourceConflict, so the persisted answer shape, State24 and TaskDefinition22 do not change. G1-only sentence units inherit review roles after full source-line coverage checks. A coarse script-ratio check rejects predominantly Japanese answers to predominantly Latin-letter questions; semantic faithfulness still requires independent scoring.
+
+
+## B1 selected-outlet terms (2026-11-01 CET; implementation candidate)
+
+B1选店后的主动条款读取与显式G1追问分开计量：前者在用户选店轮结束前、原ModelRunBudget hold释放前调用同一个G1事实/引用核对实现，复用原模型网关和事实浏览器计数；后者仍遵守ADR0046的独立60秒/3次/2页。条款只是有界服务端投影，不派发State/Outcome事件，不新增Agent动作或Prompt/State/TaskDefinition版本。 本分支待完整离线验收和复核，不宣称main或Live已验收；[切片证据](../../.eval-artifacts/phase3b/b1-card-terms-20261101/plan.md)。
+
+
+## B1 terms conclusion reserve (2026-11-01 CET; approved main integration)
+
+选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。

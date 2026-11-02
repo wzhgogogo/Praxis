@@ -1,0 +1,30 @@
+{
+  "recordedAtCET": "2026-11-01T09:24:19.201782+01:00",
+  "command": [
+    "rg",
+    "-n",
+    "eval:restaurant:search:fixture|runLocalSearchFixtureEval|FixtureRestaurantSearchApplication|search-fixture/(eval(\\.test)?|fixture-application|run)\\.(ts|js)",
+    "README.md",
+    "AGENTS.md",
+    "docs",
+    "src",
+    "scripts",
+    "package.json",
+    "--glob",
+    "!docs/history/**",
+    "--glob",
+    "!docs/superseded/**",
+    "--glob",
+    "!docs/reviews/**"
+  ],
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "",
+  "result": "NO_CURRENT_REFERENCES",
+  "excludedHistoricalRoots": [
+    "docs/history",
+    "docs/superseded",
+    "docs/reviews"
+  ],
+  "historyPolicy": "Existing log/review contents retained; only new run records appended"
+}
