@@ -1,0 +1,62 @@
+{
+  "status": "READY_FOR_APPROVED_D4_D6",
+  "atCET": "2026-11-02T17:20:41.672619+01:00",
+  "testedCommit": "d1bdf1f16e5c963e50f7fbf9bf881475a4375951",
+  "sourceInputs": 770,
+  "ledgerRowsBefore": 627,
+  "cumulativeBefore": {
+    "fullLive": 2,
+    "realModelCalls": 266,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 264,
+    "googleRequests": 19,
+    "restaurantWebsiteRequests": 1394
+  },
+  "frozenInputs": {
+    "batchStopPolicy": "phase3b-g6-safety-only-stop@1",
+    "policyScope": "Only stopBatch changes; all grading/S0 rules and historical evaluations unchanged",
+    "pack": {
+      "path": ".eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/D4-D6.pack.json",
+      "sha256": "5c64ac4689cff58d298e11c077e2769da2d12ff933ba443f8a01683b7881ca36"
+    },
+    "evidence": {
+      "path": ".eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/reviewed-evidence.json",
+      "sha256": "84ab5282045046de70da25e108b146b5a00bfa59e5c3f526523ed4c4bebcc3e3"
+    },
+    "D3Review": {
+      "path": ".eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/D3-reviewer-judgment.json",
+      "sha256": "2c9367afb9181ba5cc43e73a3859ac7db603c03c1c8400fc130ac3db0948eed5"
+    },
+    "authorizedCases": [
+      "D4",
+      "D6"
+    ],
+    "cancelled": [
+      "D7"
+    ],
+    "deferredUntilCMergeAndNotification": [
+      "D3-new-run",
+      "D5",
+      "D2",
+      "D8"
+    ],
+    "developmentPublicGETBaseline": 255,
+    "alreadyUsed": 9,
+    "developmentGETCeiling": 25,
+    "GETCeilingBasis": "Final quota paragraph in this instruction:9/25,16remaining; retains the previously explicitly approved25 ceiling rather than the earlier20 wording",
+    "latestRunDateVienna": "2026-11-04",
+    "originalW1CertificateAt": "2026-11-02T13:37:41.723Z",
+    "originalW1ExpiresCET": "2026-11-03T14:37:41.723+01:00",
+    "maxLiveThisInvocation": 2,
+    "perSlot": {
+      "seconds": 500,
+      "models": 50,
+      "google": 40
+    }
+  },
+  "gates": "All five + strict G2 + original terms PASS; each before/after clean",
+  "originalW1CertificateStillWithin24h": true,
+  "credentials": "Authorized Node --env-file only; no file read/copy/print",
+  "D7": "CANCELLED_BY_USER",
+  "afterBatch": "Stop; defer all named slots until C merge and reviewer notification"
+}
