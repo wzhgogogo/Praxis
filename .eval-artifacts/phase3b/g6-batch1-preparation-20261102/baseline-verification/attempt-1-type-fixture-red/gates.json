@@ -1,0 +1,49 @@
+{
+  "testedCommit": "735ee7be83dabd6029f22c870dff46d6ddcd3cfe",
+  "inputs": 734,
+  "mode": "OFFLINE_BASELINE_BEFORE_NEW_WORK",
+  "runs": [
+    {
+      "name": "original-terms",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/eval/restaurant/agent-loop/g6-booking-terms-composition.test.ts"
+      ],
+      "startCET": "2026-11-02T06:20:10.403890+01:00",
+      "exitCode": 0,
+      "seconds": 1.425,
+      "summary": {
+        "tests": 1,
+        "suites": 0,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "89424babfd2df2c157eff7b02bdbe3ada37b61d18d419a7ae49f4f4ed9935f4a"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startCET": "2026-11-02T06:20:11.996900+01:00",
+      "exitCode": 1,
+      "seconds": 0.567,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "1ff8066e8761161dd9b366afc10a6273e70e2ab073bd6ec524b95c8a5a7282b7"
+    }
+  ]
+}
