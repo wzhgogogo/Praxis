@@ -4,6 +4,7 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { test } from "node:test";
 import { BrowserTaskExecutor, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
+import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 import { url, localFixture } from "./browser-read-test-fixtures.js";
 
 test("Tabelog category discovery expands observed links and removes the keyword within the same area", async () => {
@@ -174,7 +175,12 @@ for (const [runtimeKind,lateDispatch] of [["LOCAL",false],["CLOUDFLARE_SESSION",
       const session=await raw.openSession(input),first=sessions++===0;
       return new Proxy(session,{get(target,key){
         if(key==="navigate")return async(...args:Parameters<BrowserSession["navigate"]>)=>{
-          if(first&&lateDispatch){await dispatch;}
+          if(first&&lateDispatch){
+            let timer:ReturnType<typeof setTimeout>|undefined;
+            try{return await Promise.race([dispatch.then(()=>target.navigate(...args)),new Promise<never>((_,reject)=>{
+              timer=setTimeout(()=>reject(new BrowserRuntimeError("BROWSER_TIMEOUT","Controlled source transport failed before request dispatch")),args[1]?.timeoutMs??30);
+            })]);}finally{if(timer)clearTimeout(timer);}
+          }
           return target.navigate(...args);
         };
         if(key==="close")return async()=>{await target.close();if(first)oldClosed();};
