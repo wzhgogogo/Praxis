@@ -38,6 +38,15 @@ for(const kind of ["RENAMED","CONTROL_FALLBACK"] as const)test(`G6 capability ${
   });
 });
 
+for(const kind of ["RESPONSE_MISSING","RESPONSE_CHANGED"] as const)test(`G6 capability ${kind}: visible date/guests never replace missing or changed vacancy data`,async()=>{
+  await control(kind,async(_session,_f,view)=>{
+    assert.equal(view.restaurant.presentedCandidateIds?.length??0,0,"Date/control prose without valid response must never create a slot card");
+    assert.equal(view.case.phase,"NO_VERIFIED_RESULT","Incomplete source evidence must end with a bounded honest conclusion");
+    const checks=Object.values(view.restaurant.availabilityChecks);assert.ok(checks.some(c=>c.status==="UNKNOWN"));
+    if(kind==="RESPONSE_CHANGED")assert.ok(checks.some(c=>c.reasonCode==="SOURCE_STRUCTURE_CHANGED"),"Response schema drift must remain an explicit visible alert in the real root State");
+  });
+});
+
 for(const kind of ["PRICE_MATCH","PRICE_PARTY","PRICE_DATE","PRICE_MEAL"] as const)test(`G6 capability ${kind}: only applicable original quotation supports HARD budget MET`,async()=>{
   await control(kind,async(_session,f,view)=>{
     const price=view.restaurant.readEvidence.flatMap(e=>e.priceFacts?.listedCoursePricesYen??[]).find(p=>p.amount===5000);

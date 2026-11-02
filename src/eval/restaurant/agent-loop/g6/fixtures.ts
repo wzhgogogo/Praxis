@@ -11,7 +11,7 @@ import { FakeClock } from "../../../../harness/fake-clock.js";
 import { strictAction } from "../../../../harness/restaurant-read-test-fixtures.js";
 import { renamePrivateMarkers } from "../../dom-change/mutation.js";
 
-export type G6FixtureKind="NORMAL"|"RENAMED"|"CONTROL_FALLBACK"|"PRICE_MATCH"|"PRICE_PARTY"|"PRICE_DATE"|"PRICE_MEAL"|"JAPANESE_NAME";
+export type G6FixtureKind="RESPONSE_MISSING"|"RESPONSE_CHANGED"|"NORMAL"|"RENAMED"|"CONTROL_FALLBACK"|"PRICE_MATCH"|"PRICE_PARTY"|"PRICE_DATE"|"PRICE_MEAL"|"JAPANESE_NAME";
 export interface G6SourceEvent {kind:string;url:string;method:string;at:string;detail?:unknown;}
 
 /** LOCAL_CONSTRUCTION, never site replay. No business Port/accepted evidence injection. */
@@ -44,7 +44,7 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
     async snapshot(){
       const search=new URL(current).pathname.includes("rstLst"),found=new URL(current).searchParams.get("sw")==="すし本店";
       const page:BrowserSnapshot=search?{url:current,title:"Search",text:found?"すし本店":"No restaurants were found that match your search criteria",html:found?`<a href="${source.pageUrl}">すし本店</a>`:""}
-        :{url:current,title:source.outlet.name,text,html,responses:[{url:endpoint,status:200,sequence:1,observedAt:clock.now().toISOString(),body:source.vacancy.body}]};
+        :{url:current,title:source.outlet.name,text,html,responses:kind==="RESPONSE_MISSING"?[]:[{url:endpoint,status:200,sequence:1,observedAt:clock.now().toISOString(),body:kind==="RESPONSE_CHANGED"?{base_date:{year:2026,month:11,day:11},members:2,selection:"changed-wire-shape"}:source.vacancy.body}]};
       snapshots.push(structuredClone(page));return page;
     },async observeControls(){const controls:BrowserPageControl[]=[];
       if(new URL(current).searchParams.get("sw")==="すし本店")controls.push({id:"source-link",stableKey:"source-link",kind:"LINK",role:"link",label:"すし本店",href:source.pageUrl,visible:true,disabled:false});return controls;
