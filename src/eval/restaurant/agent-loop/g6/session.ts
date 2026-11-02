@@ -15,7 +15,7 @@ import { RestaurantAgentDecision } from "../../../../domains/restaurant/agent-de
 import { applyPostgresMigrations } from "../../../../infrastructure/postgres/migrations.js";
 import type { SqlDatabase, SqlExecutor, SqlQueryResult } from "../../../../infrastructure/postgres/sql-database.js";
 import { createLiveReadAssembly, type LiveReadTransports } from "../../../../integrations/restaurant-search/live-read-assembly.js";
-import { googlePlacesDiscoveryPack, type DiscoverySourcePack } from "../../../../integrations/restaurant-search/source-packs.js";
+import type { DiscoverySourcePack } from "../../../../integrations/restaurant-search/source-packs.js";
 import { createLocalWebServer } from "../../../../server/local-web-server.js";
 
 export const G6_LIMITS: LiveReadInvestigationBudget = { ...LIVE_READ_DEBUG_INVESTIGATION_BUDGET, maxGoogleRequests:40 };
@@ -49,7 +49,7 @@ export async function createG6Session(input:Omit<LiveReadTransports,"currentTask
   }};
   const budget=new RunBoundedModelGateway(transport,limits.maxModelCalls,limits.maxAutomaticBrowserMs,()=>clock.now().valueOf());
   const model=new DeliveryReservedModelGateway(budget);
-  const assembly=createLiveReadAssembly({...limits,packs:input.packs??[googlePlacesDiscoveryPack]}, {
+  const assembly=createLiveReadAssembly({...limits,...(input.packs?{packs:input.packs}:{})}, {
     ...input,model,clock,currentTaskId:()=>budget.currentTaskId(),remainingModelCalls:id=>budget.remainingCalls(id),
   });
   const application=new PersistentRestaurantAgentApplication({database,clock,
@@ -58,7 +58,7 @@ export async function createG6Session(input:Omit<LiveReadTransports,"currentTask
     executionRouterOptions:assembly.router,agentLoopOptions:assembly.loop,modelRunBudget:budget,workspaceMode:"LIVE_READ",liveReadLimits:assembly.runCeilings});
   await application.store.upsertUser({id:G6_USER,displayName:"G6 development fixture"},clock.now().toISOString());
   const project=(view:RestaurantCaseView)=>withBookingHandoffs(view,assembly.bookingHandoffs.readPrepared(view),clock.now().toISOString());
-  async function finished<T>(work:()=>Promise<T>,timeoutMs=30_000):Promise<T> {
+  async function finished<T>(work:()=>Promise<T>,timeoutMs=limits.maxAutomaticBrowserMs+1_000):Promise<T> {
     let resolve!:()=>void;const done=new Promise<void>(r=>{resolve=r;});
     const unsubscribe=application.subscribeReadFinished(()=>resolve());let timer:ReturnType<typeof setTimeout>|undefined;
     try {const result=await work();await Promise.race([done,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error("G6 read lifecycle did not finish")),timeoutMs);})]);return result;}
