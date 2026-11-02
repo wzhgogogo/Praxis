@@ -1,0 +1,9 @@
+{
+  "status": "AWAITING_USER",
+  "path": "src/server/local-web-server.test.ts",
+  "line": 1883,
+  "sourceSHA256": "2b66e71c397e4a00bcc61ffb925f0e4e520cb4aaa63a036b88c8116039b7ef7a",
+  "old": "assert.equal(after.restaurant.selectedCandidateId,undefined);",
+  "proposed": "assert.equal(after.restaurant.selectedCandidateId,before.restaurant.selectedCandidateId);",
+  "scope": "Preserve feedback/restart invariant by comparing with the pre-feedback choice; no other assertion or input changes."
+}

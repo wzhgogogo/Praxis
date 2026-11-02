@@ -1841,7 +1841,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       const view=await createCase(running.baseUrl,cookie,"b1-create",message);
       assert.equal(view.case.phase,"PRESENT_RESULTS");
       assert.equal(view.restaurant.bookingHandoffs?.[0]?.url,"https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261102&visit_time=1900");
-      assert.equal(view.restaurant.selectedCandidateId,undefined);
+      assert.equal(view.restaurant.selectedCandidateId,"fixture:outlet");
       const path="/api/cases/"+encodeURIComponent(view.case.caseId);
       const leave=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-departure",taskVersion:view.case.taskVersion})});
       assert.equal(leave.response.status,201,"a validated B1 departure must be durable before leaving");
@@ -1880,7 +1880,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       const after=await running.application.getCase("user-a",view.case.caseId);
       assert.equal(after.restaurant.bookingFeedbackAvailable,false);
       assert.equal(after.case.taskVersion,before.case.taskVersion);assert.equal(after.case.phase,before.case.phase);
-      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,undefined);
+      assert.deepEqual(after.restaurant.availability,before.restaurant.availability);assert.equal(after.restaurant.selectedCandidateId,before.restaurant.selectedCandidateId);
       const rows=await database.query<{count:string}>("SELECT COUNT(*) AS count FROM restaurant_booking_departures");assert.equal(Number(rows.rows[0]!.count),1);
       for(const choice of ["NO","SKIP"] as const){
         await running.close();decision=0;raw.source.observedAt=clock.now().toISOString();

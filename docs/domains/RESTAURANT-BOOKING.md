@@ -1,10 +1,10 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.46
+- Document revision: 3.48
 
 
-- Last updated: 2026-11-01
+- Last updated: 2026-11-02
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
@@ -374,3 +374,7 @@ B1条款由现有G1生产事实链产生，按根Task、当前investigation、�
 ## B1 terms conclusion reserve (2026-11-01 CET; approved main integration)
 
 选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。
+
+## Explicit booking message records user choice (2026-11-02 CET; approved main integration)
+
+Per ADR0049, an accepted SPECIFIC_OUTLET / BOOKING_WORDING message can record a uniquely matched outlet through the existing CANDIDATE_SELECTED event, without an Agent selection action. Code checks full-name uniqueness and a prior displayed candidate binding or existing HIGH entity evidence; ambiguity/partial references remain unselected. The accepted message event retains only a pending choice marker, never raw goalBasis or a new State field, so a party-only reply can resume that original choice after the normal candidate reset. New non-booking targets, semantic failure/conflict and mismatched current candidates cannot reuse it. USER event causation and a USER_MESSAGE trajectory distinguish this from Agent selection. Repeated same candidate/offer selection is a no-op. This grants no booking/authorization, changes no goal or source identity rule, and skips no availability. The existing same-turn B1 terms acquisition, budget/cancellation/reuse and 20-second reserve are unchanged. G1 questions, open recommendations and departures do not create choices. The user reported independent review passed and approved main integration. Evidence remains saved-response/local-source composition; Live assessment is separate.

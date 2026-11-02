@@ -852,6 +852,8 @@ export type RestaurantEvent =
   | (DomainEvent & {
       type: "SEMANTIC_PROPOSAL_COMPILED";
       patch: RestaurantIntentPatch;
+      /** Code-admitted user choice request; never raw semantic goalBasis or booking authority. */
+      userBookingSelection?: { candidateId?: string };
       /** Links party-size diagnostic provenance to the persisted user message, never to provider evidence. */
       partySizeSourceMessageRequestId?: string;
       /** Records whether the bounded supplementary resolver ran; never stores raw user text. */
