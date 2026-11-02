@@ -5528,3 +5528,13 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 2026-11-01 CET：按用户决定，B不修改A调度测试。main6db445ea/B6162c128各独立5次，均文件5通过/0失败、目标5通过/0失败；九份执行输入逐字相同且副本不含G1代码，单跑未复现全套失败，不称已修复。原默认1287/1288唯一失败保留为“A归属、与本次改动无关的已知失败”。本轮完整未过滤门禁默认1288/1288、Chromium187/187、严格G2 5/5及12/12页，type/arch/build和旧HARD字节均通过，各项净树/728 SHA不变。G1产品及A原P4因果绿灯不变；用户批准推B分支通知A，不合main。真实调用0，账本503条。
 
 完整未过滤命令、10次独立日志、原失败和冻结SHA见[最新交付报告](../../.eval-artifacts/phase3b/g1-page-capture/known-a-scheduling/report.md)。
+
+<a id="dev-2026-11-02-run-diagnosis-report-stop2"></a>
+
+## 2026-11-02 CET：运行诊断报告停止点2候选
+
+按停止点1复核决定实施，只定位和度量，不重判。新代码仅eval/restaurant/diagnosis；实际evaluateArtifactAfterFinish保存评价后生成不可覆盖JSON/Markdown，报告错误独立sidecar，原outcome/severity/execution不变。13环节到达与判断分开，首个确认偏离/可行见证覆盖/永远HYPOTHESIS的blocker三栏分开；合格交付无确认偏离时首点明确无确认偏离。现有productionJudgment禁入范围扩到新目录，默认glob仅追加该目录，无新检查框架。
+
+钩子修前实际正常评价已保存但诊断0→修后1；blocker-only目标断言2≠0→修后0，推测仍保留；临时副本值导入生产判断旧漏拦→修后精确拒绝，type-only及正常控制绿。12项行为覆盖包括实际Evaluator接线、四组时间、追问/排序正反、不可覆盖与汇总分母。独立人工对照只由compare入口读取，生成器不读labels、不按运行ID写规则。5份单轮/8份多回合正式报告的545个自产指针可定位，5份既有判定均深相等；来源51文件SHA不变。
+
+5e490a69/854项最终冻结，净树五门禁1339/1339、Chromium187/187及type/arch/build全绿，各一次。首点原始2/5，四组8时间点均≤2秒；神乐坂见证匹配和h002/中目黑新旧口径分歧全部保留，不删分母。A真实逐环节grader红灯对接按用户决定延期且未完成；多回合缺独立结论、真实消息时钟、追问Gold保持未评。产品/Prompt/State/Schema/Gold/见证/A文件不改；历史运行和历史评价不重执行，真实模型/Google/网站/Live0，不读.env。开发诊断证据已暴露，非Clean Baseline。仅推工作分支待独立复核，不合main。[交付](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。

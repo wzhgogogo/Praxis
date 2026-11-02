@@ -6230,3 +6230,15 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 2026-11-01 CET：按用户决定，B不修改A调度测试。main6db445ea/B6162c128各独立5次，均文件5通过/0失败、目标5通过/0失败；九份执行输入逐字相同且副本不含G1代码，单跑未复现全套失败，不称已修复。原默认1287/1288唯一失败保留为“A归属、与本次改动无关的已知失败”。本轮完整未过滤门禁默认1288/1288、Chromium187/187、严格G2 5/5及12/12页，type/arch/build和旧HARD字节均通过，各项净树/728 SHA不变。G1产品及A原P4因果绿灯不变；用户批准推B分支通知A，不合main。真实调用0，账本503条。
 
 完整未过滤命令、10次独立日志、原失败和冻结SHA见[最新交付报告](../../.eval-artifacts/phase3b/g1-page-capture/known-a-scheduling/report.md)。
+
+<a id="test-2026-11-02-run-diagnosis-report-stop2"></a>
+
+## 2026-11-02 CET：运行诊断停止点2验证
+
+源码5e490a6921120a2557b65ccec7e9132411ff8a33，冻结854项（含51历史来源）；07:29–07:32 CET依次生成5份单轮、8份多回合及比较报告，然后运行五门禁：npm run typecheck exit0；npm run arch:check exit0；npm test 1339通过/0失败/0跳过/todo；npm run build exit0；npm run test:browser:fixture真实本地Chromium187通过/0失败/0跳过/todo，外层142.201秒。八步前后status为空、HEAD及全部冻结SHA不变，各完整门禁仅一次，无过滤/重试/豁免。之后只归档文档证据，无源码变化。原始完整日志gzip及压缩/解压SHA见[执行回执](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/attempt-2/execution.json)。
+
+12项定向对照进入默认套件。有效红灯：真实评价后报告数量0≠1；blocker-only误升覆盖2≠0；临时隔离副本productionJudgment值导入被arch精确拒绝（文件和模块），type-only/正常控制通过。不是任意运行错误算检错：开发中不完整TIMEOUT中断样本被实际Evaluator正确判未评，修为有效SIGTERM记录，不改规则，原日志保留。追问已给再问1/正常0，缺字段无来源填值1/正常提问0；100米/500米排序正反、距离缺失未评、无排序NOT_APPLICABLE；报告/评价异常和不可覆盖均有正常反例控制。
+
+五例首点原始一致率2/5，所有三处分歧保留：h002/中目黑按复核批准的新首点定义为合格无确认偏离，与旧人工发现覆盖分类不同；神乐坂归因评测器Chiso/Chisou见证匹配，原候选/UNKNOWN及评价NOT_FOUND均有SHA/字段指针。人工未给确定性，5项确定性比较未评。8个时间点均≤2秒，无超差；非实际用户发送/屏幕渲染时长。原51来源未改，5份既有outcome/severity/execution深相等，13份报告545自产引用定位通过。
+
+多回合能到达五个节点并附证据，缺真实逐环节结论仍未评；C原文绑定核验仅附同SHA原件，不推广为grader。TEST_INTERFACE_SAMPLE只证明读取，A真实B1/条款/取页首点红灯对接明确未完成。缺Gold/消息时钟不填0，不设体验门槛。本轮全部离线，历史运行/评价不重执行；受控测试实际调用离线Evaluator，真实模型/Google/网站/Live0、不读.env或labels。不是Clean Baseline或真实来源/模型签收。仅推分支交复核，不合main。[完整报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。

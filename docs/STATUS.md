@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-02 CET：运行诊断停止点2候选已离线完成，待独立复核，不合main。实际评价保存后自动写不可覆盖JSON/Markdown，原outcome/severity/execution不变；三栏首点、13环节、体验与分母汇总接通，未知保持未评。5e490a69冻结854项，五门禁各项前后净树：默认1339/1339、Chromium187/187及type/arch/build全绿；钩子缺报告、blocker误升确认、生产判断禁入均有目标红绿。5例原始首点一致率2/5，四组8时间点均≤2秒；神乐坂归因原见证匹配，h002/中目黑保留新旧首点口径分歧。8份多回合产物可到达节点，缺A真实逐环节grade仍未评，B1/条款/取页红灯对接明确未完成。原51来源SHA不变，历史运行/评价不重执行；真实模型/Google/网站/Live0，不读.env或标签。仅推工作分支交复核。[交付与全部分歧](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。
+
 2026-11-02指令修订／CET口径：运行诊断报告只完成停止点1盘点设计，draft / not integrated。从main efeab254开codex/chore-run-diagnosis-report；13环节及体验指标逐项列来源、到达与独立判断分开，JSON草案/5条P1-F及22条E1/9份多回合产物路径SHA已登记。神乐坂人工查位与既有发现漏斗有分歧；多回合独立判定、真实用户时间与追问Gold不足保留未评。另确认新目录默认glob与生产判断禁入范围需复核；无实现/校准/五门禁运行，不改A/产品/判定/Gold，真实调用0、不读.env。推分支后停复核，不合main。[盘点与设计](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。
 
 2026-11-01 CET：C B1条款20秒保留补丁已全绿，按用户批准合main。原5cda产品4红→677334e5同6项绿，96494220同步main1d65b8e8；fff001f2冻结764项，默认1327/1327、Chromium187/187（130.452秒）、标准/严格G2各5/5、12页PASS，9步前后净树。独立7帧开始均>20000ms，旧14帧可见交接不变；逐I/O/model重核且deadline减20秒取消，close保留。A原三文件/B G3/Prompt/State不改；G1文件范围与助手实际追加延迟已附报告（串行5.305ms，注入80ms后88.073ms；并发另列），非Live性能。510账目/154旧产物保留、累计不变，真实调用0，不读.env。正常发布main、ls-remote核对后通知A待命，SHA以Git回执为准。 [报告](../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)。

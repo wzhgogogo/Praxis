@@ -1,0 +1,93 @@
+{
+  "head": "09a1aacf92df8f2a7938c0f70dd1fc94244e69f5",
+  "steps": [
+    {
+      "name": "primary-reports",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/diagnosis/files.ts",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/primary-inputs.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/primary-reports"
+      ],
+      "startedAtCET": "2026-11-02T07:22:00.415938+01:00",
+      "finishedAtCET": "2026-11-02T07:22:00.798035+01:00",
+      "elapsedMs": 381.967,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "09a1aacf92df8f2a7938c0f70dd1fc94244e69f5",
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "09a1aacf92df8f2a7938c0f70dd1fc94244e69f5",
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/primary-reports.log.gz",
+      "rawSha256": "483ba6fd4c57f077bd42e8a939e19bda874252117fc00e3dedce122849817068",
+      "gzipSha256": "5fc3eac29b18c576480e57eb301c146bb41864fb567fa20c703fb361e373f073"
+    },
+    {
+      "name": "multiturn-reports",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/diagnosis/files.ts",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-inputs.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports"
+      ],
+      "startedAtCET": "2026-11-02T07:22:00.873162+01:00",
+      "finishedAtCET": "2026-11-02T07:22:01.038639+01:00",
+      "elapsedMs": 165.484,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "09a1aacf92df8f2a7938c0f70dd1fc94244e69f5",
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "09a1aacf92df8f2a7938c0f70dd1fc94244e69f5",
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports.log.gz",
+      "rawSha256": "cac67770c3514163123af2f81a8db9f3770033614104306130bfb7224f7c11a5",
+      "gzipSha256": "9baba429ff862dd70aa087f4012fdf347d1f779c649293b8054b841b918f2e75"
+    },
+    {
+      "name": "calibration-compare",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/diagnosis/compare-recorded.ts",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/primary-reports/summary.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/comparison-oracle.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/calibration"
+      ],
+      "startedAtCET": "2026-11-02T07:22:01.113457+01:00",
+      "finishedAtCET": "2026-11-02T07:22:01.369626+01:00",
+      "elapsedMs": 256.169,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "09a1aacf92df8f2a7938c0f70dd1fc94244e69f5",
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "09a1aacf92df8f2a7938c0f70dd1fc94244e69f5",
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/calibration-compare.log.gz",
+      "rawSha256": "f0a833666013e15aa7900fc86896e422c5164d34a33315ecae26f3bc6b4a6a87",
+      "gzipSha256": "87b56819b1f6338ac41579743506914cacf29913bb1ac161182494c18e009e3c"
+    }
+  ],
+  "runtimeReruns": 0,
+  "evaluatorReruns": 0,
+  "modelAndBusinessNetworkCalls": 0
+}
