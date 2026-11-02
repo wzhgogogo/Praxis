@@ -1,0 +1,39 @@
+{
+  "status": "READY_TO_RUN_AUTHORIZED_W1_SIX",
+  "timeVienna": "2026-11-02T15:30:37.484698+01:00",
+  "testedCommit": "bc97c1a6b133ef253d68e089fbdb2bd32e3d7880",
+  "frozenInputs": 769,
+  "ids": [
+    "D1",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7"
+  ],
+  "packSHA256": "42d933ff7f6c0ec1d5645d125bfcc60f67e0a9b22112de50ddb84069145c67e4",
+  "evidenceSHA256": "292f68ca83bb4311c2ee5699f075a469bb1627b6e1880e745c4394e025ec59d3",
+  "originalPackPreserved": {
+    "path": ".eval-artifacts/phase3b/g6-live-readiness-20261102/development-pack.json",
+    "sha256": "84f4c1f98cf42fb323fda54537ddfc465e967718c9ba88e105186e371c9d5c8b",
+    "preserved": true
+  },
+  "previousPublicGETs": 5,
+  "developmentPublicGETCeiling": 25,
+  "globalPublicGETBaseline": 255,
+  "cumulativeBefore": {
+    "fullLive": 0,
+    "realModelCalls": 241,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 260,
+    "googleRequests": 12,
+    "restaurantWebsiteRequests": 260
+  },
+  "ledgerRowsBefore": 591,
+  "credentials": "Authorized Node --env-file process only; no file read/copy/print by tools",
+  "excludedSlots": [
+    "D2",
+    "D8"
+  ],
+  "reason": "W2 separately re-frozen at20:00; one re-certification GET only after W1 safety success"
+}
