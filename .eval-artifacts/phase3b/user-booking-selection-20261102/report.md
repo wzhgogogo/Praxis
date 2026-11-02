@@ -1,6 +1,6 @@
 # User-message booking selection
 
-- Status: offline candidate / not integrated; all three narrow test-contract approvals applied, final clean-tree gates pending.
+- Status: offline complete / pending independent review; not merged main. All three narrow test-contract approvals applied; final gates green.
 - Branch: codex/fix-phase3b-user-booking-selection. No main merge is authorized.
 - Initial base main: efeab25483cf58011b7505c32d6da857e41c2533. Latest main549061e8392bfb6224d1ac9ca78671714d330e2c was synchronized in ad2ee3a8; four documentation conflicts retain both sides, upstream diagnosis source/config bytes are unchanged.
 - Green product: 4413e4ffea10ba844dc59d9efc25977b18b873e5.
@@ -42,4 +42,35 @@ The shared ledger unions all main510 entries with A49e37c55's 58 additional entr
 
 ## Final gate and delivery status
 
-All approved expectations are synchronized. Freeze the final inputs and finish five green gates plus strict G2 with clean status before/after each. Push only the work branch, verify ls-remote and notify A. Do not merge main. Final gate results and delivery SHA will be recorded here after completion.
+All approved expectations are synchronized. Freeze the final inputs and finish five green gates plus strict G2 with clean status before/after each. Push only the work branch, verify ls-remote and notify A. Do not merge main. Final gates passed on 02a7df742e1abb3b038a1796781d130768e0363e. The work-branch delivery commit adds only reports, immutable gate evidence and status/history entries; source/config remain equal to that tested candidate. The exact published SHA is checked with ls-remote and returned in the delivery message.
+
+## Final clean-tree verification
+
+- Executed candidate: 02a7df742e1abb3b038a1796781d130768e0363e; started 2026-11-02T10:32:35.815001+01:00, finished 2026-11-02T10:35:52.120397+01:00 (Vienna CET UTC+1).
+- Frozen inputs:821. Protected source files:295 (including A eval/browser assertions, B G3, terms reader, Prompt, Reducer/TaskDefinition).
+- Main was synchronized to549061e8; nine accepted upstream source/config paths retain original bytes. User-selection product bytes have not changed since4413e4ff. See source-audit.json and main-sync.json.
+
+| Check | Result | Seconds |
+| --- | --- | ---: |
+| integrity | PASS | 0.128 |
+| typecheck | PASS | 0.536 |
+| arch | PASS | 0.223 |
+| npm test1351/1351 | PASS | 38.978 |
+| Independent9 compositions | PASS | 0.121 |
+| build | PASS | 0.524 |
+| Chromium187/187 (standard G2 first5/5) | PASS | 131.007 |
+| Strict G2 5/5, all12 pages PASS | PASS | 24.172 |
+| integrity-after | PASS | 0.136 |
+
+Every step had empty git status before/after, with no skip/filter/waiver. Final candidate passed once after the explicitly approved legacy-test synchronizations. Earlier failed gate results remain in first-gates-legacy-contracts and http-assertion-retest. A original G6 preflight and terms tests, the old Agent-internal-selection control and all20-second boundary tests ran unchanged in the complete default suite.
+
+## Four-layer evaluation scope
+
+| Layer | Evidence and limit |
+| --- | --- |
+| End-to-end local result | Four positive compositions record the unique user choice and expose the same supported link plus cancellation/card terms; five negative controls do not record a choice. This is a local B1 slice contract, not a new full-restaurant QUALIFIED_DELIVERY rate or Live signoff. |
+| Per-step | Original user semantics, Compiler, current candidate/identity resolution, availability, event provenance, P2 context carry and G1 citation-to-card paths are observed. Code selection adds zero model calls; positive choosing turns use the same two G1 questions. Independent semantics/real source quality remain NOT_EVALUATED because those external inputs are fixed. |
+| Severity | The literal local audit checks no booking/authorization event or workflow request, exact source link and quotations on the actual read page. Real-world S0-S4 and live experience are NOT_EVALUATED; no absence claim is inferred from production status. |
+| Attribution | Same saved PRESENT_RESULTS bytes and source I/O fail on the original product and pass after the code-owned user-selection wiring. The previously scripted SELECT_CANDIDATE hid this missing handoff. Legacy assertion/input conflicts are separate, user-approved synchronizations, not evidence of a new model or website defect. |
+
+Automatic logical-call counts by purpose/turn, observed local lifecycle time and fixed-source operation counts are in case-metrics.json. Raw response latencyMs remains the original historical metadata; it is not counted as a new model/network measurement. Page-load/model-network waiting breakdown is unmeasured, not filled with zero. No new budget channel, authorization or external call was used.

@@ -1,5 +1,9 @@
 # Development Log
 
+<a id="dev-2026-11-02-user-booking-selection-review"></a>
+
+2026-11-02 CET：C 用户消息选店离线完成待复核。A 原 P1/P2 PRESENT_RESULTS 四红→4413e4ff 同九项全绿；549061e8 已同步，02a7df74 冻结821项，默认1351/1351、Chromium187/187、严格G2 5/5及12页PASS，九步前后净树。用户选择经既有事件、消息因果链和 USER_MESSAGE 轨迹记录，补人数延续原请求，重复选择幂等，不产生预约授权。State24/TaskDefinition22/Prompt、条款及20秒保留、A eval/browser 断言和B G3不改；两处HTTP预期与A夹具单标签按三次窄授权单独记录，原红灯保留。账本569条并集，累计模型228含A已记57次、GET255/290，本批真实调用0，不读.env。只推工作分支、不合main，通知A等待复核。 [Report](../../.eval-artifacts/phase3b/user-booking-selection-20261102/report.md)
+
 <a id="user-booking-selection-20261102-preparation"></a>
 
 2026-11-02 CET：C用户消息选店离线修复，main efeab254上A原P1/P2 PRESENT_RESULTS回放及具名/来源4红→4413e4ff同9项全绿。复用现有选择事件，USER来源与消息因果链，跨补人数由已接纳事件携带待解析请求；非唯一、非订位、开放推荐/G1/出发不记选择，重复同店/offer幂等。State24/TaskDefinition22、Agent Prompt、G1条款及A/B受保护文件不改。原始响应不改，真实调用0，不读.env；待冻结完整五门禁/严格G2与独立核验，只推工作分支交复核、不合main。 [计划](../../.eval-artifacts/phase3b/user-booking-selection-20261102/plan.md)。
@@ -138,10 +142,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.365
+- Document revision: 4.366
 
 
-- Last updated: 2026-11-01
+- Last updated: 2026-11-02
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)
