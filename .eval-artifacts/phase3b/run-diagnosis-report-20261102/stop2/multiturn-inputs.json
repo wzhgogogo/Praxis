@@ -1,0 +1,82 @@
+{
+  "schema": "run-diagnosis-inputs@1",
+  "plannedRunIds": [
+    "b1-red",
+    "g1-page-red",
+    "g1-page-green",
+    "terms-red",
+    "terms-admitted",
+    "terms-proactive",
+    "tablecheck-terms",
+    "assistant-monotonic-timeline"
+  ],
+  "inputs": [
+    {
+      "id": "b1-red",
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/red/preflight.json",
+        "sha256": "eb08a94f8edb6b2b47b60a94f075a05ce5478b8fd6f8828b4c959d8c2d47c2e2"
+      }
+    },
+    {
+      "id": "g1-page-red",
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/g1-page-capture/red/execution/preflight.json",
+        "sha256": "2bf07edb39410a1d7b040f8d4f985107c0ad64ef45ba1d85fb5a8702d9ca7f1b"
+      }
+    },
+    {
+      "id": "g1-page-green",
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/g1-page-capture/green/execution/preflight.json",
+        "sha256": "83febc6f4aa6751baddd91c6188a418bbf7836d00355691651bbcc60a6f96c42"
+      }
+    },
+    {
+      "id": "terms-red",
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/red/preflight.json",
+        "sha256": "a0eeccb200611c64703a401e9dc8302be4880aa593dc25dc610b978269120fae"
+      }
+    },
+    {
+      "id": "terms-admitted",
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+        "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126"
+      },
+      "context": {
+        "independentNotes": [
+          {
+            "file": {
+              "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/independent-evaluation.json",
+              "sha256": "c4c340600b8234ba2306dd133df73a2455d07a221dd67c8c1c9fcb8e0437dd9b"
+            },
+            "scope": "Original A admitted answer quotation/binding verification; AArtifactSHA256 exactly matches this input; not an A stage grader."
+          }
+        ]
+      }
+    },
+    {
+      "id": "terms-proactive",
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/final-compositions/TABELOG-proactive.json.gz",
+        "sha256": "0408229b91d3ed20bdc9b2ad66f7017d232c570e0c89682d2b9afa767cf0065b"
+      }
+    },
+    {
+      "id": "tablecheck-terms",
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/final-compositions/TABLECHECK-proactive.json.gz",
+        "sha256": "5fdb5ba83f90533ac3a8ee539282ebeb73081563c8408e1a80a7c41caae1733d"
+      }
+    },
+    {
+      "id": "assistant-monotonic-timeline",
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-reserve-20261101/final-observations/b1_reserve_raw-assistant-wait-40.json.gz",
+        "sha256": "752c00459173889f021c82d99ad541d1b5588c956eb91243cf1d1802ed576ffa"
+      }
+    }
+  ]
+}

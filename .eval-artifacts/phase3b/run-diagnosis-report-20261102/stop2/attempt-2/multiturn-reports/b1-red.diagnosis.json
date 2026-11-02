@@ -1,0 +1,457 @@
+{
+  "schema": "run-diagnosis@1",
+  "runId": null,
+  "attemptId": "b1-red",
+  "caseId": null,
+  "evaluationMetadata": {
+    "evaluatorVersion": null,
+    "rubricVersion": null,
+    "goldCorrection": null,
+    "mode": "OFFLINE_LOCAL_CONSTRUCTED_SOURCES"
+  },
+  "inputs": {
+    "artifact": {
+      "path": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/red/preflight.json",
+      "sha256": "eb08a94f8edb6b2b47b60a94f075a05ce5478b8fd6f8828b4c959d8c2d47c2e2"
+    },
+    "evaluation": null
+  },
+  "summary": {
+    "outcome": null,
+    "severity": null,
+    "execution": null,
+    "evaluationFailure": null
+  },
+  "stages": [
+    {
+      "id": "UNDERSTANDING",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "LOCATION",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/red/preflight.json",
+          "sha256": "eb08a94f8edb6b2b47b60a94f075a05ce5478b8fd6f8828b4c959d8c2d47c2e2",
+          "pointer": "/initial/restaurant/searchLocation"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "DISCOVERY",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "IDENTITY",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "FACTS_HARD",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "AVAILABILITY",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "PRESENTATION",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "SELECTION",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "B1_HANDOFF",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/red/preflight.json",
+          "sha256": "eb08a94f8edb6b2b47b60a94f075a05ce5478b8fd6f8828b4c959d8c2d47c2e2",
+          "pointer": "/initial/restaurant/bookingHandoffs"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "CARD_TERMS",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "QUESTION_PAGE",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "QUESTION_ANSWER",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "ENDING",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/red/preflight.json",
+          "sha256": "eb08a94f8edb6b2b47b60a94f075a05ce5478b8fd6f8828b4c959d8c2d47c2e2",
+          "pointer": "/status"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    }
+  ],
+  "firstConfirmedDeviation": null,
+  "confirmedDeviations": [],
+  "witnessCoverageObservations": [],
+  "hypothesizedBottlenecks": [],
+  "firstPoint": {
+    "status": "NOT_EVALUATED",
+    "stage": null,
+    "certainty": null,
+    "column": null,
+    "earliestKnownOnly": true
+  },
+  "downstreamBlocked": [],
+  "unlocatedFindings": [],
+  "witnessFunnel": [],
+  "systemObservations": {
+    "status": "FAILED",
+    "startedAt": null,
+    "finishedAt": null,
+    "stage": null,
+    "failureCode": null,
+    "noVerifiedResult": null,
+    "availabilityChecks": null,
+    "selectedCandidateId": null,
+    "bookingHandoffs": [],
+    "pageQuestion": null
+  },
+  "unassessed": [
+    {
+      "stage": "UNDERSTANDING",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "LOCATION",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "DISCOVERY",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "IDENTITY",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "FACTS_HARD",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "AVAILABILITY",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "PRESENTATION",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "SELECTION",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "B1_HANDOFF",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "CARD_TERMS",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "QUESTION_PAGE",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "QUESTION_ANSWER",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "ENDING",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    }
+  ],
+  "experience": {
+    "gateEffect": "NONE",
+    "timing": {
+      "startBasis": "NOT_EVALUATED",
+      "absoluteTimesCET": {
+        "runStart": null,
+        "observationComplete": null,
+        "serverPresentation": null
+      },
+      "elapsed": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "RUN_ELAPSED",
+        "refs": [],
+        "missing": [
+          "Missing valid elapsed/start/end."
+        ]
+      },
+      "firstSupportedObservationComplete": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "FINAL_CITED_SUPPORTED_SOURCE_OBSERVATION",
+        "refs": [],
+        "missing": [
+          "No independently qualified presentation with complete timestamped citations."
+        ]
+      },
+      "firstServerPresentation": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "RUN_START_PROXY_TO_SERVER_PRESENTATION",
+        "refs": [],
+        "missing": [
+          "Valid run start/presentation timestamps missing or reversed; no UI render evidence."
+        ]
+      },
+      "observationToPresentation": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "OBSERVATION_TO_SERVER_PRESENTATION",
+        "refs": [],
+        "missing": [
+          "A supported observation-complete instant and server presentation in one clock are required."
+        ]
+      },
+      "acceptanceEvents": [],
+      "uiVisible": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "UI_VISIBLE",
+        "refs": [],
+        "missing": [
+          "No client render acknowledgement."
+        ]
+      },
+      "turnResponses": [
+        {
+          "userMessageId": "message:0:24ebc15f7687396928707063",
+          "metric": {
+            "status": "NOT_EVALUATED",
+            "value": null,
+            "basis": "USER_TO_ASSOCIATED_ASSISTANT_WALL_TIME",
+            "refs": [],
+            "missing": [
+              "Clock provenance and request/response association are not retained; equal fixture business times are not zero latency."
+            ]
+          }
+        }
+      ],
+      "stageBreakdown": {
+        "schemaVersion": "restaurant-stage-timings@1",
+        "status": "NOT_EVALUATED",
+        "elapsedMs": null,
+        "criticalPath": [],
+        "modelSteps": [],
+        "gaps": [
+          "Missing valid run start/end timestamps.",
+          "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+        ]
+      },
+      "repeatedLoads": {
+        "counts": null,
+        "durationRatio": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "RELOAD_DURATION_RATIO",
+          "refs": [],
+          "missing": [
+            "Counts alone or incomplete/redacted trace do not establish exact reload duration."
+          ]
+        }
+      },
+      "externalVsSystem": {
+        "navigationOperation": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "SOURCE_IO_OPERATION_PROXY",
+          "refs": [],
+          "missing": [
+            "Timestamped matched navigation boundaries missing."
+          ]
+        },
+        "googleWait": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "GOOGLE_WAIT",
+          "refs": [],
+          "missing": [
+            "No independently timestamped Google response boundary supplied."
+          ]
+        },
+        "modelWallMs": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "MODEL_WALL_TIME",
+          "refs": [],
+          "missing": [
+            "Counters alone cannot place model intervals."
+          ]
+        },
+        "systemOperationMs": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "SYSTEM_OPERATION_WALL_TIME",
+          "refs": [],
+          "missing": [
+            "Timestamped operation pairs missing."
+          ]
+        },
+        "gaps": [],
+        "additive": false
+      }
+    },
+    "clarifications": {
+      "excess": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "FROZEN_GOLD_AND_ACTUAL_QUESTION",
+        "refs": [],
+        "missing": [
+          "Frozen clarification Gold with a complete turn history was not supplied."
+        ]
+      },
+      "missing": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "REQUIRED_MISSING_FIELD_AND_UNSOURCED_NEW_VALUE",
+        "refs": [],
+        "missing": [
+          "Frozen required/missing fields and complete before/after history were not supplied."
+        ]
+      },
+      "excessQuestions": [],
+      "missingQuestions": []
+    },
+    "conditions": null,
+    "softPreferenceObservations": null,
+    "explicitOrdering": {
+      "status": "NOT_APPLICABLE",
+      "requirement": null,
+      "gateEffect": "NONE",
+      "refs": []
+    }
+  },
+  "existingDiagnostics": {
+    "investigationMetrics": null,
+    "effectiveResources": null,
+    "reachedStages": null,
+    "recordReadIssues": null,
+    "unassessedDimensions": null
+  },
+  "independentNotes": [],
+  "deferred": [
+    "A G6 independent evaluator integration and B1/terms/page red-light first-point acceptance remain incomplete until that evaluator is merged."
+  ],
+  "testInterfaceInput": false
+}

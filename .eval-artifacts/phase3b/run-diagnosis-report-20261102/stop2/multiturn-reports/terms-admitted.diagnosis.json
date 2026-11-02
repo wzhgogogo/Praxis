@@ -1,0 +1,875 @@
+{
+  "schema": "run-diagnosis@1",
+  "runId": "run:restaurant:1c9b7f86a211ed74d0d623fa",
+  "attemptId": "terms-admitted",
+  "caseId": "restaurant:1c9b7f86a211ed74d0d623fa",
+  "evaluationMetadata": {
+    "evaluatorVersion": null,
+    "rubricVersion": null,
+    "goldCorrection": null,
+    "mode": "WEB_READ"
+  },
+  "inputs": {
+    "artifact": {
+      "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+      "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126"
+    },
+    "evaluation": null
+  },
+  "summary": {
+    "outcome": null,
+    "severity": null,
+    "execution": null,
+    "evaluationFailure": null
+  },
+  "stages": [
+    {
+      "id": "UNDERSTANDING",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/materializedCase"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/events/0"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "LOCATION",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/after/restaurant/searchLocation"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "DISCOVERY",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/finalSnapshot/domainState/candidates"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/events/1"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "IDENTITY",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/finalSnapshot/domainState/readEvidence/2"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/finalSnapshot/domainState/readEvidence/4"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "FACTS_HARD",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/finalSnapshot/domainState/readEvidence/3"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "AVAILABILITY",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/finalSnapshot/domainState/readEvidence/5"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/finalSnapshot/domainState/availabilityChecks"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/events/2"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "PRESENTATION",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/finalSnapshot/domainState/presentedResults"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/events/3"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "SELECTION",
+      "reach": "NOT_EVALUATED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "B1_HANDOFF",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/after/restaurant/bookingHandoffs"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "CARD_TERMS",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/after/restaurant/bookingHandoffs"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "QUESTION_PAGE",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/finalSnapshot/domainState/pageQuestion"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/events/4"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/requests/4"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "QUESTION_ANSWER",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/finalSnapshot/domainState/pageQuestion/result"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/after/restaurant/pageQuestion/result"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/events/5"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    },
+    {
+      "id": "ENDING",
+      "reach": "REACHED",
+      "assessment": "NOT_EVALUATED",
+      "refs": [
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/status"
+        },
+        {
+          "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+          "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+          "pointer": "/afterArtifact/loop"
+        }
+      ],
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ],
+      "independentConclusions": []
+    }
+  ],
+  "firstConfirmedDeviation": null,
+  "confirmedDeviations": [],
+  "witnessCoverageObservations": [],
+  "hypothesizedBottlenecks": [],
+  "firstPoint": {
+    "status": "NOT_EVALUATED",
+    "stage": null,
+    "certainty": null,
+    "column": null,
+    "earliestKnownOnly": true
+  },
+  "downstreamBlocked": [],
+  "unlocatedFindings": [],
+  "witnessFunnel": [],
+  "systemObservations": {
+    "status": "SUCCEEDED",
+    "startedAt": null,
+    "finishedAt": null,
+    "stage": "AGENT_LOOP",
+    "failureCode": null,
+    "noVerifiedResult": null,
+    "availabilityChecks": {
+      "praxis:restaurant:bd287442c716ac7439273cc9": {
+        "status": "AVAILABLE",
+        "checkedAt": "2026-11-01T06:00:00.000Z",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:7996501e4fb5faca2aef624c",
+          "evidence:restaurant:tabelog-availability:f056bcd68ea445907b62a196"
+        ],
+        "receptionMode": "RESERVATION_SUPPORTED",
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "AVAILABLE"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "displayExpiresAt": "2026-11-01T06:10:00.000Z",
+        "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    },
+    "selectedCandidateId": null,
+    "bookingHandoffs": [
+      {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "offerId": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+        "provider": "TABELOG",
+        "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111",
+        "directLabel": "Book on Tabelog",
+        "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+        "checkedAt": "2026-11-01T06:00:00.000Z",
+        "displayExpiresAt": "2026-11-01T06:10:00.000Z",
+        "platformFee": {
+          "provider": "TABELOG",
+          "channel": "ENGLISH_BOOKING",
+          "amountPerPersonJPY": 440,
+          "userCancellationRefund": false,
+          "restaurantCancellationRefund": true,
+          "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+          "sourceUrl": "https://tabelog.com/en/help",
+          "checkedOn": "2026-10-29",
+          "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+          "quotes": [
+            "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+            "Please note that no refunds will be issued for cancellations made for customer reasons.",
+            "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+          ]
+        },
+        "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+        "linkCarries": [
+          "DATE",
+          "TIME",
+          "PARTY_SIZE"
+        ],
+        "sourceSelection": "UNKNOWN",
+        "terms": [
+          {
+            "label": "Same-day cancellations cost 100% of the course price.",
+            "citations": [
+              {
+                "text": "Cancellations on the reservation date are charged at 100% of the course price.",
+                "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+                "readAt": "2026-11-01T06:00:00.000Z",
+                "identityEvidenceId": "evidence:restaurant:website-entity:39e4b0a83f2e6260053c3543"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "pageQuestion": {
+      "result": {
+        "answer": "Same-day cancellations cost 100% of the course price.",
+        "status": "ANSWERED",
+        "citations": [
+          {
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+            "text": "Cancellations on the reservation date are charged at 100% of the course price.",
+            "readAt": "2026-11-01T06:00:00.000Z",
+            "identityEvidenceId": "evidence:restaurant:website-entity:39e4b0a83f2e6260053c3543"
+          }
+        ],
+        "modelUsage": {
+          "calls": 1
+        },
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "checkedPages": [
+          {
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13123456/",
+            "readAt": "2026-11-01T06:00:00.000Z"
+          }
+        ],
+        "sensitiveCategory": "NONE",
+        "confirmationRequired": false
+      },
+      "question": "What is this restaurant's same-day cancellation policy?",
+      "readRunId": "run:restaurant:1c9b7f86a211ed74d0d623fa:investigation:1",
+      "requestId": "g6-question",
+      "deadlineAt": "2026-11-01T06:01:00.000Z",
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "requestedAt": "2026-11-01T06:00:00.000Z",
+      "readStartedAt": "2026-11-01T06:00:00.000Z"
+    }
+  },
+  "unassessed": [
+    {
+      "stage": "UNDERSTANDING",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "LOCATION",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "DISCOVERY",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "IDENTITY",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "FACTS_HARD",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "AVAILABILITY",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "PRESENTATION",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "SELECTION",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "B1_HANDOFF",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "CARD_TERMS",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "QUESTION_PAGE",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "QUESTION_ANSWER",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    },
+    {
+      "stage": "ENDING",
+      "missing": [
+        "No independent stage-specific conclusion supplied."
+      ]
+    }
+  ],
+  "experience": {
+    "gateEffect": "NONE",
+    "timing": {
+      "startBasis": "NOT_EVALUATED",
+      "absoluteTimesCET": {
+        "runStart": null,
+        "observationComplete": null,
+        "serverPresentation": "2026-11-01T07:00:00.000+01:00"
+      },
+      "elapsed": {
+        "status": "MEASURED",
+        "value": 51,
+        "basis": "RECORDED_RUN_ELAPSED",
+        "refs": [
+          {
+            "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+            "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+            "pointer": "/afterArtifact/resourceUsage"
+          },
+          {
+            "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+            "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+            "pointer": "/afterArtifact/startedAt"
+          },
+          {
+            "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+            "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126",
+            "pointer": "/afterArtifact/finishedAt"
+          }
+        ],
+        "missing": []
+      },
+      "firstSupportedObservationComplete": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "FINAL_CITED_SUPPORTED_SOURCE_OBSERVATION",
+        "refs": [],
+        "missing": [
+          "No independently qualified presentation with complete timestamped citations."
+        ]
+      },
+      "firstServerPresentation": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "RUN_START_PROXY_TO_SERVER_PRESENTATION",
+        "refs": [],
+        "missing": [
+          "Valid run start/presentation timestamps missing or reversed; no UI render evidence."
+        ]
+      },
+      "observationToPresentation": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "OBSERVATION_TO_SERVER_PRESENTATION",
+        "refs": [],
+        "missing": [
+          "A supported observation-complete instant and server presentation in one clock are required."
+        ]
+      },
+      "acceptanceEvents": [],
+      "uiVisible": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "UI_VISIBLE",
+        "refs": [],
+        "missing": [
+          "No client render acknowledgement."
+        ]
+      },
+      "turnResponses": [
+        {
+          "userMessageId": "message:0:24ebc15f7687396928707063",
+          "metric": {
+            "status": "NOT_EVALUATED",
+            "value": null,
+            "basis": "USER_TO_ASSOCIATED_ASSISTANT_WALL_TIME",
+            "refs": [],
+            "missing": [
+              "Clock provenance and request/response association are not retained; equal fixture business times are not zero latency."
+            ]
+          }
+        },
+        {
+          "userMessageId": "message:0:9f6fdef0f48c7d480dbeea87",
+          "metric": {
+            "status": "NOT_EVALUATED",
+            "value": null,
+            "basis": "USER_TO_ASSOCIATED_ASSISTANT_WALL_TIME",
+            "refs": [],
+            "missing": [
+              "Clock provenance and request/response association are not retained; equal fixture business times are not zero latency."
+            ]
+          }
+        }
+      ],
+      "stageBreakdown": {
+        "schemaVersion": "restaurant-stage-timings@1",
+        "status": "NOT_EVALUATED",
+        "elapsedMs": null,
+        "criticalPath": [],
+        "modelSteps": [],
+        "gaps": [
+          "Missing valid run start/end timestamps.",
+          "CALENDAR_CONTROL measures only timestamped date/calendar operations with observed target metadata; missing target metadata remains REQUEST_AND_RESULT. Timing never establishes control or inventory success."
+        ]
+      },
+      "repeatedLoads": {
+        "counts": null,
+        "durationRatio": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "RELOAD_DURATION_RATIO",
+          "refs": [],
+          "missing": [
+            "Counts alone or incomplete/redacted trace do not establish exact reload duration."
+          ]
+        }
+      },
+      "externalVsSystem": {
+        "navigationOperation": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "SOURCE_IO_OPERATION_PROXY",
+          "refs": [],
+          "missing": [
+            "Timestamped matched navigation boundaries missing."
+          ]
+        },
+        "googleWait": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "GOOGLE_WAIT",
+          "refs": [],
+          "missing": [
+            "No independently timestamped Google response boundary supplied."
+          ]
+        },
+        "modelWallMs": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "MODEL_WALL_TIME",
+          "refs": [],
+          "missing": [
+            "Counters alone cannot place model intervals."
+          ]
+        },
+        "systemOperationMs": {
+          "status": "NOT_EVALUATED",
+          "value": null,
+          "basis": "SYSTEM_OPERATION_WALL_TIME",
+          "refs": [],
+          "missing": [
+            "Timestamped operation pairs missing."
+          ]
+        },
+        "gaps": [],
+        "additive": false
+      }
+    },
+    "clarifications": {
+      "excess": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "FROZEN_GOLD_AND_ACTUAL_QUESTION",
+        "refs": [],
+        "missing": [
+          "Frozen clarification Gold with a complete turn history was not supplied."
+        ]
+      },
+      "missing": {
+        "status": "NOT_EVALUATED",
+        "value": null,
+        "basis": "REQUIRED_MISSING_FIELD_AND_UNSOURCED_NEW_VALUE",
+        "refs": [],
+        "missing": [
+          "Frozen required/missing fields and complete before/after history were not supplied."
+        ]
+      },
+      "excessQuestions": [],
+      "missingQuestions": []
+    },
+    "conditions": null,
+    "softPreferenceObservations": null,
+    "explicitOrdering": {
+      "status": "NOT_APPLICABLE",
+      "requirement": null,
+      "gateEffect": "NONE",
+      "refs": []
+    }
+  },
+  "existingDiagnostics": {
+    "investigationMetrics": null,
+    "effectiveResources": null,
+    "reachedStages": null,
+    "recordReadIssues": null,
+    "unassessedDimensions": null
+  },
+  "independentNotes": [
+    {
+      "source": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/independent-evaluation.json",
+        "sha256": "c4c340600b8234ba2306dd133df73a2455d07a221dd67c8c1c9fcb8e0437dd9b"
+      },
+      "scope": "Original A admitted answer quotation/binding verification; AArtifactSHA256 exactly matches this input; not an A stage grader.",
+      "content": {
+        "status": "PASS",
+        "scope": "Offline exposed local constructions, independent literal/source-page/output checking; not real-model faithfulness or Live inventory",
+        "layer1": {
+          "CObservedFrames": 14,
+          "originalAHelper": 1,
+          "allPlannedObserved": true,
+          "outputs": [
+            {
+              "label": "agent-selection-only",
+              "result": "HONEST_OPTIONAL_TERMS_OMITTED_LINK_PRESERVED",
+              "terms": 0,
+              "mockQuestionCalls": 0,
+              "modelCallsInLastWholeRun": 5,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "TABELOG-proactive",
+              "result": "QUALIFIED_DELIVERY",
+              "terms": 2,
+              "mockQuestionCalls": 2,
+              "modelCallsInLastWholeRun": 7,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "TABLECHECK-proactive",
+              "result": "QUALIFIED_DELIVERY",
+              "terms": 2,
+              "mockQuestionCalls": 2,
+              "modelCallsInLastWholeRun": 7,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "admitted-reuse",
+              "result": "QUALIFIED_DELIVERY",
+              "terms": 1,
+              "mockQuestionCalls": 1,
+              "modelCallsInLastWholeRun": 4,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "selected-admitted-reuse",
+              "result": "QUALIFIED_DELIVERY",
+              "terms": 2,
+              "mockQuestionCalls": 4,
+              "modelCallsInLastWholeRun": 7,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "conflict",
+              "result": "QUALIFIED_DELIVERY",
+              "terms": 3,
+              "mockQuestionCalls": 4,
+              "modelCallsInLastWholeRun": 9,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "SHOP",
+              "result": "HONEST_OPTIONAL_TERMS_OMITTED_LINK_PRESERVED",
+              "terms": 0,
+              "mockQuestionCalls": 0,
+              "modelCallsInLastWholeRun": 5,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "CHANNEL",
+              "result": "HONEST_OPTIONAL_TERMS_OMITTED_LINK_PRESERVED",
+              "terms": 0,
+              "mockQuestionCalls": 0,
+              "modelCallsInLastWholeRun": 5,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "not-stated-new-run",
+              "result": "HONEST_OPTIONAL_TERMS_OMITTED_LINK_PRESERVED",
+              "terms": 0,
+              "mockQuestionCalls": 4,
+              "modelCallsInLastWholeRun": 7,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "budget",
+              "result": "HONEST_OPTIONAL_TERMS_OMITTED_LINK_PRESERVED",
+              "terms": 0,
+              "mockQuestionCalls": 1,
+              "modelCallsInLastWholeRun": 20,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "cancelled",
+              "result": "HONEST_OPTIONAL_TERMS_OMITTED_LINK_PRESERVED",
+              "terms": 0,
+              "mockQuestionCalls": 1,
+              "modelCallsInLastWholeRun": 6,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "expired-pages",
+              "result": "HONEST_OPTIONAL_TERMS_OMITTED_LINK_PRESERVED",
+              "terms": 0,
+              "mockQuestionCalls": 2,
+              "modelCallsInLastWholeRun": 7,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "fresh-explicit-reuse",
+              "result": "QUALIFIED_DELIVERY",
+              "terms": 1,
+              "mockQuestionCalls": 3,
+              "modelCallsInLastWholeRun": 7,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            },
+            {
+              "label": "deadline",
+              "result": "HONEST_OPTIONAL_TERMS_OMITTED_LINK_PRESERVED",
+              "terms": 0,
+              "mockQuestionCalls": 1,
+              "modelCallsInLastWholeRun": 6,
+              "quotationsOutletChannelRun": "PASS",
+              "link": "PASS",
+              "externalCalls": 0
+            }
+          ]
+        },
+        "layer2": {
+          "originalAAnswerToTerms": "PASS",
+          "proactiveSelectedOnly": "PASS",
+          "reuseWithoutDuplicate": "PASS",
+          "bilingualConflict": "PASS",
+          "unsafeOrUnavailableTermsOmittedLinkPreserved": "PASS",
+          "quotationClaimsIndependentlyChecked": 12
+        },
+        "layer3": {
+          "unsupportedFixtureQuotationOrUnsafeNavigationClaims": 0,
+          "realSourceS0": "NOT_EVALUATED_NO_LIVE",
+          "semanticGeneralization": "NOT_EVALUATED_NO_REAL_MODEL"
+        },
+        "layer4": {
+          "baselineCause": "Production lacked G1-to-B1 terms and selected-outlet acquisition wiring",
+          "localTestFailures": "First C wrapper recursion and then exact TC read-URL/cancellation timing; preserved separately",
+          "identityGuard": "Additional unit counterexample preserved; no production source identity rule relaxed"
+        },
+        "realCalls": {
+          "model": 0,
+          "websiteGET": 0,
+          "google": 0,
+          "live": 0
+        },
+        "AArtifactSHA256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126"
+      }
+    }
+  ],
+  "deferred": [
+    "A G6 independent evaluator integration and B1/terms/page red-light first-point acceptance remain incomplete until that evaluator is merged."
+  ],
+  "testInterfaceInput": false
+}

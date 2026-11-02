@@ -1,0 +1,39 @@
+{
+  "schema": "diagnosis-main-publication@1",
+  "approvedCommit": "8bc20f8a554f981b2a9fff13900ab21d1d327202",
+  "fetchedMain": "efeab25483cf58011b7505c32d6da857e41c2533",
+  "mainAlreadyAncestor": true,
+  "sourceScope": "No source/config/Gold/registry changes. Required five offline gates, evidence/documentation, ordinary main merge and push.",
+  "freeze": {
+    "path": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/code-and-inputs-freeze.json",
+    "sha256": "dbab7f673a9d3fc082595b1e1165d2ed97e0ecd664c6e74af445306825780511"
+  },
+  "modelAndBusinessNetworkCalls": 0,
+  "historicalEvaluatorReruns": 0,
+  "plannedCommands": [
+    [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    [
+      "npm",
+      "test"
+    ],
+    [
+      "npm",
+      "run",
+      "build"
+    ],
+    [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ]
+  ]
+}

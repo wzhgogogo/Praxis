@@ -1,0 +1,395 @@
+{
+  "schema": "run-diagnosis-summary@1",
+  "denominators": {
+    "planned": 8,
+    "received": 8,
+    "started": 0,
+    "finished": 0,
+    "completed": 0,
+    "interrupted": 0,
+    "classificationAvailable": 0,
+    "scorable": 0,
+    "capabilityIncluded": 0
+  },
+  "denominatorNotes": {
+    "planned": "Only an explicitly supplied manifest count; null without one.",
+    "completed": "A recorded finish timestamp excluding orchestration interruptions; this is run completion, not user-goal completion.",
+    "scorable": "Existing classified result, excluding unassessed/interrupted/invalid/environment-only samples; per-dimension gaps remain visible."
+  },
+  "firstPointBySeverity": [
+    {
+      "cell": "NOT_EVALUATED × NO_CONFIRMED_SEVERITY_OR_UNASSESSED",
+      "count": 8,
+      "runIds": [
+        "b1-red",
+        "g1-page-red",
+        "g1-page-green",
+        "terms-red",
+        "terms-admitted",
+        "terms-proactive",
+        "tablecheck-terms",
+        "assistant-monotonic-timeline"
+      ]
+    }
+  ],
+  "sameCaseAttempts": [
+    {
+      "caseId": "UNKNOWN_CASE",
+      "attempts": [
+        {
+          "runId": "b1-red",
+          "artifactRunId": null,
+          "outcome": null,
+          "firstPoint": {
+            "status": "NOT_EVALUATED",
+            "stage": null,
+            "certainty": null,
+            "column": null,
+            "earliestKnownOnly": true
+          },
+          "evaluation": null,
+          "version": {
+            "evaluatorVersion": null,
+            "rubricVersion": null,
+            "goldCorrection": null,
+            "mode": "OFFLINE_LOCAL_CONSTRUCTED_SOURCES"
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "restaurant:1c9b7f86a211ed74d0d623fa",
+      "attempts": [
+        {
+          "runId": "g1-page-red",
+          "artifactRunId": "run:restaurant:1c9b7f86a211ed74d0d623fa",
+          "outcome": null,
+          "firstPoint": {
+            "status": "NOT_EVALUATED",
+            "stage": null,
+            "certainty": null,
+            "column": null,
+            "earliestKnownOnly": true
+          },
+          "evaluation": null,
+          "version": {
+            "evaluatorVersion": null,
+            "rubricVersion": null,
+            "goldCorrection": null,
+            "mode": "WEB_READ"
+          }
+        },
+        {
+          "runId": "g1-page-green",
+          "artifactRunId": "run:restaurant:1c9b7f86a211ed74d0d623fa",
+          "outcome": null,
+          "firstPoint": {
+            "status": "NOT_EVALUATED",
+            "stage": null,
+            "certainty": null,
+            "column": null,
+            "earliestKnownOnly": true
+          },
+          "evaluation": null,
+          "version": {
+            "evaluatorVersion": null,
+            "rubricVersion": null,
+            "goldCorrection": null,
+            "mode": "WEB_READ"
+          }
+        },
+        {
+          "runId": "terms-red",
+          "artifactRunId": "run:restaurant:1c9b7f86a211ed74d0d623fa",
+          "outcome": null,
+          "firstPoint": {
+            "status": "NOT_EVALUATED",
+            "stage": null,
+            "certainty": null,
+            "column": null,
+            "earliestKnownOnly": true
+          },
+          "evaluation": null,
+          "version": {
+            "evaluatorVersion": null,
+            "rubricVersion": null,
+            "goldCorrection": null,
+            "mode": "WEB_READ"
+          }
+        },
+        {
+          "runId": "terms-admitted",
+          "artifactRunId": "run:restaurant:1c9b7f86a211ed74d0d623fa",
+          "outcome": null,
+          "firstPoint": {
+            "status": "NOT_EVALUATED",
+            "stage": null,
+            "certainty": null,
+            "column": null,
+            "earliestKnownOnly": true
+          },
+          "evaluation": null,
+          "version": {
+            "evaluatorVersion": null,
+            "rubricVersion": null,
+            "goldCorrection": null,
+            "mode": "WEB_READ"
+          }
+        }
+      ]
+    },
+    {
+      "caseId": "restaurant:bd257d58a1d1321398e975da",
+      "attempts": [
+        {
+          "runId": "terms-proactive",
+          "artifactRunId": "run:restaurant:bd257d58a1d1321398e975da",
+          "outcome": null,
+          "firstPoint": {
+            "status": "NOT_EVALUATED",
+            "stage": null,
+            "certainty": null,
+            "column": null,
+            "earliestKnownOnly": true
+          },
+          "evaluation": null,
+          "version": {
+            "evaluatorVersion": null,
+            "rubricVersion": null,
+            "goldCorrection": null,
+            "mode": "WEB_READ"
+          }
+        },
+        {
+          "runId": "tablecheck-terms",
+          "artifactRunId": "run:restaurant:bd257d58a1d1321398e975da",
+          "outcome": null,
+          "firstPoint": {
+            "status": "NOT_EVALUATED",
+            "stage": null,
+            "certainty": null,
+            "column": null,
+            "earliestKnownOnly": true
+          },
+          "evaluation": null,
+          "version": {
+            "evaluatorVersion": null,
+            "rubricVersion": null,
+            "goldCorrection": null,
+            "mode": "WEB_READ"
+          }
+        },
+        {
+          "runId": "assistant-monotonic-timeline",
+          "artifactRunId": "run:restaurant:bd257d58a1d1321398e975da",
+          "outcome": null,
+          "firstPoint": {
+            "status": "NOT_EVALUATED",
+            "stage": null,
+            "certainty": null,
+            "column": null,
+            "earliestKnownOnly": true
+          },
+          "evaluation": null,
+          "version": {
+            "evaluatorVersion": null,
+            "rubricVersion": null,
+            "goldCorrection": null,
+            "mode": "WEB_READ"
+          }
+        }
+      ]
+    }
+  ],
+  "cohorts": [
+    {
+      "metadata": {
+        "evaluatorVersion": null,
+        "rubricVersion": null,
+        "mode": "OFFLINE_LOCAL_CONSTRUCTED_SOURCES",
+        "goldRevisionSha256": null
+      },
+      "runIds": [
+        "b1-red"
+      ]
+    },
+    {
+      "metadata": {
+        "evaluatorVersion": null,
+        "rubricVersion": null,
+        "mode": "WEB_READ",
+        "goldRevisionSha256": null
+      },
+      "runIds": [
+        "g1-page-red",
+        "g1-page-green",
+        "terms-red",
+        "terms-admitted",
+        "terms-proactive",
+        "tablecheck-terms",
+        "assistant-monotonic-timeline"
+      ]
+    }
+  ],
+  "experience": {
+    "elapsed": {
+      "measured": 7,
+      "unassessed": 1,
+      "median": 52,
+      "max": 2362
+    },
+    "firstEvidence": {
+      "measured": 0,
+      "unassessed": 8,
+      "median": null,
+      "max": null
+    },
+    "firstPresentation": {
+      "measured": 0,
+      "unassessed": 8,
+      "median": null,
+      "max": null
+    },
+    "delay": {
+      "measured": 0,
+      "unassessed": 8,
+      "median": null,
+      "max": null
+    },
+    "turnResponses": {
+      "measured": 0,
+      "unassessed": 15,
+      "median": null,
+      "max": null
+    },
+    "excessQuestions": {
+      "observedTotal": null,
+      "completeTotal": null,
+      "unassessedRuns": 8
+    },
+    "missingQuestions": {
+      "observedTotal": null,
+      "completeTotal": null,
+      "unassessedRuns": 8
+    },
+    "ordering": {
+      "passed": 0,
+      "deviated": 0,
+      "notEvaluated": 0,
+      "notApplicable": 8
+    }
+  },
+  "inputs": [
+    {
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-tablecheck-composition-20261101/red/preflight.json",
+        "sha256": "eb08a94f8edb6b2b47b60a94f075a05ce5478b8fd6f8828b4c959d8c2d47c2e2"
+      },
+      "evaluation": null
+    },
+    {
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/g1-page-capture/red/execution/preflight.json",
+        "sha256": "2bf07edb39410a1d7b040f8d4f985107c0ad64ef45ba1d85fb5a8702d9ca7f1b"
+      },
+      "evaluation": null
+    },
+    {
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/g1-page-capture/green/execution/preflight.json",
+        "sha256": "83febc6f4aa6751baddd91c6188a418bbf7836d00355691651bbcc60a6f96c42"
+      },
+      "evaluation": null
+    },
+    {
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/red/preflight.json",
+        "sha256": "a0eeccb200611c64703a401e9dc8302be4880aa593dc25dc610b978269120fae"
+      },
+      "evaluation": null
+    },
+    {
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/admitted-artifact/preflight.json",
+        "sha256": "182edf40c96da7f6ee51e9574a3f296ed05da656c324feff611e4ac7a3571126"
+      },
+      "evaluation": null
+    },
+    {
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/final-compositions/TABELOG-proactive.json.gz",
+        "sha256": "305e02e248a0503889e1bb32053ac3262cf256e5e2d80a56880bc103277f79da"
+      },
+      "evaluation": null
+    },
+    {
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-20261101/final-compositions/TABLECHECK-proactive.json.gz",
+        "sha256": "a58d749d54ac6d3610669c409e90bed211152c94c2688261384ce36b6b0e58d1"
+      },
+      "evaluation": null
+    },
+    {
+      "artifact": {
+        "path": ".eval-artifacts/phase3b/b1-card-terms-reserve-20261101/final-observations/b1_reserve_raw-assistant-wait-40.json.gz",
+        "sha256": "9df5190e3f0ada8f349754be678a018212155b28bfdf6fe2f9630737951fd2dc"
+      },
+      "evaluation": null
+    }
+  ],
+  "gateEffect": "NONE",
+  "manifest": {
+    "path": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-inputs.json",
+    "sha256": "fc5884e4a51fe37dd9a68f8bb91c8c80873ec262d84b650847233f2bb9f14a4b"
+  },
+  "paths": [
+    {
+      "id": "b1-red",
+      "jsonPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/b1-red.diagnosis.json",
+      "markdownPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/b1-red.diagnosis.md",
+      "sha256": "f732e417064e2818bea72624fac2df5a902842ef3863feef26c4d8cbf8fbf127"
+    },
+    {
+      "id": "g1-page-red",
+      "jsonPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/g1-page-red.diagnosis.json",
+      "markdownPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/g1-page-red.diagnosis.md",
+      "sha256": "d013be5e959ab1b7fe98d92d4cf507ec7c841231aaebc592fdb47548fc6a22e0"
+    },
+    {
+      "id": "g1-page-green",
+      "jsonPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/g1-page-green.diagnosis.json",
+      "markdownPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/g1-page-green.diagnosis.md",
+      "sha256": "c2666958f6efefc8a2b14746c01a0a552ece1ada3b893eeeab068978596cf1e4"
+    },
+    {
+      "id": "terms-red",
+      "jsonPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/terms-red.diagnosis.json",
+      "markdownPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/terms-red.diagnosis.md",
+      "sha256": "6d89d5d147047de6d5e9cdb053fc28832083571a13e4c71cf561983241532c4a"
+    },
+    {
+      "id": "terms-admitted",
+      "jsonPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/terms-admitted.diagnosis.json",
+      "markdownPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/terms-admitted.diagnosis.md",
+      "sha256": "418ff201e0d48a4ad2ab0569569a83d26cc3f2808261ba39935a5c371828eebc"
+    },
+    {
+      "id": "terms-proactive",
+      "jsonPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/terms-proactive.diagnosis.json",
+      "markdownPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/terms-proactive.diagnosis.md",
+      "sha256": "0a537fc984df7cf25278d3163b4c58ea9e5db923fa9615985cab67888c1076ae"
+    },
+    {
+      "id": "tablecheck-terms",
+      "jsonPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/tablecheck-terms.diagnosis.json",
+      "markdownPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/tablecheck-terms.diagnosis.md",
+      "sha256": "4f7509eab5ea31dadcb7ffbf1920f0b2d7a1e2a2faa274d763250a1af3ccbed6"
+    },
+    {
+      "id": "assistant-monotonic-timeline",
+      "jsonPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/assistant-monotonic-timeline.diagnosis.json",
+      "markdownPath": "/Users/wangzhour/.codex/worktrees/eval-assembly-gate/Praxis-Zhixing/.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-reports/assistant-monotonic-timeline.diagnosis.md",
+      "sha256": "288f6c0239f72f06f3e4a6ff52cc4fde5e2b74632f8c07e3bce4f3872e59fd0a"
+    }
+  ]
+}
