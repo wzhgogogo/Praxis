@@ -2,7 +2,7 @@
 
 - Status: draft / not integrated; one remaining legacy HTTP expectation awaits narrow approval before final gates.
 - Branch: codex/fix-phase3b-user-booking-selection. No main merge is authorized.
-- Base main: efeab25483cf58011b7505c32d6da857e41c2533.
+- Initial base main: efeab25483cf58011b7505c32d6da857e41c2533. Latest main549061e8392bfb6224d1ac9ca78671714d330e2c was synchronized in ad2ee3a8; four documentation conflicts retain both sides, upstream diagnosis source/config bytes are unchanged.
 - Green product: 4413e4ffea10ba844dc59d9efc25977b18b873e5.
 - Mode: saved real-model response Replay plus locally constructed source I/O, actual createLiveReadAssembly, persistent application/Compiler/Router/Reducer and PGlite. New real model/Google/website GET/Live calls: 0. No .env loading or private Holdout access.
 
