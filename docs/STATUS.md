@@ -1,3 +1,5 @@
+2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。
+
 2026-11-02 CET：C开始用户已批准的B1投影修复：PRESENT_RESULTS只认已展示集合，其他阶段只认就绪集合；selected不绕过集合，准备缓存保留。普通组装+HTTP先红后绿，正控制覆盖SEARCHING就绪、展示及用户选店条款；A/B受保护文件与版本不动，真实调用0。门禁全绿后按授权同步main、合入推送并通知A。 [计划](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。
 
 # Praxis 当前状态
