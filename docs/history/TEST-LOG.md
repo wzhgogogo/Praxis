@@ -6252,3 +6252,11 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 修前两项实际目标断言失败：开头缺首点/链路/时间，汇总无已交付覆盖观察；修后15项全绿。原始严重程度、漏斗与条件JSON深相等移附录，13份摘要第27行结束，557自产引用定位通过。LOCATION已到达无引用的额外目标红灯→补已有字段指针，不改节点/判定。覆盖重复运行对照2家/4次；实际5例显示SUPPORTED发现3、事实2，未确认可行性发现7单列，h002/中目黑首点仍无确认偏离。比较输入缺归因级别拒绝，疑似Konya不再报告为确认缺陷。
 
 2a全量44登记/27店缺证表，0可补两源逐字身份，三份登记SHA不变。按用户最新明确例外，历史Evaluator重跑0，不宣称22条新评分无变化；逐项核对22份既有评价与1d590c05原字节一致，原result/中断包SHA不变。原始校准仍2/5，8时间点不变且≤2秒；撤回已归因评测器的旧推断，Konya改为疑似匹配、缺独立身份证据未确认；旧标签和旧报告不覆盖。真实模型/Google/网站/Live0，不读.env或labels。A实际多回合grader红灯未完成、来源身份缺证和HARD未核对的历史口径未修改，非Clean Baseline/真实网站或模型验收。仅推分支交复核，不合main。[补充报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。
+
+<a id="test-2026-11-02-run-diagnosis-main-publication"></a>
+
+## 2026-11-02 CET：运行诊断main合入门禁
+
+获批8bc20f8a已含最新远端main efeab254；09:51–09:53 CET在862项冻结输入上顺序执行typecheck exit0、arch:check exit0、npm test 1342/1342、build exit0、test:browser:fixture 187/187。失败/取消/跳过/todo均0，五项各一次，前后status为空、HEAD/SHA相同；浏览器外层129.876秒、Runner129.779秒。Node v24.4.1/npm11.4.2，完整原始gzip日志与双SHA见[execution.json](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/execution.json)。
+
+五项完成后才普通合main814dfa6c；合并完整树与获批8bc20f8a逐字相同，main及当前工作树均干净，其后仅文档/证据变动，不重复门禁。不新增测试、重新评分、模型/Google/网站/Live/见证GET，不读.env；本地Chromium仅本地Fixture。既有独立预期、反例和未评边界复用已复核记录，不以本轮全绿新增能力声明。正常push main并用ls-remote核对最终提交号，随后待命。[记录](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/report.md)。

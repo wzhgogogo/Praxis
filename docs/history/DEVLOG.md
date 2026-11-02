@@ -5548,3 +5548,11 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 Markdown结论优先：13份摘要均前27行，三栏带确定性、13环节短引用、关键时间与未评计数，正文每店一行七列漏斗；全部原始JSON移文末。覆盖汇总独立于首点，计入已交付，SUPPORTED与可行性未评分层，门店数与运行×门店次数分开。两项具体目标红灯→绿；另修正LOCATION既有来源指针遗漏，节点状态/判定不变。比较oracle@2要求显式归因级别，未提供拒绝，不默认确认；生成器不读人工归类。
 
 3c9f3289/862项冻结，09:28–09:30 CET净树八步（报告三条＋五门禁）全通过，默认1342/1342、Chromium187/187。15项诊断行为进入默认套件；原判定、首点、漏斗、体验及8时间点不变，557自产引用可定位。仅diagnosis四文件改动，产品/Evaluator/Gold/见证/Prompt/State/A文件不改。身份缺证和A真实grader红灯仍保留；开发归档已暴露，非Clean Baseline。真实模型/Google/网站/Live0、不读.env或labels，仅推工作分支交复核，不合main。[补充报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。
+
+<a id="dev-2026-11-02-run-diagnosis-main-publication"></a>
+
+## 2026-11-02 CET：运行诊断获批合入main
+
+用户复核8bc20f8a通过并批准合入。fetch确认最新main仍efeab254，已在获批版本祖先中；无新代码同步或冲突。按要求在8bc20f8a/862冻结项净树执行五门禁全部通过，之后既有干净main工作树从旧fceecaad快进到远端，再普通合并814dfa6cf2499c9086ce59afb65281b8ab392b1b；两父提交分别为efeab254与8bc20f8a，完整树与获批验证树相同。新路径忽略文件冲突0，无重置/强推/历史删除。
+
+其后仅追加发布文档和完整日志，不再修改源码或输入。原44条/27店缺证、2/5历史校准、Konya未确认归因和A真实grader延期继续保留，不执行模型、Live或历史重评。正常推进/推送main并ls-remote核对后待命；最终发布SHA以Git回执为准。[合入记录](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/report.md)。
