@@ -1841,7 +1841,7 @@ test("B1 persistent HTTP composition projects a cached source link, rechecks it 
       const view=await createCase(running.baseUrl,cookie,"b1-create",message);
       assert.equal(view.case.phase,"PRESENT_RESULTS");
       assert.equal(view.restaurant.bookingHandoffs?.[0]?.url,"https://tabelog.com/en/booking/form_course/new?rcd=13123456&member=2&visit_date=20261102&visit_time=1900");
-      assert.equal(view.restaurant.selectedCandidateId,undefined);
+      assert.equal(view.restaurant.selectedCandidateId,"fixture:outlet");
       const path="/api/cases/"+encodeURIComponent(view.case.caseId);
       const leave=await api(running.baseUrl,cookie,path+"/booking-departures",{method:"POST",body:JSON.stringify({candidateId:"fixture:outlet",offerId:view.restaurant.bookingHandoffs![0]!.offerId,requestId:"b1-departure",taskVersion:view.case.taskVersion})});
       assert.equal(leave.response.status,201,"a validated B1 departure must be durable before leaving");
