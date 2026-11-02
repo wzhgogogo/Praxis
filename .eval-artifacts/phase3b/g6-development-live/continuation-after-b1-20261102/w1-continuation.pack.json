@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "phase3b-g6-pack@1",
+  "mode": "LIVE_READ",
+  "recording": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  },
+  "witnessGETLimit": 25,
+  "cases": [
+    {
+      "id": "D3",
+      "request": "Can you find a table for two at Kushi Katsu Dengana Akabane ten on November 11, 2026 at 7 PM?",
+      "followups": [
+        {
+          "id": "book-first",
+          "trigger": "DISPLAYED_AVAILABLE",
+          "kind": "MESSAGE",
+          "text": "Please book the first restaurant for me."
+        }
+      ],
+      "witness": {
+        "candidateId": "witness-W1",
+        "name": "Kushi Katsu Dengana Akabane ten",
+        "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+        "provider": "TABELOG",
+        "sourceEntityId": "13108466",
+        "date": "2026-11-11",
+        "time": "19:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "identityText": [
+          "Kushi Katsu Dengana Akabane ten",
+          "1-15-1"
+        ]
+      },
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "time": "19:00",
+          "partySize": 2,
+          "requiresIndependentQualification": true
+        },
+        "pages": []
+      }
+    },
+    {
+      "id": "D4",
+      "request": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+      "followups": [
+        {
+          "id": "ask-private-room",
+          "trigger": "DISPLAYED_AVAILABLE",
+          "kind": "PAGE_QUESTION",
+          "text": "Does the first restaurant have a private room?"
+        }
+      ],
+      "witness": {
+        "candidateId": "witness-W1",
+        "name": "Kushi Katsu Dengana Akabane ten",
+        "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+        "provider": "TABELOG",
+        "sourceEntityId": "13108466",
+        "date": "2026-11-11",
+        "time": "19:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "identityText": [
+          "Kushi Katsu Dengana Akabane ten",
+          "1-15-1"
+        ]
+      },
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "time": "19:00",
+          "partySize": 2,
+          "requiresIndependentQualification": true
+        },
+        "pages": []
+      }
+    },
+    {
+      "id": "D5",
+      "request": "I'd like to book Kushi Katsu Dengana Akabane ten at 7 PM sometime next week, for two people.",
+      "followups": [
+        {
+          "id": "supply-date",
+          "trigger": "ASKED_FOR_DATE",
+          "kind": "MESSAGE",
+          "text": "November 11, 2026."
+        }
+      ],
+      "witness": {
+        "candidateId": "witness-W1",
+        "name": "Kushi Katsu Dengana Akabane ten",
+        "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+        "provider": "TABELOG",
+        "sourceEntityId": "13108466",
+        "date": "2026-11-11",
+        "time": "19:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "identityText": [
+          "Kushi Katsu Dengana Akabane ten",
+          "1-15-1"
+        ]
+      },
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "time": "19:00",
+          "partySize": 2,
+          "requiresIndependentQualification": true
+        },
+        "pages": []
+      }
+    },
+    {
+      "id": "D6",
+      "request": "Recommend a restaurant near Akabane Station.",
+      "followups": [
+        {
+          "id": "book-recommendation",
+          "trigger": "DISPLAYED_RESULTS",
+          "kind": "MESSAGE",
+          "text": "I'd like to book the first restaurant on November 11, 2026 at 7 PM."
+        },
+        {
+          "id": "supply-party",
+          "trigger": "ASKED_FOR_PARTY",
+          "kind": "MESSAGE",
+          "text": "Two people."
+        }
+      ],
+      "witness": {
+        "candidateId": "witness-W1",
+        "name": "Kushi Katsu Dengana Akabane ten",
+        "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+        "provider": "TABELOG",
+        "sourceEntityId": "13108466",
+        "date": "2026-11-11",
+        "time": "19:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "identityText": [
+          "Kushi Katsu Dengana Akabane ten",
+          "1-15-1"
+        ]
+      },
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "time": "19:00",
+          "partySize": 2,
+          "requiresIndependentQualification": true
+        },
+        "pages": []
+      }
+    },
+    {
+      "id": "D7",
+      "request": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+      "followups": [],
+      "witness": {
+        "candidateId": "witness-W1",
+        "name": "Kushi Katsu Dengana Akabane ten",
+        "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+        "provider": "TABELOG",
+        "sourceEntityId": "13108466",
+        "date": "2026-11-11",
+        "time": "19:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "identityText": [
+          "Kushi Katsu Dengana Akabane ten",
+          "1-15-1"
+        ]
+      },
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "time": "19:00",
+          "partySize": 2,
+          "requiresIndependentQualification": true
+        },
+        "pages": []
+      }
+    }
+  ]
+}

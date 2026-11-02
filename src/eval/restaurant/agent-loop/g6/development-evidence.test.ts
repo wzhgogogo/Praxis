@@ -6,6 +6,7 @@ import { join,resolve } from "node:path";
 import { developmentPack,developmentRequestSHA } from "./development-pack.js";
 import { main as runLiveCLI } from "./run-g6.js";
 import { captureDevelopmentWitnesses,importDevelopmentEvidence,type DevelopmentEvidence } from "./development-evidence.js";
+import { recertifyW2 } from "./recertify-w2.js";
 const sha=(s:string)=>createHash("sha256").update(s).digest("hex");
 
 test("G6 reviewed evidence import binds original bodies, attempts and targets without changing any frozen user turn",async()=>{
@@ -51,4 +52,25 @@ test("G6 public GET collector preserves the original cause code and message with
     const record=JSON.parse(await readFile(join(dir,"capture/capture.json"),"utf8"));assert.equal(calls,3);assert.equal(result.publicGETAttempts,3);
     for(const failure of record.failures){assert.equal(failure.detail.name,"TypeError");assert.equal(failure.detail.message,"fetch failed");assert.equal(failure.detail.cause.code,"LOCAL_TEST_CAUSE");assert.equal(failure.detail.cause.message,"Local transport failure");}
   }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test("G6 W2 certification requires all five continuation slots to clear, preserving historical D1 without rerun",async()=>{
+  // LOCAL_CONSTRUCTION: public response shape and temporary budget, never a website replay.
+  const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-w2-continuation-")),originalFetch=globalThis.fetch;let calls=0;
+  const put=async(name:string,value:unknown)=>{const path=join(dir,name),raw=JSON.stringify(value);await writeFile(path,raw);return {path,sha:sha(raw)};};
+  try{
+    const all=developmentPack(),cases=all.cases.filter(c=>["D2","D8"].includes(c.id)).map(c=>({...c,witness:{...c.witness!,time:"20:00"},oracle:{...c.oracle,request:{...c.oracle.request,time:"20:00"}}}));
+    const pack=await put("pack.json",{...all,witnessGETLimit:25,cases}),detail=await put("detail.body",{LOCAL_CONSTRUCTION:"same outlet public detail"});
+    const template=await put("template.json",{schemaVersion:"g6-development-evidence@1",getRecords:[{path:detail.path,sha256:detail.sha}],oracles:{}});
+    const budget=await put("budget.json",{entries:[],limits:{evaluationPublicGET:390},cumulative:{evaluationPublicGET:262,restaurantWebsiteRequests:0}});
+    const previous=join(dir,"previous.json"),ids=["D3","D4","D5","D6","D7"];
+    const previousValue={witnessGETs:7,stopReason:null as string|null,slots:ids.map(id=>({id,status:"EVALUATED"}))};
+    const config=await put("config.json",{pack:pack.path,packSHA256:pack.sha,template:template.path,templateSHA256:template.sha,budget:budget.path,publicGETBaseline:255,ceiling:25,previousBatch:previous,output:join(dir,"capture"),detailRef:detail.path,detailSHA256:detail.sha,detailCheckedAt:new Date().toISOString()});
+    globalThis.fetch=async()=>{calls++;return new Response(JSON.stringify({base_date:{year:2026,month:11,day:11},members:2,selection:[{time:"20:00"}]}),{status:200});};
+    await writeFile(previous,JSON.stringify({...previousValue,stopReason:"S0_STOP"}));await assert.rejects(recertifyW2(config.path,config.sha),/not cleared/u);assert.equal(calls,0);
+    await writeFile(previous,JSON.stringify({...previousValue,slots:previousValue.slots.slice(1)}));await assert.rejects(recertifyW2(config.path,config.sha),/not cleared/u);assert.equal(calls,0);
+    await writeFile(previous,JSON.stringify(previousValue));const result=await recertifyW2(config.path,config.sha);assert.equal(result.status,"CERTIFIED");assert.equal(result.publicGETAttempts,8);assert.equal(calls,1);
+    const ledger=JSON.parse(await readFile(budget.path,"utf8"));assert.equal(ledger.cumulative.evaluationPublicGET,263);
+    const receipt=JSON.parse(await readFile(join(dir,"capture/execution-evidence.json"),"utf8"));assert.equal(receipt.certificates[0].target.time,"20:00");assert.deepEqual(receipt.getRecords[0],{path:detail.path,sha256:detail.sha});
+  }finally{globalThis.fetch=originalFetch;await rm(dir,{recursive:true,force:true});}
 });

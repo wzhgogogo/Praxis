@@ -6,12 +6,13 @@ import { loadG6Pack } from "./runner.js";
 import { createWitnessReader } from "./witness.js";
 import { publicGETError,type DevelopmentEvidence } from "./development-evidence.js";
 const hash=(b:Uint8Array|string)=>createHash("sha256").update(b).digest("hex");
-/** One approved public GET only, after the W1 batch. Never loads credentials or retries. */
+/** One approved public GET after D3–D7. D1 retains its reviewed historical S0. */
 export async function recertifyW2(configPath:string,expectedSHA:string){
   const raw=await readFile(configPath);if(hash(raw)!==expectedSHA)throw Error("Resume configuration SHA mismatch");
   const c=JSON.parse(raw.toString()) as {pack:string;packSHA256:string;template:string;templateSHA256:string;budget:string;publicGETBaseline:number;ceiling:number;previousBatch:string;output:string;detailRef:string;detailSHA256:string;detailCheckedAt:string};
   const pack=await loadG6Pack(c.pack,c.packSHA256),previous=JSON.parse(await readFile(c.previousBatch,"utf8"));
-  if(previous.stopReason||previous.slots.length!==6||previous.slots.some((s:{status:string})=>s.status!=="EVALUATED"))throw Error("W1 batch has not cleared independent safety review");
+  const continuationIds=["D3","D4","D5","D6","D7"];
+  if(previous.stopReason||previous.slots.length!==continuationIds.length||previous.slots.some((s:{id:string;status:string},i:number)=>s.id!==continuationIds[i]||s.status!=="EVALUATED"))throw Error("W1 continuation has not cleared independent safety review");
   if(pack.cases.length!==2||pack.cases.some(s=>s.witness?.sourceEntityId!=="13186922"||s.witness?.time!=="20:00"))throw Error("Unexpected W2 request");
   const detail=await readFile(c.detailRef),age=Date.now()-Date.parse(c.detailCheckedAt);if(hash(detail)!==c.detailSHA256||age<0||age>=86400000)throw Error("W2 detail expired or changed");
   const templateRaw=await readFile(c.template);if(hash(templateRaw)!==c.templateSHA256)throw Error("W2 review template SHA mismatch");const template=JSON.parse(templateRaw.toString()) as DevelopmentEvidence;

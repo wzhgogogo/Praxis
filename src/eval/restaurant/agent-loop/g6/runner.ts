@@ -81,8 +81,14 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
     let googleCalls=0;
     const googleFetch=(transport:typeof fetch)=>recording.captureGoogleFetch(async(url,init)=>{if(++googleCalls>40)throw Error("G6 slot Google request ceiling reached before transmission");return transport(url,init);});
     const forwarded:G6EvaluationInput["requests"]=[];
-    const raw=await dependencies.transports(spec,recording,{googleFetch,observeRequest:r=>forwarded.push(r)}),snapshots:Array<{page:BrowserSnapshot;at:string}>=[],trace:Array<{kind:string;detail:unknown}>=[];
-    const clock=raw.clock,traceEvent=(kind:string,detail:unknown)=>{trace.push({kind,detail});recording.record(kind,detail);return trace.length;};
+    const raw=await dependencies.transports(spec,recording,{googleFetch,observeRequest:r=>forwarded.push(r)}),snapshots:Array<{page:BrowserSnapshot;at:string}>=[],trace:Array<{sequence:number;at:string;kind:string;detail:unknown}>=[];
+    const clock=raw.clock,traceEvent=(kind:string,detail:unknown)=>{trace.push({sequence:trace.length+1,at:clock.now().toISOString(),kind,detail});recording.record(kind,detail);return trace.length;};
+    let operationSequence=0;
+    const timed=async<T>(method:string,read:()=>Promise<T>):Promise<T>=>{
+      const operationId=++operationSequence;traceEvent("OPERATION_STARTED",{operationId,method});let completed=false;
+      try{const value=await read();completed=true;return value;}
+      finally{traceEvent("OPERATION_FINISHED",{operationId,method,outcome:completed?"COMPLETED":"FAILED"});}
+    };
     const sink={...capture.snapshotSink,recordSnapshot:(page:BrowserSnapshot,sanitized:unknown)=>{snapshots.push({page:structuredClone(page),at:clock.now().toISOString()});capture.snapshotSink.recordSnapshot?.(page,sanitized);}};
     let session:Awaited<ReturnType<typeof createG6Session>>|undefined,view:RestaurantCaseView|undefined;
     let activeTurn="INITIAL",activeTurnId="INITIAL",episodeDeadline=Infinity;const semanticAttempts=new Map<string,number>();const readStarts:ReadStartObservation[]=[];
@@ -96,9 +102,11 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       return capture.complete(request,()=>raw.model.complete(request));
     }};
     const observedBrowser={...(raw.browser.readNetworkBoundaryCapability?{readNetworkBoundaryCapability:raw.browser.readNetworkBoundaryCapability}:{}),async openSession(input:Parameters<typeof raw.browser.openSession>[0]){
-      start(activeTurn==="FOLLOWUP_MESSAGE"?"TERMS_READ":"READ","OPEN_SESSION");const original=await raw.browser.openSession(input);
+      start(activeTurn==="FOLLOWUP_MESSAGE"?"TERMS_READ":"READ","OPEN_SESSION");const original=await timed("openSession",()=>raw.browser.openSession(input));
       return new Proxy(original,{get(target,key){const value=Reflect.get(target,key,target);if(typeof value!=="function")return value;
-        return (...args:unknown[])=>{if(["navigate","openLink","fill","select","click","snapshot"].includes(String(key)))start(activeTurn==="FOLLOWUP_MESSAGE"?"TERMS_READ":"READ",String(key));return value.apply(target,args);};}});
+        return (...args:unknown[])=>{if(["navigate","openLink","fill","select","click","snapshot"].includes(String(key)))start(activeTurn==="FOLLOWUP_MESSAGE"?"TERMS_READ":"READ",String(key));
+          return ["navigate","openLink","fill","select","click","snapshot","observeControls","waitForSettled","captureResponses","screenshotLayoutOnly","close"].includes(String(key))
+            ?timed(String(key),()=>value.apply(target,args)):value.apply(target,args);};}});
     }};
     const browser=traceBrowserRuntime(observedBrowser,"TABLECHECK",traceEvent,sink);
     const witness=createWitnessReader({directory:join(slot,"witness"),budgetPath:dependencies.budgetPath,runId,fetch:dependencies.witnessFetch,now,requestTiming,beforeGET,...(dependencies.wait?{wait:dependencies.wait}:{}),...(dependencies.witnessIntervalMs!==undefined?{minIntervalMs:dependencies.witnessIntervalMs}:{})});
@@ -167,6 +175,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       await writeFile(join(slot,"failure.json"),JSON.stringify({failure,turns,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})},null,2)+"\n",{flag:"wx"});
     }finally{
       if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();if(pack.mode==="LIVE_READ")await recordG6SourceCounts(dependencies.budgetPath,runId+":SOURCE_IO",googleCalls,forwarded.length);const decisions=await capture.finish(failure),recorded=await recording.finish();
+      await writeFile(join(slot,"browser-trace.json"),JSON.stringify({schemaVersion:"phase3b-g6-browser-trace@1",runId,events:trace},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"recording-observation.json"),JSON.stringify({recordingConfig:pack.recording,decisions,...recordingQualification(recorded)},null,2)+"\n",{flag:"wx"});
     }
     await writeFile(join(output,"batch.json"),JSON.stringify({schemaVersion:"phase3b-g6-batch@1",serial:true,witnessGETs,stopReason:stopReason??null,slots:receipts},null,2)+"\n");
