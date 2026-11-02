@@ -60,6 +60,7 @@ import {
   type RestaurantSemanticInterpreterPort,
 } from "./restaurant-message-handler.js";
 import { RestaurantAgentLoopCoordinator, type RestaurantAgentLoopOptions, type RestaurantAgentLoopResult } from "./restaurant-agent-loop.js";
+import { bindUserBookingSelection, userBookingSelectionRequest, type UserBookingSelectionRequest } from "./restaurant-user-booking-selection.js";
 
 type RestaurantRuntime = PostgresTaskRuntime<
   RestaurantTaskState,
@@ -913,8 +914,9 @@ export class PersistentRestaurantAgentApplication {
     const userEventId = `event:user:${hash(`${snapshot.id}:${requestId}`).slice(0, 32)}`;
     // A retried HTTP request must not repeat an untrusted resolver call before
     // the runtime's ordinary event-id idempotency can take effect.
-    if ((await this.runtime.listEvents(record.rootTaskId)).some((recorded) => recorded.id === userEventId)) return;
-    const event = await restaurantEventForMessage(this.interpreter, {
+    const priorEvents = await this.runtime.listEvents(record.rootTaskId);
+    if (priorEvents.some((recorded) => recorded.id === userEventId)) return;
+    const interpretedEvent = await restaurantEventForMessage(this.interpreter, {
       taskId: record.rootTaskId,
       message,
       referenceTime: this.clock.now().toISOString(),
@@ -924,11 +926,14 @@ export class PersistentRestaurantAgentApplication {
         ? { currentDraft: snapshot.domainState.intentDraft }
         : {}),
     }, this.partySizeSupplementResolver);
+    const event = interpretedEvent.type === "SEMANTIC_PROPOSAL_COMPILED"
+      ? bindUserBookingSelection(interpretedEvent, snapshot.domainState) : interpretedEvent;
     const eventWithPartySource = event.type === "SEMANTIC_PROPOSAL_COMPILED" && event.patch.partySizeSource
       ? { ...event, partySizeSourceMessageRequestId: `user:${requestId}` }
       : event;
+    const envelope = this.userEvent(snapshot, requestId, eventWithPartySource);
     await this.runtime.dispatch(
-      this.userEvent(snapshot, requestId, eventWithPartySource),
+      envelope,
       expectedVersion,
     );
     await this.store.appendMessage({
@@ -946,17 +951,18 @@ export class PersistentRestaurantAgentApplication {
       await this.notifyCaseUpdate(record);
       return;
     }
-    await this.runAfterUserInput(record, requestId, runDeadlineSignal);
+    await this.runAfterUserInput(record, requestId, runDeadlineSignal, undefined,
+      userBookingSelectionRequest([...priorEvents, envelope]));
   }
 
-  private async runAfterUserInput(record: ConversationRecord, requestId: string, runDeadlineSignal?: AbortSignal, questionDeadline?: Date): Promise<void> {
+  private async runAfterUserInput(record: ConversationRecord, requestId: string, runDeadlineSignal?: AbortSignal, questionDeadline?: Date, userSelection?: UserBookingSelectionRequest): Promise<void> {
     // Map the enclosing wall-clock deadline to the Runtime clock once; semantic
     // work has already consumed part of this same read, including its reserve.
     const usage = this.modelRunBudget?.usage(record.rootTaskId);
     const clockNow = this.clock.now();
     const readDeadline = questionDeadline ?? new Date(clockNow.valueOf() + (usage ? Math.max(0,usage.deadlineAt-usage.startedAt-usage.elapsedMs) : this.readTimeoutMs));
     if (this.workspaceMode === "FIXTURE") {
-      const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal, readDeadline);
+      const result = await this.agentLoop.run(record.rootTaskId, runDeadlineSignal, readDeadline, userSelection);
       if(!questionDeadline)await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), runDeadlineSignal ?? new AbortController().signal);
       await this.notifyReadFinished(record.rootTaskId, result);
       await this.appendAssistant(record, requestId);
@@ -973,7 +979,7 @@ export class PersistentRestaurantAgentApplication {
     void (async () => {
       try {
         const signal = runDeadlineSignal ? AbortSignal.any([controller.signal, runDeadlineSignal]) : controller.signal;
-        await this.agentLoop.run(record.rootTaskId, signal, readDeadline);
+        await this.agentLoop.run(record.rootTaskId, signal, readDeadline, userSelection);
         // B1 terms are optional read-only enrichment, before releasing this SAME
         // run's model scope/deadline. They never dispatch a Task/Outcome event.
         if(!questionDeadline)await this.bookingTerms?.readBookingTerms?.(await this.project(record), readDeadline.toISOString(), signal);

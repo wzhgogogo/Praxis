@@ -58,6 +58,10 @@ export async function restaurantEventForMessage(
   return {
     type: "SEMANTIC_PROPOSAL_COMPILED",
     patch: supplemented.patch,
+    ...(supplemented.patch.target?.selectionScope === "SPECIFIC_OUTLET" && interpreted.proposal.facts.some(fact =>
+      fact.field === "TARGET" && (fact.operation === "ASSERT" || fact.operation === "CORRECT")
+      && fact.value?.kind === "TARGET" && fact.value.goalBasis.type === "BOOKING_WORDING")
+      ? { userBookingSelection: {} } : {}),
     ...(supplemented.audit ? { partySizeSupplement: supplemented.audit } : {}),
   };
 }
