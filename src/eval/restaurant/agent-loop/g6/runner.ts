@@ -157,7 +157,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       await writeFile(join(slot,"evaluation.input.json"),JSON.stringify(input,null,2)+"\n",{flag:"wx"});await writeFile(join(slot,"evaluation.json"),JSON.stringify(evaluation,null,2)+"\n",{flag:"wx"});
       receipts.push({id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
     }catch(error){failure=error instanceof Error?error.message:"G6_RUN_FAILED";stopReason=failure;receipts.push({id:spec.id,status:"FAILED",path:slot,reason:failure});
-      await writeFile(join(slot,"failure.json"),JSON.stringify({failure,turns,witnesses},null,2)+"\n",{flag:"wx"});
+      await writeFile(join(slot,"failure.json"),JSON.stringify({failure,turns,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})},null,2)+"\n",{flag:"wx"});
     }finally{
       if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();if(pack.mode==="LIVE_READ")await recordG6SourceCounts(dependencies.budgetPath,runId+":SOURCE_IO",googleCalls,forwarded.length);const decisions=await capture.finish(failure),recorded=await recording.finish();
       await writeFile(join(slot,"recording-observation.json"),JSON.stringify({recordingConfig:pack.recording,decisions,...recordingQualification(recorded)},null,2)+"\n",{flag:"wx"});
