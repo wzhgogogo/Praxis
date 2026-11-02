@@ -37,6 +37,12 @@ interface Options {
   beforeTerms?:(deadlineAt:string)=>void;
   afterFactControls?:(url:string)=>void;
   onFactNavigate?:(url:string,signal:AbortSignal)=>Promise<void>;
+  selectionReplay?: {
+    response:ModelResponse; path?:"P1"|"P2"|"NAMED";
+    scope?:"OPEN_ENDED"|"SPECIFIC_OUTLET";basis?:"BOOKING_WORDING"|"JUDGMENT";
+    query?:string; ambiguous?:boolean; duplicateAgentChoice?:boolean;
+    beforeAvailability?:()=>Promise<void>;
+  };
 }
 
 /** Actual production assembly/application/Router/Reducer/SQL. Only external I/O is fixed. */
@@ -50,7 +56,7 @@ export async function bookingTermsComposition(options:Options={}){
   const japanese=original.replace(source.merchantQuote,japaneseQuote+"</p><p>"+cardQuote);
   const clock=new FakeClock(source.referenceTime),db=await PGlite.create(),database=new Database(db);await applyPostgresMigrations(database);
   const requests:Array<{turn:string;request:ModelRequest;response:ModelResponse}>=[],sourceCalls:Array<{turn:string;url:string;kind:string}>=[],sourcePages:unknown[]=[];
-  let turn="INITIAL",stage="",omit=options.notStated??false,termsSignal:AbortSignal|undefined;
+  let turn="INITIAL",stage="",omit=options.notStated??false,termsSignal:AbortSignal|undefined,duplicateSent=false;
   const origin=performance.now();
   const timeline:Array<{event:string;turn:string;elapsedMs:number;clockAtCET:string;detail:Record<string,unknown>}>=[];
   const mark=(event:string,detail:Record<string,unknown>={})=>timeline.push({event,turn,elapsedMs:performance.now()-origin,
@@ -66,10 +72,34 @@ export async function bookingTermsComposition(options:Options={}){
         {field:"TIME_WINDOW",operation:"ASSERT",value:{kind:"TIME_WINDOW",earliest:"19:00",latest:"19:00",raw:"7 PM"}},
         {field:"PARTY_SIZE",operation:"ASSERT",value:{kind:"PARTY_SIZE",value:2,source:"EXPLICIT"}},
         {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Shibuya"}}]};
+      if(options.selectionReplay){
+        const value=body as {facts:Array<{field:string;value:Record<string,unknown>}>};
+        const target=value.facts[0]!.value;
+        const named=turn!=="INITIAL"||options.selectionReplay.path==="NAMED";
+        target.query=named?options.selectionReplay.query??source.outlet.name:"restaurant in Shibuya";
+        target.selectionScope=named?options.selectionReplay.scope??"SPECIFIC_OUTLET":"OPEN_ENDED";
+        if(named){delete target.requestedResultCount;target.goalBasis={type:options.selectionReplay.basis??"BOOKING_WORDING",reason:"Fixed user booking message",quotes:[raw]};}
+        if(options.selectionReplay.path==="P2"){
+          if(turn==="INITIAL"){target.goal="RECOMMENDATION";target.goalBasis={type:"JUDGMENT",reason:"Recommendation without a visit",quotes:[raw]};value.facts=value.facts.filter(f=>f.field==="TARGET"||f.field==="AREA");}
+          else if(turn==="SELECTED")value.facts=value.facts.filter(f=>f.field!=="PARTY_SIZE");
+          else if(turn==="ADD_PARTY")value.facts=value.facts.filter(f=>f.field==="PARTY_SIZE");
+        }
+      }
     }else if(request.purpose==="restaurant_agent_decide"){
       const context=JSON.parse(request.messages.find(m=>m.role==="user")!.content).context as RestaurantAgentContext;
       const id=context.candidates[0]?.id;
-      body=!id?strictAction("SEARCH_RESTAURANTS") : !context.availability[id]?.length?strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1)??[])
+      if(options.selectionReplay){
+        if(context.intentDraft?.target?.goal==="AVAILABILITY"&&context.missingBlockingFields.length)body={...strictAction("ASK_USER"),question:"How many people?",relatedFields:context.missingBlockingFields};
+        else if(!id)body=strictAction("SEARCH_RESTAURANTS");
+        else if(context.intentDraft?.target?.goal==="RECOMMENDATION")body=context.presentation.some(p=>p.eligible)?strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId)):strictAction("INVESTIGATE_CANDIDATE_FACTS",context.factInvestigableCandidateIds?.slice(0,1)??[]);
+        else if(!context.availability[id]?.length){if(turn!=="INITIAL")await options.selectionReplay.beforeAvailability?.();body=strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1)??[]);}
+        else if(options.selectionReplay.duplicateAgentChoice&&!duplicateSent&&turn!=="INITIAL"){duplicateSent=true;body={...strictAction("SELECT_CANDIDATE"),candidateId:id};}
+        else if(turn!=="INITIAL"||options.selectionReplay.path==="NAMED"){
+          // Replay bytes are not rewritten to make the action pick this outlet.
+          assert.equal(id,JSON.parse(options.selectionReplay.response.outputText).candidateIds[0]);
+          const response=structuredClone(options.selectionReplay.response);requests.push({turn,request:structuredClone(request),response});mark("MODEL_END",{purpose:request.purpose});return response;
+        }else body=strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId));
+      }else body=!id?strictAction("SEARCH_RESTAURANTS") : !context.availability[id]?.length?strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1)??[])
         :(turn!=="INITIAL"||options.agentSelectInitial)&&context.selectedCandidateId!==id?{...strictAction("SELECT_CANDIDATE"),candidateId:id}
         :strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId));
     }else if(request.purpose==="restaurant_page_question"){
@@ -116,7 +146,8 @@ export async function bookingTermsComposition(options:Options={}){
     sourceCalls.push({turn,url:String(target),kind:"GOOGLE_FIXTURE"});
     const place={id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:url,location:{latitude:source.outlet.latitude,longitude:source.outlet.longitude},types:["restaurant"]};
     const query=init?.body?JSON.parse(String(init.body)).textQuery:undefined;
-    return new Response(JSON.stringify(init?.method==="POST"?{places:query==="Shibuya"?[{id:"station",types:["train_station"],displayName:{text:"Shibuya"},location:place.location}]:[place]}:place),{status:200});
+    const places=options.selectionReplay?.ambiguous?[place,{...place,id:source.outlet.id+"-other",formattedAddress:"9-8-7 Shibuya Tokyo",nationalPhoneNumber:"03-9876-5432"}]:[place];
+    return new Response(JSON.stringify(init?.method==="POST"?{places:query==="Shibuya"?[{id:"station",types:["train_station"],displayName:{text:"Shibuya"},location:place.location}]:places}:places.find(p=>new URL(String(target)).pathname.endsWith("/"+p.id))??place),{status:200});
   }});
   const assembly=createLiveReadAssembly({...limits,packs:[googlePlacesDiscoveryPack]},{model,google,browser,clock,
     currentTaskId:()=>counted.currentTaskId(),remainingModelCalls:id=>counted.remainingCalls(id),onBrowserDiagnostic:d=>{stage=d.stage;}});
@@ -136,8 +167,9 @@ export async function bookingTermsComposition(options:Options={}){
   const project=async()=>{const raw=await app.getCase("terms-user",caseId);version=raw.case.taskVersion;return withBookingHandoffs(raw,assembly.bookingHandoffs.readPrepared(raw),clock.now().toISOString());};
   async function finished(work:()=>Promise<unknown>){let resolve!:()=>void,readFinished=false;const done=new Promise<void>(r=>resolve=r);const unsubscribe=app.subscribeReadFinished(()=>{readFinished=true;});const unsubscribeUpdate=app.subscribeCaseUpdates(()=>{if(readFinished)resolve();});let timer:ReturnType<typeof setTimeout>|undefined;try{await work();await Promise.race([done,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error("Fixture lifecycle not finished")),15000);})]);}finally{unsubscribe();unsubscribeUpdate();if(timer)clearTimeout(timer);}}
   return {app,assembly,clock,requests,sourceCalls,counted,url,source,timeline,get termsSignal(){return termsSignal;},
-    async initial(){await finished(async()=>{const v=await app.createCase("terms-user",source.initialRequest,"initial");caseId=v.case.caseId;conversationId=v.case.conversationId;});return project();},
-    async select(){turn="SELECTED";await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"selected:"+version,expectedVersion:version,message:source.bookingFollowups[0]}));return project();},
+    async initial(){await finished(async()=>{const message=options.selectionReplay?.path==="P2"?source.recommendationRequest:options.selectionReplay?.path==="NAMED"?source.uncheckedBookingRequest+" For two people.":source.initialRequest;const v=await app.createCase("terms-user",message,"initial");caseId=v.case.caseId;conversationId=v.case.conversationId;});return project();},
+    async select(message?:string){turn="SELECTED";const viewed=await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"selected:"+version,expectedVersion:version,message:message??(options.selectionReplay?.path==="P2"?source.uncheckedBookingRequest:source.bookingFollowups[0]),viewContext:{view:"DETAILS",candidateId:viewed.restaurant.presentedCandidateIds![0]!,comparedCandidateIds:[]}}));return project();},
+    async party(){turn="ADD_PARTY";await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"party:"+version,expectedVersion:version,message:source.partyReply}));return project();},
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
     project,omitTerms(){omit=true;},async cancel(){return app.cancelCase("terms-user",caseId);},
     async close(){await app.stopActiveReads();await db.close();},
