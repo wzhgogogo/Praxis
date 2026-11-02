@@ -7,9 +7,10 @@ import { gunzipSync } from "node:zlib";
 import test from "node:test";
 import { evaluateArtifactAfterFinish, evaluateRestaurantHybridLiveArtifact } from "../agent-loop/diagnostic-evaluator.js";
 import { evaluatorImportViolation } from "../../shared/evaluator-import-rule.js";
-import { buildRunDiagnosis, summarizeDiagnoses } from "./report.js";
+import { buildRunDiagnosis, renderRunDiagnosis, summarizeDiagnoses } from "./report.js";
 import type { DiagnosisContext, TurnAssessments } from "./report.js";
 import { writeRecordedDiagnosis, writeDiagnosisAfterEvaluation, generateRecordedDiagnoses } from "./files.js";
+import { compareRecordedDiagnoses } from "./compare-recorded.js";
 import { pointer, record } from "./records.js";
 import type { RecordValue } from "./records.js";
 import type { ExperienceGold } from "./experience.js";
@@ -111,6 +112,59 @@ test("four existing supported presentations reproduce the independent 99/122/292
   }
 });
 
+test("single-run Markdown puts conclusions and the full chain first while retaining verbatim appendices",async()=>{
+  const report=buildRunDiagnosis(await saved("p1fA-kf-h001-a1")),before=JSON.stringify(report);
+  const markdown=renderRunDiagnosis(report),screen=markdown.split("\n").slice(0,40).join("\n");
+  for(const label of ["结果：","是否交付：","首个确认偏离：","见证覆盖观察：","推测瓶颈：","ENDING","关键耗时：","未评记录："])
+    assert.ok(screen.includes(label),`opening screen must include ${label}`);
+  assert.ok(!screen.includes("```json"),"opening screen must not contain raw JSON");
+  const appendix=markdown.indexOf("## 附录");assert.ok(appendix>0);
+  for(const original of [report.summary.severity,report.witnessFunnel,report.experience.conditions]){
+    const printed=JSON.stringify(original,null,2);assert.ok(markdown.indexOf(printed)>appendix,"raw original must survive in the appendix");
+  }
+  assert.ok(markdown.includes("| 店名 | 发现 | 身份 | 事实 | 查位 | 展示 | 可行性 |"));
+  for(const node of report.stages.filter(x=>x.reach==="REACHED"))assert.ok(node.refs.length,`reached stage ${node.id} must point to its actual observation`);
+  assert.ok(screen.indexOf("首个确认偏离：")<screen.indexOf("ENDING")&&screen.indexOf("ENDING")<screen.indexOf("关键耗时：")&&screen.indexOf("关键耗时：")<screen.indexOf("未评记录："));
+  assert.equal(JSON.stringify(report),before,"rendering cannot change judgments or report data");
+});
+
+test("coverage summaries include delivered runs, deduplicate witnesses, and keep unconfirmed feasibility separate",async()=>{
+  const delivered=buildRunDiagnosis(await saved("p1fA-kf-h001-a1"));
+  const repeated={...structuredClone(delivered),runId:"repeat",attemptId:"repeat"};
+  const h002=buildRunDiagnosis(await saved("p1fA-kf-h002-a1")),naka=buildRunDiagnosis(await saved("p1fA-nakameguro-a1"));
+  const summary=summarizeDiagnoses([delivered,repeated,h002,naka]);
+  assert.ok(Array.isArray(summary.witnessCoverageByStage),"coverage summary must retain delivered witness observations");
+  const facts=summary.witnessCoverageByStage.find(x=>x.stage==="FACTS_HARD"&&x.feasibility==="SUPPORTED");
+  assert.equal(facts?.witnessCount,2,"two witnessed restaurants, even across repeated runs");
+  assert.equal(facts?.occurrenceCount,4,"four run-witness coverage observations");
+  assert.deepEqual(facts?.runIds,[delivered.attemptId,"repeat"]);
+  const discovery=summary.witnessCoverageByStage.find(x=>x.stage==="DISCOVERY"&&x.feasibility==="NOT_EVALUATED");
+  assert.equal(discovery?.witnessCount,6);assert.equal(discovery?.occurrenceCount,6);
+  assert.deepEqual(discovery?.runIds,[h002.attemptId,naka.attemptId]);
+  assert.ok(!summary.witnessCoverageByStage.some(x=>x.stage==="DISCOVERY"&&x.feasibility==="SUPPORTED"));
+  assert.equal(h002.firstPoint.status,"NO_CONFIRMED_DEVIATION");assert.equal(naka.firstPoint.status,"NO_CONFIRMED_DEVIATION");
+});
+
+test("corrected review comparison keeps a suspected identity mismatch unconfirmed and leaves human labels intact",async()=>{
+  const directory=await mkdtemp(join(tmpdir(),"diagnosis-review-correction-"));
+  try{
+    const root=new URL("../../../../",import.meta.url);
+    await generateRecordedDiagnoses(new URL(".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/primary-inputs.json",root).pathname,join(directory,"reports"));
+    const oraclePath=new URL(".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/comparison-oracle.json",root).pathname;
+    const oracleRaw=await readFile(oraclePath,"utf8"),oracle=JSON.parse(oracleRaw);
+    const compared=await compareRecordedDiagnoses({summaryPath:join(directory,"reports","summary.json"),oraclePath,output:join(directory,"compare")});
+    assert.deepEqual(compared.stageAgreement,{matched:2,total:5,ratio:0.4});
+    const suspected=compared.disagreements.filter(x=>x.category==="SUSPECTED_WITNESS_MATCHING_UNCONFIRMED");
+    assert.equal(suspected.length,1);assert.match(suspected[0]!.explanation!,/缺独立身份证据，未确认/);
+    assert.equal(suspected[0]!.reviewAttribution?.certainty,"HYPOTHESIS");
+    assert.ok(!compared.disagreements.some(x=>x.category==="DISAGREEMENT_ATTRIBUTED_TO_EVALUATOR"));
+    assert.equal(await readFile(oraclePath,"utf8"),oracleRaw);
+    delete oracle.reviewedDisagreements[0].attribution;
+    const missing=join(directory,"missing-certainty.json");await writeFile(missing,JSON.stringify(oracle));
+    await assert.rejects(compareRecordedDiagnoses({summaryPath:join(directory,"reports","summary.json"),oraclePath:missing,output:join(directory,"bad-compare")}),/REVIEW_ATTRIBUTION_CERTAINTY_REQUIRED/);
+  }finally{await rm(directory,{recursive:true,force:true});}
+});
+
 test("A output interface reads explicitly labelled test inputs and rejects wrong artifact or unlabelled test grading",()=>{
   const artifact=recordedRun(),source={path:"interface-fixture.json",sha256:hash(JSON.stringify(artifact))};
   const sample:TurnAssessments={schema:"run-stage-assessments@1",artifactSha256:source.sha256,origin:"TEST_INTERFACE_SAMPLE",producer:{path:"test-only-A-output.json",sha256:hash("test-only")},stages:[
@@ -189,6 +243,7 @@ test("immutable report writes and report failures preserve actual evaluation and
     await writeFile(validManifest,JSON.stringify({schema:"run-diagnosis-inputs@1",plannedRunIds:["actual"],inputs:[{id:"actual",artifact:{path,sha256:hash(raw)},evaluation:{path:outcome.outputPath,sha256:hash(before)}}]}));
     const batch=await generateRecordedDiagnoses(validManifest,join(directory,"batch"));
     assert.ok(batch.paths.every(p=>!isAbsolute(p.jsonPath)&&!isAbsolute(p.markdownPath)),"saved batch report links must not retain the local workspace's absolute path");
+    assert.ok((await readFile(join(directory,"batch","summary.md"),"utf8")).includes("## 见证覆盖观察（独立于首点）"),"batch Markdown must wire the separate coverage table");
     const mutated={...recordedRun(),runId:"another"};await writeFile(path,JSON.stringify(mutated));
     await assert.rejects(writeRecordedDiagnosis({artifact:path,evaluation:outcome.outputPath,prefix:join(directory,"wrong")}),/EVALUATION_ARTIFACT_SHA_MISMATCH/);
     const manifest=join(directory,"bad-manifest.json");await writeFile(manifest,JSON.stringify({schema:"run-diagnosis-inputs@1",inputs:[],labels:"forbidden"}));
