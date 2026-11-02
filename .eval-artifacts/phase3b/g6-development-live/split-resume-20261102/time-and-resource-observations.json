@@ -1,0 +1,181 @@
+{
+  "elapsedMs": 457351.082041,
+  "executionElapsedMs": 456634,
+  "startCET": "2026-11-02T15:30:51.537000+01:00",
+  "boundedConclusionAtCET": "2026-11-02T15:38:28.112000+01:00",
+  "firstQualifiedResultAt": null,
+  "presentationAt": null,
+  "observationToPresentationMs": null,
+  "actions": [
+    {
+      "step": 1,
+      "atCET": "2026-11-02T15:30:57.974000+01:00",
+      "action": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "kushikatsu restaurant near Akabane, table for 2, 19:00 on 2026-11-11"
+      },
+      "metadataLatencyMs": 92637,
+      "failureCode": "BROWSER_TIMEOUT",
+      "outcome": "EXECUTED"
+    },
+    {
+      "step": 2,
+      "atCET": "2026-11-02T15:32:32.971000+01:00",
+      "action": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "kushikatsu restaurant near Akabane, table for 2"
+      },
+      "metadataLatencyMs": 10672,
+      "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+      "outcome": "EXECUTED"
+    },
+    {
+      "step": 3,
+      "atCET": "2026-11-02T15:32:45.968000+01:00",
+      "action": {
+        "type": "SEARCH_RESTAURANTS",
+        "retrievalHint": "kushikatsu restaurant near Akabane, table for 2"
+      },
+      "metadataLatencyMs": 0,
+      "failureCode": null,
+      "outcome": "EXECUTED"
+    },
+    {
+      "step": 4,
+      "atCET": "2026-11-02T15:32:49.753000+01:00",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:0d56ed154080df9317f9d79d",
+          "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+          "praxis:restaurant:07b0ba0daee00150d6d202e1"
+        ]
+      },
+      "metadataLatencyMs": 151930,
+      "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+      "outcome": "EXECUTED"
+    },
+    {
+      "step": 5,
+      "atCET": "2026-11-02T15:35:26.125000+01:00",
+      "action": {
+        "type": "INVESTIGATE_CANDIDATE_FACTS",
+        "candidateIds": [
+          "praxis:restaurant:0d56ed154080df9317f9d79d",
+          "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+          "praxis:restaurant:07b0ba0daee00150d6d202e1"
+        ]
+      },
+      "metadataLatencyMs": 35853,
+      "failureCode": null,
+      "outcome": "EXECUTED"
+    },
+    {
+      "step": 6,
+      "atCET": "2026-11-02T15:36:12.546000+01:00",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:22cd98fb641bd813a35745af",
+          "praxis:restaurant:f93797735808708abd68d4ed",
+          "praxis:restaurant:730456c8617b43baf817287d"
+        ]
+      },
+      "metadataLatencyMs": 131491,
+      "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+      "outcome": "EXECUTED"
+    },
+    {
+      "step": 7,
+      "atCET": "2026-11-02T15:38:28.108000+01:00",
+      "action": {
+        "type": "END_READ"
+      },
+      "metadataLatencyMs": null,
+      "failureCode": null,
+      "outcome": "TERMINAL"
+    }
+  ],
+  "modelsByPurpose": {
+    "restaurant_semantic_interpret": {
+      "count": 1,
+      "latencyMs": 3974
+    },
+    "restaurant_agent_decide": {
+      "count": 7,
+      "latencyMs": 29563
+    },
+    "restaurant_discovery_retrieval": {
+      "count": 3,
+      "latencyMs": 10139
+    },
+    "browser_read_decide": {
+      "count": 3,
+      "latencyMs": 17501
+    },
+    "restaurant_named_source_query": {
+      "count": 4,
+      "latencyMs": 13133
+    },
+    "restaurant_fact_judgment": {
+      "count": 3,
+      "latencyMs": 5236
+    },
+    "restaurant_source_facts": {
+      "count": 2,
+      "latencyMs": 11503
+    }
+  },
+  "modelLatencyTotalMs": 91049,
+  "timingCaution": "Action metadata latencies contain nested source/model work and are not additive with model latencies. SESSION_CALL/RETURN entries omit wall timestamps. Page-load, structure-read, wait, operation, launch and Google-wait durations are NOT_EVALUATED, not zero; no guessed attribution is made.",
+  "sessionCalls": {
+    "navigate": 35,
+    "waitForSettled": 38,
+    "openLink": 1,
+    "captureResponses": 6,
+    "click": 1
+  },
+  "navigateCalls": 35,
+  "repeatedExactNavigateCalls": 17,
+  "googleRequests": 7,
+  "googleStructuredResponsesCaptured": 7,
+  "googleResponseStatuses": {
+    "200": 7
+  },
+  "semanticAttemptsByTurn": {
+    "INITIAL": 1
+  },
+  "semanticSchemaRetries": 0,
+  "F6": {
+    "exceeded500Seconds": false,
+    "sourceReadsStartedInReserve": 0,
+    "termsWorkStartedInReserve": 0
+  },
+  "F6EndWindow": {
+    "reason": "DELIVERY_TIME",
+    "openedAt": "2026-11-02T14:38:24.082Z",
+    "deadlineAt": "2026-11-02T14:39:10.815Z"
+  },
+  "limits": {
+    "maxModelCalls": 50,
+    "maxDiscoveryCandidates": 10,
+    "maxGoogleRequests": 40,
+    "maxStructuredReadMs": 30000,
+    "maxAvailabilitySourceBrowserSessions": 3,
+    "maxAvailabilitySourceCandidateMatches": 3,
+    "maxAvailabilityReads": 20,
+    "maxBrowserRuntimeFallbacks": 1,
+    "maxBrowserModelCallsPerCandidate": 20,
+    "maxBrowserModelCallsTotal": 120,
+    "maxBrowserOperationsPerCandidate": 80,
+    "maxFactModelCallsPerCandidate": 4,
+    "maxFactBrowserOperationsPerCandidate": 24,
+    "maxFactBrowserMs": 45000,
+    "maxFactProviderMs": 30000,
+    "maxCandidateBrowserMs": 60000,
+    "maxProviderBrowserMs": 45000,
+    "maxAutomaticBrowserMs": 500000,
+    "maxAgentSteps": 30,
+    "maxRejectedActions": 5
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "schema": "g6-stopped-run-audit@1",
+  "mode": "OFFLINE_SAVED_ARTIFACT_INSPECTION",
+  "originalEvaluationSHA256": "67793927bb65fa5209cf6cfef0bee5aec250dcc4af110e7193395326b9140c94",
+  "originalVerdictUnchanged": {
+    "status": "EVALUATED",
+    "qualified": false,
+    "outcome": "CAPABILITY_MISS",
+    "s0": 1,
+    "s0Status": "FAIL",
+    "stopBatch": true
+  },
+  "nonPassingChecks": [
+    {
+      "rule": "B1_LINK",
+      "status": "FAIL",
+      "severity": "S0",
+      "subject": "praxis:restaurant:0d56ed154080df9317f9d79d",
+      "reason": "No corresponding verified delivered outlet or unsafe URL",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "NO_DELIVERY_WITNESS",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "witness-W1",
+      "reason": "Independently qualified witness still has the slot",
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/split-resume-20261102/w1-runs/D1/witness/002-vacancy.body"
+      ]
+    }
+  ],
+  "presentation": {
+    "phase": "NO_VERIFIED_RESULT",
+    "presentedCandidateIds": null,
+    "readyCandidateIds": [],
+    "resultsPresentedEvents": 0,
+    "screenRenderObserved": false,
+    "qualifiedResultEvidenceCompleteAt": null,
+    "qualifiedResultDisplayedAt": null
+  },
+  "B1": {
+    "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+    "name": "Kushiman Akabane",
+    "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1900",
+    "sourceURLLiteralMatch": true,
+    "sourceResponses": [
+      {
+        "selection": {
+          "0": {
+            "time": "17:00",
+            "url": "/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1700"
+          },
+          "1": {
+            "time": "17:15",
+            "url": "/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1715"
+          },
+          "2": {
+            "time": "17:30",
+            "url": "/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1730"
+          },
+          "3": {
+            "time": "17:45",
+            "url": "/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1745"
+          },
+          "4": {
+            "time": "18:00",
+            "url": "/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1800"
+          },
+          "5": {
+            "time": "18:15",
+            "url": "/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1815"
+          },
+          "6": {
+            "time": "18:30",
+            "url": "/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1830"
+          },
+          "7": {
+            "time": "18:45",
+            "url": "/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1845"
+          },
+          "8": {
+            "time": "19:00",
+            "url": "/en/booking/form_course/new?member=2&rcd=13028728&visit_date=20261111&visit_time=1900"
+          }
+        },
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11,
+          "dow": "Wed"
+        },
+        "members": 2,
+        "time": "19:00"
+      }
+    ],
+    "handoffInReturnedView": true,
+    "candidateInDeliveredSet": false,
+    "terms": [],
+    "platformFee": {
+      "provider": "TABELOG",
+      "channel": "ENGLISH_BOOKING",
+      "amountPerPersonJPY": 440,
+      "userCancellationRefund": false,
+      "restaurantCancellationRefund": true,
+      "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+      "sourceUrl": "https://tabelog.com/en/help",
+      "checkedOn": "2026-10-29",
+      "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+      "quotes": [
+        "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+        "Please note that no refunds will be issued for cancellations made for customer reasons.",
+        "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+      ]
+    },
+    "interpretation": "Automatic B1_LINK S0 is retained. Runner passes all cached handoffs but delivered only presentedCandidateIds. Actual display of this unpresented handoff is not established by this non-Web run. Product/API projection versus evaluator scope requires reviewer decision; no S0=0 or clearance is claimed."
+  },
+  "boundary": {
+    "actualObservedSourceRequests": 1130,
+    "methods": {
+      "GET": 1127,
+      "POST": 3
+    },
+    "independentRequestChecksPassed": 1130,
+    "forbiddenRequestsReachedSource": 0,
+    "bookingFormRequestsReachedSource": 0
+  },
+  "witness": {
+    "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+    "name": "Dengana Akabane",
+    "discoveredBy": "GOOGLE_PLACES",
+    "nativeTabelogAccepted": 0,
+    "tabelogPointerObserved": {
+      "snapshot": 32,
+      "hrefs": [
+        "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+      ],
+      "sha256": "a4c0c5d1da291b91a7efcd3d814041916ef22094837b19b738580c5230ee6ce2"
+    },
+    "tabelogDetailNavigation": {
+      "sequence": 220,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+          {
+            "timeoutMs": 14814,
+            "waitUntil": "domcontentloaded"
+          }
+        ]
+      }
+    },
+    "tabelogDetailNavigationFailure": {
+      "sequence": 221,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "page.goto: Timeout 14814ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://tabelog.com/en/tokyo/A1323/A132305/13108466/\", waiting until \"domcontentloaded\"\u001b[22m\n"
+          }
+        }
+      }
+    },
+    "availabilityBlocker": "Correct Tabelog pointer was found after name query broadening; page.goto of that exact detail URL timed out after 14814 ms waiting for domcontentloaded. No completed detail snapshot was saved. This is not evidence of a wrong-shop match or a source HTTP error.",
+    "factCheck": {
+      "status": "COMPLETED",
+      "checkedAt": "2026-11-02T14:35:40.041Z",
+      "evidenceIds": [
+        "evidence:restaurant:google-entity:0047c9ba1b5bdd537a39d0f4",
+        "evidence:restaurant:google-facts:f4f14a498454de4083368f08",
+        "evidence:restaurant:website-entity:9c25adb75bcf20ae606d7753",
+        "quoted-source:dd97646e692f89f35905f434",
+        "website-document:6b75de6ed85361928ec94c867c494f59f7252f1ecf18cae1b3ecb318b772cc68",
+        "fact-judgment:praxis:restaurant:07b0ba0daee00150d6d202e1:2026-11-02T14:36:01.941Z:website-document:6b75de6ed85361928ec94c867c494f59f7252f1ecf18cae1b3ecb318b772cc68"
+      ],
+      "sourceAttempts": [
+        {
+          "source": "GOOGLE_PLACES",
+          "outcome": "COMPLETED"
+        },
+        {
+          "source": "RESTAURANT_WEBSITE",
+          "outcome": "COMPLETED"
+        }
+      ],
+      "supersededEvidenceIds": [
+        "evidence:restaurant:google-facts:7cdd8023bfac9deee1338bd9"
+      ]
+    },
+    "availabilityCheck": {
+      "status": "UNKNOWN",
+      "checkedAt": "2026-11-02T14:35:21.722Z",
+      "reasonCode": "BROWSER_TIMEOUT",
+      "evidenceIds": [],
+      "sourceAttempts": [
+        {
+          "source": "TABLECHECK",
+          "outcome": "FAILED",
+          "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+        },
+        {
+          "source": "TABELOG",
+          "outcome": "FAILED",
+          "reasonCode": "BROWSER_TIMEOUT"
+        }
+      ],
+      "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+      "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+    },
+    "presented": false,
+    "postRunWitnessStillExists": true,
+    "postRawSHA256": "80ea0fc34ffa66b65787870d1bd48c15033a2e512b041065752ec480d681245e",
+    "postCheckedAtCET": "2026-11-02T15:38:33.661000+01:00"
+  },
+  "sourceFreeze": {
+    "checked": 769,
+    "changed": []
+  },
+  "w2": {
+    "packPrepared": true,
+    "recertificationStarted": false,
+    "LiveStarted": false,
+    "reason": "W1 S0_STOP; global batch stop also blocks deferred W2"
+  }
+}

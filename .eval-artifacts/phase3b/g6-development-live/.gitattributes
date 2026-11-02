@@ -1,3 +1,11 @@
 # Preserve exact raw public HTTP HTML bytes, including source whitespace.
 84f4c1f9-certification/13108466/001-detail.body -diff -text
 84f4c1f9-certification/13186922/001-detail.body -diff -text
+
+# D1 immutable public source payloads; preserve bytes and source whitespace.
+split-resume-20261102/w1-runs/D1/witness/*.body -diff -text
+split-resume-20261102/w1-runs/D1/recordings/*/snapshot-*.html -diff -text
+split-resume-20261102/w1-runs/D1/recordings/*/diagnostic/*.html -diff -text
+split-resume-20261102/w1-runs/D1/recordings/*/stylesheet-*.css -diff -text
+split-resume-20261102/w1-runs/D1/recordings/*/replay.har -diff -text
+split-resume-20261102/w1-runs/D1/recordings/*/recording.json -diff -text
