@@ -1,0 +1,36 @@
+{
+  "baseline": "c46b7583",
+  "isolatedWorktree": "/private/tmp/praxis-diagnosis-guard-gycblfe3",
+  "ruleSha256": "4980c1f1e81bf9a3d550530d7c2b5f842a24279eaa390edb04c609a7608b6dfc",
+  "results": [
+    {
+      "control": "before-value-import-missed",
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "expectedTarget": null,
+      "matchedTarget": null
+    },
+    {
+      "control": "after-value-import-rejected",
+      "command": "npm run arch:check",
+      "exitCode": 1,
+      "expectedTarget": "diagnosis/forbidden-judgment-probe.ts -> domains/restaurant/read-assessment.ts: diagnostic evaluator must independently judge",
+      "matchedTarget": true
+    },
+    {
+      "control": "after-type-only-accepted",
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "expectedTarget": null,
+      "matchedTarget": null
+    },
+    {
+      "control": "after-normal",
+      "command": "npm run arch:check",
+      "exitCode": 0,
+      "expectedTarget": null,
+      "matchedTarget": null
+    }
+  ],
+  "targetBusinessAssertionRequired": true
+}

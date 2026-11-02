@@ -1,0 +1,15 @@
+{
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "src/eval/restaurant/diagnosis/diagnosis.test.ts"
+  ],
+  "exitCode": 1,
+  "targetAssertion": "post-finish evaluation must write one diagnosis JSON sidecar",
+  "actualEvaluatorSavedNormalControl": true,
+  "testFailureBeforeImplementation": true
+}
