@@ -1,10 +1,12 @@
 {
-  "status": "DRAFT_NOT_INTEGRATED_PENDING_G6_REVIEW",
-  "snapshot": "AFTER_BROWSER_FIXTURE_MAIN_PUBLICATION_SYNC",
-  "publishedMain": "31d482aab86643b635f9ec9189fac0cd274e757b",
-  "testedCommit": "867201633ea3be354c8e691639022e8a8f1819aa",
-  "previousManifestRef": "artifact-files-before-browser-fixture-main-sync.json",
-  "previousManifestSnapshotGit": "d607094a055f24b6f8b28dbae29117078970a194",
+  "status": "DRAFT_G6_READY_FOR_REVIEW_LIVE_NOT_RUN",
+  "snapshot": "AFTER_C_MAIN_BOOKING_REPLAY",
+  "approvedMain": "f992a8ac4cf50ab7ff36d7878a03507525ef61af",
+  "testedCommit": "5415882a",
+  "currentSourceManifest": "c-main-booking-replay/inputs-sha256.json",
+  "previousManifestRef": "artifact-files-before-c-main-booking-replay.json",
+  "previousManifestSnapshotGit": "92554bcd20cfc03170644bf37a66ddaea30dc114",
+  "actualReplayPhysicalModelCalls": 13,
   "files": [
     {
       "path": "archive-logs.json",
@@ -17,14 +19,339 @@
       "bytes": 85526
     },
     {
+      "path": "artifact-files-before-c-main-booking-replay.json",
+      "sha256": "5da2074660bef9e545114b919563113f5d2a48b918371b753343bd38a1a38ae7",
+      "bytes": 86164
+    },
+    {
+      "path": "booking-replay-fixture/P1-0/booking-review.json",
+      "sha256": "20c483ee2e193d96f80b97b05c92cb9634d9383331f3b1a700d6f64ff0d28800",
+      "bytes": 463
+    },
+    {
+      "path": "booking-replay-fixture/P1-0/preflight.json",
+      "sha256": "efc12f3618c2bfb7313a6556adfb43639982df5a5aa9f1968b0a5b7c65c1a7a9",
+      "bytes": 363234
+    },
+    {
+      "path": "booking-replay-fixture/P1-1/booking-review.json",
+      "sha256": "1aae4cf03b09416abbfb7de4d5d09bc4936bf727160a7f46d096a3a8882ca204",
+      "bytes": 463
+    },
+    {
+      "path": "booking-replay-fixture/P1-1/preflight.json",
+      "sha256": "784bf0e2315abb3eb3418488abffcd7bc13d480d69a96e3901aca0b92c89a8b8",
+      "bytes": 363214
+    },
+    {
+      "path": "booking-replay-fixture/P1-2/booking-review.json",
+      "sha256": "aea0095782ab5763872a1317bac88e57113626ee626c2f9cf846f3d929abc109",
+      "bytes": 463
+    },
+    {
+      "path": "booking-replay-fixture/P1-2/preflight.json",
+      "sha256": "d1cb13c407a1cb01b81120a77400acbfe27537c05e734989b8909028779dca19",
+      "bytes": 363277
+    },
+    {
+      "path": "booking-replay-fixture/P2-0/booking-review.json",
+      "sha256": "9aedea91516435cc0776c49e5722449106db63820aa48f4d78294348a11d1508",
+      "bytes": 528
+    },
+    {
+      "path": "booking-replay-fixture/P2-0/preflight.json",
+      "sha256": "93bccb0ac4ca0042f2c3506ce3ba4cc356dc773849f4e609c3031de4db41592b",
+      "bytes": 376335
+    },
+    {
+      "path": "booking-replay-fixture/report.json",
+      "sha256": "fda7bbde053c66bc17ad9ac85e03034e58c0c5b1cfd44d229b8ceec88c626015",
+      "bytes": 2520
+    },
+    {
+      "path": "booking-replay-fixture-corrected/P1-0/booking-review.json",
+      "sha256": "7f913e9a2d440a7d39b26615818633f52f792631159a33e5962551bad01c097d",
+      "bytes": 2225
+    },
+    {
+      "path": "booking-replay-fixture-corrected/P1-0/preflight.json",
+      "sha256": "0e4c9b1bc89fb50d1d895f001ffda80c24be6d50ff0dbae9e57ea05bcb264465",
+      "bytes": 497172
+    },
+    {
+      "path": "booking-replay-fixture-corrected/P1-1/booking-review.json",
+      "sha256": "ef63c536f2bb7f2c291fe57f6823da3bdb9b032bd8eea5f143fdf2250107f89a",
+      "bytes": 2225
+    },
+    {
+      "path": "booking-replay-fixture-corrected/P1-1/preflight.json",
+      "sha256": "1a005c3ec3c788d97c3e4dc2ee34ad43482186d9f6ac3c9d76443e8acae5c8e1",
+      "bytes": 497156
+    },
+    {
+      "path": "booking-replay-fixture-corrected/P1-2/booking-review.json",
+      "sha256": "d1602fb068cb7d27d11b1c3233c0fdc917a85256ea4c59d0cebba881deecae1b",
+      "bytes": 2225
+    },
+    {
+      "path": "booking-replay-fixture-corrected/P1-2/preflight.json",
+      "sha256": "a264a04e3f067ace0309a970c0ed1af631d0d79b7814ab2699e6948ab9dace52",
+      "bytes": 497220
+    },
+    {
+      "path": "booking-replay-fixture-corrected/P2-0/booking-review.json",
+      "sha256": "33e6a5c2864af7e054d57d97419c27436b197cbe29629604444d5ef5ffee2211",
+      "bytes": 2280
+    },
+    {
+      "path": "booking-replay-fixture-corrected/P2-0/preflight.json",
+      "sha256": "f13b8ac94fc9d344cb0f7cfea82fdb1f7327f9525bcdc22c64b82b0a78e7c8a1",
+      "bytes": 510246
+    },
+    {
+      "path": "booking-replay-fixture-corrected/report.json",
+      "sha256": "4e4b0c82de10584086333ec3ab6bb4f508577f9571428ecf6e685dfc99fec127",
+      "bytes": 10246
+    },
+    {
       "path": "booking-replay-input.json",
       "sha256": "6c14aacf8291c5cf4fe8dfab8be1f36314fc49796658810218269b04da4cbc4a",
       "bytes": 2374
     },
     {
+      "path": "booking-replay-real/P1-0/booking-review.json",
+      "sha256": "d7d6e49970eaff59cc56704d1c5198c368398e13770c0b62b92f811edfc47966",
+      "bytes": 2241
+    },
+    {
+      "path": "booking-replay-real/P1-0/preflight.json",
+      "sha256": "09567d01b71216d6f1593b27d657f8a15c72a83235191a19d18ff739cbacf779",
+      "bytes": 499359
+    },
+    {
+      "path": "booking-replay-real/P1-1/booking-review.json",
+      "sha256": "0403fa498d90a20ad026def698dfbd12adef99885a19c91fdd953a64f8aff34c",
+      "bytes": 2241
+    },
+    {
+      "path": "booking-replay-real/P1-1/preflight.json",
+      "sha256": "c47db0e86f00c41c166813c4c0f65f6b4dee037031d3b1e78ae0754c0061e01f",
+      "bytes": 499367
+    },
+    {
+      "path": "booking-replay-real/P1-2/booking-review.json",
+      "sha256": "b93d4b659dbe5a71983a4734d420df08d6dab6c8d3fab5461c35ef20d7d26cf3",
+      "bytes": 2241
+    },
+    {
+      "path": "booking-replay-real/P1-2/preflight.json",
+      "sha256": "7337042a322e0af3c56872a294a24896cc149db6e484bdb7e053cfe5f7ab8b95",
+      "bytes": 499422
+    },
+    {
+      "path": "booking-replay-real/P2-0/booking-review.json",
+      "sha256": "757af38e6270a2cd60d5dd44c4c4d3c6020ecfff35e0844160cbedc6458d7ac8",
+      "bytes": 2297
+    },
+    {
+      "path": "booking-replay-real/P2-0/preflight.json",
+      "sha256": "a03a789ef48a16bd050567bf19b35b14454dc29bf481429384755e148f872d81",
+      "bytes": 513807
+    },
+    {
+      "path": "booking-replay-real/report.json",
+      "sha256": "f161b3c487f47b751646cdcf2e4ab5058c51a448199375480ffd7d15cd20ebc7",
+      "bytes": 10312
+    },
+    {
       "path": "browser-fixture-main-sync.json",
       "sha256": "3c8d34f722733915f96e49d0ef23dee09a6d2043e0ea7b043e1b9f24d40731ed",
       "bytes": 1116
+    },
+    {
+      "path": "c-main-booking-replay/budget-proof.json",
+      "sha256": "e991be19fc560a7835c3751e680b8f89012e72ef47c300a39d27fad781124c88",
+      "bytes": 5482
+    },
+    {
+      "path": "c-main-booking-replay/capture-sha256.json",
+      "sha256": "18bfbc282ed57cf887dfcb8aef357891ef9196e703d9c318320ce96f442d8aa2",
+      "bytes": 9596
+    },
+    {
+      "path": "c-main-booking-replay/decision-results.json",
+      "sha256": "f18b759fa665089a08c8d163dd91199c4827b45dc4fdbf07e9deebd48c122527",
+      "bytes": 9998
+    },
+    {
+      "path": "c-main-booking-replay/execution-freeze-after-fixture-correction.json",
+      "sha256": "b21ed0a6fb8cb0805585e12f3fb1e81d4d6c1f7be2c259ca6034ea8962a558b6",
+      "bytes": 1434
+    },
+    {
+      "path": "c-main-booking-replay/execution-freeze.json",
+      "sha256": "2a12341fd47b6cbadc4172b243e88a47e7410ba7c8dd4bf65b4db03a61c851ec",
+      "bytes": 1312
+    },
+    {
+      "path": "c-main-booking-replay/final-local-assembly-captures.tar.gz",
+      "sha256": "15e0ab314c0833f23622e43716190d7ff21379fbb97e7c090158f7ea682c8c16",
+      "bytes": 667896
+    },
+    {
+      "path": "c-main-booking-replay/fixture-correction.json",
+      "sha256": "66f0d6621466bdb8c581867182c639d592a53db6e9270b8013e92ed00958b2b9",
+      "bytes": 948
+    },
+    {
+      "path": "c-main-booking-replay/fixture-green-audit.json",
+      "sha256": "9ce47c74aa0e234bbe3508d45d0973a820967e68b4cabf5f87b36fde50b36e76",
+      "bytes": 1087
+    },
+    {
+      "path": "c-main-booking-replay/fixture-green.log.gz",
+      "sha256": "9d115bd7169f746d9859ef763994117fa4fb5290bb6914f2913cffe626e6391f",
+      "bytes": 1265
+    },
+    {
+      "path": "c-main-booking-replay/fixture-red.log.gz",
+      "sha256": "e9b295c3b888388ebf914a7f33ef067627b4a5e751d5733ac21314435b0a2d83",
+      "bytes": 506
+    },
+    {
+      "path": "c-main-booking-replay/gates-before-fixture-correction/arch-check.log.gz",
+      "sha256": "ed37f0f55fc69af94cfe7e210b3745b798dc6578344af6cedb0d44e1560d4f39",
+      "bytes": 128
+    },
+    {
+      "path": "c-main-booking-replay/gates-before-fixture-correction/browser-fixture.log.gz",
+      "sha256": "89830c216a9be627032551ba6a2679e7de0b39f6f816a0f162a27ff50a2cedfc",
+      "bytes": 16246
+    },
+    {
+      "path": "c-main-booking-replay/gates-before-fixture-correction/build.log.gz",
+      "sha256": "a553805f9e6bf293e03bcaef987e41853c67e7d21aaa5eab9fc33e385e4dbcb2",
+      "bytes": 74
+    },
+    {
+      "path": "c-main-booking-replay/gates-before-fixture-correction/gate-results.json",
+      "sha256": "0bae084c72e1dd0ffb2909b6b58002ad043bf10a8eb1fbec4f4a1dc591bb47c1",
+      "bytes": 3597
+    },
+    {
+      "path": "c-main-booking-replay/gates-before-fixture-correction/inputs-sha256.json",
+      "sha256": "c273cbec973c2a22dc63f2502fc44de8630e64496a7561dacc00bee84f03494a",
+      "bytes": 149828
+    },
+    {
+      "path": "c-main-booking-replay/gates-before-fixture-correction/npm-test.log.gz",
+      "sha256": "68259a8e7a95e01ad98ee810ca8512d209d0bcae55555f3c9521bd2757753651",
+      "bytes": 68853
+    },
+    {
+      "path": "c-main-booking-replay/gates-before-fixture-correction/original-terms.log.gz",
+      "sha256": "7fe939c7b712f307ab4ad7c89543ebb28f95e60a6503ca6f8775c8b539a79b06",
+      "bytes": 188
+    },
+    {
+      "path": "c-main-booking-replay/gates-before-fixture-correction/strict-g2.log.gz",
+      "sha256": "f9a2143ddfeb2a746f2ddb66bb89ebbe5df83752d0fa3a30ffa7482f1b6b067b",
+      "bytes": 771
+    },
+    {
+      "path": "c-main-booking-replay/gates-before-fixture-correction/typecheck.log.gz",
+      "sha256": "c18f3e6f8c5294a227ce64bac5e4096a3d1f92a4d21b8686dcb072cc1717e546",
+      "bytes": 84
+    },
+    {
+      "path": "c-main-booking-replay/gates-final/arch-check.log.gz",
+      "sha256": "ed37f0f55fc69af94cfe7e210b3745b798dc6578344af6cedb0d44e1560d4f39",
+      "bytes": 128
+    },
+    {
+      "path": "c-main-booking-replay/gates-final/browser-fixture.log.gz",
+      "sha256": "6e10643a0018ddc1ef253fff3662b613456ad39be3e063d23bd7257d2e04c0b5",
+      "bytes": 16254
+    },
+    {
+      "path": "c-main-booking-replay/gates-final/build.log.gz",
+      "sha256": "a553805f9e6bf293e03bcaef987e41853c67e7d21aaa5eab9fc33e385e4dbcb2",
+      "bytes": 74
+    },
+    {
+      "path": "c-main-booking-replay/gates-final/gate-results.json",
+      "sha256": "441567a8507cdec1573ff135dc4f1ab9c549b25e77adb5965e824b6960a8afcd",
+      "bytes": 3599
+    },
+    {
+      "path": "c-main-booking-replay/gates-final/logs-sha256.json",
+      "sha256": "223cfc2a0f746a73b3e9bd108b982365b1d5425c7213b3bcd5fee9a938e79b88",
+      "bytes": 1592
+    },
+    {
+      "path": "c-main-booking-replay/gates-final/npm-test.log.gz",
+      "sha256": "f9981d40fa7892b82917b288b810c9b4e423dbdf5c265a92a8339ebe97b18bcb",
+      "bytes": 68615
+    },
+    {
+      "path": "c-main-booking-replay/gates-final/original-terms.log.gz",
+      "sha256": "9862db16d5639c49915c31eb7078535cd44c4eb010303a203c2808a3bc2b9f95",
+      "bytes": 187
+    },
+    {
+      "path": "c-main-booking-replay/gates-final/strict-g2.log.gz",
+      "sha256": "4be6e5ceb4bc2bc114a2ab72ec6acf20d1f09d7c4ea60a38aed9930cad9ad04a",
+      "bytes": 775
+    },
+    {
+      "path": "c-main-booking-replay/gates-final/typecheck.log.gz",
+      "sha256": "c18f3e6f8c5294a227ce64bac5e4096a3d1f92a4d21b8686dcb072cc1717e546",
+      "bytes": 84
+    },
+    {
+      "path": "c-main-booking-replay/independent-audit.json",
+      "sha256": "ba80db3ddd1fd741fccf04b1ac486b6990425b9881b469dda0cb6fe7e069209d",
+      "bytes": 2733
+    },
+    {
+      "path": "c-main-booking-replay/inputs-sha256.json",
+      "sha256": "87d5b93222867cfa5414063afaf9ec9e80e761f830d6c64ccf044e5bd73fbda8",
+      "bytes": 149985
+    },
+    {
+      "path": "c-main-booking-replay/main-union.json",
+      "sha256": "578542fad0d5b09e197f8f83ba386051eefe6f07bccfd05e5f13b4016abb41d0",
+      "bytes": 402
+    },
+    {
+      "path": "c-main-booking-replay/model-accounting.json",
+      "sha256": "a64b1c6d72ba588635eb520c75a46c5c076c2a5a79888d7537f55c0bac2cff96",
+      "bytes": 1043
+    },
+    {
+      "path": "c-main-booking-replay/paid-preconditions.json",
+      "sha256": "499193acc735828d0074f37f6b4ce69adcfdae9b27a92fcd0d93fc8ebaadd2ec",
+      "bytes": 830
+    },
+    {
+      "path": "c-main-booking-replay/plan.md",
+      "sha256": "2852e7658f4cc50a586875e483f1c4020b9a26c2f0940026ee313e79b02ba9dd",
+      "bytes": 1022
+    },
+    {
+      "path": "c-main-booking-replay/real-replay.log.gz",
+      "sha256": "440ac4f28283f6e94d5f8d1d5e2e4948558f70d7093945ab982c567dc6c4fb6c",
+      "bytes": 1294
+    },
+    {
+      "path": "c-main-booking-replay/report.md",
+      "sha256": "05841d60418a48f923d8cf3a3ebdad6bea56029ed8c9034577a2f17559bea352",
+      "bytes": 7693
+    },
+    {
+      "path": "c-main-booking-replay/verification-controller.py",
+      "sha256": "8b50f3c96150b12cd4397331613821db30bcce8d55f93d205450a514aed2a264",
+      "bytes": 2623
     },
     {
       "path": "candidate-id-fix.json",
@@ -38,8 +365,8 @@
     },
     {
       "path": "commands.md",
-      "sha256": "315546b2281f92aab2d64fdb44a38d90ea9c23c27c9e31d22856a87a16f893e4",
-      "bytes": 5893
+      "sha256": "c52fd92141ad705b4d78449811dc9537c387ba73dd8b7f372c54861b9c0f2528",
+      "bytes": 6267
     },
     {
       "path": "detail-wording-red.log.gz",
@@ -48,8 +375,8 @@
     },
     {
       "path": "development-live-plan.md",
-      "sha256": "183ec9f8d7ee4af24f64f41fe6f518341567d265465a811e126320eccf350ac0",
-      "bytes": 6163
+      "sha256": "b6c1493b3a762835bdf88c833ca3f12e7988f7237aa548824770a900fb15f01c",
+      "bytes": 6630
     },
     {
       "path": "development-pack.json",
@@ -2152,6 +2479,11 @@
       "bytes": 2068
     },
     {
+      "path": "input-snapshots.json",
+      "sha256": "e431a829b4bba635564694dd82f37b29b71f5a8403730e3b9cefef73f1d2a3e0",
+      "bytes": 611
+    },
+    {
       "path": "inputs-sha256.json",
       "sha256": "21fce8ee99a2e56590f9882a1f013046f72f070868871822a3f7a89737e1789c",
       "bytes": 3134
@@ -2173,8 +2505,8 @@
     },
     {
       "path": "report.md",
-      "sha256": "74619afa11f123de719afc6490f5a78b89b6c2d279baec69deb95f43c2f346d8",
-      "bytes": 12179
+      "sha256": "e0502800b7e81b90c20e0a42130fa6240cadbd7aa3ac91c1b5e0f21be34e77f0",
+      "bytes": 12621
     },
     {
       "path": "reviewer-decisions.json",

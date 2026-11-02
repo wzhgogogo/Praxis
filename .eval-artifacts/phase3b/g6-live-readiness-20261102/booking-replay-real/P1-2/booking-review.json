@@ -1,0 +1,62 @@
+{
+  "id": "P1-2",
+  "error": null,
+  "mode": "REAL_MODEL_FIXED_SOURCE",
+  "physicalCallsSoFar": 9,
+  "actions": [
+    {
+      "turn": "BOOK_DISPLAYED",
+      "type": "SEARCH_RESTAURANTS"
+    },
+    {
+      "turn": "BOOK_DISPLAYED",
+      "type": "CHECK_AVAILABILITY"
+    },
+    {
+      "turn": "BOOK_DISPLAYED",
+      "type": "PRESENT_RESULTS"
+    }
+  ],
+  "codeSelectionRecorded": true,
+  "termsRead": true,
+  "termsModelCalls": 2,
+  "policyOmittedAsNotStated": true,
+  "card": [
+    {
+      "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "offerId": "offer:tabelog:praxis:restaurant:bd287442c716ac7439273cc9:2026-11-11:19:00:2",
+      "provider": "TABELOG",
+      "url": "https://tabelog.com/en/booking/form_course/new?visit_time=1900&member=2&rcd=13123456&visit_date=20261111",
+      "directLabel": "Book on Tabelog",
+      "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+      "checkedAt": "2026-11-01T06:00:00.000Z",
+      "displayExpiresAt": "2026-11-01T06:10:00.000Z",
+      "platformFee": {
+        "provider": "TABELOG",
+        "channel": "ENGLISH_BOOKING",
+        "amountPerPersonJPY": 440,
+        "userCancellationRefund": false,
+        "restaurantCancellationRefund": true,
+        "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+        "sourceUrl": "https://tabelog.com/en/help",
+        "checkedOn": "2026-10-29",
+        "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+        "quotes": [
+          "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+          "Please note that no refunds will be issued for cancellations made for customer reasons.",
+          "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+        ]
+      },
+      "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+      "linkCarries": [
+        "DATE",
+        "TIME",
+        "PARTY_SIZE"
+      ],
+      "sourceSelection": "UNKNOWN",
+      "terms": []
+    }
+  ],
+  "status": "PASS",
+  "note": "Source contains private-room prose only. Terms should be omitted as NOT_STATED; no fabricated policy added."
+}

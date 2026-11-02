@@ -1,5 +1,7 @@
 # G6 Live 启动准备交付（待复核）
 
+**最新状态（2026-11-02 CET）：** C main f992a8ac已同步；四轮补回放4/4通过，真实模型13/20、独立S0=0；累计241模型/255GET/0Live。当前源/配置冻结与门禁请看[c-main-booking-replay/report.md](c-main-booking-replay/report.md)及其中768项输入。以下原六项准备正文及source867/final-inputs.json保留为当时快照，不替代本次C合入后的验证。Live与见证GET仍待用户批准。
+
 - 时间：2026-11-02 Vienna CET（UTC+1）。状态：draft / not integrated，工作分支交复核，不合 main。
 - 前一候选49e37c55已获用户传达的独立复核通过。本轮只落实六项启动准备；新真实模型、公开GET、Google、Live、环境重跑均0，没有读取或加载.env。
 - 同步获批main549061e8（合并8380c017），两边历史文档正文保留，账本按id并集。C通知修复工作分支ec93c249，但尚未获批合入main，不取其产品代码、不提前付费回放。

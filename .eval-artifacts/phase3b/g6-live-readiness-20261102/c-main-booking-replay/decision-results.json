@@ -1,0 +1,283 @@
+{
+  "mode": "REAL_MODEL_FIXED_SOURCE",
+  "decisions": [
+    {
+      "ordinal": 1,
+      "caseId": "P1-0",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "SEARCH_RESTAURANTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "G6 Development Sushi Shibuya",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "No candidates are currently known for the named outlet, so discovery is needed before any availability check."
+      },
+      "codeSelectedInIncomingContext": false,
+      "provider": "DEEPSEEK",
+      "invocationId": "82083d27-8290-4fbe-831e-658d4fbf1344",
+      "latencyMs": 3685,
+      "budgetEntryId": "g6-booking-replay-1793618829219-1"
+    },
+    {
+      "ordinal": 2,
+      "caseId": "P1-0",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Specific-outlet availability request for G6 Development Sushi on 2026-11-11 at 19:00 for 2; the only candidate has a direct source page path and is checkable, so read request-bound availability."
+      },
+      "codeSelectedInIncomingContext": true,
+      "provider": "DEEPSEEK",
+      "invocationId": "152d5e12-88c5-4896-82ac-72665203c2cb",
+      "latencyMs": 2060,
+      "budgetEntryId": "g6-booking-replay-1793618832927-2"
+    },
+    {
+      "ordinal": 3,
+      "caseId": "P1-0",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "PRESENT_RESULTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "G6 Development Sushi has a fresh matching slot (2026-11-11 19:00, party of 2) with reservation support; present the eligible candidate."
+      },
+      "codeSelectedInIncomingContext": true,
+      "provider": "DEEPSEEK",
+      "invocationId": "180402fe-79e7-4aa3-98d3-257d8c4daa73",
+      "latencyMs": 1843,
+      "budgetEntryId": "g6-booking-replay-1793618835009-3"
+    },
+    {
+      "ordinal": 4,
+      "caseId": "P1-1",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "SEARCH_RESTAURANTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "G6 Development Sushi Shibuya",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "No candidates are currently known for the named outlet, so search to resolve the specific restaurant before any availability read."
+      },
+      "codeSelectedInIncomingContext": false,
+      "provider": "DEEPSEEK",
+      "invocationId": "cce7e7e7-3b5e-4e70-bee3-7a8d403f171b",
+      "latencyMs": 1690,
+      "budgetEntryId": "g6-booking-replay-1793618837400-4"
+    },
+    {
+      "ordinal": 5,
+      "caseId": "P1-1",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Specific-outlet availability request for G6 Development Sushi on 2026-11-11 at 19:00 for 2; the only candidate has a direct source page path and is checkable, so read request-bound availability."
+      },
+      "codeSelectedInIncomingContext": true,
+      "provider": "DEEPSEEK",
+      "invocationId": "a0f95b19-8572-4212-b2f7-9e9bdb83a016",
+      "latencyMs": 2056,
+      "budgetEntryId": "g6-booking-replay-1793618839097-5"
+    },
+    {
+      "ordinal": 6,
+      "caseId": "P1-1",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "PRESENT_RESULTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "G6 Development Sushi has a fresh matching slot for 2026-11-11 19:00 for 2 (reservation supported) and is eligible; present it."
+      },
+      "codeSelectedInIncomingContext": true,
+      "provider": "DEEPSEEK",
+      "invocationId": "5d1b2507-835f-46c2-9c7e-948ef8fa4123",
+      "latencyMs": 1762,
+      "budgetEntryId": "g6-booking-replay-1793618841178-6"
+    },
+    {
+      "ordinal": 7,
+      "caseId": "P1-2",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "SEARCH_RESTAURANTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "G6 Development Sushi, Shibuya",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "No candidates currently in context for the named outlet; search to resolve the specific restaurant before checking availability for 2026-11-11 19:00 for 2."
+      },
+      "codeSelectedInIncomingContext": false,
+      "provider": "DEEPSEEK",
+      "invocationId": "c2a3a21f-0e6d-410b-9384-76cc7eae4b93",
+      "latencyMs": 2041,
+      "budgetEntryId": "g6-booking-replay-1793618843471-7"
+    },
+    {
+      "ordinal": 8,
+      "caseId": "P1-2",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Specific-outlet availability request for G6 Development Sushi on 2026-11-11 at 19:00 for 2; the only candidate is checkable via direct source page, so read request-bound availability."
+      },
+      "codeSelectedInIncomingContext": true,
+      "provider": "DEEPSEEK",
+      "invocationId": "32ec795c-0046-4647-8bc2-1eed9ec2544e",
+      "latencyMs": 2010,
+      "budgetEntryId": "g6-booking-replay-1793618845530-8"
+    },
+    {
+      "ordinal": 9,
+      "caseId": "P1-2",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "PRESENT_RESULTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "G6 Development Sushi has a fresh matching slot (2026-11-11 19:00, party of 2) and is eligible; present it."
+      },
+      "codeSelectedInIncomingContext": true,
+      "provider": "DEEPSEEK",
+      "invocationId": "b6a7b719-d7bc-4a35-be8a-82e6d253e2ac",
+      "latencyMs": 1922,
+      "budgetEntryId": "g6-booking-replay-1793618847563-9"
+    },
+    {
+      "ordinal": 10,
+      "caseId": "P2-0",
+      "turn": "BOOK_DISPLAYED",
+      "action": {
+        "type": "ASK_USER",
+        "question": "How many people will be dining at G6 Development Sushi on November 11, 2026 at 7:00 PM?",
+        "relatedFields": [
+          "partySize"
+        ],
+        "retrievalHint": "",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Availability goal with partySize as a missing blocking field; ask for party size before availability reads."
+      },
+      "codeSelectedInIncomingContext": false,
+      "provider": "DEEPSEEK",
+      "invocationId": "95147bac-59fa-4b51-afca-24a82d792f8c",
+      "latencyMs": 1534,
+      "budgetEntryId": "g6-booking-replay-1793618850000-10"
+    },
+    {
+      "ordinal": 11,
+      "caseId": "P2-0",
+      "turn": "ADD_PARTY",
+      "action": {
+        "type": "SEARCH_RESTAURANTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "G6 Development Sushi Shibuya",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Party size now known (2); no candidates in current view, so rediscover the named outlet to check availability for Nov 11, 2026 19:00."
+      },
+      "codeSelectedInIncomingContext": false,
+      "provider": "DEEPSEEK",
+      "invocationId": "433177e5-e21e-4362-8b85-cbcbcfd9d034",
+      "latencyMs": 1983,
+      "budgetEntryId": "g6-booking-replay-1793618851551-11"
+    },
+    {
+      "ordinal": 12,
+      "caseId": "P2-0",
+      "turn": "ADD_PARTY",
+      "action": {
+        "type": "CHECK_AVAILABILITY",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Specific-outlet availability request for G6 Development Sushi on 2026-11-11 19:00 for 2; the only candidate is checkable via direct source page, so read request-bound availability."
+      },
+      "codeSelectedInIncomingContext": true,
+      "provider": "DEEPSEEK",
+      "invocationId": "9000067b-0b5d-4e1a-b96c-dc93d313fa3d",
+      "latencyMs": 1794,
+      "budgetEntryId": "g6-booking-replay-1793618853559-12"
+    },
+    {
+      "ordinal": 13,
+      "caseId": "P2-0",
+      "turn": "ADD_PARTY",
+      "action": {
+        "type": "PRESENT_RESULTS",
+        "question": "",
+        "relatedFields": [],
+        "retrievalHint": "",
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "G6 Development Sushi has a matching 2026-11-11 19:00 slot for 2 with reservation support; present the eligible candidate."
+      },
+      "codeSelectedInIncomingContext": true,
+      "provider": "DEEPSEEK",
+      "invocationId": "16894866-a9fc-48f6-8443-2ede52f33686",
+      "latencyMs": 1710,
+      "budgetEntryId": "g6-booking-replay-1793618855385-13"
+    }
+  ]
+}

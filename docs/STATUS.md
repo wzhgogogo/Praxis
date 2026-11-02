@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-02 CET：A已同步C批准main f992a8ac，四轮受影响预订补回放4/4通过。真实模型13/20（逐fetch前计账），P1三措辞各SEARCH→CHECK→PRESENT，P2先ASK人数再同流程；4轮均为代码USER选店事件且因果指向原用户语义，无模型SELECT，每轮两次FIXTURE条款NOT_STATED，卡片省略并filled in，独立S0=0。先发现并保留A fixture空候选误PRESENT红灯，仅修合法SEARCH传输；原输入/期望不变，修后5415882a净树七项：默认1359/原Chromium188+G6 51/严格G2 12页、type/arch/build全绿，768源SHA不变。账本571并集旧值保留后新增13到584，模型241/1600、GET255/290、Live0/26；未执行Live/GET，凭据仅Node --env-file注入，产品/诊断相对main零差异。停工作分支复核，Live仍等批准。 [报告](../.eval-artifacts/phase3b/g6-live-readiness-20261102/c-main-booking-replay/report.md)。
+
 2026-11-02 CET：A已按用户补充2将两harness fixture生命周期小修独立发布main31d482aa，ls-remote核对并通知B/C；小分支有效红绿、默认1342/Chromium188/严格G2 12页全绿，不含G6 Runner/评价器。G6随后同步该main，四处文档双方保留、main510账目原值在569项并集中；763源/配置SHA与已全绿86720163相同，复用G6完整1350/188+51/严格12页验证。模型228/GET255/Live0累计不变，补回放仍等C获批合main（0/20），本轮真实调用0，不加载.env。 [同步证明](../.eval-artifacts/phase3b/g6-live-readiness-20261102/browser-fixture-main-sync.json)。
 
 2026-11-02 CET：A G6六项启动准备最终离线通过，待复核/用户Live批准。86720163冻结763项，默认1350/1350、原Chromium188/188加G6 51/51、严格G2 5/5与12页PASS，type/arch/build及原条款控制全绿，7项前后净树；首轮A引用映射红灯保留、具体候选绑定已修。W2/八槽11-11请求/SHA/20次补回放合同与命令/链接模板/条件化GET估算齐全；本地8槽及S0停批只证接线。C ec93c249未合main，补回放0/20；认证/Live未运行，不加载.env，产品与诊断目录相对main549061e8零差异，账本569条、旧值及累计228模型/255GET/0Live不变。只推工作分支不合main。 [报告](../.eval-artifacts/phase3b/g6-live-readiness-20261102/report.md)。
