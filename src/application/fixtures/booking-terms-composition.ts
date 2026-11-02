@@ -121,7 +121,8 @@ export async function bookingTermsComposition(options:Options={}){
       body=selected.length?{status:"ANSWERED",answer:isCard?"Card required":both?"The English page charges 100% and the Japanese page charges 50% for same-day cancellations.":selected[0].quote===japaneseQuote?japaneseAnswer:cancellationAnswer,
         citations:selected.slice(0,3),sensitiveCategory:"NONE",sourceConflict:both}
         :{status:"NOT_STATED",answer:null,citations:[],sensitiveCategory:"NONE",sourceConflict:false};
-    }else if(request.purpose==="fixture_budget_work")body={};
+    }else if(request.purpose==="restaurant_discovery_retrieval")body={choice:"KEYWORD",keyword:"kushikatsu",criterionRef:"criterion:0",generalRef:"",categoryUrl:"",reason:"The explicit HARD criterion supplies this retrieval word; retrieval does not qualify the outlet."};
+    else if(request.purpose==="fixture_budget_work")body={};
     else if(request.purpose==="restaurant_source_facts")body={selections:[]};
     else if(request.purpose==="browser_read_decide")body={action:"COMPLETE",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"Constructed public source is fully readable."};
     else throw new Error("Unconfigured fixture purpose "+request.purpose);
