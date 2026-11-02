@@ -180,7 +180,10 @@ export function summarizeDiagnoses(reports:RunDiagnosis[],plannedRunIds?:string[
     const values=reports.map(select),known=values.filter(v=>v.value!==null),sum=known.reduce((n,v)=>n+v.value!,0);
     return {observedTotal:known.length?sum:null,completeTotal:known.length===values.length&&values.every(v=>v.status==="MEASURED")?sum:null,unassessedRuns:values.filter(v=>v.status!=="MEASURED").length};
   };
-  const cohorts=new Map<string,string[]>();for(const [i,r]of reports.entries()){const key=JSON.stringify(r.evaluationMetadata),list=cohorts.get(key)??[];list.push(ids[i]!);cohorts.set(key,list);}
+  const cohorts=new Map<string,string[]>();for(const [i,r]of reports.entries()){
+    const meta=r.evaluationMetadata,key=JSON.stringify({evaluatorVersion:meta.evaluatorVersion,rubricVersion:meta.rubricVersion,mode:meta.mode,goldRevisionSha256:record(meta.goldCorrection).rev2Sha256??null});
+    const list=cohorts.get(key)??[];list.push(ids[i]!);cohorts.set(key,list);
+  }
   return {schema:"run-diagnosis-summary@1",denominators:{planned:plannedRunIds?.length??null,received:reports.length,started:reports.filter(r=>r.systemObservations.startedAt!==null).length,
     finished:reports.filter(r=>r.systemObservations.finishedAt!==null).length,completed:reports.filter(r=>record(r.summary.outcome).type!=="ORCHESTRATION_INTERRUPTED"&&r.systemObservations.finishedAt!==null).length,
     interrupted:reports.filter(r=>record(r.summary.outcome).type==="ORCHESTRATION_INTERRUPTED").length,classificationAvailable:reports.filter(r=>record(r.summary.outcome).type&&record(r.summary.outcome).type!=="NOT_EVALUATED").length,
