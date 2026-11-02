@@ -1,0 +1,27 @@
+✖ G6 Runner authoritative pending question controls date reply: asked partySize (866.331292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1303.279708
+
+✖ failing tests:
+
+test at ../../../../../../private/tmp/praxis-g6-pending-question-red/case.mts:1:6288
+✖ G6 Runner authoritative pending question controls date reply: asked partySize (866.331292ms)
+  AssertionError [ERR_ASSERTION]: Missing date plus an old/unrelated ASK_USER does not authorize an automatic date reply
+  
+  'SENT' !== 'NOT_SENT'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-g6-pending-question-red/case.mts:70:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'SENT',
+    expected: 'NOT_SENT',
+    operator: 'strictEqual'
+  }

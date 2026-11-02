@@ -30,11 +30,13 @@ export interface G6RunnerDependencies {
   now?:()=>number;wait?:(ms:number)=>Promise<void>;witnessIntervalMs?:number;
 }
 export interface G6TransportHooks {googleFetch:(transport:typeof fetch)=>typeof fetch;observeRequest:(request:G6EvaluationInput["requests"][number])=>void;}
-function hasTrigger(view:RestaurantCaseView,trigger:G6Trigger){
+async function hasTrigger(view:RestaurantCaseView,trigger:G6Trigger,readState:()=>Promise<Record<string,unknown>>){
   if(trigger==="DISPLAYED_RESULTS")return Boolean(view.restaurant.presentedCandidateIds?.length);
   if(trigger==="DISPLAYED_AVAILABLE")return (view.restaurant.presentedCandidateIds??[]).some(id=>view.restaurant.availabilityChecks[id]?.status==="AVAILABLE");
   const field=trigger==="ASKED_FOR_DATE"?"date":"partySize";
-  return view.case.phase==="NEEDS_INPUT"&&view.restaurant.missingRequiredFields.includes(field)&&view.activities.some(a=>a.type==="AGENT_ASKED_USER");
+  if(view.case.phase!=="NEEDS_INPUT"||!view.restaurant.missingRequiredFields.includes(field))return false;
+  const artifact=await readState(),state=(artifact.finalSnapshot as {domainState?:{pendingUserQuestion?:{relatedFields?:string[]}}}|undefined)?.domainState;
+  return state?.pendingUserQuestion?.relatedFields?.includes(field)===true;
 }
 function displayed(view:RestaurantCaseView):G6Delivered[]{return (view.restaurant.presentedCandidateIds??[]).flatMap(candidateId=>{
   const c=view.restaurant.candidates.find(c=>c.restaurant.id===candidateId),offers=view.restaurant.availability[candidateId]??[];
@@ -108,7 +110,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       deadlineTimer=setTimeout(()=>{void session?.application.stopActiveReads();},Math.max(1,500_000-(performance.now()-wallStart)));
       view=await session.create(spec.request);
       for(const step of spec.followups){
-        if(!hasTrigger(view,step.trigger)){turns.push({id:step.id,status:"NOT_SENT",reason:"AUTHORITATIVE_STATE_TRIGGER_NOT_MET"});continue;}
+        if(!await hasTrigger(view,step.trigger,()=>session!.application.exportReadArtifact(view!.case.caseId))){turns.push({id:step.id,status:"NOT_SENT",reason:"AUTHORITATIVE_STATE_TRIGGER_NOT_MET"});continue;}
         if(performance.now()-wallStart>=480_000){turns.push({id:step.id,status:"NOT_SENT",reason:"SLOT_CONCLUSION_RESERVE"});continue;}
         const current=view;
         activeTurn=step.kind==="PAGE_QUESTION"?"FOLLOWUP_QUESTION":"FOLLOWUP_MESSAGE";

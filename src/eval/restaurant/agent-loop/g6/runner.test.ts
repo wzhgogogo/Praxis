@@ -45,3 +45,31 @@ test("G6 frozen pack refuses changed bytes before constructing any source transp
     await assert.rejects(loadG6Pack(path,"0".repeat(64)),/SHA mismatch/u);await assert.rejects(loadG6Pack(path,createHash("sha256").update(raw).digest("hex")),/incomplete/u);
   }finally{await rm(dir,{recursive:true,force:true});}
 });
+
+for(const askedField of ["date","partySize"] as const)test(`G6 Runner authoritative pending question controls date reply: asked ${askedField}`,async()=>{
+  const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-pending-question-"));
+  const f=await g6Fixture(),s=f.source,budgetPath=join(dir,"budget.json");await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:4},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}}));
+  let semantics=0,sourceBeforeReply=false;
+  const model={async complete(request:Parameters<typeof f.model.complete>[0]){
+    if(request.purpose==="restaurant_semantic_interpret"){
+      const original=await f.model.complete(request),body=JSON.parse(original.outputText);semantics++;
+      body.facts=body.facts.filter((fact:{field:string})=>semantics===1?fact.field!=="DATE":fact.field==="DATE");return {...original,outputText:JSON.stringify(body)};
+    }
+    if(request.purpose==="restaurant_agent_decide"){
+      const context=JSON.parse(request.messages.find(m=>m.role==="user")!.content).context;
+      if(context.missingBlockingFields.includes("date"))return {invocationId:"pending-field-control",provider:"FIXTURE" as const,model:"pending-field-control",latencyMs:0,finishReason:"TOOL_CALLS" as const,outputText:JSON.stringify({type:"ASK_USER",question:askedField==="date"?"Which date would you like?":"How many people?",relatedFields:[askedField],retrievalHint:"",candidateIds:[],candidateId:"",offerId:"",decisionSummary:"Local pending-field control"})};
+    }
+    return f.model.complete(request);
+  }};
+  const pack:G6Pack={schemaVersion:"phase3b-g6-pack@1",mode:"FIXTURE",recording:{browser:true,decisions:true,googleResponses:true},cases:[{id:"undated",request:"I'd like to book a restaurant in Shibuya at 7 PM sometime next week, for two people.",followups:[{id:"give-date",trigger:"ASKED_FOR_DATE",kind:"MESSAGE",text:"November 11, 2026."}],oracle:{request:{dates:[s.date],partySize:2,time:s.time},pages:[]}}]};
+  try{
+    await runG6Batch(pack,{budgetPath,witnessFetch:async()=>new Response(JSON.stringify(s.vacancy.body)),async transports(_case,_recording,hooks){
+      const google=new GooglePlacesClient({apiKey:"local-source-key",fetchImplementation:hooks.googleFetch(async(url,init)=>{if(semantics<2)sourceBeforeReply=true;return f.googleFetch(url,init);})});return {model,google,browser:f.browser,clock:f.clock};
+    }},join(dir,"runs"));
+    const path=join(dir,"runs/undated"),execution=await readFile(join(path,"execution.result.json"),"utf8").then(JSON.parse);
+    assert.equal(execution.turns[0].status,askedField==="date"?"SENT":"NOT_SENT","Missing date plus an old/unrelated ASK_USER does not authorize an automatic date reply");
+    assert.equal(semantics,askedField==="date"?2:1);assert.equal(sourceBeforeReply,false);
+    if(askedField==="date")assert.equal(execution.view.case.phase,"PRESENT_RESULTS");
+    else assert.equal(execution.view.restaurant.intentDraft.date,undefined);
+  }finally{await rm(dir,{recursive:true,force:true});}
+});

@@ -49,7 +49,7 @@ export async function createG6Session(input:Omit<LiveReadTransports,"currentTask
     catch(error){call.error=error instanceof Error?error.message:"MODEL_TRANSPORT_FAILED";throw error;}
     finally{call.elapsedMs=performance.now()-start;}
   }};
-  const budget=new class extends RunBoundedModelGateway {
+  const budget:RunBoundedModelGateway=new class extends RunBoundedModelGateway {
     override run<T>(taskId:string,work:(signal:AbortSignal)=>Promise<T>,deadlineAt?:number):Promise<T>{return super.run(taskId,work,Math.min(deadlineAt??Infinity,input.episode?.deadlineAtMs??Infinity));}
     override remainingCalls(taskId:string):number|undefined{const own=super.remainingCalls(taskId);return own===undefined?own:Math.min(own,input.episode?.remainingModelCalls()??Infinity);}
   }(transport,limits.maxModelCalls,limits.maxAutomaticBrowserMs,()=>clock.now().valueOf());

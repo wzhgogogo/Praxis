@@ -1,0 +1,101 @@
+{
+  "testedCommit": "f2f88a9a15cdc7d3de162a01494d3650a6629aba",
+  "inputs": 751,
+  "mode": "OFFLINE_FINAL_CANDIDATE",
+  "runs": [
+    {
+      "name": "original-terms",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/eval/restaurant/agent-loop/g6-booking-terms-composition.test.ts"
+      ],
+      "startCET": "2026-11-02T07:27:13.652770+01:00",
+      "exitCode": 0,
+      "seconds": 1.217,
+      "summary": {
+        "tests": 1,
+        "suites": 0,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "d513c92ff9d3ea4432d4150dd38371baa4a513e2139b2d2cbbb266ff0cfdfbe9"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startCET": "2026-11-02T07:27:15.035771+01:00",
+      "exitCode": 0,
+      "seconds": 0.488,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startCET": "2026-11-02T07:27:15.688815+01:00",
+      "exitCode": 0,
+      "seconds": 0.21,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startCET": "2026-11-02T07:27:16.061367+01:00",
+      "exitCode": 0,
+      "seconds": 36.101,
+      "summary": {
+        "tests": 1335,
+        "suites": 5,
+        "pass": 1335,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "825a603c4224df9df7ae4b52551a4b29e3dea10ed55a312e27bc78f4234a613d"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startCET": "2026-11-02T07:27:52.338056+01:00",
+      "exitCode": 1,
+      "seconds": 0.478,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "d1d6c0d944b7127c5a9529b8f792c34c6edf1d1a497e1f511536b8a40e84e2ce"
+    }
+  ]
+}

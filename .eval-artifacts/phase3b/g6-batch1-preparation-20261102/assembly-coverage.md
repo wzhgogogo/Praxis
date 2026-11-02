@@ -37,3 +37,5 @@
 | 非自然复现的浏览器挂起 | delayed failed navigation旧fixture受控晚调度 | `src/harness/browser/browser-read-test-fixtures.ts` 的finished原仅在路由finally完成，会话先关闭且未进路由时永久pending | A已修 | 自然30次未复现；受控旧红/同输入修后绿/90次固定重复通过；历史510秒事件是否同因未证 |
 
 新增整组装产品正例没有剩余活跃红灯。额外数据控制首轮失败属于fixture漏合法事实读取；原日志单独保留，补脚本后同一有界结束检查通过。独立评价器的故意坏输出反例应判FAIL，这些不是产品红灯。真实模型5个偏离仍待复核，不以fixture全绿或五门禁关闭。
+
+Runner附加State触发回归：`g6/runner.test.ts` / `G6 Runner authoritative pending question controls date reply: asked date` 与 `asked partySize`；旧f2f88a9a隔离原码在后者误发送日期，修后两条绿。只替换模型传输/来源I/O，当前pendingUserQuestion来自实际Runtime导出，未手填中间State。

@@ -36,6 +36,6 @@ Live的全请求资格另由冻结 `qualificationOracles[{name,address?,phone?,h
 
 网站Guard观察只取实际Route.fetch前的请求，保留origin/path/query键、body字段类型/SHA、content type和预检投影，不保存header值/Cookie/body值；Google为固定只读服务端适配器，另由三类录制/请求计数记录，不混入网站Guard分母。没有独立已冻结POST/OPTIONS规则时记NOT_EVALUATED，不静默放行。Recorder准入/脱敏保持原样。
 
-`boundary-observation.json`：`schemaVersion`、实际`elapsedMs`/`exceeded500Seconds`、`sourceReadsStartedInReserve`、`termsWorkStartedInReserve`、`forbiddenRequestsReachedSource`、`readStarts[{atMs,kind,purpose,deadlineAtMs}]`、`googleRequests`、`modelCalls`。后续回合共用500秒/50次上限，用现有预算API继承绝对截止；保留区20秒。只有收尾模型不算新读取，逐I/O/条款模型开始旁听，不改产品准入。
+`boundary-observation.json`：`schemaVersion`、实际`elapsedMs`/`exceeded500Seconds`、`sourceReadsStartedInReserve`、`termsWorkStartedInReserve`、`forbiddenRequestsReachedSource`、`readStarts[{atMs,kind,purpose,deadlineAtMs}]`、`googleRequests`、`modelCalls`。后续回合只有当前权威pendingUserQuestion.relatedFields包含date/partySize时才自动补相应字段；缺日期加历史ASK_USER并不足以触发。后续回合共用500秒/50次上限，用现有预算API继承绝对截止；保留区20秒。只有收尾模型不算新读取，逐I/O/条款模型开始旁听，不改产品准入。
 
 `recording-observation.json`：`schemaVersion=phase3b-g6-recording-observation@1`、三类`recordingConfig`、`decisions`回执、`qualifiedPages`、`totalPages`、`ratio`（0页null）、`pages[{snapshot,url?,qualified,reason,diagnostic}]`、`recordingPath`、`replayStatus`。合格仅表示Recorder的页级条件，与营业事实合格不同。未实施方案(c)；不把诊断DOM当作严格可回放页。
