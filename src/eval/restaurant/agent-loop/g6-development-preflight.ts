@@ -41,7 +41,7 @@ class LocalDatabase implements SqlDatabase {
 /** Local development inputs only: user wording, public source prose and model transport output. */
 export interface G6QuestionFixture { question: string; merchantQuote: string; answer: string; }
 
-export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2" | "P3" | "P4" = "P1", variant = 0, provider: "TABELOG" | "TABLECHECK" = "TABELOG", questionFixture?: G6QuestionFixture) {
+export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2" | "P3" | "P4" = "P1", variant = 0, provider: "TABELOG" | "TABLECHECK" = "TABELOG", questionFixture?: G6QuestionFixture, bookingDecisionTransport?: ModelGateway) {
   const source = JSON.parse(await readFile(new URL("./cases/g6-development/source.json", import.meta.url),"utf8")) as {
     referenceTime:string; outlet:{id:string;name:string;address:string;phone:string;latitude:number;longitude:number};
     pageUrl:string;date:string;time:string;partySize:number;initialRequest:string;bookingFollowups:string[];
@@ -86,7 +86,7 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
       const doc=payload.sourceDocuments.find((d:{statements:Array<{text:string}>})=>d.statements.some(s=>s.text===merchantQuote));
       assert.ok(doc,"The real G1 reader must supply the merchant sentence");
       const sentence=doc.statements.find((s:{text:string})=>s.text===merchantQuote);
-      body={status:"ANSWERED",answer:fixtureAnswer,citations:[{documentId:doc.id,statementId:sentence.id,quote:sentence.text}],sensitiveCategory:"NONE",sourceConflict:false};
+      body=payload.question===question ? {status:"ANSWERED",answer:fixtureAnswer,citations:[{documentId:doc.id,statementId:sentence.id,quote:sentence.text}],sensitiveCategory:"NONE",sourceConflict:false} : {status:"NOT_STATED",answer:null,citations:[],sensitiveCategory:"NONE",sourceConflict:false};
     }
     else if (request.purpose === "restaurant_agent_decide") {
       const context = JSON.parse(request.messages.find(m=>m.role === "user")!.content).context as RestaurantAgentContext;
@@ -104,7 +104,7 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
       else if ((path === "P1" || path === "P2") && turn !== "INITIAL" && context.selectedCandidateId !== id) body = {...strictAction("SELECT_CANDIDATE"),candidateId:id};
       else body = strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId));
     } else throw new Error("Unconfigured fixture purpose: " + request.purpose);
-    const result = response(body); requests.push({turn,request:structuredClone(request),response:result}); return result;
+    const result = bookingDecisionTransport && turn !== "INITIAL" && request.purpose === "restaurant_agent_decide" ? await bookingDecisionTransport.complete(request) : response(body); requests.push({turn,request:structuredClone(request),response:result}); return result;
   }};
   const counted = new RunBoundedModelGateway(fixtureModel,limits.maxModelCalls,limits.maxAutomaticBrowserMs);
   const model = new DeliveryReservedModelGateway(counted);

@@ -4,18 +4,19 @@ import { join } from "node:path";
 import { chargeG6 } from "./budget.js";
 import { independentVacancy,type G6Delivered,type G6Vacancy } from "./evaluator.js";
 
-export interface G6Witness extends G6Delivered {detailUrl:string;identityText:string[];}
-export interface WitnessReceipt {checkedAt:string;kind:string;target:G6Witness;exists:boolean;vacancy:G6Vacancy;detailRef?:string;detailSHA256?:string;responseSHA256:string;}
+export interface G6Witness extends G6Delivered {detailUrl:string;identityText:string[];allowDetailOnlyCertificate?:boolean;}
+export interface WitnessReceipt {checkedAt:string;kind:string;target:G6Witness;exists:boolean|null;vacancy?:G6Vacancy;evidenceMode?:"AVAILABILITY"|"DETAIL_ONLY";detailRef?:string;detailSHA256?:string;responseSHA256:string;}
 export function witnessURL(w:G6Delivered){
   const id=w.sourceEntityId.match(/(?:^|\/)(\d+)\/?$/u)?.[1];if(!id)throw Error("Witness must use an observed numeric Tabelog source identity");
   const u=new URL("https://tabelog.com/en/booking/calendar/find_vacancy");u.searchParams.set("rst_id",id);u.searchParams.set("svd",w.date.replaceAll("-",""));u.searchParams.set("svps",String(w.partySize));u.searchParams.set("svt",w.time.replace(":",""));return u.toString();
 }
-export function createWitnessReader(input:{directory:string;budgetPath:string;runId:string;fetch:typeof fetch;now?:()=>number;wait?:(ms:number)=>Promise<void>;minIntervalMs?:number;requestTiming?:{last:number}}){
+export function createWitnessReader(input:{directory:string;budgetPath:string;runId:string;fetch:typeof fetch;now?:()=>number;wait?:(ms:number)=>Promise<void>;minIntervalMs?:number;requestTiming?:{last:number};beforeGET?:()=>void}){
   let count=0;const timing=input.requestTiming??{last:-Infinity};const now=input.now??Date.now,wait=input.wait??(ms=>new Promise(resolve=>setTimeout(resolve,ms)));
   const interval=input.minIntervalMs??5000;
   async function get(url:string,name:string){
     const u=new URL(url);if(u.origin!=="https://tabelog.com"||!u.pathname.startsWith("/en/")||u.username||u.password||u.hash||/booking\/form|yoyaku|confirm|pay|checkout/iu.test(u.pathname))throw Error("Witness GET must stay on public https://tabelog.com/en pages");
     const elapsed=now()-timing.last;if(elapsed<interval)await wait(interval-elapsed);
+    input.beforeGET?.();
     await chargeG6(input.budgetPath,`${input.runId}:GET:${++count}`,"evaluationPublicGET",name+"; public credential-free GET, no retry");
     timing.last=now();const response=await input.fetch(url,{method:"GET",redirect:"manual",credentials:"omit",headers:{accept:"text/html,application/json"},signal:AbortSignal.timeout(20_000)});
     const raw=new Uint8Array(await response.arrayBuffer());if(raw.byteLength>8_000_000)throw Error("Public witness response exceeds frozen8MB limit");
@@ -23,11 +24,15 @@ export function createWitnessReader(input:{directory:string;budgetPath:string;ru
     const sha256=createHash("sha256").update(raw).digest("hex");await writeFile(path+".json",JSON.stringify({url,status:response.status,checkedAt:new Date(now()).toISOString(),sha256,bytes:raw.byteLength,cookiesSent:false,retried:false},null,2)+"\n",{flag:"wx"});
     if(response.status!==200)throw Error("Witness GET status "+response.status+"; stopped without retry");return {path,sha256,text:new TextDecoder().decode(raw)};
   }
-  return {get count(){return count;},async read(target:G6Witness,kind:"BEFORE"|"AFTER"|"NO_DELIVERY_AFTER",detail=true):Promise<WitnessReceipt>{
+  return {get count(){return count;},async readDetail(target:G6Witness,kind:"BEFORE"|"NO_DELIVERY_AFTER"):Promise<WitnessReceipt>{
+    if(!target.allowDetailOnlyCertificate)throw Error("This witness requires availability certification");
+    const detail=await get(target.detailUrl,"detail");if(!target.identityText.length||!target.identityText.every(s=>detail.text.includes(s)))throw Error("Public witness identity could not be certified");
+    return {checkedAt:new Date(now()).toISOString(),kind,target,exists:null,evidenceMode:"DETAIL_ONLY",detailRef:detail.path,detailSHA256:detail.sha256,responseSHA256:detail.sha256};
+  },async read(target:G6Witness,kind:"BEFORE"|"AFTER"|"NO_DELIVERY_AFTER",detail=true):Promise<WitnessReceipt>{
     let identity:Awaited<ReturnType<typeof get>>|undefined;
     if(detail){identity=await get(target.detailUrl,"detail");if(!target.identityText.length||!target.identityText.every(s=>identity!.text.includes(s)))throw Error("Public witness identity could not be certified");}
     const response=await get(witnessURL(target),"vacancy");let body:unknown;try{body=JSON.parse(response.text);}catch{throw Error("Witness response is not public JSON");}
     const vacancy:G6Vacancy={ref:response.path,phase:kind,url:witnessURL(target),candidateId:target.candidateId,body};const observed=independentVacancy(vacancy,target);
-    if(!observed.known)throw Error(observed.reason);return {checkedAt:new Date(now()).toISOString(),kind,target,exists:observed.slots.includes(target.time),vacancy,responseSHA256:response.sha256,...(identity?{detailRef:identity.path,detailSHA256:identity.sha256}:{})};
+    if(!observed.known)throw Error(observed.reason);return {checkedAt:new Date(now()).toISOString(),kind,target,evidenceMode:"AVAILABILITY",exists:observed.slots.includes(target.time),vacancy,responseSHA256:response.sha256,...(identity?{detailRef:identity.path,detailSHA256:identity.sha256}:{})};
   }};
 }

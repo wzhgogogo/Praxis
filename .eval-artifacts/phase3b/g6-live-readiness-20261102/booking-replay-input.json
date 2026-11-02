@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "g6-booking-code-selection-replay@1",
+  "requiredMergedMain": "C approved main merge, supplied as PRAXIS_G6_SELECTION_MAIN after syncing",
+  "maximumPhysicalCalls": 20,
+  "physicalModelScope": "restaurant_agent_decide in non-INITIAL booking rounds only; semantic extraction, source I/O and policy questions are frozen local fixtures",
+  "sourceSHA256": {
+    "src/eval/restaurant/agent-loop/cases/g6-development/source.json": "771b22663707b4e9533402764e1975ddf7d6946e928fc0cfdc541776a868857d",
+    "src/eval/restaurant/agent-loop/cases/g6-development/outlet.html": "7708f907915ca9b58fdec1e2ace6951b6d2ed07f3cbf8bc16adf161726ccf3ad"
+  },
+  "cases": [
+    {
+      "id": "P1-0",
+      "path": "P1",
+      "variant": 0,
+      "initialRequest": "Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM.",
+      "bookingRequest": "Please book G6 Development Sushi for me.",
+      "expected": {
+        "selection": "CODE_BEFORE_AGENT_SELECTION",
+        "termsRead": true,
+        "policyTextAbsent": true,
+        "modelSelectRequired": false
+      }
+    },
+    {
+      "id": "P1-1",
+      "path": "P1",
+      "variant": 1,
+      "initialRequest": "Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM.",
+      "bookingRequest": "I'd like to reserve this restaurant.",
+      "expected": {
+        "selection": "CODE_BEFORE_AGENT_SELECTION",
+        "termsRead": true,
+        "policyTextAbsent": true,
+        "modelSelectRequired": false
+      }
+    },
+    {
+      "id": "P1-2",
+      "path": "P1",
+      "variant": 2,
+      "initialRequest": "Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM.",
+      "bookingRequest": "Let's go with G6 Development Sushi. Help me book it.",
+      "expected": {
+        "selection": "CODE_BEFORE_AGENT_SELECTION",
+        "termsRead": true,
+        "policyTextAbsent": true,
+        "modelSelectRequired": false
+      }
+    },
+    {
+      "id": "P2-0",
+      "path": "P2",
+      "variant": 0,
+      "initialRequest": "Recommend one restaurant in Shibuya.",
+      "bookingRequest": "I'd like to book G6 Development Sushi on November 11, 2026 at 7 PM.",
+      "partyReply": "Two people.",
+      "expected": {
+        "selection": "CODE_BEFORE_AGENT_SELECTION",
+        "termsRead": true,
+        "policyTextAbsent": true,
+        "modelSelectRequired": false
+      }
+    }
+  ]
+}
