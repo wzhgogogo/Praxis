@@ -1,3 +1,7 @@
+# Praxis 当前状态
+
+2026-11-02 CET：按用户复核记录D3能力未达/不必要追问/S0=0（原评价不改），D7取消且不计失败，具名四槽等C通知。本批只改A Runner/评价器停批：S0或安全缺证/额度仍停，安全PASS的能力NOT_EVALUATED记RECORDED_NOT_EVALUATED并继续；历史D3仅stopBatch改变、D1仍停且全部评分逐字段不变，整组装下一槽可启动，34/34绿。冻结D4/D6原文和开发9/25继承，待净树五门禁/严格G2后串行跑；不改产品或评分规则，不合main。 [切片与冻结](../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/plan.md)。
+
 2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。
 
 2026-11-02 CET：A已同步main d4d8ea33，最终净树五门禁1363/188+54及严格G2 12页全绿，770源SHA未变。续跑仅D3启动：7.406秒后因独立area缺失合法ASK_USER，未进入搜索/浏览器，预订回合未发；自动S0=0，但等待澄清被冻结评价器归为unboundedEnd，NOT_EVALUATED并INDEPENDENT_EVIDENCE_REVIEW_REQUIRED停批。D4–D7/W2认证及D2/D8未启动，不补area不重跑不改评分。两次立即后验仍有位；累计Live2/26、模型266/1600、GET264/390，开发9/25，账本620原值保留加6为626，环境重跑0。D1自动S0=1/人工裁定服务端范围非用户可见声明/S2已独立记账、原评价不改；本批未验收B1/F6 Live。只推工作分支交复核、不合main。 [完整报告](../.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/report.md)。
@@ -6,7 +10,6 @@
 
 2026-11-02 CET：C开始用户已批准的B1投影修复：PRESENT_RESULTS只认已展示集合，其他阶段只认就绪集合；selected不绕过集合，准备缓存保留。普通组装+HTTP先红后绿，正控制覆盖SEARCHING就绪、展示及用户选店条款；A/B受保护文件与版本不动，真实调用0。门禁全绿后按授权同步main、合入推送并通知A。 [计划](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。
 
-# Praxis 当前状态
 
 2026-11-02 CET：G6按用户决定今天启动W1，D1 457.351秒有界结束、交付0；自动B1_LINK S0=1后立即停批。返回投影含未展示Kushiman缓存交接，原响应确有同URL且未开表单；实际用户卡片是否展示未被记录，原分数保留待复核，不宣称S0=0。来源越界独立1130/1130检查通过；Dengana正确详情链接已解析但14.814秒导航超时，事后见证仍有位，CAPABILITY_MISS。其余W1五槽/W2认证及两槽均未启动、不填0。三录制17/48页准入、Google7/7及决策23/23；769源SHA不变。共享618条保留591原值，累计Live1/26、模型264/1600、公开GET262/390，开发7/25；环境重跑0。只推工作分支交复核，不合main。 [完整停批报告](../.eval-artifacts/phase3b/g6-development-live/split-resume-20261102/report.md)。
 

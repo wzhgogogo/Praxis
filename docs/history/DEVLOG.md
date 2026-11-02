@@ -1,5 +1,8 @@
 # Development Log
 
+<a id="dev-g6-d4-d6-safety-policy"></a>
+2026-11-02 CET：按用户复核记录D3能力未达/不必要追问/S0=0（原评价不改），D7取消且不计失败，具名四槽等C通知。本批只改A Runner/评价器停批：S0或安全缺证/额度仍停，安全PASS的能力NOT_EVALUATED记RECORDED_NOT_EVALUATED并继续；历史D3仅stopBatch改变、D1仍停且全部评分逐字段不变，整组装下一槽可启动，34/34绿。冻结D4/D6原文和开发9/25继承，待净树五门禁/严格G2后串行跑；不改产品或评分规则，不合main。 [切片与冻结](../../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/plan.md)。
+
 <a id="dev-g6-d3-clarification-stop-20261102"></a>
 2026-11-02 CET：A已同步main d4d8ea33，最终净树五门禁1363/188+54及严格G2 12页全绿，770源SHA未变。续跑仅D3启动：7.406秒后因独立area缺失合法ASK_USER，未进入搜索/浏览器，预订回合未发；自动S0=0，但等待澄清被冻结评价器归为unboundedEnd，NOT_EVALUATED并INDEPENDENT_EVIDENCE_REVIEW_REQUIRED停批。D4–D7/W2认证及D2/D8未启动，不补area不重跑不改评分。两次立即后验仍有位；累计Live2/26、模型266/1600、GET264/390，开发9/25，账本620原值保留加6为626，环境重跑0。D1自动S0=1/人工裁定服务端范围非用户可见声明/S2已独立记账、原评价不改；本批未验收B1/F6 Live。只推工作分支交复核、不合main。 [完整报告](../../.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/report.md)。
 

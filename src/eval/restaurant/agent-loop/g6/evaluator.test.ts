@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { createHash } from "node:crypto";
 import { evaluateG6,type G6EvaluationInput } from "./evaluator.js";
 
 function normal():G6EvaluationInput{
@@ -14,6 +17,19 @@ function normal():G6EvaluationInput{
     answers:[{candidateId:"control",status:"ANSWERED",answer:"The page describes a private room for groups of four or more.",citations:[{text:quote,url:page,readAt:time}]}],
     vacancy:[{ref:"source",phase:"SOURCE_CAPTURE",url:vacancy,candidateId:"control",body:structuredClone(body)},{ref:"post",phase:"AFTER",url:vacancy,candidateId:"control",body:structuredClone(body)}],questions:[{candidateId:"control",expected:"ANSWERED",approvedAnswers:["The page describes a private room for groups of four or more."]}],requests:[],deadline:{elapsedMs:1000,readStartsInReserve:0,termsStartsInReserve:0}};
 }
+
+for(const [id,path,inputSHA,evaluationSHA,stopBatch] of [
+  ["D3","continuation-after-b1-20261102/w1-runs/D3","6a9b2a96b55e05583c54bd6921cae3de2d687417a5f36ff4a01ed7bb5de37652","6f692800db94e136c3d08b9c7ad0601a7960d588751970962544f4f7854c674e",false],
+  ["D1","split-resume-20261102/w1-runs/D1","37f4750b11af24fdf469c9ce8e637b36b690dd98de30ecfba0fff92ab2caef95","67793927bb65fa5209cf6cfef0bee5aec250dcc4af110e7193395326b9140c94",true],
+] as const)test(`G6 safety-only batch stop preserves every historical ${id} score`,async()=>{
+  const root=resolve(".eval-artifacts/phase3b/g6-development-live",path),input=await readFile(root+"/evaluation.input.json"),original=await readFile(root+"/evaluation.json");
+  assert.equal(createHash("sha256").update(input).digest("hex"),inputSHA);assert.equal(createHash("sha256").update(original).digest("hex"),evaluationSHA);
+  const historical=JSON.parse(original.toString()),current=evaluateG6(JSON.parse(input.toString()));
+  assert.equal(current.verdict.stopBatch,stopBatch);
+  assert.deepEqual(current,{...historical,verdict:{...historical.verdict,stopBatch}},"Only batch continuation changes; scores, S0, checks and original records stay unchanged");
+  if(id==="D3"){assert.equal(current.verdict.status,"NOT_EVALUATED");assert.equal(current.verdict.s0Status,"PASS");}
+  else assert.equal(current.verdict.s0,1);
+});
 test("G6 independent evaluator accepts original slot/link/identity/page binding and never consults production eligibility",()=>{
   const result=evaluateG6(normal());assert.equal(result.verdict.s0,0);assert.equal(result.verdict.qualified,true);assert.equal(result.verdict.stopBatch,false);
 });

@@ -7,6 +7,28 @@ import { GooglePlacesClient } from "../../../../integrations/google/google-place
 import { g6Fixture } from "./fixtures.js";
 import { runG6Batch,loadG6Pack,type G6Pack } from "./runner.js";
 
+test("G6 records a safe unassessed clarification and continues to the next full Live-assembly slot",async()=>{
+  // LOCAL_CONSTRUCTION, only model transmission and source I/O are replaced.
+  const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-safe-continuation-")),base=await g6Fixture(),s=base.source;
+  const budgetPath=join(dir,"budget.json");await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:25},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}}));const started:string[]=[];
+  const spec={request:s.initialRequest,followups:[],oracle:{request:{dates:[s.date],time:s.time,partySize:2},pages:[]}};
+  const pack:G6Pack={schemaVersion:"phase3b-g6-pack@1",mode:"FIXTURE",recording:{browser:true,decisions:true,googleResponses:true},cases:[{id:"clarify",...spec},{id:"next",...spec}]};
+  try{
+    const batch=await runG6Batch(pack,{budgetPath,witnessFetch:async()=>new Response(JSON.stringify(s.vacancy.body)),async transports(c,_recording,hooks){
+      started.push(c.id);const f=await g6Fixture();
+      const model={async complete(input:Parameters<typeof f.model.complete>[0]){const r=await f.model.complete(input);if(c.id!=="clarify")return r;
+        if(input.purpose==="restaurant_semantic_interpret"){const body=JSON.parse(r.outputText);body.facts=body.facts.filter((fact:{field:string})=>fact.field!=="AREA");return {...r,outputText:JSON.stringify(body)};}
+        if(input.purpose==="restaurant_agent_decide")return {...r,outputText:JSON.stringify({type:"ASK_USER",question:"Which area?",relatedFields:["area"],retrievalHint:"",candidateIds:[],candidateId:"",offerId:"",decisionSummary:"Local missing-area control"})};return r;
+      }};
+      return {model,browser:f.browser,google:new GooglePlacesClient({apiKey:"local-source-key",fetchImplementation:hooks.googleFetch(f.googleFetch)}),clock:f.clock};
+    }},join(dir,"runs"));
+    assert.deepEqual(started,["clarify","next"],"Safe capability NOT_EVALUATED cannot prevent the next slot from starting");
+    assert.deepEqual(batch.slots.map(s=>s.status),["RECORDED_NOT_EVALUATED","EVALUATED"]);assert.equal(batch.stopReason,null);
+    const first=JSON.parse(await readFile(join(dir,"runs/clarify/evaluation.json"),"utf8"));assert.equal(first.verdict.status,"NOT_EVALUATED");assert.equal(first.verdict.s0Status,"PASS");assert.equal(first.verdict.stopBatch,false);
+    const next=JSON.parse(await readFile(join(dir,"runs/next/evaluation.json"),"utf8"));assert.equal(next.verdict.qualified,true);
+  }finally{await rm(dir,{recursive:true,force:true});}
+});
+
 /** LOCAL_CONSTRUCTION: same controlled public source as the full assembly cases. */
 test("G6 serial Runner obtains G1 pages through Live assembly, records all channels, checks each slot and stops before the next slot on independent S0",async()=>{
   const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const output=await mkdtemp(join(root,"g6-runner-control-"));
