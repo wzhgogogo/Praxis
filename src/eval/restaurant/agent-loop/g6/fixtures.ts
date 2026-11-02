@@ -104,6 +104,8 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
       const start=statements.findIndex(s=>/^(?:Dinner|Lunch) course/u.test(s.text)),price=statements.find(s=>/JPY 5,000/u.test(s.text));
       const end=statements.findIndex((s,i)=>i>=start&&s.text.startsWith("Available on "));
       body={selections:start>=0&&price&&end>=start?[{firstStatementId:statements[start]!.id,lastStatementId:statements[end]!.id,role:"COURSE",priceStatementId:price.id}]:[]};
+    }else if(input.purpose==="restaurant_named_source_query"){
+      const name=String(data().name);body={field:"name",fragment:name.slice(0,name.lastIndexOf(" "))};
     }else if(input.purpose==="restaurant_fact_judgment")body={sourceSelections:[],judgments:[]};
     else if(input.purpose==="restaurant_page_question"){
       const p=data(),question=String(p.question??"");

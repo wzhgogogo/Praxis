@@ -74,7 +74,7 @@ test("G6 capability G1 Web: authenticated question acquires a page through the p
     // The initial case also has real composition, but the question below goes
     // through the actual HTTP contract, never questionSessionFixture.
     const web=await session.web();try{
-      const login=await api(web.baseUrl,"","/api/session",{accessToken:"g6-local-eval-token"});assert.equal(login.response.status,200);
+      const login=await api(web.baseUrl,"","/api/session",{accessToken:"g6-local-eval-token"});assert.equal(login.response.status,201);
       const cookie=login.response.headers.get("set-cookie")!.split(";",1)[0]!;
       const id=initial.restaurant.presentedCandidateIds?.[0];assert.ok(id);
       await session.finished(async()=>{const r=await api(web.baseUrl,cookie,`/api/cases/${encodeURIComponent(initial.case.caseId)}/questions`,{candidateId:id,question:f.source.question,requestId:"g6-http-question",taskVersion:initial.case.taskVersion});assert.equal(r.response.status,200);});
