@@ -1,0 +1,150 @@
+{
+  "testedCommit": "b0285800b60140d808997e434598e3770b29125a",
+  "inputs": 737,
+  "mode": "LOCAL_CHROMIUM_ISOLATED_FIX",
+  "runs": [
+    {
+      "name": "controlled-green",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-name-pattern",
+        "LOCAL retires.*source dispatch follows retirement",
+        "src/harness/browser/browser-read-tabelog.test.ts"
+      ],
+      "startCET": "2026-11-02T11:40:34.424659+01:00",
+      "exitCode": 0,
+      "seconds": 0.888,
+      "summary": {
+        "tests": 1,
+        "suites": 0,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawSHA256": "7b762fed387ce5b0048f8190d92cf4ff05b6f7caef12f1a0f14def1495653d62"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startCET": "2026-11-02T11:40:35.532331+01:00",
+      "exitCode": 0,
+      "seconds": 0.457,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawSHA256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startCET": "2026-11-02T11:40:36.152145+01:00",
+      "exitCode": 0,
+      "seconds": 0.234,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawSHA256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startCET": "2026-11-02T11:40:36.550415+01:00",
+      "exitCode": 0,
+      "seconds": 35.301,
+      "summary": {
+        "tests": 1342,
+        "suites": 5,
+        "pass": 1342,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawSHA256": "b334b38356d8ca4e26af18259b0e759e6fdcbf84c787b837e75c000c7713f0ed"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startCET": "2026-11-02T11:41:12.032377+01:00",
+      "exitCode": 0,
+      "seconds": 0.466,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawSHA256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startCET": "2026-11-02T11:41:12.668289+01:00",
+      "exitCode": 0,
+      "seconds": 149.341,
+      "summary": {
+        "tests": 188,
+        "suites": 0,
+        "pass": 188,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawSHA256": "eae8966dff5464aac6939802856bd05ec1d0c165c6431ccc5dcc0a404006962a"
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startCET": "2026-11-02T11:43:42.299409+01:00",
+      "exitCode": 0,
+      "seconds": 30.355,
+      "summary": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "rawSHA256": "e92d42fc54dd2e8a629a6d6eff4d23b78c8566eeaff16cf5222fe811ee7ab1ca"
+    }
+  ],
+  "status": "PASS"
+}
