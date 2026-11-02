@@ -515,7 +515,8 @@ export class RestaurantExecutionRouter {
       }
       case "SELECT_CANDIDATE":
         return {
-          event: { type: "CANDIDATE_SELECTED", candidateId: action.candidateId, ...(action.offerId ? { offerId: action.offerId } : {}) },
+          ...(state.selectedCandidateId === action.candidateId && state.selectedOfferId === action.offerId ? {}
+            : { event: { type: "CANDIDATE_SELECTED" as const, candidateId: action.candidateId, ...(action.offerId ? { offerId: action.offerId } : {}) } }),
           observation: { type: "CANDIDATE_SELECTED", detail: action.candidateId },
         };
       case "BOOK_RESERVATION":

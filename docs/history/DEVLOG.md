@@ -24,6 +24,18 @@
 <a id="dev-g6-offline-product-stop"></a>
 
 2026-11-01 CET：G6批次1离线预检按产品缺口停止。基于main6db445ea，仅保存新留出集承诺SHA与校验器（2/2本地控制），原文/答案未读取。P1仅选店B1、P2缺人数后查位、P3缺日期先问均取得scripted正控制；P4实际持久组合执行ANSWER_PAGE_QUESTION后NO_BOUND_PAGE，Google→网页事实链忽略capturePagesOnly、无原搜索HARD缺口时不读网页，问答模型未到达。未改产品、不补造缓存/条件，交复核安排B；四路径完整红绿、真实模型回放、G6 Runner/评测器/Live计划尚未完成。仅包装五门禁待跑，真实模型/Google/GET/Live0、未加载.env；账本500旧条目保留、追加零调用，授权总上限更新26/1600/290/4。只推工作分支，不合main。 [报告](../../.eval-artifacts/phase3b/g6-offline/report.md)。
+<a id="dev-2026-11-02-user-selection-main"></a>
+
+2026-11-02 CET：C 用户预订选择 ec93c249 已获独立复核及合入批准。原 main549061e8 的1351/187/严格G2全绿证据原样保留；A随后发布fixture生命周期修复，439fceeb同步main31d482aa并保留双方五处文档记录，恰两份fixture文件与主线原字节一致。最终冻结881项，九步前后净树：默认1351/1351、Chromium188/188、严格G2 5/5及12页PASS，独立九份组装产物PASS，无超时/重试。选店产品/State/TaskDefinition/Prompt/Schema/条款逻辑与复核源不变，95份旧产物保留，账本570条保留原569条及累计数，本次真实调用0、不读.env。按用户批准正常合入并推送main，以Git合并和ls-remote为最终SHA凭据，随后通知A、C待命。全名相等之外的部分名/跨语言名称仍交Agent，保持已批准的保守限制。 [Report](../../.eval-artifacts/phase3b/user-booking-selection-main-20261102/report.md)
+
+<a id="dev-2026-11-02-user-booking-selection-review"></a>
+
+2026-11-02 CET：C 用户消息选店离线完成待复核。A 原 P1/P2 PRESENT_RESULTS 四红→4413e4ff 同九项全绿；549061e8 已同步，02a7df74 冻结821项，默认1351/1351、Chromium187/187、严格G2 5/5及12页PASS，九步前后净树。用户选择经既有事件、消息因果链和 USER_MESSAGE 轨迹记录，补人数延续原请求，重复选择幂等，不产生预约授权。State24/TaskDefinition22/Prompt、条款及20秒保留、A eval/browser 断言和B G3不改；两处HTTP预期与A夹具单标签按三次窄授权单独记录，原红灯保留。账本569条并集，累计模型228含A已记57次、GET255/290，本批真实调用0，不读.env。只推工作分支、不合main，通知A等待复核。 [Report](../../.eval-artifacts/phase3b/user-booking-selection-20261102/report.md)
+
+<a id="user-booking-selection-20261102-preparation"></a>
+
+2026-11-02 CET：C用户消息选店离线修复，main efeab254上A原P1/P2 PRESENT_RESULTS回放及具名/来源4红→4413e4ff同9项全绿。复用现有选择事件，USER来源与消息因果链，跨补人数由已接纳事件携带待解析请求；非唯一、非订位、开放推荐/G1/出发不记选择，重复同店/offer幂等。State24/TaskDefinition22、Agent Prompt、G1条款及A/B受保护文件不改。原始响应不改，真实调用0，不读.env；待冻结完整五门禁/严格G2与独立核验，只推工作分支交复核、不合main。 [计划](../../.eval-artifacts/phase3b/user-booking-selection-20261102/plan.md)。
+
 <a id="dev-browser-fixture-lifecycle-main-verified-20261102"></a>
 2026-11-02 CET：浏览器fixture生命周期修复已达到用户批准的main发布门槛。独立分支仅逐字提取49e37c55两份harness；af11c443晚调度+旧helper出现真实退休/等待标记后8秒保护红灯，b0285800同控制0.888秒绿。737 SHA全程不变，默认1342/1342、Chromium188/188（149.341秒）、严格G2 5/5及12页PASS，type/arch/build全绿，7项前后净树。原断言、30ms/180s/600s不改，不带G6 Runner/评价器，不改产品/版本/脚本/package和账本，真实调用0不加载.env。正常推送main并ls-remote核对后通知B/C，再同步G6分支；最终SHA以Git发布回执为准。 [报告](../../.eval-artifacts/phase3b/browser-fixture-lifecycle-main-20261102/report.md)。
 
@@ -164,10 +176,10 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.365
+- Document revision: 4.367
 
 
-- Last updated: 2026-11-01
+- Last updated: 2026-11-02
 - Source of truth for: 非trivial开发与文档变更的时间记录
 - Related ADRs: [ADR Index](../decisions/README.md)
 - Related documents: [Current Status](../STATUS.md), [Roadmap](../roadmap.md), [Test Log](TEST-LOG.md)

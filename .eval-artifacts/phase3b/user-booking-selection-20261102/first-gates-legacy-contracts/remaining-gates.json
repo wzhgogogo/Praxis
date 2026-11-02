@@ -1,0 +1,51 @@
+{
+  "sourceCommit": "c5a878589e0e408430e57894d596461141516365",
+  "scope": "Remaining standard checks while the single legacy assertion awaits user decision",
+  "steps": [
+    {
+      "name": "independent",
+      "command": [
+        "python3",
+        "-B",
+        ".eval-artifacts/phase3b/user-booking-selection-20261102/evaluate.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.113,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "sha256": "6f0a783b539cac92398227d2c80b7e4cc03fcd91d02d37de52406b8804b0d5ca",
+      "log": ".eval-artifacts/phase3b/user-booking-selection-20261102/gates/independent.log"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.435,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "log": ".eval-artifacts/phase3b/user-booking-selection-20261102/gates/build.log"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "exitCode": 1,
+      "seconds": 128.348,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "sha256": "18eff8c1c7681be1bd8f0308c3cfad9e601d7b2a08cd51a804c0fd9ce88448fb",
+      "log": ".eval-artifacts/phase3b/user-booking-selection-20261102/gates/browser-fixture.log"
+    }
+  ]
+}

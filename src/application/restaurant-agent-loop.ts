@@ -34,6 +34,7 @@ import type {
   RestaurantAgentTrajectoryStore,
 } from "../infrastructure/postgres/restaurant-agent-trajectory-store.js";
 import { RestaurantExecutionRouter } from "./restaurant-execution-router.js";
+import { userBookingCandidate, type UserBookingSelectionRequest } from "./restaurant-user-booking-selection.js";
 
 export interface RestaurantAgentLoopRuntime {
   snapshot(taskId: string): Promise<TaskSnapshot<RestaurantTaskState, RestaurantOutcome>>;
@@ -168,12 +169,12 @@ export class RestaurantAgentLoopCoordinator {
     this.remainingModelCalls = options.remainingModelCalls;
   }
 
-  async run(taskId: string, signal?: AbortSignal, readDeadlineAt?: Date): Promise<RestaurantAgentLoopResult> {
+  async run(taskId: string, signal?: AbortSignal, readDeadlineAt?: Date, userSelection?: UserBookingSelectionRequest): Promise<RestaurantAgentLoopResult> {
     const initial = await this.runtime.snapshot(taskId);
     if (initial.domainState.pageQuestion && !initial.domainState.pageQuestion.result) return this.runPageQuestion(initial, signal, readDeadlineAt);
     this.router.beginReadRun();
     try {
-      return await this.runWithinReadBudget(taskId, signal, readDeadlineAt);
+      return await this.runWithinReadBudget(taskId, signal, readDeadlineAt, userSelection);
     } finally {
       this.router.endReadRun();
     }
@@ -227,7 +228,7 @@ export class RestaurantAgentLoopCoordinator {
     return {status:controller.signal.aborted?"CANCELLED":"TERMINAL",steps:1};
   }
 
-  private async runWithinReadBudget(taskId: string, signal?: AbortSignal, readDeadlineAt?: Date): Promise<RestaurantAgentLoopResult> {
+  private async runWithinReadBudget(taskId: string, signal?: AbortSignal, readDeadlineAt?: Date, userSelection?: UserBookingSelectionRequest): Promise<RestaurantAgentLoopResult> {
     const priorSteps = await this.trajectories.list(taskId);
     let stepNumber = priorSteps.length;
     let rejectedActions = 0;
@@ -305,6 +306,17 @@ export class RestaurantAgentLoopCoordinator {
         return { status: completed ? "TERMINAL" : "TIMEOUT", steps: step };
       }
 
+      const candidateId = userSelection && userBookingCandidate(snapshot.domainState, userSelection);
+      if (candidateId) {
+        stepNumber += 1;
+        const choiceBase = this.base(taskId, stepNumber, snapshot);
+        const after = await this.dispatch(snapshot, { type: "CANDIDATE_SELECTED", candidateId }, "USER", userSelection!.sourceEventId);
+        await this.trajectories.append({ ...choiceBase, decisionSummary: "USER_MESSAGE: explicit booking request uniquely resolved by code; no Agent action or booking authorization.",
+          observation: { type: "CANDIDATE_SELECTED", detail: "USER_MESSAGE: " + candidateId, candidateIds: [candidateId] },
+          causalRefs: mergeCausalRefs({ ...choiceBase.causalRefs, eventIds: [userSelection!.sourceEventId] }, after.causalRefs),
+          stateVersionAfter: after.snapshot.version, stateHashAfter: stateHash(after.snapshot.domainState), stepOutcome: "EXECUTED" });
+        snapshot = after.snapshot;
+      }
       const context = projectRestaurantAgentContext(snapshot.domainState, this.clock.now().toISOString(),{ remainingAutomaticMs: Math.max(0, deadlineAt.valueOf() - this.clock.now().valueOf()) });
       const decision = await this.boundedDecision({
         taskId,
@@ -686,7 +698,8 @@ export class RestaurantAgentLoopCoordinator {
   private async dispatch(
     snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>,
     event: RestaurantEvent,
-    actor: "SYSTEM" | "ADAPTER",
+    actor: "SYSTEM" | "ADAPTER" | "USER",
+    causationId?: string,
   ): Promise<{ snapshot: TaskSnapshot<RestaurantTaskState, RestaurantOutcome>; causalRefs: RestaurantAgentTrajectoryCausalRefs }> {
     const id = this.createId("event:restaurant-agent");
     const result = await this.runtime.dispatch({
@@ -694,7 +707,7 @@ export class RestaurantAgentLoopCoordinator {
       taskId: snapshot.id,
       event,
       occurredAt: this.clock.now().toISOString(),
-      trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor },
+      trace: { schemaVersion: "1", runId: snapshot.runId, correlationId: id, actor, ...(causationId ? { causationId } : {}) },
     }, snapshot.version);
     // Persistence is authoritative; a disconnected UI observer must not make
     // a completed source read fail or alter its outcome.

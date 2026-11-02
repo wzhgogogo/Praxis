@@ -57,7 +57,7 @@ export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"
       const facts:RestaurantSemanticProposal["facts"]=edit?[
         {field:"PARTY_SIZE",operation:"CORRECT",value:{kind:"PARTY_SIZE",value:3,source:"EXPLICIT"}},
       ]:refer?[
-        {field:"TARGET",operation:"CORRECT",value:{kind:"TARGET",goal:"AVAILABILITY",query:viewed?.outletName??"UNRESOLVED",selectionScope:"SPECIFIC_OUTLET",goalBasis:{type:"BOOKING_WORDING",reason:"Fixture current reference",quotes:[text]}}},
+        {field:"TARGET",operation:"CORRECT",value:{kind:"TARGET",goal:"AVAILABILITY",query:viewed?.outletName??"UNRESOLVED",selectionScope:"SPECIFIC_OUTLET",goalBasis:{type:"JUDGMENT",reason:"Fixture current reference",quotes:[text]}}},
       ]:[
         {field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:"AVAILABILITY",query:"sushi in Tokyo",selectionScope:"OPEN_ENDED",goalBasis:{type:"BOOKING_WORDING",reason:"Fixture booking wording",quotes:[text]}}},
         {field:"DATE",operation:"ASSERT",value:{kind:"DATE",value:"2026-11-02",raw:"2026-11-02"}},

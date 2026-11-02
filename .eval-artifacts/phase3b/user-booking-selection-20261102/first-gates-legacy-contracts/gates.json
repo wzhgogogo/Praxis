@@ -1,0 +1,69 @@
+{
+  "sourceCommit": "c5a878589e0e408430e57894d596461141516365",
+  "startedAtCET": "2026-11-02T10:02:41.355953+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-20261102/verify.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.113,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-20261102/gates/integrity.log",
+      "sha256": "9003bcf2e35d0cfb3f5134645718da3c236626011c9aa6d0063c0be267b4b321"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.488,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-20261102/gates/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.214,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-20261102/gates/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {
+        "PRAXIS_USER_SELECTION_CAPTURE": "1"
+      },
+      "exitCode": 1,
+      "seconds": 36.428,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/user-booking-selection-20261102/gates/test.log",
+      "sha256": "94f4295c2d1e93fd1a66cef36c20f68b266d889299c700cd6f8d4de91c63c430"
+    }
+  ],
+  "realCalls": 0,
+  "envFileLoaded": false
+}

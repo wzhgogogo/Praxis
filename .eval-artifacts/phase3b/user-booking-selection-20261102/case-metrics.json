@@ -1,0 +1,171 @@
+{
+  "mode": "Local constructed I/O with saved model response Replay",
+  "measurement": "Monotonic observer begins after fixture database creation/migrations and includes later assembly/setup. No Live latency inference; network phase timing is unmeasured.",
+  "cases": [
+    {
+      "case": "AMBIGUOUS",
+      "selected": null,
+      "terms": 0,
+      "logicalCompletionsByTurn": {
+        "INITIAL": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        },
+        "SELECTED": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        }
+      },
+      "fixedSourceOperations": 8,
+      "observedLifecycleMs": 194.14908300000025,
+      "realCalls": 0
+    },
+    {
+      "case": "DUPLICATE_AGENT_CHOICE",
+      "selected": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "terms": 2,
+      "logicalCompletionsByTurn": {
+        "INITIAL": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        },
+        "SELECTED": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 4,
+          "restaurant_page_question": 2
+        }
+      },
+      "fixedSourceOperations": 9,
+      "observedLifecycleMs": 165.19145899999785,
+      "realCalls": 0
+    },
+    {
+      "case": "NAMED",
+      "selected": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "terms": 2,
+      "logicalCompletionsByTurn": {
+        "INITIAL": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3,
+          "restaurant_page_question": 2
+        }
+      },
+      "fixedSourceOperations": 5,
+      "observedLifecycleMs": 55.02966699999888,
+      "realCalls": 0
+    },
+    {
+      "case": "NON_BOOKING",
+      "selected": null,
+      "terms": 0,
+      "logicalCompletionsByTurn": {
+        "INITIAL": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        },
+        "SELECTED": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        }
+      },
+      "fixedSourceOperations": 8,
+      "observedLifecycleMs": 153.13400000000001,
+      "realCalls": 0
+    },
+    {
+      "case": "OPEN_ENDED",
+      "selected": null,
+      "terms": 0,
+      "logicalCompletionsByTurn": {
+        "INITIAL": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        },
+        "SELECTED": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 4
+        }
+      },
+      "fixedSourceOperations": 8,
+      "observedLifecycleMs": 119.60262499999953,
+      "realCalls": 0
+    },
+    {
+      "case": "P1-0-8",
+      "selected": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "terms": 2,
+      "logicalCompletionsByTurn": {
+        "INITIAL": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        },
+        "SELECTED": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3,
+          "restaurant_page_question": 2
+        }
+      },
+      "fixedSourceOperations": 9,
+      "observedLifecycleMs": 242.6710410000005,
+      "realCalls": 0
+    },
+    {
+      "case": "P2-0-10",
+      "selected": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "terms": 2,
+      "logicalCompletionsByTurn": {
+        "ADD_PARTY": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3,
+          "restaurant_page_question": 2
+        },
+        "INITIAL": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 2
+        },
+        "SELECTED": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 1
+        }
+      },
+      "fixedSourceOperations": 7,
+      "observedLifecycleMs": 176.44900000000052,
+      "realCalls": 0
+    },
+    {
+      "case": "PARTIAL",
+      "selected": null,
+      "terms": 0,
+      "logicalCompletionsByTurn": {
+        "INITIAL": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        },
+        "SELECTED": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        }
+      },
+      "fixedSourceOperations": 8,
+      "observedLifecycleMs": 175.60804199999984,
+      "realCalls": 0
+    },
+    {
+      "case": "QUESTION_AND_DEPARTURE",
+      "selected": null,
+      "terms": 1,
+      "logicalCompletionsByTurn": {
+        "INITIAL": {
+          "restaurant_semantic_interpret": 1,
+          "restaurant_agent_decide": 3
+        },
+        "USER_QUESTION": {
+          "restaurant_page_question": 1
+        }
+      },
+      "fixedSourceOperations": 6,
+      "observedLifecycleMs": 373.23512499999924,
+      "realCalls": 0
+    }
+  ]
+}
