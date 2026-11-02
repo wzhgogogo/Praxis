@@ -1,0 +1,80 @@
+{
+  "status": "APPROVED_CERTIFICATION_BEFORE_LIVE",
+  "userApprovedDateVienna": "2026-11-02",
+  "reviewedCommit": "cc97d02bb1b1d4f654a4012f9f0df231f050d187",
+  "allowedRunDatesVienna": [
+    "2026-11-03",
+    "2026-11-04"
+  ],
+  "currentTimeVienna": "2026-11-02T14:36:58.245467+01:00",
+  "packSHA256": "84f4c1f98cf42fb323fda54537ddfc465e967718c9ba88e105186e371c9d5c8b",
+  "visitDateTokyo": "2026-11-11",
+  "timeTokyo": "19:00",
+  "partySize": 2,
+  "maxLive": 8,
+  "maxRealModelCalls": 400,
+  "perSlot": {
+    "seconds": 500,
+    "modelCalls": 50,
+    "googleRequests": 40
+  },
+  "developmentPublicGETCeiling": 20,
+  "globalPublicGETLimitBefore": 290,
+  "globalPublicGETLimitAfter": 390,
+  "credentials": "Only authorized post-certification real-model/Live Node --env-file child; certification does not load credentials",
+  "sourcesBeforeLive": [
+    "W1 detail + four-parameter vacancy",
+    "W2 13186922 detail + four-parameter vacancy",
+    "TableCheck nakamata-nodoguro-ginza public guide phone comparison"
+  ],
+  "stopIfAnyCertificationConditionMissing": true,
+  "sourceFiles": [
+    {
+      "path": "src/eval/restaurant/agent-loop/g6/development-evidence.ts",
+      "sha256": "283bed19fe1fb59d40cb68adffb936ba22502937d256899fdc9579a7db08c337"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/g6/witness.ts",
+      "sha256": "29373ee45be354d3d8fbeea99d6bcd7990328140ff5c14cad27d4ccae58e536a"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/g6/run-g6.ts",
+      "sha256": "c58c7c6d40f921bd36d98c9559dc7f231ed9c0312a7f4fdcd4ca2882821b9c56"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/g6/runner.ts",
+      "sha256": "eea064340194dd02ebcfdc40e2363643736f7d96660ff4747de17cc156e20fc6"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/g6/live-transports.ts",
+      "sha256": "bd6273f3bc0729d049025d6a7702fe40954ecd665283121777846d34d8976852"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/g6/budget.ts",
+      "sha256": "98f8dbde3d886e301a1d7ad0dc5c1af8be3fb874ef378fe66f5a7fae34622a76"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g6-live-readiness-20261102/development-pack.json",
+      "sha256": "84f4c1f98cf42fb323fda54537ddfc465e967718c9ba88e105186e371c9d5c8b"
+    }
+  ],
+  "cumulativeBefore": {
+    "fullLive": 0,
+    "realModelCalls": 241,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 255,
+    "googleRequests": 12,
+    "restaurantWebsiteRequests": 255
+  },
+  "ledgerOriginalRowsPreserved": 584,
+  "newCallsNow": 0,
+  "certificationCommand": [
+    "node",
+    "--import",
+    "tsx",
+    "src/eval/restaurant/agent-loop/g6/development-evidence.ts",
+    ".eval-artifacts/phase3b/g6-live-readiness-20261102/development-pack.json",
+    "84f4c1f98cf42fb323fda54537ddfc465e967718c9ba88e105186e371c9d5c8b",
+    ".eval-artifacts/phase3b/g6-development-live/84f4c1f9-certification"
+  ]
+}

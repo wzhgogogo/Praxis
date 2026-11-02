@@ -5,7 +5,7 @@
     "fullLive": 26,
     "realModelCalls": 1600,
     "environmentReruns": 4,
-    "evaluationPublicGET": 290
+    "evaluationPublicGET": 390
   },
   "entries": [
     {
@@ -8335,6 +8335,19 @@
       "evaluationPublicGET": 0,
       "environmentReruns": 0,
       "note": "Approved affected booking turns only; no retry outside product policy"
+    },
+    {
+      "id": "A-g6-development-live-approval-20261102",
+      "conversation": "A",
+      "recordedAtVienna": "2026-11-02T14:36:58.245467+01:00",
+      "mode": "USER_APPROVAL_LIMIT_UPDATE",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "environmentReruns": 0,
+      "note": "User approved G6 D1-D8 on 2026-11-03 or 11-04 Vienna: <=8 Live, <=400 models, <=20 public GET including certification/postcheck, no automatic environment rerun. Global publicGET limit 290->390 for holdout reserve; development remains20. Holdout max3 Tabelog deliveries/slot confirmed. No calls in this approval row."
     }
   ],
   "cumulative": {
@@ -8419,5 +8432,5 @@
       "note": "Union all 58 A-only rows; common rows identical. C real calls zero."
     }
   ],
-  "asOfCET": "2026-11-02T12:05:17.639458+01:00"
+  "asOfCET": "2026-11-02T14:36:58.245467+01:00"
 }
