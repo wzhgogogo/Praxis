@@ -1,0 +1,68 @@
+{
+  "status": "EXPECTED_FOUR_CONTRACT_REDS",
+  "observations": [
+    {
+      "label": "P1-0-8",
+      "selectedCandidateId": null,
+      "handoffs": 1,
+      "terms": [
+        0
+      ],
+      "agentActions": [
+        "SEARCH_RESTAURANTS",
+        "CHECK_AVAILABILITY",
+        "PRESENT_RESULTS",
+        "SEARCH_RESTAURANTS",
+        "CHECK_AVAILABILITY",
+        "PRESENT_RESULTS"
+      ]
+    },
+    {
+      "label": "P2-0-10",
+      "selectedCandidateId": null,
+      "handoffs": 1,
+      "terms": [
+        0
+      ],
+      "agentActions": [
+        "SEARCH_RESTAURANTS",
+        "PRESENT_RESULTS",
+        "ASK_USER",
+        "SEARCH_RESTAURANTS",
+        "CHECK_AVAILABILITY",
+        "PRESENT_RESULTS"
+      ]
+    },
+    {
+      "label": "NAMED",
+      "selectedCandidateId": null,
+      "handoffs": 1,
+      "terms": [
+        0
+      ],
+      "agentActions": [
+        "SEARCH_RESTAURANTS",
+        "CHECK_AVAILABILITY",
+        "PRESENT_RESULTS"
+      ]
+    },
+    {
+      "label": "DUPLICATE_AGENT_CHOICE",
+      "selectedCandidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "handoffs": 1,
+      "terms": [
+        2
+      ],
+      "agentActions": [
+        "SEARCH_RESTAURANTS",
+        "CHECK_AVAILABILITY",
+        "PRESENT_RESULTS",
+        "SEARCH_RESTAURANTS",
+        "CHECK_AVAILABILITY",
+        "SELECT_CANDIDATE",
+        "PRESENT_RESULTS"
+      ]
+    }
+  ],
+  "productEqualsMain": true
+}
