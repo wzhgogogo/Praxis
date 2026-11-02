@@ -1,5 +1,8 @@
 # Development Log
 
+<a id="dev-g6-batch1-preparation-20261102"></a>
+2026-11-02 CET：A续接G6准备，同步已复核main efeab254；原取消条款断言已绿，完成整组装能力清单、串行Runner/独立评价器/三类录制与8槽开发计划。2核旧目标30次未自然复现，fixture生命周期受控红灯后修复、90次绿，历史510秒根因仍未证。真实模型固定上下文57次无重试，合同校正后52符合/5偏离（4次未SELECT、1次缺schemaVersion），旧分数与原输出保留待复核。新增Live/公开GET/Google/环境重跑0；模型累计228/1600，账本510旧项原值保留，共568项。产品/站点/版本/诊断目录不改；不合main，候选冻结后跑五门禁及严格G2。 [本批报告](../../.eval-artifacts/phase3b/g6-batch1-preparation-20261102/report.md)。
+
 <a id="dev-g6-offline-stop-verified"></a>
 
 2026-11-01 CET：G6停止点包装门禁全绿。冻结9b7e180c/423输入，typecheck、arch、默认1274/1274、build、Chromium186/186（130.255秒）通过，五项前后净树；37浏览器文件各完成一次，外层超时0。全部产品/B/C文件与main6db445ea相同，账本500旧条目/累计用量完整保留。P4 NO_BOUND_PAGE原始红灯未修，其他完整红绿/真实模型回放/Runner/Live计划仍未完成，停等复核安排B；真实模型/Google/GET/Live0、不读.env。只推工作分支，不合main。 [报告](../../.eval-artifacts/phase3b/g6-offline/report.md)。

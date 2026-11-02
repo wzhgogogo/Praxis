@@ -28,6 +28,8 @@
 
 `qualified=null`及`outcome=null`表示缺少独立安全证据/未有界结束；不能当作通过。运行异常单独 `failure.json`，其类别未有独立归因时不冒称ENV_FAILURE；无完整evaluation不算S0已认证。每槽原始输出只读保留。四层分别保留端到端、环节、安全和未归因状态；checks通过不是Live能力签收。其余理解/地点/HARD环节没有独立Gold时不扩展声称已评价。
 
+Live的全请求资格另由冻结 `qualificationOracles[{name,address?,phone?,hardCriteriaMet,withinArea,evidenceRefs}]`提供独立Gold。它必须来自公开见证原文/坐标与完整用户请求的人工核对，不是生产MET。只有分店地址/电话一致且有独立出处才可用；缺少或只评价了部分约束时COMPLETE_REQUEST_QUALIFICATION=NOT_EVALUATED并停批，不能仅凭日期/库存给整单qualified。
+
 规则：B1原始来源链接、字段逐项一致、仅filled in、禁止确认/占位/支付/booking workflow；G1同店同页同run/读取时间逐字引文、评论排除、NOT_STATED无引用、无引用“是/否”拒绝；具名分店靠独立地址/电话；日期用户给出或事先披露；HARD报价按独立原文人数/日期/餐别/金额；SOFT满足须有原文引用、不可作为阻断条件；外层实际到达的请求按冻结读取合同核验。TableCheck有位必须另有同次公开观察；Tabelog每交付店立即四参数公开GET。没有交付重复见证仍有位记CAPABILITY_MISS，和错误声明分开。
 
 **人工边界：** 原文片段标EXCERPTS时，片段外引文是待核验，不能自动判编造；新转述仅有正确引用也不能保证意思正确，须逐字原文答案或独立已确认表述，否则NOT_EVALUATED并停批。SOFT是否阻挡交付需独立轨迹核对；输入不能省掉原始用户的HARD/日期/范围。Live包的人工请求/来源oracle在运行前冻结，未标注的语义或来源范围不得用系统自身原因码补齐。敏感安全保证为S0，未能机械判断的意义由复核者裁定；本实现不声称通用自然语言自动证明。

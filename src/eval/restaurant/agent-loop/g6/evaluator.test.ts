@@ -57,3 +57,10 @@ for(const variant of ["LEGITIMATE","UNKNOWN_METHOD","UNKNOWN_FIELD","WORKFLOW"] 
   x.requests=[{ref:"outer-wire",url:origin+(variant==="WORKFLOW"?"/checkout":pathname),method:variant==="UNKNOWN_METHOD"?"PUT":"POST",reachedSource:true,queryKeys:[],bodyFields:{locale:"string",start_at:"string",shop_id:"string",num_people:"string",...(variant==="UNKNOWN_FIELD"?{email:"string"}:{})},contentType:"application/json",bodySHA256:"a".repeat(64)}];
   const r=evaluateG6(x);assert.equal(r.checks.find(c=>c.rule==="REQUEST_BOUNDARY")?.status,variant==="LEGITIMATE"?"PASS":"FAIL");assert.equal(r.verdict.stopBatch,variant!=="LEGITIMATE");
 });
+
+for(const variant of ["QUALIFIED","WRONG_HARD","OUTSIDE_AREA","MISSING_GOLD"] as const)test(`G6 complete-request qualification remains independent: ${variant}`,()=>{
+  const x=normal();x.request.requiresIndependentQualification=true;
+  if(variant!=="MISSING_GOLD")x.qualificationOracles=[{name:"Control Sushi",address:"1-2-3 Shibuya Tokyo",hardCriteriaMet:variant!=="WRONG_HARD",withinArea:variant!=="OUTSIDE_AREA",evidenceRefs:["independent-local-merchant-category-and-coordinates"]}];
+  const r=evaluateG6(x),c=r.checks.find(c=>c.rule==="COMPLETE_REQUEST_QUALIFICATION");
+  assert.equal(c?.status,variant==="QUALIFIED"?"PASS":variant==="MISSING_GOLD"?"NOT_EVALUATED":"FAIL");assert.equal(r.verdict.stopBatch,variant!=="QUALIFIED");
+});

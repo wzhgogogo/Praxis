@@ -2,14 +2,14 @@
 
 - 2026-11-02，维也纳 CET（UTC+1）。`draft / not integrated`；公开开发请求，不是留出集。没有接触或推测留出集原文。
 - 8 槽串行；每槽500秒、50模型、40 Google；最多400模型，仍受3b总1600上限约束。Live本批0，以下不是运行批准或当前空位认证。
-- 日期文字按拟运行日2026-11-02示例冻结为2026-11-11（周三，9天后）。仅11-02至11-04运行满足7–14天；更晚先重新物化日期/原星期、提交请求与见证、记录SHA，不能运行时改字。D1沿用已暴露3a′ Dengana开发地点与店名；其他均为本批新写的公开开发请求。
+- 日期文字按拟运行日2026-11-02示例冻结为2026-11-11（周三，9天后）。仅11-02至11-04运行满足7–14天；更晚先重新物化日期/原星期、提交请求与见证、记录SHA，不能运行时改字。D1原文仅将已暴露3a′例01模板的DATE替换为日期；D3等具名续接为本批新写公开开发请求。
 - 每槽同时开启 `--record-browser --record-decisions`，Google结构化响应固定开启。预期根目录 `.eval-artifacts/phase3b/g6-development-live/<frozen-pack-sha>/<slot>/`，下有 `recordings/<runId>/recording.json`、`replay.har`（合格时）、`diagnostic/`、`execution.decisions.jsonl`、`evaluation.input.json`、`evaluation.json`、`recording-observation.json`、`boundary-observation.json`、`witness/`。比例按REPLAYABLE页/全部快照页报告；零页的比例为null，逐页给出Recorder原原因。
 
 | 槽 | 请求原文与代码触发后续回合 | 见证计划/当前缺口 | 预期/观察点 |
 |---|---|---|---|
-| D1 | “Can you find a table for two at Kushi Katsu Dengana Akabane ten on November 11, 2026 at 7 PM?” | W1；同名+1-15-1 新仲ビル1F、电话/坐标/类别从新公开详情核对；历史认证不代表当前有位 | 具名同店、Google日文名解析、可用则交付；不能把其他分店当作该店 |
+| D1 | “Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?” | W1；同名+1-15-1 新仲ビル1F、电话/坐标/类别从新公开详情核对；历史认证不代表当前有位 | 具名同店、Google日文名解析、可用则交付；不能把其他分店当作该店 |
 | D2 | “Check whether Specializing in Nodoguro Ginza Nakamata has a table for two on November 11, 2026 at 7 PM.” | W2；已保存TableCheck入口 `https://www.tablecheck.com/en/nakamata-nodoguro-ginza`；**尚缺已观察且同店的Tabelog详情URL/rst_id及新日期见证**，冻结前不可执行，禁止猜代码 | 有时段TableCheck日历+同次读取录制；无位可如实无结果，不以没有采到材料伪称G3b验收 |
-| D3 | D1原文。State已展示AVAILABLE后发 “Please book the first restaurant for me.” | W1同一日期/人数/时段，可复用24h内认证 | 同店选择→B1；本次回放已暴露模型可能再次PRESENT而未SELECT，作为已知偏离交复核；没有预约执行端口/提交 |
+| D3 | “Can you find a table for two at Kushi Katsu Dengana Akabane ten on November 11, 2026 at 7 PM?” State已展示AVAILABLE后发 “Please book the first restaurant for me.” | W1同一日期/人数/时段，可复用24h内认证 | 同店选择→B1；本次回放已暴露模型可能再次PRESENT而未SELECT，作为已知偏离交复核；没有预约执行端口/提交 |
 | D4 | D1原文。State已展示AVAILABLE后用PAGE_QUESTION发 “Does the first restaurant have a private room?” | W1；答案按运行中同店公开页独立核对，当前不预设有包间 | G1真正取得本页、逐字引文+URL/读取时间，或NOT_STATED；新转述需独立复核，不能只凭引用判正确 |
 | D5 | “I'd like to book Kushi Katsu Dengana Akabane ten at 7 PM sometime next week, for two people.” ASK_USER且权威缺date后发 “November 11, 2026.” | W1；见证日期明确，但在用户日期答复前不将其注入产品 | 先问具体日期，再正常查位；不得凭见证日期替用户选择 |
 | D6 | “Recommend a restaurant near Akabane Station.” 展示后发 “I'd like to book the first restaurant on November 11, 2026 at 7 PM.” 权威缺party后发 “Two people.” | W1只能支持距离/类别相符的已核实门店；其他店不冒充W1 | 推荐不等于查位；缺人数先问，查位后才有B1。回放P2亦暴露未SELECT偏离 |
@@ -31,3 +31,5 @@ W1的历史公开指针仅来自 `.eval-artifacts/phase3a-prime/f5-live-rerun/wi
 3. 全部槽开三类录制，运行后逐页比例/不合格原因；从新录制选一份做当前版本回放验收，旧F5整包不续修。
 4. B1两渠道链接清单给用户自己浏览器核对；取消/卡条件缺证、过期、预算或取消时应省略，链接继续有效。用户自报反馈不算已验证预约Outcome。
 5. 每槽先评价/S0及独立证据完整性检查，再开始下一槽。NOT_EVALUATED的安全项停批待复核；没有独立证据不能宣称S0认证为0。
+
+D1原公开模板来源：`.eval-artifacts/phase3a-prime/f5-implementation/live-prep/p2c-holdout-01.template.txt`（早已暴露的3a′开发回归，非3b私有留出集）。Live pack还须冻结独立qualificationOracles：覆盖完整原文的HARD、地区与同店地址/电话及出处；仅日期/库存正确不够。未知资格的其他交付店先NOT_EVALUATED停批，不拿生产MET自证。

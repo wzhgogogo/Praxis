@@ -20,7 +20,7 @@ export interface G6Followup {id:string;trigger:G6Trigger;kind:"MESSAGE"|"PAGE_QU
 export interface G6Case {
   id:string;request:string;followups:G6Followup[];witness?:G6Witness;
   /** Independent frozen request/source/answer annotations, never State/eligibility. */
-  oracle:Pick<G6EvaluationInput,"request"|"questions"|"priceOracles"|"reviewedReadRules"> & {pages:Array<Omit<G6OraclePage,"runId"|"readAt">>};
+  oracle:Pick<G6EvaluationInput,"request"|"questions"|"priceOracles"|"reviewedReadRules"|"qualificationOracles"> & {pages:Array<Omit<G6OraclePage,"runId"|"readAt">>};
 }
 export interface G6Pack {schemaVersion:"phase3b-g6-pack@1";mode:"FIXTURE"|"LIVE_READ";recording:{browser:true;decisions:true;googleResponses:true};cases:G6Case[];}
 export interface G6RunnerDependencies {
@@ -134,7 +134,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       const input:G6EvaluationInput={runId,caseId:view.case.caseId,mode:pack.mode,artifactRefs:[join(slot,"execution.result.json")],request:spec.oracle.request,
         delivered:deliveries,handoffs:view.restaurant.bookingHandoffs??[],answers:question?[{...question,citations:question.status==="UNVERIFIED"?[]:question.citations}]:[],pages:bindOraclePages(spec,view,runId,snapshots),vacancy:[...capturedVacancies(snapshots,deliveries),...witnesses.map(w=>w.vacancy)],
         requests:forwarded,
-        ...(spec.oracle.questions?{questions:spec.oracle.questions}:{}),...(spec.oracle.priceOracles?{priceOracles:spec.oracle.priceOracles}:{}),
+        ...(spec.oracle.questions?{questions:spec.oracle.questions}:{}),...(spec.oracle.qualificationOracles?{qualificationOracles:spec.oracle.qualificationOracles}:{}),...(spec.oracle.priceOracles?{priceOracles:spec.oracle.priceOracles}:{}),
         ...(spec.oracle.reviewedReadRules?{reviewedReadRules:spec.oracle.reviewedReadRules}:{}),
         ...(spec.witness?{witnesses:[spec.witness]}:{}),boundedNoResult:/no verified|could not verify|within (?:this|the) (?:bounded )?search/iu.test(view.conversation.messages.filter(m=>m.role==="ASSISTANT").at(-1)?.content??""),
         deadline:{elapsedMs,readStartsInReserve:readStarts.filter(r=>r.kind!=="CONCLUSION_MODEL"&&r.atMs>=r.deadlineAtMs-20_000).length,termsStartsInReserve:readStarts.filter(r=>(r.kind==="TERMS_READ"||r.kind==="TERMS_MODEL")&&r.atMs>=r.deadlineAtMs-20_000).length}};

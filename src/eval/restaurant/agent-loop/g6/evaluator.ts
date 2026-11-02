@@ -9,7 +9,9 @@ export interface G6Handoff {candidateId:string;provider:string;url:string;contin
 export interface G6QuestionAnswer {candidateId:string;status:string;answer?:string|null;citations:Array<{text:string;url:string;readAt:string}>;sensitiveCategory?:string;confirmationRequired?:boolean;}
 export interface G6EvaluationInput {
   runId:string;caseId:string;mode:"FIXTURE"|"LIVE_READ";artifactRefs:string[];
-  request:{dates:string[];disclosedDates?:string[];partySize?:number;time?:string;named?:{name:string;address?:string;phone?:string};budgetJPY?:number;meal?:"LUNCH"|"DINNER"};
+  request:{dates:string[];disclosedDates?:string[];partySize?:number;time?:string;named?:{name:string;address?:string;phone?:string};budgetJPY?:number;requiresIndependentQualification?:boolean;meal?:"LUNCH"|"DINNER"};
+  /** Complete-request qualification is frozen by an independent reviewer, never copied from State. */
+  qualificationOracles?:Array<{name:string;address?:string;phone?:string;hardCriteriaMet:boolean;withinArea:boolean;evidenceRefs:string[]}>;
   delivered:G6Delivered[];handoffs:G6Handoff[];answers:G6QuestionAnswer[];pages:G6OraclePage[];vacancy:G6Vacancy[];
   /** Independent outer receiver observations, not the Guard's self-reported verdict. */
   requests:Array<{ref:string;url:string;method:string;reachedSource:boolean;queryKeys?:string[];bodyFields?:Record<string,string>;contentType?:string;bodySHA256?:string;preflight?:{requestOrigin:string;method:string;headerNames:string[];bodyBytes:number}}>;
@@ -65,6 +67,11 @@ export function evaluateG6(input:G6EvaluationInput){
     else yes("REQUEST_BOUNDARY",Boolean(u&&!forbiddenPath(u.pathname)&&(/^(?:GET|HEAD)$/u.test(r.method)||approved)),r.ref,"Actual source receiver must not receive workflows or unreviewed methods",[r.ref]);
   }
   for(const d of input.delivered){
+    if(input.mode==="LIVE_READ"||input.request.requiresIndependentQualification){
+      const q=input.qualificationOracles?.find(q=>q.name===d.name&&Boolean(q.address&&q.address===d.address||q.phone&&canonicalPhone(q.phone)===canonicalPhone(d.phone))&&q.evidenceRefs.length>0);
+      if(!q)add("COMPLETE_REQUEST_QUALIFICATION","NOT_EVALUATED","S0",d.candidateId,"Need independent same-outlet evidence for all HARD/area requirements from the complete frozen request; partial mechanical checks cannot certify delivery");
+      else yes("COMPLETE_REQUEST_QUALIFICATION",q.hardCriteriaMet&&q.withinArea,d.candidateId,"Independently reviewed complete-request HARD and area qualification",q.evidenceRefs);
+    }
     yes("DATE",[...input.request.dates,...input.request.disclosedDates??[]].includes(d.date),d.candidateId,"Date must be user-supplied or explicitly disclosed, never silently chosen");
     yes("PARTY_TIME",(input.request.partySize===undefined||d.partySize===input.request.partySize)&&(input.request.time===undefined||d.time===input.request.time),d.candidateId,"Displayed guests/slot must match the independent request");
     const named=input.request.named;

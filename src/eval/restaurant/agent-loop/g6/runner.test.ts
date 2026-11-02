@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { mkdtemp,readFile,writeFile,rm,mkdir } from "node:fs/promises";
+import { mkdtemp,readFile,writeFile,rm,mkdir,cp } from "node:fs/promises";
 import { join,resolve } from "node:path";
 import { createHash } from "node:crypto";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
@@ -36,7 +36,7 @@ test("G6 serial Runner obtains G1 pages through Live assembly, records all chann
     assert.ok(observation.decisions);const har=JSON.parse(await readFile(join(observation.recordingPath,"replay.har"),"utf8"));assert.ok(har.log.entries.some((e:{request:{url:string}})=>new URL(e.request.url).hostname==="places.googleapis.com"),"Google structured capture must be observable");
     assert.equal(requests.length,4,"One pre-run detail/vacancy certificate reused within24h; every delivered slot rechecked without cache");for(let i=1;i<requests.length;i++)assert.ok(requests[i]!.at-requests[i-1]!.at>=5000);for(const r of requests){assert.equal(r.init?.credentials,"omit");assert.equal(r.init?.redirect,"manual");assert.equal(new URL(r.url).hostname,"tabelog.com");if(r.url.includes("find_vacancy"))assert.deepEqual([...new URL(r.url).searchParams.keys()].sort(),["rst_id","svd","svps","svt"]);}
     const ledger=JSON.parse(await readFile(counter,"utf8"));assert.equal(ledger.cumulative.evaluationPublicGET,4);assert.equal(ledger.entries.length,4);
-  }finally{await rm(output,{recursive:true,force:true});}
+  }finally{if(process.env.PRAXIS_G6_CAPTURE_DIR)await cp(output,join(process.env.PRAXIS_G6_CAPTURE_DIR,"RUNNER_FIXTURE"),{recursive:true,errorOnExist:true,force:false});await rm(output,{recursive:true,force:true});}
 });
 
 test("G6 frozen pack refuses changed bytes before constructing any source transport",async()=>{
