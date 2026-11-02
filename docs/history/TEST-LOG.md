@@ -1,5 +1,9 @@
 # Test and Verification Log
 
+<a id="named-outlet-area-version-review-20261103"></a>
+
+2026-11-03：C具名店无地区切片停在版本确认点，尚未实施。SearchIntent.area必填且RESTAURANTS_FOUND会写入State.intent，建议State24→25、TaskDefinition22→23；Draft3/语义Proposal4/Prompt26不变，不回填伪造AREA。A cc9562cd的D3决策#1原字节已冻结，尚未取得整组装红/绿或运行本次门禁，产品/A/B文件不动，真实调用0、不读.env。不推送或合main，待复核者确认版本。 [方案和原件](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/version-review.md)。
+
 <a id="test-2026-11-02-b1-visible-candidates-verified"></a>
 
 2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。
