@@ -1,0 +1,28 @@
+{
+  "id": "P3-0-2",
+  "path": "P3",
+  "variant": 0,
+  "turn": "INITIAL",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:11:50.670Z",
+  "response": {
+    "invocationId": "077fce4a-e22f-412e-a6cd-4d8292733fc5",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"ASK_USER\", \"question\": \"What date would you like for the 7 PM table for 2 at G6 Development Sushi in Shibuya?\", \"relatedFields\": [\"date\"], \"retrievalHint\": \"\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Date is a missing blocking field for the AVAILABILITY goal; ask before any source reads.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2493,
+    "providerRequestId": "996f350c-533f-43ca-833f-94c0a5dd2760",
+    "usage": {
+      "inputTokens": 3891,
+      "outputTokens": 194,
+      "totalTokens": 4085
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

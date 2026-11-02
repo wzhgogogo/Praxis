@@ -49,3 +49,11 @@ test("G6 independent no-delivery repeats the witness and records a still-availab
   const x=normal();x.witnesses=structuredClone(x.delivered);x.delivered=[];x.handoffs=[];x.answers=[];x.boundedNoResult=true;x.vacancy[1]!.phase="NO_DELIVERY_AFTER";
   const r=evaluateG6(x);assert.equal(r.verdict.outcome,"CAPABILITY_MISS");assert.equal(r.verdict.s0,0);assert.equal(r.verdict.stopBatch,false);
 });
+
+// Independent literal approved read contract, not a production Guard verdict.
+for(const variant of ["LEGITIMATE","UNKNOWN_METHOD","UNKNOWN_FIELD","WORKFLOW"] as const)test(`G6 independent script request boundary: ${variant}`,()=>{
+  const x=normal(),origin="https://production.tablecheck.com",pathname="/v2/hub/availability_calendar_v2";
+  x.reviewedReadRules=[{ref:"independent-literal-read",origin,pathname,methods:["POST"],queryKeys:[],bodyFields:{locale:"string",start_at:"string",shop_id:"string",num_people:"string"}}];
+  x.requests=[{ref:"outer-wire",url:origin+(variant==="WORKFLOW"?"/checkout":pathname),method:variant==="UNKNOWN_METHOD"?"PUT":"POST",reachedSource:true,queryKeys:[],bodyFields:{locale:"string",start_at:"string",shop_id:"string",num_people:"string",...(variant==="UNKNOWN_FIELD"?{email:"string"}:{})},contentType:"application/json",bodySHA256:"a".repeat(64)}];
+  const r=evaluateG6(x);assert.equal(r.checks.find(c=>c.rule==="REQUEST_BOUNDARY")?.status,variant==="LEGITIMATE"?"PASS":"FAIL");assert.equal(r.verdict.stopBatch,variant!=="LEGITIMATE");
+});

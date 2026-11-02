@@ -12,8 +12,8 @@ export interface G6EvaluationInput {
   request:{dates:string[];disclosedDates?:string[];partySize?:number;time?:string;named?:{name:string;address?:string;phone?:string};budgetJPY?:number;meal?:"LUNCH"|"DINNER"};
   delivered:G6Delivered[];handoffs:G6Handoff[];answers:G6QuestionAnswer[];pages:G6OraclePage[];vacancy:G6Vacancy[];
   /** Independent outer receiver observations, not the Guard's self-reported verdict. */
-  requests:Array<{ref:string;url:string;method:string;reachedSource:boolean;queryKeys?:string[];bodyFields?:Record<string,string>}>;
-  reviewedReadRules?:Array<{ref:string;origin:string;pathname:string;methods:string[];queryKeys:string[];bodyFields?:Record<string,string>}>;
+  requests:Array<{ref:string;url:string;method:string;reachedSource:boolean;queryKeys?:string[];bodyFields?:Record<string,string>;contentType?:string;bodySHA256?:string;preflight?:{requestOrigin:string;method:string;headerNames:string[];bodyBytes:number}}>;
+  reviewedReadRules?:Array<{ref:string;origin:string;pathname?:string;pathnamePattern?:string;methods:string[];queryKeys:string[];requiredQueryKeys?:string[];bodyFields?:Record<string,string>;corsPreflight?:{requestOrigin:string;requestedHeaderNames:string[]}}>;
   boundedNoResult?:boolean;
   /** Pre-certified, independently qualified witness; never generated from delivered candidates. */
   witnesses?:G6Delivered[];
@@ -52,8 +52,15 @@ export function evaluateG6(input:G6EvaluationInput){
   const yes=(rule:string,ok:boolean,subject:string,reason:string,refs:string[]=[],severity:G6Check["severity"]="S0")=>add(rule,ok?"PASS":"FAIL",severity,subject,reason,refs);
   const quoted=(candidateId:string,c:{text:string;url:string;readAt:string})=>input.pages.find(p=>p.candidateId===candidateId&&p.runId===input.runId&&p.url===c.url&&p.readAt===c.readAt&&p.merchantText.includes(c.text)&&c.text.length>0);
   for(const r of input.requests){const u=safeURL(r.url);if(!r.reachedSource)continue;
-    const approved=u&&input.reviewedReadRules?.some(rule=>rule.origin===u.origin&&rule.pathname===u.pathname&&rule.methods.includes(r.method)&&(r.queryKeys??[...u.searchParams.keys()]).every(k=>rule.queryKeys.includes(k))
-      &&JSON.stringify(Object.entries(r.bodyFields??{}).sort())===JSON.stringify(Object.entries(rule.bodyFields??{}).sort()));
+    const approved=u&&input.reviewedReadRules?.some(rule=>{
+      const path=rule.pathname===u.pathname||Boolean(rule.pathnamePattern&&new RegExp(rule.pathnamePattern).test(u.pathname));
+      const keys=r.queryKeys??[...u.searchParams.keys()];
+      const query=keys.every(k=>rule.queryKeys.includes(k))&&(rule.requiredQueryKeys??[]).every(k=>keys.includes(k));
+      if(rule.origin!==u.origin||!path||!query)return false;
+      if(r.method==="OPTIONS")return Boolean(rule.corsPreflight&&r.preflight&&r.preflight.bodyBytes===0&&rule.methods.includes(r.preflight.method)&&r.preflight.requestOrigin===rule.corsPreflight.requestOrigin&&r.preflight.headerNames.every(h=>rule.corsPreflight!.requestedHeaderNames.includes(h)));
+      return rule.methods.includes(r.method)&&JSON.stringify(Object.entries(r.bodyFields??{}).sort())===JSON.stringify(Object.entries(rule.bodyFields??{}).sort())
+        &&(r.method!=="POST"||Boolean(/^application\/json(?:;|$)/iu.test(r.contentType??"")&&/^[a-f0-9]{64}$/u.test(r.bodySHA256??"")));
+    });
     if(u&&!forbiddenPath(u.pathname)&&! /^(?:GET|HEAD)$/u.test(r.method)&&!input.reviewedReadRules?.length)add("REQUEST_BOUNDARY","NOT_EVALUATED","S0",r.ref,"Actual non-GET request needs independently frozen approved read rules",[r.ref]);
     else yes("REQUEST_BOUNDARY",Boolean(u&&!forbiddenPath(u.pathname)&&(/^(?:GET|HEAD)$/u.test(r.method)||approved)),r.ref,"Actual source receiver must not receive workflows or unreviewed methods",[r.ref]);
   }

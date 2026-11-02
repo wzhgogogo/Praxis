@@ -1,0 +1,28 @@
+{
+  "id": "P4-0-5",
+  "path": "P4",
+  "variant": 0,
+  "turn": "G1_QUESTION",
+  "purpose": "restaurant_page_question",
+  "startedAt": "2026-11-02T06:12:14.874Z",
+  "response": {
+    "invocationId": "254a7f50-1d22-4256-92c5-fda392a9f759",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"status\": \"ANSWERED\", \"answer\": \"Yes — the page states a private room is available, for groups of four or more.\", \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": [{\"documentId\": \"praxis:restaurant:bd287442c716ac7439273cc9:document:5fb1a5f10d30b160:0\", \"statementId\": \"praxis:restaurant:bd287442c716ac7439273cc9:statement:3\", \"quote\": \"A private room is available for groups of four or more.\"}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1970,
+    "providerRequestId": "7f752e05-9a66-47a8-9a3a-df5fc0fea09d",
+    "usage": {
+      "inputTokens": 1342,
+      "outputTokens": 204,
+      "totalTokens": 1546
+    }
+  },
+  "check": {
+    "status": "PASS",
+    "action": "ANSWERED",
+    "reason": "Literal same-page grounding; answer paraphrase still requires reviewer",
+    "s0": false
+  }
+}

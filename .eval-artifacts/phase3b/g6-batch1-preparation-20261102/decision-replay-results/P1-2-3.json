@@ -1,0 +1,28 @@
+{
+  "id": "P1-2-3",
+  "path": "P1",
+  "variant": 2,
+  "turn": "INITIAL",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:10:58.103Z",
+  "response": {
+    "invocationId": "a338556d-c114-4ddc-a27e-92e55d3bbe23",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Only candidate has a direct source page path; check request-bound availability for 2026-11-11 19:00, party of 2.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2169,
+    "providerRequestId": "7e8361d5-2e77-459b-85e8-7e0604330323",
+    "usage": {
+      "inputTokens": 4564,
+      "outputTokens": 200,
+      "totalTokens": 4764
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

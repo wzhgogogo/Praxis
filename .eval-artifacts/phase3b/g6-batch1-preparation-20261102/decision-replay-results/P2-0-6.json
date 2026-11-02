@@ -1,0 +1,28 @@
+{
+  "id": "P2-0-6",
+  "path": "P2",
+  "variant": 0,
+  "turn": "BOOK_DISPLAYED",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:11:30.582Z",
+  "response": {
+    "invocationId": "8aa5feb3-53ad-4715-9c9d-aa26d7b7ad80",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"ASK_USER\", \"question\": \"How many people will be dining at G6 Development Sushi on November 11, 2026 at 7:00 PM?\", \"relatedFields\": [\"partySize\"], \"retrievalHint\": \"\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Party size is a missing blocking field for the AVAILABILITY goal; ask before availability reads.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2068,
+    "providerRequestId": "ec110df0-0d37-4f46-a4f4-a606dcfda0c3",
+    "usage": {
+      "inputTokens": 3945,
+      "outputTokens": 197,
+      "totalTokens": 4142
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

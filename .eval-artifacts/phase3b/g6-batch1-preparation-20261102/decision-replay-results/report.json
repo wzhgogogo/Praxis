@@ -1,0 +1,1607 @@
+{
+  "schemaVersion": "phase3b-g6-decision-replay@1",
+  "inputSHA256": "6062a3a7fca5f36c2d02c059a531db5463fc7ed5103835f38fcd7610c150d900",
+  "physicalCalls": 57,
+  "live": 0,
+  "publicGET": 0,
+  "results": [
+    {
+      "id": "P1-0-1",
+      "path": "P1",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:09:49.918Z",
+      "response": {
+        "invocationId": "eb002a5f-f2fc-4aae-8180-641eaf8b9b74",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"One restaurant in Shibuya for two on November 11, 2026 at 7 PM\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Sit-down meal at an explicit clock time with a known party\", \"quotes\": [\"for two on November 11, 2026 at 7 PM\"]}, \"selectionScope\": \"OPEN_ENDED\", \"requestedResultCount\": 1}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shibuya\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3817,
+        "providerRequestId": "b4abbde2-9836-473b-b21e-0b7e318ea551",
+        "usage": {
+          "inputTokens": 7049,
+          "outputTokens": 360,
+          "totalTokens": 7409
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-2",
+      "path": "P1",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:09:53.737Z",
+      "response": {
+        "invocationId": "cba1d792-e6ec-49ad-a94b-2c1eb1159203",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"Shibuya restaurants for dinner, party of 2, 19:00 on 2026-11-11\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates yet; discover Shibuya restaurants before checking availability for 19:00 on 2026-11-11 for 2.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2049,
+        "providerRequestId": "561571db-b7be-489e-b02b-17b23d4dc08c",
+        "usage": {
+          "inputTokens": 3938,
+          "outputTokens": 208,
+          "totalTokens": 4146
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-3",
+      "path": "P1",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:09:55.787Z",
+      "response": {
+        "invocationId": "4bd257ad-e3be-4a49-a685-b0206e48a260",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Only candidate has a direct source page path; check request-bound availability for 2026-11-11 19:00, party of 2, to satisfy the AVAILABILITY goal.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2197,
+        "providerRequestId": "19dfe9c2-9764-484a-b460-831206f19b72",
+        "usage": {
+          "inputTokens": 4564,
+          "outputTokens": 208,
+          "totalTokens": 4772
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-4",
+      "path": "P1",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:09:57.985Z",
+      "response": {
+        "invocationId": "b0f659fa-cc03-41e1-87a1-79460e63d7bf",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"One eligible candidate with a fresh matching 19:00 slot for 2 on 2026-11-11; meets requested result count of 1.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2694,
+        "providerRequestId": "17398c41-9038-4a23-92cb-d81ee2c353ee",
+        "usage": {
+          "inputTokens": 4759,
+          "outputTokens": 201,
+          "totalTokens": 4960
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-5",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:10:00.680Z",
+      "response": {
+        "invocationId": "04850517-8a5a-4fe1-a474-9d08e5522c72",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"G6 Development Sushi\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User explicitly asks to book the named restaurant\", \"quotes\": [\"Please book G6 Development Sushi for me.\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3403,
+        "providerRequestId": "29599eb5-8d5a-4027-9acc-a0ed1055cef9",
+        "usage": {
+          "inputTokens": 7256,
+          "outputTokens": 152,
+          "totalTokens": 7408
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-6",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:04.084Z",
+      "response": {
+        "invocationId": "1c166bfd-6bf0-4d35-96d5-432915002734",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"G6 Development Sushi Shibuya\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates currently in context for the named outlet; search to resolve G6 Development Sushi in Shibuya before availability checks.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2419,
+        "providerRequestId": "27aae04e-b6bb-46f3-8925-43f1acb66f0e",
+        "usage": {
+          "inputTokens": 3970,
+          "outputTokens": 188,
+          "totalTokens": 4158
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-7",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:06.505Z",
+      "response": {
+        "invocationId": "4a2247ab-b6c1-48de-86d3-d61f6f2f8611",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Specific-outlet availability request for G6 Development Sushi on 2026-11-11 at 19:00 for 2; the only candidate is checkable via direct source page, so read request-bound availability.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2964,
+        "providerRequestId": "9da14f97-7620-44d8-b64f-4ad4fdc76d86",
+        "usage": {
+          "inputTokens": 4580,
+          "outputTokens": 214,
+          "totalTokens": 4794
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-8",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:09.470Z",
+      "response": {
+        "invocationId": "9c26557b-a4f5-4c6c-92a8-4e1b68f3932e",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a matching 19:00 slot for 2 on 2026-11-11 (reservation supported) and is eligible; present it.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2542,
+        "providerRequestId": "8ea09dc3-b466-45d5-b003-835a015b3a5c",
+        "usage": {
+          "inputTokens": 4775,
+          "outputTokens": 205,
+          "totalTokens": 4980
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-9",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:12.013Z",
+      "response": {
+        "invocationId": "8cce97ec-09b3-440c-9fda-655fe8cee1e7",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a fresh matching slot (2026-11-11 19:00, party of 2) with reservation support; present the eligible candidate.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2839,
+        "providerRequestId": "996744b5-c72f-4209-aaad-7002cac679cb",
+        "usage": {
+          "inputTokens": 4828,
+          "outputTokens": 205,
+          "totalTokens": 5033
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-10",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "startedAt": "2026-11-02T06:10:14.853Z",
+      "response": {
+        "invocationId": "bc1c70b4-5d53-4d04-a821-e29ddab60bc4",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"NOT_STATED\", \"answer\": null, \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": []}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1496,
+        "providerRequestId": "130d5bb3-a287-4369-81cd-7658d7975059",
+        "usage": {
+          "inputTokens": 1376,
+          "outputTokens": 106,
+          "totalTokens": 1482
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-0-11",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "startedAt": "2026-11-02T06:10:16.351Z",
+      "response": {
+        "invocationId": "6a92e3b0-2718-4d01-9210-569f35b85802",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"NOT_STATED\", \"answer\": null, \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": []}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1735,
+        "providerRequestId": "8d6f3fad-99e5-4c17-b1be-84d6c00a8642",
+        "usage": {
+          "inputTokens": 1402,
+          "outputTokens": 106,
+          "totalTokens": 1508
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-1",
+      "path": "P1",
+      "variant": 1,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:10:18.087Z",
+      "response": {
+        "invocationId": "cf5b298b-5ddd-4eef-b8fd-cb004897cb61",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"One restaurant in Shibuya for two on November 11, 2026 at 7 PM\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Sit-down meal at an explicit clock time with a known party\", \"quotes\": [\"for two on November 11, 2026 at 7 PM\"]}, \"selectionScope\": \"OPEN_ENDED\", \"requestedResultCount\": 1}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shibuya\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3733,
+        "providerRequestId": "e18222fb-fd66-4a04-abfe-59294f69924b",
+        "usage": {
+          "inputTokens": 7049,
+          "outputTokens": 360,
+          "totalTokens": 7409
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-2",
+      "path": "P1",
+      "variant": 1,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:21.821Z",
+      "response": {
+        "invocationId": "899dc4ce-c776-481f-b9a3-a76dcbc2147f",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"Shibuya restaurants for dinner at 19:00 on 2026-11-11, party of 2\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates known yet; discover Shibuya outlets before availability checks.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2329,
+        "providerRequestId": "a4b26937-0e36-4214-a8c8-c606a63d8f0d",
+        "usage": {
+          "inputTokens": 3938,
+          "outputTokens": 193,
+          "totalTokens": 4131
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-3",
+      "path": "P1",
+      "variant": 1,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:24.151Z",
+      "response": {
+        "invocationId": "8137f7df-0710-4cdc-b234-938e5d0e5822",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Only candidate has a direct source page path; check request-bound availability for 2026-11-11 19:00, party of 2, to satisfy the AVAILABILITY goal.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2965,
+        "providerRequestId": "df4f57a1-ab86-4435-b4d6-2c51f4079091",
+        "usage": {
+          "inputTokens": 4564,
+          "outputTokens": 208,
+          "totalTokens": 4772
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-4",
+      "path": "P1",
+      "variant": 1,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:27.117Z",
+      "response": {
+        "invocationId": "83364846-9930-4e5e-b8bd-4f4116120a32",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"One eligible candidate with a fresh matching 19:00 slot for 2 on 2026-11-11; meets the requested batch of 1.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2948,
+        "providerRequestId": "fe40bfb7-efaf-43cf-b943-12493f21704c",
+        "usage": {
+          "inputTokens": 4759,
+          "outputTokens": 201,
+          "totalTokens": 4960
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-5",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:10:30.066Z",
+      "response": {
+        "invocationId": "f092e44d-2a34-4dc2-8b89-f5abecd4d0e1",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"G6 Development Sushi\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User asks to reserve the restaurant currently on screen\", \"quotes\": [\"I'd like to reserve this restaurant.\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2528,
+        "providerRequestId": "04703754-bd23-4dd1-ba2a-9c38a0dad5c4",
+        "usage": {
+          "inputTokens": 7254,
+          "outputTokens": 151,
+          "totalTokens": 7405
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-6",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:32.596Z",
+      "response": {
+        "invocationId": "025ca13c-f9f8-450f-833f-63ba31a463d2",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"G6 Development Sushi Shibuya\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates currently in context for the named outlet; search to resolve G6 Development Sushi in Shibuya before availability checks.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2501,
+        "providerRequestId": "07eb876e-661d-4e83-b3ef-b62d2bb82721",
+        "usage": {
+          "inputTokens": 3970,
+          "outputTokens": 188,
+          "totalTokens": 4158
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-7",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:35.098Z",
+      "response": {
+        "invocationId": "2464229e-e67a-4a74-a14f-3d3a45cf9fc9",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Specific-outlet availability request for G6 Development Sushi on 2026-11-11 at 19:00 for 2; the only candidate has a direct source page path and is checkable, so read request-bound availability.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2369,
+        "providerRequestId": "f7375e31-63a7-449b-a59c-7d7e9213f529",
+        "usage": {
+          "inputTokens": 4580,
+          "outputTokens": 217,
+          "totalTokens": 4797
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-8",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:37.468Z",
+      "response": {
+        "invocationId": "2b737591-a421-42c2-b049-878fcf211d1f",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a fresh matching slot for 2026-11-11 19:00 for 2 (reservation supported) and is eligible; present it.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2370,
+        "providerRequestId": "7f0e8317-a5d5-4146-9b1f-81fdda690d05",
+        "usage": {
+          "inputTokens": 4775,
+          "outputTokens": 206,
+          "totalTokens": 4981
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-9",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:39.839Z",
+      "response": {
+        "invocationId": "51fdf810-9937-4eea-895a-6f5e2bd5c85c",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a matching fresh 19:00 slot for 2 on 2026-11-11 with reservation support; present the eligible result.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 7787,
+        "providerRequestId": "32934979-5076-408b-acf5-be7d33d807f5",
+        "usage": {
+          "inputTokens": 4828,
+          "outputTokens": 203,
+          "totalTokens": 5031
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-10",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "startedAt": "2026-11-02T06:10:47.627Z",
+      "response": {
+        "invocationId": "07478448-087f-4684-b8e0-7ac42e421efe",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"NOT_STATED\", \"answer\": null, \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": []}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1426,
+        "providerRequestId": "3f2176a7-9a20-4470-a055-6ff923764a54",
+        "usage": {
+          "inputTokens": 1376,
+          "outputTokens": 106,
+          "totalTokens": 1482
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-1-11",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "startedAt": "2026-11-02T06:10:49.053Z",
+      "response": {
+        "invocationId": "23891885-9f32-4276-ac3a-6f617fb4c2e4",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"NOT_STATED\", \"answer\": null, \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": []}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1429,
+        "providerRequestId": "5f19dd37-48b6-4580-a24c-1c6f7fdcedc7",
+        "usage": {
+          "inputTokens": 1402,
+          "outputTokens": 106,
+          "totalTokens": 1508
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-1",
+      "path": "P1",
+      "variant": 2,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:10:50.483Z",
+      "response": {
+        "invocationId": "bf4e4255-736d-49c5-9882-471aadcf07d0",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"One restaurant in Shibuya for two on November 11, 2026 at 7 PM\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Sit-down meal at an explicit clock time with a known party\", \"quotes\": [\"for two on November 11, 2026 at 7 PM\"]}, \"selectionScope\": \"OPEN_ENDED\", \"requestedResultCount\": 1}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shibuya\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3440,
+        "providerRequestId": "95de731d-e440-4c8e-be9f-872aa518ce2b",
+        "usage": {
+          "inputTokens": 7049,
+          "outputTokens": 360,
+          "totalTokens": 7409
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-2",
+      "path": "P1",
+      "variant": 2,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:53.924Z",
+      "response": {
+        "invocationId": "c65e33ed-6cd2-4bca-a158-04b2558a3c68",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"Shibuya restaurants for dinner, party of 2\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates yet; discover Shibuya outlets before checking 19:00 availability for two.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 4177,
+        "providerRequestId": "e3699fce-d938-4f7a-b215-b66ee4f357a1",
+        "usage": {
+          "inputTokens": 3938,
+          "outputTokens": 185,
+          "totalTokens": 4123
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-3",
+      "path": "P1",
+      "variant": 2,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:10:58.103Z",
+      "response": {
+        "invocationId": "a338556d-c114-4ddc-a27e-92e55d3bbe23",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Only candidate has a direct source page path; check request-bound availability for 2026-11-11 19:00, party of 2.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2169,
+        "providerRequestId": "7e8361d5-2e77-459b-85e8-7e0604330323",
+        "usage": {
+          "inputTokens": 4564,
+          "outputTokens": 200,
+          "totalTokens": 4764
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-4",
+      "path": "P1",
+      "variant": 2,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:00.272Z",
+      "response": {
+        "invocationId": "ab79ed6e-375e-4103-b77e-6ba4b2f93b14",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"One eligible candidate with a fresh matching 19:00 slot for 2 on 2026-11-11; meets requested batch of 1.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2123,
+        "providerRequestId": "80d3d070-be4b-49d9-a32c-856d73e66b6b",
+        "usage": {
+          "inputTokens": 4759,
+          "outputTokens": 200,
+          "totalTokens": 4959
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-5",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:11:02.395Z",
+      "response": {
+        "invocationId": "7daa5e5a-d6cd-4f79-b05d-ac77dbfb6559",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"G6 Development Sushi\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User asks to book the named restaurant\", \"quotes\": [\"Help me book it\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2485,
+        "providerRequestId": "81f0def9-ff01-4401-b9ae-bb7ac0600ff3",
+        "usage": {
+          "inputTokens": 7261,
+          "outputTokens": 145,
+          "totalTokens": 7406
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-6",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:04.881Z",
+      "response": {
+        "invocationId": "c6cc97aa-7f47-49da-bfa7-5aad70acbcbc",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"G6 Development Sushi Shibuya\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates currently in state for the named outlet; search to resolve the specific restaurant before availability checks.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2482,
+        "providerRequestId": "7c40449c-d75a-4710-b094-4d0f53075ae1",
+        "usage": {
+          "inputTokens": 3970,
+          "outputTokens": 182,
+          "totalTokens": 4152
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-7",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:07.369Z",
+      "response": {
+        "invocationId": "98cafa7a-ab2e-4bb5-85cd-35ca1793e55c",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Specific-outlet availability request for G6 Development Sushi on 2026-11-11 at 19:00 for 2; the only candidate has a direct source page path and is checkable, so read request-bound availability.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2781,
+        "providerRequestId": "d8862768-ffcf-485f-8f5c-7168608031f0",
+        "usage": {
+          "inputTokens": 4580,
+          "outputTokens": 217,
+          "totalTokens": 4797
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-8",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:10.151Z",
+      "response": {
+        "invocationId": "071fa774-093a-4ab1-b9f0-31b42a97f8bf",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a fresh matching slot (2026-11-11 19:00, party of 2) with reservation support; present the eligible candidate.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2897,
+        "providerRequestId": "38bbef1d-ea50-4d99-bd05-4b24b1adc803",
+        "usage": {
+          "inputTokens": 4775,
+          "outputTokens": 205,
+          "totalTokens": 4980
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-9",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:13.049Z",
+      "response": {
+        "invocationId": "30f27b56-88ea-49c4-a020-bc02f058b77f",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a fresh matching slot (2026-11-11 19:00, party of 2) with reservation support; present the eligible candidate.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3072,
+        "providerRequestId": "0ef26d53-a6eb-4d4d-94d5-da2586460aca",
+        "usage": {
+          "inputTokens": 4828,
+          "outputTokens": 205,
+          "totalTokens": 5033
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-10",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "startedAt": "2026-11-02T06:11:16.122Z",
+      "response": {
+        "invocationId": "c334e4c8-7d50-45d4-be21-28ced98437de",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"NOT_STATED\", \"answer\": null, \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": []}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1607,
+        "providerRequestId": "ea62ae22-e772-46b0-be4a-cddb5172e12e",
+        "usage": {
+          "inputTokens": 1376,
+          "outputTokens": 106,
+          "totalTokens": 1482
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      }
+    },
+    {
+      "id": "P1-2-11",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "startedAt": "2026-11-02T06:11:17.730Z",
+      "response": {
+        "invocationId": "67511acd-f4bc-494a-b596-d7a3d5f0daaf",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"NOT_STATED\", \"answer\": null, \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": []}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1399,
+        "providerRequestId": "d415b972-6b24-479b-9fe1-cf3d367722a5",
+        "usage": {
+          "inputTokens": 1402,
+          "outputTokens": 106,
+          "totalTokens": 1508
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-1",
+      "path": "P2",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:11:19.130Z",
+      "response": {
+        "invocationId": "254d5fa0-9795-47ea-a26d-365982678eb6",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"One restaurant recommendation in Shibuya\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"Exploratory request for a single restaurant recommendation with no visit time or booking wording\", \"quotes\": [\"Recommend one restaurant in Shibuya.\"]}, \"selectionScope\": \"OPEN_ENDED\", \"requestedResultCount\": 1}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shibuya\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2384,
+        "providerRequestId": "39827607-08c6-4f5e-b2a3-058fe74b38ed",
+        "usage": {
+          "inputTokens": 7035,
+          "outputTokens": 203,
+          "totalTokens": 7238
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-2",
+      "path": "P2",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:21.515Z",
+      "response": {
+        "invocationId": "d5aa0b8f-35d2-4e84-8959-9e97a623c4d6",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"Shibuya restaurants\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates yet; open-ended recommendation for one restaurant in Shibuya, so discover outlets first.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2607,
+        "providerRequestId": "e7c1640c-c702-4531-bd54-e60f2803c191",
+        "usage": {
+          "inputTokens": 3788,
+          "outputTokens": 179,
+          "totalTokens": 3967
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-3",
+      "path": "P2",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:24.123Z",
+      "response": {
+        "invocationId": "1c6c99a9-5122-4fb1-9d4f-8c4b7bc0223d",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Open-ended recommendation for one restaurant in Shibuya; one eligible candidate (G6 Development Sushi, ~0 m from Shibuya center) is available and discovery is exhausted, so present it.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2160,
+        "providerRequestId": "090241fc-83b2-4f0b-baff-9975fc717069",
+        "usage": {
+          "inputTokens": 4325,
+          "outputTokens": 210,
+          "totalTokens": 4535
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-4",
+      "path": "P2",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:11:26.285Z",
+      "response": {
+        "invocationId": "a559ec51-9b82-4974-a343-a09f0d036768",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"G6 Development Sushi\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User explicitly asks to book a named restaurant at a specific date and time\", \"quotes\": [\"I'd like to book G6 Development Sushi\", \"on November 11, 2026 at 7 PM\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3103,
+        "providerRequestId": "21ae6687-af9d-4c55-9a9e-07869b158337",
+        "usage": {
+          "inputTokens": 7231,
+          "outputTokens": 254,
+          "totalTokens": 7485
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Semantic fields differ from frozen explicit user/source requirements; reviewer to inspect",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-5",
+      "path": "P2",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_party_size_supplement",
+      "startedAt": "2026-11-02T06:11:29.390Z",
+      "response": {
+        "invocationId": "b87df76d-e05b-4e92-95b4-0f56db218015",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"UNKNOWN\", \"partySize\": 0}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1190,
+        "providerRequestId": "1daf1992-77ed-46fe-b50a-de06dfe56525",
+        "usage": {
+          "inputTokens": 639,
+          "outputTokens": 54,
+          "totalTokens": 693
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "UNKNOWN",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-6",
+      "path": "P2",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:30.582Z",
+      "response": {
+        "invocationId": "8aa5feb3-53ad-4715-9c9d-aa26d7b7ad80",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"ASK_USER\", \"question\": \"How many people will be dining at G6 Development Sushi on November 11, 2026 at 7:00 PM?\", \"relatedFields\": [\"partySize\"], \"retrievalHint\": \"\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Party size is a missing blocking field for the AVAILABILITY goal; ask before availability reads.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2068,
+        "providerRequestId": "ec110df0-0d37-4f46-a4f4-a606dcfda0c3",
+        "usage": {
+          "inputTokens": 3945,
+          "outputTokens": 197,
+          "totalTokens": 4142
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-7",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:11:32.651Z",
+      "response": {
+        "invocationId": "efbf0d38-d4a2-46f0-b611-677178d5a43a",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2232,
+        "providerRequestId": "a7036d87-4909-43b2-a947-771dad573a41",
+        "usage": {
+          "inputTokens": 7090,
+          "outputTokens": 96,
+          "totalTokens": 7186
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-8",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:34.884Z",
+      "response": {
+        "invocationId": "4bd83c0a-4c5e-4793-adbb-da2fe566b8fb",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"G6 Development Sushi, Shibuya\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates are currently in context for the named outlet; search to resolve G6 Development Sushi in Shibuya before availability checks.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2491,
+        "providerRequestId": "71764c54-af3b-4a3e-b2ee-43a6f7791471",
+        "usage": {
+          "inputTokens": 3970,
+          "outputTokens": 190,
+          "totalTokens": 4160
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-9",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:37.376Z",
+      "response": {
+        "invocationId": "e56c5dc5-07c3-4760-a515-788d26a389ad",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Specific-outlet availability request for G6 Development Sushi on 2026-11-11 at 19:00 for 2; candidate has a direct source page path and is checkable, so read request-bound availability.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2863,
+        "providerRequestId": "1f6e460c-75c1-412e-bdbb-5fbe1165c364",
+        "usage": {
+          "inputTokens": 4579,
+          "outputTokens": 215,
+          "totalTokens": 4794
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-10",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:40.240Z",
+      "response": {
+        "invocationId": "ad77c588-8a66-4203-b2d9-a6c14e48a865",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a fresh matching slot for 2 on 2026-11-11 at 19:00 with reservation support; present the eligible candidate.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2516,
+        "providerRequestId": "fc5fd627-c4ae-40ac-9d7e-09c3b2c1aaee",
+        "usage": {
+          "inputTokens": 4774,
+          "outputTokens": 204,
+          "totalTokens": 4978
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-11",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:42.758Z",
+      "response": {
+        "invocationId": "30230f96-bf4c-4512-8af9-e3e029c0a344",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a fresh matching slot (2026-11-11 19:00, party of 2) and is eligible; present it.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2616,
+        "providerRequestId": "772bdf6f-8a32-41b3-80c9-48f41e4e41d9",
+        "usage": {
+          "inputTokens": 4827,
+          "outputTokens": 203,
+          "totalTokens": 5030
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-12",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_page_question",
+      "startedAt": "2026-11-02T06:11:45.375Z",
+      "response": {
+        "invocationId": "0f9b97f7-e503-4ab6-9709-60e799c2d61c",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"NOT_STATED\", \"answer\": null, \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": []}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1517,
+        "providerRequestId": "0bd91efb-fe8b-4cc6-acc9-2a2560acd828",
+        "usage": {
+          "inputTokens": 1376,
+          "outputTokens": 106,
+          "totalTokens": 1482
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      }
+    },
+    {
+      "id": "P2-0-13",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_page_question",
+      "startedAt": "2026-11-02T06:11:46.894Z",
+      "response": {
+        "invocationId": "a1bd465a-132f-4654-b4ee-a6b52d8d625c",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"NOT_STATED\", \"answer\": null, \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": []}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1327,
+        "providerRequestId": "9f1f9897-8b35-4298-bd78-72261ab5f71c",
+        "usage": {
+          "inputTokens": 1402,
+          "outputTokens": 106,
+          "totalTokens": 1508
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      }
+    },
+    {
+      "id": "P3-0-1",
+      "path": "P3",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:11:48.223Z",
+      "response": {
+        "invocationId": "d4ac61ed-0703-4706-ba6a-c250c894ac34",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"G6 Development Sushi\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User explicitly asks to book a named restaurant at a specific time\", \"quotes\": [\"I'd like to book G6 Development Sushi\", \"at 7 PM\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shibuya\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2446,
+        "providerRequestId": "9191fc4e-5250-4409-a60d-8363dab4241b",
+        "usage": {
+          "inputTokens": 7053,
+          "outputTokens": 291,
+          "totalTokens": 7344
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P3-0-2",
+      "path": "P3",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:50.670Z",
+      "response": {
+        "invocationId": "077fce4a-e22f-412e-a6cd-4d8292733fc5",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"ASK_USER\", \"question\": \"What date would you like for the 7 PM table for 2 at G6 Development Sushi in Shibuya?\", \"relatedFields\": [\"date\"], \"retrievalHint\": \"\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Date is a missing blocking field for the AVAILABILITY goal; ask before any source reads.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2493,
+        "providerRequestId": "996f350c-533f-43ca-833f-94c0a5dd2760",
+        "usage": {
+          "inputTokens": 3891,
+          "outputTokens": 194,
+          "totalTokens": 4085
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P3-0-3",
+      "path": "P3",
+      "variant": 0,
+      "turn": "ADD_DATE",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:11:53.164Z",
+      "response": {
+        "invocationId": "01e292f2-c69e-4f50-8c0b-5fcdaf6fea96",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2417,
+        "providerRequestId": "ca1bea49-3b26-4df2-a589-195f3e921667",
+        "usage": {
+          "inputTokens": 7100,
+          "outputTokens": 100,
+          "totalTokens": 7200
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P3-0-4",
+      "path": "P3",
+      "variant": 0,
+      "turn": "ADD_DATE",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:55.582Z",
+      "response": {
+        "invocationId": "42069f9e-d863-44e7-a6b8-57cd944719bb",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"G6 Development Sushi, Shibuya\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates known yet; search for the named outlet to obtain candidate IDs before availability checks.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2747,
+        "providerRequestId": "98d05638-ff2b-4976-9c2b-683f495544cf",
+        "usage": {
+          "inputTokens": 3908,
+          "outputTokens": 181,
+          "totalTokens": 4089
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P3-0-5",
+      "path": "P3",
+      "variant": 0,
+      "turn": "ADD_DATE",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:11:58.330Z",
+      "response": {
+        "invocationId": "4a4acc8b-a867-41f9-afae-9d3aad9e5069",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Specific-outlet availability request for G6 Development Sushi on 2026-11-11 at 19:00 for 2; the only candidate has a direct source page path and is checkable, so read request-bound availability.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2905,
+        "providerRequestId": "2f5145ae-feab-475a-a4a3-0c86790a3f84",
+        "usage": {
+          "inputTokens": 4508,
+          "outputTokens": 217,
+          "totalTokens": 4725
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P3-0-6",
+      "path": "P3",
+      "variant": 0,
+      "turn": "ADD_DATE",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:12:01.236Z",
+      "response": {
+        "invocationId": "28cfa257-d217-46ca-bf04-1ce9f32f153c",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a fresh matching slot (2026-11-11 19:00, party of 2) with reservation support; present the eligible candidate.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2422,
+        "providerRequestId": "b969da0b-301c-40ef-b7c6-e26a770b3c52",
+        "usage": {
+          "inputTokens": 4703,
+          "outputTokens": 205,
+          "totalTokens": 4908
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P4-0-1",
+      "path": "P4",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "startedAt": "2026-11-02T06:12:03.659Z",
+      "response": {
+        "invocationId": "e81d0744-f275-4e9a-9b7e-b5e2b61406bf",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"One restaurant in Shibuya for two on November 11, 2026 at 7 PM\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Sit-down meal at an explicit clock time with a known party\", \"quotes\": [\"for two on November 11, 2026 at 7 PM\"]}, \"selectionScope\": \"OPEN_ENDED\", \"requestedResultCount\": 1}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shibuya\"}}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 3475,
+        "providerRequestId": "941c831b-642b-4468-b24b-4ae4d099d2b5",
+        "usage": {
+          "inputTokens": 7049,
+          "outputTokens": 360,
+          "totalTokens": 7409
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      }
+    },
+    {
+      "id": "P4-0-2",
+      "path": "P4",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:12:07.136Z",
+      "response": {
+        "invocationId": "bc9c5ca4-80a2-4ec9-9919-99f0299486fe",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"Shibuya restaurants for 2 people, dinner around 19:00\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates yet; discover Shibuya outlets matching the 2026-11-11 19:00 party-of-2 availability request.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2683,
+        "providerRequestId": "a1e0808a-56f9-4138-aea8-c1427fb96992",
+        "usage": {
+          "inputTokens": 3938,
+          "outputTokens": 199,
+          "totalTokens": 4137
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P4-0-3",
+      "path": "P4",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:12:09.820Z",
+      "response": {
+        "invocationId": "3c4e135d-7f64-434e-a8cf-4f554cd7077f",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Only candidate is checkable and has a direct source page; check request-bound availability for 2026-11-11 19:00, party of 2.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2213,
+        "providerRequestId": "c539416b-909c-4f6c-9df5-4b5f31097dac",
+        "usage": {
+          "inputTokens": 4564,
+          "outputTokens": 203,
+          "totalTokens": 4767
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P4-0-4",
+      "path": "P4",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "startedAt": "2026-11-02T06:12:12.034Z",
+      "response": {
+        "invocationId": "c1ee2baf-8399-4540-aca5-9e1c0c9294e4",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"One eligible candidate with a fresh matching 19:00 slot for 2 on 2026-11-11; meets the requested batch of 1.\"}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 2839,
+        "providerRequestId": "b7710622-d238-412a-a422-6dc469b52f11",
+        "usage": {
+          "inputTokens": 4759,
+          "outputTokens": 201,
+          "totalTokens": 4960
+        }
+      },
+      "check": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      }
+    },
+    {
+      "id": "P4-0-5",
+      "path": "P4",
+      "variant": 0,
+      "turn": "G1_QUESTION",
+      "purpose": "restaurant_page_question",
+      "startedAt": "2026-11-02T06:12:14.874Z",
+      "response": {
+        "invocationId": "254a7f50-1d22-4256-92c5-fda392a9f759",
+        "provider": "DEEPSEEK",
+        "model": "deepseek-flash",
+        "outputText": "{\"status\": \"ANSWERED\", \"answer\": \"Yes — the page states a private room is available, for groups of four or more.\", \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": [{\"documentId\": \"praxis:restaurant:bd287442c716ac7439273cc9:document:5fb1a5f10d30b160:0\", \"statementId\": \"praxis:restaurant:bd287442c716ac7439273cc9:statement:3\", \"quote\": \"A private room is available for groups of four or more.\"}]}",
+        "finishReason": "TOOL_CALLS",
+        "latencyMs": 1970,
+        "providerRequestId": "7f752e05-9a66-47a8-9a3a-df5fc0fea09d",
+        "usage": {
+          "inputTokens": 1342,
+          "outputTokens": 204,
+          "totalTokens": 1546
+        }
+      },
+      "check": {
+        "status": "PASS",
+        "action": "ANSWERED",
+        "reason": "Literal same-page grounding; answer paraphrase still requires reviewer",
+        "s0": false
+      }
+    }
+  ],
+  "skipped": [],
+  "unexecuted": []
+}

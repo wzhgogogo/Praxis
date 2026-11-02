@@ -15,7 +15,7 @@ import { recordingQualification,reserveObservations,type ReadStartObservation } 
 import { chargeG6 } from "./budget.js";
 import { createWitnessReader,type G6Witness,type WitnessReceipt } from "./witness.js";
 
-export type G6Trigger="DISPLAYED_AVAILABLE"|"ASKED_FOR_DATE"|"ASKED_FOR_PARTY";
+export type G6Trigger="DISPLAYED_RESULTS"|"DISPLAYED_AVAILABLE"|"ASKED_FOR_DATE"|"ASKED_FOR_PARTY";
 export interface G6Followup {id:string;trigger:G6Trigger;kind:"MESSAGE"|"PAGE_QUESTION";text:string;}
 export interface G6Case {
   id:string;request:string;followups:G6Followup[];witness?:G6Witness;
@@ -31,6 +31,7 @@ export interface G6RunnerDependencies {
 }
 export interface G6TransportHooks {googleFetch:(transport:typeof fetch)=>typeof fetch;observeRequest:(request:G6EvaluationInput["requests"][number])=>void;}
 function hasTrigger(view:RestaurantCaseView,trigger:G6Trigger){
+  if(trigger==="DISPLAYED_RESULTS")return Boolean(view.restaurant.presentedCandidateIds?.length);
   if(trigger==="DISPLAYED_AVAILABLE")return (view.restaurant.presentedCandidateIds??[]).some(id=>view.restaurant.availabilityChecks[id]?.status==="AVAILABLE");
   const field=trigger==="ASKED_FOR_DATE"?"date":"partySize";
   return view.case.phase==="NEEDS_INPUT"&&view.restaurant.missingRequiredFields.includes(field)&&view.activities.some(a=>a.type==="AGENT_ASKED_USER");
@@ -162,6 +163,6 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
 export async function loadG6Pack(path:string,sha256:string):Promise<G6Pack>{
   const raw=await readFile(path);if(createHash("sha256").update(raw).digest("hex")!==sha256)throw Error("Frozen G6 pack SHA mismatch; no execution");
   const pack=JSON.parse(raw.toString()) as G6Pack;if(pack.schemaVersion!=="phase3b-g6-pack@1"||!["FIXTURE","LIVE_READ"].includes(pack.mode)||!pack.recording?.browser||!pack.recording.decisions||!pack.recording.googleResponses||!Array.isArray(pack.cases)||!pack.cases.length||pack.cases.length>26)throw Error("Unsupported or incomplete frozen G6 pack");
-  for(const c of pack.cases)if(!c.id||!c.request?.trim()||!Array.isArray(c.followups)||!Array.isArray(c.oracle?.pages)||!Array.isArray(c.oracle.request?.dates)||c.followups.some(f=>!["DISPLAYED_AVAILABLE","ASKED_FOR_DATE","ASKED_FOR_PARTY"].includes(f.trigger)||!["MESSAGE","PAGE_QUESTION"].includes(f.kind)||!f.text?.trim()))throw Error("Invalid frozen G6 case");
+  for(const c of pack.cases)if(!c.id||!c.request?.trim()||!Array.isArray(c.followups)||!Array.isArray(c.oracle?.pages)||!Array.isArray(c.oracle.request?.dates)||c.followups.some(f=>!["DISPLAYED_RESULTS","DISPLAYED_AVAILABLE","ASKED_FOR_DATE","ASKED_FOR_PARTY"].includes(f.trigger)||!["MESSAGE","PAGE_QUESTION"].includes(f.kind)||!f.text?.trim()))throw Error("Invalid frozen G6 case");
   return pack;
 }

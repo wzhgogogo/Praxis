@@ -1,0 +1,28 @@
+{
+  "id": "P1-1-1",
+  "path": "P1",
+  "variant": 1,
+  "turn": "INITIAL",
+  "purpose": "restaurant_semantic_interpret",
+  "startedAt": "2026-11-02T06:10:18.087Z",
+  "response": {
+    "invocationId": "cf5b298b-5ddd-4eef-b8fd-cb004897cb61",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"One restaurant in Shibuya for two on November 11, 2026 at 7 PM\", \"goalBasis\": {\"type\": \"SPECIFIC_TIME_MEAL\", \"reason\": \"Sit-down meal at an explicit clock time with a known party\", \"quotes\": [\"for two on November 11, 2026 at 7 PM\"]}, \"selectionScope\": \"OPEN_ENDED\", \"requestedResultCount\": 1}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}, {\"field\": \"PARTY_SIZE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"PARTY_SIZE\", \"value\": 2, \"source\": \"EXPLICIT\"}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shibuya\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3733,
+    "providerRequestId": "e18222fb-fd66-4a04-abfe-59294f69924b",
+    "usage": {
+      "inputTokens": 7049,
+      "outputTokens": 360,
+      "totalTokens": 7409
+    }
+  },
+  "check": {
+    "status": "PASS",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Within frozen acceptable decision/grounding",
+    "s0": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "P2-0-3",
+  "path": "P2",
+  "variant": 0,
+  "turn": "INITIAL",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:11:24.123Z",
+  "response": {
+    "invocationId": "1c6c99a9-5122-4fb1-9d4f-8c4b7bc0223d",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Open-ended recommendation for one restaurant in Shibuya; one eligible candidate (G6 Development Sushi, ~0 m from Shibuya center) is available and discovery is exhausted, so present it.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2160,
+    "providerRequestId": "090241fc-83b2-4f0b-baff-9975fc717069",
+    "usage": {
+      "inputTokens": 4325,
+      "outputTokens": 210,
+      "totalTokens": 4535
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

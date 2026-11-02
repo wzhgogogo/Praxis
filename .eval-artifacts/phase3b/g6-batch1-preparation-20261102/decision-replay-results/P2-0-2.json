@@ -1,0 +1,28 @@
+{
+  "id": "P2-0-2",
+  "path": "P2",
+  "variant": 0,
+  "turn": "INITIAL",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:11:21.515Z",
+  "response": {
+    "invocationId": "d5aa0b8f-35d2-4e84-8959-9e97a623c4d6",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"Shibuya restaurants\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates yet; open-ended recommendation for one restaurant in Shibuya, so discover outlets first.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2607,
+    "providerRequestId": "e7c1640c-c702-4531-bd54-e60f2803c191",
+    "usage": {
+      "inputTokens": 3788,
+      "outputTokens": 179,
+      "totalTokens": 3967
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

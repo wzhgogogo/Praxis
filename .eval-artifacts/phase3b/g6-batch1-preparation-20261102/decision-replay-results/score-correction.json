@@ -1,0 +1,1806 @@
+{
+  "schemaVersion": "phase3b-g6-replay-score-correction@1",
+  "originalInputSHA256": "6062a3a7fca5f36c2d02c059a531db5463fc7ed5103835f38fcd7610c150d900",
+  "timeVienna": "2026-11-02 07:12:44 CET",
+  "basis": "A authoring correction; not reviewer signoff. No requests, responses, old scores, or physical-call counts changed; no paid retry.",
+  "rows": [
+    {
+      "id": "P1-0-1",
+      "path": "P1",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1,
+              "goalBasis": {
+                "type": "BOOKING_WORDING",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM."
+                ]
+              }
+            }
+          },
+          {
+            "field": "DATE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "DATE",
+              "value": "2026-11-11",
+              "raw": "November 11, 2026"
+            }
+          },
+          {
+            "field": "TIME_WINDOW",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TIME_WINDOW",
+              "earliest": "19:00",
+              "latest": "19:00",
+              "raw": "7 PM"
+            }
+          },
+          {
+            "field": "PARTY_SIZE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "PARTY_SIZE",
+              "value": 2,
+              "source": "EXPLICIT"
+            }
+          },
+          {
+            "field": "AREA",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "AREA",
+              "query": "Shibuya"
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P1-0-2",
+      "path": "P1",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-0-3",
+      "path": "P1",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "CHECK_AVAILABILITY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "CHECK_AVAILABILITY",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-0-4",
+      "path": "P1",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-0-5",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "CORRECT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "AVAILABILITY",
+              "query": "G6 Development Sushi",
+              "selectionScope": "SPECIFIC_OUTLET",
+              "goalBasis": {
+                "type": "BOOKING_WORDING",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "Please book G6 Development Sushi for me."
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P1-0-6",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-0-7",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "CHECK_AVAILABILITY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "CHECK_AVAILABILITY",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-0-8",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "action": "SELECT_CANDIDATE"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "FAIL",
+        "action": "PRESENT_RESULTS",
+        "reason": "Action/selected outlet/requested clarification differs from frozen expectation",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-0-9",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-0-10",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "expected": {
+        "status": "NOT_STATED",
+        "reason": "Frozen constructed merchant page contains only a private-room fact, no cancellation or card policy."
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "NOT_STATED",
+        "reason": "No policy in the frozen merchant page; correctly not stated",
+        "s0": false
+      },
+      "correctionReason": "Cancel/card question has no relevant merchant fact in pre-paid source; private-room quote must not answer it"
+    },
+    {
+      "id": "P1-0-11",
+      "path": "P1",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "expected": {
+        "status": "NOT_STATED",
+        "reason": "Frozen constructed merchant page contains only a private-room fact, no cancellation or card policy."
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "NOT_STATED",
+        "reason": "No policy in the frozen merchant page; correctly not stated",
+        "s0": false
+      },
+      "correctionReason": "Cancel/card question has no relevant merchant fact in pre-paid source; private-room quote must not answer it"
+    },
+    {
+      "id": "P1-1-1",
+      "path": "P1",
+      "variant": 1,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1,
+              "goalBasis": {
+                "type": "BOOKING_WORDING",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM."
+                ]
+              }
+            }
+          },
+          {
+            "field": "DATE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "DATE",
+              "value": "2026-11-11",
+              "raw": "November 11, 2026"
+            }
+          },
+          {
+            "field": "TIME_WINDOW",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TIME_WINDOW",
+              "earliest": "19:00",
+              "latest": "19:00",
+              "raw": "7 PM"
+            }
+          },
+          {
+            "field": "PARTY_SIZE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "PARTY_SIZE",
+              "value": 2,
+              "source": "EXPLICIT"
+            }
+          },
+          {
+            "field": "AREA",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "AREA",
+              "query": "Shibuya"
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P1-1-2",
+      "path": "P1",
+      "variant": 1,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-1-3",
+      "path": "P1",
+      "variant": 1,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "CHECK_AVAILABILITY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "CHECK_AVAILABILITY",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-1-4",
+      "path": "P1",
+      "variant": 1,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-1-5",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "CORRECT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "AVAILABILITY",
+              "query": "G6 Development Sushi",
+              "selectionScope": "SPECIFIC_OUTLET",
+              "goalBasis": {
+                "type": "BOOKING_WORDING",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "I'd like to reserve this restaurant."
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P1-1-6",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-1-7",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "CHECK_AVAILABILITY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "CHECK_AVAILABILITY",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-1-8",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "action": "SELECT_CANDIDATE"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "FAIL",
+        "action": "PRESENT_RESULTS",
+        "reason": "Action/selected outlet/requested clarification differs from frozen expectation",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-1-9",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-1-10",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "expected": {
+        "status": "NOT_STATED",
+        "reason": "Frozen constructed merchant page contains only a private-room fact, no cancellation or card policy."
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "NOT_STATED",
+        "reason": "No policy in the frozen merchant page; correctly not stated",
+        "s0": false
+      },
+      "correctionReason": "Cancel/card question has no relevant merchant fact in pre-paid source; private-room quote must not answer it"
+    },
+    {
+      "id": "P1-1-11",
+      "path": "P1",
+      "variant": 1,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "expected": {
+        "status": "NOT_STATED",
+        "reason": "Frozen constructed merchant page contains only a private-room fact, no cancellation or card policy."
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "NOT_STATED",
+        "reason": "No policy in the frozen merchant page; correctly not stated",
+        "s0": false
+      },
+      "correctionReason": "Cancel/card question has no relevant merchant fact in pre-paid source; private-room quote must not answer it"
+    },
+    {
+      "id": "P1-2-1",
+      "path": "P1",
+      "variant": 2,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1,
+              "goalBasis": {
+                "type": "BOOKING_WORDING",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM."
+                ]
+              }
+            }
+          },
+          {
+            "field": "DATE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "DATE",
+              "value": "2026-11-11",
+              "raw": "November 11, 2026"
+            }
+          },
+          {
+            "field": "TIME_WINDOW",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TIME_WINDOW",
+              "earliest": "19:00",
+              "latest": "19:00",
+              "raw": "7 PM"
+            }
+          },
+          {
+            "field": "PARTY_SIZE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "PARTY_SIZE",
+              "value": 2,
+              "source": "EXPLICIT"
+            }
+          },
+          {
+            "field": "AREA",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "AREA",
+              "query": "Shibuya"
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P1-2-2",
+      "path": "P1",
+      "variant": 2,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-2-3",
+      "path": "P1",
+      "variant": 2,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "CHECK_AVAILABILITY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "CHECK_AVAILABILITY",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-2-4",
+      "path": "P1",
+      "variant": 2,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-2-5",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "CORRECT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "AVAILABILITY",
+              "query": "G6 Development Sushi",
+              "selectionScope": "SPECIFIC_OUTLET",
+              "goalBasis": {
+                "type": "BOOKING_WORDING",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "Let's go with G6 Development Sushi. Help me book it."
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P1-2-6",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-2-7",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "CHECK_AVAILABILITY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "CHECK_AVAILABILITY",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-2-8",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "action": "SELECT_CANDIDATE"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "FAIL",
+        "action": "PRESENT_RESULTS",
+        "reason": "Action/selected outlet/requested clarification differs from frozen expectation",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-2-9",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P1-2-10",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "expected": {
+        "status": "NOT_STATED",
+        "reason": "Frozen constructed merchant page contains only a private-room fact, no cancellation or card policy."
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "NOT_STATED",
+        "reason": "No policy in the frozen merchant page; correctly not stated",
+        "s0": false
+      },
+      "correctionReason": "Cancel/card question has no relevant merchant fact in pre-paid source; private-room quote must not answer it"
+    },
+    {
+      "id": "P1-2-11",
+      "path": "P1",
+      "variant": 2,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_page_question",
+      "expected": {
+        "status": "NOT_STATED",
+        "reason": "Frozen constructed merchant page contains only a private-room fact, no cancellation or card policy."
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "NOT_STATED",
+        "reason": "No policy in the frozen merchant page; correctly not stated",
+        "s0": false
+      },
+      "correctionReason": "Cancel/card question has no relevant merchant fact in pre-paid source; private-room quote must not answer it"
+    },
+    {
+      "id": "P2-0-1",
+      "path": "P2",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "RECOMMENDATION",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1,
+              "goalBasis": {
+                "type": "JUDGMENT",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "Recommend one restaurant in Shibuya."
+                ]
+              }
+            }
+          },
+          {
+            "field": "AREA",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "AREA",
+              "query": "Shibuya"
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P2-0-2",
+      "path": "P2",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P2-0-3",
+      "path": "P2",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P2-0-4",
+      "path": "P2",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "CORRECT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "AVAILABILITY",
+              "query": "G6 Development Sushi",
+              "selectionScope": "SPECIFIC_OUTLET",
+              "goalBasis": {
+                "type": "BOOKING_WORDING",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "I'd like to book G6 Development Sushi on November 11, 2026 at 7 PM."
+                ]
+              }
+            }
+          },
+          {
+            "field": "DATE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "DATE",
+              "value": "2026-11-11",
+              "raw": "November 11, 2026"
+            }
+          },
+          {
+            "field": "TIME_WINDOW",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TIME_WINDOW",
+              "earliest": "19:00",
+              "latest": "19:00",
+              "raw": "7 PM"
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Semantic fields differ from frozen explicit user/source requirements; reviewer to inspect",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Semantic fields differ from frozen explicit user/source requirements; reviewer to inspect",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P2-0-5",
+      "path": "P2",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_party_size_supplement",
+      "expected": {
+        "selections": []
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "UNKNOWN",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "FAIL",
+        "action": "UNKNOWN",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P2-0-6",
+      "path": "P2",
+      "variant": 0,
+      "turn": "BOOK_DISPLAYED",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "ASK_USER",
+        "asks": "PARTY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "ASK_USER",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P2-0-7",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "PARTY_SIZE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "PARTY_SIZE",
+              "value": 2,
+              "source": "EXPLICIT"
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P2-0-8",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P2-0-9",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "CHECK_AVAILABILITY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "CHECK_AVAILABILITY",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P2-0-10",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateId": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "action": "SELECT_CANDIDATE"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "FAIL",
+        "action": "PRESENT_RESULTS",
+        "reason": "Action/selected outlet/requested clarification differs from frozen expectation",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P2-0-11",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P2-0-12",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_page_question",
+      "expected": {
+        "status": "NOT_STATED",
+        "reason": "Frozen constructed merchant page contains only a private-room fact, no cancellation or card policy."
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "NOT_STATED",
+        "reason": "No policy in the frozen merchant page; correctly not stated",
+        "s0": false
+      },
+      "correctionReason": "Cancel/card question has no relevant merchant fact in pre-paid source; private-room quote must not answer it"
+    },
+    {
+      "id": "P2-0-13",
+      "path": "P2",
+      "variant": 0,
+      "turn": "ADD_PARTY",
+      "purpose": "restaurant_page_question",
+      "expected": {
+        "status": "NOT_STATED",
+        "reason": "Frozen constructed merchant page contains only a private-room fact, no cancellation or card policy."
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "NOT_STATED",
+        "reason": "Answer/quote does not match frozen same-page evidence",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "NOT_STATED",
+        "reason": "No policy in the frozen merchant page; correctly not stated",
+        "s0": false
+      },
+      "correctionReason": "Cancel/card question has no relevant merchant fact in pre-paid source; private-room quote must not answer it"
+    },
+    {
+      "id": "P3-0-1",
+      "path": "P3",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "AVAILABILITY",
+              "query": "G6 Development Sushi",
+              "selectionScope": "SPECIFIC_OUTLET",
+              "goalBasis": {
+                "type": "BOOKING_WORDING",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "I'd like to book G6 Development Sushi in Shibuya at 7 PM sometime next week, for two people."
+                ]
+              }
+            }
+          },
+          {
+            "field": "TIME_WINDOW",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TIME_WINDOW",
+              "earliest": "19:00",
+              "latest": "19:00",
+              "raw": "7 PM"
+            }
+          },
+          {
+            "field": "PARTY_SIZE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "PARTY_SIZE",
+              "value": 2,
+              "source": "EXPLICIT"
+            }
+          },
+          {
+            "field": "AREA",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "AREA",
+              "query": "Shibuya"
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P3-0-2",
+      "path": "P3",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "ASK_USER",
+        "asks": "DATE"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "ASK_USER",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P3-0-3",
+      "path": "P3",
+      "variant": 0,
+      "turn": "ADD_DATE",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "DATE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "DATE",
+              "value": "2026-11-11",
+              "raw": "November 11, 2026"
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P3-0-4",
+      "path": "P3",
+      "variant": 0,
+      "turn": "ADD_DATE",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P3-0-5",
+      "path": "P3",
+      "variant": 0,
+      "turn": "ADD_DATE",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "CHECK_AVAILABILITY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "CHECK_AVAILABILITY",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P3-0-6",
+      "path": "P3",
+      "variant": 0,
+      "turn": "ADD_DATE",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P4-0-1",
+      "path": "P4",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_semantic_interpret",
+      "expected": {
+        "schemaVersion": "4",
+        "facts": [
+          {
+            "field": "TARGET",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TARGET",
+              "goal": "AVAILABILITY",
+              "query": "restaurant in Shibuya",
+              "selectionScope": "OPEN_ENDED",
+              "requestedResultCount": 1,
+              "goalBasis": {
+                "type": "BOOKING_WORDING",
+                "reason": "Explicit controlled development request",
+                "quotes": [
+                  "Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM."
+                ]
+              }
+            }
+          },
+          {
+            "field": "DATE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "DATE",
+              "value": "2026-11-11",
+              "raw": "November 11, 2026"
+            }
+          },
+          {
+            "field": "TIME_WINDOW",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "TIME_WINDOW",
+              "earliest": "19:00",
+              "latest": "19:00",
+              "raw": "7 PM"
+            }
+          },
+          {
+            "field": "PARTY_SIZE",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "PARTY_SIZE",
+              "value": 2,
+              "source": "EXPLICIT"
+            }
+          },
+          {
+            "field": "AREA",
+            "operation": "ASSERT",
+            "value": {
+              "kind": "AREA",
+              "query": "Shibuya"
+            }
+          }
+        ]
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    },
+    {
+      "id": "P4-0-2",
+      "path": "P4",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "action": "SEARCH_RESTAURANTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "SEARCH_RESTAURANTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P4-0-3",
+      "path": "P4",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "CHECK_AVAILABILITY"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "CHECK_AVAILABILITY",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P4-0-4",
+      "path": "P4",
+      "variant": 0,
+      "turn": "INITIAL",
+      "purpose": "restaurant_agent_decide",
+      "expected": {
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "action": "PRESENT_RESULTS"
+      },
+      "originalCheck": {
+        "status": "FAIL",
+        "action": "SEMANTIC_OR_FACT_SELECTION",
+        "reason": "Unexpected fact selections need review",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "PRESENT_RESULTS",
+        "reason": "Within frozen acceptable decision/grounding",
+        "s0": false
+      },
+      "correctionReason": "Contract field is type, not action; recovered from pre-paid frozen fixture output"
+    },
+    {
+      "id": "P4-0-5",
+      "path": "P4",
+      "variant": 0,
+      "turn": "G1_QUESTION",
+      "purpose": "restaurant_page_question",
+      "expected": {
+        "status": "ANSWERED",
+        "literalQuote": "A private room is available for groups of four or more."
+      },
+      "originalCheck": {
+        "status": "PASS",
+        "action": "ANSWERED",
+        "reason": "Literal same-page grounding; answer paraphrase still requires reviewer",
+        "s0": false
+      },
+      "correctedCheck": {
+        "status": "PASS",
+        "action": "ANSWERED",
+        "reason": "Literal same-page grounding; answer paraphrase still requires reviewer",
+        "s0": false
+      },
+      "correctionReason": "No expectation change"
+    }
+  ]
+}

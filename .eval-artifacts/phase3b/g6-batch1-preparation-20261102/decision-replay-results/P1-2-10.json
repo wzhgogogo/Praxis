@@ -1,0 +1,28 @@
+{
+  "id": "P1-2-10",
+  "path": "P1",
+  "variant": 2,
+  "turn": "BOOK_DISPLAYED",
+  "purpose": "restaurant_page_question",
+  "startedAt": "2026-11-02T06:11:16.122Z",
+  "response": {
+    "invocationId": "c334e4c8-7d50-45d4-be21-28ced98437de",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"status\": \"NOT_STATED\", \"answer\": null, \"sensitiveCategory\": \"NONE\", \"sourceConflict\": false, \"citations\": []}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1607,
+    "providerRequestId": "ea62ae22-e772-46b0-be4a-cddb5172e12e",
+    "usage": {
+      "inputTokens": 1376,
+      "outputTokens": 106,
+      "totalTokens": 1482
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "NOT_STATED",
+    "reason": "Answer/quote does not match frozen same-page evidence",
+    "s0": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "P2-0-4",
+  "path": "P2",
+  "variant": 0,
+  "turn": "BOOK_DISPLAYED",
+  "purpose": "restaurant_semantic_interpret",
+  "startedAt": "2026-11-02T06:11:26.285Z",
+  "response": {
+    "invocationId": "a559ec51-9b82-4974-a343-a09f0d036768",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"G6 Development Sushi\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User explicitly asks to book a named restaurant at a specific date and time\", \"quotes\": [\"I'd like to book G6 Development Sushi\", \"on November 11, 2026 at 7 PM\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}, {\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}, {\"field\": \"TIME_WINDOW\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TIME_WINDOW\", \"earliest\": \"19:00\", \"latest\": \"19:00\", \"raw\": \"7 PM\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 3103,
+    "providerRequestId": "21ae6687-af9d-4c55-9a9e-07869b158337",
+    "usage": {
+      "inputTokens": 7231,
+      "outputTokens": 254,
+      "totalTokens": 7485
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Semantic fields differ from frozen explicit user/source requirements; reviewer to inspect",
+    "s0": false
+  }
+}

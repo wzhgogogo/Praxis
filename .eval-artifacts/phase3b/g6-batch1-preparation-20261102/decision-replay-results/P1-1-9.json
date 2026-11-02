@@ -1,0 +1,28 @@
+{
+  "id": "P1-1-9",
+  "path": "P1",
+  "variant": 1,
+  "turn": "BOOK_DISPLAYED",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:10:39.839Z",
+  "response": {
+    "invocationId": "51fdf810-9937-4eea-895a-6f5e2bd5c85c",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"G6 Development Sushi has a matching fresh 19:00 slot for 2 on 2026-11-11 with reservation support; present the eligible result.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 7787,
+    "providerRequestId": "32934979-5076-408b-acf5-be7d33d807f5",
+    "usage": {
+      "inputTokens": 4828,
+      "outputTokens": 203,
+      "totalTokens": 5031
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "P1-1-2",
+  "path": "P1",
+  "variant": 1,
+  "turn": "INITIAL",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:10:21.821Z",
+  "response": {
+    "invocationId": "899dc4ce-c776-481f-b9a3-a76dcbc2147f",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"Shibuya restaurants for dinner at 19:00 on 2026-11-11, party of 2\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates known yet; discover Shibuya outlets before availability checks.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2329,
+    "providerRequestId": "a4b26937-0e36-4214-a8c8-c606a63d8f0d",
+    "usage": {
+      "inputTokens": 3938,
+      "outputTokens": 193,
+      "totalTokens": 4131
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

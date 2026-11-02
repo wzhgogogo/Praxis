@@ -13,12 +13,12 @@ test("G6 serial Runner obtains G1 pages through Live assembly, records all chann
   const f=await g6Fixture(),id="praxis:restaurant:bd287442c716ac7439273cc9",s=f.source;
   const counter=join(output,"budget.json");await writeFile(counter,JSON.stringify({entries:[],limits:{evaluationPublicGET:20},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}}));
   let active=0,maxActive=0,slot=0,clock=Date.parse(s.referenceTime);const requests:Array<{url:string;at:number;init?:RequestInit}>=[];
-  const spec={request:s.initialRequest,followups:[{id:"room",trigger:"DISPLAYED_AVAILABLE" as const,kind:"PAGE_QUESTION" as const,text:s.question},{id:"no-date-question",trigger:"ASKED_FOR_DATE" as const,kind:"MESSAGE" as const,text:"November 11, 2026."}],
+  const spec={witness:{candidateId:id,name:s.outlet.name,address:s.outlet.address,provider:"TABELOG",sourceEntityId:"13123456",date:s.date,time:s.time,partySize:2,detailUrl:s.pageUrl,identityText:[s.outlet.name,s.outlet.address]},request:s.initialRequest,followups:[{id:"room",trigger:"DISPLAYED_RESULTS" as const,kind:"PAGE_QUESTION" as const,text:s.question},{id:"no-date-question",trigger:"ASKED_FOR_DATE" as const,kind:"MESSAGE" as const,text:"November 11, 2026."}],
     oracle:{request:{dates:[s.date],partySize:2,time:s.time},pages:[{ref:"merchant",candidateId:id,url:s.pageUrl,name:s.outlet.name,address:s.outlet.address,merchantText:s.merchantQuote,observedLinks:[]}],questions:[{candidateId:id,expected:"ANSWERED" as const,approvedAnswers:[s.merchantQuote],sensitiveCategory:"NONE"}]}};
   const pack:G6Pack={schemaVersion:"phase3b-g6-pack@1",mode:"FIXTURE",recording:{browser:true,decisions:true,googleResponses:true},cases:[{id:"good",...spec},{id:"slot-gone",...spec},{id:"must-not-start",...spec}]};
   try{
     const result=await runG6Batch(pack,{budgetPath:counter,now:()=>clock,wait:async ms=>{clock+=ms;},witnessFetch:async(url,init)=>{
-      requests.push({url:String(url),at:clock,...(init?{init}:{})});const body=structuredClone(s.vacancy.body) as {selection:unknown[]};if(slot===2)body.selection=[];
+      requests.push({url:String(url),at:clock,...(init?{init}:{})});if(!String(url).includes("find_vacancy"))return new Response(f.html,{status:200});const body=structuredClone(s.vacancy.body) as {selection:unknown[]};if(slot===2)body.selection=[];
       return new Response(JSON.stringify(body),{status:200});
     },async transports(_case,_recording,hooks){
       ++slot;++active;maxActive=Math.max(maxActive,active);const next=await g6Fixture();
@@ -34,8 +34,8 @@ test("G6 serial Runner obtains G1 pages through Live assembly, records all chann
     const observation=JSON.parse(await readFile(join(output,"runs/good/recording-observation.json"),"utf8"));assert.deepEqual(observation.recordingConfig,{browser:true,decisions:true,googleResponses:true});assert.ok(observation.totalPages>0);assert.equal(observation.pages.length,observation.totalPages);
     const recording=JSON.parse(await readFile(join(observation.recordingPath,"recording.json"),"utf8"));assert.equal(recording.status,"RECORDED");
     assert.ok(observation.decisions);const har=JSON.parse(await readFile(join(observation.recordingPath,"replay.har"),"utf8"));assert.ok(har.log.entries.some((e:{request:{url:string}})=>new URL(e.request.url).hostname==="places.googleapis.com"),"Google structured capture must be observable");
-    assert.equal(requests.length,2);assert.ok(requests[1]!.at-requests[0]!.at>=5000);for(const r of requests){assert.equal(r.init?.credentials,"omit");assert.equal(r.init?.redirect,"manual");assert.equal(new URL(r.url).hostname,"tabelog.com");assert.deepEqual([...new URL(r.url).searchParams.keys()].sort(),["rst_id","svd","svps","svt"]);}
-    const ledger=JSON.parse(await readFile(counter,"utf8"));assert.equal(ledger.cumulative.evaluationPublicGET,2);assert.equal(ledger.entries.length,2);
+    assert.equal(requests.length,4,"One pre-run detail/vacancy certificate reused within24h; every delivered slot rechecked without cache");for(let i=1;i<requests.length;i++)assert.ok(requests[i]!.at-requests[i-1]!.at>=5000);for(const r of requests){assert.equal(r.init?.credentials,"omit");assert.equal(r.init?.redirect,"manual");assert.equal(new URL(r.url).hostname,"tabelog.com");if(r.url.includes("find_vacancy"))assert.deepEqual([...new URL(r.url).searchParams.keys()].sort(),["rst_id","svd","svps","svt"]);}
+    const ledger=JSON.parse(await readFile(counter,"utf8"));assert.equal(ledger.cumulative.evaluationPublicGET,4);assert.equal(ledger.entries.length,4);
   }finally{await rm(output,{recursive:true,force:true});}
 });
 

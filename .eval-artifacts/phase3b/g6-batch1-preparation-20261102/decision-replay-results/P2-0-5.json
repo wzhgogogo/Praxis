@@ -1,0 +1,28 @@
+{
+  "id": "P2-0-5",
+  "path": "P2",
+  "variant": 0,
+  "turn": "BOOK_DISPLAYED",
+  "purpose": "restaurant_party_size_supplement",
+  "startedAt": "2026-11-02T06:11:29.390Z",
+  "response": {
+    "invocationId": "b87df76d-e05b-4e92-95b4-0f56db218015",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"status\": \"UNKNOWN\", \"partySize\": 0}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 1190,
+    "providerRequestId": "1daf1992-77ed-46fe-b50a-de06dfe56525",
+    "usage": {
+      "inputTokens": 639,
+      "outputTokens": 54,
+      "totalTokens": 693
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "UNKNOWN",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

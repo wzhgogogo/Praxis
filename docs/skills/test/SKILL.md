@@ -5,8 +5,8 @@ description: 为Praxis改动从合同和失效机制推导必要的功能与安�
 
 # Praxis Test
 
-- Document revision: 1.8
-- Last updated: 2026-10-29
+- Document revision: 1.9
+- Last updated: 2026-11-02 (Vienna CET)
 
 Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭。质量维度、评分单位和验收门槛属于[Eval](../eval/SKILL.md)；当前产品合同、已运行证据和未覆盖项分别以链接的权威文档、[STATUS](../../STATUS.md)和[TEST-LOG](../../history/TEST-LOG.md)为准。
 
@@ -34,6 +34,8 @@ Test负责跨阶段行为覆盖、验证方法、检错有效性和故障关闭�
 离线代码门禁是`npm run typecheck`、`npm run arch:check`、`npm test`、`npm run build`；上表浏览器相关路径还必须运行`npm run test:browser:fixture`，与前四条并列汇报且要求全绿。`npm test`不包含`src/harness/browser/`，不能替代该门禁；其他改动不默认触发。通过后只在新改动、失败或未解决风险需要时重复，不按测试数量扩张范围。
 
 `npm run test:browser:fixture`先独立运行全部G2文件（并发1），成功后再运行其余浏览器文件（并发4）；G2不与重型Chromium文件竞争。保留每组原始输出并汇总整套数量，任何子进程失败或缺少摘要均使入口失败。G2原180秒测试生命周期不变，不以放宽断言或增大其截止时间解决资源竞争。
+
+G6能力签收和独立评价器常设检查为 `npm run test:g6:assembly`（`src/eval/restaurant/agent-loop/g6/*.test.ts`）。浏览器门禁在原浏览器语料完成后串行运行该组，复用生命周期诊断与600秒外层保护，不与G2或其余Chromium文件并发；两组原始计数分别报告，任一失败使整个入口失败。纯评价器反例不算产品能力签收。
 
 G2固定检查为`npm run test:dom-change`，列在五门禁之外。按已冻结保存页与变异规则比较当前结果；G3验收另以`PRAXIS_G2_REQUIRE_PASS=1 npm run test:dom-change`要求全部有效页PASS。诚实退化不冒充查位成功，原页已可知事实不能退化为两边都未知来过关。
 

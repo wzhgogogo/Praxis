@@ -1,0 +1,28 @@
+{
+  "id": "P3-0-5",
+  "path": "P3",
+  "variant": 0,
+  "turn": "ADD_DATE",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:11:58.330Z",
+  "response": {
+    "invocationId": "4a4acc8b-a867-41f9-afae-9d3aad9e5069",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"CHECK_AVAILABILITY\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"Specific-outlet availability request for G6 Development Sushi on 2026-11-11 at 19:00 for 2; the only candidate has a direct source page path and is checkable, so read request-bound availability.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2905,
+    "providerRequestId": "2f5145ae-feab-475a-a4a3-0c86790a3f84",
+    "usage": {
+      "inputTokens": 4508,
+      "outputTokens": 217,
+      "totalTokens": 4725
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

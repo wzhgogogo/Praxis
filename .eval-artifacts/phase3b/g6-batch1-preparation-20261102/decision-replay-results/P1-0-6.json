@@ -1,0 +1,28 @@
+{
+  "id": "P1-0-6",
+  "path": "P1",
+  "variant": 0,
+  "turn": "BOOK_DISPLAYED",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:10:04.084Z",
+  "response": {
+    "invocationId": "1c166bfd-6bf0-4d35-96d5-432915002734",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"SEARCH_RESTAURANTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"G6 Development Sushi Shibuya\", \"candidateIds\": [], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"No candidates currently in context for the named outlet; search to resolve G6 Development Sushi in Shibuya before availability checks.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2419,
+    "providerRequestId": "27aae04e-b6bb-46f3-8925-43f1acb66f0e",
+    "usage": {
+      "inputTokens": 3970,
+      "outputTokens": 188,
+      "totalTokens": 4158
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

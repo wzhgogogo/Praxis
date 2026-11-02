@@ -1,0 +1,28 @@
+{
+  "id": "P1-2-5",
+  "path": "P1",
+  "variant": 2,
+  "turn": "BOOK_DISPLAYED",
+  "purpose": "restaurant_semantic_interpret",
+  "startedAt": "2026-11-02T06:11:02.395Z",
+  "response": {
+    "invocationId": "7daa5e5a-d6cd-4f79-b05d-ac77dbfb6559",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"AVAILABILITY\", \"query\": \"G6 Development Sushi\", \"goalBasis\": {\"type\": \"BOOKING_WORDING\", \"reason\": \"User asks to book the named restaurant\", \"quotes\": [\"Help me book it\"]}, \"selectionScope\": \"SPECIFIC_OUTLET\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2485,
+    "providerRequestId": "81f0def9-ff01-4401-b9ae-bb7ac0600ff3",
+    "usage": {
+      "inputTokens": 7261,
+      "outputTokens": 145,
+      "totalTokens": 7406
+    }
+  },
+  "check": {
+    "status": "PASS",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Within frozen acceptable decision/grounding",
+    "s0": false
+  }
+}

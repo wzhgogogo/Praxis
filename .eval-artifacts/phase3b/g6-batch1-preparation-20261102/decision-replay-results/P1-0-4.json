@@ -1,0 +1,28 @@
+{
+  "id": "P1-0-4",
+  "path": "P1",
+  "variant": 0,
+  "turn": "INITIAL",
+  "purpose": "restaurant_agent_decide",
+  "startedAt": "2026-11-02T06:09:57.985Z",
+  "response": {
+    "invocationId": "b0f659fa-cc03-41e1-87a1-79460e63d7bf",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"type\": \"PRESENT_RESULTS\", \"question\": \"\", \"relatedFields\": [], \"retrievalHint\": \"\", \"candidateIds\": [\"praxis:restaurant:bd287442c716ac7439273cc9\"], \"candidateId\": \"\", \"offerId\": \"\", \"decisionSummary\": \"One eligible candidate with a fresh matching 19:00 slot for 2 on 2026-11-11; meets requested result count of 1.\"}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2694,
+    "providerRequestId": "17398c41-9038-4a23-92cb-d81ee2c353ee",
+    "usage": {
+      "inputTokens": 4759,
+      "outputTokens": 201,
+      "totalTokens": 4960
+    }
+  },
+  "check": {
+    "status": "FAIL",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Unexpected fact selections need review",
+    "s0": false
+  }
+}

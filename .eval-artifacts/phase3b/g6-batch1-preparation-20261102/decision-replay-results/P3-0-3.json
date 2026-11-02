@@ -1,0 +1,28 @@
+{
+  "id": "P3-0-3",
+  "path": "P3",
+  "variant": 0,
+  "turn": "ADD_DATE",
+  "purpose": "restaurant_semantic_interpret",
+  "startedAt": "2026-11-02T06:11:53.164Z",
+  "response": {
+    "invocationId": "01e292f2-c69e-4f50-8c0b-5fcdaf6fea96",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"DATE\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"DATE\", \"value\": \"2026-11-11\", \"raw\": \"November 11, 2026\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2417,
+    "providerRequestId": "ca1bea49-3b26-4df2-a589-195f3e921667",
+    "usage": {
+      "inputTokens": 7100,
+      "outputTokens": 100,
+      "totalTokens": 7200
+    }
+  },
+  "check": {
+    "status": "PASS",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Within frozen acceptable decision/grounding",
+    "s0": false
+  }
+}

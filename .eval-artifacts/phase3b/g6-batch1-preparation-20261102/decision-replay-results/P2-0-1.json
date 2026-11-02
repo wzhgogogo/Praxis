@@ -1,0 +1,28 @@
+{
+  "id": "P2-0-1",
+  "path": "P2",
+  "variant": 0,
+  "turn": "INITIAL",
+  "purpose": "restaurant_semantic_interpret",
+  "startedAt": "2026-11-02T06:11:19.130Z",
+  "response": {
+    "invocationId": "254d5fa0-9795-47ea-a26d-365982678eb6",
+    "provider": "DEEPSEEK",
+    "model": "deepseek-flash",
+    "outputText": "{\"schemaVersion\": \"4\", \"facts\": [{\"field\": \"TARGET\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"TARGET\", \"goal\": \"RECOMMENDATION\", \"query\": \"One restaurant recommendation in Shibuya\", \"goalBasis\": {\"type\": \"JUDGMENT\", \"reason\": \"Exploratory request for a single restaurant recommendation with no visit time or booking wording\", \"quotes\": [\"Recommend one restaurant in Shibuya.\"]}, \"selectionScope\": \"OPEN_ENDED\", \"requestedResultCount\": 1}}, {\"field\": \"AREA\", \"operation\": \"ASSERT\", \"value\": {\"kind\": \"AREA\", \"query\": \"Shibuya\"}}]}",
+    "finishReason": "TOOL_CALLS",
+    "latencyMs": 2384,
+    "providerRequestId": "39827607-08c6-4f5e-b2a3-058fe74b38ed",
+    "usage": {
+      "inputTokens": 7035,
+      "outputTokens": 203,
+      "totalTokens": 7238
+    }
+  },
+  "check": {
+    "status": "PASS",
+    "action": "SEMANTIC_OR_FACT_SELECTION",
+    "reason": "Within frozen acceptable decision/grounding",
+    "s0": false
+  }
+}
