@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-02 CET：运行诊断复核三项补充完成，待独立复核，不合main。E1三份见证登记44条/27店全量盘点，无合格的跨来源逐字电话/完整日文地址对照；按用户追加决定登记原SHA不变，不重跑22次Evaluator。原Konya“已归因到评测器”撤回，改为疑似匹配、缺独立身份证据未确认。单次13份报告摘要均第27行结束，原始JSON在附录；覆盖汇总另表，含已交付且按SUPPORTED/未评分层。原判定/首点/漏斗/体验不变，原始校准仍2/5，8时间点不变；h002/中目黑说明旧人工混淆覆盖和首点。3c9f3289冻结862项，五门禁前后净树：默认1342/1342、Chromium187/187及type/arch/build通过；旧114交付SHA及22原评价保留。A真实grader红灯对接仍延期，产品/评价器/Gold不改，真实调用0、不读.env。仅推原工作分支交复核。[补充报告](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。
+
 2026-11-02 CET：运行诊断停止点2候选已离线完成，待独立复核，不合main。实际评价保存后自动写不可覆盖JSON/Markdown，原outcome/severity/execution不变；三栏首点、13环节、体验与分母汇总接通，未知保持未评。5e490a69冻结854项，五门禁各项前后净树：默认1339/1339、Chromium187/187及type/arch/build全绿；钩子缺报告、blocker误升确认、生产判断禁入均有目标红绿。5例原始首点一致率2/5，四组8时间点均≤2秒；神乐坂归因原见证匹配，h002/中目黑保留新旧首点口径分歧。8份多回合产物可到达节点，缺A真实逐环节grade仍未评，B1/条款/取页红灯对接明确未完成。原51来源SHA不变，历史运行/评价不重执行；真实模型/Google/网站/Live0，不读.env或标签。仅推工作分支交复核。[交付与全部分歧](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。
 
 2026-11-02指令修订／CET口径：运行诊断报告只完成停止点1盘点设计，draft / not integrated。从main efeab254开codex/chore-run-diagnosis-report；13环节及体验指标逐项列来源、到达与独立判断分开，JSON草案/5条P1-F及22条E1/9份多回合产物路径SHA已登记。神乐坂人工查位与既有发现漏斗有分歧；多回合独立判定、真实用户时间与追问Gold不足保留未评。另确认新目录默认glob与生产判断禁入范围需复核；无实现/校准/五门禁运行，不改A/产品/判定/Gold，真实调用0、不读.env。推分支后停复核，不合main。[盘点与设计](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。

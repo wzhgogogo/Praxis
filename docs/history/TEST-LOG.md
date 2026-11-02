@@ -6242,3 +6242,13 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 五例首点原始一致率2/5，所有三处分歧保留：h002/中目黑按复核批准的新首点定义为合格无确认偏离，与旧人工发现覆盖分类不同；神乐坂归因评测器Chiso/Chisou见证匹配，原候选/UNKNOWN及评价NOT_FOUND均有SHA/字段指针。人工未给确定性，5项确定性比较未评。8个时间点均≤2秒，无超差；非实际用户发送/屏幕渲染时长。原51来源未改，5份既有outcome/severity/execution深相等，13份报告545自产引用定位通过。
 
 多回合能到达五个节点并附证据，缺真实逐环节结论仍未评；C原文绑定核验仅附同SHA原件，不推广为grader。TEST_INTERFACE_SAMPLE只证明读取，A真实B1/条款/取页首点红灯对接明确未完成。缺Gold/消息时钟不填0，不设体验门槛。本轮全部离线，历史运行/评价不重执行；受控测试实际调用离线Evaluator，真实模型/Google/网站/Live0、不读.env或labels。不是Clean Baseline或真实来源/模型签收。仅推分支交复核，不合main。[完整报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。
+
+<a id="test-2026-11-02-run-diagnosis-review-followup"></a>
+
+## 2026-11-02 CET：诊断复核补充验证
+
+源码3c9f328999eea9d8cfaf5533b96524a0af812387，862项冻结；09:28–09:30 CET八步各前后净树、HEAD及SHA不变。五门禁各一次：typecheck/arch/build exit0；默认1342通过/0失败/跳过/todo；真实本地Chromium187通过/0失败/跳过/todo（外层131.367秒，Runner131.174秒）。本地Node v24.4.1/npm11.4.2，未联网安装或运行Live，原始完整gzip日志及双SHA在[执行回执](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/execution.json)。
+
+修前两项实际目标断言失败：开头缺首点/链路/时间，汇总无已交付覆盖观察；修后15项全绿。原始严重程度、漏斗与条件JSON深相等移附录，13份摘要第27行结束，557自产引用定位通过。LOCATION已到达无引用的额外目标红灯→补已有字段指针，不改节点/判定。覆盖重复运行对照2家/4次；实际5例显示SUPPORTED发现3、事实2，未确认可行性发现7单列，h002/中目黑首点仍无确认偏离。比较输入缺归因级别拒绝，疑似Konya不再报告为确认缺陷。
+
+2a全量44登记/27店缺证表，0可补两源逐字身份，三份登记SHA不变。按用户最新明确例外，历史Evaluator重跑0，不宣称22条新评分无变化；逐项核对22份既有评价与1d590c05原字节一致，原result/中断包SHA不变。原始校准仍2/5，8时间点不变且≤2秒；撤回已归因评测器的旧推断，Konya改为疑似匹配、缺独立身份证据未确认；旧标签和旧报告不覆盖。真实模型/Google/网站/Live0，不读.env或labels。A实际多回合grader红灯未完成、来源身份缺证和HARD未核对的历史口径未修改，非Clean Baseline/真实网站或模型验收。仅推分支交复核，不合main。[补充报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。

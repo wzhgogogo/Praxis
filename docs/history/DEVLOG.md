@@ -5538,3 +5538,13 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 钩子修前实际正常评价已保存但诊断0→修后1；blocker-only目标断言2≠0→修后0，推测仍保留；临时副本值导入生产判断旧漏拦→修后精确拒绝，type-only及正常控制绿。12项行为覆盖包括实际Evaluator接线、四组时间、追问/排序正反、不可覆盖与汇总分母。独立人工对照只由compare入口读取，生成器不读labels、不按运行ID写规则。5份单轮/8份多回合正式报告的545个自产指针可定位，5份既有判定均深相等；来源51文件SHA不变。
 
 5e490a69/854项最终冻结，净树五门禁1339/1339、Chromium187/187及type/arch/build全绿，各一次。首点原始2/5，四组8时间点均≤2秒；神乐坂见证匹配和h002/中目黑新旧口径分歧全部保留，不删分母。A真实逐环节grader红灯对接按用户决定延期且未完成；多回合缺独立结论、真实消息时钟、追问Gold保持未评。产品/Prompt/State/Schema/Gold/见证/A文件不改；历史运行和历史评价不重执行，真实模型/Google/网站/Live0，不读.env。开发诊断证据已暴露，非Clean Baseline。仅推工作分支待独立复核，不合main。[交付](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。
+
+<a id="dev-2026-11-02-run-diagnosis-review-followup"></a>
+
+## 2026-11-02 CET：诊断报告复核三项补充
+
+按用户最后更正完成2a全量盘点：E1三份登记含备用44条/27店，既有页面原始JSON-LD与20份result的原始visibleTextExcerpt逐字核对，无可接纳两源电话或完整日文地址对照。原Konya同店判断仅由名称/地区推断，电话+81-3-3266-1611与050-3184-1511不同且缺地址；撤回已确认评测器缺陷的归因，改为疑似/缺证未确认。按明确例外不改登记、不生成新见证SHA、不重评22例；原文件及22份原评价逐字保留。旧人工标签不改，原始2/5保留，h002/中目黑说明旧人工混淆覆盖与首点。
+
+Markdown结论优先：13份摘要均前27行，三栏带确定性、13环节短引用、关键时间与未评计数，正文每店一行七列漏斗；全部原始JSON移文末。覆盖汇总独立于首点，计入已交付，SUPPORTED与可行性未评分层，门店数与运行×门店次数分开。两项具体目标红灯→绿；另修正LOCATION既有来源指针遗漏，节点状态/判定不变。比较oracle@2要求显式归因级别，未提供拒绝，不默认确认；生成器不读人工归类。
+
+3c9f3289/862项冻结，09:28–09:30 CET净树八步（报告三条＋五门禁）全通过，默认1342/1342、Chromium187/187。15项诊断行为进入默认套件；原判定、首点、漏斗、体验及8时间点不变，557自产引用可定位。仅diagnosis四文件改动，产品/Evaluator/Gold/见证/Prompt/State/A文件不改。身份缺证和A真实grader红灯仍保留；开发归档已暴露，非Clean Baseline。真实模型/Google/网站/Live0、不读.env或labels，仅推工作分支交复核，不合main。[补充报告](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。
