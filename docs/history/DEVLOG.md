@@ -5556,3 +5556,12 @@ Markdown结论优先：13份摘要均前27行，三栏带确定性、13环节短
 用户复核8bc20f8a通过并批准合入。fetch确认最新main仍efeab254，已在获批版本祖先中；无新代码同步或冲突。按要求在8bc20f8a/862冻结项净树执行五门禁全部通过，之后既有干净main工作树从旧fceecaad快进到远端，再普通合并814dfa6cf2499c9086ce59afb65281b8ab392b1b；两父提交分别为efeab254与8bc20f8a，完整树与获批验证树相同。新路径忽略文件冲突0，无重置/强推/历史删除。
 
 其后仅追加发布文档和完整日志，不再修改源码或输入。原44条/27店缺证、2/5历史校准、Konya未确认归因和A真实grader延期继续保留，不执行模型、Live或历史重评。正常推进/推送main并ls-remote核对后待命；最终发布SHA以Git回执为准。[合入记录](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/report.md)。
+
+
+<a id="dev-2026-11-02-dev-benchmark-stop1"></a>
+
+## 2026-11-02 CET：开发基准v0停止点1盘点与设计
+
+从已核对main549061e8创建codex/chore-dev-benchmark-v0，仅盘点设计，draft / not integrated。当前真实加载Gold @7；逐项登记7个共享入口题、11个仅H001的原生来源场景和G6 P1–P4/条款路径，附路径/SHA及暴露范围。建议H001/H003/H005，保留H005现有红项；H004原咖啡馆全部超出固定测试圆，现有正向测试会改坐标；G6真实模型多回合入口/独立判定未在main接通，不能由组件替代。来源词匹配、见证不适用、业务时钟与journal墙钟不齐等边界如实记录，不修改产品/Prompt/Schema/State/Gold/见证/A文件。
+
+成绩单JSON/Markdown草案只汇总原Evaluator和diagnosis，独立列S0声明/越界、未评、全部分母、见证覆盖及用户目标未完成；给出冻结/逐题k次比较/噪声参考/轮次入口与硬预算设计。29份旧真实模型记录只估成本；共享本机账本按ID并集570条、无冲突，已用228/1600、剩1372，不预留新额度。3×3/5/10档位硬上限270/450/900调用，模型名/版本与档位待复核；没有实现Runner或生成实际成绩，没有执行fixture整轮/五门禁/真实模型/Live，不读取.env或标签。只推工作分支交停止点1复核，不合main。[完整设计](../../.eval-artifacts/phase3b/dev-benchmark-v0-20261102/stop1-report.md)。

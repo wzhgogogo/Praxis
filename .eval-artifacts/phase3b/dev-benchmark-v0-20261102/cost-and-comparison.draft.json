@@ -1,0 +1,200 @@
+{
+  "status": "DRAFT_NOT_INTEGRATED",
+  "recommendedCaseIds": [
+    "h001",
+    "h003",
+    "h005"
+  ],
+  "tiers": [
+    {
+      "id": "A",
+      "caseIds": [
+        "h001",
+        "h003",
+        "h005"
+      ],
+      "samplesPerCase": 3,
+      "plannedRuns": 9,
+      "historicalMedianArithmeticOnly": {
+        "modelCalls": 48.0,
+        "executionElapsedMs": 62539.5,
+        "excludesPreflightAndReporting": true
+      },
+      "hardPerRun": {
+        "maxModelCalls": 30,
+        "maxAgentSteps": 30,
+        "executionTimeoutMs": 300000,
+        "preflightTimeoutMs": 10000
+      },
+      "hardRound": {
+        "maxModelCalls": 270,
+        "wallMsIncludingFinalizationReserve": 2820000,
+        "finalizationReserveMs": 30000
+      },
+      "shareOf1600Percent": 16.875,
+      "shareOfLocallyRemainingPercent": 19.67930029154519,
+      "remainingAfterWorstCase": 1102,
+      "realModelRunAuthorized": false
+    },
+    {
+      "id": "B",
+      "caseIds": [
+        "h001",
+        "h003",
+        "h005"
+      ],
+      "samplesPerCase": 5,
+      "plannedRuns": 15,
+      "historicalMedianArithmeticOnly": {
+        "modelCalls": 80.0,
+        "executionElapsedMs": 104232.5,
+        "excludesPreflightAndReporting": true
+      },
+      "hardPerRun": {
+        "maxModelCalls": 30,
+        "maxAgentSteps": 30,
+        "executionTimeoutMs": 300000,
+        "preflightTimeoutMs": 10000
+      },
+      "hardRound": {
+        "maxModelCalls": 450,
+        "wallMsIncludingFinalizationReserve": 4680000,
+        "finalizationReserveMs": 30000
+      },
+      "shareOf1600Percent": 28.125,
+      "shareOfLocallyRemainingPercent": 32.798833819241985,
+      "remainingAfterWorstCase": 922,
+      "realModelRunAuthorized": false
+    },
+    {
+      "id": "C",
+      "caseIds": [
+        "h001",
+        "h003",
+        "h005"
+      ],
+      "samplesPerCase": 10,
+      "plannedRuns": 30,
+      "historicalMedianArithmeticOnly": {
+        "modelCalls": 160.0,
+        "executionElapsedMs": 208465.0,
+        "excludesPreflightAndReporting": true
+      },
+      "hardPerRun": {
+        "maxModelCalls": 30,
+        "maxAgentSteps": 30,
+        "executionTimeoutMs": 300000,
+        "preflightTimeoutMs": 10000
+      },
+      "hardRound": {
+        "maxModelCalls": 900,
+        "wallMsIncludingFinalizationReserve": 9330000,
+        "finalizationReserveMs": 30000
+      },
+      "shareOf1600Percent": 56.25,
+      "shareOfLocallyRemainingPercent": 65.59766763848397,
+      "remainingAfterWorstCase": 472,
+      "realModelRunAuthorized": false
+    }
+  ],
+  "rateDisplay": "counts and denominator first; percentages descriptive only",
+  "noiseReference": {
+    "method": "Exact two-sided conditional hypergeometric comparison for two independent k-run samples; pair cases, not stochastic trials.",
+    "formula": "P(X=x | a+b=s)=C(k,x)*C(k,s-x)/C(2*k,s); sum tables with probability <= observed.",
+    "isGate": false,
+    "isProofOfRegression": false,
+    "multipleComparisonsAdjusted": false,
+    "examples": [
+      {
+        "k": 3,
+        "a": 0,
+        "b": 3,
+        "difference": 3,
+        "fisherTwoSided": 0.1
+      },
+      {
+        "k": 3,
+        "a": 1,
+        "b": 3,
+        "difference": 2,
+        "fisherTwoSided": 0.4
+      },
+      {
+        "k": 5,
+        "a": 0,
+        "b": 4,
+        "difference": 4,
+        "fisherTwoSided": 0.047619047619047616
+      },
+      {
+        "k": 5,
+        "a": 1,
+        "b": 4,
+        "difference": 3,
+        "fisherTwoSided": 0.20634920634920634
+      },
+      {
+        "k": 5,
+        "a": 0,
+        "b": 5,
+        "difference": 5,
+        "fisherTwoSided": 0.007936507936507936
+      },
+      {
+        "k": 5,
+        "a": 2,
+        "b": 5,
+        "difference": 3,
+        "fisherTwoSided": 0.16666666666666666
+      },
+      {
+        "k": 10,
+        "a": 2,
+        "b": 8,
+        "difference": 6,
+        "fisherTwoSided": 0.02301413756522116
+      },
+      {
+        "k": 10,
+        "a": 3,
+        "b": 8,
+        "difference": 5,
+        "fisherTwoSided": 0.06977851869492735
+      },
+      {
+        "k": 10,
+        "a": 4,
+        "b": 9,
+        "difference": 5,
+        "fisherTwoSided": 0.05727554179566564
+      },
+      {
+        "k": 10,
+        "a": 5,
+        "b": 10,
+        "difference": 5,
+        "fisherTwoSided": 0.032507739938080496
+      },
+      {
+        "k": 10,
+        "a": 0,
+        "b": 4,
+        "difference": 4,
+        "fisherTwoSided": 0.08668730650154799
+      }
+    ]
+  },
+  "modelProposal": {
+    "provider": "DEEPSEEK",
+    "requestedModelName": null,
+    "resolvedModelVersion": null,
+    "reason": "Review must freeze an explicit provider model name; no environment or network read in stop1. Historical alias deepseek-flash is cost evidence only.",
+    "temperaturePolicy": "Production request builders, currently 0 for inspected purposes; no benchmark override.",
+    "seedSupportedByCurrentGateway": false
+  },
+  "approval": {
+    "modelCallsAllowedInThisSlice": 0,
+    "realModelRoundBudgetApproved": false,
+    "frequencyChosen": false
+  }
+}

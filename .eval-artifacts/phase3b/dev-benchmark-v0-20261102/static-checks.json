@@ -1,0 +1,72 @@
+{
+  "status": "PASS_DESIGN_STATIC_CHECKS_ONLY",
+  "checkedAtCET": "2026-11-02T11:06:04.423291+01:00",
+  "baseCommit": "549061e8392bfb6224d1ac9ca78671714d330e2c",
+  "branch": "codex/chore-dev-benchmark-v0",
+  "jsonDraftsParsed": 6,
+  "repositoryReferenceHashesVerified": 58,
+  "registeredCasesReadOnlyLoaded": 7,
+  "derivedHashesVerifiedByNode": 28,
+  "nativeRunnerRegisteredScenarios": 11,
+  "historicalCostArtifactsVerified": 29,
+  "budgetSnapshotsVerified": 3,
+  "portableBudgetObservationsVerified": 2,
+  "ledgerUnionEntries": 570,
+  "ledgerEntryConflicts": 0,
+  "ledgerModelCallsUsed": 228,
+  "distanceCounterexample": "H004 all original source coordinates outside frozen 1000m circle; no fixture mutation or product verdict used",
+  "costTiersVerified": 3,
+  "exactNoiseReferenceExamplesVerified": 11,
+  "markdownLinksVerified": [
+    "case-inventory.json",
+    "native-case-inventory.json",
+    "file-inventory.json",
+    "cost-evidence.json",
+    "cost-and-comparison.draft.json",
+    "scorecard-shape.draft.json",
+    "static-checks.json",
+    "scorecard-shape.draft.json",
+    "budget-observed-A.json.gz",
+    "budget-observed-C.json.gz"
+  ],
+  "existingHistoryBytesRetained": true,
+  "productAndEvaluationInputsUnmodified": true,
+  "earlierStaticAttempt": {
+    "exitCode": 1,
+    "evidence": "static-check-first-attempt.txt",
+    "cause": "Moving A peer ledger received a zero-call bookkeeping entry; no product or benchmark execution.",
+    "resolution": "Archive immutable A/C observations and recheck the 570-entry union; calls unchanged at 228."
+  },
+  "commands": [
+    {
+      "command": "node --import tsx --input-type=module (inline read-only case/registry/scenario SHA checks)",
+      "exitCode": 0,
+      "effect": "YAML and static data only, no source/Agent/model/Evaluator execution"
+    },
+    {
+      "command": "python3 (inline JSON, file SHA, original cost artifact, frozen ledger union, distance, arithmetic, noise and link checks)",
+      "exitCode": 0
+    },
+    {
+      "command": "git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "notRun": [
+    "typecheck",
+    "arch:check",
+    "npm test",
+    "build",
+    "test:browser:fixture",
+    "fixture benchmark round",
+    "real model round",
+    "Evaluator or diagnosis execution"
+  ],
+  "realModelCalls": 0,
+  "businessNetworkRequests": 0,
+  "envRead": false,
+  "labelsRead": false,
+  "newBenchmarkImplementation": false,
+  "actualScoresProduced": false,
+  "gitNetworkScope": "Only final user-authorized branch publication; no fetch/business network"
+}

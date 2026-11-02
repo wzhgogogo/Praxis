@@ -1,0 +1,789 @@
+{
+  "status": "DRAFT_NOT_INTEGRATED",
+  "baseCommit": "549061e8392bfb6224d1ac9ca78671714d330e2c",
+  "timezone": "CET UTC+1",
+  "recommendedCaseIds": [
+    "h001",
+    "h003",
+    "h005"
+  ],
+  "cases": [
+    {
+      "id": "h001",
+      "proposedV0": true,
+      "input": "FROZEN_DEVELOPMENT",
+      "goal": "AVAILABILITY",
+      "sourceScenarioId": "h001",
+      "provenance": "SYNTHETIC_CONTROL",
+      "gold": {
+        "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+        "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e"
+      },
+      "loadedCaseJsonSha256": "55614f0c6d85cf6a7a893053ce59edb6e7711ef9508683fc58dec0b189a45b8d",
+      "registrationJsonSha256": "7d87f1a9705ad573b0461334d6456ef8ab9fb31b3321d7ced872591db0e31bdd",
+      "scenarioJsonSha256": "5befe081cdc1288a75737dc25bbf26f8488897352c70a1f8d1fea9c39f9f7458",
+      "userContentSha256": "19d7c1dc5fb6aad44ae19ddd32f5ae7e80071b52de38c69870e95481629a4658",
+      "originalDatasetLabel": "restaurant-read-development@7",
+      "referenceTimeCET": "2026-08-19T09:20:00.000+01:00",
+      "sourcePopulation": [
+        {
+          "candidateId": "offline-h001-a",
+          "sourceVocabulary": [
+            "omakase"
+          ],
+          "coordinates": {
+            "latitude": 35.6581,
+            "longitude": 139.6955
+          },
+          "distanceMeters": 478,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": false,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-19",
+            "partySize": 2,
+            "visibleSlots": [
+              "19:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h001-b",
+          "sourceVocabulary": [
+            "omakase"
+          ],
+          "coordinates": {
+            "latitude": 35.6621,
+            "longitude": 139.6991
+          },
+          "distanceMeters": 316,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": false,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-19",
+            "partySize": 2,
+            "visibleSlots": [
+              "19:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h001-c",
+          "sourceVocabulary": [
+            "omakase"
+          ],
+          "coordinates": {
+            "latitude": 35.6569,
+            "longitude": 139.7021
+          },
+          "distanceMeters": 323,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": false,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-19",
+            "partySize": 2,
+            "visibleSlots": [
+              "19:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        }
+      ],
+      "locationBinding": "USER_NAMED_AREA_WITH_SCENARIO_LANDMARK",
+      "coverageRule": {
+        "necessary": true
+      },
+      "registeredExpectation": {
+        "kind": "QUALIFIED_RESULT",
+        "execution": {
+          "status": "SUCCEEDED",
+          "loopStatus": "TERMINAL",
+          "phase": "PRESENT_RESULTS"
+        },
+        "coverage": {
+          "necessary": true
+        },
+        "requiredDimensions": [
+          "AUTHORITATIVE_CONDITIONS",
+          "REQUIRED_EVIDENCE",
+          "FINAL_CLAIM",
+          "COMPLETION_OUTCOME"
+        ]
+      },
+      "applicableWitness": {
+        "status": "NOT_CONFIGURED",
+        "reason": "No independent witness bound to these constructed outlets; historical Live witnesses are different outlets/requests and must not be reused."
+      },
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false,
+      "realModelReadiness": "STATIC_INVENTORY_ONLY_NOT_EXECUTED_AT_CURRENT_COMMIT"
+    },
+    {
+      "id": "h002",
+      "proposedV0": false,
+      "input": "FROZEN_DEVELOPMENT",
+      "goal": "AVAILABILITY",
+      "sourceScenarioId": "h002",
+      "provenance": "SYNTHETIC_CONTROL",
+      "gold": {
+        "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+        "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e"
+      },
+      "loadedCaseJsonSha256": "3bcef39b2561e5fda25225cc9e738a5c814e2358c68949129ae967f0f1fd00af",
+      "registrationJsonSha256": "29c6bd0de84d7d93bc4ca65acec3a4885583a2523f18df79722b82c2be179274",
+      "scenarioJsonSha256": "da9e3f6a6eb2a9d4ab3bd97f8a017e3bfc03a183b2f2a3beae9f52b5c36cb8c9",
+      "userContentSha256": "1ba8d2b41dc96ed5123c6dbfd1b587bfc3a63e1bd22740ec88e942d97112a135",
+      "originalDatasetLabel": "restaurant-read-development@7",
+      "referenceTimeCET": "2026-08-19T09:22:00.000+01:00",
+      "sourcePopulation": [
+        {
+          "candidateId": "offline-h002-a",
+          "sourceVocabulary": [
+            "first",
+            "date"
+          ],
+          "coordinates": {
+            "latitude": 35.6694,
+            "longitude": 139.7694
+          },
+          "distanceMeters": 166,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-22",
+            "partySize": 2,
+            "visibleSlots": [
+              "18:30"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h002-b",
+          "sourceVocabulary": [
+            "first",
+            "date"
+          ],
+          "coordinates": {
+            "latitude": 35.6711,
+            "longitude": 139.7679
+          },
+          "distanceMeters": 158,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-22",
+            "partySize": 2,
+            "visibleSlots": [
+              "18:30"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h002-c",
+          "sourceVocabulary": [
+            "first",
+            "date"
+          ],
+          "coordinates": {
+            "latitude": 35.6683,
+            "longitude": 139.7702
+          },
+          "distanceMeters": 282,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-22",
+            "partySize": 2,
+            "visibleSlots": [
+              "18:30"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        }
+      ],
+      "locationBinding": "USER_NAMED_AREA_WITH_SCENARIO_LANDMARK",
+      "coverageRule": {
+        "necessary": true
+      },
+      "registeredExpectation": {
+        "kind": "QUALIFIED_RESULT",
+        "execution": {
+          "status": "SUCCEEDED",
+          "loopStatus": "TERMINAL",
+          "phase": "PRESENT_RESULTS"
+        },
+        "coverage": {
+          "necessary": true
+        },
+        "requiredDimensions": [
+          "AUTHORITATIVE_CONDITIONS",
+          "REQUIRED_EVIDENCE",
+          "FINAL_CLAIM",
+          "COMPLETION_OUTCOME"
+        ]
+      },
+      "applicableWitness": {
+        "status": "NOT_CONFIGURED",
+        "reason": "No independent witness bound to these constructed outlets; historical Live witnesses are different outlets/requests and must not be reused."
+      },
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false,
+      "realModelReadiness": "STATIC_INVENTORY_ONLY_NOT_EXECUTED_AT_CURRENT_COMMIT"
+    },
+    {
+      "id": "h003",
+      "proposedV0": true,
+      "input": "FROZEN_DEVELOPMENT",
+      "goal": "AVAILABILITY",
+      "sourceScenarioId": "h003",
+      "provenance": "SYNTHETIC_CONTROL",
+      "gold": {
+        "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+        "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e"
+      },
+      "loadedCaseJsonSha256": "062f1901ebca5445c6c6912284a956d24c9afe47d25ac36c3e8fb21e18ca887e",
+      "registrationJsonSha256": "cf8a6ad127799189071306d95470802256f5563adbf3992b2b808f13112ed43f",
+      "scenarioJsonSha256": "7b27261ac3bead4276e443141e85d913a410ec050d2dfc9166ed2e01a695da14",
+      "userContentSha256": "39b293fe3d7345efa50a2539d8834cef8bc53bd33d3b055eb69e35d1f269919c",
+      "originalDatasetLabel": "restaurant-read-development@7",
+      "referenceTimeCET": "2026-08-19T09:38:00.000+01:00",
+      "sourcePopulation": [
+        {
+          "candidateId": "offline-h003-a",
+          "sourceVocabulary": [
+            "team",
+            "dinner",
+            "restaurant"
+          ],
+          "coordinates": {
+            "latitude": 35.6741,
+            "longitude": 139.7637
+          },
+          "distanceMeters": 573,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": false,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-21",
+            "partySize": 10,
+            "visibleSlots": [
+              "19:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h003-b",
+          "sourceVocabulary": [
+            "team",
+            "dinner",
+            "restaurant"
+          ],
+          "coordinates": {
+            "latitude": 35.6731,
+            "longitude": 139.7622
+          },
+          "distanceMeters": 575,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": false,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-21",
+            "partySize": 10,
+            "visibleSlots": [
+              "19:30"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h003-c",
+          "sourceVocabulary": [
+            "team",
+            "dinner",
+            "restaurant"
+          ],
+          "coordinates": {
+            "latitude": 35.6812,
+            "longitude": 139.7648
+          },
+          "distanceMeters": 1294,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": false,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-21",
+            "partySize": 10,
+            "visibleSlots": [
+              "20:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        }
+      ],
+      "locationBinding": "RUNNER_INJECTED_HIGASHI_GINZA_ONLY_FOR_NEAR_USER",
+      "coverageRule": {
+        "necessary": true
+      },
+      "registeredExpectation": {
+        "kind": "QUALIFIED_RESULT",
+        "execution": {
+          "status": "SUCCEEDED",
+          "loopStatus": "TERMINAL",
+          "phase": "PRESENT_RESULTS"
+        },
+        "coverage": {
+          "necessary": true
+        },
+        "requiredDimensions": [
+          "AUTHORITATIVE_CONDITIONS",
+          "REQUIRED_EVIDENCE",
+          "FINAL_CLAIM",
+          "COMPLETION_OUTCOME"
+        ]
+      },
+      "applicableWitness": {
+        "status": "NOT_CONFIGURED",
+        "reason": "No independent witness bound to these constructed outlets; historical Live witnesses are different outlets/requests and must not be reused."
+      },
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false,
+      "realModelReadiness": "STATIC_INVENTORY_ONLY_NOT_EXECUTED_AT_CURRENT_COMMIT"
+    },
+    {
+      "id": "h004",
+      "proposedV0": false,
+      "input": "FROZEN_DEVELOPMENT",
+      "goal": "RECOMMENDATION",
+      "sourceScenarioId": "h004",
+      "provenance": "SYNTHETIC_CONTROL",
+      "gold": {
+        "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+        "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e"
+      },
+      "loadedCaseJsonSha256": "a7c66bd70e483c16e3a2edc6b7e745f2f83399c47a5bc74a9853d454d21ef986",
+      "registrationJsonSha256": "fd2a12fefdd79e483a52401562a61d64b212dfdb67e42d8cecfc4e0de8a4359c",
+      "scenarioJsonSha256": "11003f82310d889c73df6a7fb0c472f6b95d5bc24497d40ed31644235569cc21",
+      "userContentSha256": "d3eaa616e557870f66124e4b29ef1514c9e42d286b883b7f75a9dffa1a544ed8",
+      "originalDatasetLabel": "restaurant-read-development@7",
+      "referenceTimeCET": "2026-08-19T05:00:00.000+01:00",
+      "sourcePopulation": [
+        {
+          "candidateId": "offline-h004-a",
+          "sourceVocabulary": [
+            "cafe",
+            "nearby"
+          ],
+          "coordinates": {
+            "latitude": 35.681,
+            "longitude": 139.774
+          },
+          "distanceMeters": 1407,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": null
+        },
+        {
+          "candidateId": "offline-h004-b",
+          "sourceVocabulary": [
+            "cafe",
+            "nearby"
+          ],
+          "coordinates": {
+            "latitude": 35.6821,
+            "longitude": 139.7751
+          },
+          "distanceMeters": 1561,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": null
+        },
+        {
+          "candidateId": "offline-h004-c",
+          "sourceVocabulary": [
+            "cafe",
+            "nearby"
+          ],
+          "coordinates": {
+            "latitude": 35.6803,
+            "longitude": 139.7728
+          },
+          "distanceMeters": 1290,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": null
+        }
+      ],
+      "locationBinding": "RUNNER_INJECTED_HIGASHI_GINZA_ONLY_FOR_NEAR_USER",
+      "coverageRule": {
+        "necessary": true
+      },
+      "registeredExpectation": {
+        "kind": "QUALIFIED_RESULT",
+        "execution": {
+          "status": "SUCCEEDED",
+          "loopStatus": "TERMINAL",
+          "phase": "PRESENT_RESULTS"
+        },
+        "coverage": {
+          "necessary": true
+        },
+        "requiredDimensions": [
+          "AUTHORITATIVE_CONDITIONS",
+          "REQUIRED_EVIDENCE",
+          "FINAL_CLAIM",
+          "COMPLETION_OUTCOME"
+        ]
+      },
+      "applicableWitness": {
+        "status": "NOT_CONFIGURED",
+        "reason": "No independent witness bound to these constructed outlets; historical Live witnesses are different outlets/requests and must not be reused."
+      },
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false,
+      "realModelReadiness": "STATIC_INVENTORY_ONLY_NOT_EXECUTED_AT_CURRENT_COMMIT"
+    },
+    {
+      "id": "h005",
+      "proposedV0": true,
+      "input": "FROZEN_DEVELOPMENT",
+      "goal": "AVAILABILITY",
+      "sourceScenarioId": "h005",
+      "provenance": "SYNTHETIC_CONTROL",
+      "gold": {
+        "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+        "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e"
+      },
+      "loadedCaseJsonSha256": "c15060701242442651d200a128b30511238967bef1bb964190fb8dbe7f81111a",
+      "registrationJsonSha256": "2d2aae062950444489219c3c237c81dc7c3e4098e096e45e7bed9184a3b0a2d0",
+      "scenarioJsonSha256": "e1c6cc66b4b505cac4c9f4fd015083be71c902567ef57eac7f380221c3515ac9",
+      "userContentSha256": "f8ea3499787d4fa51fd1044a404024ccbc23e6111defbc7f509a41ffdcbfe855",
+      "originalDatasetLabel": "restaurant-read-development@7",
+      "referenceTimeCET": "2026-08-19T09:00:00.000+01:00",
+      "sourcePopulation": [
+        {
+          "candidateId": "offline-h005-a",
+          "sourceVocabulary": [
+            "open",
+            "tables",
+            "restaurant"
+          ],
+          "coordinates": {
+            "latitude": 35.6652,
+            "longitude": 139.7708
+          },
+          "distanceMeters": 607,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-19",
+            "partySize": 4,
+            "visibleSlots": [
+              "17:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h005-b",
+          "sourceVocabulary": [
+            "open",
+            "tables",
+            "restaurant"
+          ],
+          "coordinates": {
+            "latitude": 35.6661,
+            "longitude": 139.7719
+          },
+          "distanceMeters": 597,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-19",
+            "partySize": 4,
+            "visibleSlots": [
+              "17:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h005-c",
+          "sourceVocabulary": [
+            "open",
+            "tables",
+            "restaurant"
+          ],
+          "coordinates": {
+            "latitude": 35.6825,
+            "longitude": 139.7765
+          },
+          "distanceMeters": 1662,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-19",
+            "partySize": 4,
+            "visibleSlots": [
+              "17:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        }
+      ],
+      "locationBinding": "RUNNER_INJECTED_HIGASHI_GINZA_ONLY_FOR_NEAR_USER",
+      "coverageRule": {
+        "necessary": true
+      },
+      "registeredExpectation": {
+        "kind": "QUALIFIED_RESULT",
+        "execution": {
+          "status": "SUCCEEDED",
+          "loopStatus": "TERMINAL",
+          "phase": "PRESENT_RESULTS"
+        },
+        "coverage": {
+          "necessary": true
+        },
+        "requiredDimensions": [
+          "AUTHORITATIVE_CONDITIONS",
+          "REQUIRED_EVIDENCE",
+          "FINAL_CLAIM",
+          "COMPLETION_OUTCOME"
+        ]
+      },
+      "applicableWitness": {
+        "status": "NOT_CONFIGURED",
+        "reason": "No independent witness bound to these constructed outlets; historical Live witnesses are different outlets/requests and must not be reused."
+      },
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false,
+      "realModelReadiness": "STATIC_INVENTORY_ONLY_NOT_EXECUTED_AT_CURRENT_COMMIT"
+    },
+    {
+      "id": "new-vegetarian-lunch",
+      "proposedV0": false,
+      "input": "CONTROL",
+      "goal": "AVAILABILITY",
+      "sourceScenarioId": "new-vegetarian-lunch",
+      "provenance": "SYNTHETIC_CONTROL",
+      "gold": {
+        "path": "src/eval/restaurant/agent-loop/fixed-source-case-registry.ts",
+        "sha256": "83e38119855ef789d9394ba5e1dc7b63a47d61dadbadd782849e88675dc5cb72"
+      },
+      "loadedCaseJsonSha256": "98655da9a549d24c36d1192c6f411737bcffcf8ab11ffe8bc954eb51a6c36f58",
+      "registrationJsonSha256": "740969390ebad4f66643eabc3292f7616dc3275aee479be41a35595238101461",
+      "scenarioJsonSha256": "02c20e6a2b059f8c31a5cbbdc4cc24d7eb3e7d0a16408a348d4cb5efa32597d9",
+      "userContentSha256": "c062417e0304d78ac49ffd559bca436a415cd2d1b0b93d133d5b9564509b0bec",
+      "originalDatasetLabel": "restaurant-read-development@1",
+      "referenceTimeCET": "2026-08-19T09:00:00.000+01:00",
+      "sourcePopulation": [
+        {
+          "candidateId": "offline-new-vegetarian",
+          "sourceVocabulary": [
+            "vegetarian",
+            "lunch"
+          ],
+          "coordinates": {
+            "latitude": 35.6621,
+            "longitude": 139.6991
+          },
+          "distanceMeters": 316,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": true,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-20",
+            "partySize": 3,
+            "visibleSlots": [
+              "12:30"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        }
+      ],
+      "locationBinding": "USER_NAMED_AREA_WITH_SCENARIO_LANDMARK",
+      "coverageRule": {
+        "necessary": true
+      },
+      "registeredExpectation": {
+        "kind": "QUALIFIED_RESULT",
+        "execution": {
+          "status": "SUCCEEDED",
+          "loopStatus": "TERMINAL",
+          "phase": "PRESENT_RESULTS"
+        },
+        "coverage": {
+          "necessary": true
+        },
+        "requiredDimensions": [
+          "AUTHORITATIVE_CONDITIONS",
+          "REQUIRED_EVIDENCE",
+          "FINAL_CLAIM",
+          "COMPLETION_OUTCOME"
+        ]
+      },
+      "applicableWitness": {
+        "status": "NOT_CONFIGURED",
+        "reason": "No independent witness bound to these constructed outlets; historical Live witnesses are different outlets/requests and must not be reused."
+      },
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false,
+      "realModelReadiness": "STATIC_INVENTORY_ONLY_NOT_EXECUTED_AT_CURRENT_COMMIT"
+    },
+    {
+      "id": "explicit-two-omakase",
+      "proposedV0": false,
+      "input": "CONTROL",
+      "goal": "AVAILABILITY",
+      "sourceScenarioId": "h001",
+      "provenance": "SYNTHETIC_CONTROL",
+      "gold": {
+        "path": "src/eval/restaurant/agent-loop/fixed-source-case-registry.ts",
+        "sha256": "83e38119855ef789d9394ba5e1dc7b63a47d61dadbadd782849e88675dc5cb72"
+      },
+      "loadedCaseJsonSha256": "ff04f796e9663ee64237fe4ae7c35ed01e29ccb29bc18783c20dc990175308e6",
+      "registrationJsonSha256": "ee5e3198c912484d10dd4d975c6a292d9fc1924a9b71207bbd4d19cb85224b6e",
+      "scenarioJsonSha256": "5befe081cdc1288a75737dc25bbf26f8488897352c70a1f8d1fea9c39f9f7458",
+      "userContentSha256": "a115915cee8e51bc0bb64c0daa439b14b13bf7ea2f43abce098b35055c7f7d71",
+      "originalDatasetLabel": "restaurant-read-development@7",
+      "referenceTimeCET": "2026-08-19T09:20:00.000+01:00",
+      "sourcePopulation": [
+        {
+          "candidateId": "offline-h001-a",
+          "sourceVocabulary": [
+            "omakase"
+          ],
+          "coordinates": {
+            "latitude": 35.6581,
+            "longitude": 139.6955
+          },
+          "distanceMeters": 478,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": false,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-19",
+            "partySize": 2,
+            "visibleSlots": [
+              "19:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h001-b",
+          "sourceVocabulary": [
+            "omakase"
+          ],
+          "coordinates": {
+            "latitude": 35.6621,
+            "longitude": 139.6991
+          },
+          "distanceMeters": 316,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": false,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-19",
+            "partySize": 2,
+            "visibleSlots": [
+              "19:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        },
+        {
+          "candidateId": "offline-h001-c",
+          "sourceVocabulary": [
+            "omakase"
+          ],
+          "coordinates": {
+            "latitude": 35.6569,
+            "longitude": 139.7021
+          },
+          "distanceMeters": 323,
+          "google": true,
+          "tableCheck": true,
+          "websiteFacts": false,
+          "availability": {
+            "status": "AVAILABLE",
+            "date": "2026-08-19",
+            "partySize": 2,
+            "visibleSlots": [
+              "19:00"
+            ],
+            "sampleCapturedAt": "2026-08-01T00:00:00.000Z"
+          }
+        }
+      ],
+      "locationBinding": "USER_NAMED_AREA_WITH_SCENARIO_LANDMARK",
+      "coverageRule": {
+        "necessary": true
+      },
+      "registeredExpectation": {
+        "kind": "QUALIFIED_RESULT",
+        "execution": {
+          "status": "SUCCEEDED",
+          "loopStatus": "TERMINAL",
+          "phase": "PRESENT_RESULTS"
+        },
+        "coverage": {
+          "necessary": true
+        },
+        "requiredDimensions": [
+          "AUTHORITATIVE_CONDITIONS",
+          "REQUIRED_EVIDENCE",
+          "FINAL_CLAIM",
+          "COMPLETION_OUTCOME"
+        ],
+        "requiredResultBatch": {
+          "source": "USER_EXPLICIT",
+          "candidateCount": 2
+        }
+      },
+      "applicableWitness": {
+        "status": "NOT_CONFIGURED",
+        "reason": "No independent witness bound to these constructed outlets; historical Live witnesses are different outlets/requests and must not be reused."
+      },
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "baselineEligible": false,
+      "realModelReadiness": "STATIC_INVENTORY_ONLY_NOT_EXECUTED_AT_CURRENT_COMMIT"
+    }
+  ],
+  "sourceOnlyUnregistered": [
+    "multi-candidate-control"
+  ],
+  "g6RegisteredInFixedSourceRegistry": false,
+  "realModelCalls": 0
+}

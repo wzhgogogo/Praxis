@@ -1,0 +1,8 @@
+Command: python3 (inline design static checks)
+Exit code: 1
+Traceback (most recent call last):
+  File "<stdin>", line 21, in <module>
+AssertionError
+
+Cause: A-local ledger source SHA changed concurrently from 5d9c3e7612557b0674e09bb0b7314429f92c8ff4704b59cf6d5deac835e43c68 to de49788aa67b1ea4b45a0fd48a6f21cd6f372ef85dfed4ee68e380e43bed0d38. Its cumulative modelCalls remained 228. A appended a zero-call bookkeeping record. No product, Agent, model or evaluator was executed.
+Resolution: preserve A/C raw snapshots as gzip and validate those observations; recompute the union, retaining all entry IDs.

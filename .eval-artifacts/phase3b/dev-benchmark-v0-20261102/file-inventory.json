@@ -1,0 +1,262 @@
+{
+  "status": "DESIGN_TIME_SNAPSHOT_NOT_A_RUN_FREEZE",
+  "baseCommit": "549061e8392bfb6224d1ac9ca78671714d330e2c",
+  "inputs": [
+    {
+      "role": "CURRENT_GOLD",
+      "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+      "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e"
+    },
+    {
+      "role": "CASE_AND_CONTROL_REGISTRY",
+      "path": "src/eval/restaurant/agent-loop/fixed-source-case-registry.ts",
+      "sha256": "83e38119855ef789d9394ba5e1dc7b63a47d61dadbadd782849e88675dc5cb72"
+    },
+    {
+      "role": "FIXED_SOURCE_DATA",
+      "path": "src/eval/restaurant/agent-loop/current-development-source-scenarios.ts",
+      "sha256": "f601d683dbbcdc8ebf8a984e352c607c070e9864883593e2bf08b597b5e4bd9f"
+    },
+    {
+      "role": "FIXED_SOURCE_IO_BEHAVIOR",
+      "path": "src/eval/restaurant/agent-loop/current-development-fixed-sources.ts",
+      "sha256": "c337f4d8ff73e9d29f962bc3cdef5c01f1908be72d2318b9b52f8c97e87deb4c"
+    },
+    {
+      "role": "FIXED_LOCATION",
+      "path": "src/eval/restaurant/agent-loop/live-evaluation-location.ts",
+      "sha256": "da16ed949c7707b381b915874c5f80a1ad660e32f3dd7ff1dfaace8c9b17c8fd"
+    },
+    {
+      "role": "FIXED_LOCATION_SELECTION",
+      "path": "src/eval/restaurant/agent-loop/evaluation-location-selection.ts",
+      "sha256": "28542f105e88abd248a451d0fd1364f8fad4f5578bcd319f53c678df51006955"
+    },
+    {
+      "role": "LOCATION_RADIUS",
+      "path": "src/core/location/nearby.ts",
+      "sha256": "067460d020374883836101761b9407a9bbe809b39f192cd798e4a0c1c4498bbd"
+    },
+    {
+      "role": "RESOLVED_LIMITS_AUTHORITY",
+      "path": "src/application/live-read-investigation-budget.ts",
+      "sha256": "e53f6bac1c5415cbeec978c9e0e03cbf55a44239efae57b4ecb30a1fc240e495"
+    },
+    {
+      "role": "G6_LOCAL_SOURCE",
+      "path": "src/eval/restaurant/agent-loop/cases/g6-development/source.json",
+      "sha256": "771b22663707b4e9533402764e1975ddf7d6946e928fc0cfdc541776a868857d"
+    },
+    {
+      "role": "G6_LOCAL_SOURCE",
+      "path": "src/eval/restaurant/agent-loop/cases/g6-development/outlet.html",
+      "sha256": "7708f907915ca9b58fdec1e2ace6951b6d2ed07f3cbf8bc16adf161726ccf3ad"
+    },
+    {
+      "role": "G6_LOCAL_SOURCE",
+      "path": "src/eval/restaurant/agent-loop/cases/g6-development/tablecheck.html",
+      "sha256": "62dda5e56451180a730d21f32f66f9693c2ed664f13c3e3cc5cf5e5957780a6f"
+    },
+    {
+      "role": "G6_SCRIPTED_OUTPUT_NOT_GOLD",
+      "path": "src/eval/restaurant/agent-loop/cases/g6-development/cancellation-question.json",
+      "sha256": "9c1c4f59fc301169263bf7b7dcbe6dc0be01306d994328c088a2a8f35843653e"
+    },
+    {
+      "role": "HISTORICAL_GOLD_NOT_SELECTED",
+      "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.yaml",
+      "sha256": "00b69476e6d07eec5dcd9a657555c4e3766629fce5f8e630512710252886ffb6"
+    },
+    {
+      "role": "HISTORICAL_WITNESS_NOT_APPLICABLE",
+      "path": ".eval-artifacts/known-feasible-baseline-20261008/witnesses.prequalified-20261008.json",
+      "sha256": "f2d5054546326adf5a4d5a577cc1c6108c7fa780e1ea463fd1dd4d49dde3f445"
+    },
+    {
+      "role": "HISTORICAL_WITNESS_NOT_APPLICABLE",
+      "path": ".eval-artifacts/p1-f-20261011/witnesses.p1f-20261011.json",
+      "sha256": "1900217333acc30cef9026abe9da1199bbd62188d48773cb9f97b6c7f5856377"
+    },
+    {
+      "role": "HISTORICAL_WITNESS_NOT_APPLICABLE",
+      "path": ".eval-artifacts/p1-g-20261012/witnesses.p1g.json",
+      "sha256": "f53d6f84bc64caeb863ad6bf67b5c8ac515d88ff981e0a2ee7c3ba109b2243ec"
+    },
+    {
+      "role": "HISTORICAL_VARIANTS_NOT_SELECTED",
+      "path": ".eval-artifacts/p1-f-20261011/variants.rev2.yaml",
+      "sha256": "1879c3189f90134f2ddb4cc78b12fcc31a0cd68e7b806a2baec43270e6f9f753"
+    },
+    {
+      "role": "HISTORICAL_PREFERENCE_GOLD_NOT_APPLICABLE",
+      "path": ".eval-artifacts/calibration-phase1-20261015/soft-preference-observations.yaml",
+      "sha256": "39226c3b079b265789d354158f09fa52e3ae7fa821eedc10e2f3606eea84c7ce"
+    },
+    {
+      "role": "GRADER_INPUT",
+      "path": "src/eval/restaurant/agent-loop/cases/criterion-correspondences.json",
+      "sha256": "f0aa815ae9d2a792f59dcc868bd279c899d3050bc669ae2806204d9d0f2e9a6c"
+    },
+    {
+      "role": "GRADER_INPUT_REFERENCE",
+      "path": "src/eval/restaurant/agent-loop/cases/criterion-equivalences.yaml",
+      "sha256": "9880c47f54540947ea73d06dd8e530241cbce46f377f9a6f325bd6e7c8271440"
+    },
+    {
+      "role": "GRADER_NETWORK_INPUT",
+      "path": "src/eval/restaurant/agent-loop/cases/reviewed-public-reads.json",
+      "sha256": "99729a1758691d1077995571cca1ae8c0ae81e00e98b9c03c38a67e3f3be7b61"
+    }
+  ],
+  "codeAndMethodReferences": [
+    {
+      "path": "src/eval/restaurant/agent-loop/runners/run-current-development-fixed-source-model.ts",
+      "sha256": "75ed6a394f1549c01edd026f7f7a1da085d31f5e60193b21374e46bdb28d919d"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/fixed-source-case-execution.ts",
+      "sha256": "e2aeac6ef754c07f623e4c1d017189bcbb72c7ad3f11b588438b486bc2a0b927"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/fixed-source-acceptance.ts",
+      "sha256": "8c555725bb385d3c03ac3507f8d47e6beb19a461aa71981c83a41b135e036545"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/live-case-materializer.ts",
+      "sha256": "22c051c679511e27f579ca2b21d14004ef318b4678556ccd119e513a14fc230b"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/live-preflight.ts",
+      "sha256": "d8ff6730e6a5f51faf051b6fb2067fae28f8aef6287ed2ed0c98e2020fe44099"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/hybrid-read-composition.ts",
+      "sha256": "d083dbecef504cad366264640c877627965d4838e9119bfdce82fee068a9b2f4"
+    },
+    {
+      "path": "src/integrations/restaurant-search/live-read-assembly.ts",
+      "sha256": "953b83577ec10d193a1ba907c431b2f48af9ddc1e1dcd4740a5067e2703ae421"
+    },
+    {
+      "path": "src/infrastructure/deepseek/deepseek-model-gateway.ts",
+      "sha256": "0b748556302b580158c5a85e0d3552cf758753476c3ea7a21a370198e2472dd6"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/current-development-offline.test.ts",
+      "sha256": "f88a3f9f236c6f015c69df4bd848c510a677f4100bdf09721f16666d448bbacb"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/g6-development-preflight.ts",
+      "sha256": "db52d77da0473d0ff25b1a8bad8f910f74ddd00f226ba44589cd06b2ac4e02b2"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/g6-booking-composition.test.ts",
+      "sha256": "532f861f3848d2f7e438ab07221ca10cdbbf0b8ca1a62a55915752973a6fb89b"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/g6-booking-terms-composition.test.ts",
+      "sha256": "67a2a2a2202c248aee16fc32141a959b9619d445eddc9137f2d22db109d41425"
+    },
+    {
+      "path": "src/domains/restaurant/semantic-interpreter.ts",
+      "sha256": "975376e38c678e233056f6e6afb777c8616de47eeab19fab89ee79efb5865c6f"
+    },
+    {
+      "path": "src/domains/restaurant/agent-decision.ts",
+      "sha256": "1653cdb1fce186ee356463f12306176d657be6e6fc0f23028871309852ce66b8"
+    },
+    {
+      "path": "src/domains/restaurant/party-size-supplement-resolver.ts",
+      "sha256": "362e55be09aa05b0400ac64307c71d8602f1e5609a8200adf7104a841a4cad4e"
+    },
+    {
+      "path": "src/integrations/restaurant-facts/model-fact-judgment.ts",
+      "sha256": "2e43bbc735c3320e4bec9cd624e17acd641025ecce521dd0450bd56add3d2036"
+    },
+    {
+      "path": "src/integrations/restaurant-facts/model-source-facts.ts",
+      "sha256": "9bd3b15c1eae2dfc6c85d3cf2d0be74531ccd4d121068b3a2c8d0e5d8bf7035e"
+    },
+    {
+      "path": "src/integrations/restaurant-search/discovery-retrieval-planner.ts",
+      "sha256": "21b9b2858294d5efa97062f6f43739acfbaf646a8507d12dad97d207a4305063"
+    },
+    {
+      "path": "src/infrastructure/browser/browser-action-decision.ts",
+      "sha256": "9b26ed43c4a8f0ae929fd521b84a772ab929c85d72ab914e08a58a717a95b02c"
+    },
+    {
+      "path": "package.json",
+      "sha256": "11029dbde5465e8b04d973e8b0626d5882569702d9225aa290668ee676d4885f"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "d1a627efe43364f9627eb8883d0b88aaca8adc2da85e7ed1dd3a4cda57b3c5ab"
+    },
+    {
+      "path": "docs/skills/planning/SKILL.md",
+      "sha256": "e4ce1e2751759de1d4f8ed1f9bd852aa21857be41c49a78164aaea7151b88f02"
+    },
+    {
+      "path": "docs/skills/test/SKILL.md",
+      "sha256": "98056d60edd54d984a77f48f1b68713318b38f5fb1e7968cfbf57993ff13c99b"
+    },
+    {
+      "path": "docs/skills/eval/SKILL.md",
+      "sha256": "9507fea997ee8b26d3554487928eb70168cd5a7c3b403ff3b0ef7b99643bd344"
+    },
+    {
+      "path": "docs/skills/post-change-verify/SKILL.md",
+      "sha256": "e4fb6a6324922ae03d20f2dc1b0da94bfad4dbdee5aa4fbe5182f49c686da846"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/diagnostic-evaluator.ts",
+      "sha256": "0a8ff18a93806acd229b61d69fa40da16d2fd2fa0c2b43dd116c6cd876858fb7"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/diagnostic-evaluator-outcome.ts",
+      "sha256": "34445bf2c3ab60b7f62837c9d5ae926752f56c7aad2be084c7ba9ef1406319a4"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/diagnostic-evaluator-network.ts",
+      "sha256": "e184e86fbc089b0030c9bf896bbe564645817d9b3fa86c1f1f5871dbdd29fcbd"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/diagnostic-evaluator-witness.ts",
+      "sha256": "7b29f1b9c024ef43af32c4ecf0fcddb4e96a8c917871174de6609a6e686e4f04"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/diagnostic-evaluator-preferences.ts",
+      "sha256": "7612d7b9d23b281888ba88e1d68e16eaea71362cafda9684af5d41569d3a041b"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/run-stage-timings.ts",
+      "sha256": "de6caff487bd6b170f51843e65aa68e0928b6c9c5693ad27a96957f023ed781d"
+    },
+    {
+      "path": "src/eval/restaurant/diagnosis/report.ts",
+      "sha256": "a4696e6cdbfcb9286e64663eaf11cb1781b330e6889a3dae8e46306664fc8da4"
+    },
+    {
+      "path": "src/eval/restaurant/diagnosis/experience.ts",
+      "sha256": "2b07807edca7550eec12928046ddeec75dcd1638ec1c8a5a3c51a4ad987ad296"
+    },
+    {
+      "path": "src/eval/restaurant/diagnosis/files.ts",
+      "sha256": "f6d496de4abb87cd2cc090b014c391ee0cb24148170675564f45a9e2c7cf6d08"
+    },
+    {
+      "path": "src/eval/restaurant/diagnosis/records.ts",
+      "sha256": "b7532ead6c2c47ea9033676f32d3e65860a3f15db412c702df842bb2c3c7147f"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/runners/run-native-fixed-source-model.ts",
+      "sha256": "da953193b26bad4f4806fb463600ef9a24274f8b6f8d13a9bdc339a24ebdea17"
+    },
+    {
+      "path": "src/eval/restaurant/agent-loop/native-fixed-source-pages.ts",
+      "sha256": "3ee9950ad763810ddc0a45e4c304a7ee05f9830e78c75d127c9c7f1e6e2a967c"
+    }
+  ],
+  "labelsRead": false
+}

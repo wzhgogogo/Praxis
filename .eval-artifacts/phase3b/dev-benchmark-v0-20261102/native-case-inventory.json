@@ -1,0 +1,156 @@
+{
+  "status": "STATIC_INVENTORY_ONLY_NOT_EXECUTED",
+  "baseCommit": "549061e8392bfb6224d1ac9ca78671714d330e2c",
+  "gold": {
+    "path": "src/eval/restaurant/agent-loop/cases/e2e-cases.gold7.yaml",
+    "sha256": "b346150074493e5a82e3d0dfb5ea5d18b3dbef17bb06d5101dfb15dfeb3ea40e"
+  },
+  "registryAndExpectations": {
+    "path": "src/eval/restaurant/agent-loop/runners/run-native-fixed-source-model.ts",
+    "sha256": "da953193b26bad4f4806fb463600ef9a24274f8b6f8d13a9bdc339a24ebdea17"
+  },
+  "sourcePages": {
+    "path": "src/eval/restaurant/agent-loop/native-fixed-source-pages.ts",
+    "sha256": "3ee9950ad763810ddc0a45e4c304a7ee05f9830e78c75d127c9c7f1e6e2a967c"
+  },
+  "sourceBusinessReferenceCET": "2026-08-19T08:20:00+01:00",
+  "h001GoldReferenceCET": "2026-08-19T09:20:00+01:00",
+  "sourceCenter": {
+    "latitude": 35.6619707,
+    "longitude": 139.703795
+  },
+  "cases": [
+    {
+      "id": "TABELOG_DELIVERS",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "TABLECHECK_RECOVERS",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "BOTH_BOUNDED_EMPTY",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "VERIFIED_NO_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "TABLECHECK_CONTINUES",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "DYNAMIC_TABELOG_DELIVERS",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "LOCAL_CHROMIUM_DYNAMIC_FIXED_PAGE",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "TABLECHECK_DISCOVERY_RECOVERS",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "TABELOG_NONEMPTY_REGION_RECOVERS",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "TABELOG_CURRENT_BATCH_DELIVERS",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "TABLECHECK_CURRENT_BATCH_DELIVERS",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "NATIVE_FACT_FOLLOWUP_DELIVERS",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    },
+    {
+      "id": "TABLECHECK_SCOPED_MENU_DELIVERS",
+      "requestCaseId": "h001",
+      "registeredForNativeRealModelRunner": true,
+      "proposedV0": false,
+      "assembly": "createLiveReadAssembly",
+      "mode": "OFFLINE_FIXED_PAGES",
+      "expectationKind": "QUALIFIED_RESULT",
+      "applicableIndependentWitness": "NOT_CONFIGURED",
+      "exposure": "PROMPT_AND_RESULT_EXPOSED",
+      "currentRealModelResult": "NOT_EXECUTED_IN_THIS_SLICE"
+    }
+  ]
+}
