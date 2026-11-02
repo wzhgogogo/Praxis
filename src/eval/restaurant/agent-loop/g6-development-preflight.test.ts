@@ -18,7 +18,11 @@ test(`G6 full read composition ${path} variant${variant}: real State transitions
     // source, or historical results to make a production behavior pass.
     const bad=structuredClone(record);
     if(path==="P1")bad.after.restaurant.selectedCandidateId="another-outlet";
-    if(path==="P2")bad.missingParty!.restaurant.bookingHandoffs=structuredClone(bad.after.restaurant.bookingHandoffs);
+    if(path==="P2"){
+      const handoffs=bad.after.restaurant.bookingHandoffs;
+      assert.ok(handoffs?.length,"Normal P2 must supply actual handoffs before constructing its premature-output counterexample");
+      bad.missingParty!.restaurant.bookingHandoffs=structuredClone(handoffs);
+    }
     if(path==="P3")bad.initial.restaurant.intentDraft!.date="2026-11-12";
     if(path==="P4"){
       const answer=bad.after.restaurant.pageQuestion!.result;assert.ok(answer?.status==="ANSWERED");
