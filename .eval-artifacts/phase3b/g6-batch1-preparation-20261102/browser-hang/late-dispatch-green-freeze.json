@@ -1,0 +1,13 @@
+{
+  "kind": "SAME_CONTROLLED_LIFECYCLE_ASSERTIONS_AFTER_FIX",
+  "baseGit": "7247af64898a8be27df12cc6941eb809b44490c6",
+  "mechanism": "Controlled source transport rejects at the unchanged supplied30ms before dispatch; actual Chromium is retired; release later targets a retired session, so route completion cannot happen.",
+  "files": {
+    "src/harness/browser/browser-read-tabelog.test.ts": "e62f77cc3f987df5da4160a06ffb0d4dd1103f6e024224f608f5a3556c2392ad",
+    "src/harness/browser/browser-read-test-fixtures.ts": "77d96c7507042fa2248b2af63d41a1e1aab1296b5898dad2b1dd3c797b26593d"
+  },
+  "assertions": "All original assertions and timeout30ms retained; extra control waits for actual old session retirement before releasing dispatch.",
+  "supersedesGit": "9020fb46",
+  "priorAttempt": "EXCLUDED_FIXTURE_AUTHORING_ERROR: holding the native navigate prevented its own timeout from starting; target never reached initial timeout assertion. Preserved separately.",
+  "change": "Fixture context close completes delayed waiter even before dispatch, and cancels already-entered intercepted callbacks. No product or timeout change."
+}

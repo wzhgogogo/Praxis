@@ -39,12 +39,19 @@ export function localFixture(html: string | Record<string, string>, runtimeKind:
       const createContext = browser.newContext.bind(browser);
       browser.newContext = async (contextOptions) => {
         const context = await createContext(contextOptions);
+        // Navigation can fail/retire the context before its request ever enters
+        // this interceptor. Tie the delayed fixture's completion to that real
+        // lifecycle as well, and release callbacks already waiting on the gate.
+        let closed=false,finished=false;
+        const finish=()=>{if(!finished&&delayedNavigation){finished=true;delayedNavigation.finished();}};
+        const retired=new Promise<void>(resolve=>context.once("close",()=>{closed=true;finish();resolve();}));
         await context.route("**/*", async (route) => {
           if (route.request().url() === delayedNavigation?.url) {
-            await delayedNavigation.release;
+            await Promise.race([delayedNavigation.release,retired]);
+            if(closed)return;
             try { await route.fulfill({ contentType: "text/html; charset=utf-8", body: "<title>Late old page</title><h1>Old candidate</h1>" }); }
             catch { /* Closing the timed-out session may already have canceled the old request. */ }
-            finally { delayedNavigation.finished(); }
+            finally { finish(); }
             return;
           }
           const body = pages[route.request().url()];
