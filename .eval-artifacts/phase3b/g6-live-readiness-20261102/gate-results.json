@@ -1,0 +1,171 @@
+{
+  "testedCommit": "867201633ea3be354c8e691639022e8a8f1819aa",
+  "inputs": 763,
+  "mode": "OFFLINE_FINAL_CANDIDATE",
+  "runs": [
+    {
+      "name": "original-terms",
+      "command": [
+        "node",
+        "--import",
+        "./scripts/test-filesystem-guard.mjs",
+        "--import",
+        "tsx",
+        "--test",
+        "src/eval/restaurant/agent-loop/g6-booking-terms-composition.test.ts"
+      ],
+      "startCET": "2026-11-02T11:07:51.335416+01:00",
+      "exitCode": 0,
+      "seconds": 1.375,
+      "summary": {
+        "tests": 1,
+        "suites": 0,
+        "pass": 1,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "27de21f91cd025977c5d77b7ae9e37084d633e61f68ca7f71b03a4598096f357"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startCET": "2026-11-02T11:07:52.881830+01:00",
+      "exitCode": 0,
+      "seconds": 0.451,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startCET": "2026-11-02T11:07:53.503606+01:00",
+      "exitCode": 0,
+      "seconds": 0.239,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startCET": "2026-11-02T11:07:53.911443+01:00",
+      "exitCode": 0,
+      "seconds": 38.799,
+      "summary": {
+        "tests": 1350,
+        "suites": 5,
+        "pass": 1350,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "f5ef96c943089ab34ef81021c4a34da11051fd4c9c60e8e1cc313f0766dc979f"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startCET": "2026-11-02T11:08:32.919998+01:00",
+      "exitCode": 0,
+      "seconds": 0.555,
+      "summary": {},
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startCET": "2026-11-02T11:08:33.647024+01:00",
+      "exitCode": 0,
+      "seconds": 164.288,
+      "summary": {
+        "tests": 51,
+        "suites": 0,
+        "pass": 51,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "8ac5ef4973bc72f402f9a0c52bd31aade7d2bc2df06f9b519068c5eb59f39771"
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startCET": "2026-11-02T11:11:18.111244+01:00",
+      "exitCode": 0,
+      "seconds": 24.313,
+      "summary": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "logSHA256": "74eb610900c5e6d4b136487b2a4f497ce4b6acf3bcaa646cbfe62be57fd4b539"
+    }
+  ],
+  "status": "PASS",
+  "browserPhases": {
+    "G2Exclusive": {
+      "pass": 5,
+      "total": 5
+    },
+    "remainingBrowser": {
+      "pass": 183,
+      "total": 183
+    },
+    "combinedBrowser": {
+      "pass": 188,
+      "total": 188
+    },
+    "G6Exclusive": {
+      "pass": 51,
+      "total": 51
+    }
+  },
+  "strictG2Pages": {
+    "pass": 12,
+    "total": 12
+  },
+  "archiveLogMapping": "archive-logs.json"
+}

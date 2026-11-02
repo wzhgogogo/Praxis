@@ -37,7 +37,7 @@ C尚未合main，fixture补回放和付费补回放均NOT_RUN（0/20），命令
 
 20GET含全部认证/后验，下一请求计账前检查硬上限。正常六个T交付槽+两个TC槽约11GET；所有八槽无交付时，5前置+16后验=21，故不能承诺极端情况下八槽跑完：20即停，不省核验、不截断产品输出、不挪用剩15。后验遇限额/失败仍保留已导出的权威执行输出供复核。
 
-本轮离线控制新增：W2排除同名分店、11-05日期过期拒绝、DETAIL_ONLY不伪造库存/能力漏检、GET上限在记账/模型前拒绝、证据SHA/原始空位/身份/时效绑定。一次原本已有的生产有界无结果文案被旧Runner regex漏认，保留目标红灯detail-wording-red.log后补独立文本控制；只在明确有界且无匹配时通过，不能把无范围的全东京无店声明放行。历史评价未重写。
+本轮离线控制新增：W2排除同名分店、11-05日期过期拒绝、DETAIL_ONLY不伪造库存/能力漏检、GET上限在记账/模型前拒绝、证据SHA/原始空位/身份/时效绑定。一次原本已有的生产有界无结果文案被旧Runner regex漏认，保留目标红灯detail-wording-red.log.gz后补独立文本控制；只在明确有界且无匹配时通过，不能把无范围的全东京无店声明放行。历史评价未重写。
 
 ## 5. D8 用户核对链接模板
 
@@ -49,7 +49,7 @@ C尚未合main，fixture补回放和付费补回放均NOT_RUN（0/20），命令
 
 ## 验证及四层边界
 
-待本冻结候选完成净树五门禁、原条款控制及严格G2；结果归档后在此补实际测试提交、计数和耗时。新增常设G6组应为51项（原46+就绪4+证据导入1），不是用数量替代实际链路。实现源SHA在final-inputs.json冻结，initial inputs-sha256.json作为早期冻结保留。
+修复后的86720163冻结候选已完成净树五门禁、原条款控制及严格G2；实际结果见下表与gate-results.json。新增常设G6组应为51项（原46+就绪4+证据导入1），不是用数量替代实际链路。实现源SHA在final-inputs.json冻结，initial inputs-sha256.json作为早期冻结保留。
 
 功能层：本地配置/编排/证据文件合同；质量层：独立S0注入与公开证据缺失诚实未知；效率层：真实额度0、开发GET硬20及后验保留；安全层：不加载.env、无Cookie/表单/提交、无产品/C/诊断修改。真实见证、实时来源可达性、C代码选择和Live能力仍未验证。能力签收清单及独立评价JSON合同沿用已获复核49e37c55，不调整历史评分口径或答案。
 
@@ -58,3 +58,21 @@ C尚未合main，fixture补回放和付费补回放均NOT_RUN（0/20），命令
 aa194c0e首轮默认1350/1350、type/arch/build及原条款通过，原Chromium188/188通过；G6组50/51失败，严格G2因前项失败未运行。原Runner测试断言slot=2实际为1：新增oracleCandidateId把已知的praxis:restaurant具体ID当作逻辑见证引用，缺qualificationOracle时丢掉G1页面/题目，第一槽正确按缺独立证据停批。不是产品/C缺陷，也没有错误声明。日志和首个停止槽原始执行/评价保留[gate-red-before-id-fix](gate-red-before-id-fix/gates.json)。
 
 修复只让新pack的witness-*逻辑别名进入身份映射，具体候选ID保持原绑定；原测试、全部断言、业务期望原字节保留。原Runner四项同命令4/4绿（runner-id-fix-green.log）。源码再次冻结，重跑完整门禁；不以单文件绿替代整体，不覆盖首轮失败。见candidate-id-fix.json。
+
+## 最终完整门禁与交付边界
+
+测试提交86720163，763份源/配置SHA全程不变；7项各一次，无跳过、过滤或自动重试，命令前后git status均为空。完整首轮失败与单文件目标绿灯仍保留，最终源修复后重新取得全套绿灯。
+
+| 检查 | 结果 | 耗时（秒） |
+|---|---|---:|
+| 原取消/条款组合控制 | 1/1 | 1.375 |
+| typecheck | PASS | 0.451 |
+| arch:check（含组装门禁） | PASS | 0.239 |
+| npm test | 1350/1350 | 38.799 |
+| build | PASS | 0.555 |
+| browser:fixture | 原Chromium188/188 + G6固定组51/51 | 164.288 |
+| 严格G2 | 5/5测试，12/12页PASS | 24.313 |
+
+原Chromium188是G2独占5+其余183之和；不要再把5/183/188重复相加。G6另串行运行51项。原始日志无损gzip归档，archive-logs.json同时记录原始/压缩SHA；gate-green/gates.json为控制器原输出，gate-results.json补明确分组。final-local-captures.tar.gz保存本地实际组装帧和串行Runner两槽执行/独立评价，逐文件SHA见final-capture-sha256.json。
+
+相对获批main549061e8，产品、两个网站目录/source-packs及src/eval/restaurant/diagnosis均零差异；本轮仅A评测/harness/Runner和文档。569项账本ID唯一，main510项原值及A历史57次计费完整保留；模型228/1600、公开GET255/290、Live0/26，环境重跑0/4不变。本轮没有真实调用、没读取或加载.env。当前C ec93c249只在工作分支，补回放未执行（0/20）；Live及认证仍等用户批准。工作分支推送后停止，不合main。
