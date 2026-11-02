@@ -97,7 +97,7 @@ export function evaluatorImportViolation(importer: string, imported: string, sta
     || /^integrations\/.*(?:page-parser|source-price-facts)\.ts$/.test(imported)
     || imported === "infrastructure/browser/playwright-read-network-guard.ts"
     || /^integrations\/.*(?:public-query|read-network-policy)\.ts$/.test(imported);
-  if (!/^eval\/restaurant\/agent-loop\/diagnostic-evaluator[^/]*\.ts$/.test(importer) || !productionJudgment) return undefined;
+  if (!/^eval\/restaurant\/(?:agent-loop\/diagnostic-evaluator[^/]*\.ts$|diagnosis\/)/.test(importer) || !productionJudgment) return undefined;
   if (typeOnlyImport(statement)) return undefined;
   return "diagnostic evaluator must independently judge grounding/eligibility/network boundaries, not value-import production judgment modules";
 }

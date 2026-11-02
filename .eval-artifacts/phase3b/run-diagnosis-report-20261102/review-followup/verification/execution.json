@@ -1,0 +1,241 @@
+{
+  "schema": "run-diagnosis-verification@1",
+  "sourceHead": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+  "freeze": {
+    "path": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/code-and-inputs-freeze.json",
+    "sha256": "dbab7f673a9d3fc082595b1e1165d2ed97e0ecd664c6e74af445306825780511"
+  },
+  "steps": [
+    {
+      "name": "primary-reports",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/diagnosis/files.ts",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/primary-inputs.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/primary-reports"
+      ],
+      "startedAtCET": "2026-11-02T09:28:02.797716+01:00",
+      "finishedAtCET": "2026-11-02T09:28:03.219377+01:00",
+      "elapsedMs": 421.555,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/primary-reports.log.gz",
+      "rawSha256": "323ea4158026e3873ddd7f2f664a6c2fb71f0929e5ad989aa7d3dc7f7f316ae2",
+      "gzipSha256": "dd3a62e28eb7252b0d4d6c7e3e6222b66d374df4f170a2982a399a341fd62864"
+    },
+    {
+      "name": "multiturn-reports",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/diagnosis/files.ts",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/multiturn-inputs.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/multiturn-reports"
+      ],
+      "startedAtCET": "2026-11-02T09:28:03.293939+01:00",
+      "finishedAtCET": "2026-11-02T09:28:03.502085+01:00",
+      "elapsedMs": 208.147,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/multiturn-reports.log.gz",
+      "rawSha256": "d502d7a420fb2cc8875882effdcdd330b8e62d5b233cae093f9cdffba9e423a9",
+      "gzipSha256": "4ed815d1dff585945528c1e9f6b1f374e4907e6a6f307331882e014ec0d31904"
+    },
+    {
+      "name": "calibration-compare",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        "src/eval/restaurant/diagnosis/compare-recorded.ts",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/primary-reports/summary.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/comparison-oracle.json",
+        ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/calibration"
+      ],
+      "startedAtCET": "2026-11-02T09:28:03.577362+01:00",
+      "finishedAtCET": "2026-11-02T09:28:03.834342+01:00",
+      "elapsedMs": 256.983,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/calibration-compare.log.gz",
+      "rawSha256": "6383850eb8eaa2d0b151ed5089a1ac0f6286ace13a1255a3754c52fe55d4aa48",
+      "gzipSha256": "76a15ada8a9feefeb871a75ad50d1528a686ff8629e001feacc814491bbf8d5a"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-02T09:28:03.909827+01:00",
+      "finishedAtCET": "2026-11-02T09:28:04.489146+01:00",
+      "elapsedMs": 579.325,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/typecheck.log.gz",
+      "rawSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gzipSha256": "c18f3e6f8c5294a227ce64bac5e4096a3d1f92a4d21b8686dcb072cc1717e546"
+    },
+    {
+      "name": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-02T09:28:04.565289+01:00",
+      "finishedAtCET": "2026-11-02T09:28:04.868643+01:00",
+      "elapsedMs": 303.356,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/arch-check.log.gz",
+      "rawSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gzipSha256": "ed37f0f55fc69af94cfe7e210b3745b798dc6578344af6cedb0d44e1560d4f39"
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-02T09:28:04.967695+01:00",
+      "finishedAtCET": "2026-11-02T09:28:42.243681+01:00",
+      "elapsedMs": 37276.389,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/npm-test.log.gz",
+      "rawSha256": "142427338305d00a8db1d581347a8bb515a0664aa7ac59c08d932c7524870905",
+      "gzipSha256": "6036e8dc84dd76b0aadf77261cc06cfcc0e87e416fab9232c4cca9db57ed3e86"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-11-02T09:28:42.323321+01:00",
+      "finishedAtCET": "2026-11-02T09:28:42.905194+01:00",
+      "elapsedMs": 581.879,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/build.log.gz",
+      "rawSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gzipSha256": "a553805f9e6bf293e03bcaef987e41853c67e7d21aaa5eab9fc33e385e4dbcb2"
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-11-02T09:28:42.983709+01:00",
+      "finishedAtCET": "2026-11-02T09:30:54.349759+01:00",
+      "elapsedMs": 131367.469,
+      "exitCode": 0,
+      "before": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "after": {
+        "status": "",
+        "head": "3c9f328999eea9d8cfaf5533b96524a0af812387",
+        "frozenFiles": 862,
+        "inputsUnchanged": true
+      },
+      "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/verification/browser-fixture.log.gz",
+      "rawSha256": "92b0a591b2db6cd153a84e63ddb2d6cbad75422db2454623d205e7ed1e9a8edc",
+      "gzipSha256": "dc616d1ed624706b20df9dbcb6bb186f0c3df5510b6a677f5cfb7d178747beb7"
+    }
+  ],
+  "historicalRuntimeReruns": 0,
+  "historicalEvaluatorReruns": 0,
+  "models": 0,
+  "businessNetwork": 0,
+  "witnessRegistryChanges": 0,
+  "timezone": "CET UTC+1"
+}

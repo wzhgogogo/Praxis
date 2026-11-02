@@ -2,6 +2,14 @@
 
 2026-11-02 CET：C用户消息选店离线修复，main efeab254上A原P1/P2 PRESENT_RESULTS回放及具名/来源4红→4413e4ff同9项全绿。复用现有选择事件，USER来源与消息因果链，跨补人数由已接纳事件携带待解析请求；非唯一、非订位、开放推荐/G1/出发不记选择，重复同店/offer幂等。State24/TaskDefinition22、Agent Prompt、G1条款及A/B受保护文件不改。原始响应不改，真实调用0，不读.env；待冻结完整五门禁/严格G2与独立核验，只推工作分支交复核、不合main。 [计划](../.eval-artifacts/phase3b/user-booking-selection-20261102/plan.md)。
 
+2026-11-02 CET：运行诊断8bc20f8a已独立复核通过并获用户合入批准，五门禁后普通合入本地main814dfa6c。最新远端efeab254本已在获批祖先中，无新增同步代码；冻结862项、五项前后净树，默认1342/1342、Chromium187/187及type/arch/build全通过。合并树与获批版本完全相同，其后仅追加发布文档，最终main SHA以正常push/ls-remote回执为准，完成后待命。原2/5校准、44条/27店0身份补全和Konya未确认结论保留，A真实grader红灯对接仍延期；产品/评测输入/历史原件不改，真实调用0、不读.env。[合入与门禁记录](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/report.md)。
+
+2026-11-02 CET：运行诊断复核三项补充完成，待独立复核，不合main。E1三份见证登记44条/27店全量盘点，无合格的跨来源逐字电话/完整日文地址对照；按用户追加决定登记原SHA不变，不重跑22次Evaluator。原Konya“已归因到评测器”撤回，改为疑似匹配、缺独立身份证据未确认。单次13份报告摘要均第27行结束，原始JSON在附录；覆盖汇总另表，含已交付且按SUPPORTED/未评分层。原判定/首点/漏斗/体验不变，原始校准仍2/5，8时间点不变；h002/中目黑说明旧人工混淆覆盖和首点。3c9f3289冻结862项，五门禁前后净树：默认1342/1342、Chromium187/187及type/arch/build通过；旧114交付SHA及22原评价保留。A真实grader红灯对接仍延期，产品/评价器/Gold不改，真实调用0、不读.env。仅推原工作分支交复核。[补充报告](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/review-followup/report.md)。
+
+2026-11-02 CET：运行诊断停止点2候选已离线完成，待独立复核，不合main。实际评价保存后自动写不可覆盖JSON/Markdown，原outcome/severity/execution不变；三栏首点、13环节、体验与分母汇总接通，未知保持未评。5e490a69冻结854项，五门禁各项前后净树：默认1339/1339、Chromium187/187及type/arch/build全绿；钩子缺报告、blocker误升确认、生产判断禁入均有目标红绿。5例原始首点一致率2/5，四组8时间点均≤2秒；神乐坂归因原见证匹配，h002/中目黑保留新旧首点口径分歧。8份多回合产物可到达节点，缺A真实逐环节grade仍未评，B1/条款/取页红灯对接明确未完成。原51来源SHA不变，历史运行/评价不重执行；真实模型/Google/网站/Live0，不读.env或标签。仅推工作分支交复核。[交付与全部分歧](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2-report.md)。
+
+2026-11-02指令修订／CET口径：运行诊断报告只完成停止点1盘点设计，draft / not integrated。从main efeab254开codex/chore-run-diagnosis-report；13环节及体验指标逐项列来源、到达与独立判断分开，JSON草案/5条P1-F及22条E1/9份多回合产物路径SHA已登记。神乐坂人工查位与既有发现漏斗有分歧；多回合独立判定、真实用户时间与追问Gold不足保留未评。另确认新目录默认glob与生产判断禁入范围需复核；无实现/校准/五门禁运行，不改A/产品/判定/Gold，真实调用0、不读.env。推分支后停复核，不合main。[盘点与设计](../.eval-artifacts/phase3b/run-diagnosis-report-20261102/stop1-report.md)。
+
 2026-11-01 CET：C B1条款20秒保留补丁已全绿，按用户批准合main。原5cda产品4红→677334e5同6项绿，96494220同步main1d65b8e8；fff001f2冻结764项，默认1327/1327、Chromium187/187（130.452秒）、标准/严格G2各5/5、12页PASS，9步前后净树。独立7帧开始均>20000ms，旧14帧可见交接不变；逐I/O/model重核且deadline减20秒取消，close保留。A原三文件/B G3/Prompt/State不改；G1文件范围与助手实际追加延迟已附报告（串行5.305ms，注入80ms后88.073ms；并发另列），非Live性能。510账目/154旧产物保留、累计不变，真实调用0，不读.env。正常发布main、ls-remote核对后通知A待命，SHA以Git回执为准。 [报告](../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)。
 
 2026-11-01 CET：C已在5cda89b7产品原字节取得4个保留区红灯，677334e5同6项实际组装全部绿；20001可开始、20000零取页/模型、两次模型间及语言导航前重核、deadline减20秒主动取消，链接保留。固定I/O助手消息等待约5.3ms，注入2×40ms模型等待后约88.1ms，均为实际持久追加观察。96494220同步main1d65b8e8，保留4处双方文档/16项main源码及账本510条、累计不变；不改A/B受保护文件。待冻结合并候选五门禁/严格G2及独立起始时刻核验，真实调用0、不读.env。 [计划](../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/plan.md)。

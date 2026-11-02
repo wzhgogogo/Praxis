@@ -1,0 +1,20 @@
+{
+  "command": [
+    "node",
+    "--import",
+    "tsx",
+    "--test",
+    "--test-name-pattern",
+    "three reporting columns",
+    "src/eval/restaurant/diagnosis/diagnosis.test.ts"
+  ],
+  "exitCode": 1,
+  "targetAssertion": "blocker hypotheses must not become confirmed coverage gaps",
+  "targetAssertionFailed": true,
+  "observedCoverageCount": 2,
+  "expectedCoverageCount": 0,
+  "log": ".eval-artifacts/phase3b/run-diagnosis-report-20261102/stop2/blocker-only-red.log.gz",
+  "rawSha256": "32df740ce2246129f8a304bc556ccacbad47ecf2541c439920df528a28e4ba47",
+  "gzipSha256": "a6431913e967717cff37180389331e8a1bdbc1dfdfa43bc0addc4bb9de99c280",
+  "atCET": "2026-11-02T07:27:46.363187+01:00"
+}
