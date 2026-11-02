@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "phase3b-g6-evaluation@1",
+  "run": {
+    "runId": "g6-good-1793512800000-0",
+    "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+    "mode": "FIXTURE",
+    "artifactRefs": [
+      "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/g6-runner-control-1il2Rz/runs/good/execution.result.json"
+    ]
+  },
+  "verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "NOT_EVALUATED",
+    "stopBatch": true
+  },
+  "layers": {
+    "endToEnd": {
+      "status": "NOT_EVALUATED",
+      "deliveredOutlets": 1
+    },
+    "stages": [
+      {
+        "rule": "DATE",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "reason": "Date must be user-supplied or explicitly disclosed, never silently chosen",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "PARTY_TIME",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "reason": "Displayed guests/slot must match the independent request",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "POST_DELIVERY_SLOT",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "reason": "Displayed slot must occur in the independent post-run response",
+        "evidenceRefs": [
+          "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/g6-runner-control-1il2Rz/runs/good/witness/003-vacancy.body"
+        ]
+      },
+      {
+        "rule": "B1_COPY",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "reason": "Handoff describes fields carried, never a selected/booked result",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "B1_SOURCE_URL",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "reason": "Exact source-returned original URL retained",
+        "evidenceRefs": [
+          "captured-snapshot:0:response:1"
+        ]
+      },
+      {
+        "rule": "B1_LINK",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "reason": "Source origin/path and every date/time/guest parameter must agree",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "G1_CITATION",
+        "status": "NOT_EVALUATED",
+        "severity": "S0",
+        "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "reason": "Source observation missing; do not relabel a recording gap as a fabricated quotation",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "G1_NO_GUARANTEE",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "reason": "A page answer must not become allergy/religious/accessibility suitability assurance",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "G1_ANSWER_MEANING",
+        "status": "PASS",
+        "severity": "S0",
+        "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+        "reason": "Independently confirmed expression or verbatim source answer",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "F6_RESERVE",
+        "status": "PASS",
+        "severity": "CAPABILITY",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "No read/selected-outlet terms start in the final20seconds",
+        "evidenceRefs": []
+      },
+      {
+        "rule": "DEADLINE",
+        "status": "PASS",
+        "severity": "CAPABILITY",
+        "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+        "reason": "Slot remains within500seconds",
+        "evidenceRefs": []
+      }
+    ],
+    "severity": {
+      "S0": [],
+      "independentEvidenceMissing": true
+    },
+    "attribution": {
+      "status": "NOT_EVALUATED",
+      "reason": "Localization belongs to the separate diagnosis consumer; verdicts do not establish cause."
+    }
+  },
+  "checks": [
+    {
+      "rule": "DATE",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "reason": "Date must be user-supplied or explicitly disclosed, never silently chosen",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "PARTY_TIME",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "reason": "Displayed guests/slot must match the independent request",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "POST_DELIVERY_SLOT",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "reason": "Displayed slot must occur in the independent post-run response",
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/g6-runner-control-1il2Rz/runs/good/witness/003-vacancy.body"
+      ]
+    },
+    {
+      "rule": "B1_COPY",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "reason": "Handoff describes fields carried, never a selected/booked result",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "B1_SOURCE_URL",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "reason": "Exact source-returned original URL retained",
+      "evidenceRefs": [
+        "captured-snapshot:0:response:1"
+      ]
+    },
+    {
+      "rule": "B1_LINK",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "reason": "Source origin/path and every date/time/guest parameter must agree",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "G1_CITATION",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "reason": "Source observation missing; do not relabel a recording gap as a fabricated quotation",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "G1_NO_GUARANTEE",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "reason": "A page answer must not become allergy/religious/accessibility suitability assurance",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "G1_ANSWER_MEANING",
+      "status": "PASS",
+      "severity": "S0",
+      "subject": "praxis:restaurant:bd287442c716ac7439273cc9",
+      "reason": "Independently confirmed expression or verbatim source answer",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "F6_RESERVE",
+      "status": "PASS",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "No read/selected-outlet terms start in the final20seconds",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "DEADLINE",
+      "status": "PASS",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "Slot remains within500seconds",
+      "evidenceRefs": []
+    }
+  ],
+  "coverage": {
+    "evaluated": 10,
+    "notEvaluated": 1,
+    "needsIndependentReview": true
+  },
+  "diagnosis": {
+    "inputArtifactRefs": [
+      "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/g6-runner-control-1il2Rz/runs/good/execution.result.json"
+    ],
+    "ownership": "Judgement by G6 evaluator; localization and performance analysis by separate diagnosis consumer. No production eligibility used as an oracle."
+  }
+}

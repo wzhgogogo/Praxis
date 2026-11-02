@@ -52,3 +52,9 @@ C尚未合main，fixture补回放和付费补回放均NOT_RUN（0/20），命令
 待本冻结候选完成净树五门禁、原条款控制及严格G2；结果归档后在此补实际测试提交、计数和耗时。新增常设G6组应为51项（原46+就绪4+证据导入1），不是用数量替代实际链路。实现源SHA在final-inputs.json冻结，initial inputs-sha256.json作为早期冻结保留。
 
 功能层：本地配置/编排/证据文件合同；质量层：独立S0注入与公开证据缺失诚实未知；效率层：真实额度0、开发GET硬20及后验保留；安全层：不加载.env、无Cookie/表单/提交、无产品/C/诊断修改。真实见证、实时来源可达性、C代码选择和Live能力仍未验证。能力签收清单及独立评价JSON合同沿用已获复核49e37c55，不调整历史评分口径或答案。
+
+## 首轮门禁回归与修复
+
+aa194c0e首轮默认1350/1350、type/arch/build及原条款通过，原Chromium188/188通过；G6组50/51失败，严格G2因前项失败未运行。原Runner测试断言slot=2实际为1：新增oracleCandidateId把已知的praxis:restaurant具体ID当作逻辑见证引用，缺qualificationOracle时丢掉G1页面/题目，第一槽正确按缺独立证据停批。不是产品/C缺陷，也没有错误声明。日志和首个停止槽原始执行/评价保留[gate-red-before-id-fix](gate-red-before-id-fix/gates.json)。
+
+修复只让新pack的witness-*逻辑别名进入身份映射，具体候选ID保持原绑定；原测试、全部断言、业务期望原字节保留。原Runner四项同命令4/4绿（runner-id-fix-green.log）。源码再次冻结，重跑完整门禁；不以单文件绿替代整体，不覆盖首轮失败。见candidate-id-fix.json。

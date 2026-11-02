@@ -48,7 +48,8 @@ function capturedVacancies(snapshots:readonly {page:BrowserSnapshot;at:string}[]
   return d?[{ref:`captured-snapshot:${i}:response:${r.sequence}`,phase:"SOURCE_CAPTURE" as const,url:r.url,candidateId:d.candidateId,body:r.body}]:[];
 }));}
 function oracleCandidateId(spec:G6Case,id:string,view:RestaurantCaseView){
-  if(id!==spec.witness?.candidateId)return id;
+  // Only logical witness-* aliases need resolution; concrete IDs retain their binding.
+  if(id!==spec.witness?.candidateId||!id.startsWith("witness-"))return id;
   const phone=(value:string|undefined)=>value?.replace(/\D/gu,"").replace(/^81/u,"0");
   const matches=view.restaurant.candidates.filter(c=>(spec.oracle.qualificationOracles??[]).some(o=>o.name===c.restaurant.outletName&&Boolean(o.phone&&phone(o.phone)===phone(c.restaurant.sourceIds.phone)||o.address&&o.address===c.restaurant.address)));
   return matches.length===1?matches[0]!.restaurant.id:undefined;
