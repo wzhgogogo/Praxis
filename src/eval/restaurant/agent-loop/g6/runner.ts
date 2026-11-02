@@ -82,7 +82,11 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
     const googleFetch=(transport:typeof fetch)=>recording.captureGoogleFetch(async(url,init)=>{if(++googleCalls>40)throw Error("G6 slot Google request ceiling reached before transmission");return transport(url,init);});
     const forwarded:G6EvaluationInput["requests"]=[];
     const raw=await dependencies.transports(spec,recording,{googleFetch,observeRequest:r=>forwarded.push(r)}),snapshots:Array<{page:BrowserSnapshot;at:string}>=[],trace:Array<{sequence:number;at:string;kind:string;detail:unknown}>=[];
-    const clock=raw.clock,traceEvent=(kind:string,detail:unknown)=>{trace.push({sequence:trace.length+1,at:clock.now().toISOString(),kind,detail});recording.record(kind,detail);return trace.length;};
+    const clock=raw.clock,traceEvent=(kind:string,detail:unknown)=>{
+      const fields=detail&&typeof detail==="object"&&!Array.isArray(detail)?detail as Record<string,unknown>:{};
+      const timingOnly=Object.fromEntries(["method","operationId","outcome"].filter(k=>typeof fields[k]==="string"||typeof fields[k]==="number").map(k=>[k,fields[k]]));
+      trace.push({sequence:trace.length+1,at:clock.now().toISOString(),kind,detail:timingOnly});recording.record(kind,detail);return trace.length;
+    };
     let operationSequence=0;
     const timed=async<T>(method:string,read:()=>Promise<T>):Promise<T>=>{
       const operationId=++operationSequence;traceEvent("OPERATION_STARTED",{operationId,method});let completed=false;

@@ -36,6 +36,7 @@ test("G6 serial Runner obtains G1 pages through Live assembly, records all chann
     const timed=await readFile(join(output,"runs/good/browser-trace.json"),"utf8").then(JSON.parse,()=>({events:[]}));
     assert.ok(timed.events.some((e:{kind:string})=>e.kind==="SESSION_CALL"),"Browser wall-clock boundaries must be saved for attribution");
     assert.ok(timed.events.every((e:{at:string})=>Number.isFinite(Date.parse(e.at))));
+    assert.ok(timed.events.every((e:{detail:Record<string,unknown>})=>Object.keys(e.detail).every(k=>["method","operationId","outcome"].includes(k))),"Timing sidecar contains only operation metadata; canonical source details stay in the sanitized recording");
     const operations=timed.events.filter((e:{kind:string})=>e.kind==="OPERATION_STARTED");assert.ok(operations.some((e:{detail:{method:string}})=>e.detail.method==="snapshot"));
     assert.ok(operations.every((e:{detail:{operationId:number}})=>timed.events.some((end:{kind:string;detail:{operationId:number}})=>end.kind==="OPERATION_FINISHED"&&end.detail.operationId===e.detail.operationId)),"Every completed fixture operation retains its timing end");
     assert.ok(observation.decisions);const har=JSON.parse(await readFile(join(observation.recordingPath,"replay.har"),"utf8"));assert.ok(har.log.entries.some((e:{request:{url:string}})=>new URL(e.request.url).hostname==="places.googleapis.com"),"Google structured capture must be observable");
