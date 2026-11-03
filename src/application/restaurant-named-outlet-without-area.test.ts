@@ -52,7 +52,9 @@ test("OPEN_ENDED still asks for a missing area without starting discovery",async
 
 for(const scenario of ["MISSING","UNRELATED","OUTSIDE_TOKYO"] as const)test(`named outlet ${scenario} ends honestly without substituting another shop`,async()=>{
   const f=await bookingTermsComposition({namedWithoutArea:{outputText:await input(),scenario}});
-  try{const v=await f.initial();await capture(f,scenario);assert.equal(v.case.phase,"NO_VERIFIED_RESULT");assert.deepEqual(v.restaurant.presentedCandidateIds,undefined);assert.deepEqual(v.restaurant.bookingHandoffs,[]);assert.equal(v.restaurant.selectedCandidateId,undefined);assert.equal(f.sourceCalls.filter(c=>c.kind==="BROWSER_NAVIGATE").length,0);}
+  try{const v=await f.initial();await capture(f,scenario);assert.equal(v.case.phase,"NO_VERIFIED_RESULT");assert.deepEqual(v.restaurant.presentedCandidateIds,undefined);assert.deepEqual(v.restaurant.bookingHandoffs,[]);assert.equal(v.restaurant.selectedCandidateId,undefined);assert.equal(f.sourceCalls.filter(c=>c.kind==="BROWSER_NAVIGATE").length,0);
+    if(scenario==="UNRELATED"){const later=await f.area();await capture(f,"UNRELATED_USER_AREA");assert.equal(later.restaurant.intentDraft?.area?.query,"Akabane");assert.equal(later.case.phase,"NO_VERIFIED_RESULT");assert.deepEqual(later.restaurant.bookingHandoffs,[]);}
+  }
   finally{await f.close();}
 });
 
