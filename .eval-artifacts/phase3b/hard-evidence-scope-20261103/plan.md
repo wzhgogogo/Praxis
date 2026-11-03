@@ -8,3 +8,5 @@
 - No State/TaskDefinition, Agent/Semantic/Fact Prompt or external schema changes planned. Code-owned transient statement roles are not model output.
 - Verification: D4 original input; c05 actual saved name; review-only/name-mismatch/wrong-outlet/expired controls; five gates plus strict G2. Freeze sources and orchestration before running.
 - Stop before editing A eval/harness files or version changes. Push branch for review, do not merge main. Real calls all zero.
+
+2026-11-03 CET acceptance wiring check: the Web renderer ignored evidence explanations and did not label NAME/category quotations. Complete the already requested card outcome with English basis labels/no-quote basis text, preserving Observed price and all other flows. Own local Chromium component control is frozen; A eval/harness files remain unchanged. First full gates on 576c6406 passed; rerun the full matrix after this source change.
