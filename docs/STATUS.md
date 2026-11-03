@@ -1,3 +1,5 @@
+2026-11-03 CET：C名称匹配ca18d02b经用户复核批准，已同步最新main d4d8ea33。abaf8266净树十步全绿：type/arch/build、默认1372/1372、Chromium188/188、严格G2全12页、独立16帧；源码与复核候选相同。账本A/C并集696条，累计含A的4 Live/321模型/270评测GET，C本轮新增0；上限不扩大、不读.env。按批准合入远端main并核对，具体发布SHA以Git回执为准；D6 S0另开分支修复，不能把本合入当作该S0已修。 [合入证据](../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
+
 2026-11-03 CET：C名称匹配ca18d02b已复核批准合入。已同步origin/main d4d8ea33，源码相同；A5912账本67条并集，额度快照不扩权。本轮五门禁/严格G2待新鲜验证、真实调用0；D6具名店替换S0下一分支独立修复。 [合入报告](../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
 
 2026-11-03 CET：C来源名唯一性补修离线全绿。D1真实Google短名+D3原字节有效红→查位→展示→B1/条款；同店来源全名与包含+typed地址地名分别核对，多店/错地名/身份冲突拒绝，未知别名/建筑词/字内片段不放行。2354b2bd冻结756项，净树十步全绿：默认1372/1372、Chromium188/188、严格G2 5/5及12页PASS，独立新7+原9帧PASS。State25/TaskDefinition23、语义/Agent版本与A/B保护文件不变；原627行全保留、账本628行，本轮真实调用0、不读.env。只推工作分支交复核，不合main；不是新Live或37家通过率。 [交付报告](../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。

@@ -1,5 +1,10 @@
 # Test and Verification Log
 
+<a id="named-outlet-main-verified-20261103"></a>
+
+2026-11-03 CET：C名称匹配ca18d02b经用户复核批准，已同步最新main d4d8ea33。abaf8266净树十步全绿：type/arch/build、默认1372/1372、Chromium188/188、严格G2全12页、独立16帧；源码与复核候选相同。账本A/C并集696条，累计含A的4 Live/321模型/270评测GET，C本轮新增0；上限不扩大、不读.env。按批准合入远端main并核对，具体发布SHA以Git回执为准；D6 S0另开分支修复，不能把本合入当作该S0已修。 [合入证据](../../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
+
+
 <a id="named-outlet-main-20261103"></a>
 
 2026-11-03 CET：C名称匹配ca18d02b已复核批准合入。已同步origin/main d4d8ea33，源码相同；A5912账本67条并集，额度快照不扩权。本轮五门禁/严格G2待新鲜验证、真实调用0；D6具名店替换S0下一分支独立修复。 [合入报告](../../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
