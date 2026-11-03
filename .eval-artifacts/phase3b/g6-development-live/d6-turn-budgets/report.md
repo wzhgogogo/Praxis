@@ -20,6 +20,7 @@ Runner 每个实际发送的用户回合独立 500 秒、50 次模型、40 次 G
 - 最终定向 `green-safety-final.log` 44/44。`green-source-turn-qualification.log` 是早期未通过的复验：构造反例最初误改 12:30 行，19:00 原链接仍存在；反例改为实际 19:00 行后通过，未放宽断言。原件保留，不能把文件名当通过依据。D4 原输入、HAR、HTML 的 SHA 见 `historical-inputs-sha256.json`；本地构造的时钟与反例不是网站回放。
 - `D4-final-recheck.input.json` / `D4-final-recheck.evaluation.json`：最终候选另存的新规则离线重核。B1 来源 PASS，资格待含义复核，S0 安全 PASS、stopBatch=false，qualified=null；原始 D4 文件 SHA 未变。身份独立绑定 Google 原响应的名称、电话/地址与官网指针，忽略生产 HIGH 和 eligible。此前 `D4-recheck.*` 为前一候选的派生结果，保留但不当最终基线。
 - `gates-pre-safety-distinction/results.json` 是前一候选完整门禁通过的原件；补充安全缺证分类后，以最终重新冻结及净树门禁为准。
+- `red-page-identity-valid-snapshot.log`：同一测试和有效本地构造页面，在 ff6ec126 的旧身份接线下未能拒绝另一门店。修后页面已独立确认的异店身份优先，官网指针不能覆盖；只有身份不明时记未知并停，不误报错店。`gates-pre-page-identity` 保留补这条控制前已通过的完整门禁；最终以 `gates/results.json` 为准。最终源与外层脚本 780 项 SHA 固定。
 
 ## JSON 合同
 

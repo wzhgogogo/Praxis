@@ -70,6 +70,11 @@ test("G6 D4 non-witness literal quote is safe pending meaning review; absent or 
   const missingIdentity=evaluateG6(bad);
   assert.ok(missingIdentity.checks.some(c=>c.rule==="QUALIFICATION_QUOTE"&&c.status==="NOT_EVALUATED"),"A missing raw public listing/phone binding is missing evidence, not proof of a different shop");
   assert.equal(missingIdentity.verdict.stopBatch,true);assert.equal(missingIdentity.verdict.s0,0);
+  // LOCAL_CONSTRUCTION counterexample: a listed website pointer must never
+  // override the page's independently observed identity of another branch.
+  const other={name:"Another branch",phone:"03-0000-0000",address:"Other branch address"},otherFrames=[{...frames[0]!,page:{...frames[0]!.page,title:other.name,text:other.name+"\n"+claim.quote,html:`<h1>${other.name}</h1><p>${claim.quote}</p><script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:other.name,telephone:other.phone,address:other.address})}</script>`}}];
+  const wrong=structuredClone(x);wrong.pages=observedQualificationEvidence(run.view,x.runId,otherFrames,[...identities,{...other,ref:"LOCAL_CONSTRUCTION:other-branch",bodySHA256:"0".repeat(64)}]).pages;
+  const wrongScore=evaluateG6(wrong);assert.ok(wrongScore.checks.some(c=>c.rule==="QUALIFICATION_QUOTE"&&c.status==="FAIL"));assert.equal(wrongScore.verdict.stopBatch,true);
 });
 test("G6 source-capture unknown shape stays unassessed while a contradictory slot link fails",()=>{
   // LOCAL_CONSTRUCTION. Independent post-response is unchanged and positive.

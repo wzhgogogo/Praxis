@@ -50,15 +50,17 @@ export function observedQualificationEvidence(view:RestaurantCaseView,runId:stri
       const matches=frames.map((f,index)=>({...f,index})).filter(f=>f.page.url===s.sourceUrl);if(!matches.length)continue;
       const frame=matches.find(f=>f.page.text.includes(s.quote))??matches.at(-1)!;
       const alias=google.find(i=>i.name===candidate.outletName&&Boolean(i.phone&&phone(i.phone)===phone(candidate.sourceIds.phone)||i.address&&i.address===candidate.address));
-      const direct=jsonLDIdentity(frame.page).find(i=>Boolean(i.phone&&phone(i.phone)===phone(candidate.sourceIds.phone)||i.address&&i.address===candidate.address)&&(i.name===candidate.outletName||Boolean(alias&&i.phone&&phone(i.phone)===phone(alias.phone))));
+      const sourceIdentities=jsonLDIdentity(frame.page);
+      const direct=sourceIdentities.find(i=>Boolean(i.phone&&phone(i.phone)===phone(candidate.sourceIds.phone)||i.address&&i.address===candidate.address)&&(i.name===candidate.outletName||Boolean(alias&&i.phone&&phone(i.phone)===phone(alias.phone))));
       const listing=google.find(i=>i.websiteUrl===s.sourceUrl&&i.name===candidate.outletName&&Boolean(i.phone&&phone(i.phone)===phone(candidate.sourceIds.phone)||i.address&&i.address===candidate.address));
-      const identity=direct&&direct.name!==candidate.outletName&&alias?alias:direct??listing;
+      const other=sourceIdentities.find(i=>i.name!==candidate.outletName&&i.phone&&phone(i.phone)!==phone(candidate.sourceIds.phone)&&google.some(g=>g.name===i.name&&phone(g.phone)===phone(i.phone)));
+      const identity=direct?(direct.name!==candidate.outletName&&alias?alias:direct):other??(sourceIdentities.length?undefined:listing);
       // Keep an unmatched captured page as unmatched evidence so a wrong-shop
       // quote is rejected, rather than disappearing as a recording omission.
       // Persist only the claimed public excerpt plus hashes. Do not create a
       // second unrestricted full-page recorder or bypass its sanitization.
       const merchantText=frame.page.text.includes(s.quote)?s.quote:"";
-      const bridge=direct&&direct.name!==candidate.outletName?alias:listing&&!direct?listing:undefined;
+      const bridge=direct&&direct.name!==candidate.outletName?alias:other?google.find(g=>g.name===other.name&&phone(g.phone)===phone(other.phone)):!sourceIdentities.length?listing:undefined;
       const ref=`${frame.ref??`source-snapshot:${frame.index+1}`}:html-sha256:${sha(frame.page.html)}:text-sha256:${sha(frame.page.text)}`+(bridge?`:identity:${bridge.ref}:${bridge.bodySHA256}`:"");
       pages.push({ref,url:frame.page.url,runId,candidateId,readAt:frame.at,merchantText,merchantScope:"EXCERPTS",name:identity?.name??"UNBOUND_SOURCE_IDENTITY",...(identity?.address?{address:identity.address}:{}),...(identity?.phone?{phone:identity.phone}:{}),observedLinks:[]});
       quotes.push({text:s.quote,url:s.sourceUrl,readAt:frame.at});
