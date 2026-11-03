@@ -465,7 +465,7 @@ try {
   // Keep the same runtime and executor path while retaining a redacted raw
   // observation sequence. The source label is descriptive only; snapshots
   // carry the actual safe origin for independent evaluation.
-  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABLECHECK", recordBrowserTrace, decisionCapture?.snapshotSink ?? browserRecording?.snapshotSink());
+  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABLECHECK", recordBrowserTrace, decisionCapture?.snapshotSink ?? browserRecording?.snapshotSink(), {remainingBudgetMs:()=>Math.max(0,liveReadLimits.maxAutomaticBrowserMs-(Date.now()-startedAt.valueOf()))});
   const recordBrowserDiagnostic = (diagnostic: BrowserExecutionDiagnostic) => {
     browserExecutionDiagnostics.push(structuredClone(diagnostic));
     recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);

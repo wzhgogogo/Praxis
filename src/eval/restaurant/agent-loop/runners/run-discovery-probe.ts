@@ -67,7 +67,7 @@ const restore=installReviewedPostObserver(PlaywrightReadNetworkGuard,reviewedByt
 const provider=DeepSeekModelGateway.fromEnvironment(env);
 try{
  const model={complete:(request:Parameters<typeof provider.complete>[0])=>capture.complete(request,()=>provider.complete(request))};
- const browser=traceBrowserRuntime(browserRuntimeFromEnvironment(env),'TABLECHECK',record,capture.snapshotSink);
+ const browser=traceBrowserRuntime(browserRuntimeFromEnvironment(env),'TABLECHECK',record,capture.snapshotSink,{remainingBudgetMs:()=>Math.max(0,config.maxAutomaticBrowserMs-(Date.now()-Date.parse(startedAt)))});
  const summary=await runDiscoveryProbe(input,witnesses,config,{model,browser,google:new GooglePlacesClient({apiKey:env.GOOGLE_MAPS_API_KEY??'',proxyServer:env.PRAXIS_GOOGLE_API_PROXY_SERVER,timeoutMs:30_000}),clock:{now:()=>new Date(input.referenceTime)},onBrowserDiagnostic:d=>record('EXECUTOR_DIAGNOSTIC',d)},record,safety.signal);
  const decisionCapture=await capture.finish();const recorded=await recording.finish();
  const boundary=auditReadOnlyTrace(trace as TraceRecord[],[],false,reviewed);

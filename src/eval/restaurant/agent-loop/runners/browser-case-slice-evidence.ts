@@ -1,5 +1,6 @@
 import { captureRawPriceRegions } from "../diagnostic-evaluator-prices.js";
 import { createHash } from "node:crypto";
+import {withRequestTimeline} from './browser-request-timeline.js';
 
 import type { BrowserReadActionTarget } from "../../../../infrastructure/browser/browser-action-decision.js";
 import type { BrowserCapturedResponse, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
@@ -314,11 +315,13 @@ export function traceBrowserRuntime(
   source: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">,
   record: (kind: string, detail: unknown) => number,
   recording?: BrowserTraceRecordingSink,
+  timing?: {remainingBudgetMs:()=>number|undefined},
 ): BrowserRuntime {
   return {
     ...(runtime.readNetworkBoundaryCapability ? { readNetworkBoundaryCapability: runtime.readNetworkBoundaryCapability } : {}),
     openSession: async input => {
-      try { return traceBrowserSession(await runtime.openSession({ ...input, ...(recording?.recordResponse ? { recordResponse: recording.recordResponse } : {}) }), source, record, recording); }
+      const timelineRecord=(kind:string,detail:unknown)=>{record(kind,detail);recording?.record(kind,detail);};
+      try { return traceBrowserSession(await withRequestTimeline({record:timelineRecord,signal:input.signal,...(timing?{remaining:timing.remainingBudgetMs}:{})},()=>runtime.openSession({ ...input, ...(recording?.recordResponse ? { recordResponse: recording.recordResponse } : {}) })), source, record, recording); }
       catch (error) { record("SESSION_OPEN_ERROR", errorRecord(error)); throw error; }
     },
   };
