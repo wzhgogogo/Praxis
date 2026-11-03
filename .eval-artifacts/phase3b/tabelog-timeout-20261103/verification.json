@@ -1,0 +1,226 @@
+{
+  "timeCET": "2026-11-03T15:10:53.077465+01:00",
+  "status": "DIAGNOSIS_ONLY_STOPPED_FOR_OWNERSHIP_AND_MISSING_TIMELINE",
+  "candidate": "7b8d2bacfe4abd90960b63a0ea76f6d649c87eab",
+  "productSourceUnchangedFrom": "a7abbc0fb3c840878f640eb07bf7d609ce99c99b",
+  "fixImplemented": false,
+  "primaryCause": "UNDETERMINED",
+  "speedImprovement": "NOT_MEASURED_NO_PATCH",
+  "realGETs": {
+    "allowed": 6,
+    "used": 0
+  },
+  "realModelCalls": 0,
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-03T15:06:27.198756+01:00",
+      "seconds": 0.61,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "7b8d2bacfe4abd90960b63a0ea76f6d649c87eab",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-03T15:06:27.851636+01:00",
+      "seconds": 0.279,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "7b8d2bacfe4abd90960b63a0ea76f6d649c87eab",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-03T15:06:28.174300+01:00",
+      "seconds": 51.56,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "7b8d2bacfe4abd90960b63a0ea76f6d649c87eab",
+      "logSha256": "f22d2c4692d0242e48640926743015174b303b1a3a412be903c11c332157b293"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-11-03T15:07:19.779964+01:00",
+      "seconds": 0.605,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "7b8d2bacfe4abd90960b63a0ea76f6d649c87eab",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-11-03T15:07:20.428529+01:00",
+      "seconds": 132.231,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "7b8d2bacfe4abd90960b63a0ea76f6d649c87eab",
+      "logSha256": "f0466322879c37450843043b642429a794b9816fd9fc84d26dc0daeef216c597"
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-11-03T15:09:32.706281+01:00",
+      "seconds": 24.258,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "7b8d2bacfe4abd90960b63a0ea76f6d649c87eab",
+      "logSha256": "a47828e1d4329ba96b187763aaa8d99436222a765d2ea8b3aa29b4d67f9236e2"
+    }
+  ],
+  "strictG2Pages": [
+    {
+      "id": "tabelog-list-nerima",
+      "classification": "PASS",
+      "referenceFacts": 20,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-list-akabane",
+      "classification": "PASS",
+      "referenceFacts": 1,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-detail-01",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-detail-02",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-calendar-teppen",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {
+        "day:2026-09-29": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-28": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-30": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-calendar-sen",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {
+        "day:2026-10-22": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-10-01": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-list-ginza",
+      "classification": "PASS",
+      "referenceFacts": 1,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-list-akabane",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-detail-nakamata",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-detail-takahashiya",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-calendar-nakamata",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-calendar-kinri",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    }
+  ],
+  "newSourceOrTestChanges": false
+}
