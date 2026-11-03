@@ -38,3 +38,19 @@ main原746条与A已发生的813条按ID并集，补一条本次零调用记录�
 ## main发布候选验证
 
 2026-11-03T15:53:49.137411+01:00：d61b9dde87d0276b267904688003443b5eba4115 净树五门禁全部PASS：默认1404/1404、Chromium189/189、严格G2 5/5（12页）。每项前后status为空，原日志见gates/；最终提交只归档文档，不改已测源码。待正常快进推送main并核对，G6分支随后同步。
+
+## G6工作分支接线
+
+main已快进发布8ba6068fc7b394e4b82f74ee793821e3b189e332，ls-remote核对一致，并已通知B/C。G6工作分支同步main，文档两边保留、账本按ID并集。G6 canonical trace不再对新时间线只留method/operationId/outcome；经原safeRecord保留新增字段，预算回调取既有用户回合与Runtime读取deadline较小值，不重置、不改变预算。
+
+原店名绑定测试默认页面替身不产生真实网络，最初G6检查只算fixture准备错误，单存g6-fixture-setup-miss.log。改用既有CONTROL_FALLBACK真实Chromium来源和注入时钟，模型/来源为本地构造；全部原业务断言保持。未修投影在导航预算字段断言有效失败（g6-red.log），修后同一测试通过（g6-green.log），请求ID/完整URL哈希与导航预算真实进入canonical输出。该测试证明接线，不是现实网站/真实运行截止时间的验收。G6分支完整门禁待执行，未开始Live。
+
+## G6最终验证
+
+01922aab0153a11bbb2ecd5b107b26c4c546ab61：净树type/arch/build、默认1412/1412、Chromium189/189 + G6 66/66、严格G2 5/5（12页）全绿，每项前后status为空。源码/fixture/scripts与已测候选一致，后续只归档文档。G6工作分支已推送10dfc1d98ff6cb30d47a83a04f419bdf53d1b16f，不合main、不启动Live。原始红灯日志中的空白字节通过.gitattributes保留为原件，最终diff--check通过。
+
+账本另并入B在ad4e6484已记录的6次已授权W1比较读及其零调用记录，只导入实际记账，不导入其未获批资源策略代码。821行并集，原值均保留；全局Live11/29、模型401/1600、公开GET290/400、网站请求8210、环境重跑0/4。本任务A新增全部真实调用0。见ledger-b-comparisons.json。
+
+## 最终发布边界
+
+共享采集源码已在main8ba6068f发布并核对；本次后续main提交只同步报告、G6门禁证据和B既有收费并集。源码仍与d61b9dde已测候选逐字相同。G6 Runner接线位于10dfc1d9工作分支，未将该分支代码或旧Live整包合main。直接使用LocalPlaywrightChromium而不经过traceBrowserRuntime的独立脚本不会自动采集；后续诊断需使用该共享追踪入口并传入自己的剩余预算回调。
