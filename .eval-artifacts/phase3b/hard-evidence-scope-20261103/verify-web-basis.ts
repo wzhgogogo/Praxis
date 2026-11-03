@@ -9,7 +9,7 @@ const fixtureRoot=new URL('../../../src/application/fixtures/restaurant-presenta
 const saved=JSON.parse(gunzipSync(readFileSync(new URL('checkpoint-c-live-20261020/continuous-retry-20261021/quick-live-results/c-05-attempt-1/runner/2026-10-21T11-17-13-039Z-654604aa-9a39-4005-9962-00f1a79c827c.result.json.gz',fixtureRoot))).toString());
 const state=saved.finalSnapshot.domainState,cid='tabelog:en/tokyo/A1309/A130905/13048623';
 const roles=JSON.parse(readFileSync(new URL('hard-source-roles-20261103.json',fixtureRoot),'utf8'));
-for(const fact of state.readEvidence){const role=roles.rows.find((r:any)=>r.evidenceId===fact.evidenceId&&r.sourceUrl===fact.sourceUrl);if(role&&!fact.sourceFieldQuotes?.length)fact.sourceFieldQuotes=role.sourceFieldQuotes;}
+for(const fact of state.readEvidence){const role=roles.rows.find((r:any)=>r.runId===saved.runId&&r.evidenceId===fact.evidenceId&&r.sourceUrl===fact.sourceUrl);if(role&&!fact.sourceFieldQuotes?.length)fact.sourceFieldQuotes=role.sourceFieldQuotes;}
 const name=assessRestaurantConditions(state.intentDraft,restaurantCurrentFactEvidence(state,cid),state.presentedResults.presentedAt)[0]!;
 assert.equal(name.status,'MET');assert.ok(name.sources.some(q=>q.field==='NAME'));
 // A source-owned category claim need not have a textual quote; this renderer

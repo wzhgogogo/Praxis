@@ -34,8 +34,8 @@ for(const file of [...new Set(files)].filter(f=>existsSync(f)||existsSync(f.repl
   }
   const unique=[...new Map(fields.map(q=>[JSON.stringify(q),q])).values()];
   if(!unique.length){misses.push({evidenceId:fact.evidenceId,runId:a.runId});continue;}
-  rows.push({evidenceId:fact.evidenceId,sourceUrl:fact.sourceUrl,selectedTextSha256:hash(JSON.stringify(fact.claims.restaurantTypeFacts)),sourceFieldQuotes:unique,sources});
+  rows.push({runId:a.runId,artifactSha256:hash(bytes),evidenceId:fact.evidenceId,sourceUrl:fact.sourceUrl,selectedTextSha256:hash(JSON.stringify(fact.claims.restaurantTypeFacts)),sourceFieldQuotes:unique,sources});
  }
 }
-writeFileSync(resolve(root,'hard-source-roles-20261103.json'),JSON.stringify({status:'frozen regression; exposed historical source role restoration only',collectedAt:'2026-10-21',generatedAt:'2026-11-03 CET',rows:[...new Map(rows.map(r=>[r.evidenceId,r])).values()]},null,2)+'\n');
+writeFileSync(resolve(root,'hard-source-roles-20261103.json'),JSON.stringify({status:'frozen regression; exposed historical source role restoration only',collectedAt:'2026-10-21',generatedAt:'2026-11-03 CET',rows:[...new Map(rows.map(r=>[r.runId+":"+r.evidenceId,r])).values()]},null,2)+'\n');
 console.log(JSON.stringify({rows:rows.length,misses},null,2));

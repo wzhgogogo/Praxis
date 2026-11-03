@@ -48,12 +48,12 @@ const laterFact = "evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e
 
 // Legacy selected documents predate source-role capture. Restore only roles
 // extracted from their own saved pages; the raw words and judgments stay frozen.
-async function restoreSavedHardSourceRoles(state: RestaurantTaskState) {
+async function restoreSavedHardSourceRoles(state: RestaurantTaskState, sourceRunId: string) {
   const { createHash } = await import("node:crypto");
   const data = JSON.parse(await readFixture(new URL("./fixtures/restaurant-presentation-evidence/hard-source-roles-20261103.json", import.meta.url), "utf8"));
   for (const fact of state.readEvidence.filter(e => e.provider !== "MODEL_JUDGMENT" && Array.isArray(e.claims.sourceStatementIds))) {
     if (fact.sourceFieldQuotes?.length) continue;
-    const saved = data.rows.find((row: any) => row.evidenceId === fact.evidenceId && row.sourceUrl === fact.sourceUrl
+    const saved = data.rows.find((row: any) => row.runId === sourceRunId && row.evidenceId === fact.evidenceId && row.sourceUrl === fact.sourceUrl
       && row.selectedTextSha256 === createHash("sha256").update(JSON.stringify(fact.claims.restaurantTypeFacts)).digest("hex"));
     if (saved) fact.sourceFieldQuotes = saved.sourceFieldQuotes;
   }
@@ -81,7 +81,7 @@ test("c05 Kaga Router to Reducer retains the later availability-read source fact
     const texts = fact.claims.restaurantTypeFacts;
     if (Array.isArray(texts)) fact.sourceFieldQuotes = roleFields.filter(q => texts.includes(q.quote));
   }
-  await restoreSavedHardSourceRoles(state);
+  await restoreSavedHardSourceRoles(state, artifact.runId);
   assert.ok(state.availabilityChecks[candidateId]!.evidenceIds.includes(laterFact));
   assert.ok(state.factChecks![candidateId]!.checkedAt < state.readEvidence.find(e => e.evidenceId === laterFact)!.observedAt);
   let reads = 0;
@@ -247,7 +247,7 @@ test("C18 four split tempura statements inherit their containing merchant field 
       if (envelope.event.type === "RESULTS_PRESENTED") break;
       state = restaurantBookingTaskDefinition.transition(state, envelope.event, ctx(envelope.occurredAt)).state;
     }
-    await restoreSavedHardSourceRoles(state);
+    await restoreSavedHardSourceRoles(state, artifact.runId);
     for (const id of ids) {
       const candidate = state.candidates.find(c => c.restaurant.id.endsWith('/' + id))!, check = state.factChecks![candidate.restaurant.id]!;
       const fact = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT" && e.provider === "TABELOG")!;
@@ -310,7 +310,7 @@ test("C18 selected Utou course titles remain known when the selected statement a
       if (envelope.event.type === "RESULTS_PRESENTED") break;
       state = restaurantBookingTaskDefinition.transition(state, envelope.event, ctx(envelope.occurredAt)).state;
     }
-    await restoreSavedHardSourceRoles(state);
+    await restoreSavedHardSourceRoles(state, artifact.runId);
     for (const id of ids) {
       const candidate = state.candidates.find(c => c.restaurant.id.endsWith('/' + id))!, check = state.factChecks![candidate.restaurant.id]!;
       const fact = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT" && e.provider === "TABELOG")!;
