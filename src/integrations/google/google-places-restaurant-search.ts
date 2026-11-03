@@ -8,8 +8,8 @@ import type { RestaurantCandidateFactPort, RestaurantSearchPort } from "../../ap
 import { googleDiscoveryGeoDiagnostics, groundGoogleDiscovery, type GoogleDiscoveryGroundingInput, type UntrustedGooglePlaceObservation } from "../../domains/restaurant/read-grounding.js";
 import { restaurantSearchIntentFingerprint, type RestaurantCandidate, type RestaurantReadEvidence, type RestaurantCandidateFactRequest, type RestaurantSearchContinuation, type RestaurantSearchRead, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
 import { GooglePlacesClient } from "./google-places-client.js";
-import { GooglePlacesError, type GooglePlacesRawPlace, type GooglePlacesSourceName } from "./google-places-contracts.js";
-import {namedOutletWithoutArea,outletNameKey} from "../../domains/restaurant/named-outlet-resolution.js";
+import { GooglePlacesError, type GooglePlacesRawPlace, type GooglePlacesSourceName,type GooglePlacesTextSearchPage } from "./google-places-contracts.js";
+import {outletNameKey,type NamedOutletReference} from "../../domains/restaurant/named-outlet-resolution.js";
 
 function string(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
@@ -394,41 +394,54 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
   }
 
   /** Name lookup has no invented geographic center and no cuisine retrieval rewrite. */
-  private async searchNamedOutlet(request:RestaurantSearchRequest,signal:AbortSignal):Promise<RestaurantSearchRead> {
+  private async searchNamedOutlet(request:RestaurantSearchRequest,signal:AbortSignal,reference?:NamedOutletReference):Promise<RestaurantSearchRead> {
     const startedAt=Date.now(),query=request.intent.target!.query,observedAt=this.now();
-    const textQuery=`${query} Tokyo`;
+    const area=request.intent.area;
+    const namedLocation=area&&!area.coordinates&&!request.continuation?await this.resolveNamedNearbyLocation(request,signal):{};
+    const locationContext=area?.coordinates?{latitude:area.coordinates.latitude,longitude:area.coordinates.longitude,radiusMeters:area.radiusMeters??DEFAULT_NEARBY_RADIUS_METERS,label:area.query,areaMatchBasis:"TASK_LOCATION_RADIUS" as const}
+      :request.continuation?.locationContext??namedLocation.location;
+    const textQuery=`${query} ${area?.query??"Tokyo"}`;
+    const selectedId=reference?.restaurant.sourceIds.googlePlaces;
     const read=async(pageToken?:string)=>{
       if(!this.hasBudget(request.readRunId))throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED","Named-outlet lookup exhausted the enclosing Google budget");
       this.consumeRequest(request.readRunId,"discovery");
       return this.client.textSearchPage({textQuery,pageSize:20,...(pageToken?{pageToken}:{})},signal);
     };
-    const first=await read(),pages=[first];
+    let first:GooglePlacesTextSearchPage;
+    if(selectedId){
+      if(!this.hasBudget(request.readRunId))throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED","Selected-outlet lookup exhausted the enclosing Google budget");
+      this.consumeRequest(request.readRunId,"placeDetails");
+      try{const place=await this.client.placeDetails(selectedId,signal);first={places:place.id===selectedId?[place]:[]};}
+      catch(error){if(error instanceof GooglePlacesError&&error.status===404)first={places:[]};else throw error;}
+    }else first=await read();
+    const pages=[first];
     if(first.nextPageToken)pages.push(await read(first.nextPageToken));
     signal.throwIfAborted();
     const key=outletNameKey(query);
     // A Japanese user name can be compared to the source's Japanese name,
     // never to a model translation. Same cache/ceiling as both availability sources.
-    const japanese=await this.namedJapaneseAliases(query,pages.flatMap(p=>p.places),request.readRunId,signal);
+    const japanese=selectedId?new Map<string,string>():await this.namedJapaneseAliases(query,pages.flatMap(p=>p.places),request.readRunId,signal);
     const candidates=[...new Map(pages.flatMap(page=>page.places).map(place=>[place.id,place])).values()].flatMap(place=>{
       const o=rawObservation(place);
-      if(!inTokyo(o)||!possibleNamedOutlet(query,o.displayName??"")&&outletNameKey(japanese.get(o.placeId??"")??"")!==key)return [];
-      const result=groundGoogleDiscovery(o,{timezone:request.intent.timezone,observedAt,requestFingerprint:restaurantSearchIntentFingerprint(request.intent),areaQuery:""});
+      if(!inTokyo(o)||!selectedId&&!possibleNamedOutlet(query,o.displayName??"")&&outletNameKey(japanese.get(o.placeId??"")??"")!==key)return [];
+      const result=groundGoogleDiscovery(o,{timezone:request.intent.timezone,observedAt,requestFingerprint:restaurantSearchIntentFingerprint(request.intent),areaQuery:area?.query??"",...(locationContext?{evaluationLocation:locationContext}:{})});
       return result.accepted?[{...result,evidence:{...result.evidence,claims:{...result.evidence.claims,
         namedOutletLocalities:addressLocalities(o)}}}]:[];
     });
-    const unique=candidates.length===1&&outletNameKey(candidates[0]!.candidate.restaurant.outletName)===key&&!pages.at(-1)!.nextPageToken;
+    const unique=candidates.length===1&&(Boolean(selectedId)||outletNameKey(candidates[0]!.candidate.restaurant.outletName)===key)&&!pages.at(-1)!.nextPageToken;
     const status=unique?"UNIQUE":"AMBIGUOUS";
     const accepted=candidates.slice(0,this.maxResults);
     const sourceNames=await this.observedSourceNames(accepted.map(r=>r.candidate),request.readRunId);
-    return {candidates:accepted.map(r=>({...r.candidate,matchReasons:[`Location from named outlet resolution: ${r.candidate.restaurant.address}`],warnings:unique?[]:candidates.length===1?["Google lists this outlet under a different name."]:["Confirm which branch or area you mean; the outlet name is not uniquely resolved."]})),evidence:accepted.flatMap(r=>{
+    return {candidates:accepted.map(r=>({...r.candidate,matchReasons:area?r.candidate.matchReasons:[`Location from named outlet resolution: ${r.candidate.restaurant.address}`],warnings:unique?[]:candidates.length===1?["Google lists this outlet under a different name."]:["Confirm which branch or area you mean; the outlet name is not uniquely resolved."]})),evidence:[...(namedLocation.evidence?[namedLocation.evidence]:[]),...accepted.flatMap(r=>{
       const {areaQuery:_area,areaMatch:_match,...claims}=r.evidence.claims as RestaurantReadEvidence["claims"];
-      return [{...r.evidence,claims:{...claims,locationBasis:"NAMED_OUTLET_RESOLUTION",namedOutletStatus:status,requestedOutletName:query,serviceArea:"Tokyo",namedOutletCandidateCount:candidates.length,namedOutletSearchComplete:!pages.at(-1)!.nextPageToken}},...r.additionalEvidence,...sourceNames.filter(e=>e.candidateId===r.candidate.restaurant.id)];
-    }),continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:first.nextPageToken?[first.nextPageToken]:[],pagesRead:pages.length,exhausted:true,sourceRequestContext:{textQuery},...(!unique&&accepted.length?{lastFailureCode:"ENTITY_MATCH_UNCERTAIN" as const}:{})},
+      return [{...r.evidence,claims:{...(area?r.evidence.claims:claims),...(!area?{locationBasis:"NAMED_OUTLET_RESOLUTION"}:{}),namedOutletStatus:status,requestedOutletName:query,serviceArea:"Tokyo",namedOutletCandidateCount:candidates.length,namedOutletSearchComplete:!pages.at(-1)!.nextPageToken,
+        ...(reference?{userSelectionEventId:reference.userEventId,...Object.fromEntries(["googlePlaces","tabelog","tablecheck"].flatMap(key=>reference.restaurant.sourceIds[key]?[[`selectedIdentity:${key}`,reference.restaurant.sourceIds[key]!]]:[]))}:{})}},...r.additionalEvidence,...sourceNames.filter(e=>e.candidateId===r.candidate.restaurant.id)];
+    })],continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:first.nextPageToken?[first.nextPageToken]:[],pagesRead:pages.length,exhausted:true,...(!selectedId?{sourceRequestContext:{textQuery}}:{}),...(locationContext?{locationContext}:{}),...(!unique&&accepted.length?{lastFailureCode:"ENTITY_MATCH_UNCERTAIN" as const}:{})},
       metadata:{provider:"GOOGLE_PLACES" as const,route:this.executionRoute,latencyMs:Date.now()-startedAt,googleRequests:this.googleRequestUsage(request.readRunId),
         googleGeoDiagnostics:{providerMode:"GOOGLE_TEXT_SEARCH",requestMode:"UNRESTRICTED",exactRadiusGate:"NOT_APPLICABLE",candidates:accepted.map(r=>({sourcePlaceId:r.candidate.restaurant.sourceIds.googlePlaces!,accepted:true,reasonCode:unique?"NAMED_OUTLET_UNIQUE":"NAMED_OUTLET_AMBIGUOUS"}))}}};
   }
 
-  async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {
+  async search(request: RestaurantSearchRequest, signal: AbortSignal,reference?:NamedOutletReference): Promise<RestaurantSearchRead> {
     const startedAt = Date.now();
     const intentFingerprint = restaurantSearchIntentFingerprint(request.intent);
     if (request.continuation && request.continuation.intentFingerprint !== intentFingerprint) {
@@ -441,7 +454,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         metadata: { provider: "GOOGLE_PLACES" as const, route: this.executionRoute, latencyMs: Date.now() - startedAt, googleRequests: this.googleRequestUsage(request.readRunId) },
       };
     }
-    if(namedOutletWithoutArea(request.intent))return this.searchNamedOutlet(request,signal);
+    if(request.intent.target?.selectionScope==="SPECIFIC_OUTLET"&&request.intent.target.query.trim())return this.searchNamedOutlet(request,signal,reference);
     if(!request.intent.area)throw new GooglePlacesError("GOOGLE_LOCATION_UNRESOLVED","Open-ended search requires a user area");
     const nearbyCategory = request.discoveryQuery?.keyword||request.discoveryRetrieval?.keyword ? undefined
       : request.discoveryQuery?.category ?? (request.discoveryRetrieval ? generalDiscoveryCategory(request.intent) : undefined);
@@ -558,13 +571,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const structural = [...new Map(grounded.flatMap(({ result }) =>
       result.accepted ? [[result.candidate.restaurant.id, result] as const] : [],
     )).values()];
-    const named=request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?request.intent.target.query:undefined;
-    const japanese=named?await this.namedJapaneseAliases(named,pages.flat(),request.readRunId,signal):new Map<string,string>();
-    const scoped=named?structural.filter(r=>r.evidence.claims.areaMatch===true&&(possibleNamedOutlet(named,r.candidate.restaurant.outletName)
-      ||outletNameKey(japanese.get(r.candidate.restaurant.sourceIds.googlePlaces??"")??"")===outletNameKey(named))):structural;
-    const uniqueNamed=scoped.length===1&&outletNameKey(scoped[0]!.candidate.restaurant.outletName)===outletNameKey(named??"")&&!nextPageToken;
-    const acceptedGrounded=named?scoped.map(r=>({...r,evidence:{...r.evidence,claims:{...r.evidence.claims,requestedOutletName:named,namedOutletStatus:uniqueNamed?"UNIQUE":"AMBIGUOUS",namedOutletCandidateCount:scoped.length,namedOutletSearchComplete:!nextPageToken,
-      namedOutletLocalities:addressLocalities(grounded.find(g=>g.result.accepted&&g.result.candidate.restaurant.id===r.candidate.restaurant.id)!.observation)}}})):scoped;
+    const acceptedGrounded=structural;
     return {
       candidates: acceptedGrounded.map((result) => result.candidate),
       evidence: [...(namedLocation.evidence ? [namedLocation.evidence] : []), ...acceptedGrounded.flatMap((result) => [result.evidence, ...result.additionalEvidence]),

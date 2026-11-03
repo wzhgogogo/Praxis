@@ -1,0 +1,103 @@
+{
+  "mode": "OFFLINE_ASSEMBLY_WITH_SAVED_D3_TEXT_AND_FIXED_AVAILABILITY_PREFACE",
+  "command": [
+    "node",
+    "--import",
+    "./scripts/test-filesystem-guard.mjs",
+    "--import",
+    "tsx",
+    "--test",
+    "src/application/restaurant-saved-booking-terms.test.ts"
+  ],
+  "environment": {
+    "PRAXIS_SAVED_TERMS_CAPTURE": "1"
+  },
+  "files": [
+    {
+      "path": ".eval-artifacts/phase3b/named-identity-terms-20261103/run-targeted.py",
+      "sha256": "a13c611af94b28c39d6a5e4999fef350ea264f57318f9d6f9396da95151b28c6"
+    },
+    {
+      "path": "src/application/fixtures/booking-terms-composition.ts",
+      "sha256": "3c3ede86cdd088d0f1f0d0bc6cfe6efb233811515cf81f4eb41af6a0aba7222e"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/d3.json",
+      "sha256": "cdea4d0437529cb5bf260b44443e9a27d3e9310315bb58878ca542952038d09a"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-01.original.json",
+      "sha256": "304797d8c6508bb9715e7cc63304ad348ae9f26694493c77a2f60ac0f2568f8d"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-02.original.json",
+      "sha256": "281f570839949bf1deafcc142e62a1a7c985cbf30be9a80b4629c0e792da39b6"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-03.original.json",
+      "sha256": "460ce6f3e983dbe7c8f84c0a1881b01e5980fa70d0cc398ca3480a289a6c79ad"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-04.original.json",
+      "sha256": "edebefaa4027fb4829c65b465a9d3d0f7127b9ed196215b0fd5742ddc1a8b3da"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-06.original.json",
+      "sha256": "3c87ff6b098c7e26cb10f8aad28237f9d1df12696821c6159dafde7bbb63efe5"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-07.original.json",
+      "sha256": "eb5454b8f9660409e9fea304c534cbbbd543c856babccd03beab7017a144ce11"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-08.original.json",
+      "sha256": "73799b6a036d0a31dc3eb73daac76a86afbbd1728da9f6930fc55d71bfd66ef8"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-09.original.json",
+      "sha256": "95ee5472edea5f4bdcdc006d6058def30a915d7e0a2ee748c88d3641e2415410"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-10.original.json",
+      "sha256": "edebefaa4027fb4829c65b465a9d3d0f7127b9ed196215b0fd5742ddc1a8b3da"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/decision-12.original.json",
+      "sha256": "8a32e04f2b5456460382ad9f38ff3a0563f06a9d84c894bbccad82f0403e9715"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/manifest.json",
+      "sha256": "a2628f51cf14707d4fbf3c54689bcde746634c92fff3b3a6474c72308c7a2da1"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/page-23.json",
+      "sha256": "6554ebea9cafaf9c1aba95de2bd41d167cb4a606597a8879dca11ccac9d1f615"
+    },
+    {
+      "path": "src/application/fixtures/named-identity-terms/page-24.json",
+      "sha256": "36129a2cc23fea8d815af122988a236c65b973003546ad12de8fe314fba9a7a5"
+    },
+    {
+      "path": "src/application/persistent-restaurant-agent.ts",
+      "sha256": "bd00ce1353150295908d7f85938286ece4a9b150edab29ca5871e92c77b4ce80"
+    },
+    {
+      "path": "src/application/restaurant-booking-handoff.ts",
+      "sha256": "3b21555f37480f903b02512425a1f8296b7c7b649f2c883ac32fa09154264905"
+    },
+    {
+      "path": "src/application/restaurant-saved-booking-terms.test.ts",
+      "sha256": "13d7fed0b1fbfa7f343922a5a9730b7f600f9937250cf44a0db47185904f25f5"
+    },
+    {
+      "path": "src/integrations/restaurant-facts/booking-terms.ts",
+      "sha256": "e2a44ad0b65547644094fa167f4a0617503a00df79f424df2522889160538148"
+    },
+    {
+      "path": "src/integrations/restaurant-search/live-read-assembly.ts",
+      "sha256": "bd41188d9137aa9d16f4c25a3ae2523a3fa6b9bbecd122b5d545f2349c1ecaec"
+    }
+  ],
+  "realCalls": 0,
+  "output": "d3-diagnostic-red"
+}

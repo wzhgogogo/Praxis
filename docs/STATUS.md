@@ -11,6 +11,34 @@
 2026-11-02 CET（客户端11-03）：A新安全停批策略完成红绿及净树全门禁，历史D3仅stopBatch变化、D1仍S0停，评分与定义不变。D4 483.348秒展示Yakiton Daio1家，完整资格及B1来源两项安全NOT_EVALUATED后正确停批，D6未启动。HAR原B1链接确实存在，A读取器用四参数见证规则拒绝来源第五参数exclude_unavailable_time；新店仅有串カツ菜单原文，需独立HARD审查，且生产eligible与显示NOT_CHECKED差异单列。G1追问因收尾预留未发。Recorder12/94页，模型32、Google8、独立请求2206全PASS/越界0，F6无保留区新读且未超500；3POST为合法日历。D7取消非失败，具名四槽仍待C；本次不修评分或产品、不续跑。账本627原值保留加35为662，累计Live3/26、模型298/1600、GET265/390，开发10/25余15、环境重跑0。 [完整报告](../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/report.md)。
 
 2026-11-02 CET：按用户复核记录D3能力未达/不必要追问/S0=0（原评价不改），D7取消且不计失败，具名四槽等C通知。本批只改A Runner/评价器停批：S0或安全缺证/额度仍停，安全PASS的能力NOT_EVALUATED记RECORDED_NOT_EVALUATED并继续；历史D3仅stopBatch改变、D1仍停且全部评分逐字段不变，整组装下一槽可启动，34/34绿。冻结D4/D6原文和开发9/25继承，待净树五门禁/严格G2后串行跑；不改产品或评分规则，不合main。 [切片与冻结](../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/plan.md)。
+2026-11-03 CET：C已在B main f0bee7d7后完成获批fd07f44e合入验证。822a7cd3冻结799项，净树十步全绿：默认1404/1404、Chromium188/188、严格G2 5/5且12页PASS、22组装测试/独立26帧PASS。34个C独有和20个B独有源码逐字保留，两个重叠仅合并import/自动保留双方；原C证据不变，账本746行原值并集、累计/上限不变。后续只归档文档，按用户批准正常发布main并核对远端、通知A。State25/TaskDefinition23/Prompt/Schema不变，真实调用0、不读.env，不称Live条款已填。[报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+2026-11-03 CET：C fd07f44e已获用户独立复核及合入批准，并已等待B先发布main f0bee7d7。合入候选保留B来源角色和C身份前三家/条款就绪，源码只解read-assessment的两个import，native-source-facts自动保留两边；账本并集746行，累计/上限不变。原C产物不改，待冻结后新鲜五门禁、严格G2和26帧独立核验；全绿才发布main并通知A。真实调用0、不读.env。 [合入报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+2026-11-03 CET：B已获批HARD证据修复合main，新鲜合入候选1ee97d94全绿：type/arch/build通过，默认1397/1397、Chromium188/188（130.342秒）、严格G2 5/5及12页PASS，每项前后status为空，无重试/跳过/取消。merge172c20af的树与复核d58d377a完全一致，发布记录不改源码/fixture/脚本；State25/TaskDefinition23及Prompt/Schema不变。744条账本完整保留743旧条目、累计/额度不变；新增真实调用0。按批准发布main，ls-remote核对后通知C/A，实际main SHA以交付回执为准。[合入证据](../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。
+
+2026-11-03 CET：用户复核B d58d377a通过并批准先合main；已fetch最新main db1f44a2，集成merge 172c20af与获批树完全相同，无冲突、无实现或版本变化。复核者Linux2核/Node24五门禁1397/188及G2通过作为复核输入保留；本机新的五门禁/严格G2待运行，全绿前不发布。账本744条，743旧条目完整保留、额度与累计不变；真实调用0，不读.env/答案。发布后ls-remote核对并通知C/A。[合入报告](../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。
+
+2026-11-03 CET：B的正向非价格HARD证据修复完成待复核。冻结候选a5625ddf净树五门禁全绿：默认1397/1397、Chromium188/188（130.647秒）、严格G2 5/5及12页PASS；每项前后status为空。D4保留同一句日文菜单引用并显示MET；c05依据同次保存页Kaiseki店名显示MET，评论/无类型店名/异店页/过期控制拒绝，Web英文依据标签2项通过。c05及两条Motsu-nabe旧卡片合同同步单列，15条角色补回按原run绑定，未补造原文。旧44,197字节控制的分段/选择/模型请求一致，完整产物因2处来源角色元数据变为47,208字节，未声称全量逐字节一致。State25/TaskDefinition23和Prompt/Schema不变，A eval/harness、C身份及Guard/站点目录不改；743条账本保留main计数和额度，新增真实调用0。只推工作分支、不合main，通知A后停复核。[完整证据](../.eval-artifacts/phase3b/hard-evidence-scope-20261103/report.md)。
+
+2026-11-03 CET：B按用户“店名可算、评论不算”统一正向非价格HARD接纳与投影。D4原串カツ引用、c05保存页Kaiseki店名及评论/异店/过期控制绿；c05与两条Motsu-nabe旧卡片断言单独合同同步，未补造原文。首轮576c6406净树五门禁1395/188及严格G2全12页通过；Web依据标签已补，最终候选完整复跑待完成。State25/TaskDefinition23及Prompt/Schema不变，A eval/harness与C身份文件不改；真实调用0，仅工作分支待复核，不合main。 [报告](../.eval-artifacts/phase3b/hard-evidence-scope-20261103/report.md)。
+2026-11-03 CET：C身份前三家/G1就绪候选离线完成待复核。批准窄补丁9008f7bb单独提交；D2 ONE/NONE/TWO在全三家身份后判唯一/反问，D3诊断红灯确认INCOMPLETE_PAGE，稳定观察修复后问答2次，原页无取消/预约要卡则NOT_STATED。90eaa673冻结814项后十步净树全绿：默认1389/1389、Chromium188/188、严格G2 5/5且12页PASS、22组装测试/独立26帧PASS。外层路径及oracle格式预检失败原件保留，未改产品凑评分；A/另外两个G3保护文件不变。State25/TaskDefinition23/Prompt不变，741账目保留累计，真实调用0、不读.env。只推codex/fix-phase3b-named-identity-and-terms交复核，不合main；不是Live条款已填或新通过率。 [报告](../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
+
+2026-11-03 CET: C started named-identity-and-terms from published main db1f44a2. D2/D3 raw evidence at A ae7fd072 is frozen; candidate cap wording awaits user clarification. Terms first-deviation diagnosis uses offline saved DOM only, real calls0 and no .env. [Plan](../.eval-artifacts/phase3b/named-identity-terms-20261103/plan.md).
+
+2026-11-03 CET：获批a1cd798e连续性修复已同步最新main533f1bc5，无源码冲突。0d2fff0e冻结786项后净树11步全绿：默认1382/1382、Chromium188/188、严格G2 5/5及12页PASS，独立29帧及组件控制通过；本机未复现PGlite崩溃。账本740条并集，main限额保留，本轮真实调用0、不读.env。按用户批准发布main，D2多候选与D3条款缺口另开分支。 [合入证据](../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
+
+2026-11-03 CET：用户复核a1cd798e通过并批准合入；最新main仍533f1bc5，无产品代码冲突。合入分支源码与获批版本相同，账本并集740行（A新增42+C零调用1），main限额不扩大。完整门禁/严格G2待新鲜验证；真实调用0，不读.env。D2/D3新问题在发布后另分支处理。 [合入报告](../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
+
+2026-11-03 CET：C D6连续性离线候选全绿。获批的A两文件合同同步单独提交beff503b，与冻结提案逐字一致；0147ed6a冻结782项后净树11步：默认1382/1382、Chromium188/188、严格G2 5/5且12页PASS，type/arch/build及独立原9+名称7+D6 13帧和组件控制全部通过。补人数后按同一来源ID重新绑定，不能以附近店替代，明确OPEN后才给其他店。历史Live S0=1及旧红灯保留；State25/TaskDefinition23/Prompt不变，真实调用0、不读.env。只推工作分支交复核，不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+2026-11-03 CET：用户窄授权两处A归属合同同步；beff503b只含workspace-fixture-server.ts和web-workspace.test.ts，逐字等于原冻结提案：SPECIFIC只返回全名点名候选、来源ID及catalog不变；该次Check this one等1 of 1，其他路径仍默认三家；JUDGMENT/不选店及原断言不变。产品源码与fafd8edc相同，版本不变，真实调用0。已另冻结批准记录与新完整门禁配置，原186/188及停止点证据保留；新五门禁/严格G2待运行，仅工作分支复核，不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+2026-11-03 CET：C D6修复停在A归属测试合同确认。fafd8edc（准确源码SHA见报告）type/arch/build、默认1382/1382、独立D6 13+原无地区9+名称7帧及严格G2 5/5、12页PASS；Chromium186/188，两个尺寸在“Check this one”后仍等三家，与SPECIFIC只展示点名店冲突。最小两文件补丁已冻结，尚未应用，不放宽产品守卫、不改A/B文件；五门禁未全绿。历史Live S0=1保持；本轮真实调用0、不读.env、State25/TaskDefinition23不变，仅工作分支停止点交复核，不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+2026-11-03 CET：C D6具名连续性已取得守卫/组装/B1缓存有效红灯，当前相关63项全绿；原D6三回合语义及Agent字节不改，补人数后按选定Place ID重读/重绑，错误五店原PRESENT被拒；失败点名Ito，明确用户OPEN后才给其他店。历史Live按用户裁定S0=1次展示，旧A自动未评不改。引用从既有Runtime事件重建，State25/TaskDefinition23及Prompt不变，A/B保护文件未改。条款入口/上下文仅补同一名称守卫，读取/预算/20秒保留原样。最终五门禁/严格G2待运行，真实调用0、不读.env、只推新分支待复核。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+2026-11-03 CET：名称匹配已发布main533f1bc5并通知A；C新分支冻结D6三回合原语义、原Agent字节与历史复核输入，先验证当前main守卫及跨回合身份连续性。历史S0按用户裁定为1次展示；本轮真实调用0，尚未改产品。 [计划](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/plan.md)。
 
 2026-11-03 CET：C名称匹配ca18d02b经用户复核批准，已同步最新main d4d8ea33。abaf8266净树十步全绿：type/arch/build、默认1372/1372、Chromium188/188、严格G2全12页、独立16帧；源码与复核候选相同。账本A/C并集696条，累计含A的4 Live/321模型/270评测GET，C本轮新增0；上限不扩大、不读.env。按批准合入远端main并核对，具体发布SHA以Git回执为准；D6 S0另开分支修复，不能把本合入当作该S0已修。 [合入证据](../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
 

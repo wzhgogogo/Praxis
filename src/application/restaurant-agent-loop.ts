@@ -450,6 +450,8 @@ export class RestaurantAgentLoopCoordinator {
             qualified: () => defaultBatchDeliveryCandidateIds(snapshot.domainState, this.clock.now().toISOString()).length > 0
               || !assessRestaurantRead(snapshot.domainState, this.clock.now().toISOString()).presentation.some(item => item.eligible),
           } : undefined,
+          snapshot.domainState.intentDraft?.target?.selectionScope==="SPECIFIC_OUTLET"
+            &&snapshot.domainState.intentDraft.target.query===userSelection?.query?userSelection.reference:undefined,
         );
       } catch (error) {
         if (reserveReached && !signal?.aborted && !(error && typeof error === "object" && "code" in error && error.code === "READ_CANCELLATION_UNSETTLED")) {

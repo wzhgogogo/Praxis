@@ -1,0 +1,32 @@
+{
+  "mode": "frozen regression; exposed developer scenarios; no new Gold",
+  "d2": "src/application/fixtures/named-identity-terms/d2/input.json",
+  "d2Semantic": "src/application/fixtures/named-identity-terms/d2/decision-01.original.json",
+  "d3Link": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1900",
+  "d3Pages": {
+    "23": {
+      "path": "src/application/fixtures/named-identity-terms/page-23.json",
+      "textSHA256": "72c6e47e94836288bd6e24a6c5d1f42598ecdda23f90725c5b80b54ab020580b"
+    },
+    "24": {
+      "path": "src/application/fixtures/named-identity-terms/page-24.json",
+      "textSHA256": "8bd752b5d6c37ccb5516ec8930efada1de00eb7a598125d5f8646f3296bc0874"
+    }
+  },
+  "diagnosticScenarios": {
+    "agent-selection-only": "NOT_SPECIFIC",
+    "TABELOG-proactive": "ANSWERED",
+    "TABLECHECK-proactive": "ANSWERED",
+    "admitted-reuse": "NOT_SELECTED",
+    "SHOP": "NO_PAGES",
+    "CHANNEL": "NO_PAGES",
+    "not-stated-new-run": "NOT_STATED",
+    "budget": "BUDGET",
+    "cancelled": "CANCELLED",
+    "deadline": "RESERVE",
+    "boundary-20000": "RESERVE",
+    "between-models": "RESERVE",
+    "before-language-navigation": "RESERVE",
+    "early-abort": "RESERVE"
+  }
+}

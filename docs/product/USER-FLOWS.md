@@ -1,11 +1,15 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.30
+- Document revision: 0.33
 - Last updated: 2026-11-03
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [MVP PRD](MVP-PRD.md), [Visual Direction](VISUAL-DIRECTION.md), [Agent Gateway](../architecture/AGENT-GATEWAY-AND-WORKSPACE.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md)
+
+## Positive HARD basis on result cards (2026-11-03 user decision)
+
+A current, identity-bound merchant menu, introduction or recognized source category can establish a positive non-price HARD. A source-observed outlet name/H1/alias can do so when it explicitly contains the requested cuisine/type words. Customer review titles, bodies and ratings cannot establish it. A review-only candidate is not a qualified result. The card follows qualification, shows the original quote and labels outlet-name or category evidence; a recognized category without a quote is shown as a basis without made-up quotation text. A menu dish is not presented as a specialty claim. Negative HARD, price applicability, identity, service scope and freshness rules remain. Implementation/review state is recorded in [STATUS](../STATUS.md).
 
 ## 三个位置与工作区视图
 
@@ -182,3 +186,11 @@ When the user explicitly asks to book one specific restaurant and the reference 
 ### Named outlet with source-owned name variants (2026-11-03; offline candidate)
 
 A specific named Tokyo outlet can be found without asking for a separate area. Google and the booking source may use different names: exact source-owned full names require same-store identity, and a containing short name requires a unique candidate plus address-supported locality/cuisine/branch terms. Multiple branches, unknown abbreviations and conflicting identity require clarification. The source address does not become a user-supplied area. Availability, qualified presentation and both B1 server checks remain required before a booking handoff. Validation and remaining Live uncertainty are in the [C report](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md).
+
+### Booking a selected outlet after supplying missing details (2026-11-03; offline candidate)
+
+If the user books a displayed restaurant and then supplies the party size or another missing visit field, the next result remains bound to that restaurant's source identity. The area cannot replace the selected store with nearby results. If it cannot be verified for that visit, the reply names the store and visit and asks whether other nearby restaurants are acceptable; only a subsequent accepted open request permits those alternatives. A selection still requires fresh availability before B1/terms and does not authorize booking submission.
+
+## 2026-11-03 near-name branch investigation (offline implementation candidate)
+
+For an explicit full outlet name with multiple possible branches, Praxis can investigate the first three in source order within the current read's budget. One full source name match after all three identity checks permits the existing availability → presentation → B1 flow; zero/multiple matches keep the clarification prompt. The remaining candidates are not alternatives offered without user agreement. Selected-outlet policy capture observes bounded page readiness before asking the two G1 questions. Missing or unverified policy text stays absent; a still-valid B1 link is unaffected, with task/run-bound omission diagnostics available outside the user's Task State.

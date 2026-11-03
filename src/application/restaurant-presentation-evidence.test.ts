@@ -46,6 +46,19 @@ const raw = new URL("./fixtures/restaurant-presentation-evidence/checkpoint-c-li
 const candidateId = "tabelog:en/tokyo/A1309/A130905/13048623";
 const laterFact = "evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f";
 
+// Legacy selected documents predate source-role capture. Restore only roles
+// extracted from their own saved pages; the raw words and judgments stay frozen.
+async function restoreSavedHardSourceRoles(state: RestaurantTaskState, sourceRunId: string) {
+  const { createHash } = await import("node:crypto");
+  const data = JSON.parse(await readFixture(new URL("./fixtures/restaurant-presentation-evidence/hard-source-roles-20261103.json", import.meta.url), "utf8"));
+  for (const fact of state.readEvidence.filter(e => e.provider !== "MODEL_JUDGMENT" && Array.isArray(e.claims.sourceStatementIds))) {
+    if (fact.sourceFieldQuotes?.length) continue;
+    const saved = data.rows.find((row: any) => row.runId === sourceRunId && row.evidenceId === fact.evidenceId && row.sourceUrl === fact.sourceUrl
+      && row.selectedTextSha256 === createHash("sha256").update(JSON.stringify(fact.claims.restaurantTypeFacts)).digest("hex"));
+    if (saved) fact.sourceFieldQuotes = saved.sourceFieldQuotes;
+  }
+}
+
 test("c05 Kaga Router to Reducer retains the later availability-read source fact", async () => {
   const artifact = JSON.parse(await readFixture(raw, "utf8"));
   const original: RestaurantTaskState = artifact.finalSnapshot.domainState;
@@ -58,6 +71,17 @@ test("c05 Kaga Router to Reducer retains the later availability-read source fact
     state = restaurantBookingTaskDefinition.transition(state, envelope.event, { taskId: "saved-c05", runId: "saved-c05", now: envelope.occurredAt, createId: p => p }).state;
   }
   assert.equal(state.phase, "SEARCHING");
+  // Contract sync, user 2026-11-03: the same saved source's H1 is now a
+  // permitted positive HARD basis. Restore only exact source role metadata;
+  // neither the historical statements nor the judgment are rewritten.
+  const { parseTabelogSourceFieldQuotes } = await import("../integrations/tabelog/tabelog-page-parser.js");
+  const roleHtml = await readFixture(new URL("./fixtures/restaurant-presentation-evidence/c05-hard-source-roles.html", import.meta.url), "utf8");
+  const roleFields = parseTabelogSourceFieldQuotes({ url: "https://tabelog.com/en/tokyo/A1309/A130905/13048623/", title: "", text: "", html: roleHtml });
+  for (const fact of state.readEvidence.filter(e => e.candidateId === candidateId && e.kind === "RESTAURANT_FACT" && e.provider !== "MODEL_JUDGMENT")) {
+    const texts = fact.claims.restaurantTypeFacts;
+    if (Array.isArray(texts)) fact.sourceFieldQuotes = roleFields.filter(q => texts.includes(q.quote));
+  }
+  await restoreSavedHardSourceRoles(state, artifact.runId);
   assert.ok(state.availabilityChecks[candidateId]!.evidenceIds.includes(laterFact));
   assert.ok(state.factChecks![candidateId]!.checkedAt < state.readEvidence.find(e => e.evidenceId === laterFact)!.observedAt);
   let reads = 0;
@@ -71,7 +95,11 @@ test("c05 Kaga Router to Reducer retains the later availability-read source fact
   assert.ok(execution.event?.type === "RESULTS_PRESENTED" && execution.event.evidenceIds.includes(laterFact), "the newer source fact must reach the presentation event");
   const shown = restaurantBookingTaskDefinition.transition(state, execution.event!, { taskId: "saved-c05", runId: "saved-c05", now, createId: p => p }).state;
   assert.ok(shown.presentedResults!.evidenceIds.includes(laterFact));
-  assert.equal(shown.presentedResults!.conditionStates[candidateId]![0]!.status, "NOT_CHECKED", "merchant name and customer-review title alone must not display HARD MET");
+  const nameCondition = shown.presentedResults!.conditionStates[candidateId]![0]!;
+  assert.equal(nameCondition.status, "MET", "the same outlet's observed H1 explicitly includes Kaiseki under the approved name-evidence contract");
+  assert.match(nameCondition.explanation, /outlet name/i);
+  assert.ok(nameCondition.sources.some(q => q.field === "NAME" && q.quote.includes("Kaiseki")));
+  assert.ok(nameCondition.sources.every(q => q.field !== "CUSTOMER_REVIEW"));
   assert.equal(shown.presentedResults!.conditionStates[candidateId]![0]!.criterionRef, "criterion:0");
   assert.equal(reads, 0);
   assert.throws(() => restaurantBookingTaskDefinition.transition(state, { ...execution.event!, type: "RESULTS_PRESENTED", candidateIds, evidenceIds: shown.presentedResults!.evidenceIds.filter(id => id !== laterFact) },
@@ -219,6 +247,7 @@ test("C18 four split tempura statements inherit their containing merchant field 
       if (envelope.event.type === "RESULTS_PRESENTED") break;
       state = restaurantBookingTaskDefinition.transition(state, envelope.event, ctx(envelope.occurredAt)).state;
     }
+    await restoreSavedHardSourceRoles(state, artifact.runId);
     for (const id of ids) {
       const candidate = state.candidates.find(c => c.restaurant.id.endsWith('/' + id))!, check = state.factChecks![candidate.restaurant.id]!;
       const fact = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT" && e.provider === "TABELOG")!;
@@ -281,6 +310,7 @@ test("C18 selected Utou course titles remain known when the selected statement a
       if (envelope.event.type === "RESULTS_PRESENTED") break;
       state = restaurantBookingTaskDefinition.transition(state, envelope.event, ctx(envelope.occurredAt)).state;
     }
+    await restoreSavedHardSourceRoles(state, artifact.runId);
     for (const id of ids) {
       const candidate = state.candidates.find(c => c.restaurant.id.endsWith('/' + id))!, check = state.factChecks![candidate.restaurant.id]!;
       const fact = state.readEvidence.find(e => check.evidenceIds.includes(e.evidenceId) && e.kind === "RESTAURANT_FACT" && e.provider === "TABELOG")!;
@@ -340,7 +370,7 @@ test("Phase2c observed cuisine and approved price applicability reach Router to 
     ["e16c18f43417f77290923c14e5bfb30950a74b27ec215c07859a68747a05e3c3", "terrace-limited eligibility not established"],
   ]);
   const excludedSeen = new Set<string>();
-  let conditions=0,unchangedRuns=0,sourceCalls=0;
+  let conditions=0,unchangedRuns=0,authoritySynced=0,sourceCalls=0;
   const noRead=async()=>{sourceCalls++;throw Error("SAVED_EVENT_REPLAY_MUST_NOT_READ_SOURCES");};
   const router=new RestaurantExecutionRouter({executionRoute:"STRUCTURED_ADAPTER",search:noRead},{executionRoute:"STRUCTURED_ADAPTER",check:noRead},{structuredReadTimeoutMs:1000,browserReadTimeoutMs:1000});
   for(const row of manifest.runs){
@@ -364,6 +394,18 @@ test("Phase2c observed cuisine and approved price applicability reach Router to 
     const result=await router.execute({type:"PRESENT_RESULTS",candidateIds:original.candidateIds},state,original.presentedAt);
     assert.equal(result.event?.type,"RESULTS_PRESENTED");
     const shown=restaurantBookingTaskDefinition.transition(state,result.event!,ctx(original.presentedAt)).state.presentedResults!;
+    // User-approved 2026-11-03 contract sync: these existing MODEL_JUDGMENTs
+    // cite merchant Motsu-nabe category fields. The hyphen spelling cannot
+    // leave an otherwise qualified result displayed as NOT_CHECKED.
+    if (row.runId === "h-12") for (const suffix of ["13318138", "13196646"]) {
+      const id = original.candidateIds.find((id: string) => id.endsWith("/" + suffix))!;
+      const before = original.conditionStates[id][0], after = shown.conditionStates[id]![0]!;
+      assert.equal(before.status, "NOT_CHECKED");assert.equal(after.status, "MET");
+      assert.ok(before.sources.some((q: any) => q.field === "CATEGORY" && q.quote === "Motsu-nabe"));
+      assert.deepEqual(after.sources, before.sources, "retain the exact original merchant category text");
+      assert.ok(restaurantCurrentFactEvidence(state,id).some(f => f.provider === "MODEL_JUDGMENT" && (f.claims.verifiedHardCriteria as string[])?.includes("motsunabe")));
+      original.conditionStates[id][0] = after;authoritySynced++;
+    }
     if(!expected[row.runId]){assert.deepEqual(shown,original,`${row.runId}: unrelated presentation must remain byte-equivalent as data`);unchangedRuns++;continue;}
     const withoutChanges=structuredClone(shown);
     for(const id of shown.candidateIds){
@@ -380,5 +422,5 @@ test("Phase2c observed cuisine and approved price applicability reach Router to 
     assert.deepEqual(withoutChanges,original,"only the four cuisine rows and the five literal price-source exclusions change; all states, identities and times remain identical");
   }
   assert.deepEqual([...excludedSeen].sort(), [...excludedPriceQuotes.keys()].sort());
-  assert.equal(conditions,4);assert.equal(unchangedRuns,9);assert.equal(sourceCalls,0);
+  assert.equal(conditions,4);assert.equal(unchangedRuns,9);assert.equal(authoritySynced,2);assert.equal(sourceCalls,0);
 });

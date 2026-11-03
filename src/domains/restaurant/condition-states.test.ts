@@ -16,10 +16,12 @@ test("condition display shows actual source field/quote and preserves lunch offe
  assert.equal(dinner.status,"NOT_CHECKED");
 });
 
-test("condition display does not let names or customer reviews discharge HARD even with model labels",()=>{
+test("condition display accepts explicit outlet names and recognized source categories but never reviews",()=>{
  for(const fields of [[source("NAME","Omakase House")],[source("CUSTOMER_REVIEW","Wonderful omakase course")],[]]){
   const f=fact(fields);const model:RestaurantReadEvidence={...f,evidenceId:"model",provider:"MODEL_JUDGMENT",claims:{verifiedHardCriteria:["omakase"],supportingEvidenceIds:[f.evidenceId]}};delete (model as any).sourceFieldQuotes;
-  const result=assessRestaurantConditions(intent,[f,model])[0]!;assert.equal(result.status,"NOT_CHECKED");assert.ok(result.explanation.length>10);
+  const result=assessRestaurantConditions(intent,[f,model])[0]!;assert.equal(result.status,fields[0]?.field === "CUSTOMER_REVIEW" ? "NOT_CHECKED" : "MET");assert.ok(result.explanation.length>10);
+  if(fields[0]?.field === "NAME")assert.match(result.explanation,/outlet name/);
+  if(!fields.length){assert.deepEqual(result.sources,[]);assert.match(result.explanation,/category/);}
  }
 });
 
@@ -27,7 +29,7 @@ test("condition display requires current same-source field quotes and does not i
  const f=fact([source("CATEGORY","Omakase, Sushi")]);const result=assessRestaurantConditions(intent,[f])[0]!;
  assert.equal(result.status,"MET");assert.equal(result.sources[0]?.quote,"Omakase, Sushi");
  const wrong=fact([{...source("CATEGORY","Omakase, Sushi"),sourceUrl:url.replace("11111111","22222222")}]);assert.equal(assessRestaurantConditions(intent,[wrong])[0]!.status,"NOT_CHECKED");
- const absent=assessRestaurantConditions(intent,[{...f,sourceFieldQuotes:[]} as RestaurantReadEvidence])[0]!;assert.equal(absent.status,"NOT_CHECKED");assert.notEqual(absent.sources[0]?.quote,"omakase");
+ const absent=assessRestaurantConditions(intent,[{...f,sourceFieldQuotes:[]} as RestaurantReadEvidence])[0]!;assert.equal(absent.status,"MET");assert.deepEqual(absent.sources,[],"recognized source category claims do not acquire invented quotes");
 });
 
 test("structured per-person cap has a HARD condition row with current quoted price, conflict and unknown states",()=>{
@@ -59,7 +61,7 @@ test("a generic food descriptor uses the same explicit merchant category without
  assert.equal(shown.status,"MET");
  assert.deepEqual(shown.sources,[source("CATEGORY","Regional, Noodles")],"display the actual merchant field, never a quote assembled from the request");
  for(const field of ["NAME","CUSTOMER_REVIEW"]){
-  assert.equal(assessRestaurantConditions({...intent,criteria},[fact([source(field,"Regional")],"regional food")])[0]?.status,"NOT_CHECKED");
+  assert.equal(assessRestaurantConditions({...intent,criteria},[fact([source(field,"Regional")],"regional food")])[0]?.status,field === "NAME" ? "MET" : "NOT_CHECKED");
  }
  assert.equal(assessRestaurantConditions({...intent,criteria:[{...criteria[0]!,text:"northern regional food"}]},[fact([source("CATEGORY","Regional")],"northern regional food")])[0]?.status,"NOT_CHECKED","all cuisine qualifiers still require source text");
  assert.equal(assessRestaurantConditions({...intent,criteria},[fact([source("CATEGORY","No regional food offered")],"regional food")])[0]?.status,"NOT_CHECKED");

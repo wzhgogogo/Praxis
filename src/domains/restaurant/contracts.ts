@@ -491,6 +491,7 @@ export interface RestaurantCandidateFactRead {
 export interface RestaurantFactSourceDocument {
   /** Private metadata from this same source read; omitted from model messages. */
   sourceFieldQuotes?: RestaurantSourceFieldQuote[];
+  statementSourceFields?: Record<string, RestaurantSourceFieldQuote["field"]>;
   priceFacts?: RestaurantPriceFacts;
   id: string;
   candidateId: string;

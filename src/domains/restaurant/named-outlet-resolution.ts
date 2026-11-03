@@ -1,7 +1,26 @@
-import type {RestaurantSearchIntent,RestaurantTaskState,RestaurantReadEvidence} from "./contracts.js";
+import type {RestaurantSearchIntent,RestaurantTaskState,RestaurantReadEvidence,RestaurantOutlet} from "./contracts.js";
+
+/** Transient read input reconstructed from existing authoritative Runtime events. */
+export interface NamedOutletReference {
+  restaurant:RestaurantOutlet;
+  discovery:RestaurantReadEvidence[];
+  userEventId:string;
+}
 
 export function outletNameKey(value:string):string {
   return value.normalize("NFKC").trim().replace(/\s+/gu," ").toLocaleLowerCase("en-US");
+}
+
+/** Stable provider IDs bind a prior user choice; neither names nor phone alone do. */
+export function sameNamedOutletIdentity(candidate:RestaurantOutlet,reference:RestaurantOutlet,evidence:readonly RestaurantReadEvidence[]=[]):boolean {
+  let matched=false;
+  for(const [key,provider] of [["googlePlaces","GOOGLE_PLACES"],["tabelog","TABELOG"],["tablecheck","TABLECHECK"]] as const){
+    const expected=reference.sourceIds[key];if(!expected)continue;
+    const values=[candidate.sourceIds[key],...evidence.filter(e=>e.candidateId===candidate.id&&e.provider===provider&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH").map(e=>e.sourceEntityId)].filter((value):value is string=>Boolean(value));
+    const canonical=(value:string)=>key==="tabelog"?value.match(/^(?:https:\/\/(?:www\.)?tabelog\.com\/)?(?:en\/)?[^/]+\/A\d+\/A\d+\/(\d+)\/?$/u)?.[1]??value:value;
+    if(values.length){if(values.some(value=>canonical(value)!==canonical(expected)))return false;matched=true;}
+  }
+  return matched;
 }
 export function namedOutletWithoutArea(intent:{target?:RestaurantSearchIntent["target"];area?:unknown}|undefined):boolean {
   return Boolean(intent&&!intent.area&&intent.target?.selectionScope==="SPECIFIC_OUTLET"&&intent.target.query.trim());
@@ -36,7 +55,14 @@ function lookup(state:NamedState,candidateId:string){
     &&typeof e.claims.requestedOutletName==="string"&&outletNameKey(e.claims.requestedOutletName)===outletNameKey(query));
 }
 
-function boundNames(state:NamedState,candidateId:string):string[] {
+/** User-approved bounded identity prefix; untouched candidates remain visible as uninvestigated. */
+export function namedOutletIdentityPrefix(state:NamedState):string[] {
+  if(state.intentDraft?.target?.selectionScope!=="SPECIFIC_OUTLET"||state.candidates.length<2)return [];
+  if(!state.candidates.every(c=>lookup(state,c.restaurant.id)?.claims.namedOutletSearchComplete===true))return [];
+  return state.candidates.slice(0,3).map(c=>c.restaurant.id);
+}
+
+export function boundNames(state:NamedState,candidateId:string):string[] {
   const candidate=state.candidates.find(c=>c.restaurant.id===candidateId);
   const evidence=state.readEvidence.filter(e=>e.candidateId===candidateId);
   const identity=evidence.filter(native);
@@ -58,7 +84,15 @@ function boundNames(state:NamedState,candidateId:string):string[] {
 /** A single possible reference can be investigated read-only; it is not yet a selection. */
 export function namedOutletCandidateCanInvestigate(state:NamedState,candidateId:string):boolean {
   const candidate=state.candidates.find(c=>c.restaurant.id===candidateId),record=lookup(state,candidateId);
-  if(!candidate||!record||state.candidates.length!==1||record.claims.namedOutletCandidateCount!==1
+  const prefix=namedOutletIdentityPrefix(state);
+  if(prefix.length)return prefix.includes(candidateId);
+  if(!candidate||state.candidates.length!==1)return false;
+  // A source port may return a single full-name candidate without lookup
+  // metadata. It may be read for identity, but is not resolved or selected.
+  if(!record)return Boolean(state.intentDraft?.area
+    &&outletNameKey(candidate.restaurant.outletName)===outletNameKey(state.intentDraft.target!.query)
+    &&state.readEvidence.some(e=>e.kind==="DISCOVERY"&&e.candidateId===candidateId));
+  if(record.claims.namedOutletCandidateCount!==1
     ||record.claims.namedOutletSearchComplete!==true)return false;
   const query=state.intentDraft!.target!.query;
   return outletNameContains(query,candidate.restaurant.outletName)||outletNameContains(candidate.restaurant.outletName,query)
@@ -71,15 +105,30 @@ export function namedOutletCandidateResolved(state:NamedState,candidateId:string
   const target=state.intentDraft?.target;
   if(target?.selectionScope!=="SPECIFIC_OUTLET")return true;
   const record=lookup(state,candidateId);
-  if(!record)return !namedOutletWithoutArea(state.intentDraft);
+  if(!record){
+    if(namedOutletWithoutArea(state.intentDraft))return false;
+    const exact=state.candidates.filter(c=>outletNameKey(c.restaurant.outletName)===outletNameKey(target.query)
+      ||boundNames(state,c.restaurant.id).some(value=>outletNameKey(value)===outletNameKey(target.query)));
+    return exact.length===1&&exact[0]!.restaurant.id===candidateId
+      &&state.readEvidence.some(e=>e.candidateId===candidateId&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH");
+  }
+  const selected=Object.fromEntries(["googlePlaces","tabelog","tablecheck"].flatMap(key=>typeof record.claims[`selectedIdentity:${key}`]==="string"?[[key,record.claims[`selectedIdentity:${key}`] as string]]:[]));
+  const candidate=state.candidates.find(c=>c.restaurant.id===candidateId)?.restaurant;
+  if(Object.keys(selected).length&&(!candidate||!sameNamedOutletIdentity(candidate,{...candidate,sourceIds:selected},state.readEvidence)))return false;
   if(record.claims.namedOutletStatus==="UNIQUE")return true;
   if(record.claims.namedOutletSearchComplete!==true)return false;
+  const prefix=namedOutletIdentityPrefix(state);
+  if(prefix.length){
+    if(!prefix.includes(candidateId)||!prefix.every(id=>state.readEvidence.some(e=>e.candidateId===id&&native(e))))return false;
+    const exact=prefix.filter(id=>boundNames(state,id).some(value=>outletNameKey(value)===outletNameKey(target.query)));
+    return exact.length===1&&exact[0]===candidateId;
+  }
   const exact=state.candidates.filter(c=>boundNames(state,c.restaurant.id).some(value=>outletNameKey(value)===outletNameKey(target.query)));
   if(exact.length)return exact.length===1&&exact[0]!.restaurant.id===candidateId;
   if(state.candidates.length!==1||record.claims.namedOutletCandidateCount!==1)return false;
   const names=boundNames(state,candidateId);
   if(!names.length)return false;
-  const candidate=state.candidates[0]!.restaurant;
+  const sole=state.candidates[0]!.restaurant;
   const localities=record.claims.namedOutletLocalities;
-  return namedOutletContainment(target.query,candidate.outletName,candidate.address,Array.isArray(localities)?localities:[]);
+  return namedOutletContainment(target.query,sole.outletName,sole.address,Array.isArray(localities)?localities:[]);
 }

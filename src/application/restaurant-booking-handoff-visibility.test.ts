@@ -103,3 +103,19 @@ test("B1 projection boundary uses the phase-specific set and a selected ID canno
     assert.equal(f.assembly.bookingHandoffs.readPrepared(ordinary).length,1,"Projection never removes the prepared source cache");
   }finally{await f.close();}
 });
+
+test("B1 specific outlet projection refuses a different named target despite a valid shown source cache",async()=>{
+  const f=await bookingTermsComposition();
+  try{
+    const ordinary=await f.initial(),prepared=f.assembly.bookingHandoffs.readPrepared(ordinary),id=prepared[0]!.source.candidateId;
+    assert.equal(prepared.length,1);assert.ok(ordinary.restaurant.presentedCandidateIds?.includes(id));
+    // Projection-only malformed DTO: real accepted cache/evidence stays unchanged.
+    const other=structuredClone(ordinary);other.restaurant.intentDraft!.target={goal:"AVAILABILITY",selectionScope:"SPECIFIC_OUTLET",query:"Ito Akabane"};other.restaurant.selectedCandidateId=id;
+    const before=f.requests.length;
+    await f.counted.run(other.case.rootTaskId,signal=>f.assembly.questions.readBookingTerms(other,new Date(f.clock.now().valueOf()+400_000).toISOString(),signal));
+    const projected=withBookingHandoffs(other,prepared,f.clock.now().toISOString());
+    await capture(f,"WRONG_NAMED_TARGET",{input:other,projected,modelCallsBefore:before,modelCallsAfter:f.requests.length});
+    assert.deepEqual(projected.restaurant.bookingHandoffs,[]);assert.equal(f.requests.length,before,"Terms cannot be read for a different named target");
+    assert.equal(f.assembly.bookingHandoffs.readPrepared(ordinary).length,1,"Keep the same-shop valid cache");
+  }finally{await f.close();}
+});

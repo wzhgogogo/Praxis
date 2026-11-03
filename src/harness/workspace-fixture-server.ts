@@ -81,7 +81,8 @@ export async function startWorkspaceFixture(options:{staged?:boolean;provider?:"
       candidates=[structuredClone(raw.context.candidate),...fixture.candidates.slice(1)];
       candidates[0]!.matchReasons=[...fixture.candidates[0]!.matchReasons];
       candidates.forEach((c,i)=>{c.restaurant.sourceIds={tabelog:String(13123456+i),...(provider==="TABLECHECK"?{tablecheck:"fixture-sushi"+(i||"")}:{})};c.executionConfidence="HIGH";});
-      return {candidates,evidence:candidates.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:"Tokyo",areaMatch:true}})),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
+      const found=request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?candidates.filter(c=>c.restaurant.outletName===request.intent.target!.query):candidates;
+      return {candidates:found,evidence:found.map(c=>({evidenceId:"area:"+c.restaurant.id,kind:"DISCOVERY" as const,provider:"GOOGLE_PLACES" as const,candidateId:c.restaurant.id,sourceEntityId:"fixture-place:"+c.restaurant.id,observedAt:clock.now().toISOString(),requestFingerprint:"workspace-fixture-search",claims:{areaQuery:"Tokyo",areaMatch:true}})),metadata:{provider:"FIXTURE" as const,route:"STRUCTURED_ADAPTER" as const,latencyMs:0}};
     },
     async check(request:RestaurantAvailabilityRequest,signal:AbortSignal){
       const id=request.candidateIds[0]!,index=candidates.findIndex(c=>c.restaurant.id===id);

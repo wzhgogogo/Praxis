@@ -22,10 +22,12 @@ import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../dom
 import {restaurantReserveCancelled,RESTAURANT_READ_CANCEL_SETTLE_MS} from "../domains/restaurant/read-time-reserve.js";
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
 import { restaurantUnverifiedReadSummary } from "../domains/restaurant/read-loop-termination.js";
+import type {NamedOutletReference} from "../domains/restaurant/named-outlet-resolution.js";
+import {namedOutletIdentityPrefix,namedOutletCandidateResolved} from "../domains/restaurant/named-outlet-resolution.js";
 
 export interface RestaurantSearchPort {
   readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
-  search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead>;
+  search(request: RestaurantSearchRequest, signal: AbortSignal, userSelectedOutlet?:NamedOutletReference): Promise<RestaurantSearchRead>;
   /** Optional source-owned cumulative accounting; never visible to the Agent. */
   googleRequestUsage?(readRunId: string | undefined): NonNullable<RestaurantReadExecutionMetadata["googleRequests"]>;
 }
@@ -41,7 +43,7 @@ export interface RestaurantAvailabilityPort {
 
 export interface RestaurantCandidateFactPort {
   readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
-  inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal): Promise<RestaurantCandidateFactRead>;
+  inspectFacts(request: RestaurantCandidateFactRequest, signal: AbortSignal,identityOnly?:boolean): Promise<RestaurantCandidateFactRead>;
   googleRequestUsage?(readRunId: string | undefined): NonNullable<RestaurantReadExecutionMetadata["googleRequests"]>;
 }
 
@@ -235,6 +237,8 @@ export class RestaurantExecutionRouter {
     /** Owned by the user-visible read run; never supplied by the Agent. */
     parentSignal?: AbortSignal,
     deliveryReserve?: { remaining: () => number | undefined; qualified: () => boolean },
+    /** Runtime-event-derived user identity; omitted from persisted search request. */
+    userSelectedOutlet?:NamedOutletReference,
   ): Promise<RestaurantActionExecution> {
     const withModelReserve = <T>(work: () => Promise<T>): Promise<T> => deliveryReserve && this.options.modelReadReserve
       ? this.options.modelReadReserve.runRead(deliveryReserve.remaining, deliveryReserve.qualified, work) : work();
@@ -265,7 +269,7 @@ export class RestaurantExecutionRouter {
           const read = await this.withProviderReadDeadline(
             "Restaurant search",
             this.search.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
-            async signal => { completedSearch = await withModelReserve(() => this.search.search(request, signal)); return completedSearch; },
+            async signal => { completedSearch = await withModelReserve(() => this.search.search(request, signal,userSelectedOutlet)); return completedSearch; },
             this.search.executionRoute === "GENERIC_BROWSER",
             parentSignal,
           );
@@ -337,7 +341,8 @@ export class RestaurantExecutionRouter {
             "Restaurant candidate facts",
             this.facts.executionRoute === "GENERIC_BROWSER" ? this.browserReadTimeoutMs : this.structuredReadTimeoutMs,
             async signal => {
-              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.facts!.inspectFacts(single, signal)), completed);
+              await candidateCheckpoints(request, signal, single => withModelReserve(() => this.facts!.inspectFacts(single, signal,
+                namedOutletIdentityPrefix(state).includes(single.candidateIds[0]!)&&!namedOutletCandidateResolved(state,single.candidateIds[0]!))), completed);
               return mergedFacts(completed,request,fallback,now);
             },
             this.facts.executionRoute === "GENERIC_BROWSER",

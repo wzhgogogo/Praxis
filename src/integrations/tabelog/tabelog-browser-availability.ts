@@ -157,6 +157,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
     private readonly maxCandidateMatches = 5,
     private readonly options: {
       maxBrowserSessions?: number;
+      /** Stop after the unchanged HIGH identity gate; no request controls or slot read. */
+      identityOnly?: boolean;
       sourceFactsModel?: ModelGateway;
       alternativeSearch?: NamedSourceAlternative;
       japaneseName?: (candidate: RestaurantAvailabilityRequest["candidates"][number], signal: AbortSignal) => Promise<GooglePlacesSourceName>;
@@ -616,6 +618,10 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
   ) {
       const sourceOutlet = resolved.outlet;
       if (!sourceOutlet) throw new Error("HIGH Tabelog identity has no outlet");
+      if (this.options.identityOnly) return this.ground(candidate, request, {
+        candidate, observedAt, sourceEntityId: sourceOutlet.sourceEntityId, sourceUrl: sourceOutlet.sourceUrl,
+        entityMatch: resolved, pageState: "EXTRACTION_FAILED",
+      }, browser);
       let alternateRecoveryUsed = false;
       let activeIdentity = resolved;
       const activeSource = () => activeIdentity.outlet ? { sourceEntityId: activeIdentity.outlet.sourceEntityId } : {};

@@ -1,6 +1,6 @@
 import type { ModelGateway } from "../../core/model/contracts.js";
 import { readQuotedRestaurantSourceFacts, quotedRestaurantSourceEvidence, type QuotedRestaurantSourceFacts } from "./model-source-facts.js";
-import { createRestaurantFactSourceDocument as sourceDocument, type RestaurantFactPageObserver } from "./fact-source-document.js";
+import { createRestaurantFactSourceDocument as sourceDocument, bindRestaurantFactSourceRoles, type RestaurantFactPageObserver } from "./fact-source-document.js";
 import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
@@ -104,7 +104,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
       }
       const executor = new BrowserTaskExecutor(this.runtime, {
         ...this.limits,
-        ...(this.modelDecision ? { modelDecision: this.modelDecision } : {}),
+        ...(!request.capturePagesOnly&&this.modelDecision ? { modelDecision: this.modelDecision } : {}),
         ...(this.browserBudget ? { budget: this.browserBudget } : {}),
         ...(this.onBrowserDiagnostic ? { onDiagnostic: this.onBrowserDiagnostic } : {}),
       });
@@ -141,7 +141,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           const parts = scopedMenu?.scoped.length
             ? [...scopedMenu.scoped.map(item=>({text:item.text,scope:item.serviceScope})),...(scopedMenu.unscopedText?[{text:scopedMenu.unscopedText,scope:undefined}]:[])]
             : [{text:scopedMenu?.unscopedText ?? page.text,scope:undefined}];
-          const frames = parts.map(part=>({text:part.text,document:sourceDocument(candidate.restaurant.id,identity.evidenceId,part.text,part.scope,provider==="TABELOG"?parseTabelogSourceFieldQuotes(page):undefined)}));
+          const frames = parts.map(part=>({text:part.text,document:bindRestaurantFactSourceRoles(sourceDocument(candidate.restaurant.id,identity.evidenceId,part.text,part.scope,provider==="TABELOG"?parseTabelogSourceFieldQuotes(page):undefined),page,typeof identity.claims.outletName === "string" ? [identity.claims.outletName] : [])}));
           const additions=frames.filter(frame=>!documents.some(item=>item.id===frame.document.id));
           documents.push(...additions.map(frame=>frame.document));
           if(additions.length)retained.set(createHash("sha256").update(identity.evidenceId+page.text).digest("hex"),{page:structuredClone(page),identity:structuredClone(identity),readAt:this.now(),frames:frames.map(frame=>({...frame,document:documents.find(d=>d.id===frame.document.id)!})),processed:false});
@@ -260,7 +260,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
             identities.push(identity);
           }
           retainPageHours(page);
-          const document = sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text);
+          const document = bindRestaurantFactSourceRoles(sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text), page, typeof identity.claims.outletName === "string" ? [identity.claims.outletName] : []);
           if (documents.some((item) => item.id === document.id)) return false;
           documents.push(document);
           retained.set(document.id,{page:structuredClone(page),identity:structuredClone(identity),readAt:this.now(),frames:[{document,text:page.text}],processed:false});
@@ -295,8 +295,26 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
             }
           }
         };
-        const initial = await executor.snapshot({ source: provider, stage: "FACTS", signal, session });
-        const initialControls = await executor.observeControls({ source: provider, stage: "FACTS", signal, session });
+        const capturePage = async () => {
+          const page=await executor.snapshot({source:provider,stage:"FACTS",signal,session});
+          const controls=await executor.observeControls({source:provider,stage:"FACTS",signal,session});
+          if(!request.capturePagesOnly||page.settlement!=="PENDING")return {page,controls,ready:true};
+          // A short navigation sample is not a complete G1 document. Reuse
+          // the executor's bounded, text-stability observation; never clear
+          // PENDING by assertion or ask a browser model to manufacture it.
+          const ready=await executor.runSkill({taskId:request.readRunId??candidate.restaurant.id,
+            source:provider,stage:"FACTS",signal,session,allowedOrigins:[new URL(sourceUrl).origin],
+            goal:{outlet:{name:candidate.restaurant.outletName,address:candidate.restaurant.address},hardCriteria:[]},
+            objective:"Observe the complete current public page for cited restaurant questions",
+            completion:current=>current.text.trim()?{complete:true,reason:"Current public page text is present",
+              resultKey:createHash("sha256").update(current.url+"\u0000"+current.text).digest("hex"),
+              resultBusy:Boolean(current.settlementDiagnostics?.blockingDataRequests||current.settlementDiagnostics?.busySelectors.length||current.settlementDiagnostics?.visibleTextChanging)}
+              :{complete:false,reason:"No current public page text"}});
+          return {page:ready.snapshot,controls:ready.controls??[],ready:ready.status==="COMPLETED"&&ready.snapshot.settlement!=="PENDING"};
+        };
+        const first=await capturePage();
+        if(!first.ready){factChecks[candidate.restaurant.id]={status:"UNKNOWN",checkedAt,evidenceIds:[],reasonCode:"NATIVE_SOURCE_PAGE_UNSETTLED"};continue;}
+        const initial=first.page,initialControls=first.controls;
         tableCheckServiceControls = initialControls;
         if (!retainNativePage(initial, initialControls)) {
           factChecks[candidate.restaurant.id] = { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: "NATIVE_SOURCE_IDENTITY_UNCONFIRMED" };
@@ -314,8 +332,8 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
             });
             if(translation?.href){
               await executor.navigate({source:provider,stage:"FACTS",signal,allowedOrigins:[new URL(sourceUrl).origin],session,url:translation.href,observed:true});
-              const page=await executor.snapshot({source:provider,stage:"FACTS",signal,session});
-              retainNativePage(page,await executor.observeControls({source:provider,stage:"FACTS",signal,session}));
+              const translationPage=await capturePage();
+              if(translationPage.ready)retainNativePage(translationPage.page,translationPage.controls);
             }
           }
           evidence.push(...identities);sourceDocuments.push(...documents);

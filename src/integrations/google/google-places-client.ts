@@ -216,7 +216,7 @@ export class GooglePlacesClient {
             : response.status === 403
               ? "GOOGLE_SERVICE_QUOTA_OR_PERMISSION"
               : "GOOGLE_SERVICE_REJECTED";
-          throw new GooglePlacesError(code, `Google Places returned HTTP ${response.status}`);
+          throw new GooglePlacesError(code, `Google Places returned HTTP ${response.status}`,response.status);
         }
         let payload: GooglePlacesTextSearchResponse | GooglePlacesRawPlace;
         try {

@@ -1,12 +1,13 @@
 import { isDeepStrictEqual } from "node:util";
 import type { RestaurantCaseView } from "../../application/agent-workspace.js";
-import type { RestaurantBookingTermsRead } from "../../application/restaurant-booking-handoff.js";
+import type { RestaurantBookingTermsRead,RestaurantBookingTermsDiagnostic } from "../../application/restaurant-booking-handoff.js";
 import { bookingHandoffCandidateIds, bookingHandoffPageMatches, prepareBookingHandoff, type BookingHandoffSource, type BookingHandoffTerms, type PreparedBookingHandoff } from "../../domains/restaurant/booking-handoff.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../../domains/restaurant/intent-state.js";
 import type { RestaurantPageAnswer, RestaurantPageQuestionRequest } from "../../domains/restaurant/page-question.js";
 import type { RestaurantFactPageObservation } from "./fact-source-document.js";
 import type { RestaurantPageQuestionReader } from "./page-question-reader.js";
 import { RESTAURANT_READ_CONCLUSION_RESERVE_MS } from "../../domains/restaurant/read-time-reserve.js";
+import {namedOutletCandidateResolved} from "../../domains/restaurant/named-outlet-resolution.js";
 
 type Topic="cancellation"|"card";
 type Answer={answer:RestaurantPageAnswer;pages:RestaurantFactPageObservation[]};
@@ -32,12 +33,22 @@ function language(page:RestaurantFactPageObservation):"japanese"|"english" {
 /** B1 orchestration over the EXISTING G1 reader; no new page parser or transport. */
 export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
   private readonly cache=new Map<string,CachedTerms>();
+  private diagnostics:RestaurantBookingTermsDiagnostic[]=[];
   constructor(private readonly questions:RestaurantPageQuestionReader,
     private readonly readLinks:(view:RestaurantCaseView)=>PreparedBookingHandoff[],
     private readonly taskId:()=>string|undefined,
     private readonly remaining:(id:string)=>number|undefined,
     private readonly now:()=>string,
     private readonly retentionMs:number) {}
+
+  private record(view:RestaurantCaseView,reason:RestaurantBookingTermsDiagnostic["reason"],details:Pick<RestaurantBookingTermsDiagnostic,"topic"|"answerReason"|"pageCount"|"boundPageCount">={}):void {
+    const at=this.now(),cutoff=Date.parse(at)-this.retentionMs;
+    this.diagnostics=this.diagnostics.filter(d=>Date.parse(d.at)>=cutoff);
+    this.diagnostics.push({at,rootTaskId:view.case.rootTaskId,
+      ...(view.restaurant.sourceReadContext?{readRunId:view.restaurant.sourceReadContext.runId}:{}),
+      ...(view.restaurant.selectedCandidateId?{candidateId:view.restaurant.selectedCandidateId}:{}),reason,...details});
+  }
+  readBookingTermsDiagnostics=(rootTaskId:string):RestaurantBookingTermsDiagnostic[]=>structuredClone(this.diagnostics.filter(d=>d.rootTaskId===rootTaskId));
 
   private key(view:RestaurantCaseView,source:BookingHandoffSource):string {
     return JSON.stringify([view.case.rootTaskId,view.restaurant.sourceReadContext?.runId,source.candidateId,source.provider,source.sourceEntityId]);
@@ -93,7 +104,7 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
     const candidate=view.restaurant.candidates.find(item=>item.restaurant.id===source.candidateId);
     const offer=view.restaurant.availability[source.candidateId]?.find(item=>item.id===source.offerId);
     const check=view.restaurant.availabilityChecks[source.candidateId];
-    if(!request||!candidate||!offer||!check)return undefined;
+    if(!request||!candidate||!offer||!check||!namedOutletCandidateResolved(view.restaurant,source.candidateId))return undefined;
     return {candidate,offer,check,request,
       evidence:view.restaurant.readEvidence,now:this.now(),...(view.restaurant.sourceReadContext?{readContext:view.restaurant.sourceReadContext}:{})};
   }
@@ -108,25 +119,30 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
 
   async readBookingTerms(view:RestaurantCaseView,deadlineAt:string,parent:AbortSignal):Promise<void>{
     const selected=view.restaurant.selectedCandidateId,context=view.restaurant.sourceReadContext;
-    if(!selected||!context||view.case.phase!=="PRESENT_RESULTS"
-      ||!bookingHandoffCandidateIds(view.case.phase,view.restaurant.presentedCandidateIds,view.restaurant.readyCandidateIds).includes(selected)
-      ||view.restaurant.intentDraft?.target?.selectionScope!=="SPECIFIC_OUTLET")return;
+    if(!selected)return this.record(view,"NOT_SELECTED");
+    if(!context)return this.record(view,"NO_CONTEXT");
+    if(view.case.phase!=="PRESENT_RESULTS")return this.record(view,"PHASE");
+    if(!bookingHandoffCandidateIds(view.case.phase,view.restaurant.presentedCandidateIds,view.restaurant.readyCandidateIds).includes(selected))return this.record(view,"NOT_ELIGIBLE");
+    if(!namedOutletCandidateResolved(view.restaurant,selected))return this.record(view,"NAME_UNRESOLVED");
+    if(view.restaurant.intentDraft?.target?.selectionScope!=="SPECIFIC_OUTLET")return this.record(view,"NOT_SPECIFIC");
     const prepared=this.readLinks(view).find(item=>item.source.candidateId===selected);
-    if(!prepared)return;
+    if(!prepared)return this.record(view,"NO_HANDOFF");
     const source=prepared.source,entry=this.entry(view,source);this.acceptQuestion(view,source,entry);
-    if(entry.attempted)return;
+    if(entry.attempted)return this.record(view,"ALREADY_ATTEMPTED");
     entry.attempted=true;
     const readDeadline=Date.parse(deadlineAt)-RESTAURANT_READ_CONCLUSION_RESERVE_MS;
-    const available=()=>this.taskId()===view.case.rootTaskId && (this.remaining(view.case.rootTaskId)??0)>0
-      && Date.parse(this.now())<readDeadline;
+    const unavailable=():RestaurantBookingTermsDiagnostic["reason"]|undefined=>
+      this.taskId()!==view.case.rootTaskId?"RUN_MISMATCH":(this.remaining(view.case.rootTaskId)??0)<=0?"BUDGET"
+        :!Number.isFinite(readDeadline)||Date.parse(this.now())>=readDeadline?"RESERVE":undefined;
+    const requireAvailable=()=>{const reason=unavailable();if(reason)throw Object.assign(new Error("B1 terms cannot start a new read"),{termsReason:reason});};
     const controller=new AbortController();
     const signal=AbortSignal.any([parent,controller.signal]);
     const timer=setTimeout(()=>controller.abort(Object.assign(new Error("B1 terms reached the conclusion reserve"),{code:"DELIVERY_RESERVE_REACHED"})),Math.max(0,readDeadline-Date.parse(this.now())));
     try{
-      if(signal.aborted||!available())throw new Error("No remaining enclosing read budget");
+      signal.throwIfAborted();requireAvailable();
       const authoritative=this.context(view,source),intent=completeRestaurantSearchIntent(view.restaurant.intentDraft);
       const bound=view.restaurant.readEvidence.find(item=>item.evidenceId===source.availabilityEvidenceId);
-      if(!authoritative||!intent||!bound?.sourceUrl||!bookingHandoffPageMatches(source,bound.sourceUrl))return;
+      if(!authoritative||!intent||!bound?.sourceUrl||!bookingHandoffPageMatches(source,bound.sourceUrl))return this.record(view,"NO_SOURCE_BINDING");
       const candidate=structuredClone(authoritative.candidate);
       // Route the existing fact reader to the observed channel only. Identity
       // still comes from that reader; the availability URL is not a proof.
@@ -137,13 +153,16 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
         readContext:{...context,deadlineAt:new Date(readDeadline).toISOString()}};
       let pages=this.pages(view,source);
       if(!pages.length){await this.questions.captureBookingPages(input,signal);pages=this.pages(view,source);}
-      if(!pages.length)return;
+      if(!pages.length){const count=this.questions.currentPages(context,selected).length;return this.record(view,count?"PAGE_FILTERED":"NO_PAGES",{pageCount:count,boundPageCount:0});}
       const ask=async(question:string,documents=pages):Promise<Answer>=>{
-        if(!available())throw new Error("No remaining enclosing read budget");
+        requireAvailable();
         signal.throwIfAborted();
         const answer=await this.questions.answerBookingQuestion({...input,question},documents,signal);
         signal.throwIfAborted();
-        if(Date.parse(this.now())>=readDeadline || answer.status==="UNVERIFIED"&&answer.reason==="BUDGET_EXHAUSTED")throw new Error("B1 terms read budget exhausted");
+        if(Date.parse(this.now())>=readDeadline)throw Object.assign(new Error("B1 terms reached conclusion reserve"),{termsReason:"RESERVE"});
+        if(answer.status==="UNVERIFIED"&&answer.reason==="BUDGET_EXHAUSTED")throw Object.assign(new Error("B1 terms model budget exhausted"),{termsReason:"BUDGET"});
+        this.record(view,answer.status==="UNVERIFIED"?"QUESTION_UNVERIFIED":answer.status==="NOT_STATED"?"NOT_STATED":"ANSWERED",
+          {topic:question===cardQuestion?"card":"cancellation",...(answer.status==="UNVERIFIED"?{answerReason:answer.reason}:{}),pageCount:documents.length,boundPageCount:documents.length});
         return {answer,pages:structuredClone(documents)};
       };
       if(!this.current(entry.cancellation,view,source))entry.cancellation=await ask(cancellationQuestion);
@@ -158,7 +177,14 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
       }
       if(!this.current(entry.card,view,source))entry.card=await ask(cardQuestion);
       signal.throwIfAborted();
-      if(Date.parse(this.now())>=readDeadline)throw new Error("B1 terms reached the conclusion reserve");
-    }catch{entry.blocked=true;}finally{clearTimeout(timer);}
+      if(Date.parse(this.now())>=readDeadline)throw Object.assign(new Error("B1 terms reached the conclusion reserve"),{termsReason:"RESERVE"});
+      this.record(view,"COMPLETED",{pageCount:pages.length,boundPageCount:pages.length});
+    }catch(error){
+      entry.blocked=true;
+      const reason=parent.aborted?"CANCELLED":Date.parse(this.now())>=readDeadline||controller.signal.aborted?"RESERVE"
+        :error&&typeof error==="object"&&"termsReason" in error?error.termsReason as RestaurantBookingTermsDiagnostic["reason"]
+          :unavailable()??"CAPTURE_FAILED";
+      this.record(view,reason);
+    }finally{clearTimeout(timer);}
   }
 }
