@@ -5708,3 +5708,8 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 <a id="blocked-request-terminal-20261103"></a>
 
 2026-11-03 CET：B完成“被拒请求是否挂起”离线机制诊断。三配置真实本地Chromium、普通route/CDP请求/首跳与原生二跳/38图片突发均有毫秒级失败终态，无暂停遗留；故意吞failRequest时DCL2秒未发生、CDP pending5而PW pending0，检错有效。当前证据不支持以这些路径挂起解释W1，但未覆盖真实TLS/代理/HTTP2/全部脚本，不关闭真实超时。产品/A三个fixture不改、图片策略保留；真实调用0，完整门禁待运行后如实单列既有冲突。 [报告](../../.eval-artifacts/phase3b/blocked-request-terminal-20261103/report.md)。
+
+
+<a id="blocked-request-terminal-delivery-20261103"></a>
+
+2026-11-03 CET：B被拒请求终态诊断完成（不合main）。本地三配置DCL中位45.467/45.656/44.750ms；普通route/CDP/首跳及原生二跳/38图片均及时失败，无遗留pause。故意吞failRequest会DCL2秒超时并留CDP pending5/PW0，oracle有效；不能据此解释真实W1超时，未改产品。新鲜净树type/arch/build、默认1410、严格G2全12页通过；Chromium185/188仍仅用户暂缓的A三个图片fixture，未改/未跳过。真实调用0，图片策略留分支待复核。 [报告](../../.eval-artifacts/phase3b/blocked-request-terminal-20261103/report.md)。
