@@ -66,3 +66,11 @@ A的src/eval、src/harness，B三个G3文件，身份比较器、Domain State/Ta
 fafd8edc 默认1382/1382、原9帧/名称7帧/D6独立13帧及组件控制、type/arch/build通过；Chromium186/188，两个旧工作区尺寸均在web-workspace.test.ts:144等待ready(page)超时。该函数固定等1 of 3；请求语义是当前第二店SPECIFIC_OUTLET/JUDGMENT，而workspace-fixture-server无论TARGET总返回三家。旧测试实际要求查看点名店后仍展示三家，与本次明确合同冲突。产品不能为通过此测试恢复其他店展示。
 
 最小两文件提案a-owned-specific-scope-proposal.patch已物化但未应用：夹具为SPECIFIC目标仅返回该全名候选，保留全catalog用于原索引和来源店号；ready默认仍3，仅该次请求等待1 of 1。语义、JUDGMENT、不记用户选择、其他原断言保持。因用户明令不改A文件和原断言，待这两处窄授权；不能声称五门禁全绿。本轮尚未合main。
+
+## 当前停止点（五门禁未全绿）
+
+- 已测产品源码 **fafd8edc87fef876a26c8cec70cef879a3d3c10f**，其后只有文档/证据变动，完整源码SHA核对不变。
+- typecheck、arch、build通过；默认 **1382/1382**，独立原无地区9帧、名称7帧、D6 13帧及守卫/原生种子/投影组件PASS。
+- Chromium **186/188**；两个尺寸均因上述旧工作区三家合同超时，非环境限时。没有把失败标成通过，也没有自动重试。
+- 严格G2独立补跑 **5/5，全部12页PASS**（23.899秒）；冻结完整性PASS。每项前后status为空。原始输出、命令、持续时间和SHA见gates-repair1.json、remaining.json及stopping-point.json。
+- 两处A归属最小补丁尚未应用，等待用户窄授权；期间不继续依赖此授权的改动。当前只推工作分支停止点，第二项不合main。第一项main533f1bc5已完成且已通知A。
