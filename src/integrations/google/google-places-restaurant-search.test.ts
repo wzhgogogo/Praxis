@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { fixtureIntent as namedFixtureIntent } from "../../harness/restaurant-fixtures.js";
 // Transport/pagination/fact tests start with an already observed circle. Named
 // resolution is exercised separately with an explicit area (near X and X).
-const fixtureIntent = { ...namedFixtureIntent, area: { ...namedFixtureIntent.area,
+const fixtureIntent = { ...namedFixtureIntent, area: { ...namedFixtureIntent.area!,
   coordinates: { latitude: 35.6, longitude: 139.7, observedAt: "2026-10-08T00:00:00Z", source: "MANUAL_PLACE" as const },
 } };
 import { GooglePlacesClient } from "./google-places-client.js";

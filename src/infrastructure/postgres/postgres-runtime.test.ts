@@ -70,7 +70,7 @@ const fixtureSemanticPatch: RestaurantIntentPatch = {
   date: fixtureIntent.date,
   timeWindow: fixtureIntent.timeWindow,
   partySize: fixtureIntent.partySize,
-  area: { query: fixtureIntent.area.query },
+  area: { query: fixtureIntent.area!.query },
   addCriteria: fixtureIntent.criteria,
   ...(fixtureIntent.budgetPerPerson ? { budgetPerPerson: fixtureIntent.budgetPerPerson } : {}),
 };

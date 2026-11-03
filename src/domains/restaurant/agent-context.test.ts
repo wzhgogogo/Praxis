@@ -218,7 +218,7 @@ test("Restaurant Agent context exposes only current candidate-bound commercial n
 
 test("C8 source categories remain advisory and source-attributed without changing legal candidates", () => {
   const candidateId=fixtureCandidates[0]!.restaurant.id;
-  const state:RestaurantTaskState={schemaVersion:'24',phase:'SEARCHING',intentDraft:{...fixtureIntent,schemaVersion:'3'},intent:fixtureIntent,candidates:[fixtureCandidates[0]!],availability:{},availabilityChecks:{},readEvidence:[],searchRevision:1};
+  const state:RestaurantTaskState={schemaVersion:'25',phase:'SEARCHING',intentDraft:{...fixtureIntent,schemaVersion:'3'},intent:fixtureIntent,candidates:[fixtureCandidates[0]!],availability:{},availabilityChecks:{},readEvidence:[],searchRevision:1};
   const before=projectRestaurantAgentContext(state);
   state.readEvidence=[{evidenceId:'discovery-types',kind:'DISCOVERY',provider:'GOOGLE_PLACES',candidateId,sourceEntityId:'place-a',observedAt:'2026-10-10T00:00:00Z',requestFingerprint:'request',claims:{types:['italian_restaurant','restaurant']}},
     {evidenceId:'listing-categories',kind:'DISCOVERY',provider:'TABELOG',candidateId,sourceEntityId:'outlet-a',observedAt:'2026-10-10T00:00:00Z',requestFingerprint:'request',claims:{sourceCategories:['Italian cuisine']}}];

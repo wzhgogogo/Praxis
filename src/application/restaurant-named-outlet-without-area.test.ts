@@ -23,7 +23,7 @@ test("D3 original semantic bytes through ordinary composition find the unique na
     assert.equal(v.restaurant.candidates[0]!.distanceObservation,undefined,"No invented center/radius distance");
     assert.equal(v.restaurant.bookingHandoffs![0]!.terms.length,2);
     assert.ok(f.requests.some(q=>q.request.purpose==="restaurant_agent_decide"&&JSON.parse(q.response.outputText).type==="SEARCH_RESTAURANTS"));
-    assert.ok(!(a.execution as {events:Array<{event:{type:string}}>}).events.some(e=>e.event.type==="BOOKING_PROPOSED"));
+    assert.ok(Array.isArray(a.execution.events));assert.ok(!a.execution.events.some(e=>e.event.type==="BOOKING_PROPOSED"));
     const later=await f.area();await capture(f,"USER_AREA");
     assert.equal(later.restaurant.intentDraft?.area?.query,"Akabane");assert.equal(later.case.phase,"PRESENT_RESULTS");
     assert.ok(later.restaurant.bookingHandoffs?.length);assert.ok(!later.restaurant.readEvidence.some(e=>e.claims.locationBasis==="NAMED_OUTLET_RESOLUTION"));
