@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Document revision: 1.5
-- Last updated: 2026-11-02
+- Last updated: 2026-11-03
 - Source of truth for: 月度历史摘要、逐条记录索引与原文阅读入口
 
 本目录保存按时间追加的实施和验证记录，便于追溯“当时为什么这样做、实际跑过什么”。它们不是当前能力或阶段判断的 Source of Truth。

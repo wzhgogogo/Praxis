@@ -1,0 +1,243 @@
+{
+  "mode": "OFFLINE_INDEPENDENT_REVIEW_INPUT_NOT_A_REPLACEMENT_SCORE",
+  "automaticEvaluationSHA256": "6baf2a219053c109a4506c71fba248bfe1cee6882c0e925fb343321bb47a39a8",
+  "automaticVerdictUnchanged": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "NOT_EVALUATED",
+    "stopBatch": true
+  },
+  "policyFrozenBeforeLive": true,
+  "policy": "G6 NAMED_OUTLET / user selects first displayed merchant; identity is not production eligibility.",
+  "bindingRule": "The frozen word first resolves to INITIAL presentedCandidateIds[0], confirmed by the same name in the next user-semantic event.",
+  "expectedFirst": {
+    "id": "praxis:restaurant:d7e28bf950ed08d83c01d9d7",
+    "address": "1-chōme-2-4 Akabane, 北区 Kita City, Tokyo 115-0045, Japan",
+    "sourceIds": {
+      "phone": "03-3598-2992",
+      "googlePlaces": "ChIJwUnGVR2TGGARNAEaZNumYhQ",
+      "googleMapsUri": "https://maps.google.com/?cid=1468919889683677492&g_mp=Cilnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaE5lYXJieRACGAQgAA",
+      "googleWebsiteUri": "http://www.niboshi-ito.com/",
+      "discoverySourceId": "google-places"
+    },
+    "outletName": "Ito Akabane",
+    "provenance": {
+      "address": "evidence:restaurant:google-discovery:385927392a1e6762b5c474d3",
+      "sourceIds": "evidence:restaurant:google-discovery:385927392a1e6762b5c474d3",
+      "outletName": "evidence:restaurant:google-discovery:385927392a1e6762b5c474d3"
+    },
+    "coordinates": {
+      "lat": 35.7782918,
+      "lng": 139.72149919999998
+    }
+  },
+  "rawGoogleIdentity": [
+    {
+      "harEntry": 54,
+      "bodySHA256": "8faae1712e480ef7751436f8324fcdfe9049fdb155a3484c56cf29f7ed6710ad",
+      "place": {
+        "id": "ChIJwUnGVR2TGGARNAEaZNumYhQ",
+        "displayName": {
+          "text": "Ito Akabane",
+          "languageCode": "en"
+        },
+        "formattedAddress": "1-chōme-2-4 Akabane, 北区 Kita City, Tokyo 115-0045, Japan",
+        "nationalPhoneNumber": "03-3598-2992",
+        "location": {
+          "latitude": 35.7782918,
+          "longitude": 139.72149919999998
+        }
+      }
+    },
+    {
+      "harEntry": 56,
+      "bodySHA256": "1dd09cffd3a57a983a6eeddb8b9ced77d08ce503fd67c81aabb0283f05ab9210",
+      "place": {
+        "id": "ChIJwUnGVR2TGGARNAEaZNumYhQ",
+        "displayName": {
+          "text": "Ito Akabane",
+          "languageCode": "en"
+        },
+        "formattedAddress": "1-chōme-2-4 Akabane, 北区 Kita City, Tokyo 115-0045, Japan",
+        "nationalPhoneNumber": "03-3598-2992",
+        "location": {
+          "latitude": 35.7782918,
+          "longitude": 139.72149919999998
+        }
+      }
+    }
+  ],
+  "boundUserEvent": {
+    "id": "event:user:072a3e7351f1acecc497f06d83a08f1b",
+    "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+    "event": {
+      "type": "SEMANTIC_PROPOSAL_COMPILED",
+      "patch": {
+        "date": "2026-11-11",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Ito Akabane",
+          "selectionScope": "SPECIFIC_OUTLET"
+        },
+        "timeWindow": {
+          "latest": "19:00",
+          "earliest": "19:00"
+        },
+        "schemaVersion": "3",
+        "temporalResolution": {
+          "date": {
+            "basis": "EXPLICIT_DATE",
+            "expression": "November 11, 2026",
+            "resolvedDate": "2026-11-11"
+          },
+          "timezone": "Asia/Tokyo",
+          "timeWindow": {
+            "basis": "EXPLICIT_CLOCK",
+            "expression": "7 PM",
+            "resolvedTimeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            }
+          },
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-11-03T03:34:35.780Z"
+        }
+      },
+      "partySizeSupplement": {
+        "status": "UNKNOWN",
+        "invocationCount": 1,
+        "responseAttemptCount": 1
+      },
+      "userBookingSelection": {
+        "candidateId": "praxis:restaurant:d7e28bf950ed08d83c01d9d7"
+      }
+    },
+    "occurredAt": "2026-11-03T03:34:38.768Z",
+    "trace": {
+      "actor": "USER",
+      "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+      "correlationId": "event:user:072a3e7351f1acecc497f06d83a08f1b",
+      "schemaVersion": "1"
+    }
+  },
+  "candidateSelectedEvents": [],
+  "finalTarget": {
+    "goal": "AVAILABILITY",
+    "query": "Ito Akabane",
+    "selectionScope": "SPECIFIC_OUTLET"
+  },
+  "findings": [
+    {
+      "candidateId": "tabelog:en/tokyo/A1323/A132305/13109596",
+      "name": "Teppan Sakaba Tetsuichi Akabane ten",
+      "sourceEntityId": "en/tokyo/A1323/A132305/13109596",
+      "page": ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/diagnostic/snapshot-0006.html",
+      "pageSHA256": "536fd23ab587da02343704eaa964560ebd1b007cb699a889961a8dd02b2ce59e",
+      "observedSourceURL": "https://tabelog.com/en/tokyo/A1323/A132305/13109596/",
+      "visibleAddress": "東京都北区赤羽1-15-1 新仲ビル 1F",
+      "sameOwnOutletByFullNameAndVisibleAddress": true,
+      "sameAsUserSelectedIto": false,
+      "reason": "Own full merchant name and street address differ from the first displayed Ito Akabane; original user reference and semantic target stayed Ito.",
+      "frozenRule": "G6 named outlet must be the same branch; other shops may not be presented as that request.",
+      "finding": "NAMED_OUTLET_SCOPE_MISMATCH",
+      "severityForExternalReview": "S0",
+      "sourceRefs": [
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/D6.pack.json#book-recommendation",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/user-turns.json#INITIAL",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/replay.har",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/execution.result.json#SEMANTIC_PROPOSAL_COMPILED"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1323/A132305/13206560",
+      "name": "Seafood Genshiyaki Robatanyo Akabane honten",
+      "sourceEntityId": "en/tokyo/A1323/A132305/13206560",
+      "page": ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/diagnostic/snapshot-0007.html",
+      "pageSHA256": "198181f9206e88a4fd47026e6ae79157b1cc56b7824ee89eb1b0ac67b2d4502f",
+      "observedSourceURL": "https://tabelog.com/en/tokyo/A1323/A132305/13206560/",
+      "visibleAddress": "東京都北区赤羽1-38-2",
+      "sameOwnOutletByFullNameAndVisibleAddress": true,
+      "sameAsUserSelectedIto": false,
+      "reason": "Own full merchant name and street address differ from the first displayed Ito Akabane; original user reference and semantic target stayed Ito.",
+      "frozenRule": "G6 named outlet must be the same branch; other shops may not be presented as that request.",
+      "finding": "NAMED_OUTLET_SCOPE_MISMATCH",
+      "severityForExternalReview": "S0",
+      "sourceRefs": [
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/D6.pack.json#book-recommendation",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/user-turns.json#INITIAL",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/replay.har",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/execution.result.json#SEMANTIC_PROPOSAL_COMPILED"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1323/A132305/13297216",
+      "name": "Private room  Satsuma Jidori × Sendai Gyutan Akaneya Akabane ten",
+      "sourceEntityId": "en/tokyo/A1323/A132305/13297216",
+      "page": ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/diagnostic/snapshot-0008.html",
+      "pageSHA256": "465c7d66826cf12453114cf3340620b64ecf07ea4b99d75d3e22b509e50d2dbc",
+      "observedSourceURL": "https://tabelog.com/en/tokyo/A1323/A132305/13297216/",
+      "visibleAddress": "東京都北区赤羽1-3-8 ASビル 2F",
+      "sameOwnOutletByFullNameAndVisibleAddress": true,
+      "sameAsUserSelectedIto": false,
+      "reason": "Own full merchant name and street address differ from the first displayed Ito Akabane; original user reference and semantic target stayed Ito.",
+      "frozenRule": "G6 named outlet must be the same branch; other shops may not be presented as that request.",
+      "finding": "NAMED_OUTLET_SCOPE_MISMATCH",
+      "severityForExternalReview": "S0",
+      "sourceRefs": [
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/D6.pack.json#book-recommendation",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/user-turns.json#INITIAL",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/replay.har",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/execution.result.json#SEMANTIC_PROPOSAL_COMPILED"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1323/A132305/13294534",
+      "name": "Kyo no Rikyu Akabane ten",
+      "sourceEntityId": "en/tokyo/A1323/A132305/13294534",
+      "page": ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/diagnostic/snapshot-0009.html",
+      "pageSHA256": "8881c701617b96199a1b9c8dd69fa276883f0159dcc451232569c24a9444001e",
+      "observedSourceURL": "https://tabelog.com/en/tokyo/A1323/A132305/13294534/",
+      "visibleAddress": "東京都北区赤羽1-2-6 赤羽駅前丸澤ビル 2F",
+      "sameOwnOutletByFullNameAndVisibleAddress": true,
+      "sameAsUserSelectedIto": false,
+      "reason": "Own full merchant name and street address differ from the first displayed Ito Akabane; original user reference and semantic target stayed Ito.",
+      "frozenRule": "G6 named outlet must be the same branch; other shops may not be presented as that request.",
+      "finding": "NAMED_OUTLET_SCOPE_MISMATCH",
+      "severityForExternalReview": "S0",
+      "sourceRefs": [
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/D6.pack.json#book-recommendation",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/user-turns.json#INITIAL",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/replay.har",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/execution.result.json#SEMANTIC_PROPOSAL_COMPILED"
+      ]
+    },
+    {
+      "candidateId": "tabelog:en/tokyo/A1323/A132305/13294533",
+      "name": "Private rooms Izakaya Motenashiya Akabane ten",
+      "sourceEntityId": "en/tokyo/A1323/A132305/13294533",
+      "page": ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/diagnostic/snapshot-0010.html",
+      "pageSHA256": "c3577d8c2c241006ac5ffe0b492287ff5cea2fb923da7ba87d770676287332b6",
+      "observedSourceURL": "https://tabelog.com/en/tokyo/A1323/A132305/13294533/",
+      "visibleAddress": "東京都北区赤羽1-2-6 赤羽駅前丸澤ビル 2F",
+      "sameOwnOutletByFullNameAndVisibleAddress": true,
+      "sameAsUserSelectedIto": false,
+      "reason": "Own full merchant name and street address differ from the first displayed Ito Akabane; original user reference and semantic target stayed Ito.",
+      "frozenRule": "G6 named outlet must be the same branch; other shops may not be presented as that request.",
+      "finding": "NAMED_OUTLET_SCOPE_MISMATCH",
+      "severityForExternalReview": "S0",
+      "sourceRefs": [
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/D6.pack.json#book-recommendation",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/user-turns.json#INITIAL",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/recordings/g6-D6-1793676780949-0/replay.har",
+        ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs/D6/execution.result.json#SEMANTIC_PROPOSAL_COMPILED"
+      ]
+    }
+  ],
+  "automaticOracleGap": "D6 request.named was absent because the initial outlet is only known at runtime; frozen evaluator did not bind this anaphoric reference. No post-Live scorer or oracle edits were made.",
+  "conclusion": "Five returned presented merchants and B1 cards differ from the requested Ito. S0 findings submitted for independent review; do not certify S0=0.",
+  "actualFrontendPixelsObserved": false,
+  "presentationScope": "Server PRESENT_RESULTS plus presentedCandidateIds and matching B1 projection; not a hidden unpresented handoff.",
+  "nextOwnerSuggestion": "C: named-target/selection continuity and native discovery scope; A: dynamic expected-outlet binding after review. No product or evaluator fix in this batch."
+}

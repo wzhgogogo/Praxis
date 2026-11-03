@@ -1,0 +1,73 @@
+{
+  "mode": "OFFLINE_TIMING_NOT_QUALIFICATION",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1793676781738,
+      "deadlineAtMs": 1793677281738,
+      "elapsedMs": 94032.09320799999,
+      "modelCalls": 8,
+      "googleRequests": 2,
+      "exceeded500Seconds": false,
+      "startedAtCET": "2026-11-03T04:33:01.738000+01:00",
+      "deadlineAtCET": "2026-11-03T04:41:21.738000+01:00",
+      "remaining500msAtEnd": 405967.906792,
+      "readStartsInReserve": 0
+    },
+    {
+      "id": "book-recommendation",
+      "startedAtMs": 1793676875771,
+      "deadlineAtMs": 1793677375771,
+      "elapsedMs": 4613.581332999995,
+      "modelCalls": 3,
+      "googleRequests": 0,
+      "exceeded500Seconds": false,
+      "startedAtCET": "2026-11-03T04:34:35.771000+01:00",
+      "deadlineAtCET": "2026-11-03T04:42:55.771000+01:00",
+      "remaining500msAtEnd": 495386.418667,
+      "readStartsInReserve": 0
+    },
+    {
+      "id": "supply-party",
+      "startedAtMs": 1793676880392,
+      "deadlineAtMs": 1793677380392,
+      "elapsedMs": 164601.88604199997,
+      "modelCalls": 12,
+      "googleRequests": 2,
+      "exceeded500Seconds": false,
+      "startedAtCET": "2026-11-03T04:34:40.392000+01:00",
+      "deadlineAtCET": "2026-11-03T04:43:00.392000+01:00",
+      "remaining500msAtEnd": 335398.11395800003,
+      "readStartsInReserve": 0
+    }
+  ],
+  "readElapsedMs": 264043.41099999996,
+  "outerRunIdToBatchFileMs": 285887.13623046875,
+  "outerMeasurementLimit": "Run-id birth and local batch-file mtime, not independent browser rendering timestamps. Includes immediate post-checks and recording flush.",
+  "serverPresentationsUTC": [
+    "2026-11-03T03:34:35.712Z",
+    "2026-11-03T03:37:24.586Z"
+  ],
+  "firstCompleteIndependentQualifiedEvidenceAt": null,
+  "reason": "The selected named outlet was not delivered, and automatic safety is unassessed; presentation is not qualification.",
+  "witnessW1AcrossTurnViews": [
+    {
+      "turn": "INITIAL",
+      "candidateIds": [],
+      "presented": false
+    },
+    {
+      "turn": "book-recommendation",
+      "candidateIds": [],
+      "presented": false
+    },
+    {
+      "turn": "supply-party",
+      "candidateIds": [],
+      "presented": false
+    }
+  ],
+  "schemaRetries": 0,
+  "noTimeout": true,
+  "F6Limit": "No turn approached its final20seconds; this slot does not establish reserve-boundary Live completion."
+}
