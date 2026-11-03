@@ -47,6 +47,10 @@ main已快进发布8ba6068fc7b394e4b82f74ee793821e3b189e332，ls-remote核对一
 
 ## G6最终验证
 
-01922aab0153a11bbb2ecd5b107b26c4c546ab61：净树type/arch/build、默认1412/1412、Chromium189/189 + G6 66/66、严格G2 5/5（12页）全绿，每项前后status为空。源码/fixture/scripts与已测候选一致，后续只归档文档。G6工作分支会单独推送，不合main、不启动Live。原始红灯日志中的空白字节通过.gitattributes保留为原件，最终diff--check通过。
+01922aab0153a11bbb2ecd5b107b26c4c546ab61：净树type/arch/build、默认1412/1412、Chromium189/189 + G6 66/66、严格G2 5/5（12页）全绿，每项前后status为空。源码/fixture/scripts与已测候选一致，后续只归档文档。G6工作分支已推送10dfc1d98ff6cb30d47a83a04f419bdf53d1b16f，不合main、不启动Live。原始红灯日志中的空白字节通过.gitattributes保留为原件，最终diff--check通过。
 
 账本另并入B在ad4e6484已记录的6次已授权W1比较读及其零调用记录，只导入实际记账，不导入其未获批资源策略代码。821行并集，原值均保留；全局Live11/29、模型401/1600、公开GET290/400、网站请求8210、环境重跑0/4。本任务A新增全部真实调用0。见ledger-b-comparisons.json。
+
+## 最终发布边界
+
+共享采集源码已在main8ba6068f发布并核对；本次后续main提交只同步报告、G6门禁证据和B既有收费并集。源码仍与d61b9dde已测候选逐字相同。G6 Runner接线位于10dfc1d9工作分支，未将该分支代码或旧Live整包合main。直接使用LocalPlaywrightChromium而不经过traceBrowserRuntime的独立脚本不会自动采集；后续诊断需使用该共享追踪入口并传入自己的剩余预算回调。
