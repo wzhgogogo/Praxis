@@ -1,3 +1,5 @@
+2026-11-03 CET：A逐请求时间线main候选净树五门禁全绿：默认1404/1404、Chromium189/189、严格G2 5/5且12页PASS。字段来自真实CDP和独立Guard传输观察，query只保留全URL SHA，准入/脱敏/评分不变；真实调用0。将按用户批准快进发布main，再同步G6工作分支预算回调。 [报告](../.eval-artifacts/phase3b/request-timeline-20261103/report.md)。
+
 2026-11-03 CET：A按批准补评测逐请求/导航时间线；真实CDP requestID/loader、开始/响应头/结束/阻断、完整URL哈希、导航预算/超时/等待事件/结束原因均单列。Guard route.fetch传输与浏览器观察不按URL猜配，取消线上终态未知时明确null。未改产品、评分或Recorder准入。真实Chromium loopback红绿及并发隔离通过，净树五门禁/严格G2待最终运行；真实调用0。main账本并入A既有实际支出并保留已批准29Live/400GET。 [报告](../.eval-artifacts/phase3b/request-timeline-20261103/report.md)。
 
 2026-11-03 CET：C已在B main f0bee7d7后完成获批fd07f44e合入验证。822a7cd3冻结799项，净树十步全绿：默认1404/1404、Chromium188/188、严格G2 5/5且12页PASS、22组装测试/独立26帧PASS。34个C独有和20个B独有源码逐字保留，两个重叠仅合并import/自动保留双方；原C证据不变，账本746行原值并集、累计/上限不变。后续只归档文档，按用户批准正常发布main并核对远端、通知A。State25/TaskDefinition23/Prompt/Schema不变，真实调用0、不读.env，不称Live条款已填。[报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
