@@ -9916,15 +9916,27 @@
       "googleRequests": 1,
       "restaurantWebsiteRequests": 268,
       "note": "Actual source transport starts; no quotas charged twice; witness GETs have their own rows."
+    },
+    {
+      "id": "g6-w2-named-continuation-1793681803302:GET:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-03T04:56:43.303Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "vacancy; public credential-free GET, no retry"
     }
   ],
   "cumulative": {
     "fullLive": 6,
     "realModelCalls": 341,
     "environmentReruns": 0,
-    "evaluationPublicGET": 272,
+    "evaluationPublicGET": 273,
     "googleRequests": 34,
-    "restaurantWebsiteRequests": 5838
+    "restaurantWebsiteRequests": 5839
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
