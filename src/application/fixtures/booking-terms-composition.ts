@@ -89,7 +89,9 @@ export async function bookingTermsComposition(options:Options={}){
     let body:unknown;
     let rawOutput:string|undefined;
     if(continuity&&request.purpose==="restaurant_semantic_interpret"){
-      if(options.continuity==="AMBIGUOUS"){
+      if(turn==="OTHERS"){
+        body={schemaVersion:"4",facts:[{field:"TARGET",operation:"ASSERT",value:{kind:"TARGET",goal:"AVAILABILITY",selectionScope:"OPEN_ENDED",query:"Restaurants near Akabane Station",goalBasis:{type:"BOOKING_WORDING",reason:"User explicitly permits other restaurants for this visit",quotes:["Other nearby restaurants for the same date and guests would be fine."]}}}]};
+      }else if(options.continuity==="AMBIGUOUS"){
         body=JSON.parse(realD6.get(9)!);const value=body as {facts:Array<{field:string;value:Record<string,unknown>}>};
         value.facts[0]!.value.goalBasis={type:"BOOKING_WORDING",reason:"Constructed fresh ambiguous named request",quotes:["Find a table for two at Ito Akabane near Akabane Station on November 11, 2026 at 7 PM."]};
         value.facts.push(...JSON.parse(realD6.get(1)!).facts.filter((f:{field:string})=>f.field==="AREA"),...JSON.parse(realD6.get(12)!).facts);
@@ -127,7 +129,12 @@ if(options.namedWithoutArea){
       const context=JSON.parse(request.messages.find(m=>m.role==="user")!.content).context as RestaurantAgentContext;
       const id=context.candidates[0]?.id;
             if(continuity){
-        if(options.continuity==="AMBIGUOUS"){
+        if(turn==="OTHERS"){
+          if(!id&&context.legalActions.search)body=strictAction("SEARCH_RESTAURANTS");
+          else if(context.checkableCandidateIds?.length)body=strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds.slice(0,1));
+          else if(context.presentation.some(p=>p.eligible))body=strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId));
+          else body=strictAction(context.legalActions.search?"SEARCH_RESTAURANTS":"END_READ");
+        }else if(options.continuity==="AMBIGUOUS"){
           if(context.legalActions.search)rawOutput=realD6.get(13)!;
           else body={...strictAction("ASK_USER"),question:"Which Ito Akabane branch do you mean?",relatedFields:["area"]};
         }else if(turn==="INITIAL"){
@@ -215,7 +222,11 @@ if(options.namedWithoutArea){
           const html=new URL(pageUrl).hostname.includes("tablecheck")?"<p>No matching outlet</p>":`<article><a href="${url}">${source.outlet.name}</a><address>${source.outlet.address}</address><a href="tel:${source.outlet.phone}">Phone</a></article>`;
           const p={url:pageUrl,title:"Restaurant search",text:html.replace(/<[^>]*>/g," "),html,responses:[]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;
         }
-        const jp=pageUrl===ja;const text=[source.outlet.name,source.outlet.address,source.outlet.phone,...(omit?[]:[jp?japaneseQuote:cancellationQuote,cardQuote]),"Availability","November 11, 2026. 2 guests. 19:00."].join("\n");const p={url:pageUrl,title:source.outlet.name,text,html:(jp?japanese:english).replace(omit?cancellationQuote:"__unused__",""),responses:stage==="FACTS"?[]:[{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;},
+        const otherId=pageUrl.match(/\/(1312345[78])\//)?.[1];const other=continuity&&otherId?continuity.initialPlaces[Number(otherId)-13123457+1]:undefined;
+        const name=other?.displayName.text??source.outlet.name,address=other?.formattedAddress??source.outlet.address,phone=other?.nationalPhoneNumber??source.outlet.phone;
+        const jp=pageUrl===ja;const text=[name,address,phone,...(omit?[]:[jp?japaneseQuote:cancellationQuote,cardQuote]),"Availability","November 11, 2026. 2 guests. 19:00."].join("\n");
+        const html=(jp?japanese:english).replace(omit?cancellationQuote:"__unused__","").replaceAll(source.outlet.name,name).replaceAll(source.outlet.address,address).replaceAll(source.outlet.phone,phone).replaceAll("13123456",otherId??"13123456");
+        const p={url:pageUrl,title:name,text,html,responses:stage==="FACTS"?[]:[{url:source.vacancy.url.replaceAll("13123456",otherId??"13123456"),status:200,observedAt:clock.now().toISOString(),sequence:1,body:otherId?JSON.parse(JSON.stringify(source.vacancy.body).replaceAll("13123456",otherId)):source.vacancy.body}]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;},
       async observeControls(){const controls=options.conflict&&pageUrl===url?[{id:"lang-ja",stableKey:"lang-ja",kind:"LINK" as const,role:"link",label:"日本語",href:ja,visible:true,disabled:false}]:[];
         if(stage==="FACTS"){mark("FACTS_CONTROLS_END",{url:pageUrl});options.afterFactControls?.(pageUrl);}return controls;},
       async select(_selector,value){return [value];},async click(){assert.fail("No click transport");},async fill(){assert.fail("No form transport");},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
@@ -224,10 +235,10 @@ if(options.namedWithoutArea){
     sourceCalls.push({turn,url:String(target),kind:"GOOGLE_FIXTURE"});
     const place={id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:url,location:{latitude:source.outlet.latitude,longitude:source.outlet.longitude},types:["restaurant"],...options.namedWithoutArea?.sourceNames?.google};
     const query=init?.body?JSON.parse(String(init.body)).textQuery:undefined;
-    if(continuity&&turn!=="INITIAL"&&options.continuity==="MISSING"&&init?.method!=="POST"){
+    if(continuity&&turn==="ADD_PARTY"&&options.continuity==="MISSING"&&init?.method!=="POST"){
       googleWires.push({turn,url:String(target),method:"GET",body:null,response:{status:404}});return new Response("{}",{status:404});
     }
-    const places=continuity?(options.continuity==="AMBIGUOUS"?[place,{...place,id:place.id+"-other",nationalPhoneNumber:"03-9999-9999"}]:turn==="INITIAL"?continuity.initialPlaces:options.continuity==="MISSING"?continuity.initialPlaces.slice(1):[place,...continuity.initialPlaces.slice(1)]):options.namedWithoutArea?.scenario==="MISSING"?[]:options.namedWithoutArea?.scenario==="OUTSIDE_TOKYO"?[{...place,formattedAddress:"1-2-3 Osaka Japan"}]:options.namedWithoutArea?.scenario==="UNRELATED"?[{...place,displayName:{text:"Unrelated Ramen"}}]
+    const places=continuity?(turn==="OTHERS"?continuity.initialPlaces.slice(1).map((p:typeof place,i:number)=>({...p,websiteUri:url.replaceAll("13123456",String(13123457+i))})):options.continuity==="AMBIGUOUS"?[place,{...place,id:place.id+"-other",nationalPhoneNumber:"03-9999-9999"}]:turn==="INITIAL"?continuity.initialPlaces:options.continuity==="MISSING"?continuity.initialPlaces.slice(1):[place,...continuity.initialPlaces.slice(1)]):options.namedWithoutArea?.scenario==="MISSING"?[]:options.namedWithoutArea?.scenario==="OUTSIDE_TOKYO"?[{...place,formattedAddress:"1-2-3 Osaka Japan"}]:options.namedWithoutArea?.scenario==="UNRELATED"?[{...place,displayName:{text:"Unrelated Ramen"}}]
       :options.namedWithoutArea?.scenario==="BRANCH"?[{...place,displayName:{text:"Kushi Katsu Dengana Asakusa ten"}}]
       :options.selectionReplay?.ambiguous||options.namedWithoutArea?.scenario==="AMBIGUOUS"||options.namedWithoutArea?.sourceNames?.twoCandidates?[place,{...place,id:source.outlet.id+"-other",formattedAddress:"9-8-7 Akabane Tokyo",nationalPhoneNumber:"03-9876-5432"}]:[place];
     const response=init?.method==="POST"?{places:query==="Shibuya"||query==="Akabane"||continuity&&/^(?:near )?Akabane Station$/i.test(query??"")?[{id:"station",types:["train_station"],displayName:{text:query},location:place.location}]:places}:places.find((p:typeof place)=>new URL(String(target)).pathname.endsWith("/"+p.id))??place;
@@ -257,6 +268,7 @@ if(options.namedWithoutArea){
     async area(){turn="AREA_UPDATE";await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"area:"+version,expectedVersion:version,message:"In Akabane, please."}));return project();},
     async select(message?:string){if(continuity)clock.advance(1000);turn="SELECTED";const viewed=await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"selected:"+version,expectedVersion:version,message:message??(continuity?continuity.messages[1]:options.selectionReplay?.path==="P2"?source.uncheckedBookingRequest:source.bookingFollowups[0]),viewContext:{view:"DETAILS",candidateId:viewed.restaurant.presentedCandidateIds![0]!,comparedCandidateIds:[]}}));return project();},
     async party(){if(continuity)clock.advance(1000);turn="ADD_PARTY";await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"party:"+version,expectedVersion:version,message:continuity?continuity.messages[2]:source.partyReply}));return project();},
+    async others(){assert.ok(continuity);clock.advance(1000);turn="OTHERS";await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"others:"+version,expectedVersion:version,message:"Other nearby restaurants for the same date and guests would be fine."}));return project();},
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
     project,omitTerms(){omit=true;},async cancel(){return app.cancelCase("terms-user",caseId);},
     async close(){await app.stopActiveReads();await db.close();},

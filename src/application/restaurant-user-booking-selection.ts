@@ -40,7 +40,14 @@ export function userBookingSelectionRequest(events: readonly EventEnvelope<Resta
       const outlet=evidence.candidateId?observed.get(evidence.candidateId):undefined;
       if(!outlet||evidence.kind!=="ENTITY_MATCH"||evidence.entityMatch?.confidence!=="HIGH"||!evidence.sourceEntityId)continue;
       const key=evidence.provider==="TABELOG"?"tabelog":evidence.provider==="TABLECHECK"?"tablecheck":undefined;
-      if(key)outlet.restaurant.sourceIds[key]=evidence.sourceEntityId;
+      if(key){
+        outlet.restaurant.sourceIds[key]=evidence.sourceEntityId;
+        if(request?.reference&&sameNamedOutletIdentity(outlet.restaurant,request.reference.restaurant))request.reference.restaurant.sourceIds[key]=evidence.sourceEntityId;
+      }
+    }
+    if(event.type==="CANDIDATE_SELECTED"&&trace.actor==="USER"&&request&&!request.reference&&trace.causationId===request.sourceEventId){
+      const selected=observed.get(event.candidateId);
+      if(selected)request={...request,candidateId:request.candidateId??event.candidateId,reference:{...structuredClone(selected),userEventId:request.sourceEventId}};
     }
     if (event.type === "SEMANTIC_INTERPRETATION_FAILED" || event.type === "SEMANTIC_CONFLICT_RECORDED") request = undefined;
     if (event.type !== "SEMANTIC_PROPOSAL_COMPILED" || !("target" in event.patch)) continue;
