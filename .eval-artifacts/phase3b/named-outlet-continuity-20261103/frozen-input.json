@@ -122,5 +122,18 @@
     ],
     "otherResponses": "All original lines retained; outputs for newly legal follow-up reads use explicit FIXTURE decisions. Source pages, inventory, locality response and browser decisions constructed; no transplant of accepted evidence or Task State.",
     "initialDiscovery": "Default production pack plan; source list may be empty before Google. Not an exact HAR replay."
+  },
+  "redConfiguration": {
+    "change": "C fixture waits for actual assistant SQL append after read-finished, not any queued Case update; no timing sleep",
+    "files": [
+      {
+        "path": "src/application/fixtures/booking-terms-composition.ts",
+        "sha256": "c5b87971f2673310ebf1201fb7bbd831fa2052fd338ce7a0272be8efa3e9a882"
+      },
+      {
+        "path": "src/application/restaurant-named-outlet-continuity.test.ts",
+        "sha256": "fdc8eb601816685c5822f7f9f25dd678a4a8158c8feaf78361ac1f5b2de314c4"
+      }
+    ]
   }
 }
