@@ -37,7 +37,8 @@ def supported_handoffs(d):
                 if urlparse(observation['url']).hostname!='tabelog.com':continue
                 body=observation.get('body',{})
                 if isinstance(body,str):body=json.loads(body)
-                for row in body.get('selection',{}).values():
+                selection=body.get('selection',{})
+                for row in selection if isinstance(selection,list) else selection.values():
                     if isinstance(row,dict) and isinstance(row.get('url'),str):
                         source_links.append(urljoin('https://tabelog.com',row['url']))
             require(handoff['url'] in source_links,'Exact source URL absent after permitted relative resolution')
