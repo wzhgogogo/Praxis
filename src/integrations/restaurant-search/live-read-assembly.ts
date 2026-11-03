@@ -76,7 +76,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   const terms = new RestaurantBookingTerms(native.questions, bookingLinks.readPrepared, taskId,
     transports.remainingModelCalls ?? (()=>undefined), now, config.maxAutomaticBrowserMs);
   const bookingHandoffs = {...bookingLinks,readPrepared:terms.readPrepared};
-  const questions=Object.assign(native.questions,{readBookingTerms:terms.readBookingTerms.bind(terms)});
+  const questions=Object.assign(native.questions,{readBookingTerms:terms.readBookingTerms.bind(terms),readBookingTermsDiagnostics:terms.readBookingTermsDiagnostics});
   const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
   const sourceAvailability = new LiveBrowserAvailability(bookingHandoffs.runtime, transports.model, {
     now, browserBudget,

@@ -856,6 +856,7 @@ export class PersistentRestaurantAgentApplication {
       loop: { status: loopStatus },
       resourceUsage: { elapsedMs: modelUsage?.elapsedMs ?? lifecycleElapsedMs, agentDecisions, ...(googleRequests ? { googleRequests } : {}), ...(modelUsage ? { modelCallsStarted: modelUsage.calls } : {}) },
       resourceAccounting: { browserModelCalls: "UNKNOWN", cost: "UNKNOWN" },
+      ...(this.bookingTerms?.readBookingTermsDiagnostics?{bookingTermsDiagnostics:this.bookingTerms.readBookingTermsDiagnostics(caseId)}:{}),
       ...(this.liveReadLimits ? { limits: structuredClone(this.liveReadLimits) } : {}),
       safety: { policy: "READ_ONLY_CODE_PATH", externalSideEffectCount: "NOT_MEASURED" },
     };
