@@ -1,3 +1,5 @@
+2026-11-03 CET：C已在B main f0bee7d7后完成获批fd07f44e合入验证。822a7cd3冻结799项，净树十步全绿：默认1404/1404、Chromium188/188、严格G2 5/5且12页PASS、22组装测试/独立26帧PASS。34个C独有和20个B独有源码逐字保留，两个重叠仅合并import/自动保留双方；原C证据不变，账本746行原值并集、累计/上限不变。后续只归档文档，按用户批准正常发布main并核对远端、通知A。State25/TaskDefinition23/Prompt/Schema不变，真实调用0、不读.env，不称Live条款已填。[报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
 2026-11-03 CET：C fd07f44e已获用户独立复核及合入批准，并已等待B先发布main f0bee7d7。合入候选保留B来源角色和C身份前三家/条款就绪，源码只解read-assessment的两个import，native-source-facts自动保留两边；账本并集746行，累计/上限不变。原C产物不改，待冻结后新鲜五门禁、严格G2和26帧独立核验；全绿才发布main并通知A。真实调用0、不读.env。 [合入报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
 
 2026-11-03 CET：B已获批HARD证据修复合main，新鲜合入候选1ee97d94全绿：type/arch/build通过，默认1397/1397、Chromium188/188（130.342秒）、严格G2 5/5及12页PASS，每项前后status为空，无重试/跳过/取消。merge172c20af的树与复核d58d377a完全一致，发布记录不改源码/fixture/脚本；State25/TaskDefinition23及Prompt/Schema不变。744条账本完整保留743旧条目、累计/额度不变；新增真实调用0。按批准发布main，ls-remote核对后通知C/A，实际main SHA以交付回执为准。[合入证据](../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。

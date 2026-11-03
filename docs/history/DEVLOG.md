@@ -5680,3 +5680,8 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 ## 2026-11-03 CET — C 在B之后整合获批身份/条款修复
 
 用户批准fd07f44e，要求B先合；从对话A最新用户消息核验授权后，等待B远端发布f0bee7d7（含d58d377a）才从该main建合入候选。native-source-facts自动保留来源角色绑定与capture-only就绪观察；read-assessment只解import，保留两个引用，不改逻辑。文档同时保留双方，账本ID并集746行、同ID无差异、限额/累计不变。原C产物原字节，State25/TaskDefinition23/Prompt/Schema不递增，真实调用0、不读.env。五门禁/严格G2/独立26帧待新鲜验证，未全绿不发布。 [合入报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+<a id="named-identity-terms-main-verified-20261103"></a>
+## 2026-11-03 CET — C 在B之后的合入候选验证通过
+
+822a7cd3基于B先发布的f0bee7d7普通合并fd07f44e，799项冻结后十步前后净树全绿：默认1404/1404、Chromium188/188、严格G2全12页、22组装测试/26帧独立核验。源码并集34个C独有、20个B独有、两个重叠，与已批准两侧逐字或三方合并一致，read-assessment仅同时保留两个import；B来源角色与C capture-only稳定观察均在。746行账本保留原值/限额/累计，原C全部产物不变。之后只归档与文档，不再改实现，按批准发布main并ls-remote核对、通知A；最终SHA以Git回执为准。版本不变、真实调用0、不读.env，不新增Live能力结论。[报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。

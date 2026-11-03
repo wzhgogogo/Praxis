@@ -6384,3 +6384,8 @@ D3 4e14562f真实语义/展示字节+固定来源I/O有效红灯（问答0而非
 ## 2026-11-03 CET — C 获批合入的验证冻结准备
 
 B已先在main f0bee7d7发布，C fd07f44e获复核默认1389/Chromium188/严格G2全12页仍为历史证据，不替代两者合并后的验证。源码联合校验逐文件比对已批准两侧，原C输入/产物不改；新候选将冻结SHA并在每项前后净树执行五门禁、严格G2及原22组装测试/26帧独立oracle。没有新测试/Gold/模型或来源请求，本批真实调用0、不读.env。 [计划与停止条件](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/plan.md)。
+
+<a id="named-identity-terms-main-verified-20261103"></a>
+## 2026-11-03 CET — C 合入候选十步全绿
+
+822a7cd3冻结799项，完整性前19.074s、typecheck0.510s、arch0.225s、默认1404/1404（50.760s）、build0.538s、Chromium188/188（133.133s）、严格G2 5/5且12页PASS（24.659s）、22组装测试/26帧（11.976s）、独立oracle26/26（0.145s）、完整性后20.699s。十步各前后status为空，源码SHA相同，无自动重试/超时/跳过/取消，未出现本机PGlite崩溃。默认含B HARD与A/G6、C原回归；不改原断言或Gold，原C所有失败/输入/结果逐字保留。源码34 C独有/20 B独有/2重叠的联合证明及746条账本在source-and-ledger.json，详细日志gates/。真实调用0、不读.env；原Live S0=1与未评边界不改，批准发布main后核对远端并通知A。[报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
