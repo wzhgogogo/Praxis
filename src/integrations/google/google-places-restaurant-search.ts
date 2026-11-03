@@ -9,6 +9,7 @@ import { googleDiscoveryGeoDiagnostics, groundGoogleDiscovery, type GoogleDiscov
 import { restaurantSearchIntentFingerprint, type RestaurantCandidateFactRequest, type RestaurantSearchContinuation, type RestaurantSearchRead, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
 import { GooglePlacesClient } from "./google-places-client.js";
 import { GooglePlacesError, type GooglePlacesRawPlace, type GooglePlacesSourceName } from "./google-places-contracts.js";
+import {namedOutletWithoutArea,outletNameKey} from "../../domains/restaurant/named-outlet-resolution.js";
 
 function string(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
@@ -71,7 +72,7 @@ export function buildGooglePlacesTextQuery(request: RestaurantSearchRequest): st
     return `${request.discoveryQuery.keyword} ${request.discoveryQuery.location.label}`.trim();
   }
   if(request.discoveryQuery)return `${request.discoveryQuery.category} ${request.discoveryQuery.location.label}`.trim();
-  const area=request.intent.area.query.trim().toLowerCase()==='nearby'?'':request.intent.area.query;
+  const area=request.intent.area?.query.trim().toLowerCase()==='nearby'?'':request.intent.area?.query??'';
   if(request.discoveryRetrieval)return `${request.discoveryRetrieval.keyword??generalDiscoveryCategory(request.intent)} ${area}`.trim();
   return [request.intent.target?.query,'restaurant',area,request.retrievalHint?.trim()].filter(Boolean).join(' ');
 }
@@ -273,6 +274,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     request: RestaurantSearchRequest,
     signal: AbortSignal,
   ): Promise<{ location?: { latitude: number; longitude: number; radiusMeters: number; label: string; areaMatchBasis: "NAMED_PLACE_RADIUS"; addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }> }; evidence?: import("../../domains/restaurant/contracts.js").RestaurantReadEvidence; publicLocationObservation?: PublicNamedLocationObservation }> {
+    if(!request.intent.area)return {};
     const query = namedNearbyQuery(request.intent.area.query);
     if (!query) return {};
     if (!this.hasBudget(request.readRunId)) {
@@ -346,7 +348,46 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     };
   }
 
+  /** Name lookup has no invented geographic center and no cuisine retrieval rewrite. */
+  private async searchNamedOutlet(request:RestaurantSearchRequest,signal:AbortSignal):Promise<RestaurantSearchRead> {
+    const startedAt=Date.now(),query=request.intent.target!.query,observedAt=this.now();
+    const textQuery=`${query} Tokyo`;
+    const read=async(pageToken?:string)=>{
+      if(!this.hasBudget(request.readRunId))throw new GooglePlacesError("GOOGLE_LOCAL_REQUEST_BUDGET_EXCEEDED","Named-outlet lookup exhausted the enclosing Google budget");
+      this.consumeRequest(request.readRunId,"discovery");
+      return this.client.textSearchPage({textQuery,pageSize:20,...(pageToken?{pageToken}:{})},signal);
+    };
+    const first=await read(),pages=[first];
+    if(first.nextPageToken)pages.push(await read(first.nextPageToken));
+    signal.throwIfAborted();
+    const key=outletNameKey(query);
+    const possible=(name:string)=>{
+      const other=outletNameKey(name);if(key===other||key.includes(other)||other.includes(key))return true;
+      const grams=(text:string)=>new Set(Array.from({length:Math.max(0,text.length-1)},(_,i)=>text.slice(i,i+2)));
+      const a=grams(key),b=grams(other);return 2*[...a].filter(g=>b.has(g)).length/Math.max(1,a.size+b.size)>=0.5;
+    };
+    const candidates=[...new Map(pages.flatMap(page=>page.places).map(place=>[place.id,place])).values()].flatMap(place=>{
+      const o=rawObservation(place);
+      const prefectures=o.addressComponents?.filter(c=>c.types.includes("administrative_area_level_1"));
+      const inTokyo=prefectures?.length?prefectures.some(c=>/^(?:tokyo(?:to)?|東京都)$/iu.test(c.longText.normalize("NFKC")))
+        :/東京都|(?:^|[\s,])Tokyo(?:[\s,]|$)/iu.test(o.formattedAddress??"");
+      if(!inTokyo||!possible(o.displayName??""))return [];
+      const result=groundGoogleDiscovery(o,{timezone:request.intent.timezone,observedAt,requestFingerprint:restaurantSearchIntentFingerprint(request.intent),areaQuery:""});
+      return result.accepted?[result]:[];
+    });
+    const unique=candidates.length===1&&outletNameKey(candidates[0]!.candidate.restaurant.outletName)===key&&!pages.at(-1)!.nextPageToken;
+    const status=unique?"UNIQUE":"AMBIGUOUS";
+    const accepted=candidates.slice(0,this.maxResults);
+    return {candidates:accepted.map(r=>({...r.candidate,matchReasons:[`Location from named outlet resolution: ${r.candidate.restaurant.address}`],warnings:unique?[]:["Confirm which branch or area you mean; the outlet name is not uniquely resolved."]})),evidence:accepted.flatMap(r=>{
+      const {areaQuery:_area,areaMatch:_match,...claims}=r.evidence.claims;
+      return [{...r.evidence,claims:{...claims,locationBasis:"NAMED_OUTLET_RESOLUTION",namedOutletStatus:status,requestedOutletName:query,serviceArea:"Tokyo"}},...r.additionalEvidence];
+    }),continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:first.nextPageToken?[first.nextPageToken]:[],pagesRead:pages.length,exhausted:true,sourceRequestContext:{textQuery},...(!unique&&accepted.length?{lastFailureCode:"ENTITY_MATCH_UNCERTAIN" as const}:{})},
+      metadata:{provider:"GOOGLE_PLACES" as const,route:this.executionRoute,latencyMs:Date.now()-startedAt,googleRequests:this.googleRequestUsage(request.readRunId)}};
+  }
+
   async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {
+    if(namedOutletWithoutArea(request.intent))return this.searchNamedOutlet(request,signal);
+    if(!request.intent.area)throw new GooglePlacesError("GOOGLE_LOCATION_UNRESOLVED","Open-ended search requires a user area");
     const startedAt = Date.now();
     const nearbyCategory = request.discoveryQuery?.keyword||request.discoveryRetrieval?.keyword ? undefined
       : request.discoveryQuery?.category ?? (request.discoveryRetrieval ? generalDiscoveryCategory(request.intent) : undefined);
@@ -425,7 +466,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       timezone: request.intent.timezone,
       requestFingerprint,
       observedAt,
-      areaQuery: request.intent.area.query,
+      areaQuery: request.intent.area?.query??"",
       requiredTypeCriteria: request.intent.criteria
         .filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD")
         .map((criterion) => criterion.text),
@@ -548,7 +589,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         timezone: request.intent.timezone,
         requestFingerprint,
         observedAt: checkedAt,
-        areaQuery: request.intent.area.query,
+        areaQuery: request.intent.area?.query??"",
         requiredTypeCriteria: request.intent.criteria.filter((criterion) => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
         negativeCriteria: request.intent.criteria.filter((criterion) => criterion.polarity === "NEGATIVE" && criterion.strength === "HARD").map((criterion) => criterion.text),
         ...(request.intent.date ? { requestedDate: request.intent.date } : {}),

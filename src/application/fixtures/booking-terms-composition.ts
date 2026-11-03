@@ -174,7 +174,7 @@ export async function bookingTermsComposition(options:Options={}){
     const places=options.namedWithoutArea?.scenario==="MISSING"?[]:options.namedWithoutArea?.scenario==="UNRELATED"?[{...place,displayName:{text:"Unrelated Ramen"}}]
       :options.namedWithoutArea?.scenario==="BRANCH"?[{...place,displayName:{text:"Kushi Katsu Dengana Asakusa ten"}}]
       :options.selectionReplay?.ambiguous||options.namedWithoutArea?.scenario==="AMBIGUOUS"?[place,{...place,id:source.outlet.id+"-other",formattedAddress:"9-8-7 Ginza Tokyo",nationalPhoneNumber:"03-9876-5432"}]:[place];
-    return new Response(JSON.stringify(init?.method==="POST"?{places:query==="Shibuya"?[{id:"station",types:["train_station"],displayName:{text:"Shibuya"},location:place.location}]:places}:places.find(p=>new URL(String(target)).pathname.endsWith("/"+p.id))??place),{status:200});
+    return new Response(JSON.stringify(init?.method==="POST"?{places:query==="Shibuya"||query==="Akabane"?[{id:"station",types:["train_station"],displayName:{text:query},location:place.location}]:places}:places.find(p=>new URL(String(target)).pathname.endsWith("/"+p.id))??place),{status:200});
   }});
   const assembly=createLiveReadAssembly({...limits,...(!options.namedWithoutArea?{packs:[googlePlacesDiscoveryPack]}:{})},{model,google,browser,clock,
     currentTaskId:()=>counted.currentTaskId(),remainingModelCalls:id=>counted.remainingCalls(id),onBrowserDiagnostic:d=>{stage=d.stage;}});

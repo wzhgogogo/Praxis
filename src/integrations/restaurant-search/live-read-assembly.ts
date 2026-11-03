@@ -117,7 +117,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     executionRoute:google.executionRoute,
     googleRequestUsage:google.googleRequestUsage.bind(google),
     async search(request:RestaurantSearchRequest,signal:AbortSignal):Promise<RestaurantSearchRead>{
-      const locationName=request.intent.area.query.trim().toLowerCase()==='nearby'?'':request.intent.area.query;
+      const locationName=request.intent.area?.query.trim().toLowerCase()==='nearby'?'':request.intent.area?.query??'';
       const selection=request.continuation?.structuredRetrieval??(positiveDiscoveryCriteria(request.intent).length?await retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName,attemptedRetrievals:[],rewrites:0,timeoutMs:config.maxStructuredReadMs}):{accepted:true,reason:'General retrieval: no positive criteria.'});
       if (!selection.accepted) return {candidates:[],evidence:[],
         continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:request.continuation?.usedPageTokens??[],pagesRead:request.continuation?.pagesRead??0,exhausted:true,structuredRetrieval:selection,lastFailureCode:'DISCOVERY_SOURCE_INCOMPLETE',...(request.continuation?.locationContext?{locationContext:request.continuation.locationContext}:{})},
@@ -131,7 +131,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     executionRoute: plannedSearch.executionRoute,
     googleRequestUsage: plannedSearch.googleRequestUsage?.bind(plannedSearch),
     async search(request: RestaurantSearchRequest, signal: AbortSignal) {
-      const read = await plannedSearch.search(request, signal);
+      const read = await (request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?google:plannedSearch).search(request, signal);
       return { ...read, evidence: read.evidence.map(evidence => {
         const candidate = read.candidates.find(item => item.restaurant.id === evidence.candidateId);
         return evidence.kind === "DISCOVERY" && candidate
