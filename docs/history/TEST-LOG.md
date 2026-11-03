@@ -6394,3 +6394,8 @@ B已先在main f0bee7d7发布，C fd07f44e获复核默认1389/Chromium188/严格
 ## 2026-11-03 CET — C 具名搜索会话诊断与复用提案
 
 D4/D8补跑原件固定ce6f94af，来源链38行、全量时间/候选/会话和不确定项见报告。片段模型无浏览器I/O，Router单候选checkpoint创建/关闭Executor及runtime失败退休是不同重建原因。D8原generic discovery模型决策证明三家均走初始query门槛后的后置空入口return；post-exploration query mismatch与缺链接仍未知，不推资源/限流根因或提速。先冻结后分析，首轮canonical trace缺args的预检失败保留，修正导航序号关联后38行成功。产品/脚本/依赖与main a7abbc0f原样，按纯诊断矩阵只验证SHA、来源、行数、临时副本确定性与文档，不重跑未变化产品门禁。未应用诊断字段补丁，未运行Live，预算并入68条已有A/B用量并新增C0，815行限额保持。[报告](../../.eval-artifacts/phase3b/named-search-sessions-20261103/report.md)。
+
+<a id="named-search-sessions-scope-20261103"></a>
+## 2026-11-03 CET — C诊断范围确认的文档核对
+
+本次仅确认记录及报告/历史导航更新，原analysis、38入口、诊断字段补丁及verification.json不改；源码/脚本/依赖与main a7abbc0f仍无差异。按纯文档矩阵核对diff和引用，复用已有确定性/SHA验证，不重跑产品测试，不增加模型或来源请求。[确认](../../.eval-artifacts/phase3b/named-search-sessions-20261103/scope-confirmation.json)。

@@ -39,7 +39,7 @@ Status: draft / not integrated，已暴露开发记录；2026-11-03，维也纳C
 
 **这不证明探索之后query仍匹配，也不证明纯解析器错误。** generic后再次核对query可能失败，或未观察到可提取门店链接，两者都可造成空入口；保存终端诊断不能再分。更不能据此证明网站限流、资源拥塞或模型动作错误。
 
-第3项要求加诊断字段，末尾又要求不改产品；已异步询问窄授权。本停止点遵从不改产品：diagnostic-only-proposal.patch未应用，拟在现有discovery诊断添加incompleteStage（INITIAL_QUERY_MISMATCH / NO_OUTLET_URLS_AFTER_EXPLORATION）和queryMatchesAtExit，仅在两个原return处记录；业务条件、failureCode、状态和查询行为不变。若将来应用，应先用固定两出口红/绿验证；A还需保存现有onTableCheckIdentityDiagnostic回调，否则新增运行时字段仍不会进入其导出。此次只在sidecar增加原因区分，不能回填或伪造历史运行日志。
+用户已明确确认“仅交诊断与补丁方案，不改产品代码”，见scope-confirmation.json；范围澄清已结束。冻结plan.md保留当时等待确认的历史字样，不修改旧输入SHA。本停止点遵从不改产品：diagnostic-only-proposal.patch未应用，拟在现有discovery诊断添加incompleteStage（INITIAL_QUERY_MISMATCH / NO_OUTLET_URLS_AFTER_EXPLORATION）和queryMatchesAtExit，仅在两个原return处记录；业务条件、failureCode、状态和查询行为不变。若将来另行批准应用，应先用固定两出口红/绿验证；A还需保存现有onTableCheckIdentityDiagnostic回调，否则新增运行时字段仍不会进入其导出。此次只在sidecar增加原因区分，不能回填或伪造历史运行日志。
 
 ## 一项建议方案：run内来源会话、搜索页按观察复用
 

@@ -5690,3 +5690,8 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 ## 2026-11-03 CET — C 具名搜索会话诊断与复用提案
 
 D4/D8补跑原件固定ce6f94af，来源链38行、全量时间/候选/会话和不确定项见报告。片段模型无浏览器I/O，Router单候选checkpoint创建/关闭Executor及runtime失败退休是不同重建原因。D8原generic discovery模型决策证明三家均走初始query门槛后的后置空入口return；post-exploration query mismatch与缺链接仍未知，不推资源/限流根因或提速。先冻结后分析，首轮canonical trace缺args的预检失败保留，修正导航序号关联后38行成功。产品/脚本/依赖与main a7abbc0f原样，按纯诊断矩阵只验证SHA、来源、行数、临时副本确定性与文档，不重跑未变化产品门禁。未应用诊断字段补丁，未运行Live，预算并入68条已有A/B用量并新增C0，815行限额保持。[报告](../../.eval-artifacts/phase3b/named-search-sessions-20261103/report.md)。
+
+<a id="named-search-sessions-scope-20261103"></a>
+## 2026-11-03 CET — C范围澄清：诊断与补丁方案
+
+用户回答仅交诊断与补丁方案、不改产品代码。保留冻结plan及已验证分析原字节，报告引用独立scope-confirmation.json，运行时窄补丁继续未应用。A/B通知不触发产品或真实调用工作，本次仅文档确认并推送原诊断分支，仍停复核。[报告](../../.eval-artifacts/phase3b/named-search-sessions-20261103/report.md)。
