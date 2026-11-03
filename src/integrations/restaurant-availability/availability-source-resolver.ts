@@ -57,7 +57,7 @@ export class AvailabilitySourceResolver {
   readonly executionRoute = "GENERIC_BROWSER" as const;
   constructor(
     private readonly bindings: readonly AvailabilitySourceBinding[],
-    private readonly options: { afterRead?: () => Promise<void> } = {},
+    private readonly options: { afterRead?: () => Promise<void>;identityOnly?:boolean } = {},
   ) {
     if (!bindings.length || bindings.some(({ pack, provider }) => !pack.availability || pack.availability.provider !== provider.provider)) {
       throw new Error("Availability source resolver requires each provider to be bound by its Pack metadata");
@@ -94,6 +94,11 @@ export class AvailabilitySourceResolver {
               .filter((item) => item.candidateId === candidateId)
               .map((item) => structuredClone(item)));
             if (check) lastCheck = structuredClone(check);
+            if(this.options.identityOnly&&candidateEvidence.some(e=>e.provider===provider.provider&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH")){
+              conclusive=true;attempts.push({candidateId,provider:provider.provider,outcome:"UNKNOWN"});
+              evidence.push(...candidateEvidence.filter(e=>e.kind==="ENTITY_MATCH"));
+              break;
+            }
             if (usable(check)) {
               conclusive = true;
               attempts.push({ candidateId, provider: provider.provider, outcome: check.status });

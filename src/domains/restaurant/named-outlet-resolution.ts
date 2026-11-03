@@ -55,6 +55,13 @@ function lookup(state:NamedState,candidateId:string){
     &&typeof e.claims.requestedOutletName==="string"&&outletNameKey(e.claims.requestedOutletName)===outletNameKey(query));
 }
 
+/** User-approved bounded identity prefix; untouched candidates remain visible as uninvestigated. */
+export function namedOutletIdentityPrefix(state:NamedState):string[] {
+  if(state.intentDraft?.target?.selectionScope!=="SPECIFIC_OUTLET"||state.candidates.length<2)return [];
+  if(!state.candidates.every(c=>lookup(state,c.restaurant.id)?.claims.namedOutletSearchComplete===true))return [];
+  return state.candidates.slice(0,3).map(c=>c.restaurant.id);
+}
+
 export function boundNames(state:NamedState,candidateId:string):string[] {
   const candidate=state.candidates.find(c=>c.restaurant.id===candidateId);
   const evidence=state.readEvidence.filter(e=>e.candidateId===candidateId);
@@ -77,6 +84,8 @@ export function boundNames(state:NamedState,candidateId:string):string[] {
 /** A single possible reference can be investigated read-only; it is not yet a selection. */
 export function namedOutletCandidateCanInvestigate(state:NamedState,candidateId:string):boolean {
   const candidate=state.candidates.find(c=>c.restaurant.id===candidateId),record=lookup(state,candidateId);
+  const prefix=namedOutletIdentityPrefix(state);
+  if(prefix.length)return prefix.includes(candidateId);
   if(!candidate||state.candidates.length!==1)return false;
   // A source port may return a single full-name candidate without lookup
   // metadata. It may be read for identity, but is not resolved or selected.
@@ -108,6 +117,12 @@ export function namedOutletCandidateResolved(state:NamedState,candidateId:string
   if(Object.keys(selected).length&&(!candidate||!sameNamedOutletIdentity(candidate,{...candidate,sourceIds:selected},state.readEvidence)))return false;
   if(record.claims.namedOutletStatus==="UNIQUE")return true;
   if(record.claims.namedOutletSearchComplete!==true)return false;
+  const prefix=namedOutletIdentityPrefix(state);
+  if(prefix.length){
+    if(!prefix.includes(candidateId)||!prefix.every(id=>state.readEvidence.some(e=>e.candidateId===id&&native(e))))return false;
+    const exact=prefix.filter(id=>boundNames(state,id).some(value=>outletNameKey(value)===outletNameKey(target.query)));
+    return exact.length===1&&exact[0]===candidateId;
+  }
   const exact=state.candidates.filter(c=>boundNames(state,c.restaurant.id).some(value=>outletNameKey(value)===outletNameKey(target.query)));
   if(exact.length)return exact.length===1&&exact[0]!.restaurant.id===candidateId;
   if(state.candidates.length!==1||record.claims.namedOutletCandidateCount!==1)return false;

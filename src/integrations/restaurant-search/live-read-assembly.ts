@@ -5,6 +5,7 @@ import {outletNameKey,type NamedOutletReference} from "../../domains/restaurant/
 import type { LiveReadInvestigationBudget } from "../../application/live-read-investigation-budget.js";
 import type { RestaurantAgentLoopOptions } from "../../application/restaurant-agent-loop.js";
 import type { RestaurantExecutionRouterOptions } from "../../application/restaurant-execution-router.js";
+import type {RestaurantCandidateFactPort} from "../../application/restaurant-execution-router.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
 import type { RuntimeClock } from "../../core/task-runtime/contracts.js";
 import type { BrowserExecutionBudget } from "../../infrastructure/browser/browser-task-executor.js";
@@ -161,7 +162,12 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       }) };
     },
   };
-  const facts={...native.facts,executionRoute:native.facts.executionRoute,
-    inspectFacts:(...args:Parameters<typeof native.facts.inspectFacts>)=>sourceNames.capture(()=>native.facts.inspectFacts(...args))};
+  const facts:RestaurantCandidateFactPort={...native.facts,executionRoute:native.facts.executionRoute,
+    inspectFacts:(request,signal,identityOnly)=>sourceNames.capture(()=>{
+      const {date,timeWindow,partySize}=request.intent;
+      return identityOnly&&date&&timeWindow&&partySize!==undefined?sourceAvailability.identify({candidateIds:request.candidateIds,candidates:request.candidates,
+        date,timeWindow,partySize,
+        hardCriteria:[]},signal,request.readRunId):native.facts.inspectFacts(request,signal);
+    })};
   return { ...native, facts, questions, search, google, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
 }

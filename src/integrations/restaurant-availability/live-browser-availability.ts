@@ -1,6 +1,6 @@
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import type { ModelGateway } from "../../core/model/contracts.js";
-import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
+import type { RestaurantAvailabilityRead, RestaurantAvailabilityRequest,RestaurantCandidateFactRead } from "../../domains/restaurant/contracts.js";
 import { ModelBrowserReadActionDecision, type BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { BrowserTaskExecutor, type BrowserExecutionBudget, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserReadNetworkPolicy, BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
@@ -84,6 +84,22 @@ export class LiveBrowserAvailability {
   }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead> {
+    return this.read(request,signal,readRunId,false);
+  }
+
+  /** Existing source search/match, stopped before any inventory controls. */
+  async identify(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId?:string):Promise<RestaurantCandidateFactRead>{
+    const read=await this.read(request,signal,readRunId,true);
+    const evidence=read.evidence.filter(e=>e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH");
+    return {evidence,factChecks:Object.fromEntries(request.candidateIds.map(candidateId=>{
+      const bound=evidence.filter(e=>e.candidateId===candidateId);
+      return [candidateId,{status:bound.length?"COMPLETED" as const:"UNKNOWN" as const,
+        checkedAt:this.options.now?.()??new Date().toISOString(),evidenceIds:bound.map(e=>e.evidenceId),
+        reasonCode:bound.length?"NAMED_OUTLET_IDENTITY_ONLY":"NAMED_OUTLET_IDENTITY_UNCONFIRMED"}];
+    })),metadata:read.metadata};
+  }
+
+  private async read(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId:string|undefined,identityOnly:boolean):Promise<RestaurantAvailabilityRead>{
     const executor = new BrowserTaskExecutor(this.runtime, { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs,
       maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate,
       maxModelCallsTotal: this.options.maxModelCallsTotal,
@@ -97,6 +113,7 @@ export class LiveBrowserAvailability {
     });
     const providerContext = {
       executor,
+      ...(identityOnly?{identityOnly:true}:{}),
       sourceFactsModel: this.model,
       ...(this.options.now ? { now: this.options.now } : {}),
       ...(this.options.maxAvailabilitySourceBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxAvailabilitySourceBrowserSessions } : {}),
@@ -112,6 +129,6 @@ export class LiveBrowserAvailability {
     };
     const bindings = (this.options.packs ?? restaurantDiscoveryPacks)
       .flatMap((pack) => pack.availability ? [{ pack, provider: pack.availability.createProvider(providerContext) }] : []);
-    return new AvailabilitySourceResolver(bindings, { afterRead: () => executor.close() }).check(request, signal);
+    return new AvailabilitySourceResolver(bindings, { afterRead: () => executor.close(),...(identityOnly?{identityOnly:true}:{}) }).check(request, signal);
   }
 }
