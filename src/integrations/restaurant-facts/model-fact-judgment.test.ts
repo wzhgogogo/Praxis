@@ -75,6 +75,18 @@ test("source roles survive statement truncation and public review regions cannot
   }
 });
 
+test("an exact source-observed identity name outside H1 cannot masquerade as merchant introduction", async () => {
+  const page = { html: "<p>Kaga</p>", text: "Kaga" };
+  const identity: RestaurantReadEvidence = { ...sourceEvidence[0]!, evidenceId: "identity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE",
+    sourceEntityId: "website-a", sourceUrl: "https://restaurant.example/", claims: { outletName: "Kaga" },
+    entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_NAME_AND_ADDRESS"] } };
+  const document = bindRestaurantFactSourceRoles(createRestaurantFactSourceDocument("a", identity.evidenceId, page.text), page, ["Kaga"]);
+  const result = await new ModelRestaurantFactJudgment(model({ sourceSelections: [{ documentId: document.id, statementIds: [document.statements[0]!.id] }],
+    judgments: [{ criterion: "kaiseki restaurant", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [document.id] }] }))
+    .judge({ candidate, intent: { ...positiveIntent, criteria: [{ text: "kaiseki restaurant", polarity: "POSITIVE", strength: "HARD" }] }, evidence: [identity], sourceDocuments: [document] });
+  assert.equal(result.evidence.some(e => e.provider === "MODEL_JUDGMENT"), false, "Kaga is an observed identity name, not kaiseki prose");
+});
+
 test("a cited model type judgment becomes auditable negative-condition evidence", async () => {
   const result = await new ModelRestaurantFactJudgment(model({
     judgments: [{ criterion: "hot pot restaurant", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: ["source-type"] }],
