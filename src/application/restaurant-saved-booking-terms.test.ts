@@ -25,3 +25,20 @@ test("D3 saved pending fact page reaches G1 after bounded readiness and records 
     assert.ok(diagnostics?.some(d=>d.reason==="NOT_STATED"),"Export records bounded omission instead of implying the source was never read");
   }finally{await f.close();}
 });
+
+test("D3 current source data still loading is omitted with a reason and never becomes a guessed term",async()=>{
+  const f=await bookingTermsComposition({savedD3Terms:"BUSY"});
+  try{
+    await f.initial();const view=await f.select();const a=await f.artifact();
+    if(process.env.PRAXIS_SAVED_TERMS_CAPTURE==="1")console.log("SAVED_TERMS_RAW "+Buffer.from(JSON.stringify({label:"D3_BUSY",...a})).toString("base64"));
+    assert.equal(view.case.phase,"PRESENT_RESULTS");assert.ok(view.restaurant.bookingHandoffs?.length);
+    assert.deepEqual(view.restaurant.bookingHandoffs![0]!.terms,[]);
+    assert.equal(f.requests.filter(q=>q.request.purpose==="restaurant_page_question").length,0);
+    const diagnostics=a.execution.bookingTermsDiagnostics as Array<{reason:string;rootTaskId:string}>;
+    assert.ok(diagnostics.some(d=>d.reason==="NO_PAGES"));
+    assert.ok(diagnostics.every(d=>d.rootTaskId===view.case.rootTaskId));
+    const snapshot=a.execution.finalSnapshot as {domainState:Record<string,unknown>;definitionVersion:string};
+    assert.equal(snapshot.domainState.schemaVersion,"25");assert.equal(snapshot.definitionVersion,"23");
+    assert.equal(Object.hasOwn(snapshot.domainState,"bookingTermsDiagnostics"),false,"Diagnostics never become durable Task State");
+  }finally{await f.close();}
+});
