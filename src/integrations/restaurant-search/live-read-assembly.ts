@@ -1,6 +1,7 @@
 import {positiveDiscoveryCriteria} from "../../domains/restaurant/discovery-retrieval.js";
 import {ModelDiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
 import {restaurantSearchIntentFingerprint, type RestaurantSearchRequest, type RestaurantSearchRead} from "../../domains/restaurant/contracts.js";
+import {outletNameKey,type NamedOutletReference} from "../../domains/restaurant/named-outlet-resolution.js";
 import type { LiveReadInvestigationBudget } from "../../application/live-read-investigation-budget.js";
 import type { RestaurantAgentLoopOptions } from "../../application/restaurant-agent-loop.js";
 import type { RestaurantExecutionRouterOptions } from "../../application/restaurant-execution-router.js";
@@ -132,8 +133,26 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     ...plannedSearch,
     executionRoute: plannedSearch.executionRoute,
     googleRequestUsage: plannedSearch.googleRequestUsage?.bind(plannedSearch),
-    async search(request: RestaurantSearchRequest, signal: AbortSignal) {
-      const read = await (request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?google:plannedSearch).search(request, signal);
+    async search(request: RestaurantSearchRequest, signal: AbortSignal,userSelectedOutlet?:NamedOutletReference):Promise<RestaurantSearchRead> {
+      // A source-native prior choice has no Google ID to re-read. Its cached
+      // discovery is only a lookup seed: no old identity/fact/slot is admitted.
+      const reference=userSelectedOutlet?.restaurant;
+      if(request.intent.target?.selectionScope==="SPECIFIC_OUTLET"&&reference&&!reference.sourceIds.googlePlaces
+        &&(reference.sourceIds.tabelog||reference.sourceIds.tablecheck)){
+        const area=request.intent.area,provider=reference.sourceIds.tabelog?"TABELOG" as const:"TABLECHECK" as const;
+        const cached=userSelectedOutlet!.discovery.find(e=>e.provider===provider&&e.candidateId===reference.id);
+        const inTokyo=/東京都|(?:^|[\s,])Tokyo(?:[\s,]|$)/iu.test(reference.address);
+        const sameArea=Boolean(area&&cached&&typeof cached.claims.areaQuery==="string"&&outletNameKey(cached.claims.areaQuery)===outletNameKey(area.query));
+        const evidence=cached&&inTokyo?[{...structuredClone(cached),evidenceId:cached.evidenceId+":selected:"+userSelectedOutlet!.userEventId,
+          requestFingerprint:restaurantSearchIntentFingerprint(request.intent),claims:{...(sameArea?cached.claims:{outletName:reference.outletName,address:reference.address}),observationKind:"USER_SELECTION_REFERENCE",
+            ...(area?{areaQuery:area.query,areaMatch:sameArea&&cached.claims.areaMatch===true}:{locationBasis:"NAMED_OUTLET_RESOLUTION"}),
+            requestedOutletName:request.intent.target.query,namedOutletStatus:"UNIQUE",namedOutletCandidateCount:1,namedOutletSearchComplete:true,
+            userSelectionEventId:userSelectedOutlet!.userEventId,...Object.fromEntries(["tabelog","tablecheck"].flatMap(key=>reference.sourceIds[key]?[[`selectedIdentity:${key}`,reference.sourceIds[key]!]]:[]))}}]:[];
+        return {candidates:evidence.length?[{restaurant:structuredClone(reference),matchReasons:[],warnings:[],executionConfidence:"LOW" as const}]:[],evidence,
+          continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),pagesRead:0,usedPageTokens:[],exhausted:true},
+          metadata:{provider,route:"STRUCTURED_ADAPTER" as const,latencyMs:0,googleRequests:google.googleRequestUsage(request.readRunId)}};
+      }
+      const read = await (request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?google:plannedSearch).search(request, signal,userSelectedOutlet);
       return { ...read, evidence: read.evidence.map(evidence => {
         const candidate = read.candidates.find(item => item.restaurant.id === evidence.candidateId);
         return evidence.kind === "DISCOVERY" && candidate

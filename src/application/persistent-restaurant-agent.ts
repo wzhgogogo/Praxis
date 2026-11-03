@@ -207,6 +207,13 @@ function assistantSummary(state: RestaurantTaskState): string {
     case "SELECTION_REQUIRED":
       return "The current candidate cannot continue. The Agent will evaluate another safe option.";
     case "NO_VERIFIED_RESULT":
+      if(state.intentDraft?.target?.selectionScope==="SPECIFIC_OUTLET"){
+        const draft=state.intentDraft;
+        const visit=[draft.date,draft.timeWindow?`${draft.timeWindow.earliest}${draft.timeWindow.latest!==draft.timeWindow.earliest?`–${draft.timeWindow.latest}`:""}`:undefined,
+          draft.partySize?`for ${draft.partySize} guests`:undefined].filter(Boolean).join(" ");
+        return [`I couldn't verify ${draft.target!.goal==="AVAILABILITY"?"availability":"a result"} for ${draft.target!.query}${visit?` on ${visit}`:""}.`,
+          ...(state.noVerifiedResult?.remainingGaps??[]),"Would you like me to look for other nearby restaurants?"].join("\n");
+      }
       return ["This bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable.", ...(state.noVerifiedResult?.remainingGaps ?? []), "You can refine the request to start a new investigation."].join("\n");
     case "FAILED":
       {

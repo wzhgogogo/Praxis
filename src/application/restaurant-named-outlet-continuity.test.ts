@@ -34,12 +34,18 @@ for(const scenario of ["EXACT","RENAMED"] as const)test(`D6 original semantics a
   }finally{await f.close();}
 });
 
-for(const scenario of ["MISSING","NO_SLOT","AMBIGUOUS"] as const)test(`D6 named outlet does not silently switch to other shops: ${scenario}`,async()=>{
+for(const scenario of ["MISSING","NO_SLOT"] as const)test(`D6 named outlet does not silently switch to other shops: ${scenario}`,async()=>{
   const f=await bookingTermsComposition({continuity:scenario});
   try{
     const first=await f.initial();await capture(f,scenario+"_INITIAL");assert.equal(first.case.phase,"PRESENT_RESULTS","Replay source precondition");
     await f.select();const result=await f.party();await capture(f,scenario+"_PARTY");assert.deepEqual(result.restaurant.bookingHandoffs,[]);assert.equal(result.restaurant.presentedCandidateIds,undefined);
     assert.equal(result.restaurant.intentDraft?.target?.query,"Ito Akabane");
-    if(scenario==="AMBIGUOUS")assert.equal(result.case.phase,"NEEDS_INPUT");else{assert.equal(result.case.phase,"NO_VERIFIED_RESULT");assert.match(result.conversation.messages.at(-1)!.content,/Ito Akabane/i);}
+    assert.equal(result.case.phase,"NO_VERIFIED_RESULT");assert.match(result.conversation.messages.at(-1)!.content,/Ito Akabane/i);
   }finally{await f.close();}
+});
+
+test("a fresh named request with AREA and two matching outlets asks instead of inventing a user choice",async()=>{
+  const f=await bookingTermsComposition({continuity:"AMBIGUOUS"});
+  try{const result=await f.initial();await capture(f,"FRESH_AMBIGUOUS");assert.equal(result.case.phase,"NEEDS_INPUT");assert.equal(result.restaurant.selectedCandidateId,undefined);assert.deepEqual(result.restaurant.bookingHandoffs,[]);assert.equal(result.restaurant.presentedCandidateIds,undefined);assert.deepEqual(result.restaurant.availabilityChecks,{});}
+  finally{await f.close();}
 });

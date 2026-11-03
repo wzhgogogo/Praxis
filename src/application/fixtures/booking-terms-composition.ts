@@ -89,7 +89,11 @@ export async function bookingTermsComposition(options:Options={}){
     let body:unknown;
     let rawOutput:string|undefined;
     if(continuity&&request.purpose==="restaurant_semantic_interpret"){
-      rawOutput=realD6.get(turn==="INITIAL"?1:turn==="SELECTED"?9:12)!;body=JSON.parse(rawOutput);
+      if(options.continuity==="AMBIGUOUS"){
+        body=JSON.parse(realD6.get(9)!);const value=body as {facts:Array<{field:string;value:Record<string,unknown>}>};
+        value.facts[0]!.value.goalBasis={type:"BOOKING_WORDING",reason:"Constructed fresh ambiguous named request",quotes:["Find a table for two at Ito Akabane near Akabane Station on November 11, 2026 at 7 PM."]};
+        value.facts.push(...JSON.parse(realD6.get(1)!).facts.filter((f:{field:string})=>f.field==="AREA"),...JSON.parse(realD6.get(12)!).facts);
+      }else{rawOutput=realD6.get(turn==="INITIAL"?1:turn==="SELECTED"?9:12)!;body=JSON.parse(rawOutput);}
     }else if(continuity&&request.purpose==="restaurant_party_size_supplement"){
       rawOutput=realD6.get(10)!;body=JSON.parse(rawOutput);
     }else if(request.purpose==="restaurant_semantic_interpret"){
@@ -123,7 +127,10 @@ if(options.namedWithoutArea){
       const context=JSON.parse(request.messages.find(m=>m.role==="user")!.content).context as RestaurantAgentContext;
       const id=context.candidates[0]?.id;
             if(continuity){
-        if(turn==="INITIAL"){
+        if(options.continuity==="AMBIGUOUS"){
+          if(context.legalActions.search)rawOutput=realD6.get(13)!;
+          else body={...strictAction("ASK_USER"),question:"Which Ito Akabane branch do you mean?",relatedFields:["area"]};
+        }else if(turn==="INITIAL"){
           if(context.presentation.filter(p=>p.eligible).length>=3)rawOutput=realD6.get(8)!;
           else if(context.legalActions.search)rawOutput=realD6.get(initialSearches++?7:2)!;
           else if(context.factInvestigableCandidateIds?.length)body=strictAction("INVESTIGATE_CANDIDATE_FACTS",context.factInvestigableCandidateIds.slice(0,3));
@@ -217,7 +224,10 @@ if(options.namedWithoutArea){
     sourceCalls.push({turn,url:String(target),kind:"GOOGLE_FIXTURE"});
     const place={id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:url,location:{latitude:source.outlet.latitude,longitude:source.outlet.longitude},types:["restaurant"],...options.namedWithoutArea?.sourceNames?.google};
     const query=init?.body?JSON.parse(String(init.body)).textQuery:undefined;
-    const places=continuity?(turn==="INITIAL"?continuity.initialPlaces:options.continuity==="MISSING"?continuity.initialPlaces.slice(1):options.continuity==="AMBIGUOUS"?[place,{...place,id:place.id+"-other",nationalPhoneNumber:"03-9999-9999"}]:[place,...continuity.initialPlaces.slice(1)]):options.namedWithoutArea?.scenario==="MISSING"?[]:options.namedWithoutArea?.scenario==="OUTSIDE_TOKYO"?[{...place,formattedAddress:"1-2-3 Osaka Japan"}]:options.namedWithoutArea?.scenario==="UNRELATED"?[{...place,displayName:{text:"Unrelated Ramen"}}]
+    if(continuity&&turn!=="INITIAL"&&options.continuity==="MISSING"&&init?.method!=="POST"){
+      googleWires.push({turn,url:String(target),method:"GET",body:null,response:{status:404}});return new Response("{}",{status:404});
+    }
+    const places=continuity?(options.continuity==="AMBIGUOUS"?[place,{...place,id:place.id+"-other",nationalPhoneNumber:"03-9999-9999"}]:turn==="INITIAL"?continuity.initialPlaces:options.continuity==="MISSING"?continuity.initialPlaces.slice(1):[place,...continuity.initialPlaces.slice(1)]):options.namedWithoutArea?.scenario==="MISSING"?[]:options.namedWithoutArea?.scenario==="OUTSIDE_TOKYO"?[{...place,formattedAddress:"1-2-3 Osaka Japan"}]:options.namedWithoutArea?.scenario==="UNRELATED"?[{...place,displayName:{text:"Unrelated Ramen"}}]
       :options.namedWithoutArea?.scenario==="BRANCH"?[{...place,displayName:{text:"Kushi Katsu Dengana Asakusa ten"}}]
       :options.selectionReplay?.ambiguous||options.namedWithoutArea?.scenario==="AMBIGUOUS"||options.namedWithoutArea?.sourceNames?.twoCandidates?[place,{...place,id:source.outlet.id+"-other",formattedAddress:"9-8-7 Akabane Tokyo",nationalPhoneNumber:"03-9876-5432"}]:[place];
     const response=init?.method==="POST"?{places:query==="Shibuya"||query==="Akabane"||continuity&&/^(?:near )?Akabane Station$/i.test(query??"")?[{id:"station",types:["train_station"],displayName:{text:query},location:place.location}]:places}:places.find((p:typeof place)=>new URL(String(target)).pathname.endsWith("/"+p.id))??place;
@@ -243,7 +253,7 @@ if(options.namedWithoutArea){
   const project=async()=>{const raw=await app.getCase("terms-user",caseId);version=raw.case.taskVersion;return withBookingHandoffs(raw,assembly.bookingHandoffs.readPrepared(raw),clock.now().toISOString());};
   async function finished(work:()=>Promise<unknown>){let resolve!:()=>void,readFinished=false;const done=new Promise<void>(r=>resolve=r);const unsubscribe=app.subscribeReadFinished(()=>{readFinished=true;});const onFinished=()=>{if(readFinished)resolve();};let unsubscribeUpdate:()=>void;if(continuity){assistantFinished.add(onFinished);unsubscribeUpdate=()=>{assistantFinished.delete(onFinished);};}else unsubscribeUpdate=app.subscribeCaseUpdates(onFinished);let timer:ReturnType<typeof setTimeout>|undefined;try{await work();await Promise.race([done,new Promise<never>((_,reject)=>{timer=setTimeout(()=>reject(new Error("Fixture lifecycle not finished")),15000);})]);}finally{unsubscribe();unsubscribeUpdate();if(timer)clearTimeout(timer);}}
   return {app,assembly,clock,requests,sourceCalls,counted,url,source,timeline,get termsSignal(){return termsSignal;},
-    async initial(){await finished(async()=>{const message=continuity?continuity.messages[0]:options.namedWithoutArea?"Can you find a table for two at Kushi Katsu Dengana Akabane ten on November 11, 2026 at 7 PM?":options.selectionReplay?.path==="P2"?source.recommendationRequest:options.selectionReplay?.path==="NAMED"?source.uncheckedBookingRequest+" For two people.":source.initialRequest+(options.unverifiedHard?" I require kushikatsu.":"");const v=await app.createCase("terms-user",message,"initial");caseId=v.case.caseId;conversationId=v.case.conversationId;});return project();},
+    async initial(){await finished(async()=>{const message=continuity?(options.continuity==="AMBIGUOUS"?"Find a table for two at Ito Akabane near Akabane Station on November 11, 2026 at 7 PM.":continuity.messages[0]):options.namedWithoutArea?"Can you find a table for two at Kushi Katsu Dengana Akabane ten on November 11, 2026 at 7 PM?":options.selectionReplay?.path==="P2"?source.recommendationRequest:options.selectionReplay?.path==="NAMED"?source.uncheckedBookingRequest+" For two people.":source.initialRequest+(options.unverifiedHard?" I require kushikatsu.":"");const v=await app.createCase("terms-user",message,"initial");caseId=v.case.caseId;conversationId=v.case.conversationId;});return project();},
     async area(){turn="AREA_UPDATE";await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"area:"+version,expectedVersion:version,message:"In Akabane, please."}));return project();},
     async select(message?:string){turn="SELECTED";const viewed=await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"selected:"+version,expectedVersion:version,message:message??(continuity?continuity.messages[1]:options.selectionReplay?.path==="P2"?source.uncheckedBookingRequest:source.bookingFollowups[0]),viewContext:{view:"DETAILS",candidateId:viewed.restaurant.presentedCandidateIds![0]!,comparedCandidateIds:[]}}));return project();},
     async party(){turn="ADD_PARTY";await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"party:"+version,expectedVersion:version,message:continuity?continuity.messages[2]:source.partyReply}));return project();},
