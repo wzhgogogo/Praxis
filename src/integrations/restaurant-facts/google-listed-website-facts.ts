@@ -1,6 +1,6 @@
 import type { ModelGateway } from "../../core/model/contracts.js";
 import { readQuotedRestaurantSourceFacts, quotedRestaurantSourceEvidence, type QuotedRestaurantSourceFacts } from "./model-source-facts.js";
-import type { RestaurantFactPageObserver } from "./fact-source-document.js";
+import { bindRestaurantFactSourceRoles, createRestaurantFactSourceDocument, type RestaurantFactPageObserver } from "./fact-source-document.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
 
@@ -128,6 +128,7 @@ export function candidateStructuredObservation(
     observedAt,
     entityMatch: { confidence: "HIGH", matchedBy: ["STRUCTURED_WEBSITE_NAME_AND_ADDRESS"] },
     restaurantTypeFacts: strings(record.servesCuisine),
+    sourceFieldQuotes: strings(record.servesCuisine).map(quote => ({ field: "CATEGORY", quote, sourceUrl })),
     regularOpeningHours: [...strings(record.openingHours), ...hoursFromSpecification(record.openingHoursSpecification)],
   };
 }
@@ -165,6 +166,9 @@ export function candidateVisibleObservation(
     ...(/\b(?:cafe|coffee\s*shop|restaurant|bistro|bakery)\b/iu.test(text) ? [text.match(/\b(?:cafe|coffee\s*shop|restaurant|bistro|bakery)\b/iu)?.[0] ?? ""] : []),
     ...lines.filter((line) => /(?:cuisine|料理|cafe|coffee|restaurant)/iu.test(line)).slice(0, 3),
   ].filter(Boolean);
+  const sourceDocument = bindRestaurantFactSourceRoles(createRestaurantFactSourceDocument(candidate.restaurant.id, "visible-source-roles", visibleText), { text: visibleText, html });
+  const fieldQuotes = sourceDocument.statements.filter(statement => restaurantTypeFacts.some(type => statement.text.toLowerCase().includes(type.toLowerCase())))
+    .map(statement => ({ field: sourceDocument.statementSourceFields![statement.id]!, quote: statement.text, sourceUrl }));
   const regularOpeningHours = lines.filter((line) =>
     /(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/iu.test(line) && /\b\d{1,2}:\d{2}/u.test(line),
   ).slice(0, 7);
@@ -175,6 +179,7 @@ export function candidateVisibleObservation(
     observedAt,
     entityMatch: { confidence: "HIGH", matchedBy: [matchedPhone ? "GOOGLE_LISTED_WEBSITE_EXACT_PHONE" : "VISIBLE_WEBSITE_NAME_AND_ADDRESS_COMPONENTS"] },
     ...(restaurantTypeFacts.length ? { restaurantTypeFacts } : {}),
+    ...(fieldQuotes.length ? { sourceFieldQuotes: fieldQuotes } : {}),
     ...(regularOpeningHours.length ? { regularOpeningHours } : {}),
     ...(publicCommercialTerms ? { publicCommercialTerms } : {}),
   };
@@ -228,6 +233,7 @@ function mergeObservations(
   return {
     ...structured,
     restaurantTypeFacts: [...new Set([...(structured.restaurantTypeFacts ?? []), ...(visible.restaurantTypeFacts ?? [])])],
+    sourceFieldQuotes: [...structured.sourceFieldQuotes ?? [], ...visible.sourceFieldQuotes ?? []],
     regularOpeningHours: [...new Set([...(structured.regularOpeningHours ?? []), ...(visible.regularOpeningHours ?? [])])],
     ...(publicCommercialTerms ? { publicCommercialTerms } : {}),
   };
@@ -368,8 +374,8 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
             remainingText -= line.length;
           }
           const quoted=quotations.get(page.observation.sourceUrl);
-          if (statements.length) documents.push({ id, candidateId: candidate.restaurant.id, identityEvidenceId: identity.evidenceId, statements,
-            ...(quoted?.sourceFieldQuotes.length?{sourceFieldQuotes:quoted.sourceFieldQuotes}:{}),...(quoted?.priceFacts?{priceFacts:quoted.priceFacts}:{}) });
+          if (statements.length) documents.push(bindRestaurantFactSourceRoles({ id, candidateId: candidate.restaurant.id, identityEvidenceId: identity.evidenceId, statements,
+            ...(quoted?.sourceFieldQuotes.length?{sourceFieldQuotes:quoted.sourceFieldQuotes}:{}),...(quoted?.priceFacts?{priceFacts:quoted.priceFacts}:{}) }, page.snapshot));
         }
         return { evidence: pageEvidence, documents };
       };

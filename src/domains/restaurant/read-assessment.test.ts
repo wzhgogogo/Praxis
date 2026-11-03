@@ -74,7 +74,8 @@ for (const row of [
     state.intentDraft!.criteria = [{ text: row.criterion, strength: "HARD", polarity: "POSITIVE" }];
     const source = { ...fact("source"), claims: { restaurantTypeFacts: [row.quote], sourceStatementIds: ["statement:0"] },
       sourceFieldQuotes: [{ field: row.field, quote: row.quote, sourceUrl: url }] };
-    const judgment: RestaurantReadEvidence = { ...source, evidenceId: "judgment", provider: "MODEL_JUDGMENT", sourceFieldQuotes: undefined,
+    const { sourceFieldQuotes: _fields, ...judgmentSource } = source;
+    const judgment: RestaurantReadEvidence = { ...judgmentSource, evidenceId: "judgment", provider: "MODEL_JUDGMENT",
       claims: { verifiedHardCriteria: [row.criterion], supportingEvidenceIds: [source.evidenceId] } };
     state.readEvidence = [...state.readEvidence.filter(e => e.kind !== "RESTAURANT_FACT"), source, judgment];
     state.factChecks![candidateId]!.evidenceIds = [identity.evidenceId, source.evidenceId, judgment.evidenceId];

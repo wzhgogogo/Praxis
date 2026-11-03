@@ -3,8 +3,11 @@ import { test } from "node:test";
 
 import type { RestaurantCandidateFactRequest } from "../../domains/restaurant/contracts.js";
 import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
-import { GoogleListedWebsiteFactRead } from "./google-listed-website-facts.js";
+import { GoogleListedWebsiteFactRead, candidateVisibleObservation } from "./google-listed-website-facts.js";
 import { GoogleThenWebsiteFactRead } from "./google-then-website-facts.js";
+import { groundRestaurantWebsiteFacts } from "../../domains/restaurant/read-grounding.js";
+import { ModelRestaurantFactJudgment } from "./model-fact-judgment.js";
+import { assessRestaurantConditions } from "../../domains/restaurant/condition-states.js";
 
 const fixtureJudgment = {
   async judge(input: { candidate: { restaurant: { id: string } }; intent: RestaurantCandidateFactRequest["intent"]; evidence: Array<{ claims: Record<string, unknown> }>; sourceDocuments?: Array<{ statements: Array<{ text: string }> }> }) {
@@ -43,6 +46,25 @@ const request: RestaurantCandidateFactRequest = {
     timeWindow: { earliest: "12:00", latest: "15:00" }, area: { query: "Ginza" }, criteria: [{ text: "cafe", polarity: "POSITIVE", strength: "HARD" }],
   },
 };
+
+test("visible website type observations retain public review roles through grounding and positive judgment admission", async () => {
+  const candidate = { ...request.candidates[0]!, restaurant: { ...request.candidates[0]!.restaurant, outletName: "Public Venue" } };
+  const intent = { ...request.intent, criteria: [{ text: "tempura", polarity: "POSITIVE" as const, strength: "HARD" as const }] };
+  for (const review of [false, true]) {
+    const heading = review ? "Reviews" : "About our food";
+    const text = `Public Venue\n1 Ginza, Tokyo\n${heading}\nTempura cuisine`;
+    const html = `<h1>Public Venue</h1><p>1 Ginza, Tokyo</p><h2>${heading}</h2><p>Tempura cuisine</p>`;
+    const observation = candidateVisibleObservation(candidate, "https://cafe.example/about", "2026-09-14T00:00:00Z", text, html)!;
+    const source = groundRestaurantWebsiteFacts(candidate, intent, observation).evidence;
+    const type = source.find(e => e.kind === "RESTAURANT_FACT")!;
+    const judged = await new ModelRestaurantFactJudgment({ async complete() { return { invocationId: "fixture", provider: "FIXTURE", model: "fixture", finishReason: "TOOL_CALLS", latencyMs: 0,
+      outputText: JSON.stringify({ sourceSelections: [], judgments: [{ criterion: "tempura", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [type.evidenceId] }] }) }; } })
+      .judge({ candidate, intent, evidence: source });
+    assert.equal(judged.evidence.some(e => e.provider === "MODEL_JUDGMENT"), !review);
+    assert.equal(assessRestaurantConditions(intent, [...source, ...judged.evidence])[0]?.status, review ? "NOT_CHECKED" : "MET");
+    assert.equal(type.sourceFieldQuotes?.find(q => q.quote === "Tempura cuisine")?.field, review ? "CUSTOMER_REVIEW" : "SOURCE_TEXT");
+  }
+});
 
 test("an identity-bound Google HARD exclusion stops website and model fact work", async () => {
   let websiteCalls = 0;

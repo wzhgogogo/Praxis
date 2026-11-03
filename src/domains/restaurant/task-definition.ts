@@ -653,7 +653,7 @@ function transition(
         state: {
           ...remaining,
           phase: "PRESENT_RESULTS",
-          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now, conditionStates: Object.fromEntries(event.candidateIds.map(id => [id, assessRestaurantConditions(state.intentDraft!, restaurantCurrentFactEvidence(state, id))])) },
+          presentedResults: { candidateIds: [...event.candidateIds], evidenceIds: [...event.evidenceIds], presentedAt: context.now, conditionStates: Object.fromEntries(event.candidateIds.map(id => [id, assessRestaurantConditions(state.intentDraft!, restaurantCurrentFactEvidence(state, id), context.now, restaurantPresentationEvidenceIds(state, id, context.now))])) },
           selectionSession: {
             deliveredCandidateIds: [...new Set([...(state.selectionSession?.deliveredCandidateIds ?? []), ...event.candidateIds])],
             viewedCandidateIds: [...(state.selectionSession?.viewedCandidateIds ?? [])],

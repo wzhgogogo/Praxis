@@ -1,6 +1,6 @@
 import type { ModelGateway } from "../../core/model/contracts.js";
 import { readQuotedRestaurantSourceFacts, quotedRestaurantSourceEvidence, type QuotedRestaurantSourceFacts } from "./model-source-facts.js";
-import { createRestaurantFactSourceDocument as sourceDocument, type RestaurantFactPageObserver } from "./fact-source-document.js";
+import { createRestaurantFactSourceDocument as sourceDocument, bindRestaurantFactSourceRoles, type RestaurantFactPageObserver } from "./fact-source-document.js";
 import {isBrowserReadPathProhibited} from "../../infrastructure/browser/browser-read-policy.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { createHash } from "node:crypto";
@@ -141,7 +141,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           const parts = scopedMenu?.scoped.length
             ? [...scopedMenu.scoped.map(item=>({text:item.text,scope:item.serviceScope})),...(scopedMenu.unscopedText?[{text:scopedMenu.unscopedText,scope:undefined}]:[])]
             : [{text:scopedMenu?.unscopedText ?? page.text,scope:undefined}];
-          const frames = parts.map(part=>({text:part.text,document:sourceDocument(candidate.restaurant.id,identity.evidenceId,part.text,part.scope,provider==="TABELOG"?parseTabelogSourceFieldQuotes(page):undefined)}));
+          const frames = parts.map(part=>({text:part.text,document:bindRestaurantFactSourceRoles(sourceDocument(candidate.restaurant.id,identity.evidenceId,part.text,part.scope,provider==="TABELOG"?parseTabelogSourceFieldQuotes(page):undefined),page)}));
           const additions=frames.filter(frame=>!documents.some(item=>item.id===frame.document.id));
           documents.push(...additions.map(frame=>frame.document));
           if(additions.length)retained.set(createHash("sha256").update(identity.evidenceId+page.text).digest("hex"),{page:structuredClone(page),identity:structuredClone(identity),readAt:this.now(),frames:frames.map(frame=>({...frame,document:documents.find(d=>d.id===frame.document.id)!})),processed:false});
@@ -260,7 +260,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
             identities.push(identity);
           }
           retainPageHours(page);
-          const document = sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text);
+          const document = bindRestaurantFactSourceRoles(sourceDocument(candidate.restaurant.id, identity.evidenceId, page.text), page);
           if (documents.some((item) => item.id === document.id)) return false;
           documents.push(document);
           retained.set(document.id,{page:structuredClone(page),identity:structuredClone(identity),readAt:this.now(),frames:[{document,text:page.text}],processed:false});

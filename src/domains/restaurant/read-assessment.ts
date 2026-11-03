@@ -4,6 +4,7 @@ import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } fr
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
 import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate} from "./named-outlet-resolution.js";
+import { acceptedPositiveHardEvidence } from "./positive-hard-evidence.js";
 
 /**
  * A pure, Domain-owned view of what the current read evidence proves and
@@ -133,9 +134,9 @@ function presentationEvidenceIds(
         if (criterion.status !== "MET") return `Candidate ${candidateId} lacks source-supported HARD price condition ${criterion.text}`;
         continue;
       }
-      const supported = facts.some((evidence) =>
-        stringListClaim(evidence, "verifiedHardCriteria").some((value) => normalized(value) === normalized(criterion.text)),
-      );
+      const meal = intent.timeWindow?.earliest && intent.timeWindow.earliest >= "17:00" ? "DINNER"
+        : intent.timeWindow?.latest && intent.timeWindow.latest <= "15:00" ? "LUNCH" : undefined;
+      const supported = acceptedPositiveHardEvidence(criterion.text, facts, now, meal);
       if (!supported) return `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}`;
     }
     for (const criterion of intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD")) {
