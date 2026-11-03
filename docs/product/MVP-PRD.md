@@ -173,3 +173,7 @@ Current baseline — B1 G3 main release (2026-10-30 CET): reviewed C wiring is r
 ## Explicit booking message records user choice (2026-11-02 CET; approved main integration)
 
 When the user explicitly asks to book one specific restaurant and the reference is unambiguous, Praxis records that restaurant as the user's choice. An ambiguous or partial name stays unselected. Missing guests are asked first, and the requested slot is still checked before a source handoff and optional card terms appear. This does not submit or authorize a reservation. See the appended user decision in [ADR0049](../decisions/0049-source-bound-b1-booking-handoff.md); this local implementation passed independent review and is approved for main integration. Live limitations remain separate.
+
+### Named outlet with source-owned name variants (2026-11-03; offline candidate)
+
+A specific named Tokyo outlet can be found without asking for a separate area. Google and the booking source may use different names: exact source-owned full names require same-store identity, and a containing short name requires a unique candidate plus address-supported locality/cuisine/branch terms. Multiple branches, unknown abbreviations and conflicting identity require clarification. The source address does not become a user-supplied area. Availability, qualified presentation and both B1 server checks remain required before a booking handoff. Validation and remaining Live uncertainty are in the [C report](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md).

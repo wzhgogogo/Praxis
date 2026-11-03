@@ -420,7 +420,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const status=unique?"UNIQUE":"AMBIGUOUS";
     const accepted=candidates.slice(0,this.maxResults);
     const sourceNames=await this.observedSourceNames(accepted.map(r=>r.candidate),request.readRunId);
-    return {candidates:accepted.map(r=>({...r.candidate,matchReasons:[`Location from named outlet resolution: ${r.candidate.restaurant.address}`],warnings:unique?[]:["Confirm which branch or area you mean; the outlet name is not uniquely resolved."]})),evidence:accepted.flatMap(r=>{
+    return {candidates:accepted.map(r=>({...r.candidate,matchReasons:[`Location from named outlet resolution: ${r.candidate.restaurant.address}`],warnings:unique?[]:candidates.length===1?["Google lists this outlet under a different name."]:["Confirm which branch or area you mean; the outlet name is not uniquely resolved."]})),evidence:accepted.flatMap(r=>{
       const {areaQuery:_area,areaMatch:_match,...claims}=r.evidence.claims as RestaurantReadEvidence["claims"];
       return [{...r.evidence,claims:{...claims,locationBasis:"NAMED_OUTLET_RESOLUTION",namedOutletStatus:status,requestedOutletName:query,serviceArea:"Tokyo",namedOutletCandidateCount:candidates.length,namedOutletSearchComplete:!pages.at(-1)!.nextPageToken}},...r.additionalEvidence,...sourceNames.filter(e=>e.candidateId===r.candidate.restaurant.id)];
     }),continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:first.nextPageToken?[first.nextPageToken]:[],pagesRead:pages.length,exhausted:true,sourceRequestContext:{textQuery},...(!unique&&accepted.length?{lastFailureCode:"ENTITY_MATCH_UNCERTAIN" as const}:{})},

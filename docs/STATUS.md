@@ -1,3 +1,5 @@
+2026-11-03 CET：C补来源名唯一性，D1真实Google短名+D3原语义红→绿；现有G4电话/地址规则不改，来源全名与包含+地址地名两规则分开验证。原八控制、用户选店、Google预算及TableCheck合计50/50通过（首次TableCheck受本地Chromium启动权限阻塞，原件保留；受控本地重跑通过）。State25/TaskDefinition23及Prompt/Schema不变；A/B受保护文件不改。最终输入和独立oracle待冻结，五门禁/严格G2待运行；本次真实调用0、只推工作分支待复核、不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。
+
 2026-11-03 CET：C按复核补具名店来源名唯一性，先冻结D1真实Google字段与D3原始语义取得整组装红灯；复用State25/TaskDefinition23，真实调用0、A/B受保护文件不改、不合main。 [切片计划](../.eval-artifacts/phase3b/named-outlet-source-names-20261103/plan.md)。
 
 2026-11-03 CET：C无地区具名店离线完成待复核。State25/TaskDefinition23获批；原D3 #1字节冻结，普通组装唯一店→查位→展示→B1/条款，无伪造AREA/圆心/距离。歧义/近似分店先询问、恶意SELECT被拒；OPEN缺地区、未找到/无关/非Tokyo和后补地区不替店均覆盖。A五处机械同步3d632a49、C两例交接预期28c45602经用户窄授权分别提交，原断言/Gold/模型字节及B三个G3其余原样。d793fccf冻结784项，净树九步全绿：默认1363/1363、Chromium188/188、严格G2 5/5且12页PASS、独立九帧PASS，type/arch/build通过。旧红灯和1361/1363保留；仅构造来源/D3原语义，不是真实Dengana库存或新Live签收，缩写/跨语言名不猜。账本627条并集，本轮真实调用0、不读.env。只推工作分支并通知A，不合main。 [交付报告](../.eval-artifacts/phase3b/named-outlet-without-area-20261103/report.md)。
