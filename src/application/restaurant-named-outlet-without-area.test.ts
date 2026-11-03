@@ -2,6 +2,8 @@ import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import test from "node:test";
 import {bookingTermsComposition} from "./fixtures/booking-terms-composition.js";
+import {missingBlockingFields,missingSearchFields,completeRestaurantIntent} from "../domains/restaurant/intent-state.js";
+import type {RestaurantIntentDraft} from "../domains/restaurant/contracts.js";
 
 type Fixture=Awaited<ReturnType<typeof bookingTermsComposition>>;
 const input=()=>readFile(new URL("./fixtures/named-outlet-without-area/d3-semantic.original.json",import.meta.url),"utf8");
@@ -32,10 +34,12 @@ test("D3 original semantic bytes through ordinary composition find the unique na
 
 test("a named-outlet lookup with two matching branches asks the user before availability, selection or B1",async()=>{
   const f=await bookingTermsComposition({namedWithoutArea:{outputText:await input(),scenario:"AMBIGUOUS"}});
-  try{const v=await f.initial();await capture(f,"AMBIGUOUS");
+  try{const v=await f.initial();const a=await capture(f,"AMBIGUOUS");
     assert.equal(v.restaurant.candidates.length,2);assert.equal(v.case.phase,"NEEDS_INPUT");
     assert.equal(v.restaurant.selectedCandidateId,undefined);assert.deepEqual(v.restaurant.availabilityChecks,{});assert.deepEqual(v.restaurant.bookingHandoffs,[]);
     assert.equal(f.sourceCalls.filter(c=>c.kind==="BROWSER_NAVIGATE").length,0);
+    assert.ok(f.requests.some(q=>q.request.purpose==="restaurant_agent_decide"&&JSON.parse(q.response.outputText).type==="SELECT_CANDIDATE"),"An adversarial model actually tried to choose one");
+    assert.ok(Array.isArray(a.execution.events));assert.ok(!a.execution.events.some(e=>e.event.type==="CANDIDATE_SELECTED"));
     assert.match(v.conversation.messages.at(-1)!.content,/branch|area/i);
   }finally{await f.close();}
 });
@@ -46,7 +50,7 @@ test("OPEN_ENDED still asks for a missing area without starting discovery",async
   finally{await f.close();}
 });
 
-for(const scenario of ["MISSING","UNRELATED"] as const)test(`named outlet ${scenario} ends honestly without substituting another shop`,async()=>{
+for(const scenario of ["MISSING","UNRELATED","OUTSIDE_TOKYO"] as const)test(`named outlet ${scenario} ends honestly without substituting another shop`,async()=>{
   const f=await bookingTermsComposition({namedWithoutArea:{outputText:await input(),scenario}});
   try{const v=await f.initial();await capture(f,scenario);assert.equal(v.case.phase,"NO_VERIFIED_RESULT");assert.deepEqual(v.restaurant.presentedCandidateIds,undefined);assert.deepEqual(v.restaurant.bookingHandoffs,[]);assert.equal(v.restaurant.selectedCandidateId,undefined);assert.equal(f.sourceCalls.filter(c=>c.kind==="BROWSER_NAVIGATE").length,0);}
   finally{await f.close();}
@@ -56,4 +60,11 @@ test("a different branch with a similar name remains a clarification instead of 
   const f=await bookingTermsComposition({namedWithoutArea:{outputText:await input(),scenario:"BRANCH"}});
   try{const v=await f.initial();await capture(f,"OTHER_BRANCH");assert.equal(v.case.phase,"NEEDS_INPUT");assert.ok(f.sourceCalls.length);assert.equal(v.restaurant.selectedCandidateId,undefined);assert.deepEqual(v.restaurant.availabilityChecks,{});assert.deepEqual(v.restaurant.bookingHandoffs,[]);}
   finally{await f.close();}
+});
+
+test("the named-area exception leaves visit fields mandatory and never admits an empty outlet name",()=>{
+  const draft:RestaurantIntentDraft={schemaVersion:"3",timezone:"Asia/Tokyo",criteria:[],target:{goal:"AVAILABILITY",selectionScope:"SPECIFIC_OUTLET",query:"Named outlet"},date:"2026-11-11",timeWindow:{earliest:"19:00",latest:"19:00"},partySize:2};
+  assert.deepEqual(missingBlockingFields(draft),[]);assert.ok(completeRestaurantIntent(draft));
+  for(const field of ["date","timeWindow","partySize"] as const){const incomplete=structuredClone(draft);delete incomplete[field];assert.deepEqual(missingBlockingFields(incomplete),[field]);assert.equal(completeRestaurantIntent(incomplete),null);}
+  assert.deepEqual(missingSearchFields({...draft,target:{...draft.target!,query:"  "}}),["area"]);
 });

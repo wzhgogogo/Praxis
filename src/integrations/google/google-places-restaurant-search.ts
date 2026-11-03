@@ -382,7 +382,8 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       const {areaQuery:_area,areaMatch:_match,...claims}=r.evidence.claims;
       return [{...r.evidence,claims:{...claims,locationBasis:"NAMED_OUTLET_RESOLUTION",namedOutletStatus:status,requestedOutletName:query,serviceArea:"Tokyo"}},...r.additionalEvidence];
     }),continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:first.nextPageToken?[first.nextPageToken]:[],pagesRead:pages.length,exhausted:true,sourceRequestContext:{textQuery},...(!unique&&accepted.length?{lastFailureCode:"ENTITY_MATCH_UNCERTAIN" as const}:{})},
-      metadata:{provider:"GOOGLE_PLACES" as const,route:this.executionRoute,latencyMs:Date.now()-startedAt,googleRequests:this.googleRequestUsage(request.readRunId)}};
+      metadata:{provider:"GOOGLE_PLACES" as const,route:this.executionRoute,latencyMs:Date.now()-startedAt,googleRequests:this.googleRequestUsage(request.readRunId),
+        googleGeoDiagnostics:{providerMode:"GOOGLE_TEXT_SEARCH",requestMode:"UNRESTRICTED",exactRadiusGate:"NOT_APPLICABLE",candidates:accepted.map(r=>({sourcePlaceId:r.candidate.restaurant.sourceIds.googlePlaces!,accepted:true,reasonCode:unique?"NAMED_OUTLET_UNIQUE":"NAMED_OUTLET_AMBIGUOUS"}))}}};
   }
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {

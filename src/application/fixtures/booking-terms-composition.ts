@@ -36,7 +36,7 @@ interface Options {
   agentSelectInitial?:boolean;
   unverifiedHard?:boolean;
   beforePresent?:()=>Promise<void>;
-  namedWithoutArea?: {outputText:string;scenario?:"AMBIGUOUS"|"MISSING"|"UNRELATED"|"BRANCH";openEnded?:boolean};
+  namedWithoutArea?: {outputText:string;scenario?:"AMBIGUOUS"|"MISSING"|"UNRELATED"|"BRANCH"|"OUTSIDE_TOKYO";openEnded?:boolean};
   beforeTerms?:(deadlineAt:string)=>void;
   afterFactControls?:(url:string)=>void;
   onFactNavigate?:(url:string,signal:AbortSignal)=>Promise<void>;
@@ -102,7 +102,10 @@ export async function bookingTermsComposition(options:Options={}){
       if(options.namedWithoutArea){
         if(context.missingBlockingFields.length)body={...strictAction("ASK_USER"),question:"Which area?",relatedFields:context.missingBlockingFields};
         else if(!id)body=strictAction(context.legalActions.search?"SEARCH_RESTAURANTS":"END_READ");
-        else if(!context.availability[id]?.length&&!context.checkableCandidateIds?.length)body={...strictAction("ASK_USER"),question:"Which branch or area do you mean?",relatedFields:["area"]};
+        else if(!context.availability[id]?.length&&!context.checkableCandidateIds?.length){
+          if(options.namedWithoutArea.scenario==="AMBIGUOUS"&&!duplicateSent){duplicateSent=true;body={...strictAction("SELECT_CANDIDATE"),candidateId:id};}
+          else body={...strictAction("ASK_USER"),question:"Which branch or area do you mean?",relatedFields:["area"]};
+        }
         else if(!context.availability[id]?.length)body=strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1)??[]);
         else body=strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId));
       }else if(options.unverifiedHard){
@@ -171,7 +174,7 @@ export async function bookingTermsComposition(options:Options={}){
     sourceCalls.push({turn,url:String(target),kind:"GOOGLE_FIXTURE"});
     const place={id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:url,location:{latitude:source.outlet.latitude,longitude:source.outlet.longitude},types:["restaurant"]};
     const query=init?.body?JSON.parse(String(init.body)).textQuery:undefined;
-    const places=options.namedWithoutArea?.scenario==="MISSING"?[]:options.namedWithoutArea?.scenario==="UNRELATED"?[{...place,displayName:{text:"Unrelated Ramen"}}]
+    const places=options.namedWithoutArea?.scenario==="MISSING"?[]:options.namedWithoutArea?.scenario==="OUTSIDE_TOKYO"?[{...place,formattedAddress:"1-2-3 Osaka Japan"}]:options.namedWithoutArea?.scenario==="UNRELATED"?[{...place,displayName:{text:"Unrelated Ramen"}}]
       :options.namedWithoutArea?.scenario==="BRANCH"?[{...place,displayName:{text:"Kushi Katsu Dengana Asakusa ten"}}]
       :options.selectionReplay?.ambiguous||options.namedWithoutArea?.scenario==="AMBIGUOUS"?[place,{...place,id:source.outlet.id+"-other",formattedAddress:"9-8-7 Ginza Tokyo",nationalPhoneNumber:"03-9876-5432"}]:[place];
     return new Response(JSON.stringify(init?.method==="POST"?{places:query==="Shibuya"||query==="Akabane"?[{id:"station",types:["train_station"],displayName:{text:query},location:place.location}]:places}:places.find(p=>new URL(String(target)).pathname.endsWith("/"+p.id))??place),{status:200});
