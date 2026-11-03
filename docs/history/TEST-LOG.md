@@ -6397,3 +6397,8 @@ B已先在main f0bee7d7发布，C fd07f44e获复核默认1389/Chromium188/严格
 ## 2026-11-03 CET — C 合入候选十步全绿
 
 822a7cd3冻结799项，完整性前19.074s、typecheck0.510s、arch0.225s、默认1404/1404（50.760s）、build0.538s、Chromium188/188（133.133s）、严格G2 5/5且12页PASS（24.659s）、22组装测试/26帧（11.976s）、独立oracle26/26（0.145s）、完整性后20.699s。十步各前后status为空，源码SHA相同，无自动重试/超时/跳过/取消，未出现本机PGlite崩溃。默认含B HARD与A/G6、C原回归；不改原断言或Gold，原C所有失败/输入/结果逐字保留。源码34 C独有/20 B独有/2重叠的联合证明及746条账本在source-and-ledger.json，详细日志gates/。真实调用0、不读.env；原Live S0=1与未评边界不改，批准发布main后核对远端并通知A。[报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+
+<a id="browser-resource-budget-20261103"></a>
+
+2026-11-03 CET：B按新批准实现共享资源默认抑制image/media/font与3000ms导航余量检查，Guard权限和所有预算不扩大，录制策略标记复用@5；A/C源码不改，版本不变。两项有效红绿、本地Chromium组件26→4请求且必需内容保留。W1公开GET已用6/6：前3次DCL中位10.75秒，后3次均20秒超时，admitted请求56→17；不能宣称Live提速或故障关闭，需复核。最终五门禁/严格G2待运行，只推分支、不合main。 [报告](../../.eval-artifacts/phase3b/browser-resource-budget-20261103/report.md)。

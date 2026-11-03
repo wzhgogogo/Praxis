@@ -476,6 +476,7 @@ function checkForFailure(
   // Do not mislabel that infrastructure failure as an outlet mismatch.
   if (observation.pageState === "EXTRACTION_FAILED" && (
     observation.failureCode === "BROWSER_RUNTIME_FAILED" || observation.failureCode === "BROWSER_TIMEOUT"
+      || observation.failureCode === "BROWSER_BUDGET_EXHAUSTED"
   )) {
     return { status: "UNKNOWN", checkedAt, evidenceIds: [], reasonCode: observation.failureCode };
   }

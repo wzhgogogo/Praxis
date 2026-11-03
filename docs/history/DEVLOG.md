@@ -5693,3 +5693,8 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 ## 2026-11-03 CET — C 在B之后的合入候选验证通过
 
 822a7cd3基于B先发布的f0bee7d7普通合并fd07f44e，799项冻结后十步前后净树全绿：默认1404/1404、Chromium188/188、严格G2全12页、22组装测试/26帧独立核验。源码并集34个C独有、20个B独有、两个重叠，与已批准两侧逐字或三方合并一致，read-assessment仅同时保留两个import；B来源角色与C capture-only稳定观察均在。746行账本保留原值/限额/累计，原C全部产物不变。之后只归档与文档，不再改实现，按批准发布main并ls-remote核对、通知A；最终SHA以Git回执为准。版本不变、真实调用0、不读.env，不新增Live能力结论。[报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+
+<a id="browser-resource-budget-20261103"></a>
+
+2026-11-03 CET：B按新批准实现共享资源默认抑制image/media/font与3000ms导航余量检查，Guard权限和所有预算不扩大，录制策略标记复用@5；A/C源码不改，版本不变。两项有效红绿、本地Chromium组件26→4请求且必需内容保留。W1公开GET已用6/6：前3次DCL中位10.75秒，后3次均20秒超时，admitted请求56→17；不能宣称Live提速或故障关闭，需复核。最终五门禁/严格G2待运行，只推分支、不合main。 [报告](../../.eval-artifacts/phase3b/browser-resource-budget-20261103/report.md)。

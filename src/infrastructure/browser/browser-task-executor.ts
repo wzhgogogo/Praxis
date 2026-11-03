@@ -454,7 +454,7 @@ export class BrowserTaskExecutor {
     await this.operation(input, "NAVIGATE", async () => {
       const options = this.navigationOptions(input.timeoutMs);
       await input.session.prepareNavigation?.(url, options);
-      await input.session.navigate(url, { ...options, waitUntil: "domcontentloaded" });
+      await input.session.navigate(url, { ...this.navigationOptions(input.timeoutMs), waitUntil: "domcontentloaded" });
     });
     await this.settleAfterDirectAction(input);
   }
@@ -1169,7 +1169,7 @@ export class BrowserTaskExecutor {
           const options = this.navigationOptions();
           if (input.session.prepareObservedNavigation) await input.session.prepareObservedNavigation(target.href!, options);
           else await input.session.prepareNavigation?.(target.href!, options);
-          await input.session.openLink!(target.controlId, target.href!, options);
+          await input.session.openLink!(target.controlId, target.href!, this.navigationOptions());
         });
       } else {
         // A runtime without popup support may only retain the existing same-page
