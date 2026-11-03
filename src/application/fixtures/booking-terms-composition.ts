@@ -61,6 +61,7 @@ export async function bookingTermsComposition(options:Options={}){
   const japanese=original.replace(source.merchantQuote,japaneseQuote+"</p><p>"+cardQuote);
   const clock=new FakeClock(source.referenceTime),db=await PGlite.create(),database=new Database(db);await applyPostgresMigrations(database);
   const requests:Array<{turn:string;request:ModelRequest;response:ModelResponse}>=[],sourceCalls:Array<{turn:string;url:string;kind:string}>=[],sourcePages:unknown[]=[];
+  const googleWires:Array<{turn:string;url:string;method:string;body:unknown;response:unknown}>=[];
   let turn="INITIAL",stage="",omit=options.notStated??false,termsSignal:AbortSignal|undefined,duplicateSent=false;
   const origin=performance.now();
   const timeline:Array<{event:string;turn:string;elapsedMs:number;clockAtCET:string;detail:Record<string,unknown>}>=[];
@@ -177,7 +178,9 @@ export async function bookingTermsComposition(options:Options={}){
     const places=options.namedWithoutArea?.scenario==="MISSING"?[]:options.namedWithoutArea?.scenario==="OUTSIDE_TOKYO"?[{...place,formattedAddress:"1-2-3 Osaka Japan"}]:options.namedWithoutArea?.scenario==="UNRELATED"?[{...place,displayName:{text:"Unrelated Ramen"}}]
       :options.namedWithoutArea?.scenario==="BRANCH"?[{...place,displayName:{text:"Kushi Katsu Dengana Asakusa ten"}}]
       :options.selectionReplay?.ambiguous||options.namedWithoutArea?.scenario==="AMBIGUOUS"?[place,{...place,id:source.outlet.id+"-other",formattedAddress:"9-8-7 Ginza Tokyo",nationalPhoneNumber:"03-9876-5432"}]:[place];
-    return new Response(JSON.stringify(init?.method==="POST"?{places:query==="Shibuya"||query==="Akabane"?[{id:"station",types:["train_station"],displayName:{text:query},location:place.location}]:places}:places.find(p=>new URL(String(target)).pathname.endsWith("/"+p.id))??place),{status:200});
+    const response=init?.method==="POST"?{places:query==="Shibuya"||query==="Akabane"?[{id:"station",types:["train_station"],displayName:{text:query},location:place.location}]:places}:places.find(p=>new URL(String(target)).pathname.endsWith("/"+p.id))??place;
+    googleWires.push({turn,url:String(target),method:init?.method??"GET",body:init?.body?JSON.parse(String(init.body)):null,response:structuredClone(response)});
+    return new Response(JSON.stringify(response),{status:200});
   }});
   const assembly=createLiveReadAssembly({...limits,...(!options.namedWithoutArea?{packs:[googlePlacesDiscoveryPack]}:{})},{model,google,browser,clock,
     currentTaskId:()=>counted.currentTaskId(),remainingModelCalls:id=>counted.remainingCalls(id),onBrowserDiagnostic:d=>{stage=d.stage;}});
@@ -204,7 +207,7 @@ export async function bookingTermsComposition(options:Options={}){
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
     project,omitTerms(){omit=true;},async cancel(){return app.cancelCase("terms-user",caseId);},
     async close(){await app.stopActiveReads();await db.close();},
-    artifact:async()=>{const raw=await app.getCase("terms-user",caseId),prepared=assembly.bookingHandoffs.readPrepared(raw);return {requests,sourceCalls,sourcePages,
+    artifact:async()=>{const raw=await app.getCase("terms-user",caseId),prepared=assembly.bookingHandoffs.readPrepared(raw);return {requests,sourceCalls,sourcePages,googleWires,
       view:withBookingHandoffs(raw,prepared,clock.now().toISOString()),prepared,timeline,run:counted.usage(caseId),execution:await app.exportReadArtifact(caseId),realCalls:0};},
   };
 }

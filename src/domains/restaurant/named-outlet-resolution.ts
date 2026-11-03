@@ -1,7 +1,7 @@
 import type {RestaurantSearchIntent,RestaurantTaskState} from "./contracts.js";
 
 export function outletNameKey(value:string):string {
-  return value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]/gu,"");
+  return value.normalize("NFKC").trim().replace(/\s+/gu," ").toLocaleLowerCase("en-US");
 }
 export function namedOutletWithoutArea(intent:{target?:RestaurantSearchIntent["target"];area?:unknown}|undefined):boolean {
   return Boolean(intent&&!intent.area&&intent.target?.selectionScope==="SPECIFIC_OUTLET"&&intent.target.query.trim());
