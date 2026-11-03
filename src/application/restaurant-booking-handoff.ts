@@ -1,6 +1,7 @@
 import type { RestaurantCaseView } from "./agent-workspace.js";
 import { bookingHandoffCandidateIds, presentBookingHandoff, type PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
 import {completeRestaurantIntent} from "../domains/restaurant/intent-state.js";
+import {namedOutletCandidateResolved} from "../domains/restaurant/named-outlet-resolution.js";
 
 /** Optional B1 capability of the production G1 composition; shares the enclosing read. */
 export interface RestaurantBookingTermsRead {
@@ -11,7 +12,8 @@ export interface RestaurantBookingTermsRead {
 export function withBookingHandoffs(view: RestaurantCaseView, prepared: readonly PreparedBookingHandoff[], now: string): RestaurantCaseView {
   const request = completeRestaurantIntent(view.restaurant.intentDraft);
   if (!request) return {...view, restaurant:{...view.restaurant, bookingHandoffs:[]}};
-  const eligible = new Set(bookingHandoffCandidateIds(view.case.phase, view.restaurant.presentedCandidateIds, view.restaurant.readyCandidateIds));
+  const eligible = new Set(bookingHandoffCandidateIds(view.case.phase, view.restaurant.presentedCandidateIds, view.restaurant.readyCandidateIds)
+    .filter(id=>namedOutletCandidateResolved(view.restaurant,id)));
   const handoffs = prepared.flatMap(item => {
     if (!eligible.has(item.source.candidateId)) return [];
     const candidate = view.restaurant.candidates.find(candidate => candidate.restaurant.id === item.source.candidateId);
