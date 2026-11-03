@@ -67,7 +67,16 @@ test("G6 D4 non-witness literal quote is safe pending meaning review; absent or 
   }
   const badPointer=identities.map(i=>({...i,websiteUrl:"https://www.1bangai.org/another-branch"})),bad=structuredClone(x);
   bad.pages=observedQualificationEvidence(run.view,x.runId,frames,badPointer).pages;
-  assert.ok(evaluateG6(bad).checks.some(c=>c.rule==="QUALIFICATION_QUOTE"&&c.status==="FAIL"),"The raw public listing must actually point to this source page");
+  const missingIdentity=evaluateG6(bad);
+  assert.ok(missingIdentity.checks.some(c=>c.rule==="QUALIFICATION_QUOTE"&&c.status==="NOT_EVALUATED"),"A missing raw public listing/phone binding is missing evidence, not proof of a different shop");
+  assert.equal(missingIdentity.verdict.stopBatch,true);assert.equal(missingIdentity.verdict.s0,0);
+});
+test("G6 source-capture unknown shape stays unassessed while a contradictory slot link fails",()=>{
+  // LOCAL_CONSTRUCTION. Independent post-response is unchanged and positive.
+  const unknown=normal(),contradictory=normal();
+  (unknown.vacancy[0]!.body as {selection:unknown}).selection="new-wire-format";
+  (contradictory.vacancy[0]!.body as {selection:Array<{time:string}>}).selection[0]!.time="20:00";
+  assert.deepEqual([unknown,contradictory].map(x=>evaluateG6(x).checks.find(c=>c.rule==="B1_SOURCE_URL")?.status),["NOT_EVALUATED","FAIL"]);
 });
 
 for(const [id,path,inputSHA,evaluationSHA,stopBatch] of [

@@ -1,6 +1,6 @@
 import pathlib,json,subprocess,time,datetime,hashlib,gzip,re,os,signal
 from zoneinfo import ZoneInfo
-root=pathlib.Path.cwd();out=pathlib.Path('/private/tmp/praxis-g6-d6-turn-budgets-gates-20261103');out.mkdir()
+root=pathlib.Path.cwd();out=pathlib.Path('/private/tmp/praxis-g6-d6-turn-budgets-gates-20261103-final');out.mkdir()
 frozen=json.loads((root/'.eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/source-inputs.json').read_text())
 def git(*a):return subprocess.check_output(['git',*a],text=True).strip()
 def check():
@@ -12,7 +12,7 @@ for name,cmd in steps:
  check();assert git('rev-parse','HEAD')==head;start=time.monotonic();at=datetime.datetime.now(ZoneInfo('Europe/Vienna')).isoformat();print('START',name,flush=True)
  env=os.environ.copy()
  if name=='strict-g2':env['PRAXIS_G2_REQUIRE_PASS']='1'
- if name=='browser-fixture':env['PRAXIS_G6_CAPTURE_DIR']='/private/tmp/praxis-g6-d6-turn-budgets-captures-20261103'
+ if name=='browser-fixture':env['PRAXIS_G6_CAPTURE_DIR']='/private/tmp/praxis-g6-d6-turn-budgets-captures-20261103-final'
  with (out/(name+'.log')).open('wb') as log:
   proc=subprocess.Popen(cmd,stdout=log,stderr=subprocess.STDOUT,env=env,start_new_session=True)
   try:code=proc.wait(timeout=1320)

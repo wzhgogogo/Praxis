@@ -16,8 +16,10 @@ Runner 每个实际发送的用户回合独立 500 秒、50 次模型、40 次 G
 - `red-turn-clock.log`：加入单纯单调时钟注入点后，旧共享截止在首轮 483 秒时跳过后续回合；同店 G1 模型调用 0，预期 1，属于有效红灯。
 - `red-qualification.log`：D4 的同店菜单原文仍被旧预先 oracle 白名单拒绝，未产生待审状态。
 - `red-development-model-cap.log`：本地账本 401 次未拒绝；修后拒绝前不计账、不传输。
-- 绿灯日志与最终门禁见本目录。D4 原输入、HAR、HTML 的 SHA 见 `historical-inputs-sha256.json`；本地构造的时钟与反例不是网站回放。
-- `D4-recheck.input.json` / `D4-recheck.evaluation.json`：另存的新规则离线重核。B1 来源 PASS，资格待含义复核，S0 安全 PASS、stopBatch=false，qualified=null；原始 D4 文件 SHA 未变。身份独立绑定 Google 原响应的名称、电话/地址与官网指针，忽略生产 HIGH 和 eligible。
+- `red-safety-unknowns.log`：缺少独立身份或响应结构变化不能直接当作错误声明；已知时段与原链接相矛盾必须拒绝。修后同样输入转绿，缺证未评并停批，错店/缺原文/错参仍 S0。
+- 最终定向 `green-safety-final.log` 44/44。`green-source-turn-qualification.log` 是早期未通过的复验：构造反例最初误改 12:30 行，19:00 原链接仍存在；反例改为实际 19:00 行后通过，未放宽断言。原件保留，不能把文件名当通过依据。D4 原输入、HAR、HTML 的 SHA 见 `historical-inputs-sha256.json`；本地构造的时钟与反例不是网站回放。
+- `D4-final-recheck.input.json` / `D4-final-recheck.evaluation.json`：最终候选另存的新规则离线重核。B1 来源 PASS，资格待含义复核，S0 安全 PASS、stopBatch=false，qualified=null；原始 D4 文件 SHA 未变。身份独立绑定 Google 原响应的名称、电话/地址与官网指针，忽略生产 HIGH 和 eligible。此前 `D4-recheck.*` 为前一候选的派生结果，保留但不当最终基线。
+- `gates-pre-safety-distinction/results.json` 是前一候选完整门禁通过的原件；补充安全缺证分类后，以最终重新冻结及净树门禁为准。
 
 ## JSON 合同
 

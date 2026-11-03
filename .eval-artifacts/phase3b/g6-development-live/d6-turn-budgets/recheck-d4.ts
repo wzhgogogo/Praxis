@@ -21,6 +21,6 @@ const score=evaluateG6(input);
 assert.equal(score.checks.find(c=>c.rule==="B1_SOURCE_URL")?.status,"PASS");
 assert.equal(score.checks.find(c=>c.rule==="COMPLETE_REQUEST_QUALIFICATION")?.status,"QUOTE_VERIFIED_MEANING_PENDING_REVIEW");
 assert.equal(score.verdict.s0Status,"PASS");assert.equal(score.verdict.stopBatch,false);assert.equal(score.verdict.qualified,null);
-await writeFile(join(out,"D4-recheck.input.json"),JSON.stringify(input,null,2)+"\n",{flag:"wx"});
-await writeFile(join(out,"D4-recheck.evaluation.json"),JSON.stringify(score,null,2)+"\n",{flag:"wx"});
+await writeFile(join(out,"D4-final-recheck.input.json"),JSON.stringify(input,null,2)+"\n",{flag:"wx"});
+await writeFile(join(out,"D4-final-recheck.evaluation.json"),JSON.stringify(score,null,2)+"\n",{flag:"wx"});
 console.log(JSON.stringify({mode:"OFFLINE_SAVED_EVIDENCE_RECHECK_NOT_LIVE",originalInputUnchanged:true,originalEvaluationUnchanged:true,verdict:score.verdict,qualification:"QUOTE_VERIFIED_MEANING_PENDING_REVIEW"}));

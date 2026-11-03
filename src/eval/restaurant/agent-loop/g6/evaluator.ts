@@ -53,7 +53,7 @@ function readVacancy(value:G6Vacancy,expected:G6Delivered,sourceCapture:boolean)
   if(!body||!base||String(base.year)!==expected.date.slice(0,4)||String(base.month).padStart(2,"0")!==expected.date.slice(5,7)||String(base.day).padStart(2,"0")!==expected.date.slice(8,10)||body.members!==expected.partySize)return {known:false,slots:[],links:[],reason:"WITNESS_RESPONSE_BINDING_UNKNOWN"};
   const selection=rows(body.selection);if(!selection)return {known:false,slots:[],links:[],reason:"WITNESS_STRUCTURE_UNKNOWN"};
   const slots:string[]=[],links:string[]=[];
-  for(const row of selection){const r=object(row);if(!r||typeof r.time!=="string"||!/^([01]\d|2[0-3]):[0-5]\d$/u.test(r.time))return {known:false,slots:[],links:[],reason:"WITNESS_STRUCTURE_UNKNOWN"};slots.push(r.time);if(typeof r.url==="string")links.push(r.url.startsWith("/")?"https://tabelog.com"+r.url:r.url);}
+  for(const row of selection){const r=object(row);if(!r||typeof r.time!=="string"||!/^([01]\d|2[0-3]):[0-5]\d$/u.test(r.time))return {known:false,slots:[],links:[],reason:"WITNESS_STRUCTURE_UNKNOWN"};slots.push(r.time);if(typeof r.url==="string"&&(!sourceCapture||r.time===expected.time))links.push(r.url.startsWith("/")?"https://tabelog.com"+r.url:r.url);}
   return {known:true,slots,links,reason:"BOUND_PUBLIC_RESPONSE"};
 }
 
@@ -95,6 +95,7 @@ export function evaluateG6(input:G6EvaluationInput){
             const pages=input.pages.filter(p=>p.url===quote.url&&p.readAt===quote.readAt);
             if(!pages.length){all=false;add("QUALIFICATION_QUOTE","NOT_EVALUATED","S0",d.candidateId,"Source capture is absent; no fabricated-quote assertion can be made");continue;}
             const bound=pages.filter(p=>p.candidateId===d.candidateId&&p.runId===input.runId&&p.name===d.name&&Boolean(p.address&&p.address===d.address||p.phone&&canonicalPhone(p.phone)===canonicalPhone(d.phone)));
+            if(!bound.length&&pages.some(p=>p.candidateId===d.candidateId&&p.runId===input.runId&&!p.address&&!p.phone&&(p.name===d.name||p.name==="UNBOUND_SOURCE_IDENTITY"))){all=false;add("QUALIFICATION_QUOTE","NOT_EVALUATED","S0",d.candidateId,"Source outlet identity lacks independent address/phone binding; this is not proof of another shop",pages.map(p=>p.ref));continue;}
             const page=bound.find(p=>p.merchantText.includes(quote.text)&&!p.reviewText?.includes(quote.text))??bound[0];
             const valid=Boolean(page&&quote.text.length&&page.merchantText.includes(quote.text)&&!page.reviewText?.includes(quote.text));
             all&&=valid;if(page)refs.push(page.ref);
@@ -127,8 +128,9 @@ export function evaluateG6(input:G6EvaluationInput){
     if(h.provider==="TABELOG"){
       valid=valid&&u.hostname==="tabelog.com"&&u.pathname==="/en/booking/form_course/new"&&fieldSet(u,["rcd","visit_date","visit_time","member"])
         &&u.searchParams.get("rcd")===d.sourceEntityId.match(/(?:^|\/)(\d+)\/?$/u)?.[1]&&u.searchParams.get("visit_date")===d.date.replaceAll("-","")&&u.searchParams.get("visit_time")===d.time.replace(":","")&&u.searchParams.get("member")===String(d.partySize);
-      const captured=input.vacancy.filter(w=>w.candidateId===d.candidateId&&w.phase==="SOURCE_CAPTURE"),source=captured.find(w=>capturedVacancy(w,d).links.includes(h.url));
-      if(!source)add("B1_SOURCE_URL",captured.length?"FAIL":"NOT_EVALUATED","S0",h.candidateId,"Need the original admitted source response URL with all four request fields bound; never reconstruct it from merchant id",captured.map(w=>w.ref));
+      const captured=input.vacancy.filter(w=>w.candidateId===d.candidateId&&w.phase==="SOURCE_CAPTURE"),reads=captured.map(w=>({w,read:capturedVacancy(w,d)})),source=reads.find(x=>x.read.links.includes(h.url))?.w;
+      const disproved=reads.length>0&&reads.every(x=>x.read.known||["MISSING_FOUR_PARAMETER_WITNESS_BINDING","WITNESS_REQUEST_MISMATCH"].includes(x.read.reason));
+      if(!source)add("B1_SOURCE_URL",disproved?"FAIL":"NOT_EVALUATED","S0",h.candidateId,"Need the original admitted source response URL with all four request fields bound; unknown response structure remains unassessed",captured.map(w=>w.ref));
       else add("B1_SOURCE_URL","PASS","S0",h.candidateId,"Exact source-returned original URL retained",[source.ref]);
     }else if(h.provider==="TABLECHECK"){
       valid=valid&&["tablecheck.com","www.tablecheck.com"].includes(u.hostname)&&/^\/(?:en|ja)\/(?:shops\/)?[\w-]+\/reserve(?:\/landing)?\/?$/u.test(u.pathname)&&fieldSet(u,["start_date","start_time","num_people","utm_source"])

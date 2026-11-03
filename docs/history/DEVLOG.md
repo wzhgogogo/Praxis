@@ -2,7 +2,7 @@
 
 <a id="dev-g6-d6-turn-budgets-20261103"></a>
 
-2026-11-03 CET：A按用户D4复核修正评测侧三处：SOURCE_CAPTURE允许实际审核第五参数但仍绑定四主参数，独立后验GET保持恰好四参；非预认证交付只机械核对同店本次原文，含义待审不阻断、安全缺证与S0仍停；后续用户消息各有生产一致的500秒/50模型/40Google，最多3回合/150/120，开发400模型继续累计。删除评测session的跨回合episode截断，新增每回合View/预算记录。资格身份只取实际JSON-LD或原Google响应电话/地址及官网指针，不读生产eligible作oracle。D4原始评价不改，人工菜单资格MET/S0=0和新规则重核分开保存；条件投影交B、具名四槽待C。当前43项定向绿，完整门禁与D6待执行，真实调用新增0。 [报告](../../.eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/report.md)。
+2026-11-03 CET：A按用户D4复核修正评测侧三处：SOURCE_CAPTURE允许实际审核第五参数但仍绑定四主参数，独立后验GET保持恰好四参；非预认证交付只机械核对同店本次原文，含义待审不阻断、安全缺证与S0仍停；后续用户消息各有生产一致的500秒/50模型/40Google，最多3回合/150/120，开发400模型继续累计。删除评测session的跨回合episode截断，新增每回合View/预算记录。资格身份只取实际JSON-LD或原Google响应电话/地址及官网指针，不读生产eligible作oracle。D4原始评价不改，人工菜单资格MET/S0=0和新规则重核分开保存；条件投影交B、具名四槽待C。当前44项定向绿，完整门禁与D6待执行，真实调用新增0。 [报告](../../.eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/report.md)。
 
 <a id="dev-g6-d4-safety-review-stop"></a>
 2026-11-02 CET（客户端11-03）：A新安全停批策略完成红绿及净树全门禁，历史D3仅stopBatch变化、D1仍S0停，评分与定义不变。D4 483.348秒展示Yakiton Daio1家，完整资格及B1来源两项安全NOT_EVALUATED后正确停批，D6未启动。HAR原B1链接确实存在，A读取器用四参数见证规则拒绝来源第五参数exclude_unavailable_time；新店仅有串カツ菜单原文，需独立HARD审查，且生产eligible与显示NOT_CHECKED差异单列。G1追问因收尾预留未发。Recorder12/94页，模型32、Google8、独立请求2206全PASS/越界0，F6无保留区新读且未超500；3POST为合法日历。D7取消非失败，具名四槽仍待C；本次不修评分或产品、不续跑。账本627原值保留加35为662，累计Live3/26、模型298/1600、GET265/390，开发10/25余15、环境重跑0。 [完整报告](../../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/report.md)。
@@ -570,7 +570,7 @@ F5已按用户批准带已知限制合入并推送main/e096ba35：ADR-0043 机�
 
 ## DEV-2026-10-24-PHASE3A-PRIME-F5-STOP1B
 
-维也纳时间2026-10-24 CEST。按用户停止点1复核裁定选A拒绝B，继续原F5分支，只补设计不实现。固定3ec38584核对D1/D2地区决策15行、CONTROLS18份、head-only/缺失HTML及遮蔽截图；错误区八站已有OPEN_LINK，类别All实际被D1点击，不能归因于Schema禁止或Executor拒绝；请求匹配LOCATION/站距控件仍缺证，范围按证据不足交复核。A细化临时入口、两有效坐标、代码距离方位、与4/5共用一次纠正、四类失败有界UNKNOWN和候选/预算保留；新增ADR-0043提议草稿，不改0040/0042正文。较早交接条件算术55.549秒余34.451，深层交接后恢复需5地区页而上限4，不以增加预算实现。例03未来冻结Kudanshita，人工800m类别0家、1000m环带未核对，用时只记录；C03-2/C09有界诚实无结果与零交付分开，原评分不改。43项输入SHA，0新模型/Google/餐厅网站/Live/环境重跑；不读.env，不动账本/产品/测试/站点。同步本分支记录，提交推送本分支后停1b，F1b先合main，之后重放时保留双方记录；不合并或推main。[当前报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#9-停止点-1b-补充) · [ADR草稿](../decisions/0043-provisional-directory-entrance-coordinate-check.md)。
+维也纳时间2026-10-24 CEST。按用户停止点1复核裁定选A拒绝B，继续原F5分支，只补设计不实现。固定3ec38584核对D1/D2地区决策15行、CONTROLS18份、head-only/缺失HTML及遮蔽截图；错误区八站已有OPEN_LINK，类别All实际被D1点击，不能归因于Schema禁止或Executor拒绝；请求匹配LOCATION/站距控件仍缺证，范围按证据不足交复核。A细化临时入口、两有效坐标、代码距离方位、与4/5共用一次纠正、四类失败有界UNKNOWN和候选/预算保留；新增ADR-0043提议草稿，不改0040/0042正文。较早交接条件算术55.549秒余34.451，深层交接后恢复需5地区页而上限4，不以增加预算实现。例03未来冻结Kudanshita，人工800m类别0家、1000m环带未核对，用时只记录；C03-2/C09有界诚实无结果与零交付分开，原评分不改。44项输入SHA，0新模型/Google/餐厅网站/Live/环境重跑；不读.env，不动账本/产品/测试/站点。同步本分支记录，提交推送本分支后停1b，F1b先合main，之后重放时保留双方记录；不合并或推main。[当前报告](../../.eval-artifacts/phase3a-prime/f5-analysis/report.md#9-停止点-1b-补充) · [ADR草稿](../decisions/0043-provisional-directory-entrance-coordinate-check.md)。
 
 ## DEV-2026-10-24-PHASE3A-PRIME-F5-ANALYSIS
 

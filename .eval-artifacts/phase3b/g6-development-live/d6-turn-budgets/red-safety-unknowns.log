@@ -1,0 +1,50 @@
+✖ G6 D4 non-witness literal quote is safe pending meaning review; absent or wrong-shop quotes remain S0 (58.73675ms)
+✖ G6 source-capture unknown shape stays unassessed while a contradictory slot link fails (1.008167ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 154.000958
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/evaluator.test.ts:1:3902
+✖ G6 D4 non-witness literal quote is safe pending meaning review; absent or wrong-shop quotes remain S0 (58.73675ms)
+  AssertionError [ERR_ASSERTION]: A missing raw public listing/phone binding is missing evidence, not proof of a different shop
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/evaluator.test.ts:71:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/eval/restaurant/agent-loop/g6/evaluator.test.ts:1:6782
+✖ G6 source-capture unknown shape stays unassessed while a contradictory slot link fails (1.008167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    [
+  -   'NOT_EVALUATED',
+      'FAIL',
+  +   'PASS'
+    ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/evaluator.test.ts:79:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'FAIL', 'PASS' ],
+    expected: [ 'NOT_EVALUATED', 'FAIL' ],
+    operator: 'deepStrictEqual'
+  }
