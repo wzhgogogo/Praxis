@@ -60,3 +60,9 @@ A的src/eval、src/harness，B三个G3文件，身份比较器、Domain State/Ta
 ## 首次完整门禁与修正
 
 054af4d2 净树完整默认测试1381/1382；唯一旧B1 HTTP控制在身份检查前被名称守卫挡住，随后固定动作耗尽进入FAILED。其端口返回唯一全名相等候选和DISCOVERY，没有Google命名检索的附加metadata；旧规则无record即允许任何AREA候选，新修复又使其连只读身份调查也不可达。现仅允许“有AREA、唯一全名相等候选、存在该候选DISCOVERY”的只读调查；未核验身份前仍不能选择或展示，其他五家仍不匹配。保持原测试输入、断言及生产身份规则不变。首次完整红灯及净树状态保留在gates/，修正后完整门禁另存gates-repair1/。
+
+## Chromium 合同阻断（尚未应用提案）
+
+fafd8edc 默认1382/1382、原9帧/名称7帧/D6独立13帧及组件控制、type/arch/build通过；Chromium186/188，两个旧工作区尺寸均在web-workspace.test.ts:144等待ready(page)超时。该函数固定等1 of 3；请求语义是当前第二店SPECIFIC_OUTLET/JUDGMENT，而workspace-fixture-server无论TARGET总返回三家。旧测试实际要求查看点名店后仍展示三家，与本次明确合同冲突。产品不能为通过此测试恢复其他店展示。
+
+最小两文件提案a-owned-specific-scope-proposal.patch已物化但未应用：夹具为SPECIFIC目标仅返回该全名候选，保留全catalog用于原索引和来源店号；ready默认仍3，仅该次请求等待1 of 1。语义、JUDGMENT、不记用户选择、其他原断言保持。因用户明令不改A文件和原断言，待这两处窄授权；不能声称五门禁全绿。本轮尚未合main。
