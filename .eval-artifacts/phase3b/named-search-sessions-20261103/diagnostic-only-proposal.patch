@@ -1,0 +1,30 @@
+--- a/src/integrations/tablecheck/tablecheck-contracts.ts
++++ b/src/integrations/tablecheck/tablecheck-contracts.ts
+@@ -45,6 +45,8 @@
+     title: string;
+     status: "RESULTS" | "NO_RESULT" | "PAGE_UNAVAILABLE" | "PARSE_FAILED" | "EXPLORATION_EXHAUSTED" | "BOT_CHALLENGE";
+     discoveredOutletUrls: string[];
++    incompleteStage?: "INITIAL_QUERY_MISMATCH" | "NO_OUTLET_URLS_AFTER_EXPLORATION";
++    queryMatchesAtExit?: boolean;
+     unavailableSignals?: Array<{ source: "TITLE" | "PRIMARY_HEADING"; value: string }>;
+     handoff?: { reason: string; outcome: "COMPLETED" | "MODEL_HANDOFF" | "REQUESTED_HUMAN_HELP" | "NO_SAFE_ACTION" | "BUDGET_EXCEEDED" | "MODEL_FAILURE" };
+   };
+--- a/src/integrations/tablecheck/tablecheck-browser-availability.ts
++++ b/src/integrations/tablecheck/tablecheck-browser-availability.ts
+@@ -540,7 +540,7 @@
+           }
+           if (!matchesDiscoveryQuery(discovery, discoveryUrl)) {
+             this.recordIdentityDiagnostic({ candidateId: candidate.restaurant.id, candidate: structuredClone(candidate.restaurant),
+-              discovery: { ...discoveryBase, status: "PARSE_FAILED", discoveredOutletUrls: [] }, attemptedPages,
++              discovery: { ...discoveryBase, status: "PARSE_FAILED", discoveredOutletUrls: [], incompleteStage: "INITIAL_QUERY_MISMATCH", queryMatchesAtExit: false }, attemptedPages,
+               resolution: { confidence: "LOW", matchedBy: [], reason: "TABLECHECK_DISCOVERY_INCOMPLETE" } });
+             return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
+               pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_DISCOVERY_INCOMPLETE" }, browser);
+@@ -600,6 +600,7 @@
+             discovery: {
+               ...discoveryBase,
+               status: noResult ? "NO_RESULT" : "EXPLORATION_EXHAUSTED",
++              ...(failureCode === "TABLECHECK_DISCOVERY_INCOMPLETE" ? { incompleteStage: "NO_OUTLET_URLS_AFTER_EXPLORATION" as const, queryMatchesAtExit: matchesDiscoveryQuery(discovery, discoveryUrl) } : {}),
+               discoveredOutletUrls: [],
+               ...(handoff ? { handoff } : {}),
+             },
