@@ -997,3 +997,8 @@
 2026-10-29 CET: G1 signoff verified on f05b61d8: five gates PASS, default1203/28.223s, Chromium175/106.809s, each before/after clean and frozen inputs intact. Date metadata normalized using clock tool UTC→Vienna CET; criteria and execution unchanged. Source calls0. [Signoff](../.eval-artifacts/phase3b/g1-six-repeat/reviewer-signoff.md).
 
 2026-10-29 CET: Approved test maintenance candidate: D01/D02/D03/C01 redundancies removed only after five normal/mutant successor controls; T01 fake6.1s wait virtualized. P21 category/region bodies moved unchanged to existing4-way file scheduling; other long controls retained individually. Product/site/Pack/Prompt/Schema unchanged, calls0. Baseline1203/28.223s and175/106.809s; clean frozen gates pending. [Report](../.eval-artifacts/phase3b/test-suite-maintenance/report.md).
+
+
+### 2026-11-03 CET — A：D6 动态点名评价与四槽续跑冻结
+
+仅评价/Runner改动；D6 原评价保持，独立裁定一次 S0。按真实用户选择与权威 State 绑定身份，D6 红绿通过；明确同意其他店正例通过。C（一）main533f1bc5同步，697 条共享账本并集。冻结D3/D5/D2/D8单槽包；12c5e8ba净树五门禁：默认1380/1380，Chromium188/188+G6 66/66，严格G2 5/5（12页）。下一步按已批准规则串行Live；D6不重跑，尚无新增真实调用。证据：`.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/report.md`。
