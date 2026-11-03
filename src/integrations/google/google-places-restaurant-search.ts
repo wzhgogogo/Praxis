@@ -15,6 +15,14 @@ function string(value: unknown): string | undefined {
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
 }
 
+/** Similarity only retains clarification choices; it never qualifies a name. */
+function possibleNamedOutlet(query:string,name:string):boolean {
+  const key=outletNameKey(query),other=outletNameKey(name);
+  if(key===other||key.includes(other)||other.includes(key))return true;
+  const grams=(text:string)=>new Set(Array.from({length:Math.max(0,text.length-1)},(_,i)=>text.slice(i,i+2)));
+  const a=grams(key),b=grams(other);return 2*[...a].filter(g=>b.has(g)).length/Math.max(1,a.size+b.size)>=0.5;
+}
+
 function coordinates(place: GooglePlacesRawPlace): { latitude?: number; longitude?: number } | undefined {
   const latitude = place.location?.latitude;
   const longitude = place.location?.longitude;
@@ -361,17 +369,12 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     if(first.nextPageToken)pages.push(await read(first.nextPageToken));
     signal.throwIfAborted();
     const key=outletNameKey(query);
-    const possible=(name:string)=>{
-      const other=outletNameKey(name);if(key===other||key.includes(other)||other.includes(key))return true;
-      const grams=(text:string)=>new Set(Array.from({length:Math.max(0,text.length-1)},(_,i)=>text.slice(i,i+2)));
-      const a=grams(key),b=grams(other);return 2*[...a].filter(g=>b.has(g)).length/Math.max(1,a.size+b.size)>=0.5;
-    };
     const candidates=[...new Map(pages.flatMap(page=>page.places).map(place=>[place.id,place])).values()].flatMap(place=>{
       const o=rawObservation(place);
       const prefectures=o.addressComponents?.filter(c=>c.types.includes("administrative_area_level_1"));
       const inTokyo=prefectures?.length?prefectures.some(c=>/^(?:tokyo(?:to)?|東京都)$/iu.test(c.longText.normalize("NFKC")))
         :/東京都|(?:^|[\s,])Tokyo(?:[\s,]|$)/iu.test(o.formattedAddress??"");
-      if(!inTokyo||!possible(o.displayName??""))return [];
+      if(!inTokyo||!possibleNamedOutlet(query,o.displayName??""))return [];
       const result=groundGoogleDiscovery(o,{timezone:request.intent.timezone,observedAt,requestFingerprint:restaurantSearchIntentFingerprint(request.intent),areaQuery:""});
       return result.accepted?[result]:[];
     });
@@ -513,9 +516,13 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     // Google may return an outlet again on the next page. Preserve only the
     // first grounded observation for each stable Domain outlet ID so the pool
     // cannot present one physical restaurant as two investigation targets.
-    const acceptedGrounded = [...new Map(grounded.flatMap(({ result }) =>
+    const structural = [...new Map(grounded.flatMap(({ result }) =>
       result.accepted ? [[result.candidate.restaurant.id, result] as const] : [],
     )).values()];
+    const named=request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?request.intent.target.query:undefined;
+    const scoped=named?structural.filter(r=>r.evidence.claims.areaMatch===true&&possibleNamedOutlet(named,r.candidate.restaurant.outletName)):structural;
+    const uniqueNamed=scoped.length===1&&outletNameKey(scoped[0]!.candidate.restaurant.outletName)===outletNameKey(named??"")&&!nextPageToken;
+    const acceptedGrounded=named?scoped.map(r=>({...r,evidence:{...r.evidence,claims:{...r.evidence.claims,requestedOutletName:named,namedOutletStatus:uniqueNamed?"UNIQUE":"AMBIGUOUS"}}})):scoped;
     return {
       candidates: acceptedGrounded.map((result) => result.candidate),
       evidence: [...(namedLocation.evidence ? [namedLocation.evidence] : []), ...acceptedGrounded.flatMap((result) => [result.evidence, ...result.additionalEvidence])],

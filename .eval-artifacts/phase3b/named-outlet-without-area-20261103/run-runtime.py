@@ -1,6 +1,7 @@
 from pathlib import Path
-import datetime,gzip,hashlib,json,os,signal,subprocess,time
-r=Path(__file__).parent/'runtime-preflight';r.mkdir()
+import datetime,gzip,hashlib,json,os,signal,subprocess,time,sys
+stage=sys.argv[1] if len(sys.argv)>1 else 'runtime-preflight';assert stage in {'runtime-preflight','runtime-contract-check'}
+r=Path(__file__).parent/stage;r.mkdir()
 git=lambda *a:subprocess.check_output(['git',*a],text=True).strip()
 assert not git('status','--porcelain');source=git('rev-parse','HEAD')
 env={k:v for k,v in os.environ.items() if k in {'PATH','HOME','TMPDIR','LANG','LC_CTYPE','LC_ALL','TZ'}}

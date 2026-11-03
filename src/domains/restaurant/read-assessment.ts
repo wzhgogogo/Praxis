@@ -3,7 +3,7 @@ import { assessRestaurantConditions, priceCondition } from "./condition-states.j
 import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
-import {namedOutletCandidateResolved,namedOutletWithoutArea} from "./named-outlet-resolution.js";
+import {namedOutletCandidateResolved} from "./named-outlet-resolution.js";
 
 /**
  * A pure, Domain-owned view of what the current read evidence proves and
@@ -88,6 +88,7 @@ function presentationEvidenceIds(
   intent: NonNullable<ReturnType<typeof completeRestaurantSearchIntent>>,
   now: string,
 ): { valid: true; evidenceIds: string[] } | { valid: false; reason: string } {
+  if(!namedOutletCandidateResolved(state,candidateId))return {valid:false,reason:"The requested outlet name is not uniquely resolved; ask the user which branch or area they mean"};
   const candidateEvidence = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId);
   const immediate = state.intentDraft?.temporalResolution?.immediateAvailability;
   if (immediate && new Date(now).valueOf() > new Date(immediate.validUntil).valueOf()) {
@@ -252,7 +253,7 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     const hasExpiredDisplayEvidence = check?.status === "AVAILABLE" && !isDisplayFresh(check.displayExpiresAt, now);
     return { candidateId, eligible: false, missingReason: evidence.reason, ...(hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}) };
   });
-  if(namedOutletWithoutArea(intent)&&state.candidates.some(c=>!namedOutletCandidateResolved(state,c.restaurant.id)))return {
+  if(state.candidates.some(c=>!namedOutletCandidateResolved(state,c.restaurant.id)))return {
     presentation,factInvestigableCandidateIds:[],checkableCandidateIds:[],investigationRecorded:state.searchRevision>0,
     canEndRead:false,endReadBlockReason:"The named outlet is ambiguous or unconfirmed. Ask which branch or area the user means before selecting or reading availability.",unresolvedCandidateIds:state.candidates.map(c=>c.restaurant.id),
   };
