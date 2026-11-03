@@ -28,6 +28,12 @@ function addressLocalities(observation:UntrustedGooglePlaceObservation):string[]
     .flatMap(c=>[c.longText,...(c.shortText?[c.shortText]:[])]);
 }
 
+function inTokyo(observation:UntrustedGooglePlaceObservation):boolean {
+  const prefectures=observation.addressComponents?.filter(c=>c.types.includes("administrative_area_level_1"));
+  return prefectures?.length?prefectures.some(c=>/^(?:tokyo(?:to)?|東京都)$/iu.test(c.longText.normalize("NFKC")))
+    :/東京都|(?:^|[\s,])Tokyo(?:[\s,]|$)/iu.test(observation.formattedAddress??"");
+}
+
 function coordinates(place: GooglePlacesRawPlace): { latitude?: number; longitude?: number } | undefined {
   const latitude = place.location?.latitude;
   const longitude = place.location?.longitude;
@@ -395,15 +401,12 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     // never to a model translation. Same cache/ceiling as both availability sources.
     if(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(query))for(const place of pages.flatMap(p=>p.places).slice(0,this.maxResults)){
       const id=string(place.id);
-      if(!id||possibleNamedOutlet(query,string(place.displayName?.text)??""))continue;
+      if(!id||!inTokyo(rawObservation(place))||possibleNamedOutlet(query,string(place.displayName?.text)??""))continue;
       const name=await this.japaneseName(id,request.readRunId,signal);japanese.set(id,name.text);
     }
     const candidates=[...new Map(pages.flatMap(page=>page.places).map(place=>[place.id,place])).values()].flatMap(place=>{
       const o=rawObservation(place);
-      const prefectures=o.addressComponents?.filter(c=>c.types.includes("administrative_area_level_1"));
-      const inTokyo=prefectures?.length?prefectures.some(c=>/^(?:tokyo(?:to)?|東京都)$/iu.test(c.longText.normalize("NFKC")))
-        :/東京都|(?:^|[\s,])Tokyo(?:[\s,]|$)/iu.test(o.formattedAddress??"");
-      if(!inTokyo||!possibleNamedOutlet(query,o.displayName??"")&&outletNameKey(japanese.get(o.placeId??"")??"")!==key)return [];
+      if(!inTokyo(o)||!possibleNamedOutlet(query,o.displayName??"")&&outletNameKey(japanese.get(o.placeId??"")??"")!==key)return [];
       const result=groundGoogleDiscovery(o,{timezone:request.intent.timezone,observedAt,requestFingerprint:restaurantSearchIntentFingerprint(request.intent),areaQuery:""});
       return result.accepted?[{...result,evidence:{...result.evidence,claims:{...result.evidence.claims,
         namedOutletLocalities:addressLocalities(o)}}}]:[];

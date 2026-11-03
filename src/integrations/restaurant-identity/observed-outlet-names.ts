@@ -9,7 +9,7 @@ export class ObservedOutletNames {
   readonly runtime:BrowserRuntime;
   private readonly pages=new AsyncLocalStorage<Map<string,BrowserSnapshot>>();
   constructor(runtime:BrowserRuntime){
-    this.runtime={...runtime,openSession:async input=>{
+    this.runtime={...(runtime.readNetworkBoundaryCapability?{readNetworkBoundaryCapability:runtime.readNetworkBoundaryCapability}:{}),openSession:async input=>{
       const session=await runtime.openSession(input);
       return new Proxy(session,{get:(target,key)=>{
         if(key==="snapshot")return async()=>{const page=await target.snapshot();this.pages.getStore()?.set(page.url,page);return page;};

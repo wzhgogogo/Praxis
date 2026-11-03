@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import test from "node:test";
 import {bookingTermsComposition} from "./fixtures/booking-terms-composition.js";
+import {namedOutletContainment,outletNameContains} from "../domains/restaurant/named-outlet-resolution.js";
 
 const original=()=>readFile(new URL("./fixtures/named-outlet-without-area/d3-semantic.original.json",import.meta.url),"utf8");
 const google=async()=>JSON.parse(await readFile(new URL("./fixtures/named-outlet-without-area/d1-google-place.json",import.meta.url),"utf8"));
@@ -54,4 +55,21 @@ test("containment never overrules a source identity conflict",async()=>{
   const f=await bookingTermsComposition({namedWithoutArea:{outputText:await original(),sourceNames:{google:await google(),identityConflict:true}}});
   try{const v=await f.initial();await capture(f,"IDENTITY_CONFLICT");assert.notEqual(v.case.phase,"PRESENT_RESULTS");assert.equal(v.restaurant.selectedCandidateId,undefined);assert.deepEqual(v.restaurant.bookingHandoffs,[]);assert.equal(v.restaurant.presentedCandidateIds,undefined);assert.ok(f.sourceCalls.some(c=>c.kind==="BROWSER_NAVIGATE"),"The conflicting source was actually read");}
   finally{await f.close();}
+});
+
+test("literal locality evidence permits extra geography but a building word, unknown alias or word fragment does not",()=>{
+  assert.equal(namedOutletContainment("Kushi Katsu Dengana Akabane ten","Dengana","Tokyo Kita City Akabane 1-15-1",["Akabane"]),true);
+  assert.equal(namedOutletContainment("Kushi Katsu Dengana Ginza ten","Dengana","Tokyo Kita City Akabane 1-15-1",["Akabane"]),false);
+  assert.equal(namedOutletContainment("Dengana Secret","Dengana","Tokyo Akabane Secret Building 1F",["Akabane"]),false);
+  assert.equal(namedOutletContainment("Dengana Secret","Dengana Akabane","Tokyo Akabane",["Akabane"]),false);
+  assert.equal(outletNameContains("Senga Tokyo","Sen"),false);
+});
+
+test("TableCheck's identity-bound observed page name also resolves the different Google name",async()=>{
+  const source=JSON.parse(await readFile(new URL("../eval/restaurant/agent-loop/cases/g6-development/source.json",import.meta.url),"utf8"));
+  const place={...await google(),displayName:{text:"Kushi Katsu"},websiteUri:source.tablecheck.pageUrl};
+  const f=await bookingTermsComposition({provider:"TABLECHECK",namedWithoutArea:{outputText:await original(),sourceNames:{google:place}}});
+  try{const v=await f.initial();await capture(f,"TABLECHECK_SOURCE_NAME");assert.equal(v.case.phase,"PRESENT_RESULTS");assert.equal(v.restaurant.bookingHandoffs?.[0]?.provider,"TABLECHECK");
+    assert.ok(v.restaurant.readEvidence.some(e=>e.kind==="ENTITY_MATCH"&&e.provider==="TABLECHECK"&&e.claims.observedOutletName==="Kushi Katsu Dengana Akabane ten"&&e.entityMatch?.confidence==="HIGH"));
+  }finally{await f.close();}
 });
