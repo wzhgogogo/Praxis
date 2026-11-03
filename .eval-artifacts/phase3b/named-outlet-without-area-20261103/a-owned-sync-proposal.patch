@@ -1,0 +1,68 @@
+--- a/src/harness/restaurant-execution-router.test.ts
++++ b/src/harness/restaurant-execution-router.test.ts
+@@ -18,7 +18,7 @@
+ import { fixtureCandidates, fixtureIntent } from "./restaurant-fixtures.js";
+ 
+ const state: RestaurantTaskState = {
+-  schemaVersion: "24",
++  schemaVersion: "25",
+   phase: "UNDERSTANDING",
+   intentDraft: { ...fixtureIntent, schemaVersion: "3" },
+   candidates: [],
+--- a/src/eval/restaurant/agent-loop/native-discovery-components.test.ts
++++ b/src/eval/restaurant/agent-loop/native-discovery-components.test.ts
+@@ -65,7 +65,7 @@
+     date, timeWindow: { earliest: "19:00", latest: "19:00" }, partySize: 2,
+     area: { query: "Shibuya", coordinates: { ...center, observedAt: reference.toISOString(), source: "MANUAL_PLACE" as const } }, criteria: [],
+   };
+-  let state: RestaurantTaskState = { schemaVersion: "24", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
++  let state: RestaurantTaskState = { schemaVersion: "25", phase: "UNDERSTANDING", intentDraft, candidates: [], availability: {}, availabilityChecks: {}, readEvidence: [], searchRevision: 0 };
+   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
+   assert.equal(first.event?.type, "SEARCH_COMPLETED");
+   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
+--- a/src/eval/restaurant/agent-loop/runners/run-d1-fact-judgment-controls.ts
++++ b/src/eval/restaurant/agent-loop/runners/run-d1-fact-judgment-controls.ts
+@@ -77,10 +77,10 @@
+       const accepted = Array.isArray(claims[claim]) && claims[claim].includes(control.intent.criteria[0]!.text);
+       const noOtherConclusion = ["violatedNegativeCriteria", "verifiedNegativeCriteria", "categoryUnknownNegativeCriteria"].filter(key => key !== claim).every(key => claims[key] === undefined);
+       const candidateId = control.candidate.restaurant.id;
+-      const state: RestaurantTaskState = { schemaVersion: "24", phase: "SEARCHING", candidates: [control.candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
+-        intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurant" }, area: { query: control.intent.area.query }, addCriteria: control.intent.criteria }),
++      const state: RestaurantTaskState = { schemaVersion: "25", phase: "SEARCHING", candidates: [control.candidate], availability: {}, availabilityChecks: {}, searchRevision: 0,
++        intentDraft: applyRestaurantIntentPatch(undefined, { schemaVersion: "3", target: { goal: "RECOMMENDATION", query: "restaurant" }, area: { query: control.intent.area!.query }, addCriteria: control.intent.criteria }),
+         readEvidence: [
+-          { evidenceId: `${control.id}:area`, kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: "2026-09-24T09:00:00.000Z", requestFingerprint: control.id, claims: { areaQuery: control.intent.area.query, areaMatch: true } },
++          { evidenceId: `${control.id}:area`, kind: "DISCOVERY", provider: "GOOGLE_PLACES", candidateId, observedAt: "2026-09-24T09:00:00.000Z", requestFingerprint: control.id, claims: { areaQuery: control.intent.area!.query, areaMatch: true } },
+           ...control.evidence, ...judged.evidence,
+         ] };
+       const eligibility = validateRestaurantAction(state, { type: "PRESENT_RESULTS", candidateIds: [candidateId] }, "2026-09-24T09:00:00.000Z").status === "ALLOWED";
+--- a/src/harness/restaurant-harness.ts
++++ b/src/harness/restaurant-harness.ts
+@@ -147,7 +147,7 @@
+       date: intent.date,
+       timeWindow: structuredClone(intent.timeWindow),
+       partySize: intent.partySize,
+-      area: { query: intent.area.query },
++      ...(intent.area ? {area: { query: intent.area.query }} : {}),
+       ...(intent.budgetPerPerson ? { budgetPerPerson: structuredClone(intent.budgetPerPerson) } : {}),
+       ...(intent.criteria.length ? { addCriteria: structuredClone(intent.criteria) } : {}),
+     };
+--- a/src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts
++++ b/src/eval/restaurant/agent-loop/runners/run-source-stage-probe.ts
+@@ -551,11 +551,11 @@
+         let discoveryCoverage: SourceStageProbeAttempt["discoveryCoverage"];
+         if (manifest.stage === "DISCOVERY" && !pack.browser) {
+           const intent = discoveryIntent(sample.input);
+-          const location = locationContext ?? (intent.area.coordinates ? {
+-            latitude: intent.area.coordinates.latitude,
+-            longitude: intent.area.coordinates.longitude,
+-            radiusMeters: intent.area.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS,
+-            label: intent.area.query,
++          const location = locationContext ?? (intent.area!.coordinates ? {
++            latitude: intent.area!.coordinates.latitude,
++            longitude: intent.area!.coordinates.longitude,
++            radiusMeters: intent.area!.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS,
++            label: intent.area!.query,
+             areaMatchBasis: "TASK_LOCATION_RADIUS" as const,
+           } : undefined);
+           if (!location) throw Object.assign(new Error("Frozen Google discovery sample requires a resolved location context"), { code: "LOCATION_RESOLUTION_UNRESOLVED" });

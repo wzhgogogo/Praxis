@@ -2,7 +2,7 @@ import { isDeepStrictEqual } from "node:util";
 import type { RestaurantCaseView } from "../../application/agent-workspace.js";
 import type { RestaurantBookingTermsRead } from "../../application/restaurant-booking-handoff.js";
 import { bookingHandoffCandidateIds, bookingHandoffPageMatches, prepareBookingHandoff, type BookingHandoffSource, type BookingHandoffTerms, type PreparedBookingHandoff } from "../../domains/restaurant/booking-handoff.js";
-import { completeRestaurantSearchIntent } from "../../domains/restaurant/intent-state.js";
+import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../../domains/restaurant/intent-state.js";
 import type { RestaurantPageAnswer, RestaurantPageQuestionRequest } from "../../domains/restaurant/page-question.js";
 import type { RestaurantFactPageObservation } from "./fact-source-document.js";
 import type { RestaurantPageQuestionReader } from "./page-question-reader.js";
@@ -89,12 +89,12 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
     return result.pages.length?result:undefined;
   }
   private context(view:RestaurantCaseView,source:BookingHandoffSource){
-    const draft=view.restaurant.intentDraft;
+    const request=completeRestaurantIntent(view.restaurant.intentDraft);
     const candidate=view.restaurant.candidates.find(item=>item.restaurant.id===source.candidateId);
     const offer=view.restaurant.availability[source.candidateId]?.find(item=>item.id===source.offerId);
     const check=view.restaurant.availabilityChecks[source.candidateId];
-    if(!draft?.date||!draft.partySize||!draft.timeWindow||!draft.area||!candidate||!offer||!check)return undefined;
-    return {candidate,offer,check,request:{...draft,date:draft.date,partySize:draft.partySize,timeWindow:draft.timeWindow,area:draft.area},
+    if(!request||!candidate||!offer||!check)return undefined;
+    return {candidate,offer,check,request,
       evidence:view.restaurant.readEvidence,now:this.now(),...(view.restaurant.sourceReadContext?{readContext:view.restaurant.sourceReadContext}:{})};
   }
   /** Cache-only, including reuse of the actual accepted G1 result. */

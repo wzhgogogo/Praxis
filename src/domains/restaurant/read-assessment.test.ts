@@ -22,7 +22,7 @@ const fact = (id: string): RestaurantReadEvidence => {
 };
 const slot: RestaurantReadEvidence = { ...identity, evidenceId: "slot", kind: "AVAILABILITY", displayExpiresAt: "2026-08-19T07:30:00.000Z",
   claims: { date: intent.date, partySize: intent.partySize, visibleSlots: ["19:00"] } };
-const base = (): RestaurantTaskState => ({ schemaVersion: "24", phase: "SEARCHING", candidates: [candidate], intentDraft: { ...intent, schemaVersion: "3" },
+const base = (): RestaurantTaskState => ({ schemaVersion: "25", phase: "SEARCHING", candidates: [candidate], intentDraft: { ...intent, schemaVersion: "3" },
   availability: {}, availabilityChecks: {}, searchRevision: 1, readEvidence: [{ evidenceId: "area", candidateId, kind: "DISCOVERY", provider: "TABELOG", observedAt: at,
     requestFingerprint: "area", claims: { areaMatch: true, areaQuery: "Tokyo" } }] });
 const facts = (unknown = false): RestaurantEvent => ({ type: "CANDIDATE_FACTS_CHECKED", request: { candidateIds: [candidateId], candidates: [candidate], intent },

@@ -551,11 +551,11 @@ try {
         let discoveryCoverage: SourceStageProbeAttempt["discoveryCoverage"];
         if (manifest.stage === "DISCOVERY" && !pack.browser) {
           const intent = discoveryIntent(sample.input);
-          const location = locationContext ?? (intent.area.coordinates ? {
-            latitude: intent.area.coordinates.latitude,
-            longitude: intent.area.coordinates.longitude,
-            radiusMeters: intent.area.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS,
-            label: intent.area.query,
+          const location = locationContext ?? (intent.area!.coordinates ? {
+            latitude: intent.area!.coordinates.latitude,
+            longitude: intent.area!.coordinates.longitude,
+            radiusMeters: intent.area!.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS,
+            label: intent.area!.query,
             areaMatchBasis: "TASK_LOCATION_RADIUS" as const,
           } : undefined);
           if (!location) throw Object.assign(new Error("Frozen Google discovery sample requires a resolved location context"), { code: "LOCATION_RESOLUTION_UNRESOLVED" });

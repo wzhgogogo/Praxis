@@ -16,6 +16,7 @@ import { candidateAvailabilityPath, restaurantDiscoveryPacks, type DiscoverySour
 import { TabelogBookingHandoffReader } from "../tabelog/tabelog-booking-handoff-reader.js";
 import { TableCheckBookingHandoffReader } from "../tablecheck/tablecheck-booking-handoff-reader.js";
 import { RestaurantBookingTerms } from "../restaurant-facts/booking-terms.js";
+import {ObservedOutletNames} from "../restaurant-identity/observed-outlet-names.js";
 
 export interface LiveReadAssemblyConfig extends LiveReadInvestigationBudget {
   /** Existing Pack selection; controlled sources may explicitly restrict coverage. */
@@ -46,7 +47,8 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   const runCeilings = Object.freeze({ ...ceilings });
   const now = () => transports.clock.now().toISOString();
   const taskId = transports.currentTaskId ?? (() => undefined);
-  const tabelogHandoffs = new TabelogBookingHandoffReader(transports.browser, taskId, now);
+  const sourceNames=new ObservedOutletNames(transports.browser);
+  const tabelogHandoffs = new TabelogBookingHandoffReader(sourceNames.runtime, taskId, now);
   const tablecheckHandoffs = new TableCheckBookingHandoffReader(tabelogHandoffs.runtime, taskId, now);
   const bookingLinks = {
     runtime: tablecheckHandoffs.runtime, now,
@@ -56,7 +58,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   };
   const browserBudget: BrowserExecutionBudget = { totalModelCalls: 0, maxModelCalls: config.maxBrowserModelCallsTotal };
   const google = new GooglePlacesRestaurantSearch(transports.google, now, config.maxDiscoveryCandidates, { maxRequests: config.maxGoogleRequests });
-  const native = composeNativeRestaurantRead(google, transports.browser, transports.model, browserBudget,
+  const native = composeNativeRestaurantRead(google, sourceNames.runtime, transports.model, browserBudget,
     transports.onBrowserDiagnostic, evaluationLocation, now, {
       maxModelCallsPerCandidate: config.maxBrowserModelCallsPerCandidate,
       maxModelCallsTotal: config.maxBrowserModelCallsTotal,
@@ -98,8 +100,8 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     endReadRun: () => sourceAvailability.endReadRun(),
     browserModelBudgetExhausted: () => sourceAvailability.browserModelBudgetExhausted(),
     check: async (request: Parameters<LiveBrowserAvailability["check"]>[0], signal: AbortSignal, readRunId?: string) => {
-      const read = await bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal, readRunId));
-      return {...read, metadata:{...read.metadata, googleRequests:google.googleRequestUsage(readRunId)}};
+      const read = await sourceNames.capture(()=>bookingHandoffs.capture(request, signal, () => sourceAvailability.check(request, signal, readRunId)));
+      return {...read,evidence:[...read.evidence,...await google.observedSourceNames(request.candidates,readRunId)],metadata:{...read.metadata,googleRequests:google.googleRequestUsage(readRunId)}};
     },
   };
   const modelReadReserve = transports.model as ModelGateway & Partial<NonNullable<RestaurantExecutionRouterOptions["modelReadReserve"]>>;
@@ -117,7 +119,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     executionRoute:google.executionRoute,
     googleRequestUsage:google.googleRequestUsage.bind(google),
     async search(request:RestaurantSearchRequest,signal:AbortSignal):Promise<RestaurantSearchRead>{
-      const locationName=request.intent.area.query.trim().toLowerCase()==='nearby'?'':request.intent.area.query;
+      const locationName=request.intent.area?.query.trim().toLowerCase()==='nearby'?'':request.intent.area?.query??'';
       const selection=request.continuation?.structuredRetrieval??(positiveDiscoveryCriteria(request.intent).length?await retrievalPlanner.decide({taskId:request.readRunId??'discovery',intent:request.intent,locationName,attemptedRetrievals:[],rewrites:0,timeoutMs:config.maxStructuredReadMs}):{accepted:true,reason:'General retrieval: no positive criteria.'});
       if (!selection.accepted) return {candidates:[],evidence:[],
         continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:request.continuation?.usedPageTokens??[],pagesRead:request.continuation?.pagesRead??0,exhausted:true,structuredRetrieval:selection,lastFailureCode:'DISCOVERY_SOURCE_INCOMPLETE',...(request.continuation?.locationContext?{locationContext:request.continuation.locationContext}:{})},
@@ -131,7 +133,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     executionRoute: plannedSearch.executionRoute,
     googleRequestUsage: plannedSearch.googleRequestUsage?.bind(plannedSearch),
     async search(request: RestaurantSearchRequest, signal: AbortSignal) {
-      const read = await plannedSearch.search(request, signal);
+      const read = await (request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?google:plannedSearch).search(request, signal);
       return { ...read, evidence: read.evidence.map(evidence => {
         const candidate = read.candidates.find(item => item.restaurant.id === evidence.candidateId);
         return evidence.kind === "DISCOVERY" && candidate
@@ -140,5 +142,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       }) };
     },
   };
-  return { ...native, questions, search, google, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
+  const facts={...native.facts,executionRoute:native.facts.executionRoute,
+    inspectFacts:(...args:Parameters<typeof native.facts.inspectFacts>)=>sourceNames.capture(()=>native.facts.inspectFacts(...args))};
+  return { ...native, facts, questions, search, google, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
 }

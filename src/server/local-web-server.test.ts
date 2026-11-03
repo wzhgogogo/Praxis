@@ -164,7 +164,7 @@ class MeteredGoogleFixtureRestaurantSearch implements RestaurantSearchPort, Rest
       evidence: read.candidates.map((candidate) => ({
         evidenceId: `metered-discovery:${candidate.restaurant.id}`, kind: "DISCOVERY" as const, provider: "GOOGLE_PLACES" as const,
         candidateId: candidate.restaurant.id, sourceEntityId: candidate.restaurant.id, observedAt: "2026-08-08T09:00:00.000Z", requestFingerprint: "metered-discovery",
-        claims: { areaMatch: true, areaQuery: request.intent.area.query },
+        claims: { areaMatch: true, areaQuery: request.intent.area!.query },
       })),
       metadata: {
         ...read.metadata,

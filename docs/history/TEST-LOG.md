@@ -1,5 +1,29 @@
 # Test and Verification Log
 
+<a id="named-outlet-source-names-verified-20261103"></a>
+
+2026-11-03 CET：C来源名唯一性补修离线全绿。D1真实Google短名+D3原字节有效红→查位→展示→B1/条款；同店来源全名与包含+typed地址地名分别核对，多店/错地名/身份冲突拒绝，未知别名/建筑词/字内片段不放行。2354b2bd冻结756项，净树十步全绿：默认1372/1372、Chromium188/188、严格G2 5/5及12页PASS，独立新7+原9帧PASS。State25/TaskDefinition23、语义/Agent版本与A/B保护文件不变；原627行全保留、账本628行，本轮真实调用0、不读.env。只推工作分支交复核，不合main；不是新Live或37家通过率。 [证据及完整记录](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。
+
+<a id="named-outlet-source-names-20261103"></a>
+
+2026-11-03 CET：C补来源名唯一性，D1真实Google短名+D3原语义红→绿；现有G4电话/地址规则不改，来源全名与包含+地址地名两规则分开验证。原八控制、用户选店、Google预算及TableCheck合计50/50通过（首次TableCheck受本地Chromium启动权限阻塞，原件保留；受控本地重跑通过）。State25/TaskDefinition23及Prompt/Schema不变；A/B受保护文件不改。最终输入和独立oracle待冻结，五门禁/严格G2待运行；本次真实调用0、只推工作分支待复核、不合main。 [证据](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。
+
+<a id="named-outlet-area-verified-20261103"></a>
+
+2026-11-03 CET：C无地区具名店离线完成待复核。State25/TaskDefinition23获批；原D3 #1字节冻结，普通组装唯一店→查位→展示→B1/条款，无伪造AREA/圆心/距离。歧义/近似分店先询问、恶意SELECT被拒；OPEN缺地区、未找到/无关/非Tokyo和后补地区不替店均覆盖。A五处机械同步3d632a49、C两例交接预期28c45602经用户窄授权分别提交，原断言/Gold/模型字节及B三个G3其余原样。d793fccf冻结784项，净树九步全绿：默认1363/1363、Chromium188/188、严格G2 5/5且12页PASS、独立九帧PASS，type/arch/build通过。旧红灯和1361/1363保留；仅构造来源/D3原语义，不是真实Dengana库存或新Live签收，缩写/跨语言名不猜。账本627条并集，本轮真实调用0、不读.env。只推工作分支并通知A，不合main。 [报告及原件](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/report.md)。
+
+<a id="named-outlet-area-approved-sync-20261103"></a>
+
+2026-11-03 CET：C两项窄授权已应用并分别提交：3d632a49原样同步A五文件版本/可选字段，28c45602仅同步AMBIGUOUS/PARTIAL交接预期。其余原断言/Gold/模型字节和B三个G3不改；State25/TaskDefinition23，语义Prompt26/Proposal4/Draft3及Agent版本不变。源码和输入冻结待最终五门禁/严格G2，旧1361/1363与先前绿灯均保留而不替代本轮验证。本任务只推分支交复核、不合main，真实调用0。 [证据](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/authorizations.json)。
+
+<a id="named-outlet-area-contract-review-20261103"></a>
+
+2026-11-03 CET：C无地区具名店候选State25/TaskDefinition23已实现，语义字节不变；D3及七项补充控制通过，原名/地区和B1条款闭环。后补地区反例红→修复后不再换店；当前完整回归1361/1363，仅旧选店AMBIGUOUS/PARTIAL仍要求存在B1交接，与新唯一性合同冲突。按原断言不改要求停下，精确同步补丁未应用；A五处版本/可选字段机械同步亦仍待授权，A/B受保护文件原字节。类型/五门禁/严格G2尚未全绿，未推送/未合main，真实调用0。 [原件/候选补丁](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/contract-review.md)。
+
+<a id="named-outlet-area-version-review-20261103"></a>
+
+2026-11-03：C具名店无地区切片停在版本确认点，尚未实施。SearchIntent.area必填且RESTAURANTS_FOUND会写入State.intent，建议State24→25、TaskDefinition22→23；Draft3/语义Proposal4/Prompt26不变，不回填伪造AREA。A cc9562cd的D3决策#1原字节已冻结，尚未取得整组装红/绿或运行本次门禁，产品/A/B文件不动，真实调用0、不读.env。不推送或合main，待复核者确认版本。 [方案和原件](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/version-review.md)。
+
 <a id="test-2026-11-02-b1-visible-candidates-verified"></a>
 
 2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。

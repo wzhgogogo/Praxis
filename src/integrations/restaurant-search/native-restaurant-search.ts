@@ -221,7 +221,7 @@ function groundedNativeCandidate(input: {
     requestFingerprint: JSON.stringify({ intent: restaurantSearchIntentFingerprint(input.request.intent), location: input.location }),
     claims: {
       ...(input.sourceCategories?.length ? { sourceCategories: input.sourceCategories } : {}),
-      outletName: input.name, address: input.address, areaQuery: input.request.intent.area.query,
+      outletName: input.name, address: input.address, areaQuery: input.request.intent.area!.query,
       areaMatch: true, areaMatchBasis: input.location.areaMatchBasis,
       evaluationLocationLabel: input.location.label, distanceMeters: Math.round(geo.distanceMeters),
     },
@@ -264,6 +264,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
 
   private async location(request: RestaurantSearchRequest, signal: AbortSignal): Promise<{ location: Location; localityEvidence?: RestaurantReadEvidence }> {
     const area = request.intent.area;
+    if(!area)throw Object.assign(new Error("Regional discovery requires a user area"),{code:"GOOGLE_LOCATION_UNRESOLVED"});
     if (area.coordinates) return { location: await this.withAddressObservation({
       latitude: area.coordinates.latitude, longitude: area.coordinates.longitude,
       radiusMeters: area.radiusMeters ?? DEFAULT_NEARBY_RADIUS_METERS, label: area.query, areaMatchBasis: "TASK_LOCATION_RADIUS",
@@ -616,7 +617,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               taskId: `browser-read:native-discovery:${source}`, source,
               ...(sourceSkillPath ? {sourceSkillPath} : {}), stage: 'DISCOVERY', session: session!, signal, allowedOrigins,
               goal: {
-                location: discoveryGoalLocation, outlet: {name: expression, address: request.intent.area.query},
+                location: discoveryGoalLocation, outlet: {name: expression, address: request.intent.area!.query},
                 retrievalExpression: expression,
                 hardCriteria: request.intent.criteria.filter(c => c.polarity === 'POSITIVE' && c.strength === 'HARD').map(c => c.text),
               },
@@ -750,7 +751,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             throw Object.assign(Error("No observed replacement entrance"), {code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED"});
           }
           const selected = await executor.selectRegionEntrance({taskId: `browser-read:native-discovery:${source}`, source, stage: "DISCOVERY", signal, ...(sourceSkillPath ? {sourceSkillPath} : {}),
-            goal: {outlet: {name: keyword, address: request.intent.area.query}, location: discoveryGoalLocation, hardCriteria: request.intent.criteria.filter(item => item.polarity === "POSITIVE" && item.strength === "HARD").map(item => item.text)},
+            goal: {outlet: {name: keyword, address: request.intent.area!.query}, location: discoveryGoalLocation, hardCriteria: request.intent.criteria.filter(item => item.polarity === "POSITIVE" && item.strength === "HARD").map(item => item.text)},
             regionCorrection: {sourceId: pack.meta.id, flowId: regionEntrances.flowId, entrances: entries, samples: directoryRegion.samples, replacementsUsed: 0,
               remainingBudget: {sourceMs: Math.max(0, sourceElapsedRemaining - (Date.now() - batchStartedAt)), details: NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore - inspected, regionPages: 4 - retrieval.regionPages, retrievalPages: 3 - retrieval.retrievalPages}}});
           const entry = selected.status === "SELECTED" ? replacementEntrances().find(entry => entry.ref === selected.entranceRef) : undefined;
@@ -836,7 +837,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         if (pack.browser!.hasChallenge(page)) throw Object.assign(new Error("Discovery source challenge"), { code: "DISCOVERY_SOURCE_BOT_CHALLENGE" });
         if (!currentAreaEntranceObserved) {
           const requestedName = discoveryGoalLocation.name
-            ? normalized(request.intent.area.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").trim()) : "";
+            ? normalized(request.intent.area!.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").trim()) : "";
           const directlyNamed = requestedName && [...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)].some(match => {
             try {
               return directory.isRegionEntrance(new URL(match[1]!.replaceAll('&amp;', '&'), page!.url).href)
@@ -852,7 +853,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           try {
             const chosen = await executor.runSkill({
               taskId: `browser-read:native-discovery:${source}`, source, ...(sourceSkillPath ? { sourceSkillPath } : {}), stage: "DISCOVERY", session: session!, signal, allowedOrigins,
-              goal: { outlet: { name: keyword, address: request.intent.area.query }, location: discoveryGoalLocation, hardCriteria: request.intent.criteria.filter(item => item.polarity === "POSITIVE" && item.strength === "HARD").map(item => item.text) },
+              goal: { outlet: { name: keyword, address: request.intent.area!.query }, location: discoveryGoalLocation, hardCriteria: request.intent.criteria.filter(item => item.polarity === "POSITIVE" && item.strength === "HARD").map(item => item.text) },
               onObservation: collectRegionEntrances,
               objective: "Select the most specific observed public region/station entrance for the authoritative location. Follow observed links through region menus as needed, or fill the observed public location search using LOCATION. Reveal its public restaurant list; do not open restaurant details yet.",
               completion: (current, controls) => {
@@ -868,7 +869,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
                 if (sourcePagesBefore + listingPagesRead > NATIVE_LISTING_PAGE_CAP.DIRECTORY) throw Object.assign(new Error("Native listing page ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });
                 const same = selectedRegion && (directory.listingRoot(selectedRegion.url) !== undefined && directory.listingRoot(current.url) === directory.listingRoot(selectedRegion.url)
                   || directory.isSameObservedRegionHomepage?.(selectedRegion.url, current.url));
-                const requestedAreaName = request.intent.area.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").trim();
+                const requestedAreaName = request.intent.area!.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").trim();
                 const supportedEntrance = !!outletReference && !!selectedRegion && directory.containsObservedOutlet?.(selectedRegion.url, outletReference.sourceUrl) === true;
                 const deeperEntrance = supportedEntrance && controls.some(control => control.visible && control.href
                   && directory.isRegionEntrance(control.href) && control.href !== selectedRegion!.url && !sameRegion(control.href, selectedRegion!.url)
@@ -935,7 +936,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             // A source-owned isolated read boundary may safely expose an
             // observed, non-sensitive query button. The executor still keeps
             // Router-bound fields and current opaque references authoritative.
-            goal: { location: discoveryGoalLocation, outlet: { name: keyword, address: request.intent.area.query }, retrievalExpression: activeExpression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
+            goal: { location: discoveryGoalLocation, outlet: { name: keyword, address: request.intent.area!.query }, retrievalExpression: activeExpression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The current source listing has not yet produced a parsed public restaurant result or an explicit empty result.",
             completion: (current, controls) => ({ complete: listingComplete(current, controls), resultBusy: pack.browser!.resultBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort(), pack.browser!.isExplicitEmptyListing(current)]), reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." }),
@@ -1084,7 +1085,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             session: session!,
             signal,
             allowedOrigins,
-            goal: { location: discoveryGoalLocation, outlet: { name: expression, address: request.intent.area.query }, retrievalExpression: expression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
+            goal: { location: discoveryGoalLocation, outlet: { name: expression, address: request.intent.area!.query }, retrievalExpression: expression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
             objective: "Apply the current public source search and reveal venue result cards for the authoritative area and retrieval terms. Do not submit a reservation.",
             methodReason: "The current source listing has not yet produced a parsed public venue result or an explicit empty result.",
             completion: (current, controls) => sourceListingCompletion(pack, current, controls, expression),
