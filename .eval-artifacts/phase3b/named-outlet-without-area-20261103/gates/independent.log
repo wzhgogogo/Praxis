@@ -1,0 +1,112 @@
+{
+  "status": "PASS",
+  "mode": "OFFLINE_CONSTRUCTED_SOURCE_WITH_LITERAL_D3_SEMANTIC_OUTPUT",
+  "observations": 9,
+  "literalD3OutputSha256": "4b7265bc825c1c7a0991773ddc6a1935e0ba922f26e2c0f09acd95953335764c",
+  "oracle": "Literal D3 bytes, observed fixed Google/body/page identity and slot; no production name/identity/eligibility helper imports",
+  "realCalls": 0,
+  "liveCapability": "NOT_EVALUATED",
+  "rows": [
+    {
+      "label": "D3_UNIQUE",
+      "phase": "PRESENT_RESULTS",
+      "candidates": 1,
+      "handoffs": 1,
+      "fixtureModelCalls": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3,
+        "restaurant_page_question": 2
+      },
+      "observedLifecycleSeconds": 0.17543304200000057
+    },
+    {
+      "label": "USER_AREA",
+      "phase": "PRESENT_RESULTS",
+      "candidates": 1,
+      "handoffs": 1,
+      "fixtureModelCalls": {
+        "restaurant_semantic_interpret": 2,
+        "restaurant_agent_decide": 6,
+        "restaurant_page_question": 4
+      },
+      "observedLifecycleSeconds": 0.3030282500000003
+    },
+    {
+      "label": "AMBIGUOUS",
+      "phase": "NEEDS_INPUT",
+      "candidates": 2,
+      "handoffs": 0,
+      "fixtureModelCalls": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3
+      },
+      "observedLifecycleSeconds": 0.030616125000000466
+    },
+    {
+      "label": "OPEN_NO_AREA",
+      "phase": "NEEDS_INPUT",
+      "candidates": 0,
+      "handoffs": 0,
+      "fixtureModelCalls": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 1
+      },
+      "observedLifecycleSeconds": 0.07649716699999953
+    },
+    {
+      "label": "MISSING",
+      "phase": "NO_VERIFIED_RESULT",
+      "candidates": 0,
+      "handoffs": 0,
+      "fixtureModelCalls": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 2
+      },
+      "observedLifecycleSeconds": 0.044615583999999216
+    },
+    {
+      "label": "UNRELATED",
+      "phase": "NO_VERIFIED_RESULT",
+      "candidates": 0,
+      "handoffs": 0,
+      "fixtureModelCalls": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 2
+      },
+      "observedLifecycleSeconds": 0.055063333000000055
+    },
+    {
+      "label": "UNRELATED_USER_AREA",
+      "phase": "NO_VERIFIED_RESULT",
+      "candidates": 0,
+      "handoffs": 0,
+      "fixtureModelCalls": {
+        "restaurant_semantic_interpret": 2,
+        "restaurant_agent_decide": 4
+      },
+      "observedLifecycleSeconds": 0.10774270799999977
+    },
+    {
+      "label": "OUTSIDE_TOKYO",
+      "phase": "NO_VERIFIED_RESULT",
+      "candidates": 0,
+      "handoffs": 0,
+      "fixtureModelCalls": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 2
+      },
+      "observedLifecycleSeconds": 0.025368000000000394
+    },
+    {
+      "label": "OTHER_BRANCH",
+      "phase": "NEEDS_INPUT",
+      "candidates": 1,
+      "handoffs": 0,
+      "fixtureModelCalls": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 2
+      },
+      "observedLifecycleSeconds": 0.05213870799999859
+    }
+  ]
+}
