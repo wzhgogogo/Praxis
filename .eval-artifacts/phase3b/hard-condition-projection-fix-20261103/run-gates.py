@@ -60,7 +60,8 @@ for name, cmd in steps:
     if row['outcome'] != 'PASS':
         result['stopReason'] = 'GATE_FAILURE_OR_CHECKOUT_CHANGE'
         (out / 'gates.json').write_text(json.dumps(result, indent=2) + '\n')
-        raise SystemExit(1)
-result.update(acceptance='SATISFIED', finishedAtCET=now(), freezeVerifiedAfter=True)
+        # Complete the already-approved diagnostic matrix; a failure still blocks publication.
+result.update(acceptance='SATISFIED' if all(row['outcome'] == 'PASS' for row in result['runs']) else 'NOT_SATISFIED', finishedAtCET=now(), freezeVerifiedAfter=True)
 (out / 'gates.json').write_text(json.dumps(result, indent=2) + '\n')
-print('COMPLETE SATISFIED', flush=True)
+print('COMPLETE', result['acceptance'], flush=True)
+raise SystemExit(0 if result['acceptance'] == 'SATISFIED' else 1)

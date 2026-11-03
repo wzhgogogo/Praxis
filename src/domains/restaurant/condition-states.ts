@@ -79,7 +79,7 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
     const negative = matches("verifiedNegativeCriteria");
     const conflicts = matches("violatedNegativeCriteria");
     const literal = matches("restaurantTypeFacts");
-    const supported = criterion.polarity === "NEGATIVE" ? negative : positiveHard ? positive : [...positive, ...literal];
+    const supported = criterion.polarity === "NEGATIVE" ? negative : [...positive, ...literal];
     const contradicted = criterion.polarity === "NEGATIVE" ? [...conflicts, ...literal] : [];
     const applicable = contradicted.length ? contradicted : supported;
     const sourceFacts = [...new Map(applicable.flatMap(sourceEvidence).map(fact => [fact.evidenceId, fact])).values()];
