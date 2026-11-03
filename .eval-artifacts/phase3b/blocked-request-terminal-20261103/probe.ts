@@ -42,7 +42,7 @@ const browser=await chromium.launch({headless:true});const rows:any[]=[];const f
 async function run(mode:'control'|'main'|'branch',path:string,isolatedRoute=false,dropFail=false,repeat=0){
  receivers=[];
  const context=await browser.newContext({serviceWorkers:'block'});await context.grantPermissions(['local-network-access'],{origin});
- const pw:any[]=[],cdp:any[]=[],pauses:any[]=[],commands:any[]=[],routeActions:any[]=[];
+ const pw:any[]=[],cdp:any[]=[],pauses:any[]=[],commands:any[]=[],routeActions:any[]=[],routeFetch:any[]=[];
  const pwMap=new Map<any,any>(),network=new Map<string,any>();let sessions=0;
  const start=performance.now();const now=()=>performance.now()-start;
  context.on('request',r=>{const row={id:pw.length+1,url:r.url(),type:r.resourceType(),startMs:now(),endMs:null as number|null,status:null as number|null,error:null as string|null};pw.push(row);pwMap.set(r,row)});
@@ -50,7 +50,9 @@ async function run(mode:'control'|'main'|'branch',path:string,isolatedRoute=fals
  context.on('requestfailed',r=>{const row=pwMap.get(r);if(row){row.endMs=now();row.outcome='FAILED';row.error=r.failure()?.errorText}});
  context.on('response',r=>{const row=pwMap.get(r.request());if(row)row.status=r.status()});
  const route=context.route.bind(context);context.route=async(pattern:any,handler:any)=>route(pattern,async raw=>handler(new Proxy(raw,{get(target,key){
-  const member=Reflect.get(target,key);if(['abort','continue','fulfill','fallback'].includes(String(key)))return async(...args:any[])=>{const row={method:String(key),url:target.request().url(),startMs:now(),argument:typeof args[0]==='string'?args[0]:null,endMs:null as number|null};routeActions.push(row);try{return await member.apply(target,args)}finally{row.endMs=now()}};
+  const member=Reflect.get(target,key);
+  if(key==='fetch')return async(...args:any[])=>{const row={id:routeFetch.length+1,layer:'GUARD_ROUTE_FETCH',url:target.request().url(),playwrightRequestId:pwMap.get(target.request())?.id??null,startMs:now(),endMs:null as number|null,status:null as number|null,error:null as string|null};routeFetch.push(row);try{const response=await member.apply(target,args);row.status=response.status();return response}catch(e){row.error=String(e);throw e}finally{row.endMs=now()}};
+  if(['abort','continue','fulfill','fallback'].includes(String(key)))return async(...args:any[])=>{const row={method:String(key),url:target.request().url(),startMs:now(),argument:typeof args[0]==='string'?args[0]:null,endMs:null as number|null};routeActions.push(row);try{return await member.apply(target,args)}finally{row.endMs=now()}};
   return typeof member==='function'?member.bind(target):member;
  }})));
  const open=context.newCDPSession.bind(context);context.newCDPSession=async(...args:any[])=>{
@@ -83,7 +85,7 @@ async function run(mode:'control'|'main'|'branch',path:string,isolatedRoute=fals
  const unanswered=pauses.filter(p=>!commands.some(c=>c.session===p.session&&c.id===p.id&&c.atMs>=p.atMs&&['Fetch.failRequest','Fetch.continueRequest','Fetch.continueResponse','Fetch.fulfillRequest'].includes(c.method)&&!c.dropped&&c.doneMs!==null&&c.error===null));
  const filter=(r:any)=>r.url.startsWith(origin)||r.url.startsWith(other);
  const pendingCdp=cdp.filter(r=>filter(r)&&r.endMs===null),pendingPw=pw.filter(r=>filter(r)&&r.endMs===null);
- const row={mode,path,isolatedRoute,dropFail,repeat,navStartMs,dclMs,loadMs,dclElapsedMs:dclMs===null?null:dclMs-navStartMs,loadElapsedMs:loadMs===null?null:loadMs-navStartMs,snapshotAtMs,error,evidence,required,receivers:[...receivers].map(r=>({...r,atMs:r.atMs-start})),blocked,unanswered,pendingCdp,pendingPw,pw,cdp,pauses,commands,routeActions};
+ const row={mode,path,isolatedRoute,dropFail,repeat,navStartMs,dclMs,loadMs,dclElapsedMs:dclMs===null?null:dclMs-navStartMs,loadElapsedMs:loadMs===null?null:loadMs-navStartMs,snapshotAtMs,error,evidence,required,receivers:[...receivers].map(r=>({...r,atMs:r.atMs-start})),blocked,unanswered,pendingCdp,pendingPw,pw,cdp,pauses,commands,routeActions,routeFetch};
  rows.push(row);await context.close();
  if(dropFail){if(!error||dclMs!==null||unanswered.length===0||pendingCdp.length===0)failures.push('HANG_ORACLE_DID_NOT_DETECT_DROPPED_FAIL');}
  else{
