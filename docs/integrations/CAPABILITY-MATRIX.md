@@ -59,7 +59,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.128
+- Document revision: 1.129
 
 
 - Last updated: 2026-11-03
@@ -499,3 +499,9 @@ B1选店条款接入现有G1读取和问答，两个来源均不新增解析器�
 ## B1 terms conclusion reserve (2026-11-01 CET; approved main integration)
 
 选店后的可选B1条款遵守ADR0045：读取期限为原整轮deadline减RESTAURANT_READ_CONCLUSION_RESERVE_MS，每次取页/观察到的语言导航/模型传输前重核，剩余恰20秒不得新读；在该期限取消并整组省略未完成条款，已有B1链接照常，关闭会话不受新读取门槛阻挡。普通显式G1追问独立预算、其它身份/查位/交接行为不变。助手消息在条款完成或省略后才追加；离线实际测时与最终门禁见[本次报告](../../.eval-artifacts/phase3b/b1-card-terms-reserve-20261101/report.md)，发布SHA以Git和远端核对为准。没有真实模型或Live性能结论。
+
+## 2026-11-03 C: bounded identity and G1 page readiness (offline candidate)
+
+Both existing source providers have a user-approved internal identityOnly stop after HIGH, before request controls/inventory (separate commit9008f7bb,13 inserted lines). Defaults retain the original availability tails. C composition routes the first three possible named candidates through that G4 mode using real request fields and the existing shared browser/model ceiling, strips temporary inventory checks and binds only observed same-store source names. Other two protected Tabelog G3 files and the identity comparator are unchanged. This is not an expanded identity rule or a new network allowance.
+
+G1 capture-only mode reuses bounded executor stability observation for PENDING pages, including actually observed translation links. Persistent busy/loading pages fail closed; ordinary fact reads and the question model's complete-page/quote checks remain unchanged. D3 original visible text SHA matches (EN6471/JA216 chars); the Japanese error page is not admitted as the restaurant. Fixed-I/O questions now run, while missing cancellation/booking-card text remains omitted. No external call or fresh source capability has been assessed. [Evidence](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md).

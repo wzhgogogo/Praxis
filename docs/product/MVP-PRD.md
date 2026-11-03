@@ -1,7 +1,7 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.32
+- Document revision: 0.33
 - Last updated: 2026-11-03
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -185,3 +185,7 @@ A specific named Tokyo outlet can be found without asking for a separate area. G
 ### Booking a selected outlet after supplying missing details (2026-11-03; offline candidate)
 
 If the user books a displayed restaurant and then supplies the party size or another missing visit field, the next result remains bound to that restaurant's source identity. The area cannot replace the selected store with nearby results. If it cannot be verified for that visit, the reply names the store and visit and asks whether other nearby restaurants are acceptable; only a subsequent accepted open request permits those alternatives. A selection still requires fresh availability before B1/terms and does not authorize booking submission.
+
+## 2026-11-03 named-brand clarification (offline implementation candidate)
+
+A named request with several possible branches may inspect the original-order first three identities under the same read budget, even if five possible candidates exist. It proceeds only after those three are investigated and exactly one identity-bound full source name matches; otherwise it asks which branch. This investigation never selects or presents the other branches. Selected-outlet terms may be omitted when a page remains incomplete or the read budget/reserve/cancellation blocks them; the current verified departure link remains available. Exportable reasons distinguish these cases from a page that genuinely does not state terms. This is offline evidence awaiting review, not a new Live completion claim.

@@ -5661,3 +5661,22 @@ Markdown结论优先：13份摘要均前27行，三栏带确定性、13环节短
 用户复核8bc20f8a通过并批准合入。fetch确认最新main仍efeab254，已在获批版本祖先中；无新代码同步或冲突。按要求在8bc20f8a/862冻结项净树执行五门禁全部通过，之后既有干净main工作树从旧fceecaad快进到远端，再普通合并814dfa6cf2499c9086ce59afb65281b8ab392b1b；两父提交分别为efeab254与8bc20f8a，完整树与获批验证树相同。新路径忽略文件冲突0，无重置/强推/历史删除。
 
 其后仅追加发布文档和完整日志，不再修改源码或输入。原44条/27店缺证、2/5历史校准、Konya未确认归因和A真实grader延期继续保留，不执行模型、Live或历史重评。正常推进/推送main并ls-remote核对后待命；最终发布SHA以Git回执为准。[合入记录](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/report.md)。
+
+<a id="named-identity-terms-20261103"></a>
+## 2026-11-03 CET — C 同品牌前三家身份调查与条款首因修复
+
+从已发布main db1f44a2开独立分支。用户澄清五家也查原顺序前三，并批准两站HIGH后identityOnly提前返回；9008f7bb只含两provider共13插入，其他G3和A文件不动。现有事实动作承载临时identity-only，所有前三家HIGH后恰好一全名才允许选/查位/展示，不增加State/TaskDefinition/Prompt版本、身份放宽或预算。只需身份的读取不当HARD已核实；无实际到访字段则沿既有事实读取器，不编造条件。
+
+D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的失败保留；录制323原visibleHtml复原精确。诊断-only仍红：INCOMPLETE_PAGE在模型前拒绝已绑定PENDING页面；修复复用既有Executor稳定性观察，BUSY仍零模型。原文只有付款接受，没有预约要卡/取消证据；问题到达后NOT_STATED，不能称Live条款已填。root/run原因导出在State外，现有缓存寿命内保留，无SQL/写权限变化。完整门禁与独立评分另记。 [报告](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
+
+<a id="named-identity-terms-verified-20261103"></a>
+## 2026-11-03 CET — C 身份前三家和条款就绪候选离线完成
+
+最终90eaa67380369183b853cfad6e1eab63a1939e45与5ec63ea9产品相同，814项冻结后十步各前后净树全绿：默认1389/1389、Chromium188/188、严格G2 5/5且12页PASS、22整组装测试和26帧独立oracle通过。17原件逐字对应A，9008f7bb批准补丁仍恰13插入；A eval/harness、server/web、另两个G3文件与原身份/问题完整页守卫均不变。State25/TaskDefinition23、Prompt/Schema/SQL和741账本累计/上限不变。
+
+原外层路径预检、两个oracle格式预检、渲染少8字符及产品红灯全部保留；格式修正仅接纳既定相对链接和真实selection容器，不调产品或评分条件。D3稳定观察后两问到达，无原文则NOT_STATED，持续BUSY无模型；诊断独立导出，已有B1继续。实际本地选店条款阶段518.3ms、开始后520.7ms追加助手消息，非Live耗时。四层结论、模型开始/响应计数差别及资源未评项在报告中分开记录；只推工作分支待复核，不合main，真实调用0、不读.env，随后通知A。 [交付报告](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
+
+<a id="named-identity-terms-main-20261103"></a>
+## 2026-11-03 CET — C 在B之后整合获批身份/条款修复
+
+用户批准fd07f44e，要求B先合；从对话A最新用户消息核验授权后，等待B远端发布f0bee7d7（含d58d377a）才从该main建合入候选。native-source-facts自动保留来源角色绑定与capture-only就绪观察；read-assessment只解import，保留两个引用，不改逻辑。文档同时保留双方，账本ID并集746行、同ID无差异、限额/累计不变。原C产物原字节，State25/TaskDefinition23/Prompt/Schema不递增，真实调用0、不读.env。五门禁/严格G2/独立26帧待新鲜验证，未全绿不发布。 [合入报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。

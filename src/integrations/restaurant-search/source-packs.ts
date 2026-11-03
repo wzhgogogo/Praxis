@@ -20,6 +20,8 @@ import type { GooglePlacesSourceName } from "../google/google-places-contracts.j
 
 export interface SourcePackAvailabilityProviderContext {
   executor: BrowserTaskExecutor;
+  /** Internal G4 fact read; never a persisted request or an inventory conclusion. */
+  identityOnly?:boolean;
   sourceFactsModel?: ModelGateway;
   now?: () => string;
   maxBrowserSessions?: number;
@@ -301,6 +303,7 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
         ? "DIRECT_SOURCE_PAGE" : "NAME_RESOLUTION",
     availabilityPriority: 10,
     createProvider: (context) => new TabelogBrowserAvailability(context.executor, context.now, context.maxCandidateMatches, {
+      ...(context.identityOnly?{identityOnly:true}:{}),
       ...(context.sourceFactsModel ? { sourceFactsModel: context.sourceFactsModel } : {}),
       ...(context.alternativeSearch ? { alternativeSearch: context.alternativeSearch } : {}),
       ...(context.japaneseName ? { japaneseName: context.japaneseName } : {}),
@@ -402,6 +405,7 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
         ? "DIRECT_SOURCE_PAGE" : "NAME_RESOLUTION",
     availabilityPriority: 20,
     createProvider: (context) => new TableCheckBrowserAvailability(context.executor, context.now, {
+      ...(context.identityOnly?{identityOnly:true}:{}),
       ...(context.sourceFactsModel ? { sourceFactsModel: context.sourceFactsModel } : {}),
       ...(context.alternativeSearch ? { alternativeSearch: context.alternativeSearch } : {}),
       ...(context.maxCandidateMatches !== undefined ? { maxCandidateMatches: context.maxCandidateMatches } : {}),

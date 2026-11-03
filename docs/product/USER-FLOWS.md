@@ -1,7 +1,7 @@
 # MVP User Flows
 
 - Status: Accepted
-- Document revision: 0.32
+- Document revision: 0.33
 - Last updated: 2026-11-03
 - Source of truth for: 用户可见流程、确认点和终态
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
@@ -190,3 +190,7 @@ A specific named Tokyo outlet can be found without asking for a separate area. G
 ### Booking a selected outlet after supplying missing details (2026-11-03; offline candidate)
 
 If the user books a displayed restaurant and then supplies the party size or another missing visit field, the next result remains bound to that restaurant's source identity. The area cannot replace the selected store with nearby results. If it cannot be verified for that visit, the reply names the store and visit and asks whether other nearby restaurants are acceptable; only a subsequent accepted open request permits those alternatives. A selection still requires fresh availability before B1/terms and does not authorize booking submission.
+
+## 2026-11-03 near-name branch investigation (offline implementation candidate)
+
+For an explicit full outlet name with multiple possible branches, Praxis can investigate the first three in source order within the current read's budget. One full source name match after all three identity checks permits the existing availability → presentation → B1 flow; zero/multiple matches keep the clarification prompt. The remaining candidates are not alternatives offered without user agreement. Selected-outlet policy capture observes bounded page readiness before asking the two G1 questions. Missing or unverified policy text stays absent; a still-valid B1 link is unaffected, with task/run-bound omission diagnostics available outside the user's Task State.

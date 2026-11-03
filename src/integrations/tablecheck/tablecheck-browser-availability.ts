@@ -239,6 +239,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     private readonly now: () => string = () => new Date().toISOString(),
     private readonly options: {
       maxBrowserSessions?: number;
+      /** Stop after the unchanged HIGH identity gate; no request controls or slot read. */
+      identityOnly?: boolean;
       sourceFactsModel?: ModelGateway;
       alternativeSearch?: NamedSourceAlternative;
       maxCandidateMatches?: number;
@@ -742,6 +744,11 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     browser: BrowserSessionMetadata,
     selected: MatchedTableCheckOutlet,
   ) {
+      if (this.options.identityOnly) return this.ground(candidate, request, {
+        candidate, observedAt, sourceEntityId: selected.extraction.outlet.sourceEntityId,
+        sourceUrl: selected.extraction.outlet.sourceUrl, entityMatch: selected.inspection.resolution,
+        pageState: "EXTRACTION_FAILED",
+      }, browser);
       // A prior identity observation may be reused for matching, but the live
       // page must be the selected outlet before any request controls are read.
       let selectedPage = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });

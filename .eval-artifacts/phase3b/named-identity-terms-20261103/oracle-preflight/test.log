@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-20261103/evaluate.py", line 62, in <module>
+    supported_handoffs(d)
+  File "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-20261103/evaluate.py", line 35, in supported_handoffs
+    require(any(handoff['url'] in json.dumps(x,ensure_ascii=False) for x in observations),'Exact source URL absent')
+  File "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-identity-terms-20261103/evaluate.py", line 10, in require
+    if not ok:raise AssertionError(message)
+AssertionError: Exact source URL absent

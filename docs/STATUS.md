@@ -1,3 +1,5 @@
+2026-11-03 CET：C fd07f44e已获用户独立复核及合入批准，并已等待B先发布main f0bee7d7。合入候选保留B来源角色和C身份前三家/条款就绪，源码只解read-assessment的两个import，native-source-facts自动保留两边；账本并集746行，累计/上限不变。原C产物不改，待冻结后新鲜五门禁、严格G2和26帧独立核验；全绿才发布main并通知A。真实调用0、不读.env。 [合入报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
 2026-11-03 CET：B已获批HARD证据修复合main，新鲜合入候选1ee97d94全绿：type/arch/build通过，默认1397/1397、Chromium188/188（130.342秒）、严格G2 5/5及12页PASS，每项前后status为空，无重试/跳过/取消。merge172c20af的树与复核d58d377a完全一致，发布记录不改源码/fixture/脚本；State25/TaskDefinition23及Prompt/Schema不变。744条账本完整保留743旧条目、累计/额度不变；新增真实调用0。按批准发布main，ls-remote核对后通知C/A，实际main SHA以交付回执为准。[合入证据](../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。
 
 2026-11-03 CET：用户复核B d58d377a通过并批准先合main；已fetch最新main db1f44a2，集成merge 172c20af与获批树完全相同，无冲突、无实现或版本变化。复核者Linux2核/Node24五门禁1397/188及G2通过作为复核输入保留；本机新的五门禁/严格G2待运行，全绿前不发布。账本744条，743旧条目完整保留、额度与累计不变；真实调用0，不读.env/答案。发布后ls-remote核对并通知C/A。[合入报告](../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。
@@ -5,6 +7,9 @@
 2026-11-03 CET：B的正向非价格HARD证据修复完成待复核。冻结候选a5625ddf净树五门禁全绿：默认1397/1397、Chromium188/188（130.647秒）、严格G2 5/5及12页PASS；每项前后status为空。D4保留同一句日文菜单引用并显示MET；c05依据同次保存页Kaiseki店名显示MET，评论/无类型店名/异店页/过期控制拒绝，Web英文依据标签2项通过。c05及两条Motsu-nabe旧卡片合同同步单列，15条角色补回按原run绑定，未补造原文。旧44,197字节控制的分段/选择/模型请求一致，完整产物因2处来源角色元数据变为47,208字节，未声称全量逐字节一致。State25/TaskDefinition23和Prompt/Schema不变，A eval/harness、C身份及Guard/站点目录不改；743条账本保留main计数和额度，新增真实调用0。只推工作分支、不合main，通知A后停复核。[完整证据](../.eval-artifacts/phase3b/hard-evidence-scope-20261103/report.md)。
 
 2026-11-03 CET：B按用户“店名可算、评论不算”统一正向非价格HARD接纳与投影。D4原串カツ引用、c05保存页Kaiseki店名及评论/异店/过期控制绿；c05与两条Motsu-nabe旧卡片断言单独合同同步，未补造原文。首轮576c6406净树五门禁1395/188及严格G2全12页通过；Web依据标签已补，最终候选完整复跑待完成。State25/TaskDefinition23及Prompt/Schema不变，A eval/harness与C身份文件不改；真实调用0，仅工作分支待复核，不合main。 [报告](../.eval-artifacts/phase3b/hard-evidence-scope-20261103/report.md)。
+2026-11-03 CET：C身份前三家/G1就绪候选离线完成待复核。批准窄补丁9008f7bb单独提交；D2 ONE/NONE/TWO在全三家身份后判唯一/反问，D3诊断红灯确认INCOMPLETE_PAGE，稳定观察修复后问答2次，原页无取消/预约要卡则NOT_STATED。90eaa673冻结814项后十步净树全绿：默认1389/1389、Chromium188/188、严格G2 5/5且12页PASS、22组装测试/独立26帧PASS。外层路径及oracle格式预检失败原件保留，未改产品凑评分；A/另外两个G3保护文件不变。State25/TaskDefinition23/Prompt不变，741账目保留累计，真实调用0、不读.env。只推codex/fix-phase3b-named-identity-and-terms交复核，不合main；不是Live条款已填或新通过率。 [报告](../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
+
+2026-11-03 CET: C started named-identity-and-terms from published main db1f44a2. D2/D3 raw evidence at A ae7fd072 is frozen; candidate cap wording awaits user clarification. Terms first-deviation diagnosis uses offline saved DOM only, real calls0 and no .env. [Plan](../.eval-artifacts/phase3b/named-identity-terms-20261103/plan.md).
 
 2026-11-03 CET：获批a1cd798e连续性修复已同步最新main533f1bc5，无源码冲突。0d2fff0e冻结786项后净树11步全绿：默认1382/1382、Chromium188/188、严格G2 5/5及12页PASS，独立29帧及组件控制通过；本机未复现PGlite崩溃。账本740条并集，main限额保留，本轮真实调用0、不读.env。按用户批准发布main，D2多候选与D3条款缺口另开分支。 [合入证据](../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
 
