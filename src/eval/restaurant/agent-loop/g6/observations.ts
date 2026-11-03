@@ -8,7 +8,7 @@ export function recordingQualification(recording:BrowserReadRecordingResult|unde
     recordingPath:recording?.path??null,replayStatus:recording?.replay.status??null};
 }
 
-export interface ReadStartObservation {atMs:number;kind:"READ"|"TERMS_READ"|"TERMS_MODEL"|"CONCLUSION_MODEL";purpose:string;deadlineAtMs:number;}
+export interface ReadStartObservation {atMs:number;kind:"READ"|"TERMS_READ"|"TERMS_MODEL"|"CONCLUSION_MODEL";purpose:string;deadlineAtMs:number;turnId?:string;}
 export function reserveObservations(startedAtMs:number,finishedAtMs:number,starts:readonly ReadStartObservation[],requests:readonly {reachedSource:boolean;forbidden:boolean}[]){
   const late=starts.filter(s=>s.kind!=="CONCLUSION_MODEL"&&s.atMs>=s.deadlineAtMs-20_000);
   return {schemaVersion:"phase3b-g6-boundary-observation@1",elapsedMs:finishedAtMs-startedAtMs,exceeded500Seconds:finishedAtMs-startedAtMs>500_000,

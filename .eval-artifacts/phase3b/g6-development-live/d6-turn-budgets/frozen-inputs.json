@@ -1,0 +1,50 @@
+{
+  "frozenAtCET": "2026-11-03T04:11:35.587215+01:00",
+  "sourceBaseline": "769766455c38c369fa61bad56112de45230dfc68",
+  "mainBaseline": "d4d8ea33a4cf32b01601474f02ad89c538bf3f69",
+  "pack": ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/D6.pack.json",
+  "packSHA256": "05e5c9e4ec0fd779c64bd72b09bb61acce4c7ae86321ed4173447fcb714f5d44",
+  "evidence": ".eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/reviewed-evidence.json",
+  "evidenceSHA256": "61082896d186fc727fdcdbb5213ed6edfd8170b7d9841593304b96551848462a",
+  "inputTextUnchanged": true,
+  "limits": {
+    "perUserTurn": {
+      "milliseconds": 500000,
+      "realModelCalls": 50,
+      "googleRequests": 40
+    },
+    "perSlot": {
+      "userTurns": 3,
+      "realModelCalls": 150,
+      "googleRequests": 120
+    },
+    "development": {
+      "fullLive": 8,
+      "realModelCalls": 400,
+      "publicGET": 25
+    }
+  },
+  "cumulativeBefore": {
+    "fullLive": 3,
+    "realModelCalls": 298,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 265,
+    "googleRequests": 27,
+    "restaurantWebsiteRequests": 3601
+  },
+  "developmentBefore": {
+    "fullLive": 3,
+    "realModelCalls": 57,
+    "evaluationPublicGET": 10
+  },
+  "deferred": [
+    "D3_NEW_RUN_AFTER_C",
+    "D5",
+    "D2",
+    "D8"
+  ],
+  "cancelled": [
+    "D7"
+  ],
+  "credentialPolicy": "Only authorized Node --env-file child; never read/print/copy/stage file or credentials"
+}

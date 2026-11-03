@@ -37,8 +37,6 @@ class LocalDatabase implements SqlDatabase {
 /** Shared eval/Runner composition. No business Port, State or accepted-evidence override. */
 export async function createG6Session(input:Omit<LiveReadTransports,"currentTaskId"|"remainingModelCalls"> & {
   packs?:readonly DiscoverySourcePack[];limits?:LiveReadInvestigationBudget;
-  /** Runner-owned episode bound across user turns, using the existing budget API. */
-  episode?:{deadlineAtMs:number;remainingModelCalls:()=>number};
 }) {
   const clock:RuntimeClock=input.clock,limits=input.limits??G6_LIMITS;
   const raw=await PGlite.create(),database=new LocalDatabase(raw);await applyPostgresMigrations(database);
@@ -49,10 +47,7 @@ export async function createG6Session(input:Omit<LiveReadTransports,"currentTask
     catch(error){call.error=error instanceof Error?error.message:"MODEL_TRANSPORT_FAILED";throw error;}
     finally{call.elapsedMs=performance.now()-start;}
   }};
-  const budget:RunBoundedModelGateway=new class extends RunBoundedModelGateway {
-    override run<T>(taskId:string,work:(signal:AbortSignal)=>Promise<T>,deadlineAt?:number):Promise<T>{return super.run(taskId,work,Math.min(deadlineAt??Infinity,input.episode?.deadlineAtMs??Infinity));}
-    override remainingCalls(taskId:string):number|undefined{const own=super.remainingCalls(taskId);return own===undefined?own:Math.min(own,input.episode?.remainingModelCalls()??Infinity);}
-  }(transport,limits.maxModelCalls,limits.maxAutomaticBrowserMs,()=>clock.now().valueOf());
+  const budget=new RunBoundedModelGateway(transport,limits.maxModelCalls,limits.maxAutomaticBrowserMs,()=>clock.now().valueOf());
   const model=new DeliveryReservedModelGateway(budget);
   const assembly=createLiveReadAssembly({...limits,...(input.packs?{packs:input.packs}:{})}, {
     ...input,model,clock,currentTaskId:()=>budget.currentTaskId(),remainingModelCalls:id=>budget.remainingCalls(id),

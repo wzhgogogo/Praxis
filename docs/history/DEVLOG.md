@@ -1,5 +1,9 @@
 # Development Log
 
+<a id="dev-g6-d6-turn-budgets-20261103"></a>
+
+2026-11-03 CET：A按用户D4复核修正评测侧三处：SOURCE_CAPTURE允许实际审核第五参数但仍绑定四主参数，独立后验GET保持恰好四参；非预认证交付只机械核对同店本次原文，含义待审不阻断、安全缺证与S0仍停；后续用户消息各有生产一致的500秒/50模型/40Google，最多3回合/150/120，开发400模型继续累计。删除评测session的跨回合episode截断，新增每回合View/预算记录。资格身份只取实际JSON-LD或原Google响应电话/地址及官网指针，不读生产eligible作oracle。D4原始评价不改，人工菜单资格MET/S0=0和新规则重核分开保存；条件投影交B、具名四槽待C。当前43项定向绿，完整门禁与D6待执行，真实调用新增0。 [报告](../../.eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/report.md)。
+
 <a id="dev-g6-d4-safety-review-stop"></a>
 2026-11-02 CET（客户端11-03）：A新安全停批策略完成红绿及净树全门禁，历史D3仅stopBatch变化、D1仍S0停，评分与定义不变。D4 483.348秒展示Yakiton Daio1家，完整资格及B1来源两项安全NOT_EVALUATED后正确停批，D6未启动。HAR原B1链接确实存在，A读取器用四参数见证规则拒绝来源第五参数exclude_unavailable_time；新店仅有串カツ菜单原文，需独立HARD审查，且生产eligible与显示NOT_CHECKED差异单列。G1追问因收尾预留未发。Recorder12/94页，模型32、Google8、独立请求2206全PASS/越界0，F6无保留区新读且未超500；3POST为合法日历。D7取消非失败，具名四槽仍待C；本次不修评分或产品、不续跑。账本627原值保留加35为662，累计Live3/26、模型298/1600、GET265/390，开发10/25余15、环境重跑0。 [完整报告](../../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/report.md)。
 

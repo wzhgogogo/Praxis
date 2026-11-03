@@ -3,7 +3,8 @@ import test from "node:test";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { createHash } from "node:crypto";
-import { evaluateG6,type G6EvaluationInput } from "./evaluator.js";
+import { evaluateG6,independentVacancy,type G6EvaluationInput } from "./evaluator.js";
+import { observedGoogleIdentities,observedQualificationEvidence } from "./qualification-evidence.js";
 
 function normal():G6EvaluationInput{
   const link="https://tabelog.com/en/booking/form_course/new?rcd=13123456&visit_date=20261111&visit_time=1900&member=2";
@@ -18,6 +19,57 @@ function normal():G6EvaluationInput{
     vacancy:[{ref:"source",phase:"SOURCE_CAPTURE",url:vacancy,candidateId:"control",body:structuredClone(body)},{ref:"post",phase:"AFTER",url:vacancy,candidateId:"control",body:structuredClone(body)}],questions:[{candidateId:"control",expected:"ANSWERED",approvedAnswers:["The page describes a private room for groups of four or more."]}],requests:[],deadline:{elapsedMs:1000,readStartsInReserve:0,termsStartsInReserve:0}};
 }
 
+const d4Root=resolve(".eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/runs/D4");
+test("G6 D4 original five-parameter source capture proves the exact B1 URL without relaxing the four-parameter post witness",async()=>{
+  const bytes=await readFile(d4Root+"/evaluation.input.json");
+  assert.equal(createHash("sha256").update(bytes).digest("hex"),"d4c3a06da67e1656822a45808d204a94bf035853d35cf157e32177c0dfcca6a3");
+  const x=JSON.parse(bytes.toString()) as G6EvaluationInput;
+  const source=x.vacancy.find(v=>v.phase==="SOURCE_CAPTURE")!;
+  assert.equal(new URL(source.url).searchParams.get("exclude_unavailable_time"),"1");
+  assert.equal(independentVacancy(source,x.delivered[0]!).known,false,"Independent public GET still requires exactly four parameters");
+  assert.equal(evaluateG6(x).checks.find(c=>c.rule==="B1_SOURCE_URL")?.status,"PASS");
+  for(const key of ["rst_id","svd","svps","svt"]){
+    const changed=structuredClone(x);
+    for(const s of changed.vacancy.filter(v=>v.phase==="SOURCE_CAPTURE")){const u=new URL(s.url);u.searchParams.set(key,key==="svd"?"20261112":key==="svt"?"2000":key==="svps"?"3":"99999999");s.url=u.href;}
+    const verdict=evaluateG6(changed);assert.ok(verdict.checks.some(c=>c.rule==="B1_SOURCE_URL"&&c.status==="FAIL"),key);assert.equal(verdict.verdict.stopBatch,true);
+  }
+  const forged=structuredClone(x);for(const s of forged.vacancy.filter(v=>v.phase==="SOURCE_CAPTURE"))for(const row of Object.values((s.body as {selection:Record<string,{time:string;url:string}>}).selection))if(row.time===x.delivered[0]!.time)row.url=x.handoffs[0]!.url+"&invented=1";
+  assert.ok(evaluateG6(forged).checks.some(c=>c.rule==="B1_SOURCE_URL"&&c.status==="FAIL"));
+});
+
+test("G6 D4 non-witness literal quote is safe pending meaning review; absent or wrong-shop quotes remain S0",async()=>{
+  const x=JSON.parse(await readFile(d4Root+"/evaluation.input.json","utf8")) as G6EvaluationInput;
+  const recording=d4Root+"/recordings/g6-D4-1793636444457-0",html=await readFile(recording+"/diagnostic/snapshot-0078.html","utf8");
+  assert.equal(createHash("sha256").update(html).digest("hex"),"d3e35ab277c44e43f552d9c6b40909f4dcbf3d1a289752378397122b26cd946f");
+  const har=JSON.parse(await readFile(recording+"/replay.har","utf8")),entry=har.log.entries[85],place=JSON.parse(entry.response.content.text);
+  assert.equal(place.id,"ChIJD2M-Jx2TGGARYC8xs1rxXxY");
+  const run=JSON.parse(await readFile(d4Root+"/execution.result.json","utf8")),d=x.delivered[0]!;
+  const claim=run.view.restaurant.conditionStates[d.candidateId].find((c:{strength:string})=>c.strength==="HARD").sources.find((s:{sourceUrl:string})=>s.sourceUrl===place.websiteUri);
+  assert.ok(html.includes(claim.quote),"Actual saved public source contains the quoted menu, without a new GET");
+  const at="2026-11-02T16:27:22.319Z";
+  // Historical visible excerpt confirmed in the D4 review, not a browser replay.
+  const frames=[{page:{url:place.websiteUri,title:place.displayName.text,text:claim.quote,html},at}],identities=observedGoogleIdentities(entry.response.content.text,"D4:HAR:85");
+  const evidence=observedQualificationEvidence(run.view,x.runId,frames,identities);
+  assert.equal(evidence.pages.length,1);assert.equal(evidence.pages[0]!.phone,place.nationalPhoneNumber);
+  assert.ok(evidence.pages[0]!.ref.includes("D4:HAR:85"));
+  x.pages=evidence.pages;
+  // Explicit observed evidence input; neither eligibility nor MODEL_JUDGMENT is an oracle.
+  x.qualificationClaims=evidence.claims;
+  const r=evaluateG6(x);
+  assert.equal(r.checks.find(c=>c.rule==="COMPLETE_REQUEST_QUALIFICATION")?.status,"QUOTE_VERIFIED_MEANING_PENDING_REVIEW");
+  assert.equal(r.verdict.s0Status,"PASS");assert.equal(r.verdict.stopBatch,false);assert.equal(r.verdict.qualified,null);
+  for(const defect of ["MISSING_QUOTE","OTHER_BRANCH","PREVIOUS_RUN"]){
+    const bad=structuredClone(x);
+    if(defect==="MISSING_QUOTE")bad.pages[0]!.merchantText="This fully captured source does not contain that quotation.";
+    if(defect==="OTHER_BRANCH")bad.pages[0]!.phone="03-0000-0000",bad.pages[0]!.address="Another branch";
+    if(defect==="PREVIOUS_RUN")bad.pages[0]!.runId="previous-run";
+    const verdict=evaluateG6(bad);assert.ok(verdict.checks.some(c=>c.rule==="QUALIFICATION_QUOTE"&&c.status==="FAIL"),defect);assert.equal(verdict.verdict.stopBatch,true);assert.ok(verdict.verdict.s0>0);
+  }
+  const badPointer=identities.map(i=>({...i,websiteUrl:"https://www.1bangai.org/another-branch"})),bad=structuredClone(x);
+  bad.pages=observedQualificationEvidence(run.view,x.runId,frames,badPointer).pages;
+  assert.ok(evaluateG6(bad).checks.some(c=>c.rule==="QUALIFICATION_QUOTE"&&c.status==="FAIL"),"The raw public listing must actually point to this source page");
+});
+
 for(const [id,path,inputSHA,evaluationSHA,stopBatch] of [
   ["D3","continuation-after-b1-20261102/w1-runs/D3","6a9b2a96b55e05583c54bd6921cae3de2d687417a5f36ff4a01ed7bb5de37652","6f692800db94e136c3d08b9c7ad0601a7960d588751970962544f4f7854c674e",false],
   ["D1","split-resume-20261102/w1-runs/D1","37f4750b11af24fdf469c9ce8e637b36b690dd98de30ecfba0fff92ab2caef95","67793927bb65fa5209cf6cfef0bee5aec250dcc4af110e7193395326b9140c94",true],
@@ -26,12 +78,18 @@ for(const [id,path,inputSHA,evaluationSHA,stopBatch] of [
   assert.equal(createHash("sha256").update(input).digest("hex"),inputSHA);assert.equal(createHash("sha256").update(original).digest("hex"),evaluationSHA);
   const historical=JSON.parse(original.toString()),current=evaluateG6(JSON.parse(input.toString()));
   assert.equal(current.verdict.stopBatch,stopBatch);
-  assert.deepEqual(current,{...historical,verdict:{...historical.verdict,stopBatch}},"Only batch continuation changes; scores, S0, checks and original records stay unchanged");
+  assert.deepEqual(current,{...historical,schemaVersion:current.schemaVersion,coverage:{...historical.coverage,meaningPendingReview:0},verdict:{...historical.verdict,stopBatch}},"Only batch continuation and evaluator revision metadata change; scores, S0, checks and original records stay unchanged");
   if(id==="D3"){assert.equal(current.verdict.status,"NOT_EVALUATED");assert.equal(current.verdict.s0Status,"PASS");}
   else assert.equal(current.verdict.s0,1);
 });
 test("G6 independent evaluator accepts original slot/link/identity/page binding and never consults production eligibility",()=>{
   const result=evaluateG6(normal());assert.equal(result.verdict.s0,0);assert.equal(result.verdict.qualified,true);assert.equal(result.verdict.stopBatch,false);
+});
+test("G6 independent deadline applies to each user turn while the slot can legitimately exceed 500 seconds",()=>{
+  const x=normal();x.deadline={elapsedMs:600_000,readStartsInReserve:0,termsStartsInReserve:0,turns:[{id:"INITIAL",elapsedMs:300_000,modelCalls:40,googleRequests:30},{id:"booking",elapsedMs:300_000,modelCalls:40,googleRequests:30}]};
+  assert.equal(evaluateG6(x).verdict.qualified,true,"Two legal reads do not share the first read's budget");
+  x.deadline.turns![1]!.elapsedMs=500_001;assert.ok(evaluateG6(x).checks.some(c=>c.rule==="DEADLINE"&&c.status==="FAIL"));
+  x.deadline.turns![1]!.elapsedMs=300_000;x.deadline.turns![1]!.modelCalls=51;assert.ok(evaluateG6(x).checks.some(c=>c.rule==="TURN_BUDGET"&&c.status==="FAIL"));
 });
 
 for(const [name,rule,mutate] of [

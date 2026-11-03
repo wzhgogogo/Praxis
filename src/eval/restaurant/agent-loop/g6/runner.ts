@@ -14,6 +14,7 @@ import { evaluateG6,hasBoundedNoResultConclusion,type G6EvaluationInput,type G6D
 import { recordingQualification,reserveObservations,type ReadStartObservation } from "./observations.js";
 import { chargeG6,recordG6SourceCounts } from "./budget.js";
 import { createWitnessReader,type G6Witness,type WitnessReceipt } from "./witness.js";
+import { observedGoogleIdentities,observedQualificationEvidence,type ObservedGoogleIdentity } from "./qualification-evidence.js";
 
 export type G6Trigger="DISPLAYED_RESULTS"|"DISPLAYED_AVAILABLE"|"ASKED_FOR_DATE"|"ASKED_FOR_PARTY";
 export interface G6Followup {id:string;trigger:G6Trigger;kind:"MESSAGE"|"PAGE_QUESTION";text:string;}
@@ -29,6 +30,8 @@ export interface G6RunnerDependencies {
   witnessFetch:typeof fetch;budgetPath:string;ownCredentials?:readonly string[];
   initialWitnesses?:WitnessReceipt[];initialWitnessGETs?:number;
   now?:()=>number;wait?:(ms:number)=>Promise<void>;witnessIntervalMs?:number;
+  /** Monotonic elapsed-time seam; Live always uses performance.now. */
+  monotonicNow?:()=>number;
 }
 export interface G6TransportHooks {googleFetch:(transport:typeof fetch)=>typeof fetch;observeRequest:(request:G6EvaluationInput["requests"][number])=>void;}
 async function hasTrigger(view:RestaurantCaseView,trigger:G6Trigger,readState:()=>Promise<Record<string,unknown>>){
@@ -67,19 +70,31 @@ function bindOraclePages(spec:G6Case,view:RestaurantCaseView,runId:string,snapsh
 export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,directory:string){
   if(pack.schemaVersion!=="phase3b-g6-pack@1"||!pack.recording.browser||!pack.recording.decisions||!pack.recording.googleResponses)throw Error("Frozen G6 pack must enable all three recordings");
   if(new Set(pack.cases.map(c=>c.id)).size!==pack.cases.length||pack.cases.some(c=>!/^[-\w]+$/u.test(c.id)))throw Error("Unsafe or duplicate G6 case id");
+  if(pack.cases.some(c=>c.followups.length>2))throw Error("G6 slot permits at most three user turns");
   const output=resolve(directory);await mkdir(output,{recursive:true});
   const policy=discoveryPackNetworkPolicy(),receipts:Array<{id:string;status:string;path:string;reason?:string}>=[],certifications=new Map<string,WitnessReceipt>();
   for(const receipt of dependencies.initialWitnesses??[]){const w=receipt.target;if(receipt.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Detail-only receipt cannot replace a required availability witness");certifications.set(JSON.stringify([w.sourceEntityId,w.date,w.time,w.partySize]),receipt);}
   let witnessGETs=dependencies.initialWitnessGETs??0;
   const beforeGET=()=>{if(witnessGETs>=(pack.witnessGETLimit??Infinity))throw Error("Frozen development witness GET ceiling reached before charging or transmission");witnessGETs++;};
-  const now=dependencies.now??Date.now;let stopReason:string|undefined;const requestTiming={last:-Infinity};
+  const now=dependencies.now??Date.now,monotonicNow=dependencies.monotonicNow??(()=>performance.now());let stopReason:string|undefined;const requestTiming={last:-Infinity};
   for(const [index,spec] of pack.cases.entries()){
     if(stopReason){receipts.push({id:spec.id,status:"NOT_SENT",path:"",reason:stopReason});continue;}
     const slot=join(output,spec.id);await mkdir(slot,{recursive:false});const runId=`g6-${spec.id}-${now()}-${index}`;
     const recording=new BrowserReadRecording({directory:join(slot,"recordings"),runId,reviewedReads:policy.dynamicReads,reviewedStaticResources:policy.staticResources,ownCredentials:dependencies.ownCredentials??[]});
     const capture=createHybridDecisionCapture(join(slot,"execution.result.json"),recording);
-    let googleCalls=0;
-    const googleFetch=(transport:typeof fetch)=>recording.captureGoogleFetch(async(url,init)=>{if(++googleCalls>40)throw Error("G6 slot Google request ceiling reached before transmission");return transport(url,init);});
+    let googleCalls=0,modelCalls=0;const identities:ObservedGoogleIdentity[]=[];
+    const turnBudgets:Array<{id:string;startedAtMs:number;deadlineAtMs:number;elapsedMs:number;modelCalls:number;googleRequests:number;exceeded500Seconds:boolean}>=[];
+    let activeBudget:typeof turnBudgets[number]|undefined,turnWallStart=0,turnFinished=true;
+    const googleFetch=(transport:typeof fetch)=>recording.captureGoogleFetch(async(url,init)=>{
+      if(!activeBudget||turnFinished||activeBudget.googleRequests>=40||googleCalls>=120)throw Error("G6 turn/slot Google request ceiling reached before transmission");
+      if(monotonicNow()-turnWallStart>=500_000)throw Error("G6 user-turn deadline reached before Google transmission");
+      activeBudget.googleRequests++;const sequence=++googleCalls,response=await transport(url,init);
+      try{
+        const text=await response.clone().text();
+        if(!(dependencies.ownCredentials??[]).some(k=>k&&text.includes(k)))identities.push(...observedGoogleIdentities(text,`google-response:${sequence}`));
+      }catch{/* A missing independent identity is not replaced by the product's match verdict. */}
+      return response;
+    });
     const forwarded:G6EvaluationInput["requests"]=[];
     const raw=await dependencies.transports(spec,recording,{googleFetch,observeRequest:r=>forwarded.push(r)}),snapshots:Array<{page:BrowserSnapshot;at:string}>=[],trace:Array<{sequence:number;at:string;kind:string;detail:unknown}>=[];
     const clock=raw.clock,traceEvent=(kind:string,detail:unknown)=>{
@@ -95,10 +110,11 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
     };
     const sink={...capture.snapshotSink,recordSnapshot:(page:BrowserSnapshot,sanitized:unknown)=>{snapshots.push({page:structuredClone(page),at:clock.now().toISOString()});capture.snapshotSink.recordSnapshot?.(page,sanitized);}};
     let session:Awaited<ReturnType<typeof createG6Session>>|undefined,view:RestaurantCaseView|undefined;
-    let activeTurn="INITIAL",activeTurnId="INITIAL",episodeDeadline=Infinity;const semanticAttempts=new Map<string,number>();const readStarts:ReadStartObservation[]=[];
+    let activeTurn="INITIAL",activeTurnId="INITIAL";const semanticAttempts=new Map<string,number>();const readStarts:ReadStartObservation[]=[];
     const start=(kind:ReadStartObservation["kind"],purpose:string)=>{
       const task=session?.budget.currentTaskId(),usage=task?session?.budget.usage(task):undefined;
-      readStarts.push({kind,purpose,atMs:clock.now().valueOf(),deadlineAtMs:Math.min(episodeDeadline,usage?.deadlineAt??episodeDeadline)});
+      const deadline=activeBudget?.deadlineAtMs??Infinity;
+      readStarts.push({kind,purpose,turnId:activeTurnId,atMs:clock.now().valueOf(),deadlineAtMs:Math.min(deadline,usage?.deadlineAt??deadline)});
     };
     const model:ModelGateway={complete:request=>{
       if(request.purpose==="restaurant_semantic_interpret")semanticAttempts.set(activeTurnId,(semanticAttempts.get(activeTurnId)??0)+1);
@@ -114,38 +130,51 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
     }};
     const browser=traceBrowserRuntime(observedBrowser,"TABLECHECK",traceEvent,sink);
     const witness=createWitnessReader({directory:join(slot,"witness"),budgetPath:dependencies.budgetPath,runId,fetch:dependencies.witnessFetch,now,requestTiming,beforeGET,...(dependencies.wait?{wait:dependencies.wait}:{}),...(dependencies.witnessIntervalMs!==undefined?{minIntervalMs:dependencies.witnessIntervalMs}:{})});
-    const witnesses:WitnessReceipt[]=[],turns:Array<{id:string;status:string;reason?:string}>=[];let failure:string|undefined,wallStart=performance.now(),elapsedMs=0;
+    const witnesses:WitnessReceipt[]=[],turns:Array<{id:string;status:string;reason?:string}>=[];let failure:string|undefined,wallStart=monotonicNow(),elapsedMs=0;
+    const userTurns:Array<{id:string;message:string;view:RestaurantCaseView}>=[];
     let deadlineTimer:ReturnType<typeof setTimeout>|undefined;
+    const beginTurn=(id:string)=>{
+      if(turnBudgets.length>=3)throw Error("G6 slot user-turn ceiling reached");
+      if(deadlineTimer)clearTimeout(deadlineTimer);
+      activeTurnId=id;turnWallStart=monotonicNow();turnFinished=false;
+      const startedAtMs=clock.now().valueOf();activeBudget={id,startedAtMs,deadlineAtMs:startedAtMs+500_000,elapsedMs:0,modelCalls:0,googleRequests:0,exceeded500Seconds:false};turnBudgets.push(activeBudget);
+      deadlineTimer=setTimeout(()=>{void session?.application.stopActiveReads();},500_000);
+    };
+    const endTurn=()=>{
+      if(activeBudget&&!turnFinished){activeBudget.elapsedMs=monotonicNow()-turnWallStart;activeBudget.exceeded500Seconds=activeBudget.elapsedMs>500_000;turnFinished=true;}
+      if(deadlineTimer){clearTimeout(deadlineTimer);deadlineTimer=undefined;}
+    };
     try{
       if(spec.witness){
         const w=spec.witness,key=JSON.stringify([w.sourceEntityId,w.date,w.time,w.partySize]),cached=certifications.get(key);
         const before=cached&&now()-Date.parse(cached.checkedAt)<86_400_000?cached:await witness.read(w,"BEFORE",true);
         witnesses.push(before);if(before.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Availability certification is required for this witness");if(before.exists===false)throw Error("WITNESS_NO_LONGER_EXISTS: no Live was started");certifications.set(key,before);
       }
-      wallStart=performance.now();episodeDeadline=clock.now().valueOf()+500_000;
+      wallStart=monotonicNow();
       if(pack.mode==="LIVE_READ")await chargeG6(dependencies.budgetPath,runId+":LIVE","fullLive","Frozen G6 serial slot; browser, decisions and Google recording on");
-      let modelCalls=0;
-      const boundedModel:ModelGateway={async complete(request){if(++modelCalls>50)throw Error("G6 slot model ceiling reached");
-        if(performance.now()-wallStart>=500_000)throw Error("G6 slot deadline reached before model transmission");
-        if(pack.mode==="LIVE_READ")await chargeG6(dependencies.budgetPath,runId+":MODEL:"+modelCalls,"realModelCalls",request.purpose);
+      const boundedModel:ModelGateway={async complete(request){
+        if(!activeBudget||turnFinished||activeBudget.modelCalls>=50||modelCalls>=150)throw Error("G6 turn/slot model ceiling reached before transmission");
+        if(monotonicNow()-turnWallStart>=500_000)throw Error("G6 user-turn deadline reached before model transmission");
+        activeBudget.modelCalls++;modelCalls++;
+        if(pack.mode==="LIVE_READ")await chargeG6(dependencies.budgetPath,runId+":MODEL:"+modelCalls,"realModelCalls",request.purpose,pack.witnessGETLimit!==undefined);
         return model.complete(request);
       }};
-      session=await createG6Session({...raw,model:boundedModel,browser,episode:{deadlineAtMs:episodeDeadline,remainingModelCalls:()=>Math.max(0,50-modelCalls)}});
-      deadlineTimer=setTimeout(()=>{void session?.application.stopActiveReads();},Math.max(1,500_000-(performance.now()-wallStart)));
-      view=await session.create(spec.request);
+      session=await createG6Session({...raw,model:boundedModel,browser});beginTurn("INITIAL");
+      view=await session.create(spec.request);endTurn();userTurns.push({id:"INITIAL",message:spec.request,view:structuredClone(view)});
       for(const step of spec.followups){
         if(!await hasTrigger(view,step.trigger,()=>session!.application.exportReadArtifact(view!.case.caseId))){turns.push({id:step.id,status:"NOT_SENT",reason:"AUTHORITATIVE_STATE_TRIGGER_NOT_MET"});continue;}
-        if(performance.now()-wallStart>=480_000){turns.push({id:step.id,status:"NOT_SENT",reason:"SLOT_CONCLUSION_RESERVE"});continue;}
         const current=view;
-        activeTurnId=step.id;activeTurn=step.kind==="PAGE_QUESTION"?"FOLLOWUP_QUESTION":"FOLLOWUP_MESSAGE";
+        activeTurn=step.kind==="PAGE_QUESTION"?"FOLLOWUP_QUESTION":"FOLLOWUP_MESSAGE";
         if(step.kind==="PAGE_QUESTION"){
           const id=current.restaurant.presentedCandidateIds?.[0];if(!id){turns.push({id:step.id,status:"NOT_SENT",reason:"NO_DISPLAYED_OUTLET"});continue;}
+          beginTurn(step.id);
           await session.finished(()=>session!.application.askRestaurantQuestion({userId:G6_USER,caseId:current.case.caseId,candidateId:id,question:step.text,requestId:step.id,expectedVersion:current.case.taskVersion}));
-        }else await session.finished(()=>session!.application.submitMessage({userId:G6_USER,conversationId:current.case.conversationId,message:step.text,requestId:step.id,expectedVersion:current.case.taskVersion,
+        }else {beginTurn(step.id);await session.finished(()=>session!.application.submitMessage({userId:G6_USER,conversationId:current.case.conversationId,message:step.text,requestId:step.id,expectedVersion:current.case.taskVersion,
           ...(current.restaurant.presentedCandidateIds?.[0]?{viewContext:{view:"DETAILS" as const,candidateId:current.restaurant.presentedCandidateIds[0],comparedCandidateIds:[]}}:{})}));
-        view=await session.view(current.case.caseId);turns.push({id:step.id,status:"SENT"});
+        }
+        view=await session.view(current.case.caseId);endTurn();turns.push({id:step.id,status:"SENT"});userTurns.push({id:step.id,message:step.text,view:structuredClone(view)});
       }
-      elapsedMs=performance.now()-wallStart;if(deadlineTimer){clearTimeout(deadlineTimer);deadlineTimer=undefined;}
+      elapsedMs=monotonicNow()-wallStart;if(deadlineTimer){clearTimeout(deadlineTimer);deadlineTimer=undefined;}
       const deliveries=displayed(view);
       // Each delivered Tabelog store is checked immediately and independently;
       // this precedes evaluation and the next slot, never opens the B1 link.
@@ -157,13 +186,14 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       if(!deliveries.length&&spec.witness)witnesses.push(witnesses[0]?.exists===null?await witness.readDetail(spec.witness,"NO_DELIVERY_AFTER"):await witness.read(spec.witness,"NO_DELIVERY_AFTER",true));
       const result=await session.application.exportReadArtifact(view.case.caseId);
       const question=view.restaurant.pageQuestion?.result;
+      const qualification=observedQualificationEvidence(view,runId,snapshots,identities);
       const input:G6EvaluationInput={runId,caseId:view.case.caseId,mode:pack.mode,artifactRefs:[join(slot,"execution.result.json")],request:spec.oracle.request,
-        delivered:deliveries,handoffs:view.restaurant.bookingHandoffs??[],answers:question?[{...question,citations:question.status==="UNVERIFIED"?[]:question.citations}]:[],pages:bindOraclePages(spec,view,runId,snapshots),vacancy:[...capturedVacancies(snapshots,deliveries),...witnesses.flatMap(w=>w.vacancy?[w.vacancy]:[])],
+        delivered:deliveries,handoffs:view.restaurant.bookingHandoffs??[],answers:question?[{...question,citations:question.status==="UNVERIFIED"?[]:question.citations}]:[],pages:[...bindOraclePages(spec,view,runId,snapshots),...qualification.pages],qualificationClaims:qualification.claims,vacancy:[...capturedVacancies(snapshots,deliveries),...witnesses.flatMap(w=>w.vacancy?[w.vacancy]:[])],
         requests:forwarded,
         ...(spec.oracle.questions?{questions:spec.oracle.questions.flatMap(q=>{const candidateId=oracleCandidateId(spec,q.candidateId,view!);return candidateId?[{...q,candidateId}]:[];})}:{}),...(spec.oracle.qualificationOracles?{qualificationOracles:spec.oracle.qualificationOracles}:{}),...(spec.oracle.priceOracles?{priceOracles:spec.oracle.priceOracles}:{}),
         ...(spec.oracle.reviewedReadRules?{reviewedReadRules:spec.oracle.reviewedReadRules}:{}),
         ...(spec.witness&&witnesses[0]?.exists===true?{witnesses:[spec.witness]}:{}),boundedNoResult:hasBoundedNoResultConclusion(view.conversation.messages.filter(m=>m.role==="ASSISTANT").at(-1)?.content??""),
-        deadline:{elapsedMs,readStartsInReserve:readStarts.filter(r=>r.kind!=="CONCLUSION_MODEL"&&r.atMs>=r.deadlineAtMs-20_000).length,termsStartsInReserve:readStarts.filter(r=>(r.kind==="TERMS_READ"||r.kind==="TERMS_MODEL")&&r.atMs>=r.deadlineAtMs-20_000).length}};
+        deadline:{elapsedMs,turns:turnBudgets,readStartsInReserve:readStarts.filter(r=>r.kind!=="CONCLUSION_MODEL"&&r.atMs>=r.deadlineAtMs-20_000).length,termsStartsInReserve:readStarts.filter(r=>(r.kind==="TERMS_READ"||r.kind==="TERMS_MODEL")&&r.atMs>=r.deadlineAtMs-20_000).length}};
       const presentedConditions=Object.entries(view.restaurant.conditionStates??{}).filter(([id])=>deliveries.some(d=>d.candidateId===id));
       input.priceClaims=presentedConditions.flatMap(([candidateId,conditions])=>conditions.filter(c=>c.strength==="HARD"&&(c.sources.some(s=>s.field==="PRICE")||/yen|jpy|円|¥|budget|price/iu.test(c.text))).map(c=>({candidateId,hardStatus:c.status,
         quoteRefs:(spec.oracle.priceOracles??[]).filter(o=>o.candidateId===candidateId&&c.sources.some(s=>s.quote===o.quote)).map(o=>o.ref)})));
@@ -172,13 +202,15 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
         return evidence?[{text:s.quote,url:s.sourceUrl,readAt:evidence.observedAt}]:[];
       })})));
       const evaluation=evaluateG6(input);await writeFile(join(slot,"execution.result.json"),JSON.stringify({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,runId,view,execution:result,turns,witnesses,recordingConfig:pack.recording},null,2)+"\n",{flag:"wx"});
-      await writeFile(join(slot,"boundary-observation.json"),JSON.stringify({...reserveObservations(0,elapsedMs,readStarts,input.requests.map(r=>({...r,forbidden:/yoyaku|payment|checkout|confirmation/iu.test(new URL(r.url).pathname)}))),googleRequests:googleCalls,modelCalls,semanticAttemptsByTurn:Object.fromEntries(semanticAttempts),semanticSchemaRetries:[...semanticAttempts.values()].reduce((n,c)=>n+Math.max(0,c-1),0)},null,2)+"\n",{flag:"wx"});
+      await writeFile(join(slot,"boundary-observation.json"),JSON.stringify({...reserveObservations(0,elapsedMs,readStarts,input.requests.map(r=>({...r,forbidden:/yoyaku|payment|checkout|confirmation/iu.test(new URL(r.url).pathname)}))),exceeded500Seconds:turnBudgets.some(t=>t.exceeded500Seconds),limits:{perTurn:{milliseconds:500_000,models:50,google:40},slot:{turns:3,models:150,google:120}},turnBudgets,googleRequests:googleCalls,modelCalls,semanticAttemptsByTurn:Object.fromEntries(semanticAttempts),semanticSchemaRetries:[...semanticAttempts.values()].reduce((n,c)=>n+Math.max(0,c-1),0)},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"evaluation.input.json"),JSON.stringify(input,null,2)+"\n",{flag:"wx"});await writeFile(join(slot,"evaluation.json"),JSON.stringify(evaluation,null,2)+"\n",{flag:"wx"});
       receipts.push({id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":evaluation.verdict.status==="NOT_EVALUATED"?"RECORDED_NOT_EVALUATED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
     }catch(error){failure=error instanceof Error?error.message:"G6_RUN_FAILED";stopReason=failure;receipts.push({id:spec.id,status:"FAILED",path:slot,reason:failure});
-      await writeFile(join(slot,"failure.json"),JSON.stringify({failure,turns,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})},null,2)+"\n",{flag:"wx"});
+      endTurn();await writeFile(join(slot,"failure.json"),JSON.stringify({failure,turns,turnBudgets,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})},null,2)+"\n",{flag:"wx"});
     }finally{
-      if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();if(pack.mode==="LIVE_READ")await recordG6SourceCounts(dependencies.budgetPath,runId+":SOURCE_IO",googleCalls,forwarded.length);const decisions=await capture.finish(failure),recorded=await recording.finish();
+      if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();
+      await writeFile(join(slot,"user-turns.json"),JSON.stringify({schemaVersion:"phase3b-g6-user-turns@1",runId,turns:userTurns,budgets:turnBudgets},null,2)+"\n",{flag:"wx"});
+      if(pack.mode==="LIVE_READ")await recordG6SourceCounts(dependencies.budgetPath,runId+":SOURCE_IO",googleCalls,forwarded.length);const decisions=await capture.finish(failure),recorded=await recording.finish();
       await writeFile(join(slot,"browser-trace.json"),JSON.stringify({schemaVersion:"phase3b-g6-browser-trace@1",runId,events:trace},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"recording-observation.json"),JSON.stringify({recordingConfig:pack.recording,decisions,...recordingQualification(recorded)},null,2)+"\n",{flag:"wx"});
     }
@@ -190,6 +222,6 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
 export async function loadG6Pack(path:string,sha256:string):Promise<G6Pack>{
   const raw=await readFile(path);if(createHash("sha256").update(raw).digest("hex")!==sha256)throw Error("Frozen G6 pack SHA mismatch; no execution");
   const pack=JSON.parse(raw.toString()) as G6Pack;if(pack.schemaVersion!=="phase3b-g6-pack@1"||!["FIXTURE","LIVE_READ"].includes(pack.mode)||!pack.recording?.browser||!pack.recording.decisions||!pack.recording.googleResponses||!Array.isArray(pack.cases)||!pack.cases.length||pack.cases.length>26)throw Error("Unsupported or incomplete frozen G6 pack");
-  for(const c of pack.cases)if(!c.id||!c.request?.trim()||!Array.isArray(c.followups)||!Array.isArray(c.oracle?.pages)||!Array.isArray(c.oracle.request?.dates)||c.followups.some(f=>!["DISPLAYED_RESULTS","DISPLAYED_AVAILABLE","ASKED_FOR_DATE","ASKED_FOR_PARTY"].includes(f.trigger)||!["MESSAGE","PAGE_QUESTION"].includes(f.kind)||!f.text?.trim()))throw Error("Invalid frozen G6 case");
+  for(const c of pack.cases)if(!c.id||!c.request?.trim()||!Array.isArray(c.followups)||c.followups.length>2||!Array.isArray(c.oracle?.pages)||!Array.isArray(c.oracle.request?.dates)||c.followups.some(f=>!["DISPLAYED_RESULTS","DISPLAYED_AVAILABLE","ASKED_FOR_DATE","ASKED_FOR_PARTY"].includes(f.trigger)||!["MESSAGE","PAGE_QUESTION"].includes(f.kind)||!f.text?.trim()))throw Error("Invalid frozen G6 case");
   return pack;
 }

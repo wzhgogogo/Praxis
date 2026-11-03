@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "g6-independent-reviewer-judgment@1",
+  "case": "D4",
+  "reviewer": "independent reviewer (Claude)",
+  "reviewDateCET": "2026-11-03",
+  "authority": "User self-contained review of 76976645; original evaluation unchanged",
+  "originalEvaluationPath": ".eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/runs/D4/evaluation.json",
+  "originalEvaluationSHA256": "cfc383135f7f29e1ad6b829d1fca07bcba25f4a52180204586769b291b14d7bd",
+  "originalVerdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "NOT_EVALUATED",
+    "stopBatch": true
+  },
+  "findings": {
+    "B1_SOURCE_URL": "PASS",
+    "qualification": "MET",
+    "S0": 0,
+    "menuQuote": "揚げ物メニュー：串カツ、アジフライなど",
+    "qualificationBasis": "Merchant menu explicitly offers kushikatsu; never claim a specialty restaurant. Visible card must retain the factual quote.",
+    "G1Followup": "NOT_SENT under former shared slot reserve; Runner defect assigned to A",
+    "conditionProjection": "HARD NOT_CHECKED vs eligible discrepancy assigned to B; no product change by A"
+  },
+  "batchStop": "CORRECT_UNDER_FROZEN_PREVIOUS_RULES",
+  "newQualificationRule": "QUOTE_VERIFIED_MEANING_PENDING_REVIEW after same-outlet literal source verification; no safety stop merely for meaning review",
+  "noHistoricalScoresChanged": true
+}

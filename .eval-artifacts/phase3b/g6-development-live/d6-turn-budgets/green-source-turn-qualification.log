@@ -1,0 +1,29 @@
+✔ G6 development model ceiling remains 400 across slots and independent user turns (3.740791ms)
+✖ G6 D4 original five-parameter source capture proves the exact B1 URL without relaxing the four-parameter post witness (19325.287583ms)
+✔ G6 D4 non-witness literal quote is safe pending meaning review; absent or wrong-shop quotes remain S0 (47.001833ms)
+✔ G6 safety-only batch stop preserves every historical D3 score (0.929458ms)
+✔ G6 safety-only batch stop preserves every historical D1 score (5.128083ms)
+✔ G6 each user message receives a fresh read budget after an initial 483-second read (884.679458ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19494.287584
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/evaluator.test.ts:1:2329
+✖ G6 D4 original five-parameter source capture proves the exact B1 URL without relaxing the four-parameter post witness (19325.287583ms)
+  AssertionError [ERR_ASSERTION]: false == true
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/evaluator.test.ts:36:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

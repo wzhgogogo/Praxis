@@ -7,8 +7,20 @@ import { runG6Batch } from "./runner.js";
 import { g6Fixture } from "./fixtures.js";
 import { hasBoundedNoResultConclusion } from "./evaluator.js";
 import { createWitnessReader } from "./witness.js";
+import { chargeG6 } from "./budget.js";
 
 const ledger={entries:[],limits:{evaluationPublicGET:20},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}};
+test("G6 development model ceiling remains 400 across slots and independent user turns",async()=>{
+  // LOCAL_CONSTRUCTION ledger only; no model/network provider is used.
+  const dir=await mkdtemp(join(resolve(".eval-artifacts"),"g6-development-model-cap-")),path=join(dir,"budget.json");
+  try{
+    await writeFile(path,JSON.stringify({entries:[{id:"g6-D1-historical:MODEL:1",realModelCalls:399}],limits:{realModelCalls:1600},cumulative:{realModelCalls:640}}));
+    await chargeG6(path,"g6-D6-local:MODEL:1","realModelCalls","Local counter control",true);
+    const before=await readFile(path,"utf8");
+    await assert.rejects(chargeG6(path,"g6-D6-local:MODEL:2","realModelCalls","Must never transmit",true),/development.*400/iu);
+    assert.equal(await readFile(path,"utf8"),before,"Rejected 401st call cannot mutate the ledger");
+  }finally{await rm(dir,{recursive:true,force:true});}
+});
 test("G6 development freeze pins the reviewed W2 branch and original Wednesday, rejecting an expired date",()=>{
   const pack=developmentPack();assert.equal(pack.cases.length,8);assert.equal(pack.witnessGETLimit,20);
   for(const id of ["D2","D8"]){const w=pack.cases.find(c=>c.id===id)!.witness!;assert.equal(w.sourceEntityId,W2_SOURCE_ID);assert.equal(w.detailUrl,"https://tabelog.com/en/tokyo/A1301/A130101/13186922/");assert.notEqual(w.sourceEntityId,W2_EXCLUDED_SOURCE_ID);}

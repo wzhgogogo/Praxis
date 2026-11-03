@@ -1,0 +1,3 @@
+# User-approved D6 only. Three independent user reads, all three recordings on.
+# Execute after frozen-source verification, clean gates and fresh W1 import.
+node --env-file=/Users/wangzhour/Desktop/Wang/Git/Praxis-Zhixing/.env --import tsx src/eval/restaurant/agent-loop/g6/run-g6.ts --pack .eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/D6.pack.json --sha256 05e5c9e4ec0fd779c64bd72b09bb61acce4c7ae86321ed4173447fcb714f5d44 --evidence .eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/reviewed-evidence.json --evidence-sha256 61082896d186fc727fdcdbb5213ed6edfd8170b7d9841593304b96551848462a --output .eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/runs --record-browser --record-decisions

@@ -7,6 +7,32 @@ import { GooglePlacesClient } from "../../../../integrations/google/google-place
 import { g6Fixture } from "./fixtures.js";
 import { runG6Batch,loadG6Pack,type G6Pack } from "./runner.js";
 
+test("G6 each user message receives a fresh read budget after an initial 483-second read",async()=>{
+  // LOCAL_CONSTRUCTION: actual Live factory/persistence/G1, only transport and clock replaced.
+  const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-fresh-turn-")),f=await g6Fixture(),s=f.source;
+  const budgetPath=join(dir,"budget.json");await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:5},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}}));
+  let advanced=false,questions=0;
+  const model={async complete(request:Parameters<typeof f.model.complete>[0]){
+    const response=await f.model.complete(request);
+    if(request.purpose==="restaurant_agent_decide"&&!advanced&&JSON.parse(response.outputText).type==="PRESENT_RESULTS"){advanced=true;f.clock.advance(483_000);}
+    if(request.purpose==="restaurant_page_question")questions++;
+    return response;
+  }};
+  const id="praxis:restaurant:bd287442c716ac7439273cc9",pack:G6Pack={schemaVersion:"phase3b-g6-pack@1",mode:"FIXTURE",recording:{browser:true,decisions:true,googleResponses:true},cases:[{id:"fresh-turn",request:s.initialRequest,followups:[{id:"room",trigger:"DISPLAYED_RESULTS",kind:"PAGE_QUESTION",text:s.question}],oracle:{request:{dates:[s.date],time:s.time,partySize:2},pages:[{ref:"merchant",candidateId:id,url:s.pageUrl,name:s.outlet.name,address:s.outlet.address,merchantText:s.merchantQuote,observedLinks:[]}],questions:[{candidateId:id,expected:"ANSWERED",approvedAnswers:[s.merchantQuote]}]}}]};
+  try{
+    await runG6Batch(pack,{budgetPath,monotonicNow:()=>f.clock.now().valueOf(),witnessFetch:async()=>new Response(JSON.stringify(s.vacancy.body)),async transports(_case,_recording,hooks){return {model,browser:f.browser,google:new GooglePlacesClient({apiKey:"local-only",fetchImplementation:hooks.googleFetch(f.googleFetch)}),clock:f.clock};}},join(dir,"runs"));
+    assert.equal(advanced,true,"The initial read must reach its reserve before the follow-up");
+    assert.equal(questions,1,"A new user message must call G1 after the initial read has spent 483 seconds");
+    const run=JSON.parse(await readFile(join(dir,"runs/fresh-turn/execution.result.json"),"utf8"));
+    assert.equal(run.turns[0].status,"SENT");assert.equal(run.view.restaurant.pageQuestion.result.status,"ANSWERED");
+    const boundary=JSON.parse(await readFile(join(dir,"runs/fresh-turn/boundary-observation.json"),"utf8"));
+    assert.equal(boundary.turnBudgets.length,2);assert.equal(boundary.turnBudgets[1].deadlineAtMs-boundary.turnBudgets[1].startedAtMs,500_000);
+    assert.ok(boundary.turnBudgets[1].startedAtMs>=boundary.turnBudgets[0].startedAtMs+483_000);
+    assert.equal(boundary.turnBudgets[1].modelCalls,1);assert.equal(boundary.turnBudgets[0].exceeded500Seconds,false);assert.equal(boundary.turnBudgets[1].exceeded500Seconds,false);
+    assert.equal(boundary.sourceReadsStartedInReserve,0,"The fresh turn must be measured against its own reserve");
+  }finally{await rm(dir,{recursive:true,force:true});}
+});
+
 test("G6 records a safe unassessed clarification and continues to the next full Live-assembly slot",async()=>{
   // LOCAL_CONSTRUCTION, only model transmission and source I/O are replaced.
   const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-safe-continuation-")),base=await g6Fixture(),s=base.source;
