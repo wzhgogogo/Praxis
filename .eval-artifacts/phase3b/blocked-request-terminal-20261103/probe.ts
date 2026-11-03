@@ -49,7 +49,7 @@ async function run(mode:'control'|'main'|'branch',path:string,isolatedRoute=fals
  context.on('requestfailed',r=>{const row=pwMap.get(r);if(row){row.endMs=now();row.outcome='FAILED';row.error=r.failure()?.errorText}});
  context.on('response',r=>{const row=pwMap.get(r.request());if(row)row.status=r.status()});
  const route=context.route.bind(context);context.route=async(pattern:any,handler:any)=>route(pattern,async raw=>handler(new Proxy(raw,{get(target,key){
-  const member=Reflect.get(target,key);if(['abort','continue','fulfill','fallback'].includes(String(key)))return async(...args:any[])=>{const row={method:String(key),url:target.request().url(),startMs:now(),endMs:null as number|null};routeActions.push(row);try{return await member.apply(target,args)}finally{row.endMs=now()}};
+  const member=Reflect.get(target,key);if(['abort','continue','fulfill','fallback'].includes(String(key)))return async(...args:any[])=>{const row={method:String(key),url:target.request().url(),startMs:now(),argument:typeof args[0]==='string'?args[0]:null,endMs:null as number|null};routeActions.push(row);try{return await member.apply(target,args)}finally{row.endMs=now()}};
   return typeof member==='function'?member.bind(target):member;
  }})));
  const open=context.newCDPSession.bind(context);context.newCDPSession=async(...args:any[])=>{
@@ -59,9 +59,9 @@ async function run(mode:'control'|'main'|'branch',path:string,isolatedRoute=fals
   s.on('Network.responseReceived',e=>{const row=network.get(`${session}:${e.requestId}`);if(row){row.status=e.response.status;row.responseHeadersMs=now()}});
   s.on('Network.loadingFinished',e=>{const row=network.get(`${session}:${e.requestId}`);if(row){row.endMs=now();row.protocolEnd=e.timestamp;row.outcome='FINISHED'}});
   s.on('Network.loadingFailed',e=>{const row=network.get(`${session}:${e.requestId}`);if(row){row.endMs=now();row.protocolEnd=e.timestamp;row.outcome='FAILED';row.error=e.errorText;row.blockedReason=e.blockedReason??null}});
-  s.on('Fetch.requestPaused',e=>pauses.push({session,id:e.requestId,url:e.request.url,type:e.resourceType,responseStatus:e.responseStatusCode??null,atMs:now()}));
+  s.on('Fetch.requestPaused',e=>pauses.push({session,id:e.requestId,url:e.request.url,type:e.resourceType,networkId:e.networkId??null,redirectedRequestId:e.redirectedRequestId??null,responseStatus:e.responseStatusCode??null,atMs:now()}));
   const send=s.send.bind(s);s.send=async(method:any,params:any)=>{
-   const row={session,method,id:params?.requestId??null,atMs:now(),doneMs:null as number|null,error:null as string|null,dropped:false};commands.push(row);
+   const row={session,method,id:params?.requestId??null,atMs:now(),doneMs:null as number|null,error:null as string|null,errorReason:params?.errorReason??null,interceptResponse:params?.interceptResponse??null,dropped:false};commands.push(row);
    if(isolatedRoute&&method==='Fetch.enable'){row.dropped=true;row.doneMs=now();return {} as any}
    if(dropFail&&method==='Fetch.failRequest'){row.dropped=true;row.doneMs=now();return {} as any}
    try{return await send(method,params)}catch(e){row.error=String(e);throw e}finally{row.doneMs=now()}
