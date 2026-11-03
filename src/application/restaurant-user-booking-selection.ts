@@ -43,7 +43,10 @@ export function userBookingCandidate(state: RestaurantTaskState, request: UserBo
   const target = state.intentDraft?.target;
   if (!target || target.selectionScope !== "SPECIFIC_OUTLET" || name(target.query) !== name(request.query)
     || !["SEARCHING", "SELECTION_REQUIRED"].includes(state.phase)) return;
-  const matches = state.candidates.filter(candidate => name(candidate.restaurant.outletName) === name(target.query));
+  const matches = state.candidates.filter(candidate => name(candidate.restaurant.outletName) === name(target.query)
+    ||state.readEvidence.some(e=>e.kind==="DISCOVERY"&&e.candidateId===candidate.restaurant.id
+      &&typeof e.claims.requestedOutletName==="string"&&name(e.claims.requestedOutletName)===name(target.query)
+      &&namedOutletCandidateResolved(state,candidate.restaurant.id)));
   if (matches.length !== 1) return;
   const candidateId = matches[0]!.restaurant.id;
   if(!namedOutletCandidateResolved(state,candidateId))return;

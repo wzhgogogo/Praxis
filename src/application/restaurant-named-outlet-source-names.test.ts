@@ -31,6 +31,12 @@ test("an identity-confirmed Tabelog full page name resolves even when Google nam
   }finally{await f.close();}
 });
 
+test("a sole containing name with cuisine and branch suffixes resolves after identity even without an exact source full name",async()=>{
+  const f=await bookingTermsComposition({namedWithoutArea:{outputText:await original(),sourceNames:{google:await google(),pageName:"Dengana Akabane"}}});
+  try{const v=await f.initial();await capture(f,"CONTAINMENT_ONLY");assert.equal(v.case.phase,"PRESENT_RESULTS");assert.ok(v.restaurant.bookingHandoffs?.length);assert.equal(v.restaurant.selectedCandidateId,v.restaurant.presentedCandidateIds![0]);}
+  finally{await f.close();}
+});
+
 test("two containment candidates ask instead of choosing a branch",async()=>{
   const f=await bookingTermsComposition({namedWithoutArea:{outputText:await original(),sourceNames:{google:await google(),twoCandidates:true}}});
   try{const v=await f.initial();await capture(f,"TWO_CONTAINED");assert.equal(v.restaurant.candidates.length,2);assert.equal(v.case.phase,"NEEDS_INPUT");assert.equal(v.restaurant.selectedCandidateId,undefined);assert.deepEqual(v.restaurant.availabilityChecks,{});assert.deepEqual(v.restaurant.bookingHandoffs,[]);}

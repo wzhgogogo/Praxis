@@ -3,7 +3,7 @@ import { assessRestaurantConditions, priceCondition } from "./condition-states.j
 import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
-import {namedOutletCandidateResolved} from "./named-outlet-resolution.js";
+import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate} from "./named-outlet-resolution.js";
 
 /**
  * A pure, Domain-owned view of what the current read evidence proves and
@@ -253,10 +253,15 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     const hasExpiredDisplayEvidence = check?.status === "AVAILABLE" && !isDisplayFresh(check.displayExpiresAt, now);
     return { candidateId, eligible: false, missingReason: evidence.reason, ...(hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}) };
   });
-  if(state.candidates.some(c=>!namedOutletCandidateResolved(state,c.restaurant.id)))return {
-    presentation,factInvestigableCandidateIds:[],checkableCandidateIds:[],investigationRecorded:state.searchRevision>0,
-    canEndRead:false,endReadBlockReason:"The named outlet is ambiguous or unconfirmed. Ask which branch or area the user means before selecting or reading availability.",unresolvedCandidateIds:state.candidates.map(c=>c.restaurant.id),
-  };
+  if(state.candidates.some(c=>!namedOutletCandidateResolved(state,c.restaurant.id))){
+    const possible=state.candidates.filter(c=>namedOutletCandidateCanInvestigate(state,c.restaurant.id)).map(c=>c.restaurant.id);
+    return {presentation,
+      factInvestigableCandidateIds:completeRestaurantIntent(state.intentDraft)?[]:possible.filter(id=>!state.factChecks?.[id]),
+      checkableCandidateIds:completeRestaurantIntent(state.intentDraft)?possible.filter(id=>!state.availabilityChecks[id]):[],
+      investigationRecorded:state.searchRevision>0,canEndRead:false,
+      endReadBlockReason:"The named outlet is not confirmed. A sole contained name may be read for identity; otherwise ask which branch or area the user means. No selection or presentation is allowed yet.",
+      unresolvedCandidateIds:state.candidates.map(c=>c.restaurant.id)};
+  }
   if (immediateRequestWindowExpired(state, now)) {
     const internalFailure = state.failure && /^(AGENT_|SEMANTIC_|BROWSER_RUNTIME|BROWSER_TIMEOUT)/.test(state.failure.code);
     return { presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [],

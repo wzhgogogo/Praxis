@@ -2,7 +2,7 @@ import {restaurantReadActionFits,restaurantReadClosing} from "./read-time-reserv
 import type { RestaurantAgentAction } from "./agent-action.js";
 import { type AvailabilityOffer, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
-import {namedOutletCandidateResolved} from "./named-outlet-resolution.js";
+import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate} from "./named-outlet-resolution.js";
 import {
   assessRestaurantRead, immediateRequestWindowExpired,
   distinctDiscoveryResultCandidateIds,
@@ -159,7 +159,8 @@ export function validateRestaurantAction(
   if (action.type === "ASK_USER") return defaultBatchDeliveryWindowActive(state,now) ? rejected('PRESENTATION_READY','Present existing qualified results in the closing window') : { status: "ALLOWED" };
   const namedTargets=action.type==="SELECT_CANDIDATE"?[action.candidateId]
     :action.type==="CHECK_AVAILABILITY"||action.type==="INVESTIGATE_CANDIDATE_FACTS"?action.candidateIds:[];
-  if(namedTargets.some(id=>!namedOutletCandidateResolved(state,id)))return rejected("SELECTION_REQUIRED","Confirm which named branch the user means before selecting or reading it");
+  if(namedTargets.some(id=>!namedOutletCandidateResolved(state,id)
+    &&!(action.type!=="SELECT_CANDIDATE"&&namedOutletCandidateCanInvestigate(state,id))))return rejected("SELECTION_REQUIRED","Confirm which named branch the user means before selecting or reading it");
   if (["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY"].includes(action.type) && restaurantReadBudgetExhausted(state, budget))
     return rejected("READ_BUDGET_EXHAUSTED", "The current read has no browser/global model budget remaining");
 

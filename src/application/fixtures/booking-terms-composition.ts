@@ -37,7 +37,7 @@ interface Options {
   unverifiedHard?:boolean;
   beforePresent?:()=>Promise<void>;
   namedWithoutArea?: {outputText:string;scenario?:"AMBIGUOUS"|"MISSING"|"UNRELATED"|"BRANCH"|"OUTSIDE_TOKYO";openEnded?:boolean;
-    sourceNames?:{google:Record<string,unknown>;identityConflict?:boolean;twoCandidates?:boolean}};
+    sourceNames?:{google:Record<string,unknown>;identityConflict?:boolean;twoCandidates?:boolean;pageName?:string}};
   beforeTerms?:(deadlineAt:string)=>void;
   afterFactControls?:(url:string)=>void;
   onFactNavigate?:(url:string,signal:AbortSignal)=>Promise<void>;
@@ -57,6 +57,7 @@ export async function bookingTermsComposition(options:Options={}){
   if(options.namedWithoutArea?.sourceNames){
     // The D1 Google fields remain independent of the constructed source page.
     source.outlet.id=options.namedWithoutArea.sourceNames.google.id;
+    if(options.namedWithoutArea.sourceNames.pageName)source.outlet.name=options.namedWithoutArea.sourceNames.pageName;
     if(options.namedWithoutArea.sourceNames.identityConflict)Object.assign(source.outlet,{address:"東京都北区赤羽2-99-99 別ビル8F",phone:"03-5249-4999"});
   }
   const provider=options.provider??"TABELOG",url=provider==="TABELOG"?source.pageUrl:source.tablecheck.pageUrl;
@@ -114,7 +115,8 @@ export async function bookingTermsComposition(options:Options={}){
           else body={...strictAction("ASK_USER"),question:"Which branch or area do you mean?",relatedFields:["area"]};
         }
         else if(!context.availability[id]?.length)body=strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1)??[]);
-        else body=strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId));
+        else body=context.presentation.some(p=>p.eligible)?strictAction("PRESENT_RESULTS",context.presentation.filter(p=>p.eligible).map(p=>p.candidateId))
+          :{...strictAction("ASK_USER"),question:"Which branch or area do you mean?",relatedFields:["area"]};
       }else if(options.unverifiedHard){
         body=!id?strictAction("SEARCH_RESTAURANTS")
           :!context.availability[id]?.length?strictAction("CHECK_AVAILABILITY",context.checkableCandidateIds?.slice(0,1)??[])

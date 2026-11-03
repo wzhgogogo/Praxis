@@ -6,7 +6,7 @@ import { createHash } from "node:crypto";
 
 import type { RestaurantCandidateFactPort, RestaurantSearchPort } from "../../application/restaurant-execution-router.js";
 import { googleDiscoveryGeoDiagnostics, groundGoogleDiscovery, type GoogleDiscoveryGroundingInput, type UntrustedGooglePlaceObservation } from "../../domains/restaurant/read-grounding.js";
-import { restaurantSearchIntentFingerprint, type RestaurantCandidateFactRequest, type RestaurantSearchContinuation, type RestaurantSearchRead, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
+import { restaurantSearchIntentFingerprint, type RestaurantCandidate, type RestaurantReadEvidence, type RestaurantCandidateFactRequest, type RestaurantSearchContinuation, type RestaurantSearchRead, type RestaurantSearchRequest } from "../../domains/restaurant/contracts.js";
 import { GooglePlacesClient } from "./google-places-client.js";
 import { GooglePlacesError, type GooglePlacesRawPlace, type GooglePlacesSourceName } from "./google-places-contracts.js";
 import {namedOutletWithoutArea,outletNameKey} from "../../domains/restaurant/named-outlet-resolution.js";
@@ -21,6 +21,11 @@ function possibleNamedOutlet(query:string,name:string):boolean {
   if(key===other||key.includes(other)||other.includes(key))return true;
   const grams=(text:string)=>new Set(Array.from({length:Math.max(0,text.length-1)},(_,i)=>text.slice(i,i+2)));
   const a=grams(key),b=grams(other);return 2*[...a].filter(g=>b.has(g)).length/Math.max(1,a.size+b.size)>=0.5;
+}
+
+function addressLocalities(observation:UntrustedGooglePlaceObservation):string[]{
+  return (observation.addressComponents??[]).filter(c=>c.types.some(t=>t==="locality"||t.startsWith("sublocality")||t.startsWith("administrative_area_level_")))
+    .flatMap(c=>[c.longText,...(c.shortText?[c.shortText]:[])]);
 }
 
 function coordinates(place: GooglePlacesRawPlace): { latitude?: number; longitude?: number } | undefined {
@@ -250,6 +255,22 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     return read;
   }
 
+  /** Reuse source results already read by this run; this does not issue a request. */
+  async observedSourceNames(candidates:readonly RestaurantCandidate[],readRunId:string|undefined):Promise<RestaurantReadEvidence[]>{
+    const names=this.japaneseNames.get(readRunId??"unscoped"),evidence:RestaurantReadEvidence[]=[];
+    for(const candidate of candidates){
+      const id=candidate.restaurant.sourceIds.googlePlaces,read=id?names?.get(id):undefined;
+      const name=await read?.catch(()=>undefined);
+      if(!id||!name||name.placeId!==id||!name.text.trim())continue;
+      evidence.push({evidenceId:`evidence:restaurant:google-source-name:${createHash("sha256").update(JSON.stringify([readRunId,id,name])).digest("hex").slice(0,24)}`,
+        candidateId:candidate.restaurant.id,kind:"ENTITY_MATCH",provider:"GOOGLE_PLACES",sourceEntityId:id,
+        sourceUrl:`https://places.googleapis.com/v1/places/${id}?languageCode=ja`,observedAt:this.now(),
+        requestFingerprint:JSON.stringify({placeId:id,languageCode:"ja"}),
+        claims:{placeId:id,outletName:name.text,sourceNameLanguage:name.languageCode??"UNSPECIFIED"},entityMatch:{confidence:"HIGH",matchedBy:["GOOGLE_PLACE_ID"]}});
+    }
+    return evidence;
+  }
+
   private readonly addressObservations = new Map<string, { point: string; read: Promise<{ addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>; addressObservation: import("../../domains/restaurant/contracts.js").LocationAddressObservation }> }>();
 
   async observeCoordinateAddress(location: { latitude: number; longitude: number }, readRunId: string | undefined, signal: AbortSignal) {
@@ -369,21 +390,31 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     if(first.nextPageToken)pages.push(await read(first.nextPageToken));
     signal.throwIfAborted();
     const key=outletNameKey(query);
+    const japanese=new Map<string,string>();
+    // A Japanese user name can be compared to the source's Japanese name,
+    // never to a model translation. Same cache/ceiling as both availability sources.
+    if(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(query))for(const place of pages.flatMap(p=>p.places).slice(0,this.maxResults)){
+      const id=string(place.id);
+      if(!id||possibleNamedOutlet(query,string(place.displayName?.text)??""))continue;
+      const name=await this.japaneseName(id,request.readRunId,signal);japanese.set(id,name.text);
+    }
     const candidates=[...new Map(pages.flatMap(page=>page.places).map(place=>[place.id,place])).values()].flatMap(place=>{
       const o=rawObservation(place);
       const prefectures=o.addressComponents?.filter(c=>c.types.includes("administrative_area_level_1"));
       const inTokyo=prefectures?.length?prefectures.some(c=>/^(?:tokyo(?:to)?|東京都)$/iu.test(c.longText.normalize("NFKC")))
         :/東京都|(?:^|[\s,])Tokyo(?:[\s,]|$)/iu.test(o.formattedAddress??"");
-      if(!inTokyo||!possibleNamedOutlet(query,o.displayName??""))return [];
+      if(!inTokyo||!possibleNamedOutlet(query,o.displayName??"")&&outletNameKey(japanese.get(o.placeId??"")??"")!==key)return [];
       const result=groundGoogleDiscovery(o,{timezone:request.intent.timezone,observedAt,requestFingerprint:restaurantSearchIntentFingerprint(request.intent),areaQuery:""});
-      return result.accepted?[result]:[];
+      return result.accepted?[{...result,evidence:{...result.evidence,claims:{...result.evidence.claims,
+        namedOutletLocalities:addressLocalities(o)}}}]:[];
     });
     const unique=candidates.length===1&&outletNameKey(candidates[0]!.candidate.restaurant.outletName)===key&&!pages.at(-1)!.nextPageToken;
     const status=unique?"UNIQUE":"AMBIGUOUS";
     const accepted=candidates.slice(0,this.maxResults);
+    const sourceNames=await this.observedSourceNames(accepted.map(r=>r.candidate),request.readRunId);
     return {candidates:accepted.map(r=>({...r.candidate,matchReasons:[`Location from named outlet resolution: ${r.candidate.restaurant.address}`],warnings:unique?[]:["Confirm which branch or area you mean; the outlet name is not uniquely resolved."]})),evidence:accepted.flatMap(r=>{
-      const {areaQuery:_area,areaMatch:_match,...claims}=r.evidence.claims;
-      return [{...r.evidence,claims:{...claims,locationBasis:"NAMED_OUTLET_RESOLUTION",namedOutletStatus:status,requestedOutletName:query,serviceArea:"Tokyo"}},...r.additionalEvidence];
+      const {areaQuery:_area,areaMatch:_match,...claims}=r.evidence.claims as RestaurantReadEvidence["claims"];
+      return [{...r.evidence,claims:{...claims,locationBasis:"NAMED_OUTLET_RESOLUTION",namedOutletStatus:status,requestedOutletName:query,serviceArea:"Tokyo",namedOutletCandidateCount:candidates.length,namedOutletSearchComplete:!pages.at(-1)!.nextPageToken}},...r.additionalEvidence,...sourceNames.filter(e=>e.candidateId===r.candidate.restaurant.id)];
     }),continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:first.nextPageToken?[first.nextPageToken]:[],pagesRead:pages.length,exhausted:true,sourceRequestContext:{textQuery},...(!unique&&accepted.length?{lastFailureCode:"ENTITY_MATCH_UNCERTAIN" as const}:{})},
       metadata:{provider:"GOOGLE_PLACES" as const,route:this.executionRoute,latencyMs:Date.now()-startedAt,googleRequests:this.googleRequestUsage(request.readRunId),
         googleGeoDiagnostics:{providerMode:"GOOGLE_TEXT_SEARCH",requestMode:"UNRESTRICTED",exactRadiusGate:"NOT_APPLICABLE",candidates:accepted.map(r=>({sourcePlaceId:r.candidate.restaurant.sourceIds.googlePlaces!,accepted:true,reasonCode:unique?"NAMED_OUTLET_UNIQUE":"NAMED_OUTLET_AMBIGUOUS"}))}}};
@@ -484,7 +515,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const groundPage = (places: typeof first.places) => places.map((place) => {
       const observation = rawObservation(place);
       const result = groundGoogleDiscovery(observation, groundingInput);
-      return { result, sourcePlaceId: observation.placeId, diagnostics: googleDiscoveryGeoDiagnostics(observation, groundingInput) };
+      return { result, observation, sourcePlaceId: observation.placeId, diagnostics: googleDiscoveryGeoDiagnostics(observation, groundingInput) };
     });
     const grounded = groundPage(first.places);
     // An initial read intentionally obtains at most two 20-result pages. A
@@ -522,7 +553,8 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     const named=request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?request.intent.target.query:undefined;
     const scoped=named?structural.filter(r=>r.evidence.claims.areaMatch===true&&possibleNamedOutlet(named,r.candidate.restaurant.outletName)):structural;
     const uniqueNamed=scoped.length===1&&outletNameKey(scoped[0]!.candidate.restaurant.outletName)===outletNameKey(named??"")&&!nextPageToken;
-    const acceptedGrounded=named?scoped.map(r=>({...r,evidence:{...r.evidence,claims:{...r.evidence.claims,requestedOutletName:named,namedOutletStatus:uniqueNamed?"UNIQUE":"AMBIGUOUS"}}})):scoped;
+    const acceptedGrounded=named?scoped.map(r=>({...r,evidence:{...r.evidence,claims:{...r.evidence.claims,requestedOutletName:named,namedOutletStatus:uniqueNamed?"UNIQUE":"AMBIGUOUS",namedOutletCandidateCount:scoped.length,namedOutletSearchComplete:!nextPageToken,
+      namedOutletLocalities:addressLocalities(grounded.find(g=>g.result.accepted&&g.result.candidate.restaurant.id===r.candidate.restaurant.id)!.observation)}}})):scoped;
     return {
       candidates: acceptedGrounded.map((result) => result.candidate),
       evidence: [...(namedLocation.evidence ? [namedLocation.evidence] : []), ...acceptedGrounded.flatMap((result) => [result.evidence, ...result.additionalEvidence])],
