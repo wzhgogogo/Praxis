@@ -1,5 +1,10 @@
 # Test and Verification Log
 
+<a id="named-outlet-continuity-20261103"></a>
+
+2026-11-03 CET：C D6具名连续性已取得守卫/组装/B1缓存有效红灯，当前相关63项全绿；原D6三回合语义及Agent字节不改，补人数后按选定Place ID重读/重绑，错误五店原PRESENT被拒；失败点名Ito，明确用户OPEN后才给其他店。历史Live按用户裁定S0=1次展示，旧A自动未评不改。引用从既有Runtime事件重建，State25/TaskDefinition23及Prompt不变，A/B保护文件未改。条款入口/上下文仅补同一名称守卫，读取/预算/20秒保留原样。最终五门禁/严格G2待运行，真实调用0、不读.env、只推新分支待复核。 [报告](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+
 <a id="named-outlet-main-verified-20261103"></a>
 
 2026-11-03 CET：C名称匹配ca18d02b经用户复核批准，已同步最新main d4d8ea33。abaf8266净树十步全绿：type/arch/build、默认1372/1372、Chromium188/188、严格G2全12页、独立16帧；源码与复核候选相同。账本A/C并集696条，累计含A的4 Live/321模型/270评测GET，C本轮新增0；上限不扩大、不读.env。按批准合入远端main并核对，具体发布SHA以Git回执为准；D6 S0另开分支修复，不能把本合入当作该S0已修。 [合入证据](../../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。

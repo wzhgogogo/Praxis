@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.49
+- Document revision: 3.50
 
 
 - Last updated: 2026-11-03
@@ -388,3 +388,11 @@ Per ADR-0049 revision 0.6, a source-prepared handoff is outwardly available only
 State25 / TaskDefinition23 admit a nonempty SPECIFIC_OUTLET lookup without AREA. Ordinary composition performs a bounded Google name lookup in the Tokyo service scope, retaining source address provenance as NAMED_OUTLET_RESOLUTION and never inventing user area/center/radius. The current user-approved name binding (2026-11-03) accepts an exact normalized full name from an identity-bound same-store source, or a sole possible Tokyo candidate whose whole names contain one another and whose extra terms are explicit cuisine/branch suffixes or literal address-supported localities. Locality terms must come from typed Google address components; building words are not treated as geography. Observed Google same-ID Japanese names and actual en/ja Tabelog/TableCheck page names are supported; no model translation or unlisted alias is invented. A sole contained candidate may enter the existing read-only identity/availability chain while unresolved, but selection, presentation and B1 remain blocked until the binding and existing source identity both pass. Multiple possible branches still require clarification. The original Google DISCOVERY status records the provisional lookup; current resolution is derived from its candidate count/search completeness and subsequently admitted source evidence. Similarity only retains clarification choices. The G4 identity comparator, G3 response binding and B1 two checks remain unchanged; OPEN_ENDED still needs an area. Later user AREA is authoritative, resets prior observations, and cannot replace the named venue with an unrelated local result. Both source handoff readers and terms contexts accept this complete intent without requiring an invented area.
 
 D3 original semantic bytes plus fixed external I/O prove the vertical slice; source pages are constructed controls, not a new real Dengana availability claim. The user separately approved five A-owned version/type synchronizations and only the AMBIGUOUS/PARTIAL handoff expectations. Final clean-tree gates and review are required; this branch does not merge main. [Evidence](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/report.md).
+
+## Named identity across party/date corrections (2026-11-03; implementation candidate)
+
+Every SPECIFIC_OUTLET request follows the named lookup route, with AREA used only to help verify that store. Without a lookup record, AREA no longer admits arbitrary candidates: an exact, unique identity-backed full source name is required. Existing normalized source-name/contained-name rules remain for fresh unanchored requests. User-bound provider IDs retain an observed source name across resets and permit a fresh same-ID display-name change without inventing an alias.
+
+The application reconstructs the user's chosen public source identity from existing Runtime events at the point of choice. Subsequent party-only messages retain it; an accepted new OPEN_ENDED target clears it. The transient SearchPort argument is omitted from the persisted SEARCH_COMPLETED.request. Google rereads the original Place ID; source-native references seed only cached discovery until G4 produces fresh identity and slots. Changed user area cannot inherit cached distance or become a fabricated area. No new State/Event field, migration or version change. Unmatched/unavailable results name the store/date/time/party and invite permission for alternatives.
+
+Presented candidate IDs, B1 projection, and terms entry/context enforce the same scope. Original cache contents and the two link validations remain. D6 raw semantics/Agent output bytes plus constructed source I/O exercise the ordinary assembly; not an exact HAR replay or a new Live claim. [Evidence](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md).

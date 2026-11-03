@@ -4,6 +4,7 @@ import test from "node:test";
 import {bookingTermsComposition} from "./fixtures/booking-terms-composition.js";
 import {namedOutletCandidateResolved,sameNamedOutletIdentity} from "../domains/restaurant/named-outlet-resolution.js";
 import {userBookingSelectionRequest} from "./restaurant-user-booking-selection.js";
+import {completeRestaurantSearchIntent} from "../domains/restaurant/intent-state.js";
 
 type Fixture=Awaited<ReturnType<typeof bookingTermsComposition>>;
 const input=async()=>JSON.parse(await readFile(new URL("./fixtures/named-outlet-continuity/inputs.json",import.meta.url),"utf8"));
@@ -12,10 +13,12 @@ async function capture(f:Fixture,label:string){const a=await f.artifact();if(pro
 test("D6 actual five unrelated source candidates never resolve a specific Ito request merely because AREA is present",async()=>{
   const data=await input();assert.equal(data.thirdOriginalNameState.intentDraft.target.query,"Ito Akabane");assert.ok(data.thirdOriginalNameState.intentDraft.area);
   assert.equal(data.thirdOriginalNameState.candidates.length,5);
+  const outcomes=[];
   for(const candidate of data.thirdOriginalNameState.candidates){
     assert.notEqual(candidate.restaurant.sourceIds.googlePlaces,"ChIJwUnGVR2TGGARNAEaZNumYhQ");
-    assert.equal(namedOutletCandidateResolved(data.thirdOriginalNameState,candidate.restaurant.id),false,candidate.restaurant.outletName);
+    const resolved=namedOutletCandidateResolved(data.thirdOriginalNameState,candidate.restaurant.id);outcomes.push({id:candidate.restaurant.id,name:candidate.restaurant.outletName,resolved});assert.equal(resolved,false,candidate.restaurant.outletName);
   }
+  if(process.env.PRAXIS_NAMED_CONTINUITY_CAPTURE==="1")console.log("NAMED_GUARD_RAW "+Buffer.from(JSON.stringify({requestedName:"Ito Akabane",outcomes})).toString("base64"));
 });
 
 for(const scenario of ["EXACT","RENAMED"] as const)test(`D6 original semantics and decisions keep the user-selected identity after party reset: ${scenario}`,async()=>{
@@ -54,6 +57,25 @@ test("source identity survives a rebuilt candidate ID, while same name/phone and
   assert.equal(sameNamedOutletIdentity({...reference,sourceIds:{phone:reference.sourceIds.phone}},reference),false);
   assert.equal(sameNamedOutletIdentity({...reference,sourceIds:{...reference.sourceIds,tabelog:"tokyo/A1323/A132305/13109596"}},reference),true);
   assert.equal(sameNamedOutletIdentity({...reference,sourceIds:{...reference.sourceIds,tabelog:"tokyo/A1323/A132305/13109597"}},reference),false);
+});
+
+test("a source-native selected ID seeds only its old discovery, then requires new identity and slots; a new area cannot inherit old distance",async()=>{
+  const data=await input(),state=data.thirdOriginalNameState,restaurant=state.candidates[0].restaurant;
+  const f=await bookingTermsComposition(),signal=new AbortController().signal;
+  try{
+    const intent=completeRestaurantSearchIntent({...state.intentDraft,target:{...state.intentDraft.target,query:restaurant.outletName}});assert.ok(intent);
+    const discovery=state.readEvidence.filter((e:{kind:string;candidateId?:string})=>e.kind==="DISCOVERY"&&e.candidateId===restaurant.id);
+    assert.ok(discovery.length);const reference={restaurant,discovery,userEventId:"component:prior-user-selection"};
+    const read=await f.assembly.search.search({intent,readRunId:"native-reference-component"},signal,reference);
+    assert.equal(read.candidates.length,1);assert.equal(read.candidates[0]!.restaurant.sourceIds.tabelog,restaurant.sourceIds.tabelog);
+    assert.ok(read.evidence.length);assert.ok(read.evidence.every(e=>e.kind==="DISCOVERY"&&e.claims.observationKind==="USER_SELECTION_REFERENCE"));
+    assert.equal(read.evidence[0]!.observedAt,discovery[0].observedAt,"Cached discovery is never re-dated as a new page read");
+    assert.equal(read.metadata.googleRequests?.total,0);assert.equal(f.sourceCalls.length,0);
+    const moved=await f.assembly.search.search({intent:{...intent,area:{query:"Ginza"}},readRunId:"native-reference-component"},signal,reference);
+    assert.equal(moved.evidence[0]!.claims.areaQuery,"Ginza");assert.equal(moved.evidence[0]!.claims.areaMatch,false);assert.equal(moved.evidence[0]!.claims.distanceMeters,undefined);
+    assert.equal(f.sourceCalls.length,0,"Unchanged source identity does not authorize another store or a fabricated area");
+    if(process.env.PRAXIS_NAMED_CONTINUITY_CAPTURE==="1")console.log("NAMED_NATIVE_REFERENCE_RAW "+Buffer.from(JSON.stringify({read,moved,reference,sourceCalls:f.sourceCalls})).toString("base64"));
+  }finally{await f.close();}
 });
 
 for(const scenario of ["MISSING","NO_SLOT"] as const)test(`D6 named outlet does not silently switch to other shops: ${scenario}`,async()=>{

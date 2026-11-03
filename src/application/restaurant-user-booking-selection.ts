@@ -34,6 +34,7 @@ export function bindUserBookingSelection(event: SemanticEvent, before: Restauran
 export function userBookingSelectionRequest(events: readonly EventEnvelope<RestaurantEvent>[]): UserBookingSelectionRequest | undefined {
   let request: UserBookingSelectionRequest | undefined;
   const observed=new Map<string,Omit<NamedOutletReference,"userEventId">>();
+  const hasIdentity=(value:Omit<NamedOutletReference,"userEventId">|undefined)=>value&&["googlePlaces","tabelog","tablecheck"].some(key=>Boolean(value.restaurant.sourceIds[key]));
   for (const { id, event, trace } of events) {
     if(event.type==="SEARCH_COMPLETED")for(const candidate of event.candidates)observed.set(candidate.restaurant.id,{restaurant:structuredClone(candidate.restaurant),discovery:structuredClone(event.evidence.filter(e=>e.candidateId===candidate.restaurant.id&&e.kind==="DISCOVERY"))});
     if("evidence" in event&&Array.isArray(event.evidence))for(const evidence of event.evidence){
@@ -47,13 +48,13 @@ export function userBookingSelectionRequest(events: readonly EventEnvelope<Resta
     }
     if(event.type==="CANDIDATE_SELECTED"&&trace.actor==="USER"&&request&&!request.reference&&trace.causationId===request.sourceEventId){
       const selected=observed.get(event.candidateId);
-      if(selected)request={...request,candidateId:request.candidateId??event.candidateId,reference:{...structuredClone(selected),userEventId:request.sourceEventId}};
+      if(selected&&hasIdentity(selected))request={...request,candidateId:request.candidateId??event.candidateId,reference:{...structuredClone(selected),userEventId:request.sourceEventId}};
     }
     if (event.type === "SEMANTIC_INTERPRETATION_FAILED" || event.type === "SEMANTIC_CONFLICT_RECORDED") request = undefined;
     if (event.type !== "SEMANTIC_PROPOSAL_COMPILED" || !("target" in event.patch)) continue;
     const reference=event.userBookingSelection?.candidateId?observed.get(event.userBookingSelection.candidateId):undefined;
     request = trace.actor === "USER" && event.userBookingSelection && event.patch.target?.selectionScope === "SPECIFIC_OUTLET"
-      ? { sourceEventId: id, query: event.patch.target.query, ...event.userBookingSelection,...(reference?{reference:{...structuredClone(reference),userEventId:id}}:{}) } : undefined;
+      ? { sourceEventId: id, query: event.patch.target.query, ...event.userBookingSelection,...(reference&&hasIdentity(reference)?{reference:{...structuredClone(reference),userEventId:id}}:{}) } : undefined;
   }
   return request;
 }
