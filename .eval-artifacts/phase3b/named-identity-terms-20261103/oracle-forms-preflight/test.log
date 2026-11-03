@@ -1,0 +1,388 @@
+{
+  "status": "PASS",
+  "mode": "FROZEN_SOURCE_IO_WITH_ORIGINAL_MODEL_BYTES",
+  "frames": 26,
+  "rows": [
+    {
+      "scenario": "agent-selection-only",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 0,
+      "reasons": {
+        "NOT_SPECIFIC": 1
+      },
+      "fixtureModelCalls": 5,
+      "sourceLoads": 4,
+      "elapsedMs": 68,
+      "status": "PASS"
+    },
+    {
+      "scenario": "TABELOG-proactive",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 2,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 2,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 10,
+      "sourceLoads": 9,
+      "elapsedMs": 37,
+      "status": "PASS"
+    },
+    {
+      "scenario": "TABLECHECK-proactive",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 2,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 2,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 10,
+      "sourceLoads": 11,
+      "elapsedMs": 1607,
+      "status": "PASS"
+    },
+    {
+      "scenario": "admitted-reuse",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 1,
+      "reasons": {
+        "NOT_SELECTED": 1
+      },
+      "fixtureModelCalls": 5,
+      "sourceLoads": 6,
+      "elapsedMs": 29,
+      "status": "PASS"
+    },
+    {
+      "scenario": "selected-admitted-reuse",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 4,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 2,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 12,
+      "sourceLoads": 11,
+      "elapsedMs": 30,
+      "status": "PASS"
+    },
+    {
+      "scenario": "conflict",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 4,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 4,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 12,
+      "sourceLoads": 10,
+      "elapsedMs": 27,
+      "status": "PASS"
+    },
+    {
+      "scenario": "SHOP",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 0,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "NO_PAGES": 1
+      },
+      "fixtureModelCalls": 8,
+      "sourceLoads": 9,
+      "elapsedMs": 23,
+      "status": "PASS"
+    },
+    {
+      "scenario": "CHANNEL",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 0,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "NO_PAGES": 1
+      },
+      "fixtureModelCalls": 8,
+      "sourceLoads": 9,
+      "elapsedMs": 24,
+      "status": "PASS"
+    },
+    {
+      "scenario": "not-stated-new-run",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 4,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 2,
+        "COMPLETED": 2,
+        "NOT_STATED": 2
+      },
+      "fixtureModelCalls": 16,
+      "sourceLoads": 14,
+      "elapsedMs": 27,
+      "status": "PASS"
+    },
+    {
+      "scenario": "budget",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 1,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 1,
+        "BUDGET": 1
+      },
+      "fixtureModelCalls": 24,
+      "sourceLoads": 9,
+      "elapsedMs": 25,
+      "status": "PASS"
+    },
+    {
+      "scenario": "cancelled",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 1,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "CANCELLED": 1
+      },
+      "fixtureModelCalls": 9,
+      "sourceLoads": 9,
+      "elapsedMs": 27,
+      "status": "PASS"
+    },
+    {
+      "scenario": "expired-pages",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 2,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 2,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 10,
+      "sourceLoads": 9,
+      "elapsedMs": 25,
+      "status": "PASS"
+    },
+    {
+      "scenario": "fresh-explicit-reuse",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 3,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 2,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 11,
+      "sourceLoads": 11,
+      "elapsedMs": 25,
+      "status": "PASS"
+    },
+    {
+      "scenario": "deadline",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 1,
+      "reasons": {
+        "RESERVE": 1
+      },
+      "fixtureModelCalls": 9,
+      "sourceLoads": 9,
+      "elapsedMs": 25,
+      "status": "PASS"
+    },
+    {
+      "scenario": "boundary-20001",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 2,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 2,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 10,
+      "sourceLoads": 9,
+      "elapsedMs": 39,
+      "status": "PASS"
+    },
+    {
+      "scenario": "boundary-20000",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 0,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "RESERVE": 1
+      },
+      "fixtureModelCalls": 8,
+      "sourceLoads": 8,
+      "elapsedMs": 26,
+      "status": "PASS"
+    },
+    {
+      "scenario": "between-models",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 1,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "RESERVE": 1
+      },
+      "fixtureModelCalls": 9,
+      "sourceLoads": 9,
+      "elapsedMs": 38,
+      "status": "PASS"
+    },
+    {
+      "scenario": "before-language-navigation",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 0,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "RESERVE": 1
+      },
+      "fixtureModelCalls": 8,
+      "sourceLoads": 9,
+      "elapsedMs": 29,
+      "status": "PASS"
+    },
+    {
+      "scenario": "early-abort",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 0,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "RESERVE": 1
+      },
+      "fixtureModelCalls": 8,
+      "sourceLoads": 9,
+      "elapsedMs": 25,
+      "status": "PASS"
+    },
+    {
+      "scenario": "assistant-wait-0",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 2,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 2,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 10,
+      "sourceLoads": 9,
+      "elapsedMs": 26,
+      "status": "PASS"
+    },
+    {
+      "scenario": "assistant-wait-40",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 2,
+      "reasons": {
+        "NOT_SELECTED": 1,
+        "ANSWERED": 2,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 10,
+      "sourceLoads": 9,
+      "elapsedMs": 110,
+      "status": "PASS"
+    },
+    {
+      "scenario": "D3_PENDING",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 4,
+      "reasons": {
+        "NOT_STATED": 4,
+        "COMPLETED": 2
+      },
+      "fixtureModelCalls": 22,
+      "sourceLoads": 14,
+      "elapsedMs": 562,
+      "status": "PASS"
+    },
+    {
+      "scenario": "D3_BUSY",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 0,
+      "reasons": {
+        "NO_PAGES": 2
+      },
+      "fixtureModelCalls": 18,
+      "sourceLoads": 12,
+      "elapsedMs": 34,
+      "status": "PASS"
+    },
+    {
+      "scenario": "ONE",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "questions": 2,
+      "reasons": {
+        "ANSWERED": 2,
+        "COMPLETED": 1
+      },
+      "fixtureModelCalls": 15,
+      "sourceLoads": 14,
+      "elapsedMs": 149,
+      "status": "PASS"
+    },
+    {
+      "scenario": "NONE",
+      "phase": "NEEDS_INPUT",
+      "handoffs": 0,
+      "questions": 0,
+      "reasons": {
+        "NOT_SELECTED": 1
+      },
+      "fixtureModelCalls": 10,
+      "sourceLoads": 10,
+      "elapsedMs": 46,
+      "status": "PASS"
+    },
+    {
+      "scenario": "TWO",
+      "phase": "NEEDS_INPUT",
+      "handoffs": 0,
+      "questions": 0,
+      "reasons": {
+        "NOT_SELECTED": 1
+      },
+      "fixtureModelCalls": 10,
+      "sourceLoads": 10,
+      "elapsedMs": 46,
+      "status": "PASS"
+    }
+  ],
+  "claimSupport": "PASS within frozen constructed/saved I/O; no current website claim",
+  "boundaries": "No workflow navigation or booking events in recorded fixture I/O",
+  "realExternalCalls": 0,
+  "historicalD6S0": 1,
+  "liveOutcome": "NOT_EVALUATED",
+  "limitations": [
+    "D2 detail pages/inventory are constructed controls, not real source identity Gold.",
+    "D3 actual page has neither cancellation nor booking card requirement; reaching the model is not proof of populated Live terms.",
+    "Fixed browser COMPLETE replaces historical CLICK references; not a complete original HAR/decision replay.",
+    "No claim of new 37-store rate, actual Live timing, fresh inventory or reservation completion."
+  ]
+}

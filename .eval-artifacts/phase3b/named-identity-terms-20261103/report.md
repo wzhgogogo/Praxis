@@ -1,6 +1,6 @@
 # 同品牌前三家身份调查与 B1 条款首个偏离
 
-Status: offline implementation candidate / not integrated；已暴露开发材料，非 Clean Baseline。时间 CET（UTC+1）；模型、Google、网站、Live 真实调用均0，不读取或注入.env。
+Status: offline verified / pending independent review / not integrated；已暴露开发材料，非 Clean Baseline。时间 CET（UTC+1）；模型、Google、网站、Live 真实调用均0，不读取或注入.env。
 
 已完成上一项：获批a1cd798e同步、净树五门禁/严格G2及独立核验后，main发布为db1f44a2238b44fa92cff58dae4e17e8903875a5，ls-remote已核对并通知A。本分支codex/fix-phase3b-named-identity-and-terms从该main开出，只推分支待复核，不合main。
 
@@ -8,7 +8,7 @@ Status: offline implementation candidate / not integrated；已暴露开发材�
 
 用户已明确五家输入也调查前三家。原Google响应有7家，现有possibleNamedOutlet过滤后5家；按该原顺序调查前三家，不调查后两家。全部前三家完成现有HIGH身份核对后，恰好一家的已绑定来源全名规范化后等于用户全名才继续；零家、多家或身份未确认均不选店、不查位、不展示。没有按相似度直接接纳，旧身份比较、20秒保留与原预算不放宽。
 
-原真实语义和Google字段保留，详情页/库存为明确的构造来源I/O，不能当作实际中俣门店的Gold。bf787c1c三个整组装红（身份调查0，NEEDS_INPUT）；965516ad两组件红（未读完就唯一、无前三家读取权限）。5ec63ea9同五项绿：ONE仅正确首家查位/展示；NONE/TWO反问且无库存、选择和B1。
+原真实语义和Google字段保留，原SEARCH/ASK响应保留；新增INVESTIGATE→CHECK→PRESENT的后续Agent决定为固定模型替身，行使当前动作合同，不证明真实模型将这样选路。详情页/库存为明确的构造来源I/O，不能当作实际中俣门店的Gold。bf787c1c三个整组装红（身份调查0，NEEDS_INPUT）；965516ad两组件红（未读完就唯一、无前三家读取权限）。5ec63ea9同五项绿：ONE仅正确首家查位/展示；NONE/TWO反问且无库存、选择和B1。
 
 经用户窄授权的两站改动单独提交9008f7bbde3e819f84931294b5667526e605a551，恰13行插入，与两份事前冻结补丁逐字一致：
 
@@ -37,8 +37,34 @@ State25、TaskDefinition23及语义/Agent Prompt/Schema均与main相同，SQL不
 
 ## 冻结与最终验证
 
-freeze.json固定814项源码、17原件、fixture、outer runner及独立oracle。五门禁与严格G2每项前后要求git status为空；最终执行待运行。
+freeze.json固定814项源码、17原件、fixture、outer runner及独立oracle。最终验证提交90eaa67380369183b853cfad6e1eab63a1939e45，产品源码与5ec63ea9相同；完整十步全绿，每项前后git status为空，无自动重试、无外层超时。后续只归档证据和同步文档。
 
-已有局部回归terms-regression为66/66，包含原条款/G1/20秒保留、两渠道、复用、冲突、错店/渠道、预算、取消与BUSY。最终独立oracle评3个D2、2个D3、14个旧条款和7个旧保留区输出，直接核原始文字、电话/地址、来源链接、请求、事件顺序与诊断，不导入生产匹配/投影判断；实际结果另存gates/independent.log。原红灯与渲染不一致原件均保留，不覆盖。
+| 检查 | 实际结果 | 外层耗时 |
+|---|---|---|
+| 完整性前/后 | 814 SHA、17原件、批准补丁、741账目PASS | 0.333 / 0.433秒 |
+| typecheck / arch | PASS / PASS | 0.483 / 0.222秒 |
+| npm test | 1389/1389，无失败/跳过/取消 | 50.166秒 |
+| build | PASS | 0.543秒 |
+| test:browser:fixture | 188/188 | 131.205秒 |
+| 严格test:dom-change | 5/5测试，12页全部PASS，无lost | 24.642秒 |
+| 最终整组装重采集 | 22/22测试，26帧（循环场景多于test数） | 11.702秒 |
+| 独立oracle | 26/26帧PASS | 0.147秒 |
+
+已有局部回归terms-regression为66/66，包含原条款/G1/20秒保留、两渠道、复用、冲突、错店/渠道、预算、取消与BUSY。最终独立oracle评3个D2、2个D3、14个旧条款和7个旧保留区输出，直接核原始文字、电话/地址、来源链接、请求、事件顺序与诊断，不导入生产匹配/投影判断；实际结果为evaluation.json（逐字复制gates-final/independent.log），全部执行凭据在gates-final.json和gates-final/。原红灯与渲染不一致原件均保留，不覆盖。
+
+首次外层完整性预检fac0d55f因校验器漏一层D3保存目录，在产品门禁前停止；gates.json与gates/integrity.log保留。独立oracle的两次输入格式预检分别漏识别来源相对URL、selection数组，oracle-preflight/和oracle-relative-preflight/保留；按ADR既定相对链接规则、实际响应结构修正读取，无改变评分条件或产品。oracle-forms-preflight/26帧通过后才启动最终十步，不覆盖任何失败输出。未出现本机PGlite运行时崩溃。
+
+## 四层判定与时间/资源
+
+| 层 | 本轮支持的结论 | 未评边界 |
+|---|---|---|
+| 端到端结果 | 固定来源D2 ONE仅匹配店展示，NONE/TWO反问；D3两问题到达或BUSY省略，原B1仍在 | 真实模型选路、网站当前条款/库存、用户预约完成均未评 |
+| 环节 | 原语义/Google字段逐字保留；三家原字段对构造详情电话/完整地址、来源名、全三家事实事件先于库存独立核对；D3原可见文字SHA、引文与诊断绑定通过 | D2实际网站身份Gold缺失，不把构造页称认证原件；不是完整历史HAR重放 |
+| 严重程度 | 固定I/O中的展示/链接/条款引用有原始支持，无工作流导航或BOOKING_PROPOSED；旧Live D6 S0=1保持 | 新Live的S0–S4未评，不能用此批抹去历史错误或给新通过率 |
+| 归因 | D3诊断-only保持红且INCOMPLETE_PAGE、稳定观察修复后同输入到达模型，确认该离线首因；D2前三家读取合同红绿成立 | 网站后续动态与模型真实问答表现未评 |
+
+resources.json分开记录每轮MODEL_BEGIN尝试和保存的响应数：D2 ONE18次、NONE/TWO各13次替身尝试；D3 PENDING每轮11次（其中问答2），BUSY每轮9次（问答0）。跨轮计数在run重置，evaluation的fixtureModelCalls是保存响应总数，不能与末轮counter混用。所有这些都是本地替身，不是真实API；原fixture整轮期限500000ms，没有新额度通道。详细浏览器实际操作上限没有在这份frame中导出，独立资源子项保留NOT_EVALUATED，原预算/20秒保留行为仍由既有测试验证。
+
+最终D3选店轮TERMS_BEGIN710.7ms→TERMS_END1229.0ms，条款阶段518.3ms；ASSISTANT_APPENDED1231.4ms，开始后520.7ms追加。运行中RESULTS_VISIBLE708.5ms在条款前出现，交接不等它完成。新增等待主要是原有稳定性核对的约500ms，两个问答为即时替身；这不是Live等待时间或真实模型延迟。
 
 账本保留main740条并追加一条零调用记录，741行，限额与累计不变。只在本分支推送交复核；没有真实模型、Google、网站、Live或预约动作。

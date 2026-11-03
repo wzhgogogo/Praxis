@@ -1,4 +1,4 @@
-2026-11-03 CET：C获批两站identityOnly窄补丁9008f7bb已单独提交，其余A/G3保护文件不变。D2原Google7→可能5家，调查前3家且全完成才判恰一来源全名；ONE/NONE/TWO及组件5/5。D3首因由诊断红灯确认INCOMPLETE_PAGE，G1复用稳定观察后两次问答到达；原页无取消或预约要卡，NOT_STATED不编造条款。诊断可导出而不入State；State25/TaskDefinition23及Prompt不变，真实调用0，不读.env。最终五门禁/严格G2和独立26帧待运行；只推新分支交复核，不合main。 [报告](../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
+2026-11-03 CET：C身份前三家/G1就绪候选离线完成待复核。批准窄补丁9008f7bb单独提交；D2 ONE/NONE/TWO在全三家身份后判唯一/反问，D3诊断红灯确认INCOMPLETE_PAGE，稳定观察修复后问答2次，原页无取消/预约要卡则NOT_STATED。90eaa673冻结814项后十步净树全绿：默认1389/1389、Chromium188/188、严格G2 5/5且12页PASS、22组装测试/独立26帧PASS。外层路径及oracle格式预检失败原件保留，未改产品凑评分；A/另外两个G3保护文件不变。State25/TaskDefinition23/Prompt不变，741账目保留累计，真实调用0、不读.env。只推codex/fix-phase3b-named-identity-and-terms交复核，不合main；不是Live条款已填或新通过率。 [报告](../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
 
 2026-11-03 CET: C started named-identity-and-terms from published main db1f44a2. D2/D3 raw evidence at A ae7fd072 is frozen; candidate cap wording awaits user clarification. Terms first-deviation diagnosis uses offline saved DOM only, real calls0 and no .env. [Plan](../.eval-artifacts/phase3b/named-identity-terms-20261103/plan.md).
 

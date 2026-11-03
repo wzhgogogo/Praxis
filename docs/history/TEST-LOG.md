@@ -6356,3 +6356,10 @@ Verified delivery: 2026-10-29 CET: C G4 Japanese-name preparation complete for r
 D3 4e14562f真实语义/展示字节+固定来源I/O有效红灯（问答0而非2）；0f7131e7诊断-only保持红并确认QUESTION_UNVERIFIED/INCOMPLETE_PAGE，pageCount=boundPageCount=1。d43107aa同目标绿；14e0a4b6条款/G1/保留区66/66，包括BUSY、预算、取消、错店/错渠道、复用、日英冲突及20001/20000边界。D2 bf787c1c三个组装红（五候选均未调查）；965516ad前缀两组件红；5ec63ea9同五项绿，ONE仅首家查位/展示，NONE/TWO询问且无库存、选店、B1。所有运行前提交冻结，原红灯与首次渲染不一致均保留。
 
 本轮计划独立26帧oracle（3 D2+2 D3+14旧条款+7旧保留区），不调用生产名称/身份/投影判断；五门禁和严格G2尚待冻结后执行。真实模型/Google/网站/Live均0、不加载.env；只推工作分支交复核，不合main。历史D6 S0=1不改，不得从构造页推新的Live通过率。 [原件](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
+
+<a id="named-identity-terms-verified-20261103"></a>
+## 2026-11-03 CET — C 最终十步验证通过
+
+90eaa673（完整SHA见报告）冻结814项后净树依次：完整性0.333s、typecheck0.483s、arch0.222s、npm test1389/1389（50.166s）、build0.543s、Chromium188/188（131.205s）、严格G2 5/5/12页PASS（24.642s）、22整组装测试/26帧（11.702s）、独立oracle26/26（0.147s）、完整性复核0.433s。各项前后git status为空、源码SHA不变，无自动重试/超时/跳过/取消；本机未出现PGlite崩溃。
+
+原有效红灯与66项局部回归原样保留。fac0d55f外层路径预检失败在产品门禁前；oracle两次预检只补相对URL、selection数组输入形式后通过，失败日志及冻结原件均在，不冒充产品红灯。最终evaluation独立核文字/电话/地址/精确来源链接、事件先后、歧义关闭和任务运行诊断；实际网站、实时模型选路、Live库存/预约及详细浏览器有效操作限额未评。D2模拟调用开始18/13/13，D3每轮11或9，均本地替身；跨轮响应数与末轮counter分报。版本和原测试断言不变，真实调用0、不读.env；只推工作分支交复核、不合main。 [完整日志与四层结果](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。

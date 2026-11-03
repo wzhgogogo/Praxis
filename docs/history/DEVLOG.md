@@ -5652,3 +5652,10 @@ Markdown结论优先：13份摘要均前27行，三栏带确定性、13环节短
 从已发布main db1f44a2开独立分支。用户澄清五家也查原顺序前三，并批准两站HIGH后identityOnly提前返回；9008f7bb只含两provider共13插入，其他G3和A文件不动。现有事实动作承载临时identity-only，所有前三家HIGH后恰好一全名才允许选/查位/展示，不增加State/TaskDefinition/Prompt版本、身份放宽或预算。只需身份的读取不当HARD已核实；无实际到访字段则沿既有事实读取器，不编造条件。
 
 D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的失败保留；录制323原visibleHtml复原精确。诊断-only仍红：INCOMPLETE_PAGE在模型前拒绝已绑定PENDING页面；修复复用既有Executor稳定性观察，BUSY仍零模型。原文只有付款接受，没有预约要卡/取消证据；问题到达后NOT_STATED，不能称Live条款已填。root/run原因导出在State外，现有缓存寿命内保留，无SQL/写权限变化。完整门禁与独立评分另记。 [报告](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
+
+<a id="named-identity-terms-verified-20261103"></a>
+## 2026-11-03 CET — C 身份前三家和条款就绪候选离线完成
+
+最终90eaa67380369183b853cfad6e1eab63a1939e45与5ec63ea9产品相同，814项冻结后十步各前后净树全绿：默认1389/1389、Chromium188/188、严格G2 5/5且12页PASS、22整组装测试和26帧独立oracle通过。17原件逐字对应A，9008f7bb批准补丁仍恰13插入；A eval/harness、server/web、另两个G3文件与原身份/问题完整页守卫均不变。State25/TaskDefinition23、Prompt/Schema/SQL和741账本累计/上限不变。
+
+原外层路径预检、两个oracle格式预检、渲染少8字符及产品红灯全部保留；格式修正仅接纳既定相对链接和真实selection容器，不调产品或评分条件。D3稳定观察后两问到达，无原文则NOT_STATED，持续BUSY无模型；诊断独立导出，已有B1继续。实际本地选店条款阶段518.3ms、开始后520.7ms追加助手消息，非Live耗时。四层结论、模型开始/响应计数差别及资源未评项在报告中分开记录；只推工作分支待复核，不合main，真实调用0、不读.env，随后通知A。 [交付报告](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。
