@@ -1,0 +1,235 @@
+{
+  "status": "VERIFIED_USER_APPROVED_MAIN_PUBLICATION",
+  "timeCET": "2026-11-03T10:59:35.753049+01:00",
+  "candidate": "1ee97d949e5e78b44375669739d288dfbaea1d63",
+  "reviewed": "d58d377a2c7e31ac41262edcd0ceff16e0ff54e0",
+  "baseMain": "db1f44a2238b44fa92cff58dae4e17e8903875a5",
+  "mergeCommit": "172c20afd322ccb5ca7faf966bbf0eb8063bcc8a",
+  "sourceFixturesScriptsUnchanged": true,
+  "defaultTests": 1397,
+  "chromiumTests": 188,
+  "strictG2Tests": 5,
+  "strictPages": [
+    {
+      "id": "tabelog-list-nerima",
+      "classification": "PASS",
+      "referenceFacts": 20,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-list-akabane",
+      "classification": "PASS",
+      "referenceFacts": 1,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-detail-01",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-detail-02",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-calendar-teppen",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {
+        "day:2026-09-29": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-28": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-30": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-calendar-sen",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {
+        "day:2026-10-22": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-10-01": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-list-ginza",
+      "classification": "PASS",
+      "referenceFacts": 1,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-list-akabane",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-detail-nakamata",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-detail-takahashiya",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-calendar-nakamata",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-calendar-kinri",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    }
+  ],
+  "cleanPrePostForEveryGate": true,
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-03T10:55:18.030516+01:00",
+      "seconds": 0.604,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "1ee97d949e5e78b44375669739d288dfbaea1d63",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-03T10:55:18.676617+01:00",
+      "seconds": 0.27,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "1ee97d949e5e78b44375669739d288dfbaea1d63",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-03T10:55:18.988659+01:00",
+      "seconds": 45.215,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "1ee97d949e5e78b44375669739d288dfbaea1d63",
+      "logSha256": "c13123a807a1bdaa805a73012f0c950db557581fef05039ea678bba8940bfd69"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-11-03T10:56:04.246110+01:00",
+      "seconds": 0.54,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "1ee97d949e5e78b44375669739d288dfbaea1d63",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-11-03T10:56:04.830068+01:00",
+      "seconds": 130.342,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "1ee97d949e5e78b44375669739d288dfbaea1d63",
+      "logSha256": "0748e93758d3ec409cb40eb51d504e0116c3f4442e5f5a459ede21eadbf1397e"
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-11-03T10:58:15.214926+01:00",
+      "seconds": 24.445,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "1ee97d949e5e78b44375669739d288dfbaea1d63",
+      "logSha256": "8cb8fdc60db614f7838128f3b136f6ff3a461f060efe09d21f7c447544140f83"
+    }
+  ],
+  "newRealCalls": {
+    "model": 0,
+    "google": 0,
+    "website": 0,
+    "live": 0,
+    "publicGET": 0,
+    "environmentReruns": 0
+  },
+  "ledgerRows": 744,
+  "publicationTarget": "refs/heads/main",
+  "remoteReceipt": "Final main SHA is confirmed by ls-remote in the delivery response and C/A notifications."
+}

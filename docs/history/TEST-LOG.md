@@ -1,5 +1,9 @@
 # Test and Verification Log
 
+<a id="hard-evidence-main-verified-20261103"></a>
+
+2026-11-03 CET：B已获批HARD证据修复合main，新鲜合入候选1ee97d94全绿：type/arch/build通过，默认1397/1397、Chromium188/188（130.342秒）、严格G2 5/5及12页PASS，每项前后status为空，无重试/跳过/取消。merge172c20af的树与复核d58d377a完全一致，发布记录不改源码/fixture/脚本；State25/TaskDefinition23及Prompt/Schema不变。744条账本完整保留743旧条目、累计/额度不变；新增真实调用0。按批准发布main，ls-remote核对后通知C/A，实际main SHA以交付回执为准。[合入证据](../../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。
+
 <a id="hard-evidence-main-20261103"></a>
 
 2026-11-03 CET：用户复核B d58d377a通过并批准先合main；已fetch最新main db1f44a2，集成merge 172c20af与获批树完全相同，无冲突、无实现或版本变化。复核者Linux2核/Node24五门禁1397/188及G2通过作为复核输入保留；本机新的五门禁/严格G2待运行，全绿前不发布。账本744条，743旧条目完整保留、额度与累计不变；真实调用0，不读.env/答案。发布后ls-remote核对并通知C/A。[合入报告](../../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。
