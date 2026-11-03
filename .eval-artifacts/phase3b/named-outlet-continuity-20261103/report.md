@@ -74,3 +74,13 @@ fafd8edc 默认1382/1382、原9帧/名称7帧/D6独立13帧及组件控制、typ
 - Chromium **186/188**；两个尺寸均因上述旧工作区三家合同超时，非环境限时。没有把失败标成通过，也没有自动重试。
 - 严格G2独立补跑 **5/5，全部12页PASS**（23.899秒）；冻结完整性PASS。每项前后status为空。原始输出、命令、持续时间和SHA见gates-repair1.json、remaining.json及stopping-point.json。
 - 两处A归属最小补丁尚未应用，等待用户窄授权；期间不继续依赖此授权的改动。当前只推工作分支停止点，第二项不合main。第一项main533f1bc5已完成且已通知A。
+
+## 用户窄授权后的合同同步
+
+用户回复“批准这两处合同同步，单独提交并记录”。已原样应用停止点冻结的a-owned-specific-scope-proposal.patch（SHA-256 `a9f42e232cddccad9bff419b0287631bece46d92b001f1b6a32404cecb311f9d`），单独提交 **beff503bc12576528e071342778c957257f2db42**，只含两个A归属文件。
+
+- workspace-fixture-server.ts：SPECIFIC_OUTLET仅返回全名相等候选和对应DISCOVERY；内部原catalog保留，因此索引、来源店号、库存I/O均不变。OPEN仍返回原三家。
+- web-workspace.test.ts：ready默认仍等1 of 3，只在Check this one回合等1 of 1；原视图引用、目标、JUDGMENT、不记选店、身份和安全断言不改。
+- 原始D6模型响应、全部产品源码、B三个G3文件、前端/server和版本不再变动。逐字补丁与仅两文件变更由verify-approved.py独立核对；原verify.py、freeze.json和全部红灯原件保留不改。
+
+新冻结清单freeze-approved.json，授权记录contract-authorization.json，净树完整门禁run-gates-approved.py→gates-approved/。真实调用0、不加载.env；尚未运行完，不提前称全绿，完成后只推本分支交复核。

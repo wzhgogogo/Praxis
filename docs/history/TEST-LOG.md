@@ -1,5 +1,10 @@
 # Test and Verification Log
 
+<a id="named-outlet-continuity-approved-sync-20261103"></a>
+
+2026-11-03 CET：用户窄授权两处A归属合同同步；beff503b只含workspace-fixture-server.ts和web-workspace.test.ts，逐字等于原冻结提案：SPECIFIC只返回全名点名候选、来源ID及catalog不变；该次Check this one等1 of 1，其他路径仍默认三家；JUDGMENT/不选店及原断言不变。产品源码与fafd8edc相同，版本不变，真实调用0。已另冻结批准记录与新完整门禁配置，原186/188及停止点证据保留；新五门禁/严格G2待运行，仅工作分支复核，不合main。 [报告](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+
 <a id="named-outlet-continuity-contract-20261103"></a>
 
 2026-11-03 CET：C D6修复停在A归属测试合同确认。fafd8edc（准确源码SHA见报告）type/arch/build、默认1382/1382、独立D6 13+原无地区9+名称7帧及严格G2 5/5、12页PASS；Chromium186/188，两个尺寸在“Check this one”后仍等三家，与SPECIFIC只展示点名店冲突。最小两文件补丁已冻结，尚未应用，不放宽产品守卫、不改A/B文件；五门禁未全绿。历史Live S0=1保持；本轮真实调用0、不读.env、State25/TaskDefinition23不变，仅工作分支停止点交复核，不合main。 [报告](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
