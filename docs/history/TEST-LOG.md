@@ -6389,3 +6389,8 @@ B已先在main f0bee7d7发布，C fd07f44e获复核默认1389/Chromium188/严格
 ## 2026-11-03 CET — C 合入候选十步全绿
 
 822a7cd3冻结799项，完整性前19.074s、typecheck0.510s、arch0.225s、默认1404/1404（50.760s）、build0.538s、Chromium188/188（133.133s）、严格G2 5/5且12页PASS（24.659s）、22组装测试/26帧（11.976s）、独立oracle26/26（0.145s）、完整性后20.699s。十步各前后status为空，源码SHA相同，无自动重试/超时/跳过/取消，未出现本机PGlite崩溃。默认含B HARD与A/G6、C原回归；不改原断言或Gold，原C所有失败/输入/结果逐字保留。源码34 C独有/20 B独有/2重叠的联合证明及746条账本在source-and-ledger.json，详细日志gates/。真实调用0、不读.env；原Live S0=1与未评边界不改，批准发布main后核对远端并通知A。[报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+<a id="named-search-sessions-20261103"></a>
+## 2026-11-03 CET — C 具名搜索会话诊断与复用提案
+
+D4/D8补跑原件固定ce6f94af，来源链38行、全量时间/候选/会话和不确定项见报告。片段模型无浏览器I/O，Router单候选checkpoint创建/关闭Executor及runtime失败退休是不同重建原因。D8原generic discovery模型决策证明三家均走初始query门槛后的后置空入口return；post-exploration query mismatch与缺链接仍未知，不推资源/限流根因或提速。先冻结后分析，首轮canonical trace缺args的预检失败保留，修正导航序号关联后38行成功。产品/脚本/依赖与main a7abbc0f原样，按纯诊断矩阵只验证SHA、来源、行数、临时副本确定性与文档，不重跑未变化产品门禁。未应用诊断字段补丁，未运行Live，预算并入68条已有A/B用量并新增C0，815行限额保持。[报告](../../.eval-artifacts/phase3b/named-search-sessions-20261103/report.md)。

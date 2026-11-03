@@ -1,0 +1,1069 @@
+{
+  "mode": "OFFLINE_SAVED_RECORD_DIAGNOSIS",
+  "summary": {
+    "D4": {
+      "sessions": 16,
+      "searchEntrances": {
+        "TABELOG": {
+          "calls": 16,
+          "sessions": 10
+        },
+        "TABLECHECK": {
+          "calls": 10,
+          "sessions": 10
+        }
+      },
+      "namedSourceModelCalls": 6,
+      "modelCreatesSessions": false
+    },
+    "D8": {
+      "sessions": 3,
+      "searchEntrances": {
+        "TABELOG": {
+          "calls": 7,
+          "sessions": 3
+        },
+        "TABLECHECK": {
+          "calls": 5,
+          "sessions": 3
+        }
+      },
+      "namedSourceModelCalls": 3,
+      "modelCreatesSessions": false
+    }
+  },
+  "searchEntrances": [
+    {
+      "run": "D4",
+      "session": 1,
+      "sequence": 4,
+      "source": "TABELOG",
+      "candidateId": null,
+      "candidateName": null,
+      "agentStep": 1,
+      "callChain": "Agent SEARCH_RESTAURANTS -> native discovery",
+      "sessionCreationReason": "NATIVE_DISCOVERY_SESSION; not a named-source model call",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 14,
+          "ordinal": 1,
+          "url": "https://tabelog.com/en/tokyo/"
+        },
+        {
+          "sequence": 21,
+          "ordinal": 2,
+          "url": "https://tabelog.com/en/tokyo/"
+        },
+        {
+          "sequence": 35,
+          "ordinal": 3,
+          "url": "https://tabelog.com/en/tokyo/"
+        },
+        {
+          "sequence": 53,
+          "ordinal": 4,
+          "url": "https://tabelog.com/en/tokyo/A1322/"
+        }
+      ],
+      "timeoutMs": 35000,
+      "atUTC": "2026-11-03T13:22:04.630Z"
+    },
+    {
+      "run": "D4",
+      "session": 2,
+      "sequence": 133,
+      "source": "TABLECHECK",
+      "candidateId": null,
+      "candidateName": null,
+      "agentStep": 2,
+      "callChain": "Agent SEARCH_RESTAURANTS -> native discovery",
+      "sessionCreationReason": "NATIVE_DISCOVERY_SESSION; not a named-source model call",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 35000,
+      "atUTC": "2026-11-03T13:23:38.713Z"
+    },
+    {
+      "run": "D4",
+      "session": 3,
+      "sequence": 142,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+      "candidateName": "Kushiman Akabane",
+      "agentStep": 4,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:23:46.076Z"
+    },
+    {
+      "run": "D4",
+      "session": 4,
+      "sequence": 155,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+      "candidateName": "Kushiman Akabane",
+      "agentStep": 4,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "REACQUIRE_AFTER_RUNTIME_FAILURE within same candidate; executor retires the failed source session",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 165,
+          "ordinal": 9,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman%20Akabane"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:23:47.213Z"
+    },
+    {
+      "run": "D4",
+      "session": 4,
+      "sequence": 170,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+      "candidateName": "Kushiman Akabane",
+      "agentStep": 4,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "REACQUIRE_AFTER_RUNTIME_FAILURE within same candidate; executor retires the failed source session",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:24:01.829Z"
+    },
+    {
+      "run": "D4",
+      "session": 5,
+      "sequence": 179,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:a600df04d5d4276bbde78253",
+      "candidateName": "新時代 赤羽本店",
+      "agentStep": 4,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:24:21.942Z"
+    },
+    {
+      "run": "D4",
+      "session": 6,
+      "sequence": 192,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:a600df04d5d4276bbde78253",
+      "candidateName": "新時代 赤羽本店",
+      "agentStep": 4,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "REACQUIRE_AFTER_RUNTIME_FAILURE within same candidate; executor retires the failed source session",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:24:23.078Z"
+    },
+    {
+      "run": "D4",
+      "session": 7,
+      "sequence": 201,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+      "candidateName": "日本酒と旬彩 たくみろまん亭 YAMASHO",
+      "agentStep": 4,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:24:43.198Z"
+    },
+    {
+      "run": "D4",
+      "session": 8,
+      "sequence": 214,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+      "candidateName": "日本酒と旬彩 たくみろまん亭 YAMASHO",
+      "agentStep": 4,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "REACQUIRE_AFTER_RUNTIME_FAILURE within same candidate; executor retires the failed source session",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 224,
+          "ordinal": 10,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E6%97%A5%E6%9C%AC%E9%85%92%E3%81%A8%E6%97%AC%E5%BD%A9%20%E3%81%9F%E3%81%8F%E3%81%BF%E3%82%8D%E3%81%BE%E3%82%93%E4%BA%AD%20YAMASHO"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:24:44.330Z"
+    },
+    {
+      "run": "D4",
+      "session": 8,
+      "sequence": 229,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+      "candidateName": "日本酒と旬彩 たくみろまん亭 YAMASHO",
+      "agentStep": 4,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "REACQUIRE_AFTER_RUNTIME_FAILURE within same candidate; executor retires the failed source session",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 239,
+          "ordinal": 11,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%9F%E3%81%8F%E3%81%BF%E3%82%8D%E3%81%BE%E3%82%93%E4%BA%AD"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:24:57.658Z"
+    },
+    {
+      "run": "D4",
+      "session": 9,
+      "sequence": 315,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+      "candidateName": "やきとん大王 赤羽店",
+      "agentStep": 5,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:25:30.328Z"
+    },
+    {
+      "run": "D4",
+      "session": 10,
+      "sequence": 328,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+      "candidateName": "やきとん大王 赤羽店",
+      "agentStep": 5,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "REACQUIRE_AFTER_RUNTIME_FAILURE within same candidate; executor retires the failed source session",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 338,
+          "ordinal": 17,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%82%84%E3%81%8D%E3%81%A8%E3%82%93%E5%A4%A7%E7%8E%8B%20%E8%B5%A4%E7%BE%BD%E5%BA%97"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:25:32.424Z"
+    },
+    {
+      "run": "D4",
+      "session": 11,
+      "sequence": 367,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+      "candidateName": "Dengana Akabane",
+      "agentStep": 5,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:26:17.427Z"
+    },
+    {
+      "run": "D4",
+      "session": 12,
+      "sequence": 380,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+      "candidateName": "Dengana Akabane",
+      "agentStep": 5,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "REACQUIRE_AFTER_RUNTIME_FAILURE within same candidate; executor retires the failed source session",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 390,
+          "ordinal": 19,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:26:18.844Z"
+    },
+    {
+      "run": "D4",
+      "session": 12,
+      "sequence": 395,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+      "candidateName": "Dengana Akabane",
+      "agentStep": 5,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "REACQUIRE_AFTER_RUNTIME_FAILURE within same candidate; executor retires the failed source session",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 405,
+          "ordinal": 20,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:26:35.194Z"
+    },
+    {
+      "run": "D4",
+      "session": 13,
+      "sequence": 423,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:22cd98fb641bd813a35745af",
+      "candidateName": "Nonki",
+      "agentStep": 5,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 433,
+          "ordinal": 21,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nonki&geo_latitude=35.780090699999995&geo_longitude=139.7201665&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 440,
+          "ordinal": 22,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nonki&geo_latitude=35.780090699999995&geo_longitude=139.7201665&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 454,
+          "ordinal": 23,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nonki&geo_latitude=35.780090699999995&geo_longitude=139.7201665&geo_distance=5km&auto_geolocate=false"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:27:03.864Z"
+    },
+    {
+      "run": "D4",
+      "session": 13,
+      "sequence": 511,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:22cd98fb641bd813a35745af",
+      "candidateName": "Nonki",
+      "agentStep": 5,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:27:34.814Z"
+    },
+    {
+      "run": "D4",
+      "session": 14,
+      "sequence": 520,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+      "candidateName": "赤羽居酒屋 大衆酒場 れもん 赤羽店",
+      "agentStep": 6,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 530,
+          "ordinal": 27,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B+%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4+%E3%82%8C%E3%82%82%E3%82%93+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.779576999999996&geo_longitude=139.7215888&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 537,
+          "ordinal": 28,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B+%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4+%E3%82%8C%E3%82%82%E3%82%93+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.779576999999996&geo_longitude=139.7215888&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 551,
+          "ordinal": 29,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B+%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4+%E3%82%8C%E3%82%82%E3%82%93+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.779576999999996&geo_longitude=139.7215888&geo_distance=5km&auto_geolocate=false"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:28:02.248Z"
+    },
+    {
+      "run": "D4",
+      "session": 14,
+      "sequence": 563,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+      "candidateName": "赤羽居酒屋 大衆酒場 れもん 赤羽店",
+      "agentStep": 6,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 573,
+          "ordinal": 30,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B%20%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4%20%E3%82%8C%E3%82%82%E3%82%93%20%E8%B5%A4%E7%BE%BD%E5%BA%97"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:28:06.597Z"
+    },
+    {
+      "run": "D4",
+      "session": 14,
+      "sequence": 578,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+      "candidateName": "赤羽居酒屋 大衆酒場 れもん 赤羽店",
+      "agentStep": 6,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 588,
+          "ordinal": 31,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%82%8C%E3%82%82%E3%82%93"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:28:16.133Z"
+    },
+    {
+      "run": "D4",
+      "session": 15,
+      "sequence": 643,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:f93797735808708abd68d4ed",
+      "candidateName": "Kaburaya Akabane 2 Goten",
+      "agentStep": 6,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 653,
+          "ordinal": 35,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kaburaya+Akabane+2+Goten&geo_latitude=35.7794782&geo_longitude=139.7213779&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 660,
+          "ordinal": 36,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kaburaya+Akabane+2+Goten&geo_latitude=35.7794782&geo_longitude=139.7213779&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 674,
+          "ordinal": 37,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kaburaya+Akabane+2+Goten&geo_latitude=35.7794782&geo_longitude=139.7213779&geo_distance=5km&auto_geolocate=false"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:28:46.856Z"
+    },
+    {
+      "run": "D4",
+      "session": 15,
+      "sequence": 686,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:f93797735808708abd68d4ed",
+      "candidateName": "Kaburaya Akabane 2 Goten",
+      "agentStep": 6,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 696,
+          "ordinal": 38,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%202%20Goten"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:28:51.783Z"
+    },
+    {
+      "run": "D4",
+      "session": 15,
+      "sequence": 701,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:f93797735808708abd68d4ed",
+      "candidateName": "Kaburaya Akabane 2 Goten",
+      "agentStep": 6,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:29:10.955Z"
+    },
+    {
+      "run": "D4",
+      "session": 16,
+      "sequence": 710,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+      "candidateName": "Kaburaya Akabane 1",
+      "agentStep": 6,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 720,
+          "ordinal": 39,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kaburaya+Akabane+1&geo_latitude=35.7794464&geo_longitude=139.72112479999998&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 727,
+          "ordinal": 40,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kaburaya+Akabane+1&geo_latitude=35.7794464&geo_longitude=139.72112479999998&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 741,
+          "ordinal": 41,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kaburaya+Akabane+1&geo_latitude=35.7794464&geo_longitude=139.72112479999998&geo_distance=5km&auto_geolocate=false"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:29:31.092Z"
+    },
+    {
+      "run": "D4",
+      "session": 16,
+      "sequence": 753,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+      "candidateName": "Kaburaya Akabane 1",
+      "agentStep": 6,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 763,
+          "ordinal": 42,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kaburaya%20Akabane%201"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:29:40.698Z"
+    },
+    {
+      "run": "D4",
+      "session": 16,
+      "sequence": 768,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:eeef0764e717b448bb9ff78b",
+      "candidateName": "Kaburaya Akabane 1",
+      "agentStep": 6,
+      "callChain": "Agent CHECK_AVAILABILITY -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:29:47.889Z"
+    },
+    {
+      "run": "D8",
+      "session": 1,
+      "sequence": 4,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "candidateName": "Nakamata",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 14,
+          "ordinal": 1,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nakamata&geo_latitude=35.6701718&geo_longitude=139.76696809999999&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 21,
+          "ordinal": 2,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nakamata&geo_latitude=35.6701718&geo_longitude=139.76696809999999&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 35,
+          "ordinal": 3,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nakamata&geo_latitude=35.6701718&geo_longitude=139.76696809999999&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 53,
+          "ordinal": 4,
+          "url": null
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:31:59.239Z"
+    },
+    {
+      "run": "D8",
+      "session": 1,
+      "sequence": 65,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "candidateName": "Nakamata",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 75,
+          "ordinal": 5,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nakamata"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:32:18.869Z"
+    },
+    {
+      "run": "D8",
+      "session": 1,
+      "sequence": 110,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "candidateName": "Nakamata",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 1494,
+      "atUTC": "2026-11-03T13:32:57.619Z"
+    },
+    {
+      "run": "D8",
+      "session": 2,
+      "sequence": 119,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "candidateName": "Nodoguro, Ginza Nakamata Hanare",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 129,
+          "ordinal": 8,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro%2C+Ginza+Nakamata+Hanare&geo_latitude=35.670777300000005&geo_longitude=139.7689264&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 136,
+          "ordinal": 9,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro%2C+Ginza+Nakamata+Hanare&geo_latitude=35.670777300000005&geo_longitude=139.7689264&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 150,
+          "ordinal": 10,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro%2C+Ginza+Nakamata+Hanare&geo_latitude=35.670777300000005&geo_longitude=139.7689264&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 168,
+          "ordinal": 11,
+          "url": null
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:32:59.248Z"
+    },
+    {
+      "run": "D8",
+      "session": 2,
+      "sequence": 176,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "candidateName": "Nodoguro, Ginza Nakamata Hanare",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 186,
+          "ordinal": 12,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro&geo_latitude=35.670777300000005&geo_longitude=139.7689264&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 193,
+          "ordinal": 13,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro&geo_latitude=35.670777300000005&geo_longitude=139.7689264&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 207,
+          "ordinal": 14,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro&geo_latitude=35.670777300000005&geo_longitude=139.7689264&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 225,
+          "ordinal": 15,
+          "url": null
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:33:12.891Z"
+    },
+    {
+      "run": "D8",
+      "session": 2,
+      "sequence": 237,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "candidateName": "Nodoguro, Ginza Nakamata Hanare",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 247,
+          "ordinal": 16,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro%2C%20Ginza%20Nakamata%20Hanare"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:33:24.281Z"
+    },
+    {
+      "run": "D8",
+      "session": 2,
+      "sequence": 252,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "candidateName": "Nodoguro, Ginza Nakamata Hanare",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 262,
+          "ordinal": 17,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro"
+        }
+      ],
+      "timeoutMs": 18661,
+      "atUTC": "2026-11-03T13:33:40.482Z"
+    },
+    {
+      "run": "D8",
+      "session": 3,
+      "sequence": 276,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "candidateName": "Nodoguro Nakamata",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 286,
+          "ordinal": 18,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro+Nakamata&geo_latitude=35.667397799999996&geo_longitude=139.7702798&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 293,
+          "ordinal": 19,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro+Nakamata&geo_latitude=35.667397799999996&geo_longitude=139.7702798&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 307,
+          "ordinal": 20,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro+Nakamata&geo_latitude=35.667397799999996&geo_longitude=139.7702798&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 325,
+          "ordinal": 21,
+          "url": null
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:33:59.249Z"
+    },
+    {
+      "run": "D8",
+      "session": 3,
+      "sequence": 333,
+      "source": "TABLECHECK",
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "candidateName": "Nodoguro Nakamata",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABLECHECK.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://www.tablecheck.com/en/japan/search",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 343,
+          "ordinal": 22,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro&geo_latitude=35.667397799999996&geo_longitude=139.7702798&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 350,
+          "ordinal": 23,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro&geo_latitude=35.667397799999996&geo_longitude=139.7702798&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 364,
+          "ordinal": 24,
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro&geo_latitude=35.667397799999996&geo_longitude=139.7702798&geo_distance=5km&auto_geolocate=false"
+        },
+        {
+          "sequence": 382,
+          "ordinal": 25,
+          "url": null
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:34:13.169Z"
+    },
+    {
+      "run": "D8",
+      "session": 3,
+      "sequence": 394,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "candidateName": "Nodoguro Nakamata",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 1,
+      "entranceReason": "SOURCE_ENTRY",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 404,
+          "ordinal": 26,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro%20Nakamata"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:34:28.155Z"
+    },
+    {
+      "run": "D8",
+      "session": 3,
+      "sequence": 409,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "candidateName": "Nodoguro Nakamata",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 2,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [
+        {
+          "sequence": 419,
+          "ordinal": 27,
+          "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro"
+        }
+      ],
+      "timeoutMs": 20000,
+      "atUTC": "2026-11-03T13:34:35.833Z"
+    },
+    {
+      "run": "D8",
+      "session": 3,
+      "sequence": 454,
+      "source": "TABELOG",
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "candidateName": "Nodoguro Nakamata",
+      "agentStep": 2,
+      "callChain": "Agent INVESTIGATE_CANDIDATE_FACTS -> Router candidateCheckpoints(single) -> assembly -> LiveBrowserAvailability.read -> AvailabilitySourceResolver -> TABELOG.check -> executor.acquire -> navigate",
+      "sessionCreationReason": "NEW_SINGLE_CANDIDATE_READ: Router checkpoint creates LiveBrowserAvailability.read executor; previous checkpoint closes it",
+      "entranceWithinSession": 3,
+      "entranceReason": "REENTRY_SAME_SESSION; alternative/busy/model navigation needs query provenance, not proved identical",
+      "recordedUrl": "https://tabelog.com/en/tokyo/rstLst/",
+      "requestedFullQuery": "NOT_RECORDED in SESSION_CALL",
+      "observedPages": [],
+      "timeoutMs": 1447,
+      "atUTC": "2026-11-03T13:34:57.710Z"
+    }
+  ],
+  "tablecheckD8Branch": [
+    {
+      "run": "D8",
+      "session": 1,
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "name": "Nakamata",
+      "exit": "NO_OUTLET_URLS_AFTER_EXPLORATION",
+      "classification": "SOURCE_AND_DECISION_PATH_INFERENCE",
+      "lastTableCheckNavigate": 4,
+      "browserDecisionWitnesses": [
+        {
+          "sequence": 4,
+          "at": "2026-11-03T13:32:06.712Z",
+          "goalName": "Nakamata"
+        }
+      ],
+      "nextTabelogNavigate": 65,
+      "basis": "Generic discovery model can only run after the initial query gate passes. Last TC navigation precedes a generic model call; no later explicit TC navigate before fallback. Final providerAttempts code is INCOMPLETE. Thus terminal return is the late empty-outlet branch, not initial query mismatch. Post-exploration query mismatch vs absent links still unknown."
+    },
+    {
+      "run": "D8",
+      "session": 2,
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "name": "Nodoguro, Ginza Nakamata Hanare",
+      "exit": "NO_OUTLET_URLS_AFTER_EXPLORATION",
+      "classification": "SOURCE_AND_DECISION_PATH_INFERENCE",
+      "lastTableCheckNavigate": 176,
+      "browserDecisionWitnesses": [
+        {
+          "sequence": 6,
+          "at": "2026-11-03T13:33:05.664Z",
+          "goalName": "Nodoguro, Ginza Nakamata Hanare"
+        },
+        {
+          "sequence": 8,
+          "at": "2026-11-03T13:33:19.688Z",
+          "goalName": "Nodoguro"
+        }
+      ],
+      "nextTabelogNavigate": 237,
+      "basis": "Generic discovery model can only run after the initial query gate passes. Last TC navigation precedes a generic model call; no later explicit TC navigate before fallback. Final providerAttempts code is INCOMPLETE. Thus terminal return is the late empty-outlet branch, not initial query mismatch. Post-exploration query mismatch vs absent links still unknown."
+    },
+    {
+      "run": "D8",
+      "session": 3,
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "name": "Nodoguro Nakamata",
+      "exit": "NO_OUTLET_URLS_AFTER_EXPLORATION",
+      "classification": "SOURCE_AND_DECISION_PATH_INFERENCE",
+      "lastTableCheckNavigate": 333,
+      "browserDecisionWitnesses": [
+        {
+          "sequence": 9,
+          "at": "2026-11-03T13:34:06.864Z",
+          "goalName": "Nodoguro Nakamata"
+        },
+        {
+          "sequence": 11,
+          "at": "2026-11-03T13:34:23.912Z",
+          "goalName": "Nodoguro"
+        }
+      ],
+      "nextTabelogNavigate": 394,
+      "basis": "Generic discovery model can only run after the initial query gate passes. Last TC navigation precedes a generic model call; no later explicit TC navigate before fallback. Final providerAttempts code is INCOMPLETE. Thus terminal return is the late empty-outlet branch, not initial query mismatch. Post-exploration query mismatch vs absent links still unknown."
+    }
+  ],
+  "realExternalCalls": 0,
+  "limits": "No waterfall, speedup, duplicate exact-query proof, or new Live rate is inferred."
+}

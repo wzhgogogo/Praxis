@@ -1,3 +1,5 @@
+2026-11-03 CET：C完成D4/D8具名搜索入口离线诊断：共38次，D4 16物理会话（Tab16次/10会话，TC10次/10会话），D8 3会话（Tab7/3，TC5/3）。片段模型不创建会话；逐候选Executor关闭和故障退休分别造成重建。原模型探索调用提供D8后置空入口分支证据，探索后query/解析原因仍未知。只交run内来源会话/搜索页观察复用方案，产品不改；诊断字段加在sidecar，未应用runtime窄补丁。真实调用0、不读.env，只推分支交复核。[报告](../.eval-artifacts/phase3b/named-search-sessions-20261103/report.md)。
+
 2026-11-03 CET：C已在B main f0bee7d7后完成获批fd07f44e合入验证。822a7cd3冻结799项，净树十步全绿：默认1404/1404、Chromium188/188、严格G2 5/5且12页PASS、22组装测试/独立26帧PASS。34个C独有和20个B独有源码逐字保留，两个重叠仅合并import/自动保留双方；原C证据不变，账本746行原值并集、累计/上限不变。后续只归档文档，按用户批准正常发布main并核对远端、通知A。State25/TaskDefinition23/Prompt/Schema不变，真实调用0、不读.env，不称Live条款已填。[报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
 
 2026-11-03 CET：C fd07f44e已获用户独立复核及合入批准，并已等待B先发布main f0bee7d7。合入候选保留B来源角色和C身份前三家/条款就绪，源码只解read-assessment的两个import，native-source-facts自动保留两边；账本并集746行，累计/上限不变。原C产物不改，待冻结后新鲜五门禁、严格G2和26帧独立核验；全绿才发布main并通知A。真实调用0、不读.env。 [合入报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
