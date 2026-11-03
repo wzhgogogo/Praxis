@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "phase3b-g6-pack@1",
+  "mode": "LIVE_READ",
+  "recording": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  },
+  "witnessGETLimit": 25,
+  "cases": [
+    {
+      "id": "D2",
+      "request": "Check whether Specializing in Nodoguro Ginza Nakamata has a table for two on November 11, 2026 at 8 PM.",
+      "followups": [],
+      "witness": {
+        "candidateId": "witness-W2",
+        "name": "のどぐろ専門 銀座 中俣",
+        "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+        "provider": "TABELOG",
+        "sourceEntityId": "13186922",
+        "date": "2026-11-11",
+        "time": "20:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+        "identityText": [
+          "4-10-12"
+        ],
+        "allowDetailOnlyCertificate": true
+      },
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "time": "20:00",
+          "partySize": 2,
+          "requiresIndependentQualification": true,
+          "named": {
+            "name": "のどぐろ専門 銀座 中俣",
+            "sourceIds": {
+              "TABELOG": "13186922",
+              "TABLECHECK": "nakamata-nodoguro-ginza"
+            },
+            "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+            "phone": "03-6264-3229"
+          }
+        },
+        "pages": []
+      }
+    }
+  ]
+}
