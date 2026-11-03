@@ -1,8 +1,8 @@
 # Tokyo Restaurant Agent MVP PRD
 
 - Status: Accepted
-- Document revision: 0.29
-- Last updated: 2026-11-02
+- Document revision: 0.30
+- Last updated: 2026-11-03
 - Source of truth for: 第一版产品范围、用户承诺和验收标准
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0049](../decisions/0049-source-bound-b1-booking-handoff.md), [ADR-0050](../decisions/0050-two-line-handoff-presentation.md)
 - Related documents: [User Flows](USER-FLOWS.md), [Visual Direction](VISUAL-DIRECTION.md), [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md)

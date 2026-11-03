@@ -1,5 +1,9 @@
 # Test and Verification Log
 
+<a id="named-outlet-source-names-verified-20261103"></a>
+
+2026-11-03 CET：C来源名唯一性补修离线全绿。D1真实Google短名+D3原字节有效红→查位→展示→B1/条款；同店来源全名与包含+typed地址地名分别核对，多店/错地名/身份冲突拒绝，未知别名/建筑词/字内片段不放行。2354b2bd冻结756项，净树十步全绿：默认1372/1372、Chromium188/188、严格G2 5/5及12页PASS，独立新7+原9帧PASS。State25/TaskDefinition23、语义/Agent版本与A/B保护文件不变；原627行全保留、账本628行，本轮真实调用0、不读.env。只推工作分支交复核，不合main；不是新Live或37家通过率。 [证据及完整记录](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。
+
 <a id="named-outlet-source-names-20261103"></a>
 
 2026-11-03 CET：C补来源名唯一性，D1真实Google短名+D3原语义红→绿；现有G4电话/地址规则不改，来源全名与包含+地址地名两规则分开验证。原八控制、用户选店、Google预算及TableCheck合计50/50通过（首次TableCheck受本地Chromium启动权限阻塞，原件保留；受控本地重跑通过）。State25/TaskDefinition23及Prompt/Schema不变；A/B受保护文件不改。最终输入和独立oracle待冻结，五门禁/严格G2待运行；本次真实调用0、只推工作分支待复核、不合main。 [证据](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。
