@@ -1,0 +1,1079 @@
+[
+  {
+    "runId": "h-02",
+    "candidateId": "tabelog:en/tokyo/A1311/A131101/13093277",
+    "before": {
+      "text": "Korean food",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "NOT_CHECKED",
+      "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+      ],
+      "sources": [
+        {
+          "field": "NAME",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "NAME",
+          "quote": "Korean Izakaya Tonmakkoru Ueno ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "after": {
+      "text": "Korean food",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "MET",
+      "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+        "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+      ],
+      "sources": [
+        {
+          "field": "CATEGORY",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "sourceEvidence": [
+      {
+        "evidenceId": "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+        "provider": "TABELOG",
+        "claims": {
+          "restaurantTypeFacts": [
+            "Korean",
+            "Korean Izakaya Tonmakkoru Ueno ten - Keisei Ueno(Korean)",
+            "All-You-Can-Eat Cheese Dakgalbi and Makgeolli"
+          ],
+          "sourceStatementIds": [
+            "tabelog:en/tokyo/A1311/A131101/13093277:statement:19",
+            "tabelog:en/tokyo/A1311/A131101/13093277:statement:1",
+            "tabelog:en/tokyo/A1311/A131101/13093277:statement:11"
+          ]
+        },
+        "sourceFieldQuotes": [
+          {
+            "field": "NAME",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "NAME",
+            "quote": "Korean Izakaya Tonmakkoru Ueno ten",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CATEGORY",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      },
+      {
+        "evidenceId": "fact-judgment:tabelog:en/tokyo/A1311/A131101/13093277:2026-10-23T05:19:18.664Z:tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+        "provider": "MODEL_JUDGMENT",
+        "claims": {
+          "verifiedHardCriteria": [
+            "Korean food"
+          ],
+          "supportingEvidenceIds": [
+            "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "runId": "h-02",
+    "candidateId": "tabelog:en/tokyo/A1311/A131101/13093277",
+    "before": {
+      "text": "no more than 5,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT",
+      "criterionRef": "criterion:1",
+      "status": "MET",
+      "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+      "evidenceIds": [
+        "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+      ],
+      "sources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "All you can drink All-You-Can-Drink Only! 2 Hours - 120 Minutes JPY 1,500 (tax Included JPY 1,650) Reserve Set menu details JPY 1,500 （Price excluding tax）per person",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "All you can drink [6 Dishes] Samgyeopsal Course with 2H All-You-Can-Drink + All 6 Dishes ⇒ JPY 2,500 (Tax Included JPY 2,750) 3H All-You-Can-Drink ⇒ JPY 3,500 (Tax Included JPY 3,850) (Excluding Tax) 6 items ★Limited Time Offer★ Enjoy Makgeolli too! Samgyeopsal Course ⇒ 2-hour all-you-can-drink + 7 dishes for JPY 2,500 Reserve Set menu details JPY 2,500 （Price excluding tax）per person",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "All you can drink All you can eat ★Limited★【2-Hour All You Can Drink】Samgyeopsal All You Can Eat * All You Can Drink Course! JPY 3,000 (tax Included JPY 3,300) Reserve Set menu details JPY 3,000 （Price excluding tax）per person",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "JPY 2,000 - JPY 2,999",
+          "field": "PRICE"
+        }
+      ]
+    },
+    "after": {
+      "text": "no more than 5,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT",
+      "criterionRef": "criterion:1",
+      "status": "MET",
+      "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+      "evidenceIds": [
+        "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c"
+      ],
+      "sources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+          "quote": "JPY 2,000 - JPY 2,999",
+          "field": "PRICE"
+        }
+      ]
+    },
+    "sourceEvidence": [
+      {
+        "evidenceId": "tabelog:en/tokyo/A1311/A131101/13093277:document:1dfefda9ff54822c",
+        "provider": "TABELOG",
+        "claims": {
+          "restaurantTypeFacts": [
+            "Korean",
+            "Korean Izakaya Tonmakkoru Ueno ten - Keisei Ueno(Korean)",
+            "All-You-Can-Eat Cheese Dakgalbi and Makgeolli"
+          ],
+          "sourceStatementIds": [
+            "tabelog:en/tokyo/A1311/A131101/13093277:statement:19",
+            "tabelog:en/tokyo/A1311/A131101/13093277:statement:1",
+            "tabelog:en/tokyo/A1311/A131101/13093277:statement:11"
+          ]
+        },
+        "sourceFieldQuotes": [
+          {
+            "field": "NAME",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "NAME",
+            "quote": "Korean Izakaya Tonmakkoru Ueno ten",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CATEGORY",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13093277/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "runId": "h-02",
+    "candidateId": "tabelog:en/tokyo/A1311/A131101/13018986",
+    "before": {
+      "text": "Korean food",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "NOT_CHECKED",
+      "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+      ],
+      "sources": [
+        {
+          "field": "NAME",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "after": {
+      "text": "Korean food",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "MET",
+      "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+        "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+      ],
+      "sources": [
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "sourceEvidence": [
+      {
+        "evidenceId": "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+        "provider": "TABELOG",
+        "claims": {
+          "restaurantTypeFacts": [
+            "Korean",
+            "3-Minute Walk from Ueno Station ◆ Authentic Korean Cuisine with Addictive Spicy Flavor! Enjoy Hot \"Korean Hot Pot\" Perfect for the Cold Season♪",
+            "We offer a budget-friendly 2-hour all-you-can-drink course, perfect for welcome and farewell parties! Located just a short walk from Ueno Marui, our newly opened Korean restaurant serves authentic dis...Read more"
+          ],
+          "sourceStatementIds": [
+            "tabelog:en/tokyo/A1311/A131101/13018986:statement:20",
+            "tabelog:en/tokyo/A1311/A131101/13018986:statement:36",
+            "tabelog:en/tokyo/A1311/A131101/13018986:statement:37"
+          ]
+        },
+        "sourceFieldQuotes": [
+          {
+            "field": "NAME",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CATEGORY",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13018986/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      },
+      {
+        "evidenceId": "fact-judgment:tabelog:en/tokyo/A1311/A131101/13018986:2026-10-23T05:19:26.779Z:tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0",
+        "provider": "MODEL_JUDGMENT",
+        "claims": {
+          "verifiedHardCriteria": [
+            "Korean food"
+          ],
+          "supportingEvidenceIds": [
+            "tabelog:en/tokyo/A1311/A131101/13018986:document:40087450cedf7aa0"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "runId": "h-02",
+    "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+    "before": {
+      "text": "Korean food",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "NOT_CHECKED",
+      "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+      ],
+      "sources": [
+        {
+          "field": "NAME",
+          "quote": "Korean Ryori Bibim Ekyuto ueno ten",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "NAME",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "after": {
+      "text": "Korean food",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "MET",
+      "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+        "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+      ],
+      "sources": [
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "sourceEvidence": [
+      {
+        "evidenceId": "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+        "provider": "TABELOG",
+        "claims": {
+          "restaurantTypeFacts": [
+            "Korean Ryori Bibim Ekyuto ueno ten - Ueno(Korean)",
+            "A Korean Cuisine restaurant where you can casually enjoy authentic flavors",
+            "Korean"
+          ],
+          "sourceStatementIds": [
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:1",
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:11",
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:19"
+          ]
+        },
+        "sourceFieldQuotes": [
+          {
+            "field": "NAME",
+            "quote": "Korean Ryori Bibim Ekyuto ueno ten",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "NAME",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CATEGORY",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      },
+      {
+        "evidenceId": "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T05:20:51.091Z:tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+        "provider": "MODEL_JUDGMENT",
+        "claims": {
+          "verifiedHardCriteria": [
+            "Korean food"
+          ],
+          "supportingEvidenceIds": [
+            "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "runId": "h-02",
+    "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+    "before": {
+      "text": "no more than 5,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT",
+      "criterionRef": "criterion:1",
+      "status": "MET",
+      "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+      "evidenceIds": [
+        "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+      ],
+      "sources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Spicy Banquet × Nakko Pse Course (Food Only) × All You Can Drink Available] Authentic Korean Napa Cabbage Kimchi All You Can Eat × Choose from 6 Types of Chijimi 7 items This is a seven-dish course featuring authentic Korean napa cabbage kimchi, our signature chijimi (Korean pancakes), and nakkeopsae (spicy seafood salad). Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 2 - 20",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "JPY 2,000 - JPY 2,999",
+          "field": "PRICE"
+        }
+      ]
+    },
+    "after": {
+      "text": "no more than 5,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT",
+      "criterionRef": "criterion:1",
+      "status": "MET",
+      "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+      "evidenceIds": [
+        "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d"
+      ],
+      "sources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Spicy Banquet × Nakko Pse Course (Food Only) × All You Can Drink Available] Authentic Korean Napa Cabbage Kimchi All You Can Eat × Choose from 6 Types of Chijimi 7 items This is a seven-dish course featuring authentic Korean napa cabbage kimchi, our signature chijimi (Korean pancakes), and nakkeopsae (spicy seafood salad). Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 2 - 20",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "JPY 2,000 - JPY 2,999",
+          "field": "PRICE"
+        }
+      ]
+    },
+    "sourceEvidence": [
+      {
+        "evidenceId": "tabelog:en/tokyo/A1311/A131101/13271031:document:1a687e5aa869165d",
+        "provider": "TABELOG",
+        "claims": {
+          "restaurantTypeFacts": [
+            "Korean Ryori Bibim Ekyuto ueno ten - Ueno(Korean)",
+            "A Korean Cuisine restaurant where you can casually enjoy authentic flavors",
+            "Korean"
+          ],
+          "sourceStatementIds": [
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:1",
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:11",
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:19"
+          ]
+        },
+        "sourceFieldQuotes": [
+          {
+            "field": "NAME",
+            "quote": "Korean Ryori Bibim Ekyuto ueno ten",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "NAME",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CATEGORY",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "runId": "h-08",
+    "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+    "before": {
+      "text": "Korean food",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "NOT_CHECKED",
+      "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+      ],
+      "sources": [
+        {
+          "field": "NAME",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CUSTOMER_REVIEW",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "after": {
+      "text": "Korean food",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "MET",
+      "explanation": "Merchant source fields support this restaurant offering. Requested-time course availability has not been verified.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+        "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+      ],
+      "sources": [
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_TITLE",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "COURSE_DESCRIPTION",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Korean",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "sourceEvidence": [
+      {
+        "evidenceId": "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+        "provider": "TABELOG",
+        "claims": {
+          "restaurantTypeFacts": [
+            "A Korean Cuisine restaurant where you can casually enjoy authentic flavors",
+            "Korean",
+            "1-minute walk from Ueno Station Park Exit ◆ Enjoy authentic Korean cuisine in a stylish café-like space♪ ◎ Conveniently located Korean restaurant☆"
+          ],
+          "sourceStatementIds": [
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:11",
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:19",
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:34"
+          ]
+        },
+        "sourceFieldQuotes": [
+          {
+            "field": "NAME",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CATEGORY",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      },
+      {
+        "evidenceId": "fact-judgment:tabelog:en/tokyo/A1311/A131101/13271031:2026-10-23T06:34:36.740Z:tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+        "provider": "MODEL_JUDGMENT",
+        "claims": {
+          "verifiedHardCriteria": [
+            "Korean food"
+          ],
+          "supportingEvidenceIds": [
+            "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "runId": "h-08",
+    "candidateId": "tabelog:en/tokyo/A1311/A131101/13271031",
+    "before": {
+      "text": "no more than 5,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT",
+      "criterionRef": "criterion:1",
+      "status": "MET",
+      "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+      "evidenceIds": [
+        "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+      ],
+      "sources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "All you can drink All you can eat [Terrace Exclusive × Draft Beer and Makgeolli! 2h All You Can Drink × Thick Cut Meat All You Can Eat × Authentic Korean Napa Cabbage Kimchi All You Can Eat] Aged Thick Cut Samgyeopsal All You Can Eat Course 7 items Enjoy all-you-can-drink options including Nama Biru, Makgeolli, and Chamisul! This luxurious course features all-you-can-eat Napa cabbage kimchi, thick-cut Samgyeopsal, and fresh vegetables sourced directly from Korea. Reserve Set menu details JPY 4,980 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Spicy Banquet × Nakko Pse Course (Food Only) × All You Can Drink Available] Authentic Korean Napa Cabbage Kimchi All You Can Eat × Choose from 6 Types of Chijimi 7 items This is a seven-dish course featuring authentic Korean napa cabbage kimchi, our signature chijimi (Korean pancakes), and nakkeopsae (spicy seafood salad). Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 2 - 20",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Terrace Limited Plan] Recommended Samgyeopsal Set 4 items Terrace Exclusive Samgyeopsal Course Enjoy thick-cut samgyeopsal grilled right in front of you while taking in the beautiful terrace views. This plan includes recommended dishes such as seafood jeon and cold noodles, along with many other delights. *Please note that depending on your reservation timing, there may be a wait. Thank you for your understanding. Reserve Set menu details JPY 2,780 （Price including tax）per person Number of people 2 - 24",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "JPY 2,000 - JPY 2,999",
+          "field": "PRICE"
+        }
+      ]
+    },
+    "after": {
+      "text": "no more than 5,000 yen per person",
+      "polarity": "POSITIVE",
+      "strength": "SOFT",
+      "criterionRef": "criterion:1",
+      "status": "MET",
+      "explanation": "Listed dinner prices support this budget. Tax treatment is retained as quoted; no conversion. Listed-plan availability has not been verified.",
+      "evidenceIds": [
+        "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf"
+      ],
+      "sources": [
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "[Spicy Banquet × Nakko Pse Course (Food Only) × All You Can Drink Available] Authentic Korean Napa Cabbage Kimchi All You Can Eat × Choose from 6 Types of Chijimi 7 items This is a seven-dish course featuring authentic Korean napa cabbage kimchi, our signature chijimi (Korean pancakes), and nakkeopsae (spicy seafood salad). Reserve Set menu details JPY 3,300 （Price including tax）per person Number of people 2 - 20",
+          "field": "PRICE"
+        },
+        {
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+          "quote": "JPY 2,000 - JPY 2,999",
+          "field": "PRICE"
+        }
+      ]
+    },
+    "sourceEvidence": [
+      {
+        "evidenceId": "tabelog:en/tokyo/A1311/A131101/13271031:document:f9f1378ee0fb90bf",
+        "provider": "TABELOG",
+        "claims": {
+          "restaurantTypeFacts": [
+            "A Korean Cuisine restaurant where you can casually enjoy authentic flavors",
+            "Korean",
+            "1-minute walk from Ueno Station Park Exit ◆ Enjoy authentic Korean cuisine in a stylish café-like space♪ ◎ Conveniently located Korean restaurant☆"
+          ],
+          "sourceStatementIds": [
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:11",
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:19",
+            "tabelog:en/tokyo/A1311/A131101/13271031:statement:34"
+          ]
+        },
+        "sourceFieldQuotes": [
+          {
+            "field": "NAME",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CUSTOMER_REVIEW",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_TITLE",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "COURSE_DESCRIPTION",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CATEGORY",
+            "quote": "Korean",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1311/A131101/13271031/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "runId": "h-12",
+    "candidateId": "tabelog:en/tokyo/A1324/A132402/13318138",
+    "before": {
+      "text": "motsunabe",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "NOT_CHECKED",
+      "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-23T07:13:16.431Z:tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf"
+      ],
+      "sources": [
+        {
+          "field": "CATEGORY",
+          "quote": "Motsu-nabe",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Izakaya (Japanese style tavern)",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "after": {
+      "text": "motsunabe",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "MET",
+      "explanation": "Based on Tabelog category. Requested-time course availability has not been verified.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-23T07:13:16.431Z:tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf",
+        "tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf"
+      ],
+      "sources": [
+        {
+          "field": "CATEGORY",
+          "quote": "Motsu-nabe",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+          "meal": "UNSPECIFIED"
+        },
+        {
+          "field": "CATEGORY",
+          "quote": "Izakaya (Japanese style tavern)",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "sourceEvidence": [
+      {
+        "evidenceId": "tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf",
+        "provider": "TABELOG",
+        "claims": {
+          "restaurantTypeFacts": [
+            "Motsu-nabe",
+            "Izakaya (Japanese style tavern)"
+          ],
+          "sourceStatementIds": [
+            "tabelog:en/tokyo/A1324/A132402/13318138:statement:21",
+            "tabelog:en/tokyo/A1324/A132402/13318138:statement:19"
+          ]
+        },
+        "sourceFieldQuotes": [
+          {
+            "field": "CATEGORY",
+            "quote": "Motsu-nabe",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+            "meal": "UNSPECIFIED"
+          },
+          {
+            "field": "CATEGORY",
+            "quote": "Izakaya (Japanese style tavern)",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13318138/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      },
+      {
+        "evidenceId": "fact-judgment:tabelog:en/tokyo/A1324/A132402/13318138:2026-10-23T07:13:16.431Z:tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf",
+        "provider": "MODEL_JUDGMENT",
+        "claims": {
+          "verifiedHardCriteria": [
+            "motsunabe"
+          ],
+          "supportingEvidenceIds": [
+            "tabelog:en/tokyo/A1324/A132402/13318138:document:8b74063eed516cbf"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "runId": "h-12",
+    "candidateId": "tabelog:en/tokyo/A1324/A132402/13196646",
+    "before": {
+      "text": "motsunabe",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "NOT_CHECKED",
+      "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-23T07:12:55.320Z:tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365"
+      ],
+      "sources": [
+        {
+          "field": "CATEGORY",
+          "quote": "Motsu-nabe",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13196646/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "after": {
+      "text": "motsunabe",
+      "polarity": "POSITIVE",
+      "strength": "HARD",
+      "criterionRef": "criterion:0",
+      "status": "MET",
+      "explanation": "Based on Tabelog category. Requested-time course availability has not been verified.",
+      "evidenceIds": [
+        "fact-judgment:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-23T07:12:55.320Z:tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365",
+        "tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365"
+      ],
+      "sources": [
+        {
+          "field": "CATEGORY",
+          "quote": "Motsu-nabe",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13196646/",
+          "meal": "UNSPECIFIED"
+        }
+      ]
+    },
+    "sourceEvidence": [
+      {
+        "evidenceId": "tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365",
+        "provider": "TABELOG",
+        "claims": {
+          "restaurantTypeFacts": [
+            "Categories：",
+            "Motsu-nabe"
+          ],
+          "sourceStatementIds": [
+            "tabelog:en/tokyo/A1324/A132402/13196646:statement:18",
+            "tabelog:en/tokyo/A1324/A132402/13196646:statement:21"
+          ]
+        },
+        "sourceFieldQuotes": [
+          {
+            "field": "CATEGORY",
+            "quote": "Motsu-nabe",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1324/A132402/13196646/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      },
+      {
+        "evidenceId": "fact-judgment:tabelog:en/tokyo/A1324/A132402/13196646:2026-10-23T07:12:55.320Z:tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365",
+        "provider": "MODEL_JUDGMENT",
+        "claims": {
+          "verifiedHardCriteria": [
+            "motsunabe"
+          ],
+          "supportingEvidenceIds": [
+            "tabelog:en/tokyo/A1324/A132402/13196646:document:7948b48309af3365"
+          ]
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,308 @@
+{
+  "status": "READY_FOR_INDEPENDENT_REVIEW_NOT_MERGED",
+  "timeCET": "2026-11-03T10:02:27.636543+01:00",
+  "branch": "codex/fix-phase3b-positive-hard-source-roles",
+  "baseMain": "db1f44a2238b44fa92cff58dae4e17e8903875a5",
+  "verifiedCandidate": "a5625ddf173025de32e7397a28547caadf03a783",
+  "productionFix": "f3900dc0",
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-03T09:55:08.278119+01:00",
+      "seconds": 0.521,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "a5625ddf173025de32e7397a28547caadf03a783",
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294"
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-03T09:55:08.842169+01:00",
+      "seconds": 0.225,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "a5625ddf173025de32e7397a28547caadf03a783",
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122"
+    },
+    {
+      "name": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-03T09:55:09.108347+01:00",
+      "seconds": 46.628,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "a5625ddf173025de32e7397a28547caadf03a783",
+      "logSha256": "ecec9960e59a3190111d2081f4ba0f05df2b6fefcfe76b785df3c6ec17908651"
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-11-03T09:55:55.780210+01:00",
+      "seconds": 0.564,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "a5625ddf173025de32e7397a28547caadf03a783",
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8"
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-11-03T09:55:56.387774+01:00",
+      "seconds": 130.647,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "a5625ddf173025de32e7397a28547caadf03a783",
+      "logSha256": "05e27f8af5c74831d3deae0c73c6991314a7ae62498761ff0eb29b39326c441d"
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-11-03T09:58:07.091660+01:00",
+      "seconds": 24.239,
+      "exitCode": 0,
+      "preStatus": "",
+      "postStatus": "",
+      "sha": "a5625ddf173025de32e7397a28547caadf03a783",
+      "logSha256": "ed63aef8c395712fee1954b3fec0ce70ecb818eb0e2fd85896d91f23fb249f5a"
+    }
+  ],
+  "defaultTests": 1397,
+  "chromiumTests": 188,
+  "strictG2Pages": [
+    {
+      "id": "tabelog-list-nerima",
+      "classification": "PASS",
+      "referenceFacts": 20,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-list-akabane",
+      "classification": "PASS",
+      "referenceFacts": 1,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-detail-01",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-detail-02",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-calendar-teppen",
+      "classification": "PASS",
+      "referenceFacts": 3,
+      "lost": [],
+      "unknownDates": {
+        "day:2026-09-29": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-28": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-09-30": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tabelog-calendar-sen",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {
+        "day:2026-10-22": {
+          "before": null,
+          "after": null
+        },
+        "day:2026-10-01": {
+          "before": null,
+          "after": null
+        }
+      },
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-list-ginza",
+      "classification": "PASS",
+      "referenceFacts": 1,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-list-akabane",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-detail-nakamata",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-detail-takahashiya",
+      "classification": "PASS",
+      "referenceFacts": 2,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-calendar-nakamata",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    },
+    {
+      "id": "tablecheck-calendar-kinri",
+      "classification": "PASS",
+      "referenceFacts": 0,
+      "lost": [],
+      "unknownDates": {},
+      "sourceTransportCalls": 0
+    }
+  ],
+  "d4": {
+    "eligible": true,
+    "before": "NOT_CHECKED",
+    "after": "MET",
+    "sameQuote": true
+  },
+  "web": {
+    "mode": "LOCAL_CHROMIUM_RENDERER_COMPONENT",
+    "interceptedRequests": 14,
+    "realNetworkRequests": 0,
+    "results": [
+      {
+        "label": "observed-name",
+        "text": "Tokyo\n\nkaiseki restaurant — met\n\nBased on outlet name: Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro（カッポウ カガ） - Ushigome Kagurazaka(Japanese Cuisine)\n\nSource",
+        "status": "MET",
+        "sources": [
+          {
+            "field": "NAME",
+            "quote": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro（カッポウ カガ） - Ushigome Kagurazaka(Japanese Cuisine)",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+            "meal": "UNSPECIFIED"
+          }
+        ]
+      },
+      {
+        "label": "category-without-quote",
+        "text": "Tokyo\n\ncafe — met\n\nBased on Google category. Requested-time course availability has not been verified.",
+        "status": "MET",
+        "sources": []
+      }
+    ]
+  },
+  "compatibility": {
+    "oldSha256": "9a3298bc5e004b99e41d80713e8913b68c336cfa594f6eb60599e310ee3fb633",
+    "newSha256": "711cda8aa38db56e29b33063b3962ad372fb44168ea1098a9ea243eb4a00dd6a",
+    "oldBytes": 44197,
+    "newBytes": 47208,
+    "documentsIdentical": true,
+    "selectionsIdentical": true,
+    "modelRequestsIdentical": true
+  },
+  "compatibilityChangedPaths": [
+    "/facts/sourceDocuments/0/statementSourceFields",
+    "/facts/evidence/1/sourceFieldQuotes"
+  ],
+  "protectedFilesChanged": [],
+  "sourceRoleAnnotations": 15,
+  "ledger": {
+    "mainEntriesPreserved": 740,
+    "finalEntries": 743,
+    "limitsUnchanged": true,
+    "cumulativeUnchanged": true
+  },
+  "newRealCalls": {
+    "model": 0,
+    "google": 0,
+    "website": 0,
+    "live": 0,
+    "publicGET": 0,
+    "environmentReruns": 0
+  },
+  "mainMerged": false,
+  "pushReceipt": "Verify final metadata commit with git ls-remote; final user response and A notification carry its SHA.",
+  "exactByteCompatibility": {
+    "sections": {
+      "documents": {
+        "bytes": 9433,
+        "sha256": "b6704cfbbfd5f824184c5f9fe3a89f0ce6fd7507cbb573fb6a8991bbd92f5513",
+        "byteIdentical": true
+      },
+      "selections": {
+        "bytes": 1791,
+        "sha256": "3b0e19410d4bb68b52148650fd0b835242111289eb6680d672f4fe908af5cfab",
+        "byteIdentical": true
+      },
+      "modelRequests": {
+        "bytes": 14674,
+        "sha256": "e7df1a8d00e3f588490e064bdc77984149edae90dc8f84cf3ff699f52575c1b3",
+        "byteIdentical": true
+      }
+    },
+    "afterRemovingOnlyNewRoleMetadata": {
+      "byteIdentical": true,
+      "bytes": 44197,
+      "sha256": "9a3298bc5e004b99e41d80713e8913b68c336cfa594f6eb60599e310ee3fb633"
+    }
+  }
+}

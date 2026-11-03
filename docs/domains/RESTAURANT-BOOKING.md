@@ -1,13 +1,19 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.50
+- Document revision: 3.51
 
 
 - Last updated: 2026-11-03
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)
+
+## Positive non-price HARD evidence (user decision 2026-11-03; implementation candidate)
+
+Qualification and the displayed condition use the same source admission. Current, identity-bound merchant menu/website/introduction text and recognized provider categories may support a positive non-price HARD. A name/H1/alias observed on that outlet's own page may also support it when it explicitly contains the requested cuisine/type words. Customer review titles, review bodies and ratings never support that claim; review-only evidence stays NOT_CHECKED and cannot qualify a result. This does not change negative HARD, prices, service scope, identity or freshness rules, and a dish on a menu is not a claim that the outlet specializes in it.
+
+Source roles come from code-owned fields and observable headings/ARIA regions, not a model's role label. Positive MODEL_JUDGMENT needs at least one accepted supporting source role. Cards retain exact source quotations; name evidence is labelled “Based on outlet name”, category evidence is labelled as such, and a recognized category without a quote shows its basis without inventing text. Prompt/Schema and State25/TaskDefinition23 are unchanged. Source-role detection retains ADR0046's limitation for unlabelled/mixed reviews; this is not a universal review detector. This paragraph replaces the positive HARD part of the historical 2026-10-23 literal-display description below. Release/review status: [STATUS](../STATUS.md), [evidence](../../.eval-artifacts/phase3b/hard-evidence-scope-20261103/report.md).
 
 
 G3已核验Tabelog时段响应的OBSERVED输出保留每条form_course原链接（formCourseLinks: time/url）及同一最新响应来源（sourceResponse: sequence/url/observedAt）；不重建链接，不改变店号、日期、人数、时刻、origin/path或结构核验，UNKNOWN/changed不输出链接。库存包装器行为不变，B1消费另行接线。接口和离线证据见[G3完成报告](../../.eval-artifacts/phase3b/g3-longrun/16-form-course-and-completion/report.md)。

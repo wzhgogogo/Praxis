@@ -1,0 +1,22 @@
+node:internal/modules/run_main:105
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
++ actual - expected
+
++ 'NOT_CHECKED'
+- 'MET'
+
+    at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/.eval-artifacts/phase3b/hard-evidence-scope-20261103/replay-d4.ts:22:8)
+    at ModuleJob.run (node:internal/modules/esm/module_job:370:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:99:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'NOT_CHECKED',
+  expected: 'MET',
+  operator: 'strictEqual'
+}
+
+Node.js v24.4.1
