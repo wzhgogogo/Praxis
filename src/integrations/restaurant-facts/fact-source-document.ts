@@ -45,18 +45,19 @@ export function selectRestaurantFactStatements(document: RestaurantFactSourceDoc
 }
 
 /** Bind provenance to statement IDs using public headings/regions, before any model selection. */
-export function bindRestaurantFactSourceRoles(document: RestaurantFactSourceDocument, page: Pick<BrowserSnapshot, "text" | "html">): RestaurantFactSourceDocument {
+export function bindRestaurantFactSourceRoles(document: RestaurantFactSourceDocument, page: Pick<BrowserSnapshot, "text" | "html">, observedOutletNames: readonly string[] = []): RestaurantFactSourceDocument {
   const compact = (text: string) => text.normalize("NFKC").replace(/\s+/gu, " ").trim();
   const lines = page.text.split(/\r?\n/u).map(line => line.trim()).filter(Boolean);
   const review = reviewStatementIndices(page, true);
   const reviewLines = new Set(lines.filter((_, index) => review.has(index)).map(compact));
   const reviewRegions = sourcePriceElements(page.html, tag => /aria-label=["'](?:customer |user )?(?:reviews?|口コミ|クチコミ)["']/iu.test(tag)).map(region => compact(publicPriceText(region)));
-  const names = [...page.html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1\s*>/giu)].map(m => compact(publicPriceText(m[1]!)));
+  const nameKey = (text: string) => compact(text).toLowerCase();
+  const names = [...observedOutletNames.filter(name => name.trim()), ...[...page.html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1\s*>/giu)].map(m => publicPriceText(m[1]!))].map(nameKey);
   document.statementSourceFields = Object.fromEntries(document.statements.map(statement => {
     const text = compact(statement.text);
     const fields = (document.sourceFieldQuotes ?? []).filter(q => text.includes(compact(q.quote)) || compact(q.quote).includes(text));
     const field = reviewLines.has(text) || reviewRegions.some(region => text && region.includes(text)) || fields.some(q => q.field === "CUSTOMER_REVIEW") || /^(?:customer|user) review\s*:/iu.test(text) ? "CUSTOMER_REVIEW"
-      : names.includes(text) || fields.some(q => q.field === "NAME") ? "NAME" : "SOURCE_TEXT";
+      : names.includes(nameKey(text)) || fields.some(q => q.field === "NAME") ? "NAME" : "SOURCE_TEXT";
     return [statement.id, field];
   }));
   return document;

@@ -49,7 +49,7 @@ export async function readQuotedRestaurantSourceFacts(model: ModelGateway | unde
   const page = structuredClone({ candidateId: input.candidate.restaurant.id, readRunId: readId, requestedSourceUrl: input.page.url, identity: input.identity, snapshot: input.page, observedAt: input.readAt });
   const binding = { candidateId: page.candidateId, sourceUrl: page.snapshot.url, readRunId: readId, startedAt: page.identity.observedAt };
   if (!isRestaurantFactPageBound(page, binding, now())) return undefined;
-  const document = bindRestaurantFactSourceRoles(createRestaurantFactSourceDocument(binding.candidateId, page.identity.evidenceId, page.snapshot.text, undefined, undefined, undefined, RESTAURANT_PAGE_QUESTION_LIMITS), page.snapshot);
+  const document = bindRestaurantFactSourceRoles(createRestaurantFactSourceDocument(binding.candidateId, page.identity.evidenceId, page.snapshot.text, undefined, undefined, undefined, RESTAURANT_PAGE_QUESTION_LIMITS), page.snapshot, typeof page.identity.claims.outletName === "string" ? [page.identity.claims.outletName] : []);
   if (!document.statements.length || compact(document.statements.map(s => s.text).join("\n")) !== compact(page.snapshot.text)) return undefined;
   const review = reviewStatementIndices(page.snapshot);
   const markup = page.snapshot.visibleHtml ?? page.snapshot.html;

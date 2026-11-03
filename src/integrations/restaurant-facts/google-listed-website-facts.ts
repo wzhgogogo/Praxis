@@ -166,7 +166,7 @@ export function candidateVisibleObservation(
     ...(/\b(?:cafe|coffee\s*shop|restaurant|bistro|bakery)\b/iu.test(text) ? [text.match(/\b(?:cafe|coffee\s*shop|restaurant|bistro|bakery)\b/iu)?.[0] ?? ""] : []),
     ...lines.filter((line) => /(?:cuisine|料理|cafe|coffee|restaurant)/iu.test(line)).slice(0, 3),
   ].filter(Boolean);
-  const sourceDocument = bindRestaurantFactSourceRoles(createRestaurantFactSourceDocument(candidate.restaurant.id, "visible-source-roles", visibleText), { text: visibleText, html });
+  const sourceDocument = bindRestaurantFactSourceRoles(createRestaurantFactSourceDocument(candidate.restaurant.id, "visible-source-roles", visibleText), { text: visibleText, html }, [candidate.restaurant.outletName]);
   const fieldQuotes = sourceDocument.statements.filter(statement => restaurantTypeFacts.some(type => statement.text.toLowerCase().includes(type.toLowerCase())))
     .map(statement => ({ field: sourceDocument.statementSourceFields![statement.id]!, quote: statement.text, sourceUrl }));
   const regularOpeningHours = lines.filter((line) =>
@@ -375,7 +375,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
           }
           const quoted=quotations.get(page.observation.sourceUrl);
           if (statements.length) documents.push(bindRestaurantFactSourceRoles({ id, candidateId: candidate.restaurant.id, identityEvidenceId: identity.evidenceId, statements,
-            ...(quoted?.sourceFieldQuotes.length?{sourceFieldQuotes:quoted.sourceFieldQuotes}:{}),...(quoted?.priceFacts?{priceFacts:quoted.priceFacts}:{}) }, page.snapshot));
+            ...(quoted?.sourceFieldQuotes.length?{sourceFieldQuotes:quoted.sourceFieldQuotes}:{}),...(quoted?.priceFacts?{priceFacts:quoted.priceFacts}:{}) }, page.snapshot, typeof identity.claims.outletName === "string" ? [identity.claims.outletName] : []));
         }
         return { evidence: pageEvidence, documents };
       };
