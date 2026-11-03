@@ -2,6 +2,7 @@ import { selectRestaurantFactStatements } from "./fact-source-document.js";
 import type { ModelGateway, ModelUsage } from "../../core/model/contracts.js";
 import type { RestaurantCandidate, RestaurantFactSourceDocument, RestaurantReadEvidence, RestaurantSearchIntent } from "../../domains/restaurant/contracts.js";
 import { positiveHardSourceSupport } from "../../domains/restaurant/positive-hard-evidence.js";
+import { priceCondition } from "../../domains/restaurant/condition-states.js";
 
 export interface RestaurantFactJudgmentPort {
   judge(input: { candidate: RestaurantCandidate; intent: RestaurantSearchIntent; evidence: RestaurantReadEvidence[]; sourceDocuments?: RestaurantFactSourceDocument[] }): Promise<RestaurantFactJudgmentResult>;
@@ -199,10 +200,10 @@ export class ModelRestaurantFactJudgment implements RestaurantFactJudgmentPort {
       const citedGroundedEntities = evidenceIds.every((id) => typeof sourceById.get(id)?.groundedEntity === "string");
       let kind: AcceptedJudgment["kind"] | undefined;
       if (outcome === "SUPPORTED" && requestedCriterion.polarity === "POSITIVE" && citedConcreteTypeFacts
-        && evidenceIds.some(id => {
+        && (priceCondition(criterion, input.intent.budgetPerPerson) || evidenceIds.some(id => {
           const source = positiveSourcesById.get(id);
           return source && positiveHardSourceSupport(criterion, source);
-        })) kind = "POSITIVE";
+        }))) kind = "POSITIVE";
       if (outcome === "SUPPORTED" && requestedCriterion.polarity === "NEGATIVE" && citedConcreteTypeFacts) kind = "NEGATIVE";
       if (outcome === "CONFLICT" && requestedCriterion.polarity === "NEGATIVE" && (citedConcreteTypeFacts || (scope === "RESTAURANT_CATEGORY_TYPE" && citedGroundedEntities))) kind = "CONFLICT";
       if (outcome === "UNKNOWN" && requestedCriterion.polarity === "NEGATIVE" && scope === "RESTAURANT_CATEGORY_TYPE") kind = "CATEGORY_UNKNOWN";
