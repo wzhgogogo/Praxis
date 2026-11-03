@@ -1,5 +1,7 @@
 # Praxis 当前状态
 
+2026-11-03 CET：A完成动态点名评价及四槽续跑。同步C（一）main533f1bc5，净树五门禁1380/188+G6 66、严格G2 5/5（12页）。D3新运行/D5各交付同店Dengana1家、S0=0；D2/D8因5个近名候选需澄清，安全PASS但能力NOT_EVALUATED，无D8双渠道链接和TableCheck日历。本轮4Live/26模型/7GET，无环境重跑；账本738条保留原值。开发Live8/8、模型106/400、GET22/25；全局Live8/26、模型347/1600、GET277/390、环境重跑0/4。历史D6一次S0单存、不重跑；本轮安全结论不抹去历史问题。只推工作分支，停止待复核，不合main。 [报告](../.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/report.md)。
+
 2026-11-03 CET：D6复核裁定S0一次（一次展示替换五店），原评价不改、不重跑，零调用旁注单存。A补G6动态点名评价：从真实USER选择事件与权威候选身份绑定named、跨人数补充保留，明确同意其他店才释放且不追溯清错；Evaluator@3。D6原输入有效红→自动S0=1绿，真实Runtime/Live组装正控制与保存输入同评分通过。C（一）通知已合main 533f1bc5，待远端核对同步、并集账本及净树门禁后，只续D3新运行/D5，再认证W2 20:00跑D2/D8。当前无新真实调用，开发GET15/25、Live4/8、模型80/400不重置，不合main。 [切片](../.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/report.md)。
 
 2026-11-03 CET：A完成D4复核要求的来源读取/逐回合预算/非见证原文核对修正，净树五门禁1363/188+63及严格G2 5/5全绿。D6三回合94.032/4.614/164.602秒，模型8/3/12、Google2/0/2，均未超时/无预留区新读；但首家Ito Akabane在语义重置后失去身份锚点，最终展示另五店及B1、无选店事件/条款。自动因身份投影缺证NE正确停批，原评价不改；页面其实有完整可见地址，评价器未绑定，并漏绑运行时first的named期望。五项具名错配另列S0复核，不能宣称S0=0。五店四参后验/同源B1均PASS、独立1426请求越界0；录制55/55准入，决策23/Google4，未采TableCheck时段。累计Live4/26、模型321/1600、GET270/390；开发4/8、80/400、15/25，账本663原值保留加30为693，环境重跑0。仅推工作分支，D3新运行/D5/D2/D8未跑、D7取消，待C合入与复核通知；不合main。 [报告与复核材料](../.eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/report.md)。

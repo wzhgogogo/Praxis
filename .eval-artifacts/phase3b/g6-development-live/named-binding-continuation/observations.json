@@ -348,7 +348,21 @@
       },
       "googleResponsesInHAR": 1,
       "uncapturedScriptsOriginPathOnly": [],
-      "calendarCandidates": []
+      "calendarCandidates": [],
+      "perTurnDeadlineStatistics": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1793681844884,
+          "deadlineAtMs": 1793682344884,
+          "elapsedMs": 9138.277,
+          "modelCalls": 3,
+          "googleRequests": 1,
+          "exceeded500Seconds": false
+        }
+      ],
+      "termsReadStarts": 0,
+      "termsModelCalls": 0,
+      "qualifiedEvidenceTimingBasis": "NOT_APPLICABLE: no inventory/source identity read or delivery; candidate address resemblance is not sufficient witness binding."
     },
     {
       "id": "D3",
@@ -495,7 +509,7 @@
       "unfinishedOperations": [],
       "timingLimit": "Method spans are source-operation proxies, not pure network latency. Parallel overlap uses model-first exclusive attribution. Slot duration includes setup; the first user-turn start anchors proxy bins, leaving setup/clock offsets unattributed. Per-turn durations and F6 deadlines are authoritative boundary observations; slot totals may exceed 500 seconds. Google wait and complete-evidence timestamp remain unassessed; no timing establishes qualification.",
       "firstServerPresentationCET": "2026-11-03T05:52:55.874000+01:00",
-      "firstCompleteQualifiedEvidenceAt": null,
+      "firstCompleteQualifiedEvidenceAt": "2026-11-03T04:52:52.198Z",
       "screenRenderingObserved": false,
       "F6": {
         "exceeded500Seconds": false,
@@ -3246,7 +3260,32 @@
           ],
           "diagnostic": "diagnostic/snapshot-0022.html"
         }
-      ]
+      ],
+      "perTurnDeadlineStatistics": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1793681528617,
+          "deadlineAtMs": 1793682028617,
+          "elapsedMs": 54028.076583,
+          "modelCalls": 6,
+          "googleRequests": 1,
+          "exceeded500Seconds": false
+        },
+        {
+          "id": "book-first",
+          "startedAtMs": 1793681582648,
+          "deadlineAtMs": 1793682082648,
+          "elapsedMs": 65162.228792,
+          "modelCalls": 6,
+          "googleRequests": 1,
+          "exceeded500Seconds": false
+        }
+      ],
+      "termsReadStarts": 24,
+      "termsModelCalls": 0,
+      "qualifiedEvidenceTimingBasis": "Earliest same-run source response explicitly binds13108466/Nov11/2 and19:00; pre-run independently reviewed public name/address/phone qualification already available. Uses response observedAt, not production eligible boolean. No frontend pixel timestamp.",
+      "firstCompleteQualifiedEvidenceAtCET": "2026-11-03T05:52:52.198000+01:00",
+      "evidenceToServerPresentationSeconds": 3.676
     },
     {
       "id": "D5",
@@ -3393,7 +3432,7 @@
       "unfinishedOperations": [],
       "timingLimit": "Method spans are source-operation proxies, not pure network latency. Parallel overlap uses model-first exclusive attribution. Slot duration includes setup; the first user-turn start anchors proxy bins, leaving setup/clock offsets unattributed. Per-turn durations and F6 deadlines are authoritative boundary observations; slot totals may exceed 500 seconds. Google wait and complete-evidence timestamp remain unassessed; no timing establishes qualification.",
       "firstServerPresentationCET": "2026-11-03T05:56:16.774000+01:00",
-      "firstCompleteQualifiedEvidenceAt": null,
+      "firstCompleteQualifiedEvidenceAt": "2026-11-03T04:56:12.915Z",
       "screenRenderingObserved": false,
       "F6": {
         "exceeded500Seconds": false,
@@ -5034,7 +5073,402 @@
           ],
           "diagnostic": "diagnostic/snapshot-0010.html"
         }
-      ]
+      ],
+      "perTurnDeadlineStatistics": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1793681727233,
+          "deadlineAtMs": 1793682227233,
+          "elapsedMs": 5621.8495,
+          "modelCalls": 2,
+          "googleRequests": 0,
+          "exceeded500Seconds": false
+        },
+        {
+          "id": "supply-date",
+          "startedAtMs": 1793681732859,
+          "deadlineAtMs": 1793682232859,
+          "elapsedMs": 48850.271208000006,
+          "modelCalls": 6,
+          "googleRequests": 1,
+          "exceeded500Seconds": false
+        }
+      ],
+      "termsReadStarts": 24,
+      "termsModelCalls": 0,
+      "qualifiedEvidenceTimingBasis": "Earliest same-run source response explicitly binds13108466/Nov11/2 and19:00; pre-run independently reviewed public name/address/phone qualification already available. Uses response observedAt, not production eligible boolean. No frontend pixel timestamp.",
+      "firstCompleteQualifiedEvidenceAtCET": "2026-11-03T05:56:12.915000+01:00",
+      "evidenceToServerPresentationSeconds": 3.859
+    },
+    {
+      "id": "D8",
+      "group": "runs",
+      "runId": "g6-D8-1793681923449-0",
+      "verdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "evaluationSHA256": "2e6baf88313a39d72d6ba80773a0238f973b3010ccab12f3576bc89b685e36b5",
+      "nonPassingChecks": [
+        {
+          "rule": "BOUNDED_NO_RESULT",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+          "reason": "No-delivery wording must describe this bounded investigation",
+          "evidenceRefs": []
+        },
+        {
+          "rule": "NO_DELIVERY_WITNESS",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "witness-W2",
+          "reason": "Independently qualified witness still has the slot",
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/runs/D8/D8/witness/002-vacancy.body"
+          ]
+        }
+      ],
+      "phase": "NEEDS_INPUT",
+      "delivered": [],
+      "turns": [
+        {
+          "id": "book-first",
+          "status": "NOT_SENT",
+          "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+        }
+      ],
+      "handoffs": [],
+      "question": null,
+      "elapsedMs": 10132.548458,
+      "turnBudgets": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1793681924195,
+          "deadlineAtMs": 1793682424195,
+          "elapsedMs": 9383.657459,
+          "modelCalls": 3,
+          "googleRequests": 1,
+          "exceeded500Seconds": false
+        }
+      ],
+      "modelCalls": 3,
+      "modelsByPurpose": {
+        "restaurant_semantic_interpret": {
+          "count": 1,
+          "latencyMs": 3607
+        },
+        "restaurant_agent_decide": {
+          "count": 2,
+          "latencyMs": 4065
+        }
+      },
+      "googleRequests": 1,
+      "schemaRetries": 0,
+      "exclusiveWallMs": {
+        "UNATTRIBUTED": 2460.54833984375,
+        "MODEL:restaurant_semantic_interpret": 3607.0,
+        "MODEL:restaurant_agent_decide": 4065.0
+      },
+      "operationInclusiveMs": {},
+      "unfinishedOperations": [],
+      "timingLimit": "Method spans are source-operation proxies, not pure network latency. Parallel overlap uses model-first exclusive attribution. Slot duration includes setup; the first user-turn start anchors proxy bins, leaving setup/clock offsets unattributed. Per-turn durations and F6 deadlines are authoritative boundary observations; slot totals may exceed 500 seconds. Google wait and complete-evidence timestamp remain unassessed; no timing establishes qualification.",
+      "firstServerPresentationCET": null,
+      "firstCompleteQualifiedEvidenceAt": null,
+      "screenRenderingObserved": false,
+      "F6": {
+        "exceeded500Seconds": false,
+        "sourceReadsStartedInReserve": 0,
+        "termsWorkStartedInReserve": 0
+      },
+      "guardForbiddenReachedSource": 0,
+      "actions": [
+        {
+          "step": 1,
+          "atCET": "2026-11-03T05:58:49.331000+01:00",
+          "action": {
+            "type": "SEARCH_RESTAURANTS",
+            "retrievalHint": "Nodoguro Ginza Nakamata"
+          },
+          "metadata": {
+            "route": "STRUCTURED_ADAPTER",
+            "provider": "GOOGLE_PLACES",
+            "latencyMs": 1625,
+            "googleRequests": {
+              "limit": 40,
+              "total": 1,
+              "discovery": 1,
+              "placeDetails": 0,
+              "namedPlaceResolution": 0,
+              "reverseAddressObservation": 0
+            },
+            "googleGeoDiagnostics": {
+              "candidates": [
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJU2773eCLGGARq3ervhbV3po"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJX_LmUt6LGGARrbstvmOzgj8"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJ6eMSipuLGGARZwoY4_VvcY8"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJr4iC5uaLGGAR_And1MTEjHU"
+                }
+              ],
+              "requestMode": "UNRESTRICTED",
+              "providerMode": "GOOGLE_TEXT_SEARCH",
+              "exactRadiusGate": "NOT_APPLICABLE"
+            }
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 2,
+          "atCET": "2026-11-03T05:58:53.551000+01:00",
+          "action": {
+            "type": "ASK_USER",
+            "question": "I found several outlets with similar names in Tokyo. Which one do you mean for 8 PM on November 11 for 2 people? 1) Nakamata (Ginza 4-chōme, 銀座サマリヤビル B1F), 2) Nodoguro, Ginza Nakamata Hanare (Ginza 3-chōme-12-17), 3) Nodoguro Nakamata (Higashi-Ginza, 2-chōme-15-15-1F Tsukiji), 4) Sakananonakamata Ginza (Ginza 3-chōme-14-17), or 5) Nodogurono Nakamata Shinbashi (Shinbashi 2-chōme-11-1)?",
+            "relatedFields": [
+              "target.query"
+            ]
+          },
+          "metadata": null,
+          "outcome": "WAITING_USER"
+        }
+      ],
+      "witnessFunnel": {
+        "found": false,
+        "candidateId": null,
+        "candidate": null,
+        "factCheck": null,
+        "availabilityCheck": null,
+        "presented": false,
+        "certificatesAndPostChecks": [
+          {
+            "checkedAt": "2026-11-03T04:56:45.966Z",
+            "kind": "BEFORE",
+            "target": {
+              "candidateId": "witness-W2",
+              "name": "のどぐろ専門 銀座 中俣",
+              "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+              "provider": "TABELOG",
+              "sourceEntityId": "13186922",
+              "date": "2026-11-11",
+              "time": "20:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+              "identityText": [
+                "4-10-12"
+              ],
+              "allowDetailOnlyCertificate": true
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/w2-certification/001-vacancy.body",
+              "phase": "BEFORE",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13186922&svd=20261111&svps=2&svt=2000",
+              "candidateId": "witness-W2",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1700"
+                  },
+                  "1": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1715"
+                  },
+                  "2": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1730"
+                  },
+                  "3": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1745"
+                  },
+                  "4": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1800"
+                  },
+                  "5": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2000"
+                  },
+                  "6": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2015"
+                  },
+                  "7": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2030"
+                  },
+                  "8": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2045"
+                  },
+                  "9": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2100"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "20:00"
+              }
+            },
+            "responseSHA256": "f560eeb03e3054574bc51b2a886f9f04ed85191070efe50ca4d175ecadb0830b",
+            "detailRef": ".eval-artifacts/phase3b/g6-development-live/84f4c1f9-certification/13186922/001-detail.body",
+            "detailSHA256": "3b8da386780aa4533a11861f72a1d433f0fb5d30db5e6f9fd53fce27d2e00a99"
+          },
+          {
+            "checkedAt": "2026-11-03T04:58:59.003Z",
+            "kind": "NO_DELIVERY_AFTER",
+            "target": {
+              "candidateId": "witness-W2",
+              "name": "のどぐろ専門 銀座 中俣",
+              "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+              "provider": "TABELOG",
+              "sourceEntityId": "13186922",
+              "date": "2026-11-11",
+              "time": "20:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+              "identityText": [
+                "4-10-12"
+              ],
+              "allowDetailOnlyCertificate": true
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/runs/D8/D8/witness/002-vacancy.body",
+              "phase": "NO_DELIVERY_AFTER",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13186922&svd=20261111&svps=2&svt=2000",
+              "candidateId": "witness-W2",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1700"
+                  },
+                  "1": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1715"
+                  },
+                  "2": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1730"
+                  },
+                  "3": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1745"
+                  },
+                  "4": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1800"
+                  },
+                  "5": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2000"
+                  },
+                  "6": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2015"
+                  },
+                  "7": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2030"
+                  },
+                  "8": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2045"
+                  },
+                  "9": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2100"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "20:00"
+              }
+            },
+            "responseSHA256": "f560eeb03e3054574bc51b2a886f9f04ed85191070efe50ca4d175ecadb0830b",
+            "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/runs/D8/D8/witness/001-detail.body",
+            "detailSHA256": "45ff20ac22b8ad21949a8e9ab547a9837d537af6133f4a648ec17ad83bb95c69"
+          }
+        ]
+      },
+      "recording": {
+        "recordingConfig": {
+          "browser": true,
+          "decisions": true,
+          "googleResponses": true
+        },
+        "decisions": {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/runs/D8/D8/execution.decisions.jsonl",
+          "sha256": "ee01ec0710410ec997095c13c8740ff90e5e43773719e110e1e88444b0f954f3",
+          "callsStarted": 3,
+          "rowsWritten": 3,
+          "errors": []
+        },
+        "schemaVersion": "phase3b-g6-recording-observation@1",
+        "status": "RECORDED",
+        "qualifiedPages": 0,
+        "totalPages": 0,
+        "ratio": null,
+        "pages": [],
+        "recordingPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/runs/D8/D8/recordings/g6-D8-1793681923449-0",
+        "replayStatus": "NOT_REPLAYABLE"
+      },
+      "googleResponsesInHAR": 1,
+      "uncapturedScriptsOriginPathOnly": [],
+      "calendarCandidates": [],
+      "perTurnDeadlineStatistics": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1793681924195,
+          "deadlineAtMs": 1793682424195,
+          "elapsedMs": 9383.657459,
+          "modelCalls": 3,
+          "googleRequests": 1,
+          "exceeded500Seconds": false
+        }
+      ],
+      "termsReadStarts": 0,
+      "termsModelCalls": 0,
+      "qualifiedEvidenceTimingBasis": "NOT_APPLICABLE: no inventory/source identity read or delivery; candidate address resemblance is not sufficient witness binding."
     }
-  ]
+  ],
+  "generatedAtCET": "2026-11-03T06:01:10.035287+01:00"
 }

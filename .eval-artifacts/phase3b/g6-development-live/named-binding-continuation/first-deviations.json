@@ -1,0 +1,117 @@
+{
+  "mode": "OFFLINE_ARTIFACT_AND_SOURCE_LOCALIZATION",
+  "findings": [
+    {
+      "slot": "D2",
+      "decisionSequence": 3,
+      "decision": {
+        "type": "ASK_USER",
+        "question": "The name \"Nodoguro Ginza Nakamata\" matches several outlets. Which one do you mean? 1) Nakamata (Ginza 4-chōme-10-12, B1F), 2) Nodoguro, Ginza Nakamata Hanare (Ginza 3-chōme-12-17), 3) Nodoguro Nakamata (Higashi-Ginza, 2-chōme-15-15-1F Tsukiji), 4) Sakananonakamata Ginza (Ginza 3-chōme-14-17, 2F), or 5) Nodogurono Nakamata Shinbashi (Shinbashi 2-chōme-11-1, 1F)?",
+        "relatedFields": [
+          "target.query"
+        ],
+        "retrievalHint": "",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Named outlet not uniquely resolved; no legal reads or presentation available, so ask which branch/area the user means."
+      },
+      "authoritativeTarget": {
+        "goal": "AVAILABILITY",
+        "query": "Specializing in Nodoguro Ginza Nakamata",
+        "selectionScope": "SPECIFIC_OUTLET"
+      },
+      "legalActions": {
+        "answerPageQuestion": false,
+        "search": false,
+        "investigateCandidateFacts": [],
+        "checkAvailability": [],
+        "presentResults": [],
+        "endRead": false
+      },
+      "missingBlockingFields": [],
+      "sourceOwner": "C",
+      "sameRootGroup": "NAMED_MULTI_CANDIDATE_READ_ADMISSION",
+      "firstObservedDivergence": "After correct named/date/party interpretation and Google search, the branch is not uniquely bound. Actual legal-action computation exposes no fact/availability action; Agent asks branch clarification.",
+      "code": [
+        {
+          "file": "src/domains/restaurant/named-outlet-resolution.ts",
+          "function": "namedOutletCandidateCanInvestigate",
+          "line": 58,
+          "reason": "requires exactly one candidate and completed search"
+        },
+        {
+          "file": "src/domains/restaurant/named-outlet-resolution.ts",
+          "function": "namedOutletCandidateResolved",
+          "line": 70,
+          "reason": "needs UNIQUE discovery or bound same-source names"
+        },
+        {
+          "file": "src/domains/restaurant/action-validator.ts",
+          "function": "validateRestaurantAction",
+          "line": 162,
+          "reason": "SELECTION_REQUIRED before unresolved named candidate can be read"
+        }
+      ],
+      "identityCaution": "Nakamata at matching-looking street address has Google050 phone while public witness has03. It was not independently matched. No replacement or inventory claim was made.",
+      "notEstablished": "No counterfactual source read or new model run to prove which matching adjustment would resolve this."
+    },
+    {
+      "slot": "D8",
+      "decisionSequence": 3,
+      "decision": {
+        "type": "ASK_USER",
+        "question": "I found several outlets with similar names in Tokyo. Which one do you mean for 8 PM on November 11 for 2 people? 1) Nakamata (Ginza 4-chōme, 銀座サマリヤビル B1F), 2) Nodoguro, Ginza Nakamata Hanare (Ginza 3-chōme-12-17), 3) Nodoguro Nakamata (Higashi-Ginza, 2-chōme-15-15-1F Tsukiji), 4) Sakananonakamata Ginza (Ginza 3-chōme-14-17), or 5) Nodogurono Nakamata Shinbashi (Shinbashi 2-chōme-11-1)?",
+        "relatedFields": [
+          "target.query"
+        ],
+        "retrievalHint": "",
+        "candidateIds": [],
+        "candidateId": "",
+        "offerId": "",
+        "decisionSummary": "Named outlet not uniquely resolved; no candidate is eligible and no fact/availability reads are legal. Ask user to pick the branch."
+      },
+      "authoritativeTarget": {
+        "goal": "AVAILABILITY",
+        "query": "Specializing in Nodoguro Ginza Nakamata",
+        "selectionScope": "SPECIFIC_OUTLET"
+      },
+      "legalActions": {
+        "answerPageQuestion": false,
+        "search": false,
+        "investigateCandidateFacts": [],
+        "checkAvailability": [],
+        "presentResults": [],
+        "endRead": false
+      },
+      "missingBlockingFields": [],
+      "sourceOwner": "C",
+      "sameRootGroup": "NAMED_MULTI_CANDIDATE_READ_ADMISSION",
+      "firstObservedDivergence": "After correct named/date/party interpretation and Google search, the branch is not uniquely bound. Actual legal-action computation exposes no fact/availability action; Agent asks branch clarification.",
+      "code": [
+        {
+          "file": "src/domains/restaurant/named-outlet-resolution.ts",
+          "function": "namedOutletCandidateCanInvestigate",
+          "line": 58,
+          "reason": "requires exactly one candidate and completed search"
+        },
+        {
+          "file": "src/domains/restaurant/named-outlet-resolution.ts",
+          "function": "namedOutletCandidateResolved",
+          "line": 70,
+          "reason": "needs UNIQUE discovery or bound same-source names"
+        },
+        {
+          "file": "src/domains/restaurant/action-validator.ts",
+          "function": "validateRestaurantAction",
+          "line": 162,
+          "reason": "SELECTION_REQUIRED before unresolved named candidate can be read"
+        }
+      ],
+      "identityCaution": "Nakamata at matching-looking street address has Google050 phone while public witness has03. It was not independently matched. No replacement or inventory claim was made.",
+      "notEstablished": "No counterfactual source read or new model run to prove which matching adjustment would resolve this."
+    }
+  ],
+  "productCodeChangedByA": false,
+  "D6FixInThisMain": false
+}
