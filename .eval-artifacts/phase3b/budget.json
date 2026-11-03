@@ -8733,15 +8733,114 @@
       "evaluationPublicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "g6-D1-review-20261102-server-scope",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:35:00.817003+00:00",
+      "mode": "INDEPENDENT_REVIEW_ANNOTATION",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "runId": "g6-D1-1793629850815-0",
+      "automaticS0": 1,
+      "reviewerDecision": "SERVER_CONTRACT_SCOPE_GAP_NOT_USER_VISIBLE_DECLARATION",
+      "capabilityOutcome": "CAPABILITY_MISS",
+      "severity": "S2",
+      "reviewRef": ".eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/D1-reviewer-judgment.json",
+      "note": "自动 S0=1；复核裁定：服务端投影范围缺口，非用户可见声明。原评价不改，D1不重跑，不占环境重跑。"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:LIVE",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:23.155Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 1,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "Frozen G6 serial slot; browser, decisions and Google recording on"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:MODEL:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:23.902Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 1,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "restaurant_semantic_interpret"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:MODEL:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:28.442Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 1,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "restaurant_agent_decide"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:GET:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:30.561Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "detail; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:GET:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:35.567Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "vacancy; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-D3-1793634743154-0:SOURCE_IO",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-02T15:52:35.983Z",
+      "mode": "G6_SOURCE_IO_OBSERVATION",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "Actual source transport starts; no quotas charged twice; witness GETs have their own rows."
+    },
+    {
+      "id": "phase3b-C-named-outlet-without-area-offline-20261103",
+      "conversation": "C",
+      "mode": "OFFLINE_FIXTURE",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "environmentReruns": 0,
+      "note": "User confirmed State25 / TaskDefinition23. New calls zero; A mechanical scope pending."
     }
   ],
   "cumulative": {
-    "fullLive": 1,
-    "realModelCalls": 264,
+    "fullLive": 2,
+    "realModelCalls": 266,
     "environmentReruns": 0,
-    "evaluationPublicGET": 262,
+    "evaluationPublicGET": 264,
     "googleRequests": 19,
-    "restaurantWebsiteRequests": 1392
+    "restaurantWebsiteRequests": 1394
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
@@ -8821,6 +8920,12 @@
       "sourceGit": "f094e03445973d704f20f36456c1da1b87666e29",
       "ledgerSha256": "ed05b503cedd1a4a502eccf4b4de857e751d509cdb8e1f8974180dcc905781a6",
       "note": "Union all 48 A-only rows, identical common rows. Preserve main limits; A branch declares GET 390 separately, not applied by this zero-call C slice."
+    },
+    {
+      "conversation": "A-G6-D3",
+      "sourceGit": "cc9562cd00fd3f17ef08ceeeef5c536385f5e629",
+      "ledgerSha256": "2f5a2f1febe1d9cbb9f51594d51cad12e13237a20a7909d688ddcdeab5edc499",
+      "note": "All common rows identical; union A new rows; preserve main limits (A branch separately declares evaluation GET390). C calls zero."
     }
   ],
   "asOfCET": "2026-11-02T16:17:00.588968+01:00"
