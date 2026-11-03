@@ -1,5 +1,9 @@
 # Test and Verification Log
 
+<a id="named-outlet-area-contract-review-20261103"></a>
+
+2026-11-03 CET：C无地区具名店候选State25/TaskDefinition23已实现，语义字节不变；D3及七项补充控制通过，原名/地区和B1条款闭环。后补地区反例红→修复后不再换店；当前完整回归1361/1363，仅旧选店AMBIGUOUS/PARTIAL仍要求存在B1交接，与新唯一性合同冲突。按原断言不改要求停下，精确同步补丁未应用；A五处版本/可选字段机械同步亦仍待授权，A/B受保护文件原字节。类型/五门禁/严格G2尚未全绿，未推送/未合main，真实调用0。 [原件/候选补丁](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/contract-review.md)。
+
 <a id="named-outlet-area-version-review-20261103"></a>
 
 2026-11-03：C具名店无地区切片停在版本确认点，尚未实施。SearchIntent.area必填且RESTAURANTS_FOUND会写入State.intent，建议State24→25、TaskDefinition22→23；Draft3/语义Proposal4/Prompt26不变，不回填伪造AREA。A cc9562cd的D3决策#1原字节已冻结，尚未取得整组装红/绿或运行本次门禁，产品/A/B文件不动，真实调用0、不读.env。不推送或合main，待复核者确认版本。 [方案和原件](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/version-review.md)。
