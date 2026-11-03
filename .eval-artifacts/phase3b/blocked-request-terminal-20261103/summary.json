@@ -1,0 +1,318 @@
+{
+  "inputSha256": "feac62ae5b0fa0a3d47206b7064fddefe1c07441860daa8a22015ba9126ac54a",
+  "probeSha": "bca0a464083656f451bd01be98eb61f0845c6ec8",
+  "mainRevision": "22415b57740256be8dfd3614cc7f2227c2f0856b",
+  "primary": {
+    "control": {
+      "n": 3,
+      "dclMs": [
+        40.83299999999997,
+        41.947582999999895,
+        42.74804199999994
+      ],
+      "loadMs": [
+        102.93883299999999,
+        101.40829099999996,
+        101.75366699999995
+      ],
+      "dclMedianMs": 41.947582999999895,
+      "loadMedianMs": 101.75366699999995,
+      "browserRequests": [
+        9,
+        9,
+        9
+      ],
+      "receiverRequests": [
+        9,
+        9,
+        9
+      ],
+      "guardBlocked": [
+        0,
+        0,
+        0
+      ],
+      "deniedDurationMaxMs": null,
+      "terminal": true
+    },
+    "main": {
+      "n": 3,
+      "dclMs": [
+        58.443958000000066,
+        43.31333399999994,
+        43.95900000000029
+      ],
+      "loadMs": [
+        120.11745800000006,
+        105.65525000000002,
+        104.41416700000036
+      ],
+      "dclMedianMs": 43.95900000000029,
+      "loadMedianMs": 105.65525000000002,
+      "browserRequests": [
+        9,
+        9,
+        9
+      ],
+      "receiverRequests": [
+        8,
+        8,
+        8
+      ],
+      "guardBlocked": [
+        1,
+        1,
+        1
+      ],
+      "deniedDurationMaxMs": 1.9750000210478902,
+      "terminal": true
+    },
+    "branch": {
+      "n": 3,
+      "dclMs": [
+        45.169083,
+        43.784625000000005,
+        43.86220800000001
+      ],
+      "loadMs": [
+        45.43429099999992,
+        44.145500000000084,
+        44.18404199999986
+      ],
+      "dclMedianMs": 43.86220800000001,
+      "loadMedianMs": 44.18404199999986,
+      "browserRequests": [
+        9,
+        9,
+        9
+      ],
+      "receiverRequests": [
+        4,
+        4,
+        4
+      ],
+      "guardBlocked": [
+        5,
+        5,
+        5
+      ],
+      "deniedDurationMaxMs": 3.040999989025295,
+      "terminal": true
+    }
+  },
+  "paths": [
+    {
+      "mode": "main",
+      "path": "/normal/page",
+      "isolatedRoute": true,
+      "dclMs": 42.955209000000195,
+      "loadMs": 103.82841700000017,
+      "failedDurationMaxMs": 2.5819999864324927,
+      "routeAborts": [
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:50622/third-party.js",
+          "startMs": 37.62454099999968,
+          "argument": "blockedbyclient",
+          "endMs": 39.182332999999744
+        }
+      ],
+      "failCommands": [],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "branch",
+      "path": "/normal/page",
+      "isolatedRoute": true,
+      "dclMs": 43.43645800000013,
+      "loadMs": 43.65258300000005,
+      "failedDurationMaxMs": 4.064999986439943,
+      "routeAborts": [
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:50622/third-party.js",
+          "startMs": 37.3059589999998,
+          "argument": "blockedbyclient",
+          "endMs": 38.734166999999616
+        },
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:50621/image-0.png",
+          "startMs": 38.08499999999958,
+          "argument": "blockedbyclient",
+          "endMs": 39.118499999999585
+        },
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:50621/image-1.png",
+          "startMs": 38.21324999999979,
+          "argument": "blockedbyclient",
+          "endMs": 39.123333999999886
+        },
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:50621/image-2.png",
+          "startMs": 39.32691699999987,
+          "argument": "blockedbyclient",
+          "endMs": 39.912999999999556
+        },
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:50621/image-3.png",
+          "startMs": 39.47149999999965,
+          "argument": "blockedbyclient",
+          "endMs": 39.91637499999979
+        }
+      ],
+      "failCommands": [],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "control",
+      "path": "/native/page",
+      "isolatedRoute": false,
+      "dclMs": 42.019832999999835,
+      "loadMs": 100.36899999999969,
+      "failedDurationMaxMs": null,
+      "routeAborts": [],
+      "failCommands": [],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "main",
+      "path": "/native/page",
+      "isolatedRoute": false,
+      "dclMs": 43.09566700000005,
+      "loadMs": 104.37379199999987,
+      "failedDurationMaxMs": 1.5119999879971147,
+      "routeAborts": [],
+      "failCommands": [
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-111.1",
+          "atMs": 44.05720799999972,
+          "doneMs": 44.24541599999975,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        }
+      ],
+      "responsePauses": [
+        {
+          "session": 1,
+          "id": "interception-job-111.1",
+          "url": "http://127.0.0.1:50621/native-middle.js",
+          "type": "Script",
+          "networkId": "71542.2",
+          "redirectedRequestId": "interception-job-111.0",
+          "responseStatus": 302,
+          "atMs": 43.988374999999905
+        }
+      ],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "branch",
+      "path": "/native/page",
+      "isolatedRoute": false,
+      "dclMs": 45.649667000000136,
+      "loadMs": 46.09804200000008,
+      "failedDurationMaxMs": 3.408999997191131,
+      "routeAborts": [],
+      "failCommands": [
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-132.0",
+          "atMs": 41.67854100000022,
+          "doneMs": 42.70695800000021,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-133.0",
+          "atMs": 41.92029099999991,
+          "doneMs": 43.09725000000026,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-137.0",
+          "atMs": 42.916999999999916,
+          "doneMs": 43.717083,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-138.0",
+          "atMs": 43.126000000000204,
+          "doneMs": 43.901000000000295,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-129.1",
+          "atMs": 45.61745800000017,
+          "doneMs": 45.84050000000025,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        }
+      ],
+      "responsePauses": [
+        {
+          "session": 1,
+          "id": "interception-job-129.1",
+          "url": "http://127.0.0.1:50621/native-middle.js",
+          "type": "Script",
+          "networkId": "71543.2",
+          "redirectedRequestId": "interception-job-129.0",
+          "responseStatus": 302,
+          "atMs": 45.55970800000023
+        }
+      ],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    }
+  ],
+  "faultControl": {
+    "error": "page.goto: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:50621/normal/page\", waiting until \"domcontentloaded\"\u001b[22m\n",
+    "dclMs": null,
+    "loadMs": null,
+    "snapshotAtMs": 2137.203042,
+    "cdpPending": 5,
+    "pwPending": 0,
+    "unansweredPauses": 3
+  }
+}

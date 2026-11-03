@@ -18,7 +18,7 @@ for r in p['rows']:
  if r['dropFail']:
   summary['faultControl']={k:r[k] for k in ['error','dclMs','loadMs','snapshotAtMs']}
   summary['faultControl'].update({'cdpPending':len(r['pendingCdp']),'pwPending':len(r['pendingPw']),'unansweredPauses':len(r['unanswered'])})
- elif r['isolatedRoute'] or r['path']=='/native/page':
+ elif r['isolatedRoute'] or r['path']!='/normal/page':
   failed=[x for x in r['cdp'] if x['outcome']=='FAILED' and x['protocolEnd'] is not None]
   summary['paths'].append({'mode':r['mode'],'path':r['path'],'isolatedRoute':r['isolatedRoute'],'dclMs':r['dclElapsedMs'],'loadMs':r['loadElapsedMs'],'failedDurationMaxMs':max(((x['protocolEnd']-x['protocolStart'])*1000 for x in failed),default=None),'routeAborts':[x for x in r['routeActions'] if x['method']=='abort'],'failCommands':[x for x in r['commands'] if x['method']=='Fetch.failRequest'],'responsePauses':[x for x in r['pauses'] if x['responseStatus'] is not None],'pendingCdp':len(r['pendingCdp']),'pendingPw':len(r['pendingPw']),'unanswered':len(r['unanswered'])})
 (root/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')

@@ -23,9 +23,10 @@ let other='';let receivers:any[]=[];
 const serve=(foreign:boolean)=>(req:any,res:any)=>{
  const path=new URL(req.url,'http://fixture').pathname;receivers.push({server:foreign?'B':'A',path,atMs:performance.now()});
  if(path.endsWith('/page')){
-  const script=path.startsWith('/native/')?'/native-start.js':`${other}/third-party.js`;
-  res.setHeader('content-type','text/html');res.end(`<head><link rel="icon" href="data:,"><script src="${script}"></script><link rel="stylesheet" href="/required.css"><script src="/required.js"></script></head><body><h1>Essential content</h1>${Array.from({length:4},(_,i)=>`<img src="/image-${i}.png">`).join('')}<script>const x=new XMLHttpRequest();x.onload=()=>{document.body.dataset.data=JSON.parse(x.responseText).value};x.open('GET','/data');x.send()</script></body>`);return;
+  const script=path.startsWith('/native/')?'/native-start.js':path.startsWith('/direct/')?'/direct-start.js':`${other}/third-party.js`;
+  res.setHeader('content-type','text/html');res.end(`<head><link rel="icon" href="data:,"><script src="${script}"></script><link rel="stylesheet" href="/required.css"><script src="/required.js"></script></head><body><h1>Essential content</h1>${Array.from({length:path.startsWith('/burst/')?38:4},(_,i)=>`<img src="/image-${i}.png">`).join('')}<script>const x=new XMLHttpRequest();x.onload=()=>{document.body.dataset.data=JSON.parse(x.responseText).value};x.open('GET','/data');x.send()</script></body>`);return;
  }
+ if(path==='/direct-start.js'){res.writeHead(302,{location:other+'/third-party.js'});res.end();return}
  if(path==='/native-start.js'){res.writeHead(302,{location:'/native-middle.js'});res.end();return}
  if(path==='/native-middle.js'){res.writeHead(302,{location:other+'/third-party.js'});res.end();return}
  if(path.endsWith('.js')){setTimeout(()=>{res.setHeader('content-type','text/javascript');res.end('document.documentElement.dataset.required="READY";')},30);return}
@@ -98,6 +99,8 @@ try{
  for(let i=0;i<3;i++)for(const mode of ['control','main','branch'] as const)await run(mode,'/normal/page',false,false,i);
  for(const mode of ['main','branch'] as const)await run(mode,'/normal/page',true);
  for(const mode of ['control','main','branch'] as const)await run(mode,'/native/page');
+ for(const mode of ['control','main','branch'] as const)await run(mode,'/direct/page');
+ for(const mode of ['control','main','branch'] as const)await run(mode,'/burst/page');
  // Counterfactual check: intentionally acknowledge, but never send, Fetch.failRequest.
  // This must stall the parser/DCL and leave a live request pending before cleanup.
  await run('branch','/normal/page',false,true);
