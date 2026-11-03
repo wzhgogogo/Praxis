@@ -1,3 +1,5 @@
+2026-11-03 CET：获批a1cd798e连续性修复已同步最新main533f1bc5，无源码冲突。0d2fff0e冻结786项后净树11步全绿：默认1382/1382、Chromium188/188、严格G2 5/5及12页PASS，独立29帧及组件控制通过；本机未复现PGlite崩溃。账本740条并集，main限额保留，本轮真实调用0、不读.env。按用户批准发布main，D2多候选与D3条款缺口另开分支。 [合入证据](../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
+
 2026-11-03 CET：用户复核a1cd798e通过并批准合入；最新main仍533f1bc5，无产品代码冲突。合入分支源码与获批版本相同，账本并集740行（A新增42+C零调用1），main限额不扩大。完整门禁/严格G2待新鲜验证；真实调用0，不读.env。D2/D3新问题在发布后另分支处理。 [合入报告](../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
 
 2026-11-03 CET：C D6连续性离线候选全绿。获批的A两文件合同同步单独提交beff503b，与冻结提案逐字一致；0147ed6a冻结782项后净树11步：默认1382/1382、Chromium188/188、严格G2 5/5且12页PASS，type/arch/build及独立原9+名称7+D6 13帧和组件控制全部通过。补人数后按同一来源ID重新绑定，不能以附近店替代，明确OPEN后才给其他店。历史Live S0=1及旧红灯保留；State25/TaskDefinition23/Prompt不变，真实调用0、不读.env。只推工作分支交复核，不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。

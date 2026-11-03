@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "mode": "OFFLINE_CONSTRUCTED_SOURCE_WITH_REAL_D1_FIELDS_AND_D3_LITERAL_SEMANTICS",
+  "frames": 7,
+  "oracle": "Literal captured Google fields, original semantic bytes, fixed source phones/name/slots/citations; no production identity/name/scoring helpers imported",
+  "realCalls": 0,
+  "Live": "NOT_EVALUATED",
+  "rows": [
+    {
+      "label": "D1_D3",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "fixtureModels": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3,
+        "browser_read_decide": 2,
+        "restaurant_page_question": 2
+      },
+      "observedLifecycleSeconds": 0.2389069579999996
+    },
+    {
+      "label": "SOURCE_FULL_NAME",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "fixtureModels": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3,
+        "browser_read_decide": 2,
+        "restaurant_page_question": 2
+      },
+      "observedLifecycleSeconds": 0.17660645800000022
+    },
+    {
+      "label": "CONTAINMENT_ONLY",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "fixtureModels": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3,
+        "browser_read_decide": 2,
+        "restaurant_page_question": 2
+      },
+      "observedLifecycleSeconds": 0.2175542089999999
+    },
+    {
+      "label": "TWO_CONTAINED",
+      "phase": "NEEDS_INPUT",
+      "handoffs": 0,
+      "fixtureModels": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 2
+      },
+      "observedLifecycleSeconds": 0.07644795800000065
+    },
+    {
+      "label": "WRONG_LOCALITY",
+      "phase": "NEEDS_INPUT",
+      "handoffs": 0,
+      "fixtureModels": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3,
+        "browser_read_decide": 2
+      },
+      "observedLifecycleSeconds": 0.14850733299999958
+    },
+    {
+      "label": "IDENTITY_CONFLICT",
+      "phase": "NEEDS_INPUT",
+      "handoffs": 0,
+      "fixtureModels": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3,
+        "browser_read_decide": 2
+      },
+      "observedLifecycleSeconds": 0.0712560829999984
+    },
+    {
+      "label": "TABLECHECK_SOURCE_NAME",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1,
+      "fixtureModels": {
+        "restaurant_semantic_interpret": 1,
+        "restaurant_agent_decide": 3,
+        "restaurant_page_question": 2
+      },
+      "observedLifecycleSeconds": 2.1534736250000006
+    }
+  ]
+}
