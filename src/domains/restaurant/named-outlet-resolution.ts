@@ -77,7 +77,13 @@ export function boundNames(state:NamedState,candidateId:string):string[] {
 /** A single possible reference can be investigated read-only; it is not yet a selection. */
 export function namedOutletCandidateCanInvestigate(state:NamedState,candidateId:string):boolean {
   const candidate=state.candidates.find(c=>c.restaurant.id===candidateId),record=lookup(state,candidateId);
-  if(!candidate||!record||state.candidates.length!==1||record.claims.namedOutletCandidateCount!==1
+  if(!candidate||state.candidates.length!==1)return false;
+  // A source port may return a single full-name candidate without lookup
+  // metadata. It may be read for identity, but is not resolved or selected.
+  if(!record)return Boolean(state.intentDraft?.area
+    &&outletNameKey(candidate.restaurant.outletName)===outletNameKey(state.intentDraft.target!.query)
+    &&state.readEvidence.some(e=>e.kind==="DISCOVERY"&&e.candidateId===candidateId));
+  if(record.claims.namedOutletCandidateCount!==1
     ||record.claims.namedOutletSearchComplete!==true)return false;
   const query=state.intentDraft!.target!.query;
   return outletNameContains(query,candidate.restaurant.outletName)||outletNameContains(candidate.restaurant.outletName,query)
