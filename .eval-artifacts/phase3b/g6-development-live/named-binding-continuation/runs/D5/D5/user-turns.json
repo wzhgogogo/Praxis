@@ -1,0 +1,926 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-D5-1793681726492-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "I'd like to book Kushi Katsu Dengana Akabane ten at 7 PM sometime next week, for two people.",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "I'd like to book Kushi Katsu Dengana Akabane ten at 7 PM sometime nex…",
+          "status": "NEEDS_YOU",
+          "phase": "NEEDS_INPUT",
+          "taskVersion": 2,
+          "pendingUserAction": "PROVIDE_DETAILS",
+          "updatedAt": "2026-11-03T04:55:32.834Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "I'd like to book Kushi Katsu Dengana Akabane ten at 7 PM sometime next week, for two people.",
+              "createdAt": "2026-11-03T04:55:30.469Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "What date would you like for the 7 PM table for 2 at Kushi Katsu Dengana Akabane ten?",
+              "createdAt": "2026-11-03T04:55:32.849Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Kushi Katsu Dengana Akabane ten",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-03T04:55:27.237Z"
+            }
+          },
+          "missingRequiredFields": [
+            "date"
+          ],
+          "requestRevision": 0,
+          "readyCandidateIds": [],
+          "progress": {
+            "active": false,
+            "stopped": false
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [],
+          "availability": {},
+          "availabilityChecks": {},
+          "readEvidence": [],
+          "currentFactEvidence": [],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-03T04:55:27.234Z"
+          },
+          "bookingHandoffs": []
+        },
+        "artifacts": [],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-03T04:55:30.461Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:7c94417e-a7e5-442d-b51f-76986f085ce2",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:7c94417e-a7e5-442d-b51f-76986f085ce2"
+            },
+            "type": "AGENT_ASKED_USER",
+            "display": {
+              "title": "Agent asks for input",
+              "detail": "What date would you like for the 7 PM table for 2 at Kushi Katsu Dengana Akabane ten?"
+            },
+            "occurredAt": "2026-11-03T04:55:32.834Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    },
+    {
+      "id": "supply-date",
+      "message": "November 11, 2026.",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "I'd like to book Kushi Katsu Dengana Akabane ten at 7 PM sometime nex…",
+          "status": "NEEDS_YOU",
+          "phase": "PRESENT_RESULTS",
+          "taskVersion": 7,
+          "updatedAt": "2026-11-03T04:56:16.774Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "I'd like to book Kushi Katsu Dengana Akabane ten at 7 PM sometime next week, for two people.",
+              "createdAt": "2026-11-03T04:55:30.469Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "What date would you like for the 7 PM table for 2 at Kushi Katsu Dengana Akabane ten?",
+              "createdAt": "2026-11-03T04:55:32.849Z"
+            },
+            {
+              "id": "message:0:4f9158cf55620733983a7dbf",
+              "role": "USER",
+              "content": "November 11, 2026.",
+              "createdAt": "2026-11-03T04:55:34.533Z"
+            },
+            {
+              "id": "message:1:4f9158cf55620733983a7dbf",
+              "role": "ASSISTANT",
+              "content": "The case is now present results.",
+              "createdAt": "2026-11-03T04:56:21.703Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "date": "2026-11-11",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Kushi Katsu Dengana Akabane ten",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "November 11, 2026",
+                "resolvedDate": "2026-11-11"
+              },
+              "timezone": "Asia/Tokyo",
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-03T04:55:32.860Z"
+            }
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 1,
+          "readyCandidateIds": [
+            "praxis:restaurant:07b0ba0daee00150d6d202e1"
+          ],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 1,
+            "checkedCount": 1
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [
+                "Google lists this outlet under a different name."
+              ],
+              "restaurant": {
+                "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+                "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+                "sourceIds": {
+                  "phone": "03-5249-4011",
+                  "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+                  "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/"
+                },
+                "outletName": "Dengana Akabane",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:8aa6e7e56aed57725a1c9578",
+                  "sourceIds": "evidence:restaurant:google-discovery:8aa6e7e56aed57725a1c9578",
+                  "outletName": "evidence:restaurant:google-discovery:8aa6e7e56aed57725a1c9578"
+                },
+                "coordinates": {
+                  "lat": 35.7795476,
+                  "lng": 139.7211442
+                }
+              },
+              "matchReasons": [
+                "Location from named outlet resolution: Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F"
+              ],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "availability": {
+            "praxis:restaurant:07b0ba0daee00150d6d202e1": [
+              {
+                "id": "offer:tabelog:praxis:restaurant:07b0ba0daee00150d6d202e1:2026-11-11:19:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-11T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-03T04:56:14.706Z",
+                "expiresAt": "2026-11-03T04:56:14.706Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-03T05:06:14.706Z",
+                "bookingRecheckRequired": true
+              }
+            ]
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:07b0ba0daee00150d6d202e1": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-03T04:56:14.706Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:3ff43f43331faf72bb0e2489",
+                "evidence:restaurant:tabelog-hard-criteria:1cf79e0e57736ddf433b4233",
+                "evidence:restaurant:tabelog-availability:3dababec9f4feee72048e4ff"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABLECHECK",
+                  "outcome": "FAILED",
+                  "reasonCode": "BROWSER_RUNTIME_FAILED"
+                },
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-03T05:06:14.706Z",
+              "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "japanese_izakaya_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+                "placeId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+                "outletName": "Dengana Akabane",
+                "primaryType": "japanese_izakaya_restaurant",
+                "serviceArea": "Tokyo",
+                "locationBasis": "NAMED_OUTLET_RESOLUTION",
+                "availabilityPath": "NAME_RESOLUTION",
+                "namedOutletStatus": "AMBIGUOUS",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 11:30 PM",
+                  "Tuesday: 12:00 – 11:30 PM",
+                  "Wednesday: 12:00 – 11:30 PM",
+                  "Thursday: 12:00 – 11:30 PM",
+                  "Friday: 12:00 – 11:30 PM",
+                  "Saturday: 12:00 – 11:30 PM",
+                  "Sunday: 12:00 – 11:30 PM"
+                ],
+                "requestedOutletName": "Kushi Katsu Dengana Akabane ten",
+                "namedOutletLocalities": [
+                  "15",
+                  "15",
+                  "1-chōme",
+                  "1-chōme",
+                  "Akabane",
+                  "Akabane",
+                  "Kita City",
+                  "Kita City",
+                  "Tokyo",
+                  "Tokyo"
+                ],
+                "namedOutletCandidateCount": 1,
+                "namedOutletSearchComplete": true
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:8aa6e7e56aed57725a1c9578",
+              "observedAt": "2026-11-03T04:55:36.466Z",
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "sourceEntityId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Kushi Katsu Dengana Akabane ten\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+                "placeId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+                "outletName": "Dengana Akabane"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:8aa6e7e56aed57725a1c9578",
+              "observedAt": "2026-11-03T04:55:36.466Z",
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Kushi Katsu Dengana Akabane ten\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://stores.dengana.jp/detail/3808/",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 11:30 PM",
+                  "Tuesday: 12:00 – 11:30 PM",
+                  "Wednesday: 12:00 – 11:30 PM",
+                  "Thursday: 12:00 – 11:30 PM",
+                  "Friday: 12:00 – 11:30 PM",
+                  "Saturday: 12:00 – 11:30 PM",
+                  "Sunday: 12:00 – 11:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:5bef195791a7de633ab55953",
+              "observedAt": "2026-11-03T04:55:36.466Z",
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "sourceEntityId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Kushi Katsu Dengana Akabane ten\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Dengana Akabane",
+                "observedOutletName": "Kushi Katsu Dengana Akabane ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:3ff43f43331faf72bb0e2489",
+              "observedAt": "2026-11-03T04:56:14.706Z",
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Kushi Katsu Dengana Akabane ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "47edf4f301f7190f852b52e73e0a0ea39d76323f29b2bd4fae1884804087f130"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:1cf79e0e57736ddf433b4233",
+              "observedAt": "2026-11-03T04:56:14.706Z",
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Kushi-age (Deep-fried skewers), Izakaya (Japanese style tavern), Tripe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "4ada779ab9adce6ed20f48229a36c0925b7e99534252a39efc10916208ff755d"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-11",
+                "partySize": 2,
+                "visibleSlots": [
+                  "19:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:3dababec9f4feee72048e4ff",
+              "observedAt": "2026-11-03T04:56:14.706Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:6133442dd3d90427a882d710526c26b7fa62bde14bfb2ccb3527301873f6568b"
+              },
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "displayExpiresAt": "2026-11-03T05:06:14.706Z",
+              "requestFingerprint": "0da7868d2b7e3529adf2b00c8ec23cbdff829fd5068ff7ff863cba5970313889",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://stores.dengana.jp/detail/3808/",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 11:30 PM",
+                  "Tuesday: 12:00 – 11:30 PM",
+                  "Wednesday: 12:00 – 11:30 PM",
+                  "Thursday: 12:00 – 11:30 PM",
+                  "Friday: 12:00 – 11:30 PM",
+                  "Saturday: 12:00 – 11:30 PM",
+                  "Sunday: 12:00 – 11:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "japanese izakaya restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:5bef195791a7de633ab55953",
+              "observedAt": "2026-11-03T04:55:36.466Z",
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "sourceEntityId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Kushi Katsu Dengana Akabane ten\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:1cf79e0e57736ddf433b4233",
+              "observedAt": "2026-11-03T04:56:14.706Z",
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Kushi-age (Deep-fried skewers), Izakaya (Japanese style tavern), Tripe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/"
+                }
+              ],
+              "requestFingerprint": "4ada779ab9adce6ed20f48229a36c0925b7e99534252a39efc10916208ff755d"
+            }
+          ],
+          "presentedCandidateIds": [
+            "praxis:restaurant:07b0ba0daee00150d6d202e1"
+          ],
+          "conditionStates": {
+            "praxis:restaurant:07b0ba0daee00150d6d202e1": []
+          },
+          "viewedCandidateIds": [],
+          "shortlistCandidateIds": [],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+            "startedAt": "2026-11-03T04:55:27.234Z"
+          },
+          "selectedCandidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+          "bookingHandoffs": [
+            {
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "offerId": "offer:tabelog:praxis:restaurant:07b0ba0daee00150d6d202e1:2026-11-11:19:00:2",
+              "provider": "TABELOG",
+              "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1900",
+              "directLabel": "Book on Tabelog",
+              "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+              "checkedAt": "2026-11-03T04:56:14.706Z",
+              "displayExpiresAt": "2026-11-03T05:06:14.706Z",
+              "platformFee": {
+                "provider": "TABELOG",
+                "channel": "ENGLISH_BOOKING",
+                "amountPerPersonJPY": 440,
+                "userCancellationRefund": false,
+                "restaurantCancellationRefund": true,
+                "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+                "sourceUrl": "https://tabelog.com/en/help",
+                "checkedOn": "2026-10-29",
+                "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+                "quotes": [
+                  "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+                  "Please note that no refunds will be issued for cancellations made for customer reasons.",
+                  "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+                ]
+              },
+              "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+              "linkCarries": [
+                "DATE",
+                "TIME",
+                "PARTY_SIZE"
+              ],
+              "sourceSelection": "UNKNOWN",
+              "terms": []
+            }
+          ]
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 7,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [
+                    "Google lists this outlet under a different name."
+                  ],
+                  "restaurant": {
+                    "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+                    "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F",
+                    "sourceIds": {
+                      "phone": "03-5249-4011",
+                      "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+                      "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/"
+                    },
+                    "outletName": "Dengana Akabane",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:8aa6e7e56aed57725a1c9578",
+                      "sourceIds": "evidence:restaurant:google-discovery:8aa6e7e56aed57725a1c9578",
+                      "outletName": "evidence:restaurant:google-discovery:8aa6e7e56aed57725a1c9578"
+                    },
+                    "coordinates": {
+                      "lat": 35.7795476,
+                      "lng": 139.7211442
+                    }
+                  },
+                  "matchReasons": [
+                    "Location from named outlet resolution: Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F"
+                  ],
+                  "executionConfidence": "LOW"
+                }
+              ],
+              "availability": {
+                "praxis:restaurant:07b0ba0daee00150d6d202e1": [
+                  {
+                    "id": "offer:tabelog:praxis:restaurant:07b0ba0daee00150d6d202e1:2026-11-11:19:00:2",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-11T19:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-03T04:56:14.706Z",
+                    "expiresAt": "2026-11-03T04:56:14.706Z",
+                    "partySize": 2,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-03T05:06:14.706Z",
+                    "bookingRecheckRequired": true
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-03T04:55:30.461Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:7c94417e-a7e5-442d-b51f-76986f085ce2",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:7c94417e-a7e5-442d-b51f-76986f085ce2"
+            },
+            "type": "AGENT_ASKED_USER",
+            "display": {
+              "title": "Agent asks for input",
+              "detail": "What date would you like for the 7 PM table for 2 at Kushi Katsu Dengana Akabane ten?"
+            },
+            "occurredAt": "2026-11-03T04:55:32.834Z"
+          },
+          {
+            "activityId": "activity:event:user:51b2ac19ba0f545491489314f3de7111",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:51b2ac19ba0f545491489314f3de7111"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-03T04:55:34.529Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:2f1cbbbf-5bcc-4e01-b58a-d234335bf5fe",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:2f1cbbbf-5bcc-4e01-b58a-d234335bf5fe"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "1 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-03T04:55:37.786Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:a764435e-584d-47bb-907b-edc9e1fd5530",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:a764435e-584d-47bb-907b-edc9e1fd5530"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "1 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-03T04:56:14.750Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:1be2be08-2665-4451-bdb2-4bc90e02fff3",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:1be2be08-2665-4451-bdb2-4bc90e02fff3"
+            },
+            "type": "CANDIDATE_SELECTED",
+            "display": {
+              "title": "Candidate selected",
+              "detail": "praxis:restaurant:07b0ba0daee00150d6d202e1"
+            },
+            "occurredAt": "2026-11-03T04:56:14.757Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:fc33a1c0-8cbb-4da4-ad2b-fb90a3577fbe",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:fc33a1c0-8cbb-4da4-ad2b-fb90a3577fbe"
+            },
+            "type": "RESULTS_PRESENTED",
+            "display": {
+              "title": "Read-only results presented",
+              "detail": "1 evidence-grounded result(s) are ready."
+            },
+            "occurredAt": "2026-11-03T04:56:16.774Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1793681727233,
+      "deadlineAtMs": 1793682227233,
+      "elapsedMs": 5621.8495,
+      "modelCalls": 2,
+      "googleRequests": 0,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "supply-date",
+      "startedAtMs": 1793681732859,
+      "deadlineAtMs": 1793682232859,
+      "elapsedMs": 48850.271208000006,
+      "modelCalls": 6,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": {
+      "name": "Kushi Katsu Dengana Akabane ten",
+      "sourceIds": {
+        "TABELOG": "13108466"
+      },
+      "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+      "phone": "03-5249-4011"
+    },
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "I'd like to book Kushi Katsu Dengana Akabane ten at 7 PM sometime next week, for two people.",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "SPECIFIC_OUTLET"
+            }
+          },
+          "readEvidence": []
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "userBookingSelection": {},
+              "patch": {
+                "target": {
+                  "selectionScope": "SPECIFIC_OUTLET"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:7c94417e-a7e5-442d-b51f-76986f085ce2",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "AGENT_ASKED_USER"
+            }
+          }
+        ]
+      },
+      {
+        "turnId": "supply-date",
+        "userMessage": "November 11, 2026.",
+        "before": {
+          "candidates": [],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "SPECIFIC_OUTLET"
+            }
+          },
+          "readEvidence": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+                "outletName": "Dengana Akabane",
+                "sourceIds": {
+                  "phone": "03-5249-4011",
+                  "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+                  "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/"
+                },
+                "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 新仲ビル 1F"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "SPECIFIC_OUTLET"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1323/A132305/13108466",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:51b2ac19ba0f545491489314f3de7111",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:2f1cbbbf-5bcc-4e01-b58a-d234335bf5fe",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:a764435e-584d-47bb-907b-edc9e1fd5530",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:1be2be08-2665-4451-bdb2-4bc90e02fff3",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "CANDIDATE_SELECTED",
+              "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:fc33a1c0-8cbb-4da4-ad2b-fb90a3577fbe",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "RESULTS_PRESENTED",
+              "candidateIds": [
+                "praxis:restaurant:07b0ba0daee00150d6d202e1"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
