@@ -31,7 +31,7 @@ for run,folder in [('D2',fixtures/'d2'),('D3',fixtures)]:
         sequence=int(file.name.split('-')[1].split('.')[0]);assert file.read_bytes()==decisions[sequence],str(file)
 for ordinal in [23,24]:
     page=json.loads((fixtures/f'page-{ordinal}.json').read_text())
-    raw=r/f'raw/runs/D3/recordings/g6-D3-1793681527903-0/snapshot-00{ordinal}.html'
+    raw=r/next(item['saved'] for item in source['files'] if item['saved'].endswith(f'snapshot-00{ordinal}.html'))
     assert page['html'].encode()==raw.read_bytes(),'Original DOM changed'
 base=json.loads(git('show',f['baseMain']+':.eval-artifacts/phase3b/budget.json'))
 after=json.loads(Path('.eval-artifacts/phase3b/budget.json').read_text());rows={e['id']:e for e in after['entries']}

@@ -1,6 +1,6 @@
 from pathlib import Path
 import datetime,gzip,hashlib,json,os,signal,subprocess,sys,time
-r=Path(__file__).parent;logs=r/'gates';logs.mkdir()
+r=Path(__file__).parent;batch=sys.argv[1] if len(sys.argv)>1 else 'gates';logs=r/batch;logs.mkdir()
 git=lambda *a:subprocess.check_output(['git',*a],text=True).strip()
 source=git('rev-parse','HEAD');assert not git('status','--porcelain')
 env={k:v for k,v in os.environ.items() if k in {'PATH','HOME','TMPDIR','LANG','LC_CTYPE','LC_ALL','TZ'}}
@@ -33,11 +33,11 @@ for name,cmd,extra in steps:
     after=git('status','--porcelain')
     entry={'name':name,'command':cmd,'environment':extra,'exitCode':code,'seconds':round(time.monotonic()-start,3),
         'gitStatusBefore':before,'gitStatusAfter':after,'log':str(path),'sha256':hashlib.sha256(output).hexdigest(),'outerTimeout':timed_out}
-    results['steps'].append(entry);(r/'gates.json').write_text(json.dumps(results,indent=2)+'\n');print(json.dumps(entry),flush=True)
+    results['steps'].append(entry);(r/(batch+'.json')).write_text(json.dumps(results,indent=2)+'\n');print(json.dumps(entry),flush=True)
     assert not after and git('rev-parse','HEAD')==source
     if code:
         results['status']='ORCHESTRATION_INTERRUPTED' if timed_out else 'FAILED'
-        (r/'gates.json').write_text(json.dumps(results,indent=2)+'\n')
+        (r/(batch+'.json')).write_text(json.dumps(results,indent=2)+'\n')
         print('\n'.join(line for line in output.decode().splitlines() if '_RAW ' not in line)[-8000:],flush=True);sys.exit(code)
 results['status']='PASS';results['finishedAtCET']=datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=1))).isoformat()
-(r/'gates.json').write_text(json.dumps(results,indent=2)+'\n');print('ALL GATES PASS',flush=True)
+(r/(batch+'.json')).write_text(json.dumps(results,indent=2)+'\n');print('ALL GATES PASS',flush=True)
