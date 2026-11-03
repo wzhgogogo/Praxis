@@ -1,8 +1,8 @@
 # ADR-0044: Recommendation and availability boundary
 
 - Status: Accepted
-- Document revision: 1.1
-- Last updated: 2026-10-26
+- Document revision: 1.2
+- Last updated: 2026-11-03
 - Source of truth for: 推荐/查位目标边界与 goalBasis 当前消息引用核验；含用户停止点 3 确认的无时间订位规则修正
 - Supersedes in part: 仅部分取代 [ADR-0026](0026-concrete-visit-goal-and-reception-semantics.md) Decision 第 1 条的目标分类；第 2–5 条继续有效
 - Related ADRs: [ADR-0020](0020-goal-driven-restaurant-read-path.md)、[ADR-0009](0009-semantic-strength-and-clean-holdout-baseline.md)
@@ -94,3 +94,11 @@
 ## Stop 1 approval — 2026-10-25 CET
 
 用户已批准本 ADR、goalBasis 仅在提议/静态评测结果保存、CONTEXT_CARRY 和相对时间灰区三个细化。真实模型总上限 144，独立于 3a′ 的 400；批次 2 不调用真实模型，完成推送后停在停止点 2。审批原文及范围见 batch2/approval.md。SR03-T02 的旧 Gold 保持不变，停止点 3 再确认。
+
+## User decision appended 2026-11-03: named outlet without a separate area
+
+A nonempty SPECIFIC_OUTLET target may start a name lookup without a separate user AREA. OPEN_ENDED still requires an area; the existing date/time/party requirements for availability are unchanged. Lookup stays within the Tokyo service scope using observed source addresses, with no invented user area, center or radius. A uniquely confirmed outlet continues through the existing G4 source identity and availability path. Ambiguous or approximate names that cannot be uniquely established require clarification; an unrelated outlet is never a substitute. An explicit later user area overrides any derived location basis and the original outlet-name binding remains.
+
+The provider-observed address is labeled NAMED_OUTLET_RESOLUTION in discovery evidence and public match reasons, never written to intentDraft.area. No distance from a nonexistent user center is displayed. Both B1 source readers, projection and terms contexts use the same complete authoritative intent; all identity, slot, freshness, presented/ready eligibility and two server checks remain. Selection grants no booking authority.
+
+The user confirmed restaurant-state@25 and TaskDefinition@23 before implementation: persistent SearchIntent.area can be absent for the named-outlet contract. Intent Draft@3, semantic Proposal@4, semantic Prompt@26 and Agent Prompt/Action Schema stay unchanged. No automatic database migration or reset is performed. This appends the approved decision without rewriting the preceding classification rules.

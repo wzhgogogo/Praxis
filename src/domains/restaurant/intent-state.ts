@@ -23,7 +23,7 @@ export function missingBlockingFields(input: {
 }
 
 /**
- * Discovery only needs a usable search area.  The delivery goal controls the
+ * Discovery needs a usable search area or a nonempty explicit outlet name. The delivery goal controls the
  * eventual evidence profile, not whether a candidate lookup may bind its own
  * current parameters.  Availability reads still require their complete,
  * separately-bound date, time window, and party size below.

@@ -390,16 +390,7 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
   }
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {
-    if(namedOutletWithoutArea(request.intent))return this.searchNamedOutlet(request,signal);
-    if(!request.intent.area)throw new GooglePlacesError("GOOGLE_LOCATION_UNRESOLVED","Open-ended search requires a user area");
     const startedAt = Date.now();
-    const nearbyCategory = request.discoveryQuery?.keyword||request.discoveryRetrieval?.keyword ? undefined
-      : request.discoveryQuery?.category ?? (request.discoveryRetrieval ? generalDiscoveryCategory(request.intent) : undefined);
-    const usesNearbySearch = nearbyCategory !== undefined;
-    // Google page tokens are bound to the original request.  The Agent may
-    // change a retrieval hint only for a new search; a continuation must keep
-    // the first page's query exactly, alongside its persisted geography.
-    const textQuery = request.continuation?.sourceRequestContext?.textQuery ?? buildGooglePlacesTextQuery(request);
     const intentFingerprint = restaurantSearchIntentFingerprint(request.intent);
     if (request.continuation && request.continuation.intentFingerprint !== intentFingerprint) {
       throw new GooglePlacesError("GOOGLE_MALFORMED_RESPONSE", "Google Places continuation does not belong to the authoritative restaurant intent");
@@ -411,6 +402,15 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
         metadata: { provider: "GOOGLE_PLACES" as const, route: this.executionRoute, latencyMs: Date.now() - startedAt, googleRequests: this.googleRequestUsage(request.readRunId) },
       };
     }
+    if(namedOutletWithoutArea(request.intent))return this.searchNamedOutlet(request,signal);
+    if(!request.intent.area)throw new GooglePlacesError("GOOGLE_LOCATION_UNRESOLVED","Open-ended search requires a user area");
+    const nearbyCategory = request.discoveryQuery?.keyword||request.discoveryRetrieval?.keyword ? undefined
+      : request.discoveryQuery?.category ?? (request.discoveryRetrieval ? generalDiscoveryCategory(request.intent) : undefined);
+    const usesNearbySearch = nearbyCategory !== undefined;
+    // Google page tokens are bound to the original request.  The Agent may
+    // change a retrieval hint only for a new search; a continuation must keep
+    // the first page's query exactly, alongside its persisted geography.
+    const textQuery = request.continuation?.sourceRequestContext?.textQuery ?? buildGooglePlacesTextQuery(request);
     const taskLocation = request.intent.area.coordinates;
     // A request-driven Discovery Pack has already resolved its source-plan
     // location before Google is reached. This is separate from a Google page
