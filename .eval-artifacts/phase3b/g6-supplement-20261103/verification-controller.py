@@ -1,6 +1,6 @@
 import pathlib,json,subprocess,time,datetime,hashlib,gzip,re,os,signal
 from zoneinfo import ZoneInfo
-root=pathlib.Path.cwd();out=pathlib.Path('/private/tmp/praxis-g6-supplement-gates-20261103');out.mkdir()
+root=pathlib.Path.cwd();out=pathlib.Path('/private/tmp/praxis-g6-supplement-final-gates-20261103');out.mkdir()
 frozen=json.loads((root/'.eval-artifacts/phase3b/g6-supplement-20261103/source-inputs.json').read_text())
 def git(*a):return subprocess.check_output(['git',*a],text=True).strip()
 def check():

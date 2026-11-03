@@ -26,8 +26,8 @@ for directory in [BASE/'d6-turn-budgets/runs/D6/witness',BASE/'named-binding-con
 certPath=HERE/'certificates'/('W2' if slot=='D8' else 'W1')/'receipt.json'
 cert=load(certPath) if certPath.exists() else old['certificates'][0]
 assert cert['exists'] is True
- detail=ROOT/cert['detailRef'] if not pathlib.Path(cert['detailRef']).is_absolute() else pathlib.Path(cert['detailRef'])
- records[str(detail.resolve())]={'path':str(detail.resolve()),'sha256':cert['detailSHA256']}
+detail=ROOT/cert['detailRef'] if not pathlib.Path(cert['detailRef']).is_absolute() else pathlib.Path(cert['detailRef'])
+records[str(detail.resolve())]={'path':str(detail.resolve()),'sha256':cert['detailSHA256']}
 age=now.timestamp()-datetime.datetime.fromisoformat(cert['checkedAt'].replace('Z','+00:00')).timestamp()
 assert 0<=age<86400,('Certificate outside24h',age)
 assert cert['target']['sourceEntityId']==pack['cases'][0]['witness']['sourceEntityId']
