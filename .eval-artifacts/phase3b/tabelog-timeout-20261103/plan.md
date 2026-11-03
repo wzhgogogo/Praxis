@@ -1,0 +1,5 @@
+# Saved Tabelog timeout diagnosis
+
+Status: offline diagnosis; 2026-11-03T15:05:38.742834+01:00 CET. Base main a7abbc0f, saved evidence ce6f94af. Answer all five requested questions from recording/HAR/trace/DOM; preserve unknowns where timestamps/query values are absent. No invented causal conclusion from request counts. No model or source request.
+
+Stop boundary: user instruction “改动涉及 C 或 A 的文件时，先停下报告”. Required full request-timing evidence belongs to A's src/eval/restaurant/agent-loop/runners/browser-read-recording.ts and canonical trace producer. No A/C or product edit. Existing recorder already excludes BLOCKED events from uncaptured dependencies; do not claim that ordinary blocking itself necessarily needs an A change. No source budget/Guard relaxation or G3 authority change. Six W1 public GETs reserved for before/after validation remain unused because there is no justified/applied patch. Five gates plus strict G2 verify unchanged main product; they do not prove a speed improvement.
