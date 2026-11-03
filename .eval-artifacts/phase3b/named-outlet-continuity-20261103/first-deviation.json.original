@@ -1,0 +1,100 @@
+{
+  "mode": "OFFLINE_TRACE_AND_CURRENT_SOURCE_LOCALIZATION",
+  "eventsAndViews": [
+    {
+      "id": "INITIAL",
+      "message": "Recommend a restaurant near Akabane Station.",
+      "phase": "PRESENT_RESULTS",
+      "candidateCount": 20,
+      "presentedCandidateIds": [
+        "praxis:restaurant:d7e28bf950ed08d83c01d9d7",
+        "praxis:restaurant:e0ea87a598054b8075386bd1",
+        "praxis:restaurant:050bda490a474eaeaeae8fa1"
+      ],
+      "selectedCandidateId": null,
+      "target": {
+        "goal": "RECOMMENDATION",
+        "query": "Restaurant recommendations near Akabane Station",
+        "selectionScope": "OPEN_ENDED"
+      }
+    },
+    {
+      "id": "book-recommendation",
+      "message": "I'd like to book the first restaurant on November 11, 2026 at 7 PM.",
+      "phase": "NEEDS_INPUT",
+      "candidateCount": 0,
+      "presentedCandidateIds": [],
+      "selectedCandidateId": null,
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Ito Akabane",
+        "selectionScope": "SPECIFIC_OUTLET"
+      }
+    },
+    {
+      "id": "supply-party",
+      "message": "Two people.",
+      "phase": "PRESENT_RESULTS",
+      "candidateCount": 5,
+      "presentedCandidateIds": [
+        "tabelog:en/tokyo/A1323/A132305/13109596",
+        "tabelog:en/tokyo/A1323/A132305/13206560",
+        "tabelog:en/tokyo/A1323/A132305/13297216",
+        "tabelog:en/tokyo/A1323/A132305/13294534",
+        "tabelog:en/tokyo/A1323/A132305/13294533"
+      ],
+      "selectedCandidateId": null,
+      "target": {
+        "goal": "AVAILABILITY",
+        "query": "Ito Akabane",
+        "selectionScope": "SPECIFIC_OUTLET"
+      }
+    }
+  ],
+  "firstDivergence": {
+    "atUTC": "2026-11-03T03:34:38.768Z",
+    "atCET": "2026-11-03T04:34:38.768000+01:00",
+    "field": "Candidates/identity anchor cleared after userBookingSelection was bound; selectedCandidateId never set",
+    "eventId": "event:user:072a3e7351f1acecc497f06d83a08f1b",
+    "boundCandidateId": "praxis:restaurant:d7e28bf950ed08d83c01d9d7",
+    "observedAfterEvent": "book-recommendation is NEEDS_INPUT with zero candidates; after party reply search presents five different merchants",
+    "source": [
+      {
+        "file": "src/domains/restaurant/task-definition.ts",
+        "function": "resetForSemanticUpdate",
+        "lines": [
+          45,
+          80,
+          271,
+          274
+        ]
+      },
+      {
+        "file": "src/application/restaurant-user-booking-selection.ts",
+        "function": "userBookingCandidate",
+        "lines": [
+          41,
+          45,
+          46,
+          48
+        ]
+      },
+      {
+        "file": "src/application/restaurant-agent-loop.ts",
+        "function": "runWithinReadBudget",
+        "lines": [
+          309,
+          313
+        ]
+      }
+    ]
+  },
+  "secondaryGap": "SPECIFIC_OUTLET target Ito Akabane did not prevent presentation of generic regional native candidates.",
+  "sourceOwner": "C / shared domain ownership to be scheduled by reviewer",
+  "relatedCNotice": "ca18d02b was reported as an unmerged review branch; not pulled into this frozen Live or retested here.",
+  "notCausal": [
+    "Per-turn 500s/50-model/40-Google budgets did not exhaust",
+    "No20s reserve was entered",
+    "No terms model was called; not an evidence-based policy omission"
+  ]
+}
