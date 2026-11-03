@@ -1,3 +1,13 @@
+2026-11-03 CET：C D6连续性离线候选全绿。获批的A两文件合同同步单独提交beff503b，与冻结提案逐字一致；0147ed6a冻结782项后净树11步：默认1382/1382、Chromium188/188、严格G2 5/5且12页PASS，type/arch/build及独立原9+名称7+D6 13帧和组件控制全部通过。补人数后按同一来源ID重新绑定，不能以附近店替代，明确OPEN后才给其他店。历史Live S0=1及旧红灯保留；State25/TaskDefinition23/Prompt不变，真实调用0、不读.env。只推工作分支交复核，不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+2026-11-03 CET：用户窄授权两处A归属合同同步；beff503b只含workspace-fixture-server.ts和web-workspace.test.ts，逐字等于原冻结提案：SPECIFIC只返回全名点名候选、来源ID及catalog不变；该次Check this one等1 of 1，其他路径仍默认三家；JUDGMENT/不选店及原断言不变。产品源码与fafd8edc相同，版本不变，真实调用0。已另冻结批准记录与新完整门禁配置，原186/188及停止点证据保留；新五门禁/严格G2待运行，仅工作分支复核，不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+2026-11-03 CET：C D6修复停在A归属测试合同确认。fafd8edc（准确源码SHA见报告）type/arch/build、默认1382/1382、独立D6 13+原无地区9+名称7帧及严格G2 5/5、12页PASS；Chromium186/188，两个尺寸在“Check this one”后仍等三家，与SPECIFIC只展示点名店冲突。最小两文件补丁已冻结，尚未应用，不放宽产品守卫、不改A/B文件；五门禁未全绿。历史Live S0=1保持；本轮真实调用0、不读.env、State25/TaskDefinition23不变，仅工作分支停止点交复核，不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+2026-11-03 CET：C D6具名连续性已取得守卫/组装/B1缓存有效红灯，当前相关63项全绿；原D6三回合语义及Agent字节不改，补人数后按选定Place ID重读/重绑，错误五店原PRESENT被拒；失败点名Ito，明确用户OPEN后才给其他店。历史Live按用户裁定S0=1次展示，旧A自动未评不改。引用从既有Runtime事件重建，State25/TaskDefinition23及Prompt不变，A/B保护文件未改。条款入口/上下文仅补同一名称守卫，读取/预算/20秒保留原样。最终五门禁/严格G2待运行，真实调用0、不读.env、只推新分支待复核。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
+
+2026-11-03 CET：名称匹配已发布main533f1bc5并通知A；C新分支冻结D6三回合原语义、原Agent字节与历史复核输入，先验证当前main守卫及跨回合身份连续性。历史S0按用户裁定为1次展示；本轮真实调用0，尚未改产品。 [计划](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/plan.md)。
+
 2026-11-03 CET：C名称匹配ca18d02b经用户复核批准，已同步最新main d4d8ea33。abaf8266净树十步全绿：type/arch/build、默认1372/1372、Chromium188/188、严格G2全12页、独立16帧；源码与复核候选相同。账本A/C并集696条，累计含A的4 Live/321模型/270评测GET，C本轮新增0；上限不扩大、不读.env。按批准合入远端main并核对，具体发布SHA以Git回执为准；D6 S0另开分支修复，不能把本合入当作该S0已修。 [合入证据](../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
 
 2026-11-03 CET：C名称匹配ca18d02b已复核批准合入。已同步origin/main d4d8ea33，源码相同；A5912账本67条并集，额度快照不扩权。本轮五门禁/严格G2待新鲜验证、真实调用0；D6具名店替换S0下一分支独立修复。 [合入报告](../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。

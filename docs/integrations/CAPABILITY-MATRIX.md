@@ -1,3 +1,5 @@
+2026-11-03 CET — named continuity candidate (offline only): explicit user choices are reconstructed by provider ID from Runtime history. Google same-ID Details shares the existing request ceiling (count before sending; 404 yields no candidate, no fallback to nearby stores). With area, existing named geography helps verify the requested outlet. Source-native-only choices retain an observed source pointer and original discovery time; no old identity/facts/slots are reused. The ordinary server passes the transient reference through the same assembly; all three protected G3 files and identity thresholds stay unchanged. [report](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md).
+
 2026-11-03 CET — source-name uniqueness follow-up (offline implementation candidate): the ordinary assembly passively attaches actual page names using existing Tabelog/TableCheck parsers only after the same candidate/page has HIGH identity. It never navigates. Same-ID Japanese Google names reuse the existing run cache/request ceiling, preserve actual language, and cost at most one Details request per inspected Place ID (no retry), including Japanese-name discovery within the existing candidate bound; no separate budget. Unknown locality/alias, two branches, conflicting phone/address or incomplete search stay unresolved. Original eight controls plus real D1 fields/D3 literal semantics and both channels are covered; no new Live capability claim. [evidence](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md).
 
 # Integration Capability Matrix
@@ -57,7 +59,7 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.127
+- Document revision: 1.128
 
 
 - Last updated: 2026-11-03

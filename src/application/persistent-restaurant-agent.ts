@@ -26,6 +26,7 @@ import type {
 import { restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { restaurantBookingTaskDefinition } from "../domains/restaurant/task-definition.js";
 import { applyRestaurantIntentPatch, missingBlockingFields, missingSearchFields } from "../domains/restaurant/intent-state.js";
+import {namedOutletCandidateResolved} from "../domains/restaurant/named-outlet-resolution.js";
 import {
   type ConversationRecord,
   PostgresAgentWorkspaceStore,
@@ -207,6 +208,13 @@ function assistantSummary(state: RestaurantTaskState): string {
     case "SELECTION_REQUIRED":
       return "The current candidate cannot continue. The Agent will evaluate another safe option.";
     case "NO_VERIFIED_RESULT":
+      if(state.intentDraft?.target?.selectionScope==="SPECIFIC_OUTLET"){
+        const draft=state.intentDraft;
+        const visit=[draft.date,draft.timeWindow?`${draft.timeWindow.earliest}${draft.timeWindow.latest!==draft.timeWindow.earliest?`–${draft.timeWindow.latest}`:""}`:undefined,
+          draft.partySize?`for ${draft.partySize} guests`:undefined].filter(Boolean).join(" ");
+        return [`I couldn't verify ${draft.target!.goal==="AVAILABILITY"?"availability":"a result"} for ${draft.target!.query}${visit?` on ${visit}`:""}.`,
+          ...(state.noVerifiedResult?.remainingGaps??[]),"Would you like me to look for other nearby restaurants?"].join("\n");
+      }
       return ["This bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable.", ...(state.noVerifiedResult?.remainingGaps ?? []), "You can refine the request to start a new investigation."].join("\n");
     case "FAILED":
       {
@@ -1093,6 +1101,7 @@ export class PersistentRestaurantAgentApplication {
     const requestEvents = events.slice(Math.max(0, requestStart));
     const checked = new Set(requestEvents.flatMap(item => item.event.type === "AVAILABILITY_CHECKED" ? item.event.request.candidateIds : []));
     const readyCandidateIds = state.candidates.filter(candidate => restaurantPresentationEvidenceIds(state, candidate.restaurant.id, this.clock.now().toISOString()) !== undefined).map(candidate => candidate.restaurant.id);
+    const presentedCandidateIds=state.presentedResults?.candidateIds.filter(id=>namedOutletCandidateResolved(state,id));
     const action = state.pageQuestion && !state.pageQuestion.result ? undefined : pendingAction(state.phase);
     const summary: RestaurantCaseSummary = {
       caseId: record.rootTaskId,
@@ -1163,7 +1172,7 @@ export class PersistentRestaurantAgentApplication {
         availabilityChecks: structuredClone(state.availabilityChecks),
         readEvidence: structuredClone(state.readEvidence),
         currentFactEvidence: state.candidates.flatMap(candidate => structuredClone(restaurantCurrentFactEvidence(state, candidate.restaurant.id))),
-        ...(state.presentedResults ? { presentedCandidateIds: [...state.presentedResults.candidateIds], conditionStates: structuredClone(state.presentedResults.conditionStates) } : {}),
+        ...(state.presentedResults ? { presentedCandidateIds: [...presentedCandidateIds!], conditionStates: structuredClone(Object.fromEntries(Object.entries(state.presentedResults.conditionStates).filter(([id])=>presentedCandidateIds!.includes(id)))) } : {}),
         ...(state.selectionSession ? {
           viewedCandidateIds: [...state.selectionSession.viewedCandidateIds],
           shortlistCandidateIds: [...state.selectionSession.shortlistCandidateIds],

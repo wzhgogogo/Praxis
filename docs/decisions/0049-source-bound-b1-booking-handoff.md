@@ -2,7 +2,7 @@
 
 ## Status
 
-**Accepted** — Document revision 0.6, 2026-11-02 (Vienna CET, UTC+1).
+**Accepted** — Document revision 0.7, 2026-11-03 (Vienna CET, UTC+1).
 
 Presentation-only clauses in sections 4 and 5 are **partially superseded by [ADR-0050](0050-two-line-handoff-presentation.md)**, approved by the user on 2026-10-29: departure hints may use two lines, and the cancellation-conflict confirmation sits beside the card's cancellation terms. The original Decision text below is retained; link provenance, evidence checks, write boundaries and return feedback remain in force.
 
@@ -100,3 +100,11 @@ An Agent SELECT_CANDIDATE remains available. Repeating the same candidate/offer 
 A prepared source handoff is projected only for a candidate in `presentedCandidateIds` while the Case is in `PRESENT_RESULTS`; in every other phase it must belong to `readyCandidateIds`. A missing presented set is empty. `selectedCandidateId` never bypasses this boundary. This matches the workspace's visible/ready candidate set and prevents a valid availability link for a HARD-unverified, unpresented outlet from being exposed as a booking handoff.
 
 The prepared cache may remain for later eligible presentation. Departure validation uses the same outward projection and rejects a hidden outlet through the existing “No current verified source handoff” path; selected-outlet terms acquisition uses the same eligibility boundary before any reading. Both existing server link validations, source-link binding, terms evidence, fee configuration, and booking authority remain unchanged. No State, TaskDefinition or Prompt version changes. This appends the user's approved projection restriction only.
+
+## User decision appended 2026-11-03: named outlet across corrections
+
+A SPECIFIC_OUTLET request remains limited to the named physical outlet whether or not AREA is present. Area helps locate/check it and cannot authorize substitution with nearby venues. An explicit choice of a displayed outlet binds its existing Google Place ID and known source outlet IDs; party/date corrections do not turn that choice into a generic area search. Reconstruct this reference from the already persisted discovery, admitted identity and USER selection events. The reference is a transient read-port input and is not a new State/Event/SearchRequest field. Actor/causation remains USER and no booking authorization is created.
+
+Re-read a known Google Place ID within the existing run budget; use the native source reference as a lookup seed when no Google ID exists. Cached discovery is labelled as a USER_SELECTION_REFERENCE with its original observation time and contains no reused identity, fact or slot success. Fresh source identity/availability, both B1 link checks and the terms budget/reserve still apply. The current source IDs must agree with the selected identity. Unresolved branches require clarification; failure identifies the requested outlet and visit. Other stores can be delivered only after an accepted new OPEN_ENDED request from the user.
+
+The same name/identity gate applies to presented IDs, outward handoffs and the terms entry/context, including a prepared cache. Existing link provenance, cancellation/card rules, quote checks, reuse, model limits and twenty-second conclusion reserve are unchanged. State25 / TaskDefinition23 and all Prompt/Schema versions remain unchanged. The historical D6 presentation is S0=1 per user adjudication (five incorrect cards in that one presentation), preserved separately from offline repair controls.
