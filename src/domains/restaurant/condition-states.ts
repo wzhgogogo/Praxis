@@ -95,10 +95,13 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
     // qualifier and require the remaining literal in a current merchant field.
     const key = literalText(criterion.text).replace(/ (?:restaurant|cuisine|food)$/, "");
     const requestedCourseMeal = /course|menu|套餐|コース/i.test(criterion.text) ? meal : undefined;
-    const accepted = fieldQuotes.filter(q => ["CATEGORY", "COURSE_TITLE", "COURSE_DESCRIPTION", "GOOGLE_TYPE"].includes(q.field)
-      && (semanticSources.has(q.evidenceId) || (` ${literalText(q.quote)} `).includes(` ${key} `))
+    const eligibleQuotes = fieldQuotes.filter(q => ["CATEGORY", "COURSE_TITLE", "COURSE_DESCRIPTION", "GOOGLE_TYPE"].includes(q.field)
       && !(criterion.polarity === "POSITIVE" && /\bno\b|\bnot\b|without|not offered|提供していません/i.test(q.quote))
       && (!requestedCourseMeal || !q.meal || q.meal === "UNSPECIFIED" || q.meal === requestedCourseMeal));
+    // Keep an already supported card's exact quotations; semantic support
+    // resolves cross-language text without adding unrelated fields to it.
+    const literalQuotes = eligibleQuotes.filter(q => (` ${literalText(q.quote)} `).includes(` ${key} `));
+    const accepted = literalQuotes.length ? literalQuotes : eligibleQuotes.filter(q => semanticSources.has(q.evidenceId));
     const sources = accepted.map(({ evidenceId: _id, ...source }) => source);
     if (accepted.length) {
       const meals = [...new Set(accepted.map(q => q.meal).filter(q => q && q !== "UNSPECIFIED"))];
