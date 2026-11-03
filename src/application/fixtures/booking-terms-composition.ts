@@ -36,7 +36,8 @@ interface Options {
   agentSelectInitial?:boolean;
   unverifiedHard?:boolean;
   beforePresent?:()=>Promise<void>;
-  namedWithoutArea?: {outputText:string;scenario?:"AMBIGUOUS"|"MISSING"|"UNRELATED"|"BRANCH"|"OUTSIDE_TOKYO";openEnded?:boolean};
+  namedWithoutArea?: {outputText:string;scenario?:"AMBIGUOUS"|"MISSING"|"UNRELATED"|"BRANCH"|"OUTSIDE_TOKYO";openEnded?:boolean;
+    sourceNames?:{google:Record<string,unknown>;identityConflict?:boolean;twoCandidates?:boolean}};
   beforeTerms?:(deadlineAt:string)=>void;
   afterFactControls?:(url:string)=>void;
   onFactNavigate?:(url:string,signal:AbortSignal)=>Promise<void>;
@@ -53,6 +54,11 @@ export async function bookingTermsComposition(options:Options={}){
   const source=JSON.parse(await readFile(new URL("../../eval/restaurant/agent-loop/cases/g6-development/source.json",import.meta.url),"utf8"));
   const originalOutlet=structuredClone(source.outlet);
   if(options.namedWithoutArea)Object.assign(source.outlet,{name:"Kushi Katsu Dengana Akabane ten",address:"東京都北区赤羽1-15-1 新仲ビル1F",phone:"03-5249-4011",latitude:35.778,longitude:139.721});
+  if(options.namedWithoutArea?.sourceNames){
+    // The D1 Google fields remain independent of the constructed source page.
+    source.outlet.id=options.namedWithoutArea.sourceNames.google.id;
+    if(options.namedWithoutArea.sourceNames.identityConflict)Object.assign(source.outlet,{address:"東京都北区赤羽2-99-99 別ビル8F",phone:"03-5249-4999"});
+  }
   const provider=options.provider??"TABELOG",url=provider==="TABELOG"?source.pageUrl:source.tablecheck.pageUrl;
   const ja=url.replace("/en/","/");
   const original=(await readFile(new URL("../../eval/restaurant/agent-loop/cases/g6-development/"+(provider==="TABELOG"?"outlet.html":"tablecheck.html"),import.meta.url),"utf8")).replaceAll(originalOutlet.name,source.outlet.name).replaceAll(originalOutlet.address,source.outlet.address).replaceAll(originalOutlet.phone,source.outlet.phone);
@@ -166,18 +172,23 @@ export async function bookingTermsComposition(options:Options={}){
     };
     if(session){const snapshot=session.snapshot.bind(session);session.navigate=navigate;session.snapshot=async()=>{const original=await snapshot();const p=omit?{...original,text:original.text.replace(cancellationQuote,"").replace(cardQuote,"")}:original;sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;};return session;}
     return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime},navigate,
-      async snapshot(){const jp=pageUrl===ja;const text=[source.outlet.name,source.outlet.address,source.outlet.phone,...(omit?[]:[jp?japaneseQuote:cancellationQuote,cardQuote]),"Availability","November 11, 2026. 2 guests. 19:00."].join("\n");const p={url:pageUrl,title:source.outlet.name,text,html:(jp?japanese:english).replace(omit?cancellationQuote:"__unused__",""),responses:stage==="FACTS"?[]:[{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;},
+      async snapshot(){
+        if(options.namedWithoutArea?.sourceNames&&(new URL(pageUrl).pathname.includes("/rstLst/")||new URL(pageUrl).hostname.includes("tablecheck"))){
+          const html=new URL(pageUrl).hostname.includes("tablecheck")?"<p>No matching outlet</p>":`<article><a href="${url}">${source.outlet.name}</a><address>${source.outlet.address}</address><a href="tel:${source.outlet.phone}">Phone</a></article>`;
+          const p={url:pageUrl,title:"Restaurant search",text:html.replace(/<[^>]*>/g," "),html,responses:[]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;
+        }
+        const jp=pageUrl===ja;const text=[source.outlet.name,source.outlet.address,source.outlet.phone,...(omit?[]:[jp?japaneseQuote:cancellationQuote,cardQuote]),"Availability","November 11, 2026. 2 guests. 19:00."].join("\n");const p={url:pageUrl,title:source.outlet.name,text,html:(jp?japanese:english).replace(omit?cancellationQuote:"__unused__",""),responses:stage==="FACTS"?[]:[{url:source.vacancy.url,status:200,observedAt:clock.now().toISOString(),sequence:1,body:source.vacancy.body}]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;},
       async observeControls(){const controls=options.conflict&&pageUrl===url?[{id:"lang-ja",stableKey:"lang-ja",kind:"LINK" as const,role:"link",label:"日本語",href:ja,visible:true,disabled:false}]:[];
         if(stage==="FACTS"){mark("FACTS_CONTROLS_END",{url:pageUrl});options.afterFactControls?.(pageUrl);}return controls;},
       async select(_selector,value){return [value];},async click(){assert.fail("No click transport");},async fill(){assert.fail("No form transport");},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
   }};
   const google=new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async(target,init)=>{
     sourceCalls.push({turn,url:String(target),kind:"GOOGLE_FIXTURE"});
-    const place={id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:url,location:{latitude:source.outlet.latitude,longitude:source.outlet.longitude},types:["restaurant"]};
+    const place={id:source.outlet.id,displayName:{text:source.outlet.name},formattedAddress:source.outlet.address,nationalPhoneNumber:source.outlet.phone,websiteUri:url,location:{latitude:source.outlet.latitude,longitude:source.outlet.longitude},types:["restaurant"],...options.namedWithoutArea?.sourceNames?.google};
     const query=init?.body?JSON.parse(String(init.body)).textQuery:undefined;
     const places=options.namedWithoutArea?.scenario==="MISSING"?[]:options.namedWithoutArea?.scenario==="OUTSIDE_TOKYO"?[{...place,formattedAddress:"1-2-3 Osaka Japan"}]:options.namedWithoutArea?.scenario==="UNRELATED"?[{...place,displayName:{text:"Unrelated Ramen"}}]
       :options.namedWithoutArea?.scenario==="BRANCH"?[{...place,displayName:{text:"Kushi Katsu Dengana Asakusa ten"}}]
-      :options.selectionReplay?.ambiguous||options.namedWithoutArea?.scenario==="AMBIGUOUS"?[place,{...place,id:source.outlet.id+"-other",formattedAddress:"9-8-7 Ginza Tokyo",nationalPhoneNumber:"03-9876-5432"}]:[place];
+      :options.selectionReplay?.ambiguous||options.namedWithoutArea?.scenario==="AMBIGUOUS"||options.namedWithoutArea?.sourceNames?.twoCandidates?[place,{...place,id:source.outlet.id+"-other",formattedAddress:"9-8-7 Akabane Tokyo",nationalPhoneNumber:"03-9876-5432"}]:[place];
     const response=init?.method==="POST"?{places:query==="Shibuya"||query==="Akabane"?[{id:"station",types:["train_station"],displayName:{text:query},location:place.location}]:places}:places.find(p=>new URL(String(target)).pathname.endsWith("/"+p.id))??place;
     googleWires.push({turn,url:String(target),method:init?.method??"GET",body:init?.body?JSON.parse(String(init.body)):null,response:structuredClone(response)});
     return new Response(JSON.stringify(response),{status:200});
