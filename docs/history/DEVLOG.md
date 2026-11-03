@@ -1,5 +1,10 @@
 # Development Log
 
+<a id="named-continuity-main-20261103"></a>
+
+2026-11-03 CET：用户复核a1cd798e通过并批准合入；最新main仍533f1bc5，无产品代码冲突。合入分支源码与获批版本相同，账本并集740行（A新增42+C零调用1），main限额不扩大。完整门禁/严格G2待新鲜验证；真实调用0，不读.env。D2/D3新问题在发布后另分支处理。 [报告](../../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
+
+
 <a id="named-outlet-continuity-verified-20261103"></a>
 
 2026-11-03 CET：D6连续性候选完成离线验证。用户获批两文件合同补丁逐字应用，单独提交beff503b；产品源码与fafd8edc相同，State25/TaskDefinition23/Prompt不变。0147ed6a冻结782项后净树11步全部通过：默认1382/1382、Chromium188/188、严格G2 5/5及12页PASS，独立原9+名称7+D6 13帧和三个组件控制通过。保留历史S0=1、1381/1382和186/188原件；不重算Live，真实调用0、不读.env，仅推工作分支交复核、不合main。 [交付报告](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。

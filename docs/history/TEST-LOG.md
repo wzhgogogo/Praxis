@@ -1,5 +1,10 @@
 # Test and Verification Log
 
+<a id="named-continuity-main-20261103"></a>
+
+2026-11-03 CET：用户复核a1cd798e通过并批准合入；最新main仍533f1bc5，无产品代码冲突。合入分支源码与获批版本相同，账本并集740行（A新增42+C零调用1），main限额不扩大。完整门禁/严格G2待新鲜验证；真实调用0，不读.env。D2/D3新问题在发布后另分支处理。 [报告](../../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
+
+
 <a id="named-outlet-continuity-verified-20261103"></a>
 
 2026-11-03 06:34:21–06:37:43 CET（UTC+1）：0147ed6a冻结782项，净树11步全部通过。typecheck/arch/build exit0，默认1382/1382（44.993秒）、真实本地Chromium188/188（130.293秒）、严格G2 5/5且12页PASS（24.086秒）；独立原无地区9帧、名称7帧、D6整组装13帧和守卫/原生种子/投影各一组件PASS。每项前后status为空，无失败、取消、跳过、todo、外层超时或自动重试。获批A两文件同步beff503b与提案逐字相同，其他原断言和保护文件不变；原红灯保留，历史Live S0=1不改。真实模型/Google/网站/Live0、不加载.env；仅工作分支复核，不合main。 [原始日志与SHA](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved.json)，[独立结果](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/final-verification.json)。

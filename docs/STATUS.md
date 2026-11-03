@@ -1,3 +1,5 @@
+2026-11-03 CET：用户复核a1cd798e通过并批准合入；最新main仍533f1bc5，无产品代码冲突。合入分支源码与获批版本相同，账本并集740行（A新增42+C零调用1），main限额不扩大。完整门禁/严格G2待新鲜验证；真实调用0，不读.env。D2/D3新问题在发布后另分支处理。 [合入报告](../.eval-artifacts/phase3b/named-continuity-main-20261103/report.md)。
+
 2026-11-03 CET：C D6连续性离线候选全绿。获批的A两文件合同同步单独提交beff503b，与冻结提案逐字一致；0147ed6a冻结782项后净树11步：默认1382/1382、Chromium188/188、严格G2 5/5且12页PASS，type/arch/build及独立原9+名称7+D6 13帧和组件控制全部通过。补人数后按同一来源ID重新绑定，不能以附近店替代，明确OPEN后才给其他店。历史Live S0=1及旧红灯保留；State25/TaskDefinition23/Prompt不变，真实调用0、不读.env。只推工作分支交复核，不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
 
 2026-11-03 CET：用户窄授权两处A归属合同同步；beff503b只含workspace-fixture-server.ts和web-workspace.test.ts，逐字等于原冻结提案：SPECIFIC只返回全名点名候选、来源ID及catalog不变；该次Check this one等1 of 1，其他路径仍默认三家；JUDGMENT/不选店及原断言不变。产品源码与fafd8edc相同，版本不变，真实调用0。已另冻结批准记录与新完整门禁配置，原186/188及停止点证据保留；新五门禁/严格G2待运行，仅工作分支复核，不合main。 [报告](../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md)。
