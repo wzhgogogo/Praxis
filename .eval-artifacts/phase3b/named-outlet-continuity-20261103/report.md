@@ -1,8 +1,12 @@
 # D6 具名店跨回合连续性修复
 
-- Status: implementation candidate / not integrated；已暴露开发回归，非 Clean Baseline。
+- Status: offline verified candidate / not integrated；已暴露开发回归，非 Clean Baseline。
 - Vienna CET UTC+1，2026-11-03；分支 codex/fix-phase3b-named-outlet-continuity，从 main533f1bc5 开出。只推工作分支交复核，不合main。
 - 本轮真实模型/Google/网站/Live调用均0，未读取或加载.env。所有Google、页面、库存和新增合法动作均为明确的离线I/O；未创建任何预约。
+
+## 当前交付
+
+用户批准的两文件合同同步单独提交 **beff503b**，与原冻结提案逐字一致。冻结源码 **0147ed6a** 已通过五门禁和严格G2：默认 **1382/1382**，Chromium **188/188**，G2 **5/5且12页PASS**，独立原9+名称7+D6 13帧及组件控制PASS。11步各前后净树，无超时、跳过或自动重试；真实调用0，不读.env。最终记录见gates-approved.json和final-verification.json；下方早期红灯和等待授权段落为历史记录。本第二项只推工作分支交复核，不合main。
 
 ## 第一项已经完成
 
@@ -84,3 +88,14 @@ fafd8edc 默认1382/1382、原9帧/名称7帧/D6独立13帧及组件控制、typ
 - 原始D6模型响应、全部产品源码、B三个G3文件、前端/server和版本不再变动。逐字补丁与仅两文件变更由verify-approved.py独立核对；原verify.py、freeze.json和全部红灯原件保留不改。
 
 新冻结清单freeze-approved.json，授权记录contract-authorization.json，净树完整门禁run-gates-approved.py→gates-approved/。真实调用0、不加载.env；尚未运行完，不提前称全绿，完成后只推本分支交复核。
+
+## 批准补丁后的最终验证
+
+- 验证源码：**0147ed6acc14aa4ae975f0e7e11ddc9855d167c3**。冻结782项后，2026-11-03 06:34:21–06:37:43 CET（UTC+1）执行净树11步，全部通过；其后仅归档文档和证据。
+- typecheck、arch:check、build通过；npm test **1382/1382**（44.993秒），test:browser:fixture **188/188**（130.293秒），严格G2 **5/5及12页PASS**（24.086秒）。失败、取消、跳过、todo和外层超时均0，每项前后status为空。
+- 独立核验：原无地区9帧、来源名7帧、D6整组装13帧；原五店守卫、原生引用种子及恶意DTO投影各一组件控制通过。先补人数的EXACT/RENAMED仅展示原Place ID；缺店、无位不交其他店卡，用户明确OPEN后才展示替代。
+- A受保护文件仅有已批准、单独提交的两个合同同步例外，其余A/B文件原样；全部产品代码与fafd8edc相同，State25/TaskDefinition23/Prompt/Schema不变。未放宽身份、名称、空位、链接验证或其他安全断言。
+- 原始1381/1382及186/188失败证据保留；旧stopping-point.json仍为当时未授权状态。当前结果以final-verification.json和gates-approved.json为准，不覆盖历史记录。
+- 账本697条、限额和累计不变，本轮真实模型/Google/网站/Live调用均0，不加载.env。没有运行新的Live或建立新成功率，历史D6 S0=1仍按一次展示保留。
+- 用户选择的原生来源ID路径仅有组件验证；完整三回合证明的是Google身份路径。固定来源库存、纠正后的Fixture动作不证明真实Ito空位或模型在新上下文中一定选择这些动作。
+- 第一项名称匹配main533f1bc5已发布；本第二项推送工作分支、通知A后停下交复核，不合main。

@@ -1,0 +1,197 @@
+{
+  "sourceCommit": "0147ed6acc14aa4ae975f0e7e11ddc9855d167c3",
+  "startedAtCET": "2026-11-03T06:34:21.733491+01:00",
+  "steps": [
+    {
+      "name": "integrity",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/verify-approved.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.19,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/integrity.log",
+      "sha256": "b630418f5ef2cf0b00b57e42a5536820946772ac8ddacc0ee941525ea489e201",
+      "outerTimeout": false
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.512,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/typecheck.log",
+      "sha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "outerTimeout": false
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.219,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/arch.log",
+      "sha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "outerTimeout": false
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {
+        "PRAXIS_NAMED_AREA_CAPTURE": "1",
+        "PRAXIS_NAMED_SOURCE_CAPTURE": "1",
+        "PRAXIS_NAMED_CONTINUITY_CAPTURE": "1",
+        "PRAXIS_B1_VISIBILITY_CAPTURE": "1"
+      },
+      "exitCode": 0,
+      "seconds": 44.993,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/test.log",
+      "sha256": "34fe2704d3d3e03d41aca28b9ee916519fef5fa1af3cb605e327a411f844b27c",
+      "outerTimeout": false
+    },
+    {
+      "name": "independent",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-source-names-20261103/evaluate.py",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/test.log"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.09,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/independent.log",
+      "sha256": "e3bc006c920c7f787b82f2873a6ea0f2e471d83c0d0cd9c45857edc82ec74ac8",
+      "outerTimeout": false
+    },
+    {
+      "name": "independent-original",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-without-area-20261103/evaluate.py",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/test.log"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.082,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/independent-original.log",
+      "sha256": "75a5e28712da2ebfa2e3e94280d427a5a3fb540aec6d319ff5f76f932b57405b",
+      "outerTimeout": false
+    },
+    {
+      "name": "independent-d6",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/evaluate.py",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/test.log"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.108,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/independent-d6.log",
+      "sha256": "50acb82382b7a7406fd017792c105f402b689d642745de9c30e57d65208cebd5",
+      "outerTimeout": false
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.535,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/build.log",
+      "sha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "outerTimeout": false
+    },
+    {
+      "name": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 130.293,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/browser-fixture.log",
+      "sha256": "0f71fdb51c5a2547666ff0b5f7bc47e156c15be164dbc20edf2db6458b6077a4",
+      "outerTimeout": false
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "exitCode": 0,
+      "seconds": 24.086,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/strict-g2.log",
+      "sha256": "5c7382ce8325f24e362e64ffb9f886538c17a6a1393674ce5d951293b07aebbb",
+      "outerTimeout": false
+    },
+    {
+      "name": "integrity-after",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/verify-approved.py"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.242,
+      "gitStatusBefore": "",
+      "gitStatusAfter": "",
+      "log": "/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/.eval-artifacts/phase3b/named-outlet-continuity-20261103/gates-approved/integrity-after.log",
+      "sha256": "b630418f5ef2cf0b00b57e42a5536820946772ac8ddacc0ee941525ea489e201",
+      "outerTimeout": false
+    }
+  ],
+  "realCalls": 0,
+  "envFileLoaded": false,
+  "outerTimeoutSeconds": 600,
+  "automaticRetries": 0,
+  "status": "PASS",
+  "finishedAtCET": "2026-11-03T06:37:43.655690+01:00"
+}
