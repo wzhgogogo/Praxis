@@ -7,7 +7,7 @@ import type { BrowserSnapshot } from "../../../../infrastructure/browser/browser
 import type { LiveReadTransports } from "../../../../integrations/restaurant-search/live-read-assembly.js";
 import { discoveryPackNetworkPolicy } from "../../../../integrations/restaurant-search/source-packs.js";
 import { BrowserReadRecording } from "../runners/browser-read-recording.js";
-import { traceBrowserRuntime } from "../runners/browser-case-slice-evidence.js";
+import { traceBrowserRuntime,safeRecord } from "../runners/browser-case-slice-evidence.js";
 import { createHybridDecisionCapture } from "../runners/run-hybrid-live-read.js";
 import { createG6Session,G6_USER } from "./session.js";
 import { evaluateG6,hasBoundedNoResultConclusion,type G6EvaluationInput,type G6Delivered,type G6Vacancy,type G6OraclePage } from "./evaluator.js";
@@ -112,7 +112,8 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
     const clock=raw.clock,traceEvent=(kind:string,detail:unknown)=>{
       const fields=detail&&typeof detail==="object"&&!Array.isArray(detail)?detail as Record<string,unknown>:{};
       const timingOnly=Object.fromEntries(["method","operationId","outcome"].filter(k=>typeof fields[k]==="string"||typeof fields[k]==="number").map(k=>[k,fields[k]]));
-      trace.push({sequence:trace.length+1,at:clock.now().toISOString(),kind,detail:timingOnly});recording.record(kind,detail);return trace.length;
+      const timeline=/^(?:NETWORK_REQUEST_|NETWORK_RESPONSE_HEADERS|NAVIGATION_|GUARD_TRANSPORT_|GUARD_ROUTE_BLOCK|REQUEST_TIMELINE_)/u.test(kind);
+      trace.push({sequence:trace.length+1,at:clock.now().toISOString(),kind,detail:timeline?safeRecord(fields):timingOnly});recording.record(kind,detail);return trace.length;
     };
     let operationSequence=0;
     const timed=async<T>(method:string,read:()=>Promise<T>):Promise<T>=>{
@@ -140,7 +141,11 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
           return ["navigate","openLink","fill","select","click","snapshot","observeControls","waitForSettled","captureResponses","screenshotLayoutOnly","close"].includes(String(key))
             ?timed(String(key),()=>value.apply(target,args)):value.apply(target,args);};}});
     }};
-    const browser=traceBrowserRuntime(observedBrowser,"TABLECHECK",traceEvent,sink);
+    const browser=traceBrowserRuntime(observedBrowser,"TABLECHECK",traceEvent,sink,{remainingBudgetMs:()=>{
+      const task=session?.budget.currentTaskId(),usage=task?session?.budget.usage(task):undefined;
+      const deadline=Math.min(activeBudget?.deadlineAtMs??Infinity,usage?.deadlineAt??Infinity);
+      return Number.isFinite(deadline)?Math.max(0,deadline-clock.now().valueOf()):undefined;
+    }});
     const witness=createWitnessReader({directory:join(slot,"witness"),budgetPath:dependencies.budgetPath,runId,fetch:dependencies.witnessFetch,now,requestTiming,beforeGET,...(dependencies.wait?{wait:dependencies.wait}:{}),...(dependencies.witnessIntervalMs!==undefined?{minIntervalMs:dependencies.witnessIntervalMs}:{})});
     const witnesses:WitnessReceipt[]=[],turns:Array<{id:string;status:string;reason?:string}>=[];let failure:string|undefined,wallStart=monotonicNow(),elapsedMs=0;
     const userTurns:Array<{id:string;message:string;view:RestaurantCaseView}>=[],namedReferences:G6NamedTurn[]=[];

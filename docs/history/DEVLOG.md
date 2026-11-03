@@ -5781,3 +5781,11 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 ### 2026-11-03 CET - A supplemental G6
 
 2026-11-03 CET：A补跑D6/D4/D8完成，main a7abbc0f同步，834项源码/输入冻结；净树五门禁1412/188+66、严格G2 5/5全绿。D6保持Ito连续性，库存UNKNOWN；D4无交付，G1未触发；D8前三家身份均未核实，未到B1/条款及双渠道链接。三槽安全PASS/S0=0，历史S0保留。本轮3Live/54模型/7GET；开发11/11 Live、160/400模型、29/35 GET；全局11/29、401/1600、284/400，环境重跑0/4。新批准总GET400及Live29已入配置，813条原账本保留746原值。只推工作分支、不合main，停止待复核。 [report](../../.eval-artifacts/phase3b/g6-supplement-20261103/report.md)。
+### 2026-11-03 CET - A request timeline
+
+2026-11-03 CET：A按批准补评测逐请求/导航时间线；真实CDP requestID/loader、开始/响应头/结束/阻断、完整URL哈希、导航预算/超时/等待事件/结束原因均单列。Guard route.fetch传输与浏览器观察不按URL猜配，取消线上终态未知时明确null。未改产品、评分或Recorder准入。真实Chromium loopback红绿及并发隔离通过，净树五门禁/严格G2待最终运行；真实调用0。main账本并入A既有实际支出并保留已批准29Live/400GET。 [report](../../.eval-artifacts/phase3b/request-timeline-20261103/report.md)。
+
+
+### 2026-11-03 CET - Request timeline gates
+
+2026-11-03 CET：A逐请求时间线main候选净树五门禁全绿：默认1404/1404、Chromium189/189、严格G2 5/5且12页PASS。字段来自真实CDP和独立Guard传输观察，query只保留全URL SHA，准入/脱敏/评分不变；真实调用0。将按用户批准快进发布main，再同步G6工作分支预算回调。

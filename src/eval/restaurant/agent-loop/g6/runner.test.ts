@@ -10,7 +10,7 @@ import { evaluateG6 } from "./evaluator.js";
 
 test("G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request",async()=>{
   // LOCAL_CONSTRUCTION; real Live assembly/interpreter/Runtime, only model/source I/O replaced.
-  const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-named-state-")),f=await g6Fixture(),s=f.source,budgetPath=join(dir,"budget.json");
+  const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-named-state-")),f=await g6Fixture("CONTROL_FALLBACK"),s=f.source,budgetPath=join(dir,"budget.json");
   await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:4},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}}));
   const model={async complete(request:Parameters<typeof f.model.complete>[0]){
     const r=await f.model.complete(request);
@@ -30,6 +30,13 @@ test("G6 Runner serializes a user-named identity from actual Runtime State into 
     assert.equal(input.namedReferences.turns[0].after.candidates[0].restaurant.sourceIds.googlePlaces,s.outlet.id);
     assert.equal(score.checks.find((c:{rule:string})=>c.rule==="NAMED_OUTLET").status,"PASS");assert.equal(score.verdict.s0,0);assert.equal(result.stopReason,null);
     assert.deepEqual(evaluateG6(input),score,"Saved dynamic input deterministically replays the same score");
+    const trace=JSON.parse(await readFile(join(dir,"runs/named/browser-trace.json"),"utf8"));
+    const navs=trace.events.filter((e:any)=>e.kind==="NAVIGATION_START"&&e.detail.method==="GOTO");
+    assert.ok(navs.length>0,"Canonical G6 trace must retain navigation metadata");
+    assert.ok(navs.every((e:any)=>Number.isFinite(e.detail.remainingReadBudgetMs)&&e.detail.remainingReadBudgetMs<=500_000&&e.detail.remainingReadBudgetMs>=0));
+    const starts=trace.events.filter((e:any)=>e.kind==="NETWORK_REQUEST_START");assert.ok(starts.length>0);
+    assert.ok(starts.every((e:any)=>e.detail.requestId&&/^[a-f0-9]{64}$/.test(e.detail.urlSha256)));
+
   }finally{await rm(dir,{recursive:true,force:true});}
 });
 

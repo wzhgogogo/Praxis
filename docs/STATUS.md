@@ -13,6 +13,10 @@
 2026-11-02 CET（客户端11-03）：A新安全停批策略完成红绿及净树全门禁，历史D3仅stopBatch变化、D1仍S0停，评分与定义不变。D4 483.348秒展示Yakiton Daio1家，完整资格及B1来源两项安全NOT_EVALUATED后正确停批，D6未启动。HAR原B1链接确实存在，A读取器用四参数见证规则拒绝来源第五参数exclude_unavailable_time；新店仅有串カツ菜单原文，需独立HARD审查，且生产eligible与显示NOT_CHECKED差异单列。G1追问因收尾预留未发。Recorder12/94页，模型32、Google8、独立请求2206全PASS/越界0，F6无保留区新读且未超500；3POST为合法日历。D7取消非失败，具名四槽仍待C；本次不修评分或产品、不续跑。账本627原值保留加35为662，累计Live3/26、模型298/1600、GET265/390，开发10/25余15、环境重跑0。 [完整报告](../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/report.md)。
 
 2026-11-02 CET：按用户复核记录D3能力未达/不必要追问/S0=0（原评价不改），D7取消且不计失败，具名四槽等C通知。本批只改A Runner/评价器停批：S0或安全缺证/额度仍停，安全PASS的能力NOT_EVALUATED记RECORDED_NOT_EVALUATED并继续；历史D3仅stopBatch改变、D1仍停且全部评分逐字段不变，整组装下一槽可启动，34/34绿。冻结D4/D6原文和开发9/25继承，待净树五门禁/严格G2后串行跑；不改产品或评分规则，不合main。 [切片与冻结](../.eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/plan.md)。
+2026-11-03 CET：A逐请求时间线main候选净树五门禁全绿：默认1404/1404、Chromium189/189、严格G2 5/5且12页PASS。字段来自真实CDP和独立Guard传输观察，query只保留全URL SHA，准入/脱敏/评分不变；真实调用0。将按用户批准快进发布main，再同步G6工作分支预算回调。 [报告](../.eval-artifacts/phase3b/request-timeline-20261103/report.md)。
+
+2026-11-03 CET：A按批准补评测逐请求/导航时间线；真实CDP requestID/loader、开始/响应头/结束/阻断、完整URL哈希、导航预算/超时/等待事件/结束原因均单列。Guard route.fetch传输与浏览器观察不按URL猜配，取消线上终态未知时明确null。未改产品、评分或Recorder准入。真实Chromium loopback红绿及并发隔离通过，净树五门禁/严格G2待最终运行；真实调用0。main账本并入A既有实际支出并保留已批准29Live/400GET。 [报告](../.eval-artifacts/phase3b/request-timeline-20261103/report.md)。
+
 2026-11-03 CET：C已在B main f0bee7d7后完成获批fd07f44e合入验证。822a7cd3冻结799项，净树十步全绿：默认1404/1404、Chromium188/188、严格G2 5/5且12页PASS、22组装测试/独立26帧PASS。34个C独有和20个B独有源码逐字保留，两个重叠仅合并import/自动保留双方；原C证据不变，账本746行原值并集、累计/上限不变。后续只归档文档，按用户批准正常发布main并核对远端、通知A。State25/TaskDefinition23/Prompt/Schema不变，真实调用0、不读.env，不称Live条款已填。[报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
 
 2026-11-03 CET：C fd07f44e已获用户独立复核及合入批准，并已等待B先发布main f0bee7d7。合入候选保留B来源角色和C身份前三家/条款就绪，源码只解read-assessment的两个import，native-source-facts自动保留两边；账本并集746行，累计/上限不变。原C产物不改，待冻结后新鲜五门禁、严格G2和26帧独立核验；全绿才发布main并通知A。真实调用0、不读.env。 [合入报告](../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。

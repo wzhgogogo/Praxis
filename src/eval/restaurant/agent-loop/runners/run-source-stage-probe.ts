@@ -587,7 +587,7 @@ try {
           } : rawRuntime;
           const browserProvider = manifest.stage === "WEBSITE_FACTS" ? "RESTAURANT_WEBSITE" : pack.browser?.provider;
           if (!browserProvider) throw Object.assign(new Error("Source Pack has no browser provider for this stage"), { code: "SOURCE_STAGE_BROWSER_NOT_APPLICABLE" });
-          const browser = traceBrowserRuntime(replayRuntime, browserProvider, recordTrace, recording?.snapshotSink());
+          const browser = traceBrowserRuntime(replayRuntime, browserProvider, recordTrace, recording?.snapshotSink(), {remainingBudgetMs:()=>Math.max(0,manifest.budget.sampleMaxElapsedMs-(Date.now()-startedAt))});
           const model = replayHarPath
             ? { async complete() { throw Object.assign(new Error("Replay never dispatches a model request"), { code: "REPLAY_MODEL_DISABLED" }); } }
             : sharedSourceStageModelGateway(providerModel(), sampleBudget);

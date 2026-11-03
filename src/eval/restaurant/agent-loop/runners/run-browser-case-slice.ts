@@ -130,7 +130,7 @@ const modelDecision: BrowserReadActionDecisionPort = { async decide(input) {
   }
 } };
 const underlyingRuntime = LocalPlaywrightChromium.fromEnvironment(effectiveEnvironment);
-const runtime: BrowserRuntime = traceBrowserRuntime(underlyingRuntime, source.provider, record);
+const runtime: BrowserRuntime = traceBrowserRuntime(underlyingRuntime, source.provider, record, undefined, {remainingBudgetMs:()=>Math.max(0,45_000-(Date.now()-startedAt))});
 const executor = new BrowserTaskExecutor(runtime, {
   modelDecision, maxModelCallsPerCandidate: 5, maxModelCallsTotal: 5,
   maxElapsedMsPerCandidate: 45_000, maxElapsedMsPerProvider: 30_000, maxAutomaticElapsedMs: 45_000,
