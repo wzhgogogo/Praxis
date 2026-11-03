@@ -32,7 +32,7 @@ export function positiveHardSourceSupport(criterion: string, source: RestaurantR
   if (!quotes.length && !structured) return undefined;
   const basis = quotes.length ? quotes.map(q => q.field === "NAME" ? "outlet name"
     : q.field === "GOOGLE_TYPE" ? "Google category" : q.field === "CATEGORY" && source.provider === "TABELOG" ? "Tabelog category"
-    : "merchant website/menu text") : [source.provider === "GOOGLE_PLACES" ? "Google category" : `${source.provider} source category`];
+    : "merchant website/menu text") : [source.provider === "GOOGLE_PLACES" ? "Google category" : source.provider === "TABELOG" ? "Tabelog category" : source.provider === "TABLECHECK" ? "TableCheck category" : "source category"];
   return { evidenceIds: [source.evidenceId], sources: quotes, basis: [...new Set(basis)] };
 }
 
