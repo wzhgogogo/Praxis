@@ -6482,3 +6482,8 @@ B已先在main f0bee7d7发布，C fd07f44e获复核默认1389/Chromium188/严格
 ## 2026-11-03 CET — C 合入候选十步全绿
 
 822a7cd3冻结799项，完整性前19.074s、typecheck0.510s、arch0.225s、默认1404/1404（50.760s）、build0.538s、Chromium188/188（133.133s）、严格G2 5/5且12页PASS（24.659s）、22组装测试/26帧（11.976s）、独立oracle26/26（0.145s）、完整性后20.699s。十步各前后status为空，源码SHA相同，无自动重试/超时/跳过/取消，未出现本机PGlite崩溃。默认含B HARD与A/G6、C原回归；不改原断言或Gold，原C所有失败/输入/结果逐字保留。源码34 C独有/20 B独有/2重叠的联合证明及746条账本在source-and-ledger.json，详细日志gates/。真实调用0、不读.env；原Live S0=1与未评边界不改，批准发布main后核对远端并通知A。[报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+
+### 2026-11-03 CET - A supplemental G6
+
+2026-11-03 CET：A补跑D6/D4/D8完成，main a7abbc0f同步，834项源码/输入冻结；净树五门禁1412/188+66、严格G2 5/5全绿。D6保持Ito连续性，库存UNKNOWN；D4无交付，G1未触发；D8前三家身份均未核实，未到B1/条款及双渠道链接。三槽安全PASS/S0=0，历史S0保留。本轮3Live/54模型/7GET；开发11/11 Live、160/400模型、29/35 GET；全局11/29、401/1600、284/400，环境重跑0/4。新批准总GET400及Live29已入配置，813条原账本保留746原值。只推工作分支、不合main，停止待复核。 [report](../../.eval-artifacts/phase3b/g6-supplement-20261103/report.md)。

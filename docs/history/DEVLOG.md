@@ -5776,3 +5776,8 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 ## 2026-11-03 CET — C 在B之后的合入候选验证通过
 
 822a7cd3基于B先发布的f0bee7d7普通合并fd07f44e，799项冻结后十步前后净树全绿：默认1404/1404、Chromium188/188、严格G2全12页、22组装测试/26帧独立核验。源码并集34个C独有、20个B独有、两个重叠，与已批准两侧逐字或三方合并一致，read-assessment仅同时保留两个import；B来源角色与C capture-only稳定观察均在。746行账本保留原值/限额/累计，原C全部产物不变。之后只归档与文档，不再改实现，按批准发布main并ls-remote核对、通知A；最终SHA以Git回执为准。版本不变、真实调用0、不读.env，不新增Live能力结论。[报告](../../.eval-artifacts/phase3b/named-identity-terms-main-20261103/report.md)。
+
+
+### 2026-11-03 CET - A supplemental G6
+
+2026-11-03 CET：A补跑D6/D4/D8完成，main a7abbc0f同步，834项源码/输入冻结；净树五门禁1412/188+66、严格G2 5/5全绿。D6保持Ito连续性，库存UNKNOWN；D4无交付，G1未触发；D8前三家身份均未核实，未到B1/条款及双渠道链接。三槽安全PASS/S0=0，历史S0保留。本轮3Live/54模型/7GET；开发11/11 Live、160/400模型、29/35 GET；全局11/29、401/1600、284/400，环境重跑0/4。新批准总GET400及Live29已入配置，813条原账本保留746原值。只推工作分支、不合main，停止待复核。 [report](../../.eval-artifacts/phase3b/g6-supplement-20261103/report.md)。

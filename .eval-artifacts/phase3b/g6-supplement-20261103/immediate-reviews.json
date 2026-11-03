@@ -1,0 +1,298 @@
+[
+  {
+    "slot": "D4",
+    "safety": "PASS",
+    "S0": 0,
+    "originalScoreUnchanged": true,
+    "sourceAttempts": [
+      {
+        "route": "GENERIC_BROWSER",
+        "browser": {
+          "engine": "CHROMIUM",
+          "sessionId": "local:91707015-4a1f-4d19-9e4b-67130bffb3dc",
+          "startedAt": "2026-11-03T13:24:44.329Z",
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "readNetworkBoundary": "INSTALLED"
+        },
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "latencyMs": 101784,
+        "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+        "googleRequests": {
+          "limit": 40,
+          "total": 3,
+          "discovery": 2,
+          "placeDetails": 0,
+          "namedPlaceResolution": 1,
+          "reverseAddressObservation": 0
+        },
+        "providerAttempts": [
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+            "failureCode": "BROWSER_RUNTIME_FAILED"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+            "failureCode": "BROWSER_TIMEOUT"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:a600df04d5d4276bbde78253",
+            "failureCode": "BROWSER_RUNTIME_FAILED"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:a600df04d5d4276bbde78253",
+            "failureCode": "BROWSER_TIMEOUT"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+            "failureCode": "BROWSER_RUNTIME_FAILED"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+            "failureCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      },
+      {
+        "route": "GENERIC_BROWSER",
+        "browser": {
+          "engine": "CHROMIUM",
+          "sessionId": "local:276cf25e-b175-4e8d-abf0-468b491c1100",
+          "startedAt": "2026-11-03T13:27:03.864Z",
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "readNetworkBoundary": "INSTALLED"
+        },
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "latencyMs": 144621,
+        "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+        "googleRequests": {
+          "limit": 40,
+          "total": 3,
+          "discovery": 2,
+          "placeDetails": 0,
+          "namedPlaceResolution": 1,
+          "reverseAddressObservation": 0
+        },
+        "providerAttempts": [
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+            "failureCode": "BROWSER_RUNTIME_FAILED"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+            "failureCode": "BROWSER_TIMEOUT"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "failureCode": "BROWSER_RUNTIME_FAILED"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "failureCode": "BROWSER_TIMEOUT"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:22cd98fb641bd813a35745af",
+            "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:22cd98fb641bd813a35745af",
+            "failureCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      },
+      {
+        "route": "GENERIC_BROWSER",
+        "browser": {
+          "engine": "CHROMIUM",
+          "sessionId": "local:38dc8283-4a55-4a76-a175-ff2d4b942499",
+          "startedAt": "2026-11-03T13:28:46.856Z",
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "readNetworkBoundary": "INSTALLED"
+        },
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "latencyMs": 88796,
+        "failureCode": "DELIVERY_RESERVE_REACHED",
+        "googleRequests": {
+          "limit": 40,
+          "total": 4,
+          "discovery": 2,
+          "placeDetails": 1,
+          "namedPlaceResolution": 1,
+          "reverseAddressObservation": 0
+        },
+        "reserveReached": {
+          "reason": "DELIVERY_TIME",
+          "completedCandidateIds": [
+            "praxis:restaurant:273007d00f089f90f818568b",
+            "praxis:restaurant:f93797735808708abd68d4ed"
+          ]
+        },
+        "providerAttempts": [
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+            "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+            "failureCode": "ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:f93797735808708abd68d4ed",
+            "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:f93797735808708abd68d4ed",
+            "failureCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    ],
+    "termsReasons": {
+      "NOT_SELECTED": 1
+    }
+  },
+  {
+    "slot": "D6",
+    "safety": "PASS",
+    "S0": 0,
+    "originalScoreUnchanged": true,
+    "sourceAttempts": [
+      {
+        "route": "GENERIC_BROWSER",
+        "browser": {
+          "engine": "CHROMIUM",
+          "sessionId": "local:ca6231a8-0982-4e62-8d2d-2c962f88cf24",
+          "startedAt": "2026-11-03T13:19:50.511Z",
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "readNetworkBoundary": "INSTALLED"
+        },
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "latencyMs": 60008,
+        "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+        "googleRequests": {
+          "limit": 40,
+          "total": 2,
+          "discovery": 0,
+          "placeDetails": 1,
+          "namedPlaceResolution": 1,
+          "reverseAddressObservation": 0
+        },
+        "providerAttempts": [
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:d7e28bf950ed08d83c01d9d7",
+            "failureCode": "BROWSER_TIMEOUT"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:d7e28bf950ed08d83c01d9d7",
+            "failureCode": "BROWSER_TIMEOUT"
+          }
+        ],
+        "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+      }
+    ],
+    "termsReasons": {
+      "NOT_SELECTED": 2,
+      "PHASE": 1
+    }
+  },
+  {
+    "slot": "D8",
+    "safety": "PASS",
+    "S0": 0,
+    "originalScoreUnchanged": true,
+    "sourceAttempts": [
+      {
+        "route": "GENERIC_BROWSER",
+        "browser": {
+          "engine": "CHROMIUM",
+          "sessionId": "local:b92b61db-ab1f-41c8-a13d-b2e551c9daab",
+          "startedAt": "2026-11-03T13:33:59.249Z",
+          "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+          "readNetworkBoundary": "INSTALLED"
+        },
+        "provider": "AVAILABILITY_SOURCE_RESOLVER",
+        "latencyMs": 180069,
+        "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+        "providerAttempts": [
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+            "failureCode": "TABLECHECK_DISCOVERY_INCOMPLETE"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+            "failureCode": "BROWSER_TIMEOUT"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+            "failureCode": "TABLECHECK_DISCOVERY_INCOMPLETE"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+            "failureCode": "BROWSER_TIMEOUT"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABLECHECK",
+            "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+            "failureCode": "TABLECHECK_DISCOVERY_INCOMPLETE"
+          },
+          {
+            "outcome": "PROVIDER_FAILURE",
+            "provider": "TABELOG",
+            "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+            "failureCode": "BROWSER_TIMEOUT"
+          }
+        ]
+      }
+    ],
+    "termsReasons": {
+      "NOT_SELECTED": 1
+    }
+  }
+]
