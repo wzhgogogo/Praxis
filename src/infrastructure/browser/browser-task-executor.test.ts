@@ -1163,3 +1163,14 @@ test('region selection is data-only DISCOVERY and consumes the same global model
  assert.deepEqual(await executor.selectRegionEntrance(input),{status:'SELECTED',entranceRef:'region:flow:0'});assert.equal(budget.totalModelCalls,50);
  await assert.rejects(()=>executor.selectRegionEntrance(input),{code:'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED'});assert.equal(calls,1);assert.equal(budget.totalModelCalls,50);
 });
+
+test("navigation below 3000ms remaining browser budget dispatches nothing and reports budget exhaustion",async t=>{
+ t.mock.timers.enable({apis:['Date'],now:0});
+ const session=new FixtureSession([{url:'https://public.example/',title:'',text:'',html:''}]);let navigations=0,prepared=0;
+ session.navigate=async()=>{navigations++};session.prepareNavigation=async()=>{prepared++};
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:90000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24});
+ const signal=new AbortController().signal;await executor.acquire(signal,'TABELOG','DISCOVERY');
+ t.mock.timers.setTime(87500);
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,url:'https://public.example/'}),e=>e instanceof BrowserRuntimeError&&e.code==='BROWSER_BUDGET_EXHAUSTED');
+ assert.equal(navigations,0);assert.equal(prepared,0);await executor.close();
+});

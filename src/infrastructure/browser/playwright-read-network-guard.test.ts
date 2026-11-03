@@ -510,3 +510,16 @@ test("C3b settlement counts only short data requests and diagnoses all outstandi
     assert.equal(guard.settlementActivity().oldestPendingMs, 3_001);
   } finally { Date.now = original; }
 });
+
+test("default resource suppression blocks admitted images media fonts without suppressing CSS scripts or data", async () => {
+ let http:(route:any)=>Promise<void>=async()=>assert.fail('handler');
+ const guard=new PlaywrightReadNetworkGuard({...policy,genericPublicRead:true});
+ await guard.install(fakeContext({route:async(_p:string,h:typeof http)=>{http=h},routeWebSocket:async()=>{}}));
+ guard.prepareNavigation('https://public.example/guide');
+ for(const type of ['image','media','font']){
+  const r=fakeRoute({url:`https://public.example/${type}`,type});await http(r.route);
+  assert.deepEqual(r.calls,['abort'],type);
+  assert.equal(guard.snapshotRequests().at(-1)?.outcome,'BLOCKED');
+ }
+ for(const type of ['script','stylesheet','xhr','fetch']){const r=fakeRoute({url:`https://public.example/${type}`,type});await http(r.route);assert.ok(r.calls.some(c=>c.startsWith('fetch:')),type);}
+});

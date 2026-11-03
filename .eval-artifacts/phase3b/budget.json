@@ -10964,15 +10964,54 @@
       "restaurantWebsiteRequests": 0,
       "report": ".eval-artifacts/phase3b/tabelog-timeout-20261103/report.md",
       "note": "No performance patch; missing request timing requires A-owned recorder/trace changes. W1 six-GET validation allowance unused. Union ce6f94af entries, preserve main limits; A cumulative past usage retained."
+    },
+    {
+      "id": "phase3b-B-resource-before-get-1-20261103",
+      "conversation": "B",
+      "timeCET": "2026-11-03T15:32:39+01:00",
+      "mode": "PUBLIC_DETAIL_LOAD_COMPARISON",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 56
+    },
+    {
+      "id": "phase3b-B-resource-before-get-2-20261103",
+      "conversation": "B",
+      "timeCET": "2026-11-03T15:32:56+01:00",
+      "mode": "PUBLIC_DETAIL_LOAD_COMPARISON",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 56
+    },
+    {
+      "id": "phase3b-B-resource-before-get-3-20261103",
+      "conversation": "B",
+      "timeCET": "2026-11-03T15:33:15+01:00",
+      "mode": "PUBLIC_DETAIL_LOAD_COMPARISON",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 56
     }
   ],
   "cumulative": {
     "fullLive": 11,
     "realModelCalls": 401,
     "environmentReruns": 0,
-    "evaluationPublicGET": 284,
+    "evaluationPublicGET": 287,
     "googleRequests": 67,
-    "restaurantWebsiteRequests": 7991
+    "restaurantWebsiteRequests": 8159
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
