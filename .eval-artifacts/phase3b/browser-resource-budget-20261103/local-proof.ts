@@ -16,8 +16,8 @@ const server=createServer(async(req,res)=>{
  const path=req.url!;received.push(path);
  const kind=path.split('/')[1] as keyof typeof content;
  if(path.endsWith('/')){res.setHeader('content-type','text/html');res.end(`<title>${kind} fixture</title><h1>Same outlet</h1><p id="answer">Loading</p><link rel="stylesheet" href="/${kind}/public.css"><script defer src="/${kind}/public.js"></script>${Array.from({length:20},(_,i)=>`<img src="/${kind}/image-${i}.png">`).join('')}<audio preload="auto" src="/${kind}/sample.wav"></audio>`);return}
- if(path.endsWith('public.js')){res.setHeader('content-type','text/javascript');res.end(`fetch('/${kind}/data').then(r=>r.json()).then(v=>document.getElementById('answer').textContent=v.text)`);return}
- if(path.endsWith('/data')){res.setHeader('content-type','application/json');res.end(JSON.stringify({text:content[kind]}));return}
+ if(path.endsWith('public.js')){res.setHeader('content-type','text/javascript');res.end(`fetch('/${kind}/data').then(r=>r.json()).then(v=>document.getElementById('answer').textContent=v.date?v.text.replace('Same outlet: ','Same outlet: '+v.date+', '):v.text)`);return}
+ if(path.endsWith('/data')){res.setHeader('content-type','application/json');res.end(JSON.stringify(kind==='tabelog'?{text:content[kind].replace('2026-11-06, ',''),date:'2026-11-06'}:{text:content[kind]}));return}
  if(path.endsWith('.css')){res.setHeader('content-type','text/css');res.end(`@font-face{font-family:proof;src:url('/${kind}/font.woff')}body{font-family:proof;color:rgb(0,128,0)}`);return}
  await new Promise(r=>setTimeout(r,700));
  if(res.destroyed)return;
