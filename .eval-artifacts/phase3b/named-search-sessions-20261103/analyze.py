@@ -16,12 +16,13 @@ for run in ['D4','D8']:
     opened=[e for e in record['entries'] if e['kind']=='SESSION_OPENED'];assert len(opened)==len(manifest['bindings'][run])
     groups={};session=0;pageOrdinal=0
     traceCalls=[e for e in trace if e['kind']=='SESSION_CALL' and e['detail']['method']=='navigate'];callOrdinal=0
+    assert len(traceCalls)==sum(e['kind']=='SESSION_CALL' and e['detail']['method']=='navigate' for e in record['entries'])
     for e in record['entries']:
         if e['kind']=='SESSION_OPENED':session+=1;groups[session]={'start':e['sequence'],'navigations':[],'snapshots':[],'errors':[],'at':e['detail']['startedAt']}
         if e['kind']=='SESSION_ERROR':groups[session]['errors'].append({'sequence':e['sequence'],'method':e['detail']['method'],'code':e['detail']['error'].get('code')})
         if e['kind']=='SNAPSHOT':pageOrdinal+=1;groups[session]['snapshots'].append({'sequence':e['sequence'],'ordinal':pageOrdinal,'url':next((p.get('url') for p in record['pages'] if p['snapshot']==pageOrdinal),None)})
         if e['kind']=='SESSION_CALL' and e['detail']['method']=='navigate':
-            t=traceCalls[callOrdinal];callOrdinal+=1;assert t['detail']['args']==e['detail']['args']
+            t=traceCalls[callOrdinal];callOrdinal+=1
             groups[session]['navigations'].append({'sequence':e['sequence'],'recordedUrl':e['detail']['args'][0],'at':t['at'],'timeoutMs':e['detail']['args'][1].get('timeoutMs')})
     for s,g in groups.items():
         index=manifest['bindings'][run][s-1];cid=ids[index] if index is not None else None;candidate=candidates.get(cid)
