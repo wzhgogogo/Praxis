@@ -29,4 +29,32 @@ Ledger: preserve existing entries by id; six rows added, evaluationPublicGET284â
 
 ## Gates / delivery
 
-Final same-candidate five gates +strict G2 pending. No main merge. A/C notification and remote receipt follow final gates. Remaining original diagnosis gaps (true request waterfall, busy/load causality and TableCheck first branch) stay open; this approved generic policy does not silently close them.
+**STOPPED: A-owned Chromium fixture contract updates required. Not complete; not five-gate green.** No main merge. Product/gate candidate `4d3d844e`; archived `gates/gates.json` records exact full SHA and clean status before/after each step. Final report-only commits do not change source or inputs.
+
+| Gate | Result |
+|---|---|
+| typecheck |PASS (0.515s)|
+| arch:check |PASS (0.227s)|
+| npm test |1410/1410 PASS (47.987s)|
+| build |PASS (0.521s)|
+| test:browser:fixture |185/188; **3 FAIL** (130.743s wall)|
+| PRAXIS_G2_REQUIRE_PASS=1 test:dom-change |5/5; all12 pages PASS (24.185s)|
+
+G2 also passed as the first Chromium phase. No skip/todo/cancel/retry; every pre/post git status empty. Full raw logs archived, including the failures.
+
+The three failures are introduced by this approved default policy, **not unrelated existing failures**. Their old fixtures require an image to be admitted before testing another boundary:
+
+1. `src/harness/browser/browser-read-stability.test.ts:115`, C3b outstanding image: expected pendingByType.image=1, actualundefined because image suppressed.
+2. `src/harness/browser/read-network-redirect.test.ts:289`, image redirect: receiver sees onlyA/page, image is policy-blocked before its redirect.
+3. `src/harness/browser/runner-replay.test.ts:81`, missing optional image: expected MISSING_RESPONSE(image), actual[] because the request never enters replay HAR lookup.
+
+These are A-owned files and byte-identical to main. They were not edited. Proposed owner synchronization: declare the exact image as retainedResources in these fixtures only, retaining all existing assertions about settling, redirect denial and missing-response recording. No production site exception is justified or added. This requires A coordination; B stops rather than changing A files or weakening assertions. The proposed synchronization has not been applied or tested.
+
+Normal offline availability/facts/G1 paths passed in default and the other Chromium files, and local synthetic three-source content controls passed. The specific saved D4 merchant DOM was **not** additionally executed through a guarded component fixture; current official-site/whole-task success is not proven by the synthetic merchant case. No qualified Replay is fabricated from diagnostic DOM. External W1 performance remains unresolved. A/C notification and remote receipt follow the stopped-branch archive. Remaining original diagnosis gaps (true request waterfall, busy/load causality and TableCheck first branch) stay open; this approved generic policy does not silently close them.
+
+
+## Measurement limitation and disposition
+
+The after measurement was scheduled while the default preflight was finishing: log birthtime/mtime show ~4.1s overlap at the beginning of sample1 (15:40:04â€“15:40:08 CET), no overlap for samples2/3. That is a measurement-control error; comparison cannot establish causality. `measurement-overlap.json` preserves the approximate intervals. Even the two non-overlapping after samples timed out. No retry or additional budget was used. The current data supports reduced admitted requests and an unresolved negative loading result, not a demonstrated speed improvement.
+
+Review disposition: mechanisms implemented and valid local red/green, strictG2 green; acceptance incomplete because Chromium has three A-owned fixture conflicts and all three real after reads did not reach DCL. Do not merge this branch or run a holdout assuming the Tabelog timeout is solved. Minimum next step: A handles the three retained-image fixture declarations; reviewer decides how to investigate the W1 timeout with the exhausted six-read allowance. No extra approval is assumed. Original diagnostic scope remains unchanged.

@@ -1,3 +1,5 @@
+2026-11-03 CET：B资源策略/导航预算候选4d3d844e停止待复核。type/arch/build通过、默认1410/1410、严格G2 5/5及12页PASS；Chromium185/188，三项A归属fixture需要实际加载图片，与新默认抑制冲突，未修改/未跳过/未降断言，全部门禁前后净树。W1已用6/6公开GET：前DCL中位10.75秒，后3次均20秒超时，admitted请求56→17；后测首样本与预检约4秒重叠，不能归因或宣称提速。814旧账目原值保留，新增6条、网站admitted+219；模型/Google/完整Live/环境重跑新增0。只推停止分支、不合main，通知A/C；A三处fixture同步和外部超时仍待复核。 [报告](../.eval-artifacts/phase3b/browser-resource-budget-20261103/report.md)。
+
 2026-11-03 CET：B按新批准实现共享资源默认抑制image/media/font与3000ms导航余量检查，Guard权限和所有预算不扩大，录制策略标记复用@5；A/C源码不改，版本不变。两项有效红绿、本地Chromium组件26→4请求且必需内容保留。W1公开GET已用6/6：前3次DCL中位10.75秒，后3次均20秒超时，admitted请求56→17；不能宣称Live提速或故障关闭，需复核。最终五门禁/严格G2待运行，只推分支、不合main。 [报告](../.eval-artifacts/phase3b/browser-resource-budget-20261103/report.md)。
 
 2026-11-03 CET：B的Tabelog超时诊断分支净树门禁通过：默认1404/1404、Chromium188/188、严格G2 5/5及12页PASS，type/arch/build通过。产品源码与a7abbc0f逐字相同，未实施修复/未测提速；逐请求时间线与原查询身份缺失，资源主因及限流均未定。按A/C归属约束交接补证后停下，6次公开GET未使用、真实模型/网站调用0；只推诊断分支、不合main。 [报告](../.eval-artifacts/phase3b/tabelog-timeout-20261103/report.md)。
