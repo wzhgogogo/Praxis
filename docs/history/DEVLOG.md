@@ -1,5 +1,10 @@
 # Development Log
 
+<a id="named-outlet-main-20261103"></a>
+
+2026-11-03 CET：C名称匹配ca18d02b已复核批准合入。已同步origin/main d4d8ea33，源码相同；A5912账本67条并集，额度快照不扩权。本轮五门禁/严格G2待新鲜验证、真实调用0；D6具名店替换S0下一分支独立修复。 [合入报告](../../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
+
+
 <a id="named-outlet-source-names-verified-20261103"></a>
 
 2026-11-03 CET：C来源名唯一性补修离线全绿。D1真实Google短名+D3原字节有效红→查位→展示→B1/条款；同店来源全名与包含+typed地址地名分别核对，多店/错地名/身份冲突拒绝，未知别名/建筑词/字内片段不放行。2354b2bd冻结756项，净树十步全绿：默认1372/1372、Chromium188/188、严格G2 5/5及12页PASS，独立新7+原9帧PASS。State25/TaskDefinition23、语义/Agent版本与A/B保护文件不变；原627行全保留、账本628行，本轮真实调用0、不读.env。只推工作分支交复核，不合main；不是新Live或37家通过率。 [证据及完整记录](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。
