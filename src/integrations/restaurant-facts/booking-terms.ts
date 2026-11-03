@@ -7,6 +7,7 @@ import type { RestaurantPageAnswer, RestaurantPageQuestionRequest } from "../../
 import type { RestaurantFactPageObservation } from "./fact-source-document.js";
 import type { RestaurantPageQuestionReader } from "./page-question-reader.js";
 import { RESTAURANT_READ_CONCLUSION_RESERVE_MS } from "../../domains/restaurant/read-time-reserve.js";
+import {namedOutletCandidateResolved} from "../../domains/restaurant/named-outlet-resolution.js";
 
 type Topic="cancellation"|"card";
 type Answer={answer:RestaurantPageAnswer;pages:RestaurantFactPageObservation[]};
@@ -93,7 +94,7 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
     const candidate=view.restaurant.candidates.find(item=>item.restaurant.id===source.candidateId);
     const offer=view.restaurant.availability[source.candidateId]?.find(item=>item.id===source.offerId);
     const check=view.restaurant.availabilityChecks[source.candidateId];
-    if(!request||!candidate||!offer||!check)return undefined;
+    if(!request||!candidate||!offer||!check||!namedOutletCandidateResolved(view.restaurant,source.candidateId))return undefined;
     return {candidate,offer,check,request,
       evidence:view.restaurant.readEvidence,now:this.now(),...(view.restaurant.sourceReadContext?{readContext:view.restaurant.sourceReadContext}:{})};
   }
@@ -110,6 +111,7 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
     const selected=view.restaurant.selectedCandidateId,context=view.restaurant.sourceReadContext;
     if(!selected||!context||view.case.phase!=="PRESENT_RESULTS"
       ||!bookingHandoffCandidateIds(view.case.phase,view.restaurant.presentedCandidateIds,view.restaurant.readyCandidateIds).includes(selected)
+      ||!namedOutletCandidateResolved(view.restaurant,selected)
       ||view.restaurant.intentDraft?.target?.selectionScope!=="SPECIFIC_OUTLET")return;
     const prepared=this.readLinks(view).find(item=>item.source.candidateId===selected);
     if(!prepared)return;
