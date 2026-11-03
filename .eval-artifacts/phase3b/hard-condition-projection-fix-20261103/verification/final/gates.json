@@ -1,0 +1,182 @@
+{
+  "mode": "OFFLINE_MOCK_AND_LOCAL_CHROMIUM",
+  "testedCommit": "46ed4a52df10f80cf7df7b1c9b0f700cecf34931",
+  "startedAtCET": "2026-11-03T05:38:22.200281+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "nodeVersion": "v24.4.1",
+  "scriptSha256": "5a26593023c2aa8effa636d3189968cb57f9147448a465852ac2e9f21ed81fb4",
+  "freezeSha256": "d2f36e237aee737ca634a99bf76ac496426c9da795a2773ed1735c64ab437500",
+  "frozenPaths": 753,
+  "restorations": 0,
+  "allNewRealCalls": 0,
+  "runs": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-03T05:38:22.288367+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.481071,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-03T05:38:22.900568+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.185402,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-03T05:38:23.216471+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test.log",
+      "exitCode": 1,
+      "elapsedSeconds": 43.119783,
+      "summary": {
+        "tests": 1358,
+        "suites": 5,
+        "pass": 1316,
+        "fail": 42,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "f80fd6ae757d843c6dfaa7706af23075b2cf16a7b2bb729c61b1bc147c2f00fa",
+      "gitStatusAfter": "",
+      "outcome": "FAIL"
+    },
+    {
+      "gate": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "startedAtCET": "2026-11-03T05:39:06.481366+01:00",
+      "gitStatusBefore": "",
+      "log": "build.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.483592,
+      "summary": {},
+      "logSha256": "aa4465d8bd4241c7c3a98662d15ec3e1cd50a2aee402bb504db069cf0f4801a8",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "browser-fixture",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "startedAtCET": "2026-11-03T05:39:07.099332+01:00",
+      "gitStatusBefore": "",
+      "log": "browser-fixture.log",
+      "exitCode": 0,
+      "elapsedSeconds": 130.997784,
+      "summary": {
+        "tests": 188,
+        "suites": 0,
+        "pass": 188,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "a5a8ae646bb9bee42a19871b39c8d8c2dbf974b9d1f838740199e778fd60125f",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "strict-dom-change",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "startedAtCET": "2026-11-03T05:41:18.243282+01:00",
+      "gitStatusBefore": "",
+      "log": "strict-dom-change.log",
+      "exitCode": 0,
+      "elapsedSeconds": 24.447397,
+      "summary": {
+        "tests": 5,
+        "suites": 0,
+        "pass": 5,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "0af36c39abca7425d8889fe7806e4cbb52a6ef49467b0200af4a7caa5105c652",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "d4",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/hard-condition-projection-fix-20261103/reproduce-d4.ts",
+        "/private/tmp/praxis-hard-condition-projection-final-20261103/d4-result.json"
+      ],
+      "startedAtCET": "2026-11-03T05:41:42.830176+01:00",
+      "gitStatusBefore": "",
+      "log": "d4.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.132535,
+      "summary": {},
+      "logSha256": "daa3e656345e15fc7e3b25323ad29d20bf320b563d2c4efdc1f0b40b421c1547",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "hard-bytes",
+      "command": [
+        "node",
+        "--import",
+        "tsx",
+        ".eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts",
+        "check",
+        ".eval-artifacts/phase3b/g3-longrun/hard-before.json"
+      ],
+      "startedAtCET": "2026-11-03T05:41:43.096106+01:00",
+      "gitStatusBefore": "",
+      "log": "hard-bytes.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.143354,
+      "summary": {},
+      "logSha256": "35fd00032ca19db45bb4ee7a7fae63364905df14b7426f6e5a14dd763231c520",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    }
+  ],
+  "stopReason": "GATE_FAILURE_OR_CHECKOUT_CHANGE",
+  "acceptance": "NOT_SATISFIED",
+  "finishedAtCET": "2026-11-03T05:41:43.304609+01:00",
+  "freezeVerifiedAfter": true
+}

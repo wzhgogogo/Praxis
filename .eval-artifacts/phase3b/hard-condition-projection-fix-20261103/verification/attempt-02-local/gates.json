@@ -1,0 +1,73 @@
+{
+  "mode": "OFFLINE_MOCK_AND_LOCAL_CHROMIUM",
+  "testedCommit": "95fde88235f130ee8a34a86280e58d623e87e64a",
+  "startedAtCET": "2026-11-03T05:32:34.153747+01:00",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "nodeVersion": "v24.4.1",
+  "scriptSha256": "c42dd576696424c9daceb6ca89bff6a5ee45fef45a37531718276b21f52c9365",
+  "freezeSha256": "0703abd47234416c93d1c5fa7618edf2078143c9a4bbfce11233c9e9af86119d",
+  "frozenPaths": 753,
+  "restorations": 0,
+  "allNewRealCalls": 0,
+  "runs": [
+    {
+      "gate": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "startedAtCET": "2026-11-03T05:32:34.241875+01:00",
+      "gitStatusBefore": "",
+      "log": "typecheck.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.4553,
+      "summary": {},
+      "logSha256": "f51c5d604f797795f2ea013b68e108f17abec71cfafb9c9568288c75dfc7d294",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "arch-check",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "startedAtCET": "2026-11-03T05:32:34.825464+01:00",
+      "gitStatusBefore": "",
+      "log": "arch-check.log",
+      "exitCode": 0,
+      "elapsedSeconds": 0.229819,
+      "summary": {},
+      "logSha256": "2721be7fb319b54396c568ffec328b3397ed0db97ced477f206a1a0c0e418122",
+      "gitStatusAfter": "",
+      "outcome": "PASS"
+    },
+    {
+      "gate": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "startedAtCET": "2026-11-03T05:32:35.187337+01:00",
+      "gitStatusBefore": "",
+      "log": "npm-test.log",
+      "exitCode": 1,
+      "elapsedSeconds": 39.756342,
+      "summary": {
+        "tests": 1358,
+        "suites": 5,
+        "pass": 1316,
+        "fail": 42,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "logSha256": "ee48e71fdc551b1cc0d7651bc8e8e97d1ce1b50cf2d9f97235a7b369390bf297",
+      "gitStatusAfter": "",
+      "outcome": "FAIL"
+    }
+  ],
+  "stopReason": "GATE_FAILURE_OR_CHECKOUT_CHANGE"
+}

@@ -1,5 +1,7 @@
 2026-11-02 CET：C B1投影修复离线全绿，按用户预先批准合入main。PRESENT_RESULTS仅已展示、其他阶段仅就绪，selected不绕过；准备缓存/两次校验保留，隐藏店HTTP由201转400且不启动条款。1bf90606有效红→39d7823f四项绿；1d7377b1冻结757项，净树五门禁默认1355/1355、Chromium188/188及严格G2 5/5/12页PASS，独立6帧核验通过。A eval/harness/G6与B G3及原B1 HTTP断言不动，版本不变；仅补C组件桩phase/ready输入。账本保留A 48条新增，619条并集，本轮真实调用0、不读.env。远端main仍f992a8ac，发布SHA以Git/ls-remote回执为准，发布后通知A、C待命。 [报告](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/report.md)。
 
+2026-11-03 CET：B 的 HARD 投影修复停止，未合 main。D4 原输入红 NOT_CHECKED→绿 MET+同一串カツ引用、资格 true；最终46ed4a52/753冻结输入，type/arch/build、Chromium188/188、严格G2 5测试/12页与旧HARD44,197字节通过，但默认1316/1358、42失败。新实现将旧显示字段限制带入资格，拒绝原已接纳的无sourceFieldQuotes模型来源；另有旧标签控制和c05“可展示但未核对”合同，不能称作无关fixture错误。两次收敛仍红，按3b规则停下交复核，不改A/C输入或断言；真实调用0、619旧账目保留并追加至620。 [停止报告](../.eval-artifacts/phase3b/hard-condition-projection-fix-20261103/report.md)。
+
 2026-11-02 CET：C开始用户已批准的B1投影修复：PRESENT_RESULTS只认已展示集合，其他阶段只认就绪集合；selected不绕过集合，准备缓存保留。普通组装+HTTP先红后绿，正控制覆盖SEARCHING就绪、展示及用户选店条款；A/B受保护文件与版本不动，真实调用0。门禁全绿后按授权同步main、合入推送并通知A。 [计划](../.eval-artifacts/phase3b/b1-visible-candidates-20261102/plan.md)。
 
 # Praxis 当前状态
@@ -242,8 +244,8 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.474
-- Last updated: 2026-11-02
+- Document revision: 4.475
+- Last updated: 2026-11-03
 - Source of truth for: 当前实现、证据与下一道门槛
 
 - **2026-10-28 CET：3b C批次3完成，停止待复核。** main基线90b464d8；29原保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝；用户确认去重12而非16，以及每店每来源最多两次检索，已写入报告供复核者核对。双站原名→一种逐字Google片段，独立named-query Prompt/Schema2，原身份与详情总额保持，Google增量0。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。G2仅两原页地址获批更新；17保存检索及4个UNKNOWN控制、12片段定位通过，7/8为历史混合探针，新Prompt2真实质量未评。只推C分支，申请复核通过后合main，B随后开始G3。[报告](../.eval-artifacts/phase3b/c-batch3/report.md)。

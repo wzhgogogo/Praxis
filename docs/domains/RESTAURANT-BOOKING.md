@@ -1,12 +1,12 @@
 # Restaurant Booking Domain
 
-2026-11-03 CET，用户批准的 HARD 投影修订：非价格正向 HARD 的资格与卡片共用条件评估的接纳结果。已绑定、当前有效的 MODEL_JUDGMENT 可以用商家原文支持跨语言条件；菜单明确列出该菜品可满足这类菜系要求，展示 MET 和原文，不称为专门店。此条替代 2026-10-23 记录对这类模型判断额外要求英文菜名字面出现的限制。原文字段角色、同店/来源 URL、有效期、当前事实替代、服务范围、价格适用及负向条件规则保留；缺证、名字/评论、串店、过期或被替代的支持不能产生 MET。State24、TaskDefinition22、各 Prompt/Schema 不变；本条已授权、离线实现待完整门禁。
+2026-11-03 CET，用户批准的 HARD 投影修订：非价格正向 HARD 的资格与卡片共用条件评估的接纳结果。已绑定、当前有效的 MODEL_JUDGMENT 可以用商家原文支持跨语言条件；菜单明确列出该菜品可满足这类菜系要求，展示 MET 和原文，不称为专门店。此条替代 2026-10-23 记录对这类模型判断额外要求英文菜名字面出现的限制。原文字段角色、同店/来源 URL、有效期、当前事实替代、服务范围、价格适用及负向条件规则保留；缺证、名字/评论、串店、过期或被替代的支持不能产生 MET。State24、TaskDefinition22、各 Prompt/Schema 不变；本条政策已获授权；实现候选46ed4a52默认门禁失败，未合main，不能视为已签收。
 
 - Status: Accepted
-- Document revision: 3.48
+- Document revision: 3.49
 
 
-- Last updated: 2026-11-02
+- Last updated: 2026-11-03
 - Source of truth for: 餐厅预约Domain模型、状态、搜索和完成条件
 - Related ADRs: [ADR-0004](../decisions/0004-single-candidate-authorization.md), [ADR-0009](../decisions/0009-semantic-strength-and-clean-holdout-baseline.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0014](../decisions/0014-search-only-results-completion.md), [ADR-0019](../decisions/0019-fact-grounded-read-only-recommendations.md), [ADR-0020](../decisions/0020-goal-driven-restaurant-read-path.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md), [ADR-0022](../decisions/0022-current-source-fact-lifecycle-and-identity.md), [ADR-0024](../decisions/0024-deterministic-time-and-diagnostic-read-completion.md), [ADR-0025](../decisions/0025-model-directed-read-investigation.md), [ADR-0026](../decisions/0026-concrete-visit-goal-and-reception-semantics.md), [ADR-0028](../decisions/0028-open-ended-result-targets-for-availability.md), [ADR-0030](../decisions/0030-restaurant-category-negative-eligibility.md), [ADR-0034](../decisions/0034-qualified-read-scope-and-investigation-budget.md)
 - Related documents: [MVP PRD](../product/MVP-PRD.md), [User Flows](../product/USER-FLOWS.md), [Policy & Execution](../architecture/POLICY-EXECUTION-VERIFICATION.md), [Data, Context & Security](../architecture/DATA-CONTEXT-SECURITY.md), [Search Service](../architecture/SEARCH-SERVICE.md)

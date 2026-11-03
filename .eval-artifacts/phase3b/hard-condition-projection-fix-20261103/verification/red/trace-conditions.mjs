@@ -1,0 +1,4 @@
+import {registerHooks} from "node:module";
+registerHooks({load(url,context,next){const r=next(url,context);if(new URL(url).pathname.endsWith("/condition-states.ts")&&r.source){const text=String(r.source);return {...r,source:text+`
+const diagnosticOriginal=assessRestaurantConditions;assessRestaurantConditions=(...args)=>{const rows=diagnosticOriginal(...args);if(rows.some(r=>r.strength==="HARD"&&r.polarity==="POSITIVE"&&r.status!=="MET"))console.error("HARD_INPUT_TRACE "+JSON.stringify({now:args[2],criteria:args[0].criteria,rows,facts:args[1].map(f=>({id:f.evidenceId,candidateId:f.candidateId,provider:f.provider,sourceUrl:f.sourceUrl,expiresAt:f.expiresAt,sourceExpiresAt:f.sourceExpiresAt,displayExpiresAt:f.displayExpiresAt,quotes:f.sourceFieldQuotes,claims:{verifiedHardCriteria:f.claims.verifiedHardCriteria,supportingEvidenceIds:f.claims.supportingEvidenceIds,restaurantTypeFacts:f.claims.restaurantTypeFacts}}))}));return rows;};
+`};}return r;}});
