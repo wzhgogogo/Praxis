@@ -1,5 +1,9 @@
 # Development Log
 
+<a id="dev-g6-dynamic-named-binding-20261103"></a>
+
+2026-11-03 CET：A记录D6独立裁定S0一次，五个异店是一批错误展示，原评价/录制不改，D6不重跑。只改评测器及Runner绑定USER选择事件与对应State身份，保留Google/source IDs、电话地址，缺失不猜；跨后续回合保留，明确用户同意+权威开放范围才释放，晚同意不消除早错。Evaluator@3、用户回合产物@2，Prompt/产品State/TaskDefinition不改。历史权威投影由SEARCH_COMPLETED交叉核对，未来直接取Runtime快照。真实组装正控制不注入事件或合格证据；C（一）合入通知待核对同步，四槽待冻结净树门禁，无新真实调用，不合main。 [报告](../../.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/report.md)。
+
 <a id="dev-g6-d6-live-stop-20261103"></a>
 
 2026-11-03 CET：A按用户批准只跑D6，500秒/50模型/40Google按三次用户读取分别计，开发400模型不重置；先前完整红绿和净树七项核对冻结于b53ab1d9，780源/外层SHA实跑后未变。推荐3家后，用户明确预订首家Ito，语义正确绑定原ID及具名目标，问人数后候选锚点已清空；补两人后原生地区另外五店被展示，选店事件0、条款问答0。将首偏定位到语义重置与随后重绑定、另列具名结果范围，交C/共享域复核，不改产品。原自动评价因自身身份投影缺口NE停批，未改分数；同次页面可见地址齐全，A还需复核原生身份提取及动态first期望接线。五项异店展示按冻结规则提交S0复核，不声称零错误。D4人工MET/S0=0和原评价仍分开保留；D3新运行/D5/D2/D8不启动，D7取消。本轮结束仅工作分支待复核。 [完整报告](../../.eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/report.md)。

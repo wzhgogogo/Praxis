@@ -29,3 +29,12 @@ d6-turn-budgets/runs/D6/recordings/*/diagnostic/*.html -diff -text
 d6-turn-budgets/runs/D6/recordings/*/stylesheet-*.css -diff -text
 d6-turn-budgets/runs/D6/recordings/*/replay.har -diff -text
 d6-turn-budgets/runs/D6/recordings/*/recording.json -diff -text
+
+# Dynamic-name continuation evidence: preserve original output bytes.
+named-binding-continuation/*.log -diff -text
+named-binding-continuation/runs/*/witness/*.body -diff -text
+named-binding-continuation/runs/*/recordings/*/snapshot-*.html -diff -text
+named-binding-continuation/runs/*/recordings/*/diagnostic/*.html -diff -text
+named-binding-continuation/runs/*/recordings/*/stylesheet-*.css -diff -text
+named-binding-continuation/runs/*/recordings/*/replay.har -diff -text
+named-binding-continuation/runs/*/recordings/*/recording.json -diff -text

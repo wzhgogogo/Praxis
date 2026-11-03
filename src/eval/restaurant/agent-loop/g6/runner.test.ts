@@ -6,6 +6,32 @@ import { createHash } from "node:crypto";
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { g6Fixture } from "./fixtures.js";
 import { runG6Batch,loadG6Pack,type G6Pack } from "./runner.js";
+import { evaluateG6 } from "./evaluator.js";
+
+test("G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request",async()=>{
+  // LOCAL_CONSTRUCTION; real Live assembly/interpreter/Runtime, only model/source I/O replaced.
+  const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-named-state-")),f=await g6Fixture(),s=f.source,budgetPath=join(dir,"budget.json");
+  await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:4},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}}));
+  const model={async complete(request:Parameters<typeof f.model.complete>[0]){
+    const r=await f.model.complete(request);
+    if(request.purpose==="restaurant_semantic_interpret"&&request.messages.some(m=>m.role==="user"&&m.content.includes("Please book the first restaurant for me."))){
+      const body=JSON.parse(r.outputText);body.facts=body.facts.filter((x:{field:string})=>x.field==="TARGET");const target=body.facts[0].value;target.selectionScope="SPECIFIC_OUTLET";target.query=s.outlet.name;
+      delete target.requestedResultCount;target.goalBasis={type:"BOOKING_WORDING",reason:"User explicitly books the first displayed merchant",quotes:["Please book the first restaurant for me."]};
+      return {...r,outputText:JSON.stringify(body)};
+    }return r;
+  }};
+  const pack:G6Pack={schemaVersion:"phase3b-g6-pack@1",mode:"FIXTURE",recording:{browser:true,decisions:true,googleResponses:true},cases:[{id:"named",request:s.initialRequest,followups:[{id:"book",trigger:"DISPLAYED_AVAILABLE",kind:"MESSAGE",text:"Please book the first restaurant for me."}],oracle:{request:{dates:[s.date],time:s.time,partySize:2},pages:[]}}]};
+  try{
+    const result=await runG6Batch(pack,{budgetPath,witnessFetch:async()=>new Response(JSON.stringify(s.vacancy.body)),async transports(_c,_r,hooks){return {model,browser:f.browser,clock:f.clock,google:new GooglePlacesClient({apiKey:"local-only",fetchImplementation:hooks.googleFetch(f.googleFetch)})};}},join(dir,"runs"));
+    const input=JSON.parse(await readFile(join(dir,"runs/named/evaluation.input.json"),"utf8")),score=JSON.parse(await readFile(join(dir,"runs/named/evaluation.json"),"utf8"));
+    assert.ok(input.request.named,JSON.stringify({binding:score.namedOutletBinding,turns:JSON.parse(await readFile(join(dir,"runs/named/user-turns.json"),"utf8")).turns.map((t:any)=>({id:t.id,phase:t.view.case.phase,target:t.view.restaurant.intentDraft?.target})),references:input.namedReferences}));
+    assert.equal(input.request.named.name,s.outlet.name);assert.equal(input.request.named.googlePlaceId,s.outlet.id);assert.equal(input.request.named.phone,s.outlet.phone);assert.equal(input.request.named.sourceIds.TABELOG,"13123456");
+    assert.ok(input.request.named.selectionEventId);assert.equal(input.namedReferences.initial,null);assert.equal(input.namedReferences.turns.length,2);
+    assert.equal(input.namedReferences.turns[0].after.candidates[0].restaurant.sourceIds.googlePlaces,s.outlet.id);
+    assert.equal(score.checks.find((c:{rule:string})=>c.rule==="NAMED_OUTLET").status,"PASS");assert.equal(score.verdict.s0,0);assert.equal(result.stopReason,null);
+    assert.deepEqual(evaluateG6(input),score,"Saved dynamic input deterministically replays the same score");
+  }finally{await rm(dir,{recursive:true,force:true});}
+});
 
 test("G6 each user message receives a fresh read budget after an initial 483-second read",async()=>{
   // LOCAL_CONSTRUCTION: actual Live factory/persistence/G1, only transport and clock replaced.

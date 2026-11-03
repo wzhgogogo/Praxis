@@ -1,15 +1,17 @@
 /** Independent G6 judgement only. No production parser, grounding or verdict import. */
-export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@2";
+import { bindNamedOutlet,canonicalOutletId,type G6NamedOutlet,type G6NamedReferences } from "./named-outlet-binding.js";
+export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@3";
 export type CheckStatus="PASS"|"FAIL"|"NOT_EVALUATED"|"QUOTE_VERIFIED_MEANING_PENDING_REVIEW";
 export interface G6Check {rule:string;status:CheckStatus;severity:"S0"|"CAPABILITY";subject:string;reason:string;evidenceRefs:string[];}
 export interface G6OraclePage {ref:string;url:string;runId:string;candidateId:string;readAt:string;merchantText:string;merchantScope?:"FULL"|"EXCERPTS";reviewText?:string;name:string;address?:string;phone?:string;observedLinks:string[];}
 export interface G6Vacancy {ref:string;phase:"BEFORE"|"SOURCE_CAPTURE"|"AFTER"|"NO_DELIVERY_AFTER";url:string;candidateId:string;body:unknown;}
-export interface G6Delivered {candidateId:string;name:string;address?:string;phone?:string;provider:string;sourceEntityId:string;date:string;time:string;partySize:number;}
+export interface G6Delivered {candidateId:string;name:string;address?:string;phone?:string;googlePlaceId?:string;sourceIds?:G6NamedOutlet["sourceIds"];provider:string;sourceEntityId:string;date:string;time:string;partySize:number;}
 export interface G6Handoff {candidateId:string;provider:string;url:string;continueLabel:string;directLabel:string;selectionHint?:string;verificationHint?:string;}
 export interface G6QuestionAnswer {candidateId:string;status:string;answer?:string|null;citations:Array<{text:string;url:string;readAt:string}>;sensitiveCategory?:string;confirmationRequired?:boolean;}
 export interface G6EvaluationInput {
   runId:string;caseId:string;mode:"FIXTURE"|"LIVE_READ";artifactRefs:string[];
-  request:{dates:string[];disclosedDates?:string[];partySize?:number;time?:string;named?:{name:string;address?:string;phone?:string};budgetJPY?:number;requiresIndependentQualification?:boolean;meal?:"LUNCH"|"DINNER"};
+  request:{dates:string[];disclosedDates?:string[];partySize?:number;time?:string;named?:G6NamedOutlet;budgetJPY?:number;requiresIndependentQualification?:boolean;meal?:"LUNCH"|"DINNER"};
+  namedReferences?:G6NamedReferences;
   /** Complete-request qualification is frozen by an independent reviewer, never copied from State. */
   qualificationOracles?:Array<{name:string;address?:string;phone?:string;hardCriteriaMet:boolean;withinArea:boolean;evidenceRefs:string[]}>;
   /** Product quotations to verify, never its eligibility/meaning judgement. */
@@ -32,6 +34,14 @@ function object(value:unknown):Record<string,unknown>|undefined{return value!==n
 function rows(value:unknown):unknown[]|undefined {return Array.isArray(value)?value:object(value)?Object.values(value as Record<string,unknown>):undefined;}
 function safeURL(value:string){try{const u=new URL(value);return u.protocol==="https:"&&!u.username&&!u.password&&!u.port&&!u.hash?u:undefined;}catch{return undefined;}}
 function canonicalPhone(value:string|undefined){return value?.replace(/\D/gu,"").replace(/^81/u,"0");}
+function sameNamedOutlet(expected:G6NamedOutlet,actual:G6NamedOutlet):"PASS"|"FAIL"|"NOT_EVALUATED"{
+  let shared=false;
+  if(expected.googlePlaceId&&actual.googlePlaceId){if(expected.googlePlaceId!==actual.googlePlaceId)return "FAIL";shared=true;}
+  for(const provider of ["TABELOG","TABLECHECK"]as const){const a=expected.sourceIds?.[provider],b=actual.sourceIds?.[provider];if(a&&b){if(canonicalOutletId(provider,a)!==canonicalOutletId(provider,b))return "FAIL";shared=true;}}
+  if(shared)return "PASS";
+  if(expected.phone&&actual.phone&&canonicalPhone(expected.phone)===canonicalPhone(actual.phone)||expected.address&&actual.address&&expected.address.normalize("NFKC").replace(/\s/gu,"")===actual.address.normalize("NFKC").replace(/\s/gu,""))return "PASS";
+  return Boolean(expected.phone&&actual.phone||expected.address&&actual.address)?"FAIL":"NOT_EVALUATED";
+}
 function forbiddenPath(path:string){return /\/yoyaku\/tabelog_booking(?:\/|$)|(?:^|\/)(?:confirm(?:ation)?|holds?|checkout|payments?|pay|submit|account|login)(?:\/|$)/iu.test(path);}
 function fieldSet(url:URL,names:readonly string[]){return [...url.searchParams.keys()].every(k=>names.includes(k)&&url.searchParams.getAll(k).length===1);}
 
@@ -69,6 +79,15 @@ export function evaluateG6(input:G6EvaluationInput){
   const add=(rule:string,status:CheckStatus,severity:G6Check["severity"],subject:string,reason:string,evidenceRefs:string[]=[])=>checks.push({rule,status,severity,subject,reason,evidenceRefs});
   const yes=(rule:string,ok:boolean,subject:string,reason:string,refs:string[]=[],severity:G6Check["severity"]="S0")=>add(rule,ok?"PASS":"FAIL",severity,subject,reason,refs);
   const quoted=(candidateId:string,c:{text:string;url:string;readAt:string})=>input.pages.find(p=>p.candidateId===candidateId&&p.runId===input.runId&&p.url===c.url&&p.readAt===c.readAt&&p.merchantText.includes(c.text)&&c.text.length>0);
+  let namedOutletBinding:ReturnType<typeof bindNamedOutlet>;
+  try{namedOutletBinding=bindNamedOutlet(input.namedReferences?input.namedReferences.initial??undefined:input.request.named,input.namedReferences?.turns??[]);}
+  catch{namedOutletBinding={named:input.request.named,history:[],presentations:[],issues:["Authoritative outlet identity cannot be bound"]};}
+  for(const issue of namedOutletBinding.issues)add("NAMED_OUTLET_BINDING","NOT_EVALUATED","S0",input.caseId,issue);
+  const namedPresentations=namedOutletBinding.presentations.length?namedOutletBinding.presentations:namedOutletBinding.named&&input.delivered.length?[{eventId:"final-presentation",named:namedOutletBinding.named,candidates:input.delivered.map(d=>({...d,sourceIds:{...d.sourceIds,...(d.provider==="TABELOG"||d.provider==="TABLECHECK"?{[d.provider]:d.sourceEntityId}:{})}}))}]:[];
+  for(const p of namedPresentations){
+    const outcomes=p.candidates.map(d=>sameNamedOutlet(p.named,d)),status=outcomes.includes("FAIL")?"FAIL":outcomes.includes("NOT_EVALUATED")?"NOT_EVALUATED":"PASS";
+    add("NAMED_OUTLET",status,"S0",input.caseId,"Every presented outlet must match the user-bound physical identity; one wrong presentation batch is one incident",[p.eventId,...(p.named.selectionEventId?[p.named.selectionEventId]:[]),...p.candidates.map(c=>c.candidateId??c.name)]);
+  }
   for(const r of input.requests){const u=safeURL(r.url);if(!r.reachedSource)continue;
     const approved=u&&input.reviewedReadRules?.some(rule=>{
       const path=rule.pathname===u.pathname||Boolean(rule.pathnamePattern&&new RegExp(rule.pathnamePattern).test(u.pathname));
@@ -107,10 +126,6 @@ export function evaluateG6(input:G6EvaluationInput){
     }
     yes("DATE",[...input.request.dates,...input.request.disclosedDates??[]].includes(d.date),d.candidateId,"Date must be user-supplied or explicitly disclosed, never silently chosen");
     yes("PARTY_TIME",(input.request.partySize===undefined||d.partySize===input.request.partySize)&&(input.request.time===undefined||d.time===input.request.time),d.candidateId,"Displayed guests/slot must match the independent request");
-    const named=input.request.named;
-    if(named){const phone=named.phone&&canonicalPhone(named.phone)===canonicalPhone(d.phone),address=named.address&&named.address===d.address;
-      if(!d.address&&!d.phone)add("NAMED_OUTLET","NOT_EVALUATED","S0",d.candidateId,"Named-branch identity observation is absent");
-      else yes("NAMED_OUTLET",Boolean(phone||address),d.candidateId,"An outlet name alone never establishes the named branch");}
     if(d.provider==="TABELOG"){
       const candidates=input.vacancy.filter(w=>w.phase==="AFTER"&&w.candidateId===d.candidateId),known=candidates.map(w=>({w,read:independentVacancy(w,d)})).find(x=>x.read.known);
       if(!known)add("POST_DELIVERY_SLOT","NOT_EVALUATED","S0",d.candidateId,"No independently bound immediate post-run four-parameter response",candidates.map(w=>w.ref));
@@ -188,7 +203,7 @@ export function evaluateG6(input:G6EvaluationInput){
   }
   const safety=checks.filter(c=>c.severity==="S0"),s0=safety.filter(c=>c.status==="FAIL"),unknown=safety.some(c=>c.status==="NOT_EVALUATED");
   const pendingMeaning=checks.some(c=>c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW"),failed=checks.some(c=>c.status==="FAIL"),unassessed=checks.some(c=>c.status==="NOT_EVALUATED"||c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW"),unboundedEnd=!input.delivered.length&&input.boundedNoResult!==true;
-  return {schemaVersion:G6_EVALUATOR_SCHEMA,run:{runId:input.runId,caseId:input.caseId,mode:input.mode,artifactRefs:input.artifactRefs},
+  return {schemaVersion:G6_EVALUATOR_SCHEMA,run:{runId:input.runId,caseId:input.caseId,mode:input.mode,artifactRefs:input.artifactRefs},namedOutletBinding,
     verdict:{status:unknown||unboundedEnd||pendingMeaning?"NOT_EVALUATED":"EVALUATED",qualified:unknown||unboundedEnd||pendingMeaning?null:!failed&&input.delivered.length>0,outcome:unknown||unboundedEnd||pendingMeaning?null:input.delivered.length?(failed?"DELIVERED_UNQUALIFIED":"QUALIFIED_DELIVERY"):witnessMiss?"CAPABILITY_MISS":"HONEST_NO_RESULT",s0:s0.length,s0Status:s0.length?"FAIL":unknown?"NOT_EVALUATED":"PASS",stopBatch:s0.length>0||unknown},
     layers:{endToEnd:{status:unknown||unboundedEnd||pendingMeaning?"NOT_EVALUATED":"EVALUATED",deliveredOutlets:input.delivered.length},stages:checks,severity:{S0:s0.map(c=>c.rule),independentEvidenceMissing:unknown},attribution:{status:"NOT_EVALUATED",reason:"Localization belongs to the separate diagnosis consumer; verdicts do not establish cause."}},
     checks,coverage:{evaluated:checks.filter(c=>c.status==="PASS"||c.status==="FAIL").length,notEvaluated:checks.filter(c=>c.status==="NOT_EVALUATED").length,meaningPendingReview:checks.filter(c=>c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW").length,needsIndependentReview:unassessed},

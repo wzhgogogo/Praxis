@@ -1,0 +1,20 @@
+✔ G6 D6 captured authority binds first outlet across the party reply and rejects one wrong-presentation incident (23.036458ms)
+✔ G6 explicit reviewed user consent permits other outlets; a model-only scope change cannot release the named identity (0.487167ms)
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (929.468042ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1575.36725
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/runner.test.ts:1:534
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (929.468042ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'name')
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/runner.test.ts:26:38)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)

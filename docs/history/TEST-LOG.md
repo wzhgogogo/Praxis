@@ -1,5 +1,9 @@
 # Test and Verification Log
 
+<a id="test-g6-dynamic-named-binding-20261103"></a>
+
+2026-11-03 CET：A动态点名接线先红后绿：D6保存输入+原权威选择记录，旧入口s0=0→新规则s0=1/FAIL并停，明确同意其他店的本地构造正例0S0；模型单独改范围、晚到同意、冲突强ID反例保留。真实Runtime/Live组装正控制将实际State身份写request.named，保存输入同评分；初期无效SPECIFIC_OUTLET scripted字段/原文已修正，未当产品红灯。Typecheck已过，最终五门禁待同步C main后净树运行。D6原四份输入SHA不变，账本693原行保留+零调用旁注为694；模型/网站/Google/Live新增0。 [原件](../../.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/report.md)。
+
 <a id="test-g6-d6-live-stop-20261103"></a>
 
 2026-11-03 CET：A最终候选b53ab1d9净树五门禁type/arch/build通过、默认1363/1363、Chromium188/188+G6 63/63，原条款整组装1/1、严格G2 5/5/12页PASS；每项前后status空。先前候选完整门禁与原始红灯分开留存。D6实际三回合94.032/4.614/164.602秒、23模型/4Google、语义额外schema尝试0，新读/条款保留区开始0且不超时，本槽未进入20秒临界区；1426源请求全GET独立PASS/越界0，五店后验四参及B1来源/参数各5PASS，未打开链接/提交。原自动NE安全未评停，五项具名错配另交S0复核，不把自动s0计数0当认证；原评价SHA保留。Recorder55/55准入、23决策/4Google；Tabelog快照30+HAR44冻结作G2候选，TableCheck未采到，不改固定基线。197原文件58,484,519字节，780输入SHA不变；账本保留663加30为693，累计Live4、模型321、GET270（开发15/25），环境重跑0。所有派生核查离线、无新增模型/GET，不合main。 [原件与独立核查](../../.eval-artifacts/phase3b/g6-development-live/d6-turn-budgets/report.md)。

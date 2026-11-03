@@ -92,7 +92,7 @@ for(const [id,path,inputSHA,evaluationSHA,stopBatch] of [
   assert.equal(createHash("sha256").update(input).digest("hex"),inputSHA);assert.equal(createHash("sha256").update(original).digest("hex"),evaluationSHA);
   const historical=JSON.parse(original.toString()),current=evaluateG6(JSON.parse(input.toString()));
   assert.equal(current.verdict.stopBatch,stopBatch);
-  assert.deepEqual(current,{...historical,schemaVersion:current.schemaVersion,coverage:{...historical.coverage,meaningPendingReview:0},verdict:{...historical.verdict,stopBatch}},"Only batch continuation and evaluator revision metadata change; scores, S0, checks and original records stay unchanged");
+  assert.deepEqual(current,{...historical,schemaVersion:current.schemaVersion,namedOutletBinding:current.namedOutletBinding,coverage:{...historical.coverage,meaningPendingReview:0},verdict:{...historical.verdict,stopBatch}},"Only batch continuation and evaluator revision metadata change; scores, S0, checks and original records stay unchanged");
   if(id==="D3"){assert.equal(current.verdict.status,"NOT_EVALUATED");assert.equal(current.verdict.s0Status,"PASS");}
   else assert.equal(current.verdict.s0,1);
 });

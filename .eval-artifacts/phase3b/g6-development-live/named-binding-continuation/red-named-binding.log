@@ -1,0 +1,48 @@
+✖ G6 D6 captured authority binds first outlet across the party reply and rejects one wrong-presentation incident (18.709708ms)
+✖ G6 explicit reviewed user consent permits other outlets; a model-only scope change cannot release the named identity (0.294916ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 142.038167
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/named-outlet-binding.test.ts:1:213
+✖ G6 D6 captured authority binds first outlet across the party reply and rejects one wrong-presentation incident (18.709708ms)
+  AssertionError [ERR_ASSERTION]: Five substituted merchants in this one presentation are one S0 incident
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/named-outlet-binding.test.ts:28:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/named-outlet-binding.test.ts:1:2708
+✖ G6 explicit reviewed user consent permits other outlets; a model-only scope change cannot release the named identity (0.294916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/named-outlet-binding.test.ts:39:43)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:752:18)
+      at Test.postRun (node:internal/test_runner/test:1191:19)
+      at Test.run (node:internal/test_runner/test:1119:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 0,
+    operator: 'strictEqual'
+  }
