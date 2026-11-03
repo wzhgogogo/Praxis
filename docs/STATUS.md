@@ -1,3 +1,5 @@
+2026-11-03 CET：逐请求录制已发布main8ba6068f（main净树1404/189、严格G2全12页）。G6工作分支同入口预算/canonical字段补齐，真实Chromium来源红绿有效；同步候选净树1412/189+66、严格G2 5/5全绿。评分/Recorder准入/Guard均不改，新真实调用0。B既有6次比较读仅作账本并集，不导入其策略代码；821行，公开GET290/400、Live11/29。待推G6分支并通知B/C，未启动Live。 [报告](../.eval-artifacts/phase3b/request-timeline-20261103/report.md)。
+
 # Praxis 当前状态
 
 2026-11-03 CET：A补跑D6/D4/D8完成，main a7abbc0f同步，834项源码/输入冻结；净树五门禁1412/188+66、严格G2 5/5全绿。D6保持Ito连续性，库存UNKNOWN；D4无交付，G1未触发；D8前三家身份均未核实，未到B1/条款及双渠道链接。三槽安全PASS/S0=0，历史S0保留。本轮3Live/54模型/7GET；开发11/11 Live、160/400模型、29/35 GET；全局11/29、401/1600、284/400，环境重跑0/4。新批准总GET400及Live29已入配置，813条原账本保留746原值。只推工作分支、不合main，停止待复核。 [报告](../.eval-artifacts/phase3b/g6-supplement-20261103/report.md)。
