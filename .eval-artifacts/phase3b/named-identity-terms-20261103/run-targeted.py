@@ -9,6 +9,6 @@ env={k:v for k,v in os.environ.items() if k in ['PATH','HOME','TMPDIR','LANG','L
 start=time.monotonic();p=subprocess.run(config['command'],env=env|config.get('environment',{}),stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=120)
 (output/'test.log').write_bytes(p.stdout);after=git('status','--porcelain')
 (output/'execution.json').write_text(json.dumps({'source':source,'exitCode':p.returncode,'seconds':round(time.monotonic()-start,3),'command':config['command'],'logSha256':hashlib.sha256(p.stdout).hexdigest(),'gitStatusBefore':'','gitStatusAfter':after,'realCalls':0,'envFileLoaded':False},indent=2)+'\n')
-print('\n'.join(line for line in p.stdout.decode().splitlines() if 'SAVED_TERMS_RAW ' not in line)[-6500:])
+print('\n'.join(line for line in p.stdout.decode().splitlines() if 'SAVED_TERMS_RAW ' not in line and 'NAMED_PREFIX_RAW ' not in line)[-6500:])
 assert not after and git('rev-parse','HEAD')==source
 sys.exit(p.returncode)
