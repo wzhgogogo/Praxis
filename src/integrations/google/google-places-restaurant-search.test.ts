@@ -43,6 +43,25 @@ test("a sent Japanese-name failure consumes one Details request without retry by
   assert.equal(adapter.googleRequestUsage("run-a").placeDetails,1);
 });
 
+test("a Japanese full user name can retain a same-ID source name without translating the Google English display name",async()=>{
+  const sent:string[]=[];
+  const adapter=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async(url,init)=>{
+    sent.push(String(url));
+    const place={id:"same-place",displayName:{text:"Google English Display"},formattedAddress:"Tokyo Akabane 1-15-1",types:["restaurant"],nationalPhoneNumber:"03-5249-4011"};
+    return new Response(JSON.stringify(init?.method==="POST"?{places:[place]}:{id:"same-place",displayName:{text:"串カツでんがな赤羽店",languageCode:"ja"}}));
+  }}),()=>"2026-11-03T03:00:00Z",10,{maxRequests:2});
+  const {area:_area,...withoutArea}=fixtureIntent;
+  const intent={...withoutArea,target:{goal:"AVAILABILITY" as const,selectionScope:"SPECIFIC_OUTLET" as const,query:"串カツでんがな赤羽店"}};
+  const read=await adapter.search({intent,readRunId:"source-name-run"},new AbortController().signal);
+  assert.equal(read.candidates.length,1);assert.equal(read.candidates[0]!.restaurant.outletName,"Google English Display");
+  assert.ok(read.evidence.some(e=>e.provider==="GOOGLE_PLACES"&&e.sourceEntityId==="same-place"&&e.claims.outletName==="串カツでんがな赤羽店"&&e.claims.sourceNameLanguage==="ja"));
+  assert.equal(read.evidence.find(e=>e.kind==="DISCOVERY")!.claims.namedOutletStatus,"AMBIGUOUS","Source identity is still required before selection/presentation");
+  assert.equal((await adapter.observedSourceNames(read.candidates,"source-name-run")).length,1);
+  assert.deepEqual(await adapter.observedSourceNames(read.candidates,"other-run"),[]);
+  assert.equal(sent.length,2,"Read-back adds no request beyond Text Search plus same-ID Japanese Details");
+  assert.equal(adapter.googleRequestUsage("source-name-run").total,2);
+});
+
 test("ranked named geography accepts the saved spellings, keeps nearby geographic alternatives and rejects remote ambiguity", async () => {
   const captured = JSON.parse(readFileSync(new URL("./fixtures/phase2c-location-observations.json", import.meta.url), "utf8"));
   const center = { latitude: 35.6697, longitude: 139.7670 };

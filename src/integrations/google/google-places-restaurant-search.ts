@@ -277,6 +277,16 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     return evidence;
   }
 
+  private async namedJapaneseAliases(query:string,places:readonly GooglePlacesRawPlace[],readRunId:string|undefined,signal:AbortSignal):Promise<Map<string,string>>{
+    const names=new Map<string,string>();
+    if(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(query))for(const place of places.slice(0,this.maxResults)){
+      const id=string(place.id);
+      if(!id||!inTokyo(rawObservation(place))||possibleNamedOutlet(query,string(place.displayName?.text)??""))continue;
+      const name=await this.japaneseName(id,readRunId,signal);names.set(id,name.text);
+    }
+    return names;
+  }
+
   private readonly addressObservations = new Map<string, { point: string; read: Promise<{ addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>; addressObservation: import("../../domains/restaurant/contracts.js").LocationAddressObservation }> }>();
 
   async observeCoordinateAddress(location: { latitude: number; longitude: number }, readRunId: string | undefined, signal: AbortSignal) {
@@ -396,14 +406,9 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
     if(first.nextPageToken)pages.push(await read(first.nextPageToken));
     signal.throwIfAborted();
     const key=outletNameKey(query);
-    const japanese=new Map<string,string>();
     // A Japanese user name can be compared to the source's Japanese name,
     // never to a model translation. Same cache/ceiling as both availability sources.
-    if(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(query))for(const place of pages.flatMap(p=>p.places).slice(0,this.maxResults)){
-      const id=string(place.id);
-      if(!id||!inTokyo(rawObservation(place))||possibleNamedOutlet(query,string(place.displayName?.text)??""))continue;
-      const name=await this.japaneseName(id,request.readRunId,signal);japanese.set(id,name.text);
-    }
+    const japanese=await this.namedJapaneseAliases(query,pages.flatMap(p=>p.places),request.readRunId,signal);
     const candidates=[...new Map(pages.flatMap(page=>page.places).map(place=>[place.id,place])).values()].flatMap(place=>{
       const o=rawObservation(place);
       if(!inTokyo(o)||!possibleNamedOutlet(query,o.displayName??"")&&outletNameKey(japanese.get(o.placeId??"")??"")!==key)return [];
@@ -554,13 +559,16 @@ export class GooglePlacesRestaurantSearch implements RestaurantSearchPort, Resta
       result.accepted ? [[result.candidate.restaurant.id, result] as const] : [],
     )).values()];
     const named=request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?request.intent.target.query:undefined;
-    const scoped=named?structural.filter(r=>r.evidence.claims.areaMatch===true&&possibleNamedOutlet(named,r.candidate.restaurant.outletName)):structural;
+    const japanese=named?await this.namedJapaneseAliases(named,pages.flat(),request.readRunId,signal):new Map<string,string>();
+    const scoped=named?structural.filter(r=>r.evidence.claims.areaMatch===true&&(possibleNamedOutlet(named,r.candidate.restaurant.outletName)
+      ||outletNameKey(japanese.get(r.candidate.restaurant.sourceIds.googlePlaces??"")??"")===outletNameKey(named))):structural;
     const uniqueNamed=scoped.length===1&&outletNameKey(scoped[0]!.candidate.restaurant.outletName)===outletNameKey(named??"")&&!nextPageToken;
     const acceptedGrounded=named?scoped.map(r=>({...r,evidence:{...r.evidence,claims:{...r.evidence.claims,requestedOutletName:named,namedOutletStatus:uniqueNamed?"UNIQUE":"AMBIGUOUS",namedOutletCandidateCount:scoped.length,namedOutletSearchComplete:!nextPageToken,
       namedOutletLocalities:addressLocalities(grounded.find(g=>g.result.accepted&&g.result.candidate.restaurant.id===r.candidate.restaurant.id)!.observation)}}})):scoped;
     return {
       candidates: acceptedGrounded.map((result) => result.candidate),
-      evidence: [...(namedLocation.evidence ? [namedLocation.evidence] : []), ...acceptedGrounded.flatMap((result) => [result.evidence, ...result.additionalEvidence])],
+      evidence: [...(namedLocation.evidence ? [namedLocation.evidence] : []), ...acceptedGrounded.flatMap((result) => [result.evidence, ...result.additionalEvidence]),
+        ...await this.observedSourceNames(acceptedGrounded.map(r=>r.candidate),request.readRunId)],
       continuation: {
         intentFingerprint,
         ...(nextPageToken ? { nextPageToken } : {}),
