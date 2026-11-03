@@ -5645,3 +5645,10 @@ Markdown结论优先：13份摘要均前27行，三栏带确定性、13环节短
 用户复核8bc20f8a通过并批准合入。fetch确认最新main仍efeab254，已在获批版本祖先中；无新代码同步或冲突。按要求在8bc20f8a/862冻结项净树执行五门禁全部通过，之后既有干净main工作树从旧fceecaad快进到远端，再普通合并814dfa6cf2499c9086ce59afb65281b8ab392b1b；两父提交分别为efeab254与8bc20f8a，完整树与获批验证树相同。新路径忽略文件冲突0，无重置/强推/历史删除。
 
 其后仅追加发布文档和完整日志，不再修改源码或输入。原44条/27店缺证、2/5历史校准、Konya未确认归因和A真实grader延期继续保留，不执行模型、Live或历史重评。正常推进/推送main并ls-remote核对后待命；最终发布SHA以Git回执为准。[合入记录](../../.eval-artifacts/phase3b/run-diagnosis-report-20261102/main-publication-20261102/report.md)。
+
+<a id="named-identity-terms-20261103"></a>
+## 2026-11-03 CET — C 同品牌前三家身份调查与条款首因修复
+
+从已发布main db1f44a2开独立分支。用户澄清五家也查原顺序前三，并批准两站HIGH后identityOnly提前返回；9008f7bb只含两provider共13插入，其他G3和A文件不动。现有事实动作承载临时identity-only，所有前三家HIGH后恰好一全名才允许选/查位/展示，不增加State/TaskDefinition/Prompt版本、身份放宽或预算。只需身份的读取不当HARD已核实；无实际到访字段则沿既有事实读取器，不编造条件。
+
+D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的失败保留；录制323原visibleHtml复原精确。诊断-only仍红：INCOMPLETE_PAGE在模型前拒绝已绑定PENDING页面；修复复用既有Executor稳定性观察，BUSY仍零模型。原文只有付款接受，没有预约要卡/取消证据；问题到达后NOT_STATED，不能称Live条款已填。root/run原因导出在State外，现有缓存寿命内保留，无SQL/写权限变化。完整门禁与独立评分另记。 [报告](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md)。

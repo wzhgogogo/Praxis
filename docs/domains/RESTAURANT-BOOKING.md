@@ -1,7 +1,7 @@
 # Restaurant Booking Domain
 
 - Status: Accepted
-- Document revision: 3.50
+- Document revision: 3.51
 
 
 - Last updated: 2026-11-03
@@ -396,3 +396,9 @@ Every SPECIFIC_OUTLET request follows the named lookup route, with AREA used onl
 The application reconstructs the user's chosen public source identity from existing Runtime events at the point of choice. Subsequent party-only messages retain it; an accepted new OPEN_ENDED target clears it. The transient SearchPort argument is omitted from the persisted SEARCH_COMPLETED.request. Google rereads the original Place ID; source-native references seed only cached discovery until G4 produces fresh identity and slots. Changed user area cannot inherit cached distance or become a fabricated area. No new State/Event field, migration or version change. Unmatched/unavailable results name the store/date/time/party and invite permission for alternatives.
 
 Presented candidate IDs, B1 projection, and terms entry/context enforce the same scope. Original cache contents and the two link validations remain. D6 raw semantics/Agent output bytes plus constructed source I/O exercise the ordinary assembly; not an exact HAR replay or a new Live claim. [Evidence](../../.eval-artifacts/phase3b/named-outlet-continuity-20261103/report.md).
+
+## Bounded same-brand identity prefix and terms diagnostics (2026-11-03; offline candidate)
+
+User clarification accepts the original-order first three possible named candidates even when five are returned. All three existing source identity investigations must complete before exactly one normalized full, identity-bound source name can resolve the reference. Zero/two full-name matches or missing HIGH identity leave it unresolved; unread candidates beyond that prefix cannot be selected, checked or presented. Until resolution only INVESTIGATE_CANDIDATE_FACTS is admitted, not availability or selection. The ordinary assembly reuses G4 providers in an internal identity-only mode, stops at the existing HIGH gate and persists only existing ENTITY_MATCH facts. Identity-only completion is not HARD verification; normal HARD reads, availability, user choice, B1 and terms still follow. The transient mode does not enter State, Action Schema or TaskDefinition. Existing single-reference and OPEN_ENDED behavior remain. The current G4 bridge requires actual date/time/party fields; without them it retains the ordinary fact reader, without fabricating visit fields.
+
+The user separately approved the exact two provider stop patches (9008f7bb); other G3 controls/response binding and identity comparison remain unchanged. Native G1 capture now waits for bounded observable text stability only after a PENDING sample. An actually busy page remains unknown; no browser model clears PENDING and no network retry is added. Terms diagnostics are root/run-bound transient exports, with no user/page text and no new durable fields. D3 saved page evidence establishes INCOMPLETE_PAGE before model as the first deviation; fixed I/O now reaches two questions per selected run but honestly returns NOT_STATED. This proves no current Live terms or new restaurant success rate. [Evidence](../../.eval-artifacts/phase3b/named-identity-terms-20261103/report.md).

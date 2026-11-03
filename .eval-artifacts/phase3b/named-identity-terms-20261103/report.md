@@ -1,33 +1,44 @@
-# 同品牌身份前缀与条款就绪读取
+# 同品牌前三家身份调查与 B1 条款首个偏离
 
-Status: implementation in progress / not integrated；已暴露开发材料，非 Clean Baseline。真实模型/Google/网站/Live0，不加载.env，CET UTC+1。
+Status: offline implementation candidate / not integrated；已暴露开发材料，非 Clean Baseline。时间 CET（UTC+1）；模型、Google、网站、Live 真实调用均0，不读取或注入.env。
 
-第一项已完成：获批a1cd798e在净树11步全绿后发布main db1f44a2238b44fa92cff58dae4e17e8903875a5，ls-remote核对并通知A；本分支从该main开出，不合main。
+已完成上一项：获批a1cd798e同步、净树五门禁/严格G2及独立核验后，main发布为db1f44a2238b44fa92cff58dae4e17e8903875a5，ls-remote已核对并通知A。本分支codex/fix-phase3b-named-identity-and-terms从该main开出，只推分支待复核，不合main。
 
-用户已澄清：5家也调查原顺序前3家；所有前三家核对后，恰好一个已绑定来源全名匹配才继续，零/多匹配反问。身份规则不放宽，后两家不偷偷调查。
+## D2：原顺序前三家，先身份再查位
 
-## D3 原件与首个偏离
+用户已明确五家输入也调查前三家。原Google响应有7家，现有possibleNamedOutlet过滤后5家；按该原顺序调查前三家，不调查后两家。全部前三家完成现有HIGH身份核对后，恰好一家的已绑定来源全名规范化后等于用户全名才继续；零家、多家或身份未确认均不选店、不查位、不展示。没有按相似度直接接纳，旧身份比较、20秒保留与原预算不放宽。
 
-A ae7fd072的17份相关执行、语义、录制、DOM/HAR原件逐字冻结，见inputs.json。初次完整DOM本地复原，英文可见文字少8字符、日文完全一致；原失败另存。改用录制序号323保存的原始visibleHtml后，两页文字SHA均精确等于原录制：英文6471字元72c6e47e…、日文216字元8bd752b5…，没有补写文本，脚本关闭、请求只本地应答或拦截。
+原真实语义和Google字段保留，详情页/库存为明确的构造来源I/O，不能当作实际中俣门店的Gold。bf787c1c三个整组装红（身份调查0，NEEDS_INPUT）；965516ad两组件红（未读完就唯一、无前三家读取权限）。5ec63ea9同五项绿：ONE仅正确首家查位/展示；NONE/TWO反问且无库存、选择和B1。
 
-录制中的条款英文导航后700ms waitForSettled返回false（356），随后snapshot359。日文翻译页是“現在アクセスが集中しています”，没有同店身份资料。既有G1 ModelRestaurantPageQuestion对PENDING页面在模型前返回INCOMPLETE_PAGE，这是安全检查，不能直接跳过。
+经用户窄授权的两站改动单独提交9008f7bbde3e819f84931294b5667526e605a551，恰13行插入，与两份事前冻结补丁逐字一致：
 
-4e14562f整组装有效红灯：D3原语义与展示决策字节保留；同店查位、USER选择、PRESENT和B1成立，条款问答0/2。来源查位前缀和新增Google Place Details是明确的固定I/O；原浏览器CLICK引用没有强行套给构造控件。条款正文与HTML来自原件，完整三回合Live不在本轮证明范围。
+| 文件 | 位置与范围 | 行为 |
+|---|---|---|
+| tabelog-browser-availability.ts | 构造器157–172；readMatchedOutlet608–625 | 内部identityOnly开关，现有HIGH门槛之后返回，尚未读请求控件/库存 |
+| tablecheck-browser-availability.ts | 构造器242–254；readMatchedOutlet738–754 | 同样的HIGH后提前返回；默认查位尾部原样 |
 
-先补诊断，不改变现有提前退出条件；导出字段bookingTermsDiagnostics不进入State，按根任务隔离，使用现有读取缓存保留时长。记录选择/阶段/绑定/页过滤/预算/20秒保留/取消及问答结果原因，不记录用户文本、凭据或原网页全文。State25/TaskDefinition23和Prompt/Schema不变。
+C组装通过既有G4取得ENTITY_MATCH，剥离临时UNKNOWN库存检查；不把仅身份COMPLETED当成HARD已核实，后续仍正常查HARD、库存、选择和条款。内部参数不进入State/动作Schema。已有G4接口需要实际日期、时段、人数；缺这些字段时沿既有事实读者，不制造到访条件。本轮D2字段完整。其他两份B的G3文件、A eval/harness、server/web均未改。
 
-准备的最小就绪修复范围：NativeSourceFactRead.inspectFacts原约109–121行的Executor选项及约297–320行的capturePagesOnly初始/翻译页读取，仅该模式复用既有BrowserTaskExecutor就绪观察/稳定性核对；普通事实读取不变。G1完整页检查、身份检查和20秒保留不放宽，不新增网络重试或独立预算。最终修改前仍以当前函数定位为准。
+## D3：首因是未稳定页面在模型前被拒
 
-五门禁与严格G2尚待最终配置；只推工作分支，交复核并通知A，不合main。原历史D6 S0=1不重写。
+A ae7fd072的17份原始执行、决策、录制、HTML/HAR按inputs.json逐字冻结。原英文导航700ms后waitForSettled=false（录制356），snapshot359仍PENDING。日文是“現在アクセスが集中しています”，不是可用门店页。完整DOM第一次本地渲染英文少8字符的失败保留；改用录制323的原visibleHtml后，两页文字SHA精确匹配原录制（英文6471字元72c6e47e…；日文216字元8bd752b5…），没有补写原文。脚本关闭，仅保存CSS本地应答，其余请求拦截。
 
-## 已确认的D3原因与局部绿灯
+4e14562f有效整组装红：正确店/空位/USER选择/PRESENT/B1都成立，问答为0而非2。0f7131e7只加诊断后仍红：QUESTION_UNVERIFIED / INCOMPLETE_PAGE，pageCount=1、boundPageCount=1。因此首因不是缺页、过滤、阶段、预算或保留区；是G1完整页守卫正确地在模型前拒绝PENDING。
 
-仅加诊断的0f7131e7上，原红灯仍0/2；导出QUESTION_UNVERIFIED / INCOMPLETE_PAGE，且pageCount=1、boundPageCount=1，排除NO_PAGES、PAGE_FILTERED、预算或阶段条件为首因。d43107aa的capturePagesOnly复用既有Executor稳定性观察后，D3局部1/1通过，选店轮两次G1问答。原页无取消规定或预约要卡语句，付款接受不升级为预订要卡；返回NOT_STATED、卡片仍不编造条款。这是固定I/O修复验证，不称新Live条款已成功。
+修复仅在NativeSourceFactRead.inspectFacts的capturePagesOnly模式，约104–112及298–336行：复用既有Executor有界稳定性观察，文本稳定且无实际busy才接纳。普通事实读取、G1完整页/同店/同渠道/逐字引用检查不改；不让浏览器模型断言就绪，不新增网络重试、预算或解析器。日文错误页仍被身份核对拒绝。持续BUSY零问答，条款省略，B1照常。
 
-## D2红灯与受保护文件停止点
+D3原语义/展示响应原字节保留；来源查位前缀、Google Details为固定I/O，原CLICK引用不强塞给构造控件，不能称完整原HAR重放。修复后选店轮两次G1问答到达；原页只有Credit card accepted付款接受，没有取消或预约要卡原文，固定回答NOT_STATED，卡片条款仍[]。这证明读取阻断修复，不证明真实Live条款已成功填卡。
 
-用户批准五家调查前三，已按原始Google响应7条→现有possible过滤5家冻结；前三家来源页为明确构造I/O，ONE/NONE/TWO三控制均在bf787c1c取得有效红灯：NEEDS_INPUT，身份调查0，只有Google固定响应。未触及真实来源或A/B保护文件。
+## 原因诊断与边界
 
-为了只调查身份而不先查询库存，必须让现有G4提供者在原HIGH身份门槛之后返回。已物化两个未应用的窄补丁：tabelog-identity-only-proposal.patch（构造器选项约158–172行与readMatchedOutlet约608–623行），tablecheck-identity-only-proposal.patch（构造器约242–254行与readMatchedOutlet约734–748行）。只有内部identityOnly开关及HIGH后的提前返回，普通查位默认分支、身份比较、G3参数/响应绑定不改；由C的SourceResolver剥离临时UNKNOWN检查，只输出现有ENTITY_MATCH到事实读取合同，不写State新字段。
+每个提前退出、未核实回答及完成记录原因，导出bookingTermsDiagnostics，按根任务/运行/门店绑定；QUESTION_UNVERIFIED另含answerReason及页数。NOT_SELECTED、PHASE、NO_HANDOFF、NO_PAGES/PAGE_FILTERED、BUDGET、RESERVE、CANCELLED等不再以空terms混淆。诊断没有用户/网页全文、URL或凭据；使用现有瞬时读取缓存寿命，服务重启及过期不保证保留，非持久审计表。COMPLETED只表示尝试结束，不表示条款存在或预订完成。
 
-历史规则明确B的三个G3文件不能改；其中Tabelog文件受保护。因此先停在这个窄授权点，尚未应用两补丁，也未实施D2产品路径。G1条款修复和可导出诊断继续做独立回归；最终五门禁尚未运行，不能报告本分支全绿。
+State25、TaskDefinition23及语义/Agent Prompt/Schema均与main相同，SQL不变。历史D6错误展示S0=1保留；构造来源的PASS不是新37家通过率或Live能力签收。
+
+## 冻结与最终验证
+
+freeze.json固定814项源码、17原件、fixture、outer runner及独立oracle。五门禁与严格G2每项前后要求git status为空；最终执行待运行。
+
+已有局部回归terms-regression为66/66，包含原条款/G1/20秒保留、两渠道、复用、冲突、错店/渠道、预算、取消与BUSY。最终独立oracle评3个D2、2个D3、14个旧条款和7个旧保留区输出，直接核原始文字、电话/地址、来源链接、请求、事件顺序与诊断，不导入生产匹配/投影判断；实际结果另存gates/independent.log。原红灯与渲染不一致原件均保留，不覆盖。
+
+账本保留main740条并追加一条零调用记录，741行，限额与累计不变。只在本分支推送交复核；没有真实模型、Google、网站、Live或预约动作。

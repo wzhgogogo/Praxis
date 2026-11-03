@@ -13,3 +13,7 @@ Status: draft / not integrated；已暴露开发证据，非 Clean Holdout。真
 离线材料准备：用本地Chromium在关闭外网/脚本的路由中渲染原DOM和保存CSS，核对重新取得的可见文字SHA与录制SHA。这个探针只说明文本复原与原记录，不是产品整组装成功。随后在createLiveReadAssembly整组装中冻结I/O和时序，先取得目标断言红灯，再做最小修复和独立核验；复原不一致需如实披露。
 
 沿原默认/Chromium/G2测试复用断言，不改A评测和B三个G3文件；如需State或TaskDefinition版本变化先报告。五门禁和严格G2全绿、每项前后净树后推工作分支，不合main，通知A。真实模型、Google、网站、Live均0，预算不新增通道；先冻结Runner及输入SHA再运行，不在运行中修改。
+
+## 已解决的授权与当前验收
+
+用户已确认五家也查原顺序前三；两站identityOnly窄补丁亦已批准，单独提交9008f7bb。其余A/B保护文件不动。D3目标红灯已确认INCOMPLETE_PAGE，两次问答绿灯并非条款真值为有。D2 ONE/NONE/TWO整组装与前缀完整性组件均绿；现在冻结独立26帧oracle、五门禁和严格G2，证明实际组装及故障关闭。只推工作分支，不合main。
