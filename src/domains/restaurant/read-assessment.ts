@@ -124,15 +124,10 @@ function presentationEvidenceIds(
     state.availabilityChecks[candidateId]?.requestFingerprint === restaurantAvailabilityRequestFingerprint(currentBookingIntent);
   if (currentNoSlot) return { valid: false, reason: `Candidate ${candidateId} has an explicit no-matching-slot observation for the current request` };
   const verifyHardCriteria = (facts: RestaurantTaskState["readEvidence"]) => {
-    for (const criterion of assessRestaurantConditions(intent, facts).filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD")) {
-      if (priceCondition(criterion.text, intent.budgetPerPerson)) {
-        if (criterion.status !== "MET") return `Candidate ${candidateId} lacks source-supported HARD price condition ${criterion.text}`;
-        continue;
-      }
-      const supported = facts.some((evidence) =>
-        stringListClaim(evidence, "verifiedHardCriteria").some((value) => normalized(value) === normalized(criterion.text)),
-      );
-      if (!supported) return `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}`;
+    for (const criterion of assessRestaurantConditions(intent, facts, now).filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD")) {
+      if (criterion.status !== "MET") return priceCondition(criterion.text, intent.budgetPerPerson)
+        ? `Candidate ${candidateId} lacks source-supported HARD price condition ${criterion.text}`
+        : `Candidate ${candidateId} has no evidence for HARD criterion ${criterion.text}`;
     }
     for (const criterion of intent.criteria.filter((item) => item.polarity === "NEGATIVE" && item.strength === "HARD")) {
     // A confirmed negative HARD conflict describes the outlet itself. A

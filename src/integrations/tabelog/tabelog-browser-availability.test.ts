@@ -950,7 +950,7 @@ test("G3c Tabelog quotes a class-renamed menu through the source model and parse
   await executor.close();
   assert.equal(read.offers[0]?.price, undefined, "a listed course is not a selected bookable plan");
   const intent = { criteria: [], budgetPerPerson: { max: 8000, currency: "JPY" as const }, date: "2026-08-05", partySize: 2, timeWindow: { earliest: "18:00", latest: "20:00" } };
-  const condition = assessRestaurantConditions(intent, read.evidence)[0]!;
+  const condition = assessRestaurantConditions(intent, read.evidence, "2026-10-21T00:00:00.000Z")[0]!;
   t.diagnostic(JSON.stringify({ mode:"OFFLINE_SOURCE_TO_HARD_PRICE_SCOPE", requestedPartySize:2, quotedMinimumPartySize:minimumParty??null,
     quote:price.quote, parsedAmount:price.amount, independentExpected:minimumParty?"NOT_CHECKED":"MET", actual:condition.status,
     sourceUrl:price.sourceUrl, literalQuoteRetained:price.quote===quote, inventoryParty:2, offerPrice:read.offers[0]?.price??null, realCalls:0 }));

@@ -1,5 +1,7 @@
 # Restaurant Booking Domain
 
+2026-11-03 CET，用户批准的 HARD 投影修订：非价格正向 HARD 的资格与卡片共用条件评估的接纳结果。已绑定、当前有效的 MODEL_JUDGMENT 可以用商家原文支持跨语言条件；菜单明确列出该菜品可满足这类菜系要求，展示 MET 和原文，不称为专门店。此条替代 2026-10-23 记录对这类模型判断额外要求英文菜名字面出现的限制。原文字段角色、同店/来源 URL、有效期、当前事实替代、服务范围、价格适用及负向条件规则保留；缺证、名字/评论、串店、过期或被替代的支持不能产生 MET。State24、TaskDefinition22、各 Prompt/Schema 不变；本条已授权、离线实现待完整门禁。
+
 - Status: Accepted
 - Document revision: 3.48
 

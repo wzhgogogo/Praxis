@@ -30,7 +30,7 @@ test("shared Web/Hybrid fact composition answers from class-free merchant prose 
  const google={async inspectFacts(){throw Error("native-bound reads must not invoke Google");}} as unknown as Parameters<typeof composeNativeRestaurantRead>[0];
  const assembly=composeNativeRestaurantRead(google,runtime,gateway,{totalModelCalls:0},undefined,undefined,()=>time,limits,limits);
  const result=await assembly.facts.inspectFacts({candidateIds:[candidate.restaurant.id],candidates:[candidate],intent,readRunId:"g3-quoted-facts"},new AbortController().signal);
- assert.equal(assessRestaurantConditions(intent,result.evidence)[0]?.status,"MET","the actual shared composition must retain a verbatim source role when private fields are absent");
+ assert.equal(assessRestaurantConditions(intent,result.evidence, "2026-10-21T00:00:00.000Z")[0]?.status,"MET","the actual shared composition must retain a verbatim source role when private fields are absent");
  assert.deepEqual(calls,["restaurant_source_facts","restaurant_fact_judgment"]);
  assert.ok(result.evidence.some(f=>f.sourceFieldQuotes?.some(q=>q.quote===text&&q.sourceUrl===url)),"current same-outlet quotation reaches the real evidence result");
 });

@@ -1,0 +1,66 @@
+from pathlib import Path
+import datetime, hashlib, json, os, platform, re, signal, subprocess, sys, time
+root = Path.cwd()
+item = Path(__file__).resolve().parent
+out = Path(sys.argv[1]).resolve()
+assert not out.is_relative_to(root)
+out.mkdir(parents=True, exist_ok=False)
+git = lambda *a: subprocess.check_output(['git', *a], text=True).strip()
+now = lambda: datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=1), 'CET')).isoformat()
+freeze_bytes = (item / 'input-freeze.json').read_bytes()
+freeze = json.loads(freeze_bytes)
+def verify():
+    for path, expected in freeze['files'].items():
+        assert hashlib.sha256((root / path).read_bytes()).hexdigest() == expected, path
+verify()
+assert not git('status', '--porcelain')
+commit = git('rev-parse', 'HEAD')
+result = {'mode': 'OFFLINE_MOCK_AND_LOCAL_CHROMIUM', 'testedCommit': commit, 'startedAtCET': now(),
+    'platform': platform.platform(), 'nodeVersion': subprocess.check_output(['node', '--version'], text=True).strip(),
+    'scriptSha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    'freezeSha256': hashlib.sha256(freeze_bytes).hexdigest(), 'frozenPaths': len(freeze['files']),
+    'restorations': 0, 'allNewRealCalls': 0, 'runs': []}
+steps = [('typecheck', ['npm', 'run', 'typecheck']), ('arch-check', ['npm', 'run', 'arch:check']),
+    ('npm-test', ['npm', 'test']), ('build', ['npm', 'run', 'build']),
+    ('browser-fixture', ['npm', 'run', 'test:browser:fixture']),
+    ('strict-dom-change', ['npm', 'run', 'test:dom-change']),
+    ('d4', ['node', '--import', 'tsx', str(item.relative_to(root) / 'reproduce-d4.ts'), str(out / 'd4-result.json')]),
+    ('hard-bytes', ['node', '--import', 'tsx', '.eval-artifacts/phase3b/g1-revision/check-fact-compatibility.ts',
+        'check', '.eval-artifacts/phase3b/g3-longrun/hard-before.json'])]
+for name, cmd in steps:
+    verify()
+    assert git('rev-parse', 'HEAD') == commit and not git('status', '--porcelain')
+    row = {'gate': name, 'command': cmd, 'startedAtCET': now(), 'gitStatusBefore': '', 'log': name + '.log'}
+    started = time.monotonic()
+    print('START', name, flush=True)
+    with (out / row['log']).open('wb') as log:
+        env = {**os.environ, 'PRAXIS_G2_REQUIRE_PASS': '1'} if name == 'strict-dom-change' else None
+        proc = subprocess.Popen(cmd, stdout=log, stderr=subprocess.STDOUT, start_new_session=True, env=env)
+        try:
+            row['exitCode'] = proc.wait(timeout=720 if name == 'browser-fixture' else 600)
+        except subprocess.TimeoutExpired:
+            row['timedOut'] = True
+            os.killpg(proc.pid, signal.SIGTERM)
+            try:
+                proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                os.killpg(proc.pid, signal.SIGKILL)
+                proc.wait()
+            row['exitCode'] = proc.returncode
+    row['elapsedSeconds'] = round(time.monotonic() - started, 6)
+    raw = (out / row['log']).read_bytes()
+    row['summary'] = {k: int(v) for k, v in re.findall(r'^(?:#|ℹ) (tests|suites|pass|fail|cancelled|skipped|todo) (\d+)\s*$', raw.decode(errors='replace'), re.M)}
+    row['logSha256'] = hashlib.sha256(raw).hexdigest()
+    row['gitStatusAfter'] = git('status', '--porcelain')
+    row['outcome'] = 'PASS' if row['exitCode'] == 0 and not row['gitStatusAfter'] else 'FAIL'
+    verify()
+    result['runs'].append(row)
+    (out / 'gates.json').write_text(json.dumps(result, indent=2) + '\n')
+    print('END', name, row['outcome'], row['elapsedSeconds'], row['summary'], flush=True)
+    if row['outcome'] != 'PASS':
+        result['stopReason'] = 'GATE_FAILURE_OR_CHECKOUT_CHANGE'
+        (out / 'gates.json').write_text(json.dumps(result, indent=2) + '\n')
+        raise SystemExit(1)
+result.update(acceptance='SATISFIED', finishedAtCET=now(), freezeVerifiedAfter=True)
+(out / 'gates.json').write_text(json.dumps(result, indent=2) + '\n')
+print('COMPLETE SATISFIED', flush=True)

@@ -29,7 +29,7 @@ export function priceCondition(text: string, budget?: RestaurantSearchIntent["bu
 }
 
 export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, "criteria" | "budgetPerPerson" | "timeWindow" | "date" | "partySize">,
-  facts: readonly RestaurantReadEvidence[]): RestaurantConditionState[] {
+  facts: readonly RestaurantReadEvidence[], now: string): RestaurantConditionState[] {
   if (policy.status !== "USER_APPROVED" || !(policy.aroundPriceTolerance >= 0 && policy.aroundPriceTolerance < 1)) throw Error("Unapproved restaurant price policy");
   const meal = intent.timeWindow?.earliest && intent.timeWindow.earliest >= "17:00" ? "DINNER"
     : intent.timeWindow?.latest && intent.timeWindow.latest <= "15:00" ? "LUNCH" : undefined;
@@ -63,16 +63,28 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
       return { ...base, status, evidenceIds: [...new Set(observations.map(item => item.evidenceId))], sources: observations.map(({ sourceUrl, quote }) => ({ sourceUrl, quote, field: "PRICE" as const })),
         explanation: `Listed ${meal?.toLowerCase() ?? "meal"} prices ${status === "MET" ? "support" : "do not support"} this budget. ${mixedTax ? "Prices mix tax included and excluded; compared as listed without conversion." : "Tax treatment is retained as quoted; no conversion."} Listed-plan availability has not been verified.` };
     }
-    const matches = (key: string) => facts.filter(fact => Array.isArray(fact.claims[key]) && (fact.claims[key] as string[]).some(text => normalize(text) === normalize(criterion.text)));
+    const positiveHard = criterion.polarity === "POSITIVE" && criterion.strength === "HARD";
+    const current = positiveHard ? facts.filter(fact => [fact.expiresAt, fact.displayExpiresAt, fact.sourceExpiresAt]
+      .every(expiry => expiry === undefined || Date.parse(expiry) > Date.parse(now))) : facts;
+    const sourceEvidence = (fact: RestaurantReadEvidence) => {
+      if (fact.provider !== "MODEL_JUDGMENT") return [fact];
+      const ids = fact.claims.supportingEvidenceIds;
+      const sources = current.filter(source => source.kind === "RESTAURANT_FACT" && source.provider !== "MODEL_JUDGMENT"
+        && source.candidateId === fact.candidateId && Array.isArray(ids) && ids.includes(source.evidenceId));
+      // A semantic judgment cannot survive a missing, expired or foreign source.
+      return positiveHard && (!Array.isArray(ids) || !ids.length || !ids.every(id => sources.some(source => source.evidenceId === id))) ? [] : sources;
+    };
+    const matches = (key: string) => current.filter(fact => Array.isArray(fact.claims[key]) && (fact.claims[key] as string[]).some(text => normalize(text) === normalize(criterion.text)));
     const positive = matches("verifiedHardCriteria");
     const negative = matches("verifiedNegativeCriteria");
     const conflicts = matches("violatedNegativeCriteria");
     const literal = matches("restaurantTypeFacts");
-    const supported = criterion.polarity === "NEGATIVE" ? negative : [...positive, ...literal];
+    const supported = criterion.polarity === "NEGATIVE" ? negative : positiveHard ? positive : [...positive, ...literal];
     const contradicted = criterion.polarity === "NEGATIVE" ? [...conflicts, ...literal] : [];
     const applicable = contradicted.length ? contradicted : supported;
-    const sourceFacts = [...new Map(applicable.flatMap(fact => fact.provider === "MODEL_JUDGMENT"
-      ? facts.filter(source => source.provider !== "MODEL_JUDGMENT" && source.candidateId === fact.candidateId && Array.isArray(fact.claims.supportingEvidenceIds) && fact.claims.supportingEvidenceIds.includes(source.evidenceId)) : [fact]).map(fact => [fact.evidenceId, fact])).values()];
+    const sourceFacts = [...new Map(applicable.flatMap(sourceEvidence).map(fact => [fact.evidenceId, fact])).values()];
+    const semanticSources = new Set(positiveHard ? positive.filter(fact => fact.provider === "MODEL_JUDGMENT")
+      .flatMap(sourceEvidence).map(fact => fact.evidenceId) : []);
     const fieldQuotes: Array<RestaurantSourceFieldQuote & { evidenceId: string }> = sourceFacts.flatMap(fact => [
       ...(fact.sourceFieldQuotes ?? []),
       ...(fact.provider === "GOOGLE_PLACES" && fact.sourceUrl && Array.isArray(fact.claims.restaurantTypeFacts)
@@ -84,7 +96,7 @@ export function assessRestaurantConditions(intent: Pick<RestaurantSearchIntent, 
     const key = literalText(criterion.text).replace(/ (?:restaurant|cuisine|food)$/, "");
     const requestedCourseMeal = /course|menu|套餐|コース/i.test(criterion.text) ? meal : undefined;
     const accepted = fieldQuotes.filter(q => ["CATEGORY", "COURSE_TITLE", "COURSE_DESCRIPTION", "GOOGLE_TYPE"].includes(q.field)
-      && (` ${literalText(q.quote)} `).includes(` ${key} `)
+      && (semanticSources.has(q.evidenceId) || (` ${literalText(q.quote)} `).includes(` ${key} `))
       && !(criterion.polarity === "POSITIVE" && /\bno\b|\bnot\b|without|not offered|提供していません/i.test(q.quote))
       && (!requestedCourseMeal || !q.meal || q.meal === "UNSPECIFIED" || q.meal === requestedCourseMeal));
     const sources = accepted.map(({ evidenceId: _id, ...source }) => source);

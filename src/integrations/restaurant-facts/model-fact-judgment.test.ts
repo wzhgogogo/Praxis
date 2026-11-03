@@ -300,7 +300,7 @@ test("a selection spanning merchant and review fields preserves each complete fi
     .judge({ candidate, intent: { ...positiveIntent, criteria: [{ text: "tempura", strength: "HARD", polarity: "POSITIVE" }] }, evidence: [identity], sourceDocuments: [document] });
   const source = read.evidence.find(e => e.evidenceId === document.id)!;
   assert.deepEqual(source.sourceFieldQuotes, document.sourceFieldQuotes.slice(0, 2), "partial overlaps and other outlets cannot inherit roles; review words stay in their own field");
-  const assessed = assessRestaurantConditions({ criteria: [{ text: "tempura", strength: "HARD", polarity: "POSITIVE" }] }, [source]);
+  const assessed = assessRestaurantConditions({ criteria: [{ text: "tempura", strength: "HARD", polarity: "POSITIVE" }] }, [source], "2026-10-21T00:00:00.000Z");
   assert.equal(assessed[0]!.status, "NOT_CHECKED", "a review cannot become a merchant HARD condition through a flattened paragraph");
 });
 
