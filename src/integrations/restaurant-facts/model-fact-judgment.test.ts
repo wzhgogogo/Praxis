@@ -33,6 +33,25 @@ function model(output: unknown): ModelGateway {
   }) };
 }
 
+for (const control of [
+  { name: "observed name explicitly includes type", field: "NAME", quote: "Kaga Kaiseki", supported: true },
+  { name: "name without requested type", field: "NAME", quote: "Kaga", supported: false },
+  { name: "review title", field: "CUSTOMER_REVIEW", quote: "My Kaiseki experience", supported: false },
+  { name: "review body", field: "CUSTOMER_REVIEW", quote: "We ate a wonderful Kaiseki meal.", supported: false },
+  { name: "merchant introduction", field: "SOURCE_TEXT", quote: "会席料理をご用意しております。", supported: true },
+] as const) test(`positive model judgment checks source role: ${control.name}`, async () => {
+  const identity: RestaurantReadEvidence = { ...sourceEvidence[0]!, evidenceId: "identity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE",
+    sourceEntityId: "website-a", sourceUrl: "https://restaurant.example/", claims: { outletName: "Kaga" },
+    entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } };
+  const document = { id: "document", candidateId: "a", identityEvidenceId: identity.evidenceId,
+    statements: [{ id: "statement", text: control.quote }],
+    sourceFieldQuotes: [{ field: control.field, quote: control.quote, sourceUrl: identity.sourceUrl! }] };
+  const result = await new ModelRestaurantFactJudgment(model({ sourceSelections: [{ documentId: "document", statementIds: ["statement"] }],
+    judgments: [{ criterion: "kaiseki restaurant", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: ["document"] }] }))
+    .judge({ candidate, intent: { ...positiveIntent, criteria: [{ text: "kaiseki restaurant", polarity: "POSITIVE", strength: "HARD" }] }, evidence: [identity], sourceDocuments: [document] });
+  assert.equal(result.evidence.some(e => e.claims.verifiedHardCriteria?.includes("kaiseki restaurant")), control.supported);
+});
+
 test("a cited model type judgment becomes auditable negative-condition evidence", async () => {
   const result = await new ModelRestaurantFactJudgment(model({
     judgments: [{ criterion: "hot pot restaurant", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: ["source-type"] }],
