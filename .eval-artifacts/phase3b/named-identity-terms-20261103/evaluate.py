@@ -1,7 +1,7 @@
 """Independent frozen-I/O oracle. No production imports, predicates or labels."""
 from pathlib import Path
 import base64,collections,hashlib,html,json,re,sys,unicodedata
-from urllib.parse import urlparse,parse_qs
+from urllib.parse import urlparse,parse_qs,urljoin
 
 r=Path(__file__).parent
 sha=lambda b:hashlib.sha256(b).hexdigest()
@@ -32,7 +32,15 @@ def supported_handoffs(d):
             request=state['intent'];require(q['member']==[str(request['partySize'])] and q['visit_date']==[request['date'].replace('-','')],'Request binding')
             request_time=request['timeWindow'];require(request_time['earliest'].replace(':','')<=q['visit_time'][0]<=request_time['latest'].replace(':',''),'Slot binding')
             observations=[response for p in d['sourcePages'] for response in p['page'].get('responses',[])]
-            require(any(handoff['url'] in json.dumps(x,ensure_ascii=False) for x in observations),'Exact source URL absent')
+            source_links=[]
+            for observation in observations:
+                if urlparse(observation['url']).hostname!='tabelog.com':continue
+                body=observation.get('body',{})
+                if isinstance(body,str):body=json.loads(body)
+                for row in body.get('selection',{}).values():
+                    if isinstance(row,dict) and isinstance(row.get('url'),str):
+                        source_links.append(urljoin('https://tabelog.com',row['url']))
+            require(handoff['url'] in source_links,'Exact source URL absent after permitted relative resolution')
         for term in handoff['terms']:
             require(term['citations'],'Uncited term')
             for cite in term['citations']:
