@@ -79,14 +79,15 @@ async function run(mode:'control'|'main'|'branch',path:string,isolatedRoute=fals
  page.once('domcontentloaded',()=>{dclMs=now()});page.once('load',()=>{loadMs=now()});
  const navStartMs=now();try{await page.goto(origin+path,{waitUntil:'domcontentloaded',timeout:2000});await page.waitForLoadState('load',{timeout:2000});await page.waitForFunction(()=>document.body?.dataset.data==='READY',undefined,{timeout:2000})}catch(e){error=e instanceof Error?e.message:String(e)}
  await page.waitForTimeout(100);
- const snapshotAtMs=now();const evidence=error?null:await page.locator('h1').innerText();
+ const evidence=error?null:await page.locator('h1').innerText({timeout:1000});
  const required=error?false:await page.evaluate(()=>document.documentElement.dataset.required==='READY'&&document.body.dataset.data==='READY'&&getComputedStyle(document.querySelector('h1')!).color==='rgb(0, 128, 0)');
+ const snapshotAtMs=now();
  const blocked=guard?.snapshotRequests().filter((r:any)=>['BLOCKED','REDIRECT_BLOCKED'].includes(r.outcome))??[];
  const unanswered=pauses.filter(p=>!commands.some(c=>c.session===p.session&&c.id===p.id&&c.atMs>=p.atMs&&['Fetch.failRequest','Fetch.continueRequest','Fetch.continueResponse','Fetch.fulfillRequest'].includes(c.method)&&!c.dropped&&c.doneMs!==null&&c.error===null));
  const filter=(r:any)=>r.url.startsWith(origin)||r.url.startsWith(other);
  const pendingCdp=cdp.filter(r=>filter(r)&&r.endMs===null),pendingPw=pw.filter(r=>filter(r)&&r.endMs===null);
  const row={mode,path,isolatedRoute,dropFail,repeat,navStartMs,dclMs,loadMs,dclElapsedMs:dclMs===null?null:dclMs-navStartMs,loadElapsedMs:loadMs===null?null:loadMs-navStartMs,snapshotAtMs,error,evidence,required,receivers:[...receivers].map(r=>({...r,atMs:r.atMs-start})),blocked,unanswered,pendingCdp,pendingPw,pw,cdp,pauses,commands,routeActions,routeFetch};
- rows.push(row);await context.close();
+ rows.push(structuredClone(row));await context.close();
  if(dropFail){if(!error||dclMs!==null||unanswered.length===0||pendingCdp.length===0)failures.push('HANG_ORACLE_DID_NOT_DETECT_DROPPED_FAIL');}
  else{
   if(error||!required||evidence!=='Essential content'||unanswered.length||pendingCdp.length||pendingPw.length)failures.push(`${mode}:${path}:${isolatedRoute}:REQUEST_NOT_TERMINAL_OR_CONTENT_MISSING`);

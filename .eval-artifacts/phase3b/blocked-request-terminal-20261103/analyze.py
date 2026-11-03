@@ -4,7 +4,7 @@ root=Path(__file__).parent
 p=json.loads((root/'results.json').read_text())
 summary={'inputSha256':hashlib.sha256((root/'results.json').read_bytes()).hexdigest(),'probeSha':p['sha'],'mainRevision':p['mainRevision'],'primary':{},'paths':[],'faultControl':None}
 with (root/'request-timing.csv').open('w') as out:
- w=csv.writer(out);w.writerow(['case','mode','path','isolatedRoute','dropFail','layer','id','type','url','startMs','endMs','durationMs','status','outcome','error'])
+ w=csv.writer(out,lineterminator="\n");w.writerow(['case','mode','path','isolatedRoute','dropFail','layer','id','type','url','startMs','endMs','durationMs','status','outcome','error'])
  for i,row in enumerate(p['rows']):
   for layer in ['pw','cdp','routeFetch']:
    for r in row[layer]:
