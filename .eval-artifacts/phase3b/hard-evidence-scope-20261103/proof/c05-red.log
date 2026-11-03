@@ -1,0 +1,29 @@
+✖ c05 Kaga Router to Reducer retains the later availability-read source fact (55.532916ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 191.610541
+
+✖ failing tests:
+
+test at src/application/restaurant-presentation-evidence.test.ts:1:4261
+✖ c05 Kaga Router to Reducer retains the later availability-read source fact (55.532916ms)
+  AssertionError [ERR_ASSERTION]: the same outlet's observed H1 explicitly includes Kaiseki under the approved name-evidence contract
+  + actual - expected
+  
+  + 'NOT_CHECKED'
+  - 'MET'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/application/restaurant-presentation-evidence.test.ts:85:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_CHECKED',
+    expected: 'MET',
+    operator: 'strictEqual'
+  }

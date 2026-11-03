@@ -1,0 +1,63 @@
+✔ positive model judgment checks source role: observed name explicitly includes type (2.45575ms)
+✖ positive model judgment checks source role: name without requested type (1.686292ms)
+✖ positive model judgment checks source role: review title (0.380834ms)
+✖ positive model judgment checks source role: review body (0.349917ms)
+✔ positive model judgment checks source role: merchant introduction (0.84375ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 2
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 113.54225
+
+✖ failing tests:
+
+test at src/integrations/restaurant-facts/model-fact-judgment.test.ts:1:1976
+✖ positive model judgment checks source role: name without requested type (1.686292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-fact-judgment.test.ts:52:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-fact-judgment.test.ts:1:1976
+✖ positive model judgment checks source role: review title (0.380834ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-fact-judgment.test.ts:52:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-facts/model-fact-judgment.test.ts:1:1976
+✖ positive model judgment checks source role: review body (0.349917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/integrations/restaurant-facts/model-fact-judgment.test.ts:52:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual'
+  }
