@@ -9588,6 +9588,42 @@
       "restaurantWebsiteRequests": 0,
       "note": "D6 adjudicated S0 once: one presentation incident replaced Ito with five other shops. Original evaluation unchanged; no D6 Live rerun.",
       "artifactRef": ".eval-artifacts/phase3b/g6-development-live/named-binding-continuation/D6-reviewer-judgment.json"
+    },
+    {
+      "id": "phase3b-C-named-outlet-without-area-offline-20261103",
+      "conversation": "C",
+      "mode": "OFFLINE_FIXTURE",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "environmentReruns": 0,
+      "note": "User confirmed State25 / TaskDefinition23. New calls zero; A mechanical scope pending."
+    },
+    {
+      "id": "phase3b-C-named-outlet-source-names-offline-20261103",
+      "conversation": "C",
+      "mode": "OFFLINE_FIXTURE",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "environmentReruns": 0,
+      "note": "D1 source fields + D3 original semantics; identity-bound aliases/contained-name follow-up; local Chromium only, no external calls or .env."
+    },
+    {
+      "id": "phase3b-C-named-outlet-main-offline-20261103",
+      "conversation": "C",
+      "mode": "OFFLINE_FIXTURE",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "User approved ca18d02b; fresh main integration gates, no real calls. A5912 ledger union retained; A390 limit snapshot recorded without raising main290."
     }
   ],
   "cumulative": {
@@ -9676,7 +9712,13 @@
       "sourceGit": "f094e03445973d704f20f36456c1da1b87666e29",
       "ledgerSha256": "ed05b503cedd1a4a502eccf4b4de857e751d509cdb8e1f8974180dcc905781a6",
       "note": "Union all 48 A-only rows, identical common rows. Preserve main limits; A branch declares GET 390 separately, not applied by this zero-call C slice."
+    },
+    {
+      "conversation": "A-G6-D3",
+      "sourceGit": "cc9562cd00fd3f17ef08ceeeef5c536385f5e629",
+      "ledgerSha256": "2f5a2f1febe1d9cbb9f51594d51cad12e13237a20a7909d688ddcdeab5edc499",
+      "note": "All common rows identical; union A new rows; preserve main limits (A branch separately declares evaluation GET390). C calls zero."
     }
   ],
-  "asOfCET": "2026-11-02T17:50:22.282589+01:00"
+  "asOfCET": "2026-11-03T05:41:53.018260+01:00"
 }

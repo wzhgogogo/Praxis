@@ -98,7 +98,8 @@ export interface RestaurantSearchIntent {
   permittedAlternativeTimeWindow?: { earliest: string; latest: string };
   /** Discovery ordering may use an already-authoritative group size; it never grants an availability claim. */
   partySize?: number;
-  area: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
+  /** Absent only for an explicit named outlet; never filled from a provider address. */
+  area?: { query: string; placeId?: string; radiusMeters?: number; coordinates?: RestaurantAreaCoordinates };
   criteria: RestaurantCriterion[];
   budgetPerPerson?: { max: number; currency: "JPY" };
 }
@@ -748,7 +749,7 @@ export interface VerifiedReservation {
 }
 
 export interface RestaurantTaskState {
-  schemaVersion: "24";
+  schemaVersion: "25";
   phase: RestaurantPhase;
   intentDraft?: RestaurantIntentDraft;
   intent?: RestaurantSearchIntent;

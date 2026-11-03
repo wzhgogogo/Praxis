@@ -147,7 +147,7 @@ export class RestaurantHarness {
       date: intent.date,
       timeWindow: structuredClone(intent.timeWindow),
       partySize: intent.partySize,
-      area: { query: intent.area.query },
+      ...(intent.area ? {area: { query: intent.area.query }} : {}),
       ...(intent.budgetPerPerson ? { budgetPerPerson: structuredClone(intent.budgetPerPerson) } : {}),
       ...(intent.criteria.length ? { addCriteria: structuredClone(intent.criteria) } : {}),
     };

@@ -3,6 +3,7 @@ import { assessRestaurantConditions, priceCondition } from "./condition-states.j
 import { restaurantAvailabilityRequestFingerprint, type RestaurantTaskState } from "./contracts.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "./intent-state.js";
 import { isDisplayFresh } from "./availability-freshness.js";
+import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate} from "./named-outlet-resolution.js";
 
 /**
  * A pure, Domain-owned view of what the current read evidence proves and
@@ -87,6 +88,7 @@ function presentationEvidenceIds(
   intent: NonNullable<ReturnType<typeof completeRestaurantSearchIntent>>,
   now: string,
 ): { valid: true; evidenceIds: string[] } | { valid: false; reason: string } {
+  if(!namedOutletCandidateResolved(state,candidateId))return {valid:false,reason:"The requested outlet name is not uniquely resolved; ask the user which branch or area they mean"};
   const candidateEvidence = state.readEvidence.filter((evidence) => evidence.candidateId === candidateId);
   const immediate = state.intentDraft?.temporalResolution?.immediateAvailability;
   if (immediate && new Date(now).valueOf() > new Date(immediate.validUntil).valueOf()) {
@@ -116,9 +118,11 @@ function presentationEvidenceIds(
       && offer.serviceScope.field === scope.field && offer.serviceScope.group === scope.group && offer.serviceScope.value === scope.value;
   };
   const area = candidateEvidence.find((evidence) =>
-    evidence.kind === "DISCOVERY" && evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query),
+    evidence.kind === "DISCOVERY" && (intent.area
+      ? evidence.claims.areaMatch === true && normalized(stringClaim(evidence, "areaQuery") ?? "") === normalized(intent.area.query)
+      : namedOutletCandidateResolved(state,candidateId)&&evidence.claims.locationBasis==="NAMED_OUTLET_RESOLUTION"),
   );
-  if (!area) return { valid: false, reason: `Candidate ${candidateId} has no evidence that it satisfies ${intent.area.query}` };
+  if (!area) return { valid: false, reason: `Candidate ${candidateId} has no evidence that it satisfies ${intent.area?.query??"the uniquely named outlet"}` };
   const currentBookingIntent = completeRestaurantIntent(state.intentDraft);
   const currentNoSlot = !restaurantGoalRequiresAvailability(intent) && currentBookingIntent && state.availabilityChecks[candidateId]?.status === "UNAVAILABLE" &&
     state.availabilityChecks[candidateId]?.requestFingerprint === restaurantAvailabilityRequestFingerprint(currentBookingIntent);
@@ -249,6 +253,15 @@ export function assessRestaurantRead(state: Readonly<RestaurantTaskState>, now: 
     const hasExpiredDisplayEvidence = check?.status === "AVAILABLE" && !isDisplayFresh(check.displayExpiresAt, now);
     return { candidateId, eligible: false, missingReason: evidence.reason, ...(hasExpiredDisplayEvidence ? { recheckReason: "DISPLAY_EVIDENCE_EXPIRED" as const } : {}) };
   });
+  if(state.candidates.some(c=>!namedOutletCandidateResolved(state,c.restaurant.id))){
+    const possible=state.candidates.filter(c=>namedOutletCandidateCanInvestigate(state,c.restaurant.id)).map(c=>c.restaurant.id);
+    return {presentation,
+      factInvestigableCandidateIds:completeRestaurantIntent(state.intentDraft)?[]:possible.filter(id=>!state.factChecks?.[id]),
+      checkableCandidateIds:completeRestaurantIntent(state.intentDraft)?possible.filter(id=>!state.availabilityChecks[id]):[],
+      investigationRecorded:state.searchRevision>0,canEndRead:false,
+      endReadBlockReason:"The named outlet is not confirmed. A sole contained name may be read for identity; otherwise ask which branch or area the user means. No selection or presentation is allowed yet.",
+      unresolvedCandidateIds:state.candidates.map(c=>c.restaurant.id)};
+  }
   if (immediateRequestWindowExpired(state, now)) {
     const internalFailure = state.failure && /^(AGENT_|SEMANTIC_|BROWSER_RUNTIME|BROWSER_TIMEOUT)/.test(state.failure.code);
     return { presentation, factInvestigableCandidateIds: [], checkableCandidateIds: [],

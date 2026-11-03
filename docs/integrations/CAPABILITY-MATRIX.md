@@ -1,4 +1,8 @@
+2026-11-03 CET — source-name uniqueness follow-up (offline implementation candidate): the ordinary assembly passively attaches actual page names using existing Tabelog/TableCheck parsers only after the same candidate/page has HIGH identity. It never navigates. Same-ID Japanese Google names reuse the existing run cache/request ceiling, preserve actual language, and cost at most one Details request per inspected Place ID (no retry), including Japanese-name discovery within the existing candidate bound; no separate budget. Unknown locality/alias, two branches, conflicting phone/address or incomplete search stay unresolved. Original eight controls plus real D1 fields/D3 literal semantics and both channels are covered; no new Live capability claim. [evidence](../../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md).
+
 # Integration Capability Matrix
+
+2026-11-03 CET — named-outlet no-area implementation candidate (offline only): Google name lookup uses the existing client/run quota, at most the existing two initial Text Search pages, no invented location restriction; source address must establish Tokyo. Name-reference uniqueness is separate from unchanged G4 provider identity; only the sole read-only identity probe described above may precede resolution, never autonomous selection/presentation. Existing page-token intent binding/exhaustion checks apply before both normal and named paths. Handoff readers pass the same area-optional authoritative intent to both server checks and G1 terms. New source/model/live calls0; no new external capability claim. Production-assembly scenarios (D3 literal output, ambiguity/adversarial choice, OPEN_ENDED missing area, missing/unrelated/outside-Tokyo venue, later user area) are in [C harness](../../src/application/restaurant-named-outlet-without-area.test.ts); validation status in [evidence](../../.eval-artifacts/phase3b/named-outlet-without-area-20261103/report.md).
 
 2026-11-01 CET：用户复核通过B a7860924并批准合入main。已同步main6db445ea和A原集成5683dcfb（只有所有者调度测试变化，B产品/其它源码原字节）；冻结d99a0c2b/727项，五门禁默认1288/1288、Chromium187/187（130.203秒）、严格G2 5/5测试及12/12页面PASS，旧HARD44,197字节一致。七项前后净树，无失败豁免或重试；门禁后仅归档/文档/零调用记账。504旧账目保留、追加至505、累计不变；真实调用0，不读.env/答案/私有留出集。按用户授权发布main并以Git合并和ls-remote作最终回执，随后待命；历史600秒挂起根因仍未知。 [合入验证报告](../../.eval-artifacts/phase3b/g1-page-capture-main/report.md)。
 
@@ -53,10 +57,10 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.126
+- Document revision: 1.127
 
 
-- Last updated: 2026-11-01
+- Last updated: 2026-11-03
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)

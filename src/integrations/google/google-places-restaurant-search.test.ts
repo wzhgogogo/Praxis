@@ -5,7 +5,7 @@ import { test } from "node:test";
 import { fixtureIntent as namedFixtureIntent } from "../../harness/restaurant-fixtures.js";
 // Transport/pagination/fact tests start with an already observed circle. Named
 // resolution is exercised separately with an explicit area (near X and X).
-const fixtureIntent = { ...namedFixtureIntent, area: { ...namedFixtureIntent.area,
+const fixtureIntent = { ...namedFixtureIntent, area: { ...namedFixtureIntent.area!,
   coordinates: { latitude: 35.6, longitude: 139.7, observedAt: "2026-10-08T00:00:00Z", source: "MANUAL_PLACE" as const },
 } };
 import { GooglePlacesClient } from "./google-places-client.js";
@@ -41,6 +41,25 @@ test("a sent Japanese-name failure consumes one Details request without retry by
   for(let consumer=0;consumer<2;consumer++)await assert.rejects(adapter.japaneseName("place-a","run-a",new AbortController().signal),{code:"GOOGLE_MALFORMED_RESPONSE"});
   assert.equal(sent,1);
   assert.equal(adapter.googleRequestUsage("run-a").placeDetails,1);
+});
+
+test("a Japanese full user name can retain a same-ID source name without translating the Google English display name",async()=>{
+  const sent:string[]=[];
+  const adapter=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async(url,init)=>{
+    sent.push(String(url));
+    const place={id:"same-place",displayName:{text:"Google English Display"},formattedAddress:"Tokyo Akabane 1-15-1",types:["restaurant"],nationalPhoneNumber:"03-5249-4011"};
+    return new Response(JSON.stringify(init?.method==="POST"?{places:[place]}:{id:"same-place",displayName:{text:"串カツでんがな赤羽店",languageCode:"ja"}}));
+  }}),()=>"2026-11-03T03:00:00Z",10,{maxRequests:2});
+  const {area:_area,...withoutArea}=fixtureIntent;
+  const intent={...withoutArea,target:{goal:"AVAILABILITY" as const,selectionScope:"SPECIFIC_OUTLET" as const,query:"串カツでんがな赤羽店"}};
+  const read=await adapter.search({intent,readRunId:"source-name-run"},new AbortController().signal);
+  assert.equal(read.candidates.length,1);assert.equal(read.candidates[0]!.restaurant.outletName,"Google English Display");
+  assert.ok(read.evidence.some(e=>e.provider==="GOOGLE_PLACES"&&e.sourceEntityId==="same-place"&&e.claims.outletName==="串カツでんがな赤羽店"&&e.claims.sourceNameLanguage==="ja"));
+  assert.equal(read.evidence.find(e=>e.kind==="DISCOVERY")!.claims.namedOutletStatus,"AMBIGUOUS","Source identity is still required before selection/presentation");
+  assert.equal((await adapter.observedSourceNames(read.candidates,"source-name-run")).length,1);
+  assert.deepEqual(await adapter.observedSourceNames(read.candidates,"other-run"),[]);
+  assert.equal(sent.length,2,"Read-back adds no request beyond Text Search plus same-ID Japanese Details");
+  assert.equal(adapter.googleRequestUsage("source-name-run").total,2);
 });
 
 test("ranked named geography accepts the saved spellings, keeps nearby geographic alternatives and rejects remote ambiguity", async () => {

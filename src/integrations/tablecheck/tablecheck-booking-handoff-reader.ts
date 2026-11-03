@@ -1,5 +1,6 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 import type { RestaurantCaseView } from "../../application/agent-workspace.js";
+import {completeRestaurantIntent} from "../../domains/restaurant/intent-state.js";
 import { prepareBookingHandoff, type PreparedBookingHandoff } from "../../domains/restaurant/booking-handoff.js";
 import { restaurantAvailabilityRequestFingerprint, type RestaurantAvailabilityRead, type RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import type { BrowserControlHint, BrowserPageControl, BrowserRuntime } from "../../infrastructure/browser/browser-runtime.js";
@@ -98,9 +99,8 @@ export class TableCheckBookingHandoffReader {
   /** Creation check; the authenticated projection still performs the existing second check. */
   readonly readPrepared = (view: RestaurantCaseView): PreparedBookingHandoff[] => {
     this.prune();
-    const draft = view.restaurant.intentDraft;
-    if (!draft?.date || !draft.timeWindow || !draft.partySize || !draft.area) return [];
-    const request = { ...draft, date: draft.date, timeWindow: draft.timeWindow, partySize: draft.partySize, area: draft.area };
+    const request = completeRestaurantIntent(view.restaurant.intentDraft);
+    if (!request) return [];
     const result: PreparedBookingHandoff[] = [];
     for (const entry of this.cases.get(view.case.rootTaskId)?.values() ?? []) {
       const candidate = view.restaurant.candidates.find(item => item.restaurant.id === entry.candidateId), check = view.restaurant.availabilityChecks[entry.candidateId];

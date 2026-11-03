@@ -72,8 +72,10 @@ for(const control of ["OPEN_ENDED","NON_BOOKING","AMBIGUOUS","PARTIAL"] as const
     ...(control==="AMBIGUOUS"?{ambiguous:true}:{}),...(control==="PARTIAL"?{query:"G6"}:{})}});
   try{await f.initial();const view=await f.select();const artifact=await capture(f,control);noBooking(artifact);
     if(control==="AMBIGUOUS")assert.equal(execution(artifact).finalSnapshot.domainState.candidates.length,2,"Both same-name outlets actually reach the real resolver");
-    assert.equal(view.restaurant.selectedCandidateId,undefined);assert.ok(view.restaurant.bookingHandoffs?.length,"The independent qualified handoff remains");
-    assert.deepEqual(view.restaurant.bookingHandoffs![0]!.terms,[]);assert.equal(f.requests.filter(r=>r.request.purpose==="restaurant_page_question").length,0);
+    assert.equal(view.restaurant.selectedCandidateId,undefined);
+    if(control==="AMBIGUOUS"||control==="PARTIAL")assert.deepEqual(view.restaurant.bookingHandoffs,[],"Unresolved named outlets cannot project a ready handoff");
+    else {assert.ok(view.restaurant.bookingHandoffs?.length,"The independent qualified handoff remains");assert.deepEqual(view.restaurant.bookingHandoffs![0]!.terms,[]);}
+    assert.equal(f.requests.filter(r=>r.request.purpose==="restaurant_page_question").length,0);
   }finally{await f.close();}
 });
 

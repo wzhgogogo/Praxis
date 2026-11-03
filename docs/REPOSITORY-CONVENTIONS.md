@@ -1,8 +1,8 @@
 # Repository Naming and Version Conventions
 
 - Status: Accepted
-- Document revision: 1.8
-- Last updated: 2026-10-23
+- Document revision: 1.9
+- Last updated: 2026-11-03
 - Source of truth for: Git branch/tag、版本标识、目录、文件、Eval数据和文档命名
 - Related ADRs: [ADR Index](decisions/README.md)
 - Related documents: [Documentation Index](INDEX.md), [Agent Instructions](../AGENTS.md)
@@ -131,3 +131,7 @@ eval:restaurant:semantic:holdout:preflight
 4. 当前事实只在`STATUS.md`汇总，README和Roadmap不复制完整状态；
 5. 历史ADR、日志和Artifact未被机械改写；
 6. 本地commit、当前branch、tag和远端push结果分别如实报告。
+
+### 2026-11-03 named-outlet intent boundary
+
+User-approved restaurant-state@25 / TaskDefinition@23 allow persistent SearchIntent.area to be absent only for an explicit named outlet. This is incompatible with the State@24 complete-intent area requirement. SQL schema/migrations do not change, and the implementation performs no automatic snapshot conversion, deletion or database reset. Existing State@24 task data remains historical; any actual data handling follows the explicit existing preservation/reset authorization process. Semantic Proposal@4 / Prompt@26 / Intent Draft@3 are unchanged.
