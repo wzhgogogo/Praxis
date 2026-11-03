@@ -87,6 +87,20 @@ test("an exact source-observed identity name outside H1 cannot masquerade as mer
   assert.equal(result.evidence.some(e => e.provider === "MODEL_JUDGMENT"), false, "Kaga is an observed identity name, not kaiseki prose");
 });
 
+test("the non-price source-role filter leaves price judgment conversion and numeric budget authority unchanged", async () => {
+  const identity: RestaurantReadEvidence = { ...sourceEvidence[0]!, evidenceId: "identity", kind: "ENTITY_MATCH", provider: "RESTAURANT_WEBSITE",
+    sourceEntityId: "website-a", sourceUrl: "https://restaurant.example/", claims: { outletName: "Cafe A" },
+    entityMatch: { confidence: "HIGH", matchedBy: ["EXACT_PHONE"] } };
+  const priceIntent: RestaurantSearchIntent = { ...positiveIntent, criteria: [{ text: "under 8000 yen per person", strength: "HARD", polarity: "POSITIVE" }] };
+  const document = { id: "price-document", candidateId: "a", identityEvidenceId: identity.evidenceId,
+    statements: [{ id: "price-statement", text: "Dinner course JPY 7000" }], sourceFieldQuotes: [{ field: "PRICE" as const, quote: "Dinner course JPY 7000", sourceUrl: identity.sourceUrl! }] };
+  const result = await new ModelRestaurantFactJudgment(model({ sourceSelections: [{ documentId: document.id, statementIds: ["price-statement"] }],
+    judgments: [{ criterion: priceIntent.criteria[0]!.text, outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [document.id] }] }))
+    .judge({ candidate, intent: priceIntent, evidence: [identity], sourceDocuments: [document] });
+  assert.ok(result.evidence.some(e => Array.isArray(e.claims.verifiedHardCriteria) && e.claims.verifiedHardCriteria.includes(priceIntent.criteria[0]!.text)), "preserve the pre-existing price judgment conversion");
+  assert.equal(assessRestaurantConditions(priceIntent, result.evidence)[0]?.status, "NOT_CHECKED", "model labels still cannot replace parsed applicable numeric price facts");
+});
+
 test("a cited model type judgment becomes auditable negative-condition evidence", async () => {
   const result = await new ModelRestaurantFactJudgment(model({
     judgments: [{ criterion: "hot pot restaurant", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: ["source-type"] }],
