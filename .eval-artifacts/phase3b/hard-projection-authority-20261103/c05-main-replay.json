@@ -1,0 +1,143 @@
+{
+  "mode": "SAVED_C05_MAIN_DOMAIN_EVIDENCE_DIAGNOSIS",
+  "baseMain": "533f1bc5cb42fa7a68a5696b201df46575cf1228",
+  "definitionVersion": "23",
+  "stateSchema": "25",
+  "replayedEvents": 6,
+  "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+  "criterion": {
+    "text": "kaiseki restaurant",
+    "polarity": "POSITIVE",
+    "strength": "HARD"
+  },
+  "originalPresentedAt": "2026-10-21T11:21:32.252Z",
+  "mainReadiness": {
+    "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+    "eligible": true
+  },
+  "acceptedEvidence": [
+    {
+      "evidenceId": "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+      "kind": "RESTAURANT_FACT",
+      "provider": "MODEL_JUDGMENT",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+      "observedAt": "2026-10-21T11:19:50.896Z",
+      "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1309/A130905/13048623\",\"criteria\":[\"kaiseki restaurant\"],\"cited\":[\"tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab\"]}",
+      "claims": {
+        "verifiedHardCriteria": [
+          "kaiseki restaurant"
+        ],
+        "supportingEvidenceIds": [
+          "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+        ]
+      }
+    }
+  ],
+  "supportingEvidence": [
+    {
+      "evidenceId": "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab",
+      "kind": "RESTAURANT_FACT",
+      "provider": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+      "sourceEntityId": "en/tokyo/A1309/A130905/13048623",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+      "observedAt": "2026-10-21T11:19:40.516Z",
+      "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab\",\"statementIds\":[\"tabelog:en/tokyo/A1309/A130905/13048623:statement:1\",\"tabelog:en/tokyo/A1309/A130905/13048623:statement:11\",\"tabelog:en/tokyo/A1309/A130905/13048623:statement:46\"]}",
+      "claims": {
+        "restaurantTypeFacts": [
+          "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro（カッポウ カガ） - Ushigome Kagurazaka(Japanese Cuisine)",
+          "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro (神楽坂 割烹 加賀 個室と会席接待の宴会処)",
+          "A Flaw in the Spring Kaiseki Experience"
+        ],
+        "sourceStatementIds": [
+          "tabelog:en/tokyo/A1309/A130905/13048623:statement:1",
+          "tabelog:en/tokyo/A1309/A130905/13048623:statement:11",
+          "tabelog:en/tokyo/A1309/A130905/13048623:statement:46"
+        ]
+      },
+      "entityMatch": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "NATIVE_SOURCE_ID_AND_DETAIL"
+        ]
+      },
+      "artifactRef": {
+        "kind": "DOM_EXCERPT",
+        "reference": "tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+      }
+    }
+  ],
+  "otherCurrentFacts": [
+    {
+      "evidenceId": "evidence:restaurant:tabelog-hard-criteria:90f76d3a50b0f0b768e8fa1f",
+      "kind": "RESTAURANT_FACT",
+      "provider": "TABELOG",
+      "candidateId": "tabelog:en/tokyo/A1309/A130905/13048623",
+      "sourceEntityId": "en/tokyo/A1309/A130905/13048623",
+      "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/",
+      "observedAt": "2026-10-21T11:20:45.769Z",
+      "requestFingerprint": "69dab63302bc0c167e1e88828761300d8b52d0b1f9b8b771a5300302eaa112ed",
+      "claims": {
+        "verifiedHardCriteria": []
+      },
+      "priceFacts": {
+        "schemaVersion": "restaurant-price-facts@1",
+        "listedCoursePricesYen": [],
+        "dinnerBudgetRangeYen": {
+          "min": 8000,
+          "max": 9999,
+          "quote": "JPY 8,000 - JPY 9,999",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/"
+        },
+        "lunchBudgetRangeYen": {
+          "min": 2000,
+          "max": 2999,
+          "quote": "JPY 2,000 - JPY 2,999",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/"
+        }
+      },
+      "entityMatch": {
+        "confidence": "HIGH",
+        "matchedBy": [
+          "NATIVE_SOURCE_ID_AND_DETAIL"
+        ]
+      }
+    }
+  ],
+  "hasGoogleHardSupport": false,
+  "qualificationAfterRemovingSoleJudgment": false,
+  "slotUnchangedInControl": true,
+  "routerEvent": "RESULTS_PRESENTED",
+  "persistedCondition": {
+    "text": "kaiseki restaurant",
+    "polarity": "POSITIVE",
+    "strength": "HARD",
+    "criterionRef": "criterion:0",
+    "status": "NOT_CHECKED",
+    "explanation": "No current merchant type/course field explicitly establishes this condition. Names and customer reviews alone cannot establish it; meal-restricted courses do not verify another sitting.",
+    "evidenceIds": [
+      "fact-judgment:tabelog:en/tokyo/A1309/A130905/13048623:2026-10-21T11:19:50.896Z:tabelog:en/tokyo/A1309/A130905/13048623:document:f04acd335ed41dab"
+    ],
+    "sources": [
+      {
+        "field": "SOURCE_TEXT",
+        "quote": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro（カッポウ カガ） - Ushigome Kagurazaka(Japanese Cuisine)",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/"
+      },
+      {
+        "field": "SOURCE_TEXT",
+        "quote": "Kagurazaka Kappou Kaga Private rooms to Kaiseki Settai no Enkai Dokoro (神楽坂 割烹 加賀 個室と会席接待の宴会処)",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/"
+      },
+      {
+        "field": "SOURCE_TEXT",
+        "quote": "A Flaw in the Spring Kaiseki Experience",
+        "sourceUrl": "https://tabelog.com/en/tokyo/A1309/A130905/13048623/"
+      }
+    ]
+  },
+  "sourceCalls": 0,
+  "allNewRealCalls": 0,
+  "originalAssertionChanged": false,
+  "qualificationCodeChanged": false
+}

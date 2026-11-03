@@ -1,5 +1,7 @@
 2026-11-03 CET：C名称匹配ca18d02b经用户复核批准，已同步最新main d4d8ea33。abaf8266净树十步全绿：type/arch/build、默认1372/1372、Chromium188/188、严格G2全12页、独立16帧；源码与复核候选相同。账本A/C并集696条，累计含A的4 Live/321模型/270评测GET，C本轮新增0；上限不扩大、不读.env。按批准合入远端main并核对，具体发布SHA以Git回执为准；D6 S0另开分支修复，不能把本合入当作该S0已修。 [合入证据](../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
 
+2026-11-03 CET：B HARD投影改正方向在c05前置核查停止。旧失败分支3bb7d7c2保留，本轮从main533f1bc5干净起步，全部src/scripts/web-skills与main原字节，保留State25/TaskDefinition23。冻结1e67ab80的11项原件，当前main重放eligible=true；唯一kaiseki HARD判断只引店名/H1、店名别名和Review/H4评论标题，无Google支持，移除该判断后资格消失且空位不变。按用户第3条停止，不改c05断言或投影，不合main、不继续D4/五门禁/严格G2；仅组件诊断，不能判定餐厅现实不提供会席或当前模型必重现。真实调用0，账本按id保留追加。 [停止报告](../.eval-artifacts/phase3b/hard-projection-authority-20261103/report.md)。
+
 2026-11-03 CET：C名称匹配ca18d02b已复核批准合入。已同步origin/main d4d8ea33，源码相同；A5912账本67条并集，额度快照不扩权。本轮五门禁/严格G2待新鲜验证、真实调用0；D6具名店替换S0下一分支独立修复。 [合入报告](../.eval-artifacts/phase3b/named-outlet-main-20261103/report.md)。
 
 2026-11-03 CET：C来源名唯一性补修离线全绿。D1真实Google短名+D3原字节有效红→查位→展示→B1/条款；同店来源全名与包含+typed地址地名分别核对，多店/错地名/身份冲突拒绝，未知别名/建筑词/字内片段不放行。2354b2bd冻结756项，净树十步全绿：默认1372/1372、Chromium188/188、严格G2 5/5及12页PASS，独立新7+原9帧PASS。State25/TaskDefinition23、语义/Agent版本与A/B保护文件不变；原627行全保留、账本628行，本轮真实调用0、不读.env。只推工作分支交复核，不合main；不是新Live或37家通过率。 [交付报告](../.eval-artifacts/phase3b/named-outlet-source-names-20261103/report.md)。
@@ -260,8 +262,8 @@
 2026-10-28 CET：C按批准同步已合入的B G1（main6fa60cda含dc486430），ccf7aa5d六项门禁全绿，逐项前后净树。共享108条账本按id并集，模型40/GET30/Google11/Live0，未加载凭据。现在按用户授权合main，随后G4新37家基准独立执行，旧12/29不冒充端到端结果。 [报告](../.eval-artifacts/phase3b/c-integration/report.md)。
 
 - Status: Accepted
-- Document revision: 4.474
-- Last updated: 2026-11-02
+- Document revision: 4.475
+- Last updated: 2026-11-03
 - Source of truth for: 当前实现、证据与下一道门槛
 
 - **2026-10-28 CET：3b C批次3完成，停止待复核。** main基线90b464d8；29原保存页12正确/0错认，nr004/016/024恢复、nr002接纳、nr020/029拒绝；用户确认去重12而非16，以及每店每来源最多两次检索，已写入报告供复核者核对。双站原名→一种逐字Google片段，独立named-query Prompt/Schema2，原身份与详情总额保持，Google增量0。d9b0d771冻结877项，五门禁全绿（默认1172/1172、Chromium173/173）、额外G2命令4/4（固定12页8 PASS/4诚实退化）、语义Fixture15/15/Search3/3；9项前后净树、输入SHA一致。旧样本新增GET12全部200，独立首屏11 HIT/1 MISS；nr003旧超时不重试、nr026未选，不报告15例提升率。模型/Google/Live/环境重跑0，共享累计40模型/30GET/11Google，102条id唯一，原88条保留。G2仅两原页地址获批更新；17保存检索及4个UNKNOWN控制、12片段定位通过，7/8为历史混合探针，新Prompt2真实质量未评。只推C分支，申请复核通过后合main，B随后开始G3。[报告](../.eval-artifacts/phase3b/c-batch3/report.md)。
