@@ -58,6 +58,16 @@ test("c05 Kaga Router to Reducer retains the later availability-read source fact
     state = restaurantBookingTaskDefinition.transition(state, envelope.event, { taskId: "saved-c05", runId: "saved-c05", now: envelope.occurredAt, createId: p => p }).state;
   }
   assert.equal(state.phase, "SEARCHING");
+  // Contract sync, user 2026-11-03: the same saved source's H1 is now a
+  // permitted positive HARD basis. Restore only exact source role metadata;
+  // neither the historical statements nor the judgment are rewritten.
+  const { parseTabelogSourceFieldQuotes } = await import("../integrations/tabelog/tabelog-page-parser.js");
+  const roleHtml = await readFixture(new URL("./fixtures/restaurant-presentation-evidence/c05-hard-source-roles.html", import.meta.url), "utf8");
+  const roleFields = parseTabelogSourceFieldQuotes({ url: "https://tabelog.com/en/tokyo/A1309/A130905/13048623/", title: "", text: "", html: roleHtml });
+  for (const fact of state.readEvidence.filter(e => e.candidateId === candidateId && e.kind === "RESTAURANT_FACT" && e.provider !== "MODEL_JUDGMENT")) {
+    const texts = fact.claims.restaurantTypeFacts;
+    if (Array.isArray(texts)) fact.sourceFieldQuotes = roleFields.filter(q => texts.includes(q.quote));
+  }
   assert.ok(state.availabilityChecks[candidateId]!.evidenceIds.includes(laterFact));
   assert.ok(state.factChecks![candidateId]!.checkedAt < state.readEvidence.find(e => e.evidenceId === laterFact)!.observedAt);
   let reads = 0;
@@ -71,7 +81,11 @@ test("c05 Kaga Router to Reducer retains the later availability-read source fact
   assert.ok(execution.event?.type === "RESULTS_PRESENTED" && execution.event.evidenceIds.includes(laterFact), "the newer source fact must reach the presentation event");
   const shown = restaurantBookingTaskDefinition.transition(state, execution.event!, { taskId: "saved-c05", runId: "saved-c05", now, createId: p => p }).state;
   assert.ok(shown.presentedResults!.evidenceIds.includes(laterFact));
-  assert.equal(shown.presentedResults!.conditionStates[candidateId]![0]!.status, "NOT_CHECKED", "merchant name and customer-review title alone must not display HARD MET");
+  const nameCondition = shown.presentedResults!.conditionStates[candidateId]![0]!;
+  assert.equal(nameCondition.status, "MET", "the same outlet's observed H1 explicitly includes Kaiseki under the approved name-evidence contract");
+  assert.match(nameCondition.explanation, /outlet name/i);
+  assert.ok(nameCondition.sources.some(q => q.field === "NAME" && q.quote.includes("Kaiseki")));
+  assert.ok(nameCondition.sources.every(q => q.field !== "CUSTOMER_REVIEW"));
   assert.equal(shown.presentedResults!.conditionStates[candidateId]![0]!.criterionRef, "criterion:0");
   assert.equal(reads, 0);
   assert.throws(() => restaurantBookingTaskDefinition.transition(state, { ...execution.event!, type: "RESULTS_PRESENTED", candidateIds, evidenceIds: shown.presentedResults!.evidenceIds.filter(id => id !== laterFact) },
