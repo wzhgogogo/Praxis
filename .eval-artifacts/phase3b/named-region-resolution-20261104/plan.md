@@ -1,0 +1,9 @@
+# D8 uniqueness and four Akabane discovery records
+
+2026-11-04 CET UTC+1. User requested offline-only repair/diagnosis, work-branch push and review stop; no main merge. Real calls0, no .env.
+
+Slice1: replay the original D8 final authoritative name/identity fields. A unique HIGH native-bound exact name may resolve when every other HIGH candidate's bound names differ and every unknown candidate's known Google names (including same-ID Japanese names) differ. Check all candidates, including those outside the three-investigation prefix. Keep original identity and investigation budgets, State/TaskDefinition/Prompt/Schema; no persistent fields change. Frozen original red then same green; exact-name unknowns and two verified homonyms stay unresolved.
+
+Slice2: analyze D1,D4-first,D4-supplement,D4-latest saved requests, observations, decisions, Google HAR entries. Conditional user instruction applies: every initial menu lacks Akabane; report actual available source breadcrumb path and the missing initial association. No deterministic priority can choose a nonexistent observed match, so do not modify region routing or invent a current menu/response. Four identical first Google discovery requests have different actual responses (25/25/25/0); preserve empty response as provider data, not guessed code defect. Existing region/Google regressions prove other requests unchanged; the missing route remains unverified rather than green.
+
+Use deterministic saved-record analysis, freeze input SHAs and test oracles before runs. No new Gold, evaluator changes or private holdout access. Five clean-tree gates include main's A G6 group; strictG2 plus D8 and existing region/Google controls. Update current docs/history/index, preserve shared ledger by id, push only this branch, stop for review. Evaluator reused for existing G6, independent saved-artifact audit for this slice.
