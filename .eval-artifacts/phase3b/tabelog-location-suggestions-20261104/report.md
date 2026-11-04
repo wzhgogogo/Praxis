@@ -1,6 +1,6 @@
 # Tabelog observable location suggestions — offline candidate
 
-Status: exposed development / constructed fixture, draft / not integrated. New branch `codex/feat-phase3b-tabelog-location-suggestions`, originally based on main be84674e, synchronized to B-approved main de2b7ecc before final verification. No dependency on the unmerged D8 predicate repair. CET UTC+1 throughout. External model/Google/website/Live0; no .env loaded/read.
+Status: exposed development / constructed fixture, draft / not integrated. New branch `codex/feat-phase3b-tabelog-location-suggestions`, originally based on main be84674e, synchronized to B-approved main de2b7ecc before final verification. No dependency on the unmerged D8 predicate repair. Last verified 2026-11-04T09:39:00.018968+01:00 (Vienna CET UTC+1). External model/Google/website/Live0; no .env loaded/read.
 
 ## Slice and current result
 
@@ -42,7 +42,27 @@ In the no-match controls the bounded home attempt spends2 extra region admission
 
 ## Final verification
 
-First formal candidate ae5b8b75 passed type/arch/default1431/build but ordinary Chromium was188/189: the new home path preempted a saved Kagurazaka known-feasible route. A fixture/expectations were not changed. The first priority correction preserved source-outlet-supported menus; a focused preflight then exposed Higashi-Ginza, whose authoritative district Ginza already literally appears in a visible menu group. Exact sublocality-level1/2 versus visible menu-group equality now also preserves that original route, without hardcoded place mapping or similarity. The original A six-region test passes unchanged (other-regions-green.log). First gate outputs/SHAs are preserved byte-for-byte in attempt-1; fresh second clean-tree five gates + strictG2 including full A66 are pending. Source/input freeze and per-step receipts will be attached. Independent audit will inspect raw HAR-derived actions, literal expected case results, old-source deviation, source/Guard/version diffs, original A bytes and immutable shared-ledger union. No claim that local fixtures establish current-site DOM compatibility or current-site latency.
+First formal candidate ae5b8b75 passed type/arch/default1431/build but ordinary Chromium was188/189: the new home path preempted a saved Kagurazaka known-feasible route. A fixture/expectations were not changed. The first priority correction preserved source-outlet-supported menus; a focused preflight then exposed Higashi-Ginza, whose authoritative district Ginza already literally appears in a visible menu group. Exact sublocality-level1/2 versus visible menu-group equality now also preserves that original route, without hardcoded place mapping or similarity. The original A six-region test passes unchanged (other-regions-green.log). First gate outputs/SHAs are preserved byte-for-byte in attempt-1; second frozen candidate `9aadfce36757` (exact gate HEAD in gates.json) passed all fresh clean-tree gates below. Source/input freeze covers930 files; gates.json records the exact frozen gate HEAD, commands, CET start/end and empty before/after statuses. Independent audit passed108 checks on raw HAR-derived actions, literal expected case results, old-source deviation, source/Guard/version diffs, original A bytes and immutable shared-ledger union. Only Native region priority changed in product/test source after the first failed formal candidate; no A assertion or fixture was changed. No claim that local fixtures establish current-site DOM compatibility or current-site latency.
+
+
+
+| Final gate | Result | Seconds | status before/after |
+|---|---|---:|---|
+| typecheck | PASS | 0.514 | empty/empty |
+| architecture | PASS | 0.286 | empty/empty |
+| default | 1431/1431 | 57.253 | empty/empty |
+| build | PASS | 0.555 | empty/empty |
+| chromium | 189/189 ordinary Chromium +66/66 original G6 | 181.27 | empty/empty |
+| strict-g2 | 5/5; all12 valid pages PASS | 24.837 | empty/empty |
+
+| Constructed case | Candidates | Source elapsed ms | Runtime operations | Region admissions | Outcome |
+|---|---:|---:|---:|---:|---|
+| LINK | 5 | 5074 | 23 | 3 | observed source candidates |
+| OPTION | 5 | 4136 | 27 | 3 | observed source candidates |
+| NONE | 0 | 3628 | 27 | 4 | READ_BUDGET_EXCEEDED |
+| AMBIGUOUS | 0 | 3228 | 24 | 4 | READ_BUDGET_EXCEEDED |
+| OUTSIDE | 0 | 4338 | 23 | 3 | DISCOVERY_SOURCE_LOCATION_UNGROUNDED |
+| MERCHANT_ONLY | 0 | 3602 | 27 | 4 | READ_BUDGET_EXCEEDED |
 
 ## Four evaluation layers
 
