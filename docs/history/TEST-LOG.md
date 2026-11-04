@@ -6614,3 +6614,7 @@ D6 allthree turns,S0=0/safety386 PASS,original NOT_EVALUATED preserved;Ito only,
 ## 2026-11-04 CET: G6 supplemental three-run final stop
 
 Three approved slots complete,increment3Live/31model/10GET/9Google/767browser source attempts,0reruns. Original automatic D4 CAPABILITY_MISS,D6/D8 NOT_EVALUATED;all new S0=0. D6 first Ito not replaced;D8 source exact first name blocked by third UNKNOWN at named-outlet-resolution.ts:122. Recording42/65;POST200 bodies missing,TC calendar candidate unconfirmed. Direct-now user steering means peak NOT_COVERED;no automation created. All832 prior ledger rows retained,879 final rows,global14/432/308;devLive14/14 exhausted. Tested1425/189+66/strict5-and12,all838 hashes unchanged;final only metadata/raw outputs,not main.[Final report](../../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/final-report.md).
+
+## 2026-11-04 CET: A D4/D8 approved continuation preparation
+
+User permits only two new runs after B+C2 main. Exact prior requests/follow-ups/oracles retained, Wednesday11-11 is7days ahead today. New packs bind shared425 GET, Live34/dev16; all879 old ledger rows retained, no charge appended. Final source freeze/gates and fresh certifications deferred until C2 main. No real calls; no main merge. [Plan](../../.eval-artifacts/phase3b/g6-rerun-20261104/next-two/plan.md).

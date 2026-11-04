@@ -2,7 +2,7 @@
   "schema": "phase3b-budget@1",
   "timezone": "CET UTC+01:00",
   "limits": {
-    "fullLive": 32,
+    "fullLive": 34,
     "realModelCalls": 1600,
     "environmentReruns": 4,
     "evaluationPublicGET": 425
@@ -11881,9 +11881,9 @@
   ],
   "asOfCET": "2026-11-04T05:05:57.409219+01:00",
   "developmentLimits": {
-    "fullLive": 14,
+    "fullLive": 16,
     "realModelCalls": 400,
-    "evaluationPublicGET": 58
+    "evaluationPublicGET": 170
   },
   "holdoutReservation": {
     "fullLive": 18,
@@ -11950,6 +11950,40 @@
       },
       "developmentGETIncrement": 15,
       "developmentModelCeilingUnchanged": 400,
+      "newRealCalls": 0
+    },
+    {
+      "id": "phase3b-A-g6-d4-d8-approved-20261104",
+      "approvedBy": "user",
+      "dateCET": "2026-11-04",
+      "source": ".eval-artifacts/phase3b/g6-rerun-20261104/next-two/authorization.json",
+      "before": {
+        "limits": {
+          "fullLive": 32,
+          "realModelCalls": 1600,
+          "environmentReruns": 4,
+          "evaluationPublicGET": 425
+        },
+        "developmentLimits": {
+          "fullLive": 14,
+          "realModelCalls": 400,
+          "evaluationPublicGET": 58
+        }
+      },
+      "after": {
+        "limits": {
+          "fullLive": 34,
+          "realModelCalls": 1600,
+          "environmentReruns": 4,
+          "evaluationPublicGET": 425
+        },
+        "developmentLimits": {
+          "fullLive": 16,
+          "realModelCalls": 400,
+          "evaluationPublicGET": 170
+        }
+      },
+      "scope": "Only D4 and D8 once, after B and C2 main; runtime unrestricted. GET as needed under shared425, old58 no longer blocks this approved batch. developmentGET170=425minus255 inherited fixed pre-G6 baseline; not170 additional GET.",
       "newRealCalls": 0
     }
   ]
