@@ -4,6 +4,7 @@ import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapsho
 import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/contracts.js";
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import { LiveBrowserAvailability } from "./live-browser-availability.js";
+import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 
 // Constructed public search pages, not a replay of current site DOM. Only the
 // browser and model transports are replaced; query binding and both adapters
@@ -42,4 +43,46 @@ test("one read reuses each source search form across candidate checkpoints, with
   assert.equal(sessions.flatMap(s=>s.submissions).length,4);
   assert.ok(sessions.every(s=>s.closed===1),"all source sessions close at the read boundary");
   assert.ok(results.every(r=>r.metadata.providerAttempts?.length===2));
+});
+
+test("missing observed search controls retain the navigation path and conclusions without reopening source sessions",async()=>{
+  const sessions:SearchSession[]=[];
+  const availability=new LiveBrowserAvailability({openSession:async()=>{const s=new SearchSession();s.observeControls=async()=>[];sessions.push(s);return s;}},
+    {complete:async()=>{throw new Error("No model");}},{...limits,alternativeSearch:async()=>undefined});
+  availability.beginReadRun();
+  try{for(const name of ["Alpha Sushi","Beta Sushi","Gamma Sushi"]){const r=await availability.check(request(name),new AbortController().signal);assert.equal(r.availabilityChecks[name]?.status,"UNKNOWN");}}
+  finally{await availability.endReadRun();}
+  assert.equal(sessions.length,2);assert.equal(sessions.flatMap(s=>s.navigations).length,6);
+  assert.equal(sessions.flatMap(s=>s.submissions).length,0);
+});
+
+test("a failed reused session retires without retry; the next candidate gets a fresh source session",async()=>{
+  const sessions:SearchSession[]=[];
+  const availability=new LiveBrowserAvailability({openSession:async()=>{
+    const s=new SearchSession();
+    if(sessions.length===0)s.click=async()=>{throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED","fixture context closed");};
+    sessions.push(s);return s;
+  }},{complete:async()=>{throw new Error("No model");}},{...limits,alternativeSearch:async()=>undefined});
+  availability.beginReadRun();
+  try{
+    await availability.check(request("Alpha Sushi"),new AbortController().signal);
+    const second=await availability.check(request("Beta Sushi"),new AbortController().signal);
+    assert.equal(second.availabilityChecks["Beta Sushi"]?.status,"UNKNOWN");assert.deepEqual(second.offers,[]);
+    assert.equal(sessions.length,2,"a failure does not immediately retry this source");assert.equal(sessions[0]!.closed,1);
+    const third=await availability.check(request("Gamma Sushi"),new AbortController().signal);
+    assert.equal(third.availabilityChecks["Gamma Sushi"]?.status,"UNKNOWN");assert.equal(sessions.length,3);
+  }finally{await availability.endReadRun();}
+  assert.ok(sessions.every(s=>s.closed===1));
+});
+
+test("a completed run never lends its source contexts to a later run; cancellation still closes every context",async()=>{
+  const sessions:SearchSession[]=[];
+  const availability=new LiveBrowserAvailability({openSession:async()=>{const s=new SearchSession();sessions.push(s);return s;}},
+    {complete:async()=>{throw new Error("No model");}},{...limits,alternativeSearch:async()=>undefined});
+  availability.beginReadRun();await availability.check(request("Alpha Sushi"),new AbortController().signal);await availability.endReadRun();
+  assert.equal(sessions.length,2);assert.ok(sessions.every(s=>s.closed===1));
+  availability.beginReadRun();const controller=new AbortController();
+  await availability.check(request("Beta Sushi"),controller.signal);controller.abort();
+  await assert.rejects(()=>availability.check(request("Gamma Sushi"),controller.signal));
+  await availability.endReadRun();assert.equal(sessions.length,4);assert.ok(sessions.every(s=>s.closed===1));
 });

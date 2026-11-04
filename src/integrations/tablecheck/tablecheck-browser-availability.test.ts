@@ -1296,8 +1296,11 @@ test("TableCheck returns to the selected outlet after inspecting another branch 
 test("TableCheck rejects hydrated links from a prior search query", async () => {
   const stale = discoveryPage({ href: "/en/restaurant1?search_text=Old+Query", text: "Restaurant 1" });
   const session = new FixtureBrowserSession([stale]);
-  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z")
+  const diagnosticRows: import("./tablecheck-contracts.js").TableCheckIdentityDiagnostic[]=[];
+  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z", {onIdentityDiagnostic:d=>diagnosticRows.push(d)})
     .check(request, new AbortController().signal);
+  assert.equal(diagnosticRows[0]?.discovery.incompleteStage,"INITIAL_QUERY_MISMATCH");
+  assert.equal(diagnosticRows[0]?.discovery.queryMatchesAtExit,false);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABLECHECK_DISCOVERY_INCOMPLETE");
   assert.equal(result.offers.length, 0);
   assert.equal(session.navigations.length, 1);
@@ -1424,7 +1427,9 @@ test("TableCheck classifies exhausted recoverable discovery separately from an u
   }).check(request, new AbortController().signal);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "UNKNOWN");
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.reasonCode, "TABLECHECK_DISCOVERY_INCOMPLETE");
-  const diagnostic = identityDiagnostics[0] as { discovery: { status: string; handoff?: { outcome: string } }; resolution: { reason: string } };
+  const diagnostic = identityDiagnostics[0] as import("./tablecheck-contracts.js").TableCheckIdentityDiagnostic;
+  assert.equal(diagnostic.discovery.incompleteStage,"NO_OUTLET_URLS_AFTER_EXPLORATION");
+  assert.equal(diagnostic.discovery.queryMatchesAtExit,true);
   assert.equal(diagnostic.discovery.status, "EXPLORATION_EXHAUSTED");
   assert.equal(diagnostic.discovery.handoff?.outcome, "REQUESTED_HUMAN_HELP");
   assert.equal(diagnostic.resolution.reason, "TABLECHECK_DISCOVERY_INCOMPLETE");

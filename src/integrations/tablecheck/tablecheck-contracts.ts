@@ -45,6 +45,8 @@ export interface TableCheckIdentityDiagnostic {
     title: string;
     status: "RESULTS" | "NO_RESULT" | "PAGE_UNAVAILABLE" | "PARSE_FAILED" | "EXPLORATION_EXHAUSTED" | "BOT_CHALLENGE";
     discoveredOutletUrls: string[];
+    incompleteStage?: "INITIAL_QUERY_MISMATCH" | "NO_OUTLET_URLS_AFTER_EXPLORATION";
+    queryMatchesAtExit?: boolean;
     unavailableSignals?: Array<{ source: "TITLE" | "PRIMARY_HEADING"; value: string }>;
     handoff?: { reason: string; outcome: "COMPLETED" | "MODEL_HANDOFF" | "REQUESTED_HUMAN_HELP" | "NO_SAFE_ACTION" | "BUDGET_EXCEEDED" | "MODEL_FAILURE" };
   };
