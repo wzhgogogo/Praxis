@@ -1,0 +1,76 @@
+{
+  "candidate": "d419bfede780ad5891b1e44d06b48582fc194331",
+  "steps": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.547,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.222,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 51.956,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.52,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 132.262,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 26.891,
+      "preStatus": "",
+      "postStatus": ""
+    }
+  ]
+}

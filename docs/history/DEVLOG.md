@@ -5718,3 +5718,7 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 <a id="w1-request-timeline-20261104"></a>
 
 2026-11-04 CET：B完成W1真实逐请求测量8/8（HTTP2、main3、资源策略3，均200），旧20s超时未复现。HTTP首字节1.45–1.80s；main DCL中位4.064s、load7.191s，策略3.866s/3.909s。末个成功Script/CSS多commons/Sentry，main2 colorbox.css4.08s；最后失败图片/字体不能当阻塞因果。CDP headers不是wire TTFB，策略组initial_vacancy关闭后物理结束未知，不宣称业务提速/故障关闭。产品/A/C不改，新增模型0、GET8、Guard admitted+HTTP222；总GET余102小于预留108，后续预算差6交复核，不擅调总额/预留。静态预检通过，完整门禁复用同源码8e1ff388（1410/185-of-188、严格G2全12页）；三A fixture继续暂缓。不合main，工作分支交复核。 [报告](../../.eval-artifacts/phase3b/w1-request-timeline-20261104/report.md)。
+
+## 2026-11-04 CET：三个图片 fixture 保留声明同步
+
+基于B c1c1187a；仅三份harness文件，原断言SHA相同，本地三条有效红灯→3/3绿。无生产例外，新增真实调用0、账本不变。净树五门禁/严格G2全部通过：默认1410/1410、Chromium188/188、G2 5/5及12页PASS，六步前后status为空；gate候选 d419bfede780ad5891b1e44d06b48582fc194331，最终仅归档原日志/文档，fixture SHA不变。工作分支交付不合main。[证据](../../.eval-artifacts/phase3b/retained-image-fixtures-20261104/report.md)。

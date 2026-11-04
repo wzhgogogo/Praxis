@@ -73,7 +73,7 @@ test('a missing optional image fails and is recorded without inventing bytes or 
  try{
   const origin=`http://127.0.0.1:${address.port}`,{first,recording}=await redirectedReplayInput(root,origin,'qualified','optional-image');
   const stops:unknown[]=[],replay=createRecordedBrowser(recording,reason=>stops.push(reason));
-  session=await replay.browser.openSession({signal:new AbortController().signal,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]}});
+  session=await replay.browser.openSession({signal:new AbortController().signal,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,retainedResources:[{origin,pathname:'/not-recorded',resourceTypes:['image']}],staticResources:[],dynamicReads:[]}});
   await session.prepareNavigation!(first);await session.navigate(first).catch(()=>{});
   let snapshot:unknown;try{snapshot=await session.snapshot();}catch{}
   assert.deepEqual(stops,[],'image bytes are not a required page qualification and must never be fabricated');
