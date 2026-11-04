@@ -5872,3 +5872,5 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 ## 2026-11-04 CET：G6追加三槽本地预检阻断
 
 用户已批准32/425总限及14/58开发限，原830账目不变、新增批准行831。main75ba1605同步至G6后，旧CONTROL_FALLBACK真实组装断言失败：非导航select失败在复用模式关闭会话，后续snapshot失败。原测试/fixture/产品逐字不改，A草稿撤回；Live/认证0，待产品归属复核，不合main。[报告](../../.eval-artifacts/phase3b/g6-rerun-20261104/report.md)。
+
+2026-11-04 CET：G6追加三槽预检最终为BLOCKED：默认1423/1423、原Chromium189/189、严格G2 5/5及12页PASS；G6 63/66（RENAMED/CONTROL_FALLBACK/首店绑定三红），浏览器门禁exit1，未声称五门禁全绿。六步前后净树，产品及原fixture不改，新增真实调用0。停止交复核，待C/B解决控件失败关闭会话的阻断。

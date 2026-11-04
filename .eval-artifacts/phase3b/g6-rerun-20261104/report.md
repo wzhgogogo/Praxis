@@ -22,4 +22,14 @@ G6原分支4c8761ae已合入最新main75ba1605，合并20b7624b。仅4处历史�
 
 首次探索red.log.gz还含日期CLI检查红灯；integration-block.log.gz保留加捕获钩子的定位复跑；它们与恢复原代码后的正式original-regression.log.gz分开。新增诊断文件尚未落盘本身不作为有效红灯。
 
-净树验证待运行，结果将原样记录，包括已知G6红灯。停批原因是产品归属边界，获批额度保留未使用；没有安排未来自动运行。
+净树候选 `d8264221b79e94596ee789c3ded9ae7ff6914252` 一次完整门禁结果：typecheck、arch:check、build通过；默认1423/1423；浏览器原套件189/189；G6组63/66，3项失败，因此 `test:browser:fixture` **FAIL（exit 1）**，五门禁未全绿。严格G2 5/5、12页PASS。六项前后git status均为空，无重试/跳过/取消；逐项原始压缩日志与gates.json保存。verification-controller只为收齐清单而在已知红灯后继续跑严格G2，整体状态明确BLOCKED，不把控制器收集完成当全部通过。
+
+| 能力 | 原测试 | 当前首偏离 / 归属 |
+|---|---|---|
+| 改名后观察 | capabilities.test.ts / G6 capability RENAMED: observed controls reach current response-bound presentation | 预期PRESENT_RESULTS，实际NEEDS_INPUT；与控件回退失败同症状，具体同因待产品方确认 |
+| 控件失配回到观察 | capabilities.test.ts / G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation | 预期PRESENT_RESULTS，实际NEEDS_INPUT；同上，建议C与B共同核对 |
+| 连续对话绑定首店 | runner.test.ts / G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request | 本报告原件已确认旧隐藏人数控件失败→close→snapshot失败，request.named缺失是后果；建议C修复会话终止边界 |
+
+main已通过的门禁没有A未合main的这组G6用例，故不与B/C发布回执冲突。A G6此前01922aab的66/66回执仍保留在request-timeline-20261103/g6-gates，未覆盖新来源会话复用路径。
+
+源码和三个原测试相对合并20b7624b逐字不变，产品目录相对main75ba1605零差异。最终只归档报告/原日志，不改已测源码。git diff --check通过，最终工作分支推送并核对；停批原因是产品归属边界，获批额度保留未使用，没有安排未来自动运行。

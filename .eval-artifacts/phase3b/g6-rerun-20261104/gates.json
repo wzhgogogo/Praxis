@@ -1,0 +1,95 @@
+{
+  "candidate": "d8264221b79e94596ee789c3ded9ae7ff6914252",
+  "steps": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.555,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.224,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 52.194,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.556,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 1,
+      "elapsedSeconds": 171.84,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 24.306,
+      "preStatus": "",
+      "postStatus": ""
+    }
+  ],
+  "status": "BLOCKED_BROWSER_G6_REGRESSION",
+  "browserCorpus": {
+    "pass": 189,
+    "tests": 189
+  },
+  "G6": {
+    "pass": 63,
+    "tests": 66,
+    "fail": 3
+  },
+  "default": {
+    "pass": 1423,
+    "tests": 1423
+  },
+  "strictG2": {
+    "pass": 5,
+    "tests": 5,
+    "pagesPass": 12
+  }
+}

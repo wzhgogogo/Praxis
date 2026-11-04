@@ -1071,3 +1071,5 @@
 ### 2026-11-03 CET — A：D6 动态点名评价与四槽续跑冻结
 
 仅评价/Runner改动；D6 原评价保持，独立裁定一次 S0。按真实用户选择与权威 State 绑定身份，D6 红绿通过；明确同意其他店正例通过。C（一）main533f1bc5同步，697 条共享账本并集。冻结D3/D5/D2/D8单槽包；12c5e8ba净树五门禁：默认1380/1380，Chromium188/188+G6 66/66，严格G2 5/5（12页）。下一步按已批准规则串行Live；D6不重跑，尚无新增真实调用。证据：`.eval-artifacts/phase3b/g6-development-live/named-binding-continuation/report.md`。
+
+2026-11-04 CET：G6追加三槽预检最终为BLOCKED：默认1423/1423、原Chromium189/189、严格G2 5/5及12页PASS；G6 63/66（RENAMED/CONTROL_FALLBACK/首店绑定三红），浏览器门禁exit1，未声称五门禁全绿。六步前后净树，产品及原fixture不改，新增真实调用0。停止交复核，待C/B解决控件失败关闭会话的阻断。
