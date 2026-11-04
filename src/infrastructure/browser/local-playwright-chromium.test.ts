@@ -8,6 +8,7 @@ import { LocalPlaywrightChromium } from "./local-playwright-chromium.js";
 
 function fakeBrowser(counts: { page: number; context: number; browser: number }) {
   const page = {
+    isClosed: () => counts.page > 0,
     goto: async () => null,
     content: async () => "<html><body>Example Domain</body></html>",
     evaluate: async () => "",
@@ -22,6 +23,7 @@ function fakeBrowser(counts: { page: number; context: number; browser: number })
     close: async () => { counts.context += 1; },
   };
   return {
+    isConnected: () => counts.browser === 0,
     newContext: async () => context,
     close: async () => { counts.browser += 1; },
   };
@@ -38,6 +40,7 @@ test("Local Playwright Chromium preserves the BrowserType method binding, expose
   };
   const runtime = new LocalPlaywrightChromium({ browserType });
   const session = await runtime.openSession({ signal: new AbortController().signal });
+  assert.equal(session.isClosed?.(),false);
   await session.navigate("https://example.com");
   const snapshot = await session.snapshot();
   const { pageId, ...page } = snapshot;
@@ -50,6 +53,7 @@ test("Local Playwright Chromium preserves the BrowserType method binding, expose
   assert.match(session.metadata.sessionId ?? "", /^local:/);
   await session.close();
   await session.close();
+  assert.equal(session.isClosed?.(),true);
   assert.equal(launchThis, browserType);
   assert.deepEqual(counts, { page: 1, context: 1, browser: 1 });
 });

@@ -23,6 +23,18 @@
 
 <a id="dev-g6-continuation-after-b1-20261102"></a>
 2026-11-02 CET：A同步main d4d8ea33的B1范围修复，文档两边保留、预算619并集加D1复核旁注为620，GET390保持用户已批准值。D1自动S0=1/原评价不改，复核裁定服务端合同范围缺口、非用户可见声明，能力CAPABILITY_MISS/S2、不重跑不占环境额度。仅G6评测侧补wall轨迹和W2五槽续跑准入，两个有效红灯→8/8绿；D3–D7原文/认证/开发7次GET继承、W2仍20:00，待新冻结净树五门禁/严格G2后串行实跑。任何S0/安全缺证停批，不改产品/评分/版本，不合main。 [切片与冻结](../../.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/plan.md)。
+<a id="reused-session-control-fallback-verified-20261104"></a>
+
+## 2026-11-04 CET — C control-recovery repair verified for main
+
+Frozen e7963151/860: seven clean steps all pass (default1417; ordinaryChromium189 plus imported original G618; strictG2 all12; reuse5; type/arch/build). No full-gate repair/retry or input mutation. Explicit runtime lifecycle prevents treating hidden-control timeouts as session loss; original non-reuse and navigation/abort cleanup preserved. A13 files unchanged, only minimal test dependencies/wiring imported. No version, identity, Guard or production budget change; prior C broad-retirement claim superseded, raw old evidence intact. Ledger832 preserves main/A rows and existing A approval, real calls0/no .env. User-authorized main publication follows latest remote sync and independent saved-output audit, then A/B notice. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
+<a id="reused-session-control-fallback-20261104"></a>
+
+## 2026-11-04 CET — C restores observation after reused-session control failure
+
+User-approved direct main repair. Original A89e87665 test/dependency/wiring bytes imported (13 files; two test files contain3 reported failures/18 total, not the entire66-test A corpus). Frozen54805c31 exact three reds and reuse-only next-snapshot failure; a1363db7 restores all18 G6,67 executor/reuse and13 runtime controls. Navigation failure still retires; non-navigation errors retire in reuse mode only on runtime-owned closed/disconnected state. Two current runtimes expose synchronous lifecycle fact; non-reuse predicate unchanged. Original reuse fault fixture now explicitly marks actual context loss, assertions unchanged. Versions, Guard/identity, B resource/floor unchanged. Fresh gates pending; real calls0, no .env. Preserve main830/A831 rows plus C0=832 and A's existing user-approved ceilings. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
 2026-11-04 CET clarification: the integration conflicts were six documentation files plus one budget ledger (seven files total); the earlier “Seven documentation conflicts” shorthand included the ledger. No historical source or execution evidence changed.
 
 <a id="named-search-session-reuse-main-verified-20261104"></a>

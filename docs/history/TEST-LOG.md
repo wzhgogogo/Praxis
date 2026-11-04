@@ -23,6 +23,18 @@
 
 <a id="test-g6-continuation-after-b1-20261102"></a>
 2026-11-02 CET：A同步main d4d8ea33的B1范围修复，文档两边保留、预算619并集加D1复核旁注为620，GET390保持用户已批准值。D1自动S0=1/原评价不改，复核裁定服务端合同范围缺口、非用户可见声明，能力CAPABILITY_MISS/S2、不重跑不占环境额度。仅G6评测侧补wall轨迹和W2五槽续跑准入，两个有效红灯→8/8绿；D3–D7原文/认证/开发7次GET继承、W2仍20:00，待新冻结净树五门禁/严格G2后串行实跑。任何S0/安全缺证停批，不改产品/评分/版本，不合main。 [切片与冻结](../../.eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/plan.md)。
+<a id="reused-session-control-fallback-verified-20261104"></a>
+
+## 2026-11-04 CET — C final G6-inclusive clean matrix
+
+e7963151/860 inputs: type0.498s,arch0.233s,default1417 in48.816s,build0.561s,browser189+G6(original imported18) in170.700s,strictG2 5/all12 in24.242s,reuse5 in0.242s. Every pre/post status empty, same HEAD/hashes; no retry/skip/cancel. Three exact A reds become green; controls regain Date/Guests and exact2-person19:00 response. A18 is selected two-file corpus, not allA66. Independent audit checks source/data without product parser. Prior restricted Chromium preflight error preserved apart from real product reds. All external/real calls0, no .env. [Receipts](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/gates.json), [report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
+<a id="reused-session-control-fallback-20261104"></a>
+
+## 2026-11-04 CET — C exact G6 fallback regression red→green
+
+Original A files unchanged: frozen54805c31 G6 group15/18, failures RENAMED/CONTROL_FALLBACK/named Runner; supplemental non-reuse control passes and reuse snapshot fails closed. a1363db7 same G6 18/18, raw Date/Guests model proposals and current2-person19:00 response captured; no prefilled evidence. Related67 and runtime13 pass. Restricted runtime preflight cannot launch Chromium, retained separately; allowed local run passes. Final clean-tree five gates including imported G6 and strictG2 pending. No actual websites/Google/model/Live or .env, not new Live capability proof. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
 <a id="named-search-session-reuse-main-verified-20261104"></a>
 
 ## 2026-11-04 CET — C merged-source final matrix

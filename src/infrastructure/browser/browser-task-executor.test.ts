@@ -412,6 +412,25 @@ test("BrowserTaskExecutor aborts session acquisition immediately and closes a la
   assert.equal(diagnostics.find(item => item.event === "PROVIDER_FINISHED")?.lifecycle.outcome, "ABANDONED");
 });
 
+for (const reuseSourceSessions of [false,true]) test(`a page-control failure preserves the current session for observation (reuse=${reuseSourceSessions})`,async()=>{
+  const session=new FixtureSession([{url:"https://public.example/shop",title:"Current merchant",text:"Current merchant Date Guests",html:"<main>Current merchant</main>"}]);
+  const snapshot=session.snapshot.bind(session);
+  session.snapshot=async()=>{if(session.closed)throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED","session is closed");return snapshot();};
+  session.select=async()=>{throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED","Hidden obsolete control timed out",Object.assign(new Error("selectOption timed out"),{name:"TimeoutError"}));};
+  let opens=0;
+  const executor=new BrowserTaskExecutor({openSession:async()=>{opens++;return session;}},{reuseSourceSessions,maxAutomaticElapsedMs:90_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24});
+  const signal=new AbortController().signal;
+  try{
+    executor.beginProvider("merchant","TABELOG");await executor.acquire(signal,"TABELOG","AVAILABILITY");
+    await assert.rejects(executor.select({source:"TABELOG",stage:"AVAILABILITY",signal,session,selector:"obsolete",value:"2",authoritativeValue:"2"}),{code:"BROWSER_RUNTIME_FAILED"});
+    assert.equal((await executor.snapshot({source:"TABELOG",stage:"AVAILABILITY",signal,session})).text,"Current merchant Date Guests");
+    assert.equal(session.closed,0);
+    assert.equal(await executor.acquire(signal,"TABELOG","AVAILABILITY"),session);assert.equal(opens,1);
+    session.select=async(_target,value)=>[value];
+    assert.deepEqual(await executor.select({source:"TABELOG",stage:"AVAILABILITY",signal,session,selector:"observed-guests",value:"2",authoritativeValue:"2"}),["2"]);
+  }finally{await executor.closeAll();}
+});
+
 test("BrowserTaskExecutor records a failed runtime operation with its local cause", async () => {
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan", title: "search", text: "", html: "" }]);

@@ -1,4 +1,7 @@
 2026-11-04 CET：A追加D4/D6/D8已获额度批准（32Live/425GET；开发14/58，模型400不变），同步main75ba1605后在既有真实组装回归停下：隐藏旧控件select失败后，复用会话被关闭，无法回到观察，首轮NEEDS_INPUT。原断言/来源不改，需C产品终止边界处理；三槽及认证均未运行，新增真实调用0。[停批证据](../.eval-artifacts/phase3b/g6-rerun-20261104/report.md)。
+2026-11-04 CET：C会话复用控件回退回归已修复并达到用户批准发布门槛。54805c31原A三项有效红→a1363db7同18例全绿，A13份原字节保留。e7963151冻结860项，七步每项前后净树全绿：默认1417/1417、Chromium189/189+原样G6 18/18、严格G2 5/5且12页PASS、原复用5/5，type/arch/build通过，无完整门禁重试。普通页内操作失败保留观察；明确closed/disconnected或原导航失败仍退休，非复用不变。State25/TaskDefinition23/Prompt、身份/Guard/B资源与3000ms下限不改。832账目保留main/A原行及既有用户批准额度，真实调用0、不读.env；同步最新main后按批准发布并通知A/B，最终SHA以远端回执为准。 [报告](../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md)。
+
+2026-11-04 CET：C按用户批准修复main会话复用控件回退回归。54805c31上A原字节两文件三项失败（15/18）及操作后snapshot关闭红灯有效；a1363db7后原G6 18/18、Executor/复用67/67、运行时13/13。页内失败只在运行时明确closed/disconnected时退休，导航和非复用/取消原行为保留；A13份文件逐字不改并接入浏览器门禁。State25/TaskDefinition23/Prompt、身份/Guard/B3000ms下限不变。最终净树五门禁含G6和严格G2待执行，全绿后同步main直接发布并通知A/B。账本832行保留A批准额度与原行，真实调用0、不读.env。 [报告](../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md)。
 
 2026-11-04 CET：C会话复用按批准在B main d692366c之后集成。bc8f31b7冻结850项，九步前后净树全绿：默认1415/1415、Chromium189/189、严格G2 5/5且12页PASS，type/arch/build通过，复用提交的3000ms门槛交互1/1、本机Guard表单PASS、专项18/18。双方Executor补丁及22独占源码、C32份旧产物逐字保留，版本/身份/Guard/额度不变；账本830行保留两侧原值，main已批准GET410/累计298、预留108不变。真实调用0、不读.env，按批准正常发布main、ls-remote核对并通知A；最终SHA以发布回执为准。 [报告](../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md)。
 

@@ -1,0 +1,34 @@
+
+> praxis-zhixing@0.1.0 test:g6:assembly
+> node scripts/run-g6-fixtures.mjs
+
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/capabilities.test.ts"}
+✔ G6 capability RENAMED: observed controls reach current response-bound presentation (7681.354333ms)
+✔ G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation (7349.810458ms)
+✔ G6 capability RESPONSE_MISSING: visible date/guests never replace missing or changed vacancy data (525.357459ms)
+✔ G6 capability RESPONSE_CHANGED: visible date/guests never replace missing or changed vacancy data (516.920666ms)
+✔ G6 capability PRICE_MATCH: only applicable original quotation supports HARD budget MET (517.520083ms)
+✔ G6 capability PRICE_PARTY: only applicable original quotation supports HARD budget MET (526.928416ms)
+✔ G6 capability PRICE_DATE: only applicable original quotation supports HARD budget MET (647.043709ms)
+✔ G6 capability PRICE_MEAL: only applicable original quotation supports HARD budget MET (544.088ms)
+✔ G6 capability G4: same-ID Japanese lookup drives the third source query to the same outlet (589.1825ms)
+✔ G6 capability G1 Web: authenticated question acquires a page through the production read assembly (557.521666ms)
+✔ G6 capability B1 fee and feedback: source-acquired handoff survives authenticated departure and user report (594.853792ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/capabilities.test.ts","elapsedMs":20533.56225,"passed":true}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/runner.test.ts"}
+✔ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (14614.208917ms)
+✔ G6 each user message receives a fresh read budget after an initial 483-second read (717.046833ms)
+✔ G6 records a safe unassessed clarification and continues to the next full Live-assembly slot (1065.721583ms)
+✔ G6 serial Runner obtains G1 pages through Live assembly, records all channels, checks each slot and stops before the next slot on independent S0 (1150.274792ms)
+✔ G6 frozen pack refuses changed bytes before constructing any source transport (1.115958ms)
+✔ G6 Runner authoritative pending question controls date reply: asked date (606.477208ms)
+✔ G6 Runner authoritative pending question controls date reply: asked partySize (699.553416ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/runner.test.ts","elapsedMs":19377.009042,"passed":true}
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 39912.0255

@@ -1,0 +1,202 @@
+{
+  "schemaVersion": "phase3b-g6-boundary-observation@1",
+  "elapsedMs": 537.229333000003,
+  "exceeded500Seconds": false,
+  "sourceReadsStartedInReserve": 0,
+  "termsWorkStartedInReserve": 0,
+  "forbiddenRequestsReachedSource": 0,
+  "readStarts": [
+    {
+      "kind": "READ",
+      "purpose": "restaurant_semantic_interpret",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "OPEN_SESSION",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "navigate",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "OPEN_SESSION",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "navigate",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "OPEN_SESSION",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "navigate",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "snapshot",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "navigate",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "snapshot",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "select",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "select",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "snapshot",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "CONCLUSION_MODEL",
+      "purpose": "restaurant_agent_decide",
+      "turnId": "INITIAL",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "OPEN_SESSION",
+      "turnId": "room",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "navigate",
+      "turnId": "room",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "snapshot",
+      "turnId": "room",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    },
+    {
+      "kind": "READ",
+      "purpose": "restaurant_page_question",
+      "turnId": "room",
+      "atMs": 1793512800000,
+      "deadlineAtMs": 1793513300000
+    }
+  ],
+  "limits": {
+    "perTurn": {
+      "milliseconds": 500000,
+      "models": 50,
+      "google": 40
+    },
+    "slot": {
+      "turns": 3,
+      "models": 150,
+      "google": 120
+    }
+  },
+  "turnBudgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1793512800000,
+      "deadlineAtMs": 1793513300000,
+      "elapsedMs": 48.586834000001545,
+      "modelCalls": 6,
+      "googleRequests": 2,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "room",
+      "startedAtMs": 1793512800000,
+      "deadlineAtMs": 1793513300000,
+      "elapsedMs": 28.319958000000042,
+      "modelCalls": 1,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    }
+  ],
+  "googleRequests": 3,
+  "modelCalls": 7,
+  "semanticAttemptsByTurn": {
+    "INITIAL": 1
+  },
+  "semanticSchemaRetries": 0
+}
