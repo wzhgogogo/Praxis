@@ -5,7 +5,9 @@ import { chromium } from "playwright-core";
 import { CloudflareBrowserRun } from "./cloudflare-browser-run.js";
 
 function fakeBrowser(onClose: () => void, options: { guardedContextError?: Error; routeError?: Error; onContextClose?: () => void } = {}) {
+  let connected=true;
   const page = {
+    isClosed: () => !connected,
     goto: async () => null,
     content: async () => "<html><body>ok</body></html>",
     locator: () => ({ innerText: async () => "ok", click: async () => {}, fill: async () => {}, selectOption: async () => {}, waitFor: async () => {} }),
@@ -20,12 +22,13 @@ function fakeBrowser(onClose: () => void, options: { guardedContextError?: Error
     routeWebSocket: async () => {}, close: async () => { options.onContextClose?.(); },
   };
   return {
+    isConnected: () => connected,
     contexts: () => [context],
     newContext: async () => {
       if (options.guardedContextError) throw options.guardedContextError;
       return context;
     },
-    close: async () => { onClose(); },
+    close: async () => { connected=false;onClose(); },
   };
 }
 
@@ -36,10 +39,12 @@ test("Browser Run keeps Kitesurf on successful AUTO session creation", async () 
     connectOverCdp: async (endpoint) => { endpoints.push(String(endpoint)); return fakeBrowser(() => {}) as never; },
   });
   const session = await runtime.openSession({ signal: new AbortController().signal });
+  assert.equal(session.isClosed?.(),false);
   assert.equal(session.metadata.engine, "KITESURF");
   assert.equal(endpoints.length, 1);
   assert.match(endpoints[0]!, /browser=kitesurf/);
   await session.close();
+  assert.equal(session.isClosed?.(),true);
 });
 
 test("Browser Run rejects HAR replay before opening a remote browser", async () => {

@@ -1,0 +1,63 @@
+✔ Browser Run keeps Kitesurf on successful AUTO session creation (0.736083ms)
+✔ Browser Run rejects HAR replay before opening a remote browser (0.201042ms)
+✔ Browser Run preserves the Playwright receiver for its default CDP connector (0.107625ms)
+✔ Browser Run falls back once from Kitesurf to Chromium and does not loop (0.106ms)
+✔ Browser Run returns a stable failure after both engines fail (0.095167ms)
+✔ Browser Run closes a remote session after AbortSignal (1.440083ms)
+✔ Browser Run closes its remote browser when isolated guard setup fails (0.252416ms)
+✔ Local Playwright Chromium preserves the BrowserType method binding, exposes the BrowserSession contract, and closes page, context, and browser (1.124083ms)
+✔ environment gates keep ordinary profiles temporary and enable persistence only with both eval switches (0.531458ms)
+✔ Local Playwright Chromium maps launch failures into the fail-closed BrowserRuntime error (0.226792ms)
+✔ Local Playwright Chromium installs HAR replay before the Guard and refuses replay without that boundary (0.553291ms)
+✔ passive query capture invalidates old stock at request time and rejects late responses (5.586375ms)
+✖ layout-only screenshot is a PNG and leaves observed controls unchanged (221.009125ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 12
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 567.397792
+
+✖ failing tests:
+
+test at src/infrastructure/browser/local-playwright-chromium.test.ts:1:8140
+✖ layout-only screenshot is a PNG and leaves observed controls unchanged (221.009125ms)
+  Error [BrowserRuntimeError]: Local Playwright Chromium could not launch a browser; install a Playwright Chromium browser binary before using PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM
+      at LocalPlaywrightChromium.openSession (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:295:13)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.test.ts:156:19)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'BROWSER_RUNTIME_UNAVAILABLE',
+    cause: browserType.launch: Target page, context or browser has been closed
+    Browser logs:
+    
+    <launching> /Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/playwright_chromiumdev_profile-DTJWJe --remote-debugging-pipe --no-startup-window
+    <launched> pid=94514
+    [pid=94514][err] [1104/120245.870463:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9
+    [pid=94514][err] [1104/120245.871636:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.
+    [pid=94514][err] [1104/120245.872121:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.
+    [pid=94514][err] [1104/120245.872047:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.94514: Permission denied (1100)
+    Call log:
+    [2m  - <launching> /Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/playwright_chromiumdev_profile-DTJWJe --remote-debugging-pipe --no-startup-window[22m
+    [2m  - <launched> pid=94514[22m
+    [2m  - [pid=94514][err] [1104/120245.870463:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9[22m
+    [2m  - [pid=94514][err] [1104/120245.871636:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.[22m
+    [2m  - [pid=94514][err] [1104/120245.872121:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.[22m
+    [2m  - [pid=94514][err] [1104/120245.872047:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.94514: Permission denied (1100)[22m
+    [2m  - [pid=94514] <gracefully close start>[22m
+    [2m  - [pid=94514] <kill>[22m
+    [2m  - [pid=94514] <will force kill>[22m
+    [2m  - [pid=94514] exception while trying to kill process: Error: kill EPERM[22m
+    [2m  - [pid=94514] <process did exit: exitCode=null, signal=SIGTRAP>[22m
+    [2m  - [pid=94514] starting temporary directories cleanup[22m
+    [2m  - [pid=94514] finished temporary directories cleanup[22m
+    [2m  - [pid=94514] <gracefully close end>[22m
+    
+        at LocalPlaywrightChromium.openSession (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:275:37)
+        at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.test.ts:156:33) {
+      log: [ '  - <launching> /Users/wangzhour/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/playwright_chromiumdev_profile-DTJWJe --remote-debugging-pipe --no-startup-window', '  - <launched> pid=94514', '  - [pid=94514][err] [1104/120245.870463:ERROR:base/power_monitor/thermal_state_observer_mac.mm:140] ThermalStateObserverMac unable to register to power notifications. Result: 9', '  - [pid=94514][err] [1104/120245.871636:ERROR:net/dns/dns_config_service_posix.cc:138] DNS config watch failed to start.', '  - [pid=94514][err] [1104/120245.872121:WARNING:net/dns/dns_config_service_posix.cc:197] Failed to read DnsConfig.', '  - [pid=94514][err] [1104/120245.872047:FATAL:base/apple/mach_port_rendezvous_mac.cc:159] Check failed: kr == KERN_SUCCESS. bootstrap_check_in org.chromium.Chromium.MachPortRendezvousServer.94514: Permission denied (1100)', '  - [pid=94514] <gracefully close start>', '  - [pid=94514] <kill>', '  - [pid=94514] <will force kill>', '  - [pid=94514] exception while trying to kill process: Error: kill EPERM', '  - [pid=94514] <process did exit: exitCode=null, signal=SIGTRAP>', '  - [pid=94514] starting temporary directories cleanup', '  - [pid=94514] finished temporary directories cleanup', '  - [pid=94514] <gracefully close end>' ]
+    },
+    scope: undefined
+  }

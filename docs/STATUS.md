@@ -1,3 +1,5 @@
+2026-11-04 CET：C按用户批准修复main会话复用控件回退回归。54805c31上A原字节两文件三项失败（15/18）及操作后snapshot关闭红灯有效；a1363db7后原G6 18/18、Executor/复用67/67、运行时13/13。页内失败只在运行时明确closed/disconnected时退休，导航和非复用/取消原行为保留；A13份文件逐字不改并接入浏览器门禁。State25/TaskDefinition23/Prompt、身份/Guard/B3000ms下限不变。最终净树五门禁含G6和严格G2待执行，全绿后同步main直接发布并通知A/B。账本832行保留A批准额度与原行，真实调用0、不读.env。 [报告](../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md)。
+
 2026-11-04 CET：C会话复用按批准在B main d692366c之后集成。bc8f31b7冻结850项，九步前后净树全绿：默认1415/1415、Chromium189/189、严格G2 5/5且12页PASS，type/arch/build通过，复用提交的3000ms门槛交互1/1、本机Guard表单PASS、专项18/18。双方Executor补丁及22独占源码、C32份旧产物逐字保留，版本/身份/Guard/额度不变；账本830行保留两侧原值，main已批准GET410/累计298、预留108不变。真实调用0、不读.env，按批准正常发布main、ls-remote核对并通知A；最终SHA以发布回执为准。 [报告](../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md)。
 
 2026-11-04 CET：C会话复用cc42fd8e已获独立复核和合入批准，B资源策略已先发布main d692366c。同步中Executor自动保留双方原补丁，22个独占源码/配置及C32份原产物逐字保留；文档冲突保留双方、账本830条原行并集，沿用main GET上限410。将冻结净树合并候选跑五门禁/严格G2及表单导航门槛交互，未全绿前不发布。真实调用0，不读.env。 [合入报告](../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md)。

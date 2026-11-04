@@ -1,5 +1,11 @@
 # Development Log
 
+<a id="reused-session-control-fallback-20261104"></a>
+
+## 2026-11-04 CET — C restores observation after reused-session control failure
+
+User-approved direct main repair. Original A89e87665 test/dependency/wiring bytes imported (13 files; two test files contain3 reported failures/18 total, not the entire66-test A corpus). Frozen54805c31 exact three reds and reuse-only next-snapshot failure; a1363db7 restores all18 G6,67 executor/reuse and13 runtime controls. Navigation failure still retires; non-navigation errors retire in reuse mode only on runtime-owned closed/disconnected state. Two current runtimes expose synchronous lifecycle fact; non-reuse predicate unchanged. Original reuse fault fixture now explicitly marks actual context loss, assertions unchanged. Versions, Guard/identity, B resource/floor unchanged. Fresh gates pending; real calls0, no .env. Preserve main830/A831 rows plus C0=832 and A's existing user-approved ceilings. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
 2026-11-04 CET clarification: the integration conflicts were six documentation files plus one budget ledger (seven files total); the earlier “Seven documentation conflicts” shorthand included the ledger. No historical source or execution evidence changed.
 
 <a id="named-search-session-reuse-main-verified-20261104"></a>

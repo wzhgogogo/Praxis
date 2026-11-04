@@ -2,10 +2,10 @@
   "schema": "phase3b-budget@1",
   "timezone": "CET UTC+01:00",
   "limits": {
-    "fullLive": 29,
+    "fullLive": 32,
     "realModelCalls": 1600,
     "environmentReruns": 4,
-    "evaluationPublicGET": 410
+    "evaluationPublicGET": 425
   },
   "entries": [
     {
@@ -11204,6 +11204,32 @@
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0,
       "note": "User-approved source-session reuse; local fixtures only; preserve all 829 B/main rows and cumulative counters."
+    },
+    {
+      "id": "phase3b-A-g6-extra-three-approved-20261104",
+      "conversation": "A",
+      "timeCET": "2026-11-04T04:33:35.641533+01:00",
+      "mode": "OFFLINE_AUTHORIZATION_AND_PREFLIGHT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "User approved D4/D6/D8 once each;32 totalLive/14 development;425 publicGET/58 development (+15);400 development model unchanged. Local preflight blocked before any transmission."
+    },
+    {
+      "id": "phase3b-C-reused-session-control-fallback-20261104",
+      "conversation": "C",
+      "timeCET": "2026-11-04T05:05:57.409219+01:00",
+      "mode": "OFFLINE_REGRESSION_REPAIR",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "Original A G6 red-to-green, recoverable page operation retains source context; no live API or credentials."
     }
   ],
   "cumulative": {
@@ -11311,13 +11337,20 @@
       "mainGit": "d692366c9f3d9723b401d383eb522524fb75ae7d",
       "mainSha256": "6db26562fa8ca8af61b17af129f7c6558d78983c9f069ee6cc91766b61787559",
       "note": "All829main and830C rows preserved by id; main approved limits410 retained; no new real calls."
+    },
+    {
+      "conversation": "A-before-C-control-fallback",
+      "sourceGit": "89e87665",
+      "sourceSha256": "a93a851083c64a8ab8f02821cc11abc062ebb8c3949e03834ce67f6685cb748e",
+      "approvedLimitsSource": "g6-rerun-20261104/authorization.json",
+      "approvedLimitsSha256": "28756c4f5f45f5a5448f11ccb1ab0e1f3be7a51e539e35c8604b0975d70745ab"
     }
   ],
-  "asOfCET": "2026-11-04T04:11:50.968694+01:00",
+  "asOfCET": "2026-11-04T05:05:57.409219+01:00",
   "developmentLimits": {
-    "fullLive": 11,
+    "fullLive": 14,
     "realModelCalls": 400,
-    "evaluationPublicGET": 43
+    "evaluationPublicGET": 58
   },
   "holdoutReservation": {
     "fullLive": 18,
@@ -11350,6 +11383,41 @@
       "evaluationPublicGETAfter": 410,
       "newRealCalls": 0,
       "note": "User explicitly approved total public GET ceiling410; all entries preserved."
+    },
+    {
+      "id": "phase3b-A-g6-extra-three-approved-20261104",
+      "approvedBy": "user",
+      "timeCET": "2026-11-04T04:33:35.641533+01:00",
+      "source": "Direct user reply: 批准本轮额度并按计划执行",
+      "before": {
+        "limits": {
+          "fullLive": 29,
+          "realModelCalls": 1600,
+          "environmentReruns": 4,
+          "evaluationPublicGET": 410
+        },
+        "developmentLimits": {
+          "fullLive": 11,
+          "realModelCalls": 400,
+          "evaluationPublicGET": 43
+        }
+      },
+      "after": {
+        "limits": {
+          "fullLive": 32,
+          "realModelCalls": 1600,
+          "environmentReruns": 4,
+          "evaluationPublicGET": 425
+        },
+        "developmentLimits": {
+          "fullLive": 14,
+          "realModelCalls": 400,
+          "evaluationPublicGET": 58
+        }
+      },
+      "developmentGETIncrement": 15,
+      "developmentModelCeilingUnchanged": 400,
+      "newRealCalls": 0
     }
   ]
 }

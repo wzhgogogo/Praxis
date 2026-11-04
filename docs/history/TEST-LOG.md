@@ -1,5 +1,11 @@
 # Test and Verification Log
 
+<a id="reused-session-control-fallback-20261104"></a>
+
+## 2026-11-04 CET — C exact G6 fallback regression red→green
+
+Original A files unchanged: frozen54805c31 G6 group15/18, failures RENAMED/CONTROL_FALLBACK/named Runner; supplemental non-reuse control passes and reuse snapshot fails closed. a1363db7 same G6 18/18, raw Date/Guests model proposals and current2-person19:00 response captured; no prefilled evidence. Related67 and runtime13 pass. Restricted runtime preflight cannot launch Chromium, retained separately; allowed local run passes. Final clean-tree five gates including imported G6 and strictG2 pending. No actual websites/Google/model/Live or .env, not new Live capability proof. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
 <a id="named-search-session-reuse-main-verified-20261104"></a>
 
 ## 2026-11-04 CET — C merged-source final matrix
