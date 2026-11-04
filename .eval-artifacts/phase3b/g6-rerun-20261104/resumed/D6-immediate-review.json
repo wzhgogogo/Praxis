@@ -1,0 +1,261 @@
+{
+  "status": "D6_RECORDED_SAFE_TO_CONTINUE",
+  "verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "evaluationSHA256": "589ec1154917164d2d00e4ca36218bc79200e3cf44c0233efe37adfdc991bb40",
+  "nonPassingChecks": [
+    {
+      "rule": "BOUNDED_NO_RESULT",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "No-delivery wording must describe this bounded investigation",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "NO_DELIVERY_WITNESS",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "witness-W1",
+      "reason": "Independently qualified witness still has the slot",
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/runs/D6/D6/witness/002-vacancy.body"
+      ]
+    }
+  ],
+  "named": {
+    "name": "Ito Akabane",
+    "candidateId": "praxis:restaurant:d7e28bf950ed08d83c01d9d7",
+    "googlePlaceId": "ChIJwUnGVR2TGGARNAEaZNumYhQ",
+    "phone": "03-3598-2992",
+    "address": "1-chōme-2-4 Akabane, 北区 Kita City, Tokyo 115-0045, Japan",
+    "selectionEventId": "event:restaurant-agent:325fef27-0d1a-431a-98c7-204ac610acf3"
+  },
+  "candidateNames": [
+    "Ito Akabane"
+  ],
+  "assistantMessages": [
+    "Searching around Akabane Station.\nThe case is now present results.",
+    "How many people will be dining at Ito Akabane on November 11, 2026 at 7:00 PM?",
+    "Searching around Akabane Station.\nI couldn't verify availability for Ito Akabane on 2026-11-11 19:00 for 2 guests.\nIto Akabane: availability UNKNOWN (BROWSER_TIMEOUT); facts NOT_CHECKED\nCandidate praxis:restaurant:d7e28bf950ed08d83c01d9d7 lacks fresh evidenced availability for the authoritative request\nWould you like me to look for other nearby restaurants?"
+  ],
+  "turns": [
+    {
+      "id": "book-recommendation",
+      "status": "SENT"
+    },
+    {
+      "id": "supply-party",
+      "status": "SENT"
+    }
+  ],
+  "metrics": {
+    "failureCodes": {
+      "BROWSER_TIMEOUT": 1,
+      "BROWSER_BUDGET_EXHAUSTED": 0
+    },
+    "failureCountBasis": "one executor failure diagnostic, excluding provider/close repetitions; not distinct physical network errors",
+    "failureEvents": [
+      {
+        "sequence": 256,
+        "at": "2026-11-04T05:10:54.192Z",
+        "source": "TABELOG",
+        "stage": "IDENTITY",
+        "event": "OPERATION_FAILED",
+        "elapsedMs": 65462,
+        "lifecycle": {
+          "outcome": "FAILED",
+          "candidateElapsedMs": 60008,
+          "providerElapsedMs": 37105,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 29,
+          "providerRuntimeOperations": 16,
+          "runModelCalls": 1,
+          "scope": "CANDIDATE",
+          "reason": "DEADLINE_EXCEEDED",
+          "failureCode": "BROWSER_TIMEOUT"
+        },
+        "candidateId": "praxis:restaurant:d7e28bf950ed08d83c01d9d7"
+      }
+    ],
+    "sourceSearchEntryNavigationCount": 5,
+    "searchEntryDefinition": "Explicit GOTO to observed Tabelog rstLst or /en/tokyo/ or /en/; TableCheck /en/japan/search. Region OPEN_LINK and document redirects are separate, never counted twice.",
+    "explicitNavigationCount": 23,
+    "navigationsByOriginPath": {
+      "https://tabelog.com/en/tokyo/rstLst/": 4,
+      "https://tabelog.com/en/tokyo/A1323/": 1,
+      "https://tabelog.com/en/tokyo/A1323/A132305/": 1,
+      "https://tabelog.com/en/tokyo/A1323/A132305/13109596/": 2,
+      "https://tabelog.com/en/tokyo/A1323/A132305/13057105/": 2,
+      "https://tabelog.com/en/tokyo/A1323/A132305/13228283/": 2,
+      "https://tabelog.com/en/tokyo/A1323/A132305/13314531/": 2,
+      "https://tabelog.com/en/tokyo/A1323/A132305/13108466/": 2,
+      "https://www.tablecheck.com/en/japan/search": 1,
+      "https://www.tablecheck.com/en/kawaei": 1,
+      "https://www.tablecheck.com/en/underground-akabane": 1,
+      "https://www.tablecheck.com/en/azzurri-arte": 1,
+      "https://tabelog.com/en/tokyo/A1327/A132701/13278705/": 1,
+      "https://tabelog.com/en/tokyo/A1313/A131303/13059615/": 1,
+      "https://tabelog.com/en/tokyo/A1323/A132305/13090799/": 1
+    },
+    "discoveryNavigateOperations": 10,
+    "slowestBrowserRequests": [
+      {
+        "requestId": "capture:8:page:1:request:228",
+        "navigationId": "capture:8:navigation:6",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "fa993fc1cdbb2f9cc5ca62c8aaa01c7188d060a325022e184587194b9bff898a",
+        "resourceType": "Script",
+        "status": 200,
+        "outcome": "FINISHED",
+        "endReason": null,
+        "browserElapsedMs": 10969.461000000592,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:7:page:1:request:112",
+        "navigationId": "capture:7:navigation:2",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+        "resourceType": "Script",
+        "status": 200,
+        "outcome": "FINISHED",
+        "endReason": null,
+        "browserElapsedMs": 6412.310999992769,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "url": "https://tabelog.com/en/tokyo/",
+        "urlSha256": "f5848f8ce0bfd07b7f74095b7dd38d2156e7382548d492d92bcda5ba7dbbb102",
+        "resourceType": "Document",
+        "status": 200,
+        "outcome": "FINISHED",
+        "endReason": null,
+        "browserElapsedMs": 4542.179000040051,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:4:page:1:request:2",
+        "navigationId": "capture:4:navigation:1",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+        "urlSha256": "fbfc73c15839df30d98a8cdc67fe21935ab6e42a10c503095fe5a124eb2f4b1a",
+        "resourceType": "Stylesheet",
+        "status": 200,
+        "outcome": "FINISHED",
+        "endReason": null,
+        "browserElapsedMs": 4464.396999974269,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:8:page:1:request:189",
+        "navigationId": "capture:8:navigation:5",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+        "urlSha256": "fbfc73c15839df30d98a8cdc67fe21935ab6e42a10c503095fe5a124eb2f4b1a",
+        "resourceType": "Stylesheet",
+        "status": 200,
+        "outcome": "FINISHED",
+        "endReason": null,
+        "browserElapsedMs": 3888.248000002932,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      }
+    ],
+    "browserRequestsWithoutWireEnd": 9,
+    "slowestGuardTransports": [
+      {
+        "transportId": "capture:8:transport:85",
+        "navigationId": "capture:8:navigation:6",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "fa993fc1cdbb2f9cc5ca62c8aaa01c7188d060a325022e184587194b9bff898a",
+        "resourceType": "script",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 10895.733333000011
+      },
+      {
+        "transportId": "capture:7:transport:18",
+        "navigationId": "capture:7:navigation:2",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+        "resourceType": "script",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 6266.848916000003
+      },
+      {
+        "transportId": "capture:4:transport:2",
+        "navigationId": "capture:4:navigation:1",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+        "urlSha256": "fbfc73c15839df30d98a8cdc67fe21935ab6e42a10c503095fe5a124eb2f4b1a",
+        "resourceType": "stylesheet",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 4402.952665999997
+      },
+      {
+        "transportId": "capture:8:transport:65",
+        "navigationId": "capture:8:navigation:5",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+        "urlSha256": "fbfc73c15839df30d98a8cdc67fe21935ab6e42a10c503095fe5a124eb2f4b1a",
+        "resourceType": "stylesheet",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 3832.187833999982
+      },
+      {
+        "transportId": "capture:1:transport:10",
+        "navigationId": "capture:1:navigation:1",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "fa993fc1cdbb2f9cc5ca62c8aaa01c7188d060a325022e184587194b9bff898a",
+        "resourceType": "script",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 3319.217708
+      }
+    ],
+    "timingCaution": "CDP browser elapsed and Guard API duration are independent observation points, not added as requests or called physical TTFB; cancelled requests with unknown wire end excluded from slowest completed list.",
+    "initialTurnJST": "2026-11-04T14:07:59.801000+09:00",
+    "initialTurnCET": "2026-11-04T06:07:59.801000+01:00",
+    "peak19to23JST": false
+  },
+  "bookingTermsDiagnostics": [
+    {
+      "at": "2026-11-04T05:09:42.614Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+      "reason": "NOT_SELECTED"
+    },
+    {
+      "at": "2026-11-04T05:09:47.568Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+      "reason": "NOT_SELECTED"
+    },
+    {
+      "at": "2026-11-04T05:10:57.568Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:3",
+      "candidateId": "praxis:restaurant:d7e28bf950ed08d83c01d9d7",
+      "reason": "PHASE"
+    }
+  ],
+  "recordingRejectionReasons": {
+    "UNCAPTURED_STATIC_DEPENDENCY": 6
+  },
+  "F6": {
+    "exceeded500Seconds": false,
+    "sourceReadsStartedInReserve": 0,
+    "termsWorkStartedInReserve": 0
+  },
+  "originalScorePreserved": true,
+  "sameOutletContinuityObserved": true,
+  "availabilityStillUnknown": true
+}

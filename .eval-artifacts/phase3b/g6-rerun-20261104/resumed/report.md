@@ -37,3 +37,13 @@ One-time19:10JST timed continuation was requested, but automatic approval review
 ## Direct execution steering
 
 User answered the timed-delegation question with the exact words "直接跑". At2026-11-04 14:06JST (06:06CET), A disclosed that immediate remaining-slot execution will not cover the earlier19:00-23:00JST requirement. D6/D8 continue now under existing quota and safety rules; peak coverage stays NOT_COVERED, no automation created, D4 is not rerun.
+
+## D6 immediate outcome
+
+All three user turns ran: initial recommendation, book-first, party-size reply. Runtime and independent request bind the first shop to Ito Akabane (Google ChIJwUnGVR2TGGARNAEaZNumYhQ, phone03-3598-2992). Final candidate list contains only Ito and no replacement delivery. Final wording explicitly says availability UNKNOWN(BROWSER_TIMEOUT), then asks permission to look elsewhere; it does not claim sold out. No B1 handoff, no terms; reasons NOT_SELECTED and PHASE.
+
+Original automatic result remains NOT_EVALUATED (bounded-no-result wording check failed), S0=0 and all386 source boundary plus F6/deadline/turn-budget checks PASS. It permits continuation under the pre-paid safety-only stop contract. Witness W1 still available after the read is a regional admission control, not proof Ito has a table. Same-outlet continuity observed; bookability/qualified delivery not achieved. Original evaluation file is not relabeled.
+
+Elapsed178.567s, user turns102.833/4.944/69.981s; models8/3/5=16,Google2/0/3=5,zero semantic extra schema attempts. Each turn kept its own500s deadline, no reserve starts. Recording22/28 qualified; exact rejection reasons and timing spans are in observations.json. New failure counts BROWSER_TIMEOUT1, BROWSER_BUDGET_EXHAUSTED0. Timeout diagnostic is CANDIDATE scope at60.008s cumulative, Tabelog provider37.105s; not a reproduced fixed20s page.goto timeout. TableCheck identity was uncertain, then Tabelog inspected alternatives and the correct Ito page. Source-entry navigations5 (all explicitGOTO23, discoveryNAVIGATE10). Slowest terminal CDP script: restaurant-pc/commons.js10.969s; ordering alone does not establish causality.
+
+D6 adds1Live/16model/5Google/2post-witnessGET, no environment rerun. Cumulative before W2:13Live/427model/304GET. W2 fresh detail+four-parameter certification now adds2GET: name, full Ginza4-10-12 Samaria B1 address and03-6264-3229 match; original20:00/2-person slot exists on11-11. User-manual TableCheck identity authority is retained without another TC GET. Global13Live/427model/306GET; development13/14Live,186/400model,51/58GET,7GET remain. Proceed to the last approved D8 after freezing new evidence.

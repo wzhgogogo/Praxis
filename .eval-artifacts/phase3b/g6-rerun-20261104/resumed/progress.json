@@ -2,10 +2,10 @@
   "status": "DIRECT_CONTINUATION_APPROVED",
   "updatedAtCET": "2026-11-04T05:42:18.949496+01:00",
   "approvedNewLive": 3,
-  "usedNewLive": 1,
+  "usedNewLive": 2,
   "approvedExtraGET": 15,
-  "usedExtraGET": 4,
-  "newModels": 10,
+  "usedExtraGET": 8,
+  "newModels": 26,
   "D4": {
     "status": "EVALUATED",
     "S0": 0,
@@ -13,15 +13,19 @@
     "evaluation": "runs/D4/D4/evaluation.json"
   },
   "D6": {
-    "status": "NOT_STARTED",
-    "priorPlannedJST": "2026-11-04T19:10:00+09:00",
-    "priorPlannedCET": "2026-11-04T11:10:00+01:00"
+    "status": "RECORDED_NOT_EVALUATED",
+    "S0": 0,
+    "safetyPass": true,
+    "namedOutlet": "Ito Akabane",
+    "noReplacementDisplayed": true,
+    "availability": "UNKNOWN / BROWSER_TIMEOUT",
+    "evaluation": "runs/D6/D6/evaluation.json"
   },
   "D8": {
-    "status": "NOT_STARTED",
+    "status": "READY_FRESH_W2_CERTIFIED",
     "precondition": "D6 independently safe, fresh W2 detail+four-parameter certification"
   },
-  "remainingDevelopmentGET": 11,
+  "remainingDevelopmentGET": 7,
   "sourceFreeze": "source-inputs.json",
   "credentialRule": "Only authorized Node --env-file Live process; no read/copy/logging",
   "noAutomaticEnvironmentRetry": true,

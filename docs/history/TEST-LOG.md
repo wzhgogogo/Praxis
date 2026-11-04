@@ -6602,3 +6602,7 @@ B已先在main f0bee7d7发布，C fd07f44e获复核默认1389/Chromium188/严格
 JST13:33:50-13:35:12,82.475s,10models/2Google,0delivery,CAPABILITY_MISS/S0=0/160 safety PASS; G1 not reached, F5 replacement outside,timeout/budget codes0,TC ERR_FAILED. Recording12/12. Added4GET including before/after witness,global12Live/411model/302GET; two approved slots remain for peak, no retry or scoring change.[Report](../../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md).
 
 2026-11-04 CET: D4 all64 output files committed byte-identically; peak continuation automation was rejected pending explicit timed delegation, so no scheduler exists and D6/D8 remain unstarted. No fallback/background execution used; all838 frozen inputs still match.
+
+## 2026-11-04 CET: G6 extra D6 and W2 certification
+
+D6 allthree turns,S0=0/safety386 PASS,original NOT_EVALUATED preserved;Ito only,UNKNOWN candidate timeout60.008s,no replacement/B1.178.567s,16models/5Google,22/28recording. W2 identity and20:00slot freshly certified2GET,global13/427/306,devGET51/58. Latest user exact steering "直接跑" means immediate execution;peak not covered, no automation. D8 evidence frozen before paid invocation.[Report](../../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md).
