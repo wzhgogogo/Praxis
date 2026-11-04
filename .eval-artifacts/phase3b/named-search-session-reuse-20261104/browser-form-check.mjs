@@ -3,8 +3,8 @@
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
 import {writeFile} from 'node:fs/promises';
-import {LocalPlaywrightChromium} from '../../../..//src/infrastructure/browser/local-playwright-chromium.ts';
-import {BrowserTaskExecutor} from '../../../..//src/infrastructure/browser/browser-task-executor.ts';
+import {LocalPlaywrightChromium} from '../../../src/infrastructure/browser/local-playwright-chromium.ts';
+import {BrowserTaskExecutor} from '../../../src/infrastructure/browser/browser-task-executor.ts';
 
 const received=[],diagnostics=[];
 const server=createServer((req,res)=>{
