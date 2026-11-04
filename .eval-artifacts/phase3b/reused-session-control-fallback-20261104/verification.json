@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "mode": "independent saved-result audit, constructed sources only",
+  "gatedSource": "e796315192cc44f383596f5c9cb9e51be2dc06f0",
+  "frozenInputs": 860,
+  "aOriginalFiles": 13,
+  "pairedSourceCases": [
+    {
+      "case": "CONTROL_FALLBACK",
+      "before": "NEEDS_INPUT",
+      "after": "PRESENT_RESULTS",
+      "sourceResponseExact": true,
+      "observedDateAndGuests": true
+    },
+    {
+      "case": "RENAMED",
+      "before": "NEEDS_INPUT",
+      "after": "PRESENT_RESULTS",
+      "sourceResponseExact": true,
+      "observedDateAndGuests": true
+    }
+  ],
+  "checks": {
+    "exactThreeOldCodeFailures": true,
+    "allABytesUnchanged": true,
+    "nonReuseAndReuseRecovery": true,
+    "originalReuseControls": true,
+    "allSevenStepsClean": true,
+    "guardIdentityVersionsUnchanged": true,
+    "allParentLedgerRowsPreserved": true
+  },
+  "realCalls": 0,
+  "limitsCarriedFromAExistingApproval": {
+    "fullLive": 32,
+    "realModelCalls": 1600,
+    "environmentReruns": 4,
+    "evaluationPublicGET": 425
+  }
+}
