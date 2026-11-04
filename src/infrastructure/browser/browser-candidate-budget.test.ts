@@ -58,7 +58,7 @@ for (const control of ["legacy60", "productionDefault"] as const) {
     t.mock.timers.tick(timing.snapshotStartMs - timing.targetNavigationFinishedMs);
     await navigation;
     assert.equal(Date.now(), 59_982);
-    assert.equal(navigationTimeout, control === "legacy60" ? 12_947 : 20_000, "ordinary navigation cap stays20s");
+    assert.ok(navigationTimeout <= 20_000, "ordinary navigation cap stays20s");
     const snapshot = executor.snapshot(scoped).then(
       value => ({ status: "COMPLETED" as const, value }),
       error => ({ status: "FAILED" as const, error: error as unknown }),
@@ -78,6 +78,7 @@ for (const control of ["legacy60", "productionDefault"] as const) {
       assert.equal(result.status, "COMPLETED", "the approved default must finish this local snapshot after60s");
       if (result.status === "COMPLETED") assert.equal(result.value.text, page.text);
     }
+    assert.equal(navigationTimeout, control === "legacy60" ? 12_947 : 20_000);
     await executor.close();
   });
 }
