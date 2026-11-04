@@ -845,7 +845,14 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
                 && normalized(match[2]!.replace(/<[^>]*>/g, ' ')).includes(requestedName);
             } catch { return false; }
           });
-          if(requestedName&&!directlyNamed&&directory.isLocationSearchEntrance&&session!.metadata.readNetworkBoundary==="INSTALLED"){
+          if (requestedName && !directlyNamed && directory.containsObservedOutlet && loadRegionReferenceRead) {
+            const referenceRead = await loadRegionReferenceRead(Math.max(1, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedMs()));
+            if (referenceRead) outletReference = observedDirectoryOutletReference(pack, referenceRead, location);
+          }
+          const supportedMenu=outletReference&&[...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].some(match=>{
+            try{return directory.containsObservedOutlet?.(new URL(match[1]!.replaceAll('&amp;','&'),page!.url).href,outletReference!.sourceUrl)===true;}catch{return false;}
+          });
+          if(requestedName&&!directlyNamed&&!supportedMenu&&directory.isLocationSearchEntrance&&session!.metadata.readNetworkBoundary==="INSTALLED"){
             const originalMenu=page;
             const homeLinks=[...new Map((await executor.observeControls({source,stage:"DISCOVERY",signal,session:session!})).filter(c=>c.visible&&!c.disabled&&!c.blockedByActiveLayer&&!c.observationOnly
               &&c.kind==="LINK"&&c.href&&directory.isLocationSearchEntrance!(c.href)).map(c=>[c.href!,c])).values()];
@@ -883,10 +890,6 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             }
           }
           if(!currentAreaEntranceObserved){
-          if (requestedName && !directlyNamed && directory.containsObservedOutlet && loadRegionReferenceRead) {
-            const referenceRead = await loadRegionReferenceRead(Math.max(1, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedMs()));
-            if (referenceRead) outletReference = observedDirectoryOutletReference(pack, referenceRead, location);
-          }
           selectingRegion = true;
           let regionPageUrl = page.url;
           try {
