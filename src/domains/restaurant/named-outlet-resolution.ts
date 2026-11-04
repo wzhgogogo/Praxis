@@ -62,16 +62,20 @@ export function namedOutletIdentityPrefix(state:NamedState):string[] {
   return state.candidates.slice(0,3).map(c=>c.restaurant.id);
 }
 
-export function boundNames(state:NamedState,candidateId:string):string[] {
+function knownGoogleNames(state:NamedState,candidateId:string):string[] {
   const candidate=state.candidates.find(c=>c.restaurant.id===candidateId);
+  return [candidate?.restaurant.outletName??"",...state.readEvidence.filter(e=>e.candidateId===candidateId
+    &&e.kind==="ENTITY_MATCH"&&e.provider==="GOOGLE_PLACES"&&e.entityMatch?.confidence==="HIGH"
+    &&e.sourceEntityId===candidate?.restaurant.sourceIds.googlePlaces&&typeof e.claims.outletName==="string")
+    .map(e=>e.claims.outletName as string)].filter(Boolean);
+}
+
+export function boundNames(state:NamedState,candidateId:string):string[] {
   const evidence=state.readEvidence.filter(e=>e.candidateId===candidateId);
   const identity=evidence.filter(native);
   if(!identity.length)return [];
-  const names=[candidate?.restaurant.outletName??""];
+  const names=knownGoogleNames(state,candidateId);
   for(const e of evidence){
-    // Google Japanese name uses the original Place ID, never a translation.
-    if(e.kind==="ENTITY_MATCH"&&e.provider==="GOOGLE_PLACES"&&e.entityMatch?.confidence==="HIGH"
-      &&e.sourceEntityId===candidate?.restaurant.sourceIds.googlePlaces&&typeof e.claims.outletName==="string")names.push(e.claims.outletName);
     if(native(e)&&typeof e.claims.observedOutletName==="string")names.push(e.claims.observedOutletName);
     // G1 already binds its actual en/ja page name to this same-source identity.
     if(native(e)&&e.claims.observationKind==="PUBLIC_PAGE"&&typeof e.claims.outletName==="string")names.push(e.claims.outletName);
@@ -119,9 +123,15 @@ export function namedOutletCandidateResolved(state:NamedState,candidateId:string
   if(record.claims.namedOutletSearchComplete!==true)return false;
   const prefix=namedOutletIdentityPrefix(state);
   if(prefix.length){
-    if(!prefix.includes(candidateId)||!prefix.every(id=>state.readEvidence.some(e=>e.candidateId===id&&native(e))))return false;
-    const exact=prefix.filter(id=>boundNames(state,id).some(value=>outletNameKey(value)===outletNameKey(target.query)));
-    return exact.length===1&&exact[0]===candidateId;
+    if(!prefix.includes(candidateId))return false;
+    const equals=(value:string)=>outletNameKey(value)===outletNameKey(target.query);
+    const exact=state.candidates.filter(c=>boundNames(state,c.restaurant.id).some(equals));
+    if(exact.length!==1||exact[0]!.restaurant.id!==candidateId)return false;
+    // Unknown peers need not consume more identity reads, but an exact known
+    // Google name (including a same-ID Japanese name) still blocks uniqueness.
+    // Include uninvestigated candidates outside the bounded prefix as well.
+    return state.candidates.every(c=>state.readEvidence.some(e=>e.candidateId===c.restaurant.id&&native(e))
+      ||!knownGoogleNames(state,c.restaurant.id).some(equals));
   }
   const exact=state.candidates.filter(c=>boundNames(state,c.restaurant.id).some(value=>outletNameKey(value)===outletNameKey(target.query)));
   if(exact.length)return exact.length===1&&exact[0]!.restaurant.id===candidateId;

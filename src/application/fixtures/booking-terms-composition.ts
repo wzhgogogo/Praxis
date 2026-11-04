@@ -40,6 +40,7 @@ interface Options {
   continuity?:"EXACT"|"RENAMED"|"MISSING"|"AMBIGUOUS"|"NO_SLOT";
   savedD3Terms?:"PENDING"|"BUSY";
   savedD2Identity?:"ONE"|"NONE"|"TWO";
+  unknownThirdIdentity?:boolean;
   namedWithoutArea?: {outputText:string;scenario?:"AMBIGUOUS"|"MISSING"|"UNRELATED"|"BRANCH"|"OUTSIDE_TOKYO";openEnded?:boolean;
     sourceNames?:{google:Record<string,unknown>;identityConflict?:boolean;twoCandidates?:boolean;pageName?:string}};
   beforeTerms?:(deadlineAt:string)=>void;
@@ -272,7 +273,7 @@ if(options.namedWithoutArea){
         const d2Name=(i:number)=>options.savedD2Identity!=="NONE"&&(i===0||options.savedD2Identity==="TWO"&&i===1)?d2.intentDraft.target.query:`Source branch ${i+1} of Nakamata`;
         if((options.namedWithoutArea?.sourceNames||continuity||d3||d2)&&(new URL(pageUrl).pathname.includes("/rstLst/")||new URL(pageUrl).hostname.includes("tablecheck"))){
           const detail=d2?url.replace("13123456",String(13123456+namedIndex)):url;
-          const html=new URL(pageUrl).hostname.includes("tablecheck")?"<p>No matching outlet</p>":`<article><a href="${detail}">${d2?d2Name(namedIndex):source.outlet.name}</a><address>${d2?d2.sourcePlaces[namedIndex].formattedAddress:source.outlet.address}</address><a href="tel:${d2?d2.sourcePlaces[namedIndex].nationalPhoneNumber:source.outlet.phone}">Phone</a></article>`;
+          const html=new URL(pageUrl).hostname.includes("tablecheck")||options.unknownThirdIdentity&&namedIndex===2?"<p>No matching outlet</p>":`<article><a href="${detail}">${d2?d2Name(namedIndex):source.outlet.name}</a><address>${d2?d2.sourcePlaces[namedIndex].formattedAddress:source.outlet.address}</address><a href="tel:${d2?d2.sourcePlaces[namedIndex].nationalPhoneNumber:source.outlet.phone}">Phone</a></article>`;
           const p={url:pageUrl,title:"Restaurant search",text:html.replace(/<[^>]*>/g," "),html,responses:[]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;
         }
         const otherId=pageUrl.match(/\/(1312345[78])\//)?.[1];const other=d2?d2.sourcePlaces[detailIndex]:continuity&&otherId?continuity.initialPlaces[Number(otherId)-13123457+1]:undefined;

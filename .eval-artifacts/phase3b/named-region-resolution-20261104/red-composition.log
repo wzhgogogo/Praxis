@@ -1,0 +1,29 @@
+✖ ordinary assembly presents the sole identity-bound exact outlet despite a different-name unknown peer (870.301083ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1332.357
+
+✖ failing tests:
+
+test at src/application/restaurant-named-unknown-peer.test.ts:1:145
+✖ ordinary assembly presents the sole identity-bound exact outlet despite a different-name unknown peer (870.301083ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NEEDS_INPUT'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-d8-red-3bgdr_u4/src/application/restaurant-named-unknown-peer.test.ts:17:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NEEDS_INPUT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }

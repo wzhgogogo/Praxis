@@ -1,0 +1,90 @@
+[
+  {
+    "startedDateTime": "2026-11-04T04:33:57.351Z",
+    "time": 1602,
+    "request": {
+      "method": "POST",
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "httpVersion": "HTTP/1.1",
+      "headers": [],
+      "queryString": [],
+      "cookies": [],
+      "headersSize": -1,
+      "bodySize": 37,
+      "postData": {
+        "mimeType": "application/json",
+        "text": "{\"textQuery\":\"Akabane\",\"pageSize\":10}"
+      }
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "httpVersion": "HTTP/1.1",
+      "headers": [
+        {
+          "name": "content-type",
+          "value": "application/json"
+        }
+      ],
+      "cookies": [],
+      "content": {
+        "mimeType": "application/json",
+        "text": "{\n  \"places\": [\n    {\n      \"id\": \"ChIJveNASxuTGGAR2OV0KRI3zV4\",\n      \"types\": [\n        \"sublocality_level_2\",\n        \"sublocality\",\n        \"political\"\n      ],\n      \"formattedAddress\": \"Akabane, Kita City, Tokyo 115-0045, Japan\",\n      \"addressComponents\": [\n        {\n          \"longText\": \"Akabane\",\n          \"shortText\": \"Akabane\",\n          \"types\": [\n            \"sublocality_level_2\",\n            \"sublocality\",\n            \"political\"\n          ],\n          \"languageCode\": \"en\"\n        },\n        {\n          \"longText\": \"Kita City\",\n          \"shortText\": \"Kita City\",\n          \"types\": [\n            \"locality\",\n            \"political\"\n          ],\n          \"languageCode\": \"en\"\n        },\n        {\n          \"longText\": \"Tokyo\",\n          \"shortText\": \"Tokyo\",\n          \"types\": [\n            \"administrative_area_level_1\",\n            \"political\"\n          ],\n          \"languageCode\": \"en\"\n        },\n        {\n          \"longText\": \"Japan\",\n          \"shortText\": \"JP\",\n          \"types\": [\n            \"country\",\n            \"political\"\n          ],\n          \"languageCode\": \"en\"\n        },\n        {\n          \"longText\": \"115-0045\",\n          \"shortText\": \"115-0045\",\n          \"types\": [\n            \"postal_code\"\n          ],\n          \"languageCode\": \"en-US\"\n        }\n      ],\n      \"location\": {\n        \"latitude\": 35.7799638,\n        \"longitude\": 139.723053\n      },\n      \"googleMapsUri\": \"https://maps.google.com/?cid=6831176760935376344&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA\",\n      \"displayName\": {\n        \"text\": \"Akabane\",\n        \"languageCode\": \"en\"\n      }\n    }\n  ]\n}\n",
+        "size": 1646
+      },
+      "redirectURL": "",
+      "headersSize": -1,
+      "bodySize": 1646
+    },
+    "cache": {},
+    "timings": {
+      "send": 0,
+      "wait": 1602,
+      "receive": 0
+    }
+  },
+  {
+    "startedDateTime": "2026-11-04T04:34:09.810Z",
+    "time": 1465,
+    "request": {
+      "method": "POST",
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "httpVersion": "HTTP/1.1",
+      "headers": [],
+      "queryString": [],
+      "cookies": [],
+      "headersSize": -1,
+      "bodySize": 224,
+      "postData": {
+        "mimeType": "application/json",
+        "text": "{\"textQuery\":\"kushikatsu Akabane\",\"pageSize\":20,\"locationRestriction\":{\"rectangle\":{\"low\":{\"latitude\":35.770980688250084,\"longitude\":139.71198007696955},\"high\":{\"latitude\":35.78894691174991,\"longitude\":139.73412592303043}}}}"
+      }
+    },
+    "response": {
+      "status": 200,
+      "statusText": "OK",
+      "httpVersion": "HTTP/1.1",
+      "headers": [
+        {
+          "name": "content-type",
+          "value": "application/json"
+        }
+      ],
+      "cookies": [],
+      "content": {
+        "mimeType": "application/json",
+        "text": "{}\n",
+        "size": 3
+      },
+      "redirectURL": "",
+      "headersSize": -1,
+      "bodySize": 3
+    },
+    "cache": {},
+    "timings": {
+      "send": 0,
+      "wait": 1465,
+      "receive": 0
+    }
+  }
+]

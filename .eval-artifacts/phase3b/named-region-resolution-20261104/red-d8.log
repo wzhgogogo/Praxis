@@ -1,0 +1,49 @@
+✖ D8 unique verified source name with remaining known names: D8_ORIGINAL (2.719292ms)
+✔ D8 unique verified source name with remaining known names: UNKNOWN_GOOGLE_EQUAL (0.94925ms)
+✔ D8 unique verified source name with remaining known names: UNKNOWN_JAPANESE_EQUAL (0.514375ms)
+✖ D8 unique verified source name with remaining known names: FOREIGN_PLACE_NAME (0.457333ms)
+✔ D8 unique verified source name with remaining known names: UNKNOWN_AFTER_PREFIX_EQUAL (0.605458ms)
+✔ D8 unique verified source name with remaining known names: TWO_BOUND_EQUAL (0.841459ms)
+✔ D8 unique verified source name with remaining known names: NO_HIGH_EXACT (0.454125ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 126.329125
+
+✖ failing tests:
+
+test at src/domains/restaurant/named-outlet-resolution.test.ts:1:646
+✖ D8 unique verified source name with remaining known names: D8_ORIGINAL (2.719292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/domains/restaurant/named-outlet-resolution.test.ts:28:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/named-outlet-resolution.test.ts:1:646
+✖ D8 unique verified source name with remaining known names: FOREIGN_PLACE_NAME (0.457333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/domains/restaurant/named-outlet-resolution.test.ts:28:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

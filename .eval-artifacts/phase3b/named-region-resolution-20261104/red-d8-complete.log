@@ -1,0 +1,51 @@
+✔ named prefix component waits for every prefix identity and ignores a full-name match outside its read scope (2.621041ms)
+✔ named prefix component permits only three identity fact reads, never an early availability action (2.510917ms)
+✖ D8 unique verified source name with remaining known names: D8_ORIGINAL (1.38375ms)
+✔ D8 unique verified source name with remaining known names: UNKNOWN_GOOGLE_EQUAL (0.6795ms)
+✔ D8 unique verified source name with remaining known names: UNKNOWN_JAPANESE_EQUAL (0.3985ms)
+✖ D8 unique verified source name with remaining known names: FOREIGN_PLACE_NAME (0.388916ms)
+✔ D8 unique verified source name with remaining known names: UNKNOWN_AFTER_PREFIX_EQUAL (0.522917ms)
+✔ D8 unique verified source name with remaining known names: TWO_BOUND_EQUAL (0.432583ms)
+✔ D8 unique verified source name with remaining known names: NO_HIGH_EXACT (0.374458ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 7
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 104.605166
+
+✖ failing tests:
+
+test at src/domains/restaurant/named-outlet-resolution.test.ts:1:3039
+✖ D8 unique verified source name with remaining known names: D8_ORIGINAL (1.38375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/domains/restaurant/named-outlet-resolution.test.ts:59:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/domains/restaurant/named-outlet-resolution.test.ts:1:3039
+✖ D8 unique verified source name with remaining known names: FOREIGN_PLACE_NAME (0.388916ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/domains/restaurant/named-outlet-resolution.test.ts:59:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

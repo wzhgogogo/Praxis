@@ -122,6 +122,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       finally{traceEvent("OPERATION_FINISHED",{operationId,method,outcome:completed?"COMPLETED":"FAILED"});}
     };
     const sink={...capture.snapshotSink,recordSnapshot:(page:BrowserSnapshot,sanitized:unknown)=>{snapshots.push({page:structuredClone(page),at:clock.now().toISOString()});capture.snapshotSink.recordSnapshot?.(page,sanitized);}};
+    const browserDiagnostics:Array<Record<string,unknown>>=[];
     let session:Awaited<ReturnType<typeof createG6Session>>|undefined,view:RestaurantCaseView|undefined;
     let activeTurn="INITIAL",activeTurnId="INITIAL";const semanticAttempts=new Map<string,number>();const readStarts:ReadStartObservation[]=[];
     const start=(kind:ReadStartObservation["kind"],purpose:string)=>{
@@ -182,7 +183,13 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
         if(pack.mode==="LIVE_READ")await chargeG6(dependencies.budgetPath,runId+":MODEL:"+modelCalls,"realModelCalls",request.purpose,pack.witnessGETLimit!==undefined);
         return model.complete(request);
       }};
-      session=await createG6Session({...raw,model:boundedModel,browser});beginTurn("INITIAL");
+      session=await createG6Session({...raw,model:boundedModel,browser,onBrowserDiagnostic:diagnostic=>{
+        const {source,stage,event,elapsedMs,lifecycle,candidateId,url,detail}=diagnostic;
+        browserDiagnostics.push({sequence:browserDiagnostics.length+1,at:clock.now().toISOString(),source,stage,event,elapsedMs,lifecycle,
+          ...(candidateId?{candidateId}:{}),...(url?{page:safeRecord({url})}:{}),
+          ...(detail&&/^[A-Z_]+$/u.test(detail)?{operation:detail}:{})});
+        raw.onBrowserDiagnostic?.(diagnostic);
+      }});beginTurn("INITIAL");
       view=await session.create(spec.request);endTurn();await rememberTurn("INITIAL",spec.request);
       for(const step of spec.followups){
         if(!await hasTrigger(view,step.trigger,()=>session!.application.exportReadArtifact(view!.case.caseId))){turns.push({id:step.id,status:"NOT_SENT",reason:"AUTHORITATIVE_STATE_TRIGGER_NOT_MET"});continue;}
@@ -236,6 +243,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();
       await writeFile(join(slot,"user-turns.json"),JSON.stringify({schemaVersion:"phase3b-g6-user-turns@2",runId,turns:userTurns,budgets:turnBudgets,namedReferences:{initial:spec.oracle.request.named??null,turns:namedReferences}},null,2)+"\n",{flag:"wx"});
       if(pack.mode==="LIVE_READ")await recordG6SourceCounts(dependencies.budgetPath,runId+":SOURCE_IO",googleCalls,forwarded.length);const decisions=await capture.finish(failure),recorded=await recording.finish();
+      await writeFile(join(slot,"browser-diagnostics.json"),JSON.stringify({schemaVersion:"phase3b-g6-browser-diagnostics@1",runId,events:browserDiagnostics},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"browser-trace.json"),JSON.stringify({schemaVersion:"phase3b-g6-browser-trace@1",runId,events:trace},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"recording-observation.json"),JSON.stringify({recordingConfig:pack.recording,decisions,...recordingQualification(recorded)},null,2)+"\n",{flag:"wx"});
     }
