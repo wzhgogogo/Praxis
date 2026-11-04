@@ -1,0 +1,28 @@
+✔ a page-control failure preserves the current session for observation (reuse=false) (1.792166ms)
+✖ a page-control failure preserves the current session for observation (reuse=true) (0.206833ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 155.225333
+
+✖ failing tests:
+
+test at src/infrastructure/browser/browser-task-executor.test.ts:1:24854
+✖ a page-control failure preserves the current session for observation (reuse=true) (0.206833ms)
+  Error [BrowserRuntimeError]: session is closed
+      at FixtureSession.session.snapshot (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.test.ts:418:54)
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:555:82)
+      at BrowserTaskExecutor.bounded (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1485:21)
+      at BrowserTaskExecutor.operation (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1436:32)
+      at BrowserTaskExecutor.snapshot (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:555:33)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.test.ts:426:34)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    code: 'BROWSER_RUNTIME_FAILED',
+    cause: undefined,
+    scope: undefined
+  }

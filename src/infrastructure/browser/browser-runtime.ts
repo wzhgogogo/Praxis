@@ -205,6 +205,8 @@ export interface BrowserActionOptions { timeoutMs?: number; }
 
 export interface BrowserSession {
   readonly metadata: BrowserSessionMetadata;
+  /** Runtime-owned lifecycle fact; a failed page control does not imply this. */
+  isClosed?(): boolean;
   navigate(url: string, options?: { waitUntil?: "domcontentloaded" | "load"; timeoutMs?: number }): Promise<void>;
   /** Admit one code-owned document URL in an already guarded context. */
   prepareNavigation?(url: string, options?: BrowserActionOptions): Promise<void>;

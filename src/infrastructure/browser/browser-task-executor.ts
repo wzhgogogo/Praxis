@@ -1445,7 +1445,8 @@ export class BrowserTaskExecutor {
         ? new BrowserRuntimeError("BROWSER_ABORTED", "Browser operation was aborted", error)
         : timedNavigation ? new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser navigation exceeded its bounded navigation timeout", error) : error;
       this.recordLifecycleFailure(input.source, input.stage, "OPERATION_FAILED", failure);
-      if ((navigation || this.options.reuseSourceSessions) && failure instanceof BrowserRuntimeError && (failure.code === "BROWSER_RUNTIME_FAILED" || failure.code === "BROWSER_TIMEOUT")) {
+      const invalidSession = this.options.reuseSourceSessions && this.session?.isClosed?.() === true;
+      if ((navigation || invalidSession) && failure instanceof BrowserRuntimeError && (failure.code === "BROWSER_RUNTIME_FAILED" || failure.code === "BROWSER_TIMEOUT")) {
         void this.close("RUNTIME_FAILURE");
       }
       throw failure;
