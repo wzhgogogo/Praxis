@@ -1,3 +1,5 @@
+2026-11-04 CET：A同步C修复后的838项冻结候选净树全绿：默认1425、Chromium189、完整G6 66、严格G2 5/12页，type/arch/build通过；六步前后status空。原三红已绿，沿用已批准未消耗的三槽/15GET，将先W1认证再非高峰D4；当前真实调用0。[恢复报告](../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md)。
+
 2026-11-04 CET：A沿用已批准三槽额度同步C main be84674e，原G6身份/展示断言已达新增诊断文件红灯；只补评测诊断sidecar，无产品/评分改变。完整66例/净树五门禁与严格G2待运行，全绿才重新认证W1、非高峰D4、高峰D6和随后W2/D8；832旧账目原值保留，当前本轮真实调用仍0。[恢复计划](../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md)。
 
 2026-11-04 CET：A追加D4/D6/D8已获额度批准（32Live/425GET；开发14/58，模型400不变），同步main75ba1605后在既有真实组装回归停下：隐藏旧控件select失败后，复用会话被关闭，无法回到观察，首轮NEEDS_INPUT。原断言/来源不改，需C产品终止边界处理；三槽及认证均未运行，新增真实调用0。[停批证据](../.eval-artifacts/phase3b/g6-rerun-20261104/report.md)。

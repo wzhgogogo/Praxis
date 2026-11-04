@@ -1,0 +1,82 @@
+{
+  "candidate": "a77d79bf59abd4b44e50eac588e759b58cf31c77",
+  "steps": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.568,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.225,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 52.675,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.567,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "chromium",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 181.272,
+      "preStatus": "",
+      "postStatus": ""
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 24.412,
+      "preStatus": "",
+      "postStatus": ""
+    }
+  ],
+  "status": "PASS",
+  "defaultTests": 1425,
+  "browserTests": 189,
+  "G6Tests": 66,
+  "strictG2Tests": 5,
+  "strictG2Pages": 12
+}
