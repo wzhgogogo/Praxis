@@ -1,5 +1,7 @@
 # Development Log
 
+2026-11-04 CET clarification: the integration conflicts were six documentation files plus one budget ledger (seven files total); the earlier “Seven documentation conflicts” shorthand included the ledger. No historical source or execution evidence changed.
+
 <a id="named-search-session-reuse-main-verified-20261104"></a>
 
 ## 2026-11-04 CET — C integration passes all fresh gates
