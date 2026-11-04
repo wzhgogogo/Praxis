@@ -1,5 +1,11 @@
 # Test and Verification Log
 
+<a id="named-search-session-reuse-main-verified-20261104"></a>
+
+## 2026-11-04 CET — C merged-source final matrix
+
+Frozenbc8f31b7/850, nine once-only checks with empty status both sides: type0.570s/arch0.233s/default1415 in49.323s/build0.559s/Chromium189 in131.934s/strictG2 all12 in24.239s/reused-submit-floor1 in0.132s/localGuard2.293s/target18 in5.007s. No retry/skip/cancel/input mutation. Post-fill remaining2500ms produces no submit and NAVIGATION_BUDGET_EXHAUSTED. Original identity/reserve and receiver queries preserved; exact parent-delta, ledger/doc/artifact audit saved separately, no product parser reuse. Publishing docs cannot substitute for these measured source checks; no new real calls or .env. [Receipts](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/gates.json), [report](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md).
+
 <a id="named-search-session-reuse-main-20261104"></a>
 
 ## 2026-11-04 CET — C fresh main integration verification pending

@@ -1,5 +1,11 @@
 # Development Log
 
+<a id="named-search-session-reuse-main-verified-20261104"></a>
+
+## 2026-11-04 CET — C integration passes all fresh gates
+
+bc8f31b7 froze850 inputs; nine steps clean before/after, source unchanged: default1415/1415, Chromium189/189, strictG2 five/all12, type/arch/build pass, post-fill navigation floor1, actual local Guard form, source/reserve target18. Both Executor deltas and22 unshared sources retained exactly; all32 original C artifacts untouched. No assertion or product repair during integration. Source/Guard/budgets/versions unchanged;830 ledger rows preserve all parent values and approved main410 GET ceiling. User-authorized standard main publication follows remote recheck and exact-tree proof; notify A after verified push. Real calls0, no .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md).
+
 <a id="named-search-session-reuse-main-20261104"></a>
 
 ## 2026-11-04 CET — C approved reuse integrates after B

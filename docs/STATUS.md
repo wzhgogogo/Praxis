@@ -1,3 +1,5 @@
+2026-11-04 CET：C会话复用按批准在B main d692366c之后集成。bc8f31b7冻结850项，九步前后净树全绿：默认1415/1415、Chromium189/189、严格G2 5/5且12页PASS，type/arch/build通过，复用提交的3000ms门槛交互1/1、本机Guard表单PASS、专项18/18。双方Executor补丁及22独占源码、C32份旧产物逐字保留，版本/身份/Guard/额度不变；账本830行保留两侧原值，main已批准GET410/累计298、预留108不变。真实调用0、不读.env，按批准正常发布main、ls-remote核对并通知A；最终SHA以发布回执为准。 [报告](../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md)。
+
 2026-11-04 CET：C会话复用cc42fd8e已获独立复核和合入批准，B资源策略已先发布main d692366c。同步中Executor自动保留双方原补丁，22个独占源码/配置及C32份原产物逐字保留；文档冲突保留双方、账本830条原行并集，沿用main GET上限410。将冻结净树合并候选跑五门禁/严格G2及表单导航门槛交互，未全绿前不发布。真实调用0，不读.env。 [合入报告](../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md)。
 
 2026-11-04 CET：C具名搜索会话复用离线完成待复核。366c699c冻结849项，七项净树全绿：type/arch/build通过、默认1409/1409、Chromium189/189、严格G2 5/5且12页PASS、专项18/18。三候选2来源会话/2入口导航+4观察提交，结论不变；普通组装两家HIGH、错店/不唯一拒绝；实际本机Guard三查询1入口+2提交。缺控件仍走旧导航，不声明真实网站速度收益。诊断两出口接线，State25/TaskDefinition23/Prompt、身份/Guard/额度不变；保留829旧账、追加C零调用=830条，不读.env。仅推工作分支，不合main。 [报告](../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md)。
