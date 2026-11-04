@@ -95,6 +95,8 @@ export interface BrowserDiscoveryPackCapability {
 export interface DiscoverySourcePack {
   meta: DiscoveryPackMetadata;
   documentOrigins: readonly string[];
+  /** Retain an otherwise suppressed resource only after ordinary Guard admission. */
+  retainedResources?: readonly BrowserReadNetworkRequestRule[];
   staticResources: readonly BrowserReadNetworkRequestRule[];
   reviewedReads: readonly BrowserReadNetworkRequestRule[];
   skillPath?: string;
@@ -482,6 +484,7 @@ export function discoveryPackById(id: string, packs: readonly DiscoverySourcePac
 export function discoveryPackNetworkPolicy(packs: readonly DiscoverySourcePack[] = restaurantDiscoveryPacks): BrowserReadNetworkPolicy {
   return {
     documentOrigins: packs.flatMap((pack) => pack.documentOrigins),
+    retainedResources: packs.flatMap((pack) => pack.retainedResources ?? []),
     staticResources: packs.flatMap((pack) => pack.staticResources),
     dynamicReads: packs.flatMap((pack) => pack.reviewedReads),
     genericPublicRead: true,

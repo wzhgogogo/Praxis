@@ -1,0 +1,5 @@
+# Resource policy + navigation floor main integration
+
+2026-11-04 CET. User explicitly approves integrating A44973e83, latest main and publishing main after five gates+strictG2; public GET total cap410, preserve every ledger entry; real calls0. Both sides of document conflicts retained. No manual source conflict, A three exact local image declarations retained, assertions unchanged. No production site exception, Guard admission or production browser/model budgets widened (the public GET allocation is explicitly updated to410).
+
+Actual latest main22415b57 adds request-timeline.test.ts (one Chromium test), so combined suite should be189 rather than the user-stated188. Preserve all approved tests and run the complete suite; report the acceptance-count discrepancy before main publication if it is189. No deletion/skip to manufacture188. Static inputs and outer runner frozen before gates, every pre/post status clean. No .env/answers/private holdout, no real HTTP/model/site/Google/Live calls. Resource policy Live speed/root cause remains unproven; integration must not recast prior diagnostics as success.

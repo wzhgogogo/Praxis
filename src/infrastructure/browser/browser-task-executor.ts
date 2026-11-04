@@ -55,7 +55,7 @@ export interface BrowserExecutionDiagnostic {
 }
 
 export type BrowserExecutionReason = "ADAPTER_RETURNED" | "SOURCE_SCOPE_REPLACED" | "EXECUTOR_CLOSED" | "PARENT_ABORTED"
-  | "DEADLINE_EXCEEDED" | "MODEL_BUDGET_EXHAUSTED" | "OPERATION_BUDGET_EXHAUSTED"
+  | "DEADLINE_EXCEEDED" | "NAVIGATION_BUDGET_EXHAUSTED" | "MODEL_BUDGET_EXHAUSTED" | "OPERATION_BUDGET_EXHAUSTED"
   | "RUNTIME_UNAVAILABLE" | "RUNTIME_FAILURE" | "OPERATION_FAILED";
 
 export interface BrowserReadLimits {
@@ -484,7 +484,7 @@ export class BrowserTaskExecutor {
     await this.operation(input, "NAVIGATE", async () => {
       const options = this.navigationOptions(input.timeoutMs);
       await input.session.prepareNavigation?.(url, options);
-      await input.session.navigate(url, { ...options, waitUntil: "domcontentloaded" });
+      await input.session.navigate(url, { ...this.navigationOptions(input.timeoutMs), waitUntil: "domcontentloaded" });
     });
     await this.settleAfterDirectAction(input);
   }
@@ -1242,7 +1242,7 @@ export class BrowserTaskExecutor {
           const options = this.navigationOptions();
           if (input.session.prepareObservedNavigation) await input.session.prepareObservedNavigation(target.href!, options);
           else await input.session.prepareNavigation?.(target.href!, options);
-          await input.session.openLink!(target.controlId, target.href!, options);
+          await input.session.openLink!(target.controlId, target.href!, this.navigationOptions());
         });
       } else {
         // A runtime without popup support may only retain the existing same-page
@@ -1355,6 +1355,9 @@ export class BrowserTaskExecutor {
   }
 
   private navigationOptions(timeoutMs = 20_000): { timeoutMs: number } {
+    if (this.remaining(Number.MAX_SAFE_INTEGER) < 3_000) {
+      throw new BrowserRuntimeError("BROWSER_BUDGET_EXHAUSTED", "Navigation requires at least 3000 ms of remaining browser budget");
+    }
     return { timeoutMs: Math.max(1, this.remaining(timeoutMs)) };
   }
 
@@ -1416,6 +1419,11 @@ export class BrowserTaskExecutor {
     label: string,
     operation: () => Promise<Value>,
   ): Promise<Value> {
+    if (input.signal.aborted || this.sessionSignal?.aborted) this.assertActive(input.signal);
+    if (label === "NAVIGATE" || label === "OPEN_LINK" || label === "SUBMIT_PUBLIC_QUERY") {
+      try { this.navigationOptions(); }
+      catch (error) { this.recordLifecycleFailure(input.source, input.stage, "OPERATION_FAILED", error); throw error; }
+    }
     this.assertActive(input.signal);
     if (this.operationCount >= (this.options.maxOperationsPerCandidate)) {
       this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
@@ -1587,6 +1595,7 @@ export class BrowserTaskExecutor {
     if (error instanceof BrowserRuntimeError) {
       if (error.code === "BROWSER_ABORTED") return "PARENT_ABORTED";
       if (error.code === "BROWSER_TIMEOUT") return "DEADLINE_EXCEEDED";
+      if (error.code === "BROWSER_BUDGET_EXHAUSTED") return "NAVIGATION_BUDGET_EXHAUSTED";
       if (error.code === "BROWSER_OPERATION_BUDGET_EXCEEDED") return "OPERATION_BUDGET_EXHAUSTED";
       if (error.code === "BROWSER_RUNTIME_UNAVAILABLE") return "RUNTIME_UNAVAILABLE";
       if (error.code === "BROWSER_RUNTIME_FAILED") return "RUNTIME_FAILURE";

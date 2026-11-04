@@ -183,7 +183,7 @@ async function fixture(run: (input: {
   origin: string; other: string; arrivals: string[]; cookies: string[];
   guard: PlaywrightReadNetworkGuard; page: import("playwright-core").Page; context: import("playwright-core").BrowserContext;
   recorded: Array<{ url: string; status: number; redirectLocation?: string }>;
-}) => Promise<void>, reviewedCss = false): Promise<void> {
+}) => Promise<void>, reviewedCss = false, retainedImage = false): Promise<void> {
   const arrivals: string[] = [], cookies: string[] = [];
   let other = "";
   const serve = (foreign: boolean) => (req: IncomingMessage, res: ServerResponse) => {
@@ -237,6 +237,8 @@ async function fixture(run: (input: {
   await context.grantPermissions(["local-network-access"], { origin });
   const recorded: Array<{ url: string; status: number; redirectLocation?: string }> = [];
   const guard = new PlaywrightReadNetworkGuard({ documentOrigins: [origin], genericPublicRead: true,
+    // Retain the local image redirect chain only; the foreign receiver remains unreviewed.
+    retainedResources: retainedImage ? ["/asset", "/asset-hop"].map(pathname => ({ origin, pathname, resourceTypes: ["image"] as const })) : [],
     staticResources: reviewedCss ? [{ origin: other, pathname: "/public/final.css", resourceTypes: ["stylesheet"] }] : [], dynamicReads: [] }, 10_000, value => { recorded.push(value); });
   try {
     await guard.install(context);
@@ -287,7 +289,7 @@ for (const type of ["fetch", "xhr", "script", "stylesheet", "image"] as const) {
     }, type);
     assert.equal(arrivals.includes("B/forbidden"), false, "cross-origin receiver must receive zero requests");
     assert.ok(guard.snapshotRequests().some(row => row.outcome === "REDIRECT_BLOCKED"), JSON.stringify({ arrivals, requests: guard.snapshotRequests(), diagnostics: guard.snapshotDiagnostics() }));
-  }));
+  }, false, type === "image"));
 }
 
 test("real Chromium redirect loops fail at the Guard hop bound", async () => fixture(async ({ origin, guard, page, arrivals }) => {

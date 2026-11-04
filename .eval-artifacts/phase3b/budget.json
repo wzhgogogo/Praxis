@@ -5,7 +5,7 @@
     "fullLive": 29,
     "realModelCalls": 1600,
     "environmentReruns": 4,
-    "evaluationPublicGET": 400
+    "evaluationPublicGET": 410
   },
   "entries": [
     {
@@ -11303,9 +11303,17 @@
       "conversation": "B-before-C-session-reuse",
       "sourceGit": "c1c1187af13941815eb10756416054708922984d",
       "sourceSha256": "90f7328a012642c64632e548de3c99656e5c100c4b80f86e224c3d19126929fd"
+    },
+    {
+      "conversation": "C-approved-session-reuse-main",
+      "sourceGit": "cc42fd8ea259ac9bbbfda2ffa2748b355e3ed843",
+      "sourceSha256": "0fad4f894292b0f4db391d1d9d8deb1aeefca3d2aa95ade2757db03f8bae604a",
+      "mainGit": "d692366c9f3d9723b401d383eb522524fb75ae7d",
+      "mainSha256": "6db26562fa8ca8af61b17af129f7c6558d78983c9f069ee6cc91766b61787559",
+      "note": "All829main and830C rows preserved by id; main approved limits410 retained; no new real calls."
     }
   ],
-  "asOfCET": "2026-11-04T03:11:32.665833+01:00",
+  "asOfCET": "2026-11-04T04:11:50.968694+01:00",
   "developmentLimits": {
     "fullLive": 11,
     "realModelCalls": 400,
@@ -11331,6 +11339,17 @@
       "developmentGETLimitBefore": 35,
       "developmentGETLimitAfter": 43,
       "globalGETLimitUnchanged": 400
+    }
+  ],
+  "limitApprovals": [
+    {
+      "id": "phase3b-resource-policy-main-get410-20261104",
+      "approvedBy": "user",
+      "dateCET": "2026-11-04",
+      "evaluationPublicGETBefore": 400,
+      "evaluationPublicGETAfter": 410,
+      "newRealCalls": 0,
+      "note": "User explicitly approved total public GET ceiling410; all entries preserved."
     }
   ]
 }

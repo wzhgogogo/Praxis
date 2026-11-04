@@ -1,0 +1,920 @@
+{
+  "inputSha256": "7eb416f5ee9a2ea655c26a05aa8002dbbf1ff14178867ddb69a0741ed6a3e7cb",
+  "probeSha": "5f7b579f20c878fda944f9164c40a5668a3f1c9b",
+  "mainRevision": "22415b57740256be8dfd3614cc7f2227c2f0856b",
+  "primary": {
+    "control": {
+      "n": 3,
+      "dclMs": [
+        46.054417,
+        45.46658300000013,
+        42.625958999999966
+      ],
+      "loadMs": [
+        106.04283399999997,
+        106.07187500000009,
+        102.12341700000002
+      ],
+      "dclMedianMs": 45.46658300000013,
+      "loadMedianMs": 106.04283399999997,
+      "browserRequests": [
+        9,
+        9,
+        9
+      ],
+      "receiverRequests": [
+        9,
+        9,
+        9
+      ],
+      "routeFetchRequests": [
+        0,
+        0,
+        0
+      ],
+      "guardBlocked": [
+        0,
+        0,
+        0
+      ],
+      "deniedDurationMaxMs": null,
+      "terminal": true
+    },
+    "main": {
+      "n": 3,
+      "dclMs": [
+        51.09079200000008,
+        45.65562499999987,
+        44.158500000000004
+      ],
+      "loadMs": [
+        113.96916700000008,
+        107.75487499999986,
+        107.61383300000034
+      ],
+      "dclMedianMs": 45.65562499999987,
+      "loadMedianMs": 107.75487499999986,
+      "browserRequests": [
+        9,
+        9,
+        9
+      ],
+      "receiverRequests": [
+        8,
+        8,
+        8
+      ],
+      "routeFetchRequests": [
+        8,
+        8,
+        8
+      ],
+      "guardBlocked": [
+        1,
+        1,
+        1
+      ],
+      "deniedDurationMaxMs": 1.585999969393015,
+      "terminal": true
+    },
+    "branch": {
+      "n": 3,
+      "dclMs": [
+        46.353791,
+        44.749665999999934,
+        44.536291999999776
+      ],
+      "loadMs": [
+        46.80420800000002,
+        45.12933299999986,
+        44.941499999999905
+      ],
+      "dclMedianMs": 44.749665999999934,
+      "loadMedianMs": 45.12933299999986,
+      "browserRequests": [
+        9,
+        9,
+        9
+      ],
+      "receiverRequests": [
+        4,
+        4,
+        4
+      ],
+      "routeFetchRequests": [
+        4,
+        4,
+        4
+      ],
+      "guardBlocked": [
+        5,
+        5,
+        5
+      ],
+      "deniedDurationMaxMs": 3.2789999968372285,
+      "terminal": true
+    }
+  },
+  "paths": [
+    {
+      "mode": "main",
+      "path": "/normal/page",
+      "isolatedRoute": true,
+      "dclMs": 43.407416999999896,
+      "loadMs": 105.06999999999971,
+      "failedDurationMaxMs": 2.3560000117868185,
+      "routeAborts": [
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:51418/third-party.js",
+          "startMs": 34.8080829999999,
+          "argument": "blockedbyclient",
+          "endMs": 36.11725000000024
+        }
+      ],
+      "failCommands": [],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "branch",
+      "path": "/normal/page",
+      "isolatedRoute": true,
+      "dclMs": 47.36841699999968,
+      "loadMs": 47.68399999999974,
+      "failedDurationMaxMs": 4.7969999723136425,
+      "routeAborts": [
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:51418/third-party.js",
+          "startMs": 43.29958300000044,
+          "argument": "blockedbyclient",
+          "endMs": 44.93258300000025
+        },
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:51417/image-0.png",
+          "startMs": 44.22325000000001,
+          "argument": "blockedbyclient",
+          "endMs": 45.36708300000009
+        },
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:51417/image-1.png",
+          "startMs": 44.355417000000216,
+          "argument": "blockedbyclient",
+          "endMs": 45.37254200000007
+        },
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:51417/image-2.png",
+          "startMs": 45.607208000000355,
+          "argument": "blockedbyclient",
+          "endMs": 46.44991700000037
+        },
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:51417/image-3.png",
+          "startMs": 45.73520800000006,
+          "argument": "blockedbyclient",
+          "endMs": 46.461333000000195
+        }
+      ],
+      "failCommands": [],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "control",
+      "path": "/native/page",
+      "isolatedRoute": false,
+      "dclMs": 43.0724580000001,
+      "loadMs": 102.00629100000015,
+      "failedDurationMaxMs": null,
+      "routeAborts": [],
+      "failCommands": [],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "main",
+      "path": "/native/page",
+      "isolatedRoute": false,
+      "dclMs": 45.61408399999982,
+      "loadMs": 106.55433399999993,
+      "failedDurationMaxMs": 1.5589999966323376,
+      "routeAborts": [],
+      "failCommands": [
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-111.1",
+          "atMs": 42.75,
+          "doneMs": 42.984833999999864,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        }
+      ],
+      "responsePauses": [
+        {
+          "session": 1,
+          "id": "interception-job-111.1",
+          "url": "http://127.0.0.1:51417/native-middle.js",
+          "type": "Script",
+          "networkId": "74085.2",
+          "redirectedRequestId": "interception-job-111.0",
+          "responseStatus": 302,
+          "atMs": 42.68620899999996
+        }
+      ],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "branch",
+      "path": "/native/page",
+      "isolatedRoute": false,
+      "dclMs": 44.154583,
+      "loadMs": 44.43562500000007,
+      "failedDurationMaxMs": 2.761000010650605,
+      "routeAborts": [],
+      "failCommands": [
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-132.0",
+          "atMs": 38.59116600000016,
+          "doneMs": 39.08008299999983,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-133.0",
+          "atMs": 38.64029100000016,
+          "doneMs": 39.083916000000045,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-137.0",
+          "atMs": 40.271165999999994,
+          "doneMs": 41.10908299999983,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-138.0",
+          "atMs": 40.3415829999999,
+          "doneMs": 41.110749999999825,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-129.1",
+          "atMs": 42.799790999999914,
+          "doneMs": 42.98841600000014,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        }
+      ],
+      "responsePauses": [
+        {
+          "session": 1,
+          "id": "interception-job-129.1",
+          "url": "http://127.0.0.1:51417/native-middle.js",
+          "type": "Script",
+          "networkId": "74086.2",
+          "redirectedRequestId": "interception-job-129.0",
+          "responseStatus": 302,
+          "atMs": 42.74137500000006
+        }
+      ],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "control",
+      "path": "/direct/page",
+      "isolatedRoute": false,
+      "dclMs": 42.76099999999997,
+      "loadMs": 101.88970900000004,
+      "failedDurationMaxMs": null,
+      "routeAborts": [],
+      "failCommands": [],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "main",
+      "path": "/direct/page",
+      "isolatedRoute": false,
+      "dclMs": 44.62945899999977,
+      "loadMs": 107.0029169999998,
+      "failedDurationMaxMs": 3.859999997075647,
+      "routeAborts": [
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:51417/direct-start.js",
+          "startMs": 42.857416000000285,
+          "argument": "blockedbyclient",
+          "endMs": 43.277458000000024
+        }
+      ],
+      "failCommands": [],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "branch",
+      "path": "/direct/page",
+      "isolatedRoute": false,
+      "dclMs": 44.299041999999645,
+      "loadMs": 44.919167000000016,
+      "failedDurationMaxMs": 3.6899999831803143,
+      "routeAborts": [
+        {
+          "method": "abort",
+          "url": "http://127.0.0.1:51417/direct-start.js",
+          "startMs": 40.99208399999952,
+          "argument": "blockedbyclient",
+          "endMs": 41.35754199999974
+        }
+      ],
+      "failCommands": [
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-164.0",
+          "atMs": 38.61637499999961,
+          "doneMs": 38.93666699999994,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-165.0",
+          "atMs": 38.74366699999973,
+          "doneMs": 39.01599999999962,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-169.0",
+          "atMs": 40.203125,
+          "doneMs": 40.94166700000005,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-170.0",
+          "atMs": 40.2729589999999,
+          "doneMs": 40.94329199999993,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        }
+      ],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "control",
+      "path": "/burst/page",
+      "isolatedRoute": false,
+      "dclMs": 43.14916700000049,
+      "loadMs": 455.82679199999984,
+      "failedDurationMaxMs": null,
+      "routeAborts": [],
+      "failCommands": [],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "main",
+      "path": "/burst/page",
+      "isolatedRoute": false,
+      "dclMs": 48.92116700000042,
+      "loadMs": 130.70095899999978,
+      "failedDurationMaxMs": 2.2950000129640102,
+      "routeAborts": [],
+      "failCommands": [
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-175.0",
+          "atMs": 41.1713749999999,
+          "doneMs": 41.82108299999982,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        }
+      ],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    },
+    {
+      "mode": "branch",
+      "path": "/burst/page",
+      "isolatedRoute": false,
+      "dclMs": 44.50395800000024,
+      "loadMs": 44.69708300000002,
+      "failedDurationMaxMs": 11.778999993111938,
+      "routeAborts": [],
+      "failCommands": [
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-260.0",
+          "atMs": 36.94433299999946,
+          "doneMs": 37.552708000000166,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-263.0",
+          "atMs": 37.26933300000019,
+          "doneMs": 37.617166,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-264.0",
+          "atMs": 37.4707499999995,
+          "doneMs": 37.63520799999969,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-267.0",
+          "atMs": 39.695958000000246,
+          "doneMs": 40.43145800000002,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-268.0",
+          "atMs": 39.74820799999998,
+          "doneMs": 40.43287499999951,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-269.0",
+          "atMs": 40.48041599999942,
+          "doneMs": 40.64808300000004,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-270.0",
+          "atMs": 40.92620799999986,
+          "doneMs": 41.09637500000008,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-271.0",
+          "atMs": 41.20837500000016,
+          "doneMs": 41.36924999999974,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-272.0",
+          "atMs": 41.47845799999959,
+          "doneMs": 41.624957999999424,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-273.0",
+          "atMs": 41.72400000000016,
+          "doneMs": 41.856832999999824,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-274.0",
+          "atMs": 41.98595800000021,
+          "doneMs": 42.10658299999977,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-275.0",
+          "atMs": 42.24045800000022,
+          "doneMs": 42.39683299999979,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-276.0",
+          "atMs": 42.480125000000044,
+          "doneMs": 42.59950000000026,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-277.0",
+          "atMs": 42.75541599999997,
+          "doneMs": 42.89124999999967,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-278.0",
+          "atMs": 43.02137500000026,
+          "doneMs": 43.15708300000006,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-279.0",
+          "atMs": 43.28312499999993,
+          "doneMs": 43.413040999999794,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-280.0",
+          "atMs": 43.53204099999948,
+          "doneMs": 43.662374999999884,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-281.0",
+          "atMs": 43.78912500000024,
+          "doneMs": 43.93491600000016,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-282.0",
+          "atMs": 44.02104099999997,
+          "doneMs": 44.14116599999943,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-283.0",
+          "atMs": 44.265625,
+          "doneMs": 44.428499999999985,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-284.0",
+          "atMs": 44.50233299999945,
+          "doneMs": 44.64533299999948,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-285.0",
+          "atMs": 44.73966599999949,
+          "doneMs": 44.85583299999962,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-286.0",
+          "atMs": 44.957666000000245,
+          "doneMs": 45.08154099999956,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-287.0",
+          "atMs": 45.18945799999983,
+          "doneMs": 45.31895799999984,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-288.0",
+          "atMs": 45.42808299999979,
+          "doneMs": 45.53320799999983,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-289.0",
+          "atMs": 45.6583329999994,
+          "doneMs": 45.78654099999949,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-290.0",
+          "atMs": 45.896999999999935,
+          "doneMs": 46.05070799999976,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-291.0",
+          "atMs": 46.12937499999953,
+          "doneMs": 46.259915999999976,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-292.0",
+          "atMs": 46.35149999999976,
+          "doneMs": 46.474333000000115,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-293.0",
+          "atMs": 46.570332999999664,
+          "doneMs": 46.71845800000028,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-294.0",
+          "atMs": 46.79966599999989,
+          "doneMs": 46.946374999999534,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-295.0",
+          "atMs": 47.027250000000095,
+          "doneMs": 47.15429099999983,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-296.0",
+          "atMs": 47.25683299999946,
+          "doneMs": 47.394499999999425,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-297.0",
+          "atMs": 47.500457999999526,
+          "doneMs": 47.634500000000116,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-298.0",
+          "atMs": 47.72216599999956,
+          "doneMs": 47.8424159999995,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-299.0",
+          "atMs": 47.947000000000116,
+          "doneMs": 48.07841600000029,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-300.0",
+          "atMs": 48.167875000000095,
+          "doneMs": 48.29941599999984,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-301.0",
+          "atMs": 48.38549999999941,
+          "doneMs": 48.499541000000136,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        },
+        {
+          "session": 1,
+          "method": "Fetch.failRequest",
+          "id": "interception-job-302.0",
+          "atMs": 48.59491600000001,
+          "doneMs": 48.70812500000011,
+          "error": null,
+          "errorReason": "BlockedByClient",
+          "interceptResponse": null,
+          "dropped": false
+        }
+      ],
+      "responsePauses": [],
+      "pendingCdp": 0,
+      "pendingPw": 0,
+      "unanswered": 0
+    }
+  ],
+  "faultControl": {
+    "error": "page.goto: Timeout 2000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:51417/normal/page\", waiting until \"domcontentloaded\"\u001b[22m\n",
+    "dclMs": null,
+    "loadMs": null,
+    "snapshotAtMs": 2139.1990830000004,
+    "cdpPending": 5,
+    "pwPending": 0,
+    "unansweredPauses": 3
+  }
+}

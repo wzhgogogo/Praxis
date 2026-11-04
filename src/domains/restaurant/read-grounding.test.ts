@@ -213,16 +213,16 @@ test("ambiguous, stale, wrong request, browser failure and unsupported observati
   assert.equal([ambiguous, wrongParty, stale, challenge, unsupported].every((result) => result.offers.length === 0), true);
 });
 
-test("browser startup failures are preserved rather than misclassified as uncertain entity matches", () => {
+for (const failureCode of ["BROWSER_RUNTIME_FAILED", "BROWSER_TIMEOUT", "BROWSER_BUDGET_EXHAUSTED"]) test(`browser failure ${failureCode} is preserved before identity`, () => {
   const result = groundTabelogAvailability(candidate, request, {
     candidateId: candidate.restaurant.id,
     observedAt: now,
     entityMatch: { confidence: "LOW", matchedBy: [] },
     pageState: "EXTRACTION_FAILED",
-    failureCode: "BROWSER_RUNTIME_FAILED",
+    failureCode,
   }, now);
   assert.equal(result.check.status, "UNKNOWN");
-  assert.equal(result.check.reasonCode, "BROWSER_RUNTIME_FAILED");
+  assert.equal(result.check.reasonCode, failureCode);
   assert.equal(result.offers.length, 0);
 });
 

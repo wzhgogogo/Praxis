@@ -455,7 +455,7 @@ test("a stuck old close cannot delay cancellation or overwrite the next candidat
   const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
   let opens = 0;
   const executor = new BrowserTaskExecutor({ openSession: async () => ++opens === 1 ? failed : next }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
-    maxElapsedMsPerCandidate: 40, onDiagnostic: diagnostic => diagnostics.push(diagnostic),
+    maxElapsedMsPerCandidate: 40_000, onDiagnostic: diagnostic => diagnostics.push(diagnostic),
   });
   const oldSignal = new AbortController();
   executor.beginProvider("old", "TABLECHECK");
@@ -479,14 +479,14 @@ test("a stuck runtime cleanup does not hold a canceled read or reset its candida
   failed.navigate = async () => { throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "navigation failed"); };
   let finishClose: (() => void) | undefined;
   failed.close = async () => new Promise<void>(resolve => { finishClose = resolve; });
-  const executor = new BrowserTaskExecutor({ openSession: async () => failed }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 15 });
+  const executor = new BrowserTaskExecutor({ openSession: async () => failed }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,  maxElapsedMsPerCandidate: 15_000 });
   const controller = new AbortController();
   executor.beginProvider("old", "TABLECHECK");
   const session = await executor.acquire(controller.signal, "TABLECHECK", "IDENTITY");
   const navigation = executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", signal: controller.signal, session, url: "https://www.tablecheck.com/fail", allowedOrigins: ["https://www.tablecheck.com"] });
   controller.abort();
   await assert.rejects(navigation, { code: "BROWSER_ABORTED" });
-  clock=20;
+  clock=20_000;
   await assert.rejects(executor.acquire(new AbortController().signal, "TABLECHECK", "IDENTITY"), { code: "BROWSER_TIMEOUT" });
   finishClose?.();
 });
@@ -1162,4 +1162,23 @@ test('region selection is data-only DISCOVERY and consumes the same global model
  assert.equal((await executor.selectRegionEntrance({...input,regionCorrection:{...correction,entrances:correction.entrances.map(e=>({...e,flowId:'foreign-flow'}))}})).status,'NO_SAFE_ACTION');assert.equal(calls,0);
  assert.deepEqual(await executor.selectRegionEntrance(input),{status:'SELECTED',entranceRef:'region:flow:0'});assert.equal(budget.totalModelCalls,50);
  await assert.rejects(()=>executor.selectRegionEntrance(input),{code:'BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED'});assert.equal(calls,1);assert.equal(budget.totalModelCalls,50);
+});
+
+test("navigation below 3000ms remaining browser budget dispatches nothing and reports budget exhaustion",async t=>{
+ t.mock.timers.enable({apis:['Date'],now:0});
+ const session=new FixtureSession([{url:'https://public.example/',title:'',text:'',html:''}]);let navigations=0,prepared=0;
+ session.navigate=async()=>{navigations++};(session as BrowserSession).prepareNavigation=async()=>{prepared++};
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:90000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24});
+ const signal=new AbortController().signal;await executor.acquire(signal,'TABELOG','DISCOVERY');
+ // A short requested operation timeout is not a depleted browser window.
+ await executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,url:'https://public.example/',timeoutMs:100});
+ assert.equal(navigations,1);assert.equal(prepared,1);
+ t.mock.timers.setTime(87500);
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,url:'https://public.example/'}),e=>e instanceof BrowserRuntimeError&&e.code==='BROWSER_BUDGET_EXHAUSTED');
+ assert.equal(navigations,1);assert.equal(prepared,1);
+ t.mock.timers.setTime(90000);
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,url:'https://public.example/'}),{code:'BROWSER_BUDGET_EXHAUSTED'});
+ const aborted=new AbortController();aborted.abort();
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal:aborted.signal,allowedOrigins:['https://public.example'],session,url:'https://public.example/'}),{code:'BROWSER_ABORTED'});
+ assert.equal(navigations,1);assert.equal(prepared,1);await executor.close();
 });
