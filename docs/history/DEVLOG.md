@@ -1,5 +1,11 @@
 # Development Log
 
+<a id="named-search-session-reuse-verified-20261104"></a>
+
+## 2026-11-04 CET — C source-session reuse complete offline
+
+Candidate366c699c froze849 inputs; all seven clean-tree checks passed (default1409, Chromium189, strictG2 five tests/all12 pages, target18). Same public-source candidates reduce entrance navigations6→2 with unchanged conclusions; real local Guard/DOM1 entry+2 submits. Source identity remains independent per candidate; wrong shop/ambiguity/failure/cancellation/run isolation stay closed. No current-site timing or new Live claim. Main/B829 ledger rows preserved plus C0 entry; no credentials, main merge or A changes. Independent artifact audit and review stop follow. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md).
+
 <a id="named-search-session-reuse-20261104"></a>
 
 ## 2026-11-04 CET — C run-scoped source sessions

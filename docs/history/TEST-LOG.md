@@ -1,5 +1,11 @@
 # Test and Verification Log
 
+<a id="named-search-session-reuse-verified-20261104"></a>
+
+## 2026-11-04 CET — C final clean-tree matrix
+
+Frozen366c699c/849: typecheck0.480s, arch0.187s, default1409/1409 in49.157s, build0.515s, Chromium189/189 in131.583s, strictG2 5/5/all12 in24.466s, target18/18 in4.964s. Every before/after status empty; no full-gate retry, skip or input change. Actual local form receiver reports exact Alpha/Beta/Gamma GET queries after replaced controls; source fixture two HIGH/two UNKNOWN, originals45 composition and128 adapter/executor pass. Prior red/preflight failures retained. Real calls0, no .env; branch review only. [Receipts](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/gates.json), [report](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md).
+
 <a id="named-search-session-reuse-20261104"></a>
 
 ## 2026-11-04 CET — C source-session reuse verification
