@@ -79,6 +79,8 @@ export interface BrowserDiscoveryPackCapability {
   directory?: {
     listingRoot(url: string): string | undefined;
     isRegionEntrance(url: string): boolean;
+    /** A public search home is navigated only through a currently observed link. */
+    isLocationSearchEntrance?(url: string): boolean;
     containsObservedOutlet?(entranceUrl: string, outletUrl: string): boolean;
     links(page: BrowserSnapshot): Array<{ url: string; label: string; attributes: string; category: boolean }>;
     /** Pack-owned URL grammar for a bounded listing retrieval expression. */
@@ -355,6 +357,7 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
     },
     directory: {
       listingRoot: directoryListingRoot,
+      isLocationSearchEntrance(value) { try { const url=new URL(value);return url.origin==="https://tabelog.com"&&url.pathname==="/en/"&&!url.search&&!url.hash; } catch { return false; } },
       containsObservedOutlet(entrance, outlet) {
         const detail = normalizeTabelogOutletUrl(outlet), region = regionalDirectoryHomepage(entrance);
         return this.isRegionEntrance(entrance) && !!detail && !!region && detail.startsWith(region);

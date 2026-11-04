@@ -56,7 +56,7 @@ export async function locationSuggestionAssembly(mode:Mode){
       const target=context.observation.targets.find((t:{href?:string})=>t.href===wrong);
       body=target?{action:"OPEN_LINK",targetRef:target.ref,authoritativeField:"NONE",requestedState:"NONE",reason:"Original D4 wrong parent choice"}:{action:"REQUEST_HUMAN_HELP",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"No unique observed path"};
     }else throw Error("Unexpected model purpose "+request.purpose);
-    return {invocationId:"fixture:"+models.length,latencyMs:0,provider:"FIXTURE",model:"fixture",outputText:JSON.stringify(body),finishReason:"stop"};
+    return {invocationId:"fixture:"+models.length,latencyMs:0,provider:"FIXTURE",model:"fixture",outputText:JSON.stringify(body),finishReason:"STOP"};
   }};
   const now="2026-11-04T08:00:00.000Z";
   const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {model,browser,clock:{now:()=>new Date(now)},google:new GooglePlacesClient({apiKey:"fixture-unused",fetchImplementation:async()=>{throw Error("No external Google request permitted");}}),onBrowserDiagnostic:d=>diagnostics.push(d)});

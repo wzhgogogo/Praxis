@@ -16,6 +16,7 @@ import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../i
 import { BrowserReadDecisionError, type BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant-search.js";
 import { restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
+import {locationSuggestionMatches} from "./location-suggestions.js";
 
 type Location = NonNullable<NonNullable<RestaurantSearchRequest["continuation"]>["locationContext"]>;
 type SourceFlow = "DIRECTORY" | "VENUE_SEARCH";
@@ -844,6 +845,42 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
                 && normalized(match[2]!.replace(/<[^>]*>/g, ' ')).includes(requestedName);
             } catch { return false; }
           });
+          if(requestedName&&!directlyNamed&&directory.isLocationSearchEntrance&&session!.metadata.readNetworkBoundary==="INSTALLED"){
+            const originalMenu=page;
+            const homeLinks=(await executor.observeControls({source,stage:"DISCOVERY",signal,session:session!})).filter(c=>c.visible&&!c.disabled&&!c.blockedByActiveLayer&&!c.observationOnly
+              &&c.kind==="LINK"&&c.href&&directory.isLocationSearchEntrance!(c.href));
+            // One actually observed public home link, not a constructed URL or
+            // the model's guess about a hidden region hierarchy.
+            if(homeLinks.length===1&&retrieval.regionPages+2<=4&&sourcePagesBefore+listingPagesRead+2<=NATIVE_LISTING_PAGE_CAP.DIRECTORY){
+              const visit=async(value:string)=>{
+                if(retrieval.regionPages>=4||sourcePagesBefore+listingPagesRead>=NATIVE_LISTING_PAGE_CAP.DIRECTORY)throw Object.assign(Error("Region page ceiling reached"),{code:"READ_BUDGET_EXCEEDED"});
+                retrieval.regionPages++;listingPagesRead++;await executor.navigate({source,stage:"DISCOVERY",signal,session:session!,allowedOrigins,url:value,observed:true});
+              };
+              await visit(homeLinks[0]!.href!);
+              const literalPlace=request.intent.area!.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu," ").trim();
+              const location={...discoveryGoalLocation,name:literalPlace};
+              const suggestion=await executor.selectLocationSuggestion({source,stage:"DISCOVERY",signal,session:session!,allowedOrigins,
+                taskId:`browser-read:native-location:${source}`,goal:{outlet:{name:keyword},location,hardCriteria:[]},
+                objective:"Use a unique observed public place suggestion",matchesSuggestion:t=>locationSuggestionMatches(t,location),
+                completion:()=>({complete:false,reason:"Source result and coordinates must still be verified"})});
+              page=suggestion.snapshot;
+              if(page.url!==homeLinks[0]!.href){retrieval.regionPages++;listingPagesRead++;recordListing(page);}
+              if(suggestion.status==="SELECTED"&&suggestion.selected&&directory.isRegionEntrance(page.url)
+                &&page.settlement!=="PENDING"&&!pack.browser!.resultBusy(page)
+                &&(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing(page))){
+                selectedRegion={url:page.url,...suggestion.selected};
+                directoryRegion={first:selectedRegion,samples:[]};
+                currentAreaListingUrl=page.url;currentAreaEntranceKey=listingEntranceKey(page.url)??homepageEntranceKey(page.url,page.url);
+                currentHomepageListing=!directory.listingRoot(page.url);currentAreaEntranceObserved=currentAreaEntranceKey!==undefined;
+                recordListing(page);raw=rawSourceLinks(page,pack);
+              }else{
+                // Earlier observed menu URL is safe to revisit; no stale DOM
+                // ref or unmatched suggestion is handed to the model.
+                await visit(originalMenu.url);page=await snapshot();recordListing(page);
+              }
+            }
+          }
+          if(!currentAreaEntranceObserved){
           if (requestedName && !directlyNamed && directory.containsObservedOutlet && loadRegionReferenceRead) {
             const referenceRead = await loadRegionReferenceRead(Math.max(1, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedMs()));
             if (referenceRead) outletReference = observedDirectoryOutletReference(pack, referenceRead, location);
@@ -906,6 +943,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             }
             recordListing(page); raw = rawSourceLinks(page, pack);
           } finally { selectingRegion = false; }
+          }
         }
         if (!currentAreaEntranceObserved) {
           throw Object.assign(new Error("Current public directory area entrance was not observed"), { code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED" });
