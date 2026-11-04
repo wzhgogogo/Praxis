@@ -18,7 +18,7 @@ export async function locationSuggestionAssembly(mode:Mode){
   const result=origin+"/en/tokyo/A1323/A132305/rstLst/?sw=kushikatsu",wrong=origin+"/en/tokyo/A1322/";
   const station="Akabane Sta. (Tokyo)";
   const optionResult=origin+"/en/tokyo/A1323/A132305/rstLst/?location=Akabane+Sta.+%28Tokyo%29&sw=kushikatsu";
-  const menuHtml=`<title>Tokyo restaurants</title><a href="${home}"><img alt="Tabelog"></a><main>${saved.regions.map((r:{label:string;href:string})=>`<a href="${r.href}">${r.label}</a>`).join(" ")}</main>`;
+  const menuHtml=`<title>Tokyo restaurants</title>${Array.from({length:3},()=>`<a href="${home}"><img alt="Tabelog"></a>`).join(" ")}<main>${saved.regions.map((r:{label:string;href:string})=>`<a href="${r.href}">${r.label}</a>`).join(" ")}</main>`;
   const locationChoices=mode==="NONE"||mode==="MERCHANT_ONLY"?[]:[{name:station,href:result},...(mode==="AMBIGUOUS"?[{name:"Akabane Station (Tokyo)",href:origin+"/en/tokyo/R99999/rstLst/"}]:[])];
   const locationHtml=locationChoices.map(c=>mode==="OPTION"?`<button type="button" role="option" aria-selected="false" class="unused-option-private">${c.name}</button>`:`<a href="${c.href}">${c.name}</a>`).join("");
   const suggestions=`<section role="group" aria-label="Locations">${locationHtml}<a href="${origin}/en/aichi/R88888/rstLst/">Michi no Eki Akabane Roko Station [Aichi]</a></section><section role="group" aria-label="Restaurants"><a href="${origin}/en/tokyo/A1323/A132305/13999999/">Akabane</a><a href="${origin}/en/tokyo/A1323/A132305/13999998/">Akabane Sta. (Tokyo)</a></section>`;
@@ -41,6 +41,7 @@ export async function locationSuggestionAssembly(mode:Mode){
     pages[url]=`<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:"Outside restaurant "+i,address:"東京都板橋区",geo:{latitude:35.74,longitude:139.72}})}</script><h1>Outside restaurant ${i}</h1>`;
   }
   pages[wrong]=wrongLinks.join("");
+  pages[wrong+"?sw=kushikatsu"]=pages[wrong]!;
   const folder=await mkdtemp(join(tmpdir(),"praxis-location-suggestions-")),har=join(folder,"source.har");await writeFile(har,replayHarPages(pages));
   const actual=new LocalPlaywrightChromium(),sessions:BrowserSession[]=[],actions:Array<{operation:string;args:unknown[]}>=[],models:ModelRequest[]=[],diagnostics:unknown[]=[];
   const browser:BrowserRuntime={readNetworkBoundaryCapability:actual.readNetworkBoundaryCapability,async openSession(input){

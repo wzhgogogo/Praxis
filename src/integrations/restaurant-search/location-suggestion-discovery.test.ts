@@ -12,6 +12,7 @@ for(const mode of ["LINK","OPTION","NONE","AMBIGUOUS","OUTSIDE","MERCHANT_ONLY"]
     const read=await f.search();
     if(process.env.PRAXIS_LOCATION_SUGGESTION_CAPTURE==="1")console.log("LOCATION_SUGGESTION_RESULT "+JSON.stringify({mode,candidates:read.candidates.map(c=>({id:c.restaurant.id,name:c.restaurant.outletName,coordinates:c.restaurant.coordinates,sourceIds:c.restaurant.sourceIds})),actions:f.actions,diagnostics:f.diagnostics,metadata:read.metadata,realCalls:0}));
     assert.ok(f.actions.some(a=>a.operation==="fill"&&a.args[1]==="Akabane"),"Use only authoritative place text in an observed field");
+    assert.notEqual(read.metadata.failureCode,"BROWSER_RUNTIME_FAILED","A missing HAR entry is not a valid fallback result");
     const navigated=f.actions.flatMap(a=>a.operation==="navigate"?[a.args[0]]:a.operation==="openLink"?[a.args[1]]:[]);
     assert.ok(navigated.includes(f.home),"Search home must be an observed entrance");
     assert.ok(!navigated.some(url=>typeof url==="string"&&/1399999[89]|aichi|R88888/.test(url)),"Merchant suggestions and the foreign namesake never selected");
