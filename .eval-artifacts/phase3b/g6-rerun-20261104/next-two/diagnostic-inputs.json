@@ -1,0 +1,111 @@
+{
+  "mode": "OFFLINE_COMPONENT_DIAGNOSTIC_NOT_FULL_REPLAY",
+  "frozenAtCET": "2026-11-04T15:13:44.761541+01:00",
+  "files": [
+    {
+      "path": ".eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D4/D4/recordings/g6-D4-1793800736299-0/recording.json",
+      "sha256": "46f758cf260106d6370ccb427225bbac4a5e44cb7e020c077faeaf8fa21da1cb"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D8/D8/execution.result.json",
+      "sha256": "c1ff59b5ce4cbfeeae1b0aeeff07213a89eb7fda42869a946b30704420f716f8"
+    },
+    {
+      "path": "src/integrations/restaurant-search/location-suggestions.ts",
+      "sha256": "2c53513e89b550e3c7a8cfb67d9ed2d6a18ccca18e897e949a5ea2eb24810121"
+    },
+    {
+      "path": "src/integrations/restaurant-search/source-packs.ts",
+      "sha256": "d5ffd2441b13948e150ae6d6026858280feb3cc4ca5f47b3c00c6aa7984579d9"
+    },
+    {
+      "path": "src/integrations/restaurant-search/native-restaurant-search.ts",
+      "sha256": "a4a0c239fd405e390407f452e99fea8525e84d2aeeaea7a68cdeed8bf22410a4"
+    },
+    {
+      "path": "src/domains/restaurant/named-outlet-resolution.ts",
+      "sha256": "6d31ad0c5cc4c02544b8621df94951e4140b7f9628732fa948fdb434a777d406"
+    }
+  ],
+  "D4": {
+    "location": {
+      "label": "Akabane",
+      "latitude": 35.7799638,
+      "longitude": 139.723053,
+      "radiusMeters": 1000,
+      "areaMatchBasis": "NAMED_PLACE_RADIUS",
+      "addressComponents": [
+        {
+          "types": [
+            "sublocality_level_2",
+            "sublocality",
+            "political"
+          ],
+          "longText": "Akabane",
+          "shortText": "Akabane"
+        },
+        {
+          "types": [
+            "locality",
+            "political"
+          ],
+          "longText": "Kita City",
+          "shortText": "Kita City"
+        },
+        {
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ],
+          "longText": "Tokyo",
+          "shortText": "Tokyo"
+        },
+        {
+          "types": [
+            "country",
+            "political"
+          ],
+          "longText": "Japan",
+          "shortText": "JP"
+        },
+        {
+          "types": [
+            "postal_code"
+          ],
+          "longText": "115-0045",
+          "shortText": "115-0045"
+        }
+      ],
+      "name": "Akabane"
+    },
+    "observedStationControls": [
+      {
+        "recordingSequence": 337,
+        "snapshotSequence": 326,
+        "url": "https://tabelog.com/en/",
+        "control": {
+          "id": "dom:3:11",
+          "kind": "LINK",
+          "label": "Akabane Sta.（Tokyo）",
+          "controlGroupLabel": "Unlabelled group",
+          "href": "https://tabelog.com/en/"
+        }
+      },
+      {
+        "recordingSequence": 351,
+        "snapshotSequence": 338,
+        "url": "https://tabelog.com/en/",
+        "control": {
+          "id": "dom:4:11",
+          "kind": "LINK",
+          "label": "Akabane Sta.（Tokyo）",
+          "controlGroupLabel": "Unlabelled group",
+          "href": "https://tabelog.com/en/"
+        }
+      }
+    ]
+  },
+  "D8": {
+    "path": ".eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D8/D8/execution.result.json"
+  }
+}

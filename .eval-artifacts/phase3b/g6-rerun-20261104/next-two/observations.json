@@ -3294,6 +3294,827 @@
           "diagnostic": "diagnostic/snapshot-0061.html"
         }
       ]
+    },
+    {
+      "newRequestedMetrics": {
+        "failureCodes": {
+          "BROWSER_TIMEOUT": 1,
+          "BROWSER_BUDGET_EXHAUSTED": 0
+        },
+        "failureCountBasis": "one executor failure diagnostic, excluding provider/close repetitions; not distinct physical network errors",
+        "failureEvents": [
+          {
+            "sequence": 6,
+            "at": "2026-11-04T14:09:02.694Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "OPERATION_FAILED",
+            "elapsedMs": 8898,
+            "lifecycle": {
+              "outcome": "FAILED",
+              "candidateElapsedMs": 1430,
+              "providerElapsedMs": 1430,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 1,
+              "providerRuntimeOperations": 1,
+              "runModelCalls": 0,
+              "reason": "RUNTIME_FAILURE",
+              "failureCode": "BROWSER_RUNTIME_FAILED"
+            },
+            "candidateId": "praxis:restaurant:399b940d8930096624424dba"
+          },
+          {
+            "sequence": 15,
+            "at": "2026-11-04T14:09:22.799Z",
+            "source": "TABELOG",
+            "stage": "DISCOVERY",
+            "event": "OPERATION_FAILED",
+            "elapsedMs": 29003,
+            "lifecycle": {
+              "outcome": "FAILED",
+              "candidateElapsedMs": 21535,
+              "providerElapsedMs": 20103,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 2,
+              "providerRuntimeOperations": 1,
+              "runModelCalls": 0,
+              "reason": "DEADLINE_EXCEEDED",
+              "failureCode": "BROWSER_TIMEOUT"
+            },
+            "candidateId": "praxis:restaurant:399b940d8930096624424dba"
+          },
+          {
+            "sequence": 24,
+            "at": "2026-11-04T14:09:23.945Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "OPERATION_FAILED",
+            "elapsedMs": 30149,
+            "lifecycle": {
+              "outcome": "FAILED",
+              "candidateElapsedMs": 1144,
+              "providerElapsedMs": 1144,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 1,
+              "providerRuntimeOperations": 1,
+              "runModelCalls": 0,
+              "reason": "RUNTIME_FAILURE",
+              "failureCode": "BROWSER_RUNTIME_FAILED"
+            },
+            "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5"
+          },
+          {
+            "sequence": 73,
+            "at": "2026-11-04T14:10:00.026Z",
+            "source": "TABLECHECK",
+            "stage": "DISCOVERY",
+            "event": "OPERATION_FAILED",
+            "elapsedMs": 66229,
+            "lifecycle": {
+              "outcome": "FAILED",
+              "candidateElapsedMs": 1123,
+              "providerElapsedMs": 1123,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 1,
+              "providerRuntimeOperations": 1,
+              "runModelCalls": 1,
+              "reason": "RUNTIME_FAILURE",
+              "failureCode": "BROWSER_RUNTIME_FAILED"
+            },
+            "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895"
+          }
+        ],
+        "sourceSearchEntryNavigationCount": 10,
+        "searchEntryDefinition": "Explicit GOTO to observed Tabelog rstLst or /en/tokyo/ or /en/; TableCheck /en/japan/search. Region OPEN_LINK and document redirects are separate, never counted twice.",
+        "explicitNavigationCount": 14,
+        "navigationsByOriginPath": {
+          "https://www.tablecheck.com/en/japan/search": 3,
+          "https://tabelog.com/en/tokyo/rstLst/": 7,
+          "https://tabelog.com/en/tokyo/A1301/A130101/13219563/": 1,
+          "https://tabelog.com/en/tokyo/A1301/A130103/13268661/": 1,
+          "https://tabelog.com/en/tokyo/A1301/A130101/13186922/": 1,
+          "https://tabelog.com/en/tokyo/A1313/A131301/13206359/": 1
+        },
+        "discoveryNavigateOperations": 10,
+        "slowestBrowserRequests": [
+          {
+            "requestId": "capture:2:page:1:request:1",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tabelog.com/en/tokyo/rstLst/",
+            "urlSha256": "71b26f6dac999e8b370c8282c02b910892971359ae4a73e3f181ef8f94b09bfb",
+            "resourceType": "Document",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 11653.59499992337,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:4:page:1:request:449",
+            "navigationId": "capture:4:navigation:10",
+            "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+            "urlSha256": "c055c5bac8a0b4993d64b2febde3a2b93ac15c022144fd8f418340835b07816d",
+            "resourceType": "Stylesheet",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 10873.172999941744,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:4:page:1:request:59",
+            "navigationId": "capture:4:navigation:3",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 5986.510999966413,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:4:page:1:request:145",
+            "navigationId": "capture:4:navigation:4",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 5442.636000108905,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:2:page:1:request:2",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+            "urlSha256": "c055c5bac8a0b4993d64b2febde3a2b93ac15c022144fd8f418340835b07816d",
+            "resourceType": "Stylesheet",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 4652.738000033423,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          }
+        ],
+        "browserRequestsWithoutWireEnd": 3,
+        "slowestGuardTransports": [
+          {
+            "transportId": "capture:2:transport:1",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tabelog.com/en/tokyo/rstLst/",
+            "urlSha256": "71b26f6dac999e8b370c8282c02b910892971359ae4a73e3f181ef8f94b09bfb",
+            "resourceType": "document",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 11623.868416000001
+          },
+          {
+            "transportId": "capture:4:transport:138",
+            "navigationId": "capture:4:navigation:10",
+            "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+            "urlSha256": "c055c5bac8a0b4993d64b2febde3a2b93ac15c022144fd8f418340835b07816d",
+            "resourceType": "stylesheet",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 10815.950250000009
+          },
+          {
+            "transportId": "capture:4:transport:35",
+            "navigationId": "capture:4:navigation:3",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 5910.510999999999
+          },
+          {
+            "transportId": "capture:4:transport:54",
+            "navigationId": "capture:4:navigation:4",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 5389.856875000005
+          },
+          {
+            "transportId": "capture:2:transport:2",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+            "urlSha256": "c055c5bac8a0b4993d64b2febde3a2b93ac15c022144fd8f418340835b07816d",
+            "resourceType": "stylesheet",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 4593.077417
+          }
+        ],
+        "timingCaution": "CDP browser elapsed and Guard API duration are independent observation points, not added as requests or called physical TTFB; cancelled requests with unknown wire end excluded from slowest completed list.",
+        "initialTurnJST": "2026-11-04T23:08:48.871000+09:00",
+        "initialTurnCET": "2026-11-04T15:08:48.871000+01:00",
+        "peak19to23JST": false
+      },
+      "id": "D8",
+      "group": "runs",
+      "runId": "g6-D8-1793801328153-0",
+      "verdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "evaluationSHA256": "b88fac9791eb518a319eb4e814bacee55861127be5580204e91022479efb0879",
+      "nonPassingChecks": [
+        {
+          "rule": "BOUNDED_NO_RESULT",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+          "reason": "No-delivery wording must describe this bounded investigation",
+          "evidenceRefs": []
+        },
+        {
+          "rule": "NO_DELIVERY_WITNESS",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "witness-W2",
+          "reason": "Independently qualified witness still has the slot",
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D8/D8/witness/002-vacancy.body"
+          ]
+        }
+      ],
+      "phase": "NEEDS_INPUT",
+      "delivered": [],
+      "turns": [
+        {
+          "id": "book-first",
+          "status": "NOT_SENT",
+          "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+        }
+      ],
+      "handoffs": [],
+      "question": null,
+      "elapsedMs": 120870.840916,
+      "turnBudgets": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1793801328871,
+          "deadlineAtMs": 1793801828871,
+          "elapsedMs": 120151.299291,
+          "modelCalls": 6,
+          "googleRequests": 3,
+          "exceeded500Seconds": false
+        }
+      ],
+      "modelCalls": 6,
+      "modelsByPurpose": {
+        "restaurant_semantic_interpret": {
+          "count": 1,
+          "latencyMs": 4901
+        },
+        "restaurant_agent_decide": {
+          "count": 3,
+          "latencyMs": 8613
+        },
+        "restaurant_named_source_query": {
+          "count": 2,
+          "latencyMs": 5772
+        }
+      },
+      "googleRequests": 3,
+      "schemaRetries": 0,
+      "exclusiveWallMs": {
+        "UNATTRIBUTED": 6458.8408203125,
+        "MODEL:restaurant_semantic_interpret": 4901.0,
+        "MODEL:restaurant_agent_decide": 8613.0,
+        "SESSION_STARTUP": 469.0,
+        "PAGE_LOAD_OPERATION_PROXY": 86209.0,
+        "SESSION_CLOSE": 171.0,
+        "POST_OPERATION_WAIT": 5549.0,
+        "READ_PAGE_STRUCTURE": 2205.0,
+        "RECORDING_SCREENSHOT": 522.0,
+        "MODEL:restaurant_named_source_query": 5772.0,
+        "PAGE_OPERATION": 1.0
+      },
+      "operationInclusiveMs": {
+        "openSession": 563.0,
+        "navigate": 86209.0,
+        "close": 198.0,
+        "captureResponses": 1.0,
+        "waitForSettled": 5549.0,
+        "snapshot": 536.0,
+        "screenshotLayoutOnly": 525.0,
+        "observeControls": 1669.0
+      },
+      "unfinishedOperations": [],
+      "timingLimit": "Method spans are source-operation proxies, not pure network latency. Parallel overlap uses model-first exclusive attribution. Slot duration includes setup; the first user-turn start anchors proxy bins, leaving setup/clock offsets unattributed. Per-turn durations and F6 deadlines are authoritative boundary observations; slot totals may exceed 500 seconds. Google wait and complete-evidence timestamp remain unassessed; no timing establishes qualification.",
+      "firstServerPresentationCET": null,
+      "firstCompleteQualifiedEvidenceAt": null,
+      "screenRenderingObserved": false,
+      "F6": {
+        "exceeded500Seconds": false,
+        "sourceReadsStartedInReserve": 0,
+        "termsWorkStartedInReserve": 0
+      },
+      "guardForbiddenReachedSource": 0,
+      "actions": [
+        {
+          "step": 1,
+          "atCET": "2026-11-04T15:08:56.043000+01:00",
+          "action": {
+            "type": "SEARCH_RESTAURANTS",
+            "retrievalHint": "Nodoguro Ginza Nakamata"
+          },
+          "metadata": {
+            "route": "STRUCTURED_ADAPTER",
+            "provider": "GOOGLE_PLACES",
+            "latencyMs": 2975,
+            "googleRequests": {
+              "limit": 40,
+              "total": 1,
+              "discovery": 1,
+              "placeDetails": 0,
+              "namedPlaceResolution": 0,
+              "reverseAddressObservation": 0
+            },
+            "googleGeoDiagnostics": {
+              "candidates": [
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJU2773eCLGGARq3ervhbV3po"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJX_LmUt6LGGARrbstvmOzgj8"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJ6eMSipuLGGARZwoY4_VvcY8"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJr4iC5uaLGGAR_And1MTEjHU"
+                }
+              ],
+              "requestMode": "UNRESTRICTED",
+              "providerMode": "GOOGLE_TEXT_SEARCH",
+              "exactRadiusGate": "NOT_APPLICABLE"
+            }
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 2,
+          "atCET": "2026-11-04T15:09:01.259000+01:00",
+          "action": {
+            "type": "INVESTIGATE_CANDIDATE_FACTS",
+            "candidateIds": [
+              "praxis:restaurant:399b940d8930096624424dba",
+              "praxis:restaurant:083eb6605d4a82e97dc952d5",
+              "praxis:restaurant:94d9715550e9ca87d301b895"
+            ]
+          },
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "browser": {
+              "engine": "CHROMIUM",
+              "sessionId": "local:48aacff8-b1e8-4e3b-96f9-df1cb9bfdf65",
+              "startedAt": "2026-11-04T14:09:24.063Z",
+              "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+              "readNetworkBoundary": "INSTALLED"
+            },
+            "provider": "AVAILABILITY_SOURCE_RESOLVER",
+            "latencyMs": 103483,
+            "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+            "providerAttempts": [
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+                "failureCode": "BROWSER_RUNTIME_FAILED"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+                "failureCode": "BROWSER_TIMEOUT"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+                "failureCode": "BROWSER_RUNTIME_FAILED"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+                "failureCode": "ENTITY_MATCH_UNCERTAIN"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+                "failureCode": "BROWSER_RUNTIME_FAILED"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+                "failureCode": "ENTITY_MATCH_UNCERTAIN"
+              }
+            ]
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 3,
+          "atCET": "2026-11-04T15:10:48.942000+01:00",
+          "action": {
+            "type": "ASK_USER",
+            "question": "I found several different Ginza-area outlets with similar names, and I can't confirm which one you mean. Which branch would you like me to check for 2 people on November 11, 2026 at 8:00 PM?\n1) Nakamata — Ginza 4-chōme 10-12 (Ginza Samariya Bldg B1F)\n2) Nodoguro, Ginza Nakamata Hanare — Ginza 3-chōme 12-17\n3) Nodoguro Nakamata — Higashi-Ginza, 2-chōme 15-15-1F, Tsukiji\n4) Sakananonakamata Ginza — Ginza 3-chōme 14-17 (Kobikiss GINZa 2F)\n5) Nodogurono Nakamata Shinbashi — Shinbashi 2-chōme 11-1, 1F (Minato City)",
+            "relatedFields": [
+              "target.query"
+            ]
+          },
+          "metadata": null,
+          "outcome": "WAITING_USER"
+        }
+      ],
+      "witnessFunnel": {
+        "found": false,
+        "candidateId": null,
+        "candidate": null,
+        "factCheck": null,
+        "availabilityCheck": null,
+        "presented": false,
+        "certificatesAndPostChecks": [
+          {
+            "checkedAt": "2026-11-04T14:07:51.671Z",
+            "kind": "BEFORE",
+            "target": {
+              "candidateId": "witness-W2",
+              "name": "のどぐろ専門 銀座 中俣",
+              "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+              "provider": "TABELOG",
+              "sourceEntityId": "13186922",
+              "date": "2026-11-11",
+              "time": "20:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+              "identityText": [
+                "4-10-12"
+              ],
+              "allowDetailOnlyCertificate": true
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/certificates/W2/002-vacancy.body",
+              "phase": "BEFORE",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13186922&svd=20261111&svps=2&svt=2000",
+              "candidateId": "witness-W2",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1700"
+                  },
+                  "1": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1715"
+                  },
+                  "2": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1730"
+                  },
+                  "3": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1745"
+                  },
+                  "4": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1800"
+                  },
+                  "5": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2000"
+                  },
+                  "6": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2015"
+                  },
+                  "7": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2030"
+                  },
+                  "8": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2045"
+                  },
+                  "9": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2100"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "20:00"
+              }
+            },
+            "responseSHA256": "f560eeb03e3054574bc51b2a886f9f04ed85191070efe50ca4d175ecadb0830b",
+            "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/certificates/W2/001-detail.body",
+            "detailSHA256": "0f5ba79436802d8f6349cd51a22e2343709c33232900fec398be10a7ca7cc07f"
+          },
+          {
+            "checkedAt": "2026-11-04T14:10:54.465Z",
+            "kind": "NO_DELIVERY_AFTER",
+            "target": {
+              "candidateId": "witness-W2",
+              "name": "のどぐろ専門 銀座 中俣",
+              "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+              "provider": "TABELOG",
+              "sourceEntityId": "13186922",
+              "date": "2026-11-11",
+              "time": "20:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+              "identityText": [
+                "4-10-12"
+              ],
+              "allowDetailOnlyCertificate": true
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D8/D8/witness/002-vacancy.body",
+              "phase": "NO_DELIVERY_AFTER",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13186922&svd=20261111&svps=2&svt=2000",
+              "candidateId": "witness-W2",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1700"
+                  },
+                  "1": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1715"
+                  },
+                  "2": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1730"
+                  },
+                  "3": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1745"
+                  },
+                  "4": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1800"
+                  },
+                  "5": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2000"
+                  },
+                  "6": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2015"
+                  },
+                  "7": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2030"
+                  },
+                  "8": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2045"
+                  },
+                  "9": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2100"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "20:00"
+              }
+            },
+            "responseSHA256": "f560eeb03e3054574bc51b2a886f9f04ed85191070efe50ca4d175ecadb0830b",
+            "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D8/D8/witness/001-detail.body",
+            "detailSHA256": "eddd9ee700e671343085b8523d89b3b748b10bd393772da45b4b8a5964175c54"
+          }
+        ]
+      },
+      "recording": {
+        "recordingConfig": {
+          "browser": true,
+          "decisions": true,
+          "googleResponses": true
+        },
+        "decisions": {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D8/D8/execution.decisions.jsonl",
+          "sha256": "f71f539e15f7ebabd4e4a396ff484a0f187daaf39d946e2895238292643dfebe",
+          "callsStarted": 6,
+          "rowsWritten": 6,
+          "errors": []
+        },
+        "schemaVersion": "phase3b-g6-recording-observation@1",
+        "status": "RECORDED",
+        "qualifiedPages": 15,
+        "totalPages": 15,
+        "ratio": 1,
+        "pages": [
+          {
+            "snapshot": 1,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro%2C%20Ginza%20Nakamata%20Hanare",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0001.html"
+            }
+          },
+          {
+            "snapshot": 2,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro%2C%20Ginza%20Nakamata%20Hanare",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0002.html"
+            }
+          },
+          {
+            "snapshot": 3,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nakamata%20Hanare",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0003.html"
+            }
+          },
+          {
+            "snapshot": 4,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13219563/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0004.html"
+            }
+          },
+          {
+            "snapshot": 5,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13219563/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0005.html"
+            }
+          },
+          {
+            "snapshot": 6,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E4%B8%AD%E4%BF%A3%20%E3%81%AF%E3%81%AA%E3%82%8C",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0006.html"
+            }
+          },
+          {
+            "snapshot": 7,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E4%B8%AD%E4%BF%A3%20%E3%81%AF%E3%81%AA%E3%82%8C",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0007.html"
+            }
+          },
+          {
+            "snapshot": 8,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro%20Nakamata",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0008.html"
+            }
+          },
+          {
+            "snapshot": 9,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro%20Nakamata",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0009.html"
+            }
+          },
+          {
+            "snapshot": 10,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0010.html"
+            }
+          },
+          {
+            "snapshot": 11,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130103/13268661/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0011.html"
+            }
+          },
+          {
+            "snapshot": 12,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0012.html"
+            }
+          },
+          {
+            "snapshot": 13,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0013.html"
+            }
+          },
+          {
+            "snapshot": 14,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%AE%E3%81%A9%E3%81%90%E3%82%8D%E3%81%AE%E4%B8%AD%E4%BF%A3%20%E7%AF%89%E5%9C%B0",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0014.html"
+            }
+          },
+          {
+            "snapshot": 15,
+            "url": "https://tabelog.com/en/tokyo/A1313/A131301/13206359/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0015.html"
+            }
+          }
+        ],
+        "recordingPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D8/D8/recordings/g6-D8-1793801328153-0",
+        "replayStatus": "REPLAYABLE"
+      },
+      "googleResponsesInHAR": 3,
+      "uncapturedScriptsOriginPathOnly": [
+        {
+          "origin": "https://assets.adobedtm.com/",
+          "path": "/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+          "outcome": "BLOCKED"
+        }
+      ],
+      "calendarCandidates": []
     }
   ]
 }
