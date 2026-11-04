@@ -11,9 +11,19 @@
 2026-11-04 CET：A沿用已批准三槽额度同步C main be84674e，原G6身份/展示断言已达新增诊断文件红灯；只补评测诊断sidecar，无产品/评分改变。完整66例/净树五门禁与严格G2待运行，全绿才重新认证W1、非高峰D4、高峰D6和随后W2/D8；832旧账目原值保留，当前本轮真实调用仍0。[恢复计划](../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md)。
 
 2026-11-04 CET：A追加D4/D6/D8已获额度批准（32Live/425GET；开发14/58，模型400不变），同步main75ba1605后在既有真实组装回归停下：隐藏旧控件select失败后，复用会话被关闭，无法回到观察，首轮NEEDS_INPUT。原断言/来源不改，需C产品终止边界处理；三槽及认证均未运行，新增真实调用0。[停批证据](../.eval-artifacts/phase3b/g6-rerun-20261104/report.md)。
+2026-11-04 CET：地点联想合入发布受阻。源码净树五门禁1439/1439、Chromium189/189+G6 66/66、严格G2全12页均绿；GitHub四次推送返回服务端错误（含commit_refs_rules），最终ls-remote确认main仍为3527936c，合入分支未建立。未通知A开跑；本地合入与证据保留，无源码/冻结输入改动，待远端发布后才交接。 [报告](../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md)。
+
+2026-11-04 CET：用户复核批准地点联想a96f4d4e，在D8主线3527936c之后合入验证。双方源码及原始证据逐字保留，D8规则/完整G6和地点联想将同时进入main；文档两侧追加均保留，账本按id并集合并，新调用0。c708493d冻结900项，新鲜净树五门禁全绿：默认1439/1439、Chromium189/189+G6 66/66，严格G2 5/5且12页PASS，253项独立审计通过；各项前后status空。按批准发布main并通知A按原A部分接续D4/D8，C真实调用0。 [合入报告](../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md)。
+
+2026-11-04 CET：用户已复核批准C D8规则aba06e16；现从最新main de2b7ecc建立合入候选。D8/A完整G6原件与main候选90s源码/证据逐字保留，两处追加文档冲突并存、账本原行按id核对保留，新真实调用0。1980ed01冻结895项，新鲜净树五门禁全绿：默认1430/1430、Chromium189/189+原A G6 66/66，严格G2 5/5且12页PASS，171项独立审计通过。按授权发布main并通知A/B；所有对话五门禁包含完整G6，地点联想分支未带入。 [合入报告](../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md)。
+
+2026-11-04 CET：C地点联想离线候选（未合main）：从已观察Tabelog首页链接填入用户地名，仅唯一可观察地点/站名匹配才读取来源结果；店名、异地、歧义拒绝，原坐标半径核对及Guard/预算/20秒保留不变。真实Chromium/HAR普通组装6例绿，缺Guard/保留取消/操作上限3控制绿；有效旧源码红灯实际误入Itabashi并返回0。同步B main de2b7ecc候选90s；首轮Chromium188/189暴露旧地区路线被抢占；保留门店证据和精确地址区名菜单路线后，原A六地区测试不改断言通过。第二候选9aadfce3冻结930项，净树五门禁全绿1431/1431、Chromium189/189+原A G6 66/66，严格G2 5/5及12页PASS；独立审计108项通过，前后status空。真实调用0，不读.env；只推工作分支等复核。 [报告](../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md)。
+
 2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
 
 2026-11-04 CET：B完成D6 Ito候选60.008s保存时间线诊断，按用户停止条件交复核；导航43.746s、稳定等待9.836s、模型2.165s、Google日文名1.527s，其余2.734s。十次候选导航均完成且完整URL哈希各异，最终详情在59.262s才DCL完成、快照时仅剩18ms，尚未查位；未证实可安全删除足够重复工作，检索顺序改进涉及C身份路径。产品/预算/版本/A-C文件不改，不宣称修复或提速。df27dc1d净树五门禁全绿：默认1417、Chromium189+main G6 18、严格G2全12页PASS；新增真实调用0，账本原字节保留。只推诊断分支，不合main。 [报告](../.eval-artifacts/phase3b/candidate-budget-d6-20261104/report.md)。
+
+2026-11-04 CET：C具名唯一性修复候选：D8原始五候选字段红→绿，未知但已知全名不同的同伴不再阻挡唯一HIGH同名店；未知同名（含同Place ID日文名）、两家HIGH同名仍拒绝，前三家调查上限不变。实际组装“第一家HIGH同名+第二家HIGH异名+第三家UNKNOWN”红NEEDS_INPUT→绿PRESENT_RESULTS。四次赤羽原生发现初始菜单均无Akabane，模型误选Itabashi；后到门店页才观察到Sugamo→Akabane，未写死映射/未修改地区路径。Google同查询/圆心/半径的保存原始返回25/25/25/0，最新HTTP200空对象首偏离，外因未知。原A92bc1032完整G6测试/依赖原字节引入；冻结bebe0a41新鲜净树五门禁全绿：默认1425/1425、Chromium189/189及原A完整G6 66/66；严格G2 5/5和12有效页PASS，D8定向10/10，每项前后status空。真实调用0，分支交复核、不合main。 [报告](../.eval-artifacts/phase3b/named-region-resolution-20261104/report.md)。
 
 2026-11-04 CET：C会话复用控件回退回归已修复并达到用户批准发布门槛。54805c31原A三项有效红→a1363db7同18例全绿，A13份原字节保留。e7963151冻结860项，七步每项前后净树全绿：默认1417/1417、Chromium189/189+原样G6 18/18、严格G2 5/5且12页PASS、原复用5/5，type/arch/build通过，无完整门禁重试。普通页内操作失败保留观察；明确closed/disconnected或原导航失败仍退休，非复用不变。State25/TaskDefinition23/Prompt、身份/Guard/B资源与3000ms下限不改。832账目保留main/A原行及既有用户批准额度，真实调用0、不读.env；同步最新main后按批准发布并通知A/B，最终SHA以远端回执为准。 [报告](../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md)。
 

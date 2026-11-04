@@ -6618,3 +6618,56 @@ Three approved slots complete,increment3Live/31model/10GET/9Google/767browser so
 ## 2026-11-04 CET: A D4/D8 approved continuation preparation
 
 User permits only two new runs after B+C2 main. Exact prior requests/follow-ups/oracles retained, Wednesday11-11 is7days ahead today. New packs bind shared425 GET, Live34/dev16; all879 old ledger rows retained, no charge appended. Final source freeze/gates and fresh certifications deferred until C2 main. No real calls; no main merge. [Plan](../../.eval-artifacts/phase3b/g6-rerun-20261104/next-two/plan.md).
+<a id="named-region-resolution-20261104"></a>
+
+## 2026-11-04 CET — D8 sole verified name and Akabane saved-record diagnosis
+
+Exposed development, offline candidate, not integrated. D8 original authoritative fields plus unknown exact-name/same-ID Japanese-name/two HIGH homonym controls. Isolated old-source ordinary assembly fails NEEDS_INPUT vs PRESENT_RESULTS; fixed assembly passes without source/identity/availability changes. Four observed region menus have no Akabane target; model guesses Itabashi. Later outlet breadcrumbs show Sugamo→Akabane, with no captured parent-menu transition. Identical Google searchText restrictions return25/25/25/0; latest raw response HTTP200 `{}`. No region/Google code change or new external request. Imported A92bc1032 G6 tests and dependencies byte-for-byte, all assertions unchanged; required historical evidence preserves original scores. Full clean-tree gates pending. [Report](../../.eval-artifacts/phase3b/named-region-resolution-20261104/report.md).
+
+<a id="named-region-resolution-verified-20261104"></a>
+
+## 2026-11-04 CET — D8 and four-run region diagnosis verified
+
+Frozen bebe0a41 /934 source+input SHAs: typecheck, arch, default1425/1425, build, ordinary Chromium189/189 plus A-original fullG6 66/66, strictG2 5/5 and all12 valid pages PASS, target D8 component9 plus ordinary assembly1. Every gate before/after clean; no formal gate failure, assertion edits, skip or retry. Original D8 component red (2 failures) and isolated old-source assembly business assertion red retained. The only product delta is the approved name predicate; source adapters, Google, region routing, Guard, budget, reserve and versions unchanged. Independent audit and final report archived; work branch only, no main merge and no external calls. [Report](../../.eval-artifacts/phase3b/named-region-resolution-20261104/report.md).
+
+<a id="d8-main-integration-20261104"></a>
+
+## 2026-11-04 CET — reviewed D8 integration candidate
+
+User approved aba06e16 after independent1425/189+G6 66/strictG2. Merge candidate f791378c starts at current main de2b7ecc, preserves all source and original artifacts from both sides byte-for-byte; both append-only doc conflicts retained. No new location-suggestion code, version, source behavior or external calls. Original ledger rows retained, one zero-call integration row. Fresh clean gates pending. [Report](../../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md).
+
+<a id="d8-main-integration-verified-20261104"></a>
+
+## 2026-11-04 CET — approved D8 main integration verified
+
+Frozen1980ed01/895 source-input SHAs: fresh first-pass type/arch/default1430/build/Chromium189+originalG6 66/strictG2 all12 green, every before/after status empty;171 independent checks pass. Reviewed C aba06e16 and latest main de2b7ecc source/artifacts preserved118 rows, append docs both retained; original A8 G6 files and helpers immutable. Main mandatory browser gate now includes66 cases; default+5 reflects already-approved B candidate budget. No source fix, test/assertion change, skip, retry, version or external call.881 ledger rows retain both sides and one zero-call row. User authorized publication to main and notifications; final SHA follows remote receipt. [Report](../../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md).
+
+<a id="tabelog-location-suggestions-20261104"></a>
+
+## 2026-11-04 CET — observed location suggestions, offline candidate
+
+D4 original31-region menu lacks Akabane but contains3 equivalent public home links. Constructed homepage under real Chromium/HAR+Guard exercises exact Tokyo station link and owned option, merchant/foreign exclusion, no-match/ambiguity fallback and unchanged radius;9 target controls. Effective isolated old main red actually opens Itabashi and reads out-of-radius details. Earlier HAR/model/Skill fixture setup errors retained and explicitly excluded from effective-red claim. Source shortcut changes no versions or quotas, synchronized B main de2b7ecc. Fresh clean gates pending; full original A66 corpus imported without edits, original historical S0 scores preserved. Calls0, branch review only. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).
+
+<a id="tabelog-location-suggestions-verified-20261104"></a>
+
+## 2026-11-04 CET — observable location suggestions verified
+
+Final frozen9aadfce3/930 SHA entries: typecheck, arch, default1431/1431, build, ordinary Chromium189/189 + unchanged original fullG6 66/66, strictG2 5/5 and all12 pages PASS; each before/after status empty. Independent literal audit108 checks passes. First formal attempt ae5b8b75 (188/189) is retained; only Native source-priority logic then changed, preserving outlet-pointer and exact observed district-name routes. Original A six-region test passes unchanged. Constructed Tokyo link/owned-option paths each return5 in-radius source candidates with0 browser decisions, foreign/merchant/ambiguous/unmatched and outside-radius controls reject;3 admission controls preserve Guard/reserve/caps. This is not current-site DOM/network or booking completion; real calls0, no .env. Shared ledger881 immutable rows includes one new zero-call row, all main/A/prior C rows and caps preserved. Push work branch only, stop review, no main merge. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).
+
+<a id="location-main-integration-20261104"></a>
+
+## 2026-11-04 CET — reviewed location suggestions after D8 main
+
+User approved a96f4d4e and main publication after latest D8 main. Merge7c523eae starts at3527936c; both side source/original evidence and all doc additions retained, no source conflict or implementation change. Shared budget immutable row union, one zero-call integration row, caps/counters unchanged. Fresh frozen five gates incl fullG6/strictG2 pending. C reads no .env and runs no real external call; A notification follows verified publication. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
+
+<a id="location-main-integration-verified-20261104"></a>
+
+## 2026-11-04 CET — reviewed location suggestions main integration verified
+
+Frozen c708493d/900 source-input SHAs: fresh first-pass type/arch/default1439/build/Chromium189+fullG6 66/strictG2 all12 green; every before/after status empty.253 independent checks pass, including7 D8 and6 location expectations from this exact run. Both source/original-artifact sides preserved170 rows, no source conflict or repair; A originals and D8 unchanged. Shared ledger883 rows preserves both prior sets and one zero-call integration entry; caps/counters unchanged. No fixture/oracle/assertion/timeout change, skip, retry, .env read or C real call. User approved main publication and A notification; A then follows its own A-section instructions for D4/D8. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
+
+<a id="location-main-publication-blocked-20261104"></a>
+
+## 2026-11-04 CET — Location publication blocked
+
+2026-11-04 CET：地点联想合入发布受阻。源码净树五门禁1439/1439、Chromium189/189+G6 66/66、严格G2全12页均绿；GitHub四次推送返回服务端错误（含commit_refs_rules），最终ls-remote确认main仍为3527936c，合入分支未建立。未通知A开跑；本地合入与证据保留，无源码/冻结输入改动，待远端发布后才交接。 [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).

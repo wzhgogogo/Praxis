@@ -1,3 +1,5 @@
+2026-11-04 CET — offline candidate: Tabelog native discovery can use a currently observed search-home destination when the directory lacks the named area; exact unique semantic place/station suggestions only, merchant/foreign/ambiguous choices reject. Internal Executor shortcut retains Guard/admission and coordinate evidence, no model protocol changes. Real local Chromium/HAR source assembly, not current-site verification. Corrected candidate9aadfce3 freezes930 inputs/source; final clean gates1431/189+originalG6 66/strictG2 all12 and independent108 checks pass. Prior188/189 failure and its priority correction are retained. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).
+
 2026-11-04 CET — control-recovery regression verified offline: source-session reuse no longer retires a healthy page after select/click/fill failure. Runtime-owned page-closed/browser-disconnected facts retain genuine loss retirement; non-reuse behavior and B navigation/Guard rules remain. Effective old-code three G6 failures→same original18 green; final clean gates1417/189+18/strictG2 all12/reuse5,860 hashes frozen. No new current-site or W1-root-cause claim, real calls0; published main SHA follows verified delivery receipt. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md)。
 
 2026-11-04 CET — correction to source-session reuse retirement: recoverable page-control failures keep the current context for G3 observation and public Date/Guests recovery. Navigation failures retain existing retirement; in reuse mode a non-navigation failure retires only when runtime-owned lifecycle state explicitly reports closed page/session or disconnected browser. Both production runtimes expose this synchronous state, no extra network/model/retry. Original A18 G6 controls (three effective old-code failures) now pass; imported unchanged gate wiring retains them after ordinary Chromium. This supersedes the previous broad “other runtime failures retire in reuse mode” rule; immutable prior reports remain historical. Fresh full gates pending, real calls0. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md)。
@@ -76,10 +78,10 @@
 2026-10-28 CET: G1 quality repair is frozen for offline verification on latest-main fae69b48 (includes C b250bb17). Question Prompt/Schema2→3 only: question-language ratio rejection, whole-sentence citations, review-only absence/dietary preference instructions and source-conflict confirmation. Five old-code mechanism reds recorded; core-adapter fixture field/version sync explicitly user-authorized. Agent29/Action5/Context17/State24/TaskDefinition22 and HARD/site/Guard remain unchanged. Real calls0; independent six-question rerun remains A-owned after review/merge. [Plan](../../.eval-artifacts/phase3b/g1-answer-quality/plan.md).
 
 - Status: Accepted
-- Document revision: 1.129
+- Document revision: 1.130
 
 
-- Last updated: 2026-11-03
+- Last updated: 2026-11-04
 - Source of truth for: 外部平台可用能力、证据和限制
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md)
 - Related documents: [Restaurant Domain](../domains/RESTAURANT-BOOKING.md), [Data & Security](../architecture/DATA-CONTEXT-SECURITY.md)

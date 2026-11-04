@@ -1,0 +1,59 @@
+{
+  "recordedAtCET": "2026-11-04T10:56:23.658719+01:00",
+  "status": "PUBLICATION_BLOCKED",
+  "attemptedHead": "7b8c3a40d0b83a18fc86013595e9d155706a9585",
+  "evidenceType": "transcribed tool results; not raw transport logs",
+  "attempts": [
+    {
+      "refs": [
+        "main",
+        "codex/chore-phase3b-location-main-integration"
+      ],
+      "atomic": true,
+      "exitCode": 1,
+      "reason": "Internal Server Error",
+      "requestId": "EA5A:1FD05E:55AE90:67EA4B:6AEAFE1E",
+      "serverTimeUTC": "2026-11-04T09:42:55Z"
+    },
+    {
+      "refs": [
+        "main",
+        "codex/chore-phase3b-location-main-integration"
+      ],
+      "atomic": true,
+      "exitCode": 1,
+      "reason": "fatal error in commit_refs_rules"
+    },
+    {
+      "refs": [
+        "main"
+      ],
+      "atomic": false,
+      "exitCode": 1,
+      "reason": "Internal Server Error",
+      "requestId": "C2A0:21263A:55EE68:684E3F:6AEAFF55",
+      "serverTimeUTC": "2026-11-04T09:48:08Z"
+    },
+    {
+      "refs": [
+        "codex/chore-phase3b-location-main-integration"
+      ],
+      "atomic": false,
+      "exitCode": 1,
+      "reason": "Internal Server Error",
+      "requestId": "E742:2174CD:57B6E2:6A36A6:6AEB0044",
+      "serverTimeUTC": "2026-11-04T09:52:07Z"
+    }
+  ],
+  "finalLsRemote": {
+    "exitCode": 0,
+    "stdout": "3527936c42bf59f4223a597e60aeed1c854a8530\trefs/heads/main\n",
+    "integrationBranchPresent": false
+  },
+  "restrictedSandboxCheck": "DNS resolution failed; subsequent allowed network ls-remote succeeded",
+  "ANotifiedToStart": false,
+  "forcePush": false,
+  "rulesChanged": false,
+  "sourceChanged": false,
+  "realExternalCalls": 0
+}

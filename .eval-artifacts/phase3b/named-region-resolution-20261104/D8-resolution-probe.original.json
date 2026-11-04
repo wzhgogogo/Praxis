@@ -1,0 +1,52 @@
+{
+  "mode": "OFFLINE_PREDICATE_PROBE_NOT_REGRADING",
+  "input": "runs/D8/D8/execution.result.json",
+  "query": "Specializing in Nodoguro Ginza Nakamata",
+  "prefix": [
+    {
+      "id": "praxis:restaurant:399b940d8930096624424dba",
+      "name": "Nakamata",
+      "factStatus": "COMPLETED",
+      "factReason": "NAMED_OUTLET_IDENTITY_ONLY",
+      "boundNames": [
+        "Nakamata",
+        "Nakamata",
+        "Specializing in Nodoguro Ginza Nakamata",
+        "Specializing in Nodoguro Ginza Nakamata"
+      ],
+      "highNativeIdentityCount": 1,
+      "exactBoundName": true,
+      "resolved": false
+    },
+    {
+      "id": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "name": "Nodoguro, Ginza Nakamata Hanare",
+      "factStatus": "COMPLETED",
+      "factReason": "NAMED_OUTLET_IDENTITY_ONLY",
+      "boundNames": [
+        "Nodoguro, Ginza Nakamata Hanare",
+        "Nodoguro, Ginza Nakamata Hanare",
+        "Specializing in Nodoguro Ginza Nakamata Hanare",
+        "Specializing in Nodoguro Ginza Nakamata Hanare"
+      ],
+      "highNativeIdentityCount": 1,
+      "exactBoundName": false,
+      "resolved": false
+    },
+    {
+      "id": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "name": "Nodoguro Nakamata",
+      "factStatus": "UNKNOWN",
+      "factReason": "NAMED_OUTLET_IDENTITY_UNCONFIRMED",
+      "boundNames": [],
+      "highNativeIdentityCount": 0,
+      "exactBoundName": false,
+      "resolved": false
+    }
+  ],
+  "exactBoundNameCount": 1,
+  "allPrefixHaveHighNativeIdentity": false,
+  "blockingCondition": "src/domains/restaurant/named-outlet-resolution.ts:122 namedOutletCandidateResolved requires native HIGH identity for every prefix candidate before exact-name counting",
+  "firstCandidateResolved": false,
+  "assessment": "Full semantic query and first bound observed source name are exact; third UNKNOWN prevents resolution under current predicate. No product or scoring change. Reviewer to decide intended UNKNOWN handling."
+}

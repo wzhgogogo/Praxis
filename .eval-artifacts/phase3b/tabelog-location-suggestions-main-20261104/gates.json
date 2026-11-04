@@ -1,0 +1,96 @@
+[
+  {
+    "name": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T10:30:49.926333+01:00",
+    "head": "c708493d067163d7e01bef9e427668fb7e1ef558",
+    "returnCode": 0,
+    "elapsedSeconds": 0.516,
+    "finishedAtCET": "2026-11-04T10:30:50.450166+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "architecture",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T10:30:50.602881+01:00",
+    "head": "c708493d067163d7e01bef9e427668fb7e1ef558",
+    "returnCode": 0,
+    "elapsedSeconds": 0.289,
+    "finishedAtCET": "2026-11-04T10:30:50.899396+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "default",
+    "command": [
+      "env",
+      "PRAXIS_D8_RESOLUTION_CAPTURE=1",
+      "PRAXIS_LOCATION_SUGGESTION_CAPTURE=1",
+      "npm",
+      "test"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T10:30:51.060884+01:00",
+    "head": "c708493d067163d7e01bef9e427668fb7e1ef558",
+    "returnCode": 0,
+    "elapsedSeconds": 54.184,
+    "finishedAtCET": "2026-11-04T10:31:45.259455+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T10:31:45.464236+01:00",
+    "head": "c708493d067163d7e01bef9e427668fb7e1ef558",
+    "returnCode": 0,
+    "elapsedSeconds": 0.556,
+    "finishedAtCET": "2026-11-04T10:31:46.028832+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "chromium",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T10:31:46.188691+01:00",
+    "head": "c708493d067163d7e01bef9e427668fb7e1ef558",
+    "returnCode": 0,
+    "elapsedSeconds": 180.121,
+    "finishedAtCET": "2026-11-04T10:34:46.230178+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "strict-g2",
+    "command": [
+      "env",
+      "PRAXIS_G2_REQUIRE_PASS=1",
+      "npm",
+      "run",
+      "test:dom-change"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T10:34:46.411554+01:00",
+    "head": "c708493d067163d7e01bef9e427668fb7e1ef558",
+    "returnCode": 0,
+    "elapsedSeconds": 23.927,
+    "finishedAtCET": "2026-11-04T10:35:10.346251+01:00",
+    "afterStatus": ""
+  }
+]

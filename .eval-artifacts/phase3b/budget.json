@@ -11763,6 +11763,55 @@
       "googleRequests": 2,
       "restaurantWebsiteRequests": 221,
       "note": "Actual source transport starts; no quotas charged twice; witness GETs have their own rows."
+    },
+    {
+      "id": "phase3b-C-named-region-resolution-20261104",
+      "conversation": "C",
+      "timeCET": "2026-11-04T08:37:55.471823+01:00",
+      "scope": "D8 saved-record uniqueness repair; four-run Akabane/Google diagnosis; offline G6 regression",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0,
+      "note": "No external calls; no .env. Union A92bc1032 original shared rows without modification."
+    },
+    {
+      "id": "phase3b-C-d8-main-integration-20261104",
+      "conversation": "C",
+      "timeCET": "2026-11-04T09:48:16.559626+01:00",
+      "scope": "User-approved aba06e16 integration after latest main; offline gates only",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-C-tabelog-location-suggestions-20261104",
+      "conversation": "C",
+      "timeCET": "2026-11-04T09:19:21.606846+01:00",
+      "scope": "Offline observable place suggestions; constructed local Chromium/HAR; no website or model transport",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "phase3b-C-location-main-integration-20261104",
+      "conversation": "C",
+      "timeCET": "2026-11-04T10:28:53.743304+01:00",
+      "scope": "Approved a96f4d4e integration after D8 main; offline gates only",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 0,
+      "googleRequests": 0,
+      "restaurantWebsiteRequests": 0
     }
   ],
   "cumulative": {
@@ -11877,6 +11926,32 @@
       "sourceSha256": "a93a851083c64a8ab8f02821cc11abc062ebb8c3949e03834ce67f6685cb748e",
       "approvedLimitsSource": "g6-rerun-20261104/authorization.json",
       "approvedLimitsSha256": "28756c4f5f45f5a5448f11ccb1ab0e1f3be7a51e539e35c8604b0975d70745ab"
+    },
+    {
+      "conversation": "A-before-C-D8-region",
+      "sourceGit": "92bc1032",
+      "sourceSha256": "40c32697c9a946382a90e8c902171b7b52c0392b5f056663da1ea415b0d80225",
+      "unionNewRows": 47,
+      "note": "All common rows identical; preserve main and A rows plus C zero-call row. No change to limits."
+    },
+    {
+      "conversation": "C-D8-main-integration",
+      "mainGit": "de2b7ecc3ca6f54cf362883c61e2fb342c4e7f61",
+      "reviewedGit": "aba06e165eedbb1d0b65023be17932d4c6a78dab",
+      "note": "All side entries equal by id and preserved; one zero-call integration row. Existing limits unchanged."
+    },
+    {
+      "conversation": "C-location-suggestions",
+      "sourceGit": "aba06e16",
+      "sourceSha256": "981f448a08bda7cbfc8d5591be03c2276bd00531261c8ef3772636380a0f4cd8",
+      "unionRows": 48,
+      "note": "Preserve every main/A/prior C row by id; this slice has zero real calls and changes no limits."
+    },
+    {
+      "conversation": "C-location-main-integration",
+      "mainGit": "3527936c42bf59f4223a597e60aeed1c854a8530",
+      "reviewedGit": "a96f4d4e3d712077a158bbc5afaa7551ea565e3d",
+      "note": "All side rows preserved exactly by id; one zero-call integration row, no cap/counter change."
     }
   ],
   "asOfCET": "2026-11-04T05:05:57.409219+01:00",
