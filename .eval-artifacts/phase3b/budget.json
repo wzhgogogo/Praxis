@@ -101,7 +101,7 @@
       "evaluationPublicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0,
-      "note": "\u672c\u6279\u79bb\u7ebf\u6838\u5fc3\u4e0eProposed ADR\uff1b\u539fA/C\u6761\u76ee\u6309id\u539f\u6837\u5e76\u96c6\uff0c\u7981\u6b62\u540cid\u5f02\u5185\u5bb9\u8986\u76d6\u3002"
+      "note": "本批离线核心与Proposed ADR；原A/C条目按id原样并集，禁止同id异内容覆盖。"
     },
     {
       "id": "phase3b-b-batch1-g1-offline-complete",
@@ -115,7 +115,7 @@
       "evaluationPublicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0,
-      "note": "\u505c\u6b62\u70b91\uff1aProposed ADR + \u672a\u63a5\u5165\u53e3G1\u6838\u5fc3\uff1b\u5404\u9879\u662f\u672c\u6761\u589e\u91cf0\u3002A/C\u539f\u6761\u76ee\u539f\u6837\u4fdd\u7559\uff0c\u672a\u5408main\u3002"
+      "note": "停止点1：Proposed ADR + 未接入口G1核心；各项是本条增量0。A/C原条目原样保留，未合main。"
     },
     {
       "id": "phase3b-b-batch2-g1-revision-start",
@@ -129,7 +129,7 @@
       "evaluationPublicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0,
-      "note": "\u7528\u6237\u6279\u51c6\u6279\u6b212\u4fee\u8ba2\uff1b\u4fdd\u7559\u65e2\u6709\u6240\u6709\u884c\uff0c\u4ec5\u8ffd\u52a0B\u589e\u91cf0\uff1bQA\u7b54\u6848\u4e0e.env\u4e0d\u8bfb\u53d6\u3002"
+      "note": "用户批准批次2修订；保留既有所有行，仅追加B增量0；QA答案与.env不读取。"
     },
     {
       "id": "phase3b-b-batch2-g1-revision-complete",
@@ -143,7 +143,7 @@
       "evaluationPublicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0,
-      "note": "G1\u4fee\u8ba2/ADR0046 Proposed\uff0c\u4e94\u95e8\u7981\u901a\u8fc7\uff1b\u4ec5\u8ffd\u52a0B\u589e\u91cf0\uff0c\u4fdd\u7559\u5df2\u6709\u6240\u6709\u5bf9\u8bdd\u6761\u76ee\uff1b\u672a\u5408main\u3002"
+      "note": "G1修订/ADR0046 Proposed，五门禁通过；仅追加B增量0，保留已有所有对话条目；未合main。"
     },
     {
       "id": "phase3b-b-batch3-g1-core-integration-offline",
@@ -4884,7 +4884,7 @@
       "batch": "G4_E2E_CONTINUATION",
       "kind": "AUTHORIZATION",
       "atCET": "2026-10-28T08:31:06.082972+01:00",
-      "userApproval": "\u6279\u51c6\u8ffd\u52a0\u2264112\u6b21GET\uff0c\u5171\u4eab\u603b\u989d\u63d0\u9ad8\u5230257",
+      "userApproval": "批准追加≤112次GET，共享总额提高到257",
       "additionalPublicGETLimit": 112,
       "sharedPublicGETLimit": 257,
       "benchmarkRealModelLimitUnchanged": 40,
@@ -8749,7 +8749,7 @@
       "capabilityOutcome": "CAPABILITY_MISS",
       "severity": "S2",
       "reviewRef": ".eval-artifacts/phase3b/g6-development-live/continuation-after-b1-20261102/D1-reviewer-judgment.json",
-      "note": "\u81ea\u52a8 S0=1\uff1b\u590d\u6838\u88c1\u5b9a\uff1a\u670d\u52a1\u7aef\u6295\u5f71\u8303\u56f4\u7f3a\u53e3\uff0c\u975e\u7528\u6237\u53ef\u89c1\u58f0\u660e\u3002\u539f\u8bc4\u4ef7\u4e0d\u6539\uff0cD1\u4e0d\u91cd\u8dd1\uff0c\u4e0d\u5360\u73af\u5883\u91cd\u8dd1\u3002"
+      "note": "自动 S0=1；复核裁定：服务端投影范围缺口，非用户可见声明。原评价不改，D1不重跑，不占环境重跑。"
     },
     {
       "id": "g6-D3-1793634743154-0:LIVE",
@@ -8858,7 +8858,7 @@
       "automaticS0": 0,
       "reviewerClassification": "CAPABILITY_NOT_ACHIEVED_UNNECESSARY_CLARIFICATION",
       "reviewRef": ".eval-artifacts/phase3b/g6-development-live/d4-d6-safety-only/D3-reviewer-judgment.json",
-      "note": "D3\u4ea7\u54c1\u7f3a\u53e3\uff1a\u5177\u540d\u5e97\u65e0\u72ec\u7acb\u5730\u533a\u4e0d\u80fd\u641c\u7d22\u3002\u80fd\u529b\u672a\u8fbe\uff0c\u4e0d\u5fc5\u8981\u8ffd\u95ee\uff1bS0=0\u3002\u539f\u8bc4\u4ef7\u4e0d\u6539\uff0c\u4e0d\u7b97\u73af\u5883\u6545\u969c\uff1bC\u5408\u5165\u901a\u77e5\u540e\u65b0Live\u91cd\u8dd1\u3002D7\u7528\u6237\u53d6\u6d88\uff0c\u4e0d\u8ba1\u5931\u8d25\u3002"
+      "note": "D3产品缺口：具名店无独立地区不能搜索。能力未达，不必要追问；S0=0。原评价不改，不算环境故障；C合入通知后新Live重跑。D7用户取消，不计失败。"
     },
     {
       "id": "g6-D4-1793636444457-0:LIVE",
@@ -11055,15 +11055,151 @@
       "evaluationPublicGET": 1,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 17
+    },
+    {
+      "id": "phase3b-B-w1-timeline-http-1-20261104",
+      "batchId": "phase3b-B-w1-timeline-20261104",
+      "conversation": "B",
+      "timeCET": "2026-11-04T02:28:38+01:00",
+      "startedAtEpochMs": 1793755718821,
+      "mode": "W1_REQUEST_TIMELINE_HTTP",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "restaurantWebsiteRequests": 1,
+      "status": "COMPLETED_ATTEMPT",
+      "completedAtEpochMs": 1793755721399
+    },
+    {
+      "id": "phase3b-B-w1-timeline-http-2-20261104",
+      "batchId": "phase3b-B-w1-timeline-20261104",
+      "conversation": "B",
+      "timeCET": "2026-11-04T02:28:51+01:00",
+      "startedAtEpochMs": 1793755731406,
+      "mode": "W1_REQUEST_TIMELINE_HTTP",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "restaurantWebsiteRequests": 1,
+      "status": "COMPLETED_ATTEMPT",
+      "completedAtEpochMs": 1793755733478
+    },
+    {
+      "id": "phase3b-B-w1-timeline-main-1-20261104",
+      "batchId": "phase3b-B-w1-timeline-20261104",
+      "conversation": "B",
+      "timeCET": "2026-11-04T02:30:32+01:00",
+      "startedAtEpochMs": 1793755832894,
+      "mode": "W1_REQUEST_TIMELINE_MAIN",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "restaurantWebsiteRequests": 56,
+      "status": "COMPLETED_ATTEMPT",
+      "completedAtEpochMs": 1793755840035
+    },
+    {
+      "id": "phase3b-B-w1-timeline-main-2-20261104",
+      "batchId": "phase3b-B-w1-timeline-20261104",
+      "conversation": "B",
+      "timeCET": "2026-11-04T02:30:50+01:00",
+      "startedAtEpochMs": 1793755850041,
+      "mode": "W1_REQUEST_TIMELINE_MAIN",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "restaurantWebsiteRequests": 56,
+      "status": "COMPLETED_ATTEMPT",
+      "completedAtEpochMs": 1793755859692
+    },
+    {
+      "id": "phase3b-B-w1-timeline-main-3-20261104",
+      "batchId": "phase3b-B-w1-timeline-20261104",
+      "conversation": "B",
+      "timeCET": "2026-11-04T02:31:09+01:00",
+      "startedAtEpochMs": 1793755869697,
+      "mode": "W1_REQUEST_TIMELINE_MAIN",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "restaurantWebsiteRequests": 56,
+      "status": "COMPLETED_ATTEMPT",
+      "completedAtEpochMs": 1793755877030
+    },
+    {
+      "id": "phase3b-B-w1-timeline-branch-1-20261104",
+      "batchId": "phase3b-B-w1-timeline-20261104",
+      "conversation": "B",
+      "timeCET": "2026-11-04T02:32:26+01:00",
+      "startedAtEpochMs": 1793755946866,
+      "mode": "W1_REQUEST_TIMELINE_BRANCH",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "restaurantWebsiteRequests": 18,
+      "status": "COMPLETED_ATTEMPT",
+      "completedAtEpochMs": 1793755950914
+    },
+    {
+      "id": "phase3b-B-w1-timeline-branch-2-20261104",
+      "batchId": "phase3b-B-w1-timeline-20261104",
+      "conversation": "B",
+      "timeCET": "2026-11-04T02:32:40+01:00",
+      "startedAtEpochMs": 1793755960924,
+      "mode": "W1_REQUEST_TIMELINE_BRANCH",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "restaurantWebsiteRequests": 17,
+      "status": "COMPLETED_ATTEMPT",
+      "completedAtEpochMs": 1793755964704
+    },
+    {
+      "id": "phase3b-B-w1-timeline-branch-3-20261104",
+      "batchId": "phase3b-B-w1-timeline-20261104",
+      "conversation": "B",
+      "timeCET": "2026-11-04T02:32:54+01:00",
+      "startedAtEpochMs": 1793755974711,
+      "mode": "W1_REQUEST_TIMELINE_BRANCH",
+      "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "googleRequests": 0,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 1,
+      "restaurantWebsiteRequests": 17,
+      "status": "COMPLETED_ATTEMPT",
+      "completedAtEpochMs": 1793755978805
     }
   ],
   "cumulative": {
     "fullLive": 11,
     "realModelCalls": 401,
     "environmentReruns": 0,
-    "evaluationPublicGET": 290,
+    "evaluationPublicGET": 298,
     "googleRequests": 67,
-    "restaurantWebsiteRequests": 8210
+    "restaurantWebsiteRequests": 8432
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
