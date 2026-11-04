@@ -136,4 +136,4 @@ A的全部8个G6测试文件与传递依赖按 `92bc1032` 原字节带入，测�
 
 按id并集合并 A92bc1032 的47条新账目，common rows逐项相等；保留main所有条目、上限和A实际消耗，新增C零调用记录。共享累计 Live14、模型432、评测GET308、Google76、网站请求9209；本批全为0，没有增加额度或请求通道。
 
-工作分支 `codex/fix-phase3b-named-and-region-resolution`；最终推送SHA及远端核验见交付回执。**不合 main，停止交复核。**
+工作分支 `codex/fix-phase3b-named-and-region-resolution`；最终推送SHA及远端核验见交付消息。**不合 main，停止交复核。**
