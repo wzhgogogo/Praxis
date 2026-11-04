@@ -17,3 +17,9 @@ Main f324f17b contains B de2b7ecc, C1 aba06e16 and C2 a96f4d4e by ancestry. Work
 Gate candidate db35e4ce: typecheck/arch/build PASS; default1447/1447; ordinary Chromium189/189 and fullG6 66/66; strictG2 5/5, all12 valid pages PASS. Six gate steps had empty git status before/after. All851 source/input SHA unchanged. Archived original logs with SHA receipts before public certification.
 
 W1 freshly certified: detail+four-parameter GET2, actual same name/full address/phone, data-booking-enabled calendar block present,11-11 19:00/2 available. Raw bytes/SHA and evidence import saved; globalGET310/425. No form opened, no credential read. D4 input/evidence now committed before its paid process.
+
+## D4 original result and D8 fresh certification
+
+D4 started2026-11-04 22:58:57JST (14:58:57CET),487.810s read,22models/5Google,0delivery,CAPABILITY_MISS/S0=0,748 independent source-boundary PASS. Ended with explicit bounded unknown; F6 reserve new-read count0, not over500. G1 private-room turn NOT_SENT because no displayed available outlet. Post-run W1 still available. Recording44/87 admitted, original score unchanged.
+
+W2 freshly re-certified with2publicGET before D8:13186922, original full address/phone verified,20:00/2 available. Cross-channel TableCheck remains user-manually confirmed, no new TableCheck GET/form. Global counters15Live/454models/314GET. D8 evidence imported and committed before paid invocation.

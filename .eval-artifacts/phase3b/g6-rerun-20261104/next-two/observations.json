@@ -1,0 +1,3299 @@
+{
+  "mode": "OFFLINE_METRICS_NOT_REGRADED",
+  "slots": [
+    {
+      "newRequestedMetrics": {
+        "failureCodes": {
+          "BROWSER_TIMEOUT": 4,
+          "BROWSER_BUDGET_EXHAUSTED": 0
+        },
+        "failureCountBasis": "one executor failure diagnostic, excluding provider/close repetitions; not distinct physical network errors",
+        "failureEvents": [
+          {
+            "sequence": 361,
+            "at": "2026-11-04T14:03:07.480Z",
+            "source": "TABELOG",
+            "stage": "IDENTITY",
+            "event": "OPERATION_FAILED",
+            "elapsedMs": 244858,
+            "lifecycle": {
+              "outcome": "FAILED",
+              "candidateElapsedMs": 51147,
+              "providerElapsedMs": 45007,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 20,
+              "providerRuntimeOperations": 11,
+              "runModelCalls": 9,
+              "scope": "PROVIDER",
+              "reason": "DEADLINE_EXCEEDED",
+              "failureCode": "BROWSER_TIMEOUT"
+            },
+            "candidateId": "praxis:restaurant:273007d00f089f90f818568b"
+          },
+          {
+            "sequence": 449,
+            "at": "2026-11-04T14:04:04.161Z",
+            "source": "TABELOG",
+            "stage": "AVAILABILITY",
+            "event": "OPERATION_FAILED",
+            "elapsedMs": 301539,
+            "lifecycle": {
+              "outcome": "FAILED",
+              "candidateElapsedMs": 51373,
+              "providerElapsedMs": 45001,
+              "candidateModelCalls": 1,
+              "providerModelCalls": 1,
+              "candidateRuntimeOperations": 27,
+              "providerRuntimeOperations": 18,
+              "runModelCalls": 10,
+              "scope": "PROVIDER",
+              "reason": "DEADLINE_EXCEEDED",
+              "failureCode": "BROWSER_TIMEOUT"
+            },
+            "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e"
+          },
+          {
+            "sequence": 507,
+            "at": "2026-11-04T14:04:54.906Z",
+            "source": "TABELOG",
+            "stage": "IDENTITY",
+            "event": "OPERATION_FAILED",
+            "elapsedMs": 352284,
+            "lifecycle": {
+              "outcome": "FAILED",
+              "candidateElapsedMs": 50742,
+              "providerElapsedMs": 45008,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 18,
+              "providerRuntimeOperations": 9,
+              "runModelCalls": 11,
+              "scope": "PROVIDER",
+              "reason": "DEADLINE_EXCEEDED",
+              "failureCode": "BROWSER_TIMEOUT"
+            },
+            "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1"
+          },
+          {
+            "sequence": 565,
+            "at": "2026-11-04T14:05:47.887Z",
+            "source": "TABELOG",
+            "stage": "DISCOVERY",
+            "event": "OPERATION_FAILED",
+            "elapsedMs": 405265,
+            "lifecycle": {
+              "outcome": "FAILED",
+              "candidateElapsedMs": 52980,
+              "providerElapsedMs": 45018,
+              "candidateModelCalls": 0,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 18,
+              "providerRuntimeOperations": 9,
+              "runModelCalls": 12,
+              "scope": "PROVIDER",
+              "reason": "DEADLINE_EXCEEDED",
+              "failureCode": "BROWSER_TIMEOUT"
+            },
+            "candidateId": "praxis:restaurant:22cd98fb641bd813a35745af"
+          },
+          {
+            "sequence": 645,
+            "at": "2026-11-04T14:06:57.047Z",
+            "source": "TABELOG",
+            "stage": "IDENTITY",
+            "event": "OPERATION_FAILED",
+            "elapsedMs": 474425,
+            "lifecycle": {
+              "outcome": "ABANDONED",
+              "candidateElapsedMs": 62747,
+              "providerElapsedMs": 39101,
+              "candidateModelCalls": 1,
+              "providerModelCalls": 0,
+              "candidateRuntimeOperations": 24,
+              "providerRuntimeOperations": 11,
+              "runModelCalls": 14,
+              "reason": "PARENT_ABORTED",
+              "failureCode": "BROWSER_ABORTED"
+            },
+            "candidateId": "praxis:restaurant:2ad74e4ade53243a0ca87ac7"
+          }
+        ],
+        "sourceSearchEntryNavigationCount": 24,
+        "searchEntryDefinition": "Explicit GOTO to observed Tabelog rstLst or /en/tokyo/ or /en/; TableCheck /en/japan/search. Region OPEN_LINK and document redirects are separate, never counted twice.",
+        "explicitNavigationCount": 47,
+        "navigationsByOriginPath": {
+          "https://tabelog.com/en/tokyo/rstLst/": 14,
+          "https://tabelog.com/en/": 1,
+          "https://tabelog.com/en/tokyo/": 1,
+          "https://tabelog.com/en/tokyo/A1322/": 2,
+          "https://tabelog.com/en/tokyo/A1322/A132202/13155817/": 1,
+          "https://tabelog.com/en/tokyo/A1322/A132203/13168736/": 1,
+          "https://www.tablecheck.com/en/japan/search": 8,
+          "https://www.tablecheck.com/en/kawaei": 1,
+          "https://www.tablecheck.com/en/underground-akabane": 1,
+          "https://www.tablecheck.com/en/azzurri-arte": 1,
+          "https://tabelog.com/en/tokyo/A1323/A132305/13028728/": 2,
+          "https://tabelog.com/en/tokyo/A1301/A130103/13033938/": 1,
+          "https://tabelog.com/en/tokyo/A1323/A132305/13315001/": 1,
+          "https://tabelog.com/en/tokyo/A1310/A131002/13000634/": 1,
+          "https://tabelog.com/en/tokyo/A1304/A130401/13089601/": 1,
+          "https://tabelog.com/en/tokyo/A1323/A132305/13173601/": 2,
+          "https://tabelog.com/en/tokyo/A1323/A132305/13226880/": 1,
+          "https://tabelog.com/en/tokyo/A1323/A132305/13108466/": 1,
+          "https://tabelog.com/en/tokyo/A1311/A131102/13117471/": 1,
+          "https://tabelog.com/en/tokyo/A1324/A132403/13022433/": 1,
+          "https://tabelog.com/en/tokyo/A1319/A131905/13299941/": 1,
+          "https://tabelog.com/en/tokyo/A1301/A130103/13204642/": 1,
+          "https://tabelog.com/en/tokyo/A1305/A130503/13264281/": 1,
+          "https://tabelog.com/en/tokyo/A1323/A132305/13273077/": 1
+        },
+        "discoveryNavigateOperations": 27,
+        "slowestBrowserRequests": [
+          {
+            "requestId": "capture:4:page:1:request:404",
+            "navigationId": "capture:4:navigation:9",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 16816.937000025064,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:4:page:1:request:161",
+            "navigationId": "capture:4:navigation:4",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 14639.110999996774,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:5:page:1:request:98",
+            "navigationId": "capture:5:navigation:3",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 11599.799999967217,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:3:page:1:request:807",
+            "navigationId": "capture:3:navigation:10",
+            "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+            "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 10937.441999907605,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:4:page:1:request:298",
+            "navigationId": "capture:4:navigation:6",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 10412.427000002936,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          }
+        ],
+        "browserRequestsWithoutWireEnd": 76,
+        "slowestGuardTransports": [
+          {
+            "transportId": "capture:4:transport:137",
+            "navigationId": "capture:4:navigation:9",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 16748.828749999986
+          },
+          {
+            "transportId": "capture:4:transport:55",
+            "navigationId": "capture:4:navigation:4",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 14567.007457999978
+          },
+          {
+            "transportId": "capture:5:transport:42",
+            "navigationId": "capture:5:navigation:3",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 11527.752541999973
+          },
+          {
+            "transportId": "capture:3:transport:140",
+            "navigationId": "capture:3:navigation:10",
+            "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+            "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 10792.643665999989
+          },
+          {
+            "transportId": "capture:4:transport:93",
+            "navigationId": "capture:4:navigation:6",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "29413837300383a341e84b73b9acedb069a63f4c4e687cf58ceb3be02143baf5",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 10347.229207999975
+          }
+        ],
+        "timingCaution": "CDP browser elapsed and Guard API duration are independent observation points, not added as requests or called physical TTFB; cancelled requests with unknown wire end excluded from slowest completed list.",
+        "initialTurnJST": "2026-11-04T22:58:57.020000+09:00",
+        "initialTurnCET": "2026-11-04T14:58:57.020000+01:00",
+        "peak19to23JST": true
+      },
+      "id": "D4",
+      "group": "runs",
+      "runId": "g6-D4-1793800736299-0",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": false,
+        "outcome": "CAPABILITY_MISS",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "evaluationSHA256": "525898b0ea9f9e98c88c36f231dda6fb582e41be7c0f86bca5ea0378c8abddc5",
+      "nonPassingChecks": [
+        {
+          "rule": "NO_DELIVERY_WITNESS",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "witness-W1",
+          "reason": "Independently qualified witness still has the slot",
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D4/D4/witness/002-vacancy.body"
+          ]
+        }
+      ],
+      "phase": "NO_VERIFIED_RESULT",
+      "delivered": [],
+      "turns": [
+        {
+          "id": "ask-private-room",
+          "status": "NOT_SENT",
+          "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+        }
+      ],
+      "handoffs": [],
+      "question": null,
+      "elapsedMs": 487810.118625,
+      "turnBudgets": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1793800737020,
+          "deadlineAtMs": 1793801237020,
+          "elapsedMs": 487080.167458,
+          "modelCalls": 22,
+          "googleRequests": 5,
+          "exceeded500Seconds": false
+        }
+      ],
+      "modelCalls": 22,
+      "modelsByPurpose": {
+        "restaurant_semantic_interpret": {
+          "count": 1,
+          "latencyMs": 5577
+        },
+        "restaurant_agent_decide": {
+          "count": 7,
+          "latencyMs": 31334
+        },
+        "restaurant_discovery_retrieval": {
+          "count": 3,
+          "latencyMs": 14489
+        },
+        "browser_read_decide": {
+          "count": 5,
+          "latencyMs": 18530
+        },
+        "restaurant_named_source_query": {
+          "count": 6,
+          "latencyMs": 18861
+        }
+      },
+      "googleRequests": 5,
+      "schemaRetries": 0,
+      "exclusiveWallMs": {
+        "UNATTRIBUTED": 16910.11865234375,
+        "MODEL:restaurant_semantic_interpret": 5577.0,
+        "MODEL:restaurant_agent_decide": 31334.0,
+        "SESSION_STARTUP": 815.0,
+        "PAGE_LOAD_OPERATION_PROXY": 301841.0,
+        "POST_OPERATION_WAIT": 51348.0,
+        "READ_PAGE_STRUCTURE": 25090.0,
+        "RECORDING_SCREENSHOT": 2579.0,
+        "MODEL:restaurant_discovery_retrieval": 14489.0,
+        "PAGE_OPERATION": 244.0,
+        "MODEL:browser_read_decide": 18530.0,
+        "SESSION_CLOSE": 192.0,
+        "MODEL:restaurant_named_source_query": 18861.0
+      },
+      "operationInclusiveMs": {
+        "openSession": 815.0,
+        "navigate": 298676.0,
+        "waitForSettled": 51348.0,
+        "snapshot": 2664.0,
+        "screenshotLayoutOnly": 2579.0,
+        "observeControls": 22477.0,
+        "fill": 14.0,
+        "openLink": 3165.0,
+        "close": 342.0,
+        "captureResponses": 3.0,
+        "click": 227.0
+      },
+      "unfinishedOperations": [],
+      "timingLimit": "Method spans are source-operation proxies, not pure network latency. Parallel overlap uses model-first exclusive attribution. Slot duration includes setup; the first user-turn start anchors proxy bins, leaving setup/clock offsets unattributed. Per-turn durations and F6 deadlines are authoritative boundary observations; slot totals may exceed 500 seconds. Google wait and complete-evidence timestamp remain unassessed; no timing establishes qualification.",
+      "firstServerPresentationCET": null,
+      "firstCompleteQualifiedEvidenceAt": null,
+      "screenRenderingObserved": false,
+      "F6": {
+        "exceeded500Seconds": false,
+        "sourceReadsStartedInReserve": 0,
+        "termsWorkStartedInReserve": 0
+      },
+      "guardForbiddenReachedSource": 0,
+      "actions": [
+        {
+          "step": 1,
+          "atCET": "2026-11-04T14:59:05.777000+01:00",
+          "action": {
+            "type": "SEARCH_RESTAURANTS",
+            "retrievalHint": "kushikatsu restaurants near Akabane, table for 2"
+          },
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "provider": "TABELOG",
+            "latencyMs": 71797,
+            "failureCode": "READ_BUDGET_EXCEEDED",
+            "googleRequests": {
+              "limit": 40,
+              "total": 3,
+              "discovery": 2,
+              "placeDetails": 0,
+              "namedPlaceResolution": 1,
+              "reverseAddressObservation": 0
+            },
+            "nativeDiscoveryFunnel": {
+              "source": "TABELOG",
+              "accepted": 0,
+              "batchCap": 5,
+              "rejected": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+                  "reasonCode": "OUTSIDE_EXACT_RADIUS"
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+                  "reasonCode": "OUTSIDE_EXACT_RADIUS"
+                }
+              ],
+              "pagesRead": 5,
+              "retrieval": {
+                "history": [
+                  {
+                    "elapsedMs": 56134,
+                    "selection": {
+                      "reason": "HARD criterion is kushikatsu; retrieve by that keyword in the observed Akabane/Itabashi region.",
+                      "keyword": "kushikatsu",
+                      "accepted": true,
+                      "criterionRef": "criterion:0"
+                    },
+                    "parsedCount": 9
+                  }
+                ],
+                "rewrites": 0,
+                "selection": {
+                  "reason": "HARD criterion is kushikatsu; retrieve by that keyword in the observed Akabane/Itabashi region.",
+                  "keyword": "kushikatsu",
+                  "accepted": true,
+                  "criterionRef": "criterion:0"
+                },
+                "regionPages": 4,
+                "retrievalPages": 1
+              },
+              "batchEnded": true,
+              "sourceEnded": true,
+              "parsedOutlets": 9,
+              "sourcePageCap": 7,
+              "rawSourceLinks": 9,
+              "directoryRegion": {
+                "first": {
+                  "url": "https://tabelog.com/en/tokyo/A1322/",
+                  "label": "Itabashi & Along Tobu Railway Line",
+                  "targetRef": "observation:5:target:25",
+                  "observedOn": "https://tabelog.com/en/tokyo/"
+                },
+                "samples": [
+                  {
+                    "outcome": "OUTSIDE_RADIUS",
+                    "direction": "S",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+                    "coordinates": {
+                      "latitude": 35.73236921866393,
+                      "longitude": 139.70486078494415
+                    },
+                    "bearingDegrees": 197.2384868672463,
+                    "distanceMeters": 5547.116372577523,
+                    "sourceEntityId": "en/tokyo/A1322/A132202/13155817"
+                  },
+                  {
+                    "outcome": "OUTSIDE_RADIUS",
+                    "direction": "SW",
+                    "sourceUrl": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+                    "coordinates": {
+                      "latitude": 35.74923654865233,
+                      "longitude": 139.7020477451165
+                    },
+                    "bearingDegrees": 209.02296324520773,
+                    "distanceMeters": 3911.367533853191,
+                    "sourceEntityId": "en/tokyo/A1322/A132203/13168736"
+                  }
+                ],
+                "stopReason": "SOURCE_BUDGET_EXHAUSTED",
+                "provisional": true
+              },
+              "regionEntrances": {
+                "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                "entries": [
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:0",
+                    "href": "https://tabelog.com/en/tokyo/A1308/",
+                    "label": "Akasaka & Nagata-Cho & Tameike",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:13",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:1",
+                    "href": "https://tabelog.com/en/tokyo/A1310/",
+                    "label": "Akihabara & Kanda & Suidobashi",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:14",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:2",
+                    "href": "https://tabelog.com/en/tokyo/A1318/",
+                    "label": "Along Keio and Odakyu Railway Line",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:15",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:3",
+                    "href": "https://tabelog.com/en/tokyo/A1321/",
+                    "label": "Along Seibu Railway Line",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:16",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:4",
+                    "href": "https://tabelog.com/en/tokyo/A1317/",
+                    "label": "Along Tokyu Railway Line",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:17",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:5",
+                    "href": "https://tabelog.com/en/tokyo/A1326/",
+                    "label": "Chofu & Fuchu & Komae",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:18",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:6",
+                    "href": "https://tabelog.com/en/tokyo/A1330/",
+                    "label": "Fussa & Ome Area",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:19",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:7",
+                    "href": "https://tabelog.com/en/tokyo/A1301/",
+                    "label": "Ginza & Shimbashi & Yurakucho",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:20",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:8",
+                    "href": "https://tabelog.com/en/tokyo/A1314/",
+                    "label": "Hamamatsucho & Tamachi & Shinagawa",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:21",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:9",
+                    "href": "https://tabelog.com/en/tokyo/A1306/",
+                    "label": "Harajuku & Omotesando & Aoyama",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:22",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:10",
+                    "href": "https://tabelog.com/en/tokyo/A1309/",
+                    "label": "Iidabashi",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:23",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:11",
+                    "href": "https://tabelog.com/en/tokyo/A1305/",
+                    "label": "Ikebukuro–Takadanobaba & Waseda",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:24",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:12",
+                    "href": "https://tabelog.com/en/tokyo/A1322/",
+                    "label": "Itabashi & Along Tobu Railway Line",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:25",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:13",
+                    "href": "https://tabelog.com/en/tokyo/A1331/",
+                    "label": "Izu Islands & Ogasawara",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:26",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:14",
+                    "href": "https://tabelog.com/en/tokyo/A1320/",
+                    "label": "Kichijoji & Mitaka & Musashi-Sakai",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:27",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:15",
+                    "href": "https://tabelog.com/en/tokyo/A1325/",
+                    "label": "Koganei & Kokubunji & Kunitachi",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:28",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:16",
+                    "href": "https://tabelog.com/en/tokyo/A1327/",
+                    "label": "Machida & Inagi & Tama",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:29",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:17",
+                    "href": "https://tabelog.com/en/tokyo/A1316/",
+                    "label": "Meguro & Shirogane & Gotanda",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:30",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:18",
+                    "href": "https://tabelog.com/en/tokyo/A1319/",
+                    "label": "Nakano–Nishi-Ogikubo",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:31",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:19",
+                    "href": "https://tabelog.com/en/tokyo/A1328/",
+                    "label": "Nishi-Tokyo City Area",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:32",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:20",
+                    "href": "https://tabelog.com/en/tokyo/A1315/",
+                    "label": "Oimachi & Kamata",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:33",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:21",
+                    "href": "https://tabelog.com/en/tokyo/A1307/",
+                    "label": "Roppongi",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:34",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:22",
+                    "href": "https://tabelog.com/en/tokyo/A1312/",
+                    "label": "Ryogoku",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:35",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:23",
+                    "href": "https://tabelog.com/en/tokyo/A1324/",
+                    "label": "Senju & Ayase & Katsushika",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:36",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:24",
+                    "href": "https://tabelog.com/en/tokyo/A1303/",
+                    "label": "Shibuya & Ebisu & Daikanyama",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:37",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:25",
+                    "href": "https://tabelog.com/en/tokyo/A1304/",
+                    "label": "Shinjuku & Yoyogi & Okubo",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:38",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:26",
+                    "href": "https://tabelog.com/en/tokyo/A1323/",
+                    "label": "Sugamo",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:39",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:27",
+                    "href": "https://tabelog.com/en/tokyo/A1329/",
+                    "label": "Tachikawa & Hachioji City Area",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:40",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:28",
+                    "href": "https://tabelog.com/en/tokyo/A1302/",
+                    "label": "Tokyo & Nihonbashi",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:41",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:29",
+                    "href": "https://tabelog.com/en/tokyo/A1313/",
+                    "label": "Tsukiji & Wangan & Odaiba",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:42",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:30",
+                    "href": "https://tabelog.com/en/tokyo/A1311/",
+                    "label": "Ueno",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/",
+                    "originalTargetRef": "observation:4:target:43",
+                    "observationRevision": 4
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:31",
+                    "href": "https://tabelog.com/en/tokyo/A1322/A132204/",
+                    "label": "Akatsuka & Narimasu",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+                    "originalTargetRef": "observation:6:target:14",
+                    "observationRevision": 6
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:32",
+                    "href": "https://tabelog.com/en/tokyo/A1322/A132205/",
+                    "label": "Itabashikuyakushomae– (Toei Mita Line)",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+                    "originalTargetRef": "observation:6:target:15",
+                    "observationRevision": 6
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:33",
+                    "href": "https://tabelog.com/en/tokyo/A1322/A132202/",
+                    "label": "Kanamecho–Heiwadai (Yurakucho Line)",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+                    "originalTargetRef": "observation:6:target:16",
+                    "observationRevision": 6
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:34",
+                    "href": "https://tabelog.com/en/tokyo/A1322/A132201/",
+                    "label": "Kita-Ikebukuro & Itabashi St. Area",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+                    "originalTargetRef": "observation:6:target:17",
+                    "observationRevision": 6
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:35",
+                    "href": "https://tabelog.com/en/tokyo/A1322/A132203/",
+                    "label": "Oyama–Tobunerima (Tobu Tojo Line)",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+                    "originalTargetRef": "observation:6:target:18",
+                    "observationRevision": 6
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:36",
+                    "href": "https://tabelog.com/en/tokyo/A1322/rstLst/?SrtT=inbound_vacancy_net_yoyaku",
+                    "label": "Most reserved by locals",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+                    "originalTargetRef": "observation:6:target:22",
+                    "observationRevision": 6
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:37",
+                    "href": "https://tabelog.com/en/tokyo/A1322/rstLst/?SrtT=inbound_access",
+                    "label": "Most viewed",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+                    "originalTargetRef": "observation:6:target:23",
+                    "observationRevision": 6
+                  },
+                  {
+                    "ref": "region:50a09375-7c24-4ad0-ac57-145ff4d3a91b:38",
+                    "href": "https://tabelog.com/en/tokyo/A1322/rstLst/?SrtT=rt",
+                    "label": "Highest rated",
+                    "flowId": "50a09375-7c24-4ad0-ac57-145ff4d3a91b",
+                    "sourceId": "tabelog",
+                    "observedOn": "https://tabelog.com/en/tokyo/A1322/",
+                    "originalTargetRef": "observation:6:target:24",
+                    "observationRevision": 6
+                  }
+                ],
+                "sourceId": "tabelog",
+                "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1"
+              },
+              "sourceDetailCap": 10,
+              "sourceElapsedMs": 69507,
+              "sourceExhausted": false,
+              "inspectedOutlets": 2,
+              "batchLimitReached": true,
+              "progressionReason": "SOURCE_FAILURE",
+              "deferredByBatchCap": [],
+              "sourceElapsedCapMs": 90000,
+              "listingObservations": [
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/",
+                  "resultCount": 139526,
+                  "parsedOutlets": 20
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/",
+                  "resultCount": 139526,
+                  "parsedOutlets": 20
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1322/",
+                  "resultCount": 3830,
+                  "parsedOutlets": 20
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1322/",
+                  "resultCount": 3830,
+                  "parsedOutlets": 20
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1322/?sw=kushikatsu",
+                  "resultCount": 9,
+                  "parsedOutlets": 9
+                },
+                {
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1322/?sw=kushikatsu",
+                  "resultCount": 9,
+                  "parsedOutlets": 9
+                }
+              ],
+              "sourceDetailAttempts": 2,
+              "searchAvailabilityHint": {
+                "reason": "QUERY_NOT_REPRESENTABLE",
+                "status": "SKIPPED",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1322/?sw=kushikatsu",
+                "unfilteredUrl": "https://tabelog.com/en/tokyo/A1322/?sw=kushikatsu"
+              },
+              "sourceTimeLimitReached": false
+            }
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 2,
+          "atCET": "2026-11-04T15:00:21.184000+01:00",
+          "action": {
+            "type": "SEARCH_RESTAURANTS",
+            "retrievalHint": "kushikatsu restaurants near Akabane, Tokyo"
+          },
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "provider": "TABLECHECK",
+            "latencyMs": 11913,
+            "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+            "googleRequests": {
+              "limit": 40,
+              "total": 3,
+              "discovery": 2,
+              "placeDetails": 0,
+              "namedPlaceResolution": 1,
+              "reverseAddressObservation": 0
+            },
+            "nativeDiscoveryFunnel": {
+              "source": "TABLECHECK",
+              "accepted": 0,
+              "batchCap": 5,
+              "rejected": [],
+              "pagesRead": 1,
+              "retrieval": {
+                "history": [
+                  {
+                    "elapsedMs": 6387,
+                    "selection": {
+                      "reason": "No observation yet; retrieve restaurants matching the hard criterion \"kushikatsu\" in Akabane.",
+                      "keyword": "kushikatsu",
+                      "accepted": true,
+                      "criterionRef": "criterion:0"
+                    },
+                    "parsedCount": 2
+                  },
+                  {
+                    "elapsedMs": 11866,
+                    "selection": {
+                      "reason": "Retrieval was rejected; source remains bounded UNKNOWN.",
+                      "accepted": false,
+                      "rejectionReason": "UNUSED_RETRIEVAL_FIELDS"
+                    },
+                    "parsedCount": 2
+                  }
+                ],
+                "rewrites": 0,
+                "selection": {
+                  "reason": "No observation yet; retrieve restaurants matching the hard criterion \"kushikatsu\" in Akabane.",
+                  "keyword": "kushikatsu",
+                  "accepted": true,
+                  "criterionRef": "criterion:0"
+                },
+                "regionPages": 0,
+                "retrievalPages": 1
+              },
+              "batchEnded": true,
+              "sourceEnded": true,
+              "parsedOutlets": 0,
+              "sourcePageCap": 3,
+              "rawSourceLinks": 4,
+              "queryAdjustment": "UNUSED_RETRIEVAL_FIELDS",
+              "sourceDetailCap": 10,
+              "sourceElapsedMs": 11868,
+              "sourceExhausted": "UNKNOWN",
+              "inspectedOutlets": 0,
+              "batchLimitReached": false,
+              "progressionReason": "SOURCE_FAILURE",
+              "deferredByBatchCap": [],
+              "sourceElapsedCapMs": 90000,
+              "listingObservations": [],
+              "sourceDetailAttempts": 0,
+              "sourceTimeLimitReached": false
+            }
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 3,
+          "atCET": "2026-11-04T15:00:35.442000+01:00",
+          "action": {
+            "type": "SEARCH_RESTAURANTS",
+            "retrievalHint": "kushikatsu restaurants near Akabane, Tokyo"
+          },
+          "metadata": {
+            "route": "STRUCTURED_ADAPTER",
+            "provider": "GOOGLE_PLACES",
+            "latencyMs": 0,
+            "googleRequests": {
+              "limit": 40,
+              "total": 3,
+              "discovery": 2,
+              "placeDetails": 0,
+              "namedPlaceResolution": 1,
+              "reverseAddressObservation": 0
+            },
+            "googleGeoDiagnostics": {
+              "center": {
+                "latitude": 35.7799638,
+                "longitude": 139.723053
+              },
+              "candidates": [
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJD2M-Jx2TGGARYC8xs1rxXxY",
+                  "distanceMeters": 196.7637261968003,
+                  "sourceCoordinates": {
+                    "latitude": 35.780183199999996,
+                    "longitude": 139.7208911
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+                  "distanceMeters": 178.50211101886038,
+                  "sourceCoordinates": {
+                    "latitude": 35.7795476,
+                    "longitude": 139.7211442
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJDVEhIh2TGGARendyY0svlKw",
+                  "distanceMeters": 221.15376954623054,
+                  "sourceCoordinates": {
+                    "latitude": 35.779830499999996,
+                    "longitude": 139.72060969999998
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJIZ3yVQyTGGARZQ1tzJElcfY",
+                  "distanceMeters": 261.0634241991896,
+                  "sourceCoordinates": {
+                    "latitude": 35.780090699999995,
+                    "longitude": 139.7201665
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJ-WY2ZwCTGGARXFSZIWHqXDg",
+                  "distanceMeters": 163.6511499652813,
+                  "sourceCoordinates": {
+                    "latitude": 35.7796812,
+                    "longitude": 139.7212747
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJeXK-Nh2TGGAReNdgP3H3hWI",
+                  "distanceMeters": 160.647049354773,
+                  "sourceCoordinates": {
+                    "latitude": 35.7794782,
+                    "longitude": 139.7213779
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJwUnGVR2TGGARagmZ4Ge2KVk",
+                  "distanceMeters": 232.39206245030581,
+                  "sourceCoordinates": {
+                    "latitude": 35.7783109,
+                    "longitude": 139.7214812
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJIzZAOh2TGGAR6SlXpJHzFOc",
+                  "distanceMeters": 183.41463798616348,
+                  "sourceCoordinates": {
+                    "latitude": 35.7794464,
+                    "longitude": 139.72112479999998
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJqSiLUh2TGGARlIf2CNXBwNc",
+                  "distanceMeters": 189.51424119405456,
+                  "sourceCoordinates": {
+                    "latitude": 35.7787022,
+                    "longitude": 139.721644
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJI3h5NEGTGGAR_rrdBnSmsqY",
+                  "distanceMeters": 129.96941976448034,
+                  "sourceCoordinates": {
+                    "latitude": 35.780681,
+                    "longitude": 139.7219174
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJS6d3Oh2TGGARsEfX6D79WrM",
+                  "distanceMeters": 194.33613609744214,
+                  "sourceCoordinates": {
+                    "latitude": 35.7795207,
+                    "longitude": 139.72097159999998
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJLbQqJx2TGGARiMpi0ywY5vA",
+                  "distanceMeters": 200.68852104980655,
+                  "sourceCoordinates": {
+                    "latitude": 35.7799688,
+                    "longitude": 139.7208308
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJDwe-Tv2SGGARYy7BOvSu_-Q",
+                  "distanceMeters": 265.1422979010328,
+                  "sourceCoordinates": {
+                    "latitude": 35.7776889,
+                    "longitude": 139.72218329999998
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJQTzOoneTGGARsdILrqP3OOM",
+                  "distanceMeters": 197.3405909471644,
+                  "sourceCoordinates": {
+                    "latitude": 35.7784501,
+                    "longitude": 139.72191569999998
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJmWyKEuKSGGAR1wLwq1DJvlw",
+                  "distanceMeters": 639.358523351679,
+                  "sourceCoordinates": {
+                    "latitude": 35.776104499999995,
+                    "longitude": 139.7178099
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJVce7Ov2SGGARRqo4hR-4AsY",
+                  "distanceMeters": 335.2443365735695,
+                  "sourceCoordinates": {
+                    "latitude": 35.7769845,
+                    "longitude": 139.7225113
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJN5wOTTOTGGARYyQ-kEk27YI",
+                  "distanceMeters": 184.34925085523523,
+                  "sourceCoordinates": {
+                    "latitude": 35.7784846,
+                    "longitude": 139.7221352
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJM29esV-TGGAR1L_e0o1jIPk",
+                  "distanceMeters": 139.06641573849643,
+                  "sourceCoordinates": {
+                    "latitude": 35.779576999999996,
+                    "longitude": 139.7215888
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJVVWBrOKSGGAR4y6NsasVslw",
+                  "distanceMeters": 258.70238274840057,
+                  "sourceCoordinates": {
+                    "latitude": 35.7779439,
+                    "longitude": 139.72163640000002
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJnRPyUh2TGGAR_4SCTFJgbHM",
+                  "distanceMeters": 187.13828751384622,
+                  "sourceCoordinates": {
+                    "latitude": 35.7787219,
+                    "longitude": 139.7216564
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJBcrZ2uKSGGARZ9mv9nueVJw",
+                  "distanceMeters": 447.34519753789715,
+                  "sourceCoordinates": {
+                    "latitude": 35.776268,
+                    "longitude": 139.721108
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJVVV5q-KSGGARo9NN2azyN3w",
+                  "distanceMeters": 257.5102144052148,
+                  "sourceCoordinates": {
+                    "latitude": 35.7779573,
+                    "longitude": 139.7216341
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJSWaqmR2TGGARzgbk5XDtP1c",
+                  "distanceMeters": 442.53007797137246,
+                  "sourceCoordinates": {
+                    "latitude": 35.7780276,
+                    "longitude": 139.7187734
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJAXHjTxyTGGARq7-7s_WCZJM",
+                  "distanceMeters": 277.50389816893323,
+                  "sourceCoordinates": {
+                    "latitude": 35.7788456,
+                    "longitude": 139.72030669999998
+                  }
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "ACCEPTED",
+                  "sourcePlaceId": "ChIJFcDkbxyTGGARRvM9FA2ADLU",
+                  "distanceMeters": 325.07374786673836,
+                  "sourceCoordinates": {
+                    "latitude": 35.779308799999995,
+                    "longitude": 139.7195452
+                  }
+                }
+              ],
+              "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+              "providerMode": "GOOGLE_TEXT_SEARCH",
+              "radiusMeters": 1000,
+              "areaMatchBasis": "NAMED_PLACE_RADIUS",
+              "exactRadiusGate": "ENFORCED"
+            }
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 4,
+          "atCET": "2026-11-04T15:00:39.366000+01:00",
+          "action": {
+            "type": "CHECK_AVAILABILITY",
+            "candidateIds": [
+              "praxis:restaurant:0d56ed154080df9317f9d79d",
+              "praxis:restaurant:730456c8617b43baf817287d",
+              "praxis:restaurant:273007d00f089f90f818568b"
+            ]
+          },
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "browser": {
+              "engine": "CHROMIUM",
+              "sessionId": "local:141b25ee-527f-4571-89b5-0bb26da79f72",
+              "startedAt": "2026-11-04T14:00:52.815Z",
+              "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+              "readNetworkBoundary": "INSTALLED"
+            },
+            "provider": "AVAILABILITY_SOURCE_RESOLVER",
+            "latencyMs": 148100,
+            "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+            "googleRequests": {
+              "limit": 40,
+              "total": 3,
+              "discovery": 2,
+              "placeDetails": 0,
+              "namedPlaceResolution": 1,
+              "reverseAddressObservation": 0
+            },
+            "providerAttempts": [
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+                "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:0d56ed154080df9317f9d79d",
+                "failureCode": "BROWSER_TIMEOUT"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+                "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:730456c8617b43baf817287d",
+                "failureCode": "REQUEST_SELECTION_UNCONFIRMED"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+                "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:273007d00f089f90f818568b",
+                "failureCode": "BROWSER_TIMEOUT"
+              }
+            ],
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 5,
+          "atCET": "2026-11-04T15:03:12.779000+01:00",
+          "action": {
+            "type": "CHECK_AVAILABILITY",
+            "candidateIds": [
+              "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+              "praxis:restaurant:07b0ba0daee00150d6d202e1",
+              "praxis:restaurant:22cd98fb641bd813a35745af"
+            ]
+          },
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "browser": {
+              "engine": "CHROMIUM",
+              "sessionId": "local:f5576871-f53e-4f6c-b246-089cfa421e7f",
+              "startedAt": "2026-11-04T14:05:02.957Z",
+              "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+              "readNetworkBoundary": "INSTALLED"
+            },
+            "provider": "AVAILABILITY_SOURCE_RESOLVER",
+            "latencyMs": 155097,
+            "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+            "googleRequests": {
+              "limit": 40,
+              "total": 4,
+              "discovery": 2,
+              "placeDetails": 1,
+              "namedPlaceResolution": 1,
+              "reverseAddressObservation": 0
+            },
+            "providerAttempts": [
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+                "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:c446fe0b901cca8ffb43b42e",
+                "failureCode": "BROWSER_TIMEOUT"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+                "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+                "failureCode": "BROWSER_TIMEOUT"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:22cd98fb641bd813a35745af",
+                "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:22cd98fb641bd813a35745af",
+                "failureCode": "BROWSER_TIMEOUT"
+              }
+            ],
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 6,
+          "atCET": "2026-11-04T15:05:54.294000+01:00",
+          "action": {
+            "type": "CHECK_AVAILABILITY",
+            "candidateIds": [
+              "praxis:restaurant:2ad74e4ade53243a0ca87ac7",
+              "praxis:restaurant:f01ca063552e73171d2b0395",
+              "praxis:restaurant:11793f8f5f66939a880ddeb6"
+            ]
+          },
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "provider": "AVAILABILITY_SOURCE_RESOLVER",
+            "latencyMs": 0,
+            "failureCode": "DELIVERY_RESERVE_REACHED",
+            "reserveReached": {
+              "reason": "DELIVERY_TIME",
+              "completedCandidateIds": []
+            },
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 7,
+          "atCET": "2026-11-04T15:07:04.013000+01:00",
+          "action": {
+            "type": "END_READ"
+          },
+          "metadata": null,
+          "outcome": "TERMINAL"
+        }
+      ],
+      "witnessFunnel": {
+        "found": true,
+        "candidateId": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+        "candidate": {
+          "warnings": [],
+          "restaurant": {
+            "id": "praxis:restaurant:07b0ba0daee00150d6d202e1",
+            "address": "Japan, 〒115-0045 Tokyo, Kita City, Akabane, 1-chōme−15−１ 1F",
+            "sourceIds": {
+              "phone": "03-5249-4011",
+              "googlePlaces": "ChIJS6d3Oh2TGGARLB5lQglBM1w",
+              "googleMapsUri": "https://maps.google.com/?cid=6643725383326047788&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "googleWebsiteUri": "https://stores.dengana.jp/detail/3808/",
+              "discoverySourceId": "google-places"
+            },
+            "outletName": "Dengana Akabane",
+            "provenance": {
+              "address": "evidence:restaurant:google-discovery:2a60a3a39fe25130baa2a9e2",
+              "sourceIds": "evidence:restaurant:google-discovery:2a60a3a39fe25130baa2a9e2",
+              "outletName": "evidence:restaurant:google-discovery:2a60a3a39fe25130baa2a9e2"
+            },
+            "coordinates": {
+              "lat": 35.7795476,
+              "lng": 139.7211442
+            }
+          },
+          "matchReasons": [
+            "Address explicitly matches requested area: near Akabane"
+          ],
+          "executionConfidence": "LOW"
+        },
+        "factCheck": null,
+        "availabilityCheck": {
+          "status": "UNKNOWN",
+          "checkedAt": "2026-11-04T14:04:54.906Z",
+          "reasonCode": "BROWSER_TIMEOUT",
+          "evidenceIds": [],
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "FAILED",
+              "reasonCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+            },
+            {
+              "source": "TABELOG",
+              "outcome": "FAILED",
+              "reasonCode": "BROWSER_TIMEOUT"
+            }
+          ],
+          "sourceProvider": "AVAILABILITY_SOURCE_RESOLVER",
+          "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+        },
+        "presented": false,
+        "certificatesAndPostChecks": [
+          {
+            "checkedAt": "2026-11-04T13:58:06.111Z",
+            "kind": "BEFORE",
+            "target": {
+              "candidateId": "witness-W1",
+              "name": "Kushi Katsu Dengana Akabane ten",
+              "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+              "provider": "TABELOG",
+              "sourceEntityId": "13108466",
+              "date": "2026-11-11",
+              "time": "19:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "identityText": [
+                "Kushi Katsu Dengana Akabane ten",
+                "1-15-1"
+              ]
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/certificates/W1/002-vacancy.body",
+              "phase": "BEFORE",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13108466&svd=20261111&svps=2&svt=1900",
+              "candidateId": "witness-W1",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "12:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1200"
+                  },
+                  "1": {
+                    "time": "12:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1215"
+                  },
+                  "2": {
+                    "time": "12:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1230"
+                  },
+                  "3": {
+                    "time": "12:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1245"
+                  },
+                  "4": {
+                    "time": "13:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1300"
+                  },
+                  "5": {
+                    "time": "13:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1315"
+                  },
+                  "6": {
+                    "time": "13:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1330"
+                  },
+                  "7": {
+                    "time": "13:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1345"
+                  },
+                  "8": {
+                    "time": "14:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1400"
+                  },
+                  "9": {
+                    "time": "14:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1415"
+                  },
+                  "10": {
+                    "time": "14:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1430"
+                  },
+                  "11": {
+                    "time": "14:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1445"
+                  },
+                  "12": {
+                    "time": "15:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1500"
+                  },
+                  "13": {
+                    "time": "15:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1515"
+                  },
+                  "14": {
+                    "time": "15:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1530"
+                  },
+                  "15": {
+                    "time": "15:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1545"
+                  },
+                  "16": {
+                    "time": "16:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1600"
+                  },
+                  "17": {
+                    "time": "16:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1615"
+                  },
+                  "18": {
+                    "time": "16:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1630"
+                  },
+                  "19": {
+                    "time": "16:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1645"
+                  },
+                  "20": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1700"
+                  },
+                  "21": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1715"
+                  },
+                  "22": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1730"
+                  },
+                  "23": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1745"
+                  },
+                  "24": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1800"
+                  },
+                  "25": {
+                    "time": "18:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1815"
+                  },
+                  "26": {
+                    "time": "18:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1830"
+                  },
+                  "27": {
+                    "time": "18:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1845"
+                  },
+                  "28": {
+                    "time": "19:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1900"
+                  },
+                  "29": {
+                    "time": "19:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1915"
+                  },
+                  "30": {
+                    "time": "19:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1930"
+                  },
+                  "31": {
+                    "time": "19:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1945"
+                  },
+                  "32": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2000"
+                  },
+                  "33": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2015"
+                  },
+                  "34": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2030"
+                  },
+                  "35": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2045"
+                  },
+                  "36": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2100"
+                  },
+                  "37": {
+                    "time": "21:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2115"
+                  },
+                  "38": {
+                    "time": "21:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2130"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "19:00"
+              }
+            },
+            "responseSHA256": "80ea0fc34ffa66b65787870d1bd48c15033a2e512b041065752ec480d681245e",
+            "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/certificates/W1/001-detail.body",
+            "detailSHA256": "2a90619682df98e93a08151b64b9e22b05b710f15c55b2c3af1298ec13837303"
+          },
+          {
+            "checkedAt": "2026-11-04T14:07:12.055Z",
+            "kind": "NO_DELIVERY_AFTER",
+            "target": {
+              "candidateId": "witness-W1",
+              "name": "Kushi Katsu Dengana Akabane ten",
+              "address": "1-15-1, Akabane, Kita-ku, Tokyo",
+              "provider": "TABELOG",
+              "sourceEntityId": "13108466",
+              "date": "2026-11-11",
+              "time": "19:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+              "identityText": [
+                "Kushi Katsu Dengana Akabane ten",
+                "1-15-1"
+              ]
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D4/D4/witness/002-vacancy.body",
+              "phase": "NO_DELIVERY_AFTER",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13108466&svd=20261111&svps=2&svt=1900",
+              "candidateId": "witness-W1",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "12:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1200"
+                  },
+                  "1": {
+                    "time": "12:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1215"
+                  },
+                  "2": {
+                    "time": "12:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1230"
+                  },
+                  "3": {
+                    "time": "12:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1245"
+                  },
+                  "4": {
+                    "time": "13:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1300"
+                  },
+                  "5": {
+                    "time": "13:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1315"
+                  },
+                  "6": {
+                    "time": "13:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1330"
+                  },
+                  "7": {
+                    "time": "13:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1345"
+                  },
+                  "8": {
+                    "time": "14:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1400"
+                  },
+                  "9": {
+                    "time": "14:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1415"
+                  },
+                  "10": {
+                    "time": "14:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1430"
+                  },
+                  "11": {
+                    "time": "14:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1445"
+                  },
+                  "12": {
+                    "time": "15:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1500"
+                  },
+                  "13": {
+                    "time": "15:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1515"
+                  },
+                  "14": {
+                    "time": "15:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1530"
+                  },
+                  "15": {
+                    "time": "15:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1545"
+                  },
+                  "16": {
+                    "time": "16:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1600"
+                  },
+                  "17": {
+                    "time": "16:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1615"
+                  },
+                  "18": {
+                    "time": "16:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1630"
+                  },
+                  "19": {
+                    "time": "16:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1645"
+                  },
+                  "20": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1700"
+                  },
+                  "21": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1715"
+                  },
+                  "22": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1730"
+                  },
+                  "23": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1745"
+                  },
+                  "24": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1800"
+                  },
+                  "25": {
+                    "time": "18:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1815"
+                  },
+                  "26": {
+                    "time": "18:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1830"
+                  },
+                  "27": {
+                    "time": "18:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1845"
+                  },
+                  "28": {
+                    "time": "19:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1900"
+                  },
+                  "29": {
+                    "time": "19:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1915"
+                  },
+                  "30": {
+                    "time": "19:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1930"
+                  },
+                  "31": {
+                    "time": "19:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=1945"
+                  },
+                  "32": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2000"
+                  },
+                  "33": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2015"
+                  },
+                  "34": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2030"
+                  },
+                  "35": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2045"
+                  },
+                  "36": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2100"
+                  },
+                  "37": {
+                    "time": "21:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2115"
+                  },
+                  "38": {
+                    "time": "21:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13108466&visit_date=20261111&visit_time=2130"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "19:00"
+              }
+            },
+            "responseSHA256": "80ea0fc34ffa66b65787870d1bd48c15033a2e512b041065752ec480d681245e",
+            "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D4/D4/witness/001-detail.body",
+            "detailSHA256": "63aa09c44c77df7d946a9d0b9e9b56daa0c1070196816e5c95fd85766511ed3b"
+          }
+        ]
+      },
+      "recording": {
+        "recordingConfig": {
+          "browser": true,
+          "decisions": true,
+          "googleResponses": true
+        },
+        "decisions": {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D4/D4/execution.decisions.jsonl",
+          "sha256": "8070889e7344971a1b96c77afb729813c6b714778078ec4dd0370adeb3e45903",
+          "callsStarted": 22,
+          "rowsWritten": 22,
+          "errors": []
+        },
+        "schemaVersion": "phase3b-g6-recording-observation@1",
+        "status": "RECORDED",
+        "qualifiedPages": 44,
+        "totalPages": 87,
+        "ratio": 0.5057471264367817,
+        "pages": [
+          {
+            "snapshot": 1,
+            "url": "https://tabelog.com/en/tokyo/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0001.html"
+            }
+          },
+          {
+            "snapshot": 2,
+            "url": "https://tabelog.com/en/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0002.html"
+            }
+          },
+          {
+            "snapshot": 3,
+            "url": "https://tabelog.com/en/",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0003.html"
+            }
+          },
+          {
+            "snapshot": 4,
+            "url": "https://tabelog.com/en/",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0004.html"
+            }
+          },
+          {
+            "snapshot": 5,
+            "url": "https://tabelog.com/en/tokyo/",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0005.html"
+            }
+          },
+          {
+            "snapshot": 6,
+            "url": "https://tabelog.com/en/tokyo/",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0006.html"
+            }
+          },
+          {
+            "snapshot": 7,
+            "url": "https://tabelog.com/en/tokyo/",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0007.html"
+            }
+          },
+          {
+            "snapshot": 8,
+            "url": "https://tabelog.com/en/tokyo/A1322/",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0008.html"
+            }
+          },
+          {
+            "snapshot": 9,
+            "url": "https://tabelog.com/en/tokyo/A1322/?sw=kushikatsu",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0009.html"
+            }
+          },
+          {
+            "snapshot": 10,
+            "url": "https://tabelog.com/en/tokyo/A1322/A132202/13155817/",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0010.html"
+            }
+          },
+          {
+            "snapshot": 11,
+            "url": "https://tabelog.com/en/tokyo/A1322/A132203/13168736/",
+            "qualified": false,
+            "reason": "UNCAPTURED_DYNAMIC_RESPONSE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0011.html"
+            }
+          },
+          {
+            "snapshot": 12,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=kushikatsu",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0012.html"
+            }
+          },
+          {
+            "snapshot": 13,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=kushikatsu",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0013.html"
+            }
+          },
+          {
+            "snapshot": 14,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&geo_latitude=35.7799638&geo_longitude=139.723053&geo_distance=1km&auto_geolocate=false&search_text=kushikatsu",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0014.html"
+            }
+          },
+          {
+            "snapshot": 15,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kushiman+Akabane&geo_latitude=35.779830499999996&geo_longitude=139.72060969999998&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0015.html"
+            }
+          },
+          {
+            "snapshot": 16,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kushiman+Akabane&geo_latitude=35.779830499999996&geo_longitude=139.72060969999998&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0016.html"
+            }
+          },
+          {
+            "snapshot": 17,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Kushiman+Akabane&geo_latitude=35.779830499999996&geo_longitude=139.72060969999998&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0017.html"
+            }
+          },
+          {
+            "snapshot": 18,
+            "url": "https://www.tablecheck.com/en/kawaei",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0018.html"
+            }
+          },
+          {
+            "snapshot": 19,
+            "url": "https://www.tablecheck.com/en/underground-akabane",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0019.html"
+            }
+          },
+          {
+            "snapshot": 20,
+            "url": "https://www.tablecheck.com/en/azzurri-arte",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0020.html"
+            }
+          },
+          {
+            "snapshot": 21,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman%20Akabane",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0021.html"
+            }
+          },
+          {
+            "snapshot": 22,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman%20Akabane",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0022.html"
+            }
+          },
+          {
+            "snapshot": 23,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Kushiman",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0023.html"
+            }
+          },
+          {
+            "snapshot": 24,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13028728/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0024.html"
+            }
+          },
+          {
+            "snapshot": 25,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130103/13033938/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0025.html"
+            }
+          },
+          {
+            "snapshot": 26,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13028728/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0026.html"
+            }
+          },
+          {
+            "snapshot": 27,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13028728/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0027.html"
+            }
+          },
+          {
+            "snapshot": 28,
+            "url": "https://www.tablecheck.com/en/azzurri-arte",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0028.html"
+            }
+          },
+          {
+            "snapshot": 29,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E6%97%A5%E6%9C%AC%E9%85%92%E3%81%A8%E6%97%AC%E5%BD%A9+%E3%81%9F%E3%81%8F%E3%81%BF%E3%82%8D%E3%81%BE%E3%82%93%E4%BA%AD+YAMASHO&geo_latitude=35.780681&geo_longitude=139.7219174&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0029.html"
+            }
+          },
+          {
+            "snapshot": 30,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E6%97%A5%E6%9C%AC%E9%85%92%E3%81%A8%E6%97%AC%E5%BD%A9+%E3%81%9F%E3%81%8F%E3%81%BF%E3%82%8D%E3%81%BE%E3%82%93%E4%BA%AD+YAMASHO&geo_latitude=35.780681&geo_longitude=139.7219174&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0030.html"
+            }
+          },
+          {
+            "snapshot": 31,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E6%97%A5%E6%9C%AC%E9%85%92%E3%81%A8%E6%97%AC%E5%BD%A9+%E3%81%9F%E3%81%8F%E3%81%BF%E3%82%8D%E3%81%BE%E3%82%93%E4%BA%AD+YAMASHO&geo_latitude=35.780681&geo_longitude=139.7219174&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0031.html"
+            }
+          },
+          {
+            "snapshot": 32,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13028728/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0032.html"
+            }
+          },
+          {
+            "snapshot": 33,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E6%97%A5%E6%9C%AC%E9%85%92%E3%81%A8%E6%97%AC%E5%BD%A9%20%E3%81%9F%E3%81%8F%E3%81%BF%E3%82%8D%E3%81%BE%E3%82%93%E4%BA%AD%20YAMASHO",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0033.html"
+            }
+          },
+          {
+            "snapshot": 34,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E6%97%A5%E6%9C%AC%E9%85%92%E3%81%A8%E6%97%AC%E5%BD%A9%20%E3%81%9F%E3%81%8F%E3%81%BF%E3%82%8D%E3%81%BE%E3%82%93%E4%BA%AD%20YAMASHO",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0034.html"
+            }
+          },
+          {
+            "snapshot": 35,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%9F%E3%81%8F%E3%81%BF%E3%82%8D%E3%81%BE%E3%82%93%E4%BA%AD",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0035.html"
+            }
+          },
+          {
+            "snapshot": 36,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0036.html"
+            }
+          },
+          {
+            "snapshot": 37,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0037.html"
+            }
+          },
+          {
+            "snapshot": 38,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0038.html"
+            }
+          },
+          {
+            "snapshot": 39,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0039.html"
+            }
+          },
+          {
+            "snapshot": 40,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0040.html"
+            }
+          },
+          {
+            "snapshot": 41,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E6%97%A5%E6%9C%AC%E9%85%92%E3%81%A8%E6%97%AC%E5%BD%A9+%E3%81%9F%E3%81%8F%E3%81%BF%E3%82%8D%E3%81%BE%E3%82%93%E4%BA%AD+YAMASHO&geo_latitude=35.780681&geo_longitude=139.7219174&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0041.html"
+            }
+          },
+          {
+            "snapshot": 42,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B+%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4+%E3%82%8C%E3%82%82%E3%82%93+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.779576999999996&geo_longitude=139.7215888&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0042.html"
+            }
+          },
+          {
+            "snapshot": 43,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B+%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4+%E3%82%8C%E3%82%82%E3%82%93+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.779576999999996&geo_longitude=139.7215888&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0043.html"
+            }
+          },
+          {
+            "snapshot": 44,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B+%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4+%E3%82%8C%E3%82%82%E3%82%93+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.779576999999996&geo_longitude=139.7215888&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0044.html"
+            }
+          },
+          {
+            "snapshot": 45,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13315001/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0045.html"
+            }
+          },
+          {
+            "snapshot": 46,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B%20%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4%20%E3%82%8C%E3%82%82%E3%82%93%20%E8%B5%A4%E7%BE%BD%E5%BA%97",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0046.html"
+            }
+          },
+          {
+            "snapshot": 47,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B%20%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4%20%E3%82%8C%E3%82%82%E3%82%93%20%E8%B5%A4%E7%BE%BD%E5%BA%97",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0047.html"
+            }
+          },
+          {
+            "snapshot": 48,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%82%8C%E3%82%82%E3%82%93",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0048.html"
+            }
+          },
+          {
+            "snapshot": 49,
+            "url": "https://tabelog.com/en/tokyo/A1310/A131002/13000634/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0049.html"
+            }
+          },
+          {
+            "snapshot": 50,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E8%B5%A4%E7%BE%BD%E5%B1%85%E9%85%92%E5%B1%8B+%E5%A4%A7%E8%A1%86%E9%85%92%E5%A0%B4+%E3%82%8C%E3%82%82%E3%82%93+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.779576999999996&geo_longitude=139.7215888&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0050.html"
+            }
+          },
+          {
+            "snapshot": 51,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E3%82%84%E3%81%8D%E3%81%A8%E3%82%93%E5%A4%A7%E7%8E%8B+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.780183199999996&geo_longitude=139.7208911&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0051.html"
+            }
+          },
+          {
+            "snapshot": 52,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E3%82%84%E3%81%8D%E3%81%A8%E3%82%93%E5%A4%A7%E7%8E%8B+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.780183199999996&geo_longitude=139.7208911&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0052.html"
+            }
+          },
+          {
+            "snapshot": 53,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E3%82%84%E3%81%8D%E3%81%A8%E3%82%93%E5%A4%A7%E7%8E%8B+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.780183199999996&geo_longitude=139.7208911&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0053.html"
+            }
+          },
+          {
+            "snapshot": 54,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%82%84%E3%81%8D%E3%81%A8%E3%82%93%E5%A4%A7%E7%8E%8B%20%E8%B5%A4%E7%BE%BD%E5%BA%97",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0054.html"
+            }
+          },
+          {
+            "snapshot": 55,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0055.html"
+            }
+          },
+          {
+            "snapshot": 56,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13226880/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0056.html"
+            }
+          },
+          {
+            "snapshot": 57,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0057.html"
+            }
+          },
+          {
+            "snapshot": 58,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0058.html"
+            }
+          },
+          {
+            "snapshot": 59,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0059.html"
+            }
+          },
+          {
+            "snapshot": 60,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0060.html"
+            }
+          },
+          {
+            "snapshot": 61,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0061.html"
+            }
+          },
+          {
+            "snapshot": 62,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=%E3%82%84%E3%81%8D%E3%81%A8%E3%82%93%E5%A4%A7%E7%8E%8B+%E8%B5%A4%E7%BE%BD%E5%BA%97&geo_latitude=35.780183199999996&geo_longitude=139.7208911&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0062.html"
+            }
+          },
+          {
+            "snapshot": 63,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Dengana+Akabane&geo_latitude=35.7795476&geo_longitude=139.7211442&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0063.html"
+            }
+          },
+          {
+            "snapshot": 64,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Dengana+Akabane&geo_latitude=35.7795476&geo_longitude=139.7211442&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0064.html"
+            }
+          },
+          {
+            "snapshot": 65,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Dengana+Akabane&geo_latitude=35.7795476&geo_longitude=139.7211442&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0065.html"
+            }
+          },
+          {
+            "snapshot": 66,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0066.html"
+            }
+          },
+          {
+            "snapshot": 67,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0067.html"
+            }
+          },
+          {
+            "snapshot": 68,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0068.html"
+            }
+          },
+          {
+            "snapshot": 69,
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0069.html"
+            }
+          },
+          {
+            "snapshot": 70,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Dengana+Akabane&geo_latitude=35.7795476&geo_longitude=139.7211442&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0070.html"
+            }
+          },
+          {
+            "snapshot": 71,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nonki&geo_latitude=35.780090699999995&geo_longitude=139.7201665&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0071.html"
+            }
+          },
+          {
+            "snapshot": 72,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nonki&geo_latitude=35.780090699999995&geo_longitude=139.7201665&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0072.html"
+            }
+          },
+          {
+            "snapshot": 73,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nonki&geo_latitude=35.780090699999995&geo_longitude=139.7201665&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0073.html"
+            }
+          },
+          {
+            "snapshot": 74,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nonki",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0074.html"
+            }
+          },
+          {
+            "snapshot": 75,
+            "url": "https://tabelog.com/en/tokyo/A1324/A132403/13022433/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0075.html"
+            }
+          },
+          {
+            "snapshot": 76,
+            "url": "https://tabelog.com/en/tokyo/A1319/A131905/13299941/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0076.html"
+            }
+          },
+          {
+            "snapshot": 77,
+            "url": "https://tabelog.com/en/tokyo/A1319/A131905/13299941/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0077.html"
+            }
+          },
+          {
+            "snapshot": 78,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nonki&geo_latitude=35.780090699999995&geo_longitude=139.7201665&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0078.html"
+            }
+          },
+          {
+            "snapshot": 79,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Shinjidai&geo_latitude=35.7784501&geo_longitude=139.72191569999998&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0079.html"
+            }
+          },
+          {
+            "snapshot": 80,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Shinjidai&geo_latitude=35.7784501&geo_longitude=139.72191569999998&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0080.html"
+            }
+          },
+          {
+            "snapshot": 81,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Shinjidai&geo_latitude=35.7784501&geo_longitude=139.72191569999998&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0081.html"
+            }
+          },
+          {
+            "snapshot": 82,
+            "qualified": false,
+            "reason": "UNSAFE_DOCUMENT",
+            "diagnostic": {
+              "status": "OMITTED",
+              "reason": "UNSAFE_DOCUMENT"
+            }
+          },
+          {
+            "snapshot": 83,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Shinjidai",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0083.html"
+            }
+          },
+          {
+            "snapshot": 84,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130103/13204642/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0084.html"
+            }
+          },
+          {
+            "snapshot": 85,
+            "url": "https://tabelog.com/en/tokyo/A1305/A130503/13264281/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0085.html"
+            }
+          },
+          {
+            "snapshot": 86,
+            "url": "https://tabelog.com/en/tokyo/A1305/A130503/13264281/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0086.html"
+            }
+          },
+          {
+            "snapshot": 87,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E6%96%B0%E6%99%82%E4%BB%A3%20%E8%B5%A4%E7%BE%BD%E9%A7%85%E6%9D%B1%E5%8F%A3%E5%BA%97",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0087.html"
+            }
+          }
+        ],
+        "recordingPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/next-two/runs/D4/D4/recordings/g6-D4-1793800736299-0",
+        "replayStatus": "PARTIALLY_REPLAYABLE"
+      },
+      "googleResponsesInHAR": 5,
+      "uncapturedScriptsOriginPathOnly": [
+        {
+          "origin": "https://assets.adobedtm.com/",
+          "path": "/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+          "outcome": "BLOCKED"
+        },
+        {
+          "origin": "https://static.zdassets.com/",
+          "path": "/ekr/snippet.js",
+          "outcome": "BLOCKED"
+        },
+        {
+          "origin": "https://umami-next.post.tablecheck.com/",
+          "path": "/script.js",
+          "outcome": "BLOCKED"
+        },
+        {
+          "origin": "https://www.tablecheck.com/",
+          "path": "/portal/assets/index-KCcaxOlR.js",
+          "outcome": "ADMITTED"
+        }
+      ],
+      "calendarCandidates": [
+        {
+          "snapshot": 61,
+          "url": "https://tabelog.com/en/tokyo/A1323/A132305/13173601/",
+          "responses": [
+            {
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy",
+              "status": 200,
+              "observedAt": "2026-11-04T14:04:03.372Z",
+              "sequence": 1,
+              "body": {
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11
+                },
+                "members": 2,
+                "selection": [
+                  {
+                    "time": "12:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1230"
+                    }
+                  },
+                  {
+                    "time": "12:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1245"
+                    }
+                  },
+                  {
+                    "time": "13:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1300"
+                    }
+                  },
+                  {
+                    "time": "13:15",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1315"
+                    }
+                  },
+                  {
+                    "time": "13:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1330"
+                    }
+                  },
+                  {
+                    "time": "13:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1345"
+                    }
+                  },
+                  {
+                    "time": "14:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1400"
+                    }
+                  },
+                  {
+                    "time": "14:15",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1415"
+                    }
+                  },
+                  {
+                    "time": "14:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1430"
+                    }
+                  },
+                  {
+                    "time": "14:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1445"
+                    }
+                  },
+                  {
+                    "time": "15:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1500"
+                    }
+                  },
+                  {
+                    "time": "15:15",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1515"
+                    }
+                  },
+                  {
+                    "time": "15:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1530"
+                    }
+                  },
+                  {
+                    "time": "15:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1545"
+                    }
+                  },
+                  {
+                    "time": "16:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1600"
+                    }
+                  },
+                  {
+                    "time": "16:15",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1615"
+                    }
+                  },
+                  {
+                    "time": "16:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1630"
+                    }
+                  },
+                  {
+                    "time": "16:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1645"
+                    }
+                  },
+                  {
+                    "time": "17:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1700"
+                    }
+                  },
+                  {
+                    "time": "17:15",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1715"
+                    }
+                  },
+                  {
+                    "time": "17:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1730"
+                    }
+                  },
+                  {
+                    "time": "17:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1745"
+                    }
+                  },
+                  {
+                    "time": "18:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1800"
+                    }
+                  },
+                  {
+                    "time": "18:15",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1815"
+                    }
+                  },
+                  {
+                    "time": "18:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1830"
+                    }
+                  },
+                  {
+                    "time": "18:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1845"
+                    }
+                  },
+                  {
+                    "time": "19:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1900"
+                    }
+                  },
+                  {
+                    "time": "19:15",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1915"
+                    }
+                  },
+                  {
+                    "time": "19:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1930"
+                    }
+                  },
+                  {
+                    "time": "19:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "1945"
+                    }
+                  },
+                  {
+                    "time": "20:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "2000"
+                    }
+                  },
+                  {
+                    "time": "20:15",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "2015"
+                    }
+                  },
+                  {
+                    "time": "20:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "2030"
+                    }
+                  },
+                  {
+                    "time": "20:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "2045"
+                    }
+                  },
+                  {
+                    "time": "21:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "2100"
+                    }
+                  },
+                  {
+                    "time": "21:15",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "2115"
+                    }
+                  },
+                  {
+                    "time": "21:30",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "2130"
+                    }
+                  },
+                  {
+                    "time": "21:45",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "2145"
+                    }
+                  },
+                  {
+                    "time": "22:00",
+                    "link": {
+                      "origin": "https://tabelog.com/",
+                      "pathname": "/en/booking/form_course/new",
+                      "rcd": "13173601",
+                      "member": "2",
+                      "visit_date": "20261111",
+                      "visit_time": "2200"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "diagnostic": "diagnostic/snapshot-0061.html"
+        }
+      ]
+    }
+  ]
+}
