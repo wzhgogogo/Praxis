@@ -10,6 +10,7 @@ for(const mode of ["LINK","OPTION","NONE","AMBIGUOUS","OUTSIDE","MERCHANT_ONLY"]
   try{
     assert.equal(f.saved.regions.some((r:{label:string})=>/akabane|赤羽/i.test(r.label)),false,"Original D4 first menu lacks Akabane");
     const read=await f.search();
+    if(process.env.PRAXIS_LOCATION_SUGGESTION_CAPTURE==="1")console.log("LOCATION_SUGGESTION_RESULT "+JSON.stringify({mode,candidates:read.candidates.map(c=>({id:c.restaurant.id,name:c.restaurant.outletName,coordinates:c.restaurant.coordinates,sourceIds:c.restaurant.sourceIds})),actions:f.actions,diagnostics:f.diagnostics,metadata:read.metadata,realCalls:0}));
     assert.ok(f.actions.some(a=>a.operation==="fill"&&a.args[1]==="Akabane"),"Use only authoritative place text in an observed field");
     const navigated=f.actions.flatMap(a=>a.operation==="navigate"?[a.args[0]]:a.operation==="openLink"?[a.args[1]]:[]);
     assert.ok(navigated.includes(f.home),"Search home must be an observed entrance");
@@ -22,9 +23,9 @@ for(const mode of ["LINK","OPTION","NONE","AMBIGUOUS","OUTSIDE","MERCHANT_ONLY"]
     else{
       assert.equal(read.candidates.length,0);
       assert.ok(f.models.some(m=>m.purpose==="browser_read_decide"),"Missing/ambiguous place returns to the existing region path");
+      assert.ok(navigated.includes("https://tabelog.com/en/tokyo/A1322/"),"The old observed menu route is actually executed, not merely proposed by an invalid fixture");
       assert.ok(!navigated.includes(f.result));
     }
-    if(process.env.PRAXIS_LOCATION_SUGGESTION_CAPTURE==="1")console.log("LOCATION_SUGGESTION_RESULT "+JSON.stringify({mode,candidates:read.candidates.map(c=>({id:c.restaurant.id,name:c.restaurant.outletName,coordinates:c.restaurant.coordinates,sourceIds:c.restaurant.sourceIds})),actions:f.actions,diagnostics:f.diagnostics,metadata:read.metadata,realCalls:0}));
   }finally{await f.close();}
  });
 }
