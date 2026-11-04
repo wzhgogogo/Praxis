@@ -852,7 +852,12 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           const supportedMenu=outletReference&&[...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].some(match=>{
             try{return directory.containsObservedOutlet?.(new URL(match[1]!.replaceAll('&amp;','&'),page!.url).href,outletReference!.sourceUrl)===true;}catch{return false;}
           });
-          if(requestedName&&!directlyNamed&&!supportedMenu&&directory.isLocationSearchEntrance&&session!.metadata.readNetworkBoundary==="INSTALLED"){
+          const districts=(discoveryGoalLocation.addressComponents??[]).filter(c=>c.types.some(t=>/^sublocality_level_[12]$/u.test(t))).flatMap(c=>[c.longText,...(c.shortText?[c.shortText]:[])]);
+          const districtMenu=Boolean(districts.length&&[...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)].some(match=>{
+            try{return directory.isRegionEntrance(new URL(match[1]!.replaceAll('&amp;','&'),page!.url).href)
+              &&match[2]!.replace(/<[^>]*>/gu,' ').replaceAll('&amp;','&').split(/\s*(?:&|–|,|，|\/)\s*/u).some(part=>districts.some(name=>normalized(part)===normalized(name)));}catch{return false;}
+          }));
+          if(requestedName&&!directlyNamed&&!supportedMenu&&!districtMenu&&directory.isLocationSearchEntrance&&session!.metadata.readNetworkBoundary==="INSTALLED"){
             const originalMenu=page;
             const homeLinks=[...new Map((await executor.observeControls({source,stage:"DISCOVERY",signal,session:session!})).filter(c=>c.visible&&!c.disabled&&!c.blockedByActiveLayer&&!c.observationOnly
               &&c.kind==="LINK"&&c.href&&directory.isLocationSearchEntrance!(c.href)).map(c=>[c.href!,c])).values()];
