@@ -1,0 +1,30 @@
+TAP version 13
+# Subtest: Live trace records real request chronology, navigation budgets and query hashes without changing Guard
+not ok 1 - Live trace records real request chronology, navigation budgets and query hashes without changing Guard
+  ---
+  duration_ms: 1159.821833
+  type: 'test'
+  location: '/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/harness/browser/request-timeline.test.ts:1:334'
+  failureType: 'testCodeFailure'
+  error: 'existing trace lacks per-request chronology'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/src/harness/browser/request-timeline.test.ts:28:72)
+    runNextTicks (node:internal/process/task_queues:65:5)
+    process.processImmediate (node:internal/timers:473:9)
+    async Test.run (node:internal/test_runner/test:1069:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1441.126791

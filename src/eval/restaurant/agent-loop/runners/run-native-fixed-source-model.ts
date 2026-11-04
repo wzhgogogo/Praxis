@@ -156,7 +156,7 @@ try {
   const rawBrowser = dynamicSource ? dynamicTabelogSourcePages() : sourcePages(scenario, navigations);
   // Source usage is evidence of both a navigation attempt and a page that was
   // actually observed. A fixture URL alone cannot satisfy a source scenario.
-  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABELOG", recordBrowserTrace);
+  const browser: BrowserRuntime = traceBrowserRuntime(rawBrowser, "TABELOG", recordBrowserTrace, undefined, {remainingBudgetMs:()=>Math.max(0,timeoutMs-(Date.now()-startedAt))});
   const googleClient = new GooglePlacesClient({ apiKey: "fixed-transport-only", fetchImplementation: async (_url, init) => {
     const query = JSON.parse(String(init?.body)) as { textQuery: string };
     googleQueries.push(query.textQuery);
