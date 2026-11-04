@@ -14,7 +14,7 @@ import {replayHarPages} from "../../../../harness/browser/browser-read-test-fixt
 export type Mode="LINK"|"OPTION"|"NONE"|"AMBIGUOUS"|"OUTSIDE"|"MERCHANT_ONLY";
 export async function locationSuggestionAssembly(mode:Mode){
   const saved=JSON.parse(await readFile(new URL("./d4-menu.json",import.meta.url),"utf8"));
-  const origin="https://tabelog.com",home=origin+"/en/",root=origin+"/en/tokyo/rstLst/?sw=kushikatsu",menu=origin+"/en/tokyo/";
+  const origin="https://tabelog.com",home=origin+"/en/",root=origin+"/en/tokyo/rstLst/",menu=origin+"/en/tokyo/";
   const result=origin+"/en/tokyo/A1323/A132305/rstLst/?sw=kushikatsu",wrong=origin+"/en/tokyo/A1322/";
   const station="Akabane Sta. (Tokyo)";
   const optionResult=origin+"/en/tokyo/A1323/A132305/rstLst/?location=Akabane+Sta.+%28Tokyo%29&sw=kushikatsu";
@@ -26,7 +26,7 @@ export async function locationSuggestionAssembly(mode:Mode){
     const field=document.querySelector('input[type=search]'),list=document.getElementById('choices');
     field.addEventListener('input',()=>{field.setAttribute('aria-expanded','true');setTimeout(()=>{list.innerHTML=${JSON.stringify(suggestions)};for(const option of list.querySelectorAll('[role=option]'))option.addEventListener('click',()=>{field.value=option.textContent;option.setAttribute('aria-selected','true');field.setAttribute('aria-expanded','false');list.hidden=true;});},80);});
   </script>`;
-  const pages:Record<string,string>={[home]:homeHtml,[root]:menuHtml,[menu]:menuHtml};
+  const pages:Record<string,string>={[home]:homeHtml,[root]:menuHtml,[root+"?sw=kushikatsu"]:menuHtml,[menu]:menuHtml};
   const urls:string[]=[];
   for(let i=0;i<5;i++){
     const url=origin+`/en/tokyo/A1323/A132305/${13123450+i}/`;urls.push(url);
