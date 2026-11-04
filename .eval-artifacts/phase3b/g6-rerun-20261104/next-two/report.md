@@ -15,3 +15,5 @@ Main f324f17b contains B de2b7ecc, C1 aba06e16 and C2 a96f4d4e by ancestry. Work
 ## Final clean gates PASS
 
 Gate candidate db35e4ce: typecheck/arch/build PASS; default1447/1447; ordinary Chromium189/189 and fullG6 66/66; strictG2 5/5, all12 valid pages PASS. Six gate steps had empty git status before/after. All851 source/input SHA unchanged. Archived original logs with SHA receipts before public certification.
+
+W1 freshly certified: detail+four-parameter GET2, actual same name/full address/phone, data-booking-enabled calendar block present,11-11 19:00/2 available. Raw bytes/SHA and evidence import saved; globalGET310/425. No form opened, no credential read. D4 input/evidence now committed before its paid process.

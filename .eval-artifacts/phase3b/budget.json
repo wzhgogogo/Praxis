@@ -11812,15 +11812,39 @@
       "evaluationPublicGET": 0,
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0
+    },
+    {
+      "id": "g6-two-slot-cert-W1-1793800679876:GET:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T13:57:59.877Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "detail; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-two-slot-cert-W1-1793800679876:GET:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T13:58:04.884Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "vacancy; public credential-free GET, no retry"
     }
   ],
   "cumulative": {
     "fullLive": 14,
     "realModelCalls": 432,
     "environmentReruns": 0,
-    "evaluationPublicGET": 308,
+    "evaluationPublicGET": 310,
     "googleRequests": 76,
-    "restaurantWebsiteRequests": 9209
+    "restaurantWebsiteRequests": 9211
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
