@@ -1,0 +1,26 @@
+{
+  "mode": "OFFLINE_CONFIG_BOUNDARY_FIXTURE_NOT_LIVE_REPLAY",
+  "baseline": "be84674e27fdaec22de1f41af9c39ffc230dcfe4",
+  "redCommit": "44b9c9f83ebfbe98b1f6cc936dfb1ab796223dea",
+  "redTarget": "D6 timing fixture productionDefault: final snapshot is bounded by the candidate window",
+  "redOutcome": "FAILED instead of COMPLETED at simulated60008ms under old60000ms",
+  "greenOutcome": "5/5; old60 rejects snapshot; current90 completes synthetic snapshot; provider45/candidate90/run500 remain bounded",
+  "files": [
+    {
+      "path": "src/application/live-read-investigation-budget.ts",
+      "sha256": "961e5311ba58e32b92700d62ab3fd61be45bbecd4c003764fc37b0f53a50f0b3"
+    },
+    {
+      "path": "src/infrastructure/browser/browser-candidate-budget.test.ts",
+      "sha256": "59be34b550754731bc450e4258e69d1f440d63a2ca01993640741ddb1e6a9a74"
+    },
+    {
+      "path": "src/infrastructure/browser/fixtures/d6-candidate-budget-timing.json",
+      "sha256": "242981217ba6e5eedec662f4134e00600f50f68988ec570cdb735ba21ab93e04"
+    },
+    {
+      "path": ".eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/run-gates.py",
+      "sha256": "728d1707c041da628754b8630ab47178f41a0b80bebfb79ee266e2dbc0fef76f"
+    }
+  ]
+}
