@@ -1,5 +1,11 @@
 # Test and Verification Log
 
+<a id="reused-session-control-fallback-verified-20261104"></a>
+
+## 2026-11-04 CET — C final G6-inclusive clean matrix
+
+e7963151/860 inputs: type0.498s,arch0.233s,default1417 in48.816s,build0.561s,browser189+G6(original imported18) in170.700s,strictG2 5/all12 in24.242s,reuse5 in0.242s. Every pre/post status empty, same HEAD/hashes; no retry/skip/cancel. Three exact A reds become green; controls regain Date/Guests and exact2-person19:00 response. A18 is selected two-file corpus, not allA66. Independent audit checks source/data without product parser. Prior restricted Chromium preflight error preserved apart from real product reds. All external/real calls0, no .env. [Receipts](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/gates.json), [report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
 <a id="reused-session-control-fallback-20261104"></a>
 
 ## 2026-11-04 CET — C exact G6 fallback regression red→green

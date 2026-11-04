@@ -1,5 +1,11 @@
 # Development Log
 
+<a id="reused-session-control-fallback-verified-20261104"></a>
+
+## 2026-11-04 CET — C control-recovery repair verified for main
+
+Frozen e7963151/860: seven clean steps all pass (default1417; ordinaryChromium189 plus imported original G618; strictG2 all12; reuse5; type/arch/build). No full-gate repair/retry or input mutation. Explicit runtime lifecycle prevents treating hidden-control timeouts as session loss; original non-reuse and navigation/abort cleanup preserved. A13 files unchanged, only minimal test dependencies/wiring imported. No version, identity, Guard or production budget change; prior C broad-retirement claim superseded, raw old evidence intact. Ledger832 preserves main/A rows and existing A approval, real calls0/no .env. User-authorized main publication follows latest remote sync and independent saved-output audit, then A/B notice. [Report](../../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md).
+
 <a id="reused-session-control-fallback-20261104"></a>
 
 ## 2026-11-04 CET — C restores observation after reused-session control failure
