@@ -1,3 +1,5 @@
+2026-11-04 CET：B资源策略/导航预算下限+A44973e83+main22415b57集成完成验证。用户确认189/189口径，冻结68a9a175净树六步全绿：type/arch/build、默认1410/1410、Chromium189/189（131.639秒）、严格G2 5/5及12页PASS；每项前后status空，无删测/跳过/重试。A三个fixture与main新增时间线原字节保留；829账目原值保留，GET总上限410、累计298、余112覆盖预留108，新增真实调用0。后续仅归档；按授权发布main并通知A/C，实际SHA以远端回执为准。W1真实旧超时根因仍未知，不称Live提速关闭。 [合入报告](../.eval-artifacts/phase3b/resource-policy-main-20261104/report.md)。
+
 2026-11-04 CET：B按批准集成A44973e83与最新main22415b57，merge e50f935d无源码冲突，文档双方保留。829账目原值保留，总公开GET上限按用户改410，累计298不变、余112覆盖留出预留108；新增真实调用0。新鲜五门禁/严格G2待跑；最新main多1项时间线测试，完整Chromium预计189（原188全保留），验收数量待澄清后才发布main。 [集成报告](../.eval-artifacts/phase3b/resource-policy-main-20261104/report.md)。
 
 2026-11-04 CET：A按用户批准，在B c1c1187a上同步三个图片fixture的精确保留声明；原断言逐字保留，真实本地Chromium三条红→绿，生产策略/站点不改。净树五门禁全绿：默认1410/1410、Chromium188/188，严格G2 5/5及12页PASS，逐项前后status为空；真实调用0。 [报告](../.eval-artifacts/phase3b/retained-image-fixtures-20261104/report.md)。
