@@ -72,6 +72,7 @@ export class LiveBrowserAvailability {
 
   /** Called by the Router once per Agent loop, not once per candidate batch. */
   beginReadRun(): void {
+    if (this.readExecutor) throw new Error("A browser read run is already active");
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
     this.namedQueries.clear();
@@ -81,10 +82,10 @@ export class LiveBrowserAvailability {
   /** Session ownership ends at the Agent read boundary, never at a candidate checkpoint. */
   async endReadRun(): Promise<void> {
     const executor=this.readExecutor;this.readExecutor=undefined;
-    await executor?.closeAll();
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
     this.namedQueries.clear();
+    await executor?.closeAll();
   }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead> {

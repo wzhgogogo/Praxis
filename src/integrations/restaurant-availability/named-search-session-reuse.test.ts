@@ -5,6 +5,10 @@ import type { RestaurantAvailabilityRequest } from "../../domains/restaurant/con
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import { LiveBrowserAvailability } from "./live-browser-availability.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
+import { createLiveReadAssembly } from "../restaurant-search/live-read-assembly.js";
+import { tabelogDiscoveryPack } from "../restaurant-search/source-packs.js";
+import { GooglePlacesClient } from "../google/google-places-client.js";
+import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../application/live-read-investigation-budget.js";
 
 // Constructed public search pages, not a replay of current site DOM. Only the
 // browser and model transports are replaced; query binding and both adapters
@@ -85,4 +89,50 @@ test("a completed run never lends its source contexts to a later run; cancellati
   await availability.check(request("Beta Sushi"),controller.signal);controller.abort();
   await assert.rejects(()=>availability.check(request("Gamma Sushi"),controller.signal));
   await availability.endReadRun();assert.equal(sessions.length,4);assert.ok(sessions.every(s=>s.closed===1));
+});
+
+test("ordinary assembly retains correct source identities while a reused search refuses a wrong shop and two HIGH identities",async()=>{
+  const rows=[
+    {name:"Alpha Sushi",id:"13100001",phone:"03-1111-1111"},
+    {name:"Beta Sushi",id:"13100002",phone:"03-2222-2222"},
+    {name:"Ambiguous Sushi",id:"13100003",phone:"03-3333-3333"},
+    {name:"Ambiguous Sushi",id:"13100004",phone:"03-3333-3333"},
+  ];
+  const root="https://tabelog.com/en/tokyo/rstLst/";
+  const detail=(id:string)=>`https://tabelog.com/en/tokyo/A1304/A130401/${id}/`;
+  class IdentitySession extends SearchSession {
+    override async click(){this.url=root+"?sw="+encodeURIComponent(this.query);this.submissions.push(this.query);}
+    override async snapshot():Promise<BrowserSnapshot>{
+      const u=new URL(this.url),row=rows.find(r=>detail(r.id)===this.url);
+      const query=u.searchParams.get("sw");
+      const selected=rows.filter(r=>r.name===query||query==="Wrong Sushi"&&r.id==="13100001");
+      const html=row?`<h1>${row.name}</h1><p>${fixtureCandidates[0]!.restaurant.address}</p><a href="tel:${row.phone}">${row.phone}</a>`
+        :selected.map(r=>`<article><a href="${detail(r.id)}">${r.name}</a></article>`).join("");
+      return {url:this.url,title:row?.name??"Restaurant search",html,text:html.replace(/<[^>]*>/g," ")};
+    }
+  }
+  const sessions:IdentitySession[]=[];let sourceModelCalls=0;
+  const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {
+    model:{complete:async()=>{sourceModelCalls++;return {invocationId:"declined-fragment",provider:"FIXTURE",model:"fixture",outputText:'{"field":"name","fragment":""}',finishReason:"STOP",latencyMs:0};}},
+    browser:{readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new IdentitySession();sessions.push(s);return s;}},
+    google:new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async()=>{throw new Error("Google not authorized");}}),
+    clock:{now:()=>new Date()},
+  });
+  assembly.availability.beginReadRun();
+  const conclusions=[];
+  try{
+    for(const [name,phone,expected] of [["Alpha Sushi","03-1111-1111","COMPLETED"],["Beta Sushi","03-2222-2222","COMPLETED"],["Wrong Sushi","03-9999-9999","UNKNOWN"],["Ambiguous Sushi","03-3333-3333","UNKNOWN"]] as const){
+      const r=request(name);r.candidates[0]!.restaurant.sourceIds.phone=phone;
+      const read=await assembly.facts.inspectFacts({candidateIds:r.candidateIds,candidates:r.candidates,intent:fixtureIntent,readRunId:"identity-reuse"},new AbortController().signal,true);
+      assert.equal(read.factChecks[name]?.status,expected);conclusions.push({name,status:read.factChecks[name]?.status});
+      if(expected==="COMPLETED")assert.ok(read.evidence.some(e=>e.kind==="ENTITY_MATCH"&&e.candidateId===name&&e.entityMatch?.confidence==="HIGH"));
+      else assert.equal(read.evidence.some(e=>e.kind==="ENTITY_MATCH"),false);
+      assert.equal(read.evidence.some(e=>e.kind==="AVAILABILITY"),false,"identity investigation never claims inventory");
+    }
+  }finally{await assembly.availability.endReadRun();}
+  assert.equal(sessions.length,1);assert.equal(sessions[0]!.closed,1);
+  assert.equal(sessions[0]!.navigations.filter(u=>u.includes("rstLst")).length,1);
+  assert.ok(sessions[0]!.submissions.includes("Beta Sushi"));
+  assert.equal(sourceModelCalls,2,"only the unchanged fragment fallback for the two unresolved identities");
+  if(process.env.PRAXIS_SESSION_REUSE_CAPTURE==="1")console.log("SESSION_REUSE_RESULT "+JSON.stringify({conclusions,sessionOpens:sessions.length,entranceNavigations:1,submissions:sessions[0]!.submissions,sourceModelCalls,externalCalls:0}));
 });

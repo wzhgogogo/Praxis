@@ -1,5 +1,11 @@
 # Test and Verification Log
 
+<a id="named-search-session-reuse-20261104"></a>
+
+## 2026-11-04 CET — C source-session reuse verification
+
+Frozen347ca984 main red:3 sessions versus target2; search navigations6. Local corrected path2/2 plus4 submits, unchanged no-result conclusions. Ordinary assembly identity controls:2 HIGH, wrong shop/ambiguous UNKNOWN; existing persistent composition45/45 and adapter/executor128/128. Actual guarded local Chromium:1 context/1 entry/2 submits, replaced DOM refs, receiver GET-only. Restricted first composition43/45 preserved; allowing local Chromium yields45/45 with original inputs. Final clean-tree matrix pending. Real calls0, no external request or .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md).
+
 <a id="hard-evidence-main-verified-20261103"></a>
 
 2026-11-03 CET：B已获批HARD证据修复合main，新鲜合入候选1ee97d94全绿：type/arch/build通过，默认1397/1397、Chromium188/188（130.342秒）、严格G2 5/5及12页PASS，每项前后status为空，无重试/跳过/取消。merge172c20af的树与复核d58d377a完全一致，发布记录不改源码/fixture/脚本；State25/TaskDefinition23及Prompt/Schema不变。744条账本完整保留743旧条目、累计/额度不变；新增真实调用0。按批准发布main，ls-remote核对后通知C/A，实际main SHA以交付回执为准。[合入证据](../../.eval-artifacts/phase3b/hard-evidence-main-20261103/report.md)。

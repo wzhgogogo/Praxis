@@ -1,3 +1,5 @@
+2026-11-04 CET：C实施具名搜索按本次读取、同来源复用会话；构造三候选入口导航6→2，结论不变；实际组装身份前缀保留两家HIGH，错店/身份不唯一拒绝。真实本机Guard表单验证通过，业务整组装45/45，最终净树五门禁/严格G2待执行；State25/TaskDefinition23及Prompt/身份/Guard/预算不变。已批准诊断两出口透传，不改A文件；真实调用0、不读.env，只推分支交复核，不合main。 [报告](../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md)。
+
 2026-11-03 CET：逐请求/导航录制交付完成。main共享代码净树五门禁1404/189、严格G2 5/5；G6分支10dfc1d9实际Chromium接线红绿及完整1412/189+66/严格G2全绿。生产Guard/评分/Recorder脱敏准入不变，新真实调用0。G6代码未合main，未来Live使用已同步分支。账本并入B既有6次比较读，821条原值保留，累计GET290/400、Live11/29、模型401/1600。B/C已收到首次发布通知，最终回执随后发送。 [报告](../.eval-artifacts/phase3b/request-timeline-20261103/report.md)。
 
 2026-11-03 CET：A逐请求时间线main候选净树五门禁全绿：默认1404/1404、Chromium189/189、严格G2 5/5且12页PASS。字段来自真实CDP和独立Guard传输观察，query只保留全URL SHA，准入/脱敏/评分不变；真实调用0。将按用户批准快进发布main，再同步G6工作分支预算回调。 [报告](../.eval-artifacts/phase3b/request-timeline-20261103/report.md)。
