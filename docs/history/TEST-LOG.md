@@ -6507,3 +6507,9 @@ Frozen bebe0a41 /934 source+input SHAs: typecheck, arch, default1425/1425, build
 ## 2026-11-04 CET — reviewed D8 integration candidate
 
 User approved aba06e16 after independent1425/189+G6 66/strictG2. Merge candidate f791378c starts at current main de2b7ecc, preserves all source and original artifacts from both sides byte-for-byte; both append-only doc conflicts retained. No new location-suggestion code, version, source behavior or external calls. Original ledger rows retained, one zero-call integration row. Fresh clean gates pending. [Report](../../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md).
+
+<a id="d8-main-integration-verified-20261104"></a>
+
+## 2026-11-04 CET — approved D8 main integration verified
+
+Frozen1980ed01/895 source-input SHAs: fresh first-pass type/arch/default1430/build/Chromium189+originalG6 66/strictG2 all12 green, every before/after status empty;171 independent checks pass. Reviewed C aba06e16 and latest main de2b7ecc source/artifacts preserved118 rows, append docs both retained; original A8 G6 files and helpers immutable. Main mandatory browser gate now includes66 cases; default+5 reflects already-approved B candidate budget. No source fix, test/assertion change, skip, retry, version or external call.881 ledger rows retain both sides and one zero-call row. User authorized publication to main and notifications; final SHA follows remote receipt. [Report](../../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md).

@@ -1,4 +1,4 @@
-2026-11-04 CET：用户已复核批准C D8规则aba06e16；现从最新main de2b7ecc建立合入候选。D8/A完整G6原件与main候选90s源码/证据逐字保留，两处追加文档冲突并存、账本原行按id核对保留，新真实调用0。净树五门禁与严格G2待跑，全绿后按授权发布main并通知A/B；地点联想分支未带入。 [合入报告](../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md)。
+2026-11-04 CET：用户已复核批准C D8规则aba06e16；现从最新main de2b7ecc建立合入候选。D8/A完整G6原件与main候选90s源码/证据逐字保留，两处追加文档冲突并存、账本原行按id核对保留，新真实调用0。1980ed01冻结895项，新鲜净树五门禁全绿：默认1430/1430、Chromium189/189+原A G6 66/66，严格G2 5/5且12页PASS，171项独立审计通过。按授权发布main并通知A/B；所有对话五门禁包含完整G6，地点联想分支未带入。 [合入报告](../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md)。
 
 2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
 
