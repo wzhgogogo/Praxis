@@ -7,7 +7,7 @@ for(const mode of ["NO_GUARD","RESERVE_AFTER_FILL","OPERATION_CAP"] as const)tes
   const calls:string[]=[],controller=new AbortController();
   const session:BrowserSession={metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:"2026-11-04T08:00:00Z",...(mode==="NO_GUARD"?{}:{readNetworkBoundary:"INSTALLED"})},
     async snapshot(){calls.push("snapshot");return {url:"https://example.test/",title:"Search",html:"",text:""};},
-    async observeControls(){calls.push("observe");return [{id:"current-input",stableKey:"input",kind:"INPUT",role:"combobox",label:"Area / Station",type:"search",visible:true,disabled:false}];},
+    async observeControls(){calls.push("observe");return [{id:"current-input",stableKey:"input",kind:"INPUT",role:"combobox",label:"Area / Station",type:"search",structure:{tag:"INPUT",name:"location",classes:[],dialogLabel:"",formClass:"",sliderCount:0},visible:true,disabled:false}];},
     async fill(){calls.push("fill");controller.abort({code:"DELIVERY_RESERVE_REACHED"});},async click(){calls.push("click");assert.fail("No click is admitted");},
     async navigate(){assert.fail("No navigation");},async select(){assert.fail("No native select");},async waitFor(){},async waitForSettled(){calls.push("wait");return true;},async screenshot(){return new Uint8Array();},async close(){},
   };

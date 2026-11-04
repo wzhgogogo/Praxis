@@ -5787,3 +5787,9 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 <a id="resource-policy-main-verified-20261104"></a>
 
 2026-11-04 CET：B资源策略/导航预算下限+A44973e83+main22415b57集成完成验证。用户确认189/189口径，冻结68a9a175净树六步全绿：type/arch/build、默认1410/1410、Chromium189/189（131.639秒）、严格G2 5/5及12页PASS；每项前后status空，无删测/跳过/重试。A三个fixture与main新增时间线原字节保留；829账目原值保留，GET总上限410、累计298、余112覆盖预留108，新增真实调用0。后续仅归档；按授权发布main并通知A/C，实际SHA以远端回执为准。W1真实旧超时根因仍未知，不称Live提速关闭。 [合入报告](../../.eval-artifacts/phase3b/resource-policy-main-20261104/report.md)。
+
+<a id="tabelog-location-suggestions-20261104"></a>
+
+## 2026-11-04 CET — observed location suggestions, offline candidate
+
+D4 original31-region menu lacks Akabane but contains3 equivalent public home links. Constructed homepage under real Chromium/HAR+Guard exercises exact Tokyo station link and owned option, merchant/foreign exclusion, no-match/ambiguity fallback and unchanged radius;9 target controls. Effective isolated old main red actually opens Itabashi and reads out-of-radius details. Earlier HAR/model/Skill fixture setup errors retained and explicitly excluded from effective-red claim. Source shortcut changes no versions or quotas, synchronized B main de2b7ecc. Fresh clean gates pending; full original A66 corpus imported without edits, original historical S0 scores preserved. Calls0, branch review only. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).

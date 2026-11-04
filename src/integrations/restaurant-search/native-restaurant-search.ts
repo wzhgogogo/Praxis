@@ -849,7 +849,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             const originalMenu=page;
             const homeLinks=[...new Map((await executor.observeControls({source,stage:"DISCOVERY",signal,session:session!})).filter(c=>c.visible&&!c.disabled&&!c.blockedByActiveLayer&&!c.observationOnly
               &&c.kind==="LINK"&&c.href&&directory.isLocationSearchEntrance!(c.href)).map(c=>[c.href!,c])).values()];
-            // One actually observed public home link, not a constructed URL or
+            // One actually observed public home destination (duplicate links
+            // are equivalent), not a constructed URL or
             // the model's guess about a hidden region hierarchy.
             if(homeLinks.length===1&&retrieval.regionPages+2<=4&&sourcePagesBefore+listingPagesRead+2<=NATIVE_LISTING_PAGE_CAP.DIRECTORY){
               const visit=async(value:string)=>{
