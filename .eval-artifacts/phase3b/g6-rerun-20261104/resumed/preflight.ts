@@ -1,0 +1,11 @@
+import {readFile} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {createHash} from 'node:crypto';
+import {loadG6Pack} from '../../../../src/eval/restaurant/agent-loop/g6/runner.js';
+import {importDevelopmentEvidence} from '../../../../src/eval/restaurant/agent-loop/g6/development-evidence.js';
+const root=resolve('.eval-artifacts/phase3b/g6-rerun-20261104'),id=process.argv[2];
+if(!['D4','D6','D8'].includes(id!))throw Error('Unexpected slot');
+const hash=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
+const p=root+'/'+id+'.pack.json',e=root+'/resumed/'+id+'.evidence.json',pb=await readFile(p),eb=await readFile(e);
+const pack=await loadG6Pack(p,hash(pb)),loaded=await importDevelopmentEvidence(pack,hash(pb),e,hash(eb));
+console.log(JSON.stringify({status:'IMPORTED',slot:id,packSHA256:hash(pb),evidenceSHA256:hash(eb),initialGETs:loaded.initialWitnessGETs,certificates:loaded.initialWitnesses.length}));

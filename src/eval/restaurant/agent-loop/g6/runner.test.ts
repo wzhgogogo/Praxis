@@ -31,6 +31,9 @@ test("G6 Runner serializes a user-named identity from actual Runtime State into 
     assert.equal(score.checks.find((c:{rule:string})=>c.rule==="NAMED_OUTLET").status,"PASS");assert.equal(score.verdict.s0,0);assert.equal(result.stopReason,null);
     assert.deepEqual(evaluateG6(input),score,"Saved dynamic input deterministically replays the same score");
     const trace=JSON.parse(await readFile(join(dir,"runs/named/browser-trace.json"),"utf8"));
+    const diagnostics=JSON.parse(await readFile(join(dir,"runs/named/browser-diagnostics.json"),"utf8"));
+    assert.ok(diagnostics.events.some((e:any)=>e.event==="OPERATION_STARTED"&&e.operation==="NAVIGATE"),"Production executor diagnostics must survive independently of DOM trace");
+    assert.ok(diagnostics.events.every((e:any)=>!Object.hasOwn(e,"observation")&&!Object.hasOwn(e,"detail")),"Only enum operation labels and structured lifecycle counters are retained");
     const navs=trace.events.filter((e:any)=>e.kind==="NAVIGATION_START"&&e.detail.method==="GOTO");
     assert.ok(navs.length>0,"Canonical G6 trace must retain navigation metadata");
     assert.ok(navs.every((e:any)=>Number.isFinite(e.detail.remainingReadBudgetMs)&&e.detail.remainingReadBudgetMs<=500_000&&e.detail.remainingReadBudgetMs>=0));

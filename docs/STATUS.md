@@ -1,3 +1,5 @@
+2026-11-04 CET：A沿用已批准三槽额度同步C main be84674e，原G6身份/展示断言已达新增诊断文件红灯；只补评测诊断sidecar，无产品/评分改变。完整66例/净树五门禁与严格G2待运行，全绿才重新认证W1、非高峰D4、高峰D6和随后W2/D8；832旧账目原值保留，当前本轮真实调用仍0。[恢复计划](../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md)。
+
 2026-11-04 CET：A追加D4/D6/D8已获额度批准（32Live/425GET；开发14/58，模型400不变），同步main75ba1605后在既有真实组装回归停下：隐藏旧控件select失败后，复用会话被关闭，无法回到观察，首轮NEEDS_INPUT。原断言/来源不改，需C产品终止边界处理；三槽及认证均未运行，新增真实调用0。[停批证据](../.eval-artifacts/phase3b/g6-rerun-20261104/report.md)。
 2026-11-04 CET：C会话复用控件回退回归已修复并达到用户批准发布门槛。54805c31原A三项有效红→a1363db7同18例全绿，A13份原字节保留。e7963151冻结860项，七步每项前后净树全绿：默认1417/1417、Chromium189/189+原样G6 18/18、严格G2 5/5且12页PASS、原复用5/5，type/arch/build通过，无完整门禁重试。普通页内操作失败保留观察；明确closed/disconnected或原导航失败仍退休，非复用不变。State25/TaskDefinition23/Prompt、身份/Guard/B资源与3000ms下限不改。832账目保留main/A原行及既有用户批准额度，真实调用0、不读.env；同步最新main后按批准发布并通知A/B，最终SHA以远端回执为准。 [报告](../.eval-artifacts/phase3b/reused-session-control-fallback-20261104/report.md)。
 
