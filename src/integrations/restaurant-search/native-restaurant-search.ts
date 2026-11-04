@@ -861,7 +861,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               const location={...discoveryGoalLocation,name:literalPlace};
               const suggestion=await executor.selectLocationSuggestion({source,stage:"DISCOVERY",signal,session:session!,allowedOrigins,
                 taskId:`browser-read:native-location:${source}`,goal:{outlet:{name:keyword},location,hardCriteria:[]},
-                objective:"Use a unique observed public place suggestion",matchesSuggestion:t=>locationSuggestionMatches(t,location),
+                objective:"Use a unique observed public place suggestion",matchesSuggestion:t=>locationSuggestionMatches(t,location)
+                  &&(t.kind!=="LINK"||Boolean(t.href&&directory.isRegionEntrance(t.href))),
                 completion:()=>({complete:false,reason:"Source result and coordinates must still be verified"})});
               page=suggestion.snapshot;
               if(page.url!==homeLinks[0]!.href){retrieval.regionPages++;listingPagesRead++;recordListing(page);}
