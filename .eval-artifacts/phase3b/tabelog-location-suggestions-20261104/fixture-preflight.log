@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/integrations/restaurant-search/fixtures/location-suggestions/assembly.ts(51,35): error TS2322: Type '(request: ModelRequest) => Promise<{ provider: "fixture"; model: string; outputText: string; finishReason: "stop"; }>' is not assignable to type '(request: ModelRequest) => Promise<ModelResponse>'.
+  Type 'Promise<{ provider: "fixture"; model: string; outputText: string; finishReason: "stop"; }>' is not assignable to type 'Promise<ModelResponse>'.
+    Type '{ provider: "fixture"; model: string; outputText: string; finishReason: "stop"; }' is missing the following properties from type 'ModelResponse': invocationId, latencyMs
+src/integrations/restaurant-search/fixtures/location-suggestions/assembly.ts(63,211): error TS2353: Object literal may only specify known properties, and 'kind' does not exist in type 'RestaurantCriterion'.

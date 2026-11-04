@@ -1,0 +1,26 @@
+✔ location suggestion shortcut preserves existing admission: NO_GUARD (0.8585ms)
+✖ location suggestion shortcut preserves existing admission: RESERVE_AFTER_FILL (0.855833ms)
+✔ location suggestion shortcut preserves existing admission: OPERATION_CAP (0.109709ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 93.767959
+
+✖ failing tests:
+
+test at src/infrastructure/browser/location-suggestion-executor.test.ts:1:309
+✖ location suggestion shortcut preserves existing admission: RESERVE_AFTER_FILL (0.855833ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/location-suggestion-executor.test.ts:19:5)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: undefined,
+    operator: 'rejects'
+  }

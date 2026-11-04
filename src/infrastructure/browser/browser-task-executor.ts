@@ -525,6 +525,54 @@ export class BrowserTaskExecutor {
     this.searchedSessions.add(input.session);
   }
 
+  /** Deterministic source shortcut, not a new model action or permission. The
+   * source supplies the name/type predicate; this layer owns current references,
+   * option ownership, non-submit structure, Guard and every operation admission. */
+  async selectLocationSuggestion(input:BrowserSkillReadInput&{matchesSuggestion:(target:BrowserReadActionTarget)=>boolean}):Promise<{
+    status:"SELECTED"|"NO_MATCH";snapshot:BrowserSnapshot;selected?:{label:string;targetRef:string;observedOn:string};
+  }>{
+    let snapshot=await this.snapshot(input);
+    const noMatch=()=>({status:"NO_MATCH" as const,snapshot});
+    if(input.stage!=="DISCOVERY"||!input.goal.location?.name||input.session.metadata.readNetworkBoundary!=="INSTALLED"
+      ||!this.allowedUrl(snapshot.url,input.allowedOrigins))return noMatch();
+    let observation=await this.observe(input,snapshot);
+    const fields=[...observation.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport&&this.boundInputField(t,"LOCATION")&&this.guardedReadControl(input,t));
+    if(fields.length!==1)return noMatch();
+    await this.applyGenericAction(input,observation,fields[0],{type:"FILL_AUTHORITATIVE",field:"LOCATION",targetRef:fields[0]!.ref,reason:"Authoritative place text in the observed public location field"});
+    await this.waitForSettled(input,snapshot);
+    // Filling can replace nodes or asynchronously reveal a list. Only fresh
+    // references are used. At most one further bounded observation wait.
+    for(let sample=0;sample<2;sample++){
+      snapshot=await this.snapshot(input);observation=await this.observe(input,snapshot);
+      const choices=[...observation.targets.values()].filter(t=>(t.kind==="LINK"||t.kind==="OPTION")&&input.matchesSuggestion(t));
+      if(choices.length!==1){if(!choices.length&&sample===0){await this.waitForSettled(input,snapshot);continue;}return noMatch();}
+      const target=choices[0]!;
+      if(target.disabled||target.outsideViewport||target.blockedByActiveLayer)return noMatch();
+      const selected={label:target.label,targetRef:target.ref,observedOn:snapshot.url};
+      if(target.kind==="LINK"&&this.actionHints(input,observation,target,false).availableActions?.includes("OPEN_LINK")){
+        await this.applyGenericAction(input,observation,target,{type:"OPEN_LINK",targetRef:target.ref,reason:"Unique observed place suggestion"});
+      }else{
+        const owner=target.ownerRef?observation.targets.get(target.ownerRef):undefined;
+        if(target.kind!=="OPTION"||target.optionNative||!owner||owner.controlId!==target.optionOwnerId
+          ||owner.role!=="combobox"||!this.boundInputField(owner,"LOCATION")||owner.value!==input.goal.location.name
+          ||!this.safeGenericClick(target)||!(["DIV","LI","SPAN"].includes(target.nativeTag??"")||target.type==="button"))return noMatch();
+        await this.operation(input,"CHOOSE_LOCATION_OPTION",()=>input.session.click(target.controlId,this.actionOptions()));
+        await this.waitForSettled(input,snapshot);
+        snapshot=await this.snapshot(input);observation=await this.observe(input,snapshot);
+        const current=[...observation.targets.values()].filter(t=>this.boundInputField(t,"LOCATION")&&!t.disabled);
+        const equivalent=(a:string,b:string)=>a.normalize("NFKC").trim().replace(/\s+/gu," ")===b.normalize("NFKC").trim().replace(/\s+/gu," ");
+        if(current.length!==1||!equivalent(current[0]!.value??"",selected.label))return noMatch();
+        const buttons=[...observation.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport&&this.guardedPublicQuerySubmit(input,t)
+          &&/^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(t.label.trim())&&t.controlGroupKey&&t.controlGroupKey===current[0]!.controlGroupKey);
+        if(buttons.length!==1)return noMatch();
+        await this.applyGenericAction(input,observation,buttons[0],{type:"CLICK",targetRef:buttons[0]!.ref,reason:"Submit the positively selected public location query"});
+      }
+      await this.waitForSettled(input,snapshot);snapshot=await this.snapshot(input);
+      return {status:"SELECTED",snapshot,selected};
+    }
+    return noMatch();
+  }
+
   /** Code-owned source retry delay shares the current operation and wall-time budgets. */
   async waitForSourceRetry(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal">, delayMs: number): Promise<void> {
     await this.operation(input, "WAIT_FOR_SOURCE_RETRY", () => wait(delayMs, undefined, { signal: input.signal }));

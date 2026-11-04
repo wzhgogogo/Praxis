@@ -1,0 +1,9 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/integrations/restaurant-search/fixtures/location-suggestions/assembly.ts(51,35): error TS2322: Type '(request: ModelRequest) => Promise<{ invocationId: string; latencyMs: number; provider: "fixture"; model: string; outputText: string; finishReason: "stop"; }>' is not assignable to type '(request: ModelRequest) => Promise<ModelResponse>'.
+  Type 'Promise<{ invocationId: string; latencyMs: number; provider: "fixture"; model: string; outputText: string; finishReason: "stop"; }>' is not assignable to type 'Promise<ModelResponse>'.
+    Type '{ invocationId: string; latencyMs: number; provider: "fixture"; model: string; outputText: string; finishReason: "stop"; }' is not assignable to type 'ModelResponse'.
+      Types of property 'provider' are incompatible.
+        Type '"fixture"' is not assignable to type 'ModelProvider'. Did you mean '"FIXTURE"'?

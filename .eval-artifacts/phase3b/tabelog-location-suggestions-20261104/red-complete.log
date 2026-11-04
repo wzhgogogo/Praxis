@@ -1,0 +1,94 @@
+✖ Tabelog observed location suggestions through ordinary assembly: LINK (747.243625ms)
+✖ Tabelog observed location suggestions through ordinary assembly: OPTION (679.436834ms)
+✖ Tabelog observed location suggestions through ordinary assembly: NONE (673.47275ms)
+✖ Tabelog observed location suggestions through ordinary assembly: AMBIGUOUS (670.961041ms)
+✖ Tabelog observed location suggestions through ordinary assembly: OUTSIDE (679.918625ms)
+✖ Tabelog observed location suggestions through ordinary assembly: MERCHANT_ONLY (664.090541ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 0
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4438.836375
+
+✖ failing tests:
+
+test at src/integrations/restaurant-search/location-suggestion-discovery.test.ts:1:233
+✖ Tabelog observed location suggestions through ordinary assembly: LINK (747.243625ms)
+  AssertionError [ERR_ASSERTION]: Use only authoritative place text in an observed field
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/location-suggestion-discovery.test.ts:13:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/restaurant-search/location-suggestion-discovery.test.ts:1:233
+✖ Tabelog observed location suggestions through ordinary assembly: OPTION (679.436834ms)
+  AssertionError [ERR_ASSERTION]: Use only authoritative place text in an observed field
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/location-suggestion-discovery.test.ts:13:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/restaurant-search/location-suggestion-discovery.test.ts:1:233
+✖ Tabelog observed location suggestions through ordinary assembly: NONE (673.47275ms)
+  AssertionError [ERR_ASSERTION]: Use only authoritative place text in an observed field
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/location-suggestion-discovery.test.ts:13:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/restaurant-search/location-suggestion-discovery.test.ts:1:233
+✖ Tabelog observed location suggestions through ordinary assembly: AMBIGUOUS (670.961041ms)
+  AssertionError [ERR_ASSERTION]: Use only authoritative place text in an observed field
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/location-suggestion-discovery.test.ts:13:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/restaurant-search/location-suggestion-discovery.test.ts:1:233
+✖ Tabelog observed location suggestions through ordinary assembly: OUTSIDE (679.918625ms)
+  AssertionError [ERR_ASSERTION]: Use only authoritative place text in an observed field
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/location-suggestion-discovery.test.ts:13:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/integrations/restaurant-search/location-suggestion-discovery.test.ts:1:233
+✖ Tabelog observed location suggestions through ordinary assembly: MERCHANT_ONLY (664.090541ms)
+  AssertionError [ERR_ASSERTION]: Use only authoritative place text in an observed field
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/location-suggestion-discovery.test.ts:13:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

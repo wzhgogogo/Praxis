@@ -6513,3 +6513,15 @@ User approved aba06e16 after independent1425/189+G6 66/strictG2. Merge candidate
 ## 2026-11-04 CET — approved D8 main integration verified
 
 Frozen1980ed01/895 source-input SHAs: fresh first-pass type/arch/default1430/build/Chromium189+originalG6 66/strictG2 all12 green, every before/after status empty;171 independent checks pass. Reviewed C aba06e16 and latest main de2b7ecc source/artifacts preserved118 rows, append docs both retained; original A8 G6 files and helpers immutable. Main mandatory browser gate now includes66 cases; default+5 reflects already-approved B candidate budget. No source fix, test/assertion change, skip, retry, version or external call.881 ledger rows retain both sides and one zero-call row. User authorized publication to main and notifications; final SHA follows remote receipt. [Report](../../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md).
+
+<a id="tabelog-location-suggestions-20261104"></a>
+
+## 2026-11-04 CET — observed location suggestions, offline candidate
+
+D4 original31-region menu lacks Akabane but contains3 equivalent public home links. Constructed homepage under real Chromium/HAR+Guard exercises exact Tokyo station link and owned option, merchant/foreign exclusion, no-match/ambiguity fallback and unchanged radius;9 target controls. Effective isolated old main red actually opens Itabashi and reads out-of-radius details. Earlier HAR/model/Skill fixture setup errors retained and explicitly excluded from effective-red claim. Source shortcut changes no versions or quotas, synchronized B main de2b7ecc. Fresh clean gates pending; full original A66 corpus imported without edits, original historical S0 scores preserved. Calls0, branch review only. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).
+
+<a id="tabelog-location-suggestions-verified-20261104"></a>
+
+## 2026-11-04 CET — observable location suggestions verified
+
+Final frozen9aadfce3/930 SHA entries: typecheck, arch, default1431/1431, build, ordinary Chromium189/189 + unchanged original fullG6 66/66, strictG2 5/5 and all12 pages PASS; each before/after status empty. Independent literal audit108 checks passes. First formal attempt ae5b8b75 (188/189) is retained; only Native source-priority logic then changed, preserving outlet-pointer and exact observed district-name routes. Original A six-region test passes unchanged. Constructed Tokyo link/owned-option paths each return5 in-radius source candidates with0 browser decisions, foreign/merchant/ambiguous/unmatched and outside-radius controls reject;3 admission controls preserve Guard/reserve/caps. This is not current-site DOM/network or booking completion; real calls0, no .env. Shared ledger881 immutable rows includes one new zero-call row, all main/A/prior C rows and caps preserved. Push work branch only, stop review, no main merge. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).

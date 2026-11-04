@@ -1,0 +1,78 @@
+[
+  {
+    "name": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T09:22:23.855663+01:00",
+    "head": "ae5b8b7549d3151e66122eada02794f3beed704a",
+    "returnCode": 0,
+    "elapsedSeconds": 0.506,
+    "finishedAtCET": "2026-11-04T09:22:24.369225+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "architecture",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T09:22:24.520861+01:00",
+    "head": "ae5b8b7549d3151e66122eada02794f3beed704a",
+    "returnCode": 0,
+    "elapsedSeconds": 0.233,
+    "finishedAtCET": "2026-11-04T09:22:24.762028+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "default",
+    "command": [
+      "env",
+      "PRAXIS_LOCATION_SUGGESTION_CAPTURE=1",
+      "npm",
+      "test"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T09:22:24.943512+01:00",
+    "head": "ae5b8b7549d3151e66122eada02794f3beed704a",
+    "returnCode": 0,
+    "elapsedSeconds": 53.54,
+    "finishedAtCET": "2026-11-04T09:23:18.497329+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T09:23:18.702368+01:00",
+    "head": "ae5b8b7549d3151e66122eada02794f3beed704a",
+    "returnCode": 0,
+    "elapsedSeconds": 0.556,
+    "finishedAtCET": "2026-11-04T09:23:19.265947+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "chromium",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T09:23:19.415983+01:00",
+    "head": "ae5b8b7549d3151e66122eada02794f3beed704a",
+    "returnCode": 1,
+    "elapsedSeconds": 126.453,
+    "finishedAtCET": "2026-11-04T09:25:25.875082+01:00",
+    "afterStatus": ""
+  }
+]
