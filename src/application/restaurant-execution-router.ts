@@ -37,7 +37,7 @@ export interface RestaurantAvailabilityPort {
   /** Optional per-Agent-loop budget lifecycle; adapters never receive Task State. */
   browserModelBudgetExhausted?(): boolean;
   beginReadRun?(): void;
-  endReadRun?(): void;
+  endReadRun?(): void | Promise<void>;
   check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead>;
 }
 
@@ -226,7 +226,7 @@ export class RestaurantExecutionRouter {
   /** Keeps source-level cumulative budgets aligned with one outer Agent run. */
   beginReadRun(): void { this.availability.beginReadRun?.(); }
 
-  endReadRun(): void { this.availability.endReadRun?.(); }
+  async endReadRun(): Promise<void> { await this.availability.endReadRun?.(); }
 
   async execute(
     action: RestaurantAgentAction,

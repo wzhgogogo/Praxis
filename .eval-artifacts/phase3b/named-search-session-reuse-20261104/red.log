@@ -1,0 +1,27 @@
+✖ one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions (7.778292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 171.807458
+
+✖ failing tests:
+
+test at src/integrations/restaurant-availability/named-search-session-reuse.test.ts:1:2138
+✖ one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions (7.778292ms)
+  AssertionError [ERR_ASSERTION]: one session per source, instead of one per candidate
+  
+  3 !== 2
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-availability/named-search-session-reuse.test.ts:40:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual'
+  }

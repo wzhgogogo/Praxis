@@ -1,0 +1,89 @@
+✔ B1 open request does not read terms merely because the Agent chose a candidate (3121.095167ms)
+✔ B1 selected TABELOG outlet proactively acquires same-channel cancellation and card terms through ordinary composition (1376.275458ms)
+✖ B1 selected TABLECHECK outlet proactively acquires same-channel cancellation and card terms through ordinary composition (1431.860125ms)
+✔ B1 reuses the actual admitted G1 cancellation answer without another model call, before or after selection (978.474167ms)
+✔ B1 carries both observed language policies and separate English paraphrases when G1 reports conflict (967.007834ms)
+✔ B1 hides SHOP G1 pages without losing the source link (983.838708ms)
+✔ B1 hides CHANNEL G1 pages without losing the source link (802.230208ms)
+✔ B1 omits unstated policy and card requirements, and never carries previous-run terms (628.066167ms)
+✔ B1 shares the real run model ceiling and drops optional terms when that budget is spent (577.063583ms)
+✔ B1 discards late terms on cancellation while keeping its qualified handoff (517.668792ms)
+✔ B1 drops expired G1 pages and enclosing-deadline output independently of its still-current link (1261.468416ms)
+✔ B1 reserve boundary 20001ms uses the actual assembly and preserves its link (3294.169875ms)
+✔ B1 reserve boundary 20000ms uses the actual assembly and preserves its link (1311.853917ms)
+✔ B1 rechecks reserve after cancellation answer and before the card model (1147.457333ms)
+✔ B1 rechecks reserve before an observed language navigation inside G1 capture (962.103ms)
+✔ B1 in-flight read inherits deadline minus reserve, not the whole deadline (1003.255958ms)
+✔ B1 measures durable assistant append after optional terms or omission (2001.868834ms)
+✔ D2 identity-only investigation covers the first three of five possible outlets: ONE (3276.902875ms)
+✔ D2 identity-only investigation covers the first three of five possible outlets: NONE (1315.118167ms)
+✔ D2 identity-only investigation covers the first three of five possible outlets: TWO (1111.410667ms)
+✔ D6 actual five unrelated source candidates never resolve a specific Ito request merely because AREA is present (25.172042ms)
+✔ D6 original semantics and decisions keep the user-selected identity after party reset: EXACT (3486.824458ms)
+✔ D6 original semantics and decisions keep the user-selected identity after party reset: RENAMED (1427.101209ms)
+✔ only an explicit later OPEN_ENDED approval permits other nearby stores after Ito was not found (1164.400917ms)
+✔ source identity survives a rebuilt candidate ID, while same name/phone and conflicting provider IDs never suffice (1.258333ms)
+✔ a source-native selected ID seeds only its old discovery, then requires new identity and slots; a new area cannot inherit old distance (908.745875ms)
+✔ D6 named outlet does not silently switch to other shops: MISSING (1124.138375ms)
+✔ D6 named outlet does not silently switch to other shops: NO_SLOT (1052.393458ms)
+✔ a fresh named request with AREA and two matching outlets asks instead of inventing a user choice (664.92625ms)
+✔ D1 original Google short name and D3 original semantic bytes resolve Dengana by identity, then present B1 (3080.258458ms)
+✔ an identity-confirmed Tabelog full page name resolves even when Google name alone cannot justify the extra words (1283.695334ms)
+✔ a sole containing name with cuisine and branch suffixes resolves after identity even without an exact source full name (1122.21225ms)
+✔ two containment candidates ask instead of choosing a branch (997.841958ms)
+✔ an extra locality absent from the outlet address remains ambiguous (877.262917ms)
+✔ containment never overrules a source identity conflict (973.441208ms)
+✔ literal locality evidence permits extra geography but a building word, unknown alias or word fragment does not (0.2695ms)
+✖ TableCheck's identity-bound observed page name also resolves the different Google name (1299.459417ms)
+✔ D3 original semantic bytes through ordinary composition find the unique named outlet without inventing AREA, then show B1 and terms (3370.251375ms)
+✔ a named-outlet lookup with two matching branches asks the user before availability, selection or B1 (1109.704709ms)
+✔ OPEN_ENDED still asks for a missing area without starting discovery (1028.058708ms)
+✔ named outlet MISSING ends honestly without substituting another shop (823.316084ms)
+✔ named outlet UNRELATED ends honestly without substituting another shop (836.411167ms)
+✔ named outlet OUTSIDE_TOKYO ends honestly without substituting another shop (985.498541ms)
+✔ a different branch with a similar name remains a clarification instead of an assumed match (922.787333ms)
+✔ the named-area exception leaves visit fields mandatory and never admits an empty outlet name (0.709125ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 43
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 13727.563958
+
+✖ failing tests:
+
+test at src/application/restaurant-booking-terms-composition.test.ts:1:1295
+✖ B1 selected TABLECHECK outlet proactively acquires same-channel cancellation and card terms through ordinary composition (1431.860125ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(initial.restaurant.bookingHandoffs?.length)
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/restaurant-booking-terms-composition.test.ts:22:44)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/application/restaurant-named-outlet-source-names.test.ts:1:5915
+✖ TableCheck's identity-bound observed page name also resolves the different Google name (1299.459417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'FAILED'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/restaurant-named-outlet-source-names.test.ts:72:82)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }

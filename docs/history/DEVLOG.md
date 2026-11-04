@@ -1,5 +1,30 @@
 # Development Log
 
+2026-11-04 CET clarification: the integration conflicts were six documentation files plus one budget ledger (seven files total); the earlier “Seven documentation conflicts” shorthand included the ledger. No historical source or execution evidence changed.
+
+<a id="named-search-session-reuse-main-verified-20261104"></a>
+
+## 2026-11-04 CET — C integration passes all fresh gates
+
+bc8f31b7 froze850 inputs; nine steps clean before/after, source unchanged: default1415/1415, Chromium189/189, strictG2 five/all12, type/arch/build pass, post-fill navigation floor1, actual local Guard form, source/reserve target18. Both Executor deltas and22 unshared sources retained exactly; all32 original C artifacts untouched. No assertion or product repair during integration. Source/Guard/budgets/versions unchanged;830 ledger rows preserve all parent values and approved main410 GET ceiling. User-authorized standard main publication follows remote recheck and exact-tree proof; notify A after verified push. Real calls0, no .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md).
+
+<a id="named-search-session-reuse-main-20261104"></a>
+
+## 2026-11-04 CET — C approved reuse integrates after B
+
+User approved cc42fd8e after independent Linux gates; B d692366c is now main. Ordinary main→C merge automatically preserves both Executor deltas byte-for-byte after line-number normalization. All22 unshared source/config files and32 original C artifacts preserved. Seven documentation conflicts retain both sides; ledger union830 preserves829 main rows and C0, approvedGET ceiling410. Freeze then fresh five gates/strict G2, no publication until green. Add only a constructed overlap probe for post-fill <3000ms no-submit; no source or existing assertion edits. Real calls0, no .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md).
+
+<a id="named-search-session-reuse-verified-20261104"></a>
+
+## 2026-11-04 CET — C source-session reuse complete offline
+
+Candidate366c699c froze849 inputs; all seven clean-tree checks passed (default1409, Chromium189, strictG2 five tests/all12 pages, target18). Same public-source candidates reduce entrance navigations6→2 with unchanged conclusions; real local Guard/DOM1 entry+2 submits. Source identity remains independent per candidate; wrong shop/ambiguity/failure/cancellation/run isolation stay closed. No current-site timing or new Live claim. Main/B829 ledger rows preserved plus C0 entry; no credentials, main merge or A changes. Independent artifact audit and review stop follow. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md).
+
+<a id="named-search-session-reuse-20261104"></a>
+
+## 2026-11-04 CET — C run-scoped source sessions
+
+User approved diagnosis8145e062. Source-specific anonymous sessions now belong to one Agent read; observed unique GET forms may accept the next code-owned query, with fresh post-fill references. Missing controls use existing navigation. Identity/Guard/20-second reserve/ceilings unchanged; no cross-run pool. Reviewed TableCheck incomplete-stage fields applied. Agent finally awaits all source contexts. Two existing C fixture sequences now represent separate source sessions; original business assertions retained. Five gates/strict G2 pending, real calls0, no .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md).
 <a id="tabelog-timeout-diagnosis-verified-20261103"></a>
 
 2026-11-03 CET：B的Tabelog超时诊断分支净树门禁通过：默认1404/1404、Chromium188/188、严格G2 5/5及12页PASS，type/arch/build通过。产品源码与a7abbc0f逐字相同，未实施修复/未测提速；逐请求时间线与原查询身份缺失，资源主因及限流均未定。按A/C归属约束交接补证后停下，6次公开GET未使用、真实模型/网站调用0；只推诊断分支、不合main。 [报告](../../.eval-artifacts/phase3b/tabelog-timeout-20261103/report.md)。

@@ -68,6 +68,8 @@ export interface BrowserReadLimits {
 }
 
 export interface BrowserTaskExecutorOptions extends BrowserReadLimits {
+  /** One read-run owner may retain an anonymous session per source. */
+  reuseSourceSessions?: boolean;
   modelDecision?: BrowserReadActionDecisionPort;
   /** Bounds all browser work for an outlet across source fallback. */
   maxElapsedMsPerCandidate?: number;
@@ -269,6 +271,9 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
  * It deliberately has no Restaurant evidence or State knowledge.
  */
 export class BrowserTaskExecutor {
+  private sessionSource: BrowserExecutionDiagnostic["source"] | undefined;
+  private readonly parkedSessions = new Map<BrowserExecutionDiagnostic["source"], {session:BrowserSession;signal:AbortSignal|undefined;cleanup:(()=>void)|undefined;unsettled:boolean}>();
+  private readonly searchedSessions = new WeakSet<BrowserSession>();
   private session: BrowserSession | undefined;
   private sessionSignal: AbortSignal | undefined;
   private sessionAbortCleanup: (() => void) | undefined;
@@ -326,6 +331,14 @@ export class BrowserTaskExecutor {
     this.finishProvider(outcome, reason);
   }
 
+  /** Preserve the original per-read candidate window while retaining only the
+   * source contexts. A new call is a new checkpoint, not a fresh run budget. */
+  endReadScope():void {
+    this.finishProvider("FINISHED","ADAPTER_RETURNED");
+    this.finishCandidate("FINISHED","ADAPTER_RETURNED");
+    this.candidateId=undefined;
+  }
+
   /** A source validator reports required field/types only, never response values. */
   reportSourceStructureChanged(input: Pick<BrowserSkillReadInput, "source" | "stage"> & {
     url: string; observedAt: string; issue: { field: string; expected: string; actual: string };
@@ -339,6 +352,16 @@ export class BrowserTaskExecutor {
   private networkPolicy: BrowserReadNetworkPolicy | undefined;
 
   async acquire(signal: AbortSignal, source: BrowserExecutionDiagnostic["source"], stage: BrowserExecutionDiagnostic["stage"], networkPolicy?: BrowserReadNetworkPolicy): Promise<BrowserSession> {
+    if (this.options.reuseSourceSessions && this.sessionSource !== source) {
+      if (this.session && this.sessionSource) this.parkedSessions.set(this.sessionSource, {
+        session:this.session,signal:this.sessionSignal,cleanup:this.sessionAbortCleanup,unsettled:this.pageUnsettled,
+      });
+      const parked=this.parkedSessions.get(source);
+      this.parkedSessions.delete(source);
+      this.session=parked?.session;this.sessionSignal=parked?.signal;this.sessionAbortCleanup=parked?.cleanup;
+      this.pageUnsettled=parked?.unsettled??false;
+      this.sessionSource=source;
+    }
     this.ensureLifecycle(source, stage);
     try {
       this.assertActive(signal);
@@ -400,7 +423,14 @@ export class BrowserTaskExecutor {
       throw failure;
     }
     this.session = session;
-    const onSessionAbort = () => { if (this.session === session) void this.close("PARENT_ABORTED"); };
+    const onSessionAbort = () => {
+      if (this.session === session) void this.close("PARENT_ABORTED");
+      else if (this.parkedSessions.get(source)?.session === session) {
+        this.parkedSessions.get(source)?.cleanup?.();
+        this.parkedSessions.delete(source);
+        void session.close().catch(()=>undefined);
+      }
+    };
     signal.addEventListener("abort", onSessionAbort, { once: true });
     this.sessionAbortCleanup = () => signal.removeEventListener("abort", onSessionAbort);
     this.record({ source, stage, event: "SESSION_OPENED", detail: session.metadata.runtimeProvider });
@@ -457,6 +487,42 @@ export class BrowserTaskExecutor {
       await input.session.navigate(url, { ...this.navigationOptions(input.timeoutMs), waitUntil: "domcontentloaded" });
     });
     await this.settleAfterDirectAction(input);
+  }
+
+  /** Reuse only a fresh, unambiguous observed public GET search form. The
+   * adapter still checks the returned query and all source identity evidence. */
+  async search(input: Pick<BrowserSkillReadInput,"source"|"signal"|"allowedOrigins"> & {session:BrowserSession;url:string;query:string}):Promise<void> {
+    const scoped={...input,stage:"DISCOVERY" as const};
+    if (this.options.reuseSourceSessions && this.searchedSessions.has(input.session) && input.session.observeControls) {
+      const page=await this.snapshot(scoped);
+      const controls=await this.observeControls(scoped);
+      const observation={snapshot:page,controls,targets:toObservedTargets(controls,++this.observationRevision),revision:this.observationRevision};
+      const skill:BrowserSkillReadInput={...scoped,taskId:"observed-source-search",goal:{outlet:{name:input.query,address:""},hardCriteria:[],retrievalExpression:input.query},
+        objective:"Submit the current source name query",completion:()=>({complete:false,reason:"Adapter must verify query and identity"})};
+      const active=[...observation.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport
+        && controls.some(c=>c.id===t.controlId&&c.visible&&!c.blockedByActiveLayer&&!c.observationOnly));
+      const fields=active.filter(t=>this.boundInputField(t,"RETRIEVAL")&&this.guardedReadControl(skill,t));
+      const buttons=active.filter(t=>this.guardedPublicQuerySubmit(skill,t)&&/^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(t.label.trim()));
+      if (this.allowedUrl(page.url,input.allowedOrigins) && fields.length===1 && buttons.length===1
+        && fields[0]!.controlGroupKey && fields[0]!.controlGroupKey===buttons[0]!.controlGroupKey) {
+        await this.applyGenericAction(skill,observation,fields[0],{type:"FILL_AUTHORITATIVE",field:"RETRIEVAL",targetRef:fields[0]!.ref,reason:"Current code-owned source name query"});
+        // Filling can replace DOM nodes: never click a pre-fill reference.
+        const freshPage=await this.snapshot(scoped),freshControls=await this.observeControls(scoped);
+        const fresh={snapshot:freshPage,controls:freshControls,targets:toObservedTargets(freshControls,++this.observationRevision),revision:this.observationRevision};
+        const currentFields=[...fresh.targets.values()].filter(t=>this.boundInputField(t,"RETRIEVAL")&&!t.disabled&&t.value===input.query);
+        const currentButtons=[...fresh.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport&&this.guardedPublicQuerySubmit(skill,t)
+          && /^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(t.label.trim())
+          && freshControls.some(c=>c.id===t.controlId&&c.visible&&!c.blockedByActiveLayer&&!c.observationOnly));
+        if(currentFields.length===1&&currentButtons.length===1&&currentFields[0]!.controlGroupKey===currentButtons[0]!.controlGroupKey
+          && currentFields[0]!.controlGroupKey && this.allowedUrl(freshPage.url,input.allowedOrigins)){
+          await this.applyGenericAction(skill,fresh,currentButtons[0],{type:"CLICK",targetRef:currentButtons[0]!.ref,reason:"Submit observed public search form"});
+          await this.settleAfterDirectAction(scoped);
+          return;
+        }
+      }
+    }
+    await this.navigate({...scoped,url:input.url});
+    this.searchedSessions.add(input.session);
   }
 
   /** Code-owned source retry delay shares the current operation and wall-time budgets. */
@@ -948,6 +1014,13 @@ export class BrowserTaskExecutor {
     await closing;
   }
 
+  /** The run owner closes every source context, including inactive ones. */
+  async closeAll():Promise<void>{
+    const parked=[...this.parkedSessions.values()];this.parkedSessions.clear();
+    for(const item of parked)item.cleanup?.();
+    await Promise.all([this.close(),...parked.map(item=>item.session.close())]);
+  }
+
   private disabledRequestedParty(input: BrowserSkillReadInput, observation: Observation): boolean {
     if (input.stage !== "AVAILABILITY" || input.goal.partySize === undefined) return false;
     // Disabled counts can still belong to the old date while a future date is being selected.
@@ -1372,7 +1445,7 @@ export class BrowserTaskExecutor {
         ? new BrowserRuntimeError("BROWSER_ABORTED", "Browser operation was aborted", error)
         : timedNavigation ? new BrowserRuntimeError("BROWSER_TIMEOUT", "Browser navigation exceeded its bounded navigation timeout", error) : error;
       this.recordLifecycleFailure(input.source, input.stage, "OPERATION_FAILED", failure);
-      if (navigation && failure instanceof BrowserRuntimeError && (failure.code === "BROWSER_RUNTIME_FAILED" || failure.code === "BROWSER_TIMEOUT")) {
+      if ((navigation || this.options.reuseSourceSessions) && failure instanceof BrowserRuntimeError && (failure.code === "BROWSER_RUNTIME_FAILED" || failure.code === "BROWSER_TIMEOUT")) {
         void this.close("RUNTIME_FAILURE");
       }
       throw failure;

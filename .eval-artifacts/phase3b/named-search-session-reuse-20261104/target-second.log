@@ -1,0 +1,49 @@
+✖ production composition shares one literal-fragment model proposal across both source searches (22.654375ms)
+✔ Live browser composition keeps TableCheck then Tabelog in one session and closes it after the chain (11.033917ms)
+✖ Live composition reuses a source-observed Hajime entrance across candidate batches, but re-identifies it (4.10725ms)
+✔ Live composition clears observed TableCheck entrances when a read run ends (1.288583ms)
+✔ one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions (17.262791ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 274.50175
+
+✖ failing tests:
+
+test at src/integrations/restaurant-availability/live-browser-availability.test.ts:1:408
+✖ production composition shares one literal-fragment model proposal across both source searches (22.654375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-availability/live-browser-availability.test.ts:40:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-availability/live-browser-availability.test.ts:1:6472
+✖ Live composition reuses a source-observed Hajime entrance across candidate batches, but re-identifies it (4.10725ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-availability/live-browser-availability.test.ts:125:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }

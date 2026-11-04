@@ -1,3 +1,10 @@
+2026-11-04 CET：C会话复用按批准在B main d692366c之后集成。bc8f31b7冻结850项，九步前后净树全绿：默认1415/1415、Chromium189/189、严格G2 5/5且12页PASS，type/arch/build通过，复用提交的3000ms门槛交互1/1、本机Guard表单PASS、专项18/18。双方Executor补丁及22独占源码、C32份旧产物逐字保留，版本/身份/Guard/额度不变；账本830行保留两侧原值，main已批准GET410/累计298、预留108不变。真实调用0、不读.env，按批准正常发布main、ls-remote核对并通知A；最终SHA以发布回执为准。 [报告](../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md)。
+
+2026-11-04 CET：C会话复用cc42fd8e已获独立复核和合入批准，B资源策略已先发布main d692366c。同步中Executor自动保留双方原补丁，22个独占源码/配置及C32份原产物逐字保留；文档冲突保留双方、账本830条原行并集，沿用main GET上限410。将冻结净树合并候选跑五门禁/严格G2及表单导航门槛交互，未全绿前不发布。真实调用0，不读.env。 [合入报告](../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md)。
+
+2026-11-04 CET：C具名搜索会话复用离线完成待复核。366c699c冻结849项，七项净树全绿：type/arch/build通过、默认1409/1409、Chromium189/189、严格G2 5/5且12页PASS、专项18/18。三候选2来源会话/2入口导航+4观察提交，结论不变；普通组装两家HIGH、错店/不唯一拒绝；实际本机Guard三查询1入口+2提交。缺控件仍走旧导航，不声明真实网站速度收益。诊断两出口接线，State25/TaskDefinition23/Prompt、身份/Guard/额度不变；保留829旧账、追加C零调用=830条，不读.env。仅推工作分支，不合main。 [报告](../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md)。
+
+2026-11-04 CET：C实施具名搜索按本次读取、同来源复用会话；构造三候选入口导航6→2，结论不变；实际组装身份前缀保留两家HIGH，错店/身份不唯一拒绝。真实本机Guard表单验证通过，业务整组装45/45，最终净树五门禁/严格G2待执行；State25/TaskDefinition23及Prompt/身份/Guard/预算不变。已批准诊断两出口透传，不改A文件；真实调用0、不读.env，只推分支交复核，不合main。 [报告](../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md)。
 2026-11-04 CET：B资源策略/导航预算下限+A44973e83+main22415b57集成完成验证。用户确认189/189口径，冻结68a9a175净树六步全绿：type/arch/build、默认1410/1410、Chromium189/189（131.639秒）、严格G2 5/5及12页PASS；每项前后status空，无删测/跳过/重试。A三个fixture与main新增时间线原字节保留；829账目原值保留，GET总上限410、累计298、余112覆盖预留108，新增真实调用0。后续仅归档；按授权发布main并通知A/C，实际SHA以远端回执为准。W1真实旧超时根因仍未知，不称Live提速关闭。 [合入报告](../.eval-artifacts/phase3b/resource-policy-main-20261104/report.md)。
 
 2026-11-04 CET：B按批准集成A44973e83与最新main22415b57，merge e50f935d无源码冲突，文档双方保留。829账目原值保留，总公开GET上限按用户改410，累计298不变、余112覆盖留出预留108；新增真实调用0。新鲜五门禁/严格G2待跑；最新main多1项时间线测试，完整Chromium预计189（原188全保留），验收数量待澄清后才发布main。 [集成报告](../.eval-artifacts/phase3b/resource-policy-main-20261104/report.md)。

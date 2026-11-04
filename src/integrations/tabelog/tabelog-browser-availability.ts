@@ -440,8 +440,8 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           search = directPage;
           outlets = [listedOutlet];
         } else {
-          await this.executor.navigate({
-            source: "TABELOG", stage: "DISCOVERY", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl,
+          await this.executor.search({
+            source: "TABELOG", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl, query: searchName,
           });
           search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
           search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);

@@ -1,0 +1,1408 @@
+{
+  "mode": "LOCAL_CHROMIUM_CONSTRUCTED_FIXTURE",
+  "externalCalls": 0,
+  "queries": [
+    "Alpha",
+    "Beta",
+    "Gamma"
+  ],
+  "sessionOpens": 1,
+  "entranceNavigations": 1,
+  "observedSubmissions": 2,
+  "received": [
+    {
+      "method": "GET",
+      "url": "/search?q=Alpha"
+    },
+    {
+      "method": "GET",
+      "url": "/search?q=Beta"
+    },
+    {
+      "method": "GET",
+      "url": "/search?q=Gamma"
+    }
+  ],
+  "diagnostics": [
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENING",
+      "detail": "OPEN_SESSION",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 0,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "SESSION_OPENED",
+      "detail": "LOCAL_PLAYWRIGHT_CHROMIUM",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 112,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 112,
+        "providerElapsedMs": 112,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 112,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 112,
+        "providerElapsedMs": 112,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "NAVIGATE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 129,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 129,
+        "providerElapsedMs": 129,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "http://127.0.0.1:55416/search?q=Alpha",
+      "settlement": {
+        "url": "http://127.0.0.1:55416/search?q=Alpha",
+        "pendingByType": {},
+        "oldestPendingMs": 0,
+        "blockingDataRequests": 0,
+        "busySelectors": [],
+        "visibleTextChanging": false
+      },
+      "detail": "PAGE_SETTLED",
+      "waitMs": 311,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 440,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 440,
+        "providerElapsedMs": 440,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 440,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 440,
+        "providerElapsedMs": 440,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 471,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 471,
+        "providerElapsedMs": 471,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "http://127.0.0.1:55416/search?q=Alpha",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 471,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 471,
+        "providerElapsedMs": 471,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 472,
+        "providerElapsedMs": 472,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 472
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 472,
+        "providerElapsedMs": 472,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Alpha",
+      "elapsedMs": 472
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 472,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 472,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 472,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 475,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 3,
+        "providerElapsedMs": 3,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "http://127.0.0.1:55416/search?q=Alpha",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 475,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 3,
+        "providerElapsedMs": 3,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "OBSERVE_CONTROLS",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 475,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 3,
+        "providerElapsedMs": 3,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "OBSERVE_CONTROLS",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 503,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31,
+        "providerElapsedMs": 31,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "FILL_AUTHORITATIVE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 503,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 31,
+        "providerElapsedMs": 31,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "FILL_AUTHORITATIVE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 513,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 41,
+        "providerElapsedMs": 41,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 513,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 41,
+        "providerElapsedMs": 41,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 515,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 43,
+        "providerElapsedMs": 43,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "http://127.0.0.1:55416/search?q=Alpha",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 515,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 43,
+        "providerElapsedMs": 43,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "OBSERVE_CONTROLS",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 515,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 43,
+        "providerElapsedMs": 43,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "OBSERVE_CONTROLS",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 529,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 57,
+        "providerElapsedMs": 57,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SUBMIT_PUBLIC_QUERY",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 529,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 57,
+        "providerElapsedMs": 57,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SUBMIT_PUBLIC_QUERY",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 592,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 120,
+        "providerElapsedMs": 120,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "http://127.0.0.1:55416/search?q=Beta",
+      "settlement": {
+        "url": "http://127.0.0.1:55416/search?q=Beta",
+        "pendingByType": {},
+        "oldestPendingMs": 0,
+        "blockingDataRequests": 0,
+        "busySelectors": [],
+        "visibleTextChanging": false
+      },
+      "detail": "PAGE_SETTLED",
+      "waitMs": 606,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 1198,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 726,
+        "providerElapsedMs": 726,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 1198,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 726,
+        "providerElapsedMs": 726,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 1213,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 741,
+        "providerElapsedMs": 741,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "http://127.0.0.1:55416/search?q=Beta",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 1213,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 741,
+        "providerElapsedMs": 741,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 741,
+        "providerElapsedMs": 741,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 1213
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 741,
+        "providerElapsedMs": 741,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Beta",
+      "elapsedMs": 1213
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_STARTED",
+      "detail": "CANDIDATE_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1213,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_STARTED",
+      "detail": "PROVIDER_SCOPE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1213,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 0,
+        "providerRuntimeOperations": 0,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1213,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 0,
+        "providerElapsedMs": 0,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1216,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 3,
+        "providerElapsedMs": 3,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "http://127.0.0.1:55416/search?q=Beta",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1216,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 3,
+        "providerElapsedMs": 3,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 1,
+        "providerRuntimeOperations": 1,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "OBSERVE_CONTROLS",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1216,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 3,
+        "providerElapsedMs": 3,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "OBSERVE_CONTROLS",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1238,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 25,
+        "providerElapsedMs": 25,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 2,
+        "providerRuntimeOperations": 2,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "FILL_AUTHORITATIVE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1238,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 25,
+        "providerElapsedMs": 25,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "FILL_AUTHORITATIVE",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1242,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 29,
+        "providerElapsedMs": 29,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 3,
+        "providerRuntimeOperations": 3,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1242,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 29,
+        "providerElapsedMs": 29,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1244,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31,
+        "providerElapsedMs": 31,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "http://127.0.0.1:55416/search?q=Beta",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1244,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 31,
+        "providerElapsedMs": 31,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 4,
+        "providerRuntimeOperations": 4,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "OBSERVE_CONTROLS",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1244,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 31,
+        "providerElapsedMs": 31,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "OBSERVE_CONTROLS",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1255,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 42,
+        "providerElapsedMs": 42,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 5,
+        "providerRuntimeOperations": 5,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SUBMIT_PUBLIC_QUERY",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1255,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 42,
+        "providerElapsedMs": 42,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SUBMIT_PUBLIC_QUERY",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1307,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 94,
+        "providerElapsedMs": 94,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "ASYNC_WAIT",
+      "url": "http://127.0.0.1:55416/search?q=Gamma",
+      "settlement": {
+        "url": "http://127.0.0.1:55416/search?q=Gamma",
+        "pendingByType": {},
+        "oldestPendingMs": 0,
+        "blockingDataRequests": 0,
+        "busySelectors": [],
+        "visibleTextChanging": false
+      },
+      "detail": "PAGE_SETTLED",
+      "waitMs": 610,
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1917,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 704,
+        "providerElapsedMs": 704,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 6,
+        "providerRuntimeOperations": 6,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_STARTED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1917,
+      "lifecycle": {
+        "outcome": "STARTED",
+        "candidateElapsedMs": 704,
+        "providerElapsedMs": 704,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OPERATION_FINISHED",
+      "detail": "SNAPSHOT",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1941,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 728,
+        "providerElapsedMs": 728,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "OBSERVED",
+      "url": "http://127.0.0.1:55416/search?q=Gamma",
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1941,
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 728,
+        "providerElapsedMs": 728,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0
+      }
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "PROVIDER_FINISHED",
+      "detail": "PROVIDER_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 728,
+        "providerElapsedMs": 728,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1941
+    },
+    {
+      "source": "FIXTURE",
+      "stage": "DISCOVERY",
+      "event": "CANDIDATE_FINISHED",
+      "detail": "CANDIDATE_SCOPE",
+      "lifecycle": {
+        "outcome": "FINISHED",
+        "candidateElapsedMs": 728,
+        "providerElapsedMs": 728,
+        "candidateModelCalls": 0,
+        "providerModelCalls": 0,
+        "candidateRuntimeOperations": 7,
+        "providerRuntimeOperations": 7,
+        "runModelCalls": 0,
+        "reason": "ADAPTER_RETURNED"
+      },
+      "effectiveLimits": {
+        "maxAutomaticElapsedMs": 60000,
+        "maxModelCallsPerCandidate": 2,
+        "maxModelCallsTotal": 2,
+        "maxOperationsPerCandidate": 30
+      },
+      "candidateId": "Gamma",
+      "elapsedMs": 1941
+    }
+  ]
+}

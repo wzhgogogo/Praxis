@@ -1,5 +1,28 @@
 # Test and Verification Log
 
+<a id="named-search-session-reuse-main-verified-20261104"></a>
+
+## 2026-11-04 CET — C merged-source final matrix
+
+Frozenbc8f31b7/850, nine once-only checks with empty status both sides: type0.570s/arch0.233s/default1415 in49.323s/build0.559s/Chromium189 in131.934s/strictG2 all12 in24.239s/reused-submit-floor1 in0.132s/localGuard2.293s/target18 in5.007s. No retry/skip/cancel/input mutation. Post-fill remaining2500ms produces no submit and NAVIGATION_BUDGET_EXHAUSTED. Original identity/reserve and receiver queries preserved; exact parent-delta, ledger/doc/artifact audit saved separately, no product parser reuse. Publishing docs cannot substitute for these measured source checks; no new real calls or .env. [Receipts](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/gates.json), [report](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md).
+
+<a id="named-search-session-reuse-main-20261104"></a>
+
+## 2026-11-04 CET — C fresh main integration verification pending
+
+Reviewed C1409/189 and B1410/189 retained as prior evidence; neither substitutes for the new merged-source gates. Source merge proof verifies both original Executor deltas,22 unshared files and32 old C artifacts. Freeze inputs; fresh clean-tree five gates/strict G2 plus source reuse/reserve targets, constructed post-fill navigation floor and local Chromium form probe will run. No existing test assertions changed; no real model/Google/website/Live or .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-main-20261104/report.md).
+
+<a id="named-search-session-reuse-verified-20261104"></a>
+
+## 2026-11-04 CET — C final clean-tree matrix
+
+Frozen366c699c/849: typecheck0.480s, arch0.187s, default1409/1409 in49.157s, build0.515s, Chromium189/189 in131.583s, strictG2 5/5/all12 in24.466s, target18/18 in4.964s. Every before/after status empty; no full-gate retry, skip or input change. Actual local form receiver reports exact Alpha/Beta/Gamma GET queries after replaced controls; source fixture two HIGH/two UNKNOWN, originals45 composition and128 adapter/executor pass. Prior red/preflight failures retained. Real calls0, no .env; branch review only. [Receipts](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/gates.json), [report](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md).
+
+<a id="named-search-session-reuse-20261104"></a>
+
+## 2026-11-04 CET — C source-session reuse verification
+
+Frozen347ca984 main red:3 sessions versus target2; search navigations6. Local corrected path2/2 plus4 submits, unchanged no-result conclusions. Ordinary assembly identity controls:2 HIGH, wrong shop/ambiguous UNKNOWN; existing persistent composition45/45 and adapter/executor128/128. Actual guarded local Chromium:1 context/1 entry/2 submits, replaced DOM refs, receiver GET-only. Restricted first composition43/45 preserved; allowing local Chromium yields45/45 with original inputs. Final clean-tree matrix pending. Real calls0, no external request or .env. [Report](../../.eval-artifacts/phase3b/named-search-session-reuse-20261104/report.md).
 <a id="tabelog-timeout-diagnosis-verified-20261103"></a>
 
 2026-11-03 CET：B的Tabelog超时诊断分支净树门禁通过：默认1404/1404、Chromium188/188、严格G2 5/5及12页PASS，type/arch/build通过。产品源码与a7abbc0f逐字相同，未实施修复/未测提速；逐请求时间线与原查询身份缺失，资源主因及限流均未定。按A/C归属约束交接补证后停下，6次公开GET未使用、真实模型/网站调用0；只推诊断分支、不合main。 [报告](../../.eval-artifacts/phase3b/tabelog-timeout-20261103/report.md)。
