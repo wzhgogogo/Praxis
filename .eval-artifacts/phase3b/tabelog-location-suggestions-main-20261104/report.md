@@ -43,3 +43,7 @@ These are unchanged constructed source/Model-I/O scenarios through ordinary prod
 ## Publication and handoff
 
 User approved main publication after D8 and fresh green checks. Recheck origin/main remains the tested ancestor, publish without force, ls-remote verify, then notify A with the exact new main SHA. Relay the user's request that A follow its own existing A-section inputs, budget and stop rules for D4/D8. C performs no such real rerun. The final SHA/notification result is reported in the delivery message.
+
+### Publication blocked — remote unchanged
+
+Four standard push attempts from archival HEAD `7b8c3a40d0b83a18fc86013595e9d155706a9585` failed: three GitHub Internal Server Error responses and one commit_refs_rules fatal error. Final successful read-only ls-remote still shows main `3527936c42bf59f4223a597e60aeed1c854a8530`; the integration branch is absent. This is a publication failure, not a failed test or proof of a global outage/policy denial. No force push, repository-rule change or API write bypass was used. A has not been notified to start D4/D8. Local reviewed-source merge and all green checks are retained; main publication and A handoff remain outstanding. See `publication-failure.json` for transcribed request IDs and ref confirmation. This follow-up changes only archival evidence/history, not any frozen input or source.

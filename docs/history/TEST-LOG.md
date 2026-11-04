@@ -6537,3 +6537,9 @@ User approved a96f4d4e and main publication after latest D8 main. Merge7c523eae 
 ## 2026-11-04 CET — reviewed location suggestions main integration verified
 
 Frozen c708493d/900 source-input SHAs: fresh first-pass type/arch/default1439/build/Chromium189+fullG6 66/strictG2 all12 green; every before/after status empty.253 independent checks pass, including7 D8 and6 location expectations from this exact run. Both source/original-artifact sides preserved170 rows, no source conflict or repair; A originals and D8 unchanged. Shared ledger883 rows preserves both prior sets and one zero-call integration entry; caps/counters unchanged. No fixture/oracle/assertion/timeout change, skip, retry, .env read or C real call. User approved main publication and A notification; A then follows its own A-section instructions for D4/D8. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
+
+<a id="location-main-publication-blocked-20261104"></a>
+
+## 2026-11-04 CET — Location publication blocked
+
+2026-11-04 CET：地点联想合入发布受阻。源码净树五门禁1439/1439、Chromium189/189+G6 66/66、严格G2全12页均绿；GitHub四次推送返回服务端错误（含commit_refs_rules），最终ls-remote确认main仍为3527936c，合入分支未建立。未通知A开跑；本地合入与证据保留，无源码/冻结输入改动，待远端发布后才交接。 [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).

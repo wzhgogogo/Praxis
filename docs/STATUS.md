@@ -1,3 +1,5 @@
+2026-11-04 CET：地点联想合入发布受阻。源码净树五门禁1439/1439、Chromium189/189+G6 66/66、严格G2全12页均绿；GitHub四次推送返回服务端错误（含commit_refs_rules），最终ls-remote确认main仍为3527936c，合入分支未建立。未通知A开跑；本地合入与证据保留，无源码/冻结输入改动，待远端发布后才交接。 [报告](../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md)。
+
 2026-11-04 CET：用户复核批准地点联想a96f4d4e，在D8主线3527936c之后合入验证。双方源码及原始证据逐字保留，D8规则/完整G6和地点联想将同时进入main；文档两侧追加均保留，账本按id并集合并，新调用0。c708493d冻结900项，新鲜净树五门禁全绿：默认1439/1439、Chromium189/189+G6 66/66，严格G2 5/5且12页PASS，253项独立审计通过；各项前后status空。按批准发布main并通知A按原A部分接续D4/D8，C真实调用0。 [合入报告](../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md)。
 
 2026-11-04 CET：用户已复核批准C D8规则aba06e16；现从最新main de2b7ecc建立合入候选。D8/A完整G6原件与main候选90s源码/证据逐字保留，两处追加文档冲突并存、账本原行按id核对保留，新真实调用0。1980ed01冻结895项，新鲜净树五门禁全绿：默认1430/1430、Chromium189/189+原A G6 66/66，严格G2 5/5且12页PASS，171项独立审计通过。按授权发布main并通知A/B；所有对话五门禁包含完整G6，地点联想分支未带入。 [合入报告](../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md)。
