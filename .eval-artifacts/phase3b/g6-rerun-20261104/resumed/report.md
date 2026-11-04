@@ -29,3 +29,7 @@ Requested counts: BROWSER_TIMEOUT **0**, BROWSER_BUDGET_EXHAUSTED **0** (leaf ex
 Recording admission **12/12** pages, no rejected pages; 2 Google structured responses, 10 decisions, diagnostic DOM and request/navigation timeline saved. Admission is not full decision replay. Exclusive timing proxies(s): page32.932, structure4.012, waits8.437, models30.157, other/unattributed6.937; these method spans are not pure network time.
 
 Batch increments so far: Live1/3, model10, GET4/15, Google2, source I/O160, environment reruns0. Global Live12/32, model411/1600, GET302/425; development Live12/14, model170/400, GET47/58. Holdout reservation unchanged. D6/D8 not started; D6 remains for peak19:00-23:00JST, W2 needs fresh certification beforeD8. No D8 links yet.
+
+## Peak-window continuation status
+
+One-time19:10JST timed continuation was requested, but automatic approval review rejected creation: previous user approval covered direct Live execution, not explicit delegation of future credential injection and GET/model/Live calls to automation. No automation was created and no indirect/background workaround was used. Explicit delegation has been asked in this thread; D6/D8 remain NOT_STARTED. Existing three-slot quota is not revoked or reset. All64 D4 output files match their committed raw SHA256 bytes exactly. Raw recordings/witness bodies use -diff/-text attributes to preserve bytes; source/frozen inputs remain unchanged.
