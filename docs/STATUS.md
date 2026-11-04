@@ -1,3 +1,5 @@
+2026-11-04 CET: A extra D4 off-peak finished (JST13:33:50-13:35:12),82.475s/10models/2Google,0delivery,CAPABILITY_MISS,S0=0/all160 safety PASS,G1 not triggered. F5 correction ran but replacement still outside; timeout/budget-exhausted both0,TC ERR_FAILED separately. Recording12/12. GlobalLive12/model411/GET302; development12/14,170/400,47/58. D6 peak and W2/D8 pending; original score unchanged. [Report](../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md).
+
 2026-11-04 CET：A同步C修复后的838项冻结候选净树全绿：默认1425、Chromium189、完整G6 66、严格G2 5/12页，type/arch/build通过；六步前后status空。原三红已绿，沿用已批准未消耗的三槽/15GET，将先W1认证再非高峰D4；当前真实调用0。[恢复报告](../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md)。
 
 2026-11-04 CET：A沿用已批准三槽额度同步C main be84674e，原G6身份/展示断言已达新增诊断文件红灯；只补评测诊断sidecar，无产品/评分改变。完整66例/净树五门禁与严格G2待运行，全绿才重新认证W1、非高峰D4、高峰D6和随后W2/D8；832旧账目原值保留，当前本轮真实调用仍0。[恢复计划](../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md)。

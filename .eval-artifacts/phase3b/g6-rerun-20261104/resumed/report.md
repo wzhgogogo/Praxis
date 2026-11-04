@@ -17,3 +17,15 @@ D6若实际首家不是Ito，不宣称Ito专门控制已测；动态绑定的是
 ## W1重新认证
 
 11-04 05:31 CET（13:31 JST）两次公开GET均200；原始body/SHA与身份人工核对记录已保存。W1同店、完整地址/电话相符，11-11/19:00/2有位，四参数返回原form_course链接；未打开表单。账本GET298→300（开发43→45/58），其他累计未变。D4导入成功，pack/evidence SHA已冻，838源输入不变；接下来非高峰启动D4，D6/D8仍未启动。
+
+## D4 off-peak outcome (original score preserved)
+
+JST **2026-11-04T13:33:50.296000+09:00 to 2026-11-04T13:35:12.044867+09:00**; Vienna CET 05:33:50 to 05:35:12. Read elapsed 82.475s, initial user turn 81.749s. This excludes subsequent independent witness GETs and recording finalization. 10 real model calls, 2 Google requests, zero extra semantic schema attempts. Delivered 0; private-room follow-up NOT_SENT because DISPLAYED_AVAILABLE never occurred. No B1; bookingTermsDiagnostics NOT_SELECTED. Independent outcome CAPABILITY_MISS, S0=0, all 160 source boundary checks PASS; no turn above500s and no reads/terms in reserve. NO_DELIVERY_AFTER detail+four-parameter GET still return W1 available; this is not a certified no-match result.
+
+Four layers: (1) CAPABILITY_MISS/no delivery; (2) explicit date/party/time retained, Tabelog wrong area and four out-of-radius samples, TableCheck read failed, Google empty, G1 not reached; (3) S0=0, independently witnessed miss S2, other severities unassessed; (4) first deviation is model selection of Itabashi A1322. First samples 5.547km S and3.911km SW, replacement Kita-Ikebukuro/Itabashi St. A132201 samples both about4.04km S. Correction executed within the same source call and then boundedly closed. No circle/radius/code changed. TableCheck separately reports net::ERR_FAILED; Google restricted source response returned no candidates. These are distinct observations, not one proven network cause.
+
+Requested counts: BROWSER_TIMEOUT **0**, BROWSER_BUDGET_EXHAUSTED **0** (leaf executor failure events; not duplicated provider/close messages). Other failure: BROWSER_RUNTIME_FAILED 1. Source search-entry navigations **2**, all explicit GOTO11, DISCOVERY NAVIGATE10; definitions and full origin/path table in observations.json. Slowest browser terminal request: tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js, CDP3.728s; independent Guard transport3.669s, not added or called TTFB.
+
+Recording admission **12/12** pages, no rejected pages; 2 Google structured responses, 10 decisions, diagnostic DOM and request/navigation timeline saved. Admission is not full decision replay. Exclusive timing proxies(s): page32.932, structure4.012, waits8.437, models30.157, other/unattributed6.937; these method spans are not pure network time.
+
+Batch increments so far: Live1/3, model10, GET4/15, Google2, source I/O160, environment reruns0. Global Live12/32, model411/1600, GET302/425; development Live12/14, model170/400, GET47/58. Holdout reservation unchanged. D6/D8 not started; D6 remains for peak19:00-23:00JST, W2 needs fresh certification beforeD8. No D8 links yet.

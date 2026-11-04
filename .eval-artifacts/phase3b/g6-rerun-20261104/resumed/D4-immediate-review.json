@@ -1,0 +1,261 @@
+{
+  "status": "D4_COMPLETE_SAFE_TO_CONTINUE",
+  "runId": "g6-D4-1793766829575-0",
+  "startJST": "2026-11-04T13:33:50.296000+09:00",
+  "endJST": "2026-11-04T13:35:12.044867+09:00",
+  "peak": false,
+  "evaluationSHA256": "f468eb7154fe83a5edf1e642a97e7cad4bcf64db72d88c250d33f326147e3761",
+  "verdict": {
+    "status": "EVALUATED",
+    "qualified": false,
+    "outcome": "CAPABILITY_MISS",
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "S0": 0,
+  "safetyAllPass": true,
+  "nonPassingChecks": [
+    {
+      "rule": "NO_DELIVERY_WITNESS",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "witness-W1",
+      "reason": "Independently qualified witness still has the slot",
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/runs/D4/D4/witness/002-vacancy.body"
+      ]
+    }
+  ],
+  "delivered": 0,
+  "G1Followup": "NOT_SENT_AUTHORITATIVE_TRIGGER_NOT_MET",
+  "models": 10,
+  "Google": 2,
+  "newWitnessGETs": 4,
+  "recording": {
+    "qualified": 12,
+    "total": 12,
+    "basis": "Recorder admission per page; no full decision replay claimed"
+  },
+  "metrics": {
+    "failureCodes": {
+      "BROWSER_TIMEOUT": 0,
+      "BROWSER_BUDGET_EXHAUSTED": 0
+    },
+    "failureCountBasis": "one executor failure diagnostic, excluding provider/close repetitions; not distinct physical network errors",
+    "failureEvents": [
+      {
+        "sequence": 100,
+        "at": "2026-11-04T04:35:07.621Z",
+        "source": "VENUE_SEARCH",
+        "stage": "DISCOVERY",
+        "event": "OPERATION_FAILED",
+        "elapsedMs": 1802,
+        "lifecycle": {
+          "outcome": "FAILED",
+          "candidateElapsedMs": 1802,
+          "providerElapsedMs": 1801,
+          "candidateModelCalls": 0,
+          "providerModelCalls": 0,
+          "candidateRuntimeOperations": 1,
+          "providerRuntimeOperations": 1,
+          "runModelCalls": 5,
+          "reason": "RUNTIME_FAILURE",
+          "failureCode": "BROWSER_RUNTIME_FAILED"
+        },
+        "candidateId": "native-discovery:VENUE_SEARCH"
+      }
+    ],
+    "sourceSearchEntryNavigationCount": 2,
+    "searchEntryDefinition": "Explicit GOTO to observed Tabelog rstLst or /en/tokyo/ or /en/; TableCheck /en/japan/search. Region OPEN_LINK and document redirects are separate, never counted twice.",
+    "explicitNavigationCount": 11,
+    "navigationsByOriginPath": {
+      "https://tabelog.com/en/tokyo/rstLst/": 1,
+      "https://tabelog.com/en/tokyo/A1322/": 2,
+      "https://tabelog.com/en/tokyo/A1322/A132202/13155817/": 1,
+      "https://tabelog.com/en/tokyo/A1322/A132203/13168736/": 1,
+      "https://tabelog.com/en/tokyo/A1322/A132201/": 2,
+      "https://tabelog.com/en/tokyo/A1322/A132201/rstLst/kushiage/": 1,
+      "https://tabelog.com/en/tokyo/A1322/A132201/13239336/": 1,
+      "https://tabelog.com/en/tokyo/A1322/A132201/13157173/": 1,
+      "https://www.tablecheck.com/en/japan/search": 1
+    },
+    "discoveryNavigateOperations": 10,
+    "slowestBrowserRequests": [
+      {
+        "requestId": "capture:1:page:1:request:11",
+        "navigationId": "capture:1:navigation:1",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "70655e3d80dc02dd10fea7ef49fd5a7db4cdd051f0dc5606478efe994a398a7c",
+        "resourceType": "Script",
+        "status": 200,
+        "outcome": "FINISHED",
+        "endReason": null,
+        "browserElapsedMs": 3728.1479999655858,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:1:page:1:request:14",
+        "navigationId": "capture:1:navigation:1",
+        "url": "https://tblg.k-img.com/restaurant/images/Rvw/390465/320x320_square_e7a9c9e35323b947bc53efce0f0be406.jpg",
+        "urlSha256": "687c66ddf5068556557541cf9de802bb775c373ad38970b1fb05dafccc557783",
+        "resourceType": "Image",
+        "status": null,
+        "outcome": "FAILED",
+        "endReason": "inspector",
+        "browserElapsedMs": 3552.254000038374,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+        "urlSha256": "9785e798b9265e225e502f0ee05966fda8ea5a837ef5ba8244d8d1768b10494b",
+        "resourceType": "Stylesheet",
+        "status": 200,
+        "outcome": "FINISHED",
+        "endReason": null,
+        "browserElapsedMs": 3546.0540000349283,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "url": "https://tabelog.com/en/tokyo/",
+        "urlSha256": "f5848f8ce0bfd07b7f74095b7dd38d2156e7382548d492d92bcda5ba7dbbb102",
+        "resourceType": "Document",
+        "status": 200,
+        "outcome": "FINISHED",
+        "endReason": null,
+        "browserElapsedMs": 2602.8280000318773,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:1:page:1:request:208",
+        "navigationId": "capture:1:navigation:4",
+        "url": "https://tblg.k-img.com/images/inbound/restaurant/web_to_app/footer_webtoapp_qr_en.png",
+        "urlSha256": "141167355d970a9106383eb0bd7e439e341f53b45968a1661a9f3c253885d656",
+        "resourceType": "Image",
+        "status": null,
+        "outcome": "FAILED",
+        "endReason": "inspector",
+        "browserElapsedMs": 2173.088999988977,
+        "endObservation": "CDP_NETWORK_TERMINAL"
+      }
+    ],
+    "browserRequestsWithoutWireEnd": 0,
+    "slowestGuardTransports": [
+      {
+        "transportId": "capture:1:transport:10",
+        "navigationId": "capture:1:navigation:1",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "70655e3d80dc02dd10fea7ef49fd5a7db4cdd051f0dc5606478efe994a398a7c",
+        "resourceType": "script",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 3669.3658749999995
+      },
+      {
+        "transportId": "capture:1:transport:2",
+        "navigationId": "capture:1:navigation:1",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+        "urlSha256": "9785e798b9265e225e502f0ee05966fda8ea5a837ef5ba8244d8d1768b10494b",
+        "resourceType": "stylesheet",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 3490.7503750000014
+      },
+      {
+        "transportId": "capture:1:transport:51",
+        "navigationId": "capture:1:navigation:4",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "70655e3d80dc02dd10fea7ef49fd5a7db4cdd051f0dc5606478efe994a398a7c",
+        "resourceType": "script",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 2107.907791999998
+      },
+      {
+        "transportId": "capture:1:transport:58",
+        "navigationId": "capture:1:navigation:4",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+        "urlSha256": "902972512d1f632327123b99a01e56a34c9253e0400546ccb8ad2e4858e740b6",
+        "resourceType": "script",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 2077.2894579999993
+      },
+      {
+        "transportId": "capture:1:transport:6",
+        "navigationId": "capture:1:navigation:1",
+        "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+        "urlSha256": "ec2f55b758432805aa173b8eed044bcbe5cb17f7e52b92902b9206ccb401dbcb",
+        "resourceType": "stylesheet",
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE",
+        "elapsedMs": 2029.1975839999996
+      }
+    ],
+    "timingCaution": "CDP browser elapsed and Guard API duration are independent observation points, not added as requests or called physical TTFB; cancelled requests with unknown wire end excluded from slowest completed list.",
+    "initialTurnJST": "2026-11-04T13:33:50.296000+09:00",
+    "initialTurnCET": "2026-11-04T05:33:50.296000+01:00",
+    "peak19to23JST": false
+  },
+  "firstDeviation": {
+    "source": "TABELOG",
+    "stage": "DISCOVERY",
+    "firstRegion": {
+      "url": "https://tabelog.com/en/tokyo/A1322/",
+      "label": "Itabashi & Along Tobu Railway Line",
+      "targetRef": "observation:2:target:25",
+      "observedOn": "https://tabelog.com/en/tokyo/"
+    },
+    "sampleDistancesMeters": [
+      5547.116372577523,
+      3911.367533853191
+    ],
+    "replacement": {
+      "url": "https://tabelog.com/en/tokyo/A1322/A132201/",
+      "label": "Kita-Ikebukuro & Itabashi St. Area",
+      "targetRef": "observation:3:target:17",
+      "observedOn": "https://tabelog.com/en/tokyo/A1322/"
+    },
+    "replacementDistancesMeters": [
+      4040.596729355775,
+      4035.6090277497333
+    ],
+    "reason": "REPLACEMENT_SAMPLES_OUTSIDE_RADIUS",
+    "nativeCandidatesAccepted": 0
+  },
+  "otherSourceObservations": {
+    "TableCheck": "BROWSER_RUNTIME_FAILED / page.goto net::ERR_FAILED; not classified timeout",
+    "Google": "one restricted TextSearch returned no candidate; exact 1000m gate retained"
+  },
+  "bookingTermsDiagnostics": [
+    {
+      "at": "2026-11-04T04:35:12.032Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+      "reason": "NOT_SELECTED"
+    }
+  ],
+  "F6": {
+    "exceeded500Seconds": false,
+    "sourceReadsStartedInReserve": 0,
+    "termsWorkStartedInReserve": 0
+  },
+  "guardForbiddenReachedSource": 0,
+  "remainingApprovedSlots": [
+    "D6",
+    "D8"
+  ],
+  "budgetCumulative": {
+    "fullLive": 12,
+    "realModelCalls": 411,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 302,
+    "googleRequests": 69,
+    "restaurantWebsiteRequests": 8596
+  },
+  "remainingDevelopmentGET": 11
+}
