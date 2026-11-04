@@ -1,5 +1,5 @@
 {
-  "status": "AWAITING_APPROVED_PEAK_WINDOW",
+  "status": "DIRECT_CONTINUATION_APPROVED",
   "updatedAtCET": "2026-11-04T05:42:18.949496+01:00",
   "approvedNewLive": 3,
   "usedNewLive": 1,
@@ -14,8 +14,8 @@
   },
   "D6": {
     "status": "NOT_STARTED",
-    "plannedJST": "2026-11-04T19:10:00+09:00",
-    "plannedCET": "2026-11-04T11:10:00+01:00"
+    "priorPlannedJST": "2026-11-04T19:10:00+09:00",
+    "priorPlannedCET": "2026-11-04T11:10:00+01:00"
   },
   "D8": {
     "status": "NOT_STARTED",
@@ -25,5 +25,6 @@
   "sourceFreeze": "source-inputs.json",
   "credentialRule": "Only authorized Node --env-file Live process; no read/copy/logging",
   "noAutomaticEnvironmentRetry": true,
-  "automaticResumeStatus": "NOT_CREATED_AUTO_REVIEW_REJECTED_PENDING_EXPLICIT_USER_DELEGATION"
+  "automaticResumeStatus": "NOT_CREATED_USER_REQUESTED_DIRECT_EXECUTION",
+  "peakCoverage": "NOT_COVERED_AS_OF_DIRECT_RUN_DECISION"
 }

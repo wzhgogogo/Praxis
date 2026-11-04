@@ -33,3 +33,7 @@ Batch increments so far: Live1/3, model10, GET4/15, Google2, source I/O160, envi
 ## Peak-window continuation status
 
 One-time19:10JST timed continuation was requested, but automatic approval review rejected creation: previous user approval covered direct Live execution, not explicit delegation of future credential injection and GET/model/Live calls to automation. No automation was created and no indirect/background workaround was used. Explicit delegation has been asked in this thread; D6/D8 remain NOT_STARTED. Existing three-slot quota is not revoked or reset. All64 D4 output files match their committed raw SHA256 bytes exactly. Raw recordings/witness bodies use -diff/-text attributes to preserve bytes; source/frozen inputs remain unchanged.
+
+## Direct execution steering
+
+User answered the timed-delegation question with the exact words "直接跑". At2026-11-04 14:06JST (06:06CET), A disclosed that immediate remaining-slot execution will not cover the earlier19:00-23:00JST requirement. D6/D8 continue now under existing quota and safety rules; peak coverage stays NOT_COVERED, no automation created, D4 is not rerun.
