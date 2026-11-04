@@ -11230,15 +11230,39 @@
       "googleRequests": 0,
       "restaurantWebsiteRequests": 0,
       "note": "Original A G6 red-to-green, recoverable page operation retains source context; no live API or credentials."
+    },
+    {
+      "id": "g6-rerun-cert-W1-1793766674058:GET:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T04:31:14.059Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "detail; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-rerun-cert-W1-1793766674058:GET:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T04:31:19.066Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "vacancy; public credential-free GET, no retry"
     }
   ],
   "cumulative": {
     "fullLive": 11,
     "realModelCalls": 401,
     "environmentReruns": 0,
-    "evaluationPublicGET": 298,
+    "evaluationPublicGET": 300,
     "googleRequests": 67,
-    "restaurantWebsiteRequests": 8432
+    "restaurantWebsiteRequests": 8434
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
