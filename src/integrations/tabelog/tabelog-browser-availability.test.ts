@@ -76,11 +76,14 @@ test("Tabelog busy retry can recover a known feasible control without bypassing 
   }
 });
 
-test("Tabelog source-busy delay cannot reset or outrun the existing provider deadline", async () => {
+test("Tabelog source-busy delay cannot reset or outrun the existing provider deadline", async t => {
+  let clock=0;t.mock.method(Date,"now",()=>clock);
   const html = await readFile(new URL("./fixtures/availability/p2-2-selection-20261019/followup/busy-inputs/p20-h001-a1.snapshot-0033.html", import.meta.url), "utf8");
   const session = new FixtureBrowserSession([{ url: "https://tabelog.com/en/tokyo/A1303/A130301/13293469/", title: "現在アクセスが集中しています [食べログ]", text: "", html }]);
+  // Dispatch with a viable window, then let the first page consume it before retry.
+  const navigate=session.navigate.bind(session);session.navigate=async url=>{await navigate(url);clock=9750;};
   const listed = { ...candidate, restaurant: { ...candidate.restaurant, sourceIds: { googleWebsiteUri: "https://tabelog.com/tokyo/A1303/A130301/13293469/" } } };
-  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 10_000, maxElapsedMsPerProvider: 250, maxModelCallsTotal: 1, maxModelCallsPerCandidate: 1, maxOperationsPerCandidate: 24 });
+  const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 20_000, maxElapsedMsPerProvider: 10_000, maxModelCallsTotal: 1, maxModelCallsPerCandidate: 1, maxOperationsPerCandidate: 24 });
   try {
     const result = await new TabelogBrowserAvailability(executor).check({ candidateIds: [listed.restaurant.id], candidates: [listed], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
     assert.equal(result.availabilityChecks[listed.restaurant.id]?.status, "UNKNOWN");

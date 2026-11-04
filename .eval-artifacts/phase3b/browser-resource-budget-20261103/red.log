@@ -1,0 +1,45 @@
+✖ navigation below 3000ms remaining browser budget dispatches nothing and reports budget exhaustion (4.809458ms)
+✖ default resource suppression blocks admitted images media fonts without suppressing CSS scripts or data (3.54775ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 0
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 121.364125
+
+✖ failing tests:
+
+test at src/infrastructure/browser/browser-task-executor.test.ts:1:79171
+✖ navigation below 3000ms remaining browser budget dispatches nothing and reports budget exhaustion (4.809458ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.test.ts:1174:2)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    operator: 'rejects'
+  }
+
+test at src/infrastructure/browser/playwright-read-network-guard.test.ts:1:32210
+✖ default resource suppression blocks admitted images media fonts without suppressing CSS scripts or data (3.54775ms)
+  AssertionError [ERR_ASSERTION]: image
+  + actual - expected
+  
+    [
+  +   'fetch:0:5000',
+  +   'fulfill'
+  -   'abort'
+    ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-prime-f2a/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:521:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: [ 'fetch:0:5000', 'fulfill' ],
+    expected: [ 'abort' ],
+    operator: 'deepStrictEqual'
+  }

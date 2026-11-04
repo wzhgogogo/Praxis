@@ -176,7 +176,7 @@ export class RestaurantAgentLoopCoordinator {
     try {
       return await this.runWithinReadBudget(taskId, signal, readDeadlineAt, userSelection);
     } finally {
-      this.router.endReadRun();
+      await this.router.endReadRun();
     }
   }
 

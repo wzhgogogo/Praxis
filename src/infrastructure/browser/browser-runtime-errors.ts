@@ -1,5 +1,7 @@
 export type BrowserRuntimeFailureCode =
   | "BROWSER_TIMEOUT"
+  /** No navigation dispatched because its remaining browser window is too small. */
+  | "BROWSER_BUDGET_EXHAUSTED"
   /** Operations reached their bounded count before an elapsed deadline. */
   | "BROWSER_OPERATION_BUDGET_EXCEEDED"
   | "BROWSER_RUNTIME_FAILED"

@@ -3,7 +3,7 @@ import type { BrowserContext, CDPSession, Page, Request, Route } from "playwrigh
 
 import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
 
-type NetworkDiagnosticCode = "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT";
+type NetworkDiagnosticCode = "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT" | "RESOURCE_POLICY_BLOCKED";
 type NetworkDiagnostic = { code: NetworkDiagnosticCode; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[] };
 
 function requestKey(value: string): string {
@@ -257,6 +257,10 @@ export class PlaywrightReadNetworkGuard {
             this.blocked(isRedirect ? "BLOCKED_REDIRECT" : ["GET", "HEAD"].includes(method) ? "BLOCKED_ENDPOINT" : "BLOCKED_METHOD", url, method, type);
             await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
           }
+          if (this.suppressResource(url, method, type)) {
+            this.resourcePolicyBlocked(url, method, type, "FETCH");
+            await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
+          }
           const previous = event.redirectedRequestId ? chains.get(event.redirectedRequestId) : undefined;
           chains.set(event.requestId, expected ?? { hops: previous ? previous.hops + 1 : isRedirect ? 1 : 0, started: previous?.started ?? Date.now() });
           // An admitted unrecognized/initial request also traverses the normal route.
@@ -360,6 +364,20 @@ export class PlaywrightReadNetworkGuard {
     this.requests.push({ outcome: code === "BLOCKED_REDIRECT" ? "REDIRECT_BLOCKED" : "BLOCKED", ...request });
   }
 
+  /** Suppression is evaluated only after admission; an exception cannot grant permission. */
+  private suppressResource(url: URL, method: string, type: string): boolean {
+    return ["image", "media", "font"].includes(type)
+      && !(this.policy.retainedResources ?? []).some(rule => matchesReadProjection(rule, url, method, type));
+  }
+
+  private resourcePolicyBlocked(url: URL, method: string, type: string, selectedFrom: "PLAYWRIGHT" | "FETCH"): void {
+    this.blocked("RESOURCE_POLICY_BLOCKED", url, method, type);
+    // Recorder preserves protocol details and excludes BLOCKED requests from missing dependencies.
+    this.requests[this.requests.length - 1]!.resourceTypeDetails = {
+      selectedFrom, ...(selectedFrom === "PLAYWRIGHT" ? { playwright: type } : { fetch: type }), policyBlock: "NONESSENTIAL_RESOURCE",
+    };
+  }
+
   private async handle(route: Route, replay: boolean): Promise<void> {
     const request = route.request();
     const method = request.method();
@@ -386,6 +404,11 @@ export class PlaywrightReadNetworkGuard {
       this.blocked(endpointKnown
         ? ((method !== "GET" && method !== "HEAD" && !rules.some(rule => matchesEndpoint(rule, url, type) && (rule.methods ?? ["GET", "HEAD"]).includes(method as "GET" | "HEAD" | "POST"))) ? "BLOCKED_METHOD" : "BLOCKED_FIELDS")
         : "BLOCKED_ENDPOINT", url, method, type);
+      await route.abort("blockedbyclient");
+      return;
+    }
+    if (this.suppressResource(url, method, type)) {
+      this.resourcePolicyBlocked(url, method, type, "PLAYWRIGHT");
       await route.abort("blockedbyclient");
       return;
     }

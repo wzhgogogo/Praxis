@@ -506,8 +506,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           discovery = directPage;
           discoveryBase = { requestedUrl: diagnosticUrl(listedOutletUrl), finalUrl: diagnosticUrl(directPage.url), title: directPage.title };
         } else {
-          await this.executor.navigate({
-            source: "TABLECHECK", stage: "DISCOVERY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl,
+          await this.executor.search({
+            source: "TABLECHECK", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl, query: searchName,
           });
           // Snapshot first: a parsed result or explicit empty state is ready now.
           // Otherwise the shared skill receives the parser state and decides
@@ -540,7 +540,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           }
           if (!matchesDiscoveryQuery(discovery, discoveryUrl)) {
             this.recordIdentityDiagnostic({ candidateId: candidate.restaurant.id, candidate: structuredClone(candidate.restaurant),
-              discovery: { ...discoveryBase, status: "PARSE_FAILED", discoveredOutletUrls: [] }, attemptedPages,
+              discovery: { ...discoveryBase, status: "PARSE_FAILED", discoveredOutletUrls: [], incompleteStage: "INITIAL_QUERY_MISMATCH", queryMatchesAtExit: false }, attemptedPages,
               resolution: { confidence: "LOW", matchedBy: [], reason: "TABLECHECK_DISCOVERY_INCOMPLETE" } });
             return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
               pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_DISCOVERY_INCOMPLETE" }, browser);
@@ -600,6 +600,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
             discovery: {
               ...discoveryBase,
               status: noResult ? "NO_RESULT" : "EXPLORATION_EXHAUSTED",
+              ...(failureCode === "TABLECHECK_DISCOVERY_INCOMPLETE" ? { incompleteStage: "NO_OUTLET_URLS_AFTER_EXPLORATION" as const, queryMatchesAtExit: matchesDiscoveryQuery(discovery, discoveryUrl) } : {}),
               discoveredOutletUrls: [],
               ...(handoff ? { handoff } : {}),
             },

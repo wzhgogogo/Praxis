@@ -106,7 +106,8 @@ test("C3b Chromium ignores an outstanding image once data has completed", async 
   const address=server.address();assert.ok(address&&typeof address!=='string');
   const origin=`http://127.0.0.1:${address.port}`;
   const executor=new BrowserTaskExecutor(new LocalPlaywrightChromium(), { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
-  const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY',{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[]});
+  // Keep only this fixture image outstanding; production resource suppression remains unchanged.
+  const signal=new AbortController().signal;const session=await executor.acquire(signal,'FIXTURE','DISCOVERY',{documentOrigins:[origin],genericPublicRead:true,retainedResources:[{origin,pathname:'/image',resourceTypes:['image']}],staticResources:[],dynamicReads:[]});
   try{
     const started=Date.now();
     await executor.navigate({session,signal,source:'FIXTURE',stage:'DISCOVERY',allowedOrigins:[origin],url:origin});

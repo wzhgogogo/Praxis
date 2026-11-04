@@ -1,0 +1,148 @@
+[
+  {
+    "name": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T04:14:24.373761+01:00",
+    "head": "bc8f31b712d71d0c74697510b9e7df523944c275",
+    "returnCode": 0,
+    "elapsedSeconds": 0.57,
+    "finishedAtCET": "2026-11-04T04:14:24.951613+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "architecture",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T04:14:25.078189+01:00",
+    "head": "bc8f31b712d71d0c74697510b9e7df523944c275",
+    "returnCode": 0,
+    "elapsedSeconds": 0.233,
+    "finishedAtCET": "2026-11-04T04:14:25.319336+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "default",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T04:14:25.449344+01:00",
+    "head": "bc8f31b712d71d0c74697510b9e7df523944c275",
+    "returnCode": 0,
+    "elapsedSeconds": 49.323,
+    "finishedAtCET": "2026-11-04T04:15:14.780697+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T04:15:14.953084+01:00",
+    "head": "bc8f31b712d71d0c74697510b9e7df523944c275",
+    "returnCode": 0,
+    "elapsedSeconds": 0.559,
+    "finishedAtCET": "2026-11-04T04:15:15.521732+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "chromium",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T04:15:15.654380+01:00",
+    "head": "bc8f31b712d71d0c74697510b9e7df523944c275",
+    "returnCode": 0,
+    "elapsedSeconds": 131.934,
+    "finishedAtCET": "2026-11-04T04:17:27.597638+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "strict-g2",
+    "command": [
+      "env",
+      "PRAXIS_G2_REQUIRE_PASS=1",
+      "npm",
+      "run",
+      "test:dom-change"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T04:17:27.734361+01:00",
+    "head": "bc8f31b712d71d0c74697510b9e7df523944c275",
+    "returnCode": 0,
+    "elapsedSeconds": 24.239,
+    "finishedAtCET": "2026-11-04T04:17:51.981508+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "reuse-floor",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      ".eval-artifacts/phase3b/named-search-session-reuse-main-20261104/reuse-navigation-floor.test.ts"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T04:17:52.117952+01:00",
+    "head": "bc8f31b712d71d0c74697510b9e7df523944c275",
+    "returnCode": 0,
+    "elapsedSeconds": 0.132,
+    "finishedAtCET": "2026-11-04T04:17:52.258003+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "browser-form",
+    "command": [
+      "node",
+      "--import",
+      "tsx",
+      ".eval-artifacts/phase3b/named-search-session-reuse-main-20261104/browser-form-check.mjs"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T04:17:52.388312+01:00",
+    "head": "bc8f31b712d71d0c74697510b9e7df523944c275",
+    "returnCode": 0,
+    "elapsedSeconds": 2.293,
+    "finishedAtCET": "2026-11-04T04:17:54.689466+01:00",
+    "afterStatus": ""
+  },
+  {
+    "name": "target",
+    "command": [
+      "env",
+      "PRAXIS_SESSION_REUSE_CAPTURE=1",
+      "node",
+      "--import",
+      "tsx",
+      "--test",
+      "src/integrations/restaurant-availability/named-search-session-reuse.test.ts",
+      "src/integrations/restaurant-availability/live-browser-availability.test.ts",
+      "src/application/restaurant-named-identity-prefix.test.ts",
+      "src/application/restaurant-booking-terms-reserve.test.ts"
+    ],
+    "beforeStatus": "",
+    "startedAtCET": "2026-11-04T04:17:54.827752+01:00",
+    "head": "bc8f31b712d71d0c74697510b9e7df523944c275",
+    "returnCode": 0,
+    "elapsedSeconds": 5.007,
+    "finishedAtCET": "2026-11-04T04:17:59.843015+01:00",
+    "afterStatus": ""
+  }
+]

@@ -43,7 +43,7 @@ export interface LiveBrowserAvailabilityOptions extends BrowserReadLimits {
 
 /**
  * The one real Live availability composition used by both the local Web and H001.
- * Each call owns one shared browser session, which is closed after the source chain.
+ * An Agent read owns source-specific sessions; standalone calls close after their source chain.
  */
 export class LiveBrowserAvailability {
   readonly executionRoute = "GENERIC_BROWSER" as const;
@@ -52,6 +52,7 @@ export class LiveBrowserAvailability {
   private readonly networkPolicy: BrowserReadNetworkPolicy | undefined;
   private tableCheckEntryLedger = new TableCheckEntryLedger();
   private readonly namedQueries: ModelNamedSourceQuery;
+  private readExecutor: BrowserTaskExecutor | undefined;
 
   constructor(
     private readonly runtime: BrowserRuntime,
@@ -71,16 +72,20 @@ export class LiveBrowserAvailability {
 
   /** Called by the Router once per Agent loop, not once per candidate batch. */
   beginReadRun(): void {
+    if (this.readExecutor) throw new Error("A browser read run is already active");
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
     this.namedQueries.clear();
+    this.readExecutor = this.createExecutor(true);
   }
 
-  /** No session survives a check; reset avoids carrying a completed case into another one. */
-  endReadRun(): void {
+  /** Session ownership ends at the Agent read boundary, never at a candidate checkpoint. */
+  async endReadRun(): Promise<void> {
+    const executor=this.readExecutor;this.readExecutor=undefined;
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
     this.namedQueries.clear();
+    await executor?.closeAll();
   }
 
   async check(request: RestaurantAvailabilityRequest, signal: AbortSignal, readRunId?: string): Promise<RestaurantAvailabilityRead> {
@@ -99,8 +104,8 @@ export class LiveBrowserAvailability {
     })),metadata:read.metadata};
   }
 
-  private async read(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId:string|undefined,identityOnly:boolean):Promise<RestaurantAvailabilityRead>{
-    const executor = new BrowserTaskExecutor(this.runtime, { maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs,
+  private createExecutor(reuseSourceSessions:boolean):BrowserTaskExecutor {
+    return new BrowserTaskExecutor(this.runtime, { reuseSourceSessions, maxAutomaticElapsedMs: this.options.maxAutomaticElapsedMs,
       maxModelCallsPerCandidate: this.options.maxModelCallsPerCandidate,
       maxModelCallsTotal: this.options.maxModelCallsTotal,
       maxOperationsPerCandidate: this.options.maxOperationsPerCandidate,
@@ -111,6 +116,10 @@ export class LiveBrowserAvailability {
       ...(this.options.onBrowserDiagnostic ? { onDiagnostic: this.options.onBrowserDiagnostic } : {}),
       budget: this.browserBudget,
     });
+  }
+
+  private async read(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId:string|undefined,identityOnly:boolean):Promise<RestaurantAvailabilityRead>{
+    const executor=this.readExecutor??this.createExecutor(false);
     const providerContext = {
       executor,
       ...(identityOnly?{identityOnly:true}:{}),
@@ -129,6 +138,9 @@ export class LiveBrowserAvailability {
     };
     const bindings = (this.options.packs ?? restaurantDiscoveryPacks)
       .flatMap((pack) => pack.availability ? [{ pack, provider: pack.availability.createProvider(providerContext) }] : []);
-    return new AvailabilitySourceResolver(bindings, { afterRead: () => executor.close(),...(identityOnly?{identityOnly:true}:{}) }).check(request, signal);
+    return new AvailabilitySourceResolver(bindings, { afterRead: async () => {
+      if (this.readExecutor === executor) executor.endReadScope();
+      else await executor.close();
+    },...(identityOnly?{identityOnly:true}:{}) }).check(request, signal);
   }
 }

@@ -35,6 +35,8 @@ export interface BrowserReadNetworkPolicy {
   genericPublicRead?: boolean;
   /** Source-revoked workflows. Deny wins over prepared navigation and reviewed rules. */
   prohibitedPaths?: readonly { hostname: string; pathSegment: string }[];
+  /** Declarative exceptions to default image/media/font suppression; never grants admission. */
+  retainedResources?: readonly BrowserReadNetworkRequestRule[];
   staticResources: readonly BrowserReadNetworkRequestRule[];
   dynamicReads: readonly BrowserReadNetworkRequestRule[];
 }
@@ -59,7 +61,7 @@ export interface BrowserReadCorsPreflightObservation {
 
 export interface BrowserReadResourceTypeObservation {
   origin: string; pathname: string; method: string; resourceType: string;
-  resourceTypeDetails: { selectedFrom: "PLAYWRIGHT" | "NETWORK" | "FETCH"; playwright?: string; network?: string; fetch?: string };
+  resourceTypeDetails: { selectedFrom: "PLAYWRIGHT" | "NETWORK" | "FETCH"; playwright?: string; network?: string; fetch?: string; policyBlock?: "NONESSENTIAL_RESOURCE" };
 }
 
 /** A value-free request shape captured by an installed read boundary. */
@@ -108,7 +110,7 @@ export interface BrowserSnapshot {
   responses?: BrowserCapturedResponse[];
   /** Guard-only endpoint diagnostics, with no query/body values or headers. */
   networkDiagnostics?: Array<{
-    code: "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT";
+    code: "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT" | "RESOURCE_POLICY_BLOCKED";
     origin: string;
     pathname: string;
     /** Request shape only: no query or body values, headers, or response content. */

@@ -15,28 +15,30 @@ test("production composition shares one literal-fragment model proposal across b
   const original = structuredClone(subject);
   const tcOriginal = tableCheckDiscoveryUrl(subject), tcAlternative = new URL(tcOriginal);
   tcAlternative.searchParams.set("search_text", "Dengana");
-  const session = new Session([
+  const pages:BrowserSnapshot[] = [
     { url: tcOriginal, title: "Search", text: "No venues found", html: "No venues found" },
     { url: tcAlternative.toString(), title: "Search", text: "No venues found", html: "No venues found" },
     { url: "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana%20Akabane", title: "Search", text: "No restaurants match", html: "No restaurants match" },
     { url: "https://tabelog.com/en/tokyo/rstLst/?sw=Dengana", title: "Search", text: "Dengana", html: '<a class="list-rst__rst-name-target" href="/tokyo/A1304/A130401/123/">Dengana</a>' },
     { url: "https://tabelog.com/tokyo/A1304/A130401/123/", title: "Dengana", text: "Dengana", html: `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Dengana", address: subject.restaurant.address, telephone: "03-1111-2222" })}</script>` },
-  ]);
+  ];
+  const session=new Session(pages.slice(0,2)),other=new Session(pages.slice(2));let opens=0;
   const budget = { totalModelCalls: 0, maxModelCalls: 4 }; let calls = 0;
-  const availability = new LiveBrowserAvailability({ openSession: async () => session }, { async complete(request) {
+  const availability = new LiveBrowserAvailability({ openSession: async () => [session,other][opens++]! }, { async complete(request) {
     calls++; assert.equal(request.purpose, "restaurant_named_source_query");
     assert.deepEqual(JSON.parse(request.messages[1]!.content), { name: subject.restaurant.outletName, address: subject.restaurant.address });
     return { invocationId: "fixture-query", provider: "FIXTURE", model: "fixture", outputText: '{"field":"name","fragment":"Dengana"}', finishReason: "TOOL_CALLS", latencyMs: 0 };
   } }, { browserBudget: budget, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 4, maxOperationsPerCandidate: 24, maxAutomaticElapsedMs: 30_000 });
   availability.beginReadRun();
   const result = await availability.check({ candidateIds: [subject.restaurant.id], candidates: [subject], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: 2, hardCriteria: [] }, new AbortController().signal);
-  assert.deepEqual(session.openedPages.filter(url => url.includes("search") || url.includes("rstLst")).map(url => { const u = new URL(url); return u.searchParams.get("search_text") ?? u.searchParams.get("sw"); }), ["Dengana Akabane", "Dengana", "Dengana Akabane", "Dengana"]);
+  assert.deepEqual([...session.openedPages,...other.openedPages].filter(url => url.includes("search") || url.includes("rstLst")).map(url => { const u = new URL(url); return u.searchParams.get("search_text") ?? u.searchParams.get("sw"); }), ["Dengana Akabane", "Dengana", "Dengana Akabane", "Dengana"]);
   assert.equal(calls, 1); assert.equal(budget.totalModelCalls, 1);
   assert.equal(result.offers.length, 0, "same-outlet identity alone is not inventory");
   assert.ok(result.evidence.some(e => e.entityMatch?.confidence === "HIGH"));
-  assert.equal(session.closed, 1);
+  assert.equal(session.closed, 0, "run-scoped sessions remain open until the run ends");
   assert.deepEqual(subject, original);
-  availability.endReadRun();
+  await availability.endReadRun();
+  assert.equal(session.closed, 1);assert.equal(other.closed,1);
 });
 
 class Session implements BrowserSession {
@@ -106,12 +108,13 @@ test("Live composition reuses a source-observed Hajime entrance across candidate
   const first = new Session([
     { url: "https://www.tablecheck.com/en/japan/search?search_text=Shibuya+Sushi+Teppen", title: "Map Search", text: "venues", html: '<a href="/en/sushihajime-shibuya">Shibuya Namikibashi Sushi Hajime</a>' },
     hajimePage,
-    { url: "https://tabelog.com/en/rstLst/?sw=Shibuya%20Sushi%20Teppen", title: "Just a moment...", text: "verify you are human", html: "" },
-  ]);
-  const second = new Session([
+    {url:"https://www.tablecheck.com/en/sushihajime-shibuya/reserve/landing",title:"Unavailable",text:"No public inventory",html:"<p>No public inventory</p>"},
     { url: "https://www.tablecheck.com/en/japan/search?search_text=Shibuya+Namikibashi+Sushi+Hajime", title: "Map Search", text: "No venues found", html: "<main>No venues found</main>" },
     hajimePage,
     { url: "https://www.tablecheck.com/en/sushihajime-shibuya/reserve/landing", title: "Hajime reservation", text: "2 guest 2026-08-05 19:00", html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>' },
+  ]);
+  const second = new Session([
+    { url: "https://tabelog.com/en/rstLst/?sw=Shibuya%20Sushi%20Teppen", title: "Just a moment...", text: "verify you are human", html: "" },
   ]);
   let opens = 0;
   const runtime: BrowserRuntime = { openSession: async () => [first, second][opens++]! };
@@ -120,10 +123,10 @@ test("Live composition reuses a source-observed Hajime entrance across candidate
   availability.beginReadRun();
   await availability.check(toRequest(teppen), new AbortController().signal);
   const result = await availability.check(toRequest(hajime), new AbortController().signal);
-  availability.endReadRun();
+  await availability.endReadRun();
   assert.equal(result.availabilityChecks[hajime.restaurant.id]?.status, "AVAILABLE");
-  assert.equal(second.openedPages[0]?.includes("/japan/search"), true, "current candidate still performs its own discovery");
-  assert.equal(second.openedPages[1], "https://www.tablecheck.com/en/sushihajime-shibuya", "observed Teppen-page entrance is a later identity-gated hint");
+  assert.equal(first.openedPages[3]?.includes("/japan/search"), true, "current candidate still performs its own discovery");
+  assert.equal(first.openedPages[4], "https://www.tablecheck.com/en/sushihajime-shibuya", "observed Teppen-page entrance is a later identity-gated hint");
 });
 
 test("Live composition clears observed TableCheck entrances when a read run ends", async () => {
@@ -148,15 +151,17 @@ test("Live composition clears observed TableCheck entrances when a read run ends
     { url: "https://tabelog.com/en/rstLst/?sw=Shibuya%20Namikibashi%20Sushi%20Hajime", title: "Just a moment...", text: "verify you are human", html: "" },
   ]);
   let opens = 0;
-  const runtime: BrowserRuntime = { openSession: async () => [first, second][opens++]! };
+  const challenge = () => new Session([{url:"https://tabelog.com/en/rstLst/",title:"Just a moment...",text:"verify you are human",html:""}]);
+  const sourceSessions=[first,challenge(),second,challenge()];
+  const runtime: BrowserRuntime = { openSession: async () => sourceSessions[opens++]! };
   const availability = new LiveBrowserAvailability(runtime, neverCalledModel, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
   const toRequest = (item: typeof teppen): RestaurantAvailabilityRequest => ({ candidateIds: [item.restaurant.id], candidates: [item], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: [] });
   availability.beginReadRun();
   await availability.check(toRequest(teppen), new AbortController().signal);
-  availability.endReadRun();
+  await availability.endReadRun();
   availability.beginReadRun();
   const result = await availability.check(toRequest(hajime), new AbortController().signal);
-  availability.endReadRun();
+  await availability.endReadRun();
   assert.equal(result.availabilityChecks[hajime.restaurant.id]?.status, "UNKNOWN");
   assert.equal(second.openedPages.includes("https://www.tablecheck.com/en/sushihajime-shibuya"), false);
 });
