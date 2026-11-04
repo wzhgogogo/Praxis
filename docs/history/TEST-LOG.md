@@ -6501,3 +6501,9 @@ Exposed development, offline candidate, not integrated. D8 original authoritativ
 ## 2026-11-04 CET — D8 and four-run region diagnosis verified
 
 Frozen bebe0a41 /934 source+input SHAs: typecheck, arch, default1425/1425, build, ordinary Chromium189/189 plus A-original fullG6 66/66, strictG2 5/5 and all12 valid pages PASS, target D8 component9 plus ordinary assembly1. Every gate before/after clean; no formal gate failure, assertion edits, skip or retry. Original D8 component red (2 failures) and isolated old-source assembly business assertion red retained. The only product delta is the approved name predicate; source adapters, Google, region routing, Guard, budget, reserve and versions unchanged. Independent audit and final report archived; work branch only, no main merge and no external calls. [Report](../../.eval-artifacts/phase3b/named-region-resolution-20261104/report.md).
+
+<a id="d8-main-integration-20261104"></a>
+
+## 2026-11-04 CET — reviewed D8 integration candidate
+
+User approved aba06e16 after independent1425/189+G6 66/strictG2. Merge candidate f791378c starts at current main de2b7ecc, preserves all source and original artifacts from both sides byte-for-byte; both append-only doc conflicts retained. No new location-suggestion code, version, source behavior or external calls. Original ledger rows retained, one zero-call integration row. Fresh clean gates pending. [Report](../../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md).
