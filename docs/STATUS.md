@@ -1,3 +1,5 @@
+2026-11-04 CET：用户复核批准地点联想a96f4d4e，在D8主线3527936c之后合入验证。双方源码及原始证据逐字保留，D8规则/完整G6和地点联想将同时进入main；文档两侧追加均保留，账本按id并集合并，新调用0。新鲜净树五门禁与严格G2待跑，全绿后按批准发布main并通知A按原A部分接续D4/D8。 [合入报告](../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md)。
+
 2026-11-04 CET：用户已复核批准C D8规则aba06e16；现从最新main de2b7ecc建立合入候选。D8/A完整G6原件与main候选90s源码/证据逐字保留，两处追加文档冲突并存、账本原行按id核对保留，新真实调用0。1980ed01冻结895项，新鲜净树五门禁全绿：默认1430/1430、Chromium189/189+原A G6 66/66，严格G2 5/5且12页PASS，171项独立审计通过。按授权发布main并通知A/B；所有对话五门禁包含完整G6，地点联想分支未带入。 [合入报告](../.eval-artifacts/phase3b/named-region-resolution-main-20261104/report.md)。
 
 2026-11-04 CET：C地点联想离线候选（未合main）：从已观察Tabelog首页链接填入用户地名，仅唯一可观察地点/站名匹配才读取来源结果；店名、异地、歧义拒绝，原坐标半径核对及Guard/预算/20秒保留不变。真实Chromium/HAR普通组装6例绿，缺Guard/保留取消/操作上限3控制绿；有效旧源码红灯实际误入Itabashi并返回0。同步B main de2b7ecc候选90s；首轮Chromium188/189暴露旧地区路线被抢占；保留门店证据和精确地址区名菜单路线后，原A六地区测试不改断言通过。第二候选9aadfce3冻结930项，净树五门禁全绿1431/1431、Chromium189/189+原A G6 66/66，严格G2 5/5及12页PASS；独立审计108项通过，前后status空。真实调用0，不读.env；只推工作分支等复核。 [报告](../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md)。

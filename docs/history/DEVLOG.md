@@ -5823,3 +5823,9 @@ D4 original31-region menu lacks Akabane but contains3 equivalent public home lin
 ## 2026-11-04 CET — observable location suggestions verified
 
 Final frozen9aadfce3/930 SHA entries: typecheck, arch, default1431/1431, build, ordinary Chromium189/189 + unchanged original fullG6 66/66, strictG2 5/5 and all12 pages PASS; each before/after status empty. Independent literal audit108 checks passes. First formal attempt ae5b8b75 (188/189) is retained; only Native source-priority logic then changed, preserving outlet-pointer and exact observed district-name routes. Original A six-region test passes unchanged. Constructed Tokyo link/owned-option paths each return5 in-radius source candidates with0 browser decisions, foreign/merchant/ambiguous/unmatched and outside-radius controls reject;3 admission controls preserve Guard/reserve/caps. This is not current-site DOM/network or booking completion; real calls0, no .env. Shared ledger881 immutable rows includes one new zero-call row, all main/A/prior C rows and caps preserved. Push work branch only, stop review, no main merge. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md).
+
+<a id="location-main-integration-20261104"></a>
+
+## 2026-11-04 CET — reviewed location suggestions after D8 main
+
+User approved a96f4d4e and main publication after latest D8 main. Merge7c523eae starts at3527936c; both side source/original evidence and all doc additions retained, no source conflict or implementation change. Shared budget immutable row union, one zero-call integration row, caps/counters unchanged. Fresh frozen five gates incl fullG6/strictG2 pending. C reads no .env and runs no real external call; A notification follows verified publication. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
