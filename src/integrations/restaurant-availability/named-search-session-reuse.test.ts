@@ -32,7 +32,7 @@ function request(name:string):RestaurantAvailabilityRequest{
 test("one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions",async()=>{
   const sessions:SearchSession[]=[];
   const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();sessions.push(s);return s;}};
-  const availability=new LiveBrowserAvailability(runtime,{invoke:async()=>{throw new Error("No model authorized in this fixture");}},limits);
+  const availability=new LiveBrowserAvailability(runtime,{complete:async()=>{throw new Error("No model authorized in this fixture");}},{...limits,alternativeSearch:async()=>undefined});
   availability.beginReadRun();
   const results=[];
   try{for(const name of ["Alpha Sushi","Beta Sushi","Gamma Sushi"]){const r=await availability.check(request(name),new AbortController().signal,"read-one");results.push(r);assert.equal(r.availabilityChecks[name]?.status,"UNKNOWN");assert.deepEqual(r.offers,[]);}}
