@@ -6531,3 +6531,9 @@ Final frozen9aadfce3/930 SHA entries: typecheck, arch, default1431/1431, build, 
 ## 2026-11-04 CET — reviewed location suggestions after D8 main
 
 User approved a96f4d4e and main publication after latest D8 main. Merge7c523eae starts at3527936c; both side source/original evidence and all doc additions retained, no source conflict or implementation change. Shared budget immutable row union, one zero-call integration row, caps/counters unchanged. Fresh frozen five gates incl fullG6/strictG2 pending. C reads no .env and runs no real external call; A notification follows verified publication. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
+
+<a id="location-main-integration-verified-20261104"></a>
+
+## 2026-11-04 CET — reviewed location suggestions main integration verified
+
+Frozen c708493d/900 source-input SHAs: fresh first-pass type/arch/default1439/build/Chromium189+fullG6 66/strictG2 all12 green; every before/after status empty.253 independent checks pass, including7 D8 and6 location expectations from this exact run. Both source/original-artifact sides preserved170 rows, no source conflict or repair; A originals and D8 unchanged. Shared ledger883 rows preserves both prior sets and one zero-call integration entry; caps/counters unchanged. No fixture/oracle/assertion/timeout change, skip, retry, .env read or C real call. User approved main publication and A notification; A then follows its own A-section instructions for D4/D8. [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
