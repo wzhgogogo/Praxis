@@ -1,0 +1,72 @@
+{
+  "mode": "OFFLINE_COMPONENT_DIAGNOSTIC_NOT_FULL_REPLAY",
+  "fullReplay": false,
+  "realCalls": 0,
+  "D4": {
+    "station": [
+      {
+        "recordingSequence": 337,
+        "snapshotSequence": 326,
+        "url": "https://tabelog.com/en/",
+        "control": {
+          "id": "dom:3:11",
+          "kind": "LINK",
+          "label": "Akabane Sta.（Tokyo）",
+          "controlGroupLabel": "Unlabelled group",
+          "href": "https://tabelog.com/en/"
+        },
+        "nameMatches": true,
+        "packRegionEntrance": false,
+        "combinedSelectionFilter": false
+      },
+      {
+        "recordingSequence": 351,
+        "snapshotSequence": 338,
+        "url": "https://tabelog.com/en/",
+        "control": {
+          "id": "dom:4:11",
+          "kind": "LINK",
+          "label": "Akabane Sta.（Tokyo）",
+          "controlGroupLabel": "Unlabelled group",
+          "href": "https://tabelog.com/en/"
+        },
+        "nameMatches": true,
+        "packRegionEntrance": false,
+        "combinedSelectionFilter": false
+      }
+    ],
+    "firstFilter": "native-restaurant-search.ts matchesSuggestion -> locationSuggestionMatches AND Pack isRegionEntrance",
+    "limit": "Recorded href path /en/ fails regardless of sanitized query; no claim that bypassing this filter would produce a valid submitted station query or delivery"
+  },
+  "D8": {
+    "target": {
+      "goal": "AVAILABILITY",
+      "query": "Specializing in Nodoguro Ginza Nakamata",
+      "selectionScope": "SPECIFIC_OUTLET"
+    },
+    "identity": [
+      {
+        "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+        "name": "Nakamata",
+        "boundNames": [],
+        "nativeHigh": [],
+        "resolved": false
+      },
+      {
+        "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+        "name": "Nodoguro, Ginza Nakamata Hanare",
+        "boundNames": [],
+        "nativeHigh": [],
+        "resolved": false
+      },
+      {
+        "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+        "name": "Nodoguro Nakamata",
+        "boundNames": [],
+        "nativeHigh": [],
+        "resolved": false
+      }
+    ],
+    "limit": "No accepted native identity: the approved unique-high rule has no usable exact source name; this is not the previous one-high-plus-unknown-peer condition"
+  }
+}

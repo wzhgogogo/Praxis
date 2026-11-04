@@ -1,3 +1,5 @@
+2026-11-04 CET: A在B+C1+C2 main f324f17b后已完成获批D4/D8各一次。D4 487.810秒CAPABILITY_MISS、G1未触发；D8 120.871秒NOT_EVALUATED/分店追问、B1未生成；本轮S0均0、919请求边界PASS，原评分不改。D4真实Akabane站联想名称匹配但/en/被地区入口谓词拒绝；D8本次无原生HIGH身份，与上次一HIGH/第三家UNKNOWN不同。F6保留区无新读、未超500；录制59/102。新增2Live/28模型/8GET、0重跑，累计16/34Live、460/1600模型、316/425GET；开发16/16Live已用尽，留出18Live/108GET保留。净树五门禁1447/189+66、严格G2 12页PASS；851源输入不变。不再调用，仅工作分支停下复核。 [完整报告](../.eval-artifacts/phase3b/g6-rerun-20261104/next-two/completion-report.md)。
+
 2026-11-04 CET: A已同步C1/C2及B main f324f17b，账本883行并集且支出不变；D4/D8最终源输入冻结，待净树门禁与鲜见证后串行补跑。 [报告](../.eval-artifacts/phase3b/g6-rerun-20261104/next-two/report.md)。
 
 2026-11-04 CET: A获批D4/D8各一次（Live总34、开发16；GET按需守共享425，开发计数上限仅为425−既有255=170的投影，非追加额度），原879条账本及历史结果不变。B已同步；C1/C2尚未全部发布main，先冻结原请求/11-11两槽包和只读认证命令，真实调用0；不合main。 [准备与前置条件](../.eval-artifacts/phase3b/g6-rerun-20261104/next-two/plan.md)。

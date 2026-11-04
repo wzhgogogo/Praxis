@@ -23,3 +23,7 @@ W1 freshly certified: detail+four-parameter GET2, actual same name/full address/
 D4 started2026-11-04 22:58:57JST (14:58:57CET),487.810s read,22models/5Google,0delivery,CAPABILITY_MISS/S0=0,748 independent source-boundary PASS. Ended with explicit bounded unknown; F6 reserve new-read count0, not over500. G1 private-room turn NOT_SENT because no displayed available outlet. Post-run W1 still available. Recording44/87 admitted, original score unchanged.
 
 W2 freshly re-certified with2publicGET before D8:13186922, original full address/phone verified,20:00/2 available. Cross-channel TableCheck remains user-manually confirmed, no new TableCheck GET/form. Global counters15Live/454models/314GET. D8 evidence imported and committed before paid invocation.
+
+## Final stop
+
+Both approved runs complete; no more calls. [Self-contained completion report](completion-report.md). D4 CAPABILITY_MISS/G1 not sent,D8 NOT_EVALUATED/branch ask;both newS0=0.2Live/28model/8GET;recording59/102. Global16/34Live,460/1600models,316/425GET. Raw scores unchanged.
