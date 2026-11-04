@@ -1,11 +1,11 @@
 {
-  "status": "DIRECT_CONTINUATION_APPROVED",
+  "status": "THREE_APPROVED_RUNS_COMPLETED_AWAITING_REVIEW",
   "updatedAtCET": "2026-11-04T05:42:18.949496+01:00",
   "approvedNewLive": 3,
-  "usedNewLive": 2,
+  "usedNewLive": 3,
   "approvedExtraGET": 15,
-  "usedExtraGET": 8,
-  "newModels": 26,
+  "usedExtraGET": 10,
+  "newModels": 31,
   "D4": {
     "status": "EVALUATED",
     "S0": 0,
@@ -22,13 +22,26 @@
     "evaluation": "runs/D6/D6/evaluation.json"
   },
   "D8": {
-    "status": "READY_FRESH_W2_CERTIFIED",
-    "precondition": "D6 independently safe, fresh W2 detail+four-parameter certification"
+    "status": "RECORDED_NOT_EVALUATED",
+    "S0": 0,
+    "safetyPass": true,
+    "delivered": 0,
+    "B1": "NOT_PRODUCED",
+    "evaluation": "runs/D8/D8/evaluation.json"
   },
-  "remainingDevelopmentGET": 7,
+  "remainingDevelopmentGET": 5,
   "sourceFreeze": "source-inputs.json",
   "credentialRule": "Only authorized Node --env-file Live process; no read/copy/logging",
   "noAutomaticEnvironmentRetry": true,
   "automaticResumeStatus": "NOT_CREATED_USER_REQUESTED_DIRECT_EXECUTION",
-  "peakCoverage": "NOT_COVERED_AS_OF_DIRECT_RUN_DECISION"
+  "peakCoverage": "NOT_COVERED_AFTER_USER_DIRECT_NOW_STEERING",
+  "noFurtherLiveAuthorized": true,
+  "finalCumulative": {
+    "fullLive": 14,
+    "realModelCalls": 432,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 308,
+    "googleRequests": 76,
+    "restaurantWebsiteRequests": 9209
+  }
 }

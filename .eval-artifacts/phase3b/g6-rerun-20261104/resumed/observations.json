@@ -3766,6 +3766,842 @@
         }
       ],
       "calendarCandidates": []
+    },
+    {
+      "newRequestedMetrics": {
+        "failureCodes": {
+          "BROWSER_TIMEOUT": 0,
+          "BROWSER_BUDGET_EXHAUSTED": 0
+        },
+        "failureCountBasis": "one executor failure diagnostic, excluding provider/close repetitions; not distinct physical network errors",
+        "failureEvents": [],
+        "sourceSearchEntryNavigationCount": 6,
+        "searchEntryDefinition": "Explicit GOTO to observed Tabelog rstLst or /en/tokyo/ or /en/; TableCheck /en/japan/search. Region OPEN_LINK and document redirects are separate, never counted twice.",
+        "explicitNavigationCount": 15,
+        "navigationsByOriginPath": {
+          "https://www.tablecheck.com/en/japan/search": 3,
+          "https://www.tablecheck.com/en/nakamata-nodoguro-ginza": 1,
+          "https://www.tablecheck.com/en/fugu-nakamata": 1,
+          "https://www.tablecheck.com/en/nakamata-nodoguro-hanare": 1,
+          "https://www.tablecheck.com/en/nakamata-nodoguro-tsukiji": 1,
+          "https://www.tablecheck.com/en/sushimolinari": 1,
+          "https://www.tablecheck.com/en/sushiiwa-honten": 1,
+          "https://tabelog.com/en/tokyo/rstLst/": 3,
+          "https://tabelog.com/en/tokyo/A1301/A130103/13268661/": 1,
+          "https://tabelog.com/en/tokyo/A1301/A130101/13186922/": 1,
+          "https://tabelog.com/en/tokyo/A1313/A131301/13206359/": 1
+        },
+        "discoveryNavigateOperations": 6,
+        "slowestBrowserRequests": [
+          {
+            "requestId": "capture:1:page:1:request:119",
+            "navigationId": "capture:1:navigation:2",
+            "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+            "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 8369.816999998875,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:1:page:1:request:165",
+            "navigationId": "capture:1:navigation:3",
+            "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+            "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 3618.2669999543577,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:2:page:1:request:2",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+            "urlSha256": "fbfc73c15839df30d98a8cdc67fe21935ab6e42a10c503095fe5a124eb2f4b1a",
+            "resourceType": "Stylesheet",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 2876.1580000282265,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:2:page:1:request:10",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "fa993fc1cdbb2f9cc5ca62c8aaa01c7188d060a325022e184587194b9bff898a",
+            "resourceType": "Script",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 2708.760000008624,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          },
+          {
+            "requestId": "capture:2:page:1:request:1",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tabelog.com/en/tokyo/rstLst/",
+            "urlSha256": "19b008f810010c8e0e68291db20416a72a859723bc2c73e39202fededd74d123",
+            "resourceType": "Document",
+            "status": 200,
+            "outcome": "FINISHED",
+            "endReason": null,
+            "browserElapsedMs": 2116.241000010632,
+            "endObservation": "CDP_NETWORK_TERMINAL"
+          }
+        ],
+        "browserRequestsWithoutWireEnd": 9,
+        "slowestGuardTransports": [
+          {
+            "transportId": "capture:1:transport:16",
+            "navigationId": "capture:1:navigation:2",
+            "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+            "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 8228.104959
+          },
+          {
+            "transportId": "capture:1:transport:29",
+            "navigationId": "capture:1:navigation:3",
+            "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+            "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 3479.6986249999973
+          },
+          {
+            "transportId": "capture:2:transport:2",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+            "urlSha256": "fbfc73c15839df30d98a8cdc67fe21935ab6e42a10c503095fe5a124eb2f4b1a",
+            "resourceType": "stylesheet",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 2835.7055409999957
+          },
+          {
+            "transportId": "capture:2:transport:10",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "urlSha256": "fa993fc1cdbb2f9cc5ca62c8aaa01c7188d060a325022e184587194b9bff898a",
+            "resourceType": "script",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 2639.329915999995
+          },
+          {
+            "transportId": "capture:2:transport:1",
+            "navigationId": "capture:2:navigation:1",
+            "url": "https://tabelog.com/en/tokyo/rstLst/",
+            "urlSha256": "19b008f810010c8e0e68291db20416a72a859723bc2c73e39202fededd74d123",
+            "resourceType": "document",
+            "status": 200,
+            "outcome": "RESPONSE_AVAILABLE",
+            "elapsedMs": 2101.9731670000037
+          }
+        ],
+        "timingCaution": "CDP browser elapsed and Guard API duration are independent observation points, not added as requests or called physical TTFB; cancelled requests with unknown wire end excluded from slowest completed list.",
+        "initialTurnJST": "2026-11-04T14:18:01.098000+09:00",
+        "initialTurnCET": "2026-11-04T06:18:01.098000+01:00",
+        "peak19to23JST": false
+      },
+      "id": "D8",
+      "group": "runs",
+      "runId": "g6-D8-1793769480263-0",
+      "verdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "evaluationSHA256": "36c14c3794d0a9a198fc2a30f24205b2538ba06fb978e666012057fd81ca70d7",
+      "nonPassingChecks": [
+        {
+          "rule": "BOUNDED_NO_RESULT",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+          "reason": "No-delivery wording must describe this bounded investigation",
+          "evidenceRefs": []
+        },
+        {
+          "rule": "NO_DELIVERY_WITNESS",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "witness-W2",
+          "reason": "Independently qualified witness still has the slot",
+          "evidenceRefs": [
+            "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/runs/D8/D8/witness/002-vacancy.body"
+          ]
+        }
+      ],
+      "phase": "NEEDS_INPUT",
+      "delivered": [],
+      "turns": [
+        {
+          "id": "book-first",
+          "status": "NOT_SENT",
+          "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+        }
+      ],
+      "handoffs": [],
+      "question": null,
+      "elapsedMs": 87413.048333,
+      "turnBudgets": [
+        {
+          "id": "INITIAL",
+          "startedAtMs": 1793769481098,
+          "deadlineAtMs": 1793769981098,
+          "elapsedMs": 86577.07583300001,
+          "modelCalls": 5,
+          "googleRequests": 2,
+          "exceeded500Seconds": false
+        }
+      ],
+      "modelCalls": 5,
+      "modelsByPurpose": {
+        "restaurant_semantic_interpret": {
+          "count": 1,
+          "latencyMs": 4809
+        },
+        "restaurant_agent_decide": {
+          "count": 3,
+          "latencyMs": 8394
+        },
+        "restaurant_named_source_query": {
+          "count": 1,
+          "latencyMs": 2378
+        }
+      },
+      "googleRequests": 2,
+      "schemaRetries": 0,
+      "exclusiveWallMs": {
+        "UNATTRIBUTED": 4355.04833984375,
+        "MODEL:restaurant_semantic_interpret": 4809.0,
+        "MODEL:restaurant_agent_decide": 8394.0,
+        "SESSION_STARTUP": 210.0,
+        "PAGE_LOAD_OPERATION_PROXY": 46106.0,
+        "POST_OPERATION_WAIT": 15204.0,
+        "READ_PAGE_STRUCTURE": 4906.0,
+        "RECORDING_SCREENSHOT": 971.0,
+        "MODEL:restaurant_named_source_query": 2378.0,
+        "SESSION_CLOSE": 80.0
+      },
+      "operationInclusiveMs": {
+        "openSession": 210.0,
+        "navigate": 46106.0,
+        "waitForSettled": 15204.0,
+        "snapshot": 735.0,
+        "screenshotLayoutOnly": 971.0,
+        "observeControls": 4171.0,
+        "captureResponses": 0.0,
+        "close": 135.0
+      },
+      "unfinishedOperations": [],
+      "timingLimit": "Method spans are source-operation proxies, not pure network latency. Parallel overlap uses model-first exclusive attribution. Slot duration includes setup; the first user-turn start anchors proxy bins, leaving setup/clock offsets unattributed. Per-turn durations and F6 deadlines are authoritative boundary observations; slot totals may exceed 500 seconds. Google wait and complete-evidence timestamp remain unassessed; no timing establishes qualification.",
+      "firstServerPresentationCET": null,
+      "firstCompleteQualifiedEvidenceAt": null,
+      "screenRenderingObserved": false,
+      "F6": {
+        "exceeded500Seconds": false,
+        "sourceReadsStartedInReserve": 0,
+        "termsWorkStartedInReserve": 0
+      },
+      "guardForbiddenReachedSource": 0,
+      "actions": [
+        {
+          "step": 1,
+          "atCET": "2026-11-04T06:18:07.645000+01:00",
+          "action": {
+            "type": "SEARCH_RESTAURANTS",
+            "retrievalHint": "Nodoguro Ginza Nakamata"
+          },
+          "metadata": {
+            "route": "STRUCTURED_ADAPTER",
+            "provider": "GOOGLE_PLACES",
+            "latencyMs": 1690,
+            "googleRequests": {
+              "limit": 40,
+              "total": 1,
+              "discovery": 1,
+              "placeDetails": 0,
+              "namedPlaceResolution": 0,
+              "reverseAddressObservation": 0
+            },
+            "googleGeoDiagnostics": {
+              "candidates": [
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJU2773eCLGGARq3ervhbV3po"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJX_LmUt6LGGARrbstvmOzgj8"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJ6eMSipuLGGARZwoY4_VvcY8"
+                },
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_AMBIGUOUS",
+                  "sourcePlaceId": "ChIJr4iC5uaLGGAR_And1MTEjHU"
+                }
+              ],
+              "requestMode": "UNRESTRICTED",
+              "providerMode": "GOOGLE_TEXT_SEARCH",
+              "exactRadiusGate": "NOT_APPLICABLE"
+            }
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 2,
+          "atCET": "2026-11-04T06:18:11.597000+01:00",
+          "action": {
+            "type": "INVESTIGATE_CANDIDATE_FACTS",
+            "candidateIds": [
+              "praxis:restaurant:399b940d8930096624424dba",
+              "praxis:restaurant:083eb6605d4a82e97dc952d5",
+              "praxis:restaurant:94d9715550e9ca87d301b895"
+            ]
+          },
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "browser": {
+              "engine": "CHROMIUM",
+              "sessionId": "local:57ec729f-d3bc-4981-9dae-f2eb69c13e5f",
+              "startedAt": "2026-11-04T05:18:55.092Z",
+              "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+              "readNetworkBoundary": "INSTALLED"
+            },
+            "provider": "AVAILABILITY_SOURCE_RESOLVER",
+            "latencyMs": 71489,
+            "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+            "providerAttempts": [
+              {
+                "outcome": "UNKNOWN",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:399b940d8930096624424dba"
+              },
+              {
+                "outcome": "UNKNOWN",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+                "failureCode": "TABLECHECK_ENTITY_MATCH_UNCERTAIN"
+              },
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+                "failureCode": "ENTITY_MATCH_UNCERTAIN"
+              }
+            ]
+          },
+          "outcome": "EXECUTED"
+        },
+        {
+          "step": 3,
+          "atCET": "2026-11-04T06:19:27.573000+01:00",
+          "action": {
+            "type": "ASK_USER",
+            "question": "The name \"Nodoguro Ginza Nakamata\" matches several different outlets, so I can't confirm which one you mean. Which branch would you like me to check for 2 people on November 11, 2026 at 8:00 PM? Options found: (1) Nakamata — Ginza 4-chōme 10-12, Ginza Samariya Bldg B1F; (2) Nodoguro, Ginza Nakamata Hanare — 3-chōme 12-17 Ginza; (3) Nodoguro Nakamata — 2-chōme 15-15-1F Tsukiji, Higashi-Ginza; (4) Sakananonakamata Ginza — 3-chōme 14-17, Kobikiss GINZa 2F; (5) Nodogurono Nakamata Shinbashi — 2-chōme 11-1, Shinbashi, Minato City.",
+            "relatedFields": [
+              "outlet"
+            ]
+          },
+          "metadata": null,
+          "outcome": "WAITING_USER"
+        }
+      ],
+      "witnessFunnel": {
+        "found": false,
+        "candidateId": null,
+        "candidate": null,
+        "factCheck": null,
+        "availabilityCheck": null,
+        "presented": false,
+        "certificatesAndPostChecks": [
+          {
+            "checkedAt": "2026-11-04T05:13:37.994Z",
+            "kind": "BEFORE",
+            "target": {
+              "candidateId": "witness-W2",
+              "name": "のどぐろ専門 銀座 中俣",
+              "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+              "provider": "TABELOG",
+              "sourceEntityId": "13186922",
+              "date": "2026-11-11",
+              "time": "20:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+              "identityText": [
+                "4-10-12"
+              ],
+              "allowDetailOnlyCertificate": true
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/certificates/W2/002-vacancy.body",
+              "phase": "BEFORE",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13186922&svd=20261111&svps=2&svt=2000",
+              "candidateId": "witness-W2",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1700"
+                  },
+                  "1": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1715"
+                  },
+                  "2": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1730"
+                  },
+                  "3": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1745"
+                  },
+                  "4": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1800"
+                  },
+                  "5": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2000"
+                  },
+                  "6": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2015"
+                  },
+                  "7": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2030"
+                  },
+                  "8": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2045"
+                  },
+                  "9": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2100"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "20:00"
+              }
+            },
+            "responseSHA256": "f560eeb03e3054574bc51b2a886f9f04ed85191070efe50ca4d175ecadb0830b",
+            "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/certificates/W2/001-detail.body",
+            "detailSHA256": "3e3daab5e85eeaf01deaa083f5823a26808e884546be9887e853be68dedcc694"
+          },
+          {
+            "checkedAt": "2026-11-04T05:19:33.092Z",
+            "kind": "NO_DELIVERY_AFTER",
+            "target": {
+              "candidateId": "witness-W2",
+              "name": "のどぐろ専門 銀座 中俣",
+              "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+              "provider": "TABELOG",
+              "sourceEntityId": "13186922",
+              "date": "2026-11-11",
+              "time": "20:00",
+              "partySize": 2,
+              "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+              "identityText": [
+                "4-10-12"
+              ],
+              "allowDetailOnlyCertificate": true
+            },
+            "evidenceMode": "AVAILABILITY",
+            "exists": true,
+            "vacancy": {
+              "ref": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/runs/D8/D8/witness/002-vacancy.body",
+              "phase": "NO_DELIVERY_AFTER",
+              "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13186922&svd=20261111&svps=2&svt=2000",
+              "candidateId": "witness-W2",
+              "body": {
+                "selection": {
+                  "0": {
+                    "time": "17:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1700"
+                  },
+                  "1": {
+                    "time": "17:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1715"
+                  },
+                  "2": {
+                    "time": "17:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1730"
+                  },
+                  "3": {
+                    "time": "17:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1745"
+                  },
+                  "4": {
+                    "time": "18:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=1800"
+                  },
+                  "5": {
+                    "time": "20:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2000"
+                  },
+                  "6": {
+                    "time": "20:15",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2015"
+                  },
+                  "7": {
+                    "time": "20:30",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2030"
+                  },
+                  "8": {
+                    "time": "20:45",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2045"
+                  },
+                  "9": {
+                    "time": "21:00",
+                    "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2100"
+                  }
+                },
+                "base_date": {
+                  "year": 2026,
+                  "month": 11,
+                  "day": 11,
+                  "dow": "Wed"
+                },
+                "members": 2,
+                "time": "20:00"
+              }
+            },
+            "responseSHA256": "f560eeb03e3054574bc51b2a886f9f04ed85191070efe50ca4d175ecadb0830b",
+            "detailRef": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/runs/D8/D8/witness/001-detail.body",
+            "detailSHA256": "1ddf5b970c2d910448a76154d7f0fb33f35e867b6cb15dfb6b921ce33d571eb0"
+          }
+        ]
+      },
+      "recording": {
+        "recordingConfig": {
+          "browser": true,
+          "decisions": true,
+          "googleResponses": true
+        },
+        "decisions": {
+          "path": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/runs/D8/D8/execution.decisions.jsonl",
+          "sha256": "274c949ddd436d10d14014b32df6158749beb749e82cfadecd0f9d8e0223cf58",
+          "callsStarted": 5,
+          "rowsWritten": 5,
+          "errors": []
+        },
+        "schemaVersion": "phase3b-g6-recording-observation@1",
+        "status": "RECORDED",
+        "qualifiedPages": 8,
+        "totalPages": 25,
+        "ratio": 0.32,
+        "pages": [
+          {
+            "snapshot": 1,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nakamata&geo_latitude=35.6701718&geo_longitude=139.76696809999999&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0001.html"
+            }
+          },
+          {
+            "snapshot": 2,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nakamata&geo_latitude=35.6701718&geo_longitude=139.76696809999999&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0002.html"
+            }
+          },
+          {
+            "snapshot": 3,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nakamata&geo_latitude=35.6701718&geo_longitude=139.76696809999999&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0003.html"
+            }
+          },
+          {
+            "snapshot": 4,
+            "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0004.html"
+            }
+          },
+          {
+            "snapshot": 5,
+            "url": "https://www.tablecheck.com/en/fugu-nakamata",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0005.html"
+            }
+          },
+          {
+            "snapshot": 6,
+            "url": "https://www.tablecheck.com/en/fugu-nakamata",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0006.html"
+            }
+          },
+          {
+            "snapshot": 7,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro%2C+Ginza+Nakamata+Hanare&geo_latitude=35.670777300000005&geo_longitude=139.7689264&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0007.html"
+            }
+          },
+          {
+            "snapshot": 8,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro%2C+Ginza+Nakamata+Hanare&geo_latitude=35.670777300000005&geo_longitude=139.7689264&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0008.html"
+            }
+          },
+          {
+            "snapshot": 9,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro%2C+Ginza+Nakamata+Hanare&geo_latitude=35.670777300000005&geo_longitude=139.7689264&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0009.html"
+            }
+          },
+          {
+            "snapshot": 10,
+            "url": "https://www.tablecheck.com/en/nakamata-nodoguro-hanare",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0010.html"
+            }
+          },
+          {
+            "snapshot": 11,
+            "url": "https://www.tablecheck.com/en/nakamata-nodoguro-hanare",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0011.html"
+            }
+          },
+          {
+            "snapshot": 12,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro+Nakamata&geo_latitude=35.667397799999996&geo_longitude=139.7702798&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0012.html"
+            }
+          },
+          {
+            "snapshot": 13,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro+Nakamata&geo_latitude=35.667397799999996&geo_longitude=139.7702798&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0013.html"
+            }
+          },
+          {
+            "snapshot": 14,
+            "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Nodoguro+Nakamata&geo_latitude=35.667397799999996&geo_longitude=139.7702798&geo_distance=5km&auto_geolocate=false",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0014.html"
+            }
+          },
+          {
+            "snapshot": 15,
+            "url": "https://www.tablecheck.com/en/nakamata-nodoguro-tsukiji",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0015.html"
+            }
+          },
+          {
+            "snapshot": 16,
+            "url": "https://www.tablecheck.com/en/sushimolinari",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0016.html"
+            }
+          },
+          {
+            "snapshot": 17,
+            "url": "https://www.tablecheck.com/en/sushiiwa-honten",
+            "qualified": false,
+            "reason": "UNCAPTURED_STATIC_DEPENDENCY",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0017.html"
+            }
+          },
+          {
+            "snapshot": 18,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro%20Nakamata",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0018.html"
+            }
+          },
+          {
+            "snapshot": 19,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro%20Nakamata",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0019.html"
+            }
+          },
+          {
+            "snapshot": 20,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=Nodoguro",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0020.html"
+            }
+          },
+          {
+            "snapshot": 21,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130103/13268661/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0021.html"
+            }
+          },
+          {
+            "snapshot": 22,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0022.html"
+            }
+          },
+          {
+            "snapshot": 23,
+            "url": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0023.html"
+            }
+          },
+          {
+            "snapshot": 24,
+            "url": "https://tabelog.com/en/tokyo/rstLst/?sw=%E3%81%AE%E3%81%A9%E3%81%90%E3%82%8D%E3%81%AE%E4%B8%AD%E4%BF%A3%20%E7%AF%89%E5%9C%B0",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0024.html"
+            }
+          },
+          {
+            "snapshot": 25,
+            "url": "https://tabelog.com/en/tokyo/A1313/A131301/13206359/",
+            "qualified": true,
+            "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+            "diagnostic": {
+              "status": "SAVED",
+              "file": "diagnostic/snapshot-0025.html"
+            }
+          }
+        ],
+        "recordingPath": "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/runs/D8/D8/recordings/g6-D8-1793769480263-0",
+        "replayStatus": "PARTIALLY_REPLAYABLE"
+      },
+      "googleResponsesInHAR": 2,
+      "uncapturedScriptsOriginPathOnly": [
+        {
+          "origin": "https://assets.adobedtm.com/",
+          "path": "/3687940b53f7a560587a33c8bb748b9253ff5ea9/satelliteLib-15b13f3fd03e00e11fcd40b9f97c8b58a9ca6e66.js",
+          "outcome": "BLOCKED"
+        },
+        {
+          "origin": "https://umami-next.post.tablecheck.com/",
+          "path": "/script.js",
+          "outcome": "BLOCKED"
+        },
+        {
+          "origin": "https://www.tablecheck.com/",
+          "path": "/portal/assets/index-KCcaxOlR.js",
+          "outcome": "ADMITTED"
+        }
+      ],
+      "calendarCandidates": []
     }
   ]
 }

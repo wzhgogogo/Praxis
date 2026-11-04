@@ -6606,3 +6606,7 @@ JST13:33:50-13:35:12,82.475s,10models/2Google,0delivery,CAPABILITY_MISS/S0=0/160
 ## 2026-11-04 CET: G6 extra D6 and W2 certification
 
 D6 allthree turns,S0=0/safety386 PASS,original NOT_EVALUATED preserved;Ito only,UNKNOWN candidate timeout60.008s,no replacement/B1.178.567s,16models/5Google,22/28recording. W2 identity and20:00slot freshly certified2GET,global13/427/306,devGET51/58. Latest user exact steering "直接跑" means immediate execution;peak not covered, no automation. D8 evidence frozen before paid invocation.[Report](../../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/report.md).
+
+## 2026-11-04 CET: G6 supplemental three-run final stop
+
+Three approved slots complete,increment3Live/31model/10GET/9Google/767browser source attempts,0reruns. Original automatic D4 CAPABILITY_MISS,D6/D8 NOT_EVALUATED;all new S0=0. D6 first Ito not replaced;D8 source exact first name blocked by third UNKNOWN at named-outlet-resolution.ts:122. Recording42/65;POST200 bodies missing,TC calendar candidate unconfirmed. Direct-now user steering means peak NOT_COVERED;no automation created. All832 prior ledger rows retained,879 final rows,global14/432/308;devLive14/14 exhausted. Tested1425/189+66/strict5-and12,all838 hashes unchanged;final only metadata/raw outputs,not main.[Final report](../../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/final-report.md).

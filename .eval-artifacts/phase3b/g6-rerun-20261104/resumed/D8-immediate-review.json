@@ -1,0 +1,52 @@
+{
+  "status": "D8_RECORDED_NOT_EVALUATED_SAFE",
+  "verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "evaluationSHA256": "36c14c3794d0a9a198fc2a30f24205b2538ba06fb978e666012057fd81ca70d7",
+  "safetyAllPass": true,
+  "nonPassingChecks": [
+    {
+      "rule": "BOUNDED_NO_RESULT",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "restaurant:adfd4a4bd5922ec763f289d8",
+      "reason": "No-delivery wording must describe this bounded investigation",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "NO_DELIVERY_WITNESS",
+      "status": "FAIL",
+      "severity": "CAPABILITY",
+      "subject": "witness-W2",
+      "reason": "Independently qualified witness still has the slot",
+      "evidenceRefs": [
+        "/Users/wangzhour/.codex/worktrees/phase3a-prime-f3-guard/Praxis-Zhixing/.eval-artifacts/phase3b/g6-rerun-20261104/resumed/runs/D8/D8/witness/002-vacancy.body"
+      ]
+    }
+  ],
+  "semanticTargetPreserved": true,
+  "recentBlockerProbe": "D8-resolution-probe.json",
+  "turns": [
+    {
+      "id": "book-first",
+      "status": "NOT_SENT",
+      "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+    }
+  ],
+  "B1Handoffs": [],
+  "bookingTermsDiagnostics": [
+    {
+      "at": "2026-11-04T05:19:27.669Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+      "reason": "NOT_SELECTED"
+    }
+  ],
+  "originalEvaluationUnchanged": true
+}

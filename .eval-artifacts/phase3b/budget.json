@@ -11660,15 +11660,118 @@
       "environmentReruns": 0,
       "restaurantWebsiteRequests": 1,
       "note": "vacancy; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-D8-1793769480263-0:LIVE",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T05:18:00.265Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 1,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "Frozen G6 serial slot; browser, decisions and Google recording on"
+    },
+    {
+      "id": "g6-D8-1793769480263-0:MODEL:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T05:18:01.103Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 1,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "restaurant_semantic_interpret"
+    },
+    {
+      "id": "g6-D8-1793769480263-0:MODEL:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T05:18:05.937Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 1,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "restaurant_agent_decide"
+    },
+    {
+      "id": "g6-D8-1793769480263-0:MODEL:3",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T05:18:09.360Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 1,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "restaurant_agent_decide"
+    },
+    {
+      "id": "g6-D8-1793769480263-0:MODEL:4",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T05:19:00.556Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 1,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "restaurant_named_source_query"
+    },
+    {
+      "id": "g6-D8-1793769480263-0:MODEL:5",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T05:19:23.101Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 1,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "note": "restaurant_agent_decide"
+    },
+    {
+      "id": "g6-D8-1793769480263-0:GET:1",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T05:19:27.677Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "detail; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-D8-1793769480263-0:GET:2",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T05:19:32.686Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "vacancy; public credential-free GET, no retry"
+    },
+    {
+      "id": "g6-D8-1793769480263-0:SOURCE_IO",
+      "conversation": "A",
+      "recordedAtUTC": "2026-11-04T05:19:33.110Z",
+      "mode": "G6_SOURCE_IO_OBSERVATION",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 0,
+      "environmentReruns": 0,
+      "googleRequests": 2,
+      "restaurantWebsiteRequests": 221,
+      "note": "Actual source transport starts; no quotas charged twice; witness GETs have their own rows."
     }
   ],
   "cumulative": {
-    "fullLive": 13,
-    "realModelCalls": 427,
+    "fullLive": 14,
+    "realModelCalls": 432,
     "environmentReruns": 0,
-    "evaluationPublicGET": 306,
-    "googleRequests": 74,
-    "restaurantWebsiteRequests": 8986
+    "evaluationPublicGET": 308,
+    "googleRequests": 76,
+    "restaurantWebsiteRequests": 9209
   },
   "mergeRule": "Union by id; identical dedup; differing same-id records stop. publicGET in A entries is the same allocation as evaluationPublicGET, counted once. Preserve original rows.",
   "sourceSnapshots": [
