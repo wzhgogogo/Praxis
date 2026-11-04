@@ -1,3 +1,5 @@
+2026-11-04 CET: A已同步C1/C2及B main f324f17b，账本883行并集且支出不变；D4/D8最终源输入冻结，待净树门禁与鲜见证后串行补跑。 [报告](../.eval-artifacts/phase3b/g6-rerun-20261104/next-two/report.md)。
+
 2026-11-04 CET: A获批D4/D8各一次（Live总34、开发16；GET按需守共享425，开发计数上限仅为425−既有255=170的投影，非追加额度），原879条账本及历史结果不变。B已同步；C1/C2尚未全部发布main，先冻结原请求/11-11两槽包和只读认证命令，真实调用0；不合main。 [准备与前置条件](../.eval-artifacts/phase3b/g6-rerun-20261104/next-two/plan.md)。
 
 2026-11-04 CET: A extra D4/D6/D8 finished, all new S0=0, no qualified booking delivery. D4 CAPABILITY_MISS/G1 not triggered; D6 Ito continuity retained but UNKNOWN candidate60s timeout; D8 exact first source name present, third UNKNOWN blocks prefix resolution, asks branch. Original scores unchanged. Recording42/65,TableCheck Hanare calendar candidate unconfirmed (POST bodies not persisted). Latest user direct-now steering executed off-peak; peak NOT_COVERED. Global14/32Live,432/1600model,308/425GET;development14/14Live,191/400model,53/58GET. No more calls/main merge.[Final report](../.eval-artifacts/phase3b/g6-rerun-20261104/resumed/final-report.md).

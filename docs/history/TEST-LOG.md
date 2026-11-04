@@ -6671,3 +6671,5 @@ Frozen c708493d/900 source-input SHAs: fresh first-pass type/arch/default1439/bu
 ## 2026-11-04 CET — Location publication blocked
 
 2026-11-04 CET：地点联想合入发布受阻。源码净树五门禁1439/1439、Chromium189/189+G6 66/66、严格G2全12页均绿；GitHub四次推送返回服务端错误（含commit_refs_rules），最终ls-remote确认main仍为3527936c，合入分支未建立。未通知A开跑；本地合入与证据保留，无源码/冻结输入改动，待远端发布后才交接。 [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
+
+2026-11-04 CET: A D4/D8 now synchronize published main f324f17b (B+C1+C2), union883 rows with zero new charges. Final source/outer scripts frozen before full gates; original evaluation/oracles unchanged.
