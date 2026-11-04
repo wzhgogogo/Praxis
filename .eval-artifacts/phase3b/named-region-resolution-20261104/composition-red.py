@@ -7,7 +7,9 @@ old=subprocess.check_output(['git','show','be84674e:'+file])
 with tempfile.TemporaryDirectory(prefix='praxis-d8-red-',dir='/private/tmp') as folder:
     temp=pathlib.Path(folder)
     archive=subprocess.check_output(['git','archive','HEAD','src','scripts','package.json','package-lock.json','tsconfig.json'])
-    with tarfile.open(fileobj=io.BytesIO(archive)) as tar:tar.extractall(temp,filter='data')
+    with tarfile.open(fileobj=io.BytesIO(archive)) as tar:
+        assert all(not pathlib.PurePosixPath(m.name).is_absolute() and '..' not in pathlib.PurePosixPath(m.name).parts for m in tar.getmembers())
+        tar.extractall(temp)
     (temp/file).write_bytes(old)
     (temp/'node_modules').symlink_to(root/'node_modules',target_is_directory=True)
     start=time.monotonic()
