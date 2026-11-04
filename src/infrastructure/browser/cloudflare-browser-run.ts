@@ -215,6 +215,8 @@ class CloudflareBrowserSession implements BrowserSession {
     });
   }
 
+  isClosed(): boolean { return this.closed || this.page.isClosed() || !this.browser.isConnected(); }
+
   async close(): Promise<void> {
     if (this.closed) return;
     this.closed = true;

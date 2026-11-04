@@ -27,6 +27,7 @@ class SearchSession implements BrowserSession {
   async select(_id:string,value:string){return [value];}
   async waitFor(){}
   async screenshot(){return new Uint8Array();}
+  isClosed(){return this.closed>0;}
   async close(){this.closed++;}
 }
 const limits={maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:40};
@@ -64,7 +65,11 @@ test("a failed reused session retires without retry; the next candidate gets a f
   const sessions:SearchSession[]=[];
   const availability=new LiveBrowserAvailability({openSession:async()=>{
     const s=new SearchSession();
-    if(sessions.length===0)s.click=async()=>{throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED","fixture context closed");};
+    if(sessions.length===0){
+      let contextLost=false;
+      s.isClosed=()=>contextLost||s.closed>0;
+      s.click=async()=>{contextLost=true;throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED","fixture context closed");};
+    }
     sessions.push(s);return s;
   }},{complete:async()=>{throw new Error("No model");}},{...limits,alternativeSearch:async()=>undefined});
   availability.beginReadRun();

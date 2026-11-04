@@ -1,0 +1,89 @@
+
+> praxis-zhixing@0.1.0 test:g6:assembly
+> node scripts/run-g6-fixtures.mjs
+
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/capabilities.test.ts"}
+✖ G6 capability RENAMED: observed controls reach current response-bound presentation (7007.763375ms)
+✖ G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation (6605.593708ms)
+✔ G6 capability RESPONSE_MISSING: visible date/guests never replace missing or changed vacancy data (520.082958ms)
+✔ G6 capability RESPONSE_CHANGED: visible date/guests never replace missing or changed vacancy data (498.294125ms)
+✔ G6 capability PRICE_MATCH: only applicable original quotation supports HARD budget MET (506.062375ms)
+✔ G6 capability PRICE_PARTY: only applicable original quotation supports HARD budget MET (506.566833ms)
+✔ G6 capability PRICE_DATE: only applicable original quotation supports HARD budget MET (508.706792ms)
+✔ G6 capability PRICE_MEAL: only applicable original quotation supports HARD budget MET (528.5295ms)
+✔ G6 capability G4: same-ID Japanese lookup drives the third source query to the same outlet (502.214917ms)
+✔ G6 capability G1 Web: authenticated question acquires a page through the production read assembly (531.308ms)
+✔ G6 capability B1 fee and feedback: source-acquired handoff survives authenticated departure and user report (516.204875ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/capabilities.test.ts","elapsedMs":18767.029875,"passed":false}
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_START","file":"src/eval/restaurant/agent-loop/g6/runner.test.ts"}
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (6982.4225ms)
+✔ G6 each user message receives a fresh read budget after an initial 483-second read (572.064958ms)
+✔ G6 records a safe unassessed clarification and continues to the next full Live-assembly slot (1061.149875ms)
+✔ G6 serial Runner obtains G1 pages through Live assembly, records all channels, checks each slot and stops before the next slot on independent S0 (1124.238833ms)
+✔ G6 frozen pack refuses changed bytes before constructing any source transport (0.923375ms)
+✔ G6 Runner authoritative pending question controls date reply: asked date (523.822167ms)
+✔ G6 Runner authoritative pending question controls date reply: asked partySize (524.998333ms)
+[browser fixtures] {"phase":"G6 capability and evaluator fixtures (exclusive)","event":"FILE_END","file":"src/eval/restaurant/agent-loop/g6/runner.test.ts","elapsedMs":11239.874292,"passed":false}
+ℹ tests 18
+ℹ suites 0
+ℹ pass 15
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 30008.413
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:1228
+✖ G6 capability RENAMED: observed controls reach current response-bound presentation (7007.763375ms)
+  AssertionError [ERR_ASSERTION]: Root production composition must deliver after source controls are observed
+  + actual - expected
+  
+  + 'NEEDS_INPUT'
+  - 'PRESENT_RESULTS'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:26:12)
+      at control (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:12:51)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:25:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NEEDS_INPUT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/capabilities.test.ts:1:1228
+✖ G6 capability CONTROL_FALLBACK: observed controls reach current response-bound presentation (6605.593708ms)
+  AssertionError [ERR_ASSERTION]: Root production composition must deliver after source controls are observed
+  + actual - expected
+  
+  + 'NEEDS_INPUT'
+  - 'PRESENT_RESULTS'
+  
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:26:12)
+      at control (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:12:51)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/capabilities.test.ts:25:3)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NEEDS_INPUT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/runner.test.ts:1:534
+✖ G6 Runner serializes a user-named identity from actual Runtime State into the evaluation request (6982.4225ms)
+  AssertionError [ERR_ASSERTION]: {"binding":{"history":[],"presentations":[],"issues":[]},"turns":[{"id":"INITIAL","phase":"NEEDS_INPUT","target":{"goal":"AVAILABILITY","query":"restaurant in Shibuya","selectionScope":"OPEN_ENDED","requestedResultCount":1}}],"references":{"initial":null,"turns":[{"turnId":"INITIAL","userMessage":"Find one restaurant in Shibuya for two on November 11, 2026 at 7 PM.","before":{"candidates":[]},"after":{"candidates":[{"restaurant":{"id":"praxis:restaurant:bd287442c716ac7439273cc9","outletName":"G6 Development Sushi","sourceIds":{"phone":"03-1234-5678","googlePlaces":"g6-development-outlet","googleWebsiteUri":"https://tabelog.com/en/tokyo/A1301/A130101/13123456/","discoverySourceId":"google-places"},"address":"1-2-3 Shibuya Tokyo"}}],"intentDraft":{"target":{"selectionScope":"OPEN_ENDED"}},"readEvidence":[{"candidateId":"praxis:restaurant:bd287442c716ac7439273cc9","kind":"ENTITY_MATCH","provider":"GOOGLE_PLACES","sourceEntityId":"g6-development-outlet","entityMatch":{"confidence":"HIGH"}},{"candidateId":"praxis:restaurant:bd287442c716ac7439273cc9","kind":"ENTITY_MATCH","provider":"TABELOG","sourceEntityId":"en/tokyo/A1301/A130101/13123456","entityMatch":{"confidence":"HIGH"}}]},"events":[{"id":"event:user:5909354f22b62ab5d4a658f4cac942a6","trace":{"actor":"USER"},"event":{"type":"SEMANTIC_PROPOSAL_COMPILED","patch":{"target":{"selectionScope":"OPEN_ENDED"}}}},{"id":"event:restaurant-agent:ac01e8e3-75c2-4dc8-88ca-b49a916cc0ea","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_COMPLETED"}},{"id":"event:restaurant-agent:db4d5028-3f54-4986-9c59-35fe6eeee81c","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_COMPLETED"}},{"id":"event:restaurant-agent:09793091-119b-4714-bc28-b46b8e0895b1","trace":{"actor":"ADAPTER"},"event":{"type":"SEARCH_COMPLETED"}},{"id":"event:restaurant-agent:dfd084fd-86e0-463f-bb31-cf1cac54ed62","trace":{"actor":"ADAPTER"},"event":{"type":"AVAILABILITY_CHECKED"}},{"id":"event:restaurant-agent:ca3d943d-2041-49ba-9cf6-fc78e534911a","trace":{"actor":"SYSTEM"},"event":{"type":"AGENT_ASKED_USER"}}]}]}}
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/g6/runner.test.ts:27:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '=='
+  }
