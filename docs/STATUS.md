@@ -1,4 +1,4 @@
-2026-11-04 CET：C地点联想离线候选（未合main）：从已观察Tabelog首页链接填入用户地名，仅唯一可观察地点/站名匹配才读取来源结果；店名、异地、歧义拒绝，原坐标半径核对及Guard/预算/20秒保留不变。真实Chromium/HAR普通组装6例绿，缺Guard/保留取消/操作上限3控制绿；有效旧源码红灯实际误入Itabashi并返回0。同步B main de2b7ecc候选90s；新鲜净树五门禁/严格G2含原A完整G6待跑。真实调用0，不读.env；只推工作分支等复核。 [报告](../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md)。
+2026-11-04 CET：C地点联想离线候选（未合main）：从已观察Tabelog首页链接填入用户地名，仅唯一可观察地点/站名匹配才读取来源结果；店名、异地、歧义拒绝，原坐标半径核对及Guard/预算/20秒保留不变。真实Chromium/HAR普通组装6例绿，缺Guard/保留取消/操作上限3控制绿；有效旧源码红灯实际误入Itabashi并返回0。同步B main de2b7ecc候选90s；首轮Chromium188/189暴露旧地区路线被抢占；保留门店证据和精确地址区名菜单路线后，原A六地区测试不改断言通过。第二轮净树五门禁/严格G2含原A完整G6待跑。真实调用0，不读.env；只推工作分支等复核。 [报告](../.eval-artifacts/phase3b/tabelog-location-suggestions-20261104/report.md)。
 
 2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
 
