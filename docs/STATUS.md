@@ -1,3 +1,5 @@
+2026-11-04 CET：B按批准集成A44973e83与最新main22415b57，merge e50f935d无源码冲突，文档双方保留。829账目原值保留，总公开GET上限按用户改410，累计298不变、余112覆盖留出预留108；新增真实调用0。新鲜五门禁/严格G2待跑；最新main多1项时间线测试，完整Chromium预计189（原188全保留），验收数量待澄清后才发布main。 [集成报告](../.eval-artifacts/phase3b/resource-policy-main-20261104/report.md)。
+
 2026-11-04 CET：A按用户批准，在B c1c1187a上同步三个图片fixture的精确保留声明；原断言逐字保留，真实本地Chromium三条红→绿，生产策略/站点不改。净树五门禁全绿：默认1410/1410、Chromium188/188，严格G2 5/5及12页PASS，逐项前后status为空；真实调用0。 [报告](../.eval-artifacts/phase3b/retained-image-fixtures-20261104/report.md)。
 
 2026-11-04 CET：B完成W1真实逐请求测量8/8（HTTP2、main3、资源策略3，均200），旧20s超时未复现。HTTP首字节1.45–1.80s；main DCL中位4.064s、load7.191s，策略3.866s/3.909s。末个成功Script/CSS多commons/Sentry，main2 colorbox.css4.08s；最后失败图片/字体不能当阻塞因果。CDP headers不是wire TTFB，策略组initial_vacancy关闭后物理结束未知，不宣称业务提速/故障关闭。产品/A/C不改，新增模型0、GET8、Guard admitted+HTTP222；总GET余102小于预留108，后续预算差6交复核，不擅调总额/预留。静态预检通过，完整门禁复用同源码8e1ff388（1410/185-of-188、严格G2全12页）；三A fixture继续暂缓。不合main，工作分支交复核。 [报告](../.eval-artifacts/phase3b/w1-request-timeline-20261104/report.md)。

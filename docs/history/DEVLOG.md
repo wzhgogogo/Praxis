@@ -5736,3 +5736,8 @@ D3原17文件和两页可见文字SHA冻结，首个完整DOM渲染少8字符的
 ### 2026-11-03 CET - Request timeline final publication
 
 2026-11-03 CET：逐请求/导航录制交付完成。main共享代码净树五门禁1404/189、严格G2 5/5；G6分支10dfc1d9实际Chromium接线红绿及完整1412/189+66/严格G2全绿。生产Guard/评分/Recorder脱敏准入不变，新真实调用0。G6代码未合main，未来Live使用已同步分支。账本并入B既有6次比较读，821条原值保留，累计GET290/400、Live11/29、模型401/1600。B/C已收到首次发布通知，最终回执随后发送。
+
+
+<a id="resource-policy-main-20261104"></a>
+
+2026-11-04 CET：B按批准集成A44973e83与最新main22415b57，merge e50f935d无源码冲突，文档双方保留。829账目原值保留，总公开GET上限按用户改410，累计298不变、余112覆盖留出预留108；新增真实调用0。新鲜五门禁/严格G2待跑；最新main多1项时间线测试，完整Chromium预计189（原188全保留），验收数量待澄清后才发布main。 [集成报告](../../.eval-artifacts/phase3b/resource-policy-main-20261104/report.md)。
