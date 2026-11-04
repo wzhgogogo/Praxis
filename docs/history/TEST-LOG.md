@@ -6491,3 +6491,9 @@ B已先在main f0bee7d7发布，C fd07f44e获复核默认1389/Chromium188/严格
 ## 2026-11-04 CET — D8 sole verified name and Akabane saved-record diagnosis
 
 Exposed development, offline candidate, not integrated. D8 original authoritative fields plus unknown exact-name/same-ID Japanese-name/two HIGH homonym controls. Isolated old-source ordinary assembly fails NEEDS_INPUT vs PRESENT_RESULTS; fixed assembly passes without source/identity/availability changes. Four observed region menus have no Akabane target; model guesses Itabashi. Later outlet breadcrumbs show Sugamo→Akabane, with no captured parent-menu transition. Identical Google searchText restrictions return25/25/25/0; latest raw response HTTP200 `{}`. No region/Google code change or new external request. Imported A92bc1032 G6 tests and dependencies byte-for-byte, all assertions unchanged; required historical evidence preserves original scores. Full clean-tree gates pending. [Report](../../.eval-artifacts/phase3b/named-region-resolution-20261104/report.md).
+
+<a id="named-region-resolution-verified-20261104"></a>
+
+## 2026-11-04 CET — D8 and four-run region diagnosis verified
+
+Frozen bebe0a41 /934 source+input SHAs: typecheck, arch, default1425/1425, build, ordinary Chromium189/189 plus A-original fullG6 66/66, strictG2 5/5 and all12 valid pages PASS, target D8 component9 plus ordinary assembly1. Every gate before/after clean; no formal gate failure, assertion edits, skip or retry. Original D8 component red (2 failures) and isolated old-source assembly business assertion red retained. The only product delta is the approved name predicate; source adapters, Google, region routing, Guard, budget, reserve and versions unchanged. Independent audit and final report archived; work branch only, no main merge and no external calls. [Report](../../.eval-artifacts/phase3b/named-region-resolution-20261104/report.md).
