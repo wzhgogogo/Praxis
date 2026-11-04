@@ -13,10 +13,10 @@ function identity(state:RestaurantTaskState,i:number,name:string):RestaurantRead
     sourceEntityId:String(13123456+i),sourceUrl:`https://tabelog.com/en/tokyo/A1301/A130101/${13123456+i}/`,observedAt:"2026-11-03T04:57:24.888Z",
     requestFingerprint:"component-only",claims:{observedOutletName:name},entityMatch:{confidence:"HIGH",matchedBy:["COMPONENT_ONLY"]}};
 }
-test("named prefix component waits for every prefix identity and ignores a full-name match outside its read scope",async()=>{
+test("named prefix component resolves a sole verified exact name and keeps the investigation scope",async()=>{
   const input=await data(),state=structuredClone(input.state) as RestaurantTaskState,query=state.intentDraft!.target!.query,first=state.candidates[0]!.restaurant.id;
   state.readEvidence.push(identity(state,0,query));
-  assert.equal(namedOutletCandidateResolved(state,first),false,"One matching name cannot settle two unread peers");
+  assert.equal(namedOutletCandidateResolved(state,first),true,"User-approved rule: unread peers with different known full names do not block a sole verified exact name");
   state.readEvidence.push(identity(state,1,"Other source branch 2"),identity(state,2,"Other source branch 3"));
   assert.equal(namedOutletCandidateResolved(state,first),true);
   state.readEvidence.push(identity(state,1,query));
