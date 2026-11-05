@@ -11,7 +11,7 @@ import {tabelogPublicReadNetworkPolicy} from '../../../../src/integrations/tabel
 import {BrowserReadRecording} from '../../../../src/eval/restaurant/agent-loop/runners/browser-read-recording.js';
 import {traceBrowserRuntime,safeRecord,safeUrl} from '../../../../src/eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js';
 const root=new URL('../',import.meta.url),mode=process.argv[2];
-assert.ok(['D4-CAPTURE'].includes(mode!));
+assert.ok(['D4-CAPTURE-GET'].includes(mode!));
 const sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
 const freeze=JSON.parse(await readFile(new URL('stop2/d4-freeze.json',root),'utf8'));
 for(const [path,expected]of Object.entries(freeze.files))assert.equal(sha(await readFile(path)),expected,`FROZEN_CHANGED:${path}`);
@@ -21,7 +21,7 @@ const ledgerUrl=new URL('budget-C.json',root),base=JSON.parse(await readFile(new
 let booking=Promise.resolve(),pageReads=0;
 async function book(url:string){let id='';booking=booking.then(async()=>{
  const ledger=JSON.parse(await readFile(ledgerUrl,'utf8'));
- assert.ok(ledger.entries.length<15,'PROBE_PAGE_LIMIT');assert.ok(ledger.entries.filter((r:any)=>r.probe==='D4-CAPTURE').length<6,'D4_CAPTURE_READ_LIMIT');
+ assert.ok(ledger.entries.length<15,'PROBE_PAGE_LIMIT');assert.ok(ledger.entries.filter((r:any)=>r.probe.startsWith('D4-CAPTURE')).length<6,'D4_CAPTURE_READ_LIMIT');
  assert.ok(base.cumulative.evaluationPublicGET+ledger.entries.length+1<=440,'GLOBAL_GET_LIMIT');
  const prior=ledger.entries.at(-1);if(prior){const wait=5000-(Date.now()-prior.startedAtEpochMs);if(wait>0)await new Promise(r=>setTimeout(r,wait));}
  id=`phase3b-C-real-pages-20261105-${ledger.entries.length+1}`;
@@ -87,7 +87,7 @@ try{
   const key=(s:string)=>s.normalize('NFKC').replace(/\s+/gu,' ').trim();
   const owners=[...new Set(state.controls.filter(c=>c.visible&&c.formObservation?.visibleLines.some(line=>key(line)===key(choice.label))).map(c=>c.formObservation!.owner))];
   assert.equal(owners.length,1,'PUBLIC_PLACE_LABEL_NOT_BOUND_TO_UNIQUE_FORM');
-  const buttons=state.controls.filter(c=>c.visible&&!c.disabled&&c.kind==='BUTTON'&&/^Search$/iu.test(c.label.trim())&&c.type==='submit'&&c.formMethod==='GET'&&c.formObservation?.owner===owners[0]);
+  const buttons=state.controls.filter(c=>c.visible&&!c.disabled&&c.kind==='BUTTON'&&/^Search$/iu.test(c.label.trim())&&['submit','button'].includes(c.type??'')&&c.formMethod==='GET'&&c.formObservation?.owner===owners[0]);
   assert.equal(buttons.length,1,'OBSERVED_PUBLIC_GET_SUBMIT_NOT_UNIQUE');recordDecision('SUBMIT_SAME_FORM_PUBLIC_GET',{id:buttons[0]!.id,label:buttons[0]!.label,formMethod:buttons[0]!.formMethod,observedPlace:choice.label});
   assert.ok(performance.now()<pageWindowEnd,'HOME_READ_WINDOW_EXHAUSTED');pageWindowEnd=performance.now()+20000;
   await session.click(buttons[0]!.id,{timeoutMs:20000});await session.waitForSettled(state.page);
