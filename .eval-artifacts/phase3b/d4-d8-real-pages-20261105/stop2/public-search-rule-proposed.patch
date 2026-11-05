@@ -1,0 +1,17 @@
+--- a/src/integrations/tabelog/tabelog-public-query.ts
++++ b/src/integrations/tabelog/tabelog-public-query.ts
+@@ -30,6 +30,14 @@
+     },
+   ],
+   dynamicReads: [
++    {
++      // PROPOSAL ONLY: observed homepage GET Search; never personal-name input.
++      origin: "https://tabelog.com",
++      pathname: "/en/rstLst/",
++      methods: ["GET"],
++      resourceTypes: ["document"],
++      queryKeys: ["utf8", "pal", "LstPrf", "LstAre", "station_id", "area_datatype", "area_id", "genre_name", "sw", "search_mode"],
++    },
+     {
+       // Public directory documents use `sw` as the observed search
+       // expression.  This Pack-owned grammar lets Recorder preserve a
