@@ -11,20 +11,20 @@ import type {RestaurantSearchIntent} from "../../../../domains/restaurant/contra
 import type {ModelGateway,ModelRequest} from "../../../../core/model/contracts.js";
 import {replayHarPages} from "../../../../harness/browser/browser-read-test-fixtures.js";
 
-export type Mode="LINK"|"OPTION"|"NONE"|"AMBIGUOUS"|"OUTSIDE"|"MERCHANT_ONLY";
+export type Mode="LINK"|"SCRIPT"|"NONE"|"AMBIGUOUS"|"OUTSIDE"|"MERCHANT_ONLY";
 export async function locationSuggestionAssembly(mode:Mode){
   const saved=JSON.parse(await readFile(new URL("./d4-menu.json",import.meta.url),"utf8"));
   const origin="https://tabelog.com",home=origin+"/en/",root=origin+"/en/tokyo/rstLst/",menu=origin+"/en/tokyo/";
   const result=origin+"/en/tokyo/A1323/A132305/rstLst/?sw=kushikatsu",wrong=origin+"/en/tokyo/A1322/";
   const station="Akabane Sta. (Tokyo)";
-  const optionResult=origin+"/en/tokyo/A1323/A132305/rstLst/?location=Akabane+Sta.+%28Tokyo%29&sw=kushikatsu";
+  const optionResult=origin+"/en/tokyo/A1323/A132305/rstLst/?location=Akabane&sw=kushikatsu";
   const menuHtml=`<title>Tokyo restaurants</title>${Array.from({length:3},()=>`<a href="${home}"><img alt="Tabelog"></a>`).join(" ")}<main>${saved.regions.map((r:{label:string;href:string})=>`<a href="${r.href}">${r.label}</a>`).join(" ")}</main>`;
   const locationChoices=mode==="NONE"||mode==="MERCHANT_ONLY"?[]:[{name:station,href:result},...(mode==="AMBIGUOUS"?[{name:"Akabane Station (Tokyo)",href:origin+"/en/tokyo/R99999/rstLst/"}]:[])];
-  const locationHtml=locationChoices.map(c=>mode==="OPTION"?`<button type="button" role="option" aria-selected="false" class="unused-option-private">${c.name}</button>`:`<a href="${c.href}">${c.name}</a>`).join("");
+  const locationHtml=locationChoices.map(c=>mode==="SCRIPT"?`<a href="${home}#">${c.name}</a>`:`<a href="${c.href}">${c.name}</a>`).join("");
   const suggestions=`<section role="group" aria-label="Locations">${locationHtml}<a href="${origin}/en/aichi/R88888/rstLst/">Michi no Eki Akabane Roko Station [Aichi]</a></section><section role="group" aria-label="Restaurants"><a href="${origin}/en/tokyo/A1323/A132305/13999999/">Akabane</a><a href="${origin}/en/tokyo/A1323/A132305/13999998/">Akabane Sta. (Tokyo)</a></section>`;
-  const homeHtml=`<title>Tabelog public search</title><a href="${menu}">Tokyo</a><form aria-label="Public restaurant search" method="GET" action="${origin}/en/tokyo/A1323/A132305/rstLst/"><label>Area / Station<input role="combobox" aria-label="Area / Station" type="search" name="location" aria-expanded="false" aria-controls="choices"></label><input type="hidden" name="sw" value="kushikatsu"><div id="choices" role="listbox" aria-label="Search suggestions"></div><button type="submit">Search</button></form><script>
+  const homeHtml=`<title>Tabelog public search</title><a href="${menu}">Tokyo</a><form aria-label="Public restaurant search" method="GET" action="${origin}/en/tokyo/A1323/A132305/rstLst/"><label>Area / Station<input role="combobox" aria-label="Area / Station" type="search" name="location" aria-expanded="false" aria-controls="choices"></label><input type="hidden" name="sw" value="kushikatsu"><div id="choices" role="listbox" aria-label="Search suggestions"></div><button type="button" onclick="this.form.requestSubmit()">Search</button></form><script>
     const field=document.querySelector('input[type=search]'),list=document.getElementById('choices');
-    field.addEventListener('input',()=>{field.setAttribute('aria-expanded','true');setTimeout(()=>{list.innerHTML=${JSON.stringify(suggestions)};for(const option of list.querySelectorAll('[role=option]'))option.addEventListener('click',()=>{field.value=option.textContent;option.setAttribute('aria-selected','true');field.setAttribute('aria-expanded','false');list.hidden=true;});},80);});
+    field.addEventListener('input',()=>{field.setAttribute('aria-expanded','true');setTimeout(()=>{list.innerHTML=${JSON.stringify(suggestions)};for(const option of list.querySelectorAll('a'))if(option.getAttribute('href')===${JSON.stringify(home+'#')})option.addEventListener('click',e=>{e.preventDefault();const tag=document.createElement('span');tag.textContent=option.textContent;field.before(tag);field.setAttribute('aria-expanded','false');list.hidden=true;});},80);});
   </script>`;
   const pages:Record<string,string>={[home]:homeHtml,[root]:menuHtml,[root+"?sw=kushikatsu"]:menuHtml,[menu]:menuHtml};
   const urls:string[]=[];

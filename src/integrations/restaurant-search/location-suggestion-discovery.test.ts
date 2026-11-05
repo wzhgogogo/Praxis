@@ -4,7 +4,7 @@ import {locationSuggestionAssembly} from "./fixtures/location-suggestions/assemb
 
 // Actual ordinary assembly search port, Chromium, public DOM registry and Guard;
 // only model transport/Google and HAR source I/O are fixed. Not a new website run.
-for(const mode of ["LINK","OPTION","NONE","AMBIGUOUS","OUTSIDE","MERCHANT_ONLY"] as const){
+for(const mode of ["LINK","SCRIPT","NONE","AMBIGUOUS","OUTSIDE","MERCHANT_ONLY"] as const){
  test(`Tabelog observed location suggestions through ordinary assembly: ${mode}`,{timeout:60_000},async()=>{
   const f=await locationSuggestionAssembly(mode);
   try{
@@ -16,7 +16,7 @@ for(const mode of ["LINK","OPTION","NONE","AMBIGUOUS","OUTSIDE","MERCHANT_ONLY"]
     const navigated=f.actions.flatMap(a=>a.operation==="navigate"?[a.args[0]]:a.operation==="openLink"?[a.args[1]]:[]);
     assert.ok(navigated.includes(f.home),"Search home must be an observed entrance");
     assert.ok(!navigated.some(url=>typeof url==="string"&&/1399999[89]|aichi|R88888/.test(url)),"Merchant suggestions and the foreign namesake never selected");
-    if(mode==="LINK"||mode==="OPTION"){
+    if(mode==="LINK"||mode==="SCRIPT"){
       assert.equal(read.candidates.length,5,"Exact Tokyo station choice must reach in-radius source results");
       assert.ok(read.candidates.every(c=>c.restaurant.sourceIds.tabelog?.includes("A1323/A132305")));
       assert.equal(f.models.filter(m=>m.purpose==="browser_read_decide").length,0,"Unique observable place choice precedes the old guessed region action");

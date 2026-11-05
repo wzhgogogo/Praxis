@@ -123,6 +123,13 @@ test('search availability URL values overwrite source links with the authoritati
  assert.equal(capability.withRequest('https://tabelog.com/en/tokyo/A1303/rstLst/',{...binding,time:'19:15'}),undefined);
 });
 
+test('the ten-field homepage search cannot express the legacy dated listing prefilter',()=>{
+ const capability=tabelogDiscoveryPack.browser!.searchAvailability!;assert.ok('withRequest' in capability);
+ const observed='https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=tokyo&LstPrf=A1323&LstAre=A132305&station_id=134&area_datatype=RailroadStation&area_id=134&genre_name=&sw=kushikatsu&search_mode=';
+ assert.equal(capability.withRequest(observed,{date:'2026-11-11',time:'19:00',partySize:2},observed),undefined,
+  'Unsupported optional prefilter must fall back to existing detail checks, not manufacture an unreviewed fourteen-field GET');
+});
+
 test('search filters restore only the already observed same-region listing root from a homepage',()=>{
  const capability=tabelogDiscoveryPack.browser!.searchAvailability!;assert.ok('withRequest' in capability);
  const binding={date:'2026-10-27',time:'19:00',partySize:2};

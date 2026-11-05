@@ -153,7 +153,7 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
     if (["document", "fetch", "xhr"].includes(type) && /(?:^|\/)(?:booking|book|reservation)(?:\/|$)/i.test(path) && !/(?:^|\/)(?:calendar|availability|vacancy|status|search|list)(?:\/|$)/i.test(path)) { violations.push(`Sensitive booking operation: ${label}`); refs.push(ref); continue; }
     const strict = reviewed?.rules.some(candidate=>candidate.origin===origin
       && (candidate.pathname===path||candidate.pathnamePattern&&new RegExp(candidate.pathnamePattern).test(path))
-      && candidate.strictQueryKeys?.some(key=>keys.includes(key)));
+      && (candidate.strictQueryKeys?.length===0||candidate.strictQueryKeys?.some(key=>keys.includes(key))));
     const generic = !strict && documentOrigins.has(origin) && ["document", "fetch", "xhr", ...staticTypes].includes(type);
     const frozenPublicGet = rule && (rule.queryKeyRules
       ? queryMatches(keys, rule.queryKeyRules.required, rule.queryKeyRules.allowed, rule.queryKeyRules.repeatable) : keys.length === 0);

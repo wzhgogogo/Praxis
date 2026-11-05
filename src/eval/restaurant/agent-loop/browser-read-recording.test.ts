@@ -11,6 +11,26 @@ const reviewedStaticScript = [{ origin: "https://cdn.public.example", pathnamePr
 const reviewedDirectoryDocument = [{ origin: "https://directory.public.example", pathname: "/en/tokyo/A1303/A130301/rstLst/", resourceTypes: ["document"] as const,
   queryKeyRules: { required: [], allowed: ["sw"] } }] as const;
 
+test("homepage GET Search keeps its approved queryless form action", async () => {
+  const { tabelogPublicReadNetworkPolicy } = await import("../../../integrations/tabelog/tabelog-public-query.js");
+  const root = await mkdtemp(join(tmpdir(), "real-search-form-"));
+  try {
+    const recording = new BrowserReadRecording({ directory: root, runId: "real-form", reviewedReads: tabelogPublicReadNetworkPolicy.dynamicReads });
+    // Contract control; the old recording already stripped action and cannot restore its bytes.
+    const html = '<form method="get" action="https://tabelog.com/en/rstLst/"><input name="station_id"></form>';
+    recording.recordSnapshot({ url: "https://tabelog.com/en/", title: "Real source", text: "", html });
+    await recording.finish();
+    const replay = await readFile(join(root, "real-form", "snapshot-0001.html"), "utf8");
+    assert.match(replay, /action="https:\/\/tabelog.com\/en\/rstLst\/"/);
+    for (const [method, action] of [["post", "https://tabelog.com/en/rstLst/"], ["get", "https://other.example/en/rstLst/"], ["get", "https://tabelog.com/en/unreviewed/"], ["get", "https://tabelog.com/en/rstLst/?email=private"]] as const) {
+      const rejected = new BrowserReadRecording({ directory: root, runId: `unreviewed-${method}-${action.length}`, reviewedReads: tabelogPublicReadNetworkPolicy.dynamicReads });
+      rejected.recordSnapshot({ url: "https://tabelog.com/en/", title: "Contract control", text: "", html: `<form method="${method}" action="${action}"></form>` });
+      const saved = await rejected.finish();
+      assert.doesNotMatch(await readFile(join(saved.path, "snapshot-0001.html"), "utf8"), /action=/);
+    }
+  } finally { await rm(root, { recursive: true, force: true }); }
+});
+
 test("browser recording writes only an in-memory sanitized public document HAR", async () => {
   const root = await mkdtemp(join(tmpdir(), "praxis-browser-recording-"));
   try {

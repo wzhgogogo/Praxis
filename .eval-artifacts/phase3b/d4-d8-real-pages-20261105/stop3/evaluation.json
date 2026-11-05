@@ -1,0 +1,134 @@
+{
+  "status": "STOPPED_PAGE_BUDGET_EXHAUSTED_AND_D8_NEW_READ_REQUIRES_APPROVAL",
+  "mode": "REAL_SOURCE_REPLAY_FIXED_MODEL_NOT_LIVE",
+  "fullAcceptance": {
+    "D4": "NOT_PASSED",
+    "D8": "NOT_PASSED",
+    "G1": "NOT_REACHED"
+  },
+  "paidCalls": {
+    "models": 0,
+    "Google": 0,
+    "Live": 0
+  },
+  "pageReadsThisStop": 4,
+  "pageReadsSession": 15,
+  "pageLimitSession": 15,
+  "sourceCaptures": [
+    {
+      "mode": "D4-CAPTURE-APPROVED",
+      "pages": 2,
+      "status": "OBSERVED",
+      "replay": "REPLAYABLE",
+      "dclMs": 5029.052041999999,
+      "sha256": "6fd76a71bb9194654398b0c85813e3b402efa0d3a6f5cbbf4a8419a119d88cde"
+    },
+    {
+      "mode": "D4-RETRIEVAL-OBSERVED",
+      "pages": 1,
+      "status": "OBSERVED",
+      "replay": "REPLAYABLE",
+      "dclMs": 7342.171958,
+      "sha256": "aea566f96c8d253bdf39418273bc8a75ae324f64ee10a2fe9e857ce886e9a2a0"
+    },
+    {
+      "mode": "D4-FIRST-DETAIL",
+      "pages": 1,
+      "status": "OBSERVED",
+      "replay": "REPLAYABLE",
+      "dclMs": 5846.778583,
+      "sha256": "907dbae481a5ae121af33ebf2514e0047fb937afb4ff846c09c5d8384a84a120"
+    }
+  ],
+  "D4": {
+    "component": "SELECTED_REAL_AKABANE_RESULT_NO_REPLAY_MISS",
+    "ordinaryAssemblyCandidates": [
+      [
+        "Kushi Katsu Ageage Akabane honten",
+        "tabelog:en/tokyo/A1323/A132305/13273370"
+      ],
+      [
+        "Kushi Katsu Dengana Akabane ten",
+        "tabelog:en/tokyo/A1323/A132305/13108466"
+      ]
+    ],
+    "phase": "NEEDS_INPUT",
+    "availabilityChecks": {
+      "tabelog:en/tokyo/A1323/A132305/13108466": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-04T13:59:18.690Z",
+        "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:047d77d1699e1237a559cdaf",
+          "evidence:restaurant:tabelog-entity-match:43022e80f5d5686277626757",
+          "evidence:restaurant:tabelog-hard-criteria:6871bdb433c1127dec284616"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+      },
+      "tabelog:en/tokyo/A1323/A132305/13273370": {
+        "status": "UNKNOWN",
+        "checkedAt": "2026-11-04T13:59:15.423Z",
+        "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+        "evidenceIds": [
+          "evidence:restaurant:tabelog-entity-match:3e4635eeda36aac0839f9416"
+        ],
+        "sourceAttempts": [
+          {
+            "source": "TABELOG",
+            "outcome": "FAILED",
+            "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+          }
+        ],
+        "sourceProvider": "TABELOG",
+        "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+      }
+    },
+    "missing": [
+      {
+        "reason": "DOCUMENT_NOT_QUALIFIED",
+        "url": "https://tabelog.com/en/tokyo/A1323/A132305/13149916/",
+        "queryKeys": [],
+        "method": "GET",
+        "type": "document"
+      }
+    ],
+    "fourteenFieldRequestsAttemptedAfterFix": false,
+    "claim": "UNKNOWN is not source-evidenced NO_AVAILABILITY; no delivered slot or G1 answer"
+  },
+  "D8": {
+    "phase": "NEEDS_INPUT",
+    "missing": [
+      {
+        "reason": "DOCUMENT_NOT_QUALIFIED",
+        "url": "https://tabelog.com/en/tokyo/rstLst/",
+        "queryKeys": [
+          "sw"
+        ],
+        "method": "GET",
+        "type": "document"
+      }
+    ],
+    "tableCheck": "UNVERIFIED_ENVIRONMENT_UNREACHABLE",
+    "claim": "Original name not uniquely bound through Tabelog; no B1/terms or dual-channel success claimed"
+  },
+  "unrun": [
+    "final five gates",
+    "strict G2",
+    "G6 final gate",
+    "main merge",
+    "Live verification"
+  ],
+  "reservedHoldoutUnchanged": true,
+  "executionSHA256": {
+    "D4-whole-replay.json": "621d1f277445aa311c92bf9a01468134ec7ac71bbd0bf16542dc9786ad7a540c",
+    "D8-whole-replay.json": "311c587c5678a6a537cdc362860a403af932cce11c6999a18e057e479a848314"
+  }
+}

@@ -324,6 +324,10 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
       withRequest(value,request,observedListingUrl) {
         const url=new URL(value);
         if(url.origin!=='https://tabelog.com'||!/[03]0$/.test(request.time))return undefined;
+        // The observed homepage query has exactly ten reviewed fields. It
+        // cannot express this optional legacy list filter. Detail availability
+        // remains mandatory; use the existing QUERY_NOT_REPRESENTABLE path.
+        if(url.pathname==='/en/rstLst/')return undefined;
         if(!directoryListingRoot(value)) {
           const root=observedListingUrl && directoryListingRoot(observedListingUrl);
           if(!root || regionalDirectoryHomepage(observedListingUrl!)!==`${url.origin}${url.pathname}`)return undefined;

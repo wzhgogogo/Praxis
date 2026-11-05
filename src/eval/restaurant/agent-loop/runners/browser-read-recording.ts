@@ -436,12 +436,22 @@ function sanitizeReplayForm(
   let safeAction: string | undefined;
   if (action) {
     try {
+      // A GET form's action precedes serialization of its required fields.
+      // Preserve only the exact queryless endpoint with an unconditional
+      // reviewed document grammar; this grants no request admission.
+      const destination = new URL(action.replace(/&amp;/gi, "&"), sourceUrl);
+      const reviewedFormEndpoint = !destination.search && !destination.hash && !destination.username && !destination.password
+        && (reviewedReads ?? []).some(rule => rule.origin === destination.origin && rule.pathname === destination.pathname
+          && rule.strictQueryKeys?.length === 0 && rule.methods?.includes("GET") && rule.resourceTypes.includes("document"));
       const resolved = safeReplayUrl(
-        new URL(action.replace(/&amp;/gi, "&"), sourceUrl).toString(),
+        destination.toString(),
         staticResources,
         reviewedReads,
       );
-      if ((!method || method === "get") && resolved && new URL(resolved).origin === new URL(sourceUrl).origin && reviewedPublicReadUrl(resolved, reviewedReads)) safeAction = resolved;
+      if ((!method || method === "get") && destination.origin === new URL(sourceUrl).origin) {
+        if (reviewedFormEndpoint) safeAction = destination.toString();
+        else if (resolved && reviewedPublicReadUrl(resolved, reviewedReads)) safeAction = resolved;
+      }
     }
     catch { /* Omit an unreviewed or malformed action destination. */ }
   }

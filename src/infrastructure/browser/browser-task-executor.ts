@@ -122,7 +122,7 @@ export interface BrowserGenericReadResult {
   controls: BrowserPageControl[];
 }
 
-interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
+interface ObservedTarget extends BrowserReadActionTarget { formObservation?: BrowserPageControl["formObservation"]; controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
 
 interface Observation {
   revision: number;
@@ -225,7 +225,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
     const ref = `observation:${revision}:target:${targets.size + 1}`;
     controlRefs.set(control.id, ref);
     targets.set(ref, {
-      ref, controlId: control.id, stableKey: control.stableKey, ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}), kind: control.kind, role: control.role, label: control.label,
+      ref, controlId: control.id, stableKey: control.stableKey, ...(control.formObservation ? { formObservation: control.formObservation } : {}), ...(control.structure ? { nativeTag: control.structure.tag, ...(control.structure.name ? { inputName: control.structure.name } : {}) } : {}), kind: control.kind, role: control.role, label: control.label,
       controlGroupLabel: control.controlGroupLabel ?? "Unlabelled group",
       ...group,
       ...(control.labelSource ? { labelSource: control.labelSource } : {}),
@@ -528,8 +528,8 @@ export class BrowserTaskExecutor {
   }
 
   /** Deterministic source shortcut, not a new model action or permission. The
-   * source supplies the name/type predicate; this layer owns current references,
-   * option ownership, non-submit structure, Guard and every operation admission. */
+   * source supplies the place predicate; this layer owns fresh references,
+   * visible selection confirmation, form ownership, Guard and operation admission. */
   async selectLocationSuggestion(input:BrowserSkillReadInput&{matchesSuggestion:(target:BrowserReadActionTarget)=>boolean}):Promise<{
     status:"SELECTED"|"NO_MATCH";snapshot:BrowserSnapshot;selected?:{label:string;targetRef:string;observedOn:string};
   }>{
@@ -553,21 +553,24 @@ export class BrowserTaskExecutor {
       const selected={label:target.label,targetRef:target.ref,observedOn:snapshot.url};
       if(target.kind==="LINK"&&this.actionHints(input,observation,target,false).availableActions?.includes("OPEN_LINK")){
         await this.applyGenericAction(input,observation,target,{type:"OPEN_LINK",targetRef:target.ref,reason:"Unique observed place suggestion"});
-      }else{
-        const owner=target.ownerRef?observation.targets.get(target.ownerRef):undefined;
-        if(target.kind!=="OPTION"||target.optionNative||!owner||owner.controlId!==target.optionOwnerId
-          ||owner.role!=="combobox"||!this.boundInputField(owner,"LOCATION")||owner.value!==input.goal.location.name
-          ||!this.safeGenericClick(target)||!(["DIV","LI","SPAN"].includes(target.nativeTag??"")||target.type==="button"))return noMatch();
-        await this.operation(input,"CHOOSE_LOCATION_OPTION",()=>input.session.click(target.controlId,this.actionOptions()));
-        await this.waitForSettled(input,snapshot);
-        snapshot=await this.snapshot(input);observation=await this.observe(input,snapshot);
-        const current=[...observation.targets.values()].filter(t=>this.boundInputField(t,"LOCATION")&&!t.disabled);
-        const equivalent=(a:string,b:string)=>a.normalize("NFKC").trim().replace(/\s+/gu," ")===b.normalize("NFKC").trim().replace(/\s+/gu," ");
-        if(current.length!==1||!equivalent(current[0]!.value??"",selected.label))return noMatch();
-        const buttons=[...observation.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport&&this.guardedPublicQuerySubmit(input,t)
-          &&/^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(t.label.trim())&&t.controlGroupKey&&t.controlGroupKey===current[0]!.controlGroupKey);
+      }else if(target.kind==="LINK"&&this.actionHints(input,observation,target,false).availableActions?.includes("CLICK")){
+        await this.applyGenericAction(input,observation,target,{type:"CLICK",targetRef:target.ref,reason:"Unique observed same-page place suggestion"});
+      }else return noMatch();
+      await this.waitForSettled(input,snapshot);
+      snapshot=await this.snapshot(input);
+      // A script-backed suggestion may leave the same page and reveal a place
+      // tag. Only that visible selection, bound to a real form, authorizes the
+      // next observed Search control. The input's value is not confirmation.
+      if(snapshot.url===selected.observedOn){
+        observation=await this.observe(input,snapshot);
+        const key=(value:string)=>value.normalize("NFKC").trim().replace(/\s+/gu," ");
+        const owners=new Set([...observation.targets.values()].filter(t=>t.formObservation?.visibleLines.some(line=>key(line)===key(selected.label))).map(t=>t.formObservation!.owner));
+        if(owners.size!==1)return noMatch();
+        const buttons=[...observation.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport&&!t.blockedByActiveLayer
+          &&this.guardedPublicQuerySubmit(input,t)&&t.formObservation?.owner===[...owners][0]
+          &&/^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(t.label.trim()));
         if(buttons.length!==1)return noMatch();
-        await this.applyGenericAction(input,observation,buttons[0],{type:"CLICK",targetRef:buttons[0]!.ref,reason:"Submit the positively selected public location query"});
+        await this.applyGenericAction(input,observation,buttons[0],{type:"CLICK",targetRef:buttons[0]!.ref,reason:"Observed place tag and same-form public GET Search"});
       }
       await this.waitForSettled(input,snapshot);snapshot=await this.snapshot(input);
       return {status:"SELECTED",snapshot,selected};
@@ -794,7 +797,7 @@ export class BrowserTaskExecutor {
             ...(month ? { displayedCalendarMonth: month } : {}),
             controlGroups: observedControlGroups(observation),
             pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
-            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
+            targets: actionTargets.map(({ formObservation: _formObservation, controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
               ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
             })),
           },
@@ -1239,7 +1242,7 @@ export class BrowserTaskExecutor {
     return {
       title: safeText(observation.snapshot.title, 240),
       visibleTextExcerpt: safeText(observation.snapshot.text, 1_000),
-      targets: [...observation.targets.values()].slice(0, 40).map(({ controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
+      targets: [...observation.targets.values()].slice(0, 40).map(({ formObservation: _formObservation, controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
         ...target,
         ...(target.href ? { href: this.diagnosticUrl(target.href) } : {}),
       })),
@@ -1460,8 +1463,9 @@ export class BrowserTaskExecutor {
   private guardedPublicQuerySubmit(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
     return this.guardedReadControl(input, target)
       && target.kind === "BUTTON"
-      && target.type?.toLowerCase() === "submit"
-      && target.formMethod === "GET";
+      && target.formMethod === "GET"
+      && (target.type?.toLowerCase() === "submit" || Boolean(target.formObservation)
+        && /^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(target.label.trim()));
   }
 
   private async operation<Value>(

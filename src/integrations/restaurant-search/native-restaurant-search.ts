@@ -775,11 +775,25 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         // listing root becomes the current-query boundary.  Keeping the
         // original Tokyo root here would classify the newly grounded regional
         // list as stale and discard it before detail investigation.
+        let locationSearchResultUrl = reusedRegion && directory.isLocationSearchEntrance?.(reusedRegion.observedOn)
+          ? reusedRegion.url : undefined;
+        const locationQueryKey = (value: string): string | undefined => {
+          if (!locationSearchResultUrl) return undefined;
+          const current = new URL(value), observed = new URL(locationSearchResultUrl);
+          // Retrieval may change sw; the observed place scope may not change.
+          const scope = (url: URL) => JSON.stringify([...url.searchParams].filter(([key]) => key !== "sw").sort());
+          return current.origin === observed.origin && current.pathname === observed.pathname && scope(current) === scope(observed)
+            ? `observed-location-query:${observed.origin}${observed.pathname}:${scope(observed)}` : undefined;
+        };
         const listingEntranceKey = (value: string): string | undefined => {
+          if (locationSearchResultUrl) return locationQueryKey(value);
           const root = directory.listingRoot(value);
           return root ? `listing:${root}` : undefined;
         };
         const homepageEntranceKey = (value: string, observedListingUrl: string): string | undefined => {
+          if (locationSearchResultUrl && observedListingUrl === locationSearchResultUrl) {
+            return locationQueryKey(value);
+          }
           if (!directory.isSameObservedRegionHomepage?.(observedListingUrl, value)) return undefined;
           try {
             const url = new URL(value);
@@ -874,16 +888,16 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               const location={...discoveryGoalLocation,name:literalPlace};
               const suggestion=await executor.selectLocationSuggestion({source,stage:"DISCOVERY",signal,session:session!,allowedOrigins,
                 taskId:`browser-read:native-location:${source}`,goal:{outlet:{name:keyword},location,hardCriteria:[]},
-                objective:"Use a unique observed public place suggestion",matchesSuggestion:t=>locationSuggestionMatches(t,location)
-                  &&(t.kind!=="LINK"||Boolean(t.href&&directory.isRegionEntrance(t.href))),
+                objective:"Use a unique observed public place suggestion",matchesSuggestion:t=>locationSuggestionMatches(t,location),
                 completion:()=>({complete:false,reason:"Source result and coordinates must still be verified"})});
               page=suggestion.snapshot;
               if(page.url!==homeLinks[0]!.href){retrieval.regionPages++;listingPagesRead++;recordListing(page);}
-              if(suggestion.status==="SELECTED"&&suggestion.selected&&directory.isRegionEntrance(page.url)
+              if(suggestion.status==="SELECTED"&&suggestion.selected&&new URL(page.url).origin===new URL(homeLinks[0]!.href!).origin
                 &&page.settlement!=="PENDING"&&!pack.browser!.resultBusy(page)
                 &&(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing(page))){
                 selectedRegion={url:page.url,...suggestion.selected};
                 directoryRegion={first:selectedRegion,samples:[]};
+                locationSearchResultUrl=page.url;
                 currentAreaListingUrl=page.url;currentAreaEntranceKey=listingEntranceKey(page.url)??homepageEntranceKey(page.url,page.url);
                 currentHomepageListing=!directory.listingRoot(page.url);currentAreaEntranceObserved=currentAreaEntranceKey!==undefined;
                 recordListing(page);raw=rawSourceLinks(page,pack);

@@ -1,0 +1,31 @@
+✖ the ten-field homepage search cannot express the legacy dated listing prefilter (1.4415ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 107.5135
+
+✖ failing tests:
+
+test at src/integrations/restaurant-search/source-packs.test.ts:1:9776
+✖ the ten-field homepage search cannot express the legacy dated listing prefilter (1.4415ms)
+  AssertionError [ERR_ASSERTION]: Unsupported optional prefilter must fall back to existing detail checks, not manufacture an unreviewed fourteen-field GET
+  + actual - expected
+  
+  + 'https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=tokyo&LstPrf=A1323&LstAre=A132305&station_id=134&area_datatype=RailroadStation&area_id=134&genre_name=&sw=kushikatsu&search_mode=&vac_net=1&svd=20261111&svt=1900&svps=2'
+  - undefined
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/restaurant-search/source-packs.test.ts:129:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1062:25)
+      at Test.start (node:internal/test_runner/test:959:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:332:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=tokyo&LstPrf=A1323&LstAre=A132305&station_id=134&area_datatype=RailroadStation&area_id=134&genre_name=&sw=kushikatsu&search_mode=&vac_net=1&svd=20261111&svt=1900&svps=2',
+    expected: undefined,
+    operator: 'strictEqual'
+  }

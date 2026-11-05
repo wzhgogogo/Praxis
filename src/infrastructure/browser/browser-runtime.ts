@@ -21,7 +21,8 @@ export interface BrowserReadNetworkRequestRule {
    */
   queryKeyRules?: { required: readonly string[]; allowed?: readonly string[]; repeatable?: readonly string[]; allowedPatterns?: readonly string[] };
   /** Presence of one of these fields requires the full reviewed query grammar,
-   * including under generic public GET admission. Values stay source-owned. */
+   * including under generic public GET admission. An empty list requires the
+   * reviewed grammar for every request to this endpoint. Values stay source-owned. */
   strictQueryKeys?: readonly string[];
   /** Browser-generated, bodyless projection of an approved GET/HEAD/POST; actual POST body is checked separately. */
   corsPreflight?: { requestOrigin: string; requestedHeaderNames: readonly string[] };
