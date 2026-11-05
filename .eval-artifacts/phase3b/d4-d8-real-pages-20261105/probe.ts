@@ -11,7 +11,7 @@ import {tabelogPublicReadNetworkPolicy} from '../../../src/integrations/tabelog/
 import {BrowserReadRecording} from '../../../src/eval/restaurant/agent-loop/runners/browser-read-recording.js';
 import {traceBrowserRuntime,safeRecord,safeUrl} from '../../../src/eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js';
 const root=new URL('./',import.meta.url),mode=process.argv[2];
-assert.ok(['A','B-TABLECHECK','B-TABELOG','C'].includes(mode!));
+assert.ok(['A','A-OBSERVED-INPUT','B-TABLECHECK','B-TABELOG','C'].includes(mode!));
 const sha=(b:Buffer)=>createHash('sha256').update(b).digest('hex');
 const freeze=JSON.parse(await readFile(new URL('probe-freeze.json',root),'utf8'));
 for(const [path,expected]of Object.entries(freeze.files))assert.equal(sha(await readFile(path)),expected,`FROZEN_CHANGED:${path}`);
@@ -66,18 +66,18 @@ let result:any={mode,startedAtCET:cet(),policy:'UNCHANGED_PRODUCTION_SOURCE_POLI
 try{
  session=await runtime.openSession({signal:signal.signal,networkPolicy:policy});
  assert.equal(session.metadata.readNetworkBoundary,'INSTALLED');
- const url=mode==='A'?'https://tabelog.com/en/':mode==='B-TABLECHECK'?'https://www.tablecheck.com/en/japan/search':mode==='B-TABELOG'?'https://tabelog.com/en/tokyo/A1301/A130101/13186922/':'https://tabelog.com/en/tokyo/A1323/A132305/13108466/';
+ const url=mode!.startsWith('A')?'https://tabelog.com/en/':mode==='B-TABLECHECK'?'https://www.tablecheck.com/en/japan/search':mode==='B-TABELOG'?'https://tabelog.com/en/tokyo/A1301/A130101/13186922/':'https://tabelog.com/en/tokyo/A1323/A132305/13108466/';
  recordDecision('NAVIGATE_APPROVED_PUBLIC_PAGE',{url});
  await session.prepareNavigation!(url,{timeoutMs:20000});
  const start=performance.now();await session.navigate(url,{waitUntil:'domcontentloaded',timeoutMs:20000});result.navigationDclMs=performance.now()-start;
  let state=await snap();result.initial={url:safeUrl(state.page.url),title:state.page.title,controls:safeRecord(state.controls)};
- if(mode==='A'){
-  const inputs=state.controls.filter(c=>c.visible&&!c.disabled&&c.kind==='INPUT'&&/(?:area|station|エリア|駅)/i.test(c.label)&&!/(?:date|people|guest)/i.test(c.label));
+ if(mode!.startsWith('A')){
+  const inputs=state.controls.filter(c=>c.visible&&!c.disabled&&c.kind==='INPUT'&&/(?:location|area|station|エリア|駅)/i.test(c.label)&&!/(?:date|people|guest)/i.test(c.label));
   assert.equal(inputs.length,1,'OBSERVED_LOCATION_INPUT_NOT_UNIQUE');
   recordDecision('FILL_OBSERVED_LOCATION',{id:inputs[0]!.id,label:inputs[0]!.label,value:'Akabane'});
   await session.fill(inputs[0]!.id,'Akabane',{timeoutMs:5000});
   const until=performance.now()+8000;let choices:typeof state.controls=[];
-  do{await session.waitForSettled(state.page);state=await snap();choices=state.controls.filter(c=>c.visible&&!c.disabled&&c.kind==='LINK'&&/^Area\s*Akabane\s+Sta\.\s*\(Tokyo\)$/iu.test(c.label.normalize('NFKC').trim()));if(choices.length)break;}while(performance.now()<until);
+  do{await session.waitForSettled(state.page);state=await snap();choices=state.controls.filter(c=>c.visible&&!c.disabled&&c.kind==='LINK'&&/^(?:Area\s*)?Akabane\s+Sta\.\s*\(Tokyo\)$/iu.test(c.label.normalize('NFKC').trim()));if(choices.length)break;}while(performance.now()<until);
   result.suggestions=state.controls.filter(c=>/akabane/i.test(c.label));
   assert.equal(choices.length,1,'OBSERVED_TOKYO_PLACE_NOT_UNIQUE');
   const choice=choices[0]!;recordDecision('CLICK_OBSERVED_LOCATION_ITEM',{id:choice.id,label:choice.label,href:choice.href});
