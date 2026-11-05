@@ -44,6 +44,8 @@ export interface BrowserExecutionDiagnostic {
   };
   url?: string;
   detail?: string;
+  /** Failure evidence from the installed source Guard, not matching/availability evidence. */
+  networkFailures?: import("./browser-runtime.js").BrowserReadNetworkObservation[];
   /** Wall time of this bounded readiness wait; not cumulative executor time. */
   waitMs?: number;
   settlement?: import("./browser-runtime.js").BrowserSettlementDiagnostics;
@@ -1666,6 +1668,7 @@ export class BrowserTaskExecutor {
       stage,
       event,
       detail: safeErrorDetail(error),
+      ...(runtime?.networkFailures?.length ? { networkFailures: runtime.networkFailures } : {}),
       lifecycle: {
         outcome: runtime?.code === "BROWSER_ABORTED" ? "ABANDONED" : "FAILED",
         reason: this.reasonForFailure(error, fallback),

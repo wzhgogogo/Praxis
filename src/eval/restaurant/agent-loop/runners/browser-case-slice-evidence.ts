@@ -1,3 +1,4 @@
+import { browserTransportError } from "../../../../infrastructure/browser/browser-runtime-errors.js";
 import { captureRawPriceRegions } from "../diagnostic-evaluator-prices.js";
 import { createHash } from "node:crypto";
 import {withRequestTimeline} from './browser-request-timeline.js';
@@ -220,12 +221,13 @@ export function errorRecord(error: unknown): Record<string, unknown> {
   const visit = (value: unknown, depth: number): Record<string, unknown> | undefined => {
     if (!value || typeof value !== "object" || seen.has(value) || depth > 3) return undefined;
     seen.add(value);
-    const item = value as { name?: unknown; message?: unknown; code?: unknown; cause?: unknown };
+    const item = value as { name?: unknown; message?: unknown; code?: unknown; cause?: unknown; networkFailures?: unknown };
     const cause = visit(item.cause, depth + 1);
     return { ...(typeof item.name === "string" ? { name: item.name } : {}),
-      ...(typeof item.message === "string" ? { message: safeString(item.message) } : {}),
+      ...(typeof item.message === "string" ? { message: browserTransportError(item).message } : {}),
       ...(typeof item.code === "string" ? { code: item.code } : {}),
-      ...(cause ? { cause } : {}) };
+      ...(cause ? { cause } : {}),
+      ...(Array.isArray(item.networkFailures) ? { networkFailures: safeRecord(item.networkFailures) } : {}) };
   };
   return visit(error, 0) ?? { name: "UnknownError" };
 }
@@ -368,11 +370,13 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
     ...(snapshot.networkDiagnostics?.length ? { networkDiagnostics: snapshot.networkDiagnostics.map(item => ({
       code: item.code, origin: item.origin, pathname: item.pathname,
       method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
+      ...(item.error ? { error: item.error } : {}),
     })) } : {}),
     ...(snapshot.networkResourceTypes?.length ? { networkResourceTypes: snapshot.networkResourceTypes } : {}),
     ...(snapshot.networkRequests?.length ? { networkRequests: snapshot.networkRequests.map(item => ({
       outcome: item.outcome, origin: item.origin, pathname: item.pathname,
       method: item.method, resourceType: item.resourceType, queryKeys: item.queryKeys,
+      ...(item.error ? { error: item.error } : {}),
       ...(item.resourceTypeDetails ? { resourceTypeDetails: item.resourceTypeDetails } : {}),
       ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}),
       ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}),

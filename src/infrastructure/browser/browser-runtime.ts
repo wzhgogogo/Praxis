@@ -1,3 +1,4 @@
+import type { BrowserTransportError } from "./browser-runtime-errors.js";
 export type BrowserRuntimeProvider = "CLOUDFLARE_BROWSER_RUN" | "LOCAL_PLAYWRIGHT_CHROMIUM";
 export type BrowserEngine = "KITESURF" | "CHROMIUM";
 export type BrowserEngineMode = "AUTO" | "KITESURF_ONLY" | "CHROMIUM_ONLY";
@@ -72,6 +73,7 @@ export interface BrowserReadNetworkObservation {
   method: string;
   resourceType: string;
   queryKeys: string[];
+  error?: BrowserTransportError;
   corsPreflight?: BrowserReadCorsPreflightObservation;
   resourceTypeDetails?: BrowserReadResourceTypeObservation["resourceTypeDetails"];
   /** Independent outer observer binding; never a production admission input. */
@@ -117,6 +119,7 @@ export interface BrowserSnapshot {
     method: string;
     resourceType: string;
     queryKeys: string[];
+    error?: BrowserTransportError;
   }>;
   /** Value-free Guard request chronology for optional Record and PolicyDraft evidence. */
   networkRequests?: BrowserReadNetworkObservation[];

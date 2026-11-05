@@ -148,3 +148,9 @@ test("browser case slice journal retains a TableCheck availability region withou
   assert.match(regions[0]!.markup, /name="reservation\[service_category\]" type="radio" value="public-sushi" checked/);
   assert.doesNotMatch(regions[0]!.markup, /href=|private profile text/);
 });
+
+
+test("source snapshot diagnostics preserve sanitized transport message and cause in exported trace", () => {
+  const snapshot = snapshotRecord({ url: "https://www.tablecheck.com/en/japan/search", title: "", text: "", html: "", networkDiagnostics: [{ code: "READ_REQUEST_FAILED", origin: "https://www.tablecheck.com", pathname: "/en/japan/search", method: "GET", resourceType: "document", queryKeys: [], error: { name: "Error", message: "socket hang up", cause: { name: "Error", message: "connection reset", code: "ECONNRESET" } } }] });
+  assert.equal((snapshot.networkDiagnostics as any[])[0].error.cause.code, "ECONNRESET");
+});

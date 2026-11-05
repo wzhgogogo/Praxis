@@ -163,3 +163,28 @@ test("layout-only screenshot is a PNG and leaves observed controls unchanged", a
     assert.deepEqual(after?.map(item => [item.kind, item.label, item.value]), before?.map(item => [item.kind, item.label, item.value]));
   } finally { await session.close(); }
 });
+
+
+test("failed guarded source navigation exports the sanitized transport cause for both source labels", async () => {
+  const { createServer } = await import("node:http");
+  const { BrowserTaskExecutor } = await import("./browser-task-executor.js");
+  const server = createServer(request => request.socket.destroy());
+  await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
+  const address = server.address(); assert.ok(address && typeof address !== "string");
+  const origin = `http://127.0.0.1:${address.port}`;
+  try {
+    for (const source of ["TABLECHECK", "TABELOG"] as const) {
+      const diagnostics: import("./browser-task-executor.js").BrowserExecutionDiagnostic[] = [];
+      const executor = new BrowserTaskExecutor(new LocalPlaywrightChromium(), { maxAutomaticElapsedMs: 30000, maxModelCallsPerCandidate: 1, maxModelCallsTotal: 1, maxOperationsPerCandidate: 8, onDiagnostic: row => diagnostics.push(row) });
+      const signal = new AbortController().signal;
+      try {
+        const session = await executor.acquire(signal, source, "IDENTITY", { documentOrigins: [origin], staticResources: [], dynamicReads: [] });
+        await assert.rejects(executor.navigate({ source, stage: "IDENTITY", signal, session, allowedOrigins: [origin], url: origin + "/public?read=QUERY_PRIVATE", timeoutMs: 5000 }), { code: "BROWSER_RUNTIME_FAILED" });
+        const failed = diagnostics.find(row => row.source === source && row.event === "OPERATION_FAILED");
+        assert.ok(failed?.networkFailures?.length, "source failure retains Guard transport error despite failed navigation");
+        assert.match(failed.networkFailures[0]!.error!.message, /socket hang up|ECONNRESET/);
+        assert.doesNotMatch(JSON.stringify(failed.networkFailures), /QUERY_PRIVATE/);
+      } finally { await executor.close(); }
+    }
+  } finally { server.closeAllConnections(); await new Promise<void>(resolve => server.close(() => resolve())); }
+});

@@ -1,0 +1,29 @@
+✖ read transport diagnostics retain failure cause without query values, headers or body (3.367875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 142.319167
+
+✖ failing tests:
+
+test at src/infrastructure/browser/playwright-read-network-guard.test.ts:1:34165
+✖ read transport diagnostics retain failure cause without query values, headers or body (3.367875ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'Error'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/playwright-read-network-guard.test.ts:549:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'Error',
+    operator: 'strictEqual'
+  }

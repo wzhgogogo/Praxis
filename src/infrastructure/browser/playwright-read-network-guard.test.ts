@@ -536,3 +536,19 @@ test('resource retention cannot authorize an unreviewed origin or prohibited pat
  }
  assert.ok(guard.snapshotDiagnostics().every(d=>d.code==='BLOCKED_ENDPOINT'));
 });
+
+test("read transport diagnostics retain failure cause without query values, headers or body", async () => {
+  let http: (route: any) => Promise<void> = async () => assert.fail("route handler missing");
+  const guard = new PlaywrightReadNetworkGuard(policy);
+  await guard.install(fakeContext({ route: async (_pattern: string, handler: typeof http) => { http = handler; }, routeWebSocket: async () => {} }));
+  guard.prepareNavigation("https://public.example/guide?public=QUERY_PRIVATE", 20000);
+  const cause = Object.assign(new Error("socket hang up"), { code: "ECONNRESET" });
+  const failure = new Error("apiRequestContext.fetch: socket hang up https://public.example/guide?public=QUERY_PRIVATE\nCall log:\nCookie: COOKIE_PRIVATE\nAuthorization: Bearer AUTH_PRIVATE\nbody: BODY_PRIVATE", { cause });
+  await http(fakeRoute({ url: "https://public.example/guide?public=QUERY_PRIVATE", fetchError: failure }).route);
+  const diagnostic = guard.snapshotDiagnostics()[0] as any;
+  assert.equal(diagnostic.error?.name, "Error");
+  assert.match(diagnostic.error?.message ?? "", /socket hang up/);
+  assert.equal(diagnostic.error?.cause?.code, "ECONNRESET");
+  assert.equal((guard.snapshotRequests().find(row => row.outcome === "FAILED") as any).error?.cause?.code, "ECONNRESET");
+  assert.doesNotMatch(JSON.stringify(guard.snapshotDiagnostics()), /QUERY_PRIVATE|COOKIE_PRIVATE|AUTH_PRIVATE|BODY_PRIVATE/);
+});

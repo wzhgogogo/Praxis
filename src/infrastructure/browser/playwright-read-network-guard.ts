@@ -1,10 +1,11 @@
+import { browserTransportError, type BrowserTransportError } from "./browser-runtime-errors.js";
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
 import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
 
 type NetworkDiagnosticCode = "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT" | "RESOURCE_POLICY_BLOCKED";
-type NetworkDiagnostic = { code: NetworkDiagnosticCode; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[] };
+type NetworkDiagnostic = { code: NetworkDiagnosticCode; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[]; error?: BrowserTransportError };
 
 function requestKey(value: string): string {
   const url = new URL(value);
@@ -275,13 +276,13 @@ export class PlaywrightReadNetworkGuard {
           this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...(corsPreflight ? { corsPreflight } : {}) });
           const timer = setTimeout(() => {
             this.redirectTimers.delete(timer);
-            this.blocked("READ_TIMEOUT", url, method, type);
+            this.blocked("READ_TIMEOUT", url, method, type, Object.assign(new Error("Guard redirect read timed out"), { name: "TimeoutError" }));
             void send("Fetch.failRequest", { requestId: event.requestId, errorReason: "TimedOut" }).catch(() => {});
           }, Math.max(1, this.requestTimeoutMs - (Date.now() - chain.started)));
           timer.unref(); this.redirectTimers.add(timer); redirected.set(event.requestId, { url, method, type, timer });
           await send("Fetch.continueRequest", { requestId: event.requestId, interceptResponse: true });
         };
-        void process().catch(async () => { this.blocked("READ_REQUEST_FAILED", new URL(event.request.url), event.request.method, String(event.resourceType).toLowerCase()); await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "Failed" }).catch(() => {}); });
+        void process().catch(async error => { this.blocked("READ_REQUEST_FAILED", new URL(event.request.url), event.request.method, String(event.resourceType).toLowerCase(), error); await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "Failed" }).catch(() => {}); });
       });
       await send("Network.enable");
       await send("Fetch.enable", { patterns: [{ urlPattern: "*", requestStage: "Request" }] });
@@ -358,8 +359,8 @@ export class PlaywrightReadNetworkGuard {
   snapshotRequests(): BrowserReadNetworkObservation[] { return [...this.requests]; }
   snapshotResourceTypes(): BrowserReadResourceTypeObservation[] { return [...this.resourceTypes]; }
 
-  private blocked(code: NetworkDiagnosticCode, url: URL, method: string, resourceType: string): void {
-    const request = { origin: url.origin, pathname: url.pathname, method, resourceType, queryKeys: [...new Set(url.searchParams.keys())].sort() };
+  private blocked(code: NetworkDiagnosticCode, url: URL, method: string, resourceType: string, error?: unknown): void {
+    const request = { origin: url.origin, pathname: url.pathname, method, resourceType, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...(error === undefined ? {} : { error: browserTransportError(error) }) };
     this.diagnostics.push({ code, ...request });
     this.requests.push({ outcome: code === "BLOCKED_REDIRECT" ? "REDIRECT_BLOCKED" : "BLOCKED", ...request });
   }
@@ -448,8 +449,8 @@ export class PlaywrightReadNetworkGuard {
       await route.fulfill({ response });
     } catch (error) {
       const code = error instanceof Error && error.name === "TimeoutError" ? "READ_TIMEOUT" : "READ_REQUEST_FAILED";
-      this.blocked(code, url, method, type);
-      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() };
+      this.blocked(code, url, method, type, error);
+      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", error: browserTransportError(error), origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() };
       await route.abort("failed");
     }
   }

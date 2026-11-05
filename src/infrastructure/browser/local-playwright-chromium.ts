@@ -222,7 +222,8 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
       return await operation();
     } catch (error) {
       if (error instanceof BrowserRuntimeError) throw error;
-      throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Local Playwright Chromium operation failed", error);
+      throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Local Playwright Chromium operation failed", error, undefined,
+        this.networkGuard?.snapshotRequests().filter(row => row.error !== undefined).slice(-20));
     }
   }
 }
