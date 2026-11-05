@@ -1,3 +1,4 @@
+import {scriptedBrowserObservation} from "../../../harness/fixtures/restaurant-observation-model.js";
 import {scriptedRetrieval} from "../../../harness/restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -178,6 +179,7 @@ class FixedCurrentCaseModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
+    if(request.purpose==="browser_read_decide")return scriptedBrowserObservation(request)!;
     if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if(request.purpose==='restaurant_discovery_retrieval')return this.plan.retrievalChoice==='GENERAL'?modelResponse(JSON.stringify({choice:'GENERAL',keyword:'',criterionRef:'',generalRef:JSON.parse(request.messages.find(m=>m.role==='user')!.content).observation?.generalLists[0]?.ref??'',categoryUrl:'',reason:'Controlled general source retrieval, not a quality oracle'}),'fixture-retrieval'):scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {
@@ -234,6 +236,7 @@ class TwoTurnStrengthUpgradeModel implements ModelGateway {
 
   async complete(request: ModelRequest): Promise<ModelResponse> {
     this.requests.push(request);
+    if(request.purpose==="browser_read_decide")return scriptedBrowserObservation(request)!;
     if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;
     if (request.purpose === "restaurant_semantic_interpret") {

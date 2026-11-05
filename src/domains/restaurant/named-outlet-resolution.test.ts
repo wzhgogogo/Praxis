@@ -1,11 +1,17 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {readFile} from "node:fs/promises";
-import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate,namedOutletIdentityPrefix} from "./named-outlet-resolution.js";
+import {namedOutletCandidateResolved,namedOutletCandidateCanInvestigate,namedOutletIdentityPrefix,namedOutletContainment} from "./named-outlet-resolution.js";
 import {validateRestaurantAction} from "./action-validator.js";
 import type {RestaurantTaskState,RestaurantReadEvidence} from "./contracts.js";
 
 const data=async()=>JSON.parse(await readFile(new URL("../../application/fixtures/named-identity-terms/d2/input.json",import.meta.url),"utf8"));
+
+test("a longer candidate name cannot prove its own extra words; geographic and category support remain independent",()=>{
+  assert.equal(namedOutletContainment("G6","G6 Development Sushi","Tokyo",[],["G6 Development Sushi"]),false);
+  assert.equal(namedOutletContainment("Restaurant","Restaurant Ginza","Tokyo Ginza",["Ginza"],["Restaurant Ginza"]),true);
+  assert.equal(namedOutletContainment("Restaurant","Restaurant Ginza","Tokyo Shibuya",["Ginza"],["Restaurant Ginza"]),false);
+});
 
 test("extra name words require same-outlet bound source name/category quotations",()=>{
   // COMPONENT_ONLY: tests source association after a supplied HIGH verdict,

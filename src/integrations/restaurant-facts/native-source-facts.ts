@@ -353,7 +353,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         // there, not on every guide page.
         if (provider === "TABLECHECK" && !hardFactsResolved(request.intent, judged.evidence) && !hasConfirmedNegativeConflict(request.intent, judged.evidence)) {
           const guide = parseTableCheckOutletIdentityWithEvidence(initial, sourceUrl);
-          observedReservationTarget = guide && resolveTableCheckReservationTarget(initial, guide.outlet);
+          observedReservationTarget = guide && resolveTableCheckReservationTarget(initial, guide.outlet, this.networkPolicy);
           if (observedReservationTarget?.kind === "LINKED_PAGE" && !isBrowserReadPathProhibited(this.networkPolicy, observedReservationTarget.url)) {
             const documentsBefore = documents.length;
             await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: observedReservationTarget.url, observed: true });

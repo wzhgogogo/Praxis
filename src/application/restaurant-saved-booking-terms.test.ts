@@ -4,9 +4,9 @@ import {readFile} from "node:fs/promises";
 import {createHash} from "node:crypto";
 import {bookingTermsComposition} from "./fixtures/booking-terms-composition.js";
 
-// Real assembly/Runtime/Compiler/Router/G4/G1 with original D3 semantic and
-// presentation bytes. The availability preface is fixed I/O; fact pages are
-// saved DOMs with exact original visible text, not current site inventory.
+// LOCAL_CONSTRUCTION qualification preface through the real assembly/Runtime/
+// Compiler/Router/G4. Only G1 pages are original saved D3 DOMs (unchanged).
+// This is a G1 behavior test, not the D3 directed replay; its EVIDENCE_GAP remains.
 test("D3 saved pending fact page reaches G1 after bounded readiness and records why no unsupported booking terms are shown",async()=>{
   const f=await bookingTermsComposition({savedD3Terms:"PENDING"});
   try{

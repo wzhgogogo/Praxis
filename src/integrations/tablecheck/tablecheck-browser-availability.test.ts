@@ -41,6 +41,7 @@ class TableCheckBrowserAvailability extends ProductionTableCheckBrowserAvailabil
         if(input.stage==='DISCOVERY'){
           const field=input.observation.targets.find(t=>t.label==='Fixture public name search');
           const submitted=new URL(input.observation.url).searchParams.get('search_text');
+          if(input.goal.retrievalExpression&&field&&field.value!==input.goal.retrievalExpression)return{type:'FILL_AUTHORITATIVE',targetRef:field.ref,field:'RETRIEVAL',reason:'Fixture reads the current source search field'};
           if(input.goal.retrievalExpression&&field&&submitted!==input.goal.retrievalExpression){
             if(field.value!==input.goal.retrievalExpression)return{type:'FILL_AUTHORITATIVE',targetRef:field.ref,field:'RETRIEVAL',reason:'Fixture model chooses the visible query input'};
             const submit=input.observation.targets.find(t=>t.label==='Fixture search');
@@ -562,6 +563,19 @@ test("TableCheck discovery starts at the configured public source seed without f
   const named={...candidate,restaurant:{...candidate.restaurant,outletName:'Sushi Inase',coordinates:{lat:35.6703,lng:139.7653}}};
   assert.equal(tableCheckDiscoveryUrl(named),'https://www.tablecheck.com/en/japan/search');
   assert.equal(new URL(tableCheckDiscoveryUrl(named)).search,'');
+  // Original parser snapshot/expectation: independent of the retired URL builder.
+  const snapshot: BrowserSnapshot = {
+    url: tableCheckDiscoveryUrl(named), title: "Map Search - Japan", text: "50+ venues found",
+    html: [
+      '<a href="/en/sushiinase?search_text=Sushi+Inase">Sushi Inase</a>',
+      '<a href="/en/sushiinase-shinjuku?search_text=Sushi+Inase">Shinjuku Sushi Inase</a>',
+      '<a href="/en/sushiinase/reserve/landing?start_date=2026-08-06">9/6</a>',
+    ].join(""),
+  };
+  assert.deepEqual(parseTableCheckDiscoveryOutletUrls(snapshot, "Sushi Inase"), [
+    "https://www.tablecheck.com/en/sushiinase",
+    "https://www.tablecheck.com/en/sushiinase-shinjuku",
+  ]);
 });
 
 test("TableCheck parser reports every observed guide; callers own bounded detail inspection", () => {
@@ -579,11 +593,12 @@ test("TableCheck resolves a real linked reservation page and only sets read para
     html: '<a href="/en/restaurant1/reserve/landing?utm_source=tablecheck_portal">Book a table</a>',
   }, outlet);
   assert.deepEqual(target, { kind: "LINKED_PAGE", url: "https://www.tablecheck.com/en/restaurant1/reserve/landing?utm_source=tablecheck_portal" });
+  assert.ok(target?.kind==="LINKED_PAGE");
   assert.equal(
-    tableCheckRequestedReservationUrl(target!, "2026-08-05", 2),
+    tableCheckRequestedReservationUrl({kind:"LINKED_PAGE",url:target!.url}, "2026-08-05", 2),
     "https://www.tablecheck.com/en/restaurant1/reserve/landing?utm_source=tablecheck_portal&start_date=2026-08-05&num_people=2",
   );
-  const exact = new URL(tableCheckRequestedReservationUrl(target!, "2026-08-05", 2, { earliest: "19:00", latest: "19:00" }));
+  const exact = new URL(tableCheckRequestedReservationUrl({kind:"LINKED_PAGE",url:target!.url}, "2026-08-05", 2, { earliest: "19:00", latest: "19:00" }));
   assert.equal(exact.searchParams.get("num_people"), "2");
   assert.equal(exact.searchParams.has("pax"), false);
   assert.equal(exact.searchParams.get("start_time"), "19:00");
@@ -594,17 +609,14 @@ test("TableCheck resolves a real linked reservation page and only sets read para
   assert.equal(broad.searchParams.has("start_time"), false, "a time window must not carry a stale or invented exact time");
 });
 
-test("TableCheck pre-fills only an exact observed guide request without turning it into inventory", () => {
-  const target = { kind: "EMBEDDED_AVAILABILITY" as const, url: "https://www.tablecheck.com/en/sushihajime-shibuya" };
-  assert.equal(
-    tableCheckRequestedReservationUrl(target, "2026-10-08", 2, { earliest: "19:00", latest: "19:00" }),
-    "https://www.tablecheck.com/en/sushihajime-shibuya?date=2026-10-08&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time",
-  );
-  assert.equal(
-    tableCheckRequestedReservationUrl(target, "2026-10-08", 2, { earliest: "18:00", latest: "19:00" }),
-    target.url,
-    "the observed serializer does not justify picking a time from a requested range",
-  );
+test("TableCheck inventory opens only a source-bound guide or observed links, never a serialized request URL",async()=>{
+  const {snapshot}=JSON.parse(await readFile(new URL('./fixtures/ginza-bistro-empty.json',import.meta.url),'utf8'));
+  const guide="https://www.tablecheck.com/en/restaurant1";
+  const subject:import("../../domains/restaurant/contracts.js").RestaurantCandidate=structuredClone(candidate);subject.restaurant.sourceIds={tablecheck:"restaurant1",tablecheckNativeGuideUri:guide};
+  const session=new FixtureBrowserSession([{url:guide,title:"Restaurant 1",text:"Restaurant 1",html:`<h1>Restaurant 1</h1><p>1-1 Shinjuku, Tokyo</p><script type="application/ld+json">${JSON.stringify({"@type":"Restaurant","@id":guide,name:"Restaurant 1",address:"1-1 Shinjuku, Tokyo",acceptsReservations:guide+"/reserve"})}</script>${snapshot.html}`}]);
+  const result=await new TableCheckBrowserAvailability({openSession:async()=>session},undefined,{networkPolicy:{documentOrigins:["https://www.tablecheck.com"],staticResources:[],dynamicReads:[],prohibitedPaths:[{hostname:"tablecheck.com",pathSegment:"reserve"}]}}).check({...request,candidates:[subject],candidateIds:[subject.restaurant.id],date:"2026-10-23",partySize:10,timeWindow:{earliest:"17:30",latest:"17:30"}},new AbortController().signal);
+  assert.equal(result.availabilityChecks[subject.restaurant.id]?.status,"UNAVAILABLE");
+  assert.deepEqual(session.navigations,[guide],"Only the exact source-bound guide is opened; no parameters or reserve URL are constructed");
 });
 
 test("TableCheck accepts a source-owned reservation page on a distinct shops route only for the selected guide", () => {
@@ -976,7 +988,7 @@ test("TableCheck recovers one challenged canonical availability page through its
   const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z").check(request, new AbortController().signal);
   assert.equal(result.availabilityChecks[candidate.restaurant.id]?.status, "AVAILABLE");
   assert.equal(session.navigations.filter((url) => url === "https://www.tablecheck.com/en/restaurant1").length, 2);
-  assert.equal(session.navigations.filter((url) => url === "https://www.tablecheck.com/ja/restaurant1/reserve/landing?start_date=2026-08-05&num_people=2").length, 1);
+  assert.equal(session.navigations.filter((url) => url === "https://www.tablecheck.com/ja/restaurant1/reserve/landing").length, 1);
 });
 
 test("TableCheck does not invent an alternate after a challenged high-identity outlet and retains that identity", async () => {
@@ -1075,7 +1087,7 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
   assert.equal(session.navigations.length, 3);
   assert.equal(session.navigations[0], "https://www.tablecheck.com/en/japan/search");
   assert.equal(session.navigations[1], "https://www.tablecheck.com/en/restaurant1");
-  assert.equal(session.navigations[2], "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-08-05&num_people=2");
+  assert.equal(session.navigations[2], "https://www.tablecheck.com/en/shops/restaurant1/reserve");
   assert.equal(session.clicks, 0);
   assert.ok(session.filledValues.every(value=>value===request.date||value===String(request.partySize)),"the observation model only fills authoritative request values");
   assert.equal(session.closed, true);
@@ -1648,4 +1660,15 @@ test("G3c TableCheck quotes class-renamed guide menus and keeps each price and r
   assert.equal(fact.priceFacts!.listedCoursePricesYen[1]!.meal, "LUNCH"); assert.equal(fact.priceFacts!.listedCoursePricesYen[2]!.kind, "ADD_ON");
   assert.equal(fact.sourceUrl, guide.url, "the reservation URL cannot replace the quoted guide URL");
   assert.equal(calls, 1); assert.equal(read.offers[0]?.price, undefined);
+});
+
+test("an observed prohibited linked target cannot hide the same page's recorded embedded availability",async()=>{
+  // Real component structure: 2026-10-09 GiNZA recording; added JSON-LD is an
+  // explicit counterfactual, not a claim that this link occurred in that run.
+  const {snapshot}=JSON.parse(await readFile(new URL('./fixtures/ginza-bistro-empty.json',import.meta.url),'utf8'));
+  const outlet={sourceEntityId:'0711-ginzabistro',sourceUrl:snapshot.url,outletName:'0711 GiNZA BiSTRO'};
+  const page={...snapshot,html:'<script type="application/ld+json">'+JSON.stringify({'@type':'Restaurant','@id':snapshot.url,acceptsReservations:'https://www.tablecheck.com/en/shops/0711-ginzabistro/reserve'})+'</script>'+snapshot.html};
+  const {tableCheckPublicReadNetworkPolicy}=await import('./tablecheck-public-query.js');
+  assert.deepEqual(resolveTableCheckReservationTarget(page,outlet,tableCheckPublicReadNetworkPolicy),{kind:'EMBEDDED_AVAILABILITY',url:snapshot.url});
+  assert.equal(resolveTableCheckReservationTarget({...page,html:page.html.slice(0,page.html.indexOf('</script>')+9)},outlet,tableCheckPublicReadNetworkPolicy),undefined);
 });

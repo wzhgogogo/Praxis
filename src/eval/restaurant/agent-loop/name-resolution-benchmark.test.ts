@@ -1,3 +1,4 @@
+import {discoveryPackNetworkPolicy,restaurantDiscoveryPacks} from "../../../integrations/restaurant-search/source-packs.js";
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -47,16 +48,16 @@ test('name benchmark cannot admit live before sample approval and healthy source
 });
 test('production name prefix succeeds for both sources without using a known URL or operating availability',async()=>{
  for(const platform of ['TABELOG','TABLECHECK'] as const){
-  const navigated:string[]=[],actions:string[]=[];let current:BrowserSnapshot;
+  const navigated:string[]=[],actions:string[]=[];let current:BrowserSnapshot,query='';
   const detail=platform==='TABELOG'?source:'https://www.tablecheck.com/en/fixture';
-  const runtime:BrowserRuntime={openSession:async()=>({metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:'2026-10-20T00:00:00Z'},
-   navigate:async url=>{navigated.push(url);const search=/rstLst|japan\/search/.test(url);const html=search?`<a class="list-rst__rst-name-target" href="${detail}">Fixture Restaurant</a>`:`<title>Fixture Restaurant</title><h1>Fixture Restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Fixture Restaurant',address:'1-1 Tokyo Fixture Street',telephone:'03-1111-2222'})}</script>${platform==='TABELOG'?'<p>Availability</p><select name="party_size"><option value="1">1</option></select><select name="date"><option value="1970-01-01">1970-01-01</option></select>':'<a href="https://www.tablecheck.com/en/shops/fixture/reserve">Reserve</a>'}`;current={url,title:'Fixture Restaurant',text:html.replace(/<[^>]*>/g,' '),html};},
-   snapshot:async()=>current,click:async()=>{actions.push('click');},fill:async()=>{actions.push('fill');},select:async()=>{actions.push('select');return[];},waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{},
+  const runtime:BrowserRuntime={openSession:async()=>({metadata:{runtimeProvider:'LOCAL_PLAYWRIGHT_CHROMIUM',engine:'CHROMIUM',startedAt:'2026-10-20T00:00:00Z',readNetworkBoundary:'INSTALLED'},
+   navigate:async url=>{navigated.push(url);const search=new URL(url).pathname==='/en/'||/rstLst|japan\/search/.test(url);const html=search?`<a class="list-rst__rst-name-target" href="${detail}">Fixture Restaurant</a>`:`<title>Fixture Restaurant</title><h1>Fixture Restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:'Fixture Restaurant',address:'1-1 Tokyo Fixture Street',telephone:'03-1111-2222'})}</script>${platform==='TABELOG'?'<p>Availability</p><select name="party_size"><option value="1">1</option></select><select name="date"><option value="1970-01-01">1970-01-01</option></select>':'<a href="https://www.tablecheck.com/en/shops/fixture/reserve">Reserve</a>'}`;current={url,title:'Fixture Restaurant',text:html.replace(/<[^>]*>/g,' '),html};},
+   snapshot:async()=>current,observeControls:async()=>current.url===detail?[]:[{id:'q',stableKey:'q',kind:'INPUT',role:'searchbox',label:'Restaurant name',type:'search',value:query,structure:{tag:'INPUT',name:'keyword',classes:[],dialogLabel:'',formClass:'',sliderCount:0},formMethod:'GET',formObservation:{owner:'search',visibleLines:['Restaurant name','Search']},visible:true,disabled:false},{id:'submit',stableKey:'submit',kind:'BUTTON',role:'button',label:'Search',type:'submit',formMethod:'GET',formObservation:{owner:'search',visibleLines:['Restaurant name','Search']},visible:true,disabled:false}],click:async()=>{actions.push('click:search');const u=new URL(current.url);u.searchParams.set('keyword',query);current={...current,url:u.toString()};},fill:async(_id,value)=>{query=value;actions.push('fill:name');},select:async()=>{actions.push('select');return[];},waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{},
   })};
-  const artifact=await runNameResolutionMethodA('test',platform,sample.subject,{mode:'OFFLINE_FIXTURE',runtime,signal:new AbortController().signal});
-  assert.equal(artifact.observation.accepted,true,JSON.stringify(artifact.observation));assert.equal(artifact.observation.modelCalls,0);
-  assert.ok(navigated[0]!.includes('Fixture%20Restaurant')||navigated[0]!.includes('Fixture+Restaurant'));
-  assert.equal(navigated.some(u=>u.includes('/reserve')),false);assert.deepEqual(actions,[]);assert.equal(artifact.boundary.availabilityEvaluated,false);
+  const artifact=await runNameResolutionMethodA('test',platform,sample.subject,{mode:'OFFLINE_FIXTURE',runtime,signal:new AbortController().signal,networkPolicy:discoveryPackNetworkPolicy(restaurantDiscoveryPacks),decision:{decide:async input=>{const q=input.observation.targets.find(t=>t.label==='Restaurant name');if(q&&q.value!==sample.subject.name)return{type:'FILL_AUTHORITATIVE',targetRef:q.ref,field:'RETRIEVAL',reason:'Fill the observed name-only field'};if(!new URL(input.observation.url).searchParams.has('keyword'))return{type:'CLICK',targetRef:input.observation.targets.find(t=>t.label==='Search')!.ref,reason:'Submit the observed public query'};return{type:'COMPLETE',reason:'Inspect source results for identity'};}}});
+  assert.equal(artifact.observation.accepted,true,JSON.stringify(artifact.observation));assert.equal(artifact.observation.modelCalls,3);
+  assert.ok(['https://tabelog.com/en/','https://www.tablecheck.com/en/japan/search'].includes(navigated[0]!));
+  assert.equal(navigated.some(u=>u.includes('/reserve')),false);assert.deepEqual(actions,['fill:name','click:search']);assert.equal(artifact.boundary.availabilityEvaluated,false);
  }
 });
 
@@ -66,7 +67,7 @@ test('scripted browser decisions cannot see placeholder dates or fill request co
   observeControls:async()=>[{id:'date',stableKey:'date',kind:'INPUT',role:'textbox',label:'Date',type:'date',visible:true,disabled:false,structure:{tag:'INPUT',name:'date',classes:[],dialogLabel:'',formClass:'',sliderCount:0}}],
   fill:async()=>{fills++;},click:async()=>{},select:async()=>[],waitFor:async()=>{},waitForSettled:async()=>true,screenshot:async()=>new Uint8Array(),close:async()=>{},
  })};
- const artifact=await runNameResolutionMethodA('no-leak','TABLECHECK',sample.subject,{mode:'OFFLINE_FIXTURE',runtime,signal:new AbortController().signal,decision:{decide:async input=>{
+ const artifact=await runNameResolutionMethodA('no-leak','TABLECHECK',sample.subject,{mode:'OFFLINE_FIXTURE',runtime,signal:new AbortController().signal,networkPolicy:discoveryPackNetworkPolicy(restaurantDiscoveryPacks),decision:{decide:async input=>{
   calls++;assert.equal('date' in input.goal,false);assert.equal('partySize' in input.goal,false);assert.ok(!JSON.stringify(input).includes('1970-01-01'));
   assert.ok(input.observation.targets.every(t=>!t.availableActions?.some(a=>a.endsWith(':DATE'))));
   return {type:'FILL_AUTHORITATIVE',targetRef:input.observation.targets[0]!.ref,field:'DATE',reason:'Synthetic prohibited date proposal'};

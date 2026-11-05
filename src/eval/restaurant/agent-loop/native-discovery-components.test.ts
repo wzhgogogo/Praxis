@@ -6,7 +6,7 @@ import { restaurantSearchIntentFingerprint, type RestaurantTaskState } from "../
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
 import { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
 import { NativeRestaurantSearch } from "../../../integrations/restaurant-search/native-restaurant-search.js";
-import { tabelogDiscoveryPack } from "../../../integrations/restaurant-search/source-packs.js";
+import { tabelogDiscoveryPack,discoveryPackNetworkPolicy } from "../../../integrations/restaurant-search/source-packs.js";
 import { center, date, reference, sourcePages } from "./native-fixed-source-pages.js";
 
 const fixtureRetrieval={decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Scripted retrieval control."})};
@@ -40,7 +40,7 @@ test("native source session acquisition consumes the remaining source window and
 
 test("the production Router advances the default three-pack cursor and reaches Google Nearby Search after bounded source batches", async () => {
   const navigations: string[] = [];
-  const browser = sourcePages("BOTH_BOUNDED_EMPTY", navigations);
+  const browser = sourcePages("BOTH_BOUNDED_EMPTY", navigations,undefined,undefined,undefined,{guardedReadBoundary:true});
   const nearbyRequests: unknown[] = [];
   const google = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
     apiKey: "fixture-only",
@@ -55,7 +55,7 @@ test("the production Router advances the default three-pack cursor and reaches G
       }] }), { status: 200, headers: { "content-type": "application/json" } });
     },
   }), () => reference.toISOString(), 10, { maxRequests: 100 });
-  const native = new NativeRestaurantSearch(browser, google, fixtureRetrieval, () => reference.toISOString(), undefined, undefined, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 });
+  const native = new NativeRestaurantSearch(browser, google, fixtureRetrieval, () => reference.toISOString(), undefined, {decide:async()=>({type:"REQUEST_HUMAN_HELP",reason:"Bounded constructed empty source; advance to next source"})}, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 },discoveryPackNetworkPolicy());
   const router = new RestaurantExecutionRouter(native, {
     executionRoute: "STRUCTURED_ADAPTER",
     async check() { return { offers: [], availabilityChecks: {}, evidence: [], metadata: { provider: "FIXTURE", route: "STRUCTURED_ADAPTER", latencyMs: 0 } }; },
@@ -91,14 +91,14 @@ test("coordinate-only discovery passes source-attributed address observations, i
     const modelInputs: unknown[] = [];
     const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async () => new Response(JSON.stringify({ results: [{ addressComponents: [{ longText: "Observed district", types: ["sublocality"] }] }] }), { status: failure ? 403 : 200 }) }), () => reference.toISOString(), 10, { maxRequests: 1 });
     let url = "https://tabelog.com/en/";
-    const session = { metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: reference.toISOString() },
+    const session = { metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: reference.toISOString(),readNetworkBoundary:"INSTALLED" as const },
       navigate: async (next: string) => { url = next; }, snapshot: async () => ({ url, title: "Public directory", text: "Choose an observed region", html: "<main>Choose an observed region</main>" }),
       click: async () => {}, fill: async () => {}, select: async () => [], waitFor: async () => {}, screenshot: async () => new Uint8Array(), close: async () => {},
     };
-    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, fixtureRetrieval, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, undefined, [tabelogDiscoveryPack]);
+    const search = new NativeRestaurantSearch({ openSession: async () => session }, locality, fixtureRetrieval, () => reference.toISOString(), undefined, { decide: async input => { modelInputs.push(input.goal.location); return { type: "REQUEST_HUMAN_HELP", reason: "Fixture input observed; stop without navigation" }; } }, undefined, undefined, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24 }, discoveryPackNetworkPolicy([tabelogDiscoveryPack]), [tabelogDiscoveryPack]);
     await search.search({ intent: { timezone: "Asia/Tokyo", area: { query: "nearby", coordinates: { latitude: 1, longitude: 2, observedAt: reference.toISOString(), source: "DEVICE" } }, criteria: [], target: { goal: "RECOMMENDATION", query: "restaurants nearby" } }, readRunId: `coordinate-input-${failure}` }, new AbortController().signal);
     assert.equal(modelInputs.length, 1);
-    assert.deepEqual(modelInputs[0], { latitude: 1, longitude: 2, radiusMeters: 1000,
+    assert.deepEqual(modelInputs[0], { latitude: 1, longitude: 2, radiusMeters: 1000,label:"nearby",name:"nearby",areaMatchBasis:"TASK_LOCATION_RADIUS",
       ...(!failure ? { addressComponents: [{ longText: "Observed district", types: ["sublocality"] }] } : {}),
       addressObservation: { source: "GOOGLE_GEOCODING", observedAt: reference.toISOString(), status: failure ? "UNAVAILABLE" : "OBSERVED", ...(failure ? { reasonCode: "GOOGLE_SERVICE_QUOTA_OR_PERMISSION" } : {}) } });
     assert.equal(locality.googleRequestUsage(`coordinate-input-${failure}`).total, 1);

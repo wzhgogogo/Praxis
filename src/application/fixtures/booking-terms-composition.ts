@@ -1,6 +1,9 @@
 import {scriptedBrowserObservation} from "../../harness/fixtures/restaurant-observation-model.js";
 import assert from "node:assert/strict";
-import {readFile} from "node:fs/promises";
+import {readFile,mkdtemp,writeFile,rm} from "node:fs/promises";
+import {join} from "node:path";
+import {tmpdir} from "node:os";
+import {LocalPlaywrightChromium} from "../../infrastructure/browser/local-playwright-chromium.js";
 import {PGlite,type Transaction} from "@electric-sql/pglite";
 import type {SqlDatabase,SqlExecutor,SqlQueryResult} from "../../infrastructure/postgres/sql-database.js";
 import {applyPostgresMigrations} from "../../infrastructure/postgres/migrations.js";
@@ -20,7 +23,7 @@ import {googlePlacesDiscoveryPack} from "../../integrations/restaurant-search/so
 import {GooglePlacesClient} from "../../integrations/google/google-places-client.js";
 import {FakeClock} from "../../harness/fake-clock.js";
 import {strictAction} from "../../harness/restaurant-read-test-fixtures.js";
-import {localFixture,exactGuideAvailabilityUrl} from "../../harness/browser/browser-read-test-fixtures.js";
+import {replayHarPages} from "../../harness/browser/browser-read-test-fixtures.js";
 
 class Database implements SqlDatabase {
   constructor(private readonly db:PGlite){}
@@ -74,6 +77,8 @@ export async function bookingTermsComposition(options:Options={}){
     for(const n of [1,2,3,4,6,7,8,9,10,12])realD3.set(n,await readFile(new URL(`./named-identity-terms/decision-${String(n).padStart(2,"0")}.original.json`,import.meta.url),"utf8"));
     Object.assign(source.outlet,{id:d3.place.id,name:d3.place.displayName.text,address:d3.place.formattedAddress,phone:d3.place.nationalPhoneNumber,latitude:d3.place.location.latitude,longitude:d3.place.location.longitude});
     source.pageUrl=d3.pageUrl;source.date=d3.date;source.referenceTime=d3.referenceTime;source.vacancy=d3.vacancy;
+    // LOCAL_CONSTRUCTION preface only: name and availability are not replay claims.
+    source.outlet.name=JSON.parse(realD3.get(1)!).facts.find((f:{field:string})=>f.field==="TARGET").value.query;
     d3English=JSON.parse(await readFile(new URL("./named-identity-terms/page-23.json",import.meta.url),"utf8"));
     d3Japanese=JSON.parse(await readFile(new URL("./named-identity-terms/page-24.json",import.meta.url),"utf8"));
   }
@@ -123,7 +128,10 @@ export async function bookingTermsComposition(options:Options={}){
       else rawOutput=realD2.get(3)!;
       if(rawOutput)body=JSON.parse(rawOutput);
     }else if(d3&&request.purpose==="restaurant_semantic_interpret"){
-      rawOutput=realD3.get(turn==="INITIAL"?1:7)!;body=JSON.parse(rawOutput);
+      body=JSON.parse(realD3.get(turn==="INITIAL"?1:7)!);
+      // The saved G1 pages are the test input; qualification is a separately
+      // constructed precondition, not a reconstructed D3 semantic replay.
+      (body as {facts:Array<{field:string}>}).facts=(body as {facts:Array<{field:string}>}).facts.filter(f=>f.field!=="CRITERION");
     }else if(d3&&request.purpose==="restaurant_agent_decide"){
       const context=JSON.parse(request.messages.find(m=>m.role==="user")!.content).context as RestaurantAgentContext;
       const initial=turn==="INITIAL";
@@ -247,10 +255,13 @@ if(options.namedWithoutArea){
   }};
   const counted=new RunBoundedModelGateway(transport,options.maxCalls??50,limits.maxAutomaticBrowserMs);
   const model=new DeliveryReservedModelGateway(counted);
-  const chrome=provider==="TABLECHECK"?localFixture({[url]:english,[exactGuideAvailabilityUrl(url,source.date,2,"19:00")]:english}):undefined;
+  const folder=provider==="TABLECHECK"?await mkdtemp(join(tmpdir(),"b1-terms-source-")):undefined;
+  const harPath=folder?join(folder,"source.har"):undefined;
+  if(harPath)await writeFile(harPath,replayHarPages({[url]:english}));
+  const chrome=folder?new LocalPlaywrightChromium():undefined;
   const browser:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",async openSession(input){
     if(stage==="FACTS"){termsSignal=input.signal;mark("FACTS_SESSION_BEGIN");input.signal.addEventListener("abort",()=>{mark("FACTS_ABORT",{reasonCode:input.signal.reason?.code??"CANCELLED"});},{once:true});}
-    const session=chrome?await chrome.openSession(input):undefined;
+    const session=chrome?await chrome.openSession({...input,...(harPath?{replayHarPath:harPath}:{})}):undefined;
     const originalNavigate=session?.navigate.bind(session);
     let pageUrl=url,query="";
     const navigate=async(target:string)=>{
@@ -327,7 +338,7 @@ if(options.namedWithoutArea){
     async others(){assert.ok(continuity);clock.advance(1000);turn="OTHERS";await project();await finished(()=>app.submitMessage({userId:"terms-user",conversationId,requestId:"others:"+version,expectedVersion:version,message:"Please show me two other nearby restaurants for the same date and guests."}));return project();},
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
     project,omitTerms(){omit=true;},async cancel(){return app.cancelCase("terms-user",caseId);},
-    async close(){await app.stopActiveReads();await db.close();},
+    async close(){await app.stopActiveReads();await db.close();if(folder)await rm(folder,{recursive:true,force:true});},
     artifact:async()=>{const raw=await app.getCase("terms-user",caseId),prepared=assembly.bookingHandoffs.readPrepared(raw);return {requests,sourceCalls,sourcePages,googleWires,browserDiagnostics,
       view:withBookingHandoffs(raw,prepared,clock.now().toISOString()),prepared,timeline,run:counted.usage(caseId),execution:await app.exportReadArtifact(caseId),realCalls:0};},
   };

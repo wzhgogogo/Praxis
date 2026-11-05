@@ -2,7 +2,7 @@ import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/mo
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET, type LiveReadInvestigationBudget } from "../../../application/live-read-investigation-budget.js";
 import { createLiveReadAssembly } from "../../../integrations/restaurant-search/live-read-assembly.js";
 import { googlePlacesDiscoveryPack } from "../../../integrations/restaurant-search/source-packs.js";
-import type { BrowserRuntime, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
+import type { BrowserPageControl, BrowserRuntime, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
 import type { CurrentDevelopmentSourceScenario, FixedSourceObservation } from "./current-development-source-scenarios.js";
 import { safeRecord, traceBrowserSession } from "./runners/browser-case-slice-evidence.js";
@@ -190,27 +190,29 @@ export function createCurrentDevelopmentFixedSources(
     // The menu stays on that page, never manufactured on the identity guide.
     const details = googlePlace(source);
     if (!source.websiteFacts && source.tableCheck && source.availability) {
-      details.websiteUri = "https://www.tablecheck.com" + source.tableCheck.reservationEntryPath + "/reserve/landing";
+      details.websiteUri = "https://www.tablecheck.com" + source.tableCheck.reservationEntryPath;
     }
     return new Response(JSON.stringify(details), { status: 200 });
   } });
-  let browserTraceSequence = 0;
+  let browserTraceSequence = 0,sourceStage="";
   const recordBrowserTrace = (kind: string, detail: unknown) => {
     const sequence = ++browserTraceSequence;
     calls.browserTrace.push({ sequence, at: asIso(clock), kind, detail: safeRecord(detail) });
     return sequence;
   };
-  const rawBrowser: BrowserRuntime = { openSession: async () => {
+  const rawBrowser: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async () => {
+    let query="",selectedDate="",selectedGuests="";
     let page: BrowserSnapshot | undefined;
     const sourceForTableCheckPath = (pathname: string) => observations.find((item) => {
       const path = item.tableCheck?.reservationEntryPath;
       return path !== undefined && (pathname === path || pathname === path + "/reserve" || pathname === path + "/reserve/landing");
     });
-    return {
-      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: asIso(clock) },
+    const session:import("../../../infrastructure/browser/browser-runtime.js").BrowserSession={
+      metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: asIso(clock),readNetworkBoundary:"INSTALLED" },
       navigate: async (target: string) => {
         calls.browserNavigations.push(target);
         const url = new URL(target);
+        recordBrowserTrace("MOCK_DOCUMENT_READ",{mode:"LOCAL_CONSTRUCTION",networkRequests:[{outcome:"ADMITTED",origin:url.origin,pathname:url.pathname,method:"GET",resourceType:"document",queryKeys:[...url.searchParams.keys()]}]});
         const websiteSource = observations.find((item) => item.google.websiteUri === target);
         if (websiteSource && url.hostname !== "www.tablecheck.com") {
           if (!websiteSource.websiteFacts) throw sourceGap({
@@ -234,7 +236,7 @@ export function createCurrentDevelopmentFixedSources(
             source: "TABLECHECK", stage: "DISCOVERY", request: target, reason: "TableCheck discovery has no configured outlet for " + requested,
           });
           observed("TABLECHECK", "DISCOVERY");
-          const links = matches.flatMap((item) => item.tableCheck ? ["<a href=\"" + item.tableCheck.reservationEntryPath + "?search_text=" + encodeURIComponent(item.tableCheck.displayName) + "\">" + item.tableCheck.displayName + "</a>"] : []).join("");
+          const links = matches.flatMap((item) => item.tableCheck ? ["<a href=\"" + item.tableCheck.reservationEntryPath + "?search_text=" + encodeURIComponent(requested) + "\">" + item.tableCheck.displayName + "</a>"] : []).join("");
           page = { url: target, title: "Map search", text: matches.length ? matches.map((item) => item.google.displayName).join(" ") : "0 venues found", html: "<section id=\"tablecheck-results\">" + links + "</section>" };
           return;
         }
@@ -243,17 +245,12 @@ export function createCurrentDevelopmentFixedSources(
           source: "TABLECHECK", stage: "PAGE", request: target, reason: "TableCheck page " + url.pathname + " is not configured",
         });
         const tableCheck = source.tableCheck;
-        if (url.pathname === tableCheck.reservationEntryPath) {
-          observed("TABLECHECK", "IDENTITY", { candidateId: source.google.placeId });
-          page = { url: target, title: tableCheck.displayName, text: tableCheck.displayName + " " + tableCheck.address + " " + tableCheck.phone,
-            html: "<h1 id=\"outlet-name\">" + tableCheck.displayName + "</h1><p class=\"address\">" + tableCheck.address + "</p><a href=\"tel:" + tableCheck.phone.replace(/\s/g, "") + "\">" + tableCheck.phone + "</a><a id=\"reservation-entry\" href=\"" + tableCheck.reservationEntryPath + "/reserve/landing\">Book a table</a>" };
-          return;
-        }
+        observed("TABLECHECK", "IDENTITY", { candidateId:source.google.placeId });
         const inventory = source.availability;
-        if (!inventory) throw sourceGap({
-          source: "TABLECHECK", stage: "AVAILABILITY", request: target, candidateId: source.google.placeId,
-          reason: "Availability is not configured for this legal TableCheck outlet",
-        });
+        if(!inventory){page={url:target,title:tableCheck.displayName,text:tableCheck.displayName,
+          html:`<h1>${tableCheck.displayName}</h1><p>${tableCheck.address}</p><a href="tel:${tableCheck.phone}">${tableCheck.phone}</a>`};return;}
+        if(!selectedDate)selectedDate=inventory.date;
+        if(!selectedGuests)selectedGuests=String(inventory.partySize);
         // Constructed public menu page: preserve the independently authored
         // TableCheck identity, not the Google identity. Layout references:
         // dom-change/tablecheck-detail-nakamata.html.gz, uncompressed SHA
@@ -261,32 +258,39 @@ export function createCurrentDevelopmentFixedSources(
         // restaurant-prices/tablecheck-recorded-menu.html, SHA
         // 2a625d0641b5b2824170a4a263c9ac68aac3017057b14afac84cdefd327f1f68.
         // These are structure references, not replayed facts for synthetic shops.
-        const identityHtml = "<h1>" + tableCheck.displayName + "</h1><p>" + tableCheck.address + "</p><a href=\"tel:" + tableCheck.phone.replace(/\s/g, "") + "\">" + tableCheck.phone + "</a>";
+        const identityHtml = "<script type=\"application/ld+json\">"+JSON.stringify({"@type":"Restaurant",name:tableCheck.displayName,address:tableCheck.address,telephone:tableCheck.phone})+"</script><h1>" + tableCheck.displayName + "</h1><p>" + tableCheck.address + "</p><a href=\"tel:" + tableCheck.phone.replace(/\s/g, "") + "\">" + tableCheck.phone + "</a>";
         const publicMenu = "<section><p>" + inventory.menuText + "</p></section>";
         const identityText = [tableCheck.displayName, tableCheck.address, tableCheck.phone, inventory.menuText];
-        if (!url.searchParams.has("start_date") && !url.searchParams.has("num_people")) {
-          page = { url: target, title: tableCheck.displayName, text: identityText.join("\n"), html: identityHtml + publicMenu };
-          observed("TABLECHECK", "MENU", { candidateId: source.google.placeId, sampleCapturedAt: inventory.sampleCapturedAt });
-          return;
-        }
-        if (url.searchParams.get("start_date") !== inventory.date || url.searchParams.get("num_people") !== String(inventory.partySize)) throw sourceGap({
-          source: "TABLECHECK", stage: "AVAILABILITY", request: target, candidateId: source.google.placeId,
-          reason: "No fixture inventory matches the requested date or party size",
-        });
-        calls.availability++;
+        // LOCAL_CONSTRUCTION embedded guide widget, using the structure of
+        // src/integrations/tablecheck/fixtures/ginza-bistro-empty.json (2026-10-09).
+        // No saved stock response is relocated and no reserve document is opened.
+        if(selectedDate!==inventory.date||selectedGuests!==String(inventory.partySize))throw sourceGap({source:"TABLECHECK",stage:"AVAILABILITY",candidateId:source.google.placeId,
+          request:target+" [start_date="+selectedDate+",num_people="+selectedGuests+"]",reason:"No fixture inventory matches the requested date or party size"});
+        if(sourceStage!=="FACTS")calls.availability++;
         observed("TABLECHECK", "AVAILABILITY", { candidateId: source.google.placeId, sampleCapturedAt: inventory.sampleCapturedAt });
         const slots = inventory.visibleSlots.map((slot) => "<a href=\"" + tableCheck.reservationEntryPath + "/reserve?start_date=" + inventory.date + "&amp;pax=" + inventory.partySize + "&amp;start_time=" + slot + "\"><button class=\"time-slot is-available\" data-time=\"" + slot + "\">" + slot + "</button></a>").join("");
-        page = { url: target, title: tableCheck.displayName, text: [...identityText, ...inventory.visibleSlots].join("\n"),
-          html: identityHtml + publicMenu + "<div data-testid=\"Venue Availability\" data-selected-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\">" +
-            (inventory.status === "UNAVAILABLE" ? "<section id=\"availability-results\" data-availability-state=\"empty\" data-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\"></section>" : "<section id=\"availability-results\" data-availability-state=\"complete\">" + slots + "</section>") + "</div>" };
+        page = { url: target, title: tableCheck.displayName, text: [...identityText,inventory.date,String(inventory.partySize)+" guests",...(inventory.status==="UNAVAILABLE"?["There are no available tables for this time period"]:inventory.visibleSlots)].join("\n"),
+          html: identityHtml + publicMenu + `<form><label>Date<input type="date" name="reservation[start_date]" value="${selectedDate}"></label><label>Guests<select name="reservation[num_people_adult]"><option selected value="${selectedGuests}">${selectedGuests} guests</option></select></label></form>` + "<div data-testid=\"Venue Availability\" data-selected-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\">" +
+            (inventory.status === "UNAVAILABLE" ? "<p>There are no available tables for this time period</p><section id=\"availability-results\" data-availability-state=\"empty\" data-date=\"" + inventory.date + "\" data-pax=\"" + inventory.partySize + "\"></section>" : "<section id=\"availability-results\" data-availability-state=\"complete\">" + slots + "</section>") + "</div>" };
       },
       snapshot: async () => { if (!page) throw sourceGap({ source: "BROWSER", stage: "SNAPSHOT", request: "<none>", reason: "Browser snapshot occurred before navigation" }); return page; },
-      observeControls: async () => page?.html.includes('data-testid="Venue Availability"')
-        ? [{ id: "fixture:availability-region", stableKey: "fixture:availability-region", kind: "REGION" as const, role: "region", label: "Venue Availability", visible: true, disabled: false }]
-        : [],
-      click: async () => { throw sourceGap({ source: "BROWSER", stage: "CLICK", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
-      fill: async () => { throw sourceGap({ source: "BROWSER", stage: "FILL", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
-      select: async () => { throw sourceGap({ source: "BROWSER", stage: "SELECT", request: "<opaque>", reason: "Fixture does not configure write-like browser interaction" }); },
+      observeControls: async ():Promise<BrowserPageControl[]> => {
+        if(!page)return[];
+        const u=new URL(page.url);
+        const search:BrowserPageControl[]=[
+          {id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",type:"search",label:"Restaurant search",value:query,structure:{tag:"INPUT",name:"search_text",classes:[],dialogLabel:"",formClass:"",sliderCount:0},formMethod:"GET",formObservation:{owner:"source-form",visibleLines:["Restaurant search","Search"]},visible:true,disabled:false},
+          {id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:{owner:"source-form",visibleLines:["Restaurant search","Search"]},visible:true,disabled:false}];
+        if(u.pathname==="/en/japan/search")return search;
+        const source=sourceForTableCheckPath(u.pathname),inventory=source?.availability;if(!inventory)return[];
+        return[...search,
+          {id:"date",stableKey:"date",kind:"INPUT",role:"textbox",label:"Date",type:"date",value:selectedDate,structure:{tag:"INPUT",name:"reservation[start_date]",classes:[],dialogLabel:"",formClass:"",sliderCount:0},visible:true,disabled:false},
+          {id:"guests",stableKey:"guests",kind:"SELECT",role:"combobox",label:"Guests",value:selectedGuests,options:[1,2,3,4,5,6].map(n=>({value:String(n),label:n+" guests",selected:String(n)===selectedGuests,disabled:false})),visible:true,disabled:false},
+          {id:"region",stableKey:"region",kind:"REGION",role:"region",label:"Venue Availability",visible:true,disabled:false},
+        ];
+      },
+      click:async id=>{if(id!=="submit")throw sourceGap({source:"BROWSER",stage:"CLICK",request:id,reason:"Not a current public submit"});await session.navigate("https://www.tablecheck.com/en/japan/search?search_text="+encodeURIComponent(query));},
+      fill:async(id,value)=>{if(id==="query"){query=value;return;}if(id!=="date"||!page)throw sourceGap({source:"BROWSER",stage:"FILL",request:id,reason:"Not a current field"});selectedDate=value;await session.navigate(page.url);},
+      select:async(id,value)=>{if(id!=="guests"||!page)throw sourceGap({source:"BROWSER",stage:"SELECT",request:id,reason:"Not a current option"});selectedGuests=value;await session.navigate(page.url);return[value];},
       waitForSettled: async () => true,
       waitFor: async (selector) => {
         if (!page || !matchesSelector(page.html, selector)) throw sourceGap({
@@ -294,12 +298,12 @@ export function createCurrentDevelopmentFixedSources(
         });
       },
       screenshot: async () => new Uint8Array(), close: async () => {},
-    };
+    };return session;
   } };
-  const browser: BrowserRuntime = { openSession: async (input) => traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace) };
+  const browser: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async (input) => traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace) };
   const assembly = createLiveReadAssembly({ ...limits, packs: [googlePlacesDiscoveryPack] }, {
     google: client, browser, model, clock: { now: () => new Date(asIso(clock)) },
-    onBrowserDiagnostic: diagnostic => recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic),
+    onBrowserDiagnostic: diagnostic => {sourceStage=diagnostic.stage;recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);},
   });
   return {
     ...assembly,

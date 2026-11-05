@@ -1,4 +1,5 @@
 import type {RestaurantSearchIntent,RestaurantTaskState,RestaurantReadEvidence,RestaurantOutlet} from "./contracts.js";
+import {normalizedTextKey} from "../../core/text-key.js";
 
 /** Transient read input reconstructed from existing authoritative Runtime events. */
 export interface NamedOutletReference {
@@ -8,7 +9,7 @@ export interface NamedOutletReference {
 }
 
 export function outletNameKey(value:string):string {
-  return value.normalize("NFKC").trim().replace(/\s+/gu," ").toLocaleLowerCase("en-US");
+  return normalizedTextKey(value);
 }
 
 /** Stable provider IDs bind a prior user choice; neither names nor phone alone do. */
@@ -38,15 +39,16 @@ export function outletNameContains(full:string,part:string):boolean {
 }
 
 /** Extra words need this outlet's identity-bound source text, never a vocabulary. */
-export function namedOutletContainment(query:string,sourceName:string,address:string,localities:readonly string[]=[],sourceText:readonly string[]=[]):boolean {
+export function namedOutletContainment(query:string,sourceName:string,address:string,localities:readonly string[]=[],sourceText:readonly string[]=[],categoryText:readonly string[]=[]):boolean {
   const a=outletNameKey(query),b=outletNameKey(sourceName);
-  const [full,part]=outletNameContains(a,b)?[a,b]:outletNameContains(b,a)?[b,a]:[];
+  const userLonger=outletNameContains(a,b);
+  const [full,part]=userLonger?[a,b]:outletNameContains(b,a)?[b,a]:[];
   if(!full||!part)return false;
   const at=full.indexOf(part),extra=(full.slice(0,at)+" "+full.slice(at+part.length)).trim();
   const location=outletNameKey(address);
   return extra.split(/\s+/u).filter(Boolean).every(term=>{
     const geographic=localities.some(value=>outletNameContains(value,term));
-    return geographic?outletNameContains(location,term):sourceText.some(text=>outletNameContains(text,term));
+    return geographic?outletNameContains(location,term):(userLonger?sourceText:categoryText).some(text=>outletNameContains(text,term));
   });
 }
 
@@ -86,15 +88,15 @@ export function boundNames(state:NamedState,candidateId:string):string[] {
   return names.filter(Boolean);
 }
 
-function boundNameSupport(state:NamedState,candidateId:string):string[] {
+function boundNameSupport(state:NamedState,candidateId:string,includeNames=true):string[] {
   const place=state.candidates.find(c=>c.restaurant.id===candidateId)?.restaurant.sourceIds.googlePlaces;
   const identity=state.readEvidence.filter(e=>e.candidateId===candidateId&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH"
     &&e.provider!=="MODEL_JUDGMENT"&&(e.provider!=="GOOGLE_PLACES"||e.sourceEntityId===place));
   return state.readEvidence.filter(e=>e.candidateId===candidateId&&identity.some(i=>i.provider===e.provider
     &&i.sourceEntityId===e.sourceEntityId&&i.sourceUrl===e.sourceUrl)).flatMap(e=>[
-    ...(native(e)&&typeof e.claims.observedOutletName==="string"?[e.claims.observedOutletName]:[]),
-    ...(e.provider==="GOOGLE_PLACES"&&e.sourceEntityId===place&&typeof e.claims.outletName==="string"?[e.claims.outletName]:[]),
-    ...(e.sourceFieldQuotes??[]).filter(q=>(q.field==="NAME"||q.field==="CATEGORY"||q.field==="GOOGLE_TYPE")&&q.sourceUrl===e.sourceUrl).map(q=>q.quote),
+    ...(includeNames&&native(e)&&typeof e.claims.observedOutletName==="string"?[e.claims.observedOutletName]:[]),
+    ...(includeNames&&e.provider==="GOOGLE_PLACES"&&e.sourceEntityId===place&&typeof e.claims.outletName==="string"?[e.claims.outletName]:[]),
+    ...(e.sourceFieldQuotes??[]).filter(q=>(includeNames&&q.field==="NAME"||q.field==="CATEGORY"||q.field==="GOOGLE_TYPE")&&q.sourceUrl===e.sourceUrl).map(q=>q.quote),
   ]);
 }
 
@@ -153,5 +155,5 @@ export function namedOutletCandidateResolved(state:NamedState,candidateId:string
   if(!names.length)return false;
   const sole=state.candidates[0]!.restaurant;
   const localities=record.claims.namedOutletLocalities;
-  return namedOutletContainment(target.query,sole.outletName,sole.address,Array.isArray(localities)?localities:[],boundNameSupport(state,candidateId));
+  return namedOutletContainment(target.query,sole.outletName,sole.address,Array.isArray(localities)?localities:[],boundNameSupport(state,candidateId),boundNameSupport(state,candidateId,false));
 }

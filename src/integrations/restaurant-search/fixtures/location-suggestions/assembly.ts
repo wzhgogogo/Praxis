@@ -54,8 +54,22 @@ export async function locationSuggestionAssembly(mode:Mode){
     let body:unknown;
     if(request.purpose==="restaurant_discovery_retrieval")body={choice:context.current?"KEEP":"KEYWORD",keyword:context.current?"":"kushikatsu",criterionRef:context.current?"":"criterion:0",categoryUrl:"",generalRef:"",reason:"Constructed fixed retrieval, not a real model"};
     else if(request.purpose==="browser_read_decide"){
-      const target=context.observation.targets.find((t:{href?:string})=>t.href===wrong);
-      body=target?{action:"OPEN_LINK",targetRef:target.ref,authoritativeField:"NONE",requestedState:"NONE",reason:"Original D4 wrong parent choice"}:{action:"REQUEST_HUMAN_HELP",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"No unique observed path"};
+      const targets=context.observation.targets;
+      const field=targets.find((t:{label:string})=>t.label==="Area / Station");
+      const wire=(action:string,targetRef="",authoritativeField="NONE")=>({action,targetRef,authoritativeField,requestedState:"NONE",reason:"Constructed model chooses only current observed targets"});
+      if(field&&field.value!=="Akabane")body=wire("FILL_AUTHORITATIVE",field.ref,"LOCATION");
+      else if(context.observation.url===home){
+        const choices=targets.filter((t:{label:string;controlGroupLabel?:string})=>["Akabane Sta. (Tokyo)","Akabane Station (Tokyo)"].includes(t.label)&&t.controlGroupLabel==="Locations");
+        if(context.observation.visibleText.includes(station)&&!choices.length&&mode==="SCRIPT"){
+          const submit=targets.find((t:{label:string})=>t.label==="Search");body=submit?wire("CLICK",submit.ref):wire("REQUEST_HUMAN_HELP");
+        }else if(choices.length===1)body=wire(choices[0].availableActions?.includes("CLICK")?"CLICK":"OPEN_LINK",choices[0].ref);
+        else if(!context.observation.visibleText.includes("Michi no Eki"))body=wire("WAIT");
+        else {const target=targets.find((t:{href?:string})=>t.href===menu);body=target?wire("OPEN_LINK",target.ref):wire("REQUEST_HUMAN_HELP");}
+      }else{
+        const target=targets.find((t:{href?:string})=>t.href===wrong);
+        body=target?wire("OPEN_LINK",target.ref):wire("COMPLETE");
+      }
+
     }else throw Error("Unexpected model purpose "+request.purpose);
     return {invocationId:"fixture:"+models.length,latencyMs:0,provider:"FIXTURE",model:"fixture",outputText:JSON.stringify(body),finishReason:request.purpose==="browser_read_decide"?"TOOL_CALLS":"STOP"};
   }};

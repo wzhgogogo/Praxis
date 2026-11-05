@@ -1,3 +1,4 @@
+import {scriptedBrowserObservation} from "../../../harness/fixtures/restaurant-observation-model.js";
 import {scriptedRetrieval} from "../../../harness/restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
@@ -110,6 +111,7 @@ test("a result that completes before the deadline retains its normal terminal ou
   const { registration, materializedCase } = await loadRegisteredFixedSourceCase("h001");
   const actions = ["SEARCH_RESTAURANTS", "INVESTIGATE_CANDIDATE_FACTS", "CHECK_AVAILABILITY", "PRESENT_RESULTS"];
   const model: ModelGateway = { async complete(request) {
+    if(request.purpose==="browser_read_decide")return scriptedBrowserObservation(request)!;
     if (request.purpose === "restaurant_source_facts") return scriptedSourceFacts(request)!;
     if (request.purpose === "restaurant_fact_judgment") return scriptedOmakaseJudgment(request);
     if(request.purpose==='restaurant_discovery_retrieval')return scriptedRetrieval(request)!;

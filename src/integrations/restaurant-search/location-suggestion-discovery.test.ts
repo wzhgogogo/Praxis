@@ -19,7 +19,7 @@ for(const mode of ["LINK","SCRIPT","NONE","AMBIGUOUS","OUTSIDE","MERCHANT_ONLY"]
     if(mode==="LINK"||mode==="SCRIPT"){
       assert.equal(read.candidates.length,5,"Exact Tokyo station choice must reach in-radius source results");
       assert.ok(read.candidates.every(c=>c.restaurant.sourceIds.tabelog?.includes("A1323/A132305")));
-      assert.equal(f.models.filter(m=>m.purpose==="browser_read_decide").length,0,"Unique observable place choice precedes the old guessed region action");
+      assert.ok(f.models.some(m=>m.purpose==="browser_read_decide"),"Every location choice now comes from the observation model");
     }else if(mode==="OUTSIDE")assert.equal(read.candidates.length,0,"Selecting a named place never replaces coordinate/radius verification");
     else{
       assert.equal(read.candidates.length,0);

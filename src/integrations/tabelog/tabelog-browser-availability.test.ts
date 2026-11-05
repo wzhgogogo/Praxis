@@ -27,6 +27,7 @@ class TabelogBrowserAvailability extends ProductionTabelogBrowserAvailability {
         if(input.stage==='DISCOVERY'){
           const field=input.observation.targets.find(t=>t.label==='Fixture public name search');
           const submitted=new URL(input.observation.url).searchParams.get('sw');
+          if(input.goal.retrievalExpression&&field&&field.value!==input.goal.retrievalExpression)return{type:'FILL_AUTHORITATIVE',targetRef:field.ref,field:'RETRIEVAL',reason:'Fixture reads the current source search field'};
           if(input.goal.retrievalExpression&&field&&submitted!==input.goal.retrievalExpression){
             if(field.value!==input.goal.retrievalExpression)return{type:'FILL_AUTHORITATIVE',targetRef:field.ref,field:'RETRIEVAL',reason:'Fixture model chooses the visible query input'};
             const submit=input.observation.targets.find(t=>t.label==='Fixture search');
@@ -336,6 +337,20 @@ class FixtureBrowserSession implements BrowserSession {
   async close(): Promise<void> {}
 }
 
+for(const mode of ["MODEL_FAILURE","QUERY_CONFLICT"] as const)test(`Tabelog search keeps an explicit identity diagnostic for ${mode}`,async()=>{
+  const diagnostics:import('./tabelog-contracts.js').TabelogIdentityDiagnostic[]=[];
+  const page={url:'https://tabelog.com/en/rstLst/?sw='+encodeURIComponent(mode==='MODEL_FAILURE'?candidate.restaurant.outletName:'Prior request'),title:'Public search',text:'No restaurants match',html:'<main>No restaurants match</main>'};
+  const session=new FixtureBrowserSession([page]);session.queryValue=candidate.restaurant.outletName;
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:10000,maxModelCallsPerCandidate:4,maxModelCallsTotal:4,maxOperationsPerCandidate:40,
+    modelDecision:{async decide(){if(mode==='MODEL_FAILURE')throw new Error('Constructed model transport failed');return{type:'COMPLETE',reason:'Ask code to verify the current search'};}}});
+  const adapter=new ProductionTabelogBrowserAvailability(executor,()=> '2026-08-05T09:00:00.000Z',5,{networkPolicy:{startupDocuments:['https://tabelog.com/en/'],documentOrigins:['https://tabelog.com'],staticResources:[],dynamicReads:[]},onIdentityDiagnostic:row=>diagnostics.push(row)});
+  try{const read=await adapter.check({candidateIds:[candidate.restaurant.id],candidates:[candidate],date:fixtureIntent.date,partySize:fixtureIntent.partySize,timeWindow:fixtureIntent.timeWindow,hardCriteria:[]},new AbortController().signal);
+    assert.equal(read.availabilityChecks[candidate.restaurant.id]?.status,'UNKNOWN');
+    assert.equal(diagnostics.at(-1)?.resolution.reason,mode==='MODEL_FAILURE'?'SEARCH_NOT_COMPLETED':'OBSERVED_QUERY_CONFLICT');
+    assert.equal(diagnostics.at(-1)?.search.outcome,mode==='MODEL_FAILURE'?'MODEL_FAILURE':'NO_SAFE_ACTION');
+  }finally{await executor.close();}
+});
+
 class ChallengeResumeSession implements BrowserSession {
   readonly metadata = {
     readNetworkBoundary:"INSTALLED" as const,
@@ -372,6 +387,7 @@ class ChallengeResumeSession implements BrowserSession {
     if (url.includes("/A1304/")) this.current = this.detail;
   }
   async snapshot(): Promise<BrowserSnapshot> { return structuredClone(this.current); }
+  async observeControls():Promise<BrowserPageControl[]>{return[{id:"search",stableKey:"search",kind:"INPUT",role:"searchbox",label:"Fixture public name search",type:"search",value:candidate.restaurant.outletName,structure:{tag:"INPUT",name:"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0},formMethod:"GET",formObservation:{owner:"search",visibleLines:["Restaurant search"]},visible:true,disabled:false}];}
   async click(): Promise<void> {}
   async fill(): Promise<void> {}
   async select(_target: string, value: string): Promise<string[]> { return [value]; }

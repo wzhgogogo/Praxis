@@ -1,4 +1,5 @@
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
+import {normalizedTextKey} from "../../core/text-key.js";
 import { setTimeout as wait } from "node:timers/promises";
 import type { BrowserControlHint, BrowserPageControl, BrowserReadNetworkPolicy, BrowserRuntime, BrowserSession, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError, type BrowserDeadlineScope, type BrowserRuntimeFailureCode } from "./browser-runtime-errors.js";
@@ -110,6 +111,8 @@ export interface BrowserSkillReadInput {
   requireModelConfirmation?: boolean;
   controlHints?(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[];
   onObservation?(value: Pick<BrowserReadDecisionInput["observation"], "revision" | "url" | "targets">): void;
+  /** Internal evidence of an actually dispatched, guarded public query. */
+  onQuerySubmitted?(owner: string): void;
   completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): BrowserCompletionAssessment;
 }
 
@@ -482,14 +485,21 @@ export class BrowserTaskExecutor {
     }
     const queryFields = new Set<string>();
     let queryConflict = false;
+    let queryBound = false;
+    const submittedOwners = new Set<string>();
+    const queryKey = normalizedTextKey(input.query);
     const result = await this.runSkill({ ...scoped, taskId: "observed-source-query", requireModelConfirmation: true,
       goal: { outlet: { name: input.query }, retrievalExpression: input.query, retrievalSource: "G4_SOURCE_TERM", hardCriteria: [] },
       objective: "Find the named outlet using the current observed source page. Choose each step from its current public controls and links. Returned cards are not identity evidence; code will inspect the same outlet before accepting it.",
+      onQuerySubmitted: owner => { submittedOwners.add(owner); },
       completion: (page, controls) => {
         for (const control of controls ?? []) if (control.kind === "INPUT" && control.structure?.name
-          && control.formObservation && control.value === input.query) queryFields.add(control.structure.name);
+          && control.formObservation && normalizedTextKey(control.value ?? "") === queryKey) queryFields.add(control.structure.name);
         const assessment = input.completion(page, controls);
         queryConflict = false;
+        queryBound = (controls ?? []).some(control => control.kind === "INPUT"
+          && control.formObservation && submittedOwners.has(control.formObservation.owner) && queryFields.has(control.structure?.name ?? "")
+          && normalizedTextKey(control.value ?? "") === queryKey);
         const resultKeys = new Set((assessment.resultUrls ?? []).map(value => { const url = new URL(value, page.url); return url.origin + url.pathname; }));
         const resultHrefs = (controls ?? []).flatMap(control => {
           if (control.kind !== "LINK" || !control.href) return [];
@@ -500,17 +510,23 @@ export class BrowserTaskExecutor {
           try {
             const observed = new URL(value, page.url);
             if (observed.origin !== new URL(page.url).origin) continue;
-            for (const field of queryFields) if (observed.searchParams.getAll(field).some(value => value !== input.query)) queryConflict = true;
+            for (const field of queryFields) {
+              const values = observed.searchParams.getAll(field);
+              if (values.some(value => normalizedTextKey(value) !== queryKey)) queryConflict = true;
+              if (value === page.url && values.some(value => normalizedTextKey(value) === queryKey)) queryBound = true;
+            }
           } catch { queryConflict = true; }
         }
-        return queryConflict ? { ...assessment, complete: false, reason: "Observed result query contradicts the authoritative input in the observed source form" } : assessment;
+        return queryConflict ? { ...assessment, complete: false, reason: "Observed result query contradicts the authoritative input in the observed source form" }
+          : !queryBound ? { ...assessment, complete: false, reason: "No positive source result binding to the current authoritative query has been observed" } : assessment;
       } });
     // A stopped observation is not an identity or inventory verdict. Return
     // its current page to the adapter so explicit empty/error/challenge facts
     // retain their own diagnostic and fallback contract. Actual budget errors
     // still stop the shared run; no navigation or extra model call is added.
     if (result.status === "BUDGET_EXCEEDED") throw new BrowserRuntimeError("BROWSER_BUDGET_EXHAUSTED", "Source search exhausted its existing browser budget");
-    return queryConflict ? { ...result, status: "NO_SAFE_ACTION", reasonCode: "OBSERVED_QUERY_CONFLICT" } : result;
+    return queryConflict ? { ...result, reasonCode: "OBSERVED_QUERY_CONFLICT" }
+      : !queryBound ? { ...result, reasonCode: "OBSERVED_QUERY_UNBOUND" } : result;
   }
 
   /** Code-owned source retry delay shares the current operation and wall-time budgets. */
@@ -1209,6 +1225,7 @@ export class BrowserTaskExecutor {
       }
       const navigation = this.guardedPublicQuerySubmit(input, target);
       await this.operation(input, navigation ? "SUBMIT_PUBLIC_QUERY" : "CLICK", () => input.session.click(target.controlId, navigation ? this.navigationOptions() : this.actionOptions()));
+      if (navigation && target.formObservation) input.onQuerySubmitted?.(target.formObservation.owner);
       return;
     }
     if (action.type === "CLICK_AUTHORITATIVE") {

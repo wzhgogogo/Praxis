@@ -1,0 +1,33 @@
+✖ an observed prohibited linked target cannot hide the same page's recorded embedded availability (5.141458ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 151.382042
+
+✖ failing tests:
+
+test at src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1:124289
+✖ an observed prohibited linked target cannot hide the same page's recorded embedded availability (5.141458ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   kind: 'LINKED_PAGE',
+  +   url: 'https://www.tablecheck.com/en/shops/0711-ginzabistro/reserve'
+  -   kind: 'EMBEDDED_AVAILABILITY',
+  -   url: 'https://www.tablecheck.com/en/0711-ginzabistro'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/integrations/tablecheck/tablecheck-browser-availability.test.ts:1673:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { kind: 'LINKED_PAGE', url: 'https://www.tablecheck.com/en/shops/0711-ginzabistro/reserve' },
+    expected: { kind: 'EMBEDDED_AVAILABILITY', url: 'https://www.tablecheck.com/en/0711-ginzabistro' },
+    operator: 'deepStrictEqual'
+  }

@@ -205,14 +205,14 @@ test("frozen Replay wires use the production decoder and require a fresh opaque 
 
 test("live source-stage discovery delegates to the production NativeRestaurantSearch flow instead of a direct Pack snapshot", async () => {
   const navigations: string[] = [];
-  const runtime = sourcePages("TABELOG_DELIVERS", navigations);
+  const runtime = sourcePages("TABELOG_DELIVERS", navigations,undefined,undefined,undefined,{guardedReadBoundary:true});
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
     apiKey: "fixture-only",
     fetchImplementation: async () => { throw new Error("coordinates avoid named-place resolution"); },
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
-  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,keep:true,reason:"Retain current observed source query"})},
+  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Constructed explicit criterion retrieval"})},
     pack: tabelogDiscoveryPack,
-    modelDecision: { decide: async input => ({type:"OPEN_LINK",targetRef:input.observation.targets.find(t=>t.label==="Shibuya")!.ref,reason:"Use observed region"}) },
+    modelDecision: { decide:async input=>{if(input.observation.targets.some(t=>t.label.startsWith("Native Tabelog")))return{type:"COMPLETE",reason:"The observed constructed list is ready for code verification"};const target=input.observation.targets.find(t=>t.label==="Shibuya")??input.observation.targets.find(t=>t.label==="Tokyo");return target?{type:"OPEN_LINK",targetRef:target.ref,reason:"Choose an observed directory link"}:{type:"COMPLETE",reason:"Verify the current parsed source list"};} },
     runtime,
     locality,
     readRunId: "source-stage-native-control",
@@ -240,10 +240,10 @@ test("source-stage discovery keeps a parsed list without any frozen-radius candi
   const locality = new GooglePlacesRestaurantSearch(new GooglePlacesClient({
     apiKey: "fixture-only", fetchImplementation: async () => { throw new Error("coordinates avoid named-place resolution"); },
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
-  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,keep:true,reason:"Retain current observed source query"})},
+  const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Constructed explicit criterion retrieval"})},
     pack: tabelogDiscoveryPack,
-    modelDecision: { decide: async input => ({type:"OPEN_LINK",targetRef:input.observation.targets.find(t=>t.label==="Shibuya")!.ref,reason:"Use observed region"}) },
-    runtime: sourcePages("OUTSIDE_RADIUS", []),
+    modelDecision: { decide:async input=>{if(input.observation.targets.some(t=>t.label.startsWith("Native Tabelog")))return{type:"COMPLETE",reason:"The observed constructed list is ready for code verification"};const target=input.observation.targets.find(t=>t.label==="Shibuya")??input.observation.targets.find(t=>t.label==="Tokyo");return target?{type:"OPEN_LINK",targetRef:target.ref,reason:"Choose an observed directory link"}:{type:"COMPLETE",reason:"Verify the current parsed source list"};} },
+    runtime: sourcePages("OUTSIDE_RADIUS", [],undefined,undefined,undefined,{guardedReadBoundary:true}),
     locality,
     readRunId: "source-stage-outside-radius",
     timeoutMs: 10_000,

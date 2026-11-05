@@ -119,7 +119,7 @@ export class LiveBrowserAvailability {
   }
 
   private async read(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId:string|undefined,identityOnly:boolean):Promise<RestaurantAvailabilityRead>{
-    const executor=this.readExecutor??this.createExecutor(false);
+    const executor=this.readExecutor??this.createExecutor(true);
     const providerContext = {
       executor,
       ...(identityOnly?{identityOnly:true}:{}),
@@ -140,7 +140,7 @@ export class LiveBrowserAvailability {
       .flatMap((pack) => pack.availability ? [{ pack, provider: pack.availability.createProvider(providerContext) }] : []);
     return new AvailabilitySourceResolver(bindings, { afterRead: async () => {
       if (this.readExecutor === executor) executor.endReadScope();
-      else await executor.close();
+      else await executor.closeAll();
     },...(identityOnly?{identityOnly:true}:{}) }).check(request, signal);
   }
 }

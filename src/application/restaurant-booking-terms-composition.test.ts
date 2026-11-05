@@ -23,7 +23,7 @@ for(const provider of ["TABELOG","TABLECHECK"] as const)test(`B1 selected ${prov
     const selected=await f.select(),h=selected.restaurant.bookingHandoffs?.[0];assert.ok(h);
     assert.equal(selected.restaurant.selectedCandidateId,h.candidateId);
     assert.equal(h.provider,provider);assert.deepEqual(h.terms.map(t=>t.label),[cancellationAnswer,"Card required"]);
-    const readUrl=provider==="TABLECHECK"?f.url+"?date=2026-11-11&time=19%3A00&num_people=2&availability_format=datetime&availability_mode=same_meal_time":f.url;
+    const readUrl=f.url; // Actual observed source page; inventory URL construction is retired.
     assert.deepEqual(h.terms.flatMap(t=>t.citations.map(c=>[c.text,c.url,c.readAt])),[[cancellationQuote,readUrl,f.source.referenceTime],[cardQuote,readUrl,f.source.referenceTime]]);
     assert.equal(questions(f).length,2);assert.equal(h.sourceSelection,"UNKNOWN");
     assert.ok(questions(f).every(item=>item.turn==="SELECTED"));

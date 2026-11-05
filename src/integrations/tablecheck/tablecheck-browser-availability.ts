@@ -295,7 +295,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
     if (!extraction) return undefined;
     const inspection = inspectCandidateOutlet(candidate, extraction, page);
     if (inspection.resolution.confidence !== "HIGH") return undefined;
-    const reservation = resolveTableCheckReservationTarget(page, extraction.outlet);
+    const reservation = resolveTableCheckReservationTarget(page, extraction.outlet, this.options.networkPolicy);
     if (!reservation || isBrowserReadPathProhibited(this.options.networkPolicy, reservation.url)) return undefined;
     let availabilityPage = page;
     if (reservation.kind === "LINKED_PAGE") {
@@ -306,7 +306,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       if (responseRule) await session.captureResponses?.([responseRule]);
       await this.executor.navigate({
         source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
-        url: tableCheckDiscoveryPack.availability!.buildRequestUrl!({ candidate: candidate.restaurant, request, target: reservation })!, observed: true,
+        url: reservation.url, observed: true,
       });
       availabilityPage = await this.executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session });
     }
@@ -440,7 +440,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       if (candidate.restaurant.sourceIds.tablecheckNativeGuideUri && directPage && listedOutletUrl) {
         const extraction = parseTableCheckOutletIdentityWithEvidence(directPage, listedOutletUrl);
         const inspection = extraction && inspectCandidateOutlet(candidate, extraction, directPage);
-        const reservation = extraction && resolveTableCheckReservationTarget(directPage, extraction.outlet);
+        const reservation = extraction && resolveTableCheckReservationTarget(directPage, extraction.outlet, this.options.networkPolicy);
         if (!extraction || !inspection || !reservation) return this.ground(candidate, request, {
           candidate, observedAt, entityMatch: inspection?.resolution ?? { confidence: "LOW", matchedBy: [] },
           pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_PARSE_FAILED",
@@ -457,7 +457,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         reservation: NonNullable<ReturnType<typeof resolveTableCheckReservationTarget>>;
         observedOutletUrls: readonly string[];
       } | undefined;
-      let highIdentityWithoutReservation: { extraction: TableCheckOutletIdentityExtraction; inspection: ReturnType<typeof inspectTableCheckEntity> } | undefined;
+      let highIdentityWithoutReservation: { extraction: TableCheckOutletIdentityExtraction; inspection: ReturnType<typeof inspectTableCheckEntity>; prohibited:boolean } | undefined;
       let discovery!: BrowserSnapshot;
       let discoveryBase!: { requestedUrl: string; finalUrl: string; title: string };
       let handoff: TableCheckIdentityDiagnostic["discovery"]["handoff"];
@@ -596,7 +596,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
             botChallenge: false, extracted: extraction.fields, comparison: inspection.comparison,
           };
           if (inspection.resolution.confidence === "HIGH") {
-            const reservation = resolveTableCheckReservationTarget(page, extraction.outlet);
+            const reservation = resolveTableCheckReservationTarget(page, extraction.outlet, this.options.networkPolicy);
             attemptedPages.push({
               ...attempted,
               ...(reservation ? { reservation: { kind: reservation.kind, url: diagnosticUrl(reservation.url) } } : {}),
@@ -604,7 +604,9 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
             if (!reservation) {
               // Keep looking for a stronger exact-phone match before retaining a
               // name/address-only outlet with no read target.
-              highIdentityWithoutReservation ??= { extraction, inspection };
+              const observedTarget = resolveTableCheckReservationTarget(page, extraction.outlet);
+              highIdentityWithoutReservation ??= { extraction, inspection,
+                prohibited: Boolean(observedTarget && isBrowserReadPathProhibited(this.options.networkPolicy, observedTarget.url)) };
               if (!inspection.comparison.phone || inspection.comparison.phone !== "CONFLICT") break;
               continue;
             }
@@ -655,7 +657,9 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       });
       if (!selected && highIdentityWithoutReservation) return this.ground(candidate, request, {
         candidate, observedAt, sourceEntityId: highIdentityWithoutReservation.extraction.outlet.sourceEntityId, sourceUrl: highIdentityWithoutReservation.extraction.outlet.sourceUrl,
-        entityMatch: highIdentityWithoutReservation.inspection.resolution, pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_PARSE_FAILED",
+        entityMatch: highIdentityWithoutReservation.inspection.resolution,
+        pageState: highIdentityWithoutReservation.prohibited ? "SOURCE_UNSUPPORTED" : "EXTRACTION_FAILED",
+        failureCode: highIdentityWithoutReservation.prohibited ? "SOURCE_UNSUPPORTED" : "TABLECHECK_PARSE_FAILED",
       }, browser);
       if (!selected) {
         return this.ground(candidate, request, {
@@ -708,7 +712,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       }
       const freshExtraction = parseTableCheckOutletIdentityWithEvidence(selectedPage, selected.page.url);
       const freshInspection = freshExtraction && inspectCandidateOutlet(candidate, freshExtraction, selectedPage);
-      const freshReservation = freshExtraction && resolveTableCheckReservationTarget(selectedPage, freshExtraction.outlet);
+      const freshReservation = freshExtraction && resolveTableCheckReservationTarget(selectedPage, freshExtraction.outlet, this.options.networkPolicy);
       if (!freshExtraction || freshInspection?.resolution.confidence !== "HIGH" || !freshReservation
         || sourceUrlKey(freshExtraction.outlet.sourceUrl) !== sourceUrlKey(selected.extraction.outlet.sourceUrl)) {
         return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
@@ -756,11 +760,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       // an availability oracle, but late registration loses its chronology.
       const availabilityResponseRule = tableCheckAvailabilityResponseRule(activeSelected.reservation);
       if (availabilityResponseRule) await session.captureResponses?.([availabilityResponseRule]);
-      const requestedReservationUrl = tableCheckDiscoveryPack.availability!.buildRequestUrl!({
-        candidate: candidate.restaurant,
-        request,
-        target: activeSelected.reservation,
-      })!;
+      const requestedReservationUrl = activeSelected.reservation.url;
       if (requestedReservationUrl !== page.url) {
         await this.executor.navigate({
           source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,

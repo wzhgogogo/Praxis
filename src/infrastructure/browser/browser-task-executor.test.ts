@@ -1241,3 +1241,40 @@ test("named search checks only parsed result links against observed form field n
   }finally{await executor.close();}
  }
 });
+
+test("named search needs a positively bound result, accepts harmless source normalization, and rejects an unsubmitted start page",async()=>{
+ for(const mode of ['UNBOUND_EMPTY','UNBOUND_CARDS','FILLED_ONLY','NORMALIZED_URL'] as const){
+  const origin='https://public.example',query='Source Restaurant',field='current_keyword';
+  const page=new URL('/search',origin);
+  if(mode==='NORMALIZED_URL')page.searchParams.set(field,'  ＳＯＵＲＣＥ   Restaurant  ');
+  const session=new FixtureSession([{url:page.toString(),title:'Public page',text:'Current page',html:''}],false,true);
+  session.observeControls=async()=>[{id:'query',stableKey:'query',kind:'INPUT',role:'searchbox',label:'Public query',type:'search',value:mode==='FILLED_ONLY'?query:mode==='NORMALIZED_URL'?'ＳＯＵＲＣＥ   Restaurant':'',visible:true,disabled:false,formMethod:'GET',formObservation:{owner:'search-owner',visibleLines:['Search']},structure:{tag:'INPUT',name:field,classes:[],dialogLabel:'',formClass:'',sliderCount:0}}];
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:10000,maxModelCallsPerCandidate:4,maxModelCallsTotal:4,maxOperationsPerCandidate:30,modelDecision:{async decide(){return{type:'COMPLETE',reason:'Challenge the code-owned result binding'};}}});
+  const signal=new AbortController().signal;
+  try{
+   await executor.acquire(signal,'fixture','DISCOVERY',{documentOrigins:[origin],startupDocuments:[page.toString()],staticResources:[],dynamicReads:[]});
+   const read=await executor.search({source:'fixture',signal,allowedOrigins:[origin],session,url:page.toString(),query,completion:()=>({complete:true,resultKey:'page-result',resultBusy:false,resultUrls:mode==='UNBOUND_CARDS'?[origin+'/recommendation']:[],reason:'Source parser found an empty state or cards'})});
+   assert.equal(read.status,mode==='NORMALIZED_URL'?'COMPLETED':'NO_SAFE_ACTION',mode);
+  }finally{await executor.close();}
+ }
+});
+
+test("named search binds a submitted same-origin result form, not an unrelated form with the same field",async()=>{
+ for(const sameOwner of [true,false]){
+  const origin='https://public.example',query='Source Restaurant';let submitted=false;
+  const session=new FixtureSession([{url:origin+'/search',title:'Public search',text:'Query',html:''}],false,true);
+  session.snapshot=async()=>({url:origin+(submitted?'/results':'/search'),title:'Public search',text:submitted?'Results':'Query',html:''});
+  session.click=async()=>{submitted=true;};
+  session.observeControls=async()=>[
+   {id:'query',stableKey:'query',kind:'INPUT',role:'searchbox',label:'Public query',type:'search',value:query,visible:true,disabled:false,formMethod:'GET',formObservation:{owner:submitted&&!sameOwner?'unrelated-form':'search-form',visibleLines:['Search']},structure:{tag:'INPUT',name:'arbitrary_field',classes:[],dialogLabel:'',formClass:'',sliderCount:0}},
+   {id:'submit',stableKey:'submit',kind:'BUTTON',role:'button',label:'Search',visible:true,disabled:false,formMethod:'GET',formObservation:{owner:'search-form',visibleLines:['Search']}},
+  ];
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:10000,maxModelCallsPerCandidate:4,maxModelCallsTotal:4,maxOperationsPerCandidate:30,modelDecision:{async decide(input){return submitted?{type:'COMPLETE',reason:'The source form is visible on the result page'}:{type:'CLICK',targetRef:input.observation.targets.find(target=>target.label==='Search')!.ref,reason:'Submit the observed public GET form'};}}});
+  const signal=new AbortController().signal;
+  try{
+   await executor.acquire(signal,'fixture','DISCOVERY',{documentOrigins:[origin],startupDocuments:[origin+'/search'],staticResources:[],dynamicReads:[]});
+   const read=await executor.search({source:'fixture',signal,allowedOrigins:[origin],session,url:origin+'/search',query,completion:()=>({complete:submitted,resultKey:submitted?'results':'start',resultBusy:false,reason:'Source result form'})});
+   assert.equal(read.status,sameOwner?'COMPLETED':'NO_SAFE_ACTION');
+  }finally{await executor.close();}
+ }
+});

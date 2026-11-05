@@ -38,9 +38,11 @@ import { inspectTabelogVacancyResponse } from "./tabelog-vacancy-response.js";
 
 export function tabelogNameSearchCompletion(page: BrowserSnapshot): BrowserCompletionAssessment {
   const outlets = parseTabelogSearchOutlets(page);
-  return { complete: outlets.length > 0, resultBusy: tabelogSearchResultBusy(page),
+  // The observation model may finish a positively bound search with no cards.
+  // This is a planning result, never evidence that an outlet does not exist.
+  return { complete: !hasBotChallenge(page), resultBusy: tabelogSearchResultBusy(page),
     resultKey: JSON.stringify([page.url, outlets]), resultUrls: outlets.map(outlet => outlet.sourceUrl),
-    reason: "Continue until an observed public restaurant result is available; do not use navigation, login, or booking links." };
+    reason: "Confirm the current source search result, including a page with no outlet cards. Code separately requires a current query binding; no identity or inventory follows from completion." };
 }
 
 export function tabelogAvailabilityCompletion(page: BrowserSnapshot, request: Pick<RestaurantAvailabilityRequest, "date" | "partySize" | "timeWindow">): BrowserCompletionAssessment {
@@ -431,12 +433,17 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           search = directPage;
           outlets = [listedOutlet];
         } else {
-          const searched = await this.executor.search({
+          let searched = await this.executor.search({
             source: "TABELOG", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl, query: searchName, completion: tabelogNameSearchCompletion,
           });
-          if (searched.reasonCode === "OBSERVED_QUERY_CONFLICT") throw new Error("Observed source results conflict with the authoritative query");
           search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
+          const challenged = hasBotChallenge(search);
           search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
+          if (challenged && !hasBotChallenge(search)) {
+            searched = await this.executor.search({source:"TABELOG",signal,allowedOrigins:["https://tabelog.com"],session,
+              url:requestedSearchUrl,query:searchName,completion:tabelogNameSearchCompletion});
+            search = searched.snapshot;
+          }
           if (hasBotChallenge(search)) {
             const inspection = inspectTabelogEntity(candidate, []);
             this.recordIdentityDiagnostic({
@@ -455,6 +462,19 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
               details: [],
             });
             return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
+          }
+          if (searched.status !== "COMPLETED") {
+            const inspection = inspectTabelogEntity(candidate, []);
+            const reason = searched.reasonCode === "OBSERVED_QUERY_CONFLICT" ? "OBSERVED_QUERY_CONFLICT" : "SEARCH_NOT_COMPLETED";
+            this.recordIdentityDiagnostic({ ...inspection.diagnostic,
+              resolution: { ...inspection.diagnostic.resolution, reason },
+              ...(reserveJapanese ? {nameRetrieval} : {}),
+              search: {query: searchName,requestedUrl: diagnosticUrl(requestedSearchUrl),finalUrl: diagnosticUrl(search.url),title: search.title,
+                parsedResultCount:0,inspectedResultCount:0,outcome:searched.status,...(searched.reasonCode?{reasonCode:searched.reasonCode}:{})},
+              searchResults:[],details:[],
+            });
+            return this.ground(candidate,request,{candidate,observedAt,entityMatch:{confidence:"LOW",matchedBy:[]},
+              pageState:"EXTRACTION_FAILED",failureCode:"ENTITY_MATCH_UNCERTAIN",excerpt:reason},browser);
           }
           outlets = prioritizeTabelogOutlets(candidate, mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search)));
 

@@ -61,16 +61,9 @@ test("real source packs own URLs, reviewed reads, skills, and opaque source IDs"
   assert.equal(googlePlacesDiscoveryPack.buildQuery({...query, keyword: "omakase" }).retrievalExpression, "omakase Higashi-Ginza");
 });
 
-test("TableCheck request URL construction is consumed through its source pack", () => {
-  const buildRequestUrl = tableCheckDiscoveryPack.availability?.buildRequestUrl;
-  assert.ok(buildRequestUrl);
-  const candidate = { id: "tablecheck:fixture", outletName: "Fixture", address: "Tokyo", sourceIds: {} } as import("../../domains/restaurant/contracts.js").RestaurantOutlet;
-  const request = { date: "2026-10-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" } } as import("../../domains/restaurant/contracts.js").RestaurantAvailabilityRequest;
-  const url = new URL(buildRequestUrl({ candidate, request, target: { kind: "EMBEDDED_AVAILABILITY", url: "https://www.tablecheck.com/en/fixture" } })!);
-  assert.equal(url.searchParams.get("date"), "2026-10-08");
-  assert.equal(url.searchParams.get("num_people"), "2");
-  assert.equal(url.searchParams.get("time"), "19:00");
-  assert.equal(tabelogDiscoveryPack.availability?.buildRequestUrl, undefined, "no Tabelog search URL constructor remains");
+test("source packs do not construct inventory navigation URLs", () => {
+  assert.equal("buildRequestUrl" in tableCheckDiscoveryPack.availability!,false);
+  assert.equal("buildRequestUrl" in tabelogDiscoveryPack.availability!,false);
 });
 
 test("both browser source packs parse their own current listing entrances before the shared cursor schedules details", () => {

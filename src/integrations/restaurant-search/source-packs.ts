@@ -6,7 +6,6 @@ import type { RestaurantAvailabilityRequest, RestaurantCandidate, RestaurantOutl
 import type { BrowserPageControl, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { tabelogPublicReadNetworkPolicy } from "../tabelog/tabelog-public-query.js";
 import { tableCheckPublicReadNetworkPolicy } from "../tablecheck/tablecheck-public-query.js";
-import { tableCheckRequestedReservationUrl, type TableCheckReservationTarget } from "../tablecheck/tablecheck-page-parser.js";
 import { hasTabelogSourceBusy, hasBotChallenge, parseTabelogOutletIdentityWithEvidence, parseTabelogSearchOutlets, tabelogSearchResultBusy } from "../tabelog/tabelog-page-parser.js";
 import { hasTableCheckBotChallenge, hasTableCheckDiscoveryNoResult, tableCheckSearchResultBusy, inspectTableCheckPageUnavailable, parseTableCheckDiscoveryOutletUrls, parseTableCheckOutletIdentityWithEvidence } from "../tablecheck/tablecheck-page-parser.js";
 import { TableCheckBrowserAvailability, TableCheckEntryLedger } from "../tablecheck/tablecheck-browser-availability.js";
@@ -96,11 +95,6 @@ export interface DiscoverySourcePack {
     sourceBusy?: { matches(page: BrowserSnapshot): boolean; retryDelayMs: number };
     /** Construct this Pack's existing availability adapter for one shared read run. */
     createProvider(context: SourcePackAvailabilityProviderContext): RestaurantAvailabilityProvider;
-    /**
-     * A thin, source-owned URL builder. `target` is opaque to the shared
-     * resolver: only the Pack that observed it may interpret its shape.
-     */
-    buildRequestUrl?(input: { candidate: RestaurantOutlet; request: RestaurantAvailabilityRequest; target?: unknown; outletName?: string }): string | undefined;
     ground(candidate: RestaurantCandidate, request: RestaurantAvailabilityRequest, observation: UntrustedProviderAvailabilityObservation, now: string): GroundedAvailability;
   };
   browser?: BrowserDiscoveryPackCapability;
@@ -308,10 +302,6 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
       ...(context.onTableCheckUserInterventionRequired ? { onUserInterventionRequired: context.onTableCheckUserInterventionRequired } : {}),
       ...(context.networkPolicy ? { networkPolicy: context.networkPolicy } : {}),
     }),
-    buildRequestUrl: ({ candidate: _candidate, request, target }) => {
-      if (!target || typeof target !== "object") return undefined;
-      return tableCheckRequestedReservationUrl(target as TableCheckReservationTarget, request.date, request.partySize, request.timeWindow);
-    },
     ground: (candidate, request, observation, now) => groundTableCheckAvailability(candidate, request, observation, now),
   },
   browser: {

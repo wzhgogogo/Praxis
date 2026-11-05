@@ -14,8 +14,9 @@ export function scriptedBrowserObservation(request: ModelRequest): ModelResponse
     const submit = targets.find(t => t.kind === "BUTTON" && t.formObservation?.owner === query.formObservation?.owner && t.formMethod === "GET");
     if (submit) { action = "CLICK"; targetRef = submit.ref; }
   } else if (input.stage !== "DISCOVERY") {
-    const control = targets.find(t => t.availableActions?.some(a => /^(?:CLICK_AUTHORITATIVE|FILL_AUTHORITATIVE|CHOOSE_OPTION):(?:DATE|PARTY_SIZE)$/.test(a)));
-    const offered = control?.availableActions?.find(a => /^(?:CLICK_AUTHORITATIVE|FILL_AUTHORITATIVE|CHOOSE_OPTION):(?:DATE|PARTY_SIZE)$/.test(a));
+    const usable=(t:typeof targets[number],a:string)=>{if(!/^(?:CLICK_AUTHORITATIVE|FILL_AUTHORITATIVE|CHOOSE_OPTION):(?:DATE|PARTY_SIZE)$/.test(a))return false;const field=a.split(":")[1];if(t.kind==="INPUT"&&t.type!==(field==="DATE"?"date":"number"))return false;return t.kind!=="INPUT"||t.value!==(field==="DATE"?input.goal.date:String(input.goal.partySize));};
+    const control = targets.find(t => t.availableActions?.some(a => usable(t,a)));
+    const offered = control?.availableActions?.find(a => usable(control,a));
     if (control && offered) { [action, authoritativeField] = offered.split(":") as [string, string]; targetRef = control.ref; }
   }
   return { invocationId: "constructed-observation", provider: "FIXTURE", model: "observed-controls", outputText: JSON.stringify({ action, targetRef, authoritativeField, requestedState: "NONE", reason: "Choose from the current constructed page; production verifies all evidence." }), finishReason: "TOOL_CALLS", latencyMs: 0 };

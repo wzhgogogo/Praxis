@@ -1,3 +1,4 @@
+import {scriptedBrowserObservation} from "../harness/fixtures/restaurant-observation-model.js";
 import { prepareBookingHandoff, type BookingHandoffContext, type BookingHandoffSource, type PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
 import { groundTabelogAvailability } from "../domains/restaurant/read-grounding.js";
 import { RestaurantPageQuestionReader } from "../integrations/restaurant-facts/page-question-reader.js";
@@ -1911,6 +1912,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
     let japaneseLookups = 0;
     const navigations: string[] = [];
     const fixture: ModelGateway = {async complete(request) {
+      const observed=scriptedBrowserObservation(request);if(observed)return observed;
       let output: unknown;
       if (request.purpose === "restaurant_semantic_interpret") output = availabilityProposal(2);
       else if (request.purpose === "restaurant_source_facts") output = {selections: []};
@@ -1939,13 +1941,13 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
       return new Response(JSON.stringify({places:query === "Shibuya" ? [{id:"b1-location",displayName:{text:"Shibuya"},types:["train_station"],location:{latitude:35.66,longitude:139.70}}]
         : [{id:"b1-g3-outlet",displayName:{text:useJapanese ? "Fixture Sushi Tokyo" : "Fixture Sushi"},formattedAddress:"1-2-3 Shibuya Tokyo",types:["restaurant"],location:{latitude:35.66,longitude:139.70},nationalPhoneNumber:"03-1234-5678",...(useJapanese ? {} : {websiteUri:pageUrl})}]}),{status:200});
     }});
-    const browser: BrowserRuntime = {async openSession() {
+    const browser: BrowserRuntime = {readNetworkBoundaryCapability:"ISOLATED_CONTEXT",async openSession() {
       opens++;
-      let currentUrl=pageUrl;
-      return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:clock.now().toISOString()},
-        async navigate(url) {navigations.push(url);currentUrl=url;assert.ok(url===pageUrl || (useJapanese && new URL(url).pathname === "/en/tokyo/rstLst/"),"never open a workflow to check the link");},
+      let currentUrl=pageUrl,query="";
+      return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:clock.now().toISOString(),readNetworkBoundary:"INSTALLED"},
+        async navigate(url) {navigations.push(url);currentUrl=url;assert.ok(url===pageUrl || (useJapanese && ["/en/","/en/rstLst/"].includes(new URL(url).pathname)),"never open a workflow to check the link");},
         async snapshot() {
-          if (new URL(currentUrl).pathname.includes("rstLst")) {
+          if (new URL(currentUrl).pathname.includes("rstLst")||new URL(currentUrl).pathname==="/en/") {
             const found=new URL(currentUrl).searchParams.get("sw")==="すし本店";
             return {url:currentUrl,title:"Search",text:found ? "すし本店" : "No restaurants were found that match your search criteria",html:found ? `<a href="${pageUrl}">すし本店</a>` : ""};
           }
@@ -1953,7 +1955,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
           html:`<script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:"Fixture Sushi",address:"1-2-3 Shibuya Tokyo",telephone:"03-1234-5678"})}</script><select name="party"><option selected value="2">2 guests</option></select><select name="date"><option selected value="2026-08-09">2026-08-09</option></select>`,
           responses:[{url:"https://tabelog.com/en/booking/calendar/find_vacancy/?rst_id=13123456&svd=20260809&svps=2",status:200,sequence:7,observedAt:clock.now().toISOString(),
             body:{base_date:{year:2026,month:8,day:9},members:2,selection:sourceLink === undefined ? [] : [{time:"19:00",url:sourceLink}]}}]};},
-        async select(_selector,value) {return [value];},async click() {assert.fail("no booking click");},async fill(){},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
+        async observeControls(){return new URL(currentUrl).pathname===new URL(pageUrl).pathname?[]:[{id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Name",type:"search",value:query,structure:{tag:"INPUT",name:"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0},formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false},{id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false}];},async select(_selector,value) {return [value];},async click() {currentUrl="https://tabelog.com/en/rstLst/?sw="+encodeURIComponent(query);navigations.push(currentUrl);},async fill(_id,value){query=value;},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
     }};
     const readAssembly = createLiveReadAssembly({...readLimits,packs:[googlePlacesDiscoveryPack]}, {
       google,browser,model,clock,currentTaskId:()=>model.currentTaskId(),

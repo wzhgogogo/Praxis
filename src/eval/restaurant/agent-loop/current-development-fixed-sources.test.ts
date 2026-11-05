@@ -1,12 +1,13 @@
+import {scriptedBrowserObservation} from "../../../harness/fixtures/restaurant-observation-model.js";
 import {scriptedRetrieval} from "../../../harness/restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import test from "node:test";
 
 import type { ModelGateway } from "../../../core/model/contracts.js";
-import { createCurrentDevelopmentFixedSources } from "./current-development-fixed-sources.js";
+import { createCurrentDevelopmentFixedSources,scriptedSourceFacts } from "./current-development-fixed-sources.js";
 import { currentDevelopmentSourceScenario, type CurrentDevelopmentSourceScenario } from "./current-development-source-scenarios.js";
 
-const model: ModelGateway = { async complete(request) { const result=scriptedRetrieval(request);if(result)return result;throw new Error("the deterministic source pages must not need a model browser action"); } };
+const model: ModelGateway = { async complete(request) { const result=scriptedBrowserObservation(request)??scriptedSourceFacts(request)??scriptedRetrieval(request);if(result)return result;throw new Error("the deterministic source pages must not need a model browser action"); } };
 const intent = {
   timezone: "Asia/Tokyo" as const,
   target: { goal: "AVAILABILITY" as const, query: "vegetarian lunch" },
