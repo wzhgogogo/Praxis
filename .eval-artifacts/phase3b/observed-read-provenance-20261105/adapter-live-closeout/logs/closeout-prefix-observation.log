@@ -1,0 +1,40 @@
+✔ D2 identity-only investigation covers the first three of five possible outlets: ONE (1332.280083ms)
+✔ D2 identity-only investigation covers the first three of five possible outlets: NONE (590.879375ms)
+✔ D2 identity-only investigation covers the first three of five possible outlets: TWO (566.693208ms)
+✔ D1 original Google short name and D3 original semantic bytes resolve Dengana by identity, then present B1 (1292.154292ms)
+✔ an identity-confirmed Tabelog full page name resolves even when Google name alone cannot justify the extra words (599.393333ms)
+✔ a sole containing name cannot supply unquoted cuisine or branch words after identity (556.562958ms)
+✔ two containment candidates ask instead of choosing a branch (493.316125ms)
+✔ an extra locality absent from the outlet address remains ambiguous (505.89225ms)
+✔ containment never overrules a source identity conflict (495.849166ms)
+✔ literal locality evidence permits extra geography but a building word, unknown alias or word fragment does not (0.224667ms)
+✖ TableCheck's identity-bound observed page name also resolves the different Google name (688.422917ms)
+✔ ordinary assembly presents the sole identity-bound exact outlet despite a different-name unknown peer (1313.479959ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 11
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5114.261334
+
+✖ failing tests:
+
+test at src/application/restaurant-named-outlet-source-names.test.ts:1:6003
+✖ TableCheck's identity-bound observed page name also resolves the different Google name (688.422917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'FAILED'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/restaurant-named-outlet-source-names.test.ts:73:82)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'FAILED',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }

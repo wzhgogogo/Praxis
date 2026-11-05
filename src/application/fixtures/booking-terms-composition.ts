@@ -1,3 +1,4 @@
+import {scriptedBrowserObservation} from "../../harness/fixtures/restaurant-observation-model.js";
 import assert from "node:assert/strict";
 import {readFile} from "node:fs/promises";
 import {PGlite,type Transaction} from "@electric-sql/pglite";
@@ -100,6 +101,7 @@ export async function bookingTermsComposition(options:Options={}){
   const japanese=original.replace(source.merchantQuote,japaneseQuote+"</p><p>"+cardQuote);
   const clock=new FakeClock(source.referenceTime),db=await PGlite.create(),database=new Database(db);await applyPostgresMigrations(database);
   const requests:Array<{turn:string;request:ModelRequest;response:ModelResponse}>=[],sourceCalls:Array<{turn:string;url:string;kind:string}>=[],sourcePages:unknown[]=[];
+  const browserDiagnostics:unknown[]=[];
   const googleWires:Array<{turn:string;url:string;method:string;body:unknown;response:unknown}>=[];
   let turn="INITIAL",stage="",omit=options.notStated??false,termsSignal:AbortSignal|undefined,duplicateSent=false,initialSearches=0,wrongD6Presented=false;
   const origin=performance.now();
@@ -237,7 +239,7 @@ if(options.namedWithoutArea){
     }else if(request.purpose==="restaurant_discovery_retrieval")body={choice:"KEYWORD",keyword:"kushikatsu",criterionRef:"criterion:0",generalRef:"",categoryUrl:"",reason:"The explicit HARD criterion supplies this retrieval word; retrieval does not qualify the outlet."};
     else if(request.purpose==="fixture_budget_work")body={};
     else if(request.purpose==="restaurant_source_facts")body={selections:[]};
-    else if(request.purpose==="browser_read_decide")body={action:"COMPLETE",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"Constructed public source is fully readable."};
+    else if(request.purpose==="browser_read_decide")body=JSON.parse(scriptedBrowserObservation(request)!.outputText);
     else throw new Error("Unconfigured fixture purpose "+request.purpose);
     const literal=options.namedWithoutArea&&!options.namedWithoutArea.openEnded&&turn==="INITIAL"&&request.purpose==="restaurant_semantic_interpret"?options.namedWithoutArea.outputText:undefined;
     const response:ModelResponse={invocationId:"fixture:"+requests.length,provider:"FIXTURE",model:"b1-terms-construction",outputText:rawOutput??literal??JSON.stringify(body),finishReason:"TOOL_CALLS",latencyMs:0};
@@ -246,11 +248,11 @@ if(options.namedWithoutArea){
   const counted=new RunBoundedModelGateway(transport,options.maxCalls??50,limits.maxAutomaticBrowserMs);
   const model=new DeliveryReservedModelGateway(counted);
   const chrome=provider==="TABLECHECK"?localFixture({[url]:english,[exactGuideAvailabilityUrl(url,source.date,2,"19:00")]:english}):undefined;
-  const browser:BrowserRuntime={async openSession(input){
+  const browser:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",async openSession(input){
     if(stage==="FACTS"){termsSignal=input.signal;mark("FACTS_SESSION_BEGIN");input.signal.addEventListener("abort",()=>{mark("FACTS_ABORT",{reasonCode:input.signal.reason?.code??"CANCELLED"});},{once:true});}
     const session=chrome?await chrome.openSession(input):undefined;
     const originalNavigate=session?.navigate.bind(session);
-    let pageUrl=url;
+    let pageUrl=url,query="";
     const navigate=async(target:string)=>{
       assert.ok(!/form_course|yoyaku|payment|confirm|checkout|account/.test(new URL(target).pathname));
       if(stage==="FACTS")mark("FACTS_PAGE_BEGIN",{url:target});
@@ -260,7 +262,7 @@ if(options.namedWithoutArea){
       if(originalNavigate)await originalNavigate(pageUrl);
     };
     if(session){const snapshot=session.snapshot.bind(session);session.navigate=navigate;session.snapshot=async()=>{const original=await snapshot();const p=omit?{...original,text:original.text.replace(cancellationQuote,"").replace(cardQuote,"")}:original;sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;};return session;}
-    return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime},navigate,
+    return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime,readNetworkBoundary:"INSTALLED"},navigate,
       async snapshot(){
         if(d3&&stage==="FACTS"){
           const jp=pageUrl===ja;const p={...structuredClone(jp?d3Japanese!:d3English!),url:pageUrl,
@@ -271,7 +273,7 @@ if(options.namedWithoutArea){
         const namedIndex=d2?Math.max(0,d2.candidates.findIndex((c:{restaurant:{id:string}})=>c.restaurant.id===activeCandidate)):0;
         const detailIndex=d2?Number(pageUrl.match(/\/(1312345\d)\//)?.[1]??13123456)-13123456:0;
         const d2Name=(i:number)=>options.savedD2Identity!=="NONE"&&(i===0||options.savedD2Identity==="TWO"&&i===1)?d2.intentDraft.target.query:`Source branch ${i+1} of Nakamata`;
-        if((options.namedWithoutArea?.sourceNames||continuity||d3||d2)&&(new URL(pageUrl).pathname.includes("/rstLst/")||new URL(pageUrl).hostname.includes("tablecheck"))){
+        if((options.namedWithoutArea?.sourceNames||continuity||d3||d2)&&(new URL(pageUrl).pathname==="/en/"||new URL(pageUrl).pathname.includes("/rstLst/")||new URL(pageUrl).pathname==="/en/japan/search")){
           const detail=d2?url.replace("13123456",String(13123456+namedIndex)):url;
           const html=new URL(pageUrl).hostname.includes("tablecheck")||options.unknownThirdIdentity&&namedIndex===2?"<p>No matching outlet</p>":`<article><a href="${detail}">${d2?d2Name(namedIndex):source.outlet.name}</a><address>${d2?d2.sourcePlaces[namedIndex].formattedAddress:source.outlet.address}</address><a href="tel:${d2?d2.sourcePlaces[namedIndex].nationalPhoneNumber:source.outlet.phone}">Phone</a></article>`;
           const p={url:pageUrl,title:"Restaurant search",text:html.replace(/<[^>]*>/g," "),html,responses:[]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;
@@ -281,9 +283,9 @@ if(options.namedWithoutArea){
         const jp=pageUrl===ja;const text=[name,address,phone,...(omit?[]:[jp?japaneseQuote:cancellationQuote,cardQuote]),"Availability","November 11, 2026. 2 guests. 19:00."].join("\n");
         const html=(jp?japanese:english).replace(omit?cancellationQuote:"__unused__","").replaceAll(source.outlet.name,name).replaceAll(source.outlet.address,address).replaceAll(source.outlet.phone,phone).replaceAll("13123456",otherId??"13123456");
         const p={url:pageUrl,title:name,text:d2?text.replaceAll("19:00","20:00"):text,html,responses:stage==="FACTS"?[]:[{url:source.vacancy.url.replaceAll("13123456",otherId??"13123456"),status:200,observedAt:clock.now().toISOString(),sequence:1,body:otherId?JSON.parse(JSON.stringify(source.vacancy.body).replaceAll("13123456",otherId)):source.vacancy.body}]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;},
-      async observeControls(){const controls=d3&&stage==="FACTS"&&pageUrl===url?structuredClone(d3.controls):options.conflict&&pageUrl===url?[{id:"lang-ja",stableKey:"lang-ja",kind:"LINK" as const,role:"link",label:"日本語",href:ja,visible:true,disabled:false}]:[];
+      async observeControls(){if(stage==="DISCOVERY")return [{id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Restaurant name",type:"search",structure:{tag:"INPUT",name:"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0},value:query,formMethod:"GET",formObservation:{owner:"source-search",visibleLines:["Restaurant name","Search"]},visible:true,disabled:false},{id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:{owner:"source-search",visibleLines:["Restaurant name","Search"]},visible:true,disabled:false}];const controls=d3&&stage==="FACTS"&&pageUrl===url?structuredClone(d3.controls):options.conflict&&pageUrl===url?[{id:"lang-ja",stableKey:"lang-ja",kind:"LINK" as const,role:"link",label:"日本語",href:ja,visible:true,disabled:false}]:[];
         if(stage==="FACTS"){mark("FACTS_CONTROLS_END",{url:pageUrl});options.afterFactControls?.(pageUrl);}return controls;},
-      async select(_selector,value){return [value];},async click(){assert.fail("No click transport");},async fill(){assert.fail("No form transport");},async waitFor(){},async waitForSettled(){return !(d3&&stage==="FACTS"&&pageUrl===url);},async screenshot(){return new Uint8Array();},async close(){}};
+      async select(_selector,value){return [value];},async click(id){assert.equal(id,"submit");await navigate((new URL(pageUrl).hostname.includes("tablecheck")?"https://www.tablecheck.com/en/japan/search":"https://tabelog.com/en/")+"?sw="+encodeURIComponent(query));},async fill(id,value){assert.equal(id,"query");query=value;},async waitFor(){},async waitForSettled(){return !(d3&&stage==="FACTS"&&pageUrl===url);},async screenshot(){return new Uint8Array();},async close(){}};
   }};
   const google=new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async(target,init)=>{
     sourceCalls.push({turn,url:String(target),kind:"GOOGLE_FIXTURE"});
@@ -300,7 +302,7 @@ if(options.namedWithoutArea){
     return new Response(JSON.stringify(response),{status:200});
   }});
   const assembly=createLiveReadAssembly({...limits,...(!options.namedWithoutArea&&!continuity&&!d3&&!d2?{packs:[googlePlacesDiscoveryPack]}:{})},{model,google,browser,clock,
-    currentTaskId:()=>counted.currentTaskId(),remainingModelCalls:id=>counted.remainingCalls(id),onBrowserDiagnostic:d=>{stage=d.stage;if(d.candidateId)activeCandidate=d.candidateId;}});
+    currentTaskId:()=>counted.currentTaskId(),remainingModelCalls:id=>counted.remainingCalls(id),onBrowserDiagnostic:d=>{browserDiagnostics.push(d);stage=d.stage;if(d.candidateId)activeCandidate=d.candidateId;}});
   const readTerms=assembly.questions.readBookingTerms.bind(assembly.questions);
   assembly.questions.readBookingTerms=async(view,deadlineAt,signal)=>{
     if(view.restaurant.selectedCandidateId&&view.restaurant.intentDraft?.target?.selectionScope==="SPECIFIC_OUTLET")options.beforeTerms?.(deadlineAt);
@@ -326,7 +328,7 @@ if(options.namedWithoutArea){
     async question(){turn="USER_QUESTION";const v=await project();await finished(()=>app.askRestaurantQuestion({userId:"terms-user",caseId,candidateId:v.restaurant.presentedCandidateIds![0]!,requestId:"question:"+version,expectedVersion:version,question:"What is this restaurant's same-day cancellation policy?"}));return project();},
     project,omitTerms(){omit=true;},async cancel(){return app.cancelCase("terms-user",caseId);},
     async close(){await app.stopActiveReads();await db.close();},
-    artifact:async()=>{const raw=await app.getCase("terms-user",caseId),prepared=assembly.bookingHandoffs.readPrepared(raw);return {requests,sourceCalls,sourcePages,googleWires,
+    artifact:async()=>{const raw=await app.getCase("terms-user",caseId),prepared=assembly.bookingHandoffs.readPrepared(raw);return {requests,sourceCalls,sourcePages,googleWires,browserDiagnostics,
       view:withBookingHandoffs(raw,prepared,clock.now().toISOString()),prepared,timeline,run:counted.usage(caseId),execution:await app.exportReadArtifact(caseId),realCalls:0};},
   };
 }

@@ -1,0 +1,95 @@
+✔ B1 open request does not read terms merely because the Agent chose a candidate (1317.177042ms)
+✔ B1 selected TABELOG outlet proactively acquires same-channel cancellation and card terms through ordinary composition (668.328ms)
+✖ B1 selected TABLECHECK outlet proactively acquires same-channel cancellation and card terms through ordinary composition (828.622542ms)
+✔ B1 reuses the actual admitted G1 cancellation answer without another model call, before or after selection (621.44175ms)
+✔ B1 carries both observed language policies and separate English paraphrases when G1 reports conflict (577.3065ms)
+✔ B1 hides SHOP G1 pages without losing the source link (561.707791ms)
+✔ B1 hides CHANNEL G1 pages without losing the source link (566.607458ms)
+✔ B1 omits unstated policy and card requirements, and never carries previous-run terms (592.499958ms)
+✔ B1 shares the real run model ceiling and drops optional terms when that budget is spent (519.432958ms)
+✔ B1 discards late terms on cancellation while keeping its qualified handoff (517.020417ms)
+✔ B1 drops expired G1 pages and enclosing-deadline output independently of its still-current link (1029.130542ms)
+✖ D3 saved pending fact page reaches G1 after bounded readiness and records why no unsupported booking terms are shown (1381.101125ms)
+✖ D3 current source data still loading is omitted with a reason and never becomes a guessed term (627.861459ms)
+✔ User booking wording records a choice when A's real P1-0-8 only presents the outlet (1432.710125ms)
+✔ P2 user choice survives the party-only supplement; A's real P2-0-10 does not select or bypass availability (663.049541ms)
+✔ User choice fails closed for OPEN_ENDED (547.442333ms)
+✔ User choice fails closed for NON_BOOKING (556.558792ms)
+✔ User choice fails closed for AMBIGUOUS (560.793916ms)
+✖ User choice fails closed for PARTIAL (563.856833ms)
+✔ An explicit G1 question and a Book-on departure do not create a user choice (550.170042ms)
+✔ A newly resolved named outlet is selected only through the current identity evidence (548.649125ms)
+✔ An Agent repeating the same user choice remains effective and idempotent (549.215292ms)
+✔ G6 B1 ordinary composition carries its admitted G1 cancellation quote onto the same-channel handoff (1478.97625ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 19
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8288.279333
+
+✖ failing tests:
+
+test at src/application/restaurant-booking-terms-composition.test.ts:1:1295
+✖ B1 selected TABLECHECK outlet proactively acquires same-channel cancellation and card terms through ordinary composition (828.622542ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(initial.restaurant.bookingHandoffs?.length)
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/restaurant-booking-terms-composition.test.ts:22:44)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/application/restaurant-saved-booking-terms.test.ts:1:220
+✖ D3 saved pending fact page reaches G1 after bounded readiness and records why no unsupported booking terms are shown (1381.101125ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NEEDS_INPUT'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/restaurant-saved-booking-terms.test.ts:13:44)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NEEDS_INPUT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
+
+test at src/application/restaurant-saved-booking-terms.test.ts:1:1875
+✖ D3 current source data still loading is omitted with a reason and never becomes a guessed term (627.861459ms)
+  TypeError [Error]: Cannot read properties of undefined (reading '0')
+      at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/fixtures/booking-terms-composition.ts:325:473)
+      at finished (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/fixtures/booking-terms-composition.ts:321:525)
+      at Object.select (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/fixtures/booking-terms-composition.ts:325:124)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/restaurant-saved-booking-terms.test.ts:32:34)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/application/restaurant-user-booking-selection.test.ts:1:4889
+✖ User choice fails closed for PARTIAL (563.856833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'praxis:restaurant:bd287442c716ac7439273cc9'
+  - undefined
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/application/restaurant-user-booking-selection.test.ts:75:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'praxis:restaurant:bd287442c716ac7439273cc9',
+    expected: undefined,
+    operator: 'strictEqual'
+  }

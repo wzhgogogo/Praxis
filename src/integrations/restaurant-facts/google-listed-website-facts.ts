@@ -400,7 +400,7 @@ export class GoogleListedWebsiteFactRead implements RestaurantCandidateFactPort 
         executor.beginCandidate(candidate.restaurant.id);
         executor.beginProvider(candidate.restaurant.id, "WEBSITE", "FACTS");
         const session = await executor.acquire(signal, "WEBSITE", "FACTS", this.networkPolicy);
-        await executor.navigate({ source: "WEBSITE", stage: "FACTS", signal, allowedOrigins: [listed.origin], session, url: listed.toString() });
+        await executor.navigate({ source: "WEBSITE", stage: "FACTS", signal, allowedOrigins: [listed.origin], session, url: listed.toString(), observed: true });
         const generic = await executor.runSkill({
           taskId: request.readRunId ?? candidate.restaurant.id,
           source: "WEBSITE", stage: "FACTS", signal, session, allowedOrigins: [listed.origin],

@@ -179,7 +179,7 @@ test("failed guarded source navigation exports the sanitized transport cause for
       const signal = new AbortController().signal;
       try {
         const session = await executor.acquire(signal, source, "IDENTITY", { documentOrigins: [origin], staticResources: [], dynamicReads: [] });
-        await assert.rejects(executor.navigate({ source, stage: "IDENTITY", signal, session, allowedOrigins: [origin], url: origin + "/public?read=QUERY_PRIVATE", timeoutMs: 5000 }), { code: "BROWSER_RUNTIME_FAILED" });
+        await assert.rejects(executor.navigate({ source, stage: "IDENTITY", signal, session, allowedOrigins: [origin], url: origin + "/public?read=QUERY_PRIVATE", observed:true, timeoutMs: 5000 }), { code: "BROWSER_RUNTIME_FAILED" });
         const failed = diagnostics.find(row => row.source === source && row.event === "OPERATION_FAILED");
         assert.ok(failed?.networkFailures?.length, "source failure retains Guard transport error despite failed navigation");
         assert.match(failed.networkFailures[0]!.error!.message, /socket hang up|ECONNRESET/);

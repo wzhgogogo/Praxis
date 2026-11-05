@@ -12,13 +12,25 @@
 - 原本无浏览器模型/Guard元数据的单元替身，现在显式提供观察模型与假安装边界。这里只证明Adapter组合，真实Guard仍由实际Chromium本机接收器、G2/G6门禁验证。自建来源搜索控件只在 .test.ts 中，不是产品规则，也不是旧录制的补造响应。
 - 单元入口原拥有runtime的生命周期由测试包装器保留：候选切换前关闭旧mock会话；外部传入的共享executor不改。模型动作预算采用普通组装已有20/120/80，仅替代旧无模型单元构造器的6/12/24，**未修改任何产品默认值、G6每回合50或运行预算**。
 
-## 实际产品缺陷与通用修复（非测试文件仅3个）
+## 实际产品缺陷与通用修复（产品文件4个）
 
 1. browser-task-executor.ts：search不再把所有未完成观察统一抛成ACTION_REJECTED。当前页返回给原Adapter分类，保留验证页/空页/模型失败的可观察原因；实际预算、取消和运行时错误仍按原边界退出，不增加请求或模型尝试。
 2. 同文件：通用已观察查询结果核对。字段名来自当前原生表单输入；值必须等于G4权威检索词。结果URL由来源已有parser提供，原始href从当前观测控件回绑定；只比较这些结果和落点，不检查普通导航链接。若相同已观察字段在结果里明确变成旧查询，则OBSERVED_QUERY_CONFLICT并拒绝。没有 search_text/sw 词表、网址模板、选择器或站点动作分支。字面相等是结果一致性核对，不是身份放宽。
 3. tabelog-browser-availability.ts、tablecheck-browser-availability.ts：只将已有parser解析的结果URL交给上述通用核对，并把冲突接入原有来源未知/查询不一致出口。身份比较、查询/详情计数、库存解析、响应绑定、B1双重验证均未改。删除旧的第二遍 runSkill 搜索补偿，因 search 现在已经完整执行同一观察循环；避免第二条路径绕过通用查询一致性核对或重复消耗模型。
 
 新增执行器参数化控制将字段从public_query改成renamed_parameter，原冲突必须仍拒绝；普通“其他查询”导航链接不被当作结果冲突。原TableCheck旧查询反例先红再绿，不能以无冲突诊断绕过。
+
+4. google-listed-website-facts.ts：对已从Google绑定、经origin核对的精确websiteUri传递observed:true。旧调用方漏传导致G1被新的导航前提拒绝。不改写URL、不增加放行范围；相关G1/事实及机械同步85/85。
+
+## 续作的夹具及机械同步
+
+- named-search-session-reuse.test.ts：显式提供按当前观察决策的模型及假网站表单关联。三候选入口导航仍2次，表单提交6次（首次也不拼查询URL）。故障在Beta查询注入，原“下个候选才新建”控制保留；结果、错店、多身份、跨运行断言保持。缺少控件时不再构造URL。
+- 观察模型替身仅在src/harness/fixtures/restaurant-observation-model.ts，实际消费者为复用测试与booking-terms-composition.ts。不用于历史模型录制。
+- booking-terms-composition.ts：构造来源公开搜索控件、网站自己的提交响应、首页搜索入口、边界Mock元数据和诊断导出。避免把所有TableCheck详情误当搜索页。名称/前缀组12项11通过，TableCheck冲突仍红。D2/D3原始语义、决策及页面文件未改。
+- browser-candidate-budget.test.ts、local-playwright-chromium.test.ts：仅标明测试给定URL的来源，使计时和传输错误断言到达被测操作，原时限和错误断言不改。
+- restaurant-message-handler.test.ts、restaurant-saved-booking-terms.test.ts：TaskDefinition期望23同步已批准的24，不改行为断言。
+- tabelog-public-query.test.ts：仅同步缺证原因的“independently observed native form”字样，NOT_EVALUATED和拒绝反例不变。
+- current-development-fixed-sources.ts等三文件的未完成迁移已撤回活动源码，补丁作为draft / not integrated保存，不执行。
 
 ## 评测侧接线
 

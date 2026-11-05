@@ -1,0 +1,39 @@
+{
+  "status": "draft / not integrated",
+  "mode": "OFFLINE_INSPECTION",
+  "atCET": "2026-11-05T17:00:37+01:00",
+  "realCalls": {
+    "websiteGET": 0,
+    "Google": 0,
+    "model": 0,
+    "Live": 0
+  },
+  "checks": [
+    {
+      "id": "TC_RESERVE_SCOPE",
+      "policy": "src/integrations/tablecheck/tablecheck-public-query.ts",
+      "rule": {
+        "hostname": "tablecheck.com",
+        "pathSegment": "reserve"
+      },
+      "fixture": "src/eval/restaurant/agent-loop/cases/g6-development/source.json",
+      "pageUrl": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+      "ordinaryCompositionResult": "FAILED / EXECUTION_FAILURE at CHECK_AVAILABILITY; no handoff or completed inventory",
+      "decision": "No Guard edit; no relocation of saved stock response to another URL"
+    },
+    {
+      "id": "PARTIAL_NAME",
+      "query": "G6",
+      "candidate": "G6 Development Sushi",
+      "expected": "unresolved; no selection/handoff",
+      "observed": "selected with source-backed bidirectional containment",
+      "decision": "User retained bidirectional containment; reviewer to decide the PARTIAL assertion. Neither rule nor assertion changed."
+    }
+  ],
+  "sourceHashes": {
+    "src/integrations/tablecheck/tablecheck-public-query.ts": "04727e8911a2d64a3380e4e446f0f2a1412c3722906e041c0f60b80a555a1f22",
+    "src/eval/restaurant/agent-loop/cases/g6-development/source.json": "771b22663707b4e9533402764e1975ddf7d6946e928fc0cfdc541776a868857d",
+    "src/application/restaurant-user-booking-selection.test.ts": "48f71d299398f786bdc2cbd7f58f3a5224c1b306f56f8fbe1c267bf2d010c46d",
+    "src/domains/restaurant/named-outlet-resolution.ts": "40cfc21fbf41adca256ef57f4d7c6da9a72c560f83da3d654d2b7eea11a0883e"
+  }
+}

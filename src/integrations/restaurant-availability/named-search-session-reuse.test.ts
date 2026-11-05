@@ -1,3 +1,4 @@
+import {scriptedBrowserObservation} from "../../harness/fixtures/restaurant-observation-model.js";
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
@@ -19,8 +20,8 @@ class SearchSession implements BrowserSession {
   async navigate(url:string){this.navigations.push(url);this.url=url;}
   async snapshot():Promise<BrowserSnapshot>{return {url:this.url,title:"Restaurant search",text:this.url.includes("tablecheck")?"No venues found":"No restaurants match",html:"<main>No venues found. No restaurants match</main>"};}
   async observeControls():Promise<BrowserPageControl[]>{return [
-    {id:"current-query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Restaurant search",type:"search",structure:{tag:"INPUT",name:"query",classes:[],dialogLabel:"",formClass:"",sliderCount:0},controlGroupKey:"search-form",value:this.query,visible:true,disabled:false},
-    {id:"current-submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",controlGroupKey:"search-form",visible:true,disabled:false},
+    {id:"current-query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Restaurant search",type:"search",structure:{tag:"INPUT",name:this.url.includes("tablecheck")?"search_text":"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0},formObservation:{owner:"search-form",visibleLines:["Restaurant search"]},controlGroupKey:"search-form",value:this.query,visible:true,disabled:false},
+    {id:"current-submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:{owner:"search-form",visibleLines:["Restaurant search"]},controlGroupKey:"search-form",visible:true,disabled:false},
   ];}
   async fill(_id:string,value:string){this.query=value;}
   async click(){const u=new URL(this.url);u.searchParams.set(u.hostname.includes("tablecheck")?"search_text":"sw",this.query);this.url=u.toString();this.submissions.push(this.query);}
@@ -30,7 +31,7 @@ class SearchSession implements BrowserSession {
   isClosed(){return this.closed>0;}
   async close(){this.closed++;}
 }
-const limits={maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:40};
+const limits={maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:20,maxModelCallsTotal:120,maxOperationsPerCandidate:80};
 function request(name:string):RestaurantAvailabilityRequest{
   const c=structuredClone(fixtureCandidates[0]!);c.restaurant.id=name;c.restaurant.outletName=name;c.restaurant.sourceIds={googlePlaces:name};
   return {candidateIds:[name],candidates:[c],date:fixtureIntent.date,timeWindow:fixtureIntent.timeWindow,partySize:fixtureIntent.partySize,hardCriteria:[]};
@@ -38,40 +39,40 @@ function request(name:string):RestaurantAvailabilityRequest{
 test("one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions",async()=>{
   const sessions:SearchSession[]=[];
   const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();sessions.push(s);return s;}};
-  const availability=new LiveBrowserAvailability(runtime,{complete:async()=>{throw new Error("No model authorized in this fixture");}},{...limits,alternativeSearch:async()=>undefined});
+  const availability=new LiveBrowserAvailability(runtime,{complete:async(request)=>scriptedBrowserObservation(request)!},{...limits,alternativeSearch:async()=>undefined});
   availability.beginReadRun();
   const results=[];
   try{for(const name of ["Alpha Sushi","Beta Sushi","Gamma Sushi"]){const r=await availability.check(request(name),new AbortController().signal,"read-one");results.push(r);assert.equal(r.availabilityChecks[name]?.status,"UNKNOWN");assert.deepEqual(r.offers,[]);}}
   finally{await availability.endReadRun();}
   assert.equal(sessions.length,2,"one session per source, instead of one per candidate");
   assert.equal(sessions.flatMap(s=>s.navigations).length,2,"only each source's first search opens its entrance; later queries submit observed forms");
-  assert.equal(sessions.flatMap(s=>s.submissions).length,4);
+  assert.equal(sessions.flatMap(s=>s.submissions).length,6);
   assert.ok(sessions.every(s=>s.closed===1),"all source sessions close at the read boundary");
   assert.ok(results.every(r=>r.metadata.providerAttempts?.length===2));
 });
 
-test("missing observed search controls retain the navigation path and conclusions without reopening source sessions",async()=>{
+test("missing observed search controls never construct a query URL and retain honest no-result conclusions",async()=>{
   const sessions:SearchSession[]=[];
-  const availability=new LiveBrowserAvailability({openSession:async()=>{const s=new SearchSession();s.observeControls=async()=>[];sessions.push(s);return s;}},
-    {complete:async()=>{throw new Error("No model");}},{...limits,alternativeSearch:async()=>undefined});
+  const availability=new LiveBrowserAvailability({readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();s.observeControls=async()=>[];sessions.push(s);return s;}},
+    {complete:async(request)=>scriptedBrowserObservation(request)!},{...limits,alternativeSearch:async()=>undefined});
   availability.beginReadRun();
   try{for(const name of ["Alpha Sushi","Beta Sushi","Gamma Sushi"]){const r=await availability.check(request(name),new AbortController().signal);assert.equal(r.availabilityChecks[name]?.status,"UNKNOWN");}}
   finally{await availability.endReadRun();}
-  assert.equal(sessions.length,2);assert.equal(sessions.flatMap(s=>s.navigations).length,6);
+  assert.equal(sessions.length,2);assert.equal(sessions.flatMap(s=>s.navigations).length,2);
   assert.equal(sessions.flatMap(s=>s.submissions).length,0);
 });
 
 test("a failed reused session retires without retry; the next candidate gets a fresh source session",async()=>{
   const sessions:SearchSession[]=[];
-  const availability=new LiveBrowserAvailability({openSession:async()=>{
+  const availability=new LiveBrowserAvailability({readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{
     const s=new SearchSession();
     if(sessions.length===0){
       let contextLost=false;
       s.isClosed=()=>contextLost||s.closed>0;
-      s.click=async()=>{contextLost=true;throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED","fixture context closed");};
+      const click=s.click.bind(s);s.click=async()=>{if(s.query==="Beta Sushi"){contextLost=true;throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED","fixture context closed");}await click();};
     }
     sessions.push(s);return s;
-  }},{complete:async()=>{throw new Error("No model");}},{...limits,alternativeSearch:async()=>undefined});
+  }},{complete:async(request)=>scriptedBrowserObservation(request)!},{...limits,alternativeSearch:async()=>undefined});
   availability.beginReadRun();
   try{
     await availability.check(request("Alpha Sushi"),new AbortController().signal);
@@ -86,8 +87,8 @@ test("a failed reused session retires without retry; the next candidate gets a f
 
 test("a completed run never lends its source contexts to a later run; cancellation still closes every context",async()=>{
   const sessions:SearchSession[]=[];
-  const availability=new LiveBrowserAvailability({openSession:async()=>{const s=new SearchSession();sessions.push(s);return s;}},
-    {complete:async()=>{throw new Error("No model");}},{...limits,alternativeSearch:async()=>undefined});
+  const availability=new LiveBrowserAvailability({readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();sessions.push(s);return s;}},
+    {complete:async(request)=>scriptedBrowserObservation(request)!},{...limits,alternativeSearch:async()=>undefined});
   availability.beginReadRun();await availability.check(request("Alpha Sushi"),new AbortController().signal);await availability.endReadRun();
   assert.equal(sessions.length,2);assert.ok(sessions.every(s=>s.closed===1));
   availability.beginReadRun();const controller=new AbortController();
@@ -118,7 +119,7 @@ test("ordinary assembly retains correct source identities while a reused search 
   }
   const sessions:IdentitySession[]=[];let sourceModelCalls=0;
   const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {
-    model:{complete:async()=>{sourceModelCalls++;return {invocationId:"declined-fragment",provider:"FIXTURE",model:"fixture",outputText:'{"field":"name","fragment":""}',finishReason:"STOP",latencyMs:0};}},
+    model:{complete:async(request)=>{const observed=scriptedBrowserObservation(request);if(observed)return observed;sourceModelCalls++;return {invocationId:"declined-fragment",provider:"FIXTURE",model:"fixture",outputText:'{"field":"name","fragment":""}',finishReason:"STOP",latencyMs:0};}},
     browser:{readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new IdentitySession();sessions.push(s);return s;}},
     google:new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async()=>{throw new Error("Google not authorized");}}),
     clock:{now:()=>new Date()},
@@ -136,7 +137,7 @@ test("ordinary assembly retains correct source identities while a reused search 
     }
   }finally{await assembly.availability.endReadRun();}
   assert.equal(sessions.length,1);assert.equal(sessions[0]!.closed,1);
-  assert.equal(sessions[0]!.navigations.filter(u=>u.includes("rstLst")).length,1);
+  assert.equal(sessions[0]!.navigations.filter(u=>u==="https://tabelog.com/en/").length,1);
   assert.ok(sessions[0]!.submissions.includes("Beta Sushi"));
   assert.equal(sourceModelCalls,2,"only the unchanged fragment fallback for the two unresolved identities");
   if(process.env.PRAXIS_SESSION_REUSE_CAPTURE==="1")console.log("SESSION_REUSE_RESULT "+JSON.stringify({conclusions,sessionOpens:sessions.length,entranceNavigations:1,submissions:sessions[0]!.submissions,sourceModelCalls,externalCalls:0}));

@@ -1,0 +1,60 @@
+{
+  "mode": "MOCK_SOURCE_COMPOSITION",
+  "realCalls": 0,
+  "policyProhibitsFixturePage": true,
+  "pageUrl": "https://www.tablecheck.com/en/shops/g6-development-sushi/reserve",
+  "phase": "FAILED",
+  "handoffs": [],
+  "checks": {},
+  "operations": [],
+  "sourceCalls": [
+    {
+      "turn": "INITIAL",
+      "url": "https://places.googleapis.com/v1/places:searchText",
+      "kind": "GOOGLE_FIXTURE"
+    },
+    {
+      "turn": "INITIAL",
+      "url": "https://places.googleapis.com/v1/places:searchNearby",
+      "kind": "GOOGLE_FIXTURE"
+    }
+  ],
+  "loop": {
+    "status": "EXECUTION_FAILURE"
+  },
+  "stage": "AGENT_LOOP",
+  "status": "FAILED",
+  "trajectory": [
+    {
+      "agentAction": {
+        "type": "SEARCH_RESTAURANTS"
+      },
+      "observation": {
+        "type": "DISCOVERY",
+        "detail": "1 candidates discovered; 1 newly accepted",
+        "evidenceIds": [
+          "7a55743229b4619a91eaf7e9b5d1eb98d307c7c7e47809315c07cefd5b5ef7f3",
+          "evidence:restaurant:google-discovery:f46979e10321757196dcb3ca",
+          "evidence:restaurant:google-entity:f46979e10321757196dcb3ca",
+          "evidence:restaurant:google-facts:d6c6c02dae7c9525b31eba7f"
+        ],
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ],
+        "newCandidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ]
+      },
+      "stepOutcome": "EXECUTED"
+    },
+    {
+      "agentAction": {
+        "type": "CHECK_AVAILABILITY",
+        "candidateIds": [
+          "praxis:restaurant:bd287442c716ac7439273cc9"
+        ]
+      },
+      "stepOutcome": "EXECUTION_FAILURE"
+    }
+  ]
+}

@@ -51,7 +51,7 @@ for (const control of ["legacy60", "productionDefault"] as const) {
     executor.beginProvider(timing.candidateId, "TABELOG");
     t.mock.timers.setTime(timing.targetNavigationStartMs);
     const scoped = { source: "TABELOG", stage: "IDENTITY" as const, signal, session };
-    const navigation = executor.navigate({ ...scoped, url: timing.targetUrl, allowedOrigins: ["https://tabelog.com"] });
+    const navigation = executor.navigate({ ...scoped, url: timing.targetUrl, observed:true, allowedOrigins: ["https://tabelog.com"] });
     await flush();
     t.mock.timers.tick(timing.targetNavigationFinishedMs - timing.targetNavigationStartMs);
     await flush();

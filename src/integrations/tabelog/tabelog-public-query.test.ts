@@ -38,7 +38,7 @@ test("independent review never accepts the old shape or a production receipt as 
     actionPathname: request.pathname, fields: keys.map(key => ({ key, valueSha256: "a".repeat(64), source: "PAGE" })) } };
   const audit = auditReadOnlyTrace(trace, [claimed], false, review);
   assert.equal(audit.status, "NOT_EVALUATED");
-  assert.match(audit.gaps[0]!.missing.join(), /independent native form/);
+  assert.match(audit.gaps[0]!.missing.join(), /independently observed native form/);
   for (const patch of [{ method: "POST" }, { formSubmission: { ...claimed.formSubmission, actionOrigin: "https://other.example" } }]) {
     assert.equal(auditReadOnlyTrace(trace, [{ ...claimed, ...patch }], false, review).status, "PRESENT");
   }
