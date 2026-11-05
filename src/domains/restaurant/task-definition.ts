@@ -846,7 +846,7 @@ function transition(
 
 export const restaurantBookingTaskDefinition: TaskDefinition<RestaurantTaskState, RestaurantEvent, RestaurantCommand, RestaurantOutcome> = {
   type: "restaurant.booking",
-  version: "23",
+  version: "24",
   create() {
     return {
       schemaVersion: "25",

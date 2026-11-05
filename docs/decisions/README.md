@@ -15,6 +15,8 @@ Accepted G1 supplement: [ADR-0036 supplement](0036-tablecheck-reserve-read-suppl
 
 ## 当前决策
 
+本分支新增：[ADR-0051](0051-observed-actions-and-get-form-provenance.md)，用户2026-11-05批准的观察循环、GET表单值来源及候选门控退役；实施未集成，不代表已验收能力。
+
 | ADR | Status | Decision |
 |---|---|---|
 | [0001](0001-general-task-runtime.md) | Accepted | 通用Task Runtime + Domain Packages |

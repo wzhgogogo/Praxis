@@ -252,7 +252,7 @@ export function validateRestaurantAction(
     const allowedIds = assessRestaurantRead(state, now).checkableCandidateIds;
     return action.candidateIds.every(id => allowedIds.includes(id))
       ? { status: "ALLOWED" }
-      : rejected("AVAILABILITY_NOT_CHECKABLE", "Choose only IDs in the current checkable scope; direct source entrances have priority while at least three unchecked in-radius choices remain");
+      : rejected("AVAILABILITY_NOT_CHECKABLE", "Choose only IDs in the current checkable scope");
   }
 
   if (action.type === "PRESENT_RESULTS") {

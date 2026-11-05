@@ -82,11 +82,21 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
 export class PlaywrightReadNetworkGuard {
   readonly forms = new PlaywrightObservedGetForms();
   private readonly formAdmissions = new WeakMap<Page, Map<string, { evidence: ObservedGetFormSubmission; startedAt: number }>>();
+  private readonly popupForms = new Map<string, Promise<{ evidence?: ObservedGetFormSubmission; startedAt: number; opener: Page } | undefined>>();
+  private readonly preparedPopups = new WeakSet<Page>();
+  private readonly blockedPopupForms = new WeakMap<Page, string>();
   private async observedSubmission(page: Page, url: URL): Promise<ObservedGetFormSubmission | undefined> {
     let timer: ReturnType<typeof setTimeout> | undefined;
     try {
       return await Promise.race([this.forms.submission(page, url).catch(() => undefined),
         new Promise<undefined>(resolve => { timer = setTimeout(() => resolve(undefined), this.requestTimeoutMs); })]);
+    } finally { if (timer) clearTimeout(timer); }
+  }
+  private async observedPopupSubmission(page: Page, url: URL, windowName: string): Promise<{ evidence?: ObservedGetFormSubmission } | undefined> {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      return await Promise.race([this.forms.popupSubmission(page, url, windowName).catch(() => ({})),
+        new Promise<{}>(resolve => { timer = setTimeout(() => resolve({}), this.requestTimeoutMs); })]);
     } finally { if (timer) clearTimeout(timer); }
   }
   private context?: BrowserContext;
@@ -164,7 +174,7 @@ export class PlaywrightReadNetworkGuard {
     context.on?.("page", page => {
       const bootstrap = this.popupBootstraps.delete(requestKey(page.url()));
       const url = page.url();
-      void this.preparePage(context, page, options.replay === true)
+      void this.preparePopupForm(page, url).then(() => this.preparePage(context, page, options.replay === true))
         .then(async () => { if (bootstrap) await page.goto(url, { timeout: this.requestTimeoutMs }).catch(() => {}); })
         .catch(() => context.close().catch(() => {}));
     });
@@ -181,12 +191,20 @@ export class PlaywrightReadNetworkGuard {
         // Commit an empty local bootstrap, never a source response, so its page
         // can be protected before the original GET is issued exactly once.
         if (request.isNavigationRequest() && request.method() === "GET") {
+          if (!await this.preparePopupForm(undefined, request.url())) {
+            this.blocked("BLOCKED_FIELDS", new URL(request.url()), request.method(), request.resourceType());
+            await route.abort("blockedbyclient"); return;
+          }
           this.popupBootstraps.add(requestKey(request.url()));
           await route.fulfill({ status: 200, contentType: "text/html", body: '<body aria-busy="true"></body>' });
         } else await route.abort("blockedbyclient");
         return;
       }
       const ready = this.redirectReady.has(page);
+      if (!await this.preparePopupForm(page, request.url())) {
+        this.blocked("BLOCKED_FIELDS", new URL(request.url()), request.method(), request.resourceType());
+        await route.abort("blockedbyclient"); return;
+      }
       await this.installRedirectProtection(context, page, options.replay === true);
       if (!ready) {
         // A popup's first loader can exist before a page CDP session. Abort it
@@ -207,6 +225,28 @@ export class PlaywrightReadNetworkGuard {
     return this.installRedirectProtection(context, page, replay);
   }
 
+  private async preparePopupForm(page: Page | undefined, value: string): Promise<boolean> {
+    if (page && this.preparedPopups.has(page)) return this.blockedPopupForms.get(page) !== requestKey(value);
+    const pending = this.popupForms.get(requestKey(value));
+    if (!pending) return true;
+    const opener = page ? await page.opener() : undefined;
+    if (page && !opener) return true;
+    const form = await pending;
+    if (form && page && opener !== form.opener) return true;
+    if (page) {
+      this.preparedPopups.add(page);
+      this.popupForms.delete(requestKey(value));
+    }
+    if (!form) return true; // Ordinary link/window navigation keeps its old policy.
+    if (!form.evidence) { if (page) this.blockedPopupForms.set(page, requestKey(value)); return false; }
+    if (page) {
+      const receipts = this.formAdmissions.get(page) ?? new Map();
+      receipts.set(requestKey(value), { evidence: form.evidence, startedAt: form.startedAt });
+      this.formAdmissions.set(page, receipts);
+    }
+    return true;
+  }
+
   private async installRedirectProtection(context: BrowserContext, page: Page, replay: boolean): Promise<void> {
     const existing = this.redirectSessions.get(page);
     if (existing) return existing;
@@ -219,6 +259,11 @@ export class PlaywrightReadNetworkGuard {
     const session = await context.newCDPSession(page);
     await session.send("Page.enable");
     const rootFrameId = (await session.send("Page.getFrameTree")).frameTree.frame.id;
+    session.on("Page.windowOpen", event => {
+      const startedAt = Date.now();
+      this.popupForms.set(requestKey(event.url), this.observedPopupSubmission(page, new URL(event.url), event.windowName)
+        .then(form => form ? { ...form, startedAt, opener: page } : undefined).catch(() => ({ startedAt, opener: page })));
+    });
     // Child targets (OOPIFs and dedicated workers) have their own CDP sessions.
     // Keep them paused until the same interception is installed. This private
     // wire adapter only transports CDP; it never makes an admission decision.
@@ -319,11 +364,12 @@ export class PlaywrightReadNetworkGuard {
           const formKey = `${event.frameId}|${requestKey(url.toString())}`;
           const formNavigation = !isRedirect ? formNavigations.get(formKey) : undefined;
           formNavigations.delete(formKey);
-          const formSubmission = formNavigation ? await formNavigation.evidence : undefined;
+          const inherited = !isRedirect && event.frameId === rootFrameId ? this.formAdmissions.get(page)?.get(requestKey(url.toString())) : undefined;
+          const formSubmission = formNavigation ? await formNavigation.evidence : inherited?.evidence;
           const formAdmitted = Boolean(formSubmission && method === "GET" && type === "document"
             && !this.prohibitedRead(url) && !this.sensitiveWorkflow(url) && !url.username && !url.password
             && (this.policy.documentOrigins.includes(url.origin) || this.policy.genericPublicRead && this.genericOrigins.has(url.origin)));
-          const admitted = formNavigation ? formAdmitted : method === "OPTIONS"
+          const admitted = formNavigation || inherited ? formAdmitted : method === "OPTIONS"
             ? !isRedirect && !replay && await this.admitsPreflight(url, type, corsPreflight)
             : await this.admitsRedirectRequest(url, request, method, type);
           if (!admitted) {
@@ -336,7 +382,7 @@ export class PlaywrightReadNetworkGuard {
           }
           if (formAdmitted && formSubmission) {
             const receipts = this.formAdmissions.get(page) ?? new Map<string, { evidence: ObservedGetFormSubmission; startedAt: number }>();
-            receipts.set(requestKey(url.toString()), { evidence: formSubmission, startedAt: formNavigation!.startedAt });
+            receipts.set(requestKey(url.toString()), { evidence: formSubmission, startedAt: formNavigation?.startedAt ?? inherited!.startedAt });
             this.formAdmissions.set(page, receipts);
           }
           const previous = event.redirectedRequestId ? chains.get(event.redirectedRequestId) : undefined;

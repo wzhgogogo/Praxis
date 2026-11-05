@@ -58,7 +58,8 @@ for (const transport of ["NODE_FETCH", "BROWSER_GET_HEAD"] as const) {
       const url = new URL(request.url!, `http://${request.headers.host}`);
       arrivals.push({ path: url.pathname, method: request.method! });
       response.setHeader("content-type", "text/html");
-      response.end(`<form method="get" action="/result"><input name="name" value="Page default"><button>Go</button></form>`);
+      response.end(url.pathname === "/result" ? "<h1>Public result</h1>"
+        : `<form method="get" action="/result"><input name="name" value="Page default"><button>Go</button></form>`);
     });
     await new Promise<void>(resolve => server.listen(0, "127.0.0.1", resolve));
     const address = server.address(); assert.ok(address && typeof address !== "string");
@@ -100,6 +101,21 @@ for (const transport of ["NODE_FETCH", "BROWSER_GET_HEAD"] as const) {
         assert.deepEqual(arrivals.slice(start), [], `${mode}: unexpected source request`);
         await page.close();
       }
+      const opener = await context.newPage(); await guard.preparePage(context, opener);
+      guard.prepareNavigation(origin + "/"); await opener.goto(origin + "/");
+      await guard.forms.observe(opener);
+      await opener.locator("form").evaluate(form => (form as HTMLFormElement).target = "_blank");
+      const opening = opener.waitForEvent("popup");
+      await opener.locator("button").click();
+      const popup = await opening;
+      await popup.locator("h1").waitFor({ timeout: 3_000 });
+      assert.equal(await popup.locator("h1").innerText(), "Public result");
+      assert.equal(arrivals.filter(row => row.path === "/result").length, 1, "only the proven page-default form reached the receiver");
+      const admitted = guard.snapshotRequests().find(row => row.pathname === "/result" && row.outcome === "ADMITTED");
+      assert.equal(admitted?.formSubmission?.fields[0]?.source, "PAGE");
+      guard.prepareNavigation(origin + "/"); await popup.goto(origin + "/");
+      await popup.goto(origin + "/result?name=Page+default", { timeout: 3_000 }).catch(() => {});
+      assert.equal(arrivals.filter(row => row.path === "/result").length, 1, "consumed popup permission cannot authorize a later nonform GET");
       assert.ok(guard.snapshotRequests().some(row => row.outcome === "BLOCKED"));
     } finally { await browser.close(); server.closeAllConnections(); await new Promise<void>(resolve => server.close(() => resolve())); }
   });

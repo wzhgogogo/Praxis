@@ -77,6 +77,27 @@ export class PlaywrightObservedGetForms {
 
   beforeClick(page: Page, element: ElementHandle): void { this.submitters.set(page, element); }
 
+  /** Chromium reports a new-window form navigation as windowOpen, without a
+   * frameRequestedNavigation reason. Inspect native form ownership/target;
+   * an unobserved or ambiguous matching form receives no permission. */
+  async popupSubmission(page: Page, requested: URL, windowName: string): Promise<{ evidence?: ObservedGetFormSubmission } | undefined> {
+    const formTarget = await page.evaluate(({ destination, windowName }) => {
+      const url = new URL(destination);
+      return [...document.forms].some(form => {
+        const active = document.activeElement;
+        const submitter = active instanceof HTMLButtonElement || active instanceof HTMLInputElement ? active : undefined;
+        const associated = submitter?.form === form ? submitter : undefined;
+        const action = new URL(associated?.hasAttribute("formaction") ? associated.formAction : form.action);
+        const target = associated?.hasAttribute("formtarget") ? associated.formTarget : form.target;
+        return action.origin === url.origin && action.pathname === url.pathname
+          && (target === "_blank" && !windowName || target === windowName && !["", "_self", "_top", "_parent"].includes(target));
+      });
+    }, { destination: requested.toString(), windowName }).catch(() => true);
+    if (!formTarget) return undefined;
+    const evidence = await this.submission(page, requested);
+    return evidence ? { evidence } : {};
+  }
+
   async submission(page: Page, requested: URL): Promise<ObservedGetFormSubmission | undefined> {
     const observed = this.documents.get(page);
     if (!observed || page.url() !== observed.url || requested.origin !== new URL(observed.url).origin

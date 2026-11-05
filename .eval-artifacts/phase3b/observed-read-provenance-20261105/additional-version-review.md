@@ -1,4 +1,14 @@
-# 退役直达路径后的额外版本方案
+# 额外版本方案：用户复核决定
+
+**当前决定（2026-11-05 CET，用户已批准）：** 仅TaskDefinition@23→24，删除生产read-assessment与run-decision-replay两处availabilityCheckSelectionScope调用并删除函数，不保留双轨。保留availabilityPath事实字段、来源包candidatePath、RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION；Agent Prompt@29和Agent Context@17不变，State@25不变。下文原方案中删除提示/上下文的建议已被用户否决，作为superseded retrospective保留，不能据此实施。
+
+出处已独立核对：本仓库3d323739是inventory-06见证冻结，未引入门控。git log -S与源码diff证明门控来自33a3b161aea53418a64cbbcc812ef3546ecbdb41（2026-10-19）；同提交追加docs/decisions/0042-agent-planned-discovery-and-search-availability-hints.md的“2026-10-19 P2-2 首次查位入口分配”段（当前159行）。另一份0042-explicit-observed-general-list-supplement.md没有该门控。新增ADR-0051精确替代前者这一段的门控，保留来源提示与其他安全/证据条款。
+
+验收追加：D3/D5真实回放逐轮记录实际模型选择的候选；未完成前不得声称无退化。此文件前一版已随8d508f44推送，现次更新随实现一起推送。
+
+---
+
+以下为原始提案（已部分否决）：
 
 2026-11-05 CET（UTC+1）；**draft / not integrated，实施前报告**。不新增真实调用。
 

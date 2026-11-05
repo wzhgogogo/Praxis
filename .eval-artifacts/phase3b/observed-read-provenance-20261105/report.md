@@ -42,3 +42,13 @@ Browser Context4包含原生form关联和可见行，没有隐藏值。boundInpu
 D4/D3/D5/D8新合同真实回放、全套门禁、G2/G6均未运行；未合main，真实外部调用0。
 
 当前只记录本停止点事实，不更新STATUS/DEVLOG/TEST-LOG（按工作规则留到main合入时）。未合main、未运行Live，不通知A/B接力。
+
+## 用户复核后的收敛（2026-11-05 CET）
+
+用户只批准TaskDefinition23→24，否决删除availabilityPath提示及Agent版本升级。现已删除availabilityCheckSelectionScope函数和read-assessment、run-decision-replay两处调用，没有双轨；原合法候选池直接交模型。来源包candidatePath、availabilityPath字段与Agent Prompt29/Context17及来源建议逐字不变。原提示文件SHA256：agent-decision.ts `1653cdb1fce186ee356463f12306176d657be6e6fc0f23028871309852ce66b8`、agent-context.ts `9e8115378216e349ea2e2b06c7fd3175de47876980a58f99a95ee2716d84a491`。State25/Agent动作/语义版本及资格/刷新边界不变。红灯两处断言明确显示旧代码缩窄候选；修复后的相关三文件49/49及typecheck通过。包含本地Chromium的测试普通沙箱启动失败，受控本地启动同输入通过，不能把环境启动失败称为产品红灯。
+
+出处以git show/log -S为准：3d323739实际是inventory-06冻结；真正的门控及ADR段来自33a3b161（2026-10-19）。新ADR-0051明确只替代0042-agent-planned-discovery-and-search-availability-hints的“2026-10-19 P2-2 首次查位入口分配”门控，不错误引用另一份0042，也不删模型效率建议。additional-version-review.md原提案保留为历史并在顶部写入用户最终裁定。
+
+popup追加取证证明：旧等待可能只观察到本地bootstrap，随后普通GET实际到达了**本机虚构数据接收器**（见popup-local-first-deviation.json），不是外网/Live调用，不计Live S0。根因是新窗口表单只有Page.windowOpen、没有父页frameRequestedNavigation；bootstrap重开丢失原生表单关联。现在按实际原生form action/target、文档与输入来源关联到同一opener的首次新窗口；未知来源在bootstrap前拒绝，有证据的同源GET表单可通过，许可单次消费、不能给父页/另一页面/后续非表单GET借用。不改普通popup许可与重定向边界，不改传输默认值或时限。追加真实终态与接收器、合法popup、许可不可复用控制后4/4；既有两传输网络边界64/64保持。旧2/4原日志保留，不能把先前bootstrap等待当成功证据。
+
+这些仍是组件/本机Chromium证据。D3/D5必须在真实组装回放记录实际模型选店；尚未完成，不能声明无退化。继续观察循环与独立表单审计接线，当前不合main、不运行全套门禁或Live。
