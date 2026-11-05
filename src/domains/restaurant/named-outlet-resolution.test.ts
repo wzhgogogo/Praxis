@@ -6,6 +6,34 @@ import {validateRestaurantAction} from "./action-validator.js";
 import type {RestaurantTaskState,RestaurantReadEvidence} from "./contracts.js";
 
 const data=async()=>JSON.parse(await readFile(new URL("../../application/fixtures/named-identity-terms/d2/input.json",import.meta.url),"utf8"));
+
+test("extra name words require same-outlet bound source name/category quotations",()=>{
+  // COMPONENT_ONLY: tests source association after a supplied HIGH verdict,
+  // never identity extraction or acceptance from these constructed records.
+  const id="component:dengana",url="https://tabelog.com/en/tokyo/A1323/A132305/13108466/",query="Kushi Katsu Dengana Akabane ten";
+  const base={candidateId:id,sourceEntityId:"en/tokyo/A1323/A132305/13108466",sourceUrl:url,provider:"TABELOG" as const,
+    observedAt:"2026-11-05T18:00:00+01:00",requestFingerprint:"component-only"};
+  const state={intentDraft:{schemaVersion:"3",timezone:"Asia/Tokyo",criteria:[],target:{goal:"AVAILABILITY",selectionScope:"SPECIFIC_OUTLET",query}},
+    candidates:[{restaurant:{id,outletName:"Dengana Akabane",address:"Tokyo Kita City Akabane 1-15-1",sourceIds:{},provenance:{}},matchReasons:[],warnings:[],executionConfidence:"LOW"}],
+    readEvidence:[{...base,evidenceId:"lookup",kind:"DISCOVERY",claims:{requestedOutletName:query,namedOutletStatus:"AMBIGUOUS",namedOutletSearchComplete:true,namedOutletCandidateCount:1,namedOutletLocalities:["Akabane"]}},
+      {...base,evidenceId:"identity",kind:"ENTITY_MATCH",claims:{observedOutletName:"Dengana Akabane"},entityMatch:{confidence:"HIGH",matchedBy:["COMPONENT_ONLY"]}}],
+  } as State;
+  assert.equal(namedOutletCandidateResolved(state,id),false,"No vocabulary grants kushi/katsu/ten");
+  const support:RestaurantReadEvidence={...base,evidenceId:"source",kind:"RESTAURANT_FACT",claims:{},sourceFieldQuotes:[
+    {field:"CATEGORY",quote:"Kushi Katsu",sourceUrl:url},{field:"NAME",quote:"Dengana Akabane ten",sourceUrl:url}]};
+  state.readEvidence.push(support);
+  assert.equal(namedOutletCandidateResolved(state,id),true);
+  for(const mutation of ["SOURCE_ID","SOURCE_URL","OTHER_PROVIDER","MODEL_ONLY","REVIEW","NO_HIGH"]){
+    const bad=structuredClone(state),row=bad.readEvidence.at(-1)!;
+    if(mutation==="SOURCE_ID")row.sourceEntityId="other-shop";
+    if(mutation==="SOURCE_URL")row.sourceUrl="https://tabelog.com/en/tokyo/A1323/A132305/13999999/";
+    if(mutation==="OTHER_PROVIDER")row.provider="TABLECHECK";
+    if(mutation==="MODEL_ONLY")row.provider="MODEL_JUDGMENT";
+    if(mutation==="REVIEW")row.sourceFieldQuotes!.forEach(q=>q.field="CUSTOMER_REVIEW");
+    if(mutation==="NO_HIGH")bad.readEvidence.find(e=>e.kind==="ENTITY_MATCH")!.entityMatch!.confidence="LOW";
+    assert.equal(namedOutletCandidateResolved(bad,id),false,mutation);
+  }
+});
 // Component evidence only: these explicit HIGH records test the name/scope
 // predicate, never source extraction or identity acceptance.
 function identity(state:RestaurantTaskState,i:number,name:string):RestaurantReadEvidence {

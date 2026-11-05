@@ -32,9 +32,9 @@ test("an identity-confirmed Tabelog full page name resolves even when Google nam
   }finally{await f.close();}
 });
 
-test("a sole containing name with cuisine and branch suffixes resolves after identity even without an exact source full name",async()=>{
+test("a sole containing name cannot supply unquoted cuisine or branch words after identity",async()=>{
   const f=await bookingTermsComposition({namedWithoutArea:{outputText:await original(),sourceNames:{google:await google(),pageName:"Dengana Akabane"}}});
-  try{const v=await f.initial();await capture(f,"CONTAINMENT_ONLY");assert.equal(v.case.phase,"PRESENT_RESULTS");assert.ok(v.restaurant.bookingHandoffs?.length);assert.equal(v.restaurant.selectedCandidateId,v.restaurant.presentedCandidateIds![0]);}
+  try{const v=await f.initial();await capture(f,"CONTAINMENT_ONLY");assert.equal(v.case.phase,"NEEDS_INPUT");assert.deepEqual(v.restaurant.bookingHandoffs,[]);assert.equal(v.restaurant.selectedCandidateId,undefined);}
   finally{await f.close();}
 });
 
@@ -58,7 +58,8 @@ test("containment never overrules a source identity conflict",async()=>{
 });
 
 test("literal locality evidence permits extra geography but a building word, unknown alias or word fragment does not",()=>{
-  assert.equal(namedOutletContainment("Kushi Katsu Dengana Akabane ten","Dengana","Tokyo Kita City Akabane 1-15-1",["Akabane"]),true);
+  assert.equal(namedOutletContainment("Kushi Katsu Dengana Akabane ten","Dengana","Tokyo Kita City Akabane 1-15-1",["Akabane"]),false);
+  assert.equal(namedOutletContainment("Kushi Katsu Dengana Akabane ten","Dengana","Tokyo Kita City Akabane 1-15-1",["Akabane"],["Kushi Katsu","ten"]),true);
   assert.equal(namedOutletContainment("Kushi Katsu Dengana Ginza ten","Dengana","Tokyo Kita City Akabane 1-15-1",["Akabane"]),false);
   assert.equal(namedOutletContainment("Dengana Secret","Dengana","Tokyo Akabane Secret Building 1F",["Akabane"]),false);
   assert.equal(namedOutletContainment("Dengana Secret","Dengana Akabane","Tokyo Akabane",["Akabane"]),false);

@@ -37,16 +37,17 @@ export function outletNameContains(full:string,part:string):boolean {
     &&!(word.test(b.at(-1)!)&&start+b.length<a.length&&word.test(a[start+b.length]!));
 }
 
-/** Cuisine/branch spelling is explicit. Everything else needs literal address support. */
-export function namedOutletContainment(query:string,sourceName:string,address:string,localities:readonly string[]=[]):boolean {
+/** Extra words need this outlet's identity-bound source text, never a vocabulary. */
+export function namedOutletContainment(query:string,sourceName:string,address:string,localities:readonly string[]=[],sourceText:readonly string[]=[]):boolean {
   const a=outletNameKey(query),b=outletNameKey(sourceName);
   const [full,part]=outletNameContains(a,b)?[a,b]:outletNameContains(b,a)?[b,a]:[];
   if(!full||!part)return false;
   const at=full.indexOf(part),extra=(full.slice(0,at)+" "+full.slice(at+part.length)).trim();
-  const remaining=extra.replace(/(?:\bkushi\s+katsu\b|\bkushikatsu\b|\bsushi\b|\bten\b|\bhonten\b|串カツ|寿司|本店|店)/gu," ");
   const location=outletNameKey(address);
-  return remaining.split(/\s+/u).filter(Boolean).every(term=>outletNameContains(location,term)
-    &&localities.some(value=>outletNameContains(value,term)));
+  return extra.split(/\s+/u).filter(Boolean).every(term=>{
+    const geographic=localities.some(value=>outletNameContains(value,term));
+    return geographic?outletNameContains(location,term):sourceText.some(text=>outletNameContains(text,term));
+  });
 }
 
 function lookup(state:NamedState,candidateId:string){
@@ -83,6 +84,18 @@ export function boundNames(state:NamedState,candidateId:string):string[] {
       &&i.sourceEntityId===e.sourceEntityId&&i.sourceUrl===q.sourceUrl&&e.sourceUrl===q.sourceUrl))names.push(q.quote);
   }
   return names.filter(Boolean);
+}
+
+function boundNameSupport(state:NamedState,candidateId:string):string[] {
+  const place=state.candidates.find(c=>c.restaurant.id===candidateId)?.restaurant.sourceIds.googlePlaces;
+  const identity=state.readEvidence.filter(e=>e.candidateId===candidateId&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH"
+    &&e.provider!=="MODEL_JUDGMENT"&&(e.provider!=="GOOGLE_PLACES"||e.sourceEntityId===place));
+  return state.readEvidence.filter(e=>e.candidateId===candidateId&&identity.some(i=>i.provider===e.provider
+    &&i.sourceEntityId===e.sourceEntityId&&i.sourceUrl===e.sourceUrl)).flatMap(e=>[
+    ...(native(e)&&typeof e.claims.observedOutletName==="string"?[e.claims.observedOutletName]:[]),
+    ...(e.provider==="GOOGLE_PLACES"&&e.sourceEntityId===place&&typeof e.claims.outletName==="string"?[e.claims.outletName]:[]),
+    ...(e.sourceFieldQuotes??[]).filter(q=>(q.field==="NAME"||q.field==="CATEGORY"||q.field==="GOOGLE_TYPE")&&q.sourceUrl===e.sourceUrl).map(q=>q.quote),
+  ]);
 }
 
 /** A single possible reference can be investigated read-only; it is not yet a selection. */
@@ -140,5 +153,5 @@ export function namedOutletCandidateResolved(state:NamedState,candidateId:string
   if(!names.length)return false;
   const sole=state.candidates[0]!.restaurant;
   const localities=record.claims.namedOutletLocalities;
-  return namedOutletContainment(target.query,sole.outletName,sole.address,Array.isArray(localities)?localities:[]);
+  return namedOutletContainment(target.query,sole.outletName,sole.address,Array.isArray(localities)?localities:[],boundNameSupport(state,candidateId));
 }
