@@ -53,7 +53,7 @@ test("Tabelog category discovery expands observed links and removes the keyword 
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABELOG", "DISCOVERY");
   try {
-    await executor.navigate({ source: "TABELOG", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://tabelog.com"], url: keywordUrl });
+    await executor.navigate({ observed: true, source: "TABELOG", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://tabelog.com"], url: keywordUrl });
     const result = await executor.runSkill({ taskId: "observed-category-discovery", source: "TABELOG", stage: "DISCOVERY", session, signal,
       allowedOrigins: ["https://tabelog.com"], goal: { outlet: { name: "omakase", address: "Shibuya" }, hardCriteria: ["omakase"] },
       objective: "Use an observed related category and remove the keyword while keeping the same area.",
@@ -192,14 +192,14 @@ for (const [runtimeKind,lateDispatch] of [["LOCAL",false],["CLOUDFLARE_SESSION",
     executor.beginCandidate("failed");
     const failedSession = await executor.acquire(signal, "TABLECHECK", "IDENTITY");
     await assert.rejects(
-      executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", session: failedSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url: failedUrl, timeoutMs: 30 }),
+      executor.navigate({ observed: true, source: "TABLECHECK", stage: "IDENTITY", session: failedSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url: failedUrl, timeoutMs: 30 }),
       { code: "BROWSER_TIMEOUT" },
     );
     executor.beginCandidate("next");
     const freshSession = await executor.acquire(signal, "TABLECHECK", "IDENTITY");
     try {
       assert.notEqual(freshSession, failedSession);
-      await executor.navigate({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       assert.match((await executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", session: freshSession, signal })).text, /New candidate/);
       if(lateDispatch){
         await retired;

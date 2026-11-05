@@ -76,7 +76,7 @@ test("group-window Chromium: disabled exact party stops without clicking or chan
  let decisions=0;const executor=new BrowserTaskExecutor(f.runtime,{maxAutomaticElapsedMs:20000,maxModelCallsPerCandidate:1,maxModelCallsTotal:1,maxOperationsPerCandidate:30,modelDecision:{async decide(){decisions++;return{type:"REQUEST_HUMAN_HELP",reason:"unexpected"};}}});
  try{
  const session=await executor.acquire(new AbortController().signal,"FIXTURE","AVAILABILITY",tableCheckPublicReadNetworkPolicy);
- await executor.navigate({source:"FIXTURE",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:[new URL(guide).origin],url:guide});
+ await executor.navigate({ observed: true,source:"FIXTURE",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:[new URL(guide).origin],url:guide});
  const result=await executor.runSkill({taskId:"disabled-ten",source:"FIXTURE",stage:"AVAILABILITY",session,signal:new AbortController().signal,allowedOrigins:[new URL(guide).origin],goal:{outlet:{name:"Fixture",address:"Fixture"},partySize:10,hardCriteria:[]},objective:"Read exact party",controlHints:tabelogQueryControlHints,completion:()=>({complete:false,reason:"Exact party unselected"})});
  assert.equal(result.reasonCode,"PARTY_SIZE_NOT_SELECTABLE",JSON.stringify(result.controls));assert.equal(decisions,0);
  assert.match((await session.snapshot()).html,/is-selected[^>]*data-value="2"/);

@@ -119,6 +119,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         const observedOfficialOrigins = new Set<string>();
         let tableCheckServiceControls: readonly BrowserPageControl[] = [];
         let observedReservationTarget: TableCheckReservationTarget | undefined;
+        let reservationTargetProhibited = false;
         const retainOfficialOrigins = (controls: readonly BrowserPageControl[]): void => {
           for (const control of controls) {
             if (control.kind !== "LINK" || !control.visible || control.disabled || !control.href
@@ -354,6 +355,8 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         if (provider === "TABLECHECK" && !hardFactsResolved(request.intent, judged.evidence) && !hasConfirmedNegativeConflict(request.intent, judged.evidence)) {
           const guide = parseTableCheckOutletIdentityWithEvidence(initial, sourceUrl);
           observedReservationTarget = guide && resolveTableCheckReservationTarget(initial, guide.outlet, this.networkPolicy);
+          const unavailableTarget = !observedReservationTarget && guide && resolveTableCheckReservationTarget(initial, guide.outlet);
+          reservationTargetProhibited = Boolean(unavailableTarget && isBrowserReadPathProhibited(this.networkPolicy, unavailableTarget.url));
           if (observedReservationTarget?.kind === "LINKED_PAGE" && !isBrowserReadPathProhibited(this.networkPolicy, observedReservationTarget.url)) {
             const documentsBefore = documents.length;
             await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: observedReservationTarget.url, observed: true });
@@ -413,7 +416,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         }
         evidence.push(...identities, ...judged.evidence);
         sourceDocuments.push(...documents);
-        const unsupported = observedReservationTarget?.kind === "LINKED_PAGE" && isBrowserReadPathProhibited(this.networkPolicy, observedReservationTarget.url);
+        const unsupported = reservationTargetProhibited;
         factChecks[candidate.restaurant.id] = { status: hardFactsResolved(request.intent, judged.evidence) ? "COMPLETED" : "UNKNOWN", checkedAt,
           evidenceIds: [...identities.map((item) => item.evidenceId), ...judged.evidence.map((item) => item.evidenceId)], sourceProvider: provider,
           ...(!hardFactsResolved(request.intent, judged.evidence) ? { reasonCode: unsupported ? "SOURCE_UNSUPPORTED" : "NATIVE_HARD_FACTS_UNCONFIRMED" } : {}) };

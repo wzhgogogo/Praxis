@@ -81,7 +81,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
     try {
-      await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: "bound-search-suggestion", source: "TABLECHECK", stage: "DISCOVERY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Public search" }, retrievalExpression: query, hardCriteria: [] }, objective: "Find public result links for the bound query",
         completion: snapshot => ({ complete: snapshot.text.includes(`Public result for ${query}`), reason: "No result link observed", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
@@ -108,7 +108,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
     try {
-      await executor.navigate({ source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "TABLECHECK", stage: "DISCOVERY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: "covered-link", source: "TABLECHECK", stage: "DISCOVERY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Ginza iwa" }, hardCriteria: [] }, objective: "Open a public result",
         completion: snapshot => ({ complete: snapshot.url === detail && snapshot.text.includes("Ginza iwa detail"), reason: "Detail not observed", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });

@@ -37,7 +37,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
     try {
-      await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({
         taskId: "fixture:observed-inputs", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"],
@@ -123,7 +123,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
     try {
-      await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({
         taskId: `fixture:obstruction:${runtimeKind}`, source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"],

@@ -38,14 +38,16 @@ test("G6 reviewed evidence import binds original bodies, attempts and targets wi
 });
 
 
-test("G6 declared25 ceiling still requires reviewed evidence before credential construction",async()=>{
+test("G6 declared25 ceiling still requires reviewed evidence before credential construction",async t=>{
+  t.mock.timers.enable({apis:["Date"],now:Date.parse("2026-11-03T06:00:00Z")});
   const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-cli-evidence-"));const previous=process.env.GOOGLE_MAPS_API_KEY;delete process.env.GOOGLE_MAPS_API_KEY;
   try{const body=JSON.stringify({...developmentPack(),witnessGETLimit:25}),path=join(dir,"pack.json");await writeFile(path,body);
     await assert.rejects(runLiveCLI(["--pack",path,"--sha256",sha(body),"--record-browser","--record-decisions","--output",join(dir,"never-run")]),/Missing --evidence/u);
   }finally{if(previous===undefined)delete process.env.GOOGLE_MAPS_API_KEY;else process.env.GOOGLE_MAPS_API_KEY=previous;await rm(dir,{recursive:true,force:true});}
 });
 
-test("G6 public GET collector preserves the original cause code and message without retry",{timeout:15000},async()=>{
+test("G6 public GET collector preserves the original cause code and message without retry",{timeout:15000},async t=>{
+  t.mock.timers.enable({apis:["Date"],now:Date.parse("2026-11-03T06:00:00Z")});
   const root=resolve(".eval-artifacts");await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,"g6-cause-")),budget=join(dir,"budget.json");await writeFile(budget,JSON.stringify({entries:[],limits:{evaluationPublicGET:25},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}}));let calls=0,clock=Date.now();
   try{const cause=Object.assign(new Error("Local transport failure"),{code:"LOCAL_TEST_CAUSE"});const transport:typeof fetch=async()=>{calls++;throw new TypeError("fetch failed",{cause});};
     const result=await captureDevelopmentWitnesses(developmentPack(),"local-pack",join(dir,"capture"),transport,budget,{now:()=>clock,wait:async(ms:number)=>{clock+=ms;}});

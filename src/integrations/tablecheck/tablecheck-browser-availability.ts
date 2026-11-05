@@ -441,9 +441,11 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         const extraction = parseTableCheckOutletIdentityWithEvidence(directPage, listedOutletUrl);
         const inspection = extraction && inspectCandidateOutlet(candidate, extraction, directPage);
         const reservation = extraction && resolveTableCheckReservationTarget(directPage, extraction.outlet, this.options.networkPolicy);
+        const observedTarget = !reservation && extraction && resolveTableCheckReservationTarget(directPage, extraction.outlet);
+        const prohibited = Boolean(observedTarget && isBrowserReadPathProhibited(this.options.networkPolicy, observedTarget.url));
         if (!extraction || !inspection || !reservation) return this.ground(candidate, request, {
           candidate, observedAt, entityMatch: inspection?.resolution ?? { confidence: "LOW", matchedBy: [] },
-          pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_PARSE_FAILED",
+          pageState: prohibited ? "SOURCE_UNSUPPORTED" : "EXTRACTION_FAILED", failureCode: prohibited ? "SOURCE_UNSUPPORTED" : "TABLECHECK_PARSE_FAILED",
         }, browser);
         const selected = { extraction, inspection, reservation, page: directPage,
           observedOutletUrls: [listedOutletUrl, extraction.outlet.sourceUrl, ...(extraction.canonicalUrl ? [extraction.canonicalUrl] : [])] };

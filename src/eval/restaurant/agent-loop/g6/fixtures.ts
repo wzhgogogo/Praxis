@@ -9,6 +9,7 @@ import { LocalPlaywrightChromium } from "../../../../infrastructure/browser/loca
 import { GooglePlacesClient } from "../../../../integrations/google/google-places-client.js";
 import { FakeClock } from "../../../../harness/fake-clock.js";
 import { strictAction } from "../../../../harness/restaurant-read-test-fixtures.js";
+import { scriptedBrowserObservation } from "../../../../harness/fixtures/restaurant-observation-model.js";
 import { renamePrivateMarkers } from "../../dom-change/mutation.js";
 
 export type G6FixtureKind="RESPONSE_MISSING"|"RESPONSE_CHANGED"|"NORMAL"|"RENAMED"|"CONTROL_FALLBACK"|"PRICE_MATCH"|"PRICE_PARTY"|"PRICE_DATE"|"PRICE_MEAL"|"JAPANESE_NAME";
@@ -38,17 +39,20 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
   const text=[source.outlet.name,source.outlet.address,source.outlet.phone,...paragraphs,"Availability",`${source.date}. 2 guests. 19:00.`].join("\n");
   let realPage:Page|undefined;
   const markerMaps:Array<Awaited<ReturnType<typeof renamePrivateMarkers>>> = [];
-  const fake:BrowserRuntime={async openSession(){let current=source.pageUrl;return {
-    metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:clock.now().toISOString()},
-    async navigate(url){observed("NAVIGATE",url);if(url!==source.pageUrl&&!(kind==="JAPANESE_NAME"&&new URL(url).origin==="https://tabelog.com"&&new URL(url).pathname==="/en/tokyo/rstLst/"))throw Error("Constructed source has no response for this public entrance");current=url;},
+  const fake:BrowserRuntime={async openSession(){let current=source.pageUrl,query="";return {
+    metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:clock.now().toISOString(),...(kind==="JAPANESE_NAME"?{readNetworkBoundary:"INSTALLED" as const}:{})},
+    async navigate(url){observed("NAVIGATE",url);if(url!==source.pageUrl&&!(kind==="JAPANESE_NAME"&&new URL(url).origin==="https://tabelog.com"&&["/en/","/en/tokyo/rstLst/"].includes(new URL(url).pathname)))throw Error("Constructed source has no response for this public entrance");current=url;},
     async snapshot(){
-      const search=new URL(current).pathname.includes("rstLst"),found=new URL(current).searchParams.get("sw")==="すし本店";
+      const search=kind==="JAPANESE_NAME"&&current!==source.pageUrl,found=new URL(current).searchParams.get("sw")==="すし本店";
       const page:BrowserSnapshot=search?{url:current,title:"Search",text:found?"すし本店":"No restaurants were found that match your search criteria",html:found?`<a href="${source.pageUrl}">すし本店</a>`:""}
         :{url:current,title:source.outlet.name,text,html,responses:kind==="RESPONSE_MISSING"?[]:[{url:endpoint,status:200,sequence:1,observedAt:clock.now().toISOString(),body:kind==="RESPONSE_CHANGED"?{base_date:{year:2026,month:11,day:11},members:2,selection:"changed-wire-shape"}:source.vacancy.body}]};
       snapshots.push(structuredClone(page));return page;
     },async observeControls(){const controls:BrowserPageControl[]=[];
+      if(kind==="JAPANESE_NAME"&&current!==source.pageUrl)controls.push(
+        {id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Public restaurant query",type:"search",value:query,visible:true,disabled:false,formMethod:"GET",formObservation:{owner:"public-query",visibleLines:["Query","Search"]},structure:{tag:"INPUT",name:"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0}},
+        {id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",visible:true,disabled:false,formMethod:"GET",formObservation:{owner:"public-query",visibleLines:["Query","Search"]}});
       if(new URL(current).searchParams.get("sw")==="すし本店")controls.push({id:"source-link",stableKey:"source-link",kind:"LINK",role:"link",label:"すし本店",href:source.pageUrl,visible:true,disabled:false});return controls;
-    },async select(_selector,value){return [value];},async click(){assert.fail("No submission transport");},async fill(){assert.fail("No form transport");},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){},
+    },async select(_selector,value){return [value];},async click(){assert.equal(kind,"JAPANESE_NAME");current="https://tabelog.com/en/tokyo/rstLst/?sw="+encodeURIComponent(query);observed("NAVIGATE",current);},async fill(_id,value){assert.equal(kind,"JAPANESE_NAME");query=value;},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){},
   };}};
   const real:BrowserRuntime=new LocalPlaywrightChromium({browserType:{async launch(options){
     const browser=await chromium.launch(options),original=browser.newContext.bind(browser);
@@ -62,7 +66,7 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
   const raw=accessible?real:fake;
   // Fixed transport owns all HTTP. Do not add a second route.fetch that could
   // bypass interception. The Guard acceptance case uses a dedicated guarded I/O.
-  const browser:BrowserRuntime={async openSession(input){const session=await raw.openSession(input);return new Proxy(session,{get(target,key){
+  const browser:BrowserRuntime={...(kind==="JAPANESE_NAME"?{readNetworkBoundaryCapability:"ISOLATED_CONTEXT" as const}:{}),async openSession(input){const session=await raw.openSession(input);return new Proxy(session,{get(target,key){
     if(key==="navigate")return async(...args:Parameters<typeof session.navigate>)=>{await target.navigate(...args);if(kind==="RENAMED"&&realPage){
       const mutation=await renamePrivateMarkers(realPage,"g6-whole-assembly@1");
       // Saved-page G2 disables scripts. This constructed control page instead
@@ -120,6 +124,7 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
       body=/private room/iu.test(question)&&doc&&statement?{status:"ANSWERED",answer:"A private room is available for groups of four or more.",citations:[{documentId:doc.id,statementId:statement.id,quote:statement.text}],sensitiveCategory:"NONE",sourceConflict:false}
         :{status:"NOT_STATED",answer:null,citations:[],sensitiveCategory:"NONE",sourceConflict:false};
     }else if(input.purpose==="browser_read_decide"){
+      if(kind==="JAPANESE_NAME"&&data().stage==="DISCOVERY")return scriptedBrowserObservation(input)!;
       const p=data(),targets=p.observation.targets;
       const date=targets.find((t:{kind:string;label:string;value?:string})=>t.kind==="INPUT"&&t.label==="Date"&&t.value!==source.date);
       const party=targets.find((t:{kind:string;label:string;selected?:boolean})=>t.kind==="OPTION"&&t.label==="2 guests"&&!t.selected);

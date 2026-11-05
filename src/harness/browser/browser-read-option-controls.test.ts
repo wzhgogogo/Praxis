@@ -18,7 +18,7 @@ test("button name metadata does not replace visible time or Reserve safety label
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
     await executor.runSkill({ taskId: "button-visible-label", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, hardCriteria: [] }, objective: "Audit public controls",
       completion: () => ({ complete: false, reason: "No availability" }) });
@@ -44,7 +44,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
     try {
-      await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({
         taskId: "fixture:opaque-time", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"],
@@ -84,7 +84,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
     try {
-      await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: "fixture:button-combobox", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
         objective: "Choose the observed arrival time.", completion: snapshot => ({ complete: /Selection settled/.test(snapshot.text), reason: "The choice has not settled.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
@@ -118,7 +118,7 @@ for (const initialTime of ["17:30", "19:00"] as const) {
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "WEBSITE", "FACTS");
     try {
-      await executor.navigate({ source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const initialControls = await session.observeControls!();
       assert.equal(initialControls.find(control => control.role === "combobox" && control.label === "Time")?.value, initialTime);
       const result = await executor.runSkill({ taskId: `fixture:proxy-time:${initialTime}`, source: "WEBSITE", stage: "FACTS", session, signal,
@@ -165,7 +165,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const signal = new AbortController().signal;
     session = await executor.acquire(signal, "WEBSITE", "FACTS");
     try {
-      await executor.navigate({ source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: "fixture:shifted-option", source: "WEBSITE", stage: "FACTS", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
         objective: "Choose the observed 19:00 time.", completion: snapshot => ({ complete: /Selection settled/.test(snapshot.text), reason: "No selected time.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
@@ -201,7 +201,7 @@ for (const mutation of ["role-change", "replacement", "legal-replacement"] as co
     const signal = new AbortController().signal;
     session = await executor.acquire(signal, "WEBSITE", "FACTS");
     try {
-      await executor.navigate({ source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "WEBSITE", stage: "FACTS", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: `fixture:stale-option:${mutation}`, source: "WEBSITE", stage: "FACTS", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] },
         objective: "Choose the observed 19:00 time.", completion: snapshot => ({ complete: snapshot.html.includes('data-executed="yes"'), reason: "No selected time.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
@@ -233,7 +233,7 @@ test("a visible option from another listbox cannot be claimed by the expanded co
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
     const result = await executor.runSkill({ taskId: "fixture:wrong-owner", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
       objective: "Select a bound public query time.", completion: () => ({ complete: false, reason: "No selection confirmed." }) });
@@ -263,7 +263,7 @@ for (const variant of ["disabled", "unchanged", "complete"] as const) {
     const signal = new AbortController().signal;
     const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
     try {
-      await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+      await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
       const result = await executor.runSkill({ taskId: `fixture:${variant}`, source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
         allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
         objective: "Select a public query time.", completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No result yet.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
@@ -292,7 +292,7 @@ test("an asynchronously applied option can complete after a later selected-value
   const signal = new AbortController().signal;
   session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
     const result = await executor.runSkill({ taskId: "fixture:async-option", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
       objective: "Observe the requested time after it settles.",
@@ -320,7 +320,7 @@ test("an unconfirmed time choice cannot be replaced by a successful party choice
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABLECHECK", "AVAILABILITY");
   try {
-    await executor.navigate({ source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
+    await executor.navigate({ observed: true, source: "TABLECHECK", stage: "AVAILABILITY", session, signal, allowedOrigins: ["https://www.tablecheck.com"], url });
     const result = await executor.runSkill({ taskId: "fixture:cross-option", source: "TABLECHECK", stage: "AVAILABILITY", session, signal,
       allowedOrigins: ["https://www.tablecheck.com"], goal: { outlet: { name: "Fixture" }, partySize: 4, timeWindow: { earliest: "19:00", latest: "19:30" }, hardCriteria: [] },
       objective: "Confirm both requested values.", completion: snapshot => ({ complete: /Inventory ready/.test(snapshot.text), reason: "No result yet.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });

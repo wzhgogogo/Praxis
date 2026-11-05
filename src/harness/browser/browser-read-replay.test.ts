@@ -16,7 +16,7 @@ test("guarded HAR replay drives the production executor offline and keeps missin
   const directory = await mkdtemp(join(tmpdir(), "praxis-browser-replay-"));
   const replayUrl = "https://replay.example/guide";
   const harPath = join(directory, "public-read.har");
-  const html = `<title>Public search</title><input name="search_text" aria-label="Search venues"><label>Sushi <input type="radio" name="cuisine" value="sushi"></label><label>Counter <input type="checkbox"></label><input type="range" aria-label="Budget" min="0" max="2" value="0"><div role="region" aria-label="Filters" data-praxis-scroll-region style="height:20px;overflow:auto"><div style="height:300px">Public filters</div></div><button type="submit">Find availability</button><output id="result">Waiting</output><script>
+  const html = `<title>Public search</title><form method="get"><input name="search_text" aria-label="Search venues"><label>Sushi <input type="radio" name="cuisine" value="sushi"></label><label>Counter <input type="checkbox"></label><input type="range" aria-label="Budget" min="0" max="2" value="0"><div role="region" aria-label="Filters" data-praxis-scroll-region style="height:20px;overflow:auto"><div style="height:300px">Public filters</div></div><button type="submit">Find availability</button><output id="result">Waiting</output></form><script>
     const result=document.querySelector('#result');
     document.querySelector('input[name=search_text]').oninput=()=>result.textContent='Search ready';
     document.querySelector('input[type=radio]').onchange=()=>result.textContent='Category ready';
@@ -44,8 +44,8 @@ test("guarded HAR replay drives the production executor offline and keeps missin
   const signal = new AbortController().signal;
   const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
   try {
-    await executor.navigate({ session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], url: replayUrl });
-    const result = await executor.runSkill({ taskId: "fixture:har-replay", session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], goal: { outlet: { name: "Fixture" }, retrievalExpression: "omakase", hardCriteria: [] }, objective: "Read an offline public search result.", completion: snapshot => ({ complete: /Result ready Sushi/.test(snapshot.text), reason: "The replayed public result is not visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
+    await executor.navigate({ observed: true, session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], url: replayUrl });
+    const result = await executor.runSkill({ taskId: "fixture:har-replay", session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: ["https://replay.example"], goal: { outlet: { name: "Fixture" }, retrievalExpression: "omakase", retrievalSource: "G4_SOURCE_TERM", hardCriteria: [] }, objective: "Read an offline public search result.", completion: snapshot => ({ complete: /Result ready Sushi/.test(snapshot.text), reason: "The replayed public result is not visible.", resultKey: JSON.stringify([snapshot.url, snapshot.text, snapshot.interactiveState]), resultBusy: false }) });
     assert.equal(result.status, "COMPLETED", JSON.stringify(result));
     assert.equal(step, 6);
     await session.prepareNavigation?.("https://replay.example/missing", { timeoutMs: 5_000 });
