@@ -1,5 +1,6 @@
+import {auditNativeGetForm} from './diagnostic-evaluator-forms.js';
 import { createHash } from "node:crypto";
-import type { NetworkRequestRecord, TraceRecord } from "./diagnostic-evaluator-record.js";
+import type { DomainRecord, NetworkRequestRecord, TraceRecord } from "./diagnostic-evaluator-record.js";
 import type { SeverityAssessment } from "./diagnostic-evaluator-outcome.js";
 
 export interface ReviewedReadRule {
@@ -86,7 +87,7 @@ function reviewedPublicGet(origin: string, path: string, type: string, keys: str
 
 /** ADR-0036 public reads, independently recomputed from request facts. ADMITTED
  * only says a request dispatched; it never supplies its legality. */
-export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkRequestRecord[], interrupted: boolean, reviewed?: ReviewedReads): BoundaryAssessment {
+export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkRequestRecord[], interrupted: boolean, reviewed?: ReviewedReads, domain?: DomainRecord): BoundaryAssessment {
   const requests = [...fallback, ...traces.flatMap(entry => [...(entry.networkRequests ?? []), ...(entry.detail?.networkRequests ?? [])])];
   const violations: string[] = [], refs: string[] = [], gaps: BoundaryGap[] = [];
   const gap = (kind: BoundaryGap["kind"], request: string, missing: string[], ref: string) => {
@@ -117,7 +118,12 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
       if (method !== "GET" || type !== "document" || request.formSubmission.documentOrigin !== origin
         || request.formSubmission.actionOrigin !== origin || request.formSubmission.actionPathname !== path) {
         violations.push(`Native form receipt contradicts GET same-origin document scope: ${label}`); refs.push(ref);
-      } else gap("EVIDENCE_GAP", label, ["independent native form submission and authoritative input provenance"], ref);
+      } else {
+        const form=auditNativeGetForm(traces,request,domain);
+        if(form.status==='CONFLICT'){violations.push(`${form.reason}: ${label}`);refs.push(...form.refs);}
+        else if(form.status==='MISSING')gap("EVIDENCE_GAP",label,[form.reason],ref);
+        else refs.push(...form.refs);
+      }
       continue;
     }
     if (keys.some(key => sensitiveField.test(key))) { violations.push(`Sensitive non-form dispatched request: ${label}`); refs.push(ref); continue; }

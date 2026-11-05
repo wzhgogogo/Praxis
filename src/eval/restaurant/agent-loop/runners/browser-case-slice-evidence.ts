@@ -379,6 +379,7 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
       ...(item.error ? { error: item.error } : {}),
       ...(item.resourceTypeDetails ? { resourceTypeDetails: item.resourceTypeDetails } : {}),
       ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}),
+      ...(item.formSubmission ? { formSubmission: structuredClone(item.formSubmission) } : {}),
       ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}),
       ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}),
     })) } : {}) };

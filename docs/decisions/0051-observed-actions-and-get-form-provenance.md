@@ -1,7 +1,7 @@
 # ADR-0051：观察循环、原生 GET 表单值来源与候选选择权
 
 - Status: Accepted（用户2026-11-05逐项决定；实现尚未完成）
-- Document revision: 1.0
+- Document revision: 1.1
 - Last updated: 2026-11-05（Vienna CET，UTC+1）
 - Evidence status: draft implementation / not integrated；exposed development regression，非 Clean Baseline
 - Related ADRs: [0046](0046-observed-actions-and-source-quoted-answers.md)、[0036](0036-generic-public-read-network-policy.md)、[0045](0045-bounded-read-conclusion-reserve.md)
@@ -26,3 +26,10 @@
 Browser Prompt20→21、Action12→13、Context3→4、Recording5→6、Evaluator36→37、Rubric31→32已获批准，按受影响对象实施。生产默认Node转发不变；实验浏览器传输不启用。20秒保留、导航/provider/候选/整单时限、共享预算及私有留出集预留均不变；本轮离线真实调用0。
 
 相关真实回放及全套门禁完成前不合main；合入后停在Live之前，待复核再运行另行授权的D4/D8 Live。
+
+
+## 2026-11-05 晚：用户复核澄清来源确切网址
+
+前两条实施时曾被过度解释为“来源网址也必须从首页逐个点击才能到达”，用户明确否决这一限制。来自 Google websiteUri、来源绑定 native detail URI，或本次读取实际观察页面 href 的**确切网址**可以由代码直接打开，继续经过原 Guard 与后续身份/坐标/响应核对。只允许既有 listedTabelogOutlet 身份规范化，不新增网址格式模板、构造、拼接或按网址形状决定下一步。两个启动页仅是在尚无来源确切入口时的来源配置，不排除已有来源链接。保留 availabilityPath / DIRECT_SOURCE_PAGE 的提示和行为一致性。GO_BACK 本轮不添加；未发布的 Browser Prompt@21 内澄清措辞，不再升版。
+
+D3/D5 原录制实际经过当时构造的搜索 URL，再打开 Dengana；Google websiteUri 是 stores.dengana.jp。用户接受仅在评测运行器注入原录制的确切搜索结果页作为定向回放起点，范围为身份→查位→交付，不声称覆盖新首页检索入口。原件缺失的响应/模型输出保留缺口，不合成，不以产品回放分支或固定动作序列补齐。

@@ -250,99 +250,88 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       sourceElapsedCapMs: NATIVE_SOURCE_ELAPSED_CAP_MS, sourceElapsedMs: elapsed(), sourceTimeLimitReached: elapsed() >= NATIVE_SOURCE_ELAPSED_CAP_MS,
       deferredByBatchCap: [...known.values()].filter(entry => !inspected.has(entry.sourceEntityId)).map(entry => ({ sourceUrl: entry.sourceUrl, reasonCode: "DETAIL_BATCH_CAP" })),
       rejected, accepted: admitted.size, pagesRead: pages, batchLimitReached: detailAttempts >= NATIVE_DETAIL_BATCH_CAP,
-      sourceExhausted: "UNKNOWN", batchEnded: true, sourceEnded: sourceEnded(),
+      sourceExhausted: remainingEntries().length||nextListing ? false : stopped ? true : "UNKNOWN", batchEnded: true, sourceEnded: sourceEnded(),
       progressionReason: source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" : "FIRST_SOURCE_BATCH_ENDED", listingObservations: listings, retrieval,
     });
-    const decision: BrowserReadActionDecisionPort | undefined = this.discoveryDecision ? {
-      decide: async input => {
-        const action = await this.discoveryDecision!.decide(input);
-        nextNavigation = undefined;
-        if (action.type === "OPEN_LINK") {
-          const target = input.observation.targets.find(target => target.ref === action.targetRef);
-          if (target?.href) nextNavigation = { url: target.href, detail: known.has(target.href) };
-        }
-        if (action.type === "CLICK") {
-          const target = input.observation.targets.find(target => target.ref === action.targetRef);
-          if (target?.formObservation && target.formMethod === "GET") nextNavigation = { detail: false };
-        }
-        return action;
-      },
-      takeLastWireRecord: () => this.discoveryDecision!.takeLastWireRecord?.(),
-    } : undefined;
+    let detailNavigation = false, paginationNavigation=false, nextListing = previous?.nextListing;
     const executor = new BrowserTaskExecutor(this.runtime, {
-      ...this.discoveryLimits, maxElapsedMsPerCandidate: Math.max(1, Math.min(this.discoveryLimits.maxElapsedMsPerCandidate ?? Infinity, NATIVE_SOURCE_ELAPSED_CAP_MS - elapsedBefore)),
-      ...(decision ? { modelDecision: decision } : {}), ...(this.browserBudget ? { budget: this.browserBudget } : {}),
+      ...this.discoveryLimits,
+      maxElapsedMsPerCandidate: Math.max(1, Math.min(this.discoveryLimits.maxElapsedMsPerCandidate ?? Infinity, NATIVE_SOURCE_ELAPSED_CAP_MS-elapsedBefore)),
+      ...(this.discoveryDecision ? {modelDecision:this.discoveryDecision} : {}),
+      ...(this.browserBudget ? {budget:this.browserBudget} : {}),
       onDiagnostic: diagnostic => {
-        if (diagnostic.event === "OPERATION_STARTED" && ["NAVIGATE", "OPEN_LINK", "SUBMIT_PUBLIC_QUERY"].includes(diagnostic.detail ?? "")) {
-          if (nextNavigation?.detail) {
-            if (detailAttempts >= NATIVE_DETAIL_BATCH_CAP || (previous?.detailAttempts ?? 0) + detailAttempts >= NATIVE_DETAIL_SOURCE_CAP) {
-              throw Object.assign(Error("Detail read ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });
-            }
-            detailAttempts++;
-          } else {
-            if ((previous?.pagesRead ?? 0) + pages >= NATIVE_LISTING_PAGE_CAP[source]
-              || (locatedListing ? retrieval.retrievalPages >= 3 : retrieval.regionPages >= 4)) {
-              throw Object.assign(Error("Source page ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });
-            }
-            pages++; if (locatedListing) retrieval.retrievalPages++; else retrieval.regionPages++;
-          }
+        if (diagnostic.event === "OPERATION_STARTED" && ["NAVIGATE","OPEN_LINK","SUBMIT_PUBLIC_QUERY"].includes(diagnostic.detail ?? "") && !detailNavigation) {
+          if ((previous?.pagesRead ?? 0)+pages >= NATIVE_LISTING_PAGE_CAP[source] || (!paginationNavigation&&(locatedListing ? retrieval.retrievalPages>=3 : retrieval.regionPages>=4))) throw Object.assign(Error("Source page ceiling reached"),{code:"READ_BUDGET_EXCEEDED"});
+          pages++; if(!paginationNavigation){if(locatedListing)retrieval.retrievalPages++;else retrieval.regionPages++;}
         }
         this.onBrowserDiagnostic?.(diagnostic);
       },
     });
-    executor.beginCandidate(`native-discovery:${source}`); executor.beginProvider(`native-discovery:${source}`, source, "DISCOVERY");
+    executor.beginCandidate(`native-discovery:${source}`); executor.beginProvider(`native-discovery:${source}`,source,"DISCOVERY");
+    const remainingEntries = () => [...known.values()].filter(entry=>!inspected.has(entry.sourceEntityId));
     let session: BrowserSession | undefined;
     try {
-      if (elapsedBefore >= NATIVE_SOURCE_ELAPSED_CAP_MS || (previous?.detailAttempts ?? 0) >= NATIVE_DETAIL_SOURCE_CAP || (previous?.pagesRead ?? 0) >= NATIVE_LISTING_PAGE_CAP[source]) throw Object.assign(Error("Source read ceiling already reached"), {code:"READ_BUDGET_EXCEEDED"});
-      if (!pack.browser?.startupUrl) throw Object.assign(Error("Source has no configured public start"), { code: "DISCOVERY_SOURCE_INCOMPLETE" });
-      session = await executor.acquire(signal, source, "DISCOVERY", this.networkPolicy);
-      await executor.start({ source, stage: "DISCOVERY", signal, session, allowedOrigins: pack.documentOrigins, url: pack.browser.startupUrl });
-      const expression = query.keyword;
-      const criterion = expression && request.intent.criteria.find(criterion => criterion.polarity === "POSITIVE" && criterion.strength === "HARD" && criterion.text.includes(expression));
-      if (expression && !criterion) throw Object.assign(Error("Retrieval lacks a literal authoritative criterion"), { code: "DISCOVERY_SOURCE_INCOMPLETE" });
-      const result = await executor.runSkill({ taskId: request.readRunId ?? `native-discovery:${source}`, source, stage: "DISCOVERY", signal, session,
-        allowedOrigins: pack.documentOrigins, ...(pack.skillPath ? { sourceSkillPath: pack.skillPath } : {}),
-        goal: { outlet: { name: request.intent.target?.query ?? "" }, location: { ...location, name: location.label },
-          ...(expression ? { retrievalExpression: expression, retrievalSource: "CUISINE" as const } : {}),
-          hardCriteria: request.intent.criteria.filter(criterion => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map(criterion => criterion.text) },
-        objective: "Find restaurants for the authoritative request using only the current observed public controls and links. Read merchant identities and addresses. All results still require exact coordinate and source verification. Choose every next step from this page; do not invent URLs or an action sequence.",
-        completion: page => {
-          if (pack.browser!.hasChallenge(page) || pack.browser!.isPageUnavailable(page)) return { complete: false, reason: "Source is not readable; no inventory conclusion is possible." };
-          const listing = pack.parseListing(page);
-          raw = Math.max(raw, rawSourceLinks(page, pack)); parsed = Math.max(parsed, listing.outlets.length);
-          if (listing.outlets.length) {
-            if (!visited.includes(page.url)) {
-              visited.push(page.url); listings.push({ sourceUrl: page.url, parsedOutlets: listing.outlets.length, ...(listing.nextPage ? { nextPageUrl: listing.nextPage } : {}) });
-            }
-            // This literal page text is a result check, never a link selector.
-            locatedListing ||= normalized(page.text).includes(normalized(location.label));
-            for (const outlet of listing.outlets) known.set(outlet.sourceUrl, pendingEntry(outlet.sourceEntityId, outlet.sourceUrl, this.now(), outlet));
+      if(elapsedBefore>=NATIVE_SOURCE_ELAPSED_CAP_MS || (previous?.detailAttempts??0)>=NATIVE_DETAIL_SOURCE_CAP || (previous?.pagesRead??0)>=NATIVE_LISTING_PAGE_CAP[source]) throw Object.assign(Error("Source read ceiling already reached"),{code:"READ_BUDGET_EXCEEDED"});
+      while(detailAttempts<NATIVE_DETAIL_BATCH_CAP && (previous?.detailAttempts??0)+detailAttempts<NATIVE_DETAIL_SOURCE_CAP){
+        if(!remainingEntries().length){
+          session=await executor.acquire(signal,source,"DISCOVERY",this.networkPolicy);
+          if(nextListing){paginationNavigation=true;try{await executor.navigate({source,stage:"DISCOVERY",signal,session,allowedOrigins:pack.documentOrigins,url:nextListing.sourceUrl,observed:true});}finally{paginationNavigation=false;}nextListing=undefined;}
+          else if(!visited.length){
+            if(!pack.browser?.startupUrl)throw Object.assign(Error("Source has no configured public start"),{code:"DISCOVERY_SOURCE_INCOMPLETE"});
+            await executor.start({source,stage:"DISCOVERY",signal,session,allowedOrigins:pack.documentOrigins,url:pack.browser.startupUrl});
+          }else{stopped=true;break;}
+          const expression=query.keyword;
+          if(expression&&!request.intent.criteria.some(c=>c.polarity==="POSITIVE"&&c.strength==="HARD"&&c.text.includes(expression)))throw Object.assign(Error("Retrieval lacks a literal authoritative criterion"),{code:"DISCOVERY_SOURCE_INCOMPLETE"});
+          const result=await executor.runSkill({taskId:request.readRunId??`native-discovery:${source}`,source,stage:"DISCOVERY",signal,session,allowedOrigins:pack.documentOrigins,
+            ...(pack.skillPath?{sourceSkillPath:pack.skillPath}:{}),requireModelConfirmation:true,
+            goal:{outlet:{name:request.intent.target?.query??""},location:{...location,name:location.label},...(expression?{retrievalExpression:expression,retrievalSource:"CUISINE" as const}:{}),hardCriteria:request.intent.criteria.filter(c=>c.polarity==="POSITIVE"&&c.strength==="HARD").map(c=>c.text)},
+            objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; complete only when the current list is relevant. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
+            completion:(page,controls)=>{
+              raw=Math.max(raw,rawSourceLinks(page,pack));
+              const current=pack.parseListing(page);
+              if(current.outlets.length)locatedListing=true;
+              return sourceListingCompletion(pack,page,controls,expression??"");
+            },
+          });
+          if(result.status!=="COMPLETED"){throw Object.assign(Error("No confirmed current source list"),{code:pack.parseListing(result.snapshot).outlets.length?"DISCOVERY_SOURCE_LOCATION_UNGROUNDED":"DISCOVERY_SOURCE_INCOMPLETE"});}
+          const page=result.snapshot,listing=pack.parseListing(page);
+          locatedListing=true;
+          raw=Math.max(raw,rawSourceLinks(page,pack));parsed+=listing.outlets.length;
+          if(!visited.includes(page.url))visited.push(page.url);
+          listings.push({sourceUrl:page.url,parsedOutlets:listing.outlets.length,...(listing.nextPage?{nextPageUrl:listing.nextPage}:{})});
+          nextListing=listing.nextPage?{sourceUrl:listing.nextPage,observedOn:page.url,observedAt:this.now()}:undefined;
+          for(const outlet of listing.outlets)known.set(outlet.sourceUrl,pendingEntry(outlet.sourceEntityId,outlet.sourceUrl,this.now(),outlet));
+          if(!remainingEntries().length){if(nextListing)continue;stopped=true;break;}
+        }
+        for(const entry of remainingEntries()){
+          if(detailAttempts>=NATIVE_DETAIL_BATCH_CAP || (previous?.detailAttempts??0)+detailAttempts>=NATIVE_DETAIL_SOURCE_CAP)break;
+          try{
+            session=await executor.acquire(signal,source,"IDENTITY",this.networkPolicy);
+            inspected.add(entry.sourceEntityId);detailAttempts++;
+            detailNavigation=true;
+            try{await executor.navigate({source,stage:"IDENTITY",signal,session,allowedOrigins:pack.documentOrigins,url:entry.sourceUrl,observed:true});}catch(error){await executor.close("RUNTIME_FAILURE");throw error;}finally{detailNavigation=false;}
+            const page=await executor.snapshot({source,stage:"IDENTITY",signal,session});
+            if(pack.browser!.hasChallenge(page)||pack.browser!.isPageUnavailable(page))throw Object.assign(Error("Source merchant page unavailable"),{code:"DISCOVERY_SOURCE_INCOMPLETE"});
+            const identity=pack.browser!.parseDetailIdentity(page,{...entry,outletName:entry.outletName??entry.sourceEntityId});
+            const coordinates=identity&&pageCoordinates(page,identity.outletName);
+            if(!identity||!coordinates){rejected.push({sourceUrl:page.url,reasonCode:identity?"PAGE_COORDINATES_MISSING":"PAGE_IDENTITY_MISSING"});continue;}
+            const grounded=groundedNativeCandidate({source:pack,sourceId:identity.sourceEntityId,sourceUrl:identity.sourceUrl,name:identity.outletName,address:identity.address!,coordinates,location,request,observedAt:this.now(),...(entry.sourceCategories?{sourceCategories:entry.sourceCategories}:{})});
+            if(grounded)admitted.set(grounded.candidate.restaurant.id,grounded);
+            else rejected.push({sourceUrl:page.url,reasonCode:"OUTSIDE_EXACT_RADIUS"});
+          }catch(error){
+            if(taskLevelFailure(error,signal)||!inspected.has(entry.sourceEntityId))throw error;
+            const reasonCode=candidateFailureCode(error,pack.browser!.provider);candidateFailures.push({sourceUrl:entry.sourceUrl,reasonCode});rejected.push({sourceUrl:entry.sourceUrl,reasonCode});
           }
-          const entry = known.get(page.url);
-          if (entry && !attempted.has(page.url)) {
-            attempted.add(page.url); inspected.add(entry.sourceEntityId);
-            const identity = pack.browser!.parseDetailIdentity(page, { ...entry, outletName: entry.outletName ?? entry.sourceEntityId });
-            const coordinates = identity && pageCoordinates(page, identity.outletName);
-            if (!identity || !coordinates) rejected.push({ sourceUrl: page.url, reasonCode: identity ? "PAGE_COORDINATES_MISSING" : "PAGE_IDENTITY_MISSING" });
-            else {
-              const grounded = groundedNativeCandidate({ source: pack, sourceId: identity.sourceEntityId, sourceUrl: identity.sourceUrl,
-                name: identity.outletName, address: identity.address!, coordinates, location, request, observedAt: this.now(),
-                ...(entry.sourceCategories ? { sourceCategories: entry.sourceCategories } : {}) });
-              if (grounded) admitted.set(grounded.candidate.restaurant.id, grounded);
-              else rejected.push({ sourceUrl: page.url, reasonCode: "OUTSIDE_RADIUS" });
-            }
-          }
-          const complete = admitted.size >= Math.min(NATIVE_DETAIL_BATCH_CAP, NATIVE_DETAIL_SOURCE_CAP - (previous?.detailAttempts ?? 0));
-          return { complete, resultBusy: pack.browser!.resultBusy(page), resultKey: JSON.stringify([...admitted.keys()]),
-            reason: `Source verified ${admitted.size} restaurants. Already inspected: ${JSON.stringify([...inspected])}. Rejected source pages: ${JSON.stringify(rejected)}. Continue from current observed links/controls within the remaining source limits, or request help if no supported path exists.` };
-        },
-      });
-      stopped = result.status !== "COMPLETED";
-      return { candidates: [...admitted.values()].map(item => item.candidate), evidence: [...admitted.values()].map(item => item.evidence), candidateFailures, progress: progress(), funnel: funnel() };
-    } catch (error) {
-      if (error && typeof error === "object") Object.assign(error, { nativeAccepted: [...admitted.values()], nativeProgress: progress(), nativeFunnel: funnel() });
+        }
+        if(!remainingEntries().length&&!nextListing){stopped=true;break;}
+      }
+      const resultProgress={...progress(),...(nextListing?{nextListing}:{})};
+      const resultFunnel=funnel();resultFunnel.sourceEnded=sourceEnded()||stopped&&!nextListing&&!remainingEntries().length;
+      return{candidates:[...admitted.values()].map(item=>item.candidate),evidence:[...admitted.values()].map(item=>item.evidence),candidateFailures,progress:resultProgress,funnel:resultFunnel};
+    }catch(error){
+      if(error&&typeof error==="object")Object.assign(error,{nativeAccepted:[...admitted.values()],nativeProgress:{...progress(),...(nextListing?{nextListing}:{})},nativeFunnel:{...funnel(),progressionReason:"SOURCE_FAILURE"}});
       throw error;
-    } finally { await executor.close(); }
+    }finally{await executor.close();}
   }
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {

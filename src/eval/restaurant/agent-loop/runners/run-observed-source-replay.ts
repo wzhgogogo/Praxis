@@ -13,7 +13,7 @@ import { loadReplayRecording, recordedResponse } from "./replay-read-recording.j
 /** Real source HAR + original model outputs through the ordinary persistent
  * createLiveReadAssembly composition. No business ports or accepted State are
  * replaced. Missing source/model material fails closed; no live fallback. */
-export async function runObservedSourceReplay(inputRoot: string, outputPath: string) {
+export async function runObservedSourceReplay(inputRoot: string, outputPath: string, targetedRecordedEntry = false) {
   const temporary = await mkdtemp(join(tmpdir(), "observed-source-replay-"));
   const decisions = (await readFile(join(inputRoot, "execution.decisions.jsonl"), "utf8")).trim().split("\n").map(line => JSON.parse(line));
   const turns = JSON.parse(await readFile(join(inputRoot, "user-turns.json"), "utf8")).turns;
@@ -30,6 +30,8 @@ export async function runObservedSourceReplay(inputRoot: string, outputPath: str
     recordings.push(await loadReplayRecording(join(inputRoot, "recordings", name), join(temporary, `source-${recordings.length}.har`)));
   }
   assert.ok(recordings.length);
+  const entryPages=targetedRecordedEntry?recordings.flatMap(recording=>recording.pages.filter(page=>page.snapshot===2&&page.status==='REPLAYABLE'&&page.url).map(page=>page.url!)):[];
+  const entryInjections:Array<{requestedStart:string;recordedStart:string}>=[];
   const allowed = new Set(recordings.flatMap(recording => [...recording.allowed]));
   const entries = recordings.flatMap(recording => recording.entries);
   const merged = { ...recordings[0]!, entries, allowed };
@@ -71,7 +73,23 @@ export async function runObservedSourceReplay(inputRoot: string, outputPath: str
     return browser;
   } } });
   const browser = { readNetworkBoundaryCapability: runtime.readNetworkBoundaryCapability, async openSession(input: Parameters<LocalPlaywrightChromium["openSession"]>[0]) {
-    const session = await runtime.openSession({ ...input, replayHarPath: harPath }); sessions.push(session); return session;
+    const session = await runtime.openSession({ ...input, replayHarPath: harPath }); sessions.push(session);
+    if(!targetedRecordedEntry)return session;
+    let navigated=false;
+    const injected=(value:string)=>{
+      if(navigated||!input.networkPolicy?.startupDocuments?.includes(value))return value;
+      const target=entryPages.find(page=>new URL(page).origin===new URL(value).origin);
+      return target??value;
+    };
+    return new Proxy(session,{get(target,key){
+      if(key==='prepareNavigation'||key==='prepareObservedNavigation')return async(value:string,options:unknown)=>{
+        const url=injected(value);
+        if(url!==value)entryInjections.push({requestedStart:value,recordedStart:url});
+        return target.prepareObservedNavigation!(url,options as any);
+      };
+      if(key==='navigate')return async(value:string,options:unknown)=>{const url=injected(value);navigated=true;return target.navigate(url,options as any);};
+      const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;
+    }});
   } };
   const google = new GooglePlacesClient({ apiKey: "OFFLINE_NO_SECRET", fetchImplementation: async (url, init) => {
     const entry = recordedResponse(merged, String(url), init?.method ?? "GET", init?.body);
@@ -79,6 +97,10 @@ export async function runObservedSourceReplay(inputRoot: string, outputPath: str
     return new Response(entry.response.content.text, { status: entry.response.status, headers: { "content-type": entry.response.content.mimeType } });
   } });
   const model: ModelGateway = { async complete(request): Promise<ModelResponse> {
+    if(targetedRecordedEntry&&request.purpose==='browser_read_decide'){
+      const context=JSON.parse(request.messages.find(message=>message.role==='user')!.content);
+      if(context.stage==='DISCOVERY')return{invocationId:'recorded-search-entry',provider:'FIXTURE',model:'captured-source-start-confirmation',outputText:JSON.stringify({action:'COMPLETE',targetRef:'',authoritativeField:'NONE',requestedState:'NONE',reason:'The user-approved directed replay starts at this actual captured search-result page; identity remains independently checked.'}),finishReason:'TOOL_CALLS',latencyMs:0};
+    }
     const counter = `${activeTurn}:${request.purpose}`, offset = offsets.get(counter) ?? 0;
     const rows = turnDecisions[activeTurn]!.filter(row => row.purpose === request.purpose), row = rows[offset];
     if (!row?.outputText) { stops.push({ reason: "MISSING_MODEL_OUTPUT", purpose: request.purpose, offset }); throw Error("UNRECORDED_MODEL_OUTPUT"); }
@@ -125,7 +147,7 @@ export async function runObservedSourceReplay(inputRoot: string, outputPath: str
   } catch (error) { failure = error instanceof Error ? { name: error.name, message: error.message } : String(error); }
   finally {
     await session?.close(); await Promise.all(sessions.map(session => session.close().catch(() => {})));
-    await writeFile(outputPath, JSON.stringify({ mode: "REAL_SOURCE_REPLAY_ORIGINAL_MODEL_OUTPUTS", inputRoot,
+    await writeFile(outputPath, JSON.stringify({ mode: targetedRecordedEntry?"DIRECTED_REPLAY_FROM_RECORDED_SEARCH_RESULT":"REAL_SOURCE_REPLAY_ORIGINAL_MODEL_OUTPUTS", inputRoot, entryInjections,
       models: "Captured semantic and Agent outputText byte-for-byte; browser refs rebind only to unique identical observed semantics; no new inference", realCalls: { model: 0, google: 0, website: 0, live: 0 },
       originalAgentSelections: selected, sourceRecordings: recordings.map(recording => ({ sha256: recording.sha256, harSha256: recording.harSha256 })),
       views, artifact, failure, stops, browserBindings, modelCalls: session?.calls, modelOffsets: Object.fromEntries(offsets), elapsedMs: performance.now() - started }, null, 2) + "\n");
@@ -136,5 +158,5 @@ export async function runObservedSourceReplay(inputRoot: string, outputPath: str
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const [inputRoot, outputPath] = process.argv.slice(2); assert.ok(inputRoot && outputPath);
-  console.log(JSON.stringify(await runObservedSourceReplay(resolve(inputRoot), resolve(outputPath))));
+  console.log(JSON.stringify(await runObservedSourceReplay(resolve(inputRoot), resolve(outputPath), process.argv.includes("--targeted-recorded-entry"))));
 }

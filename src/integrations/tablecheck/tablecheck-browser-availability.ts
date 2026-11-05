@@ -402,7 +402,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       let directPage: BrowserSnapshot | undefined;
       if (listedOutletUrl) {
         await this.executor.navigate({
-          source: "TABLECHECK", stage: "IDENTITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: listedOutletUrl, observed: true, goal: {outlet:{name:candidate.restaurant.outletName,address:candidate.restaurant.address},retrievalExpression:candidate.restaurant.outletName,retrievalSource:"G4_SOURCE_TERM",hardCriteria:[]},
+          source: "TABLECHECK", stage: "IDENTITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: listedOutletUrl, observed: true,
         });
         let page = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
         page = await this.resumeAfterUserIntervention(candidate, request, session, page, "IDENTITY", signal);

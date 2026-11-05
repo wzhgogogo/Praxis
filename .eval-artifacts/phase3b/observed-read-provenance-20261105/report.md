@@ -1,5 +1,7 @@
 # 观察驱动与值来源：实施中
 
+**当前续作见 [来源网址与表单审计检查点](source-url-followup/report.md)，仍未满足合入条件。以下逐段保留为历史实施检查点，不代表最新验收。**
+
 2026-11-05 CET（UTC+1），基线ebfc619c。**partial / not integrated**，不是最终合入候选。
 
 用户已批准六对象版本方案（Prompt20→21、Action12→13、Context3→4、Recording5→6、Evaluator36→37、Rubric31→32）及两类具名店输入范围。当前仅Browser Context已升4，新增可见原生form关联；其他已批准版本随完整退役/录制/独立审计完成后升级。State25/TaskDefinition23、语义和Agent版本保持。

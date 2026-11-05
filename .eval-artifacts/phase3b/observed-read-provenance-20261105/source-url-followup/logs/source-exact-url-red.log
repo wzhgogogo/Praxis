@@ -1,0 +1,25 @@
+✖ source-bound exact documents can open without a homepage or model search, while unknown destinations stay rejected (0.984792ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 109.857875
+
+✖ failing tests:
+
+test at src/infrastructure/browser/browser-task-executor.test.ts:1:82530
+✖ source-bound exact documents can open without a homepage or model search, while unknown destinations stay rejected (0.984792ms)
+  Error [BrowserRuntimeError]: Source start is missing or ambiguous
+      at BrowserTaskExecutor.rejected (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:1491:12)
+      at BrowserTaskExecutor.navigate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.ts:465:42)
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/browser-task-executor.test.ts:1211:20)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'UNEXPECTED_PAGE',
+    cause: undefined,
+    scope: undefined,
+    networkFailures: undefined
+  }

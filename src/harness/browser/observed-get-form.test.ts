@@ -1,3 +1,6 @@
+import {withRequestTimeline} from '../../eval/restaurant/agent-loop/runners/browser-request-timeline.js';
+import {readDiagnosticTrace} from '../../eval/restaurant/agent-loop/diagnostic-evaluator-record.js';
+import {auditNativeGetForm} from '../../eval/restaurant/agent-loop/diagnostic-evaluator-forms.js';
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { test } from "node:test";
@@ -24,8 +27,10 @@ for (const transport of ["NODE_FETCH", "BROWSER_GET_HEAD"] as const) {
     const address = server.address(); assert.ok(address && typeof address !== "string");
     const origin = `http://127.0.0.1:${address.port}`;
     const runtime = new LocalPlaywrightChromium({ admittedGetTransport: transport });
-    const session = await runtime.openSession({ signal: new AbortController().signal,
-      networkPolicy: { documentOrigins: [origin], genericPublicRead: true, staticResources: [], dynamicReads: [] } });
+    const trace:Array<{sequence:number;kind:string;detail:unknown}>=[];
+    const signal=new AbortController().signal;
+    const session = await withRequestTimeline({signal,record:(kind,detail)=>trace.push({sequence:trace.length+1,kind,detail})},()=>runtime.openSession({ signal,
+      networkPolicy: { documentOrigins: [origin], genericPublicRead: true, staticResources: [], dynamicReads: [] } }));
     try {
       await session.prepareNavigation!(origin + "/"); await session.navigate(origin + "/");
       const input = (await session.observeControls!()).find(control => control.kind === "INPUT")!;
@@ -49,6 +54,13 @@ for (const transport of ["NODE_FETCH", "BROWSER_GET_HEAD"] as const) {
       assert.equal(receipt.fields.find(field => field.key === "genre_name")?.source, "AREA");
       assert.equal(receipt.fields.find(field => field.key === "default_person")?.source, "PAGE");
       assert.equal(JSON.stringify(receipt).includes("Website Supplied Name"), false);
+      const independent=readDiagnosticTrace(trace).entries;
+      const request=snapshot.networkRequests!.find(row=>row.formSubmission)!;
+      assert.equal(auditNativeGetForm(independent,request,{intentDraft:{area:{query:"near Akabane"}}}).status,"SUPPORTED",JSON.stringify(independent.filter(row=>row.kind==='NATIVE_GET_FORM')));
+      assert.equal(auditNativeGetForm([],request,{intentDraft:{area:{query:"near Akabane"}}}).status,"MISSING");
+      assert.equal(auditNativeGetForm(independent,request,{intentDraft:{area:{query:"elsewhere"}}}).status,"MISSING","a Guard receipt cannot authorize an unrelated typed value");
+      assert.equal(JSON.stringify(independent.filter(row=>row.kind==='NATIVE_GET_FORM')).includes('Website Supplied Name'),false);
+
     } finally { await session.close(); server.closeAllConnections(); await new Promise<void>(resolve => server.close(() => resolve())); }
   });
 

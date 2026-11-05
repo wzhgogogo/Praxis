@@ -452,28 +452,23 @@ export class BrowserTaskExecutor {
     await this.settleAfterDirectAction(input);
   }
 
-  /** A source-provided URL is a read objective, never an executable navigation
-   * shortcut. After the seed, the model must reach it through current refs. */
-  async navigate(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; observed?: boolean; timeoutMs?: number; goal?: BrowserReadGoal }): Promise<void> {
-    if (input.signal.aborted) this.assertActive(input.signal);
-    this.navigationOptions(input.timeoutMs);
-    this.assertActive(input.signal);
+  /** Open only a source-provided exact URL (or the configured first seed).
+   * The caller binds its provenance; the Guard still admits every request,
+   * actual redirect and response. No URL pattern selects a destination. */
+  async navigate(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; observed?: boolean; timeoutMs?: number }): Promise<void> {
     const url = this.allowedUrl(input.url, input.allowedOrigins);
-    if (!url) throw this.rejected(input.source, input.stage, "Source document is outside the read scope");
-    const seeds = (this.networkPolicy?.startupDocuments ?? []).filter(seed => input.allowedOrigins.includes(new URL(seed).origin));
-    if (!this.startedSessions.has(input.session)) {
-      if (seeds.length !== 1) throw this.rejected(input.source, input.stage, "Source start is missing or ambiguous");
-      await this.start({ ...input, url: seeds[0]! });
+    if (!url || isBrowserReadPathProhibited(this.networkPolicy, url)) throw this.rejected(input.source, input.stage, "Source document is outside the read scope");
+    if (!input.observed && !(this.networkPolicy?.startupDocuments?.includes(url) && !this.startedSessions.has(input.session))) {
+      throw this.rejected(input.source, input.stage, "Navigation requires an exact source-observed URL or the configured first seed");
     }
-    const current = await this.snapshot(input);
-    if (current.url === url) return;
-    if (!input.observed) throw this.rejected(input.source, input.stage, "Only an observed source document may be a navigation objective");
-    const result = await this.runSkill({ ...input, taskId: "observed-source-document", goal: input.goal ?? { outlet: { name: "Source-observed document" }, hardCriteria: [] },
-      objective: `Reach this source-provided document using only current observed links and controls: ${url}. Do not construct or type a URL.`,
-      completion: page => page.url === url
-        ? { complete: true, resultKey: page.url, resultBusy: false, reason: "Observed source document reached." }
-        : { complete: false, reason: "The source-provided document has not been observed yet." } });
-    if (result.status !== "COMPLETED") throw this.rejected(input.source, input.stage, "Source document could not be reached through observed controls");
+    await this.operation(input, "NAVIGATE", async () => {
+      const options = this.navigationOptions(input.timeoutMs);
+      if (input.observed && input.session.prepareObservedNavigation) await input.session.prepareObservedNavigation(url, options);
+      else await input.session.prepareNavigation?.(url, options);
+      await input.session.navigate(url, { ...this.navigationOptions(input.timeoutMs), waitUntil: "domcontentloaded" });
+    });
+    this.startedSessions.add(input.session);
+    await this.settleAfterDirectAction(input);
   }
 
   /** Query wording comes from G4; all UI steps, including reuse of an already

@@ -133,7 +133,7 @@ export function classifyRunOutcome(input: Parameters<typeof classifyObservedRun>
       evidenceRefs: ownedStop ? ["interruption", "finalSnapshot", "diagnostics.browserTrace"] : input.orchestration?.refs ?? [] };
   }
   const declaration = result.severity.S0;
-  const boundary = auditReadOnlyTrace(input.trace, input.root.diagnostics?.networkRequests ?? [], input.resultMissing, input.reviewedReads);
+  const boundary = auditReadOnlyTrace(input.trace, input.root.diagnostics?.networkRequests ?? [], input.resultMissing, input.reviewedReads, input.root.finalSnapshot?.domainState);
   const assessments = [declaration, boundary];
   const aggregate: SeverityAssessment = { status: assessments.some(value => value.status === "PRESENT") ? "PRESENT" : assessments.some(value => value.status === "NOT_EVALUATED") ? "NOT_EVALUATED" : "ABSENT",
     reasons: assessments.flatMap(value => value.reasons), evidenceRefs: assessments.flatMap(value => value.evidenceRefs) };

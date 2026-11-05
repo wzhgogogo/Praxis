@@ -186,7 +186,7 @@ export async function runDiscoveryProbe(input: DiscoveryProbeInput, witnesses: r
     } catch(error) {
       const partial=error&&typeof error==="object"&&"nativeFunnel" in error ? error.nativeFunnel as ProbeSourceRead["failedFunnel"] : undefined;
       reads.push({sourceId:entry.sourceId,failureCode:code(error),...(partial?{failedFunnel:partial}:{})});record("SOURCE_FAILED",{sourceId:entry.sourceId,failureCode:code(error)});
-      if(signal.aborted || Date.now()>=deadline || calls>=config.maxModelCalls) {terminationReason=signal.aborted?"DISCOVERY_PROBE_TIMEOUT":code(error);break;}
+      if(signal.aborted || Date.now()>=deadline || calls>=config.maxModelCalls) {terminationReason=signal.aborted?"DISCOVERY_PROBE_TIMEOUT":calls>=config.maxModelCalls?"MODEL_CALL_BUDGET_EXHAUSTED":code(error);break;}
     }
   }
   return {schemaVersion:"discovery-probe@1",mode:"LIVE_READ_ONLY_DISCOVERY_PROBE",caseId:input.caseId,role:input.role,

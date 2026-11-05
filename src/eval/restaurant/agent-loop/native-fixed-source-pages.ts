@@ -77,6 +77,7 @@ class NativeFixtureSession implements BrowserSession {
         stableKey: `button|${label}|${controls.length}`,
         kind: "BUTTON", role: "button", label,
         ...(type ? { type } : {}),
+        ...([...this.current.html.matchAll(/<form\b([^>]*)>([\s\S]*?)<\/form>/gi)].find(form=>form[0].includes(match[0]))?{formMethod:(this.current.html.match(/<form[^>]*method=["']([^"']+)/i)?.[1]?.toUpperCase()==='POST'?'POST':'GET') as 'POST'|'GET',formObservation:{owner:'native-fixture-form',visibleLines:[label]}}:{}),
         disabled: /\bdisabled\b|aria-disabled=["']true/i.test(attrs), visible: true,
       });
     }
@@ -166,7 +167,7 @@ export function sourcePages(
 ) {
   let tableCheckDiscoveryRevealed = false;
   let tableCheckDiscoveryInputValue = "stale query";
-  let tableCheckDiscoveryExpectedQuery = "";
+  let tableCheckDiscoveryExpectedQuery = "omakase";
   const tableCheckAvailabilityRevealed = new Set<string>();
   const availabilityClicks = new Map<string, number>();
   let tableCheckScopedCategory = "";
@@ -185,6 +186,7 @@ export function sourcePages(
   const sourcePoint = scenario === "OUTSIDE_RADIUS" ? { latitude: 35.75, longitude: 139.80 } : center;
   const lookup = (url: string): BrowserSnapshot => {
     const parsed = new URL(url);
+    if(parsed.origin==='https://tabelog.com'&&parsed.pathname==='/en/')return page(url,'<a href="/en/tokyo/rstLst/">Tokyo</a>','Source search home','Tabelog');
     // Local-constructed F5 contract controls, not website Replay. Independent
     // oracle: first two details outside; the alternate has normal H001 venues.
     if (scenario.startsWith("F5_") && parsed.hostname === "tabelog.com") {
@@ -402,7 +404,7 @@ export function sourcePages(
       // redirect interception, not this source-model composition.
       const fixturePage = {};
       await networkGuard.install({ route: async (_pattern: string, handler: typeof handle) => { handle = handler; },
-        pages: () => [fixturePage], newCDPSession: async () => ({ on: () => {}, send: async () => ({}) }),
+        pages: () => [fixturePage], newCDPSession: async () => ({ on: () => {}, send: async (method: string) => method === "Page.getFrameTree" ? {frameTree:{frame:{id:"fixture-root"}}} : ({}) }),
         routeWebSocket: async () => {} } as unknown as BrowserContext, { replay: true });
       const guard = networkGuard;
       admitDocument = async url => {

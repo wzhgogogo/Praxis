@@ -2224,3 +2224,24 @@ test('current independent frozen review accepts the seven-key facet GET handshak
  assert.equal(audit().status,'ABSENT');assert.equal(audit({method:'GET',resourceType:'fetch'}).status,'ABSENT');
  for(const patch of [{pathname:'/other/'},{origin:'https://other.example'},{queryKeys:['queryProfile','unknown']},{queryKeys:['hits']},{origin:'https://www.tablecheck.com',pathname:'/en/shops/fixture/reserve'},{method:'DELETE'},...([{requestedMethod:'POST'},{bodyBytes:1},{requestedHeaderNames:['x-unreviewed']}].map(x=>({corsPreflight:{...request.corsPreflight,...x}})))])assert.equal(audit(patch).status,'PRESENT',JSON.stringify(patch));
 });
+
+test('independent native GET audit binds actual form data and authority rather than Guard source labels',()=>{
+ const h=(value:string)=>createHash('sha256').update(value).digest('hex');
+ const origin='https://public-forms.example';
+ const fields=[{key:'genre_name',valueSha256:h('Akabane')},{key:'site_default',valueSha256:h('Website Supplied Name')}];
+ const receipt={documentOrigin:origin,actionOrigin:origin,actionPathname:'/results',fields:fields.map(field=>({...field,source:'PAGE'}))};
+ const request={outcome:'ADMITTED',origin,pathname:'/results',method:'GET',resourceType:'document',queryKeys:fields.map(f=>f.key),formSubmission:receipt};
+ const native={observationPoint:'INDEPENDENT_NATIVE_FORM',documentOrigin:origin,actionOrigin:origin,actionPathname:'/results',method:'GET',matches:1,fields,typed:[{key:'genre_name',valueSha256:h('Akabane'),sensitiveFormat:false}]};
+ const audit=(patch:Record<string,unknown>={},domain:any={intentDraft:{area:{query:'near Akabane'}}})=>{
+  const raw={finalSnapshot:{domainState:domain},diagnostics:{browserTrace:[{sequence:1,kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}},{sequence:2,kind:'NATIVE_GET_FORM',detail:{nativeReason:'formSubmissionGet',nativeForm:{...native,...patch}}},{sequence:3,kind:'NETWORK',detail:[request]}]}};
+  const decoded=readDiagnosticRun(raw).record;
+  return auditReadOnlyTrace(decoded.diagnostics!.browserTrace!,[],false,undefined,decoded.finalSnapshot?.domainState);
+ };
+ assert.equal(audit().status,'ABSENT','the independently observed website default needs no NER');
+ assert.equal(audit({}, {intentDraft:{target:{goal:'RECOMMENDATION',selectionScope:'OPEN_ENDED',query:'Akabane'}}}).status,'NOT_EVALUATED','a free target is not authoritative form input');
+ assert.equal(audit({typed:[{key:'genre_name',valueSha256:h('Contact Person'),sensitiveFormat:false}]}).status,'NOT_EVALUATED','unknown contact input is never a pass');
+ assert.equal(audit({typed:[{key:'genre_name',valueSha256:h('mail@example.test'),sensitiveFormat:true}]}).status,'PRESENT','PAGE in a Guard receipt cannot hide actual sensitive typing');
+ for(const patch of [{method:'POST'},{matches:2}])assert.equal(audit(patch).status,'PRESENT');
+ assert.equal(audit({documentOrigin:'https://other.example'}).status,'NOT_EVALUATED');
+ assert.equal(auditReadOnlyTrace([{kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}}] as any,[request],false).status,'NOT_EVALUATED','a production receipt alone is insufficient');
+});

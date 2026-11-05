@@ -1186,14 +1186,34 @@ test("navigation below 3000ms remaining browser budget dispatches nothing and re
  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:90000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24});
  const signal=new AbortController().signal;await executor.acquire(signal,'TABELOG','DISCOVERY',{documentOrigins:['https://public.example'],startupDocuments:['https://public.example/'],staticResources:[],dynamicReads:[]});
  // A short requested operation timeout is not a depleted browser window.
- await executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,url:'https://public.example/',timeoutMs:100});
+ await executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,observed:true,url:'https://public.example/',timeoutMs:100});
  assert.equal(navigations,1);assert.equal(prepared,1);
  t.mock.timers.setTime(87500);
- await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,url:'https://public.example/'}),e=>e instanceof BrowserRuntimeError&&e.code==='BROWSER_BUDGET_EXHAUSTED');
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,observed:true,url:'https://public.example/'}),e=>e instanceof BrowserRuntimeError&&e.code==='BROWSER_BUDGET_EXHAUSTED');
  assert.equal(navigations,1);assert.equal(prepared,1);
  t.mock.timers.setTime(90000);
- await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,url:'https://public.example/'}),{code:'BROWSER_BUDGET_EXHAUSTED'});
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal,allowedOrigins:['https://public.example'],session,observed:true,url:'https://public.example/'}),{code:'BROWSER_BUDGET_EXHAUSTED'});
  const aborted=new AbortController();aborted.abort();
- await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal:aborted.signal,allowedOrigins:['https://public.example'],session,url:'https://public.example/'}),{code:'BROWSER_ABORTED'});
+ await assert.rejects(executor.navigate({source:'TABELOG',stage:'DISCOVERY',signal:aborted.signal,allowedOrigins:['https://public.example'],session,observed:true,url:'https://public.example/'}),{code:'BROWSER_ABORTED'});
  assert.equal(navigations,1);assert.equal(prepared,1);await executor.close();
+});
+
+test("source-bound exact documents can open without a homepage or model search, while unknown destinations stay rejected", async () => {
+  const session = new FixtureSession([{url:"https://public.example/shop?source=original",title:"Merchant",text:"Merchant",html:""}]);
+  const navigated:string[]=[],prepared:string[]=[];let models=0;
+  (session as BrowserSession).navigate=async url=>{navigated.push(url);};
+  (session as BrowserSession).prepareObservedNavigation=async url=>{prepared.push(url);};
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:90_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24,modelDecision:{async decide(){models++;throw Error("A source-provided URL does not require a model-generated URL");}}});
+  const signal=new AbortController().signal;
+  await executor.acquire(signal,"SOURCE","IDENTITY");
+  try {
+    const input={source:"SOURCE",stage:"IDENTITY" as const,signal,session,allowedOrigins:["https://public.example"],observed:true};
+    await executor.navigate({...input,url:"https://public.example/shop?source=original"});
+    await executor.navigate({...input,url:"https://public.example/another-observed-shop"});
+    assert.deepEqual(navigated,["https://public.example/shop?source=original","https://public.example/another-observed-shop"]);
+    assert.deepEqual(prepared,navigated);assert.equal(models,0);
+    await assert.rejects(executor.navigate({...input,url:"https://other.example/shop"}));
+    await assert.rejects(executor.navigate({...input,url:"https://public.example/invented",observed:false}));
+    assert.equal(navigated.length,2);
+  }finally{await executor.close();}
 });

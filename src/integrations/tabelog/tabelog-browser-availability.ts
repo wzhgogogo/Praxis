@@ -327,7 +327,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
       let directPage: BrowserSnapshot | undefined;
       if (listedOutlet) {
         await this.executor.navigate({
-          source: "TABELOG", stage: "IDENTITY", signal, allowedOrigins: ["https://tabelog.com"], session, url: listedOutlet.sourceUrl, observed: true, goal: {outlet:{name:candidate.restaurant.outletName,address:candidate.restaurant.address},retrievalExpression:candidate.restaurant.outletName,retrievalSource:"G4_SOURCE_TERM",hardCriteria:[]},
+          source: "TABELOG", stage: "IDENTITY", signal, allowedOrigins: ["https://tabelog.com"], session, url: listedOutlet.sourceUrl, observed: true,
         });
         const page = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "IDENTITY", signal, session }), "IDENTITY");
         directPage = page;

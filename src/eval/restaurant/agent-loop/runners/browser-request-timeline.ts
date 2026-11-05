@@ -1,3 +1,4 @@
+import {NativeFormObserver} from './native-form-observer.js';
 import {AsyncLocalStorage} from 'node:async_hooks';
 import {createHash} from 'node:crypto';
 import {chromium,type BrowserContext,type Page,type Request} from 'playwright-core';
@@ -37,6 +38,8 @@ async function attach(context:BrowserContext,scope:Scope){
  const ready=new WeakMap<Page,Promise<void>>();
  const pageState=new WeakMap<Page,{id:string;active:string|undefined;latest:string|undefined}>();
  const transports=new WeakMap<Request,string>();
+ const formObservers=new WeakMap<Page,NativeFormObserver>();
+ const nativeFormRequests=new WeakMap<Page,Set<string>>();
  const activeTransports=new Map<string,{base:Record<string,unknown>;start:ReturnType<typeof stamp>}>();
  const cancelTransports=(reason:string)=>{for(const [id,{base,start}]of activeTransports){activeTransports.delete(id);const end=stamp();emit('GUARD_TRANSPORT_END',{...base,startedAt:start.at,endedAt:end.at,elapsedMs:end.monotonicMs-start.monotonicMs,status:null,outcome:'CANCELLED',endReason:reason,endObservation:'LIFECYCLE_CANCELLATION_NOT_WIRE_FINISH'});}};
  const abortTransports=()=>cancelTransports('READ_ABORT_OBSERVED');scope.signal.addEventListener('abort',abortTransports,{once:true});context.once('close',()=>{cancelTransports('CONTEXT_CLOSED');scope.signal.removeEventListener('abort',abortTransports);});
@@ -45,6 +48,14 @@ async function attach(context:BrowserContext,scope:Scope){
  // request by URL/order. This captures when Guard obtains a source response.
  const route=context.route.bind(context);
  context.route=(pattern,handler,options)=>route(pattern,async(actual,request)=>{
+  if(request.resourceType()==='document'){
+    let page:Page|undefined;try{page=request.frame().page();}catch{}
+    const key=urlFields(request.url()).urlSha256;
+    if(page&&nativeFormRequests.get(page)?.delete(key)){
+      const evidence=await formObservers.get(page)?.capture(page,request.url()).catch(()=>undefined);
+      emit('NATIVE_GET_FORM',{pageId:pageState.get(page)?.id??null,...urlFields(request.url()),nativeReason:'formSubmissionGet',...(evidence?{nativeForm:evidence}:{}),...stamp()});
+    }
+  }
   const wrapped=new Proxy(actual,{get(target,key){
    if(key==='fetch')return async(options:Parameters<typeof actual.fetch>[0])=>{
     const start=stamp(),id=requestTransport(request);let page:Page|undefined;try{page=request.frame().page();}catch{}
@@ -64,6 +75,16 @@ async function attach(context:BrowserContext,scope:Scope){
   const setTimeout=page.setDefaultTimeout.bind(page),setNavigationTimeout=page.setDefaultNavigationTimeout.bind(page);
   page.setDefaultTimeout=ms=>{pageTimeout=ms;setTimeout(ms);};page.setDefaultNavigationTimeout=ms=>{pageNavigationTimeout=ms;setNavigationTimeout(ms);};
   const cdp=await context.newCDPSession(page);
+  await cdp.send('Page.enable');
+  const frame=(await cdp.send('Page.getFrameTree')).frameTree.frame.id;
+  const forms=new NativeFormObserver(cdp,frame);formObservers.set(page,forms);
+  const observeForms=()=>forms.observe(page).catch(()=>{});
+  page.on('domcontentloaded',()=>{void observeForms();});
+  cdp.on('Page.frameRequestedNavigation',event=>{
+    if(event.frameId!==frame||event.reason!=='formSubmissionGet')return;
+    const urls=nativeFormRequests.get(page)??new Set<string>();urls.add(urlFields(event.url).urlSha256);nativeFormRequests.set(page,urls);
+  });
+
   type Row={requestId:string;navigationId:string|null;navigationAssociation:string;loaderId:string;frameId:string|null;url:string;urlSha256:string;method:string;resourceType:string;startedAt:string;startedMonotonicMs:number;status:number|null;blocked:boolean;blockReason:string|null;implicit:boolean;browserStartedAt:string;browserTimestamp:number;redirectedFromRequestId:string|null;};
   const rows=new Map<string,Row>(),loaders=new Map<string,string>();let requestSequence=0;
   const end=(key:string,outcome:string,reason:string|null=null,browserTimestamp?:number)=>{const row=rows.get(key);if(!row)return;rows.delete(key);const at=stamp();emit('NETWORK_REQUEST_END',{...row,pageId:state.id,endedAt:at.at,endedMonotonicMs:at.monotonicMs,elapsedMs:at.monotonicMs-row.startedMonotonicMs,browserEndedAt:browserTimestamp===undefined?null:new Date(Date.parse(row.browserStartedAt)+(browserTimestamp-row.browserTimestamp)*1000).toISOString(),browserElapsedMs:browserTimestamp===undefined?null:(browserTimestamp-row.browserTimestamp)*1000,browserEndTimestamp:browserTimestamp??null,endObservation:browserTimestamp===undefined?'LIFECYCLE_CANCELLATION_NOT_WIRE_FINISH':'CDP_NETWORK_TERMINAL',outcome,endReason:reason});if(row.implicit&&outcome!=='REDIRECT')emit('NAVIGATION_END',{navigationId:row.navigationId,pageId:state.id,endedAt:at.at,elapsedMs:at.monotonicMs-row.startedMonotonicMs,endReason:outcome,observationPoint:'DOCUMENT_NETWORK_ONLY'});};
@@ -91,9 +112,10 @@ async function attach(context:BrowserContext,scope:Scope){
    const id=`${scope.id}:navigation:${++navSequence}`,start=stamp();state.active=id;state.latest=id;
    emit('NAVIGATION_START',{navigationId:id,pageId:state.id,...urlFields(url),method:'GOTO',remainingReadBudgetMs:scope.remaining?.()??null,navigationAllowanceMs:options?.timeout??null,configuredTimeoutMs:options?.timeout??pageNavigationTimeout??pageTimeout??contextNavigationTimeout??contextTimeout,timeoutSource:options?.timeout===undefined?'OBSERVED_DEFAULTS_PLAYWRIGHT_30000_BASE':'EXPLICIT',waitUntil:options?.waitUntil??'load',...start});
    let reason='COMPLETED';
-   try{return await go(url,options);}catch(error){reason=scope.signal.aborted?'CANCELLED':error instanceof Error&&error.name==='TimeoutError'?'TIMEOUT':page.isClosed()?'PAGE_CLOSED':'FAILED';throw error;}
+   try{const result=await go(url,options);await observeForms();return result;}catch(error){reason=scope.signal.aborted?'CANCELLED':error instanceof Error&&error.name==='TimeoutError'?'TIMEOUT':page.isClosed()?'PAGE_CLOSED':'FAILED';throw error;}
    finally{const at=stamp();emit('NAVIGATION_END',{navigationId:id,pageId:state.id,startedAt:start.at,endedAt:at.at,startedMonotonicMs:start.monotonicMs,endedMonotonicMs:at.monotonicMs,elapsedMs:at.monotonicMs-start.monotonicMs,endReason:reason});if(state.active===id)state.active=undefined;}
   };
+  await observeForms();
   await cdp.send('Network.enable');
   emit('REQUEST_TIMELINE_READY',{pageId:state.id,observationPoint:'BROWSER_CDP_AND_GUARD_ROUTE',...stamp()});
  };

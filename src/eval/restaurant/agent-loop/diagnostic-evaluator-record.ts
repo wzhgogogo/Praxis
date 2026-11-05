@@ -63,7 +63,7 @@ function numericFields(fields: string[]): Decoder<Record<string, number>> {
   };
 }
 const window = object({ earliest: text, latest: text });
-const target = object({ goal: text });
+const target = object({ goal: text, query: text, selectionScope: text });
 const criterionFields = object({ text, value: text, polarity: text, strength: text, criterionRef: text, semanticId: text });
 const criterion: typeof criterionFields = (value, path, issues) => {
   const parsed = criterionFields(value, path, issues);
@@ -113,7 +113,9 @@ const effectiveLimits = numericFields(["maxModelCallsPerCandidate", "maxModelCal
 const lifecycle = numericFields(["candidateModelCalls", "runModelCalls", "candidateRuntimeOperations", "candidateElapsedMs"]);
 const executorFields = { source: text, stage: text, event: text, candidateId: text, elapsedMs: number, effectiveLimits, lifecycle };
 const browserExecution = object(executorFields);
-const traceDetail = object({ snapshotSequence: number, controls: array(control), stage: text, candidateId: text,
+const nativeForm = object({ observationPoint:text,documentOrigin:text,actionOrigin:text,actionPathname:text,method:text,matches:number,
+  fields:array(object({key:text,valueSha256:text})),typed:array(object({key:text,valueSha256:text,sensitiveFormat:boolean})) });
+const traceDetail = object({ nativeForm, urlSha256:text, pageId:text, nativeReason:text, snapshotSequence: number, controls: array(control), stage: text, candidateId: text,
   source: text, event: text, elapsedMs: number, effectiveLimits, lifecycle,
   readNetworkBoundary: text, networkRequests: array(networkRequest),
   url: text, htmlSha256: text, method: text, args: array(raw), responses: array(object({ url: text, status: number, observedAt: text, body: tabelogBody })),

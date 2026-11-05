@@ -12,10 +12,13 @@ import {loadReplayRecording,recordedResponse} from '../../../../eval/restaurant/
 import {createG6Session,G6_USER} from '../../../../eval/restaurant/agent-loop/g6/session.js';
 import {GooglePlacesClient} from '../../../../integrations/google/google-places-client.js';
 import {tabelogDiscoveryPack,googlePlacesDiscoveryPack} from '../../../../integrations/restaurant-search/source-packs.js';
+import {traceBrowserRuntime} from './browser-case-slice-evidence.js';
+import {readDiagnosticTrace,readDiagnosticRun} from '../diagnostic-evaluator-record.js';
+import {auditNativeGetForm} from '../diagnostic-evaluator-forms.js';
 import {safeUrl} from '../../../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js';
 const root=new URL('../../../../../.eval-artifacts/phase3b/d4-d8-real-pages-20261105/stop3/',import.meta.url),id=process.argv[2];assert.ok(['D4','D8'].includes(id!));
 const folder=await mkdtemp(join(tmpdir(),'whole-real-replay-'));
-const calls:any[]=[],stops:any[]=[],browserActions:any[]=[],diagnostics:any[]=[],sessions:any[]=[];
+const calls:any[]=[],stops:any[]=[],browserActions:any[]=[],diagnostics:any[]=[],sessions:any[]=[],trace:any[]=[],snapshots:any[]=[];
 let session:Awaited<ReturnType<typeof createG6Session>>|undefined;
 const original=JSON.parse(await readFile(new URL(`source-inputs/${id}-execution.result.json`,root),'utf8'));
 const turns=JSON.parse(await readFile(new URL(`source-inputs/${id}-user-turns.json`,root),'utf8'));
@@ -38,7 +41,8 @@ const runtime=new LocalPlaywrightChromium({proxyServer:'http://127.0.0.1:9',brow
    const reason=q.resourceType()==='document'&&!allowed.has(url)?'DOCUMENT_NOT_QUALIFIED':!recordedResponse(merged,url,q.method(),q.postData()??undefined)?'MISSING_RESPONSE':undefined;
    if(reason){stops.push({reason,url:safeUrl(url),queryKeys:[...new URL(url).searchParams.keys()],method:q.method(),type:q.resourceType()});await route.abort('blockedbyclient');if(q.resourceType()==='document')void context.close().catch(()=>{});}else await route.fallback();
   });};return context;};return browser;}}});
-const browser={readNetworkBoundaryCapability:runtime.readNetworkBoundaryCapability,async openSession(input:any){const raw=await runtime.openSession({...input,replayHarPath:har});sessions.push(raw);return new Proxy(raw,{get(target,key){const value=Reflect.get(target,key,target);if(typeof value!=='function')return value;return async(...args:any[])=>{if(['prepareNavigation','prepareObservedNavigation','navigate','openLink','fill','click','select'].includes(String(key)))browserActions.push({method:String(key),args:args.slice(0,2)});const result=await value.apply(target,args);if(key==='snapshot'&&!allowed.has(result.url))throw Error('UNQUALIFIED_SNAPSHOT');return result;};}});}};
+const sourceBrowser={readNetworkBoundaryCapability:runtime.readNetworkBoundaryCapability,async openSession(input:any){const raw=await runtime.openSession({...input,replayHarPath:har});sessions.push(raw);return new Proxy(raw,{get(target,key){const value=Reflect.get(target,key,target);if(typeof value!=='function')return value;return async(...args:any[])=>{if(['prepareNavigation','prepareObservedNavigation','navigate','openLink','fill','click','select'].includes(String(key)))browserActions.push({method:String(key),args:args.slice(0,2)});const result=await value.apply(target,args);if(key==='snapshot'){if(!allowed.has(result.url))throw Error('UNQUALIFIED_SNAPSHOT');snapshots.push(result);}return result;};}});}};
+const browser=traceBrowserRuntime(sourceBrowser,'TABELOG',(kind,detail)=>{trace.push({kind,detail});return trace.length;});
 const google=new GooglePlacesClient({apiKey:'OFFLINE_NO_SECRET',fetchImplementation:async(url,init)=>{
  const e=recordedResponse(merged,String(url),init?.method??'GET',init?.body);
  if(!e){stops.push({reason:'MISSING_GOOGLE_RESPONSE',url:safeUrl(String(url)),body:init?.body});throw Error('OFFLINE_MISSING_GOOGLE_RESPONSE');}
@@ -72,16 +76,17 @@ const model:ModelGateway={async complete(request:any){let payload:any;try{payloa
   const merchant=ts.filter((t:any)=>t.availableActions?.includes('OPEN_LINK')&&(/\/(?:13273370|13108466)\//u.test(t.href??''))&&!openedDetails.has(t.href));
   const back=resultList&&ts.find((t:any)=>t.href===resultList&&t.availableActions?.includes('OPEN_LINK'));
   if(merchant.length)resultList=current;
-  if(bound)body=fixtureAction(bound.action,bound.target,bound.field);
-  else if(merchant.length){openedDetails.add(merchant[0].href);body=fixtureAction('OPEN_LINK',merchant[0]);}
-  else if(back)body=fixtureAction('OPEN_LINK',back);
+  if(payload.stage==='DISCOVERY'&&merchant.length)body=fixtureAction('COMPLETE',undefined);
+  else if(bound)body=fixtureAction(bound.action,bound.target,bound.field);
+  else if(payload.stage==='DISCOVERY'&&merchant.length){openedDetails.add(merchant[0].href);body=fixtureAction('OPEN_LINK',merchant[0]);}
+  else if(payload.stage==='DISCOVERY'&&back)body=fixtureAction('OPEN_LINK',back);
   else if(location&&!prior.some(a=>a.action==='FILL_AUTHORITATIVE'&&a.authoritativeField==='LOCATION'))body=fixtureAction('FILL_AUTHORITATIVE',location,'LOCATION');
   else if(station.length===1)body=fixtureAction('CLICK',station[0]);
   else if(retrieval&&!prior.some(a=>a.action==='FILL_AUTHORITATIVE'&&a.authoritativeField==='RETRIEVAL'))body=fixtureAction('FILL_AUTHORITATIVE',retrieval,'RETRIEVAL');
-  else if(submit)body=fixtureAction('CLICK',submit);
+  else if(payload.stage==='DISCOVERY'&&submit)body=fixtureAction('CLICK',submit);
   else body=fixtureAction('REQUEST_HUMAN_HELP',undefined);
  }else if(request.purpose==='restaurant_source_facts'){
-  const quote=payload.sourceDocument.statements.find((s:any)=>/^Categories\s+Kushi-age \(Deep-fried skewers\)/u.test(s.text));
+  const quote=payload.sourceDocument.statements.find((s:any)=>s.text==='Kushi-age (Deep-fried skewers)');
   body={selections:quote?[{firstStatementId:quote.id,lastStatementId:quote.id,role:'CATEGORY',priceStatementId:''}]:[]};
  }else if(request.purpose==='restaurant_fact_judgment'){
   // Fixed-model Replay interpretation of a complete merchant category field;
@@ -102,7 +107,12 @@ try{
 }catch(e){error=e instanceof Error?{name:e.name,message:e.message}:String(e)}
 finally{
  await session?.close();for(const s of sessions)await s.close().catch(()=>{});
- await writeFile(new URL(`../../observed-read-provenance-20261105/${id}-current-observation-replay.json`,root),JSON.stringify({mode:'REPLAY_REAL_SOURCE_CURRENT_OBSERVATION_FIXED_MODEL',missingResources:'ABORT_WITHOUT_NETWORK_FALLBACK; required document gaps close context; absent dynamic responses remain explicit fidelity gaps and cannot create evidence',inputCommit:'1d88ba11',message:turns.turns[0].message,semanticBytesUnchanged:true,realModelCalls:0,realGoogleCalls:0,realWebsiteReads:0,sourceRecordings:recordings.map(r=>({sha256:r.sha256,harSha256:r.harSha256})),view,error,artifact,stops,browserActions,diagnostics,calls},null,2)+'\n');
+ const observed=readDiagnosticTrace(trace).entries;
+ const domain=readDiagnosticRun(artifact).record.finalSnapshot?.domainState;
+ const forms=snapshots.flatMap(page=>(page.networkRequests??[]).filter((request:any)=>request.formSubmission));
+ const uniqueForms=[...new Map(forms.map(request=>[JSON.stringify(request.formSubmission),request])).values()];
+ const independentFormAudit=uniqueForms.map(request=>auditNativeGetForm(observed,request,domain));
+ await writeFile(new URL(`../../observed-read-provenance-20261105/${id}-current-observation-replay-audited.json`,root),JSON.stringify({mode:'REPLAY_REAL_SOURCE_CURRENT_OBSERVATION_FIXED_MODEL',missingResources:'ABORT_WITHOUT_NETWORK_FALLBACK; required document gaps close context; absent dynamic responses remain explicit fidelity gaps and cannot create evidence',inputCommit:'1d88ba11',message:turns.turns[0].message,semanticBytesUnchanged:true,realModelCalls:0,realGoogleCalls:0,realWebsiteReads:0,sourceRecordings:recordings.map(r=>({sha256:r.sha256,harSha256:r.harSha256})),view,error,artifact,stops,browserActions,diagnostics,calls,trace,independentFormAudit},null,2)+'\n');
  console.log(JSON.stringify({id,phase:view?.case.phase,presented:view?.restaurant.presentedCandidateIds,stops,error,offlineCalls:calls.length,elapsedMs:performance.now()-start}));
  await rm(folder,{recursive:true,force:true});
 }
