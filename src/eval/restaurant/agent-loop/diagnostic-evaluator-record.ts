@@ -106,7 +106,9 @@ const tabelogBody = object({ base_date: object({ year: number, month: number, da
 const bodyObservation = object({ bodySha256: text, contentType: text, fieldTypes: dictionary(text) });
 const corsPreflight = object({ initiator: text, secFetchMode: text, requestOrigin: text, requestedMethod: text, requestedHeaderNames: texts, bodyBytes: number });
 const resourceTypeDetails = object({ selectedFrom: text, playwright: text, network: text, fetch: text });
-const networkRequest = object({ outcome: text, origin: text, pathname: text, method: text, resourceType: text, queryKeys: texts, bodyObservation, corsPreflight, resourceTypeDetails, outerRequestId: text });
+const formSubmission = object({ documentOrigin: text, actionOrigin: text, actionPathname: text,
+  fields: array(object({ key: text, valueSha256: text, source: text })) });
+const networkRequest = object({ outcome: text, origin: text, pathname: text, method: text, resourceType: text, queryKeys: texts, bodyObservation, corsPreflight, resourceTypeDetails, outerRequestId: text, formSubmission });
 const effectiveLimits = numericFields(["maxModelCallsPerCandidate", "maxModelCallsTotal", "maxOperationsPerCandidate", "maxAutomaticElapsedMs"]);
 const lifecycle = numericFields(["candidateModelCalls", "runModelCalls", "candidateRuntimeOperations", "candidateElapsedMs"]);
 const executorFields = { source: text, stage: text, event: text, candidateId: text, elapsedMs: number, effectiveLimits, lifecycle };

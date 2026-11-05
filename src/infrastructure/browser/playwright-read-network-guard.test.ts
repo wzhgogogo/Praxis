@@ -23,7 +23,7 @@ const fakePage = {};
 function fakeContext(value: Record<string, unknown>): BrowserContext {
   // These unit ports only test the ordinary route's policy matching. Actual
   // redirects and CDP transport are exercised by the Chromium receiver suite.
-  return { pages: () => [fakePage], newCDPSession: async () => ({ on: () => {}, send: async () => ({}) }), ...value } as unknown as BrowserContext;
+  return { pages: () => [fakePage], newCDPSession: async () => ({ on: () => {}, send: async (method: string) => method === "Page.getFrameTree" ? { frameTree: { frame: { id: "fixture-top-frame" } } } : {} }), ...value } as unknown as BrowserContext;
 }
 
 function fakeRoute(input: { url: string; method?: string; type?: string; status?: number; contentType?: string; body?: string; fetchError?: Error; fetchDelayMs?: number; responseBody?: Uint8Array; responseHeaders?: Record<string, string> }) {

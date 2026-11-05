@@ -4,8 +4,8 @@ import type { ModelGateway, ModelResponse } from "../../core/model/contracts.js"
 import { ModelGatewayError } from "../../core/model/errors.js";
 import type { BrowserCalendarMonth } from "./browser-runtime.js";
 
-/** Scoped region correction is distinct from current DOM target actions. */
-export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "3" } as const;
+/** Current observable controls and native public form ownership; no scripted site flow. */
+export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "4" } as const;
 export const BROWSER_READ_DECISION_PROMPT_VERSION = "20";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
@@ -71,6 +71,8 @@ export interface BrowserReadActionTarget {
   value?: string;
   href?: string;
   formMethod?: string;
+  /** Public native form association and visible text, without hidden values. */
+  formObservation?: { owner: string; visibleLines: string[] };
   type?: string;
   selected?: boolean;
   disabled?: boolean;
@@ -97,6 +99,8 @@ export interface BrowserReadGoal {
   outlet: { name: string; address?: string };
   /** Bounded source-query wording; it never alters the Restaurant intent. */
   retrievalExpression?: string;
+  /** Set by the authoritative caller, never by the browser action model. */
+  retrievalSource?: "CUISINE" | "SPECIFIC_OUTLET" | "G4_SOURCE_TERM";
   /** Same request resolution; no inferred station or substituted place. */
   location?: { name?: string; latitude: number; longitude: number; radiusMeters: number; addressComponents?: Array<{ longText: string; shortText?: string; types: string[] }>; addressObservation?: { source: string; observedAt: string; status: "OBSERVED" | "UNAVAILABLE"; reasonCode?: string } };
   /** Fact-only reads intentionally omit unsupplied reservation parameters. */

@@ -31,15 +31,6 @@ export const tabelogPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
   ],
   dynamicReads: [
     {
-      // User-approved 2026-11-05: observed public homepage GET Search.
-      origin: "https://tabelog.com",
-      pathname: "/en/rstLst/",
-      methods: ["GET"],
-      resourceTypes: ["document"],
-      queryKeys: ["LstAre", "LstPrf", "area_datatype", "area_id", "genre_name", "pal", "search_mode", "station_id", "sw", "utf8"],
-      strictQueryKeys: [],
-    },
-    {
       // Public directory documents use `sw` as the observed search
       // expression.  This Pack-owned grammar lets Recorder preserve a
       // current query URL without admitting arbitrary document fields.

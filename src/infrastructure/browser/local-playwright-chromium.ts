@@ -6,6 +6,7 @@ import { chromium, type Browser, type BrowserContext, type Page } from "playwrig
 import type { BrowserActionOptions, BrowserReadNetworkPolicy, BrowserResponseRule, BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
+import { assertPublicReadInput } from "./playwright-observed-get-forms.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
 import { PlaywrightControlRegistry, waitForPageSettled, pageBusySelectors, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
 
@@ -129,11 +130,18 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
 
-  async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page, hints)); }
+  async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> {
+    return this.run(async () => {
+      const controls = await this.controls.observe(this.page, hints);
+      await this.networkGuard?.forms.observe(this.page);
+      return controls;
+    });
+  }
   async click(target: string, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
       const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
+      if (locator) this.networkGuard?.forms.beforeClick(this.page, locator);
       // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
       // adapter and local-fixture code keeps its explicit, code-owned locator capability.
       if (locator) await activateObservedControl(locator, timeout);
@@ -160,7 +168,15 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
       await next.waitForLoadState("domcontentloaded", { timeout: Math.min(2_500, timeout) }).catch(() => undefined);
     });
   }
-  async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value, { timeout: actionTimeout(options) })); }
+  async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> {
+    await this.run(async () => {
+      if (this.networkGuard) assertPublicReadInput(value, options.inputSource);
+      const element = await this.controls.target(target) ?? await this.page.locator(target).elementHandle();
+      if (!element) throw new Error("Observed input is no longer available");
+      await element.fill(value, { timeout: actionTimeout(options) });
+      if (this.networkGuard) await this.networkGuard.forms.inserted(this.page, element, value, options.inputSource!);
+    });
+  }
   async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
   async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
   async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }

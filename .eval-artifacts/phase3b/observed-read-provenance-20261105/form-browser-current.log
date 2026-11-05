@@ -1,0 +1,40 @@
+✔ NODE_FETCH: observed native GET forms bind page defaults and authoritative input to the same document (259.626917ms)
+✖ NODE_FETCH: unknown input, cross-origin, POST, prohibited path and nonform name never get form permission (865.307125ms)
+✔ BROWSER_GET_HEAD: observed native GET forms bind page defaults and authoritative input to the same document (228.759458ms)
+✖ BROWSER_GET_HEAD: unknown input, cross-origin, POST, prohibited path and nonform name never get form permission (870.562209ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 2
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2506.418
+
+✖ failing tests:
+
+test at src/harness/browser/observed-get-form.test.ts:5:2131
+✖ NODE_FETCH: unknown input, cross-origin, POST, prohibited path and nonform name never get form permission (865.307125ms)
+  AssertionError [ERR_ASSERTION]: POPUP_UNKNOWN: target must reach a blocked terminal, not just a local bootstrap
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/observed-get-form.test.ts:98:30)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/harness/browser/observed-get-form.test.ts:5:2131
+✖ BROWSER_GET_HEAD: unknown input, cross-origin, POST, prohibited path and nonform name never get form permission (870.562209ms)
+  AssertionError [ERR_ASSERTION]: POPUP_UNKNOWN: target must reach a blocked terminal, not just a local bootstrap
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/observed-get-form.test.ts:98:30)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

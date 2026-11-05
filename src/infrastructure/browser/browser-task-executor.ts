@@ -122,7 +122,7 @@ export interface BrowserGenericReadResult {
   controls: BrowserPageControl[];
 }
 
-interface ObservedTarget extends BrowserReadActionTarget { formObservation?: BrowserPageControl["formObservation"]; controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
+interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
 
 interface Observation {
   revision: number;
@@ -499,7 +499,7 @@ export class BrowserTaskExecutor {
       const page=await this.snapshot(scoped);
       const controls=await this.observeControls(scoped);
       const observation={snapshot:page,controls,targets:toObservedTargets(controls,++this.observationRevision),revision:this.observationRevision};
-      const skill:BrowserSkillReadInput={...scoped,taskId:"observed-source-search",goal:{outlet:{name:input.query,address:""},hardCriteria:[],retrievalExpression:input.query},
+      const skill:BrowserSkillReadInput={...scoped,taskId:"observed-source-search",goal:{outlet:{name:input.query,address:""},hardCriteria:[],retrievalExpression:input.query,retrievalSource:"G4_SOURCE_TERM"},
         objective:"Submit the current source name query",completion:()=>({complete:false,reason:"Adapter must verify query and identity"})};
       const active=[...observation.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport
         && controls.some(c=>c.id===t.controlId&&c.visible&&!c.blockedByActiveLayer&&!c.observationOnly));
@@ -797,7 +797,7 @@ export class BrowserTaskExecutor {
             ...(month ? { displayedCalendarMonth: month } : {}),
             controlGroups: observedControlGroups(observation),
             pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
-            targets: actionTargets.map(({ formObservation: _formObservation, controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
+            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
               ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
             })),
           },
@@ -1193,7 +1193,7 @@ export class BrowserTaskExecutor {
     } else if (target.kind === "INPUT") {
       if (input.goal.date && this.boundInputField(target, "DATE")) availableActions.push("FILL_AUTHORITATIVE:DATE");
       if (input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
-      if (input.goal.retrievalExpression && this.boundInputField(target, "RETRIEVAL") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
+      if (input.goal.retrievalExpression && input.goal.retrievalSource && this.boundInputField(target, "RETRIEVAL") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
       if (input.stage === "DISCOVERY" && input.goal.location?.name && this.boundInputField(target, "LOCATION") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:LOCATION");
       if (!availableActions.length) rejectionReason = "NO_BOUND_INPUT_FIELD";
     } else if (target.kind === "CHECKBOX" || target.kind === "RADIO" || target.kind === "RANGE") {
@@ -1215,19 +1215,15 @@ export class BrowserTaskExecutor {
 
   private boundInputField(target: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION"): boolean {
     if (target.kind !== "INPUT" || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
-    if (field === "DATE") return target.type === "date" || /\bdate\b/i.test(target.label);
-    if (field === "PARTY_SIZE") return /(?:party|guest|people|persons|名|人数)/i.test(target.label);
-    // Placeholders can describe an example request rather than the input's
-    // purpose. Bind retrieval only to a text entry whose observed native name
-    // or visible label identifies it as search, never to email/phone/password
-    // fields that happen to mention a restaurant.
+    // Native types limit what can be entered. Meaning comes from the model's
+    // current observation, rather than a search/date/guest label dictionary.
     const type = target.type?.toLowerCase();
+    if (field === "DATE") return ["date", "text", "search"].includes(type || "text");
+    if (field === "PARTY_SIZE") return ["number", "text", "search"].includes(type || "text");
     if (type && !["text", "search"].includes(type)) return false;
     const name = target.inputName ?? "";
     if (/(?:email|e-mail|phone|tel|password|card|address)/i.test(name)) return false;
-    if (field === "LOCATION") return /(?:location|area|station|地域|エリア|駅|場所)/i.test(`${name} ${target.label}`);
-    return /(?:search|keyword|query|restaurant|venue|店名|検索)/i.test(name)
-      || /(?:search|keyword|restaurant|venue|店名|検索)/i.test(target.label);
+    return true;
   }
 
   private matchesRetrievalOption(input: BrowserSkillReadInput, target: ObservedTarget, owner: ObservedTarget): boolean {
@@ -1380,7 +1376,10 @@ export class BrowserTaskExecutor {
     if (!this.boundInputField(target, action.field) || (action.field === "RETRIEVAL" || action.field === "LOCATION") && !this.guardedReadControl(input, target)) {
       throw new Error(`${action.type} target has the wrong control kind`);
     }
-    await this.operation(input, "FILL_AUTHORITATIVE", () => input.session.fill(target.controlId, value, this.actionOptions()));
+    const inputSource = action.field === "DATE" ? "DATE" : action.field === "PARTY_SIZE" ? "PARTY_SIZE"
+      : action.field === "LOCATION" ? "AREA" : input.goal.retrievalSource;
+    if (!inputSource) throw this.rejected(input.source, input.stage, "Retrieval input has no authoritative nonpersonal source");
+    await this.operation(input, "FILL_AUTHORITATIVE", () => input.session.fill(target.controlId, value, { ...this.actionOptions(), inputSource }));
     // A new observation revision invalidates every prior reference, including this one.
     void observation;
   }
@@ -1464,8 +1463,7 @@ export class BrowserTaskExecutor {
     return this.guardedReadControl(input, target)
       && target.kind === "BUTTON"
       && target.formMethod === "GET"
-      && (target.type?.toLowerCase() === "submit" || Boolean(target.formObservation)
-        && /^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(target.label.trim()));
+      && Boolean(target.formObservation);
   }
 
   private async operation<Value>(

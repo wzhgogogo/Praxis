@@ -66,25 +66,6 @@ export class PlaywrightControlRegistry {
     this.targets.clear();
   }
 
-  private async selectedDisplay(element: ElementHandle<SVGElement | HTMLElement>): Promise<string | undefined> {
-    return element.evaluate(node => {
-      if (!(node instanceof HTMLInputElement) || node.getAttribute("role") !== "combobox"
-        || node.getAttribute("aria-readonly") !== "true" || node.value) return undefined;
-      // An explicit value container and its unique single-value child bind the
-      // displayed selection to this input. Nearby page text is not a value.
-      const container = [node.parentElement, node.parentElement?.parentElement]
-        .find(parent => parent?.getAttribute("data-testid") === "Value Container");
-      if (!container || container.querySelectorAll('input[role="combobox"]').length !== 1) return undefined;
-      const displays = [...container.children].filter(child =>
-        [...child.classList].some(name => /(?:^|-)singleValue$/.test(name)));
-      if (displays.length !== 1 || displays[0]!.contains(node)) return undefined;
-      const display = displays[0]!;
-      if (!(display as HTMLElement).getClientRects().length || display.querySelector("input,select,button,[role=option]")) return undefined;
-      const value = display.textContent?.replace(/\s+/g, " ").trim();
-      return value && value.length <= 160 ? value : undefined;
-    });
-  }
-
   /**
    * Read the inexpensive, browser-owned control projection once.  The
    * `signature` intentionally excludes presentation-only fields such as the
@@ -330,7 +311,6 @@ export class PlaywrightControlRegistry {
           : undefined;
         const inputValue = group.kind === "INPUT" || group.kind === "SELECT" || group.kind === "RANGE"
           ? projection.value ?? "" : comboboxInput?.value ?? "";
-        const selectedDisplay = role === "combobox" && !inputValue ? await this.selectedDisplay(locator).catch(() => undefined) : undefined;
         const inputFallback = group.kind === "INPUT" ? projection.placeholder || projection.name || undefined : undefined;
         let label = (projection.label || projection.title || projection.associatedLabel || inputFallback || text || inputValue).replace(/\s+/g, " ").trim().slice(0, 240);
         const alternativeLabel = !label && group.kind === "LINK" ? projection.linkAlternativeText : undefined;
@@ -352,7 +332,7 @@ export class PlaywrightControlRegistry {
         let value = group.kind === "RANGE"
           ? projection.rangeValue ?? projection.value
           : group.kind === "INPUT" || group.kind === "SELECT" || comboboxInput !== undefined
-          ? selectedDisplay || projection.value
+          ? projection.value
             : dataDate ?? dataValue ?? projection.value;
         // HTML's default method is GET, but only for a control whose actual
         // form owner was observed. A bare submit-looking button remains

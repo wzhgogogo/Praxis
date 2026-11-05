@@ -21,8 +21,7 @@ export interface BrowserReadNetworkRequestRule {
    */
   queryKeyRules?: { required: readonly string[]; allowed?: readonly string[]; repeatable?: readonly string[]; allowedPatterns?: readonly string[] };
   /** Presence of one of these fields requires the full reviewed query grammar,
-   * including under generic public GET admission. An empty list requires the
-   * reviewed grammar for every request to this endpoint. Values stay source-owned. */
+   * including under generic public GET admission. Values stay source-owned. */
   strictQueryKeys?: readonly string[];
   /** Browser-generated, bodyless projection of an approved GET/HEAD/POST; actual POST body is checked separately. */
   corsPreflight?: { requestOrigin: string; requestedHeaderNames: readonly string[] };
@@ -68,6 +67,8 @@ export interface BrowserReadResourceTypeObservation {
 
 /** A value-free request shape captured by an installed read boundary. */
 export interface BrowserReadNetworkObservation {
+  /** Native GET submission evidence, with value hashes only; never a model input. */
+  formSubmission?: import("./playwright-observed-get-forms.js").ObservedGetFormSubmission;
   outcome: "ADMITTED" | "BLOCKED" | "REDIRECT_BLOCKED" | "FAILED" | "TIMED_OUT";
   origin: string;
   pathname: string;
@@ -207,7 +208,9 @@ export interface BrowserSessionMetadata {
 }
 
 /** A code-owned cap for one interactive browser operation. */
-export interface BrowserActionOptions { timeoutMs?: number; }
+/** Code-owned input origin; never accepted as a model-provided value or permission. */
+export type BrowserPublicInputSource = "AREA" | "CUISINE" | "DATE" | "TIME" | "PARTY_SIZE" | "SPECIFIC_OUTLET" | "G4_SOURCE_TERM";
+export interface BrowserActionOptions { timeoutMs?: number; inputSource?: BrowserPublicInputSource; }
 
 export interface BrowserSession {
   readonly metadata: BrowserSessionMetadata;

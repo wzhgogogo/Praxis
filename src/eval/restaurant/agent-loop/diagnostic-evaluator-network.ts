@@ -52,7 +52,7 @@ export function parseReviewedReads(raw: Uint8Array, path: string): ReviewedReads
 }
 
 const sensitivePath = /(?:^|\/)(?:form_course|form|confirm|confirmation|checkout|payment|purchase|cancel|delete|login|signin|sign-in|account|submit)(?:\/|$)/i;
-const sensitiveField = /(?:password|token|authorization|cookie|e[-_]?mail|phone|credit[-_]?card|card[-_]?number|session(?:id)?|first[-_]?name|last[-_]?name|csrf|api[-_]?key)/i;
+const sensitiveField = /(?:password|token|authorization|cookie|e[-_]?mail|phone|tel|address|name|credit[-_]?card|card[-_]?number|session(?:id)?|csrf|api[-_]?key)/i;
 const staticTypes = ["script", "stylesheet", "font", "image", "media"];
 function publicOrigin(value: string): string | undefined {
   try {
@@ -108,7 +108,19 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
     const origin = publicOrigin(request.origin), method = request.method, type = request.resourceType, keys = request.queryKeys;
     let path: string;
     try { path = decodeURIComponent(request.pathname); } catch { violations.push(`Malformed request path: ${label}`); refs.push(ref); continue; }
-    if (!origin || sensitivePath.test(path) || keys.some(key => sensitiveField.test(key))) { violations.push(`Sensitive or non-public dispatched request: ${label}`); refs.push(ref); continue; }
+    if (!origin || sensitivePath.test(path)) { violations.push(`Sensitive or non-public dispatched request: ${label}`); refs.push(ref); continue; }
+    if (request.formSubmission) {
+      // A production receipt is only a pointer to evidence still to audit.
+      // Its PAGE/authority labels and hashes cannot certify themselves. Until
+      // the outer native-DOM/request/input-source observation is supplied,
+      // never turn this new exception into a green boundary assessment.
+      if (method !== "GET" || type !== "document" || request.formSubmission.documentOrigin !== origin
+        || request.formSubmission.actionOrigin !== origin || request.formSubmission.actionPathname !== path) {
+        violations.push(`Native form receipt contradicts GET same-origin document scope: ${label}`); refs.push(ref);
+      } else gap("EVIDENCE_GAP", label, ["independent native form submission and authoritative input provenance"], ref);
+      continue;
+    }
+    if (keys.some(key => sensitiveField.test(key))) { violations.push(`Sensitive non-form dispatched request: ${label}`); refs.push(ref); continue; }
     const rule = reviewed?.rules.find(rule => rule.origin === origin && (rule.pathname === path || rule.pathnamePattern && new RegExp(rule.pathnamePattern).test(path)) && rule.methods.includes(method) && (rule.resourceTypes.includes(type) || ["fetch", "xhr"].includes(type) && rule.resourceTypes.some(value => ["fetch", "xhr"].includes(value))));
     if (method === "OPTIONS") {
       // Independent projection of the approved actual read, never ADMITTED.
@@ -153,7 +165,7 @@ export function auditReadOnlyTrace(traces: TraceRecord[], fallback: NetworkReque
     if (["document", "fetch", "xhr"].includes(type) && /(?:^|\/)(?:booking|book|reservation)(?:\/|$)/i.test(path) && !/(?:^|\/)(?:calendar|availability|vacancy|status|search|list)(?:\/|$)/i.test(path)) { violations.push(`Sensitive booking operation: ${label}`); refs.push(ref); continue; }
     const strict = reviewed?.rules.some(candidate=>candidate.origin===origin
       && (candidate.pathname===path||candidate.pathnamePattern&&new RegExp(candidate.pathnamePattern).test(path))
-      && (candidate.strictQueryKeys?.length===0||candidate.strictQueryKeys?.some(key=>keys.includes(key))));
+      && candidate.strictQueryKeys?.some(key=>keys.includes(key)));
     const generic = !strict && documentOrigins.has(origin) && ["document", "fetch", "xhr", ...staticTypes].includes(type);
     const frozenPublicGet = rule && (rule.queryKeyRules
       ? queryMatches(keys, rule.queryKeyRules.required, rule.queryKeyRules.allowed, rule.queryKeyRules.repeatable) : keys.length === 0);
