@@ -113,7 +113,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       const fields=detail&&typeof detail==="object"&&!Array.isArray(detail)?detail as Record<string,unknown>:{};
       const timingOnly=Object.fromEntries(["method","operationId","outcome"].filter(k=>typeof fields[k]==="string"||typeof fields[k]==="number").map(k=>[k,fields[k]]));
       const timeline=/^(?:NETWORK_REQUEST_|NETWORK_RESPONSE_HEADERS|NAVIGATION_|GUARD_TRANSPORT_|GUARD_ROUTE_BLOCK|REQUEST_TIMELINE_)/u.test(kind);
-      trace.push({sequence:trace.length+1,at:clock.now().toISOString(),kind,detail:timeline?safeRecord(fields):timingOnly});recording.record(kind,detail);return trace.length;
+      trace.push({sequence:trace.length+1,at:clock.now().toISOString(),kind,detail:timeline||kind==="NATIVE_GET_FORM"?safeRecord(fields):timingOnly});recording.record(kind,detail);return trace.length;
     };
     let operationSequence=0;
     const timed=async<T>(method:string,read:()=>Promise<T>):Promise<T>=>{

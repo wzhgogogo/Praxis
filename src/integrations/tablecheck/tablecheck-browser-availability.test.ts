@@ -9,7 +9,7 @@ import { applyRestaurantIntentPatch } from "../../domains/restaurant/intent-stat
 import { restaurantBookingTaskDefinition } from "../../domains/restaurant/task-definition.js";
 import { fixtureCandidates, fixtureIntent } from "../../harness/restaurant-fixtures.js";
 import type { BrowserPageControl, BrowserResponseRule, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
-import { hasTableCheckScopeBoundSlot, TableCheckBrowserAvailability, TableCheckEntryLedger } from "./tablecheck-browser-availability.js";
+import { hasTableCheckScopeBoundSlot, TableCheckBrowserAvailability as ProductionTableCheckBrowserAvailability, TableCheckEntryLedger } from "./tablecheck-browser-availability.js";
 import { parseTableCheckCapturedAvailability, tableCheckAvailabilityResponseRule } from "./tablecheck-availability-response.js";
 import { inspectTableCheckEntity } from "./tablecheck-entity-resolver.js";
 import {
@@ -28,6 +28,43 @@ import { BrowserTaskExecutor, type BrowserExecutionDiagnostic } from "../../infr
 import type { BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { BrowserRuntimeError } from "../../infrastructure/browser/browser-runtime-errors.js";
 
+/** Adapter unit fixture: the source I/O starts on its supplied current result
+ * page. Generic navigation and native form safety are exercised separately by
+ * the ordinary-composition and Chromium fixtures, never replaced in product. */
+class TableCheckBrowserAvailability extends ProductionTableCheckBrowserAvailability {
+  private fixtureExecutor?: BrowserTaskExecutor;
+  constructor(...args: ConstructorParameters<typeof ProductionTableCheckBrowserAvailability>) {
+    const [browser, now] = args;
+    const owned = !(browser instanceof BrowserTaskExecutor);
+    const executor = owned ? new BrowserTaskExecutor(browser, { maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:20,maxModelCallsTotal:120,maxOperationsPerCandidate:80,
+      modelDecision:{async decide(input){
+        if(input.stage==='DISCOVERY'){
+          const field=input.observation.targets.find(t=>t.label==='Fixture public name search');
+          const submitted=new URL(input.observation.url).searchParams.get('search_text');
+          if(input.goal.retrievalExpression&&field&&submitted!==input.goal.retrievalExpression){
+            if(field.value!==input.goal.retrievalExpression)return{type:'FILL_AUTHORITATIVE',targetRef:field.ref,field:'RETRIEVAL',reason:'Fixture model chooses the visible query input'};
+            const submit=input.observation.targets.find(t=>t.label==='Fixture search');
+            if(submit)return{type:'CLICK',targetRef:submit.ref,reason:'Fixture model chooses the observed public GET search'};
+          }
+          return{type:'COMPLETE',reason:'Fixture model confirms the supplied current source result; identity is checked by the real adapter.'};
+        }
+        const target=input.observation.targets.find(t=>t.availableActions?.some(a=>/^(?:CLICK_AUTHORITATIVE|FILL_AUTHORITATIVE|CHOOSE_OPTION):(?:DATE|PARTY_SIZE)$/.test(a)));
+        if(target){const [type,field]=target.availableActions!.find(a=>/^(?:CLICK_AUTHORITATIVE|FILL_AUTHORITATIVE|CHOOSE_OPTION):(?:DATE|PARTY_SIZE)$/.test(a))!.split(':');return{type,targetRef:target.ref,field,reason:'Fixture chooses an observed authoritative control'} as import('../../infrastructure/browser/browser-action-decision.js').BrowserReadAction;}
+        return{type:'REQUEST_HUMAN_HELP',reason:'No supported current source action'};
+      }}
+    }) : browser;
+    if(owned){
+      const begin=executor.beginCandidate.bind(executor),acquire=executor.acquire.bind(executor);
+      let prior:string|undefined,closing=Promise.resolve();
+      executor.beginCandidate=id=>{if(prior&&prior!==id)closing=executor.close();prior=id;begin(id);};
+      executor.acquire=async(...args)=>{await closing;return acquire(...args);};
+    }
+    super(executor,now,{...args[2],networkPolicy:{startupDocuments:["https://www.tablecheck.com/en/japan/search"],documentOrigins:["https://www.tablecheck.com"],staticResources:[],dynamicReads:[],genericPublicRead:true,...args[2]?.networkPolicy}});
+    if(owned)this.fixtureExecutor=executor;
+  }
+  override async check(...args:Parameters<ProductionTableCheckBrowserAvailability['check']>){try{return await super.check(...args);}finally{await this.fixtureExecutor?.close();}}
+}
+
 test("TableCheck original then one fragment shares the detail cap and never changes identity fields", async () => {
   for (const scenario of ["EMPTY", "WRONG_OUTLET", "DETAIL_CAP", "ORIGINAL_HIGH", "INVENTED_FRAGMENT"] as const) {
     const subject = { ...fixtureCandidates[0]!, restaurant: { ...fixtureCandidates[0]!.restaurant,
@@ -39,7 +76,7 @@ test("TableCheck original then one fragment shares the detail cap and never chan
     const empty = scenario === "EMPTY" || scenario === "INVENTED_FRAGMENT";
     const originalHigh = scenario === "ORIGINAL_HIGH";
     const session = new FixtureBrowserSession([
-      { url: first, title: "Search", text: empty ? "No venues found" : "Restaurant 1", html: empty ? "" : `<a href="${wrongUrl}">Restaurant 1</a>` },
+      { url: first+"?search_text=Restaurant+1+Tokyo", title: "Search", text: empty ? "No venues found" : "Restaurant 1", html: empty ? "" : `<a href="${wrongUrl}">Restaurant 1</a>` },
       ...(!empty ? [detail(wrongUrl, originalHigh)] : []),
       { url: alternate.toString(), title: "Search", text: "Restaurant 1", html: `<a href="${correctUrl}">Restaurant 1</a>` },
       detail(correctUrl, true),
@@ -53,7 +90,7 @@ test("TableCheck original then one fragment shares the detail cap and never chan
     const expectAlternative = !["DETAIL_CAP", "ORIGINAL_HIGH", "INVENTED_FRAGMENT"].includes(scenario);
     const searches = session.navigations.filter(url => new URL(url).pathname === "/en/japan/search");
     assert.equal(searches.length, expectAlternative ? 2 : 1, scenario);
-    assert.equal(new URL(searches[0]!).searchParams.get("search_text"), subject.restaurant.outletName);
+    assert.equal(searches[0], "https://www.tablecheck.com/en/japan/search");
     if (expectAlternative) assert.equal(new URL(searches[1]!).searchParams.get("search_text"), "Restaurant 1");
     assert.equal(proposals, ["DETAIL_CAP", "ORIGINAL_HIGH"].includes(scenario) ? 0 : 1);
     assert.equal(confidence, expectAlternative || originalHigh ? "HIGH" : "LOW", scenario);
@@ -269,31 +306,45 @@ test("TableCheck binds menu text through public scope labels when all private ma
 
 
 class FixtureBrowserSession implements BrowserSession {
-  readonly metadata = { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: "2026-08-05T09:00:00.000Z" };
+  readonly metadata = { readNetworkBoundary:"INSTALLED" as const, runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM" as const, engine: "CHROMIUM" as const, startedAt: "2026-08-05T09:00:00.000Z" };
   readonly navigations: string[] = [];
   clicks = 0;
   fills = 0;
+  readonly filledValues:string[]=[];
   capturedResponseRules: BrowserResponseRule[] = [];
   closed = false;
   private current = -1;
 
+  queryValue='';
+  allowQueryWidget=true;
+  private queryMarkup(){return this.allowQueryWidget?`<form method="get" action="/en/japan/search"><label>Fixture public name search<input id="fixture-name-search" name="search_text" type="search" value="${this.queryValue}"></label><button id="fixture-search-submit" type="submit">Fixture search</button></form>`:'';}
   constructor(private readonly pages: BrowserSnapshot[]) {}
 
   async navigate(url: string): Promise<void> { this.navigations.push(url); this.current = Math.min(this.current + 1, this.pages.length - 1); }
-  async snapshot(): Promise<BrowserSnapshot> { return this.pages[this.current]!; }
+  async snapshot(): Promise<BrowserSnapshot> { const page=this.pages[this.current]!;return{...page,html:page.html+this.queryMarkup()}; }
   async captureResponses(rules: readonly BrowserResponseRule[]): Promise<void> { this.capturedResponseRules = [...rules]; }
   async observeControls(): Promise<BrowserPageControl[]> {
     const page = this.pages[this.current]!;
+    const queryValue=this.queryValue||new URL(page.url).searchParams.get('search_text')||'';
     const controls: BrowserPageControl[] = [];
     for (const match of page.html.matchAll(/<(a|button|input|select)\b([^>]*)>([^<]*)/gi)) {
       const tag = match[1]!.toLowerCase(); const attrs = match[2] ?? ""; const label = (match[3] ?? attrs.match(/aria-label=["']([^"']+)/i)?.[1] ?? "").trim();
       const value = attrs.match(/(?:data-date|data-value|value)=["']([^"']+)/i)?.[1]; const href = attrs.match(/href=["']([^"']+)/i)?.[1]; const type = attrs.match(/type=["']([^"']+)/i)?.[1];
       controls.push({ id: `fixture:${this.current}:${controls.length}`, stableKey: `${tag}|${attrs}`, kind: tag === "a" ? "LINK" : tag === "select" ? "SELECT" : tag === "input" ? "INPUT" : "BUTTON", role: tag === "a" ? "link" : tag === "button" ? "button" : tag, label, ...(value ? { value } : {}), ...(href ? { href: new URL(href, page.url).toString() } : {}), ...(attrs.match(/formmethod=["']post/i) ? { formMethod: "POST" as const } : attrs.match(/formmethod=["']get/i) ? { formMethod: "GET" as const } : {}), ...(type ? { type } : {}), disabled: /disabled|aria-disabled=["']true/i.test(attrs), visible: true });
     }
+    if(this.allowQueryWidget){
+      const form={owner:'fixture-public-search',visibleLines:['Fixture public name search','Fixture search']};
+      for(const control of controls)if(control.label==='Fixture public name search'||control.label==='Fixture search'){control.formMethod='GET';control.formObservation=form;}
+      controls.push({id:'fixture-search-submit',stableKey:'fixture-search-submit',kind:'BUTTON',role:'button',label:'Fixture search',formMethod:'GET',formObservation:form,visible:true,disabled:false});
+      controls.push({id:'fixture-name-search',stableKey:'fixture-name-search',kind:'INPUT',role:'textbox',structure:{tag:'INPUT',name:'search_text',classes:[],dialogLabel:'',formClass:'',sliderCount:0},type:'search',label:'Fixture public name search',value:queryValue,formMethod:'GET',formObservation:form,visible:true,disabled:false});
+    }
     return controls;
   }
-  async click(): Promise<void> { this.clicks += 1; this.current = Math.min(this.current + 1, this.pages.length - 1); }
-  async fill(): Promise<void> { this.fills += 1; }
+  async click(target=''): Promise<void> {
+    if(target.includes('fixture-search-submit')){const url=new URL('/en/japan/search','https://www.tablecheck.com');url.searchParams.set('search_text',this.queryValue);await this.navigate(url.toString());return;}
+    this.clicks += 1; this.current = Math.min(this.current + 1, this.pages.length - 1); }
+
+  async fill(target='',value=''): Promise<void> { if(target.includes('fixture-name-search')){this.queryValue=value;return;}this.fills += 1;this.filledValues.push(value); }
   async select(_target: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}
   async waitForSettled(): Promise<boolean> { return true; }
@@ -507,24 +558,10 @@ const request = {
   hardCriteria: ["omakase"],
 };
 
-test("TableCheck discovers public guide pages by restaurant name and coordinates, never by slug guessing", () => {
-  const searchCandidate = { ...candidate, restaurant: { ...candidate.restaurant, outletName: "Sushi Inase", coordinates: { lat: 35.6555319, lng: 139.705986 } } };
-  const url = new URL(tableCheckDiscoveryUrl(searchCandidate));
-  assert.equal(url.pathname, "/en/japan/search");
-  assert.equal(url.searchParams.get("search_text"), "Sushi Inase");
-  assert.equal(url.searchParams.get("geo_latitude"), "35.6555319");
-  const snapshot: BrowserSnapshot = {
-    url: url.toString(), title: "Map Search - Japan", text: "50+ venues found",
-    html: [
-      '<a href="/en/sushiinase?search_text=Sushi+Inase">Sushi Inase</a>',
-      '<a href="/en/sushiinase-shinjuku?search_text=Sushi+Inase">Shinjuku Sushi Inase</a>',
-      '<a href="/en/sushiinase/reserve/landing?start_date=2026-08-06">9/6</a>',
-    ].join(""),
-  };
-  assert.deepEqual(parseTableCheckDiscoveryOutletUrls(snapshot, "Sushi Inase"), [
-    "https://www.tablecheck.com/en/sushiinase",
-    "https://www.tablecheck.com/en/sushiinase-shinjuku",
-  ]);
+test("TableCheck discovery starts at the configured public source seed without fabricating name or coordinate query fields", () => {
+  const named={...candidate,restaurant:{...candidate.restaurant,outletName:'Sushi Inase',coordinates:{lat:35.6703,lng:139.7653}}};
+  assert.equal(tableCheckDiscoveryUrl(named),'https://www.tablecheck.com/en/japan/search');
+  assert.equal(new URL(tableCheckDiscoveryUrl(named)).search,'');
 });
 
 test("TableCheck parser reports every observed guide; callers own bounded detail inspection", () => {
@@ -708,7 +745,7 @@ test("TWO ROOMS frozen identity fields pass the production TableCheck extraction
     ].join(""),
   };
   const session = new FixtureBrowserSession([
-    { url: searchUrl, title: "Map Search - Japan", text: "1 venue found", html: '<a href="/en/trnihombashi?search_text=Two+rooms+cafe+grill+bar">TWO ROOMS CAFE|GRILL|BAR NIHOMBASHI</a>' },
+    { url: searchUrl+"?search_text=Two+rooms+cafe+grill+bar", title: "Map Search - Japan", text: "1 venue found", html: '<a href="/en/trnihombashi?search_text=Two+rooms+cafe+grill+bar">TWO ROOMS CAFE|GRILL|BAR NIHOMBASHI</a>' },
     guide,
     { url: "https://www.tablecheck.com/en/trnihombashi/reserve/landing", title: "TWO ROOMS reservation", text: "Select date and party", html: "<main>Select date and party</main>" },
   ]);
@@ -977,7 +1014,7 @@ test("TableCheck rejects a recovered alternate whose high identity cannot be re-
 test("TableCheck retains verified identity when later availability controls time out", async () => {
   let url = "";
   const session: BrowserSession = {
-    metadata: { runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: "2026-08-05T09:00:00.000Z" },
+    metadata: { readNetworkBoundary:"INSTALLED",runtimeProvider: "LOCAL_PLAYWRIGHT_CHROMIUM", engine: "CHROMIUM", startedAt: "2026-08-05T09:00:00.000Z" },
     async navigate(value) { url = value; },
     async snapshot() {
       if (url.includes("/reserve/")) throw new BrowserRuntimeError("BROWSER_TIMEOUT", "fixture availability timeout");
@@ -1036,11 +1073,11 @@ test("TableCheck executor grounds a discovered same-outlet page and real linked 
   }
   assert.equal(result.evidence.every((item) => item.provider === "TABLECHECK"), true);
   assert.equal(session.navigations.length, 3);
-  assert.equal(session.navigations[0]?.includes("/en/japan/search?"), true);
+  assert.equal(session.navigations[0], "https://www.tablecheck.com/en/japan/search");
   assert.equal(session.navigations[1], "https://www.tablecheck.com/en/restaurant1");
   assert.equal(session.navigations[2], "https://www.tablecheck.com/en/shops/restaurant1/reserve?start_date=2026-08-05&num_people=2");
   assert.equal(session.clicks, 0);
-  assert.equal(session.fills, 0);
+  assert.ok(session.filledValues.every(value=>value===request.date||value===String(request.partySize)),"the observation model only fills authoritative request values");
   assert.equal(session.closed, true);
   }
 });
@@ -1154,6 +1191,7 @@ test("TableCheck does not let an unrelated run entry suppress the current candid
   let modelCalls = 0;
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: { async decide(input) {
+        if(input.stage==='DISCOVERY'&&input.observation.targets.some(t=>t.kind==='LINK'&&!/^(?:Show results)$/.test(t.label)))return{type:'COMPLETE',reason:'Fixture confirms current observed source results'};
       modelCalls += 1;
       const target = input.observation.targets.find((item) => item.label === "Show results");
       assert.ok(target);
@@ -1190,6 +1228,7 @@ test("TableCheck continues in one session when the standard method is incomplete
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: {
       async decide(input) {
+        if(input.stage==='DISCOVERY'&&input.observation.targets.some(t=>t.kind==='LINK'&&!/^(?:Show results)$/.test(t.label)))return{type:'COMPLETE',reason:'Fixture confirms current observed source results'};
         modelCalls += 1;
         assert.match(input.skills.generic, /re-observe/);
         assert.match(input.skills.source, /TableCheck/);
@@ -1225,6 +1264,7 @@ test("TableCheck continues in the same session from confirmed conditions to an e
   const executor = new BrowserTaskExecutor({ openSession: async () => session }, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 6, maxModelCallsTotal: 12, maxOperationsPerCandidate: 24,
     modelDecision: {
       async decide(input) {
+        if(input.stage==='DISCOVERY'&&input.observation.targets.some(t=>t.kind==='LINK'&&!/^(?:Show results)$/.test(t.label)))return{type:'COMPLETE',reason:'Fixture confirms current observed source results'};
         const target = input.observation.targets.find((item) => item.label === "Find more availability");
         assert.ok(target);
         return { type: "CLICK", targetRef: target.ref, reason: "Reveal the public slot controls." };
@@ -1391,6 +1431,7 @@ test("TableCheck hands an extractable-search gap to the model in the same sessio
   let decisions = 0;
   const modelDecision: BrowserReadActionDecisionPort = {
     async decide(input) {
+        if(input.stage==='DISCOVERY'&&input.observation.targets.some(t=>t.kind==='LINK'&&!/^(?:Show results)$/.test(t.label)))return{type:'COMPLETE',reason:'Fixture confirms current observed source results'};
       decisions += 1;
       if (decisions === 1) {
         const target = input.observation.targets.find((item) => item.label === "Show results");
@@ -1406,7 +1447,7 @@ test("TableCheck hands an extractable-search gap to the model in the same sessio
   assert.equal(session.clicks, 1);
   assert.equal(diagnostics.filter((item) => item.event === "SESSION_OPENED").length, 1);
   const handoff = diagnostics.find((item) => item.event === "SKILL_STARTED");
-  assert.equal(handoff?.detail, "TableCheck discovery has no extractable public outlet link yet.");
+  assert.equal(handoff?.detail, "Continue until an observed public outlet result is available, or the page explicitly reports no results.");
   assert.equal(handoff?.observation?.targets[0]?.label, "Show results");
   assert.match(diagnostics.find((item) => item.event === "MODEL_ACTION")?.detail ?? "", /CLICK/);
   assert.equal(diagnostics.some((item) => item.event === "POST_ACTION_VERIFIED"), true);
@@ -1559,9 +1600,13 @@ test("group-window: point empty continues to the next observed legal time", asyn
  const session=new FixtureBrowserSession([discoveryPage({href:"/en/restaurant1",text:"Restaurant 1"}),{url:guide,title:"Restaurant 1",text:"Restaurant 1",html:""}]);
  const snapshot=session.snapshot.bind(session);
  session.snapshot=async()=>{const p=await snapshot();return p.url===guide?{...p,html:'<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a>'+widget()}:p;};
- session.observeControls=async()=>[{id:"time",stableKey:"time",kind:"SELECT",role:"combobox",label:"Time",visible:true,disabled:false,options:["18:30","19:00","19:15","19:30","22:30"].map(t=>({value:t,label:t,selected:t===selected,disabled:t==="19:15"}))}];
+ session.observeControls=async()=>[{id:"time",stableKey:"time",kind:"SELECT",role:"combobox",label:"Time",value:selected,visible:true,disabled:false,options:["18:30","19:00","19:15","19:30","22:30"].map(t=>({value:t,label:t,selected:t===selected,disabled:t==="19:15"}))}];
  session.select=async(_id,value)=>{selections.push(value);selected=value;return[value];};
- const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:30000,maxModelCallsPerCandidate:6,maxModelCallsTotal:6,maxOperationsPerCandidate:80});
+ const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:30000,maxModelCallsPerCandidate:6,maxModelCallsTotal:6,maxOperationsPerCandidate:80,modelDecision:{async decide(input){
+   if(input.stage==='DISCOVERY')return{type:'COMPLETE',reason:'Observed current source results'};
+   const option=input.observation.targets.find(t=>t.kind==='OPTION'&&t.label==='19:30'&&t.availableActions?.includes('CHOOSE_OPTION:TIME'));
+   return option?{type:'CHOOSE_OPTION',targetRef:option.ref,field:'TIME',reason:'Fixture model chooses the observed eligible next time'}:{type:'COMPLETE',reason:'Recheck actual selected time'};
+ }}});
  try{
  const result=await new TableCheckBrowserAvailability(executor).check({...request,date,partySize:2,timeWindow:{earliest:"19:00",latest:"20:00"}},new AbortController().signal);
  assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"AVAILABLE");

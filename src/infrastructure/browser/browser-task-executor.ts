@@ -89,8 +89,8 @@ export interface BrowserExecutionBudget {
 }
 
 export type BrowserCompletionAssessment =
-  | { complete: true; reason: string; resultKey: string; resultBusy: boolean }
-  | { complete: false; reason: string; resultKey?: string; resultBusy?: boolean };
+  | { complete: true; reason: string; resultKey: string; resultBusy: boolean; resultUrls?: readonly string[] }
+  | { complete: false; reason: string; resultKey?: string; resultBusy?: boolean; resultUrls?: readonly string[] };
 
 export interface BrowserSkillReadInput {
   taskId: string;
@@ -473,18 +473,44 @@ export class BrowserTaskExecutor {
 
   /** Query wording comes from G4; all UI steps, including reuse of an already
    * loaded page, are chosen by the ordinary observation loop. */
-  async search(input: Pick<BrowserSkillReadInput, "source" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; query: string; completion: BrowserSkillReadInput["completion"] }): Promise<void> {
+  async search(input: Pick<BrowserSkillReadInput, "source" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; query: string; completion: BrowserSkillReadInput["completion"] }): Promise<BrowserGenericReadResult> {
     const scoped = { ...input, stage: "DISCOVERY" as const };
     if (!this.startedSessions.has(input.session)) {
       const seeds = (this.networkPolicy?.startupDocuments ?? []).filter(seed => input.allowedOrigins.includes(new URL(seed).origin));
       if (seeds.length !== 1) throw this.rejected(input.source, "DISCOVERY", "Source start is missing or ambiguous");
       await this.start({ ...scoped, url: seeds[0]! });
     }
+    const queryFields = new Set<string>();
+    let queryConflict = false;
     const result = await this.runSkill({ ...scoped, taskId: "observed-source-query", requireModelConfirmation: true,
       goal: { outlet: { name: input.query }, retrievalExpression: input.query, retrievalSource: "G4_SOURCE_TERM", hardCriteria: [] },
       objective: "Find the named outlet using the current observed source page. Choose each step from its current public controls and links. Returned cards are not identity evidence; code will inspect the same outlet before accepting it.",
-      completion: input.completion });
-    if (result.status !== "COMPLETED") throw this.rejected(input.source, "DISCOVERY", "Source search was not confirmed by observed results");
+      completion: (page, controls) => {
+        for (const control of controls ?? []) if (control.kind === "INPUT" && control.structure?.name
+          && control.formObservation && control.value === input.query) queryFields.add(control.structure.name);
+        const assessment = input.completion(page, controls);
+        queryConflict = false;
+        const resultKeys = new Set((assessment.resultUrls ?? []).map(value => { const url = new URL(value, page.url); return url.origin + url.pathname; }));
+        const resultHrefs = (controls ?? []).flatMap(control => {
+          if (control.kind !== "LINK" || !control.href) return [];
+          try { const url = new URL(control.href, page.url); return resultKeys.has(url.origin + url.pathname) ? [control.href] : []; }
+          catch { return []; }
+        });
+        for (const value of [page.url, ...assessment.resultUrls ?? [], ...resultHrefs]) {
+          try {
+            const observed = new URL(value, page.url);
+            if (observed.origin !== new URL(page.url).origin) continue;
+            for (const field of queryFields) if (observed.searchParams.getAll(field).some(value => value !== input.query)) queryConflict = true;
+          } catch { queryConflict = true; }
+        }
+        return queryConflict ? { ...assessment, complete: false, reason: "Observed result query contradicts the authoritative input in the observed source form" } : assessment;
+      } });
+    // A stopped observation is not an identity or inventory verdict. Return
+    // its current page to the adapter so explicit empty/error/challenge facts
+    // retain their own diagnostic and fallback contract. Actual budget errors
+    // still stop the shared run; no navigation or extra model call is added.
+    if (result.status === "BUDGET_EXCEEDED") throw new BrowserRuntimeError("BROWSER_BUDGET_EXHAUSTED", "Source search exhausted its existing browser budget");
+    return queryConflict ? { ...result, status: "NO_SAFE_ACTION", reasonCode: "OBSERVED_QUERY_CONFLICT" } : result;
   }
 
   /** Code-owned source retry delay shares the current operation and wall-time budgets. */

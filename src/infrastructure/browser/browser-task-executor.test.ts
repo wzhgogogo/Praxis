@@ -1217,3 +1217,27 @@ test("source-bound exact documents can open without a homepage or model search, 
     assert.equal(navigated.length,2);
   }finally{await executor.close();}
 });
+
+
+test("named search checks only parsed result links against observed form field names, independent of source spelling", async()=>{
+ for(const field of ['public_query','renamed_parameter'])for(const conflicting of [false,true]){
+  const origin='https://public.example',query='Source Restaurant';
+  const document=new URL('/search',origin);document.searchParams.set(field,query);
+  const result=new URL('/outlet',origin),href=new URL(result);href.searchParams.set(field,conflicting?'Prior request':query);
+  const unrelated=new URL('/other-navigation',origin);unrelated.searchParams.set(field,'Unrelated suggestion');
+  const session=new FixtureSession([{url:document.toString(),title:'Public search',text:'Source Restaurant',html:''}],false,true);
+  session.observeControls=async()=>[
+   {id:'query',stableKey:'query',kind:'INPUT',role:'textbox',label:'Arbitrary source input',type:'search',value:query,visible:true,disabled:false,formMethod:'GET',formObservation:{owner:'public-form',visibleLines:['Public search']},structure:{tag:'INPUT',name:field,classes:[],dialogLabel:'',formClass:'',sliderCount:0}},
+   {id:'result',stableKey:'result',kind:'LINK',role:'link',label:query,href:href.toString(),visible:true,disabled:false},
+   {id:'unrelated',stableKey:'unrelated',kind:'LINK',role:'link',label:'Other query',href:unrelated.toString(),visible:true,disabled:false},
+  ];
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:10000,maxModelCallsPerCandidate:4,maxModelCallsTotal:4,maxOperationsPerCandidate:30,modelDecision:{async decide(){return{type:'COMPLETE',reason:'Fixture asks code to verify current results'};}}});
+  const signal=new AbortController().signal;
+  try{
+   await executor.acquire(signal,'fixture','DISCOVERY',{documentOrigins:[origin],startupDocuments:[document.toString()],staticResources:[],dynamicReads:[]});
+   const read=await executor.search({source:'fixture',signal,allowedOrigins:[origin],session,url:document.toString(),query,completion:()=>({complete:true,resultKey:'source-result',resultBusy:false,resultUrls:[result.toString()],reason:'Result parsed from the source list'})});
+   assert.equal(read.status,conflicting?'NO_SAFE_ACTION':'COMPLETED');
+   assert.equal(read.reasonCode,conflicting?'OBSERVED_QUERY_CONFLICT':undefined);
+  }finally{await executor.close();}
+ }
+});

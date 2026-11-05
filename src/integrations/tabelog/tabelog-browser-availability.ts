@@ -39,7 +39,7 @@ import { inspectTabelogVacancyResponse } from "./tabelog-vacancy-response.js";
 export function tabelogNameSearchCompletion(page: BrowserSnapshot): BrowserCompletionAssessment {
   const outlets = parseTabelogSearchOutlets(page);
   return { complete: outlets.length > 0, resultBusy: tabelogSearchResultBusy(page),
-    resultKey: JSON.stringify([page.url, outlets]),
+    resultKey: JSON.stringify([page.url, outlets]), resultUrls: outlets.map(outlet => outlet.sourceUrl),
     reason: "Continue until an observed public restaurant result is available; do not use navigation, login, or booking links." };
 }
 
@@ -431,9 +431,10 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
           search = directPage;
           outlets = [listedOutlet];
         } else {
-          await this.executor.search({
+          const searched = await this.executor.search({
             source: "TABELOG", signal, allowedOrigins: ["https://tabelog.com"], session, url: requestedSearchUrl, query: searchName, completion: tabelogNameSearchCompletion,
           });
+          if (searched.reasonCode === "OBSERVED_QUERY_CONFLICT") throw new Error("Observed source results conflict with the authoritative query");
           search = await this.retryBusyPage(candidate.restaurant.id, session, signal, await this.executor.snapshot({ source: "TABELOG", stage: "DISCOVERY", signal, session }), "DISCOVERY");
           search = await this.resumeAfterUserIntervention(candidate, request, session, search, "SEARCH", signal);
           if (hasBotChallenge(search)) {
@@ -456,23 +457,7 @@ export class TabelogBrowserAvailability implements RestaurantAvailabilityProvide
             return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] }, pageState: "BOT_CHALLENGE", excerpt: pageExcerpt(search) }, browser);
           }
           outlets = prioritizeTabelogOutlets(candidate, mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search)));
-          if (!outlets.length && !tabelogDiscoveryPack.browser!.isExplicitEmptyListing(search)) {
-            const generic = await this.executor.runSkill({
-              taskId: `browser-read:${candidate.restaurant.id}`,
-              source: "TABELOG",
-              ...(tabelogDiscoveryPack.skillPath ? { sourceSkillPath: tabelogDiscoveryPack.skillPath } : {}),
-              stage: "DISCOVERY",
-              session,
-              signal,
-              allowedOrigins: ["https://tabelog.com"],
-              goal: { outlet: { name: searchName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
-              objective: "Reveal public Tabelog restaurant search results without booking or logging in.",
-              methodReason: "Tabelog discovery has no extractable restaurant result yet.",
-              completion: tabelogNameSearchCompletion,
-            });
-            search = generic.snapshot;
-            outlets = prioritizeTabelogOutlets(candidate, mergeOutlets(listedOutlet, parseTabelogSearchOutlets(search)));
-          }
+
         }
         if (phase !== "JAPANESE") pending.push(...outlets);
         await inspectOutlets(outlets, reserveJapanese && phase !== "JAPANESE" ? Math.max(0, this.maxCandidateMatches - 1) : this.maxCandidateMatches);

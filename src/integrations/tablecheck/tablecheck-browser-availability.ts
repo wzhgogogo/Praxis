@@ -38,7 +38,7 @@ export function tableCheckNameSearchCompletion(page: BrowserSnapshot, outletName
   const urls = parseTableCheckDiscoveryOutletUrls(page, outletName);
   const empty = hasTableCheckDiscoveryNoResult(page);
   return { complete: urls.length > 0 || empty, resultBusy: tableCheckSearchResultBusy(page),
-    resultKey: JSON.stringify([page.url, urls.sort(), empty]),
+    resultKey: JSON.stringify([page.url, urls.sort(), empty]), resultUrls: urls,
     reason: "Continue until an observed public outlet result is available, or the page explicitly reports no results." };
 }
 
@@ -483,9 +483,10 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           discovery = directPage;
           discoveryBase = { requestedUrl: diagnosticUrl(listedOutletUrl), finalUrl: diagnosticUrl(directPage.url), title: directPage.title };
         } else {
-          await this.executor.search({
+          const searched = await this.executor.search({
             source: "TABLECHECK", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl, query: searchName, completion: page => tableCheckNameSearchCompletion(page, searchName),
           });
+          handoff = searched.status === "COMPLETED" ? undefined : { reason: "TABLECHECK_DISCOVERY_HAS_NO_EXTRACTABLE_OUTLET_LINK", outcome: searched.status };
           // Snapshot first: a parsed result or explicit empty state is ready now.
           // Otherwise the shared skill receives the parser state and decides
           // whether a public control or a bounded wait is appropriate; no URL
@@ -515,7 +516,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
               excerpt: tableCheckPageExcerpt(discovery),
             }, browser);
           }
-          if (!matchesDiscoveryQuery(discovery, discoveryUrl)) {
+          if (searched.reasonCode === "OBSERVED_QUERY_CONFLICT" || !matchesDiscoveryQuery(discovery, discoveryUrl)) {
             this.recordIdentityDiagnostic({ candidateId: candidate.restaurant.id, candidate: structuredClone(candidate.restaurant),
               discovery: { ...discoveryBase, status: "PARSE_FAILED", discoveredOutletUrls: [], incompleteStage: "INITIAL_QUERY_MISMATCH", queryMatchesAtExit: false }, attemptedPages,
               resolution: { confidence: "LOW", matchedBy: [], reason: "TABLECHECK_DISCOVERY_INCOMPLETE" } });
@@ -530,37 +531,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           ...currentOutletUrls,
           ...this.options.entryLedger?.entries() ?? [],
         ])];
-        // Cached entrances must never make an empty current search look complete.
-        if (!directIdentityVerified && currentOutletUrls.length === 0 && !hasTableCheckDiscoveryNoResult(discovery)) {
-          const generic = await this.executor.runSkill({
-            taskId: `browser-read:${candidate.restaurant.id}`,
-            source: "TABLECHECK",
-            ...(tableCheckDiscoveryPack.skillPath ? { sourceSkillPath: tableCheckDiscoveryPack.skillPath } : {}),
-            stage: "DISCOVERY",
-            session,
-            signal,
-            allowedOrigins: ["https://www.tablecheck.com"],
-            goal: { outlet: { name: searchName, address: candidate.restaurant.address }, date: request.date, partySize: request.partySize, timeWindow: request.timeWindow, hardCriteria: request.hardCriteria },
-            objective: "Reveal public TableCheck restaurant search results without submitting a reservation.",
-            methodReason: "TableCheck discovery has no extractable public outlet link yet.",
-            completion: page => tableCheckNameSearchCompletion(page, searchName),
-          });
-          handoff = { reason: "TABLECHECK_DISCOVERY_HAS_NO_EXTRACTABLE_OUTLET_LINK", outcome: generic.status };
-          discovery = generic.snapshot;
-          currentOutletUrls = matchesDiscoveryQuery(discovery, discoveryUrl)
-            ? parseTableCheckDiscoveryOutletUrls(discovery, searchName).slice(0, 5) : [];
-          for (const url of currentOutletUrls) this.options.entryLedger?.observe(url);
-          outletUrls = [...new Set([
-            ...(listedOutletUrl ? [listedOutletUrl] : []),
-            ...currentOutletUrls,
-            ...this.options.entryLedger?.entries() ?? [],
-          ])];
-          discoveryBase = {
-            requestedUrl: diagnosticUrl(discoveryUrl),
-            finalUrl: diagnosticUrl(discovery.url),
-            title: discovery.title,
-          };
-        }
+
         if (!outletUrls.length) {
           if (await nextSearch()) continue;
           const noResult = matchesDiscoveryQuery(discovery, discoveryUrl) && hasTableCheckDiscoveryNoResult(discovery);

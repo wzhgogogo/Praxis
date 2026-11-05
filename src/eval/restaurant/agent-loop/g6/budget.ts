@@ -22,7 +22,7 @@ async function appendCharge(path:string,id:string,kind:G6Charge,note:string,deve
     const consumed=ledger.entries.filter(e=>developmentId.test(e.id)).reduce((n,e)=>n+(e.realModelCalls??0),0);
     if(!Number.isSafeInteger(consumed)||consumed>=400)throw Error("G6 development model ceiling 400 exhausted before request");
   }
-  const row={id,conversation:"A",recordedAtUTC:new Date().toISOString(),mode:"G6_CONTROLLED_ATTEMPT",fullLive:0,realModelCalls:0,evaluationPublicGET:0,environmentReruns:0,...(kind==="evaluationPublicGET"?{restaurantWebsiteRequests:1}:{}),[kind]:1,note};
+  const row={id,conversation:typeof ledger.conversation==="string"?ledger.conversation:"A",recordedAtUTC:new Date().toISOString(),mode:"G6_CONTROLLED_ATTEMPT",fullLive:0,realModelCalls:0,evaluationPublicGET:0,environmentReruns:0,...(kind==="evaluationPublicGET"?{restaurantWebsiteRequests:1}:{}),[kind]:1,note};
   ledger.entries.push(row);ledger.cumulative[kind]=used+1;
   if(kind==="evaluationPublicGET"){
     const counts=ledger.cumulative as Record<string,number>;if(Number.isSafeInteger(counts.restaurantWebsiteRequests))counts.restaurantWebsiteRequests!+=1;
@@ -37,7 +37,7 @@ export async function recordG6SourceCounts(path:string,id:string,googleRequests:
   try{
     if(![googleRequests,restaurantWebsiteRequests].every(v=>Number.isSafeInteger(v)&&v>=0))throw Error("Invalid observed I/O count");
     const ledger=JSON.parse(await readFile(path,"utf8"));if(ledger.entries.some((e:{id:string})=>e.id===id))throw Error("Duplicate source-observation budget row");
-    ledger.entries.push({id,conversation:"A",recordedAtUTC:new Date().toISOString(),mode:"G6_SOURCE_IO_OBSERVATION",fullLive:0,realModelCalls:0,evaluationPublicGET:0,environmentReruns:0,googleRequests,restaurantWebsiteRequests,note:"Actual source transport starts; no quotas charged twice; witness GETs have their own rows."});
+    ledger.entries.push({id,conversation:typeof ledger.conversation==="string"?ledger.conversation:"A",recordedAtUTC:new Date().toISOString(),mode:"G6_SOURCE_IO_OBSERVATION",fullLive:0,realModelCalls:0,evaluationPublicGET:0,environmentReruns:0,googleRequests,restaurantWebsiteRequests,note:"Actual source transport starts; no quotas charged twice; witness GETs have their own rows."});
     for(const [key,count] of Object.entries({googleRequests,restaurantWebsiteRequests})){if(!Number.isSafeInteger(ledger.cumulative[key]))throw Error("Invalid existing I/O ledger counter");ledger.cumulative[key]+=count;}
     const temp=join(dirname(path),".g6-budget-"+randomUUID()+".tmp");await writeFile(temp,JSON.stringify(ledger,null,2)+"\n",{flag:"wx",mode:0o600});await rename(temp,path);
   }finally{release();if(writers.get(path)===current)writers.delete(path);}
