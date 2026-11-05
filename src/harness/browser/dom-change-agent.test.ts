@@ -34,7 +34,9 @@ test("G2 constructed normal control uses observed labels after every private mar
     const signal = AbortSignal.timeout(30_000);
     try {
       const session = await executor.acquire(signal, "TABLECHECK", "DISCOVERY");
-      await executor.navigate({ session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: [new URL(url).origin], url });
+      // The constructed source environment supplies this exact entrance URI;
+      // navigation is no longer authorized merely by a matching URL shape.
+      await executor.navigate({ session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: [new URL(url).origin], url, observed: true });
       const result = await executor.runSkill({ taskId: "g2:" + variant, session, signal, source: "TABLECHECK", stage: "DISCOVERY", allowedOrigins: [new URL(url).origin],
         goal: { outlet: { name: "Public fixture" }, hardCriteria: [] }, objective: "Read the public result",
         completion: snapshot => ({ complete: snapshot.url === resultUrl && snapshot.text.includes("Source-backed fixture restaurant"), resultBusy: false, resultKey: snapshot.text, reason: "Use the actual visible public result" }) });
