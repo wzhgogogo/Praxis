@@ -211,13 +211,6 @@ test('LOCATION wire cannot carry a replacement value or use a non-fill action', 
 });
 
 
-test('SELECT_REGION_ENTRANCE wire carries a supplied collection ref and cannot carry href or authoritative values',async()=>{
- const regionCorrection={replacementsUsed:0 as const,remainingBudget:{sourceMs:60000,details:8,regionPages:1,retrievalPages:3},sourceId:'tabelog',flowId:'flow:one',entrances:[{ref:'region:flow:one:0',sourceId:'tabelog',flowId:'flow:one',href:'https://directory.example/area',label:'Observed area',observedOn:'https://directory.example/',originalTargetRef:'observation:1:target:7',observationRevision:1}],samples:[{sourceUrl:'https://directory.example/detail',distanceMeters:3400,bearingDegrees:225,direction:'SW',outcome:'OUTSIDE_RADIUS'}]};
- const wire={action:'SELECT_REGION_ENTRANCE',targetRef:'region:flow:one:0',authoritativeField:'NONE',requestedState:'NONE',reason:'Choose supplied ref'};
- let recorded:any;const good=new ModelBrowserReadActionDecision({complete:async request=>{recorded=request;return gateway(wire).complete(request);}});
- assert.deepEqual(await good.decide({...input,regionCorrection}),{type:'SELECT_REGION_ENTRANCE',targetRef:wire.targetRef,reason:wire.reason});
- const body=JSON.parse(recorded.messages.find((message:any)=>message.role==='user').content);assert.equal(body.regionCorrection.samples[0].distanceMeters,3400);assert.equal(body.contextSchemaVersion,'4');assert.equal(recorded.outputSchema.version,'12');assert.equal(recorded.promptVersion,'20');
- for(const bad of [{...wire,href:'https://directory.example/invented'},{...wire,authoritativeField:'LOCATION'},{...wire,distanceMeters:'0'},{...wire,radiusMeters:'99999'}]){
-  await assert.rejects(new ModelBrowserReadActionDecision(gateway(bad)).decide({...input,regionCorrection}),{code:'INVALID_MODEL_OUTPUT'});
- }
+test("retired SELECT_REGION_ENTRANCE is unavailable in the current strict browser wire", async () => {
+  await assert.rejects(new ModelBrowserReadActionDecision(gateway({ action: "SELECT_REGION_ENTRANCE", targetRef: "old-flow:1", authoritativeField: "NONE", requestedState: "NONE", reason: "Old collection" })).decide(input), { code: "INVALID_MODEL_OUTPUT" });
 });

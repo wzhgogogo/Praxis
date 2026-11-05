@@ -52,3 +52,80 @@ D4/D3/D5/D8新合同真实回放、全套门禁、G2/G6均未运行；未合main
 popup追加取证证明：旧等待可能只观察到本地bootstrap，随后普通GET实际到达了**本机虚构数据接收器**（见popup-local-first-deviation.json），不是外网/Live调用，不计Live S0。根因是新窗口表单只有Page.windowOpen、没有父页frameRequestedNavigation；bootstrap重开丢失原生表单关联。现在按实际原生form action/target、文档与输入来源关联到同一opener的首次新窗口；未知来源在bootstrap前拒绝，有证据的同源GET表单可通过，许可单次消费、不能给父页/另一页面/后续非表单GET借用。不改普通popup许可与重定向边界，不改传输默认值或时限。追加真实终态与接收器、合法popup、许可不可复用控制后4/4；既有两传输网络边界64/64保持。旧2/4原日志保留，不能把先前bootstrap等待当成功证据。
 
 这些仍是组件/本机Chromium证据。D3/D5必须在真实组装回放记录实际模型选店；尚未完成，不能声明无退化。继续观察循环与独立表单审计接线，当前不合main、不运行全套门禁或Live。
+
+
+## 2026-11-05 14:15 CET：观察循环重构检查点（draft / not integrated，停止交复核）
+
+**当前不是可合入候选。** 用户对 GO_BACK 的最新答复是“先保留缺口，交复核后再定”。本分支未添加 GO_BACK，未恢复缓存 URL 直达，不合 main，不运行 Live。此处不以局部绿灯代替真实链路验收。真实网站、Google、模型、Live 新增均为 0；没有读取或加载 `.env`，没有读取私有 Holdout。
+
+### 已完成的最新复核决定
+
+- `21e21566` 已推送：删除 `availabilityCheckSelectionScope` 函数及 read-assessment / run-decision-replay 的两个调用。TaskDefinition@24；State@25 不变。
+- 保留 availabilityPath / candidatePath / RESTAURANT_AGENT_AVAILABILITY_PATH_INSTRUCTION。Agent Prompt@29 与 Agent Context@17 源文件 SHA 分别仍是 `1653cdb1fce186ee356463f12306176d657be6e6fc0f23028871309852ce66b8`、`9e8115378216e349ea2e2b06c7fd3175de47876980a58f99a95ee2716d84a491`。
+- additional-version-review.md 已按部分批准/部分否决更新并随 21e21566 推送。ADR-0051 精确指向 33a3b161 的 0042-agent-planned-discovery-and-search-availability-hints / “2026-10-19 P2-2 首次查位入口分配”，不把另一份 ADR-0042 或 3d323739 误认为门控出处。
+
+### 本次草稿改动
+
+- Browser Prompt@21、Action Schema@13、Context@4；删除 SELECT_REGION_ENTRANCE 及其专用上下文、地点建议字面规则和固定填/点序列。
+- 删除 source-pack directory URL 分类、地区 URL 构造、listing filter URL 构造与专用执行分支。原生发现改为当前观察 → 模型选择动作 → 来源身份/地址/坐标核对。模型不会获得任意 URL 或填入字符串的执行权。
+- 仅启动导航由来源包配置提供；后续 sourceUrl 是观察循环的目标，不能直接成为传输动作。Tabelog 的人数/日期选择器加速序列已移除；TableCheck 下一时刻查询改为模型选择，原四次上限及原时段核对保留。
+- 只有来源页面的已绑定名称/类别原文可支持多余店名词；固定菜系/分店词表已在 e584c010 退役。未增加翻译、别名词表或相似度接纳。
+- 录制@6 保留通用同源公开 GET 表单 action，并保留提交值来源的散列回执。没有重新引入 Tabelog 十字段规则。POST/跨源/禁止路径/非表单敏感字段仍拒绝。
+- 真实 Chromium 回放暴露被动 DOM 安定采样恰遇导航提交的竞态。现在仅在原安定等待窗口内等待已开始的导航后重新采样，不重发点击或网络请求、不增加时限。原失败和后续实际到达 Ageage 的证据均保留。
+
+### 真实回放：D4
+
+普通 `createG6Session` → `createLiveReadAssembly` → 持久应用；只替换模型传输和来源 I/O。实际来源为 stop3 的 D4 首页/检索/详情与 W1 保存 HAR，没有合成成功页，没有注入候选或合格证据。固定模型传输里的具体选择属于评测输入，不是产品动作代码，也不证明实时模型会作同样选择。
+
+实际动作：启动首页 → 模型填 Akabane → 模型 CLICK 实际 fragment 车站联想 → 回读标签 → 模型填 kushikatsu → 模型 CLICK 同表单 Search → 实际检索列表 → 模型 OPEN_LINK 到 Ageage。
+
+Ageage `13273370` 经生产解析取得地址 `1150045 東京都北区赤羽1-22-4 岡村ビル 1F` 和来源 JSON-LD 坐标 `(35.779992038638724,139.7206854854141)`，进入原生候选。**不是展示/空位/B1 通过**。Dengana 在真实结果列表中已观察到，但尚未在新循环中完成详情核对。
+
+缺口分开报告：
+
+1. 原采集没有保存选站后输入 cuisine 引发的 `keyword_suggest` 三字段响应（keyword/no_display_area_suggest_flg/station_id）。严格全依赖回放在此停止；部分回放仅 abort 该辅助请求，明确记录 fidelity gap，不补响应、不联网，才继续使用原样保存的列表及详情。不能称完整忠实回放通过。
+2. Ageage 详情当前观察中没有返回原结果列表的链接；没有通用 GO_BACK。用户要求保留该缺口交复核。测试模型后来选到同店其他语言链接导致缺页，属于固定测试模型的不足，不可伪装成有位、无位或产品 S0。
+3. 实际产物最终是 NEEDS_INPUT；没有完成 D4 交付或 G1 追问。不得声称达到 ebfc619c 的两家候选进度或最终验收。
+
+`D4-fixture-fragment-action-error.json` 保留第一次测试模型把 fragment 当 OPEN_LINK 的错误，已改为使用当时真实观察所提供的 CLICK。`D4-strict-missing-auxiliary-response.json` 保留严格依赖缺失停止。`D4-current-observation-replay.json` 是最新部分回放；缺失的必需文档依旧关闭上下文。
+
+### D3 / D5：模型实际选择与证据界限
+
+逐字使用 `1d88ba11` 中的原始语义和 Agent 响应，只允许 Browser ref 在当前 DOM 上唯一同义重绑定。原件引用见 d3-d5-input-refs.json；重复物化的 replay-inputs 不提交。
+
+| 回放 | 原始模型的实际请求 | 生产接纳结果 |
+|---|---|---|
+| D3 | #3 CHECK_AVAILABILITY、#6 PRESENT_RESULTS 都指向 `praxis:restaurant:07b0ba0daee00150d6d202e1`（Google Dengana Akabane，Tabelog 13108466） | 新规则需要的启动首页不在该次原录制中；缺页后库存未接纳，PRESENT 没有交付，后续原始输出不足，FAILED；下一轮未重放 |
+| D5 | #2 先 ASK_USER 补日期；#5 CHECK_AVAILABILITY、#8 PRESENT_RESULTS 仍为同一 Dengana | 同样缺少启动页，补日期后 FAILED，未交付 |
+
+移除门控的原始上下文相关回归 49/49 已通过；**新观察路径的 D3/D5 无退化验收未通过/未完成**，不能用原始模型仍指向 Dengana 替代整链通过。之前直接进入详情时的日期控件 hydration 缺口也保留在 D3-choice-replay-bound.json，未用旧快照伪装活页面。
+
+D8：未在本检查点运行新的完整来源回放，未增加别名、翻译或 HIGH 身份放宽；不宣布唯一身份/库存/B1/条款已通过。
+
+### 保留的配置与尚未完成的退役
+
+已保留的平台初始导航只有：Tabelog `https://tabelog.com/en/`、TableCheck `https://www.tablecheck.com/en/japan/search`；配置在各自 public-query policy，source-pack 引用，TableCheck 旧函数只返回同一个配置值、不再拼检索参数。
+
+另保留：来源 origin、来源 skill 路径、已有动态读取/静态资源/禁止路径配置（安全范围）、source ID 与响应结构解析和身份绑定、candidatePath 效率事实、ADR-0049 的交接链接校验/序列化。这些不产生未经观察的点击或导航许可。
+
+**尚不能标为完成的部分：**
+
+- 通用 GO_BACK 未批准、未实现；不以伪造“返回列表”链接修改真实来源材料。
+- recorder 中历史 Tabelog suggestion 专用安全保留器尚未泛化；它不是本轮新增的执行分支，但按“所有同类逻辑”仍须复核其退役方案，不能默认为已批准例外。
+- Evaluator@37 / Rubric@32 已升版，但表单生产回执仍只作为待审证据。缺少独立外层 DOM/原生提交/输入来源观测时明确 EVIDENCE_GAP，绝不因 Guard 给出 ADMITTED 而判绿；独立采集接线尚未完成。
+- 仍有依赖旧专用地区/检索路径的 fixture 模型和普通组装回归需要迁移。当前本地回归失败是真实未完成项，不解释为无关红灯，也不删掉这些用户行为断言来过关。
+
+### 测试退役范围与检查结果
+
+删除的四个文件只针对退役的地区收集动作、网址型入口、地点字面规则/固定序列：directory-region-selection.test.ts、location-suggestion-executor.test.ts、browser-read-regions.test.ts、location-suggestions.ts。browser-read-discovery.test.ts 退役固定 listing filter URL 的 P21b 工作流测试；其余保留。source-packs.test.ts 删除被退役的 URL 构造/改写专用断言，保留来源解析/绑定/身份/费用/B1 合同。此退役不代表相关整链验收已替代完成。
+
+| 检查 | 结果 | 原件 |
+|---|---|---|
+| typecheck | PASS | observe-checkpoint-typecheck.log |
+| architecture | PASS，0 forbidden dependencies | observe-checkpoint-arch.log |
+| 相关合同测试 | 113/113：执行器61、来源/完成/Browser wire/历史绑定36、录制16 | observe-checkpoint-related.log |
+| 通用 GET action 红→绿 | 旧 action 被剥离的目标断言失败 → 16/16 | record-form-action-{red,green}.log |
+| 既有原生发现组装回归 | **FAIL：前4个 H001 交付/事实链路断言失败，整个文件后续未完成，不能报告全组结果** | observe-native-regression-failed.log |
+| 全五门禁、严格 G2、G6 | 未运行本轮最终全套；真实回放与本地组装未过，不到合入门槛 | 不沿用历史绿灯 |
+
+下一步需先由复核者审阅真实动作缺口和当前草稿，不扩大来源访问、版本、身份或安全范围。文档 STATUS/DEVLOG/TEST-LOG 按 11-05 工作规则留到实际合入 main 时统一更新。

@@ -1,0 +1,92 @@
+✖ H001 native first batch presents three source-bound Tabelog results without TableCheck (35.707292ms)
+✖ H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result (7.641458ms)
+✖ H001 TableCheck reserve-menu facts cannot bypass the permanent form prohibition (6.290917ms)
+✖ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (5.617ms)
+✖ src/eval/restaurant/agent-loop/native-discovery-composition.test.ts (138614.381333ms)
+✔ native source-plan resolution is reused by the subsequent Google pack request (12.737833ms)
+✔ coordinate-only address observations reach the discovery goal once and failures keep the exact center (1.395542ms)
+✔ saved h06 bare named location reaches native source discovery with the observed circle (0.86975ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 3
+ℹ fail 4
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 138617.767416
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:20822
+✖ H001 native first batch presents three source-bound Tabelog results without TableCheck (35.707292ms)
+  AssertionError [ERR_ASSERTION]: {"phase":"NO_VERIFIED_RESULT","candidates":[],"checks":{},"factChecks":{},"continuation":{"intentFingerprint":"{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"omakase spot\",\"selectionScope\":\"OPEN_ENDED\"},\"date\":\"2026-08-19\",\"timeWindow\":{\"earliest\":\"19:00\",\"latest\":\"19:00\"},\"partySize\":2,\"area\":{\"query\":\"near Shibuya\"},\"criteria\":[{\"text\":\"omakase\",\"strength\":\"HARD\",\"polarity\":\"POSITIVE\"}]}","usedPageTokens":[],"pagesRead":1,"exhausted":true,"locationContext":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]},"sourceRequestContext":{"textQuery":"omakase Shibuya"},"discoveryPlan":{"entries":[{"sourceId":"tabelog","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]},"keyword":"omakase"}},{"sourceId":"tablecheck","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]},"keyword":"omakase"}},{"sourceId":"google-places","query":{"category":"restaurant","positiveCriteria":[{"criterionRef":"criterion:0","text":"omakase","strength":"HARD"}],"location":{"latitude":35.6619707,"longitude":139.703795,"radiusMeters":1000,"label":"Shibuya","areaMatchBasis":"NAMED_PLACE_RADIUS","addressComponents":[{"longText":"Shibuya","types":["locality","political"]}]},"keyword":"omakase"}}],"cursor":3,"textRetrieval":{"accepted":true,"reason":"Scripted retrieval for independent controlled source.","keyword":"omakase","criterionRef":"criterion:0"}},"currentDiscoveryBatch":{"sourceId":"google-places","candidateIds":[]},"deferredSources":[{"progress":{"sourceId":"tabelog","inspectedSourceIds":[],"detailAttempts":0,"pagesRead":0,"elapsedMs":2,"retrieval":{"selection":{"accepted":true,"reason":"Scripted retrieval for independent controlled source.","keyword":"omakase","criterionRef":"criterion:0"},"rewrites":0,"regionPages":0,"retrievalPages":0,"history":[]},"visitedListingUrls":[],"pendingSourceEntries":[],"pendingSourceIds":[]},"usedPageTokens":[],"pagesRead":0},{"progress":{"sourceId":"tablecheck","inspectedSourceIds":[],"detailAttempts":0,"pagesRead":0,"elapsedMs":0,"retrieval":{"selection":{"accepted":true,"reason":"Scripted retrieval for independent controlled source.","keyword":"omakase","criterionRef":"criterion:0"},"rewrites":0,"regionPages":0,"retrievalPages":0,"history":[]},"visitedListingUrls":[],"pendingSourceEntries":[],"pendingSourceIds":[]},"usedPageTokens":[],"pagesRead":0}]},"navigations":[],"purposes":["restaurant_semantic_interpret","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_agent_decide","restaurant_agent_decide"]}
+  
+  undefined !== 3
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:337:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 3,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:22752
+✖ H001 native cited-menu follow-up carries source-bound HARD evidence to a current Tabelog result (7.641458ms)
+  AssertionError [ERR_ASSERTION]: {"phase":"NO_VERIFIED_RESULT","facts":{},"availability":{},"purposes":["restaurant_semantic_interpret","restaurant_agent_decide","restaurant_discovery_retrieval","restaurant_agent_decide","restaurant_agent_decide"],"navigations":[]}
+  + actual - expected
+  
+  + undefined
+  - [
+  -   'tabelog:tokyo/A1304/A130401/100'
+  - ]
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:355:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: [ 'tabelog:tokyo/A1304/A130401/100' ],
+    operator: 'deepStrictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:23692
+✖ H001 TableCheck reserve-menu facts cannot bypass the permanent form prohibition (6.290917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'UNKNOWN'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:366:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'UNKNOWN',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:24684
+✖ H001 second native batch introduces its own TableCheck results after Tabelog cannot deliver (5.617ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 3
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:378:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 3,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/native-discovery-composition.test.ts:1:1
+✖ src/eval/restaurant/agent-loop/native-discovery-composition.test.ts (138614.381333ms)
+  'Promise resolution is still pending but the event loop has already resolved'

@@ -1,3 +1,4 @@
+import { tableCheckPublicReadNetworkPolicy } from "./tablecheck-public-query.js";
 import { publicPriceText, sourcePriceElements } from "../restaurant-availability/source-price-facts.js";
 import type { BrowserPageControl, BrowserSnapshot } from "../../infrastructure/browser/browser-runtime.js";
 import { readDetailIdentityFields, type WithDetailIdentity } from "../restaurant-identity/detail-identity-fields.js";
@@ -288,20 +289,8 @@ function relatedDiscoveryName(candidateName: string, resultText: string): boolea
 }
 
 /** The documented public venue search is discovery-only; it establishes no outlet identity by itself. */
-export function tableCheckDiscoveryUrl(candidate: RestaurantCandidate): string {
-  const url = new URL("https://www.tablecheck.com/en/japan/search");
-  url.searchParams.set("service_mode", "dining");
-  url.searchParams.set("sort_by", "relevance");
-  url.searchParams.set("venue_type", "tc");
-  url.searchParams.set("search_text", candidate.restaurant.outletName);
-  const coordinates = candidate.restaurant.coordinates;
-  if (coordinates) {
-    url.searchParams.set("geo_latitude", String(coordinates.lat));
-    url.searchParams.set("geo_longitude", String(coordinates.lng));
-    url.searchParams.set("geo_distance", "5km");
-    url.searchParams.set("auto_geolocate", "false");
-  }
-  return url.toString();
+export function tableCheckDiscoveryUrl(_candidate: RestaurantCandidate): string {
+  return tableCheckPublicReadNetworkPolicy.startupDocuments![0]!;
 }
 
 /** Extract public guide pages from TableCheck's rendered result cards, never reservation slot links. */

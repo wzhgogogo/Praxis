@@ -10,7 +10,7 @@ import { restaurantDiscoveryPacks } from "../../../../integrations/restaurant-se
 import { GooglePlacesHarCapture } from "./google-places-recording.js";
 
 export interface BrowserReadRecordingEntry { sequence: number; kind: string; detail: unknown; }
-export const BROWSER_READ_RECORDING_SCHEMA_VERSION = "browser-read-recording@5";
+export const BROWSER_READ_RECORDING_SCHEMA_VERSION = "browser-read-recording@6";
 type ReplayFailure = "NO_CAPTURED_PUBLIC_DOCUMENT" | "UNSAFE_DOCUMENT" | "CHALLENGE_DOCUMENT" | "DOCUMENT_SIZE_LIMIT" | "UNSAFE_REDIRECT" | "UNCAPTURED_DYNAMIC_RESPONSE" | "UNCAPTURED_STATIC_DEPENDENCY";
 type Replay = { status: "REPLAYABLE" | "PARTIALLY_REPLAYABLE"; reason: "SANITIZED_NETWORK_AND_DOM_CAPTURE"; harPath: string }
   | { status: "NOT_REPLAYABLE"; reason: ReplayFailure };
@@ -67,7 +67,7 @@ export class BrowserReadRecording {
   traceSink(): BrowserTraceRecordingSink { return { record: (kind, detail) => this.record(kind, detail), recordSnapshot: (snapshot) => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
   /** Lets a runner retain its single canonical trace while supplying captured documents to this recorder. */
   snapshotSink(): BrowserTraceRecordingSink { return { record: () => undefined, recordSnapshot: snapshot => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
-  recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, queryKeys: [...item.queryKeys], ...(item.error ? { error: item.error } : {}), ...(item.resourceTypeDetails ? { resourceTypeDetails: { ...item.resourceTypeDetails } } : {}), ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}), ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}), ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}) }))); }
+  recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, queryKeys: [...item.queryKeys], ...(item.error ? { error: item.error } : {}), ...(item.resourceTypeDetails ? { resourceTypeDetails: { ...item.resourceTypeDetails } } : {}), ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}), ...(item.formSubmission ? { formSubmission: structuredClone(item.formSubmission) } : {}), ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}), ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}) }))); }
   async recordResponse(response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }): Promise<void> {
     if (this.finished) throw new Error("Browser recording is already finalized");
     this.google.observeOwnCredentials([response.url,response.redirectLocation]);
@@ -436,20 +436,19 @@ function sanitizeReplayForm(
   let safeAction: string | undefined;
   if (action) {
     try {
-      // A GET form's action precedes serialization of its required fields.
-      // Preserve only the exact queryless endpoint with an unconditional
-      // reviewed document grammar; this grants no request admission.
+      // Recording preserves the observed native same-origin GET destination.
+      // This is transport fidelity, not request admission: runtime provenance,
+      // forbidden paths and Guard/CDP still decide every serialized request.
       const destination = new URL(action.replace(/&amp;/gi, "&"), sourceUrl);
-      const reviewedFormEndpoint = !destination.search && !destination.hash && !destination.username && !destination.password
-        && (reviewedReads ?? []).some(rule => rule.origin === destination.origin && rule.pathname === destination.pathname
-          && rule.strictQueryKeys?.length === 0 && rule.methods?.includes("GET") && rule.resourceTypes.includes("document"));
+      const publicFormEndpoint = !destination.search && !destination.hash && !destination.username && !destination.password
+        && !/(?:^|\/)(?:booking|yoyaku|reserve|review|confirm|payment|checkout|login|signin|account|cancel)(?:\/|$)/i.test(destination.pathname);
       const resolved = safeReplayUrl(
         destination.toString(),
         staticResources,
         reviewedReads,
       );
       if ((!method || method === "get") && destination.origin === new URL(sourceUrl).origin) {
-        if (reviewedFormEndpoint) safeAction = destination.toString();
+        if (publicFormEndpoint) safeAction = destination.toString();
         else if (resolved && reviewedPublicReadUrl(resolved, reviewedReads)) safeAction = resolved;
       }
     }

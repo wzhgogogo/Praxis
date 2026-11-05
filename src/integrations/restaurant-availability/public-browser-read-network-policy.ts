@@ -4,6 +4,7 @@ import { tabelogPublicReadNetworkPolicy } from "../tabelog/tabelog-public-query.
 
 /** The one guarded browser session may inspect either discovered public source. */
 export const restaurantPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
+  startupDocuments: [...(tableCheckPublicReadNetworkPolicy.startupDocuments ?? []), ...(tabelogPublicReadNetworkPolicy.startupDocuments ?? [])],
   documentOrigins: [...tableCheckPublicReadNetworkPolicy.documentOrigins, ...tabelogPublicReadNetworkPolicy.documentOrigins],
   prohibitedPaths: [...(tableCheckPublicReadNetworkPolicy.prohibitedPaths ?? []), ...(tabelogPublicReadNetworkPolicy.prohibitedPaths ?? [])],
   genericPublicRead: true,

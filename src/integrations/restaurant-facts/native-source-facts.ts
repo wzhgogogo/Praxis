@@ -112,7 +112,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         executor.beginCandidate(candidate.restaurant.id);
         executor.beginProvider(candidate.restaurant.id, provider, "FACTS");
         const session = await executor.acquire(signal, provider, "FACTS", this.networkPolicy);
-        await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: sourceUrl });
+        await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: sourceUrl, observed:true, goal:{outlet:{name:candidate.restaurant.outletName,address:candidate.restaurant.address},retrievalExpression:candidate.restaurant.outletName,retrievalSource:"G4_SOURCE_TERM",hardCriteria:[]} });
         const documents: RestaurantFactSourceDocument[] = [];
         const retained = new Map<string, {page: BrowserSnapshot; identity: RestaurantReadEvidence; readAt: string; frames: Array<{document: RestaurantFactSourceDocument; text: string}>; processed: boolean}>();
         const identities: RestaurantReadEvidence[] = [];

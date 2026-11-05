@@ -16,7 +16,7 @@ import {
   type RestaurantSearchContinuation,
   type RestaurantSearchRead,
 } from "../../../domains/restaurant/contracts.js";
-import { NativeRestaurantSearch, directoryEntryReplacementAllowed } from "../../../integrations/restaurant-search/native-restaurant-search.js";
+import { NativeRestaurantSearch } from "../../../integrations/restaurant-search/native-restaurant-search.js";
 import type { GooglePlacesRestaurantSearch } from "../../../integrations/google/google-places-restaurant-search.js";
 import {
   browserReadActionTargetReplayFingerprint,
@@ -467,7 +467,7 @@ export async function runSourceStageNativeDiscoveryProbe(
     }, input.signal);
     const reads = [read];
     // Continue the existing source's retained detail chunk, never start a different source.
-    if (read.continuation && (read.continuation.sourceProgress?.pendingSourceIds.length || directoryEntryReplacementAllowed(read.continuation?.sourceProgress?.directoryRegion)) && !input.signal.aborted) {
+    if (read.continuation && read.continuation.sourceProgress?.pendingSourceIds.length && !input.signal.aborted) {
       const next = await native.search({intent:input.intent,readRunId:input.readRunId,continuation:read.continuation},input.signal);
       reads.push(next); read = {...next,candidates:[...read.candidates,...next.candidates],evidence:[...read.evidence,...next.evidence]};
     }

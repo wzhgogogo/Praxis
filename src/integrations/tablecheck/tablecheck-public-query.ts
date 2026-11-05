@@ -32,6 +32,7 @@ export function observeTableCheckSearchCount(response: {url:string;method:string
  * values. This admits only that exact read-query shape, never inventory.
  */
 export const tableCheckPublicReadNetworkPolicy: BrowserReadNetworkPolicy = {
+  startupDocuments: ["https://www.tablecheck.com/en/japan/search"],
   documentOrigins: ["https://www.tablecheck.com"],
   prohibitedPaths: [{ hostname: "tablecheck.com", pathSegment: "reserve" }],
   staticResources: [

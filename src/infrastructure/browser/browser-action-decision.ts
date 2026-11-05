@@ -6,11 +6,11 @@ import type { BrowserCalendarMonth } from "./browser-runtime.js";
 
 /** Current observable controls and native public form ownership; no scripted site flow. */
 export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "4" } as const;
-export const BROWSER_READ_DECISION_PROMPT_VERSION = "20";
+export const BROWSER_READ_DECISION_PROMPT_VERSION = "21";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
-  version: "12",
+  version: "13",
 } as const;
 
 export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unknown> = {
@@ -20,7 +20,7 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
   properties: {
     action: {
       type: "string",
-      enum: ["SELECT_REGION_ENTRANCE", "OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
+      enum: ["OPEN_LINK", "CLICK", "CLICK_AUTHORITATIVE", "FILL_AUTHORITATIVE", "CHOOSE_OPTION", "SET_CHECKED", "ADJUST_RANGE", "SCROLL_REGION", "PRESS_ESCAPE", "WAIT", "COMPLETE", "REQUEST_HUMAN_HELP"],
     },
     targetRef: { type: "string" },
     authoritativeField: { type: "string", enum: ["NONE", "DATE", "PARTY_SIZE", "TIME", "RETRIEVAL", "LOCATION"] },
@@ -30,7 +30,6 @@ export const BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA: Record<string, unk
 };
 
 export type BrowserReadAction =
-  | { type: "SELECT_REGION_ENTRANCE"; targetRef: string; reason: string }
   | { type: "OPEN_LINK"; targetRef: string; reason: string }
   | { type: "CLICK"; targetRef: string; reason: string }
   | { type: "CLICK_AUTHORITATIVE"; targetRef: string; field: "DATE" | "PARTY_SIZE"; reason: string }
@@ -110,28 +109,7 @@ export interface BrowserReadGoal {
   hardCriteria: string[];
 }
 
-export interface BrowserObservedRegionEntrance {
-  ref: string;
-  sourceId: string;
-  flowId: string;
-  href: string;
-  label: string;
-  observedOn: string;
-  originalTargetRef: string;
-  observationRevision: number;
-}
-
-export interface BrowserRegionCorrection {
-  sourceId: string;
-  flowId: string;
-  entrances: readonly BrowserObservedRegionEntrance[];
-  replacementsUsed: 0;
-  remainingBudget: { sourceMs: number; details: number; regionPages: number; retrievalPages: number };
-  samples: readonly { sourceUrl: string; distanceMeters?: number; bearingDegrees?: number; direction?: string; outcome: string }[];
-}
-
 export interface BrowserReadDecisionInput {
-  regionCorrection?: BrowserRegionCorrection;
   history: BrowserReadHistoryStep[];
   taskId: string;
   source: string;
@@ -290,10 +268,6 @@ export function decodeBrowserReadActionWire(value: unknown, observedTargetRefs: 
   }
   const reason = value.reason.trim();
   switch (value.action) {
-    case "SELECT_REGION_ENTRANCE":
-      targetRequired(value, observedTargetRefs);
-      if (value.authoritativeField !== "NONE" || value.requestedState !== "NONE") return rejectWire(value, observedTargetRefs, "$.authoritativeField", value.authoritativeField, "INVALID_STATE");
-      return { type: value.action, targetRef: value.targetRef, reason };
     case "OPEN_LINK":
     case "CLICK":
       targetRequired(value, observedTargetRefs);
@@ -350,15 +324,9 @@ ${BROWSER_READ_HISTORY_INSTRUCTION}
 
 Observation context ${BROWSER_READ_CONTEXT_SCHEMA.name}@${BROWSER_READ_CONTEXT_SCHEMA.version}: controlGroupLabel identifies a source-observed widget owner; Unlabelled group means ownership could not be established. controlGroupRef binds a target to its actual DOM group, including distinct groups with the same label. controlGroups.selectedValues reports positively observed selections; an empty list means no selected value was observed, never a guessed default. selected:true comes from public DOM selection state. displayedCalendarMonth is the observed month, never the requested date. A labelSource of DOM descendant text is public alternative text on an otherwise unlabelled link. These descriptions never grant an action. CALENDAR_MONTH_UNCHANGED and PARTY_SIZE_NOT_CONFIRMED are executor feedback: unrelated page changes did not confirm the requested setting.
 
-During an explicitly supplied regionCorrection, choose SELECT_REGION_ENTRANCE with exactly one supplied entrance ref. The code-owned source flow collection and sample distances/bearings are immutable. Do not provide href, change coordinates/radius, invent a reference or request another menu. This action is unavailable without regionCorrection. It only selects an entrance; code validates and navigates. Ordinary DOM actions remain bound to the current observation.
+Choose one action only from the observed target references and their availableActions, except a listed pageActions action. A target's rejectionReason explains why another action is unavailable; do not override it. Never invent a target reference, selector, URL, JavaScript, shell command, credential, cookie, login step, booking submission, payment, cancellation, or personal information. The outlet identity, date, party size, time window, and HARD criteria in the goal are immutable. When selecting or filling a date or party size, select the named authoritative field and no other value. FILL_AUTHORITATIVE with RETRIEVAL is allowed only for an observed public search input and fills exactly goal.retrievalExpression; it cannot change area, HARD criteria, date, party size, or time.
 
-Choose one action only from the observed target references and their availableActions, except a listed pageActions action or the explicitly supplied regionCorrection choice. A target's rejectionReason explains why another action is unavailable; do not override it. Never invent a target reference, selector, URL, JavaScript, shell command, credential, cookie, login step, booking submission, payment, cancellation, or personal information. The outlet identity, date, party size, time window, and HARD criteria in the goal are immutable. When selecting or filling a date or party size, select the named authoritative field and no other value. FILL_AUTHORITATIVE with RETRIEVAL is allowed only for an observed public search input and fills exactly goal.retrievalExpression; it cannot change area, HARD criteria, date, party size, or time.
-
-To open a custom BUTTON whose role is combobox, use CLICK with authoritativeField NONE. Re-observe, then use CHOOSE_OPTION on an observed OPTION with the correct ownerRef. A native SELECT already exposes its OPTION targets; choose the option directly. Match the visible label to the authoritative date, party size, or time window; an opaque option value is never a reason to guess. For targeted actions, authoritativeField and requestedState must match the action contract. Page actions ignore targetRef and inert field/state placeholders.
-
-During DISCOVERY, choose the most specific observed public region/station entrance for goal.location. Its coordinates remain the exact center; addressComponents are source observations, not permission to infer a nearest station. FILL_AUTHORITATIVE with LOCATION fills exactly goal.location.name in an observed public area/station input. Never invent a location name, URL, code, synonym, or replacement value.
-
-During DISCOVERY, an expanded public search combobox may expose CHOOSE_OPTION:RETRIEVAL for the exact goal.retrievalExpression, optionally displayed in quotation marks. Choose that option to apply the existing query and close its suggestions before using background controls. Do not choose Nearby or a different suggested query. Its current search value and closed suggestion state must be re-observed; selecting it is not proof of search results.
+Choose each next action from the current visible text, accessible structure and native form association. There is no required menu, fill, suggestion, tag or submit sequence. formObservation identifies one native form and its public visible lines; hidden values are never model inputs. FILL_AUTHORITATIVE with LOCATION fills only goal.location.name; RETRIEVAL fills only the code-bound literal retrievalExpression and requires its authoritative source. A typed value is not proof that the website selected a place or that results are current. Re-observe the effect of every chosen action. The source result, identity and coordinates remain code-verified. Never propose replacement words, URLs or free-text values.
 
 A LINK can represent a same-page UI control when its observed href differs from the current document only by a fragment (including #). If its availableActions includes CLICK, use CLICK to expand or change that UI and re-observe. Ordinary public links continue to use OPEN_LINK. Use the visible control label and its page context to match the objective; an unrelated unlabeled button is not a substitute for a named category or filter control.
 
@@ -402,7 +370,6 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
               skills: input.skills,
               goal: input.goal,
               observation: input.observation,
-              ...(input.regionCorrection ? {regionCorrection: input.regionCorrection} : {}),
             }),
           },
         ],
@@ -427,7 +394,7 @@ export class ModelBrowserReadActionDecision implements BrowserReadActionDecision
       throw new BrowserReadDecisionError("MODEL_FAILURE", modelError.code);
     }
     if (response.finishReason !== "TOOL_CALLS") throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", `finish reason ${response.finishReason}`);
-    const observedTargetRefs = new Set([...input.observation.targets.map(target => target.ref), ...(input.regionCorrection?.entrances.map(entrance => entrance.ref) ?? [])]);
+    const observedTargetRefs = new Set(input.observation.targets.map(target => target.ref));
     try {
       const wire = JSON.parse(response.outputText);
       this.lastWireRecord = safeActionWireRecord(wire, observedTargetRefs);

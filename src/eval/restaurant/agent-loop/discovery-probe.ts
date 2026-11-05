@@ -150,7 +150,6 @@ export async function runDiscoveryProbe(input: DiscoveryProbeInput, witnesses: r
   function observe(snapshot: BrowserSnapshot) {
     snapshotSequence++;
     if (!activePack) return;
-    for(const link of activePack.browser?.directory?.links(snapshot) ?? []) if(link.category) categoryLabels.set(link.url,link.label);
     const outlets = activePack.parseListing(snapshot).outlets;
     listings.push({sourceId:activePack.meta.id,url:snapshot.url,snapshot:snapshotSequence,
       htmlSha256:createHash("sha256").update(snapshot.html).digest("hex"),categoryLabel:categoryLabels.get(snapshot.url)??null,outlets});

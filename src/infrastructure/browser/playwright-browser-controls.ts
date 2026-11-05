@@ -588,7 +588,15 @@ export async function waitForPageSettled(
           clearInterval(timer); observer.disconnect(); resolve({ settled, busySelectors: busyElements.slice(0, 12).map(element => element.matches('[aria-busy="true"]') ? '[aria-busy="true"]' : element.matches('[role="progressbar"]') ? '[role="progressbar"]' : '.' + element.className.toString().split(/\s+/).filter(value => /spinner|loader|skeleton/i.test(value)).join('.')), visibleTextChanging: performance.now() - visibleSince < 300 });
         }
       }, 50);
-    }), Math.max(1, deadline - Date.now()));
+    }), Math.max(1, deadline - Date.now())).catch(async error => {
+      // A chosen observed link can commit while the passive DOM sample is
+      // pending. Follow that already-started navigation within this same
+      // settling window; never reissue the click or request.
+      if (!(error instanceof Error) || !/Execution context was destroyed|Cannot find context with specified id/u.test(error.message) || page.isClosed()) throw error;
+      if (Date.now() < deadline) await page.waitForLoadState("domcontentloaded", {timeout: Math.max(1, deadline-Date.now())}).catch(() => undefined);
+      return undefined;
+    });
+    if (!ready) continue;
     const after = activity();
     diagnostic?.({ url: page.url(), pendingByType: after.pendingByType ?? {}, oldestPendingMs: after.oldestPendingMs ?? 0, blockingDataRequests: after.pending, busySelectors: ready.busySelectors, visibleTextChanging: ready.visibleTextChanging });
     if (ready.settled && before.pending === 0 && after.pending === 0 && before.revision === after.revision) return true;

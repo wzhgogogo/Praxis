@@ -1,6 +1,5 @@
 import {restaurantReserveCancelled} from "../../domains/restaurant/read-time-reserve.js";
 import type {DiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
-import {discoveryRetrievalKeepAllowed} from "../../domains/restaurant/discovery-retrieval.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import type { BrowserReadLimits } from "../../infrastructure/browser/browser-task-executor.js";
 import { DEFAULT_NEARBY_RADIUS_METERS } from "../../core/location/nearby.js";
@@ -16,37 +15,12 @@ import type { BrowserExecutionBudget, BrowserExecutionDiagnostic } from "../../i
 import { BrowserReadDecisionError, type BrowserReadActionDecisionPort } from "../../infrastructure/browser/browser-action-decision.js";
 import { GooglePlacesRestaurantSearch } from "../google/google-places-restaurant-search.js";
 import { restaurantDiscoveryPacks, type DiscoverySourcePack } from "./source-packs.js";
-import {locationSuggestionMatches} from "./location-suggestions.js";
 
 type Location = NonNullable<NonNullable<RestaurantSearchRequest["continuation"]>["locationContext"]>;
 type SourceFlow = "DIRECTORY" | "VENUE_SEARCH";
 type NativeSourceProgress = NonNullable<RestaurantSearchRequest["continuation"]>["sourceProgress"] extends infer Progress
   ? NonNullable<Progress> : never;
 type DirectoryRegion = NonNullable<NativeSourceProgress["directoryRegion"]>;
-/** One shared replacement allowance: provisional two-valid samples or the original first-five rule. */
-export function directoryEntryReplacementAllowed(region: DirectoryRegion | undefined): boolean {
-  if (!region || region.replacement || region.stopReason) return false;
-  if (region.provisional && !region.verified) {
-    const valid = region.samples.filter(sample => sample.outcome !== "UNKNOWN").slice(0, 2);
-    return valid.length === 2 && valid.every(sample => sample.outcome === "OUTSIDE_RADIUS");
-  }
-  const first = region.samples.slice(0, 5);
-  return first.length === 5 && first.filter(sample => sample.outcome === "OUTSIDE_RADIUS").length >= 4;
-}
-
-function twoOutside(samples: DirectoryRegion["samples"]): boolean {
-  const valid = samples.filter(sample => sample.outcome !== "UNKNOWN").slice(0, 2);
-  return valid.length === 2 && valid.every(sample => sample.outcome === "OUTSIDE_RADIUS");
-}
-
-function bearingFrom(center: Location, point: {latitude: number; longitude: number}): {bearingDegrees: number; direction: string} {
-  const radians = Math.PI / 180;
-  const a = center.latitude * radians, b = point.latitude * radians, delta = (point.longitude - center.longitude) * radians;
-  const bearingDegrees = (Math.atan2(Math.sin(delta) * Math.cos(b), Math.cos(a) * Math.sin(b) - Math.sin(a) * Math.cos(b) * Math.cos(delta)) / radians + 360) % 360;
-  const direction = point.latitude === center.latitude && point.longitude === center.longitude ? "AT_CENTER" : ["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(bearingDegrees / 45) % 8]!;
-  return {bearingDegrees, direction};
-}
-
 type PendingSourceEntry = NonNullable<NativeSourceProgress["pendingSourceEntries"]>[number];
 /** One read chunk.  It is not a statement that the source has been exhausted. */
 const NATIVE_DETAIL_BATCH_CAP = 5;
@@ -84,65 +58,6 @@ function normalized(value: string): string {
   return value.normalize("NFKC").toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]+/gu, "");
 }
 
-/** Nearby source pointers are routing hints, never identity or inventory evidence. */
-export function observedDirectoryOutletReference(pack: DiscoverySourcePack, read: RestaurantSearchRead, location: Location) {
-  return read.candidates.flatMap(candidate => {
-    const outlet = candidate.restaurant, point = outlet.coordinates;
-    const sourceUrl = outlet.sourceIds.googleWebsiteUri;
-    if (!sourceUrl || !point || !Number.isFinite(point.lat) || !Number.isFinite(point.lng)
-      || Math.abs(point.lat) > 90 || Math.abs(point.lng) > 180
-      || pack.availability?.candidatePath({...outlet, sourceIds: {googleWebsiteUri: sourceUrl}}) !== "DIRECT_SOURCE_PAGE") return [];
-    const distanceMeters = googleDiscoveryGeoDiagnostics({location: {latitude: point.lat, longitude: point.lng}}, {evaluationLocation: location}).distanceMeters;
-    return distanceMeters !== undefined && distanceMeters <= location.radiusMeters
-      ? [{sourceUrl, candidateId: outlet.id, distanceMeters}] : [];
-  }).sort((a, b) => a.distanceMeters - b.distanceMeters)[0];
-}
-
-/**
- * A nonempty card list may belong to a preceding query while the current
- * search is still loading. Only an observed public search input can bind that
- * intermediate page to the retrieval expression; its absence stays neutral.
- */
-function publicDiscoverySearchInput(page: BrowserSnapshot): string | undefined {
-  return page.html.match(/<input\b[^>]*(?:name|aria-label|placeholder)=["'][^"']*(?:search|keyword|venue|restaurant)[^"']*["'][^>]*>/i)?.[0];
-}
-
-function discoveryQueryNeedsCurrentQuery(page: BrowserSnapshot, expression: string, controls: readonly BrowserPageControl[] = [], resultBusy = false): boolean {
-  const liveSearch = controls.find((control) => control.kind === "INPUT" && control.visible
-    && /(?:search|keyword|venue|restaurant|店名|検索)/i.test(`${control.label} ${control.structure?.name ?? ""}`));
-  // DOM properties are authoritative over serialized markup: after a fill,
-  // Chromium can retain the old value attribute while the observed input value
-  // already represents the current public query.
-  if (liveSearch) return liveSearch.value?.trim() !== expression || resultBusy;
-  const input = publicDiscoverySearchInput(page);
-  if (!input) return false;
-  const value = input.match(/\bvalue=["']([^"']*)["']/i)?.[1]?.trim();
-  return value !== expression || resultBusy;
-}
-
-/** Shared source parser/current-query predicate for runtime and read-only diagnostics. */
-export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, controls: readonly BrowserPageControl[], expression: string) {
-  const listing = pack.parseListing(current);
-  const empty = pack.browser!.isExplicitEmptyListing(current);
-  return { complete: !discoveryQueryNeedsCurrentQuery(current, expression, controls, pack.browser!.resultBusy(current)) && (listing.outlets.length > 0 || empty),
-    resultBusy: pack.browser!.resultBusy(current),
-    reason: "Reveal current public results for the bound retrieval expression.",
-    resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
-}
-
-/** Source-generated category GETs are observations, not clickable-control authority. */
-export function observedDirectoryCategories(
-  pack: DiscoverySourcePack, page: BrowserSnapshot, observedRegionUrl: string,
-  listingRoot = pack.browser?.directory?.listingRoot(observedRegionUrl),
-): Array<{url: string; label: string}> {
-  const directory = pack.browser?.directory;
-  if (!directory) return [];
-  const links = directory.links(page).filter(link => link.category && (listingRoot
-    ? directory.listingRoot(link.url) === listingRoot
-    : directory.isSameObservedRegionHomepage?.(link.url, observedRegionUrl) === true));
-  return [...new Map(links.map(({url, label}) => [url, {url, label}])).values()];
-}
-
 function pendingEntry(
   sourceEntityId: string,
   sourceUrl: string,
@@ -170,6 +85,13 @@ function retainedPendingEntries(
       return false;
     }
   });
+}
+
+export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, _controls: readonly BrowserPageControl[], _expression: string) {
+  const listing = pack.parseListing(current), empty = pack.browser!.isExplicitEmptyListing(current);
+  return { complete: listing.outlets.length > 0 || empty, resultBusy: pack.browser!.resultBusy(current),
+    reason: "Read stable source-owned public results; the observation model confirms their relevance.",
+    resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
 }
 
 /** Only the current restaurant's JSON-LD geo can establish the exact area gate. */
@@ -289,1013 +211,138 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
   }
 
   private async batch(
-    pack: DiscoverySourcePack,
-    source: SourceFlow,
-    request: RestaurantSearchRequest,
-    location: Location,
-    query: DiscoveryQuery,
-    signal: AbortSignal,
-    priorProgress?: NonNullable<RestaurantSearchRequest["continuation"]>["sourceProgress"],
-    loadRegionReferenceRead?: (remainingMs: number) => Promise<RestaurantSearchRead | undefined>,
-  ) {
-    const sourceSkillPath = pack.skillPath;
-    let session: BrowserSession | undefined;
-    const batchStartedAt = Date.now();
-    // Native discovery uses the same bounded Executor operations as the
-    // availability adapters. Discovery decisions share their origin,
-    // deadline and operation accounting instead of a separate browser loop.
+    pack: DiscoverySourcePack, source: SourceFlow, request: RestaurantSearchRequest,
+    location: Location, query: DiscoveryQuery, signal: AbortSignal,
+    priorProgress?: NativeSourceProgress,
+  ): Promise<{
+    candidates: RestaurantCandidate[]; evidence: RestaurantReadEvidence[];
+    candidateFailures: Array<{ sourceUrl: string; reasonCode: string }>;
+    progress: NativeSourceProgress & { pendingSourceEntries: PendingSourceEntry[]; visitedListingUrls: string[]; elapsedMs: number };
+    funnel: NonNullable<RestaurantSearchRead["metadata"]["nativeDiscoveryFunnel"]>;
+  }> {
+    const previous = priorProgress?.sourceId === pack.meta.id ? priorProgress : undefined;
+    const startedAt = Date.now(), elapsedBefore = previous?.elapsedMs ?? 0;
     const admitted = new Map<string, { candidate: RestaurantCandidate; evidence: RestaurantReadEvidence }>();
-    const candidateFailures: Array<{ sourceUrl: string; reasonCode: string }> = [];
+    const known = new Map((previous?.pendingSourceEntries ?? []).map(entry => [entry.sourceUrl, entry]));
+    const inspected = new Set(previous?.inspectedSourceIds ?? []);
+    const attempted = new Set<string>();
     const rejected: Array<{ sourceUrl: string; reasonCode: string }> = [];
-    const deferredByBatchCap: Array<{ sourceUrl: string; reasonCode: "DETAIL_BATCH_CAP" }> = [];
-    const priorInspected = new Set(priorProgress?.sourceId === pack.meta.id ? priorProgress.inspectedSourceIds : []);
-    const sourceDetailAttemptsBefore = priorProgress?.sourceId === pack.meta.id ? priorProgress.detailAttempts : 0;
-    const sourcePagesBefore = priorProgress?.sourceId === pack.meta.id ? priorProgress.pagesRead : 0;
-    const sourceElapsedBefore = priorProgress?.sourceId === pack.meta.id ? priorProgress.elapsedMs ?? 0 : 0;
-    const sourceElapsedRemaining = Math.max(0, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedBefore);
-    let directoryRegion = priorProgress?.sourceId === pack.meta.id && priorProgress.directoryRegion ? structuredClone(priorProgress.directoryRegion) : undefined;
-    let replaceRegion = directoryEntryReplacementAllowed(directoryRegion);
-    const regionEntrances: NonNullable<NativeSourceProgress["regionEntrances"]> = priorProgress?.sourceId === pack.meta.id && priorProgress.regionEntrances
-      ? structuredClone(priorProgress.regionEntrances) : {sourceId: pack.meta.id, ...(request.readRunId ? {readRunId: request.readRunId} : {}), flowId: randomUUID(), entries: []};
-    const regionScopeMismatch = regionEntrances.sourceId !== pack.meta.id || regionEntrances.readRunId !== request.readRunId;
-    const regionCheckpoint = () => source === "DIRECTORY" ? {regionEntrances} : {};
-    const replacementEntrances = () => regionEntrances.sourceId === pack.meta.id ? regionEntrances.entries.filter(entry => entry.sourceId === pack.meta.id && entry.flowId === regionEntrances.flowId
-      && pack.browser?.directory?.isRegionEntrance(entry.href) && !visitedListingUrls.some(url => sameRegion(url, entry.href)) && (!directoryRegion || !sameRegion(entry.href, directoryRegion.first.url))) : [];
-    let selectedProvisional = false;
-    let observedLocationInput = false;
-    let selectedRegion: DirectoryRegion["first"] | undefined;
-    let outletReference: ReturnType<typeof observedDirectoryOutletReference>;
-    let selectingRegion = false;
-    let filledRegion: { observedOn: string; targetRef: string; resultKey: string } | undefined;
-    let regionResultKey = "";
-    const visitedRegionPages: string[] = [];
-    const sameRegion = (a: string, b: string) => new URL(a).pathname === new URL(b).pathname
-      || pack.browser?.directory?.isSameObservedRegionHomepage?.(a, b) === true
-      || pack.browser?.directory?.isSameObservedRegionHomepage?.(b, a) === true;
-    const collectRegionEntrances = (observation: {revision: number; url: string; targets: readonly import("../../infrastructure/browser/browser-action-decision.js").BrowserReadActionTarget[]}) => {
-      if (!selectingRegion) return;
-      observedLocationInput = observation.targets.some(target => target.availableActions?.includes("FILL_AUTHORITATIVE:LOCATION"));
-      for (const target of observation.targets) {
-        if (target.kind !== "LINK" || !target.href || !target.availableActions?.includes("OPEN_LINK") || !pack.browser?.directory?.isRegionEntrance(target.href)
-          || regionEntrances.entries.some(entry => entry.href === target.href)) continue;
-        regionEntrances.entries.push({ref: `region:${regionEntrances.flowId}:${regionEntrances.entries.length}`, sourceId: pack.meta.id, flowId: regionEntrances.flowId,
-          href: target.href, label: target.label, observedOn: observation.url, originalTargetRef: target.ref, observationRevision: observation.revision});
-      }
-    };
-    const regionDecision: BrowserReadActionDecisionPort | undefined = this.discoveryDecision ? {
+    const candidateFailures: Array<{ sourceUrl: string; reasonCode: string }> = [];
+    const listings: NonNullable<NonNullable<RestaurantSearchRead["metadata"]["nativeDiscoveryFunnel"]>["listingObservations"]> = [];
+    const visited = [...(previous?.visitedListingUrls ?? [])];
+    const retrieval = structuredClone(previous?.retrieval ?? { rewrites: 0, regionPages: 0, retrievalPages: 0, history: [] });
+    let pages = 0, detailAttempts = 0, raw = 0, parsed = 0, locatedListing = false;
+    let nextNavigation: { detail: boolean; url?: string } | undefined;
+    let stopped = false;
+    const elapsed = () => elapsedBefore + Date.now() - startedAt;
+    const sourceEnded = () => stopped && ![...known.values()].some(entry => !inspected.has(entry.sourceEntityId))
+      || elapsed() >= NATIVE_SOURCE_ELAPSED_CAP_MS || (previous?.detailAttempts ?? 0) + detailAttempts >= NATIVE_DETAIL_SOURCE_CAP
+      || (previous?.pagesRead ?? 0) + pages >= NATIVE_LISTING_PAGE_CAP[source];
+    const progress = () => ({ sourceId: pack.meta.id, inspectedSourceIds: [...inspected],
+      detailAttempts: (previous?.detailAttempts ?? 0) + detailAttempts, pagesRead: (previous?.pagesRead ?? 0) + pages,
+      elapsedMs: elapsed(), retrieval, visitedListingUrls: visited,
+      pendingSourceEntries: [...known.values()].filter(entry => !inspected.has(entry.sourceEntityId)),
+      pendingSourceIds: [...known.values()].filter(entry => !inspected.has(entry.sourceEntityId)).map(entry => entry.sourceEntityId) });
+    const funnel = (): NonNullable<RestaurantSearchRead["metadata"]["nativeDiscoveryFunnel"]> => ({
+      source: pack.browser!.provider, rawSourceLinks: raw, parsedOutlets: parsed, inspectedOutlets: detailAttempts,
+      batchCap: NATIVE_DETAIL_BATCH_CAP, sourceDetailCap: NATIVE_DETAIL_SOURCE_CAP,
+      sourceDetailAttempts: (previous?.detailAttempts ?? 0) + detailAttempts, sourcePageCap: NATIVE_LISTING_PAGE_CAP[source],
+      sourceElapsedCapMs: NATIVE_SOURCE_ELAPSED_CAP_MS, sourceElapsedMs: elapsed(), sourceTimeLimitReached: elapsed() >= NATIVE_SOURCE_ELAPSED_CAP_MS,
+      deferredByBatchCap: [...known.values()].filter(entry => !inspected.has(entry.sourceEntityId)).map(entry => ({ sourceUrl: entry.sourceUrl, reasonCode: "DETAIL_BATCH_CAP" })),
+      rejected, accepted: admitted.size, pagesRead: pages, batchLimitReached: detailAttempts >= NATIVE_DETAIL_BATCH_CAP,
+      sourceExhausted: "UNKNOWN", batchEnded: true, sourceEnded: sourceEnded(),
+      progressionReason: source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" : "FIRST_SOURCE_BATCH_ENDED", listingObservations: listings, retrieval,
+    });
+    const decision: BrowserReadActionDecisionPort | undefined = this.discoveryDecision ? {
       decide: async input => {
-        // Region menus often expose the same parent as a homepage and a
-        // listing with different query strings. Neither is a new region.
-        const blockedRefs = new Set<string>();
-        if (selectingRegion) {
-          if (!visitedRegionPages.some(url => sameRegion(url, input.observation.url))) visitedRegionPages.push(input.observation.url);
-          for (const target of input.observation.targets) {
-            if (!target.href || !target.availableActions?.includes("OPEN_LINK")) continue;
-            const directory = pack.browser?.directory;
-            const visited = directory?.isRegionEntrance(target.href) && !sameRegion(input.observation.url, target.href)
-              && visitedRegionPages.some(url => sameRegion(url, target.href!));
-            const unsupported = outletReference && !directory?.containsObservedOutlet?.(target.href, outletReference.sourceUrl)
-              && !(directory?.isRegionEntrance(input.observation.url) && sameRegion(input.observation.url, target.href));
-            if (visited || unsupported) blockedRefs.add(target.ref);
-          }
-        }
-        const action = await this.discoveryDecision!.decide({
-          ...input,
-          ...(outletReference ? {progress: `${input.progress}\nNearby observed source outlet: ${JSON.stringify(outletReference)}. Choose a current observed region containing this outlet; this pointer is not identity or availability evidence.`} : {}),
-          observation: { ...input.observation, targets: input.observation.targets.map(target => blockedRefs.has(target.ref)
-            ? { ...target, availableActions: target.availableActions?.filter(action => action !== "OPEN_LINK") ?? [], rejectionReason: outletReference ? "REGION_OUTLET_EVIDENCE_MISMATCH_OR_VISITED" : "REGION_ALREADY_VISITED" } : target) },
-        });
-        if (action.type === "OPEN_LINK" && blockedRefs.has(action.targetRef)) {
-          throw new BrowserReadDecisionError("INVALID_MODEL_OUTPUT", "Choose an unvisited observed region supported by current location evidence or the authoritative public location search");
-        }
-        if (selectingRegion && action.type === "OPEN_LINK") {
+        const action = await this.discoveryDecision!.decide(input);
+        nextNavigation = undefined;
+        if (action.type === "OPEN_LINK") {
           const target = input.observation.targets.find(target => target.ref === action.targetRef);
-          if (target?.href && target.availableActions?.includes("OPEN_LINK") && pack.browser?.directory?.isRegionEntrance(target.href)) {
-            selectedRegion = { url: target.href, observedOn: input.observation.url, targetRef: target.ref, label: target.label };
-            filledRegion = undefined;
-          }
+          if (target?.href) nextNavigation = { url: target.href, detail: known.has(target.href) };
         }
-        if (selectingRegion && action.type === "FILL_AUTHORITATIVE" && action.field === "LOCATION" && input.goal.location?.name
-          && input.observation.targets.some(t => t.ref === action.targetRef && t.availableActions?.includes("FILL_AUTHORITATIVE:LOCATION"))) {
-          // Filling a new authoritative location invalidates the previous
-          // link selection; a changed result must confirm the new binding.
-          selectedRegion = undefined;
-          filledRegion = { observedOn: input.observation.url, targetRef: action.targetRef, resultKey: regionResultKey };
+        if (action.type === "CLICK") {
+          const target = input.observation.targets.find(target => target.ref === action.targetRef);
+          if (target?.formObservation && target.formMethod === "GET") nextNavigation = { detail: false };
         }
         return action;
       },
       takeLastWireRecord: () => this.discoveryDecision!.takeLastWireRecord?.(),
     } : undefined;
-    let retainedEntries = replaceRegion ? [] : retainedPendingEntries(pack, priorProgress);
-    let nextListing = !replaceRegion && priorProgress?.sourceId === pack.meta.id ? priorProgress.nextListing : undefined;
-    const visitedListingUrls = priorProgress?.sourceId === pack.meta.id ? [...(priorProgress.visitedListingUrls ?? [])] : [];
-    const listingObservations: Array<{ sourceUrl: string; parsedOutlets: number; resultCount?: number; nextPageUrl?: string }> = [];
-    let queryAdjustment: string | undefined;
-    let searchAvailabilityHint: NonNullable<RestaurantSearchRead['metadata']['nativeDiscoveryFunnel']>['searchAvailabilityHint'];
-    const retrieval = structuredClone(priorProgress?.retrieval ?? {rewrites:0,regionPages:0,retrievalPages:0,history:[]});
-    let attemptingDetailSourceId: string | undefined;
-    let detailNavigationStarted = false;
-    let retrievalNavigationActive=false,retrievalNavigationPending=false,regionNavigationPending=false;
     const executor = new BrowserTaskExecutor(this.runtime, {
-      maxElapsedMsPerCandidate: Math.max(1, sourceElapsedRemaining),
-      ...this.discoveryLimits,
-      ...(regionDecision ? { modelDecision: regionDecision } : {}),
-      ...(this.browserBudget ? { budget: this.browserBudget } : {}),
-      onDiagnostic: (diagnostic) => {
-        // `operation` emits this only after its budget/deadline admission and
-        // immediately before calling the runtime. It is therefore the narrow
-        // boundary between a queued detail entrance and an attempted one.
-        if (attemptingDetailSourceId && diagnostic.event === "OPERATION_STARTED" && diagnostic.detail === "NAVIGATE") {
-          detailNavigationStarted = true;
-        }
-        if(diagnostic.event==='OPERATION_STARTED'&&(selectingRegion||retrievalNavigationActive)){
-          if(diagnostic.detail==='CLICK'){if(selectingRegion)regionNavigationPending=false;else retrievalNavigationPending=false;}
-          if(diagnostic.detail==='OPEN_LINK'){
-            if(selectingRegion){if(retrieval.regionPages>=4)throw Object.assign(Error('Region page ceiling reached'),{code:'READ_BUDGET_EXCEEDED'});retrieval.regionPages++;regionNavigationPending=true;}
-            else{if(retrieval.retrievalPages>=3)throw Object.assign(Error('Retrieval page ceiling reached'),{code:'READ_BUDGET_EXCEEDED'});retrieval.retrievalPages++;retrievalNavigationPending=true;}
-            if(sourcePagesBefore+listingPagesRead>=NATIVE_LISTING_PAGE_CAP[source])throw Object.assign(Error('Listing page ceiling reached'),{code:'READ_BUDGET_EXCEEDED'});listingPagesRead++;
+      ...this.discoveryLimits, maxElapsedMsPerCandidate: Math.max(1, Math.min(this.discoveryLimits.maxElapsedMsPerCandidate ?? Infinity, NATIVE_SOURCE_ELAPSED_CAP_MS - elapsedBefore)),
+      ...(decision ? { modelDecision: decision } : {}), ...(this.browserBudget ? { budget: this.browserBudget } : {}),
+      onDiagnostic: diagnostic => {
+        if (diagnostic.event === "OPERATION_STARTED" && ["NAVIGATE", "OPEN_LINK", "SUBMIT_PUBLIC_QUERY"].includes(diagnostic.detail ?? "")) {
+          if (nextNavigation?.detail) {
+            if (detailAttempts >= NATIVE_DETAIL_BATCH_CAP || (previous?.detailAttempts ?? 0) + detailAttempts >= NATIVE_DETAIL_SOURCE_CAP) {
+              throw Object.assign(Error("Detail read ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });
+            }
+            detailAttempts++;
+          } else {
+            if ((previous?.pagesRead ?? 0) + pages >= NATIVE_LISTING_PAGE_CAP[source]
+              || (locatedListing ? retrieval.retrievalPages >= 3 : retrieval.regionPages >= 4)) {
+              throw Object.assign(Error("Source page ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });
+            }
+            pages++; if (locatedListing) retrieval.retrievalPages++; else retrieval.regionPages++;
           }
         }
         this.onBrowserDiagnostic?.(diagnostic);
       },
     });
-    executor.beginCandidate(`native-discovery:${source}`);
-    const allowedOrigins = pack.documentOrigins;
-    executor.beginProvider(`native-discovery:${source}`, source, "DISCOVERY");
-    const navigate = async (url: string, timeoutMs: number) => executor.navigate({
-      source, stage: "DISCOVERY", signal, allowedOrigins, session: session!, url, timeoutMs,
-    });
-    const snapshot = async () => executor.snapshot({ source, stage: "DISCOVERY", signal, session: session! });
-    let inspectedSourceIds = [...priorInspected];
-    let pendingSourceEntries: PendingSourceEntry[] = [...retainedEntries];
-    let raw = 0;
-    let parsed = 0;
-    let inspected = 0;
-    let batchLimitReached = false;
-    let sourceEnded = false;
-    let sourceTimeLimitReached = sourceElapsedRemaining === 0;
-    let sourceExhausted: boolean | "UNKNOWN" = "UNKNOWN";
-    let listingPagesRead = 0;
-
-    const recordListing = (page: BrowserSnapshot) => {
-      if (!visitedListingUrls.includes(page.url)) visitedListingUrls.push(page.url);
-      const next = pack.parseListing(page).nextPage;
-      nextListing = next && !visitedListingUrls.includes(next) ? { sourceUrl: next, observedOn: page.url, observedAt: this.now() } : undefined;
-      const count = page.text.match(/\d+\s*[～〜–-]\s*\d+\s*[／/]\s*([\d,]+)/)?.[1];
-      listingObservations.push({ sourceUrl: page.url, parsedOutlets: pack.parseListing(page).outlets.length,
-        ...(count ? { resultCount: Number(count.replaceAll(",", "")) } : {}),
-        ...(nextListing ? { nextPageUrl: nextListing.sourceUrl } : {}) });
-    };
-    // The cap governs further work; diagnostics must retain the actual elapsed
-    // value so a source deadline cannot look like an unfinished healthy batch.
-    const discoveryGoalLocation = { latitude: location.latitude, longitude: location.longitude, radiusMeters: location.radiusMeters,
-      ...(location.areaMatchBasis === "NAMED_PLACE_RADIUS" ? { name: location.label } : {}),
-      ...(location.addressComponents ? { addressComponents: location.addressComponents } : {}),
-      ...(location.addressObservation ? { addressObservation: location.addressObservation } : {}) };
-    const sourceElapsedMs = () => sourceElapsedBefore + (Date.now() - batchStartedAt);
-    const funnel = (failed = false) => ({ ...regionCheckpoint(), ...(directoryRegion ? { directoryRegion } : {}), source: pack.browser!.provider, rawSourceLinks: raw, parsedOutlets: parsed, inspectedOutlets: inspected,
-      batchCap: NATIVE_DETAIL_BATCH_CAP, sourceDetailCap: NATIVE_DETAIL_SOURCE_CAP,
-      sourceDetailAttempts: sourceDetailAttemptsBefore + inspected, deferredByBatchCap, rejected, accepted: admitted.size,
-      sourcePageCap: NATIVE_LISTING_PAGE_CAP[source], sourceElapsedCapMs: NATIVE_SOURCE_ELAPSED_CAP_MS,
-      sourceElapsedMs: sourceElapsedMs(), sourceTimeLimitReached,
-      pagesRead: listingPagesRead, batchLimitReached, sourceExhausted, batchEnded: true, sourceEnded,
-      progressionReason: failed ? "SOURCE_FAILURE" as const : source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" as const : "FIRST_SOURCE_BATCH_ENDED" as const,
-      listingObservations, retrieval, ...(queryAdjustment ? { queryAdjustment } : {}), ...(searchAvailabilityHint ? {searchAvailabilityHint} : {}) });
-    const applyAvailabilityHint = async (initial: BrowserSnapshot, outlets: ReturnType<DiscoverySourcePack['parseListing']>['outlets'], observedListingUrl?: string) => {
-      const capability=pack.browser!.searchAvailability;
-      if(!capability)return {page:initial,outlets};
-      const intent=request.intent, unfilteredUrl=initial.url;
-      const skipped=(reason:string)=>{
-        searchAvailabilityHint={status:'SKIPPED',reason,sourceUrl:initial.url,unfilteredUrl};
-        return {page:initial,outlets};
-      };
-      if(intent.target?.goal!=='AVAILABILITY')return skipped('NOT_AVAILABILITY');
-      if('disabledReason' in capability)return skipped(capability.disabledReason);
-      if(!intent.date||!intent.partySize||!intent.timeWindow)return skipped('MISSING_AUTHORITATIVE_QUERY');
-      if(intent.timeWindow.earliest!==intent.timeWindow.latest)return skipped('WINDOW_NOT_REPRESENTABLE');
-      const binding={date:intent.date,partySize:intent.partySize,time:intent.timeWindow.earliest};
-      const url=capability.withRequest(unfilteredUrl,binding,observedListingUrl);
-      if(!url)return skipped('QUERY_NOT_REPRESENTABLE');
-      // Reserve the unfiltered fallback before issuing a filter read. Both
-      // documents consume this source's existing cumulative page/time limits.
-      if(sourcePagesBefore+listingPagesRead+2>NATIVE_LISTING_PAGE_CAP[source])return skipped('SOURCE_PAGE_BUDGET');
-      await navigate(url,25_000);listingPagesRead++;
-      let page=await snapshot();recordListing(page);
-      const inspect=async(current:BrowserSnapshot)=>{
-        const observed=capability.observe(current,await session!.observeControls?.()??[]);
-        const parsed=pack.parseListing(current).outlets;
-        const matches=observed.date===binding.date&&observed.partySize===binding.partySize&&observed.time===binding.time;
-        const busy=pack.browser!.resultBusy(current);
-        return {observed,outlets:parsed,matches,busy,key:JSON.stringify([observed,parsed.map(outlet=>outlet.sourceEntityId).sort()])};
-      };
-      let result=await inspect(page);
-      let reason=result.busy?'RESULT_BUSY':!result.matches?'FILTER_NOT_CONFIRMED':!result.outlets.length?'FILTER_EMPTY':undefined;
-      if(!reason&&page.settlement==='PENDING'){
-        // C3b: compare bound results, never rotating page-wide prose. One
-        // bounded re-observation, with no model action or budget reset.
-        const {setTimeout}=await import('node:timers/promises');
-        await setTimeout(500,undefined,{signal});
-        page=await snapshot();recordListing(page);
-        const second=await inspect(page);
-        if(second.busy||!second.matches||second.key!==result.key)reason='RESULT_NOT_STABLE';
-        result=second;
-      }
-      searchAvailabilityHint={status:reason?'FALLBACK':'APPLIED',reason:reason??'OBSERVED_QUERY_MATCH',sourceUrl:url,unfilteredUrl,request:binding,observed:result.observed,parsedCount:result.outlets.length};
-      if(!reason)return {page,outlets:result.outlets};
-      await navigate(unfilteredUrl,25_000);listingPagesRead++;
-      page=await snapshot();recordListing(page);
-      // Retain the previously observed unfiltered queue and prior rewrites.
-      // Filtered card times never become inventory or source exhaustion.
-      return {page,outlets:[...new Map([...outlets,...pack.parseListing(page).outlets].map(outlet=>[outlet.sourceEntityId,outlet])).values()]};
-    };
-    const planListing = async (initial: BrowserSnapshot, directoryRoot?: string) => {
-      let page = initial;
-      const directory = pack.browser!.directory;
-      const eligible = query.positiveCriteria.length > 0;
-      // A Pack-verified regional homepage can expose category lists without
-      // being a directory listing itself. Keep that exact observed region as
-      // the boundary; URL syntax remains owned by the Pack.
-      const initialHomepage = !directoryRoot
-        && directory?.isObservedRegionHomepageListing?.(initial, initial.url) === true;
-      const sameRegionListing = (url: string) => !!directory && (
-        directoryRoot ? directory.listingRoot(url) === directoryRoot
-          : initialHomepage && !!directory.listingRoot(url)
-            && directory.isSameObservedRegionHomepage?.(url, initial.url) === true
-      );
-      const categories = () => directory && (directoryRoot || initialHomepage)
-        ? observedDirectoryCategories(pack, page, initial.url, directoryRoot) : [];
-      const scope = (current: BrowserSnapshot) => !directory || sameRegionListing(current.url)
-        || directory.isSameObservedRegionHomepage?.(initial.url, current.url) === true
-          && (initialHomepage || directory.isObservedRegionHomepageListing?.(current, initial.url) === true);
-      // Only actual page/link observations enter this collection. URL grammar
-      // is checked by the source-owned Pack; generated URLs are never options.
-      const generalLists = new Map<string, {ref: string; url: string; label: string; observedOn: string}>();
-      const observeGeneralLists = async () => {
-        const general = (url: string) => {
-          try {
-            const parsed = new URL(url);
-            if (parsed.origin !== new URL(initial.url).origin || (pack.browser!.retrievalExpression(url) ?? '') !== '') return false;
-            if (directory) return directory.isRegionEntrance(url) && parsed.search === '' && (sameRegionListing(url) && parsed.pathname === directory.listingRoot(url)
-              || url === page.url && directory.isObservedRegionHomepageListing?.(page, initial.url) === true);
-            const {keyword: _keyword, ...plainQuery} = query;
-            return url === pack.buildQuery(plainQuery).url;
-          } catch { return false; }
-        };
-        const links = directory ? directory.links(page) : (await session!.observeControls?.() ?? [])
-          .flatMap(control => control.kind === 'LINK' && control.href ? [{url: control.href, label: control.label}] : []);
-        for (const option of [{url:page.url,label:page.title}, ...links]) if (general(option.url) && !generalLists.has(option.url)) {
-          generalLists.set(option.url, {ref: `general:${pack.meta.id}:${generalLists.size + 1}`, url:option.url, label:option.label, observedOn:page.url});
-        }
-        return [...generalLists.values()];
-      };
-      const rejectedRetrieval = (reason: string): never => {
-        sourceEnded = true; queryAdjustment = reason;
-        throw Object.assign(Error(`Retrieval remains UNKNOWN: ${reason}`), {code:'DISCOVERY_SOURCE_INCOMPLETE'});
-      };
-      const attemptedRetrievals = () => retrieval.history
-        .filter(item => !item.selection.keep)
-        .map(({selection}) => ({
-          keyword: selection.keyword ?? '', categoryUrl: selection.categoryUrl ?? '', generalRef: selection.generalRef ?? '',
-        }));
-      const expressionKey = (selection: Pick<import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection, 'keyword' | 'categoryUrl' | 'generalRef'>) => JSON.stringify([
-        (selection.keyword ?? '').normalize('NFKC').toLowerCase().replace(/\s+/gu, ' ').trim(),
-        selection.categoryUrl ? directory?.withoutRetrievalExpression(selection.categoryUrl) ?? selection.categoryUrl : '',
-        selection.generalRef ?? '',
-      ]);
-      const decide = async () => {
-        const observedCategories=categories();
-        const parsedCount=pack.parseListing(page).outlets.length;
-        const selected=await this.retrievalPlanner.decide({
-        taskId: request.readRunId ?? 'discovery', intent: request.intent, locationName: location.label,
-        timeoutMs: NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedMs(),
-        observation: {
-          url: page.url, title: page.title, text: page.text,
-          parsedCount,
-          explicitEmpty: pack.browser!.isExplicitEmptyListing(page), categories: observedCategories, generalLists: await observeGeneralLists(),
-        },
-        ...(retrieval.selection ? {current: retrieval.selection} : {}),
-        attemptedRetrievals: attemptedRetrievals(), rewrites: retrieval.rewrites,
-        });
-        return selected.keep && !discoveryRetrievalKeepAllowed(parsedCount,observedCategories.length,retrieval.rewrites)
-          ? {accepted:false,reason:'Rejected KEEP leaves this source bounded UNKNOWN.',rejectionReason:'SPARSE_LIST_KEEP_NOT_ALLOWED'} : selected;
-      };
-      const apply = async (selection: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection) => {
-        if (!selection.accepted) rejectedRetrieval(selection.rejectionReason ?? 'INVALID_RETRIEVAL_PROPOSAL');
-        const oldUrl = page.url;
-        const general = selection.generalRef && [...generalLists.values()].find(item => item.ref === selection.generalRef);
-        if (selection.generalRef && !general) rejectedRetrieval('UNOBSERVED_GENERAL_LIST');
-        let url: string;
-        if (general) url = general.url;
-        else if (directory) {
-          const base = selection.categoryUrl ?? page.url;
-          if (!selection.keyword && !selection.categoryUrl && (pack.browser!.retrievalExpression(base) ?? '') !== '') rejectedRetrieval('GENERAL_LIST_REQUIRES_OBSERVED_REFERENCE');
-          url = selection.keyword ? directory.withRetrievalExpression(base, selection.keyword) : directory.withoutRetrievalExpression(base);
-        } else {
-          const {keyword: _old, ...rest} = query;
-          url = pack.buildQuery({...rest, ...(selection.keyword ? {keyword: selection.keyword} : {})}).url;
-        }
-        if (url !== oldUrl) {
-          if (retrieval.retrievalPages >= 3 || sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP[source]) {
-            throw Object.assign(Error('Retrieval page ceiling reached'), {code: 'READ_BUDGET_EXCEEDED'});
-          }
-          retrieval.retrievalPages++;
-          await navigate(url, 25_000);
-          page = await snapshot();
-          listingPagesRead++;
-          recordListing(page);
-        } else if (retrieval.retrievalPages === 0) retrieval.retrievalPages = 1;
-        if (!scope(page)) throw Object.assign(Error('Retrieval left the observed region'), {code: 'DISCOVERY_SOURCE_LOCATION_UNGROUNDED'});
-        const expression = selection.keyword ?? '';
-        const complete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => scope(current)
-          && (pack.browser!.retrievalExpression(current.url) ?? '') === expression
-          && !discoveryQueryNeedsCurrentQuery(current, expression, controls, pack.browser!.resultBusy(current))
-          && (pack.parseListing(current).outlets.length > 0 || pack.browser!.isExplicitEmptyListing(current));
-        if (!complete(page, await session!.observeControls?.() ?? [])) {
-          let lastUrl = page.url;
-          retrievalNavigationActive = true;
-          try {
-            const result = await executor.runSkill({
-              taskId: `browser-read:native-discovery:${source}`, source,
-              ...(sourceSkillPath ? {sourceSkillPath} : {}), stage: 'DISCOVERY', session: session!, signal, allowedOrigins,
-              goal: {
-                location: discoveryGoalLocation, outlet: {name: expression, address: request.intent.area!.query},
-                retrievalExpression: expression,
-                hardCriteria: request.intent.criteria.filter(c => c.polarity === 'POSITIVE' && c.strength === 'HARD').map(c => c.text),
-              },
-              objective: 'Apply the validated public retrieval and observe current results or a source-explicit empty state; do not change area or open details.',
-              completion: (current, controls) => {
-                if (current.url !== lastUrl) {
-                  if (!retrievalNavigationPending) { retrieval.retrievalPages++; listingPagesRead++; }
-                  retrievalNavigationPending = false;
-                  lastUrl = current.url;
-                  recordListing(current);
-                }
-                if (retrieval.retrievalPages > 3 || sourcePagesBefore + listingPagesRead > NATIVE_LISTING_PAGE_CAP[source]) {
-                  throw Object.assign(Error('Retrieval page ceiling reached'), {code: 'READ_BUDGET_EXCEEDED'});
-                }
-                return {
-                  complete: complete(current, controls), resultBusy: pack.browser!.resultBusy(current),
-                  reason: 'Observe the validated retrieval result.',
-                  resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(o => o.sourceUrl), pack.browser!.isExplicitEmptyListing(current)]),
-                };
-              },
-            });
-            page = result.snapshot;
-            if (result.status !== 'COMPLETED' || !complete(page, result.controls)) {
-              throw Object.assign(Error('Retrieval results remain unknown'), {code: 'DISCOVERY_SOURCE_INCOMPLETE'});
-            }
-          } finally { retrievalNavigationActive = false; retrievalNavigationPending = false; }
-        }
-        if (selection.keyword) query.keyword = selection.keyword;
-        else delete query.keyword;
-        retrieval.selection = selection;
-      };
-      if (!retrieval.selection) {
-        const selected: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection = eligible ? await decide() : {accepted: true, keep:true, reason: 'Retain observed listing: no positive retrieval input.'};
-        const selection = selected;
-        if (!selection.accepted) { retrieval.history.push({selection,elapsedMs:sourceElapsedMs(),parsedCount:pack.parseListing(page).outlets.length}); rejectedRetrieval(selection.rejectionReason ?? 'INVALID_RETRIEVAL_PROPOSAL'); }
-        if (selection.keep && selection.accepted) { retrieval.selection = selection; retrieval.retrievalPages ||= 1; }
-        else await apply(selection);
-        retrieval.history.push({selection, elapsedMs: sourceElapsedMs(), parsedCount: pack.parseListing(page).outlets.length});
-      } else if (replaceRegion) {
-        // Old-region references cannot authorize a new-region strategy.
-        const selection: import('../../domains/restaurant/discovery-retrieval.js').DiscoveryRetrievalSelection = retrieval.selection.keyword ? {accepted:true,keyword:retrieval.selection.keyword,...(retrieval.selection.criterionRef?{criterionRef:retrieval.selection.criterionRef}:{}),reason:retrieval.selection.reason} : !eligible ? {accepted:true,keep:true,reason:'Retain observed listing: no positive retrieval input.'} : await decide();
-        if (selection.keep && selection.accepted) retrieval.selection = selection;
-        else await apply(selection);
-      } else if (retrieval.retrievalPages === 0) retrieval.retrievalPages = 1;
-      if (!retrieval.history.length && retrieval.selection) {
-        retrieval.history.push({selection: retrieval.selection, elapsedMs: sourceElapsedMs(), parsedCount: pack.parseListing(page).outlets.length});
-      }
-      const observed = new Map(pack.parseListing(page).outlets.map(outlet => [outlet.sourceEntityId, outlet]));
-      while (eligible && pack.parseListing(page).outlets.length < 5 && !pack.browser!.resultBusy(page)
-        && (pack.parseListing(page).outlets.length > 0 || pack.browser!.isExplicitEmptyListing(page))
-        && retrieval.rewrites < 2 && retrieval.retrievalPages < 3) {
-        let selection = await decide();
-        const attempted = new Set(attemptedRetrievals().map(expressionKey));
-        if (!selection.keep && attempted.has(expressionKey(selection))) {
-          selection = {accepted: false, rejectionReason: 'REPEATED_RETRIEVAL_EXPRESSION', reason: 'Repeated retrieval leaves this source bounded UNKNOWN.'};
-        }
-        retrieval.history.push({selection, elapsedMs: sourceElapsedMs(), parsedCount: pack.parseListing(page).outlets.length});
-        if (!selection.accepted) rejectedRetrieval(selection.rejectionReason ?? 'INVALID_RETRIEVAL_PROPOSAL');
-        if (selection.keep) break;
-        retrieval.rewrites++;
-        const previous = page.url;
-        await apply(selection);
-        for (const outlet of pack.parseListing(page).outlets) if (!observed.has(outlet.sourceEntityId)) observed.set(outlet.sourceEntityId, outlet);
-        if (previous === page.url) break;
-      }
-      queryAdjustment = retrieval.rewrites ? 'PRE_DETAIL_RETRIEVAL_REWRITE' : retrieval.selection?.rejectionReason;
-      return {page, outlets: [...observed.values()]};
-    };
+    executor.beginCandidate(`native-discovery:${source}`); executor.beginProvider(`native-discovery:${source}`, source, "DISCOVERY");
+    let session: BrowserSession | undefined;
     try {
-      if (source === "DIRECTORY" && regionScopeMismatch) {
-        sourceEnded = true;
-        if (directoryRegion) directoryRegion.stopReason = "INVALID_OBSERVED_ENTRANCE_SCOPE";
-        throw Object.assign(Error("Observed entrance collection belongs to another source or read run"), {code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED"});
-      }
-      if (sourceTimeLimitReached) {
-        if (directoryRegion) directoryRegion.stopReason = "SOURCE_BUDGET_EXHAUSTED";
-        sourceEnded = true;
-        return { candidates: [], evidence: [], candidateFailures,
-          progress: { ...regionCheckpoint(), retrieval, ...(directoryRegion ? { directoryRegion } : {}), sourceId: pack.meta.id, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore,
-            pagesRead: sourcePagesBefore, elapsedMs: sourceElapsedBefore, visitedListingUrls,
-            ...(nextListing ? { nextListing } : {}),
-            pendingSourceEntries: [...new Map(pendingSourceEntries.map((entry) => [entry.sourceEntityId, entry])).values()],
-            pendingSourceIds: [...new Set(pendingSourceEntries.map((entry) => entry.sourceEntityId))] },
-          funnel: funnel() };
-      }
-      if (sourcePagesBefore >= NATIVE_LISTING_PAGE_CAP[source] && retainedEntries.length === 0) {
-        sourceEnded = true;
-        return { candidates: [], evidence: [], candidateFailures,
-          progress: { ...regionCheckpoint(), retrieval, ...(directoryRegion ? { directoryRegion } : {}), sourceId: pack.meta.id, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore,
-            pagesRead: sourcePagesBefore, elapsedMs: sourceElapsedBefore, visitedListingUrls, pendingSourceEntries: [], pendingSourceIds: [] },
-          funnel: funnel() };
-      }
-      // Session acquisition is source work.  Keeping it in the existing
-      // Executor makes the source's remaining deadline apply before the
-      // first listing navigation and to a replacement session alike.
+      if (elapsedBefore >= NATIVE_SOURCE_ELAPSED_CAP_MS || (previous?.detailAttempts ?? 0) >= NATIVE_DETAIL_SOURCE_CAP || (previous?.pagesRead ?? 0) >= NATIVE_LISTING_PAGE_CAP[source]) throw Object.assign(Error("Source read ceiling already reached"), {code:"READ_BUDGET_EXCEEDED"});
+      if (!pack.browser?.startupUrl) throw Object.assign(Error("Source has no configured public start"), { code: "DISCOVERY_SOURCE_INCOMPLETE" });
       session = await executor.acquire(signal, source, "DISCOVERY", this.networkPolicy);
-      if (source === "DIRECTORY") {
-        const directory = pack.browser!.directory!;
-        // Correction belongs to this source invocation. Returning it as a
-        // future SEARCH can strand it behind other sources' pending batches.
-        // Reuse this Executor, deadline, observed references and all counters.
-        do {
-        if (replaceRegion && (retrieval.regionPages >= 4 || sourceDetailAttemptsBefore + inspected >= NATIVE_DETAIL_SOURCE_CAP || sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS)) {
-          directoryRegion!.stopReason = "SOURCE_BUDGET_EXHAUSTED"; sourceEnded = true;
-          throw Object.assign(Error("No budget for a replacement entrance"), {code: "READ_BUDGET_EXCEEDED"});
-        }
-        const retainedOutlets: ReturnType<DiscoverySourcePack["parseListing"]>["outlets"] = retainedEntries.map((entry) => ({
-          sourceEntityId: entry.sourceEntityId,
-          sourceUrl: entry.sourceUrl,
-          outletName: entry.outletName ?? entry.sourceEntityId,
-          ...(entry.address ? { address: entry.address } : {}),
-          ...(entry.phone ? { phone: entry.phone } : {}),
-          ...(entry.sourceCategories ? { sourceCategories: entry.sourceCategories } : {}),
-        }));
-        let page: BrowserSnapshot | undefined;
-        let observedOutlets: ReturnType<DiscoverySourcePack["parseListing"]>["outlets"] = [];
-        // A retained observed entrance is already a source-owned continuation.
-        // Reopening a volatile list first can discard it or waste the source
-        // budget before its detail page is ever inspected.
-        if (retainedEntries.length === 0) {
-        // Enter the observed region before asking for its retrieval expression.
-        // Only a previously validated selection may be reused on continuation.
-        const keyword = query.keyword ?? "";
-        const continuingListing = nextListing;
-        if(continuingListing){if(retrieval.retrievalPages>=3)throw Object.assign(Error("Retrieval page ceiling reached"),{code:"READ_BUDGET_EXCEEDED"});retrieval.retrievalPages++;}
-        const sourceQuery = pack.buildQuery(query);
-        if (replaceRegion && directoryRegion) {
-          const entries = replacementEntrances();
-          if (!entries.length) {
-            directoryRegion.stopReason = "NO_OBSERVED_REPLACEMENT_ENTRANCE"; sourceEnded = true;
-            throw Object.assign(Error("No observed replacement entrance"), {code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED"});
+      await executor.start({ source, stage: "DISCOVERY", signal, session, allowedOrigins: pack.documentOrigins, url: pack.browser.startupUrl });
+      const expression = query.keyword;
+      const criterion = expression && request.intent.criteria.find(criterion => criterion.polarity === "POSITIVE" && criterion.strength === "HARD" && criterion.text.includes(expression));
+      if (expression && !criterion) throw Object.assign(Error("Retrieval lacks a literal authoritative criterion"), { code: "DISCOVERY_SOURCE_INCOMPLETE" });
+      const result = await executor.runSkill({ taskId: request.readRunId ?? `native-discovery:${source}`, source, stage: "DISCOVERY", signal, session,
+        allowedOrigins: pack.documentOrigins, ...(pack.skillPath ? { sourceSkillPath: pack.skillPath } : {}),
+        goal: { outlet: { name: request.intent.target?.query ?? "" }, location: { ...location, name: location.label },
+          ...(expression ? { retrievalExpression: expression, retrievalSource: "CUISINE" as const } : {}),
+          hardCriteria: request.intent.criteria.filter(criterion => criterion.polarity === "POSITIVE" && criterion.strength === "HARD").map(criterion => criterion.text) },
+        objective: "Find restaurants for the authoritative request using only the current observed public controls and links. Read merchant identities and addresses. All results still require exact coordinate and source verification. Choose every next step from this page; do not invent URLs or an action sequence.",
+        completion: page => {
+          if (pack.browser!.hasChallenge(page) || pack.browser!.isPageUnavailable(page)) return { complete: false, reason: "Source is not readable; no inventory conclusion is possible." };
+          const listing = pack.parseListing(page);
+          raw = Math.max(raw, rawSourceLinks(page, pack)); parsed = Math.max(parsed, listing.outlets.length);
+          if (listing.outlets.length) {
+            if (!visited.includes(page.url)) {
+              visited.push(page.url); listings.push({ sourceUrl: page.url, parsedOutlets: listing.outlets.length, ...(listing.nextPage ? { nextPageUrl: listing.nextPage } : {}) });
+            }
+            // This literal page text is a result check, never a link selector.
+            locatedListing ||= normalized(page.text).includes(normalized(location.label));
+            for (const outlet of listing.outlets) known.set(outlet.sourceUrl, pendingEntry(outlet.sourceEntityId, outlet.sourceUrl, this.now(), outlet));
           }
-          const selected = await executor.selectRegionEntrance({taskId: `browser-read:native-discovery:${source}`, source, stage: "DISCOVERY", signal, ...(sourceSkillPath ? {sourceSkillPath} : {}),
-            goal: {outlet: {name: keyword, address: request.intent.area!.query}, location: discoveryGoalLocation, hardCriteria: request.intent.criteria.filter(item => item.polarity === "POSITIVE" && item.strength === "HARD").map(item => item.text)},
-            regionCorrection: {sourceId: pack.meta.id, flowId: regionEntrances.flowId, entrances: entries, samples: directoryRegion.samples, replacementsUsed: 0,
-              remainingBudget: {sourceMs: Math.max(0, sourceElapsedRemaining - (Date.now() - batchStartedAt)), details: NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore - inspected, regionPages: 4 - retrieval.regionPages, retrievalPages: 3 - retrieval.retrievalPages}}});
-          const entry = selected.status === "SELECTED" ? replacementEntrances().find(entry => entry.ref === selected.entranceRef) : undefined;
-          if (!entry) {
-            directoryRegion.stopReason = selected.status === "NO_SAFE_ACTION" ? selected.reasonCode : "INVALID_OBSERVED_ENTRANCE_SELECTION"; sourceEnded = true;
-            throw Object.assign(Error("Invalid observed replacement selection"), {code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED"});
-          }
-          directoryRegion.replacement = {url: entry.href, observedOn: entry.observedOn, targetRef: entry.originalTargetRef, label: entry.label};
-          directoryRegion.replacementSamples = [];
-        }
-        const reusedRegion = directoryRegion?.replacement ?? directoryRegion?.first;
-        const url = new URL(continuingListing?.sourceUrl ?? reusedRegion?.url ?? sourceQuery.url);
-        if (continuingListing && (!pack.browser!.acceptsDetailUrl(url.href) || directory.listingRoot(url.href) !== directory.listingRoot(continuingListing.observedOn))) {
-          throw Object.assign(new Error("Invalid observed listing continuation"), { code: "NATIVE_LISTING_CONTINUATION_INVALID" });
-        }
-        const listingUrl = continuingListing || replaceRegion ? url.toString() : keyword ? directory.withRetrievalExpression(url.toString(), keyword) : url.toString();
-        const initialListingRoot = directory.listingRoot(listingUrl);
-        // The initial source directory can be only a neutral Tokyo entrance.
-        // Once the source exposes and accepts a locality link, that observed
-        // listing root becomes the current-query boundary.  Keeping the
-        // original Tokyo root here would classify the newly grounded regional
-        // list as stale and discard it before detail investigation.
-        let locationSearchResultUrl = reusedRegion && directory.isLocationSearchEntrance?.(reusedRegion.observedOn)
-          ? reusedRegion.url : undefined;
-        const locationQueryKey = (value: string): string | undefined => {
-          if (!locationSearchResultUrl) return undefined;
-          const current = new URL(value), observed = new URL(locationSearchResultUrl);
-          // Retrieval may change sw; the observed place scope may not change.
-          const scope = (url: URL) => JSON.stringify([...url.searchParams].filter(([key]) => key !== "sw").sort());
-          return current.origin === observed.origin && current.pathname === observed.pathname && scope(current) === scope(observed)
-            ? `observed-location-query:${observed.origin}${observed.pathname}:${scope(observed)}` : undefined;
-        };
-        const listingEntranceKey = (value: string): string | undefined => {
-          if (locationSearchResultUrl) return locationQueryKey(value);
-          const root = directory.listingRoot(value);
-          return root ? `listing:${root}` : undefined;
-        };
-        const homepageEntranceKey = (value: string, observedListingUrl: string): string | undefined => {
-          if (locationSearchResultUrl && observedListingUrl === locationSearchResultUrl) {
-            return locationQueryKey(value);
-          }
-          if (!directory.isSameObservedRegionHomepage?.(observedListingUrl, value)) return undefined;
-          try {
-            const url = new URL(value);
-            return `homepage:${url.origin}${url.pathname}`;
-          } catch { return undefined; }
-        };
-        let currentAreaListingUrl = listingUrl;
-        let currentAreaEntranceKey = listingEntranceKey(listingUrl) ?? (reusedRegion ? homepageEntranceKey(listingUrl, reusedRegion.url) : undefined);
-        let currentAreaEntranceObserved = currentAreaEntranceKey !== undefined
-          && (continuingListing !== undefined || reusedRegion !== undefined || sourceQuery.areaEntrance === "SOURCE_OBSERVED");
-        const activeExpression = continuingListing || replaceRegion ? pack.browser!.retrievalExpression(listingUrl) ?? "" : keyword;
-        if (!continuingListing) {
-          if (retrieval.regionPages >= 4) throw Object.assign(Error("Region page ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });
-          retrieval.regionPages++;
-        }
-        await navigate(listingUrl, 35_000);
-        page = await snapshot();
-        listingPagesRead += 1;
-        recordListing(page);
-        if (replaceRegion && directoryRegion && (!sameRegion(page.url, directoryRegion.replacement!.url)
-          || !pack.parseListing(page).outlets.length && !pack.browser!.isExplicitEmptyListing(page))) {
-          directoryRegion.stopReason = "REPLACEMENT_LIST_UNOBSERVED"; sourceEnded = true;
-          throw Object.assign(Error("Replacement did not reveal its public list"), {code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED"});
-        }
-        // A source can canonicalize an observed regional listing to its own
-        // regional homepage. The homepage is not a result list, but its
-        // source-observed listing control may restore work inside the exact
-        // region. A national/root redirect remains ungrounded.
-        let currentHomepageListing = !!reusedRegion && !directory.listingRoot(page.url) && directory.isObservedRegionHomepageListing?.(page, reusedRegion.url) === true;
-        if (currentAreaEntranceObserved && directory.listingRoot(page.url) !== initialListingRoot
-          && directory.isSameObservedRegionHomepage?.(listingUrl, page.url)) {
-          if (directory.isObservedRegionHomepageListing?.(page, listingUrl)) {
-            // The Pack has verified that this exact canonical regional home
-            // exposes current regional cards. It is a valid list boundary,
-            // unlike a national directory or merely a region-navigation page.
-            currentAreaEntranceKey = homepageEntranceKey(page.url, currentAreaListingUrl);
-            currentHomepageListing = currentAreaEntranceKey !== undefined;
-          } else {
-            const observedListing = directory.observedListingFromRegionHomepage?.(page, listingUrl);
-            if (observedListing) {
-              const restored = pack.browser!.retrievalExpression(observedListing) || !keyword
-                ? observedListing : directory.withRetrievalExpression(observedListing, keyword);
-              if (retrieval.regionPages >= 4 || sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP[source]) {
-                throw Object.assign(Error("Region page ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });
-              }
-              retrieval.regionPages++;
-              await navigate(restored, 25_000);
-              page = await snapshot();
-              listingPagesRead += 1;
-              recordListing(page);
+          const entry = known.get(page.url);
+          if (entry && !attempted.has(page.url)) {
+            attempted.add(page.url); inspected.add(entry.sourceEntityId);
+            const identity = pack.browser!.parseDetailIdentity(page, { ...entry, outletName: entry.outletName ?? entry.sourceEntityId });
+            const coordinates = identity && pageCoordinates(page, identity.outletName);
+            if (!identity || !coordinates) rejected.push({ sourceUrl: page.url, reasonCode: identity ? "PAGE_COORDINATES_MISSING" : "PAGE_IDENTITY_MISSING" });
+            else {
+              const grounded = groundedNativeCandidate({ source: pack, sourceId: identity.sourceEntityId, sourceUrl: identity.sourceUrl,
+                name: identity.outletName, address: identity.address!, coordinates, location, request, observedAt: this.now(),
+                ...(entry.sourceCategories ? { sourceCategories: entry.sourceCategories } : {}) });
+              if (grounded) admitted.set(grounded.candidate.restaurant.id, grounded);
+              else rejected.push({ sourceUrl: page.url, reasonCode: "OUTSIDE_RADIUS" });
             }
           }
-        }
-        if (currentAreaEntranceObserved && !currentHomepageListing && listingEntranceKey(page.url) !== currentAreaEntranceKey) currentAreaEntranceObserved = false;
-        raw = rawSourceLinks(page, pack);
-        if (pack.browser!.hasChallenge(page)) throw Object.assign(new Error("Discovery source challenge"), { code: "DISCOVERY_SOURCE_BOT_CHALLENGE" });
-        if (!currentAreaEntranceObserved) {
-          const requestedName = discoveryGoalLocation.name
-            ? normalized(request.intent.area!.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").trim()) : "";
-          const directlyNamed = requestedName && [...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)].some(match => {
-            try {
-              return directory.isRegionEntrance(new URL(match[1]!.replaceAll('&amp;', '&'), page!.url).href)
-                && normalized(match[2]!.replace(/<[^>]*>/g, ' ')).includes(requestedName);
-            } catch { return false; }
-          });
-          if (requestedName && !directlyNamed && directory.containsObservedOutlet && loadRegionReferenceRead) {
-            const referenceRead = await loadRegionReferenceRead(Math.max(1, NATIVE_SOURCE_ELAPSED_CAP_MS - sourceElapsedMs()));
-            if (referenceRead) outletReference = observedDirectoryOutletReference(pack, referenceRead, location);
-          }
-          const supportedMenu=outletReference&&[...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].some(match=>{
-            try{return directory.containsObservedOutlet?.(new URL(match[1]!.replaceAll('&amp;','&'),page!.url).href,outletReference!.sourceUrl)===true;}catch{return false;}
-          });
-          const districts=(discoveryGoalLocation.addressComponents??[]).filter(c=>c.types.some(t=>/^sublocality_level_[12]$/u.test(t))).flatMap(c=>[c.longText,...(c.shortText?[c.shortText]:[])]);
-          const districtMenu=Boolean(districts.length&&[...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)].some(match=>{
-            try{return directory.isRegionEntrance(new URL(match[1]!.replaceAll('&amp;','&'),page!.url).href)
-              &&match[2]!.replace(/<[^>]*>/gu,' ').replaceAll('&amp;','&').split(/\s*(?:&|–|,|，|\/)\s*/u).some(part=>districts.some(name=>normalized(part)===normalized(name)));}catch{return false;}
-          }));
-          if(requestedName&&!directlyNamed&&!supportedMenu&&!districtMenu&&directory.isLocationSearchEntrance&&session!.metadata.readNetworkBoundary==="INSTALLED"){
-            const originalMenu=page;
-            const homeLinks=[...new Map((await executor.observeControls({source,stage:"DISCOVERY",signal,session:session!})).filter(c=>c.visible&&!c.disabled&&!c.blockedByActiveLayer&&!c.observationOnly
-              &&c.kind==="LINK"&&c.href&&directory.isLocationSearchEntrance!(c.href)).map(c=>[c.href!,c])).values()];
-            // One actually observed public home destination (duplicate links
-            // are equivalent), not a constructed URL or
-            // the model's guess about a hidden region hierarchy.
-            if(homeLinks.length===1&&retrieval.regionPages+2<=4&&sourcePagesBefore+listingPagesRead+2<=NATIVE_LISTING_PAGE_CAP.DIRECTORY){
-              const visit=async(value:string)=>{
-                if(retrieval.regionPages>=4||sourcePagesBefore+listingPagesRead>=NATIVE_LISTING_PAGE_CAP.DIRECTORY)throw Object.assign(Error("Region page ceiling reached"),{code:"READ_BUDGET_EXCEEDED"});
-                retrieval.regionPages++;listingPagesRead++;await executor.navigate({source,stage:"DISCOVERY",signal,session:session!,allowedOrigins,url:value,observed:true});
-              };
-              await visit(homeLinks[0]!.href!);
-              const literalPlace=request.intent.area!.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu," ").trim();
-              const location={...discoveryGoalLocation,name:literalPlace};
-              const suggestion=await executor.selectLocationSuggestion({source,stage:"DISCOVERY",signal,session:session!,allowedOrigins,
-                taskId:`browser-read:native-location:${source}`,goal:{outlet:{name:keyword},location,hardCriteria:[]},
-                objective:"Use a unique observed public place suggestion",matchesSuggestion:t=>locationSuggestionMatches(t,location),
-                completion:()=>({complete:false,reason:"Source result and coordinates must still be verified"})});
-              page=suggestion.snapshot;
-              if(page.url!==homeLinks[0]!.href){retrieval.regionPages++;listingPagesRead++;recordListing(page);}
-              if(suggestion.status==="SELECTED"&&suggestion.selected&&new URL(page.url).origin===new URL(homeLinks[0]!.href!).origin
-                &&page.settlement!=="PENDING"&&!pack.browser!.resultBusy(page)
-                &&(pack.parseListing(page).outlets.length>0||pack.browser!.isExplicitEmptyListing(page))){
-                selectedRegion={url:page.url,...suggestion.selected};
-                directoryRegion={first:selectedRegion,samples:[]};
-                locationSearchResultUrl=page.url;
-                currentAreaListingUrl=page.url;currentAreaEntranceKey=listingEntranceKey(page.url)??homepageEntranceKey(page.url,page.url);
-                currentHomepageListing=!directory.listingRoot(page.url);currentAreaEntranceObserved=currentAreaEntranceKey!==undefined;
-                recordListing(page);raw=rawSourceLinks(page,pack);
-              }else{
-                // Earlier observed menu URL is safe to revisit; no stale DOM
-                // ref or unmatched suggestion is handed to the model.
-                await visit(originalMenu.url);page=await snapshot();recordListing(page);
-              }
-            }
-          }
-          if(!currentAreaEntranceObserved){
-          selectingRegion = true;
-          let regionPageUrl = page.url;
-          try {
-            const chosen = await executor.runSkill({
-              taskId: `browser-read:native-discovery:${source}`, source, ...(sourceSkillPath ? { sourceSkillPath } : {}), stage: "DISCOVERY", session: session!, signal, allowedOrigins,
-              goal: { outlet: { name: keyword, address: request.intent.area!.query }, location: discoveryGoalLocation, hardCriteria: request.intent.criteria.filter(item => item.polarity === "POSITIVE" && item.strength === "HARD").map(item => item.text) },
-              onObservation: collectRegionEntrances,
-              objective: "Select the most specific observed public region/station entrance for the authoritative location. Follow observed links through region menus as needed, or fill the observed public location search using LOCATION. Reveal its public restaurant list; do not open restaurant details yet.",
-              completion: (current, controls) => {
-                const resultKey = JSON.stringify(pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort());
-                if (!selectedRegion && filledRegion && directory.isRegionEntrance(current.url)
-                  && (current.url !== filledRegion.observedOn || resultKey !== filledRegion.resultKey)
-                  && controls.some(control => control.visible && control.kind === "INPUT" && control.value === discoveryGoalLocation.name)) {
-                  selectedRegion = { url: current.url, observedOn: filledRegion.observedOn, targetRef: filledRegion.targetRef };
-                }
-                regionResultKey = resultKey;
-                if (current.url !== regionPageUrl) { regionPageUrl = current.url; if(!regionNavigationPending){listingPagesRead += 1;retrieval.regionPages++;}regionNavigationPending=false;recordListing(current); }
-                if(retrieval.regionPages>4)throw Object.assign(Error("Region page ceiling reached"),{code:"READ_BUDGET_EXCEEDED"});
-                if (sourcePagesBefore + listingPagesRead > NATIVE_LISTING_PAGE_CAP.DIRECTORY) throw Object.assign(new Error("Native listing page ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });
-                const same = selectedRegion && (directory.listingRoot(selectedRegion.url) !== undefined && directory.listingRoot(current.url) === directory.listingRoot(selectedRegion.url)
-                  || directory.isSameObservedRegionHomepage?.(selectedRegion.url, current.url));
-                const requestedAreaName = request.intent.area!.query.replace(/\b(?:near|nearby)\b|附近|周辺|周边/giu, " ").trim();
-                const supportedEntrance = !!outletReference && !!selectedRegion && directory.containsObservedOutlet?.(selectedRegion.url, outletReference.sourceUrl) === true;
-                const deeperEntrance = supportedEntrance && controls.some(control => control.visible && control.href
-                  && directory.isRegionEntrance(control.href) && control.href !== selectedRegion!.url && !sameRegion(control.href, selectedRegion!.url)
-                  && new URL(control.href).pathname.split('/').length > new URL(selectedRegion!.url).pathname.split('/').length
-                  && directory.containsObservedOutlet?.(control.href, outletReference!.sourceUrl));
-                const namedEntrance = !discoveryGoalLocation.name || !!filledRegion || supportedEntrance && !deeperEntrance
-                  || normalized(selectedRegion?.label ?? "").includes(normalized(requestedAreaName));
-                const namedNext = requestedAreaName && controls.some(control => control.visible && control.href && directory.isRegionEntrance(control.href)
-                  && !sameRegion(control.href, current.url) && normalized(control.label).includes(normalized(requestedAreaName)));
-                const provisional = !!discoveryGoalLocation.name && !observedLocationInput && !filledRegion && !supportedEntrance && !namedEntrance && !namedNext;
-                const complete = !!same && (namedEntrance || provisional) && (pack.parseListing(current).outlets.length > 0 || pack.browser!.isExplicitEmptyListing(current));
-                if (complete) selectedProvisional = provisional;
-                return { complete, resultBusy: pack.browser!.resultBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort()]), reason: "Follow an observed region entrance naming the requested area, continuing through a broader parent menu if necessary; observe its public results." };
-              },
-            });
-            page = chosen.snapshot;
-            if (chosen.status !== "COMPLETED" || !selectedRegion) {
-              const observedRegion = selectedRegion && (directory.listingRoot(page.url) !== undefined && directory.listingRoot(page.url) === directory.listingRoot(selectedRegion.url)
-                || directory.isSameObservedRegionHomepage?.(selectedRegion.url, page.url));
-              throw Object.assign(new Error("Observed directory entrance did not produce a completed region result"), { code: observedRegion ? "EXTRACTION_FAILED" : "DISCOVERY_SOURCE_LOCATION_UNGROUNDED" });
-            }
-            directoryRegion = { first: selectedRegion, provisional: selectedProvisional, samples: [] };
-            currentAreaListingUrl = selectedRegion.url;
-            currentAreaEntranceKey = listingEntranceKey(page.url) ?? homepageEntranceKey(page.url, selectedRegion.url);
-            currentHomepageListing = !directory.listingRoot(page.url);
-            currentAreaEntranceObserved = currentAreaEntranceKey !== undefined;
-            // Apply only the Pack's existing request grammar after observing the region.
-            if (keyword && !currentHomepageListing && pack.browser!.retrievalExpression(page.url) !== keyword) {
-              if (retrieval.retrievalPages >= 3 || sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP[source]) {
-                throw Object.assign(Error("Retrieval page ceiling reached"), { code: "READ_BUDGET_EXCEEDED" });
-              }
-              retrieval.retrievalPages++; listingPagesRead++;
-              await navigate(directory.withRetrievalExpression(page.url, keyword), 25_000); page = await snapshot();
-            }
-            recordListing(page); raw = rawSourceLinks(page, pack);
-          } finally { selectingRegion = false; }
-          }
-        }
-        if (!currentAreaEntranceObserved) {
-          throw Object.assign(new Error("Current public directory area entrance was not observed"), { code: "DISCOVERY_SOURCE_LOCATION_UNGROUNDED" });
-        }
-        const listingComplete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => {
-          const currentKey = listingEntranceKey(current.url)
-            ?? homepageEntranceKey(current.url, currentAreaListingUrl);
-          // A missing listing root has no scope meaning. It must never compare
-          // equal merely because both pages produced `undefined`.
-          if (!currentAreaEntranceKey || currentKey !== currentAreaEntranceKey) currentAreaEntranceObserved = false;
-          return currentAreaEntranceObserved
-            && !discoveryQueryNeedsCurrentQuery(current, activeExpression, controls, pack.browser!.resultBusy(current))
-            && (pack.parseListing(current).outlets.length > 0 || pack.browser!.isExplicitEmptyListing(current));
-        };
-        observedOutlets = pack.parseListing(page).outlets;
-        // An explicit empty result is current only after the same observed
-        // input/busy check.  Otherwise an old empty or card list can silently
-        // end discovery before the bounded public retrieval is attempted.
-        if (publicDiscoverySearchInput(page) || !listingComplete(page)) {
-          const discovery = await executor.runSkill({
-            taskId: `browser-read:native-discovery:${source}`,
-            source,
-            ...(sourceSkillPath ? { sourceSkillPath } : {}),
-            stage: "DISCOVERY",
-            session: session!,
-            signal,
-            allowedOrigins,
-            // A source-owned isolated read boundary may safely expose an
-            // observed, non-sensitive query button. The executor still keeps
-            // Router-bound fields and current opaque references authoritative.
-            goal: { location: discoveryGoalLocation, outlet: { name: keyword, address: request.intent.area!.query }, retrievalExpression: activeExpression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
-            objective: "Apply the current source search and reveal its public restaurant results for the authoritative area and retrieval terms. Do not submit a reservation.",
-            methodReason: "The current source listing has not yet produced a parsed public restaurant result or an explicit empty result.",
-            completion: (current, controls) => ({ complete: listingComplete(current, controls), resultBusy: pack.browser!.resultBusy(current), resultKey: JSON.stringify([current.url, pack.parseListing(current).outlets.map(outlet => outlet.sourceUrl).sort(), pack.browser!.isExplicitEmptyListing(current)]), reason: "Reveal a current public restaurant result list or wait for an explicit empty listing state." }),
-          });
-          page = discovery.snapshot;
-          if (discovery.status !== "COMPLETED" || !listingComplete(page, discovery.controls)) {
-            throw Object.assign(new Error("Current public directory results were not observed"), { code: "DISCOVERY_SOURCE_INCOMPLETE" });
-          }
-          recordListing(page);
-          observedOutlets = pack.parseListing(page).outlets;
-        }
-        const planned=await planListing(page,directory.listingRoot(page.url)??directory.listingRoot(currentAreaListingUrl));
-        const hinted=await applyAvailabilityHint(planned.page,planned.outlets,currentAreaListingUrl);
-        page=hinted.page;observedOutlets=hinted.outlets;recordListing(page);
-
-        }
-        // Keep an observed detail entrance ahead of a newly rendered list. A
-        // reordered list is not evidence that the earlier entrance vanished.
-        const outlets = [...new Map([...retainedOutlets, ...observedOutlets].map((outlet) => [outlet.sourceEntityId, outlet])).values()];
-        raw = page ? rawSourceLinks(page, pack) : 0;
-        parsed = outlets.length;
-        const remainingDetailBudget = Math.max(0, NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore - inspected);
-        const unseenOutlets = outlets.filter((outlet) => !inspectedSourceIds.includes(outlet.sourceEntityId));
-        const chunk = unseenOutlets.slice(0, Math.min(NATIVE_DETAIL_BATCH_CAP, remainingDetailBudget));
-        const pendingOutlets = unseenOutlets.slice(chunk.length);
-        // Keep the selected chunk persisted until each detail attempt actually
-        // begins. A timeout/session failure halfway through this loop must not
-        // silently discard the unstarted entries selected for this batch.
-        pendingSourceEntries = unseenOutlets.map((outlet) => pendingEntry(
-          outlet.sourceEntityId, outlet.sourceUrl, this.now(),
-          { outletName: outlet.outletName, ...(outlet.address ? { address: outlet.address } : {}), ...(outlet.phone ? { phone: outlet.phone } : {}), ...(outlet.sourceCategories ? {sourceCategories:outlet.sourceCategories} : {}) },
-        ));
-        batchLimitReached = pendingOutlets.length > 0 && remainingDetailBudget > chunk.length;
-        // This is only a provisional listing observation.  The source may end
-        // only after the selected work has actually been attempted, because a
-        // replacement-session failure leaves the unstarted part of this chunk
-        // as the next continuation.
-        sourceEnded = false;
-        sourceExhausted = pendingOutlets.length || nextListing ? false : "UNKNOWN";
-        deferredByBatchCap.push(...pendingOutlets.map((outlet) => ({ sourceUrl: outlet.sourceUrl, reasonCode: "DETAIL_BATCH_CAP" as const })));
-        for (const outlet of chunk) {
-          if (signal.aborted) throw Object.assign(new Error("Native search aborted"), { code: "BROWSER_ABORTED" });
-          if (!session) {
-            try { session = await executor.acquire(signal, source, "DISCOVERY", this.networkPolicy); }
-            catch (error) {
-              if (taskLevelFailure(error, signal)) throw error;
-              candidateFailures.push({ sourceUrl: outlet.sourceUrl, reasonCode: candidateFailureCode(error, source) });
-              rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: "SESSION_OPEN_FAILED" });
-              break;
-            }
-          }
-          // Opening a session is not a detail attempt. A rejected executor
-          // budget/deadline occurs before `OPERATION_STARTED`, so it also
-          // leaves this observed entrance queued for the next continuation.
-          attemptingDetailSourceId = outlet.sourceEntityId;
-          detailNavigationStarted = false;
-          let consumed = false;
-          const consumeStartedDetail = () => {
-            if (consumed || !detailNavigationStarted) return;
-            consumed = true;
-            inspected += 1;
-            inspectedSourceIds.push(outlet.sourceEntityId);
-            pendingSourceEntries = pendingSourceEntries.filter((entry) => entry.sourceEntityId !== outlet.sourceEntityId);
-          };
-          let detailObserved = false;
-          let regionObservation: DirectoryRegion["samples"][number] = { sourceEntityId: outlet.sourceEntityId, sourceUrl: outlet.sourceUrl, outcome: "UNKNOWN" };
-          try {
-            await navigate(outlet.sourceUrl, 30_000);
-            consumeStartedDetail();
-            const detail = await snapshot();
-            detailObserved = true;
-            if (pack.browser!.hasChallenge(detail)) { rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: "BOT_CHALLENGE" }); continue; }
-            const extracted = pack.browser!.parseDetailIdentity(detail, outlet);
-            const point = extracted && pageCoordinates(detail, extracted.outletName);
-            if (!extracted || !point) {
-              rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: !point ? "PAGE_COORDINATES_MISSING" : "PAGE_IDENTITY_MISSING" });
-              continue;
-            }
-            const distance = googleDiscoveryGeoDiagnostics({ location: point }, { evaluationLocation: location }).distanceMeters;
-            regionObservation = { ...regionObservation, coordinates: point, ...bearingFrom(location, point), ...(distance !== undefined ? { distanceMeters: distance } : {}), outcome: distance === undefined ? "UNKNOWN" : distance > location.radiusMeters ? "OUTSIDE_RADIUS" : "WITHIN_RADIUS" };
-            const grounded = groundedNativeCandidate({ source: pack, sourceId: extracted.sourceEntityId,
-              sourceUrl: extracted.sourceUrl, name: extracted.outletName, address: extracted.address!,
-              coordinates: point, location, request, observedAt: this.now(), ...(outlet.sourceCategories ? { sourceCategories: outlet.sourceCategories } : {}) });
-            if (grounded) {
-              if (admitted.has(grounded.candidate.restaurant.id)) rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: "DUPLICATE_OUTLET" });
-              else admitted.set(grounded.candidate.restaurant.id, grounded);
-            } else rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: "OUTSIDE_EXACT_RADIUS" });
-          } catch (error) {
-            consumeStartedDetail();
-            if (taskLevelFailure(error, signal)) throw error;
-            candidateFailures.push({ sourceUrl: outlet.sourceUrl, reasonCode: candidateFailureCode(error, source) });
-            rejected.push({ sourceUrl: outlet.sourceUrl, reasonCode: candidateFailureCode(error, source) });
-            if (!detailObserved) {
-              await executor.close("RUNTIME_FAILURE");
-              session = undefined;
-            }
-          } finally {
-            if (detailNavigationStarted && directoryRegion) {
-              const samples = directoryRegion.replacement ? directoryRegion.replacementSamples! : directoryRegion.samples;
-              if (!samples.some(sample => sample.sourceEntityId === outlet.sourceEntityId)) samples.push(regionObservation);
-              if (regionObservation.outcome === "WITHIN_RADIUS") {
-                if (directoryRegion.replacement) directoryRegion.replacementVerified = true;
-                else directoryRegion.verified = true;
-              }
-            }
-            attemptingDetailSourceId = undefined;
-          }
-          if (directoryRegion?.replacement && !directoryRegion.replacementVerified && twoOutside(directoryRegion.replacementSamples ?? [])) {
-            directoryRegion.stopReason = "REPLACEMENT_SAMPLES_OUTSIDE_RADIUS"; pendingSourceEntries = []; nextListing = undefined; sourceExhausted = "UNKNOWN";
-            break;
-          }
-          if (directoryEntryReplacementAllowed(directoryRegion)) break;
-        }
-        replaceRegion = directoryEntryReplacementAllowed(directoryRegion);
-        if (replaceRegion) {
-          retainedEntries = []; pendingSourceEntries = []; nextListing = undefined;
-          deferredByBatchCap.length = 0;
-        }
-        } while (replaceRegion);
-      } else {
-        let page: BrowserSnapshot | undefined;
-        let links = retainedEntries.map((entry) => entry.sourceUrl);
-        // As with the directory flow, a persisted public detail entrance is sufficient to
-        // continue the same source batch. Do not make it dependent on a fresh,
-        // dynamically hydrated search listing.
-        if (retainedEntries.length === 0) {
-        const url = new URL(pack.buildQuery(query).url);
-        const keyword = query.keyword ?? "";
-        await navigate(url.toString(), 35_000);
-        page = await snapshot();
-        listingPagesRead += 1;
-        raw = rawSourceLinks(page, pack);
-        links = pack.parseListing(page).outlets.map((outlet) => outlet.sourceUrl);
-        // A missing search query parameter is not a loading signal. The
-        // parser's current page state decides whether the shared skill needs
-        // to wait or use an observed public search control.
-        const expression = keyword;
-        const listingComplete = (current: BrowserSnapshot, controls: readonly BrowserPageControl[] = []) => !discoveryQueryNeedsCurrentQuery(current, expression, controls, pack.browser!.resultBusy(current))
-          && (pack.parseListing(current).outlets.length > 0 || pack.browser!.isExplicitEmptyListing(current));
-        if ((publicDiscoverySearchInput(page) || !listingComplete(page)) && !pack.browser!.isPageUnavailable(page)) {
-          const discovery = await executor.runSkill({
-            taskId: `browser-read:native-discovery:${source}`,
-            source,
-            ...(sourceSkillPath ? { sourceSkillPath } : {}),
-            stage: "DISCOVERY",
-            session: session!,
-            signal,
-            allowedOrigins,
-            goal: { location: discoveryGoalLocation, outlet: { name: expression, address: request.intent.area!.query }, retrievalExpression: expression, hardCriteria: request.intent.criteria.filter((item) => item.polarity === "POSITIVE" && item.strength === "HARD").map((item) => item.text) },
-            objective: "Apply the current public source search and reveal venue result cards for the authoritative area and retrieval terms. Do not submit a reservation.",
-            methodReason: "The current source listing has not yet produced a parsed public venue result or an explicit empty result.",
-            completion: (current, controls) => sourceListingCompletion(pack, current, controls, expression),
-          });
-          page = discovery.snapshot;
-          if (discovery.status !== "COMPLETED" || !listingComplete(page, discovery.controls)) {
-            throw Object.assign(new Error("Current public venue results were not observed"), { code: "DISCOVERY_SOURCE_INCOMPLETE" });
-          }
-          raw = rawSourceLinks(page, pack);
-          links = pack.parseListing(page).outlets.map((outlet) => outlet.sourceUrl);
-        }
-        }
-        if(page && retainedEntries.length===0){
-          const planned=await planListing(page);const hinted=await applyAvailabilityHint(planned.page,planned.outlets);page=hinted.page;links=hinted.outlets.map(o=>o.sourceUrl);recordListing(page);
-        }
-        links = [...new Map(links.map((link) => [link, link])).values()];
-        parsed = links.length;
-        if (page && (pack.browser!.hasChallenge(page) || pack.browser!.isPageUnavailable(page))) {
-          throw Object.assign(new Error("Discovery search page unavailable"), { code: "DISCOVERY_SOURCE_PAGE_UNAVAILABLE" });
-        }
-        if (!links.length && (!page || !pack.browser!.isExplicitEmptyListing(page))) {
-          throw Object.assign(new Error("Discovery source results were not observed"), { code: "DISCOVERY_SOURCE_INCOMPLETE" });
-        }
-        raw = page ? rawSourceLinks(page, pack) : 0;
-        parsed = links.length;
-        const remainingDetailBudget = Math.max(0, NATIVE_DETAIL_SOURCE_CAP - sourceDetailAttemptsBefore);
-        const sourceId = (link: string) => pack.browser!.sourceEntityIdForUrl(link) ?? "unknown";
-        const unseenLinks = links.filter((link) => !priorInspected.has(sourceId(link)));
-        const chunk = unseenLinks.slice(0, Math.min(NATIVE_DETAIL_BATCH_CAP, remainingDetailBudget));
-        const pendingLinks = unseenLinks.slice(chunk.length);
-        // Persist all unattempted entries, including this chosen chunk, until
-        // each detail navigation has actually started.
-        const listingOutlets = page ? pack.parseListing(page).outlets : [];
-        pendingSourceEntries = unseenLinks.map((link) => pendingEntry(sourceId(link), link, this.now(),
-          { sourceCategories: listingOutlets.find(outlet => outlet.sourceUrl === link)?.sourceCategories ?? retainedEntries.find(entry=>entry.sourceUrl===link)?.sourceCategories ?? [] }));
-        batchLimitReached = pendingLinks.length > 0 && remainingDetailBudget > chunk.length;
-        // Keep chosen links in the continuation until their detail navigation
-        // has actually started; see the parallel directory flow above.
-        sourceEnded = false;
-        sourceExhausted = pendingLinks.length ? false : "UNKNOWN";
-        deferredByBatchCap.push(...pendingLinks.map((sourceUrl) => ({ sourceUrl, reasonCode: "DETAIL_BATCH_CAP" as const })));
-        for (const link of chunk) {
-          if (signal.aborted) throw Object.assign(new Error("Native search aborted"), { code: "BROWSER_ABORTED" });
-          if (!session) {
-            try { session = await executor.acquire(signal, source, "DISCOVERY", this.networkPolicy); }
-            catch (error) {
-              if (taskLevelFailure(error, signal)) throw error;
-              candidateFailures.push({ sourceUrl: link, reasonCode: candidateFailureCode(error, source) });
-              rejected.push({ sourceUrl: link, reasonCode: "SESSION_OPEN_FAILED" });
-              break;
-            }
-          }
-          const entryId = sourceId(link);
-          const sourceCategories = pendingSourceEntries.find(entry => entry.sourceEntityId === entryId)?.sourceCategories;
-          attemptingDetailSourceId = entryId;
-          detailNavigationStarted = false;
-          let consumed = false;
-          const consumeStartedDetail = () => {
-            if (consumed || !detailNavigationStarted) return;
-            consumed = true;
-            inspected += 1;
-            inspectedSourceIds.push(entryId);
-            pendingSourceEntries = pendingSourceEntries.filter((entry) => entry.sourceEntityId !== entryId);
-          };
-          let detailObserved = false;
-          try {
-            await navigate(link, 30_000);
-            consumeStartedDetail();
-            const detail = await snapshot();
-            detailObserved = true;
-            if (pack.browser!.hasChallenge(detail) || pack.browser!.isPageUnavailable(detail)) {
-              rejected.push({ sourceUrl: link, reasonCode: pack.browser!.hasChallenge(detail) ? "BOT_CHALLENGE" : "PAGE_UNAVAILABLE" });
-              continue;
-            }
-            const extracted = pack.browser!.parseDetailIdentity(detail, { sourceEntityId: entryId, sourceUrl: link, outletName: entryId });
-            const point = extracted && pageCoordinates(detail, extracted.outletName);
-            if (!extracted || !point) {
-              rejected.push({ sourceUrl: link, reasonCode: !point ? "PAGE_COORDINATES_MISSING" : "PAGE_IDENTITY_MISSING" });
-              continue;
-            }
-            const grounded = groundedNativeCandidate({ source: pack, sourceId: extracted.sourceEntityId,
-              sourceUrl: extracted.sourceUrl, name: extracted.outletName, address: extracted.address!,
-              coordinates: point, location, request, observedAt: this.now(), ...(sourceCategories ? {sourceCategories} : {}) });
-            if (grounded) {
-              if (admitted.has(grounded.candidate.restaurant.id)) rejected.push({ sourceUrl: link, reasonCode: "DUPLICATE_OUTLET" });
-              else admitted.set(grounded.candidate.restaurant.id, grounded);
-            } else rejected.push({ sourceUrl: link, reasonCode: "OUTSIDE_EXACT_RADIUS" });
-          } catch (error) {
-            consumeStartedDetail();
-            if (taskLevelFailure(error, signal)) throw error;
-            candidateFailures.push({ sourceUrl: link, reasonCode: candidateFailureCode(error, source) });
-            rejected.push({ sourceUrl: link, reasonCode: candidateFailureCode(error, source) });
-            if (!detailObserved) {
-              await executor.close("RUNTIME_FAILURE");
-              session = undefined;
-            }
-          } finally {
-            attemptingDetailSourceId = undefined;
-          }
-        }
-      }
-      sourceTimeLimitReached = sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS;
-      // A batch selection is not consumption.  Recompute after the loop so a
-      // navigation/session interruption retains all entries it never began.
-      if (directoryRegion && (sourceTimeLimitReached || sourceDetailAttemptsBefore + inspected >= NATIVE_DETAIL_SOURCE_CAP)) directoryRegion.stopReason = "SOURCE_BUDGET_EXHAUSTED";
-      sourceEnded = !!directoryRegion?.stopReason || (!directoryEntryReplacementAllowed(directoryRegion)
-          && pendingSourceEntries.length === 0
-          && (!nextListing || sourcePagesBefore + listingPagesRead >= NATIVE_LISTING_PAGE_CAP[source]))
-        || sourceDetailAttemptsBefore + inspected >= NATIVE_DETAIL_SOURCE_CAP
-        || sourceTimeLimitReached;
-      return { candidates: [...admitted.values()].map((item) => item.candidate), evidence: [...admitted.values()].map((item) => item.evidence), candidateFailures,
-        progress: { ...regionCheckpoint(), retrieval, ...(directoryRegion ? { directoryRegion } : {}), sourceId: pack.meta.id, inspectedSourceIds: [...new Set(inspectedSourceIds)], detailAttempts: sourceDetailAttemptsBefore + inspected,
-          pagesRead: (priorProgress?.sourceId === pack.meta.id ? priorProgress.pagesRead : 0) + listingPagesRead,
-          elapsedMs: sourceElapsedMs(),
-          ...(nextListing ? { nextListing } : {}), visitedListingUrls,
-          pendingSourceEntries: [...new Map(pendingSourceEntries.map((entry) => [entry.sourceEntityId, entry])).values()],
-          pendingSourceIds: [...new Set(pendingSourceEntries.map((entry) => entry.sourceEntityId))] },
-        funnel: funnel() };
-    } catch (error) {
-      // The Executor races session acquisition against the remaining source
-      // window.  At a one-millisecond boundary its timeout can fire before a
-      // wall-clock sample ticks over, but it is still the source deadline and
-      // must retain the queue as such rather than look like a generic failure.
-      const sourceDeadlineExceeded = error !== null && typeof error === "object" && "code" in error && error.code === "BROWSER_TIMEOUT";
-      sourceTimeLimitReached = sourceDeadlineExceeded || sourceElapsedMs() >= NATIVE_SOURCE_ELAPSED_CAP_MS;
-      if (sourceTimeLimitReached) { sourceEnded = true; if (directoryRegion) directoryRegion.stopReason = "SOURCE_BUDGET_EXHAUSTED"; }
-      if (error && typeof error === "object") Object.assign(error, {
-        // A failed correction may stop the source, but cannot revoke qualified
-        // candidates already grounded during this same invocation.
-        ...((source === "DIRECTORY" && (replaceRegion || directoryRegion?.replacement) || restaurantReserveCancelled(signal)) ? {nativeAccepted: [...admitted.values()]} : {}),
-        nativeFunnel: funnel(true),
-        nativeProgress: {
-          ...regionCheckpoint(), retrieval,
-          ...(directoryRegion ? { directoryRegion } : {}),
-          sourceId: pack.meta.id,
-          inspectedSourceIds: [...new Set(inspectedSourceIds)],
-          detailAttempts: sourceDetailAttemptsBefore + inspected,
-          pagesRead: sourcePagesBefore + listingPagesRead,
-          elapsedMs: sourceElapsedMs(),
-          ...(nextListing ? { nextListing } : {}), visitedListingUrls,
-          pendingSourceEntries: [...new Map(pendingSourceEntries.map((entry) => [entry.sourceEntityId, entry])).values()],
-          pendingSourceIds: [...new Set(pendingSourceEntries.map((entry) => entry.sourceEntityId))],
+          const complete = admitted.size >= Math.min(NATIVE_DETAIL_BATCH_CAP, NATIVE_DETAIL_SOURCE_CAP - (previous?.detailAttempts ?? 0));
+          return { complete, resultBusy: pack.browser!.resultBusy(page), resultKey: JSON.stringify([...admitted.keys()]),
+            reason: `Source verified ${admitted.size} restaurants. Already inspected: ${JSON.stringify([...inspected])}. Rejected source pages: ${JSON.stringify(rejected)}. Continue from current observed links/controls within the remaining source limits, or request help if no supported path exists.` };
         },
       });
+      stopped = result.status !== "COMPLETED";
+      return { candidates: [...admitted.values()].map(item => item.candidate), evidence: [...admitted.values()].map(item => item.evidence), candidateFailures, progress: progress(), funnel: funnel() };
+    } catch (error) {
+      if (error && typeof error === "object") Object.assign(error, { nativeAccepted: [...admitted.values()], nativeProgress: progress(), nativeFunnel: funnel() });
       throw error;
-    } finally {
-      await executor.close();
-    }
+    } finally { await executor.close(); }
   }
 
   async search(request: RestaurantSearchRequest, signal: AbortSignal): Promise<RestaurantSearchRead> {
@@ -1336,13 +383,13 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       }
     };
     let planningElapsedMs=0;
-    if(source!=='DIRECTORY' && !discoveryPlan.textRetrieval){
+    if(!discoveryPlan.textRetrieval){
       const planningStarted=Date.now();
       await prepareTextRetrieval(NATIVE_SOURCE_ELAPSED_CAP_MS);
       planningElapsedMs=Date.now()-planningStarted;
     }
-    if(source!=='DIRECTORY'&&discoveryPlan.textRetrieval?.keyword)entry.query.keyword=discoveryPlan.textRetrieval.keyword;
-    if(source==='VENUE_SEARCH'){
+    if(discoveryPlan.textRetrieval?.keyword)entry.query.keyword=discoveryPlan.textRetrieval.keyword;
+    if(source){
       const prior=request.continuation?.sourceProgress?.sourceId===entry.sourceId?request.continuation.sourceProgress:undefined;
       request={...request,continuation:{intentFingerprint:restaurantSearchIntentFingerprint(request.intent),usedPageTokens:[],pagesRead:0,exhausted:false,...request.continuation,
         sourceProgress:{sourceId:entry.sourceId,inspectedSourceIds:[],detailAttempts:0,pagesRead:0,pendingSourceIds:[],...prior,elapsedMs:(prior?.elapsedMs??0)+planningElapsedMs,
@@ -1372,34 +419,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     let failureCode: RestaurantFailureCode | undefined;
     try {
       if (discoveryPlan.textRetrieval?.accepted === false) throw Object.assign(Error('Rejected shared retrieval; bounded UNKNOWN'), {code:'DISCOVERY_SOURCE_INCOMPLETE'});
-      const referenceEntry = discoveryPlan.entries.slice(discoveryPlan.cursor + 1)
-        .find(e => !nativeSourceForPack(this.packs.find(p => p.meta.id === e.sourceId)));
-      const loadReferenceRead = referenceEntry ? async (remainingMs: number) => {
-        if (discoveryPlan.regionReferenceRead) {
-          if (discoveryPlan.regionReferenceRead.readRunId !== request.readRunId) throw Object.assign(Error('Region reference read belongs to a different run'), {code: 'GOOGLE_MALFORMED_RESPONSE'});
-          return discoveryPlan.regionReferenceRead.read;
-        }
-        const boundedSignal = AbortSignal.any([signal, AbortSignal.timeout(Math.max(1, Math.floor(remainingMs)))]);
-        await prepareTextRetrieval(remainingMs);
-        if (discoveryPlan.textRetrieval?.accepted === false) throw Object.assign(Error('Rejected shared retrieval; bounded UNKNOWN'), {code:'DISCOVERY_SOURCE_INCOMPLETE'});
-        const {continuation: _prior, ...freshRequest} = request;
-        const readStarted = Date.now();
-        let read: RestaurantSearchRead;
-        try {
-          read = await this.locality.search({...freshRequest, discoveryQuery: referenceEntry.query, retrievalHint: referenceEntry.query.keyword ?? referenceEntry.query.category}, boundedSignal);
-        } catch (error) {
-          if (taskLevelFailure(error, signal) && !restaurantReserveCancelled(signal)) throw error;
-          const code = restaurantFailureCode(candidateFailureCode(error, 'GOOGLE'), 'SEARCH_FAILED');
-          // Preserve this one failed read for the original source stage too;
-          // a missing routing hint must not silently schedule a second call.
-          read = {candidates: [], evidence: [], continuation: {
-            intentFingerprint: restaurantSearchIntentFingerprint(request.intent), usedPageTokens: [], pagesRead: 0, exhausted: true, lastFailureCode: code,
-          }, metadata: {provider: 'GOOGLE_PLACES', route: 'STRUCTURED_ADAPTER', latencyMs: Date.now() - readStarted, failureCode: code, googleRequests: this.locality.googleRequestUsage(request.readRunId)}};
-        }
-        discoveryPlan.regionReferenceRead = {sourceId: referenceEntry.sourceId, ...(request.readRunId ? {readRunId: request.readRunId} : {}), read};
-        return read;
-      } : undefined;
-      batch = await this.batch(pack!, source, request, location, entry.query, signal, request.continuation?.sourceProgress, loadReferenceRead);
+      batch = await this.batch(pack!, source, request, location, entry.query, signal, request.continuation?.sourceProgress);
     } catch (error) {
       if (taskLevelFailure(error, signal) && !restaurantReserveCancelled(signal)) throw error;
       if (error && typeof error === "object" && "nativeFunnel" in error && error.nativeFunnel) {
@@ -1414,7 +434,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             ? !!failedProgress.directoryRegion?.stopReason
               || failedProgress.pendingSourceEntries.length === 0
               || failedProgress.detailAttempts >= failedFunnel.sourceDetailCap
-              || failedFunnel.sourceTimeLimitReached
+              || !!failedFunnel.sourceTimeLimitReached
             : failedFunnel.sourceEnded,
         } };
       }

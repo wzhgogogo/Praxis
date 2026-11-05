@@ -30,6 +30,8 @@ export interface BrowserReadNetworkRequestRule {
 }
 
 export interface BrowserReadNetworkPolicy {
+  /** Code-owned public source seeds, usable only for a session's first navigation. */
+  startupDocuments?: readonly string[];
   /** Exact public document URLs are admitted only after Executor prepares navigation. */
   documentOrigins: readonly string[];
   /** ADR-0036: prepared public document origins may issue non-sensitive GET/HEAD reads. */

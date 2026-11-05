@@ -11,7 +11,7 @@ const reviewedStaticScript = [{ origin: "https://cdn.public.example", pathnamePr
 const reviewedDirectoryDocument = [{ origin: "https://directory.public.example", pathname: "/en/tokyo/A1303/A130301/rstLst/", resourceTypes: ["document"] as const,
   queryKeyRules: { required: [], allowed: ["sw"] } }] as const;
 
-test("homepage GET Search keeps its approved queryless form action", async () => {
+test("observed same-origin GET forms keep their public queryless action without an endpoint exception", async () => {
   const { tabelogPublicReadNetworkPolicy } = await import("../../../integrations/tabelog/tabelog-public-query.js");
   const root = await mkdtemp(join(tmpdir(), "real-search-form-"));
   try {
@@ -22,7 +22,12 @@ test("homepage GET Search keeps its approved queryless form action", async () =>
     await recording.finish();
     const replay = await readFile(join(root, "real-form", "snapshot-0001.html"), "utf8");
     assert.match(replay, /action="https:\/\/tabelog.com\/en\/rstLst\/"/);
-    for (const [method, action] of [["post", "https://tabelog.com/en/rstLst/"], ["get", "https://other.example/en/rstLst/"], ["get", "https://tabelog.com/en/unreviewed/"], ["get", "https://tabelog.com/en/rstLst/?email=private"]] as const) {
+    const generic = new BrowserReadRecording({directory:root,runId:"generic-public-form"});
+    generic.recordSnapshot({url:"https://public.example/start",title:"Public",text:"",html:'<form method="get" action="/new-public-search/"><input name="anything"></form>'});
+    const genericSaved=await generic.finish();
+    assert.match(await readFile(join(genericSaved.path,"snapshot-0001.html"),"utf8"),/action="https:\/\/public.example\/new-public-search\/"/);
+
+    for (const [method, action] of [["post", "https://tabelog.com/en/rstLst/"], ["get", "https://other.example/en/rstLst/"], ["get", "https://tabelog.com/en/login/"], ["get", "https://tabelog.com/en/rstLst/?email=private"]] as const) {
       const rejected = new BrowserReadRecording({ directory: root, runId: `unreviewed-${method}-${action.length}`, reviewedReads: tabelogPublicReadNetworkPolicy.dynamicReads });
       rejected.recordSnapshot({ url: "https://tabelog.com/en/", title: "Contract control", text: "", html: `<form method="${method}" action="${action}"></form>` });
       const saved = await rejected.finish();

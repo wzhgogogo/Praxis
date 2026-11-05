@@ -194,36 +194,15 @@ export class TableCheckEntryLedger {
   }
 }
 
-function matchesDiscoveryQuery(page: BrowserSnapshot, requestedUrl: string): boolean {
-  try {
-    const actual = new URL(page.url);
-    const requested = new URL(requestedUrl);
-    if (actual.origin !== requested.origin || actual.pathname !== requested.pathname
-      || actual.searchParams.get("search_text") !== requested.searchParams.get("search_text")) return false;
-    const linkedQueries = [...page.html.matchAll(/<a\b[^>]*href=["']([^"']+)["']/gi)]
-      .flatMap((match) => {
-        try {
-          const link = new URL(match[1] ?? "", actual);
-          return link.searchParams.has("search_text") ? [link.searchParams.get("search_text")] : [];
-        } catch { return []; }
-      });
-    return linkedQueries.every((query) => query === requested.searchParams.get("search_text"));
-  } catch { return false; }
+function matchesDiscoveryQuery(page: BrowserSnapshot, _requestedUrl: string): boolean {
+  return new URL(page.url).origin === "https://www.tablecheck.com"
+    && !tableCheckNameSearchCompletion(page, "").resultBusy;
 }
 
 function matchesReservationPage(page: BrowserSnapshot, observedReservationUrl: string): boolean {
   return sourceUrlKey(page.url) === sourceUrlKey(observedReservationUrl);
 }
 
-function selectedDateField(snapshot: BrowserSnapshot): string | undefined {
-  return /<select[^>]+(?:name|id)=["'][^"']*(?:date|日付)[^"']*["']/i.test(snapshot.html)
-    ? "select[name*='date'], select[id*='date']" : undefined;
-}
-
-function selectedPartyField(snapshot: BrowserSnapshot): string | undefined {
-  return /<select[^>]+(?:name|id)=["'][^"']*(?:party|person|人数|guest|pax)[^"']*["']/i.test(snapshot.html)
-    ? "select[name*='party'], select[name*='person'], select[name*='guest'], select[name*='pax']" : undefined;
-}
 
 export class TableCheckBrowserAvailability implements RestaurantAvailabilityProvider {
   readonly provider = "TABLECHECK" as const;
@@ -327,7 +306,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       if (responseRule) await session.captureResponses?.([responseRule]);
       await this.executor.navigate({
         source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
-        url: tableCheckDiscoveryPack.availability!.buildRequestUrl({ candidate: candidate.restaurant, request, target: reservation })!, observed: true,
+        url: tableCheckDiscoveryPack.availability!.buildRequestUrl!({ candidate: candidate.restaurant, request, target: reservation })!, observed: true,
       });
       availabilityPage = await this.executor.snapshot({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session });
     }
@@ -423,7 +402,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       let directPage: BrowserSnapshot | undefined;
       if (listedOutletUrl) {
         await this.executor.navigate({
-          source: "TABLECHECK", stage: "IDENTITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: listedOutletUrl, observed: true,
+          source: "TABLECHECK", stage: "IDENTITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: listedOutletUrl, observed: true, goal: {outlet:{name:candidate.restaurant.outletName,address:candidate.restaurant.address},retrievalExpression:candidate.restaurant.outletName,retrievalSource:"G4_SOURCE_TERM",hardCriteria:[]},
         });
         let page = await this.executor.snapshot({ source: "TABLECHECK", stage: "IDENTITY", signal, session });
         page = await this.resumeAfterUserIntervention(candidate, request, session, page, "IDENTITY", signal);
@@ -493,9 +472,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
         const alternative = checkedNamedSourceQuery(candidate, await this.options.alternativeSearch?.(candidate, signal));
         if (!alternative) return false;
         searchName = alternative;
-        const url = new URL(tableCheckDiscoveryUrl(candidate));
-        url.searchParams.set("search_text", alternative);
-        discoveryUrl = url.toString();
+        discoveryUrl = tableCheckDiscoveryPack.browser!.startupUrl!;
         return true;
       };
       for (;;) {
@@ -507,7 +484,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           discoveryBase = { requestedUrl: diagnosticUrl(listedOutletUrl), finalUrl: diagnosticUrl(directPage.url), title: directPage.title };
         } else {
           await this.executor.search({
-            source: "TABLECHECK", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl, query: searchName,
+            source: "TABLECHECK", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl, query: searchName, completion: page => tableCheckNameSearchCompletion(page, searchName),
           });
           // Snapshot first: a parsed result or explicit empty state is ready now.
           // Otherwise the shared skill receives the parser state and decides
@@ -808,7 +785,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       // an availability oracle, but late registration loses its chronology.
       const availabilityResponseRule = tableCheckAvailabilityResponseRule(activeSelected.reservation);
       if (availabilityResponseRule) await session.captureResponses?.([availabilityResponseRule]);
-      const requestedReservationUrl = tableCheckDiscoveryPack.availability!.buildRequestUrl({
+      const requestedReservationUrl = tableCheckDiscoveryPack.availability!.buildRequestUrl!({
         candidate: candidate.restaurant,
         request,
         target: activeSelected.reservation,
@@ -907,22 +884,6 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
                 : "Date and party are selected, but the latest HTML/control observations do not yet form one completed, non-conflicting result for the requested time window. If the mealtime differs, open the observed time combobox and choose a time inside the goal window; otherwise wait for its result."
               : "The selected request is incomplete; continue only with a current permitted query action or request human help.",
           };
-        },
-        shortcut: {
-          name: "OBSERVED_STANDARD_DATE_PARTY_FIELDS",
-          run: async (current) => {
-            const party = selectedPartyField(current);
-            const date = selectedDateField(current);
-            if (!party && !date) return;
-            if (party) {
-              const values = await this.executor.select({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session: session!, selector: party, value: String(request.partySize), authoritativeValue: String(request.partySize) });
-              if (!values.includes(String(request.partySize))) throw new Error("Party selection did not report the authoritative value");
-            }
-            if (date) {
-              const values = await this.executor.select({ source: "TABLECHECK", stage: "AVAILABILITY", signal, session: session!, selector: date, value: request.date, authoritativeValue: request.date });
-              if (!values.includes(request.date)) throw new Error("Date selection did not report the authoritative value");
-            }
-          },
         },
       };
       const readAvailability = () => this.executor.runSkill(availabilityInput);

@@ -9,7 +9,6 @@ import {
   type BrowserReadActionTarget,
   type BrowserReadHistoryStep,
   type BrowserReadDecisionInput,
-  type BrowserRegionCorrection,
   browserReadActionTargetReplayFingerprint,
   type BrowserActionWireRejection,
   BrowserReadDecisionError,
@@ -107,8 +106,8 @@ export interface BrowserSkillReadInput {
   sourceSkillPath?: string;
   /** Current method result; it is context for continuation, never a provider failure by itself. */
   methodReason?: string;
-  /** A source-owned, already-authorized shortcut; its effect is always post-condition checked. */
-  shortcut?: { name: string; run(snapshot: BrowserSnapshot): Promise<void> };
+  /** Search completion is a model choice followed by the ordinary result check. */
+  requireModelConfirmation?: boolean;
   controlHints?(snapshot: Readonly<BrowserSnapshot>): readonly BrowserControlHint[];
   onObservation?(value: Pick<BrowserReadDecisionInput["observation"], "revision" | "url" | "targets">): void;
   completion(snapshot: BrowserSnapshot, controls: BrowserPageControl[]): BrowserCompletionAssessment;
@@ -275,7 +274,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
 export class BrowserTaskExecutor {
   private sessionSource: BrowserExecutionDiagnostic["source"] | undefined;
   private readonly parkedSessions = new Map<BrowserExecutionDiagnostic["source"], {session:BrowserSession;signal:AbortSignal|undefined;cleanup:(()=>void)|undefined;unsettled:boolean}>();
-  private readonly searchedSessions = new WeakSet<BrowserSession>();
+  private readonly startedSessions = new WeakSet<BrowserSession>();
   private session: BrowserSession | undefined;
   private sessionSignal: AbortSignal | undefined;
   private sessionAbortCleanup: (() => void) | undefined;
@@ -439,165 +438,63 @@ export class BrowserTaskExecutor {
     return session;
   }
 
-  /** One data-only correction choice, using the same source deadline/call counters. No DOM read or navigation. */
-  async selectRegionEntrance(input: Pick<BrowserSkillReadInput, "taskId" | "source" | "stage" | "signal" | "goal" | "sourceSkillPath"> & { regionCorrection: BrowserRegionCorrection }): Promise<{status: "SELECTED"; entranceRef: string} | {status: "NO_SAFE_ACTION"; reasonCode: string}> {
-    const context = structuredClone(input.regionCorrection);
-    const entries = context.entrances.filter(entry => entry.sourceId === context.sourceId && entry.flowId === context.flowId);
-    if (input.stage !== "DISCOVERY" || context.replacementsUsed !== 0 || !entries.length || !this.options.modelDecision) return {status: "NO_SAFE_ACTION", reasonCode: "NO_OBSERVED_REPLACEMENT_ENTRANCE"};
-    if (this.budget.totalModelCalls >= Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity)) throw new BrowserRuntimeError("BROWSER_GLOBAL_MODEL_BUDGET_EXCEEDED", "Shared browser-model budget exhausted");
-    if (this.modelCalls >= this.options.maxModelCallsPerCandidate || this.remaining(1) <= 0) return {status: "NO_SAFE_ACTION", reasonCode: "READ_BUDGET_EXCEEDED"};
-    this.modelCalls++; this.budget.totalModelCalls++;
-    this.record({source: input.source, stage: input.stage, event: "MODEL_DECISION_STARTED", detail: "SELECT_REGION_ENTRANCE"});
-    let action: BrowserReadAction;
-    try {
-    action = await this.bounded(input, "MODEL_DECISION", () => this.options.modelDecision!.decide({
-      taskId: input.taskId, source: input.source, stage: input.stage, history: [], goal: input.goal,
-      objective: "Choose a different entrance once from this source flow's supplied observed collection. Do not open or restore a menu.",
-      skills: loadBrowserReadSkills(input.source, input.sourceSkillPath),
-      observation: {revision: 0, url: "", title: "Source-flow entrance selection (no current DOM)", visibleText: "", targets: [], pageActions: []},
-      regionCorrection: {...context, entrances: entries},
-      progress: `One correction remains. Shared model calls remaining after this choice: ${Math.max(0, Math.min(this.options.maxModelCallsTotal, this.budget.maxModelCalls ?? Infinity) - this.budget.totalModelCalls)}. Current execution window remaining: ${Math.max(0, this.remaining(Number.MAX_SAFE_INTEGER))} ms. Source budgets: ${JSON.stringify(context.remainingBudget)}. Sample values and goal are code-owned.`,
-    }));
-    } catch (error) {
-      const wire = this.options.modelDecision!.takeLastWireRecord?.();
-      if (wire) this.record({source: input.source, stage: input.stage, event: "MODEL_WIRE", detail: this.replayWireDetail(wire, [])});
-      this.recordLifecycleFailure(input.source, input.stage, "MODEL_DECISION_FAILED", error);
-      if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
-      this.record({source: input.source, stage: input.stage, event: "REJECTED", detail: "INVALID_OBSERVED_ENTRANCE_SELECTION"});
-      return {status: "NO_SAFE_ACTION", reasonCode: "INVALID_OBSERVED_ENTRANCE_SELECTION"};
-    }
-    const wire = this.options.modelDecision!.takeLastWireRecord?.();
-    if (wire) this.record({source: input.source, stage: input.stage, event: "MODEL_WIRE", detail: this.replayWireDetail(wire, [])});
-    this.record({source: input.source, stage: input.stage, event: "MODEL_ACTION", detail: `MODEL_${action.type}`});
-    this.record({source: input.source, stage: input.stage, event: "MODEL_DECISION_FINISHED", detail: "SELECT_REGION_ENTRANCE"});
-    if (action.type !== "SELECT_REGION_ENTRANCE" || !entries.some(entry => entry.ref === action.targetRef)) {
-      this.record({source: input.source, stage: input.stage, event: "REJECTED", detail: "INVALID_OBSERVED_ENTRANCE_SELECTION"});
-      return {status: "NO_SAFE_ACTION", reasonCode: "INVALID_OBSERVED_ENTRANCE_SELECTION"};
-    }
-    return {status: "SELECTED", entranceRef: action.targetRef};
-  }
-
-  async navigate(
-    input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; observed?: boolean; timeoutMs?: number },
-  ): Promise<void> {
+  /** The source-pack seed is the only navigation made without a current model
+   * action. Reusing a source session never reopens it. */
+  async start(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; timeoutMs?: number }): Promise<void> {
+    if (this.startedSessions.has(input.session)) return;
     const url = this.allowedUrl(input.url, input.allowedOrigins);
-    if (input.observed && !url) throw this.rejected(input.source, input.stage, "Observed navigation target is outside the source allowlist");
-    if (!url) throw this.rejected(input.source, input.stage, "Site method navigation target is outside the source allowlist");
+    if (!url || !this.networkPolicy?.startupDocuments?.includes(url)) throw this.rejected(input.source, input.stage, "The source start is not configured");
+    this.startedSessions.add(input.session);
     await this.operation(input, "NAVIGATE", async () => {
-      const options = this.navigationOptions(input.timeoutMs);
-      await input.session.prepareNavigation?.(url, options);
+      await input.session.prepareNavigation?.(url, this.navigationOptions(input.timeoutMs));
       await input.session.navigate(url, { ...this.navigationOptions(input.timeoutMs), waitUntil: "domcontentloaded" });
     });
     await this.settleAfterDirectAction(input);
   }
 
-  /** Reuse only a fresh, unambiguous observed public GET search form. The
-   * adapter still checks the returned query and all source identity evidence. */
-  async search(input: Pick<BrowserSkillReadInput,"source"|"signal"|"allowedOrigins"> & {session:BrowserSession;url:string;query:string}):Promise<void> {
-    const scoped={...input,stage:"DISCOVERY" as const};
-    if (this.options.reuseSourceSessions && this.searchedSessions.has(input.session) && input.session.observeControls) {
-      const page=await this.snapshot(scoped);
-      const controls=await this.observeControls(scoped);
-      const observation={snapshot:page,controls,targets:toObservedTargets(controls,++this.observationRevision),revision:this.observationRevision};
-      const skill:BrowserSkillReadInput={...scoped,taskId:"observed-source-search",goal:{outlet:{name:input.query,address:""},hardCriteria:[],retrievalExpression:input.query,retrievalSource:"G4_SOURCE_TERM"},
-        objective:"Submit the current source name query",completion:()=>({complete:false,reason:"Adapter must verify query and identity"})};
-      const active=[...observation.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport
-        && controls.some(c=>c.id===t.controlId&&c.visible&&!c.blockedByActiveLayer&&!c.observationOnly));
-      const fields=active.filter(t=>this.boundInputField(t,"RETRIEVAL")&&this.guardedReadControl(skill,t));
-      const buttons=active.filter(t=>this.guardedPublicQuerySubmit(skill,t)&&/^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(t.label.trim()));
-      if (this.allowedUrl(page.url,input.allowedOrigins) && fields.length===1 && buttons.length===1
-        && fields[0]!.controlGroupKey && fields[0]!.controlGroupKey===buttons[0]!.controlGroupKey) {
-        await this.applyGenericAction(skill,observation,fields[0],{type:"FILL_AUTHORITATIVE",field:"RETRIEVAL",targetRef:fields[0]!.ref,reason:"Current code-owned source name query"});
-        // Filling can replace DOM nodes: never click a pre-fill reference.
-        const freshPage=await this.snapshot(scoped),freshControls=await this.observeControls(scoped);
-        const fresh={snapshot:freshPage,controls:freshControls,targets:toObservedTargets(freshControls,++this.observationRevision),revision:this.observationRevision};
-        const currentFields=[...fresh.targets.values()].filter(t=>this.boundInputField(t,"RETRIEVAL")&&!t.disabled&&t.value===input.query);
-        const currentButtons=[...fresh.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport&&this.guardedPublicQuerySubmit(skill,t)
-          && /^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(t.label.trim())
-          && freshControls.some(c=>c.id===t.controlId&&c.visible&&!c.blockedByActiveLayer&&!c.observationOnly));
-        if(currentFields.length===1&&currentButtons.length===1&&currentFields[0]!.controlGroupKey===currentButtons[0]!.controlGroupKey
-          && currentFields[0]!.controlGroupKey && this.allowedUrl(freshPage.url,input.allowedOrigins)){
-          await this.applyGenericAction(skill,fresh,currentButtons[0],{type:"CLICK",targetRef:currentButtons[0]!.ref,reason:"Submit observed public search form"});
-          await this.settleAfterDirectAction(scoped);
-          return;
-        }
-      }
+  /** A source-provided URL is a read objective, never an executable navigation
+   * shortcut. After the seed, the model must reach it through current refs. */
+  async navigate(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; observed?: boolean; timeoutMs?: number; goal?: BrowserReadGoal }): Promise<void> {
+    if (input.signal.aborted) this.assertActive(input.signal);
+    this.navigationOptions(input.timeoutMs);
+    this.assertActive(input.signal);
+    const url = this.allowedUrl(input.url, input.allowedOrigins);
+    if (!url) throw this.rejected(input.source, input.stage, "Source document is outside the read scope");
+    const seeds = (this.networkPolicy?.startupDocuments ?? []).filter(seed => input.allowedOrigins.includes(new URL(seed).origin));
+    if (!this.startedSessions.has(input.session)) {
+      if (seeds.length !== 1) throw this.rejected(input.source, input.stage, "Source start is missing or ambiguous");
+      await this.start({ ...input, url: seeds[0]! });
     }
-    await this.navigate({...scoped,url:input.url});
-    this.searchedSessions.add(input.session);
+    const current = await this.snapshot(input);
+    if (current.url === url) return;
+    if (!input.observed) throw this.rejected(input.source, input.stage, "Only an observed source document may be a navigation objective");
+    const result = await this.runSkill({ ...input, taskId: "observed-source-document", goal: input.goal ?? { outlet: { name: "Source-observed document" }, hardCriteria: [] },
+      objective: `Reach this source-provided document using only current observed links and controls: ${url}. Do not construct or type a URL.`,
+      completion: page => page.url === url
+        ? { complete: true, resultKey: page.url, resultBusy: false, reason: "Observed source document reached." }
+        : { complete: false, reason: "The source-provided document has not been observed yet." } });
+    if (result.status !== "COMPLETED") throw this.rejected(input.source, input.stage, "Source document could not be reached through observed controls");
   }
 
-  /** Deterministic source shortcut, not a new model action or permission. The
-   * source supplies the place predicate; this layer owns fresh references,
-   * visible selection confirmation, form ownership, Guard and operation admission. */
-  async selectLocationSuggestion(input:BrowserSkillReadInput&{matchesSuggestion:(target:BrowserReadActionTarget)=>boolean}):Promise<{
-    status:"SELECTED"|"NO_MATCH";snapshot:BrowserSnapshot;selected?:{label:string;targetRef:string;observedOn:string};
-  }>{
-    let snapshot=await this.snapshot(input);
-    const noMatch=()=>({status:"NO_MATCH" as const,snapshot});
-    if(input.stage!=="DISCOVERY"||!input.goal.location?.name||input.session.metadata.readNetworkBoundary!=="INSTALLED"
-      ||!this.allowedUrl(snapshot.url,input.allowedOrigins))return noMatch();
-    let observation=await this.observe(input,snapshot);
-    const fields=[...observation.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport&&this.boundInputField(t,"LOCATION")&&this.guardedReadControl(input,t));
-    if(fields.length!==1)return noMatch();
-    await this.applyGenericAction(input,observation,fields[0],{type:"FILL_AUTHORITATIVE",field:"LOCATION",targetRef:fields[0]!.ref,reason:"Authoritative place text in the observed public location field"});
-    await this.waitForSettled(input,snapshot);
-    // Filling can replace nodes or asynchronously reveal a list. Only fresh
-    // references are used. At most one further bounded observation wait.
-    for(let sample=0;sample<2;sample++){
-      snapshot=await this.snapshot(input);observation=await this.observe(input,snapshot);
-      const choices=[...observation.targets.values()].filter(t=>(t.kind==="LINK"||t.kind==="OPTION")&&input.matchesSuggestion(t));
-      if(choices.length!==1){if(!choices.length&&sample===0){await this.waitForSettled(input,snapshot);continue;}return noMatch();}
-      const target=choices[0]!;
-      if(target.disabled||target.outsideViewport||target.blockedByActiveLayer)return noMatch();
-      const selected={label:target.label,targetRef:target.ref,observedOn:snapshot.url};
-      if(target.kind==="LINK"&&this.actionHints(input,observation,target,false).availableActions?.includes("OPEN_LINK")){
-        await this.applyGenericAction(input,observation,target,{type:"OPEN_LINK",targetRef:target.ref,reason:"Unique observed place suggestion"});
-      }else if(target.kind==="LINK"&&this.actionHints(input,observation,target,false).availableActions?.includes("CLICK")){
-        await this.applyGenericAction(input,observation,target,{type:"CLICK",targetRef:target.ref,reason:"Unique observed same-page place suggestion"});
-      }else return noMatch();
-      await this.waitForSettled(input,snapshot);
-      snapshot=await this.snapshot(input);
-      // A script-backed suggestion may leave the same page and reveal a place
-      // tag. Only that visible selection, bound to a real form, authorizes the
-      // next observed Search control. The input's value is not confirmation.
-      if(snapshot.url===selected.observedOn){
-        observation=await this.observe(input,snapshot);
-        const key=(value:string)=>value.normalize("NFKC").trim().replace(/\s+/gu," ");
-        const owners=new Set([...observation.targets.values()].filter(t=>t.formObservation?.visibleLines.some(line=>key(line)===key(selected.label))).map(t=>t.formObservation!.owner));
-        if(owners.size!==1)return noMatch();
-        const buttons=[...observation.targets.values()].filter(t=>!t.disabled&&!t.outsideViewport&&!t.blockedByActiveLayer
-          &&this.guardedPublicQuerySubmit(input,t)&&t.formObservation?.owner===[...owners][0]
-          &&/^(?:search|find(?: restaurants?)?|検索|検索する)$/iu.test(t.label.trim()));
-        if(buttons.length!==1)return noMatch();
-        await this.applyGenericAction(input,observation,buttons[0],{type:"CLICK",targetRef:buttons[0]!.ref,reason:"Observed place tag and same-form public GET Search"});
-      }
-      await this.waitForSettled(input,snapshot);snapshot=await this.snapshot(input);
-      return {status:"SELECTED",snapshot,selected};
+  /** Query wording comes from G4; all UI steps, including reuse of an already
+   * loaded page, are chosen by the ordinary observation loop. */
+  async search(input: Pick<BrowserSkillReadInput, "source" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; query: string; completion: BrowserSkillReadInput["completion"] }): Promise<void> {
+    const scoped = { ...input, stage: "DISCOVERY" as const };
+    if (!this.startedSessions.has(input.session)) {
+      const seeds = (this.networkPolicy?.startupDocuments ?? []).filter(seed => input.allowedOrigins.includes(new URL(seed).origin));
+      if (seeds.length !== 1) throw this.rejected(input.source, "DISCOVERY", "Source start is missing or ambiguous");
+      await this.start({ ...scoped, url: seeds[0]! });
     }
-    return noMatch();
+    const result = await this.runSkill({ ...scoped, taskId: "observed-source-query", requireModelConfirmation: true,
+      goal: { outlet: { name: input.query }, retrievalExpression: input.query, retrievalSource: "G4_SOURCE_TERM", hardCriteria: [] },
+      objective: "Find the named outlet using the current observed source page. Choose each step from its current public controls and links. Returned cards are not identity evidence; code will inspect the same outlet before accepting it.",
+      completion: input.completion });
+    if (result.status !== "COMPLETED") throw this.rejected(input.source, "DISCOVERY", "Source search was not confirmed by observed results");
   }
 
   /** Code-owned source retry delay shares the current operation and wall-time budgets. */
   async waitForSourceRetry(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal">, delayMs: number): Promise<void> {
     await this.operation(input, "WAIT_FOR_SOURCE_RETRY", () => wait(delayMs, undefined, { signal: input.signal }));
-  }
-
-  async select(
-    input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession; selector: string; value: string; authoritativeValue: string },
-  ): Promise<string[]> {
-    if (input.value !== input.authoritativeValue) throw this.rejected(input.source, input.stage, "A site method attempted to select a non-authoritative value");
-    const result = await this.operation(input, "SELECT", () => input.session.select(input.selector, input.value, this.actionOptions()));
-    await this.settleAfterDirectAction(input);
-    return result;
-  }
-
-  async fill(
-    input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession; selector: string; value: string; authoritativeValue: string },
-  ): Promise<void> {
-    if (input.value !== input.authoritativeValue) throw this.rejected(input.source, input.stage, "A site method attempted to fill a non-authoritative value");
-    await this.operation(input, "FILL", () => input.session.fill(input.selector, input.value, this.actionOptions()));
-    await this.settleAfterDirectAction(input);
   }
 
   private async settleAfterDirectAction(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }): Promise<void> {
@@ -617,12 +514,14 @@ export class BrowserTaskExecutor {
   }
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
+    let modelConfirmed = false;
     const assess = async (current: BrowserSnapshot, controls: BrowserPageControl[]) => {
       if (this.disabledRequestedParty(input, {snapshot: current, controls, targets: toObservedTargets(controls, 0), revision: 0})) return {complete: false as const, reason: "PARTY_SIZE_NOT_SELECTABLE"};
       const pending: BrowserCompletionAssessment = { complete: false, reason: "Page is still loading after its bounded settlement wait; old results are not usable." };
       // Only the adapter's existing predicate can establish a bound result.
       // Readiness itself never establishes identity, request binding or inventory.
       const first = input.completion({ ...current, settlement: "SETTLED" }, controls);
+      if (first.complete && input.requireModelConfirmation && !modelConfirmed) return { ...first, complete: false, reason: "Observe the current source results and choose COMPLETE only when they answer this search objective." };
       if (first.resultBusy) {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: current.url, detail: "COMPLETION_RESULT_BUSY" });
         return pending;
@@ -668,7 +567,6 @@ export class BrowserTaskExecutor {
       history.push(step);
       if (history.length > 6) history.shift();
     };
-    let shortcutUsed = false;
     let postAction = false;
     let pendingOption: ObservedTarget | undefined;
     let pendingRadio: ObservedTarget | undefined;
@@ -713,21 +611,6 @@ export class BrowserTaskExecutor {
       if (this.remaining(1) <= 0) {
         this.recordBudgetExhausted(input, "DEADLINE_EXCEEDED");
         return { status: "BUDGET_EXCEEDED", snapshot, controls: [] };
-      }
-      if (!shortcutUsed && input.shortcut) {
-        shortcutUsed = true;
-        try {
-          await this.bounded(input, "SHORTCUT", () => input.shortcut!.run(snapshot));
-          snapshot = await this.snapshot(input);
-          verifiedObservation = await this.observe(input, snapshot);
-          completion = await assess(snapshot, verifiedObservation.controls);
-          if (completion.complete && !pendingParty) return { status: "COMPLETED", snapshot, controls: verifiedObservation.controls };
-          progress = completion.reason;
-          this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: `${input.shortcut.name}: ${progress}` });
-        } catch (error) {
-          progress = `${input.shortcut.name} did not complete: ${error instanceof Error ? safeText(error.message, 240) : "unknown error"}`;
-          this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: progress });
-        }
       }
       // The browser model may only choose a safe observed navigation/control.
       // It never writes or asserts a Restaurant fact; the adapter grounds a
@@ -843,6 +726,7 @@ export class BrowserTaskExecutor {
         return {status:"NO_SAFE_ACTION",reasonCode:"DATE_NOT_SELECTABLE",snapshot,controls:observation.controls};
       }
       if (action.type === "COMPLETE") {
+        modelConfirmed = true;
         consecutiveStateRepeats = 0;
         if (this.disabledRequestedParty(input, observation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: observation.controls};
         completion = await assess(snapshot, observation.controls);
@@ -876,10 +760,6 @@ export class BrowserTaskExecutor {
         continue;
       }
       if (action.type === "REQUEST_HUMAN_HELP") return { status: "REQUESTED_HUMAN_HELP", snapshot, controls: observation.controls };
-      if (action.type === "SELECT_REGION_ENTRANCE") {
-        this.record({source: input.source, stage: input.stage, event: "REJECTED", detail: "REGION_CORRECTION_NOT_ACTIVE"});
-        return {status: "NO_SAFE_ACTION", reasonCode: "REGION_CORRECTION_NOT_ACTIVE", snapshot, controls: observation.controls};
-      }
       const target = action.type === "WAIT" || action.type === "PRESS_ESCAPE" ? undefined : observation.targets.get(action.targetRef);
       if (!target && action.type !== "WAIT" && action.type !== "PRESS_ESCAPE") {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "STALE_OR_UNKNOWN_TARGET_REF" });
@@ -1087,29 +967,26 @@ export class BrowserTaskExecutor {
       && matchesAuthoritativeControl(target, "PARTY_SIZE", input.goal));
   }
 
-  /** Query only the next enabled, source-observed time; never invent an interval or click a slot. */
+  /** The model chooses each control; code verifies only a newly observed,
+   * selected time within the original request. No combobox/action sequence. */
   async advanceAvailabilityTime(input: BrowserSkillReadInput, checkedTimes: readonly string[]): Promise<string | undefined> {
-    let snapshot = await this.snapshot(input);
-    let observation = await this.observe(input, snapshot);
-    let options = [...observation.targets.values()].filter(target => target.kind === "OPTION" && !target.disabled && !target.selected
-      && matchesAuthoritativeControl(target, "TIME", input.goal) && !checkedTimes.includes(observedClock(target.label) ?? ""));
-    if (!options.length) {
-      const owners = [...observation.targets.values()].filter(target => target.role === "combobox" && target.kind !== "SELECT" && !target.disabled
-        && (/\btime\b|時刻|時間/i.test(target.controlGroupLabel ?? "") || observedClock(target.label) !== undefined || observedClock(target.value ?? "") !== undefined));
-      if (owners.length !== 1 || !this.actionHints(input, observation, owners[0]!, false).availableActions?.includes("CLICK")) return;
-      await this.applyGenericAction(input, observation, owners[0], {type: "CLICK", targetRef: owners[0]!.ref, reason: "Observe source-provided time query choices"});
-      await this.waitForSettled(input, snapshot);
-      snapshot = await this.snapshot(input);
-      observation = await this.observe(input, snapshot);
-      options = [...observation.targets.values()].filter(target => target.kind === "OPTION" && !target.disabled && !target.selected
-        && matchesAuthoritativeControl(target, "TIME", input.goal) && !checkedTimes.includes(observedClock(target.label) ?? ""));
-    }
-    const next = options.sort((a,b) => observedClock(a.label)!.localeCompare(observedClock(b.label)!))[0];
-    if (!next || !this.actionHints(input, observation, next, false).availableActions?.includes("CHOOSE_OPTION:TIME")) return;
-    const time = observedClock(next.label)!;
-    await this.applyGenericAction(input, observation, next, {type: "CHOOSE_OPTION", targetRef: next.ref, field: "TIME", reason: "Continue the same outlet at its next unobserved legal time"});
-    await this.waitForSettled(input, snapshot);
-    return time;
+    let selected: string | undefined;
+    const result = await this.runSkill({ ...input, requireModelConfirmation: true,
+      objective: `Continue this same outlet's public availability query within the authoritative time window. Already checked times: ${JSON.stringify(checkedTimes)}. Choose each next step from the current observation. Never click a booking slot or widen the requested window.`,
+      completion: (_page, controls = []) => {
+        const times = new Set(controls.flatMap(control => {
+          const value = control.value ?? control.label;
+          const time = observedClock(value);
+          return time && (control.selected || control.role === "combobox")
+            && input.goal.timeWindow && time >= input.goal.timeWindow.earliest && time <= input.goal.timeWindow.latest
+            && !checkedTimes.includes(time) ? [time] : [];
+        }));
+        selected = times.size === 1 ? [...times][0] : undefined;
+        return selected !== undefined
+          ? { complete: true, resultKey: selected, resultBusy: false, reason: "Verify a new source-selected query time." }
+          : { complete: false, reason: "No newly selected authoritative query time." };
+      } });
+    return result.status === "COMPLETED" ? selected : undefined;
   }
 
   private async observe(input: BrowserSkillReadInput, snapshot: BrowserSnapshot): Promise<Observation> {
@@ -1266,7 +1143,7 @@ export class BrowserTaskExecutor {
     }
   }
 
-  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" | "SELECT_REGION_ENTRANCE" }>): Promise<void> {
+  private async applyGenericAction(input: BrowserSkillReadInput, observation: Observation, target: ObservedTarget | undefined, action: Exclude<BrowserReadAction, { type: "COMPLETE" | "REQUEST_HUMAN_HELP" }>): Promise<void> {
     if (action.type === "WAIT") {
       await this.waitForSettled(input, observation.snapshot);
       return;
@@ -1296,7 +1173,10 @@ export class BrowserTaskExecutor {
       } else {
         // A runtime without popup support may only retain the existing same-page
         // behavior; it never fabricates a new-page identity.
-        await this.navigate({ ...input, url: target.href, observed: true });
+        await this.operation(input, "OPEN_LINK", async () => {
+          await input.session.prepareObservedNavigation?.(target.href!, this.navigationOptions());
+          await input.session.navigate(target.href!, { ...this.navigationOptions(), waitUntil: "domcontentloaded" });
+        });
       }
       return;
     }
