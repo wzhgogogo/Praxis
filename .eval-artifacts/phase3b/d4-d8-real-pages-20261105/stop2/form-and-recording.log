@@ -1,0 +1,46 @@
+✔ browser recording writes only an in-memory sanitized public document HAR (6.406959ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (10.606583ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (2.310541ms)
+✔ browser recording keeps reviewed GET form actions and removes unreviewed destinations (2.945375ms)
+✔ browser recording refuses replay when a dynamic response was admitted without a safe captured body (1.917625ms)
+✔ browser recording refuses a snapshot-only replay when an admitted external script was not captured (1.05825ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (2.384208ms)
+✔ browser recording refuses a reviewed script response containing a literal credential (0.982625ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (2.387583ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (1.832333ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (3.389916ms)
+✔ browser recording preserves form methods while deleting unsafe destinations (6.057709ms)
+✔ browser recording preserves an admitted public document redirect for replay (3.517875ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (9.064167ms)
+✔ observed Tabelog keyword response retains public source names only at its exact recording endpoint (3.747541ms)
+✔ Local Playwright Chromium preserves the BrowserType method binding, exposes the BrowserSession contract, and closes page, context, and browser (3.815458ms)
+✔ environment gates keep ordinary profiles temporary and enable persistence only with both eval switches (0.575ms)
+✔ Local Playwright Chromium maps launch failures into the fail-closed BrowserRuntime error (0.255416ms)
+✔ Local Playwright Chromium installs HAR replay before the Guard and refuses replay without that boundary (0.589958ms)
+✔ passive query capture invalidates old stock at request time and rejects late responses (2.15825ms)
+✔ layout-only screenshot is a PNG and leaves observed controls unchanged (200.7505ms)
+✔ failed guarded source navigation exports the sanitized transport cause for both source labels (186.651375ms)
+✖ public form observations bind visible location text to the actual GET submit owner (168.219042ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 22
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 859.442833
+
+✖ failing tests:
+
+test at src/infrastructure/browser/local-playwright-chromium.test.ts:1:10649
+✖ public form observations bind visible location text to the actual GET submit owner (168.219042ms)
+  AssertionError [ERR_ASSERTION]: false == true
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.test.ts:197:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

@@ -188,3 +188,14 @@ test("failed guarded source navigation exports the sanitized transport cause for
     }
   } finally { server.closeAllConnections(); await new Promise<void>(resolve => server.close(() => resolve())); }
 });
+
+test('public form observations bind visible location text to the actual GET submit owner', async () => {
+  const runtime=new LocalPlaywrightChromium(),session=await runtime.openSession({signal:new AbortController().signal});
+  try{
+    await session.navigate('data:text/html,<form method="get"><span>Akabane Sta. (Tokyo)</span><input aria-label="Location"><button>Search</button></form><form method="post"><button>Search</button></form>');
+    const controls=await session.observeControls!(),input=controls.find(c=>c.label==='Location')!,buttons=controls.filter(c=>c.label==='Search');
+    assert.ok(input.formObservation?.visibleLines.includes('Akabane Sta. (Tokyo)'));
+    assert.equal(buttons.find(c=>c.formMethod==='GET')?.formObservation?.owner,input.formObservation?.owner);
+    assert.notEqual(buttons.find(c=>c.formMethod==='POST')?.formObservation?.owner,input.formObservation?.owner);
+  }finally{await session.close();}
+});

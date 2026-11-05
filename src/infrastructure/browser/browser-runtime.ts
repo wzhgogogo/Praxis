@@ -156,6 +156,8 @@ export interface BrowserPageControl {
   href?: string;
   /** Browser-observed structural facts, never a page assertion of safety. */
   formMethod?: "GET" | "POST" | "UNKNOWN";
+  /** Browser-owned native form association and visible lines; not hidden field values. */
+  formObservation?: { owner: string; visibleLines: string[] };
   /** Observed structure for source-owned control contracts; never a permission itself. */
   structure?: { tag: string; name: string; classes: string[]; dialogLabel: string; formClass: string; sliderCount: number; listboxId?: string; radioGroupLabel?: string; radioGroupKey?: string };
   type?: string;

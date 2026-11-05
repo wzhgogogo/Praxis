@@ -1,0 +1,43 @@
+[
+  {
+    "kind": "NODE_FETCH_START",
+    "id": "TC-NODE:request:1",
+    "url": "https://www.tablecheck.com/en/japan/search",
+    "resourceType": "document",
+    "atCET": "2026-11-05T08:04:09.553+01:00",
+    "monotonicMs": 465.37525,
+    "bookId": "phase3b-C-real-pages-20261105-6"
+  },
+  {
+    "kind": "NODE_FETCH_FAILED",
+    "id": "TC-NODE:request:1",
+    "elapsedMs": 1296.486416,
+    "error": {
+      "name": "Error",
+      "message": "route.fetch: Client network socket disconnected before secure TLS connection was established"
+    },
+    "atCET": "2026-11-05T08:04:10.849+01:00",
+    "monotonicMs": 1762.126166
+  },
+  {
+    "kind": "BROWSER_TERMINAL",
+    "id": "TC-NODE:request:1",
+    "url": "https://www.tablecheck.com/en/japan/search",
+    "resourceType": "document",
+    "outcome": "FAILED",
+    "timing": {
+      "startTime": 0,
+      "domainLookupStart": -1,
+      "domainLookupEnd": -1,
+      "connectStart": -1,
+      "secureConnectionStart": -1,
+      "connectEnd": -1,
+      "requestStart": -1,
+      "responseStart": -1,
+      "responseEnd": -1
+    },
+    "failure": "net::ERR_FAILED",
+    "atCET": "2026-11-05T08:04:10.854+01:00",
+    "monotonicMs": 1766.590875
+  }
+]

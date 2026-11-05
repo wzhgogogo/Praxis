@@ -199,6 +199,17 @@ export class PlaywrightControlRegistry {
       const monthNumber = monthYear ? ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'].indexOf(monthYear[1]!.slice(0,3).toLowerCase())+1 : Number(numericMonthYear?.[2]);
       const calendarDate = yearNumber && monthNumber > 0 && monthNumber <= 12 && dayNumber > 0 && dayNumber <= new Date(Date.UTC(yearNumber,monthNumber,0)).getUTCDate()
         ? `${yearNumber}-${String(monthNumber).padStart(2,'0')}-${String(dayNumber).padStart(2,'0')}` : undefined;
+      const formVisibleLines: string[] = [];
+      if (form) {
+        const walker = document.createTreeWalker(form, NodeFilter.SHOW_TEXT);
+        for (let next = walker.nextNode(), visited = 0; next && visited < 1000 && formVisibleLines.length < 80; next = walker.nextNode(), visited++) {
+          const owner = next.parentElement;
+          if (!owner || owner.closest("script,style,template,noscript,select,option") || !(owner as HTMLElement).getClientRects().length) continue;
+          const style = getComputedStyle(owner); if (style.display === "none" || style.visibility === "hidden") continue;
+          const text = next.textContent?.replace(/\s+/g, " ").trim();
+          if (text && text.length <= 160) formVisibleLines.push(text);
+        }
+      }
       const projection = {
         tag: node.tagName, classes: [...node.classList], role: node.getAttribute("role"), type: node.getAttribute("type"),
         label: node.getAttribute("aria-label"), title: node.getAttribute("title"),
@@ -207,6 +218,7 @@ export class PlaywrightControlRegistry {
         associatedLabel: [...((node as HTMLInputElement).labels ?? [])].map(label => label.innerText.replace(/\s+/g, " ").trim()).join(" "),
         value, href: node.getAttribute("href"), name: node.getAttribute("name"), placeholder: node.getAttribute("placeholder"),
         formOwner: form ? `${form.id || formIndex}` : "", radioGroupKey,
+        formVisibleLines,
         formMethodOverride: node.getAttribute("formmethod"), formTarget: node.getAttribute("formtarget"),
         disabled: (node as HTMLElement).matches(":disabled") || node.getAttribute("aria-disabled") === "true" || node.getAttribute("data-state") === "disabled",
         selectionAttributes: Object.fromEntries(["aria-selected", "aria-pressed", "aria-checked", "aria-current"].map(name => [name, node.getAttribute(name)])),
@@ -235,6 +247,7 @@ export class PlaywrightControlRegistry {
         formClass: _formClass,
         controlGroupLabel: _groupLabel,
         controlGroupKey: _groupKey,
+        formVisibleLines: _formVisibleLines,
         ...signature
       } = projection;
       return { projection, signature };
@@ -253,7 +266,7 @@ export class PlaywrightControlRegistry {
     disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
     calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
     rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
-    formOwner?: string; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
+    formOwner?: string; formVisibleLines?: string[]; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
     radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
   } } {
     const parsed = JSON.parse(snapshot) as { signature: object; projection: {
@@ -263,7 +276,7 @@ export class PlaywrightControlRegistry {
       disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
       calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
       rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
-      formOwner?: string; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
+      formOwner?: string; formVisibleLines?: string[]; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
       radioGroupLabel?: string; radioGroupKey?: string; scrollable?: boolean; scrollTop?: number; blockedByActiveLayer?: boolean;
     } };
     return { signature: JSON.stringify(parsed.signature), projection: parsed.projection };
@@ -416,6 +429,7 @@ export class PlaywrightControlRegistry {
           ...(value !== undefined ? { value } : {}),
           ...(resolvedHref ? { href: resolvedHref } : {}),
           ...(method ? { formMethod: method === "GET" ? "GET" : "POST" } : {}),
+          ...(projection.formOwner ? { formObservation: { owner: projection.formOwner, visibleLines: projection.formVisibleLines ?? [] } } : {}),
           ...(type ? { type } : {}),
           disabled,
           visible: true,
