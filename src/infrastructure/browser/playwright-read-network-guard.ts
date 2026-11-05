@@ -79,6 +79,37 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
  * relative-resource, method and cookie semantics instead of flattening a chain.
  */
 export class PlaywrightReadNetworkGuard {
+  private context?: BrowserContext;
+  private readonly nativeRequests = new WeakSet<Request>();
+  private readonly nativeTimers = new WeakMap<Request, ReturnType<typeof setTimeout>>();
+  private readonly recordingTasks = new Set<Promise<void>>();
+  /** Records are observational and never confer network permission. */
+  async flushRecordedResponses(): Promise<void> { await Promise.allSettled([...this.recordingTasks]); }
+  private nativeRequest(request: Request): boolean {
+    for (let current: Request | null = request, hops = 0; current && hops < 11; current = current.redirectedFrom(), hops++) {
+      if (this.nativeRequests.has(current)) return true;
+    }
+    return false;
+  }
+  private captureNativeResponse(response: import("playwright-core").Response): void {
+    if (!this.recordResponse || !this.nativeRequest(response.request())) return;
+    const task = (async () => {
+      const request = response.request(), url = new URL(response.url()), method = request.method(), type = request.resourceType();
+      const headers = response.headers(), status = response.status();
+      const location = headers.location ? new URL(headers.location, url) : undefined;
+      const allowedLocation = location && await this.admitsRedirectRequest(location, request, method, type);
+      const body = method === "HEAD" || status === 204 || status === 304 || status >= 300 && status < 400 ? new Uint8Array() : await response.body();
+      await this.recordResponse!({ url: url.toString(), method, resourceType: type, status, contentType: headers["content-type"] ?? "", body,
+        ...(allowedLocation ? { redirectLocation: location!.toString() } : {}) });
+    })();
+    this.recordingTasks.add(task);
+    void task.catch(error => {
+      if (!this.context?.pages().some(page => !page.isClosed())) return;
+      const request = response.request();
+      this.blocked("READ_REQUEST_FAILED", new URL(response.url()), request.method(), request.resourceType(), error);
+      void this.context?.close().catch(() => {});
+    }).finally(() => this.recordingTasks.delete(task));
+  }
   private readonly pending = new Map<Request, number>();
   private activityRevision = 0;
   settlementActivity(): { pending: number; revision: number; pendingByType: Record<string, number>; oldestPendingMs: number } {
@@ -105,9 +136,20 @@ export class PlaywrightReadNetworkGuard {
   private readonly popupBootstraps = new Set<string>();
   private readonly redirectTimers = new Set<ReturnType<typeof setTimeout>>();
 
-  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void) { this.requestTimeoutMs = requestTimeoutMs; }
+  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void, private readonly admittedGetTransport: "NODE_FETCH" | "BROWSER_GET_HEAD" = "NODE_FETCH") { this.requestTimeoutMs = requestTimeoutMs; }
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
+    this.context = context;
+    if (this.admittedGetTransport === "BROWSER_GET_HEAD" && !options.replay) {
+      context.on("response", response => this.captureNativeResponse(response));
+      context.on("requestfinished", request => {
+        const timer = this.nativeTimers.get(request); if (timer) { clearTimeout(timer); this.redirectTimers.delete(timer); }
+      });
+      context.on("requestfailed", request => {
+        const timer = this.nativeTimers.get(request); if (timer) { clearTimeout(timer); this.redirectTimers.delete(timer); }
+        if (this.nativeRequest(request) && request.failure()) this.blocked("READ_REQUEST_FAILED", new URL(request.url()), request.method(), request.resourceType(), new Error(request.failure()!.errorText));
+      });
+    }
     context.on?.("close", () => { for (const timer of this.redirectTimers) clearTimeout(timer); this.redirectTimers.clear(); });
     context.on?.("page", page => {
       const bootstrap = this.popupBootstraps.delete(requestKey(page.url()));
@@ -175,9 +217,11 @@ export class PlaywrightReadNetworkGuard {
       // Fetch can label a worker script "Other". Use the same Network type
       // that Playwright's ordinary request boundary uses, keyed by networkId.
       const networkTypes = new Map<string, string>();
+      const nativeNetworkTimers = new Map<string, ReturnType<typeof setTimeout>>();
+      const finishNative = (id: string) => { const timer = nativeNetworkTimers.get(id); if (timer) { clearTimeout(timer); this.redirectTimers.delete(timer); nativeNetworkTimers.delete(id); } };
       on("Network.requestWillBeSent", event => { if (event.type) networkTypes.set(event.requestId, event.type); });
-      on("Network.loadingFinished", event => { networkTypes.delete(event.requestId); });
-      on("Network.loadingFailed", event => { networkTypes.delete(event.requestId); });
+      on("Network.loadingFinished", event => { networkTypes.delete(event.requestId); finishNative(event.requestId); });
+      on("Network.loadingFailed", event => { networkTypes.delete(event.requestId); finishNative(event.requestId); });
       const pending = new Map<number, { resolve: (value: any) => void; reject: (error: Error) => void }>();
       const childEvents = new Map<string, Map<string, (params: any) => void>>();
       on("Target.receivedMessageFromTarget", event => {
@@ -221,9 +265,9 @@ export class PlaywrightReadNetworkGuard {
               const location = headers.location ? new URL(headers.location, url) : undefined;
               const nextMethod = status === 303 && method !== "HEAD" || [301, 302].includes(status) && method === "POST" ? "GET" : method;
               const targetAdmitted = method !== "OPTIONS" && location && await this.admitsRedirectRequest(location, request, nextMethod, type);
-              const body = !this.recordResponse || status >= 300 && status < 400 || method === "HEAD" || status === 204
+              const body = this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method) || !this.recordResponse || status >= 300 && status < 400 || method === "HEAD" || status === 204
                 ? new Uint8Array() : await send("Fetch.getResponseBody", { requestId: event.requestId }).then(value => Buffer.from(value.body, value.base64Encoded ? "base64" : "utf8"));
-              await this.recordResponse?.({ url: url.toString(), method, resourceType: type, status, contentType: headers["content-type"] ?? "", body,
+              if (!(this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method))) await this.recordResponse?.({ url: url.toString(), method, resourceType: type, status, contentType: headers["content-type"] ?? "", body,
                 ...(location && targetAdmitted ? { redirectLocation: location.toString() } : {}) });
               if (location && [301, 302, 303, 307, 308].includes(status)) {
                 if (!targetAdmitted) {
@@ -234,7 +278,7 @@ export class PlaywrightReadNetworkGuard {
                 this.expectedRedirectTargets.set(requestKey(location.toString()), { hops: chain.hops + 1, started: chain.started });
               }
               await send("Fetch.continueResponse", { requestId: event.requestId });
-            } finally { clearTimeout(entry.timer); this.redirectTimers.delete(entry.timer); redirected.delete(event.requestId); }
+            } finally { if (!(this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method))) { clearTimeout(entry.timer); this.redirectTimers.delete(entry.timer); } redirected.delete(event.requestId); }
             return;
           }
           const expected = this.expectedRedirectTargets.get(requestKey(url.toString()));
@@ -277,9 +321,11 @@ export class PlaywrightReadNetworkGuard {
           const timer = setTimeout(() => {
             this.redirectTimers.delete(timer);
             this.blocked("READ_TIMEOUT", url, method, type, Object.assign(new Error("Guard redirect read timed out"), { name: "TimeoutError" }));
-            void send("Fetch.failRequest", { requestId: event.requestId, errorReason: "TimedOut" }).catch(() => {});
+            if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method)) void context.close().catch(() => {});
+            else void send("Fetch.failRequest", { requestId: event.requestId, errorReason: "TimedOut" }).catch(() => {});
           }, Math.max(1, this.requestTimeoutMs - (Date.now() - chain.started)));
           timer.unref(); this.redirectTimers.add(timer); redirected.set(event.requestId, { url, method, type, timer });
+          if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method) && event.networkId) nativeNetworkTimers.set(event.networkId, timer);
           await send("Fetch.continueRequest", { requestId: event.requestId, interceptResponse: true });
         };
         void process().catch(async error => { this.blocked("READ_REQUEST_FAILED", new URL(event.request.url), event.request.method, String(event.resourceType).toLowerCase(), error); await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "Failed" }).catch(() => {}); });
@@ -423,6 +469,19 @@ export class PlaywrightReadNetworkGuard {
     }
     try {
       this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() });
+      if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method)) {
+        this.nativeRequests.add(request);
+        // A native request has no Route.abort capability after continue(). Keep
+        // the same transport deadline and fail closed by retiring this context.
+        const timer = setTimeout(() => {
+          this.redirectTimers.delete(timer);
+          this.blocked("READ_TIMEOUT", url, method, type, Object.assign(new Error("Native browser read timed out"), { name: "TimeoutError" }));
+          void this.context?.close().catch(() => {});
+        }, this.requestTimeoutMs);
+        timer.unref(); this.nativeTimers.set(request, timer); this.redirectTimers.add(timer);
+        await route.continue();
+        return;
+      }
       const response = await route.fetch({ maxRedirects: 0, timeout: this.requestTimeoutMs });
       if (response.status() >= 300 && response.status() < 400) {
         let target: URL | undefined;

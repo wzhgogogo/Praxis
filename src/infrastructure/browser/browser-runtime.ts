@@ -216,6 +216,8 @@ export interface BrowserSession {
   /** Admit one Executor-observed public link after its source code allowed the origin. */
   prepareObservedNavigation?(url: string, options?: BrowserActionOptions): Promise<void>;
   snapshot(): Promise<BrowserSnapshot>;
+  /** Drain already-observed guarded responses for recording; never navigates. */
+  flushRecordedResponses?(): Promise<void>;
   captureResponses?(rules: readonly BrowserResponseRule[]): Promise<void>;
   /** Inspect visible DOM controls and their accessibility-facing names without executing page-provided code. */
   observeControls?(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]>;

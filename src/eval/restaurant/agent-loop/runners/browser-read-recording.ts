@@ -91,7 +91,7 @@ export class BrowserReadRecording {
     // A public redirect's response body is not needed to faithfully preserve
     // navigation. Keep its approved status and Location even when it is empty.
     const isRecordedRedirect = response.status >= 300 && response.status < 400 && Boolean(redirectLocation);
-    const sanitized = isRecordedRedirect ? "" : mimeType.includes("json") ? sanitizePublicJson(text)
+    const sanitized = isRecordedRedirect ? "" : mimeType.includes("json") ? (tabelogSuggestionRecordingUrl(response.url) ? sanitizeTabelogSuggestions(text) : sanitizePublicJson(text))
       : /^(?:text\/(?:html|plain)|application\/(?:xhtml\+xml))$/.test(mimeType) ? sanitizePublicHtml(text, response.url, this.options.reviewedStaticResources, this.options.reviewedReads)
       : /^(?:application|text)\/(?:javascript|ecmascript)$/.test(mimeType)
         ? (reviewedStaticScriptUrl(response.url, this.options.reviewedStaticResources) && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
@@ -259,7 +259,34 @@ function reviewedPublicReadUrl(value: string, reviewedReads: readonly BrowserRea
     });
   } catch { return false; }
 }
-function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined { try { const u = new URL(value); const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
+/** Observed public suggestion response; recording permission only, never network authority. */
+function tabelogSuggestionRecordingUrl(value: string): boolean {
+  try {
+    const url = new URL(value), keyword = url.searchParams.get("keyword");
+    return url.origin === "https://tabelog.com" && url.pathname === "/en/suggest/keyword_suggest" && !url.username && !url.password
+      && [...url.searchParams.keys()].length === 1 && keyword !== null && keyword.length > 0 && keyword.length <= 160
+      && !/[@\r\n]|Bearer\s|sk-|\+?\d[\d()\s-]{8,}\d/i.test(keyword);
+  } catch { return false; }
+}
+function sanitizeTabelogSuggestions(text: string): string | undefined {
+  if (Buffer.byteLength(text) > 200_000) return undefined;
+  try {
+    const rows: unknown = JSON.parse(text);
+    if (!Array.isArray(rows) || rows.length > 100) return undefined;
+    const publicFields = new Set(["name", "sub_name", "datatype", "id_in_datatype", "site_name", "exact_match", "url", "pal", "LstPrf", "LstAre", "station_id", "area_codes"]);
+    for (const row of rows) {
+      if (!row || typeof row !== "object" || Array.isArray(row) || typeof row.name !== "string" || typeof row.datatype !== "string") return undefined;
+      for (const [field, value] of Object.entries(row)) {
+        if (!publicFields.has(field)) return undefined;
+        if (value === null || typeof value === "boolean" || typeof value === "number" && Number.isFinite(value)) continue;
+        if (typeof value !== "string" || value.length > 1000 || /[@\r\n]|Bearer\s|sk-|\+?\d[\d()\s-]{8,}\d/i.test(value)) return undefined;
+        if (field === "url") { const url = new URL(value, "https://tabelog.com"); if (url.origin !== "https://tabelog.com" || url.username || url.password || /(?:^|\/)(?:yoyaku|booking|reserve|account|login|confirm|payment)(?:\/|$)/i.test(url.pathname) || url.search || url.hash) return undefined; }
+      }
+    }
+    return text;
+  } catch { return undefined; }
+}
+function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined { try { const u = new URL(value); const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (!tabelogSuggestionRecordingUrl(value) && ![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
 /** Public third-party asset credentials are not replay permissions. Mask their
  * values before either diagnostic or replay HTML can be published. */
 function redactThirdPartyUrlCredentials(html: string, sourceUrl: string): string {

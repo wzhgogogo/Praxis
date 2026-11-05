@@ -19,6 +19,8 @@ export interface LocalPlaywrightChromiumConfig {
   browserType?: Pick<typeof chromium, "launch"> & Partial<Pick<typeof chromium, "launchPersistentContext">>;
   /** Defaults to headless; interactive eval explicitly opts into headed Chromium. */
   headless?: boolean;
+  /** Explicit experiment only; ordinary startup retains Node forwarding. */
+  admittedGetTransport?: "NODE_FETCH" | "BROWSER_GET_HEAD";
   /** Explicit local/eval proxy; otherwise use Chromium's normal network path. */
   proxyServer?: string;
   /** A dedicated, gitignored eval profile makes cookies persist across local eval sessions. */
@@ -207,12 +209,15 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
 
   isClosed(): boolean { return this.closed || this.page.isClosed() || (this.browser !== undefined && !this.browser.isConnected()); }
 
+  async flushRecordedResponses(): Promise<void> { await this.networkGuard?.flushRecordedResponses(); }
+
   async close(): Promise<void> {
     if (this.closed) return;
     this.closed = true;
     await this.controls.dispose();
     await closeQuietly(this.page);
     await closeQuietly(this.context);
+    await this.networkGuard?.flushRecordedResponses();
     if (!this.contextOwnsBrowser) await closeQuietly(this.browser);
   }
 
@@ -276,7 +281,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
         browser = await browserType.launch(launchOptions);
         context = await browser.newContext((input.networkPolicy || input.replayHarPath) ? { serviceWorkers: "block" } : {});
       }
-      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse) : undefined;
+      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse, this.config.admittedGetTransport) : undefined;
       if (input.replayHarPath) await context.routeFromHAR(input.replayHarPath, { notFound: "abort" });
       if (networkGuard) await networkGuard.install(context, { replay: input.replayHarPath !== undefined });
       page = await context.newPage();

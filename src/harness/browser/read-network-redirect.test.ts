@@ -1,9 +1,15 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
-import { test } from "node:test";
+import { test as nodeTest } from "node:test";
 import { chromium } from "playwright-core";
-import { PlaywrightReadNetworkGuard } from "../../infrastructure/browser/playwright-read-network-guard.js";
+import { PlaywrightReadNetworkGuard as BaseGuard } from "../../infrastructure/browser/playwright-read-network-guard.js";
+
+for (const transport of ["NODE_FETCH", "BROWSER_GET_HEAD"] as const) {
+  const test = (name: string, fn: (t: import("node:test").TestContext) => void | Promise<void>) => nodeTest(`[${transport}] ${name}`, fn);
+  class PlaywrightReadNetworkGuard extends BaseGuard {
+    constructor(policy: ConstructorParameters<typeof BaseGuard>[0], timeout = 5000, record?: ConstructorParameters<typeof BaseGuard>[2]) { super(policy, timeout, record, transport); }
+  }
 
 test("H003 TableCheck reservation forms stay unreachable even through a reviewed rule or redirect", async () => {
   const { tableCheckPublicReadNetworkPolicy } = await import("../../integrations/tablecheck/tablecheck-public-query.js");
@@ -69,7 +75,7 @@ test('P21 source preflight retains a6.5s result under the production navigation 
   // production response counter, preflight timing and final classification.
   const open=LocalPlaywrightChromium.prototype.openSession;
   LocalPlaywrightChromium.prototype.openSession=async function(input){
-    const session=await open.call(this,{...input,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[
+    const session=await open.call(transport === "BROWSER_GET_HEAD" ? new LocalPlaywrightChromium({admittedGetTransport:transport}) : this,{...input,networkPolicy:{documentOrigins:[origin],genericPublicRead:true,staticResources:[],dynamicReads:[
       {origin,pathname:'/',methods:['GET'],resourceTypes:['document'],queryKeys:[]},
       {origin,pathname:'/data',methods:['GET'],resourceTypes:['fetch'],queryKeys:[]}]},
       recordResponse:r=>input.recordResponse?.({...r,url:new URL(r.url).pathname==='/data'?TABLECHECK_PUBLIC_SEARCH_ORIGIN+'/search/':r.url})});
@@ -401,6 +407,7 @@ test('TableCheck public search JSON reaches an independent receiver while writes
     for(const [path,method] of [['/catalog.json','POST'],['/catalog.json','HEAD'],['/catalog.json?token=never-send','GET'],['/search/?queryProfile=public&hits=5&email=never-send','GET'],['/search/?queryProfile=public&hits=5','POST'],['/other.json','GET']])assert.equal(await get(path!,method!),false);
     assert.deepEqual(arrivals,['GET /catalog.json','GET /search/?queryProfile=public&hits=5']);
     assert.equal(reads.every(rule=>rule.methods?.length===1&&rule.methods[0]==='GET'),true);
+    await guard.flushRecordedResponses();
     recorder.recordSnapshot({url:page.url(),title:'Search',html:await page.content(),text:'Public search fixture',networkRequests:guard.snapshotRequests()});
     const recording=await recorder.finish();assert.equal(recording.replay.status,'REPLAYABLE');
     const har=JSON.parse(await readFile(join(recording.path,'replay.har'),'utf8'));
@@ -519,6 +526,7 @@ test("TableCheck browser preflight is tied to its reviewed GET or POST and rejec
           const traced = safeRecord(snapshotRecord(snapshot)) as any;
           assert.deepEqual(traced.networkRequests.find((row: any) => row.method === "OPTIONS").corsPreflight, preflight.corsPreflight, "Live trace sanitization retains independent handshake facts");
           assert.equal(postBodyStop({ kind: "NETWORK", detail: traced.networkRequests }, reviewed), null);
+          await guard.flushRecordedResponses();
           recorder.recordSnapshot(snapshot);
           const result = await recorder.finish(); const stored = JSON.parse(await readFile(join(result.path, "recording.json"), "utf8"));
           const storedRequest = stored.entries.flatMap((entry: any) => entry.kind === "NETWORK" ? entry.detail : []).find((request: any) => request.method === "OPTIONS");
@@ -534,4 +542,48 @@ test("TableCheck browser preflight is tied to its reviewed GET or POST and rejec
     await browser?.close(); for (const server of [api, site]) await new Promise<void>(resolve => { server.close(() => resolve()); server.closeAllConnections(); });
     await rm(directory, { recursive: true, force: true });
   }
+});
+
+
+}
+
+nodeTest("experimental browser GET transport makes no Node fetch and records complete responses", async () => {
+  const received: string[] = [], bodies: Array<{ url: string; body: Uint8Array }> = [];
+  const server = createServer((request, response) => {
+    received.push(`${request.method} ${request.url}`);
+    response.setHeader('content-type', request.url === '/data' ? 'application/json' : 'text/html');
+    response.end(request.url === '/data' ? '{"public":true}' : '<body>Public transport control</body>');
+  });
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
+  const address = server.address(); assert.ok(address && typeof address !== 'string');
+  const origin = `http://127.0.0.1:${address.port}`, browser = await chromium.launch({ headless: true });
+  try {
+    const context = await browser.newContext({ serviceWorkers: 'block' });
+    const installRoute = context.route.bind(context); let nodeFetches = 0;
+    context.route = (pattern, handler, options) => installRoute(pattern, (actual, request) => handler(new Proxy(actual, {get(target,key){
+      if(key === 'fetch') return (...args: Parameters<typeof actual.fetch>) => {nodeFetches++;return target.fetch(...args)};
+      const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;
+    }}),request),options);
+    const guard = new BaseGuard({ documentOrigins: [origin], genericPublicRead: true, staticResources: [], dynamicReads: [] }, 5000, response => { bodies.push(response); }, 'BROWSER_GET_HEAD');
+    await guard.install(context); const page = await context.newPage(); await guard.preparePage(context,page);
+    guard.prepareNavigation(origin + '/'); await page.goto(origin + '/');
+    await page.evaluate(async () => { await fetch('/data'); await fetch('/data', {method:'HEAD'}); await fetch('/write', {method:'POST',body:'forbidden'}).catch(()=>{}); });
+    await (guard as any).flushRecordedResponses?.();
+    assert.equal(nodeFetches, 0, 'admitted GET/HEAD must use Chromium rather than Node forwarding');
+    assert.ok(bodies.some(r => new URL(r.url).pathname==='/data' && Buffer.from(r.body).toString()==='{"public":true}'));
+    assert.equal(received.some(r => r.startsWith('POST')), false);
+  } finally { await browser.close(); server.closeAllConnections(); await new Promise<void>(resolve => server.close(()=>resolve())); }
+});
+
+nodeTest('experimental browser transport preserves the request deadline and fails closed', async () => {
+  const server=createServer((_request,response)=>{setTimeout(()=>response.end('late body'),350).unref();});
+  await new Promise<void>(resolve=>server.listen(0,'127.0.0.1',resolve));const address=server.address();assert.ok(address&&typeof address!=='string');
+  const browser=await chromium.launch({headless:true}),origin=`http://127.0.0.1:${address.port}`;
+  try{
+    const context=await browser.newContext({serviceWorkers:'block'}),guard=new BaseGuard({documentOrigins:[origin],staticResources:[],dynamicReads:[]},100,undefined,'BROWSER_GET_HEAD');
+    await guard.install(context);const page=await context.newPage();await guard.preparePage(context,page);guard.prepareNavigation(origin+'/',100);
+    const closed=page.waitForEvent('close',{timeout:1000});
+    await assert.rejects(page.goto(origin+'/',{timeout:5000}));await closed;assert.ok(guard.snapshotDiagnostics().some(row=>row.code==='READ_TIMEOUT'));
+    assert.equal(page.isClosed(),true,'native read timeout retires the context rather than leaving a live unbounded loader');
+  }finally{await browser.close();server.closeAllConnections();await new Promise<void>(resolve=>server.close(()=>resolve()));}
 });

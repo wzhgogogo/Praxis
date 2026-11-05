@@ -282,3 +282,21 @@ test("recorder retains loaded Guard-admitted public stylesheets, including gener
     assert.equal(JSON.stringify(manifest).includes("private-marker"), false);
   } finally { await rm(root,{recursive:true,force:true}); }
 });
+
+test('observed Tabelog keyword response retains public source names only at its exact recording endpoint', async () => {
+  const root=await mkdtemp(join(tmpdir(),'tabelog-suggestion-record-'));
+  try{
+    const recording=new BrowserReadRecording({directory:root,runId:'public-suggestions'});
+    const url='https://tabelog.com/en/suggest/keyword_suggest?keyword=Akabane';
+    const text=JSON.stringify([{name:'Akabane Sta.（Tokyo）',datatype:'RailroadStation',id_in_datatype:134,exact_match:true,pal:'tokyo',LstPrf:'A1323',LstAre:'A132305',station_id:'134'}]);
+    await recording.recordResponse({url,method:'GET',resourceType:'xhr',status:200,contentType:'application/json',body:Buffer.from(text)});
+    recording.recordSnapshot({url:'https://tabelog.com/en/',title:'Public search',text:'Akabane',html:'<body>Akabane</body>',networkRequests:[{outcome:'ADMITTED',origin:'https://tabelog.com',pathname:'/en/suggest/keyword_suggest',method:'GET',resourceType:'xhr',queryKeys:['keyword']}]});
+    const result=await recording.finish();assert.equal(result.replay.status,'REPLAYABLE');
+    const har=JSON.parse(await readFile(join(result.path,'replay.har'),'utf8'));
+    assert.equal(har.log.entries.find((x:any)=>x.request.url===url).response.content.text,text);
+    const denied=new BrowserReadRecording({directory:root,runId:'private-suggestions'});
+    await denied.recordResponse({url,method:'GET',resourceType:'xhr',status:200,contentType:'application/json',body:Buffer.from(JSON.stringify([{name:'Public',datatype:'RailroadStation',session_id:'private-value'}]))});
+    denied.recordSnapshot({url:'https://tabelog.com/en/',title:'Public',text:'Public',html:'<body>Public</body>',networkRequests:[{outcome:'ADMITTED',origin:'https://tabelog.com',pathname:'/en/suggest/keyword_suggest',method:'GET',resourceType:'xhr',queryKeys:['keyword']}]});
+    assert.equal((await denied.finish()).replay.status,'NOT_REPLAYABLE');
+  }finally{await rm(root,{recursive:true,force:true});}
+});
