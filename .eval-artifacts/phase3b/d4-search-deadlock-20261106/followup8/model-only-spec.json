@@ -1,0 +1,22 @@
+{
+  "schema": "C-model-only@1",
+  "authorization": "Remaining8 of user-approved40, first32 preserved",
+  "decisionsFile": ".eval-artifacts/phase3b/observed-read-provenance-20261105/budget-approved-continuation/live/runs/D4/D4/execution.decisions.jsonl",
+  "decisionsSHA256": "982c322cddc971b3e95bf4aa574331337cd81e6e8639406aa8179b0bc72b35c1",
+  "samples": [
+    {
+      "sequence": 4,
+      "expectation": "LOCATION_FIRST",
+      "provenance": "Original D4 real observation; no new page or fixture."
+    },
+    {
+      "sequence": 29,
+      "expectation": "SOURCE_LIMIT_NO_REPEAT",
+      "provenance": "Original D4 real observation; no new page or fixture."
+    }
+  ],
+  "repeats": 4,
+  "plannedCalls": 8,
+  "ceiling": 40,
+  "inputChange": "Only current system prompt. Original user context/observation/actions/history remain byte-identical. New readonly runtime restriction tested separately."
+}
