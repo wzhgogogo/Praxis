@@ -295,7 +295,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               raw=Math.max(raw,rawSourceLinks(page,pack));
               const current=pack.parseListing(page);
               if(current.outlets.length)locatedListing=true;
-              return sourceListingCompletion(pack,page,controls,expression??"",location.label);
+              return sourceListingCompletion(pack,page,controls,expression??"",location.areaMatchBasis === "NAMED_PLACE_RADIUS" ? location.label : "");
             },
           });
           if(result.status!=="COMPLETED"){throw Object.assign(Error("No confirmed current source list"),{code:pack.parseListing(result.snapshot).outlets.length?"DISCOVERY_SOURCE_LOCATION_UNGROUNDED":"DISCOVERY_SOURCE_INCOMPLETE"});}

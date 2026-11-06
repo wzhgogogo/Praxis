@@ -34,7 +34,7 @@ export async function locationSuggestionAssembly(mode:Mode){
     pages[url]=`<title>Controlled restaurant ${i}</title><script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:"Controlled restaurant "+i,address:"東京都北区赤羽1-1-1",geo:{latitude:point.latitude,longitude:point.longitude}})}</script><h1>Controlled restaurant ${i}</h1><address>東京都北区赤羽1-1-1</address>`;
   }
   const list=urls.map((url,i)=>`<a class="list-rst__rst-name-target" href="${url}">Controlled restaurant ${i}</a>`).join("");
-  pages[result]=list;pages[optionResult]=list;
+  pages[result]="<h1>Restaurants in Akabane</h1>"+list;pages[optionResult]="<h1>Restaurants in Akabane</h1>"+list;
   const wrongLinks=[];
   for(let i=0;i<5;i++){
     const url=origin+`/en/tokyo/A1322/A132201/${13123550+i}/`;wrongLinks.push(`<a class="list-rst__rst-name-target" href="${url}">Outside restaurant ${i}</a>`);

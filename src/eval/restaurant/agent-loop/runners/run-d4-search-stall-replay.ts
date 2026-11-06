@@ -17,7 +17,7 @@ const har=JSON.parse(await readFile(join(root,'replay.har'),'utf8'));
 const originalDocument=process.env.D4_REPLAY_DOCUMENT;
 if(originalDocument){assert.ok(['snapshot-0001.html','snapshot-0002.html'].includes(originalDocument));har.log.entries.find((e:any)=>e.request.url==='https://tabelog.com/en/').response.content.text=await readFile(join(root,originalDocument),'utf8');}
 const decisions=(await readFile(join(root,'../../execution.decisions.jsonl'),'utf8')).trim().split('\n').map(x=>JSON.parse(x));
-const steps=decisions.filter(d=>d.sequence===4||d.sequence===5).map(d=>({decision:JSON.parse(d.outputText),context:JSON.parse(d.messages.find((m:any)=>m.role==='user').content)}));
+const steps=decisions.filter(d=>d.sequence===4||d.sequence===5).map(d=>({decision:JSON.parse(d.outputText),context:JSON.parse(d.messages.find((m:any)=>m.role==='user').content),latencyMs:d.latencyMs}));
 const trace:any[]=[],misses:any[]=[],fetches:any[]=[],browserErrors:any[]=[];
 const emit=(kind:string,detail:unknown)=>trace.push({kind,detail:safeRecord(detail),at:performance.now()});
 const listener=(value:unknown)=>emit('FORM_EVIDENCE',value);channel('praxis.browser.form-evidence').subscribe(listener);
@@ -43,11 +43,11 @@ let session:Awaited<ReturnType<typeof runtime.openSession>>|undefined,error:unkn
 try{
  session=await withRequestTimeline({signal:new AbortController().signal,record:emit},()=>runtime.openSession({signal:new AbortController().signal,networkPolicy:discoveryPackNetworkPolicy(),...(transport==='HAR_FALLBACK'?{replayHarPath:join(root,'replay.har')}:{})}));
  await session.prepareNavigation!('https://tabelog.com/en/',{timeoutMs:20_000});await session.navigate('https://tabelog.com/en/',{waitUntil:'domcontentloaded',timeoutMs:20_000});
- for(const {decision,context} of steps){
+ for(const {decision,context,latencyMs} of steps){
   const target=context.observation.targets.find((t:any)=>t.ref===decision.targetRef);assert.ok(target);
   const controls=await session.observeControls!();emit('OBSERVED_CONTROLS',{controls:controls.map(c=>({id:c.id,label:c.label,kind:c.kind,readOnly:c.readOnly})),target});const matches=controls.filter(c=>c.label===target.label&&c.kind===target.kind);
   assert.equal(matches.length,1,'Original recorded target must uniquely match current observed public control');
-  await new Promise(resolve=>setTimeout(resolve,context.history.length?2380:3550));emit('ORIGINAL_ACTION',{action:decision.action,label:target.label,field:decision.authoritativeField});
+  assert.ok(Number.isFinite(latencyMs)&&latencyMs>=0);await new Promise(resolve=>setTimeout(resolve,latencyMs));emit('ORIGINAL_ACTION',{action:decision.action,label:target.label,field:decision.authoritativeField});
   if(decision.action==='FILL_AUTHORITATIVE'){const before=await session.snapshot();await session.fill(matches[0]!.id,context.goal.retrievalExpression,{inputSource:context.goal.retrievalSource});await session.waitForSettled?.(before,2000);await session.snapshot();}
   else await session.click(matches[0]!.id,{timeoutMs:20_000});
  }
