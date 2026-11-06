@@ -1,12 +1,13 @@
 {
-  "current": "D8-runtime/budget-C-live.json",
+  "current": "../d8-query-receipts-20261106/model-only-runtime/budget.json",
   "previous": [
     "runtime/budget-C-live.json",
     "retry-D4-runtime/budget-C-live.json",
     "vpn-D4-runtime/budget-C-live.json",
     "site-repair-D4-runtime/budget-C-live.json",
-    "snapshot-fix-D4-runtime/budget-C-live.json"
+    "snapshot-fix-D4-runtime/budget-C-live.json",
+    "D8-runtime/budget-C-live.json"
   ],
   "aggregation": "union actual rows by id; never sum repeated cumulative baselines",
-  "reason": "User explicitly requests remaining D8 once; latest D4 retained unchanged; union by id preserves prior charges"
+  "reason": "User authorized <=30 model-only validation; one real model attempt failed NETWORK, no source/Google/Live calls; union prior immutable rows by id"
 }

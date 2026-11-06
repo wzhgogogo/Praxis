@@ -20,7 +20,10 @@ export async function runObservedSourceReplay(inputRoot: string, outputPath: str
   const first = decisions.find(row => row.purpose === "restaurant_semantic_interpret");
   assert.ok(first?.startedAt && turns.length);
   const boundaries = decisions.flatMap((row, index) => row.purpose === "restaurant_semantic_interpret" ? [index] : []);
-  assert.equal(boundaries.length, turns.length, "this replay requires a captured semantic boundary for every user turn");
+  // G1 is a separate authenticated question endpoint, not another semantic
+  // message. Older turn archives identify it by the saved question request ID.
+  const questionTurns = new Set(turns.filter((turn: any) => turn.view?.restaurant?.pageQuestion?.requestId === turn.id).map((turn: any) => turn.id));
+  assert.equal(boundaries.length, turns.filter((turn: any) => turn.status !== "NOT_SENT" && !questionTurns.has(turn.id)).length, "every captured message turn needs its original semantic boundary");
   const turnDecisions = boundaries.map((from, index) => decisions.slice(from, boundaries[index + 1] ?? decisions.length));
   let activeTurn = 0;
   const started = performance.now(), epoch = Date.parse(first.startedAt);
@@ -137,20 +140,27 @@ export async function runObservedSourceReplay(inputRoot: string, outputPath: str
       if (view.case.phase !== turns[index].view?.case.phase) {
         stops.push({ reason: "PREVIOUS_TURN_DIVERGED", turn: turns[index].id, actualPhase: view.case.phase, capturedPhase: turns[index].view?.case.phase }); break;
       }
-      activeTurn = index + 1;
       const current = view;
-      await session.finished(() => session!.application.submitMessage({ userId: G6_USER, conversationId: current.case.conversationId,
-        message: turn.message, requestId: turn.id, expectedVersion: current.case.taskVersion }));
+      if (questionTurns.has(turn.id)) {
+        const candidateId=current.restaurant.presentedCandidateIds?.[0];
+        if(!candidateId){stops.push({reason:"QUESTION_REQUIRES_DISPLAYED_OUTLET",turn:turn.id});break;}
+        await session.finished(()=>session!.application.askRestaurantQuestion({userId:G6_USER,caseId:current.case.caseId,candidateId,
+          question:turn.message,requestId:turn.id,expectedVersion:current.case.taskVersion}));
+      } else {
+        activeTurn++;
+        await session.finished(() => session!.application.submitMessage({ userId: G6_USER, conversationId: current.case.conversationId,
+          message: turn.message, requestId: turn.id, expectedVersion: current.case.taskVersion }));
+      }
       view = await session.view(current.case.caseId); views.push({ id: turn.id, view });
     }
     artifact = await session.application.exportReadArtifact(view.case.caseId);
   } catch (error) { failure = error instanceof Error ? { name: error.name, message: error.message } : String(error); }
   finally {
     await session?.close(); await Promise.all(sessions.map(session => session.close().catch(() => {})));
-    await writeFile(outputPath, JSON.stringify({ mode: targetedRecordedEntry?"DIRECTED_REPLAY_FROM_RECORDED_SEARCH_RESULT":"REAL_SOURCE_REPLAY_ORIGINAL_MODEL_OUTPUTS", inputRoot, entryInjections,
+    await writeFile(outputPath, JSON.stringify({ capturedQuestionTurns:[...questionTurns], mode: targetedRecordedEntry?"DIRECTED_REPLAY_FROM_RECORDED_SEARCH_RESULT":"REAL_SOURCE_REPLAY_ORIGINAL_MODEL_OUTPUTS", inputRoot, entryInjections,
       models: "Captured semantic and Agent outputText byte-for-byte; browser refs rebind only to unique identical observed semantics; no new inference", realCalls: { model: 0, google: 0, website: 0, live: 0 },
       originalAgentSelections: selected, sourceRecordings: recordings.map(recording => ({ sha256: recording.sha256, harSha256: recording.harSha256 })),
-      views, artifact, failure, stops, browserBindings, modelCalls: session?.calls, modelOffsets: Object.fromEntries(offsets), elapsedMs: performance.now() - started }, null, 2) + "\n");
+      views, artifact, failure, stops, browserBindings, modelCalls: session?.calls, modelOffsets: Object.fromEntries(offsets), elapsedMs: performance.now() - started }, null, 2) + "\n", {flag:"wx"});
     await rm(temporary, { recursive: true, force: true });
   }
   return { failure, stops, selected, phases: views.map(row => row.view.case.phase) };

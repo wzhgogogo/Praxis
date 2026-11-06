@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import {createHash} from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { chromium, type Page } from "playwright-core";
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../../../core/model/contracts.js";
@@ -39,20 +40,25 @@ export async function g6Fixture(kind:G6FixtureKind="NORMAL") {
   const text=[source.outlet.name,source.outlet.address,source.outlet.phone,...paragraphs,"Availability",`${source.date}. 2 guests. 19:00.`].join("\n");
   let realPage:Page|undefined;
   const markerMaps:Array<Awaited<ReturnType<typeof renamePrivateMarkers>>> = [];
-  const fake:BrowserRuntime={async openSession(){let current=source.pageUrl,query="";return {
+  const fake:BrowserRuntime={async openSession(){let current=source.pageUrl,query="";const queryReceipts:NonNullable<BrowserSnapshot["networkRequests"]>=[];return {
     metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:clock.now().toISOString(),...(kind==="JAPANESE_NAME"?{readNetworkBoundary:"INSTALLED" as const}:{})},
     async navigate(url){observed("NAVIGATE",url);if(url!==source.pageUrl&&!(kind==="JAPANESE_NAME"&&new URL(url).origin==="https://tabelog.com"&&["/en/","/en/tokyo/rstLst/"].includes(new URL(url).pathname)))throw Error("Constructed source has no response for this public entrance");current=url;},
     async snapshot(){
       const search=kind==="JAPANESE_NAME"&&current!==source.pageUrl,found=new URL(current).searchParams.get("sw")==="すし本店";
       const page:BrowserSnapshot=search?{url:current,title:"Search",text:found?"すし本店":"No restaurants were found that match your search criteria",html:found?`<a href="${source.pageUrl}">すし本店</a>`:""}
         :{url:current,title:source.outlet.name,text,html,responses:kind==="RESPONSE_MISSING"?[]:[{url:endpoint,status:200,sequence:1,observedAt:clock.now().toISOString(),body:kind==="RESPONSE_CHANGED"?{base_date:{year:2026,month:11,day:11},members:2,selection:"changed-wire-shape"}:source.vacancy.body}]};
+      if(queryReceipts.length)page.networkRequests=structuredClone(queryReceipts);
       snapshots.push(structuredClone(page));return page;
     },async observeControls(){const controls:BrowserPageControl[]=[];
       if(kind==="JAPANESE_NAME"&&current!==source.pageUrl)controls.push(
         {id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Public restaurant query",type:"search",value:query,visible:true,disabled:false,formMethod:"GET",formObservation:{owner:"public-query",visibleLines:["Query","Search"]},structure:{tag:"INPUT",name:"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0}},
         {id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",visible:true,disabled:false,formMethod:"GET",formObservation:{owner:"public-query",visibleLines:["Query","Search"]}});
       if(new URL(current).searchParams.get("sw")==="すし本店")controls.push({id:"source-link",stableKey:"source-link",kind:"LINK",role:"link",label:"すし本店",href:source.pageUrl,visible:true,disabled:false});return controls;
-    },async select(_selector,value){return [value];},async click(){assert.equal(kind,"JAPANESE_NAME");current="https://tabelog.com/en/tokyo/rstLst/?sw="+encodeURIComponent(query);observed("NAVIGATE",current);},async fill(_id,value){assert.equal(kind,"JAPANESE_NAME");query=value;},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){},
+    },async select(_selector,value){return [value];},async click(){assert.equal(kind,"JAPANESE_NAME");current="https://tabelog.com/en/tokyo/rstLst/?sw="+encodeURIComponent(query);
+      // Constructed source-I/O receipt for its actual fixture GET submission;
+      // this is Mock evidence, never a claim about a real site's Guard.
+      const submitted=new URL(current);queryReceipts.push({outcome:"ADMITTED",origin:submitted.origin,pathname:submitted.pathname,method:"GET",resourceType:"document",queryKeys:[...submitted.searchParams.keys()],formSubmission:{documentOrigin:submitted.origin,actionOrigin:submitted.origin,actionPathname:submitted.pathname,fields:[...submitted.searchParams].map(([key,value])=>({key,valueSha256:createHash("sha256").update(value).digest("hex"),source:"G4_SOURCE_TERM"}))}});
+      observed("NAVIGATE",current);},async fill(_id,value){assert.equal(kind,"JAPANESE_NAME");query=value;},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){},
   };}};
   const real:BrowserRuntime=new LocalPlaywrightChromium({browserType:{async launch(options){
     const browser=await chromium.launch(options),original=browser.newContext.bind(browser);
