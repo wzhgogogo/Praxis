@@ -1,9 +1,10 @@
 {
-  "current": "site-repair-D4-runtime/budget-C-live.json",
+  "current": "snapshot-fix-D4-runtime/budget-C-live.json",
   "previous": [
     "runtime/budget-C-live.json",
     "retry-D4-runtime/budget-C-live.json",
-    "vpn-D4-runtime/budget-C-live.json"
+    "vpn-D4-runtime/budget-C-live.json",
+    "site-repair-D4-runtime/budget-C-live.json"
   ],
   "aggregation": "union actual rows by id; never sum repeated cumulative baselines",
   "reason": "User-authorized further D4 retry after VPN change; no prior attempt overwritten"
