@@ -22,9 +22,9 @@ export function safeString(value: string): string {
 }
 
 export function safeRecord(value: unknown, key = ""): unknown {
-  // CORS evidence stores a canonical public Origin, not a URL to be rewritten
+  // Protocol evidence stores canonical public Origins, not URLs to be rewritten
   // with a slash (which would change the observed protocol field).
-  if (key === "requestOrigin" && typeof value === "string") {
+  if ((key === "requestOrigin" || key === "documentOrigin" || key === "actionOrigin") && typeof value === "string") {
     try { const url = new URL(value); return /^https?:$/.test(url.protocol) && url.origin === value ? value : "[INVALID_ORIGIN]"; }
     catch { return "[INVALID_ORIGIN]"; }
   }

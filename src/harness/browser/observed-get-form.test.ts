@@ -1,3 +1,4 @@
+import {safeRecord} from '../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js';
 import {withRequestTimeline} from '../../eval/restaurant/agent-loop/runners/browser-request-timeline.js';
 import {readDiagnosticTrace} from '../../eval/restaurant/agent-loop/diagnostic-evaluator-record.js';
 import {auditNativeGetForm} from '../../eval/restaurant/agent-loop/diagnostic-evaluator-forms.js';
@@ -29,7 +30,7 @@ for (const transport of ["NODE_FETCH", "BROWSER_GET_HEAD"] as const) {
     const runtime = new LocalPlaywrightChromium({ admittedGetTransport: transport });
     const trace:Array<{sequence:number;kind:string;detail:unknown}>=[];
     const signal=new AbortController().signal;
-    const session = await withRequestTimeline({signal,record:(kind,detail)=>trace.push({sequence:trace.length+1,kind,detail})},()=>runtime.openSession({ signal,
+    const session = await withRequestTimeline({signal,record:(kind,detail)=>trace.push({sequence:trace.length+1,kind,detail:safeRecord(detail)})},()=>runtime.openSession({ signal,
       networkPolicy: { documentOrigins: [origin], genericPublicRead: true, staticResources: [], dynamicReads: [] } }));
     try {
       await session.prepareNavigation!(origin + "/"); await session.navigate(origin + "/");
