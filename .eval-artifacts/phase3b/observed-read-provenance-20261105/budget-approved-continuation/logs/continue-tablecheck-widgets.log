@@ -1,0 +1,94 @@
+✔ TableCheck waits for its guide result and grounds exact-query empty availability (1265.75475ms)
+✖ real Chromium TableCheck source observation completes inside the current 45s provider window (45006.235667ms)
+✖ TableCheck handles multiple current search links and reads only the identity-bound outlet (122.987542ms)
+✖ TableCheck form waits past old inventory until a current same-outlet slot link appears (1587.195541ms)
+✖ LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2546.234208ms)
+✖ CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2485.423708ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 1
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 53309.868
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:2762
+✖ real Chromium TableCheck source observation completes inside the current 45s provider window (45006.235667ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-06T01:01:20.043Z","evidenceIds":[],"reasonCode":"BROWSER_TIMEOUT"}},"evidence":[],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":45003,"failureCode":"BROWSER_TIMEOUT","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:5fdc5595-cc4c-4c89-84a8-c72aef18e01c","startedAt":"2026-11-06T01:00:35.123Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:107:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:6917
+✖ TableCheck handles multiple current search links and reads only the identity-bound outlet (122.987542ms)
+  AssertionError [ERR_ASSERTION]: {"offers":[],"availabilityChecks":{"restaurant-1":{"status":"UNKNOWN","checkedAt":"2026-11-06T01:01:20.156Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN"}},"evidence":[],"metadata":{"provider":"TABLECHECK","route":"GENERIC_BROWSER","latencyMs":103,"failureCode":"ENTITY_MATCH_UNCERTAIN","browser":{"runtimeProvider":"LOCAL_PLAYWRIGHT_CHROMIUM","engine":"CHROMIUM","sessionId":"local:12ff345a-719f-42c7-a45d-c3701b17c44a","startedAt":"2026-11-06T01:01:20.156Z"}}}
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:137:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:9394
+✖ TableCheck form waits past old inventory until a current same-outlet slot link appears (1587.195541ms)
+  AssertionError [ERR_ASSERTION]: navigation settles the current result without spending a model WAIT
+  
+  2 !== 0
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:169:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 0,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:12624
+✖ LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2546.234208ms)
+  AssertionError [ERR_ASSERTION]: the production Adapter consumed the publicly observable native value
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:216:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: `<html><head></head><body><h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"><form method="post">\n    <button type="button">Sep 19th</button><button type="button" data-testid="day" data-date="2026-9-19" aria-selected="true" disabled="">19</button>\n    <div data-testid="Venue Pax Select" id="pax-4"><input role="combobox" aria-readonly="true" aria-label="Any party size" aria-expanded="false" style="pointer-events:none" onkeydown="if(event.key==='ArrowDown')openList(this,'guests')"></div>\n    <div id="guests" role="listbox" hidden=""><div role="option" onclick="document.querySelector('#pax-2 input').value='4 guests';document.querySelector('#pax-2').id='pax-4';finishChoice()">4 guests</div></div>\n    <div data-testid="Venue Time Select" id="time-19:00"><div data-testid="Value Container"><div class="fixture-singleValue">19:00</div><div><input role="combobox" aria-readonly="true" aria-label="Time" aria-expanded="false" value="20:00" style="pointer-events:none" onkeydown="if(event.key==='ArrowDown')openList(this,'times')"></div></div></div>\n    <div id="times" role="listbox" hidden=""><div role="option" onclick="document.getElementById('time-20:00').querySelector('.fixture-singleValue').textContent='19:00';document.getElementById('time-20:00').querySelector('input').value='19:00';document.getElementById('time-20:00').id='time-19:00';finishChoice()">19:00</div><div role="option" onclick="document.body.dataset.outside='changed';finishChoice()">20:00</div></div>\n    <div id="result"><a href="/en/shops/restaurant1/reserve?start_date=2026-09-19&amp;pax=4&amp;start_time=19:00">19:00</a></div><button type="submit">Book</button></form></div>\n    <script>function openList(input,id){document.getElementById(id).hidden=false;input.setAttribute('aria-expanded','true');input.setAttribute('aria-controls',id)}\n    function finishChoice(){document.querySelectorAll('[role=listbox]').forEach(e=>e.hidden=true);document.querySelectorAll('[role=combobox]').forEach(e=>{e.setAttribute('aria-expanded','false');e.removeAttribute('aria-controls')});const time=document.querySelector('[data-testid="Venue Time Select"]').id.slice(5);document.querySelector('#result').innerHTML='<a href="/en/shops/restaurant1/reserve?start_date=2026-09-19&pax=4&start_time='+time+'">'+time+'</a>'}</script></body></html>`,
+    expected: /aria-label="Time"[^>]*value="19:00"/,
+    operator: 'match'
+  }
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:12624
+✖ CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2485.423708ms)
+  AssertionError [ERR_ASSERTION]: the production Adapter consumed the publicly observable native value
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:216:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: `<html><head></head><body><h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability"><form method="post">\n    <button type="button">Sep 19th</button><button type="button" data-testid="day" data-date="2026-9-19" aria-selected="true" disabled="">19</button>\n    <div data-testid="Venue Pax Select" id="pax-4"><input role="combobox" aria-readonly="true" aria-label="Any party size" aria-expanded="false" style="pointer-events:none" onkeydown="if(event.key==='ArrowDown')openList(this,'guests')"></div>\n    <div id="guests" role="listbox" hidden=""><div role="option" onclick="document.querySelector('#pax-2 input').value='4 guests';document.querySelector('#pax-2').id='pax-4';finishChoice()">4 guests</div></div>\n    <div data-testid="Venue Time Select" id="time-19:00"><div data-testid="Value Container"><div class="fixture-singleValue">19:00</div><div><input role="combobox" aria-readonly="true" aria-label="Time" aria-expanded="false" value="20:00" style="pointer-events:none" onkeydown="if(event.key==='ArrowDown')openList(this,'times')"></div></div></div>\n    <div id="times" role="listbox" hidden=""><div role="option" onclick="document.getElementById('time-20:00').querySelector('.fixture-singleValue').textContent='19:00';document.getElementById('time-20:00').querySelector('input').value='19:00';document.getElementById('time-20:00').id='time-19:00';finishChoice()">19:00</div><div role="option" onclick="document.body.dataset.outside='changed';finishChoice()">20:00</div></div>\n    <div id="result"><a href="/en/shops/restaurant1/reserve?start_date=2026-09-19&amp;pax=4&amp;start_time=19:00">19:00</a></div><button type="submit">Book</button></form></div>\n    <script>function openList(input,id){document.getElementById(id).hidden=false;input.setAttribute('aria-expanded','true');input.setAttribute('aria-controls',id)}\n    function finishChoice(){document.querySelectorAll('[role=listbox]').forEach(e=>e.hidden=true);document.querySelectorAll('[role=combobox]').forEach(e=>{e.setAttribute('aria-expanded','false');e.removeAttribute('aria-controls')});const time=document.querySelector('[data-testid="Venue Time Select"]').id.slice(5);document.querySelector('#result').innerHTML='<a href="/en/shops/restaurant1/reserve?start_date=2026-09-19&pax=4&start_time='+time+'">'+time+'</a>'}</script></body></html>`,
+    expected: /aria-label="Time"[^>]*value="19:00"/,
+    operator: 'match'
+  }

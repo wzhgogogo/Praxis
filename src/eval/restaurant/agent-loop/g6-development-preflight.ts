@@ -23,7 +23,7 @@ import { googlePlacesDiscoveryPack } from "../../../integrations/restaurant-sear
 import { GooglePlacesClient } from "../../../integrations/google/google-places-client.js";
 import { FakeClock } from "../../../harness/fake-clock.js";
 import { strictAction } from "../../../harness/restaurant-read-test-fixtures.js";
-import { exactGuideAvailabilityUrl, localFixture } from "../../../harness/browser/browser-read-test-fixtures.js";
+import { localFixture } from "../../../harness/browser/browser-read-test-fixtures.js";
 
 class LocalDatabase implements SqlDatabase {
   constructor(private readonly database: PGlite) {}
@@ -131,7 +131,6 @@ export async function runG6DevelopmentPreflight(output: string, path: "P1" | "P2
   // selected controls. Chromium observes them; only its source network is fixed.
   const tablecheckBrowser = provider === "TABLECHECK" ? localFixture({
     [pageUrl]: html,
-    [exactGuideAvailabilityUrl(pageUrl,source.date,source.partySize,source.time)]: html,
   }) : undefined;
   const browser: BrowserRuntime = tablecheckBrowser ? {async openSession(input) {
     const session = await tablecheckBrowser.openSession(input);

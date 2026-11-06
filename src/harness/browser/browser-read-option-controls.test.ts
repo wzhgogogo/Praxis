@@ -96,11 +96,13 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
 }
 
 for (const initialTime of ["17:30", "19:00"] as const) {
-  test(`empty input reads its own selected display and ${initialTime === "17:30" ? "confirms a changed option" : "avoids a duplicate choice"}`, async () => {
-    const runtime = localFixture(`<div data-testid="Value Container" id="other-value"><div class="fixture-singleValue">19:00</div><input role="combobox" aria-label="Other time" aria-readonly="true" aria-expanded="false" value=""></div>
+  test(`public combobox value is independent of an empty input and ${initialTime === "17:30" ? "confirms a changed option" : "avoids a duplicate choice"}`, async () => {
+    // The retired private singleValue proxy is replaced by the source's
+    // public combobox value; the unrelated empty native input stays empty.
+    const runtime = localFixture(`<button role="combobox" type="button" aria-label="Other time" value="19:00" aria-expanded="false">19:00</button>
       <div>Nearby time: 19:00</div>
-      <div data-testid="Value Container" id="time-value"><div class="fixture-singleValue">${initialTime}</div><div><input id="time-input" role="combobox" aria-label="Time" aria-readonly="true" aria-expanded="false" value="" onkeydown="if(event.key==='ArrowDown'){this.setAttribute('aria-expanded','true');this.setAttribute('aria-controls','time-options');document.getElementById('time-options').hidden=false}"></div></div>
-      <div id="time-options" role="listbox" hidden><div role="option" onclick="document.querySelector('#time-value .fixture-singleValue').textContent='19:00';document.body.dataset.selectedTime='19:00';document.getElementById('time-input').setAttribute('aria-expanded','false');document.getElementById('time-input').removeAttribute('aria-controls');document.getElementById('time-options').hidden=true">19:00</div></div>
+      <button id="time-owner" type="button" role="combobox" aria-label="Time" aria-expanded="false" value="${initialTime}" onclick="this.setAttribute('aria-expanded','true');this.setAttribute('aria-controls','time-options');document.getElementById('time-options').hidden=false">${initialTime}</button><input id="time-input" value="">
+      <div id="time-options" role="listbox" hidden><div role="option" onclick="const owner=document.getElementById('time-owner');owner.value='19:00';owner.textContent='19:00';document.body.dataset.selectedTime='19:00';owner.setAttribute('aria-expanded','false');owner.removeAttribute('aria-controls');document.getElementById('time-options').hidden=true">19:00</div></div>
       <script>document.body.dataset.selectedTime='${initialTime}'</script>`, "LOCAL");
     let calls = 0;
     const seenValues: Array<string | undefined> = [];

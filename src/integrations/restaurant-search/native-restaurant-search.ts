@@ -250,7 +250,8 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       sourceElapsedCapMs: NATIVE_SOURCE_ELAPSED_CAP_MS, sourceElapsedMs: elapsed(), sourceTimeLimitReached: elapsed() >= NATIVE_SOURCE_ELAPSED_CAP_MS,
       deferredByBatchCap: [...known.values()].filter(entry => !inspected.has(entry.sourceEntityId)).map(entry => ({ sourceUrl: entry.sourceUrl, reasonCode: "DETAIL_BATCH_CAP" })),
       rejected, accepted: admitted.size, pagesRead: pages, batchLimitReached: detailAttempts >= NATIVE_DETAIL_BATCH_CAP,
-      sourceExhausted: remainingEntries().length||nextListing ? false : stopped ? true : "UNKNOWN", batchEnded: true, sourceEnded: sourceEnded(),
+      // Finishing the retained links ends this bounded route, not the website's coverage.
+      sourceExhausted: remainingEntries().length||nextListing ? false : "UNKNOWN", batchEnded: true, sourceEnded: sourceEnded(),
       progressionReason: source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" : "FIRST_SOURCE_BATCH_ENDED", listingObservations: listings, retrieval,
     });
     let detailNavigation = false, paginationNavigation=false, nextListing = previous?.nextListing;

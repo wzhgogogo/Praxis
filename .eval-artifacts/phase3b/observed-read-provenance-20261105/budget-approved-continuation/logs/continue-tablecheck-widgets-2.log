@@ -1,0 +1,33 @@
+✔ TableCheck waits for its guide result and grounds exact-query empty availability (1251.250291ms)
+✔ real Chromium TableCheck source observation completes inside the current 45s provider window (32049.955875ms)
+✖ TableCheck form waits past old inventory until a current same-outlet slot link appears (1645.547667ms)
+✔ LOCAL TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2527.697125ms)
+✔ CLOUDFLARE_SESSION TableCheck changes guests through a read-only ARIA combobox without repeating the selected date (2492.560417ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 40262.394917
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-tablecheck.test.ts:1:9513
+✖ TableCheck form waits past old inventory until a current same-outlet slot link appears (1645.547667ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'UNKNOWN'
+  - 'AVAILABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-tablecheck.test.ts:171:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'UNKNOWN',
+    expected: 'AVAILABLE',
+    operator: 'strictEqual'
+  }

@@ -1,3 +1,4 @@
+import type {BrowserRuntime} from "../../infrastructure/browser/browser-runtime.js";
 import { fixtureGoalBasis } from "../restaurant-read-test-fixtures.js";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -293,7 +294,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   const { restaurantBookingTaskDefinition } = await import("../../domains/restaurant/task-definition.js");
   const trace: Array<{ sequence: number; at: string; kind: string; detail: unknown }> = [];
   const rawRuntime = dynamicTabelogSourcePages({ result: outcome });
-  const runtime = { openSession: async (input: { signal: AbortSignal }) => traceBrowserSession(
+  const runtime: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT", openSession: async input => traceBrowserSession(
     await rawRuntime.openSession(input), "TABELOG", (kind, detail) => { const sequence = trace.length + 1; trace.push({ sequence, at: reference.toISOString(), kind, detail }); return sequence; },
   ) };
   const reply = (outputText: string, purpose: string) => ({ invocationId: purpose, provider: "FIXTURE" as const, model: "scripted-formal-browser", outputText, finishReason: "TOOL_CALLS" as const, latencyMs: 0 });
@@ -341,9 +342,10 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
       return reply(JSON.stringify({ sourceSelections: selected ? [selected] : [], judgments: selected ? [{ criterion: "omakase", outcome: "SUPPORTED", scope: "RESTAURANT_CATEGORY_TYPE", evidenceIds: [selected.documentId] }] : [] }), request.purpose);
     }
     if (request.purpose === "browser_read_decide") {
-      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { observation: { targets: Array<{ ref: string; label: string; selected?: boolean; availableActions?: string[] }> } };
+      const input = JSON.parse(request.messages.find(item => item.role === "user")!.content) as { stage:string; observation: { targets: Array<{ ref: string; label: string; selected?: boolean; availableActions?: string[] }> } };
       const region = input.observation.targets.find(target => target.label === "Shibuya" && target.availableActions?.includes("OPEN_LINK"));
       if (region) return reply(JSON.stringify({ action: "OPEN_LINK", targetRef: region.ref, authoritativeField: "NONE", requestedState: "NONE", reason: "Select the observed region before reading its list." }), request.purpose);
+      if(input.stage==="DISCOVERY")return reply(JSON.stringify({action:"COMPLETE",targetRef:"",authoritativeField:"NONE",requestedState:"NONE",reason:"Verify the current constructed source list"}),request.purpose);
       const dateTarget = input.observation.targets.find(target => target.label === "Date 2026-08-19" && !target.selected);
       const partyTarget = input.observation.targets.find(target => target.label === "Guests 2" && !target.selected);
       const target = dateTarget ?? partyTarget;
@@ -489,7 +491,7 @@ test(`native dynamic Tabelog ${outcome} reaches formal H001 ${outcome === "AVAIL
   assert.deepEqual(browserActions, ["DATE", "PARTY_SIZE"], "request values must come from real observed DOM actions");
   const navigations = trace.filter(item => item.kind === "SESSION_CALL" && (item.detail as { method?: string }).method === "navigate")
     .map(item => (item.detail as { args: string[] }).args[0]!);
-  assert.match(navigations[0]!, /^https:\/\/tabelog\.com\/en\/tokyo\/rstLst\//);
+  assert.equal(navigations[0], "https://tabelog.com/en/", "first navigation uses the approved source seed");
   const tableCheckSearches = navigations.filter(value => new URL(value).hostname === "www.tablecheck.com");
   if (outcome === "AVAILABLE") {
     assert.equal(state.phase, "PRESENT_RESULTS", JSON.stringify(state));

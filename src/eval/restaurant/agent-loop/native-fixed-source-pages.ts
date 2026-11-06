@@ -1,3 +1,8 @@
+import {mkdtemp,writeFile,rm} from "node:fs/promises";
+import {tmpdir} from "node:os";
+import {join} from "node:path";
+import {replayHarPages} from "../../../harness/browser/browser-read-test-fixtures.js";
+import {discoveryPackNetworkPolicy,tabelogDiscoveryPack,tableCheckDiscoveryPack} from "../../../integrations/restaurant-search/source-packs.js";
 import type { BrowserActionOptions, BrowserReadNetworkObservation, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSnapshot } from "../../../infrastructure/browser/browser-runtime.js";
 import { chromium, type BrowserContext, type Route } from "playwright-core";
 import { PlaywrightReadNetworkGuard } from "../../../infrastructure/browser/playwright-read-network-guard.js";
@@ -465,79 +470,40 @@ export function dynamicTabelogSourcePages(options: { result?: "AVAILABLE" | "UNA
     <h1 class="rstinfo-table__name">Native Dynamic Tabelog 100</h1><p class="rstinfo-table__address">Shibuya 100, Tokyo</p>
     <div class="course menu">Omakase course</div><p>Reserve Guests</p>
     <div class="p-booking-calendar"><table class="p-booking-calendar__calendar"><caption><em>Aug 2026</em></caption><tbody><tr>
-      <td><p class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="8" data-day="18" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">18</span></p></td>
+      <td><p aria-current="date" class="js-calendar-day-target is-selectable is-current" data-year="2026" data-month="8" data-day="18" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">18</span></p></td>
       <td><p class="js-calendar-day-target is-selectable" data-year="2026" data-month="8" data-day="19" onclick="pickDate(this)"><span class="p-booking-calendar__day-num">19</span></p></td>
     </tr></tbody></table>
-    <div class="js-select-member"><button type="button" class="p-booking-calendar__people-button js-people-button is-active" onclick="pickGuests(this)">1</button>
-    <button type="button" class="p-booking-calendar__people-button js-people-button" onclick="pickGuests(this)">2</button></div>
+    <div role="group" aria-label="Guests" class="js-select-member"><button type="button" aria-pressed="true" class="p-booking-calendar__people-button js-people-button is-active" onclick="pickGuests(this)">1</button>
+    <button type="button" aria-pressed="false" class="p-booking-calendar__people-button js-people-button" onclick="pickGuests(this)">2</button></div>
     <input class="js-people-hidden-value" type="hidden" value="1"><div id="availability"></div></div>
     <script>
       const fixtureResult='${result}'; let selectedDate='2026-08-18'; let selectedGuests=1;
-      function guestButton(value,active){const button=document.createElement('button');button.type='button';button.classList.add('p-booking-calendar__people-button','js-'+'people-button');if(active)button.classList.add('is-'+'active');button.textContent=String(value);button.onclick=()=>pickGuests(button);return button}
+      function guestButton(value,active){const button=document.createElement('button');button.type='button';button.classList.add('p-booking-calendar__people-button','js-'+'people-button');if(active)button.classList.add('is-'+'active');button.setAttribute('aria-pressed',String(active));button.textContent=String(value);button.onclick=()=>pickGuests(button);return button}
       function renderGuests(active){document.querySelector('.js-select-member').replaceChildren(guestButton(1,active===1),guestButton(2,active===2))}
       function refresh(){ if(selectedDate!=='2026-08-19'||selectedGuests!==2)return;
-        fetch('${vacancyPath}?date='+selectedDate+'&member='+selectedGuests).then(r=>r.json()).then(()=>{
+        fetch('${vacancyPath}?rst_id=100&svd='+selectedDate.replaceAll('-','')+'&svps='+selectedGuests).then(r=>r.json()).then(()=>{
           const button=document.createElement('button');button.classList.add('slot',fixtureResult==='AVAILABLE'?'is-'+'available':'is-'+'unavailable');button.dataset.time='19:00';button.textContent='19:00';document.querySelector('#availability').replaceChildren(button);
         }); }
-      function pickDate(node){document.querySelector('.js-calendar-day-target.is-current').classList.remove('is-current');node.classList.add('is-current');selectedDate='2026-08-'+node.dataset.day;
+      function pickDate(node){document.querySelector('.js-calendar-day-target.is-current').removeAttribute('aria-current');document.querySelector('.js-calendar-day-target.is-current').classList.remove('is-current');node.classList.add('is-current');node.setAttribute('aria-current','date');selectedDate='2026-08-'+node.dataset.day;
         if(${memberLoaderAfterDateMs}>0&&selectedDate==='2026-08-19'){selectedGuests=2;document.querySelector('.js-people-hidden-value').value='2';const member=document.querySelector('.js-select-member');const loader=document.createElement('i');loader.className='js-'+'select-loader';member.replaceChildren(loader);setTimeout(()=>{renderGuests(2);refresh()},${memberLoaderAfterDateMs});return}refresh();}
-      function pickGuests(node){document.querySelector('.js-people-button.is-active').classList.remove('is-active');node.classList.add('is-active');selectedGuests=Number(node.textContent);document.querySelector('.js-people-hidden-value').value=String(selectedGuests);refresh();}
+      function pickGuests(node){document.querySelector('.js-people-button.is-active').setAttribute('aria-pressed','false');document.querySelector('.js-people-button.is-active').classList.remove('is-active');node.classList.add('is-active');node.setAttribute('aria-pressed','true');selectedGuests=Number(node.textContent);document.querySelector('.js-people-hidden-value').value=String(selectedGuests);refresh();}
     </script>`;
-  const pages: Record<string, { contentType: string; body: string }> = {
-    [detailUrl]: { contentType: "text/html; charset=utf-8", body: detailHtml },
+  const responseBody={base_date:{year:2026,month:8,day:19},members:2,selection:{0:{time:result==="AVAILABLE"?"19:00":"21:00",url:result==="AVAILABLE"?"/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=1900":"/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=2100"}}};
+  const sourcePages={
+    [detailUrl]:detailHtml,
+    "https://tabelog.com/en/":'<a href="https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase">Shibuya</a>',
+    "https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase":`<h1>Restaurants in Shibuya</h1><a href="${detailUrl}">Native Dynamic Tabelog 100</a>`,
+    "https://www.tablecheck.com/en/japan/search":"<title>TableCheck search</title><main>0 venues found</main>",
+    ["https://tabelog.com"+vacancyPath+"?rst_id=100&svd=20260819&svps=2"]:JSON.stringify(responseBody),
   };
-  const browserType = {
-    async launch(options: Parameters<typeof chromium.launch>[0]) {
-      const browser = await chromium.launch(options);
-      const createContext = browser.newContext.bind(browser);
-      browser.newContext = async (contextOptions) => {
-        const context = await createContext(contextOptions);
-        await context.route("**/*", async (route) => {
-          const request = new URL(route.request().url());
-          if (request.origin === "https://tabelog.com" && request.pathname === "/en/tokyo/rstLst/") {
-            await route.fulfill({contentType:"text/html",body:'<a href="https://tabelog.com/en/tokyo/A1303/A130301/rstLst/?sw=omakase">Shibuya</a>'}); return;
-          }
-          if (request.origin === "https://tabelog.com" && request.pathname === "/en/tokyo/A1303/A130301/rstLst/") {
-            // The native search owns the URL shape; the fixture only accepts the
-            // frozen HARD criterion and deliberately tolerates parameter order.
-            if (request.searchParams.get("sw") !== "omakase") { await route.abort(); return; }
-            // Keep the source-shaped class but also meet the native parser's
-            // observed name-marker contract.  Otherwise the dynamic page has
-            // a raw link but deliberately yields no parsed outlet, which
-            // exercises neither the same-source availability path nor the
-            // fixed-order continuation it is meant to cover.
-            await route.fulfill({ contentType: "text/html; charset=utf-8", body: `<h1>Restaurants in Shibuya</h1><a class="list-rst__rst-name-target restaurant-name" href="${detailUrl}" data-address="Shibuya 100, Tokyo">Native Dynamic Tabelog 100</a>` });
-            return;
-          }
-          if (request.origin === "https://www.tablecheck.com" && request.pathname === "/en/japan/search") {
-            // A legal second native source must end as observed no-result, not
-            // as an unconfigured browser failure, if the Router reaches it.
-            await route.fulfill({ contentType: "text/html; charset=utf-8", body: "<title>TableCheck search</title><main>0 venues found</main>" });
-            return;
-          }
-          if (request.origin === "https://tabelog.com" && request.pathname === vacancyPath) {
-            const member = Number(request.searchParams.get("member"));
-            const requestedDate = request.searchParams.get("date");
-            const exactQuery = member === 2 && requestedDate === "2026-08-19";
-            const body = exactQuery
-              ? { base_date: { year: 2026, month: 8, day: 19 }, members: 2,
-                selection: result === "AVAILABLE"
-                  ? { 0: { time: "19:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=1900" } }
-                  // A bound source slot outside 19:00 proves no matching slot;
-                  // an empty payload without merchant binding stays UNKNOWN.
-                  : { 0: { time: "21:00", url: "/en/booking/form_course/new?rcd=100&member=2&visit_date=20260819&visit_time=2100" } } }
-              : { base_date: { year: 2026, month: 8, day: 18 }, members: 1, selection: {} };
-            await route.fulfill({ contentType: "application/json; charset=utf-8", body: JSON.stringify(body) });
-            return;
-          }
-          const page = pages[request.toString()];
-          if (!page) { await route.abort(); return; }
-          await route.fulfill(page);
-        });
-        return context;
-      };
-      return browser;
-    },
-  };
-  return new LocalPlaywrightChromium({ browserType });
+  const raw=new LocalPlaywrightChromium();
+  return {readNetworkBoundaryCapability:"ISOLATED_CONTEXT",async openSession(input){
+    const directory=await mkdtemp(join(tmpdir(),"native-dynamic-")),har=join(directory,"source.har");
+    await writeFile(har,replayHarPages(sourcePages));
+    try{
+      const session=await raw.openSession({...input,networkPolicy:input.networkPolicy??discoveryPackNetworkPolicy([tabelogDiscoveryPack,tableCheckDiscoveryPack]),replayHarPath:har});
+      const close=session.close.bind(session);session.close=async()=>{try{await close();}finally{await rm(directory,{recursive:true,force:true});}};
+      return session;
+    }catch(error){await rm(directory,{recursive:true,force:true});throw error;}
+  }};
 }

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "phase3b-g6-pack@1",
+  "mode": "LIVE_READ",
+  "recording": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  },
+  "cases": [
+    {
+      "id": "D8",
+      "request": "Check whether Specializing in Nodoguro Ginza Nakamata has a table for two on November 11, 2026 at 8 PM.",
+      "followups": [
+        {
+          "id": "BOOK_THIS_OUTLET",
+          "trigger": "DISPLAYED_AVAILABLE",
+          "kind": "MESSAGE",
+          "text": "Please help me book this restaurant for that date and time."
+        }
+      ],
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "partySize": 2,
+          "time": "20:00"
+        },
+        "pages": []
+      }
+    }
+  ]
+}

@@ -1,3 +1,6 @@
+import {ModelBrowserReadActionDecision} from "../../infrastructure/browser/browser-action-decision.js";
+import {scriptedBrowserObservation} from "../fixtures/restaurant-observation-model.js";
+import {discoveryPackNetworkPolicy,tabelogDiscoveryPack,tableCheckDiscoveryPack} from "../../integrations/restaurant-search/source-packs.js";
 import assert from "node:assert/strict";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -8,7 +11,7 @@ import { LocalPlaywrightChromium } from "../../infrastructure/browser/local-play
 import { BrowserTaskExecutor, type BrowserExecutionDiagnostic } from "../../infrastructure/browser/browser-task-executor.js";
 import type { BrowserRuntime, BrowserSession } from "../../infrastructure/browser/browser-runtime.js";
 import { BrowserReadRecording } from "../../eval/restaurant/agent-loop/runners/browser-read-recording.js";
-import { url, identity, replayHar, replayHarPages, localFixture } from "./browser-read-test-fixtures.js";
+import { url, identity, replayHar, replayHarPages, localFixture, guardedPages } from "./browser-read-test-fixtures.js";
 
 test('P1-D Chromium observes LOCATION binding and fills exactly the resolved name, excluding personal address and nameless requests',async()=>{
  const directory=await mkdtemp(join(tmpdir(),'praxis-location-'));const pageUrl='https://directory.example/areas';const harPath=join(directory,'location.har');
@@ -44,57 +47,43 @@ test('name-resolution benchmark uses the production prefix on Chromium and stops
  const subject={name:'Fixture Restaurant',address:'1-1 Tokyo Fixture Street',phone:'03-1111-2222',coordinates:{lat:35.66,lng:139.7}};
  for(const platform of ['TABELOG','TABLECHECK'] as const){
   const detail=platform==='TABELOG'?'https://tabelog.com/tokyo/A1303/A130301/12345/':'https://www.tablecheck.com/en/fixture';
-  const searches=platform==='TABELOG'?['https://tabelog.com/en/tokyo/rstLst/?sw=Fixture%20Restaurant']:['https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc&search_text=Fixture+Restaurant&geo_latitude=35.66&geo_longitude=139.7&geo_distance=5km&auto_geolocate=false'];
+  const pack=platform==='TABELOG'?tabelogDiscoveryPack:tableCheckDiscoveryPack,policy=discoveryPackNetworkPolicy([pack]);const startup=pack.browser!.startupUrl!;
+  const result=new URL(platform==='TABELOG'?'https://tabelog.com/en/tokyo/rstLst/':startup);result.searchParams.set('q',subject.name);const searches=[result.toString()];
+  const queryForm=(value:string)=>`<form method="get" action="${result.pathname}"><label>Restaurant<input name="q" type="search" value="${value}"></label><button>Search</button></form>`;
   const html=`<title>Fixture Restaurant</title><h1>Fixture Restaurant</h1><p class="address">1-1 Tokyo Fixture Street</p><a href="tel:03-1111-2222">Phone</a><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:subject.name,address:subject.address,telephone:subject.phone})}</script>${platform==='TABELOG'?'<p>Availability</p><select name="party_size"><option value="1">1</option></select><select name="date"><option value="1970-01-01">1970-01-01</option></select>':'<a href="https://www.tablecheck.com/en/shops/fixture/reserve">Reserve</a>'}`;
-  const pages:Record<string,string>={[detail]:html};for(const search of searches)pages[search]=`<a class="list-rst__rst-name-target" href="${detail}">Fixture Restaurant</a>`;
-  const actions:string[]=[],fixture=localFixture(pages);
-  const runtime:BrowserRuntime={openSession:async input=>{
-   const session=await fixture.openSession(input);
+  const pages:Record<string,string>={[detail]:html,[startup]:queryForm('')};for(const search of searches)pages[search]=queryForm(subject.name)+`<a class="list-rst__rst-name-target" href="${detail}">Fixture Restaurant</a>`;
+  const actions:string[]=[],fixture=await guardedPages(pages,policy);
+  const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async input=>{
+   const session=await fixture.runtime.openSession(input);
    return new Proxy(session,{get(target,key){
     const value=Reflect.get(target,key);
     if(typeof value!=='function')return value;
     return (...args:unknown[])=>{if(['select','fill','click'].includes(String(key)))actions.push(String(key));return value.apply(target,args);};
    }});
   }};
-  const artifact=await runNameResolutionMethodA('chromium',platform,subject,{mode:'OFFLINE_FIXTURE',runtime,signal:new AbortController().signal});
+  try{const artifact=await runNameResolutionMethodA('chromium',platform,subject,{mode:'OFFLINE_FIXTURE',runtime,networkPolicy:policy,decision:new ModelBrowserReadActionDecision({complete:async request=>scriptedBrowserObservation(request)!}),signal:new AbortController().signal});
   assert.equal(artifact.observation.accepted,true,JSON.stringify(artifact.observation));
-  assert.equal(artifact.observation.rawSelectedPageUrl,detail);assert.equal(artifact.observation.modelCalls,0);
-  assert.equal(artifact.pages.some(p=>p.url.includes('/reserve')),false);assert.equal(artifact.boundary.availabilityEvaluated,false);assert.deepEqual(actions,[],'No underlying request-control action after HIGH identity');
+  assert.equal(artifact.observation.rawSelectedPageUrl,detail);assert.equal(artifact.observation.modelCalls,3);
+  assert.equal(artifact.pages.some(p=>p.url.includes('/reserve')),false);assert.equal(artifact.boundary.availabilityEvaluated,false);assert.deepEqual(actions,['fill','click'],'Only the observed name query is operated; no date/party/time control after HIGH identity');}finally{await fixture.close();}
  }
 });
 
 
-test('F5 G3 Chromium follows four observed region pages and directly selects the retained entrance without restoring a menu',async()=>{
+test('F5 current observation rejects three out-of-radius details and retains both in-radius candidates',async()=>{
  const {createLiveReadAssembly}=await import('../../integrations/restaurant-search/live-read-assembly.js');
  const {LIVE_READ_DEBUG_INVESTIGATION_BUDGET}=await import('../../application/live-read-investigation-budget.js');
  const {GooglePlacesClient}=await import('../../integrations/google/google-places-client.js');
- const {tabelogDiscoveryPack}=await import('../../integrations/restaurant-search/source-packs.js');
- const center={latitude:35.7799638,longitude:139.723053};
- const root='https://tabelog.com/en/tokyo/rstLst/',parent='https://tabelog.com/en/tokyo/A1322/',child=parent+'A132201/',alternate='https://tabelog.com/en/tokyo/A1323/';
- const detail=(n:number)=>'https://tabelog.com/en/tokyo/A1322/A132201/'+(13000000+n)+'/';
- const list=(ids:number[])=>ids.map(id=>`<a class="list-rst__rst-name-target" href="${detail(id)}">Constructed venue ${id}</a>`).join('');
- const pages:Record<string,string>={[root]:`<a href="${parent}">Itabashi</a><a href="${alternate}">Sugamo</a>`,[parent]:`<a href="${child}">Itabashi ward</a>`,[child]:list([1,2,3]),[alternate]:list([4,5])};
+ const center={latitude:35.7799638,longitude:139.723053},root='https://tabelog.com/en/',list='https://tabelog.com/en/tokyo/A1323/A132305/rstLst/';
+ const detail=(id:number)=>`https://tabelog.com/en/tokyo/A1323/A132305/${13000000+id}/`;
+ const pages:Record<string,string>={[root]:`<a href="${list}">Akabane</a>`,[list]:`<h1>Akabane</h1>`+[1,2,3,4,5].map(id=>`<a href="${detail(id)}">Constructed venue ${id}</a>`).join('')};
  for(const id of [1,2,3,4,5])pages[detail(id)]=`<h1>Constructed venue ${id}</h1><script type="application/ld+json">${JSON.stringify({'@type':'Restaurant',name:`Constructed venue ${id}`,address:'Tokyo',geo:id<4?{latitude:35.75,longitude:139.70}:center})}</script>`;
- const folder=await mkdtemp(join(tmpdir(),'praxis-f5-g3-')),harPath=join(folder,'constructed.har');await writeFile(harPath,replayHarPages(pages));
- const raw=new LocalPlaywrightChromium();const navigations:string[]=[],corrections:any[]=[];let decisions=0;
- const browser:BrowserRuntime={readNetworkBoundaryCapability:'ISOLATED_CONTEXT',openSession:async input=>{
-  const session=await raw.openSession({...input,replayHarPath:harPath});
-  return new Proxy(session,{get(target,key){if(key==='openLink')return async(...args:Parameters<NonNullable<typeof session.openLink>>)=>{navigations.push(args[1]!);return target.openLink!(...args);};if(key==='navigate')return async(...args:Parameters<typeof session.navigate>)=>{navigations.push(args[0]);return target.navigate(...args);};const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;}});
- }};
- const model:import('../../core/model/contracts.js').ModelGateway={complete:async request=>{
-  decisions++;assert.equal(request.purpose,'browser_read_decide');const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content);
-  const correction=body.regionCorrection;if(correction)corrections.push(structuredClone(correction));
-  const target=correction?correction.entrances.find((entry:any)=>entry.href===alternate):body.observation.targets.find((target:any)=>target.href===(body.observation.url===root?parent:child));assert.ok(target);
-  return {invocationId:'local-f5',provider:'FIXTURE',model:'scripted',finishReason:'TOOL_CALLS',latencyMs:0,outputText:JSON.stringify({action:correction?'SELECT_REGION_ENTRANCE':'OPEN_LINK',targetRef:target.ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Choose supplied observed ref; no href'})};
- }};
- const google=new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{throw Error('No external Google request');}});
- const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,maxBrowserOperationsPerCandidate:80,packs:[tabelogDiscoveryPack]}, {browser,model,google,clock:{now:()=>new Date('2026-10-24T00:00:00Z')}});
+ const f=await guardedPages(pages,discoveryPackNetworkPolicy([tabelogDiscoveryPack]));let decisions=0;
+ const model:import('../../core/model/contracts.js').ModelGateway={async complete(request){decisions++;assert.equal(request.purpose,'browser_read_decide');const body=JSON.parse(request.messages.find(m=>m.role==='user')!.content),target=body.observation.targets.find((t:{label:string})=>t.label==='Akabane');return{invocationId:'f5-current',provider:'FIXTURE',model:'observed-source',finishReason:'TOOL_CALLS',latencyMs:0,outputText:JSON.stringify(target?{action:'OPEN_LINK',targetRef:target.ref,authoritativeField:'NONE',requestedState:'NONE',reason:'Observed requested district'}:{action:'COMPLETE',targetRef:'',authoritativeField:'NONE',requestedState:'NONE',reason:'Verify the observed source list'})};}};
+ const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]},{browser:f.runtime,model,google:new GooglePlacesClient({apiKey:'fixture',fetchImplementation:async()=>{throw Error('No external Google');}}),clock:{now:()=>new Date('2026-10-24T00:00:00Z')}});
  const intent={timezone:'Asia/Tokyo' as const,target:{goal:'RECOMMENDATION' as const,query:'restaurants'},area:{query:'near Akabane',radiusMeters:1000},criteria:[]};
- const initial={intent,readRunId:'f5-local-chromium',continuation:{intentFingerprint:JSON.stringify(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,radiusMeters:1000,label:'Akabane',areaMatchBasis:'NAMED_PLACE_RADIUS' as const}}};
- try {
-  const second=await assembly.search.search(initial,AbortSignal.timeout(30000));
-  assert.equal(second.candidates.length,2,JSON.stringify(second.metadata));assert.equal(second.metadata.nativeDiscoveryFunnel!.retrieval!.regionPages,4);assert.equal(second.metadata.nativeDiscoveryFunnel!.sourceDetailAttempts,4);
-  assert.deepEqual(navigations.filter(url=>[root,parent,child,alternate].includes(url)),[root,parent,child,alternate]);assert.equal(corrections.length,1);assert.equal(decisions,3);
-  assert.equal(corrections[0].entrances.find((entry:any)=>entry.href===alternate).observedOn,root);assert.ok(corrections[0].samples.every((sample:any)=>sample.direction==='SW'&&sample.distanceMeters>1000));assert.equal(corrections[0].remainingBudget.regionPages,1);
- } finally {await rm(folder,{recursive:true,force:true});}
+ try{const read=await assembly.search.search({intent,readRunId:'f5-current',continuation:{intentFingerprint:JSON.stringify(intent),usedPageTokens:[],pagesRead:0,exhausted:false,locationContext:{...center,radiusMeters:1000,label:'Akabane',areaMatchBasis:'NAMED_PLACE_RADIUS'}}},AbortSignal.timeout(30000));
+  assert.equal(read.candidates.length,2,JSON.stringify(read.metadata));assert.equal(read.metadata.nativeDiscoveryFunnel?.sourceDetailAttempts,5);
+  assert.equal(read.metadata.nativeDiscoveryFunnel?.rejected.filter(r=>r.reasonCode==='OUTSIDE_EXACT_RADIUS').length,3);
+  assert.deepEqual(read.candidates.map(c=>c.restaurant.outletName),['Constructed venue 4','Constructed venue 5']);assert.equal(decisions,2);
+ }finally{await f.close();}
 });

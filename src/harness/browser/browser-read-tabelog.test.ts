@@ -140,6 +140,7 @@ test("Tabelog Adapter consumes loading-to-restricted calendar without model acti
   const candidate = structuredClone(fixtureCandidates[0]!);
   candidate.restaurant.sourceIds.phone = "03-1111-2222";
   const sourceUrl = "https://tabelog.com/en/tokyo/A1301/A130103/13292459/";
+  candidate.restaurant.sourceIds.googleWebsiteUri = sourceUrl; // Source-bound exact entrance for this calendar component control.
   const searchUrl = "https://tabelog.com/en/tokyo/rstLst/?sw=Restaurant%201";
   const calendarUrl = "https://tabelog.com/fixture-calendar";
   const saved = readFileSync(new URL("./fixtures/tabelog-teppen-calendar-20260929.html", import.meta.url), "utf8");
@@ -256,6 +257,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
       const { TabelogBrowserAvailability } = await import("../../integrations/tabelog/tabelog-browser-availability.js");
       const candidate = structuredClone(fixtureCandidates[0]!);
       candidate.restaurant.sourceIds.phone = "03-1111-2222";
+      candidate.restaurant.sourceIds.googleWebsiteUri = sourceUrl;
       const result = await new TabelogBrowserAvailability(executor).check({
         candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-09-20",partySize:4,
         timeWindow:{earliest:"18:30",latest:"19:30"},hardCriteria:[],
@@ -281,6 +283,7 @@ for (const runtimeKind of ["LOCAL", "CLOUDFLARE_SESSION"] as const) {
     const {fixtureCandidates}=await import("../restaurant-fixtures.js");
     const candidate=structuredClone(fixtureCandidates[0]!);candidate.restaurant.sourceIds.phone="03-1111-2222";
     const sourceUrl="https://tabelog.com/en/tokyo/A1301/A130103/13292459/";
+    candidate.restaurant.sourceIds.googleWebsiteUri=sourceUrl;
     const endpoint="https://tabelog.com/en/booking/calendar/find_vacancy"+(markup==="legacy"?"/":"");
     let html=`<h1>Restaurant 1</h1><a href="tel:03-1111-2222">Phone</a><p>Reserve Guests</p>
       <div class="rstdtl-course-list js-rstdtl-course-list"><span class="rstdtl-course-list__course-title-text">Seasonal lunch course</span><p class="rstdtl-course-list__desc">Lunch only, 11:30 to 14:00.</p><del>JPY 9,000</del><span class="rstdtl-course-list__price-num">JPY<em>8,000</em><span>（Price including tax）per person</span></span><dl class="rstdtl-course-list__course-rule"><dt>Number of people</dt><dd>2 - 4</dd></dl></div>

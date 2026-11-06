@@ -212,6 +212,7 @@ test("live source-stage discovery delegates to the production NativeRestaurantSe
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
   const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Constructed explicit criterion retrieval"})},
     pack: tabelogDiscoveryPack,
+    browserBudget: { totalModelCalls: 0, maxModelCalls: 3 }, // User-approved offline observation budget; probe default unchanged.
     modelDecision: { decide:async input=>{if(input.observation.targets.some(t=>t.label.startsWith("Native Tabelog")))return{type:"COMPLETE",reason:"The observed constructed list is ready for code verification"};const target=input.observation.targets.find(t=>t.label==="Shibuya")??input.observation.targets.find(t=>t.label==="Tokyo");return target?{type:"OPEN_LINK",targetRef:target.ref,reason:"Choose an observed directory link"}:{type:"COMPLETE",reason:"Verify the current parsed source list"};} },
     runtime,
     locality,
@@ -242,6 +243,7 @@ test("source-stage discovery keeps a parsed list without any frozen-radius candi
   }), () => reference.toISOString(), 10, { maxRequests: 2 });
   const result = await runSourceStageNativeDiscoveryProbe({ retrievalPlanner:{decide:async()=>({accepted:true,keyword:"omakase",criterionRef:"criterion:0",reason:"Constructed explicit criterion retrieval"})},
     pack: tabelogDiscoveryPack,
+    browserBudget: { totalModelCalls: 0, maxModelCalls: 3 }, // User-approved offline observation budget; probe default unchanged.
     modelDecision: { decide:async input=>{if(input.observation.targets.some(t=>t.label.startsWith("Native Tabelog")))return{type:"COMPLETE",reason:"The observed constructed list is ready for code verification"};const target=input.observation.targets.find(t=>t.label==="Shibuya")??input.observation.targets.find(t=>t.label==="Tokyo");return target?{type:"OPEN_LINK",targetRef:target.ref,reason:"Choose an observed directory link"}:{type:"COMPLETE",reason:"Verify the current parsed source list"};} },
     runtime: sourcePages("OUTSIDE_RADIUS", [],undefined,undefined,undefined,{guardedReadBoundary:true}),
     locality,

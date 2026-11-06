@@ -992,7 +992,7 @@ test("source text handoff reaches request-bound availability and presentation th
   const presentedId = state.presentedResults!.candidateIds[0]!;
   assert.equal(state.availabilityChecks[presentedId]?.status, "AVAILABLE");
   assert.ok(state.readEvidence.some(e => e.kind === "AVAILABILITY" && e.candidateId === presentedId && e.claims.date === "2026-09-17" && e.claims.partySize === 2 && Array.isArray(e.claims.visibleSlots) && e.claims.visibleSlots.includes("13:00")));
-  assert.ok(requests.length <= 10, `Expected useful output within the existing bounded path, got ${requests.length} calls`);
+  assert.ok(requests.length <= 12, `Expected useful output within the user-approved offline observation path, got ${requests.length} calls`);
   const evaluation = evaluateRestaurantHybridLiveArtifact({
     status: "SUCCEEDED", stage: "AGENT_LOOP", caseId: taskId, runId: taskId,
     materializedCase: { semantic: { target: { goal: "AVAILABILITY" }, date: { value: "2026-09-17" }, party_size: 2, time: { start: "13:00", end: "13:00" }, location: { value: "nearby", relation: "NEAR_USER" }, criteria: [{ value: "chef's tasting menu", polarity: "POSITIVE", strength: "HARD" }] } },

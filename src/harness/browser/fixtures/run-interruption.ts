@@ -10,7 +10,7 @@ import { runHybridReadDiagnostic } from "../../../eval/restaurant/agent-loop/run
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET } from "../../../application/live-read-investigation-budget.js";
 import { googlePlacesDiscoveryPack, discoveryPackNetworkPolicy } from "../../../integrations/restaurant-search/source-packs.js";
 import type { GooglePlacesClientOptions } from "../../../integrations/google/google-places-client.js";
-import { replayHarPages, exactGuideAvailabilityUrl } from "../browser-read-test-fixtures.js";
+import { replayHarPages } from "../browser-read-test-fixtures.js";
 import { LocalPlaywrightChromium } from "../../../infrastructure/browser/local-playwright-chromium.js";
 import { response, strictAction } from "../../restaurant-read-test-fixtures.js";
 import type { ModelRequest } from "../../../core/model/contracts.js";
@@ -32,7 +32,7 @@ const reference = new Date();
 const date = "2026-10-30", source = "https://www.tablecheck.com/en/fixture";
 const html = '<h1>Fixture restaurant</h1><p class="address">1-1 Ginza, Chuo City, Tokyo</p><a href="tel:03-1111-2222">Phone</a><div data-testid="Venue Availability" data-selected-date="2026-10-30" data-pax="2"><a href="/en/shops/fixture/reserve?start_date=2026-10-30&num_people=2&start_time=19:00">19:00</a></div>';
 const replayHarPath = join(root, "fixture-source.har");
-await writeFile(replayHarPath, replayHarPages({ [source]: html, [exactGuideAvailabilityUrl(source, date, 2, "19:00")]: html }));
+await writeFile(replayHarPath, replayHarPages({ [source]: html }));
 const runtime = new LocalPlaywrightChromium();
 let snapshots = 0, notified = false, availabilityStage = false;
 let deadlineFire: (() => void) | undefined;
