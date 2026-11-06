@@ -1,0 +1,329 @@
+{
+  "status": "draft / not integrated; exposed development observations, not Clean Baseline",
+  "atCET": "2026-11-06T17:13:51.933152+01:00",
+  "sourceSHA": "20496850543390c3ec7cff30955879490c21b6cf",
+  "newModelCalls": 12,
+  "successfulChoices": 12,
+  "modelOnlyCallsConservativelyCharged": 15,
+  "remainingOf30": 15,
+  "requestedModel": "deepseek-v4-flash",
+  "returnedModels": [
+    "deepseek-flash"
+  ],
+  "usage": {
+    "inputTokens": 299584,
+    "outputTokens": 1517,
+    "totalTokens": 301101
+  },
+  "sumModelLatencyMs": 17450,
+  "latencyRangeMs": [
+    1158,
+    1877
+  ],
+  "websiteGET": 0,
+  "google": 0,
+  "live": 0,
+  "strongerModelCalls": 0,
+  "strongerModelReason": "All expected action, target and authority-field checks passed. User comparison condition not met.",
+  "billing": "Actual billed cost not returned. No stronger-model request or associated price claim.",
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 653,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 347,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11220
+  },
+  "layers": {
+    "endToEnd": "NOT_EVALUATED: isolated recorded observations, not sequential replay or Live",
+    "stepDecisions": "SATISFIED: 12/12 literal target/action checks with original observation/history preserved",
+    "severity": "No action dispatched. S0 for full D8 NOT_EVALUATED; no end-to-end claim generated",
+    "attribution": "Current model follows repaired objective on recorded inputs. No evidence that a stronger model is needed. Does not prove actual receipt admission, identity checks or provider45s completion."
+  },
+  "checks": [
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/4-1.json",
+      "sha256": "a75261564551f63c8c275fb84e1a9caf3ee66e2f0d028ccf55055e9f507a4e53",
+      "sequence": 4,
+      "repeat": 1,
+      "passed": true,
+      "actualAction": {
+        "action": "CLICK",
+        "targetRef": "observation:2:target:178",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Open the destination/restaurant search control to enter the authoritative query."
+      },
+      "selectedTarget": {
+        "ref": "observation:2:target:178",
+        "kind": "BUTTON",
+        "label": "Destination Area, station, line or restaurant",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1536
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/4-2.json",
+      "sha256": "fae7f73b74381049362788cac13f767fe13dcb158b04e47688119932ed6bac53",
+      "sequence": 4,
+      "repeat": 2,
+      "passed": true,
+      "actualAction": {
+        "action": "CLICK",
+        "targetRef": "observation:2:target:178",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Open the destination/restaurant search control to enter the authoritative query."
+      },
+      "selectedTarget": {
+        "ref": "observation:2:target:178",
+        "kind": "BUTTON",
+        "label": "Destination Area, station, line or restaurant",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1172
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/5-1.json",
+      "sha256": "b63af412fee496a3f01ac4fc06f46bc8b8831a56e2c45f91f3ebfb239eeaf2f8",
+      "sequence": 5,
+      "repeat": 1,
+      "passed": true,
+      "actualAction": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:3:target:260",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the observed Destination search input with the authoritative outlet name."
+      },
+      "selectedTarget": {
+        "ref": "observation:3:target:260",
+        "kind": "INPUT",
+        "label": "Destination",
+        "availableActions": [
+          "FILL_AUTHORITATIVE:RETRIEVAL"
+        ]
+      },
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1581
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/5-2.json",
+      "sha256": "55c854e2a65bc6db42ac4127b4bcabd4b33f66df7ea8d7e9d6ac2bd119507508",
+      "sequence": 5,
+      "repeat": 2,
+      "passed": true,
+      "actualAction": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:3:target:260",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the observed Destination search input with the authoritative outlet name."
+      },
+      "selectedTarget": {
+        "ref": "observation:3:target:260",
+        "kind": "INPUT",
+        "label": "Destination",
+        "availableActions": [
+          "FILL_AUTHORITATIVE:RETRIEVAL"
+        ]
+      },
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1485
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/6-1.json",
+      "sha256": "f32508e21c6c1676d4cdd66e3a5e478324e00c9eaa156197a4adcdd1696070f2",
+      "sequence": 6,
+      "repeat": 1,
+      "passed": true,
+      "actualAction": {
+        "action": "REQUEST_HUMAN_HELP",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Destination listbox explicitly reports no matching area or station for \"Nakamata\"; no matching route observed."
+      },
+      "selectedTarget": null,
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1877
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/6-2.json",
+      "sha256": "96881772ebc55f20c34693b7d454874e993a6120d714eee8f6ad2d29f792ab31",
+      "sequence": 6,
+      "repeat": 2,
+      "passed": true,
+      "actualAction": {
+        "action": "REQUEST_HUMAN_HELP",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Destination listbox explicitly reports no matching area or station for \"Nakamata\"; no matching route observed."
+      },
+      "selectedTarget": null,
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1376
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/7-1.json",
+      "sha256": "75fb81be95edcaafee3262537206cad96d31df8290fe34becbeb9f9fdff6bb3f",
+      "sequence": 7,
+      "repeat": 1,
+      "passed": true,
+      "actualAction": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:5:target:178",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the public search input with the authoritative retrieval term Nakamata."
+      },
+      "selectedTarget": {
+        "ref": "observation:5:target:178",
+        "kind": "INPUT",
+        "label": "Location, cuisine, restaurant name, etc.",
+        "availableActions": [
+          "FILL_AUTHORITATIVE:RETRIEVAL"
+        ]
+      },
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1448
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/7-2.json",
+      "sha256": "fb17e8b7ae3a12092c2a7598d0b0b76aafda094232807cb9b107abcc8c067c1b",
+      "sequence": 7,
+      "repeat": 2,
+      "passed": true,
+      "actualAction": {
+        "action": "FILL_AUTHORITATIVE",
+        "targetRef": "observation:5:target:178",
+        "authoritativeField": "RETRIEVAL",
+        "requestedState": "NONE",
+        "reason": "Fill the public search input with the authoritative retrieval term Nakamata."
+      },
+      "selectedTarget": {
+        "ref": "observation:5:target:178",
+        "kind": "INPUT",
+        "label": "Location, cuisine, restaurant name, etc.",
+        "availableActions": [
+          "FILL_AUTHORITATIVE:RETRIEVAL"
+        ]
+      },
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1158
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/8-1.json",
+      "sha256": "fbcf7dd5f7c68f55e9410c4098907f7f38d78140021d70d825b252bddd276c04",
+      "sequence": 8,
+      "repeat": 1,
+      "passed": true,
+      "actualAction": {
+        "action": "CLICK",
+        "targetRef": "observation:6:target:137",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Submit the filled retrieval query \"Nakamata\" via the observed Search button."
+      },
+      "selectedTarget": {
+        "ref": "observation:6:target:137",
+        "kind": "BUTTON",
+        "label": "Search",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1358
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/8-2.json",
+      "sha256": "eadad5b4c2c3c6fa83b349429bbc9fe23c239b910f2801b2c17c90e2a9478121",
+      "sequence": 8,
+      "repeat": 2,
+      "passed": true,
+      "actualAction": {
+        "action": "CLICK",
+        "targetRef": "observation:6:target:137",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Submit the filled retrieval query \"Nakamata\" via the observed Search button."
+      },
+      "selectedTarget": {
+        "ref": "observation:6:target:137",
+        "kind": "BUTTON",
+        "label": "Search",
+        "availableActions": [
+          "CLICK"
+        ]
+      },
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1191
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/9-1.json",
+      "sha256": "abe83aac9a46969605ca2db7a041a0d9db29928332e5d7b851b0a023403be6e5",
+      "sequence": 9,
+      "repeat": 1,
+      "passed": true,
+      "actualAction": {
+        "action": "COMPLETE",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Query \"Nakamata\" submitted; result list with 523 matches is displayed."
+      },
+      "selectedTarget": null,
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1680
+    },
+    {
+      "file": ".eval-artifacts/phase3b/d8-query-receipts-20261106/model-resume-20261106-runtime/results/9-2.json",
+      "sha256": "98f5da66e0d7baf86f6bb778fd35103e67949434d1300cfaa4f8d5402383cd4a",
+      "sequence": 9,
+      "repeat": 2,
+      "passed": true,
+      "actualAction": {
+        "action": "COMPLETE",
+        "targetRef": "",
+        "authoritativeField": "NONE",
+        "requestedState": "NONE",
+        "reason": "Search for \"Nakamata\" submitted; result list (523 results) is displayed."
+      },
+      "selectedTarget": null,
+      "originalObservationEqual": true,
+      "originalHistoryEqual": true,
+      "returnedModel": "deepseek-flash",
+      "latencyMs": 1588
+    }
+  ]
+}

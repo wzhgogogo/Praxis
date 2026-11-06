@@ -1,0 +1,52 @@
+{
+  "status": "frozen model-only validation; not sequential task replay",
+  "model": "deepseek-v4-flash",
+  "decisionsFile": ".eval-artifacts/phase3b/d4-d8-live-20261106/D8-runtime/runs/D8/D8/execution.decisions.jsonl",
+  "decisionsSHA256": "fcd20ecb94a7f574096fd848c9f024fa1a478ac972cc76705b2e33084e6aa6ad",
+  "objective": "Submit the authoritative query through observed public search controls and stop at its result LIST. Do not open individual restaurant cards or unrelated recommendations. Code inspects listed candidates separately for identity with its shared detail limit. If this term has no matching option and no matching route, REQUEST_HUMAN_HELP ends this method; the caller owns any next approved retrieval term, not the browser model.",
+  "repeats": 2,
+  "samples": [
+    {
+      "sequence": 4,
+      "retrieval": "Specializing in Nodoguro Ginza Nakamata",
+      "expected": [
+        "CLICK"
+      ]
+    },
+    {
+      "sequence": 5,
+      "retrieval": "Specializing in Nodoguro Ginza Nakamata",
+      "expected": [
+        "FILL_AUTHORITATIVE"
+      ]
+    },
+    {
+      "sequence": 6,
+      "expected": [
+        "REQUEST_HUMAN_HELP"
+      ]
+    },
+    {
+      "sequence": 7,
+      "expected": [
+        "FILL_AUTHORITATIVE"
+      ]
+    },
+    {
+      "sequence": 8,
+      "expected": [
+        "CLICK"
+      ]
+    },
+    {
+      "sequence": 9,
+      "progress": "Observe the current source results and choose COMPLETE only when they answer this search objective.",
+      "expected": [
+        "COMPLETE"
+      ]
+    }
+  ],
+  "scope": "Original observation and history bytes unchanged;4/5 use the authority-bound full target on unfilled original controls;6 tests the old Nakamata no-match ending so code can move to its next term;9 uses the receipt-supported completion progress. No source response/model output synthesized.",
+  "attemptLabel": "user-authorized-resume-20261106-CET",
+  "priorAttempts": 2
+}
