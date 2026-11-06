@@ -1,0 +1,93 @@
+[
+  {
+    "gate": "typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 0.50142525,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "arch",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 0.217066333,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "test",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 52.7674535,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 0.7274024170000004,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "browser",
+    "command": [
+      "node",
+      "scripts/run-browser-fixtures.mjs"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 112.920040875,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "g6",
+    "command": [
+      "npm",
+      "run",
+      "test:g6:assembly"
+    ],
+    "env": {},
+    "exitCode": 0,
+    "elapsedSeconds": 27.00981483299998,
+    "before": "",
+    "after": ""
+  },
+  {
+    "gate": "strict-g2",
+    "command": [
+      "npm",
+      "run",
+      "test:dom-change"
+    ],
+    "env": {
+      "PRAXIS_G2_REQUIRE_PASS": "1"
+    },
+    "exitCode": 0,
+    "elapsedSeconds": 24.08869066700001,
+    "before": "",
+    "after": ""
+  }
+]
