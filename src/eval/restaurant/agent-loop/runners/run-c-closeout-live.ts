@@ -83,14 +83,29 @@ if(mode==='TC'){
  console.log(JSON.stringify({mode,reachable:result.reachable,error:result.error}));
  if(!result.reachable)process.exitCode=2;
 }else{
- const connectivity=JSON.parse(await readFile(join(root,'connectivity/result.json'),'utf8'));
+ const connectivityRef=JSON.parse(await readFile(join(root,'preparation/connectivity-reference.json'),'utf8'));
+ const connectivityRaw=await readFile(resolve(connectivityRef.path));assert.equal(sha(connectivityRaw),connectivityRef.sha256);
+ const connectivity=JSON.parse(connectivityRaw.toString());
  assert.equal(connectivity.reachable,true,'No Live begins without the approved connectivity check');
+ const packPath=join(root,mode+'-pack.json'),bytes=await readFile(packPath),pack=await loadG6Pack(packPath,sha(bytes));
+ assert.equal(pack.mode,'LIVE_READ');assert.equal(pack.cases.length,1);assert.equal(pack.cases[0]!.id,mode);
+ const review=JSON.parse(await readFile(join(root,'certification/reviewed.json'),'utf8')) as {reviewed:boolean;reviewer:string;identityChecks:Record<string,boolean>;packSHA256:Record<string,string>;rawFiles:Record<string,string>;certificates:import('../g6/witness.js').WitnessReceipt[]};
+ assert.ok(review.reviewed&&review.reviewer&&['name','address','phone'].every(key=>review.identityChecks[key]));
+ assert.equal(review.packSHA256[mode],sha(bytes),'Current independently certified pack binding');
+ for(const [path,expected]of Object.entries(review.rawFiles))assert.equal(sha(await readFile(path)),expected);
+ const target=pack.cases[0]!.witness;assert.ok(target,'Live requires a current independently qualified witness');
+ const receipt=review.certificates.find(row=>row.target.sourceEntityId===target.sourceEntityId&&row.target.date===target.date&&row.target.time===target.time&&row.target.partySize===target.partySize);
+ assert.ok(receipt?.exists===true&&receipt.detailRef&&receipt.detailSHA256&&receipt.vacancy);
+ assert.ok(Date.now()-Date.parse(receipt.checkedAt)>=0&&Date.now()-Date.parse(receipt.checkedAt)<86400000,'Certificate outside24h');
+ assert.equal(sha(await readFile(receipt.detailRef)),receipt.detailSHA256);
+ assert.equal(sha(await readFile(receipt.vacancy.ref)),receipt.responseSHA256);
+ assert.deepEqual(JSON.parse((await readFile(receipt.vacancy.ref)).toString()),receipt.vacancy.body);
+ assert.ok(pack.cases[0]!.oracle.qualificationOracles?.length,'Empty pages alone do not certify delivery');
+ if(process.argv.includes('--validate-only')){console.log(JSON.stringify({mode,validated:true,network:0,models:0,credentials:'NOT_LOADED'}));process.exit(0);}
  assert.equal(process.env.DEEPSEEK_MODEL,'deepseek-v4-flash');
  assert.ok(process.env.DEEPSEEK_API_KEY&&process.env.GOOGLE_MAPS_API_KEY,'Server credentials must be loaded by Node --env-file (values are never printed)');
  const ownCredentials=[process.env.DEEPSEEK_API_KEY,process.env.GOOGLE_MAPS_API_KEY];
- const packPath=join(root,mode+'-pack.json'),bytes=await readFile(packPath),pack=await loadG6Pack(packPath,sha(bytes));
- assert.equal(pack.mode,'LIVE_READ');assert.equal(pack.cases.length,1);assert.equal(pack.cases[0]!.id,mode);
- const dependencies={budgetPath:ledger,ownCredentials,witnessFetch:fetch,async transports(_spec:unknown,_recording:BrowserReadRecording,hooks:G6TransportHooks){
+ const dependencies={budgetPath:ledger,ownCredentials,initialWitnesses:review.certificates,witnessFetch:fetch,async transports(_spec:unknown,_recording:BrowserReadRecording,hooks:G6TransportHooks){
   return{model:DeepSeekModelGateway.fromEnvironment(process.env),browser:browser(hooks),clock:{now:()=>new Date()},
    google:new GooglePlacesClient({apiKey:process.env.GOOGLE_MAPS_API_KEY!,fetchImplementation:hooks.googleFetch(fetch),timeoutMs:30_000,...(process.env.PRAXIS_GOOGLE_API_PROXY_SERVER?{proxyServer:process.env.PRAXIS_GOOGLE_API_PROXY_SERVER}:{})})};
  }};
