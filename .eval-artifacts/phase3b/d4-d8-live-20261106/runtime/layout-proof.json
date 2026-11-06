@@ -1,0 +1,142 @@
+{
+  "frozenSourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+  "preparedAtCET": "2026-11-06T07:53:32.050902+01:00",
+  "reason": "Byte-identical frozen config deployment; own runtime ledger remains ignored/mutable so serial slots do not dirty source. Initial tracked ledger stays immutable.",
+  "files": [
+    {
+      "source": ".eval-artifacts/phase3b/d4-d8-live-20261106/D4-pack.json",
+      "runtime": ".eval-artifacts/phase3b/d4-d8-live-20261106/runtime/D4-pack.json",
+      "sha256": "c26ffa66ae00d0d6c851e6be3c48da98f42470a02e1f408194132a7240909353",
+      "identical": true,
+      "mutableAfterStart": false
+    },
+    {
+      "source": ".eval-artifacts/phase3b/d4-d8-live-20261106/D8-pack.json",
+      "runtime": ".eval-artifacts/phase3b/d4-d8-live-20261106/runtime/D8-pack.json",
+      "sha256": "ee17abab9bf4edeec044a16c34c570792305566eac1ec2ee4212e9fcb5ef03ce",
+      "identical": true,
+      "mutableAfterStart": false
+    },
+    {
+      "source": ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/reviewed.json",
+      "runtime": ".eval-artifacts/phase3b/d4-d8-live-20261106/runtime/certification/reviewed.json",
+      "sha256": "4cb58cb0d9843d1ca191c290390aeb7a276ff32799982cc7c07af84479c678da",
+      "identical": true,
+      "mutableAfterStart": false
+    },
+    {
+      "source": ".eval-artifacts/phase3b/d4-d8-live-20261106/preparation/connectivity-reference.json",
+      "runtime": ".eval-artifacts/phase3b/d4-d8-live-20261106/runtime/preparation/connectivity-reference.json",
+      "sha256": "5c31b5140145e5dcf5c949cfa0ced122cca5aeeed919afffadc20dc742baf78c",
+      "identical": true,
+      "mutableAfterStart": false
+    },
+    {
+      "source": ".eval-artifacts/phase3b/d4-d8-live-20261106/budget-C-live.json",
+      "runtime": ".eval-artifacts/phase3b/d4-d8-live-20261106/runtime/budget-C-live.json",
+      "sha256": "3dd72787dadcf626b582e48179df84aea5dc083009044a1321e3cc2a6531efef",
+      "identical": true,
+      "mutableAfterStart": true
+    }
+  ],
+  "gates": {
+    "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+    "model": 0,
+    "websiteGET": 0,
+    "Google": 0,
+    "Live": 0,
+    "rows": [
+      {
+        "name": "typecheck",
+        "command": [
+          "npm",
+          "run",
+          "typecheck"
+        ],
+        "environment": {},
+        "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+        "startedAtCET": "2026-11-06T07:40:26.846423+01:00",
+        "elapsedMs": 569.4706659999999,
+        "exitCode": 0,
+        "gitStatusBefore": "",
+        "gitStatusAfter": ""
+      },
+      {
+        "name": "arch",
+        "command": [
+          "npm",
+          "run",
+          "arch:check"
+        ],
+        "environment": {},
+        "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+        "startedAtCET": "2026-11-06T07:40:27.452349+01:00",
+        "elapsedMs": 227.490875,
+        "exitCode": 0,
+        "gitStatusBefore": "",
+        "gitStatusAfter": ""
+      },
+      {
+        "name": "test",
+        "command": [
+          "npm",
+          "test"
+        ],
+        "environment": {},
+        "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+        "startedAtCET": "2026-11-06T07:40:27.716383+01:00",
+        "elapsedMs": 55143.457709,
+        "exitCode": 0,
+        "gitStatusBefore": "",
+        "gitStatusAfter": ""
+      },
+      {
+        "name": "build",
+        "command": [
+          "npm",
+          "run",
+          "build"
+        ],
+        "environment": {},
+        "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+        "startedAtCET": "2026-11-06T07:41:22.897955+01:00",
+        "elapsedMs": 551.4953749999947,
+        "exitCode": 0,
+        "gitStatusBefore": "",
+        "gitStatusAfter": ""
+      },
+      {
+        "name": "browser-and-g6",
+        "command": [
+          "npm",
+          "run",
+          "test:browser:fixture"
+        ],
+        "environment": {},
+        "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+        "startedAtCET": "2026-11-06T07:41:23.486502+01:00",
+        "elapsedMs": 144519.55175,
+        "exitCode": 0,
+        "gitStatusBefore": "",
+        "gitStatusAfter": ""
+      },
+      {
+        "name": "strict-g2",
+        "command": [
+          "npm",
+          "run",
+          "test:dom-change"
+        ],
+        "environment": {
+          "PRAXIS_G2_REQUIRE_PASS": "1"
+        },
+        "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+        "startedAtCET": "2026-11-06T07:43:48.045415+01:00",
+        "elapsedMs": 24829.47737499998,
+        "exitCode": 0,
+        "gitStatusBefore": "",
+        "gitStatusAfter": ""
+      }
+    ]
+  }
+}

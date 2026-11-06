@@ -1,0 +1,100 @@
+{
+  "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+  "model": 0,
+  "websiteGET": 0,
+  "Google": 0,
+  "Live": 0,
+  "rows": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+      "startedAtCET": "2026-11-06T07:40:26.846423+01:00",
+      "elapsedMs": 569.4706659999999,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+      "startedAtCET": "2026-11-06T07:40:27.452349+01:00",
+      "elapsedMs": 227.490875,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {},
+      "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+      "startedAtCET": "2026-11-06T07:40:27.716383+01:00",
+      "elapsedMs": 55143.457709,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+      "startedAtCET": "2026-11-06T07:41:22.897955+01:00",
+      "elapsedMs": 551.4953749999947,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "browser-and-g6",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+      "startedAtCET": "2026-11-06T07:41:23.486502+01:00",
+      "elapsedMs": 144519.55175,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "sourceSHA": "642f2d9f99c751052dc672b5981b1c1e1d2243a1",
+      "startedAtCET": "2026-11-06T07:43:48.045415+01:00",
+      "elapsedMs": 24829.47737499998,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ]
+}

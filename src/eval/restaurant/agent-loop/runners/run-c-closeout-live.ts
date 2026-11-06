@@ -106,7 +106,12 @@ if(mode==='TC'){
  assert.ok(process.env.DEEPSEEK_API_KEY&&process.env.GOOGLE_MAPS_API_KEY,'Server credentials must be loaded by Node --env-file (values are never printed)');
  const ownCredentials=[process.env.DEEPSEEK_API_KEY,process.env.GOOGLE_MAPS_API_KEY];
  const dependencies={budgetPath:ledger,ownCredentials,initialWitnesses:review.certificates,witnessFetch:fetch,async transports(_spec:unknown,_recording:BrowserReadRecording,hooks:G6TransportHooks){
-  return{model:DeepSeekModelGateway.fromEnvironment(process.env),browser:browser(hooks),clock:{now:()=>new Date()},
+  const model=DeepSeekModelGateway.fromEnvironment(process.env,{observer:{async observe(record){
+   const raw=JSON.stringify(record);if(ownCredentials.some(value=>value&&raw.includes(value)))return;
+   const directory=join(root,'model-invocations');await mkdir(directory,{recursive:true});
+   await writeFile(join(directory,record.invocationId+'.json'),raw+'\n',{flag:'wx'});
+  }}});
+  return{model,browser:browser(hooks),clock:{now:()=>new Date()},
    google:new GooglePlacesClient({apiKey:process.env.GOOGLE_MAPS_API_KEY!,fetchImplementation:hooks.googleFetch(fetch),timeoutMs:30_000,...(process.env.PRAXIS_GOOGLE_API_PROXY_SERVER?{proxyServer:process.env.PRAXIS_GOOGLE_API_PROXY_SERVER}:{})})};
  }};
  const outcome=await runG6Batch(pack,dependencies,join(root,'runs',mode));
