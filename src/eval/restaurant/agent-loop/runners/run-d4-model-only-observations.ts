@@ -16,7 +16,7 @@ const root=resolve(rootArg),spec=JSON.parse(await readFile(join(root,'model-only
 const bytes=await readFile(spec.decisionsFile),hash=(bytes:Uint8Array)=>createHash('sha256').update(bytes).digest('hex');assert.equal(hash(bytes),spec.decisionsSHA256);
 const decisions=bytes.toString().trim().split('\n').map(line=>JSON.parse(line)),results:any[]=[];
 const model=new DeepSeekModelGateway({apiKey:process.env.DEEPSEEK_API_KEY,model:'deepseek-v4-flash',fetchImplementation:async(url,init)=>{
- assert.equal(String(url),'https://api.deepseek.com/chat/completions','Only the model endpoint may be called');
+ assert.ok(['https://api.deepseek.com/chat/completions','https://api.deepseek.com/beta/chat/completions'].includes(String(url)),'Only existing model endpoints may be called');
  assert.ok(results.length<40);await chargeG6(join(root,'model-only-budget.json'),`C-model-only:${results.length+1}`,'realModelCalls','2026-11-06 authorized model-only observation control, no websites/Google/GET');
  return fetch(url,init);
 }});
