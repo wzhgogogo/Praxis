@@ -1,0 +1,498 @@
+{
+  "schemaVersion": "phase3b-g6-pack@1",
+  "mode": "LIVE_READ",
+  "recording": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  },
+  "cases": [
+    {
+      "id": "D4",
+      "request": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+      "followups": [
+        {
+          "id": "PRIVATE_ROOM",
+          "trigger": "DISPLAYED_RESULTS",
+          "kind": "PAGE_QUESTION",
+          "text": "Does this restaurant have a private room?"
+        }
+      ],
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "partySize": 2,
+          "time": "19:00",
+          "requiresIndependentQualification": true
+        },
+        "pages": [
+          {
+            "ref": "current-certificate:18703c1d242053c918ce4eaf4a45321010cff6ca1e6c1d8958c812eb3cbe1b05:W1-private-rooms:0",
+            "candidateId": "witness-W1",
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+            "name": "Kushi Katsu Dengana Akabane ten",
+            "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+            "phone": "03-5249-4011",
+            "merchantText": "Private rooms\nUnavailable",
+            "merchantScope": "EXCERPTS",
+            "observedLinks": []
+          },
+          {
+            "ref": "current-certificate:18703c1d242053c918ce4eaf4a45321010cff6ca1e6c1d8958c812eb3cbe1b05:W1-private-rooms:1",
+            "candidateId": "witness-W1",
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+            "name": "Kushi Katsu Dengana Akabane ten",
+            "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+            "phone": "03-5249-4011",
+            "merchantText": "Private rooms\tUnavailable",
+            "merchantScope": "EXCERPTS",
+            "observedLinks": []
+          },
+          {
+            "ref": "current-certificate:18703c1d242053c918ce4eaf4a45321010cff6ca1e6c1d8958c812eb3cbe1b05:W1-private-rooms:2",
+            "candidateId": "witness-W1",
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+            "name": "Kushi Katsu Dengana Akabane ten",
+            "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+            "phone": "03-5249-4011",
+            "merchantText": "Private rooms Unavailable",
+            "merchantScope": "EXCERPTS",
+            "observedLinks": []
+          },
+          {
+            "ref": "current-certificate:18703c1d242053c918ce4eaf4a45321010cff6ca1e6c1d8958c812eb3cbe1b05:W1-private-rooms:3",
+            "candidateId": "witness-W1",
+            "url": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+            "name": "Kushi Katsu Dengana Akabane ten",
+            "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+            "phone": "03-5249-4011",
+            "merchantText": "Private rooms: Unavailable",
+            "merchantScope": "EXCERPTS",
+            "observedLinks": []
+          }
+        ],
+        "reviewedReadRules": [
+          {
+            "ref": "independent-approved-public-read:1",
+            "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+            "pathname": "/catalog.json",
+            "methods": [
+              "GET"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:2",
+            "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+            "pathname": "/search/",
+            "methods": [
+              "GET"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "queryProfile",
+              "hits",
+              "scope",
+              "lat",
+              "lng",
+              "radius_km",
+              "party_size",
+              "cuisine",
+              "sort",
+              "offset",
+              "id",
+              "open_day",
+              "service_mode"
+            ],
+            "requiredQueryKeys": [
+              "queryProfile"
+            ]
+          },
+          {
+            "ref": "ADR-0035-public-calendar-contract-e90dc94e-independent-g6-ddffe9a0:3",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/hub/availability_calendar_v2",
+            "methods": [
+              "POST"
+            ],
+            "bodyFields": {
+              "locale": "string",
+              "start_at": "string",
+              "shop_id": "string",
+              "num_people": "string"
+            },
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "content-type"
+              ]
+            },
+            "queryKeys": [],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:4",
+            "origin": "https://tabelog.com",
+            "pathnamePattern": "^/en/tokyo/.*$",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "sw",
+              "vac_net",
+              "svd",
+              "svt",
+              "svps"
+            ],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:5",
+            "origin": "https://www.tablecheck.com",
+            "pathname": "/en/japan/search",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate",
+              "search_text",
+              "date",
+              "time",
+              "num_people",
+              "availability_mode"
+            ],
+            "requiredQueryKeys": [
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:6",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/geolocation",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:7",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/autocomplete",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "locale",
+              "shop_universe_id",
+              "text"
+            ],
+            "requiredQueryKeys": [
+              "locale",
+              "shop_universe_id",
+              "text"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:8",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/hub/public_shop_lists",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "limit",
+              "sort_by",
+              "shop_ids[]"
+            ],
+            "requiredQueryKeys": [
+              "limit",
+              "sort_by"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:9",
+            "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+            "pathname": "/ai_search",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "shop_universe_id",
+              "include_ids",
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "search_text",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate",
+              "cuisines[]",
+              "budget_dinner_avg_min",
+              "budget_dinner_avg_max",
+              "search_after",
+              "per_page",
+              "randomize_geo"
+            ],
+            "requiredQueryKeys": [
+              "shop_universe_id",
+              "include_ids"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:10",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/shop_search",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "shop_universe_id",
+              "include_ids",
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "search_text",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate",
+              "cuisines[]",
+              "budget_dinner_avg_min",
+              "budget_dinner_avg_max",
+              "search_after",
+              "per_page",
+              "randomize_geo"
+            ],
+            "requiredQueryKeys": [
+              "shop_universe_id",
+              "include_ids"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:11",
+            "origin": "https://cdn0.tablecheck.com",
+            "pathnamePattern": "^/common/.*$",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:12",
+            "origin": "https://tabelog.com",
+            "pathname": "/en/booking/calendar/initial_vacancy",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "rst_id",
+              "plan_id",
+              "seat_only",
+              "exclude_unavailable_time"
+            ],
+            "requiredQueryKeys": [
+              "rst_id"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:13",
+            "origin": "https://tabelog.com",
+            "pathname": "/en/booking/calendar/find_vacancy_date_with_status/",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "rst_id",
+              "plan_id",
+              "seat_only"
+            ],
+            "requiredQueryKeys": [
+              "rst_id"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:14",
+            "origin": "https://tabelog.com",
+            "pathname": "/en/booking/calendar/find_vacancy_member_by_date/",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "rst_id",
+              "svd",
+              "plan_id",
+              "seat_only"
+            ],
+            "requiredQueryKeys": [
+              "rst_id",
+              "svd"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:15",
+            "origin": "https://tabelog.com",
+            "pathname": "/en/booking/calendar/find_vacancy/",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "rst_id",
+              "svd",
+              "svps",
+              "svt",
+              "plan_id",
+              "seat_only",
+              "exclude_unavailable_time"
+            ],
+            "requiredQueryKeys": [
+              "rst_id",
+              "svd",
+              "svps"
+            ]
+          }
+        ],
+        "qualificationOracles": [
+          {
+            "name": "Kushi Katsu Dengana Akabane ten",
+            "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+            "phone": "03-5249-4011",
+            "hardCriteriaMet": true,
+            "withinArea": true,
+            "evidenceRefs": [
+              ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/01-W1_DETAIL.body",
+              ".eval-artifacts/phase3b/d4-d8-live-20261106/preparation/historical-provenance.json"
+            ]
+          },
+          {
+            "name": "串かつ でんがな 赤羽店",
+            "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+            "phone": "03-5249-4011",
+            "hardCriteriaMet": true,
+            "withinArea": true,
+            "evidenceRefs": [
+              ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/01-W1_DETAIL.body",
+              ".eval-artifacts/phase3b/d4-d8-live-20261106/preparation/historical-provenance.json"
+            ]
+          },
+          {
+            "name": "Dengana Akabane",
+            "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+            "phone": "03-5249-4011",
+            "hardCriteriaMet": true,
+            "withinArea": true,
+            "evidenceRefs": [
+              ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/01-W1_DETAIL.body",
+              ".eval-artifacts/phase3b/d4-d8-live-20261106/preparation/historical-provenance.json"
+            ]
+          }
+        ],
+        "questions": [
+          {
+            "candidateId": "witness-W1",
+            "expected": "ANSWERED",
+            "approvedAnswers": [
+              "Private rooms are unavailable.",
+              "Private rooms are not available.",
+              "No, private rooms are not available.",
+              "The page lists private rooms as unavailable.",
+              "The page states that private rooms are unavailable.",
+              "The page says private rooms are unavailable.",
+              "No, this restaurant does not have private rooms.",
+              "Private rooms: Unavailable.",
+              "No. The page lists private rooms as unavailable."
+            ],
+            "sensitiveCategory": "NONE"
+          }
+        ]
+      },
+      "witness": {
+        "candidateId": "witness-W1",
+        "name": "Kushi Katsu Dengana Akabane ten",
+        "address": "東京都北区赤羽1-15-1 新仲ビル1F",
+        "phone": "03-5249-4011",
+        "provider": "TABELOG",
+        "sourceEntityId": "13108466",
+        "date": "2026-11-11",
+        "time": "19:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1323/A132305/13108466/",
+        "identityText": [
+          "Kushi Katsu Dengana Akabane ten",
+          "東京都北区赤羽1-15-1 新仲ビル1F",
+          "03-5249-4011"
+        ]
+      }
+    }
+  ]
+}
