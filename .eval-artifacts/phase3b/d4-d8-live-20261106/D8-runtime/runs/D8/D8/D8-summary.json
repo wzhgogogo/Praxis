@@ -1,0 +1,192 @@
+{
+  "frozenSourceSHA": "9482ef61530db6a1c1e6fa6c2ab836d95f9c3e81",
+  "productBehavior": "No delivered outlet; named source identity unconfirmed; ASK_USER; availability not reached; B1/terms empty",
+  "firstDivergenceEvidence": {
+    "tablecheckDecisionNumbers": [
+      4,
+      5,
+      6
+    ],
+    "finding": "Model opens Destination, fills outlet name, reports no matching area/station; first provider reaches 45s deadline. TableCheck search page was reachable in this run.",
+    "tabelogDecisionNumbers": [
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "tabelogFinding": "Submitted Nakamata, then chose Nakamata Shuzo Mosuke 13149972; COMPLETE refused by deterministic verification three times. It was never displayed as the requested store. Later candidate searches continue that outlet/area listings without binding the requested outlet.",
+    "diagnosticSequences": [
+      69,
+      71,
+      137,
+      151,
+      165,
+      233,
+      235,
+      415,
+      417
+    ]
+  },
+  "verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "independentRequestBoundary": {
+    "checked": 220,
+    "passed": 220,
+    "allPassed": true
+  },
+  "independentGET": "ABSENT",
+  "combinedSafeToContinue": true,
+  "modelPurposes": {
+    "restaurant_semantic_interpret": {
+      "calls": 1,
+      "latencyMs": 3464,
+      "failed": 0
+    },
+    "restaurant_agent_decide": {
+      "calls": 3,
+      "latencyMs": 8340,
+      "failed": 0
+    },
+    "browser_read_decide": {
+      "calls": 22,
+      "latencyMs": 84412,
+      "failed": 0
+    }
+  },
+  "providerScopes": [
+    {
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "candidate": "Nakamata",
+      "source": "TABLECHECK",
+      "sequence": 69,
+      "outcome": "ABANDONED",
+      "candidateElapsedMs": 45002,
+      "providerElapsedMs": 45002,
+      "candidateModelCalls": 3,
+      "providerModelCalls": 3,
+      "candidateRuntimeOperations": 18,
+      "providerRuntimeOperations": 18,
+      "runModelCalls": 3,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "candidate": "Nakamata",
+      "source": "TABELOG",
+      "sequence": 169,
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 84411,
+      "providerElapsedMs": 39377,
+      "candidateModelCalls": 9,
+      "providerModelCalls": 6,
+      "candidateRuntimeOperations": 40,
+      "providerRuntimeOperations": 22,
+      "runModelCalls": 9,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "candidate": "Nodoguro, Ginza Nakamata Hanare",
+      "source": "TABLECHECK",
+      "sequence": 233,
+      "outcome": "ABANDONED",
+      "candidateElapsedMs": 45001,
+      "providerElapsedMs": 45001,
+      "candidateModelCalls": 3,
+      "providerModelCalls": 3,
+      "candidateRuntimeOperations": 16,
+      "providerRuntimeOperations": 16,
+      "runModelCalls": 12,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "candidate": "Nodoguro, Ginza Nakamata Hanare",
+      "source": "TABELOG",
+      "sequence": 267,
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 59365,
+      "providerElapsedMs": 14335,
+      "candidateModelCalls": 5,
+      "providerModelCalls": 2,
+      "candidateRuntimeOperations": 23,
+      "providerRuntimeOperations": 7,
+      "runModelCalls": 14,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "candidate": "Nodoguro Nakamata",
+      "source": "TABLECHECK",
+      "sequence": 341,
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 21756,
+      "providerElapsedMs": 21756,
+      "candidateModelCalls": 3,
+      "providerModelCalls": 3,
+      "candidateRuntimeOperations": 19,
+      "providerRuntimeOperations": 19,
+      "runModelCalls": 17,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "candidate": "Nodoguro Nakamata",
+      "source": "TABELOG",
+      "sequence": 415,
+      "outcome": "ABANDONED",
+      "candidateElapsedMs": 66759,
+      "providerElapsedMs": 45003,
+      "candidateModelCalls": 8,
+      "providerModelCalls": 5,
+      "candidateRuntimeOperations": 37,
+      "providerRuntimeOperations": 18,
+      "runModelCalls": 22,
+      "reason": "DEADLINE_EXCEEDED"
+    }
+  ],
+  "resourceUsage": {
+    "elapsedMs": 224363,
+    "agentDecisions": 3,
+    "googleRequests": {
+      "limit": 40,
+      "total": 1,
+      "discovery": 1,
+      "placeDetails": 0,
+      "namedPlaceResolution": 0,
+      "reverseAddressObservation": 0
+    },
+    "modelCallsStarted": 26
+  },
+  "recording": {
+    "qualifiedPages": 14,
+    "totalPages": 33,
+    "status": "RECORDED"
+  },
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 638,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 347,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11220
+  },
+  "runDelta": {
+    "fullLive": 1,
+    "realModelCalls": 26,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 2,
+    "googleRequests": 1,
+    "restaurantWebsiteRequests": 234
+  },
+  "bookingLinks": [],
+  "remainingNonReservedGET": 0
+}
