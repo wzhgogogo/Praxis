@@ -12,7 +12,7 @@ function fakeBrowser(counts: { page: number; context: number; browser: number })
     goto: async () => null,
     content: async () => "<html><body>Example Domain</body></html>",
     evaluate: async () => "",
-    locator: () => ({ innerText: async () => "Example Domain", click: async () => {}, fill: async () => {}, selectOption: async () => ["2"], waitFor: async () => {} }),
+    locator: () => ({ evaluate: async () => "", innerText: async () => "Example Domain", click: async () => {}, fill: async () => {}, selectOption: async () => ["2"], waitFor: async () => {} }),
     title: async () => "Example Domain",
     screenshot: async () => new Uint8Array(),
     url: () => "https://example.com/",

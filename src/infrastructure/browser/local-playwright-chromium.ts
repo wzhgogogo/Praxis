@@ -91,7 +91,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         ...(this.lastSettlementDiagnostic ? { settlementDiagnostics: { ...this.lastSettlementDiagnostic, url: this.page.url(), busySelectors: await pageBusySelectors(this.page) } } : {}),
         url: this.page.url(),
         html: await this.page.content(),
-        visibleHtml: await this.page.evaluate(() => {
+        visibleHtml: await this.page.locator("body").evaluate(body => {
           // Cloning an img can trigger a second request even while detached.
           // Serialize the existing tree without constructing any DOM nodes.
           const source = {
@@ -116,8 +116,8 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
                 ? "" : [...node.childNodes].map(child => this.read(child)).join("") + `</${name}>`);
             },
           };
-          return source.read(document.body);
-        }),
+          return source.read(body);
+        }, undefined, { timeout: INTERACTIVE_ACTION_TIMEOUT_MS }),
         text: await this.page.locator("body").innerText(),
         title: await this.page.title(),
         ...(state === undefined ? {} : { interactiveState: state }),

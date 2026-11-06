@@ -1,0 +1,36 @@
+✖ D4 recorded body-gap failure recovers through the production snapshot reader without an empty success (232.49075ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 580.574875
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-snapshot.test.ts:1:712
+✖ D4 recorded body-gap failure recovers through the production snapshot reader without an empty success (232.49075ms)
+  Error [BrowserRuntimeError]: Local Playwright Chromium operation failed
+      at LocalPlaywrightChromiumSession.run (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:246:13)
+      at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-snapshot.test.ts:42:28)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    code: 'BROWSER_RUNTIME_FAILED',
+    cause: page.evaluate: TypeError: Cannot read properties of null (reading 'nodeType')
+        at Object.read (eval at evaluate (:311:30), <anonymous>:1:160)
+        at eval (eval at evaluate (:311:30), <anonymous>:1:1143)
+        at UtilityScript.evaluate (<anonymous>:313:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-snapshot.test.ts:32:64)
+        at releaseAfterRead (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-snapshot.test.ts:30:78)
+        at _Page.evaluate (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-snapshot.test.ts:32:41)
+        at <anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:94:38)
+        at async LocalPlaywrightChromiumSession.run (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/infrastructure/browser/local-playwright-chromium.ts:243:14)
+        at async TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-snapshot.test.ts:42:28) {
+      log: []
+    },
+    scope: undefined,
+    networkFailures: []
+  }
