@@ -1,3 +1,4 @@
+import {createHash} from "node:crypto";
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import {normalizedTextKey} from "../../core/text-key.js";
 import { setTimeout as wait } from "node:timers/promises";
@@ -476,7 +477,7 @@ export class BrowserTaskExecutor {
 
   /** Query wording comes from G4; all UI steps, including reuse of an already
    * loaded page, are chosen by the ordinary observation loop. */
-  async search(input: Pick<BrowserSkillReadInput, "source" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; query: string; completion: BrowserSkillReadInput["completion"] }): Promise<BrowserGenericReadResult> {
+  async search(input: Pick<BrowserSkillReadInput, "source" | "signal" | "allowedOrigins"> & { session: BrowserSession; url: string; query: string; querySource?: "SPECIFIC_OUTLET" | "G4_SOURCE_TERM"; completion: BrowserSkillReadInput["completion"] }): Promise<BrowserGenericReadResult> {
     const scoped = { ...input, stage: "DISCOVERY" as const };
     if (!this.startedSessions.has(input.session)) {
       const seeds = (this.networkPolicy?.startupDocuments ?? []).filter(seed => input.allowedOrigins.includes(new URL(seed).origin));
@@ -486,21 +487,37 @@ export class BrowserTaskExecutor {
     const queryFields = new Set<string>();
     let queryConflict = false;
     let queryBound = false;
-    const submittedOwners = new Set<string>();
+    let currentIsResult = false;
+    let initialRequestCount: number | undefined;
     const queryKey = normalizedTextKey(input.query);
     const result = await this.runSkill({ ...scoped, taskId: "observed-source-query", requireModelConfirmation: true,
-      goal: { outlet: { name: input.query }, retrievalExpression: input.query, retrievalSource: "G4_SOURCE_TERM", hardCriteria: [] },
-      objective: "Find the named outlet using the current observed source page. Choose each step from its current public controls and links. Returned cards are not identity evidence; code will inspect the same outlet before accepting it.",
-      onQuerySubmitted: owner => { submittedOwners.add(owner); },
+      goal: { outlet: { name: input.query }, retrievalExpression: input.query, retrievalSource: input.querySource ?? "G4_SOURCE_TERM", hardCriteria: [] },
+      objective: "Submit the authoritative query through observed public search controls and stop at its result LIST. Do not open individual restaurant cards or unrelated recommendations. Code inspects listed candidates separately for identity with its shared detail limit. If this term has no matching option and no matching route, REQUEST_HUMAN_HELP ends this method; the caller owns any next approved retrieval term, not the browser model.",
       completion: (page, controls) => {
-        for (const control of controls ?? []) if (control.kind === "INPUT" && control.structure?.name
-          && control.formObservation && normalizedTextKey(control.value ?? "") === queryKey) queryFields.add(control.structure.name);
+        const requests = page.networkRequests ?? [];
+        initialRequestCount ??= requests.length;
         const assessment = input.completion(page, controls);
         queryConflict = false;
-        queryBound = (controls ?? []).some(control => control.kind === "INPUT"
-          && control.formObservation && submittedOwners.has(control.formObservation.owner) && queryFields.has(control.structure?.name ?? "")
-          && normalizedTextKey(control.value ?? "") === queryKey);
+        queryBound = false;
+        const current = new URL(page.url);
+        const hash = (value: string) => createHash("sha256").update(value).digest("hex");
+        const fields = [...current.searchParams].map(([key, value]) => ({ key, valueSha256: hash(value) }));
+        const multiset = (values: readonly {key: string; valueSha256: string}[]) => JSON.stringify(values.map(value => [value.key, value.valueSha256]).sort());
+        for (const request of requests.slice(initialRequestCount)) {
+          const receipt = request.formSubmission;
+          if (request.outcome !== "ADMITTED" || request.method !== "GET" || request.resourceType !== "document" || !receipt
+            || receipt.documentOrigin !== current.origin || receipt.actionOrigin !== current.origin
+            || receipt.actionPathname !== current.pathname || request.origin !== current.origin || request.pathname !== current.pathname
+            || multiset(receipt.fields) !== multiset(fields)) continue;
+          for (const [key, value] of current.searchParams) {
+            if (normalizedTextKey(value) === queryKey && receipt.fields.some(field => field.key === key && field.valueSha256 === hash(value))) {
+              queryFields.add(key);
+              queryBound = true;
+            }
+          }
+        }
         const resultKeys = new Set((assessment.resultUrls ?? []).map(value => { const url = new URL(value, page.url); return url.origin + url.pathname; }));
+        currentIsResult = queryBound && resultKeys.has(current.origin + current.pathname);
         const resultHrefs = (controls ?? []).flatMap(control => {
           if (control.kind !== "LINK" || !control.href) return [];
           try { const url = new URL(control.href, page.url); return resultKeys.has(url.origin + url.pathname) ? [control.href] : []; }
@@ -513,12 +530,12 @@ export class BrowserTaskExecutor {
             for (const field of queryFields) {
               const values = observed.searchParams.getAll(field);
               if (values.some(value => normalizedTextKey(value) !== queryKey)) queryConflict = true;
-              if (value === page.url && values.some(value => normalizedTextKey(value) === queryKey)) queryBound = true;
             }
           } catch { queryConflict = true; }
         }
         return queryConflict ? { ...assessment, complete: false, reason: "Observed result query contradicts the authoritative input in the observed source form" }
-          : !queryBound ? { ...assessment, complete: false, reason: "No positive source result binding to the current authoritative query has been observed" } : assessment;
+          : !queryBound ? { ...assessment, complete: false, reason: "No positive source result binding to the current authoritative query has been observed" }
+          : currentIsResult ? { ...assessment, complete: false, reason: "The current document is an individual result, not the submitted result list; code inspects identities after list completion" } : assessment;
       } });
     // A stopped observation is not an identity or inventory verdict. Return
     // its current page to the adapter so explicit empty/error/challenge facts
@@ -526,7 +543,8 @@ export class BrowserTaskExecutor {
     // still stop the shared run; no navigation or extra model call is added.
     if (result.status === "BUDGET_EXCEEDED") throw new BrowserRuntimeError("BROWSER_BUDGET_EXHAUSTED", "Source search exhausted its existing browser budget");
     return queryConflict ? { ...result, reasonCode: "OBSERVED_QUERY_CONFLICT" }
-      : !queryBound ? { ...result, reasonCode: "OBSERVED_QUERY_UNBOUND" } : result;
+      : !queryBound ? { ...result, reasonCode: "OBSERVED_QUERY_UNBOUND" }
+      : currentIsResult ? { ...result, reasonCode: "OBSERVED_QUERY_NOT_LIST" } : result;
   }
 
   /** Code-owned source retry delay shares the current operation and wall-time budgets. */

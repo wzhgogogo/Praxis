@@ -1,0 +1,29 @@
+✖ D8 real unnamed search box and script-populated hidden query reach a guarded bound list (3135.072917ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3434.570916
+
+✖ failing tests:
+
+test at src/harness/browser/browser-read-named-query.test.ts:1:896
+✖ D8 real unnamed search box and script-populated hidden query reach a guarded bound list (3135.072917ms)
+  AssertionError [ERR_ASSERTION]: OBSERVED_QUERY_UNBOUND
+  + actual - expected
+  
+  + 'NO_SAFE_ACTION'
+  - 'COMPLETED'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/phase3a-boundary/Praxis-Zhixing/src/harness/browser/browser-read-named-query.test.ts:80:11)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_SAFE_ACTION',
+    expected: 'COMPLETED',
+    operator: 'strictEqual'
+  }

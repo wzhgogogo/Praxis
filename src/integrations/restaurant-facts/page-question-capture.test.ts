@@ -85,3 +85,25 @@ test("capture-only bypasses the composition's HARD judge in both website and no-
     assert.equal(judgments,0,"capture-only must not invoke either outer HARD judgment branch");
   });
 });
+
+test("G1 refreshes a pending fact-cache page before answering",async()=>{
+ const f=pageQuestionCaptureFixture("TABELOG");f.page.settlement="PENDING";
+ await f.assembly.facts.inspectFacts({candidateIds:[f.input.candidate.restaurant.id],candidates:[f.input.candidate],intent:f.input.intent,readRunId:f.input.readContext.runId},new AbortController().signal);
+ assert.equal(f.assembly.questions.currentPages(f.input.readContext,f.input.candidate.restaurant.id)[0]?.snapshot.settlement,"PENDING","Ordinary fact capture retains the unsettled source without granting a whole-page answer");
+ f.page.settlement="SETTLED";
+ const answer=await f.assembly.questions.answerQuestion(f.input,new AbortController().signal);
+ assert.equal(answer.status,"ANSWERED","A pending cache is a reason to acquire a complete page within the existing question budget");
+ assert.equal(f.seen.navigations.length,2,"The question acquired one fresh page");
+ assert.equal(f.seen.requests.filter(r=>r.purpose==="restaurant_page_question").length,1);
+});
+
+
+test("G1 a still-busy refreshed page stays incomplete with no answer model call",async()=>{
+ const f=pageQuestionCaptureFixture("TABELOG");f.page.settlement="PENDING";
+ f.page.settlementDiagnostics={url:f.url,pendingByType:{xhr:1},oldestPendingMs:0,blockingDataRequests:1,busySelectors:[],visibleTextChanging:false};
+ await f.assembly.facts.inspectFacts({candidateIds:[f.input.candidate.restaurant.id],candidates:[f.input.candidate],intent:f.input.intent,readRunId:f.input.readContext.runId},new AbortController().signal);
+ const answer=await f.assembly.questions.answerQuestion(f.input,new AbortController().signal);
+ assert.ok(answer.status==="UNVERIFIED"&&answer.reason==="INCOMPLETE_PAGE");
+ assert.equal(f.seen.requests.filter(r=>r.purpose==="restaurant_page_question").length,0);
+ assert.equal(f.seen.navigations.length,2,"Refresh has its existing page limit; no implicit retry loop");
+});

@@ -1,0 +1,31 @@
+✔ G1 GOOGLE acquires a bound page without a HARD gap through the production composition (16.10075ms)
+✔ G1 TABELOG acquires a bound page without a HARD gap through the production composition (3.367333ms)
+✔ G1 TABLECHECK acquires a bound page without a HARD gap through the production composition (1.43175ms)
+✔ G1 page capture with no merchant statement yields NOT_STATED after reading, rather than NO_BOUND_PAGE (0.600541ms)
+▶ G1 same-name foreign outlet pages produce no answerable page
+  ✔ GOOGLE (1.252ms)
+  ✔ TABELOG (0.442125ms)
+  ✔ TABLECHECK (0.275708ms)
+✔ G1 same-name foreign outlet pages produce no answerable page (2.157541ms)
+✔ G1 a genuinely read previous-run page cannot replace a failed fresh-run acquisition (0.708333ms)
+▶ G1 independent deadline and cancellation still constrain fresh acquisition
+  ✔ deadline already exhausted (0.607125ms)
+  ✔ cancel during acquisition; next question has a fresh scope (1.098375ms)
+✔ G1 independent deadline and cancellation still constrain fresh acquisition (1.813792ms)
+✔ G1 missing website stays unknown without a HARD model; ordinary no-gap facts still skip the website (0.441541ms)
+▶ capture-only bypasses the composition's HARD judge in both website and no-entry branches
+  ✔ website entry (0.19275ms)
+  ✔ no website entry (0.05975ms)
+✔ capture-only bypasses the composition's HARD judge in both website and no-entry branches (2.52975ms)
+✔ G1 refreshes a pending fact-cache page before answering (1.542833ms)
+✔ G1 a still-busy refreshed page stays incomplete with no answer model call (0.666625ms)
+✔ fresh question reads own independent model and browser counters, with no completed search context (1.328ms)
+✔ question deadline actively cancels a pending read, without cancelling the next question (21.376292ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 210.278334

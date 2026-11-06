@@ -107,7 +107,7 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
           catch (error) { if (budgetError(error)) modelExhausted = true; throw error; }
         }};
         let pages = cached();
-        if (!pages.length) {
+        if (!pages.length || pages.some(page => page.snapshot.settlement === "PENDING")) {
           // The same identity-producing source chain, with fresh question-only counters.
           const reader = this.createFacts(this.observe, {totalModelCalls:0,maxModelCalls:this.limits.maxModelCalls}, model, visits);
           await reader.inspectFacts({capturePagesOnly:true,candidateIds:[id],candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},combined);

@@ -93,8 +93,8 @@ export class LiveBrowserAvailability {
   }
 
   /** Existing source search/match, stopped before any inventory controls. */
-  async identify(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId?:string):Promise<RestaurantCandidateFactRead>{
-    const read=await this.read(request,signal,readRunId,true);
+  async identify(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId?:string,targetQuery?:string):Promise<RestaurantCandidateFactRead>{
+    const read=await this.read(request,signal,readRunId,true,targetQuery);
     const evidence=read.evidence.filter(e=>e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH");
     return {evidence,factChecks:Object.fromEntries(request.candidateIds.map(candidateId=>{
       const bound=evidence.filter(e=>e.candidateId===candidateId);
@@ -118,11 +118,12 @@ export class LiveBrowserAvailability {
     });
   }
 
-  private async read(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId:string|undefined,identityOnly:boolean):Promise<RestaurantAvailabilityRead>{
+  private async read(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId:string|undefined,identityOnly:boolean,targetQuery?:string):Promise<RestaurantAvailabilityRead>{
     const executor=this.readExecutor??this.createExecutor(true);
     const providerContext = {
       executor,
       ...(identityOnly?{identityOnly:true}:{}),
+      ...(targetQuery?{targetQuery}:{}),
       sourceFactsModel: this.model,
       ...(this.options.now ? { now: this.options.now } : {}),
       ...(this.options.maxAvailabilitySourceBrowserSessions !== undefined ? { maxBrowserSessions: this.options.maxAvailabilitySourceBrowserSessions } : {}),

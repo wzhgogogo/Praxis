@@ -167,7 +167,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       const {date,timeWindow,partySize}=request.intent;
       return identityOnly&&date&&timeWindow&&partySize!==undefined?sourceAvailability.identify({candidateIds:request.candidateIds,candidates:request.candidates,
         date,timeWindow,partySize,
-        hardCriteria:[]},signal,request.readRunId):native.facts.inspectFacts(request,signal);
+        hardCriteria:[]},signal,request.readRunId,request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?request.intent.target.query:undefined):native.facts.inspectFacts(request,signal);
     })};
   return { ...native, facts, questions, search, google, availability, bookingHandoffs, router, loop, browserBudget, runCeilings };
 }

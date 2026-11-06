@@ -1,0 +1,8 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/runners/run-d8-model-only-observations.ts(43,21): error TS7034: Variable 'action' implicitly has type 'any' in some locations where its type cannot be determined.
+src/eval/restaurant/agent-loop/runners/run-d8-model-only-observations.ts(44,147): error TS7005: Variable 'action' implicitly has an 'any' type.
+src/eval/restaurant/agent-loop/runners/run-d8-model-only-observations.ts(48,8): error TS7022: 'result' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.
+src/eval/restaurant/agent-loop/runners/run-d8-model-only-observations.ts(49,8): error TS7022: 'bytes' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.

@@ -41,6 +41,16 @@ class TabelogBrowserAvailability extends ProductionTabelogBrowserAvailability {
       }}
     }) : browser;
     if(owned){
+      // Adapter unit source-I/O substitute: supplied pages are query results,
+      // not native-form evidence. Receipt admission is tested in the executor
+      // and D8 Chromium recording test, never claimed by this adapter fixture.
+      executor.search=async input=>{
+        const stage="DISCOVERY" as const;
+        await executor.start({...input,stage});
+        return executor.runSkill({...input,stage,taskId:"adapter-fixture-query",requireModelConfirmation:true,
+          goal:{outlet:{name:input.query},retrievalExpression:input.query,retrievalSource:"G4_SOURCE_TERM",hardCriteria:[]},
+          objective:"Fixture source I/O supplies the current query result; real adapter identity/inventory still apply"});
+      };
       const begin=executor.beginCandidate.bind(executor),acquire=executor.acquire.bind(executor);
       let prior:string|undefined,closing=Promise.resolve();
       executor.beginCandidate=id=>{if(prior&&prior!==id)closing=executor.close();prior=id;begin(id);};
@@ -343,6 +353,12 @@ for(const mode of ["MODEL_FAILURE","QUERY_CONFLICT"] as const)test(`Tabelog sear
   const session=new FixtureBrowserSession([page]);session.queryValue=candidate.restaurant.outletName;
   const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:10000,maxModelCallsPerCandidate:4,maxModelCallsTotal:4,maxOperationsPerCandidate:40,
     modelDecision:{async decide(){if(mode==='MODEL_FAILURE')throw new Error('Constructed model transport failed');return{type:'COMPLETE',reason:'Ask code to verify the current search'};}}});
+  // This adapter unit tests diagnostic propagation; the receipt conflict
+  // itself is exercised with all field/normalization controls in the executor.
+  if(mode==='QUERY_CONFLICT')executor.search=async input=>{
+    await executor.start({...input,stage:'DISCOVERY'});
+    return{status:'NO_SAFE_ACTION',reasonCode:'OBSERVED_QUERY_CONFLICT',snapshot:await executor.snapshot({...input,stage:'DISCOVERY'}),controls:[]};
+  };
   const adapter=new ProductionTabelogBrowserAvailability(executor,()=> '2026-08-05T09:00:00.000Z',5,{networkPolicy:{startupDocuments:['https://tabelog.com/en/'],documentOrigins:['https://tabelog.com'],staticResources:[],dynamicReads:[]},onIdentityDiagnostic:row=>diagnostics.push(row)});
   try{const read=await adapter.check({candidateIds:[candidate.restaurant.id],candidates:[candidate],date:fixtureIntent.date,partySize:fixtureIntent.partySize,timeWindow:fixtureIntent.timeWindow,hardCriteria:[]},new AbortController().signal);
     assert.equal(read.availabilityChecks[candidate.restaurant.id]?.status,'UNKNOWN');

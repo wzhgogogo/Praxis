@@ -1,3 +1,4 @@
+import {createHash} from "node:crypto";
 import { decodeHTML } from "entities";
 import assert from "node:assert/strict";
 import { test } from "node:test";
@@ -55,6 +56,16 @@ class TableCheckBrowserAvailability extends ProductionTableCheckBrowserAvailabil
       }}
     }) : browser;
     if(owned){
+      // Adapter unit source-I/O substitute: supplied pages are query results,
+      // not native-form evidence. Receipt admission is tested in the executor
+      // and D8 Chromium recording test, never claimed by this adapter fixture.
+      executor.search=async input=>{
+        const stage="DISCOVERY" as const;
+        await executor.start({...input,stage});
+        return executor.runSkill({...input,stage,taskId:"adapter-fixture-query",requireModelConfirmation:true,
+          goal:{outlet:{name:input.query},retrievalExpression:input.query,retrievalSource:"G4_SOURCE_TERM",hardCriteria:[]},
+          objective:"Fixture source I/O supplies the current query result; real adapter identity/inventory still apply"});
+      };
       const begin=executor.beginCandidate.bind(executor),acquire=executor.acquire.bind(executor);
       let prior:string|undefined,closing=Promise.resolve();
       executor.beginCandidate=id=>{if(prior&&prior!==id)closing=executor.close();prior=id;begin(id);};
@@ -1349,7 +1360,11 @@ test("TableCheck rejects hydrated links from a prior search query", async () => 
   const stale = discoveryPage({ href: "/en/restaurant1?search_text=Old+Query", text: "Restaurant 1" });
   const session = new FixtureBrowserSession([stale]);
   const diagnosticRows: import("./tablecheck-contracts.js").TableCheckIdentityDiagnostic[]=[];
-  const result = await new TableCheckBrowserAvailability({ openSession: async () => session }, () => "2026-08-05T09:00:00.000Z", {onIdentityDiagnostic:d=>diagnosticRows.push(d)})
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:10000,maxModelCallsPerCandidate:4,maxModelCallsTotal:4,maxOperationsPerCandidate:30});
+  // The adapter receives a conflict from its query-evidence boundary. Detailed
+  // receipt/URL conflict behavior is covered by the executor's negative tests.
+  executor.search=async input=>{await executor.start({...input,stage:"DISCOVERY"});return{status:"NO_SAFE_ACTION",reasonCode:"OBSERVED_QUERY_CONFLICT",snapshot:await executor.snapshot({...input,stage:"DISCOVERY"}),controls:[]};};
+  const result = await new ProductionTableCheckBrowserAvailability(executor, () => "2026-08-05T09:00:00.000Z", {onIdentityDiagnostic:d=>diagnosticRows.push(d),networkPolicy:{startupDocuments:["https://www.tablecheck.com/en/japan/search"],documentOrigins:["https://www.tablecheck.com"],staticResources:[],dynamicReads:[]}})
     .check(request, new AbortController().signal);
   assert.equal(diagnosticRows[0]?.discovery.incompleteStage,"INITIAL_QUERY_MISMATCH");
   assert.equal(diagnosticRows[0]?.discovery.queryMatchesAtExit,false);
@@ -1439,10 +1454,15 @@ test("TableCheck hands an extractable-search gap to the model in the same sessio
       html: '<div data-selected-date="2026-08-05" data-pax="2"></div><section class="featured-menu">Omakase course</section><section data-availability-state="complete"><button class="time-slot is-available" data-time="19:00">19:00</button></section>',
     },
   ]);
+  let querySubmitted=false;
+  const originalClick=session.click.bind(session),originalSnapshot=session.snapshot.bind(session);
+  session.click=async target=>{if(target?.includes("fixture-search-submit")){querySubmitted=true;return;}return originalClick(target);};
+  session.snapshot=async()=>{const page=await originalSnapshot();const url=new URL(page.url);return {...page,networkRequests:querySubmitted?[{outcome:"ADMITTED" as const,origin:url.origin,pathname:url.pathname,method:"GET",resourceType:"document",queryKeys:[...url.searchParams.keys()],formSubmission:{documentOrigin:url.origin,actionOrigin:url.origin,actionPathname:url.pathname,fields:[...url.searchParams].map(([key,value])=>({key,valueSha256:createHash("sha256").update(value).digest("hex"),source:"PAGE" as const}))}}]:[]};};
   const diagnostics: BrowserExecutionDiagnostic[] = [];
   let decisions = 0;
   const modelDecision: BrowserReadActionDecisionPort = {
     async decide(input) {
+      if(input.stage==='DISCOVERY'&&!querySubmitted)return{type:'CLICK',targetRef:input.observation.targets.find(t=>t.label==='Fixture search')!.ref,reason:'Submit the fixture public query before revealing its asynchronous results'};
         if(input.stage==='DISCOVERY'&&input.observation.targets.some(t=>t.kind==='LINK'&&!/^(?:Show results)$/.test(t.label)))return{type:'COMPLETE',reason:'Fixture confirms current observed source results'};
       decisions += 1;
       if (decisions === 1) {
@@ -1459,7 +1479,7 @@ test("TableCheck hands an extractable-search gap to the model in the same sessio
   assert.equal(session.clicks, 1);
   assert.equal(diagnostics.filter((item) => item.event === "SESSION_OPENED").length, 1);
   const handoff = diagnostics.find((item) => item.event === "SKILL_STARTED");
-  assert.equal(handoff?.detail, "Continue until an observed public outlet result is available, or the page explicitly reports no results.");
+  assert.match(handoff?.detail ?? "", /No positive source result binding/);
   assert.equal(handoff?.observation?.targets[0]?.label, "Show results");
   assert.match(diagnostics.find((item) => item.event === "MODEL_ACTION")?.detail ?? "", /CLICK/);
   assert.equal(diagnostics.some((item) => item.event === "POST_ACTION_VERIFIED"), true);
@@ -1671,4 +1691,34 @@ test("an observed prohibited linked target cannot hide the same page's recorded 
   const {tableCheckPublicReadNetworkPolicy}=await import('./tablecheck-public-query.js');
   assert.deepEqual(resolveTableCheckReservationTarget(page,outlet,tableCheckPublicReadNetworkPolicy),{kind:'EMBEDDED_AVAILABILITY',url:snapshot.url});
   assert.equal(resolveTableCheckReservationTarget({...page,html:page.html.slice(0,page.html.indexOf('</script>')+9)},outlet,tableCheckPublicReadNetworkPolicy),undefined);
+});
+
+test("TableCheck identity retrieval uses authoritative full wording then advances an incomplete term without changing identity or limits",async()=>{
+ for(const firstOutcome of ["REQUESTED_HUMAN_HELP","MODEL_FAILURE"] as const){
+  const subject={...candidate,restaurant:{...candidate.restaurant,outletName:"Restaurant 1 Tokyo"}};
+  const fullName="Authoritative Restaurant 1 Tokyo",queries:string[]=[];
+  const session=new FixtureBrowserSession([discoveryPage(),discoveryPage({href:"/en/restaurant1",text:"Restaurant 1"}),matchingOutletPage()]);
+  const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:45000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:60});
+  executor.search=async input=>{
+   queries.push(input.query);
+   await executor.start({...input,stage:"DISCOVERY"});
+   if(queries.length===1)return {status:firstOutcome,snapshot:await session.snapshot(),controls:[]};
+   assert.equal(queries.length,2,"At most one existing alternative, no retry loop");
+   await session.navigate("https://www.tablecheck.com/en/japan/search");
+   return {status:"COMPLETED",snapshot:await session.snapshot(),controls:[]};
+  };
+  let proposals=0;
+  try{
+   const read=await new ProductionTableCheckBrowserAvailability(executor,()=>"2026-08-05T09:00:00.000Z",{
+    identityOnly:true,targetQuery:fullName,networkPolicy:{startupDocuments:["https://www.tablecheck.com/en/japan/search"],documentOrigins:["https://www.tablecheck.com"],staticResources:[],dynamicReads:[]},alternativeSearch:async original=>{proposals++;assert.deepEqual(original,subject);return "Restaurant 1";},
+   }).check({...request,candidates:[subject],candidateIds:[subject.restaurant.id]},new AbortController().signal);
+   assert.equal(queries[0],fullName,"Accepted user wording is the original identity query");
+   if(firstOutcome==="REQUESTED_HUMAN_HELP"){
+    assert.deepEqual(queries,[fullName,"Restaurant 1"]);
+    assert.equal(proposals,1);
+    assert.ok(read.evidence.some(e=>e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH"));
+   }else assert.equal(queries.length,1,"Model infrastructure failure cannot trigger a repair query");
+   assert.equal(read.offers.length,0,"Read-only identity investigation never invents inventory");
+  }finally{await executor.closeAll();}
+ }
 });

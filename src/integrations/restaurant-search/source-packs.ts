@@ -21,6 +21,8 @@ export interface SourcePackAvailabilityProviderContext {
   executor: BrowserTaskExecutor;
   /** Internal G4 fact read; never a persisted request or an inventory conclusion. */
   identityOnly?:boolean;
+  /** Authoritative SPECIFIC_OUTLET wording, used only to retrieve identity. */
+  targetQuery?:string;
   sourceFactsModel?: ModelGateway;
   now?: () => string;
   maxBrowserSessions?: number;
@@ -293,6 +295,7 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
     availabilityPriority: 20,
     createProvider: (context) => new TableCheckBrowserAvailability(context.executor, context.now, {
       ...(context.identityOnly?{identityOnly:true}:{}),
+      ...(context.targetQuery?{targetQuery:context.targetQuery}:{}),
       ...(context.sourceFactsModel ? { sourceFactsModel: context.sourceFactsModel } : {}),
       ...(context.alternativeSearch ? { alternativeSearch: context.alternativeSearch } : {}),
       ...(context.maxCandidateMatches !== undefined ? { maxCandidateMatches: context.maxCandidateMatches } : {}),

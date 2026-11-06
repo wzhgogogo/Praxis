@@ -220,6 +220,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       maxBrowserSessions?: number;
       /** Stop after the unchanged HIGH identity gate; no request controls or slot read. */
       identityOnly?: boolean;
+      targetQuery?: string;
       sourceFactsModel?: ModelGateway;
       alternativeSearch?: NamedSourceAlternative;
       maxCandidateMatches?: number;
@@ -466,14 +467,17 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       const inspected = new Set<string>();
       const detailLimit = Math.min(5, this.options.maxCandidateMatches ?? 5);
       let outletUrls: string[] = [];
-      let searchName = candidate.restaurant.outletName;
+      let searchName = this.options.targetQuery?.trim() || candidate.restaurant.outletName;
+      let querySource: "SPECIFIC_OUTLET" | "G4_SOURCE_TERM" = this.options.targetQuery?.trim() ? "SPECIFIC_OUTLET" : "G4_SOURCE_TERM";
       let alternativeUsed = false;
+      let modelFailed = false;
       const nextSearch = async (): Promise<boolean> => {
-        if (directIdentityVerified || alternativeUsed || inspected.size >= detailLimit) return false;
+        if (directIdentityVerified || alternativeUsed || modelFailed || inspected.size >= detailLimit) return false;
         alternativeUsed = true;
         const alternative = checkedNamedSourceQuery(candidate, await this.options.alternativeSearch?.(candidate, signal));
         if (!alternative) return false;
         searchName = alternative;
+        querySource = "G4_SOURCE_TERM";
         discoveryUrl = tableCheckDiscoveryPack.browser!.startupUrl!;
         return true;
       };
@@ -486,14 +490,18 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           discoveryBase = { requestedUrl: diagnosticUrl(listedOutletUrl), finalUrl: diagnosticUrl(directPage.url), title: directPage.title };
         } else {
           const searched = await this.executor.search({
-            source: "TABLECHECK", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl, query: searchName, completion: page => tableCheckNameSearchCompletion(page, searchName),
+            source: "TABLECHECK", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: discoveryUrl, query: searchName, querySource, completion: page => tableCheckNameSearchCompletion(page, searchName),
           });
+          modelFailed ||= searched.status === "MODEL_FAILURE";
           handoff = searched.status === "COMPLETED" ? undefined : { reason: "TABLECHECK_DISCOVERY_HAS_NO_EXTRACTABLE_OUTLET_LINK", outcome: searched.status };
           // Snapshot first: a parsed result or explicit empty state is ready now.
           // Otherwise the shared skill receives the parser state and decides
           // whether a public control or a bounded wait is appropriate; no URL
           // parameter is treated as a universal loading selector.
           discovery = await this.executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal, session });
+          if ((searched.status === "REQUESTED_HUMAN_HELP" || searched.status === "NO_SAFE_ACTION")
+            && searched.reasonCode !== "OBSERVED_QUERY_CONFLICT" && !hasTableCheckBotChallenge(discovery)
+            && !inspectTableCheckPageUnavailable(discovery).pageUnavailable && await nextSearch()) continue;
           discovery = await this.resumeAfterUserIntervention(candidate, request, session, discovery, "DISCOVERY", signal);
           discoveryBase = { requestedUrl: diagnosticUrl(discoveryUrl), finalUrl: diagnosticUrl(discovery.url), title: discovery.title };
           const unavailable = inspectTableCheckPageUnavailable(discovery);
