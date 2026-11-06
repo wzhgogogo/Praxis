@@ -28,7 +28,7 @@ const listener=(value:unknown)=>{
  const event=value as {stage?:string;phase?:string};
  if(competition==='SNAPSHOT'&&!competingSnapshot&&event.stage==='SUBMISSION_SNAPSHOT'&&event.phase==='START'){
   competitionResult.startedAt=performance.now();
-  competingSnapshot=session!.snapshot().then(()=>{competitionResult.outcome='COMPLETED';},error=>{competitionResult.outcome='FAILED';competitionResult.error=safeRecord(error instanceof Error?{name:error.name,message:error.message,cause:error.cause}:error);}).finally(()=>{competitionResult.finishedAt=performance.now();});
+  competingSnapshot=session!.snapshot().then(()=>{competitionResult.outcome='COMPLETED';},error=>{competitionResult.outcome='FAILED';competitionResult.error=safeRecord(error instanceof Error?{name:error.name,message:error.message,cause:error.cause instanceof Error?{name:error.cause.name,message:error.cause.message}:error.cause}:error);}).finally(()=>{competitionResult.finishedAt=performance.now();});
  }
 };channel('praxis.browser.form-evidence').subscribe(listener);
 const temp=await mkdtemp(join(tmpdir(),'d4-search-stall-'));
