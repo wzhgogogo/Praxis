@@ -3,7 +3,7 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {setTimeout as wait} from 'node:timers/promises';
-import {LocalPlaywrightChromiumRuntime} from '../../../src/infrastructure/browser/local-playwright-chromium.js';
+import {LocalPlaywrightChromium} from '../../../src/infrastructure/browser/local-playwright-chromium.js';
 import {tableCheckPublicReadNetworkPolicy} from '../../../src/integrations/tablecheck/tablecheck-public-query.js';
 import {BrowserReadRecording} from '../../../src/eval/restaurant/agent-loop/runners/browser-read-recording.js';
 import {traceBrowserRuntime} from '../../../src/eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js';
@@ -21,7 +21,7 @@ const recorder=new BrowserReadRecording({directory:out,runId:'recording',reviewe
 const events:any[]=[];const responses:any[]=[];const hash=(v:string)=>createHash('sha256').update(v).digest('hex');
 let step='START',pages=0;const control=new AbortController();const timer=setTimeout(()=>control.abort(),120000);let session:any;
 const sink=recorder.traceSink();
-const runtime=traceBrowserRuntime(new LocalPlaywrightChromiumRuntime({headless:true,admittedGetTransport:'BROWSER_GET_HEAD'}),'TABLECHECK',(kind,detail)=>{events.push({sequence:events.length+1,kind,detail});return events.length;},{...sink,recordResponse:async r=>{const u=new URL(r.url);responses.push({step,origin:u.origin,pathname:u.pathname,method:r.method,resourceType:r.resourceType,status:r.status,queryFields:[...u.searchParams].map(([key,value])=>({key,valueSha256:hash(value),normalizedValueSha256:hash(normalizedTextKey(value))}))});await recorder.recordResponse(r);}});
+const runtime=traceBrowserRuntime(new LocalPlaywrightChromium({headless:true,admittedGetTransport:'BROWSER_GET_HEAD'}),'TABLECHECK',(kind,detail)=>{events.push({sequence:events.length+1,kind,detail});return events.length;},{...sink,recordResponse:async r=>{const u=new URL(r.url);responses.push({step,origin:u.origin,pathname:u.pathname,method:r.method,resourceType:r.resourceType,status:r.status,queryFields:[...u.searchParams].map(([key,value])=>({key,valueSha256:hash(value),normalizedValueSha256:hash(normalizedTextKey(value))}))});await recorder.recordResponse(r);}});
 try{
  session=await runtime.openSession({signal:control.signal,networkPolicy:policy});assert.equal(session.metadata.readNetworkBoundary,'INSTALLED');
  await chargeG6(out+'/budget.json','C-TC-SPA:page-1','evaluationPublicGET','Authorized SPA probe page1, no model/Live');pages++;
