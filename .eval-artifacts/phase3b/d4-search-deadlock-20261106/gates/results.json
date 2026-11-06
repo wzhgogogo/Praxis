@@ -1,0 +1,87 @@
+[
+  {
+    "gate": "typecheck",
+    "sourceSHA": "bb67fa17698f3971bb590b7e73f237116e9fba7b",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "environment": {},
+    "before": "",
+    "after": "",
+    "exitCode": 0,
+    "elapsedSeconds": 0.504396042
+  },
+  {
+    "gate": "arch",
+    "sourceSHA": "bb67fa17698f3971bb590b7e73f237116e9fba7b",
+    "command": [
+      "npm",
+      "run",
+      "arch:check"
+    ],
+    "environment": {},
+    "before": "",
+    "after": "",
+    "exitCode": 0,
+    "elapsedSeconds": 0.219812
+  },
+  {
+    "gate": "test",
+    "sourceSHA": "bb67fa17698f3971bb590b7e73f237116e9fba7b",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "environment": {},
+    "before": "",
+    "after": "",
+    "exitCode": 1,
+    "elapsedSeconds": 367.623552834
+  },
+  {
+    "gate": "build",
+    "sourceSHA": "bb67fa17698f3971bb590b7e73f237116e9fba7b",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "environment": {},
+    "before": "",
+    "after": "",
+    "exitCode": 0,
+    "elapsedSeconds": 0.6099457079999979
+  },
+  {
+    "gate": "browser-and-g6",
+    "sourceSHA": "bb67fa17698f3971bb590b7e73f237116e9fba7b",
+    "command": [
+      "npm",
+      "run",
+      "test:browser:fixture"
+    ],
+    "environment": {},
+    "before": "",
+    "after": "",
+    "exitCode": 0,
+    "elapsedSeconds": 147.18643120899998
+  },
+  {
+    "gate": "strict-g2",
+    "sourceSHA": "bb67fa17698f3971bb590b7e73f237116e9fba7b",
+    "command": [
+      "npm",
+      "run",
+      "test:dom-change"
+    ],
+    "environment": {
+      "PRAXIS_G2_REQUIRE_PASS": "1"
+    },
+    "before": "",
+    "after": "",
+    "exitCode": 0,
+    "elapsedSeconds": 25.162001540999995
+  }
+]
