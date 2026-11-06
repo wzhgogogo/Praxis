@@ -5841,3 +5841,8 @@ Frozen c708493d/900 source-input SHAs: fresh first-pass type/arch/default1439/bu
 ## 2026-11-04 CET — Location publication blocked
 
 2026-11-04 CET：地点联想合入发布受阻。源码净树五门禁1439/1439、Chromium189/189+G6 66/66、严格G2全12页均绿；GitHub四次推送返回服务端错误（含commit_refs_rules），最终ls-remote确认main仍为3527936c，合入分支未建立。未通知A开跑；本地合入与证据保留，无源码/冻结输入改动，待远端发布后才交接。 [Report](../../.eval-artifacts/phase3b/tabelog-location-suggestions-main-20261104/report.md).
+
+
+## 2026-11-06 CET — TableCheck SPA 诊断切片
+
+Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送且ls-remote一致。一次Guard探查HTTP200、Destination完整店名已填，但search-v4 /search/的country/kind/q/destination/name查询键不在当前审核范围，预检被拒；catalog另有net::ERR_FAILED。联想/后续跳转未到达，不能当作无匹配。三通道开启但3份DOM被UNSAFE_DOCUMENT拒录、未产HAR，不能做真实录制红绿。产品/Guard不改，新增GET1/model0/Live0，累计GET348/460/model653/1600/Live23/42，预留18Live/108GET不动；尚余1探查页与原D8三次GET。先复核来源请求形状及录制缺口，不启动D8 Live。[报告](../../.eval-artifacts/phase3b/tablecheck-spa-20261106/report.md)。

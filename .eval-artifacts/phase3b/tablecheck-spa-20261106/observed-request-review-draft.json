@@ -1,0 +1,82 @@
+{
+  "status": "draft / not integrated; NOT AN ADMISSION RULE",
+  "source": "runtime/recording/recording.json final NETWORK plus independent CDP timeline in events.json",
+  "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+  "pathname": "/search/",
+  "observedBlockedPreflightShapes": [
+    {
+      "method": "OPTIONS",
+      "resourceType": "xhr",
+      "queryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "outcome": "BLOCKED"
+    },
+    {
+      "method": "OPTIONS",
+      "resourceType": "xhr",
+      "queryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "outcome": "BLOCKED"
+    },
+    {
+      "method": "OPTIONS",
+      "resourceType": "other",
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "outcome": "BLOCKED"
+    },
+    {
+      "method": "OPTIONS",
+      "resourceType": "xhr",
+      "queryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "outcome": "BLOCKED"
+    }
+  ],
+  "currentReviewedRequired": [
+    "queryProfile"
+  ],
+  "currentReviewedAllowed": [
+    "hits",
+    "scope",
+    "lat",
+    "lng",
+    "radius_km",
+    "party_size",
+    "cuisine",
+    "sort",
+    "offset",
+    "id",
+    "open_day",
+    "service_mode"
+  ],
+  "unreviewedKeys": [
+    "country",
+    "kind",
+    "q",
+    "destination",
+    "name"
+  ],
+  "unknowns": [
+    "Preflight target-method/header facts were not persisted for these refused shapes; no header values retained.",
+    "No response semantics or link target for full-name search was observed.",
+    "catalog.json was admitted but returned no response to the recorder (net::ERR_FAILED); cause unresolved.",
+    "The query value hash was not recorded for blocked requests; q/name being the full input remains unproven."
+  ],
+  "requiredReview": "Review exact public search grammar, source-side behavior, reserved preflight projection, and privacy before any exact source declaration changes. No wildcard, proxy/fallback, credential change, method expansion or Guard bypass."
+}
