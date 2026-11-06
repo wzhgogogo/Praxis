@@ -38,3 +38,33 @@ Final clean-tree five gates + strictG2/G6 and scan pending in this checkpoint. N
 Candidate40108165: typecheck and architecture PASS with clean statuses; default1397/1429,32fail. Build/browser/G2 not started after that failure. All32 concerned mock transports lacking current GET receipts, rather than an exemption to grant. A test-only helper now emits Mock receipt data only after a currently observed GET-form click, from the next same-origin document's actual URL multiset; it grants no boundary metadata, URL or identity. It is used only by constructed fake sessions. Real Chromium in the booking fixture remains untouched. The fixture model submits a query when it has no current receipt; the shared sequence fixture no longer advances to a different payload merely because the seeded page URL already contains a keyword. Business/safety assertions preserved. Targeted143 tests initially139/143; focused remaining fixture corrections green in the affected source files; the second full matrix follows. No product rule relaxed. TableCheck early next-term switching is limited to REQUESTED_HUMAN_HELP; NO_SAFE_ACTION can still hand current source material to its unchanged parser/identity path.
 
 Hardcoded scan985f456e..40108165: one hit on the existing TableCheck allowedOrigins line now carrying querySource. The same previously approved origin string is unchanged; this is a safety-scope check, no new destination/action rule or platform configuration. Scanner script and exact output retained. Shared STATUS/DEVLOG/TEST-LOG are still untouched under the user Nov5 merge rule.
+
+
+## Final verification and stop (2026-11-06T16:05:55.324801+01:00, CET UTC+1)
+
+Source candidate `ba5d5748ac4ee7a4755a1e96fca1e5673b8c3dbe`; src tree `7a8ac07cb734a0a96bf7463e4c23dbb5922f5f24`. Second full matrix: typecheck PASS, architecture PASS, default1429/1429, build PASS, Chromium229/229, G6 75/75, strictG2 5/5 with all12 pairs PASS. Every before/after git status empty. First1397/1429 and environment-only local-server failure preserved; no skipped tests or manufactured success. No full-suite third run. Scan985f456e..ba5d5748 retains the one unchanged source-origin safety-line hit already explained; no new platform start URL or source private selector/word list/action sequence.
+
+### Test migrations / retired implementation assertions
+
+| Prior coverage | Current replacement / retained boundary |
+|---|---|
+| `named search checks only parsed result links against observed form field names, independent of source spelling` | Current receipt matrix uses an arbitrary field key; parsed-result conflicts still reject. The unchanged result-link filter and actual D8 observed links are exercised in the recorded-observation component. |
+| `named search needs a positively bound result, accepts harmless source normalization, and rejects an unsubmitted start page` | BOUND/NORMALIZED require current complete receipts. MISSING/STALE reject; merely opening a keyword URL is intentionally no longer a sufficient positive fixture. |
+| `named search binds a submitted same-origin result form, not an unrelated form with the same field` | Receipt ORIGIN/PATH/EXTRA_FIELD/REPEATED_FIELD and stale cases reject; unique native-form ownership remains enforced by unchanged Guard/Chromium tests. DETAIL cannot complete a list. Three overlapping visible-field implementation tests consolidated into one10-case receipt contract matrix. |
+| Tabelog QUERY_CONFLICT and TableCheck hydrated-old-query adapter tests | Source-I/O doubles explicitly return boundary conflict; original adapter rejection/diagnostic assertions retained. Executor/Chromium prove the conflict boundary itself. |
+| Literal `SKILL_STARTED` old search reason | Now asserts initial positive-binding absence; same one-session/actual Show-results action/AVAILABLE and post-action verification assertions retained. |
+| Supplied adapter result pages and shared application/eval/server fake sessions | Only their source-I/O evidence migrated. Fake GET receipts originate from an actually observed Mock form click and same-origin next document; no real browser receives this helper. All original identity, branch, inventory, B1, no-booking and reuse/cap assertions preserved. |
+
+### Product file scope (all generic)
+
+- `browser-task-executor.ts`: current GET receipt/URL full-multiset/query binding, parsed-detail rejection and runtime list objective; no Guard or admission modification.
+- `tablecheck-browser-availability.ts`: accepted full target first; its source label SPECIFIC_OUTLET; next existing fragment after method help, no model-failure retry; other safe material remains parsed normally. Same2-search/5-detail45s bounds.
+- `live-read-assembly.ts`, `live-browser-availability.ts`, `source-packs.ts`: carry accepted target wording only into identity-only source context and the existing TableCheck provider. Runtime-only, not persisted State; Tabelog plan unchanged.
+- `page-question-reader.ts`: a pending cache triggers existing bounded acquisition. `ModelRestaurantPageQuestion` strict completeness and citation checks unchanged.
+- G1 `native-source-facts.ts` and B's G3 files untouched in this slice; no global prompt/State/TaskDefinition/Schema/Dataset/Evaluator/Rubric version change. The replay runner only recognizes captured G1 question turns without inventing semantic/model responses.
+
+### Budget and limits
+
+Actual new external work: model attempts1 (NETWORK, no output), websiteGET0, Google0, Live0. Cumulative `{"fullLive": 23, "realModelCalls": 639, "environmentReruns": 0, "evaluationPublicGET": 347, "googleRequests": 95, "restaurantWebsiteRequests": 11220}`. Approved totals GET458/Live42/models1600; held-out18Live/108GET preserved. The remaining three nonreserved GET and one nonreserved Live are not consumed. Failed request usage/cost was not returned; do not call its billing zero. No stronger model or price claim without an actual wrong current-model step.
+
+All code/fixture gates pass, but requested real-model selection validation and complete recorded D3/D4 regression are NOT completed. Stop for review with those gaps; no next Live, main merge or held-out. Further model validation must use a new immutable result directory/input freeze and append to this same union ledger, preserving the first failure and remaining29 maximum; no automatic retry was added.

@@ -1,0 +1,150 @@
+{
+  "status": "OFFLINE_GATES_PASS_REAL_MODEL_AND_FULL_REPLAY_INCOMPLETE",
+  "atCET": "2026-11-06T16:05:55.324801+01:00",
+  "sourceSHA": "ba5d5748ac4ee7a4755a1e96fca1e5673b8c3dbe",
+  "srcTreeSHA": "7a8ac07cb734a0a96bf7463e4c23dbb5922f5f24",
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "sourceSHA": "ba5d5748ac4ee7a4755a1e96fca1e5673b8c3dbe",
+      "startedAtCET": "2026-11-06T15:54:31.539617+01:00",
+      "elapsedMs": 568.957333,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "arch",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "sourceSHA": "ba5d5748ac4ee7a4755a1e96fca1e5673b8c3dbe",
+      "startedAtCET": "2026-11-06T15:54:32.145290+01:00",
+      "elapsedMs": 228.77799999999993,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {},
+      "sourceSHA": "ba5d5748ac4ee7a4755a1e96fca1e5673b8c3dbe",
+      "startedAtCET": "2026-11-06T15:54:32.410764+01:00",
+      "elapsedMs": 52230.584542,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "sourceSHA": "ba5d5748ac4ee7a4755a1e96fca1e5673b8c3dbe",
+      "startedAtCET": "2026-11-06T15:55:24.678934+01:00",
+      "elapsedMs": 552.663165999995,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "browser-and-g6",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "sourceSHA": "ba5d5748ac4ee7a4755a1e96fca1e5673b8c3dbe",
+      "startedAtCET": "2026-11-06T15:55:25.269057+01:00",
+      "elapsedMs": 144492.206417,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "sourceSHA": "ba5d5748ac4ee7a4755a1e96fca1e5673b8c3dbe",
+      "startedAtCET": "2026-11-06T15:57:49.799236+01:00",
+      "elapsedMs": 24556.534374999985,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ],
+  "counts": {
+    "default": 1429,
+    "chromium": 229,
+    "g6": 75,
+    "strictG2Tests": 5,
+    "strictG2Pairs": 12
+  },
+  "modeledCalls": {
+    "attempted": 1,
+    "withOutput": 0,
+    "networkFailure": 1,
+    "unattemptedFirstPhase": 11,
+    "approvedMaximum": 30,
+    "remainingAuthorized": 29
+  },
+  "externalDelta": {
+    "realModelCalls": 1,
+    "websiteGET": 0,
+    "Google": 0,
+    "Live": 0
+  },
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 639,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 347,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11220
+  },
+  "globalApproved": {
+    "evaluationPublicGET": 458,
+    "fullLive": 42,
+    "realModelCalls": 1600
+  },
+  "heldOutReserved": {
+    "fullLive": 18,
+    "evaluationPublicGET": 108
+  },
+  "hardcodedScan": {
+    "baseline": "985f456e",
+    "head": "ba5d5748ac4ee7a4755a1e96fca1e5673b8c3dbe",
+    "hits": 1,
+    "classification": "unchanged source allowedOrigins safety-scope string on a line modified only to pass querySource"
+  },
+  "pending": [
+    "Actual-model choices and stronger comparison were not evaluated after the single NETWORK failure.",
+    "Original D3/D4 whole replays stop on missing qualified pages/responses/original outputs; no synthesis.",
+    "Exact historical D4 cache settlement was not serialized; generic pending-cache failure red/green does not uniquely prove that historical field.",
+    "D4 supplemental identity/quote evaluation remains NOT_EVALUATED; original assessment immutable.",
+    "No new D8 Live, merge or held-out."
+  ]
+}
