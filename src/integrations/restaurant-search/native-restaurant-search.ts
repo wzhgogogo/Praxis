@@ -88,11 +88,27 @@ function retainedPendingEntries(
   });
 }
 
-export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, _controls: readonly BrowserPageControl[], _expression: string, locationName: string) {
+export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, _controls: readonly BrowserPageControl[], _expression: string,
+  location: { label: string; addressComponents?: Array<{ longText: string; shortText?: string }> } | undefined) {
   const listing = pack.parseListing(current), empty = pack.browser!.isExplicitEmptyListing(current);
-  const words = (text: string) => [...new Intl.Segmenter(undefined, { granularity: "word" }).segment(normalizedTextKey(text))].filter(segment => segment.isWordLike).map(segment => segment.segment);
-  const required = words(locationName), observed = words(current.text);
-  const locationBound = !locationName || required.length > 0 && observed.some((_, offset) => required.every((word, index) => observed[offset + index] === word));
+  const words = (text: string) => [...new Intl.Segmenter(undefined, { granularity: "word" }).segment(normalizedTextKey(text.normalize("NFKD").replace(/\p{M}/gu, "")))].filter(segment => segment.isWordLike).map(segment => segment.segment);
+  const base = location ? words(location.label).join("") : "";
+  const names = new Set(base ? [base] : []);
+  // A component belongs to this place's name only when one of its own names
+  // corresponds to the resolved display name. Do not accept its parent city or
+  // country merely because it occurs in the same address response.
+  for (const component of location?.addressComponents ?? []) {
+    const aliases = [component.longText, component.shortText].filter((value): value is string => Boolean(value)).map(value => words(value).join(""));
+    if (aliases.includes(base)) for (const alias of aliases) if (alias) names.add(alias);
+  }
+  const observed = words(current.text);
+  const locationBound = !location || [...names].some(name => observed.some((_, start) => {
+    let joined = "";
+    for (let end = start; end < observed.length && joined.length < name.length; end++) {
+      joined += observed[end]; if (joined === name) return true;
+    }
+    return false;
+  }));
   return { complete: locationBound && (listing.outlets.length > 0 || empty), resultBusy: pack.browser!.resultBusy(current),
     reason: locationBound ? "Read stable source-owned public results for the requested location." : "Requested location is not confirmed in visible result text; an input value does not establish location.",
     resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
@@ -234,6 +250,11 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const candidateFailures: Array<{ sourceUrl: string; reasonCode: string }> = [];
     const listings: NonNullable<NonNullable<RestaurantSearchRead["metadata"]["nativeDiscoveryFunnel"]>["listingObservations"]> = [];
     const visited = [...(previous?.visitedListingUrls ?? [])];
+    const submittedOwners = new Set<string>();
+    // Continuation entries are retained only after this intent's source list
+    // completed. Fresh source reads must establish their own query transition.
+    let queriedThisRead = visited.length > 0, modelActionObserved = false;
+    let initialDocument: string | undefined, initialFormReceipts: number | undefined;
     const retrieval = structuredClone(previous?.retrieval ?? { rewrites: 0, regionPages: 0, retrievalPages: 0, history: [] });
     let pages = 0, detailAttempts = 0, raw = 0, parsed = 0, locatedListing = false;
     let nextNavigation: { detail: boolean; url?: string } | undefined;
@@ -265,6 +286,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       ...(this.discoveryDecision ? {modelDecision:this.discoveryDecision} : {}),
       ...(this.browserBudget ? {budget:this.browserBudget} : {}),
       onDiagnostic: diagnostic => {
+        if (diagnostic.event === "MODEL_ACTION") modelActionObserved = true;
         if (diagnostic.event === "OPERATION_STARTED" && ["NAVIGATE","OPEN_LINK","SUBMIT_PUBLIC_QUERY"].includes(diagnostic.detail ?? "") && !detailNavigation) {
           if ((previous?.pagesRead ?? 0)+pages >= NATIVE_LISTING_PAGE_CAP[source] || (!paginationNavigation&&(locatedListing ? retrieval.retrievalPages>=3 : retrieval.regionPages>=4))) throw Object.assign(Error("Source page ceiling reached"),{code:"READ_BUDGET_EXCEEDED"});
           pages++; if(!paginationNavigation){if(locatedListing)retrieval.retrievalPages++;else retrieval.regionPages++;}
@@ -291,11 +313,19 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             ...(pack.skillPath?{sourceSkillPath:pack.skillPath}:{}),requireModelConfirmation:true,
             goal:{outlet:{name:request.intent.target?.query??""},location:{...location,name:location.label},...(expression?{retrievalExpression:expression,retrievalSource:"CUISINE" as const}:{}),hardCriteria:request.intent.criteria.filter(c=>c.polarity==="POSITIVE"&&c.strength==="HARD").map(c=>c.text)},
             objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list visibly confirms that location and is relevant. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
+            onQuerySubmitted: owner => { submittedOwners.add(owner); },
             completion:(page,controls)=>{
+              const document = new URL(page.url); document.hash = "";
+              initialDocument ??= document.href;
+              const receipts = (page.networkRequests ?? []).filter(request => request.outcome === "ADMITTED" && request.method === "GET"
+                && request.resourceType === "document" && request.formSubmission && pack.documentOrigins.includes(request.formSubmission.actionOrigin)).length;
+              initialFormReceipts ??= receipts;
+              queriedThisRead ||= modelActionObserved && document.href !== initialDocument || submittedOwners.size > 0 && receipts > initialFormReceipts;
               raw=Math.max(raw,rawSourceLinks(page,pack));
               const current=pack.parseListing(page);
               if(current.outlets.length)locatedListing=true;
-              return sourceListingCompletion(pack,page,controls,expression??"",location.areaMatchBasis === "NAMED_PLACE_RADIUS" ? location.label : "");
+              const assessment = sourceListingCompletion(pack,page,controls,expression??"",location.areaMatchBasis === "NAMED_PLACE_RADIUS" ? location : undefined);
+              return queriedThisRead ? assessment : { ...assessment, complete: false, reason: "No current guarded form submission or model-driven document departure; homepage cards and suggestions are not search results." };
             },
           });
           if(result.status!=="COMPLETED"){throw Object.assign(Error("No confirmed current source list"),{code:pack.parseListing(result.snapshot).outlets.length?"DISCOVERY_SOURCE_LOCATION_UNGROUNDED":"DISCOVERY_SOURCE_INCOMPLETE"});}

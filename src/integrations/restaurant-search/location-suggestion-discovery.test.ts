@@ -30,3 +30,9 @@ for(const mode of ["LINK","SCRIPT","NONE","AMBIGUOUS","OUTSIDE","MERCHANT_ONLY"]
   }finally{await f.close();}
  });
 }
+
+for(const mode of ["HOME_CARDS","INERT_SUBMIT"] as const)test(`native discovery must query before completing homepage recommendations: ${mode}`,{timeout:60_000},async()=>{
+ const f=await locationSuggestionAssembly(mode);
+ try{const read=await f.search();assert.equal(read.candidates.length,0,"Typed suggestion/footer name and homepage cards are not submitted search results");assert.ok(f.actions.some(action=>action.operation==='fill'));}
+ finally{await f.close();}
+});

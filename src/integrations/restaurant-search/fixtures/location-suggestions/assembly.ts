@@ -11,7 +11,7 @@ import type {RestaurantSearchIntent} from "../../../../domains/restaurant/contra
 import type {ModelGateway,ModelRequest} from "../../../../core/model/contracts.js";
 import {replayHarPages} from "../../../../harness/browser/browser-read-test-fixtures.js";
 
-export type Mode="LINK"|"SCRIPT"|"NONE"|"AMBIGUOUS"|"OUTSIDE"|"MERCHANT_ONLY";
+export type Mode="LINK"|"SCRIPT"|"NONE"|"AMBIGUOUS"|"OUTSIDE"|"MERCHANT_ONLY"|"HOME_CARDS"|"INERT_SUBMIT";
 export async function locationSuggestionAssembly(mode:Mode){
   const saved=JSON.parse(await readFile(new URL("./d4-menu.json",import.meta.url),"utf8"));
   const origin="https://tabelog.com",home=origin+"/en/",root=origin+"/en/tokyo/rstLst/",menu=origin+"/en/tokyo/";
@@ -22,7 +22,7 @@ export async function locationSuggestionAssembly(mode:Mode){
   const locationChoices=mode==="NONE"||mode==="MERCHANT_ONLY"?[]:[{name:station,href:result},...(mode==="AMBIGUOUS"?[{name:"Akabane Station (Tokyo)",href:origin+"/en/tokyo/R99999/rstLst/"}]:[])];
   const locationHtml=locationChoices.map(c=>mode==="SCRIPT"?`<a href="${home}#">${c.name}</a>`:`<a href="${c.href}">${c.name}</a>`).join("");
   const suggestions=`<section role="group" aria-label="Locations">${locationHtml}<a href="${origin}/en/aichi/R88888/rstLst/">Michi no Eki Akabane Roko Station [Aichi]</a></section><section role="group" aria-label="Restaurants"><a href="${origin}/en/tokyo/A1323/A132305/13999999/">Akabane</a><a href="${origin}/en/tokyo/A1323/A132305/13999998/">Akabane Sta. (Tokyo)</a></section>`;
-  const homeHtml=`<title>Tabelog public search</title><a href="${menu}">Tokyo</a><form aria-label="Public restaurant search" method="GET" action="${origin}/en/tokyo/A1323/A132305/rstLst/"><label>Area / Station<input role="combobox" aria-label="Area / Station" type="search" name="location" aria-expanded="false" aria-controls="choices"></label><input type="hidden" name="sw" value="kushikatsu"><div id="choices" role="listbox" aria-label="Search suggestions"></div><button type="button" onclick="this.form.requestSubmit()">Search</button></form><script>
+  const homeHtml=`<title>Tabelog public search</title><a href="${menu}">Tokyo</a><form aria-label="Public restaurant search" method="GET" action="${origin}/en/tokyo/A1323/A132305/rstLst/"><label>Area / Station<input role="combobox" aria-label="Area / Station" type="search" name="location" aria-expanded="false" aria-controls="choices"></label><input type="hidden" name="sw" value="kushikatsu"><div id="choices" role="listbox" aria-label="Search suggestions"></div><button type="button" onclick="${mode==='INERT_SUBMIT'?'void 0':'this.form.requestSubmit()'}">Search</button></form><script>
     const field=document.querySelector('input[type=search]'),list=document.getElementById('choices');
     field.addEventListener('input',()=>{field.setAttribute('aria-expanded','true');setTimeout(()=>{list.innerHTML=${JSON.stringify(suggestions)};for(const option of list.querySelectorAll('a'))if(option.getAttribute('href')===${JSON.stringify(home+'#')})option.addEventListener('click',e=>{e.preventDefault();const tag=document.createElement('span');tag.textContent=option.textContent;field.before(tag);field.setAttribute('aria-expanded','false');list.hidden=true;});},80);});
   </script>`;
@@ -34,6 +34,7 @@ export async function locationSuggestionAssembly(mode:Mode){
     pages[url]=`<title>Controlled restaurant ${i}</title><script type="application/ld+json">${JSON.stringify({"@type":"Restaurant",name:"Controlled restaurant "+i,address:"東京都北区赤羽1-1-1",geo:{latitude:point.latitude,longitude:point.longitude}})}</script><h1>Controlled restaurant ${i}</h1><address>東京都北区赤羽1-1-1</address>`;
   }
   const list=urls.map((url,i)=>`<a class="list-rst__rst-name-target" href="${url}">Controlled restaurant ${i}</a>`).join("");
+  if(mode==="HOME_CARDS"||mode==="INERT_SUBMIT")pages[home]=homeHtml+"<h1>Recommendations</h1>"+list+"<footer>Other places: Akabane</footer>";
   pages[result]="<h1>Restaurants in Akabane</h1>"+list;pages[optionResult]="<h1>Restaurants in Akabane</h1>"+list;
   const wrongLinks=[];
   for(let i=0;i<5;i++){
@@ -58,6 +59,11 @@ export async function locationSuggestionAssembly(mode:Mode){
       const field=targets.find((t:{label:string})=>t.label==="Area / Station");
       const wire=(action:string,targetRef="",authoritativeField="NONE")=>({action,targetRef,authoritativeField,requestedState:"NONE",reason:"Constructed model chooses only current observed targets"});
       if(field&&field.value!=="Akabane")body=wire("FILL_AUTHORITATIVE",field.ref,"LOCATION");
+      else if(context.observation.url===home&&(mode==='HOME_CARDS'||mode==='INERT_SUBMIT')){
+        const clicked=context.history.some((step:{action:string})=>step.action==='CLICK');
+        const submit=targets.find((t:{label:string})=>t.label==='Search');
+        body=mode==='INERT_SUBMIT'&&!clicked?wire('CLICK',submit.ref):wire('COMPLETE');
+      }
       else if(context.observation.url===home){
         const choices=targets.filter((t:{label:string;controlGroupLabel?:string})=>["Akabane Sta. (Tokyo)","Akabane Station (Tokyo)"].includes(t.label)&&t.controlGroupLabel==="Locations");
         if(context.observation.visibleText.includes(station)&&!choices.length&&mode==="SCRIPT"){

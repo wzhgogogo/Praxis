@@ -327,6 +327,9 @@ export function sourcePages(
       return page(url, `<script type="application/ld+json">${JSON.stringify({ "@type": "Restaurant", name: "Native Tabelog 100", address: "Shibuya 100, Tokyo" })}</script><link rel="canonical" href="/tokyo/A1304/A130401/100/"><h1>Native Tabelog 100</h1><p class="rstinfo-table__address">Shibuya 100, Tokyo</p><main>Omakase course</main>`, "Native Tabelog 100\nShibuya 100, Tokyo\nOmakase course");
     }
     if (parsed.hostname === "www.tablecheck.com" && parsed.pathname === "/en/japan/search") {
+      // Mock source entrance now requires an observed model-driven document
+      // transition; its homepage recommendations alone cannot certify a query.
+      if (!parsed.search) return page(url, '<a href="/en/japan/search?service_mode=dining&amp;sort_by=distance&amp;venue_type=restaurant&amp;geo_latitude=35.6619707&amp;geo_longitude=139.703795&amp;geo_distance=1000&amp;auto_geolocate=false">Restaurants in Shibuya</a>', "Public venue search entrance", "TableCheck search");
       if (scenario === "TABLECHECK_UNPARSED") return page(url, '<a href="/en/search">Search</a>', "Search results loading", "TableCheck search");
       if (scenario === "TABLECHECK_DISCOVERY_RECOVERS") {
         const queryFromSourceUrl = parsed.searchParams.get("search_text")?.trim() ?? "";
