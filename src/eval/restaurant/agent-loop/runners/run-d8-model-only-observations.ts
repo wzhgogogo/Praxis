@@ -7,6 +7,7 @@ import {createHash} from "node:crypto";
 import {DeepSeekModelGateway} from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
 import {buildBrowserReadDecisionSystemPrompt,BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA} from "../../../../infrastructure/browser/browser-action-decision.js";
 import {chargeG6} from "../g6/budget.js";
+import {ModelGatewayError} from "../../../../core/model/errors.js";
 import type {ModelRequest} from "../../../../core/model/contracts.js";
 
 const [rootArg,expectedSHA]=process.argv.slice(2);assert.ok(rootArg&&expectedSHA);
@@ -40,12 +41,13 @@ outer:for(const sample of spec.samples)for(let repeat=1;repeat<=spec.repeats;rep
   messages:row.messages.map((m:any)=>m.role==="system"?{...m,content:buildBrowserReadDecisionSystemPrompt()}:m.role==="user"?{...m,content:JSON.stringify(context)}:m),
   outputSchema:{...row.outputSchema,jsonSchema:BROWSER_ACTION_DECISION_STRICT_WIRE_JSON_SCHEMA},responseFormat:row.responseFormat,
   timeoutMs:row.timeoutMs,maxOutputTokens:row.maxOutputTokens,temperature:row.temperature,thinking:row.thinking,fallback:"FAIL_CLOSED"};
+ const startedAt=Date.now();
  let response:any,error:any,action:any,pass=false;
  try{response=await model.complete(request);action=JSON.parse(response.outputText);const target=context.observation.targets.find((t:any)=>t.ref===action.targetRef);
   const permitted=!action.targetRef||target?.availableActions?.includes(action.action+(action.action==="FILL_AUTHORITATIVE"?":"+action.authoritativeField:""));
   pass=sample.expected.includes(action.action)&&Boolean(permitted);
- }catch(e){error={name:e instanceof Error?e.name:"Error",code:(e as {code?:string}).code};}
- const result:Record<string,unknown>={sourceSHA:expectedSHA,sequence:sample.sequence,repeat,observationSHA,observationUnchanged:true,expected:sample.expected,pass,request,response,error,action};
+ }catch(e){error={name:e instanceof Error?e.name:"Error",code:(e as {code?:string}).code,...(e instanceof ModelGatewayError?{providerStatus:e.providerStatus,providerError:e.providerError}:{})};}
+ const result:Record<string,unknown>={elapsedMs:Date.now()-startedAt,sourceSHA:expectedSHA,sequence:sample.sequence,repeat,observationSHA,observationUnchanged:true,expected:sample.expected,pass,request,response,error,action};
  const bytes:string=JSON.stringify(result,null,2)+"\n";assert.equal(bytes.includes(process.env.DEEPSEEK_API_KEY!),false);
  await writeFile(join(resultDirectory,`${sample.sequence}-${repeat}.json`),bytes,{flag:"wx"});
  results.push({sequence:sample.sequence,repeat,pass,action:action?.action,error});console.log(JSON.stringify(results.at(-1)));
