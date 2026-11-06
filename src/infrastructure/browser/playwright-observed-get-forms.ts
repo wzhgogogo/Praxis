@@ -1,7 +1,19 @@
 import { createHash } from "node:crypto";
+import { channel } from "node:diagnostics_channel";
 import type { ElementHandle, JSHandle, Page } from "playwright-core";
 
 import type { BrowserPublicInputSource } from "./browser-runtime.js";
+
+/** Optional diagnostics contain timings only, never form keys or values. */
+const formEvidence = channel("praxis.browser.form-evidence");
+let traceSequence = 0;
+export async function traceFormEvidence<T>(stage: string, operation: () => Promise<T>): Promise<T> {
+  const id = ++traceSequence, started = performance.now();
+  const emit = (phase: string) => { try { formEvidence.publish({ id, stage, phase, monotonicMs: performance.now(), elapsedMs: performance.now() - started }); } catch { /* A diagnostic consumer cannot change admission. */ } };
+  emit("START");
+  try { const result = await operation(); emit("END"); return result; }
+  catch (error) { emit("ERROR"); throw error; }
+}
 
 export interface ObservedGetFormSubmission {
   documentOrigin: string;
@@ -38,7 +50,14 @@ export class PlaywrightObservedGetForms {
 
   async observe(page: Page): Promise<void> {
     const previous = this.documents.get(page);
-    const forms = await page.$$("form") as ElementHandle<HTMLFormElement>[];
+    // Keep every form-evidence handle in the document's main execution context.
+    // Resolve all handle ownership before any action so the later atomic read
+    // needs no additional cross-context element resolution.
+    const list = await page.evaluateHandle(() => [...document.forms]);
+    const forms = [...(await list.getProperties()).values()].flatMap(value => {
+      const element = value.asElement(); return element ? [element as ElementHandle<HTMLFormElement>] : [];
+    });
+    await list.dispose();
     const sameDocument = previous && await previous.document.evaluate(node => node === document).catch(() => false);
     const documentHandle = sameDocument ? previous.document : await page.evaluateHandle(() => document);
     const inputEvents = sameDocument ? previous.inputEvents : await page.evaluateHandle(() => {
@@ -71,11 +90,15 @@ export class PlaywrightObservedGetForms {
     const previous = this.insertions.get(page) ?? [];
     // Keep the handle until the document changes; the registry's next
     // observation disposes its own refs, so take an independent handle.
-    const retained = await element.evaluateHandle(node => node) as ElementHandle;
+    const retained = await page.evaluateHandle(node => node, element) as ElementHandle;
     this.insertions.set(page, [...previous, { element: retained, value, source }]);
   }
 
-  beforeClick(page: Page, element: ElementHandle): void { this.submitters.set(page, element); }
+  async beforeClick(page: Page, element: ElementHandle): Promise<void> {
+    const retained = await page.evaluateHandle(node => node, element) as ElementHandle;
+    await this.submitters.get(page)?.dispose().catch(() => {});
+    this.submitters.set(page, retained);
+  }
 
   /** Chromium reports a new-window form navigation as windowOpen, without a
    * frameRequestedNavigation reason. Inspect native form ownership/target;
@@ -100,44 +123,43 @@ export class PlaywrightObservedGetForms {
 
   async submission(page: Page, requested: URL): Promise<ObservedGetFormSubmission | undefined> {
     const observed = this.documents.get(page);
-    if (!observed || page.url() !== observed.url || requested.origin !== new URL(observed.url).origin
-      || !await observed.document.evaluate(node => node === document).catch(() => false)) return undefined;
+    if (!observed || page.url() !== observed.url || requested.origin !== new URL(observed.url).origin) return undefined;
+    // Read one atomic document snapshot. After Chromium schedules navigation,
+    // a second Runtime.callFunctionOn may wait for that paused navigation. Never
+    // require another browser evaluation to authorize the waiting request.
+    const snapshot = await traceFormEvidence("SUBMISSION_SNAPSHOT", () => observed.document.evaluate((current, input) => {
+      if (current !== document) return [];
+      return input.forms.flatMap(owner => {
+        if (!owner.isConnected || owner.ownerDocument !== document
+          || input.events.some(event => event.node.form === owner && !event.approved)) return [];
+        const actualButton = input.submitter instanceof HTMLButtonElement || input.submitter instanceof HTMLInputElement ? input.submitter : undefined;
+        const button = actualButton?.form === owner ? actualButton : undefined;
+        const method = button?.hasAttribute("formmethod") ? button.formMethod : owner.method;
+        const action = button?.hasAttribute("formaction") ? button.formAction : owner.action;
+        if (method.toLowerCase() !== "get") return [];
+        const entries = [...(button && button.type === "submit" ? new FormData(owner, button) : new FormData(owner)).entries()];
+        if (entries.some(([, value]) => typeof value !== "string")) return [];
+        const inserted = input.insertions.flatMap(entry => {
+          const node = entry.element;
+          return (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) && node.isConnected
+            && node.form === owner && node.value === entry.value ? [{ key: node.name, value: node.value, source: entry.source }] : [];
+        });
+        return [{ action, entries: entries as Array<[string, string]>, inserted }];
+      });
+    }, { forms: observed.forms, events: observed.inputEvents, submitter: this.submitters.get(page), insertions: this.insertions.get(page) ?? [] })).catch(() => []);
     const matches: ObservedGetFormSubmission[] = [];
-    for (const form of observed.forms) {
-      if (await observed.inputEvents.evaluate((events, owner) => events.some(event => event.node.form === owner && !event.approved), form).catch(() => true)) continue;
-      const inserted: Array<{ key: string; value: string; source: BrowserPublicInputSource }> = [];
-      for (const entry of this.insertions.get(page) ?? []) {
-        const own = await entry.element.evaluate((node, owner) => {
-          if (!(node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) || !node.isConnected || node.form !== owner) return undefined;
-          return { key: node.name, value: node.value };
-        }, form).catch(() => undefined);
-        if (own && own.value === entry.value) inserted.push({ ...own, source: entry.source });
-      }
-      const submitter = this.submitters.get(page);
-      const facts = await form.evaluate((owner, button) => {
-        if (!owner.isConnected || owner.ownerDocument !== document) return undefined;
-        const actualButton = button instanceof HTMLButtonElement || button instanceof HTMLInputElement ? button : undefined;
-        const associated = actualButton?.form === owner ? actualButton : undefined;
-        const method = associated?.hasAttribute("formmethod") ? associated.formMethod : owner.method;
-        const action = associated?.hasAttribute("formaction") ? associated.formAction : owner.action;
-        if (method.toLowerCase() !== "get") return undefined;
-        const data = associated && associated.type === "submit" ? new FormData(owner, associated) : new FormData(owner);
-        const entries = [...data.entries()];
-        if (entries.some(([, value]) => typeof value !== "string")) return undefined;
-        return { action, entries: entries as Array<[string, string]> };
-      }, submitter).catch(() => undefined);
-      if (!facts) continue;
+    for (const facts of snapshot) {
       const action = new URL(facts.action);
       if (action.origin !== requested.origin || action.pathname !== requested.pathname || action.username || action.password) continue;
-      // Native GET replaces an action's query. Compare the full multiset,
-      // including repeated keys, empty values and unlisted/extra fields.
       const normalize = (entries: Iterable<[string, string]>) => JSON.stringify([...entries].map(([key, value]) => [key.replace(/\r?\n/g, "\r\n"), value.replace(/\r?\n/g, "\r\n")]).sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b))));
       if (normalize(facts.entries) !== normalize(requested.searchParams.entries())) continue;
       matches.push({ documentOrigin: requested.origin, actionOrigin: action.origin, actionPathname: action.pathname,
         fields: facts.entries.map(([key, value]) => ({ key, valueSha256: createHash("sha256").update(value).digest("hex"),
-          source: inserted.find(entry => entry.key === key && entry.value === value)?.source ?? "PAGE" })) });
+          source: facts.inserted.find(entry => entry.key === key && entry.value === value)?.source ?? "PAGE" })) });
     }
     // Two indistinguishable observed forms cannot establish which one submitted.
-    return matches.length === 1 ? matches[0] : undefined;
+    const receipt = matches.length === 1 ? matches[0] : undefined;
+    try { formEvidence.publish({ stage: "SUBMISSION_RECEIPT", receipt: receipt ?? null, monotonicMs: performance.now() }); } catch { /* Diagnostics are not admission authority. */ }
+    return receipt;
   }
 }

@@ -165,6 +165,7 @@ export interface BrowserPageControl {
   /** Observed structure for source-owned control contracts; never a permission itself. */
   structure?: { tag: string; name: string; classes: string[]; dialogLabel: string; formClass: string; sliderCount: number; listboxId?: string; radioGroupLabel?: string; radioGroupKey?: string };
   type?: string;
+  readOnly?: boolean;
   disabled: boolean;
   visible: boolean;
   /** Only clipped by its currently open list; executor reveals before selection. */

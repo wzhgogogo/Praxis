@@ -1,0 +1,161 @@
+{
+  "mode": "COMPONENT_REAL_RECORDING_REPLAY",
+  "transport": "RECORDED_FETCH",
+  "error": {
+    "name": "AssertionError",
+    "message": "Original recorded target must uniquely match current observed public control\n\n0 !== 1\n"
+  },
+  "trace": [
+    {
+      "kind": "REQUEST_TIMELINE_READY",
+      "detail": {
+        "pageId": "capture:1:page:1",
+        "observationPoint": "BROWSER_CDP_AND_GUARD_ROUTE",
+        "at": "2026-11-06T02:11:37.691Z",
+        "monotonicMs": 464.600666
+      },
+      "at": 464.884333
+    },
+    {
+      "kind": "NAVIGATION_START",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "url": "https://tabelog.com/en/",
+        "urlSha256": "c7c19bc899ef57843cfa47ce3476da2935ed4d9638881c36ec42dce40d7eea07",
+        "method": "GOTO",
+        "remainingReadBudgetMs": null,
+        "navigationAllowanceMs": 20000,
+        "configuredTimeoutMs": 20000,
+        "timeoutSource": "EXPLICIT",
+        "waitUntil": "domcontentloaded",
+        "at": "2026-11-06T02:11:37.692Z",
+        "monotonicMs": 465.34975
+      },
+      "at": 465.571291
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "C4820F17C3B3F3B18E090F3E0E712481",
+        "frameId": "2F9B80431222F4E18C9BF22874132270",
+        "url": "https://tabelog.com/en/",
+        "urlSha256": "c7c19bc899ef57843cfa47ce3476da2935ed4d9638881c36ec42dce40d7eea07",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-06T02:11:37.694Z",
+        "startedMonotonicMs": 467.169125,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:11:37.693Z",
+        "browserTimestamp": 626078.260864,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "C4820F17C3B3F3B18E090F3E0E712481",
+        "cdpTimestamp": 626078.260864,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 467.2515
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:11:37.698Z",
+        "monotonicMs": 471.560541,
+        "cdpTimestamp": 626078.264392,
+        "browserHeadersAt": "2026-11-06T02:11:37.696Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 471.583916
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "C4820F17C3B3F3B18E090F3E0E712481",
+        "frameId": "2F9B80431222F4E18C9BF22874132270",
+        "url": "https://tabelog.com/en/",
+        "urlSha256": "c7c19bc899ef57843cfa47ce3476da2935ed4d9638881c36ec42dce40d7eea07",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-06T02:11:37.694Z",
+        "startedMonotonicMs": 467.169125,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:11:37.693Z",
+        "browserTimestamp": 626078.260864,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:11:37.702Z",
+        "endedMonotonicMs": 475.710375,
+        "elapsedMs": 8.541249999999991,
+        "browserEndedAt": "2026-11-06T02:11:37.696Z",
+        "browserElapsedMs": 3.2210000790655613,
+        "browserEndTimestamp": 626078.264085,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 475.755875
+    },
+    {
+      "kind": "NAVIGATION_END",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "startedAt": "2026-11-06T02:11:37.692Z",
+        "endedAt": "2026-11-06T02:11:37.703Z",
+        "startedMonotonicMs": 465.34975,
+        "endedMonotonicMs": 476.084708,
+        "elapsedMs": 10.734958000000006,
+        "endReason": "COMPLETED"
+      },
+      "at": 476.096583
+    },
+    {
+      "kind": "OBSERVED_CONTROLS",
+      "detail": {
+        "controls": [],
+        "target": {
+          "ref": "observation:1:target:178",
+          "formObservation": {
+            "owner": "0",
+            "visibleLines": []
+          },
+          "kind": "INPUT",
+          "role": "textbox",
+          "label": "Location, cuisine, restaurant name, etc.",
+          "controlGroupLabel": "Unlabelled group",
+          "formMethod": "GET",
+          "type": "text",
+          "availableActions": [
+            "FILL_AUTHORITATIVE:RETRIEVAL",
+            "FILL_AUTHORITATIVE:LOCATION"
+          ]
+        }
+      },
+      "at": 499.639291
+    }
+  ],
+  "fetches": [
+    {
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "found": true
+    }
+  ],
+  "misses": [],
+  "browserErrors": []
+}

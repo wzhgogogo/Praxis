@@ -6,7 +6,7 @@ import { chromium, type Browser, type BrowserContext, type Page } from "playwrig
 import type { BrowserActionOptions, BrowserReadNetworkPolicy, BrowserResponseRule, BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
-import { assertPublicReadInput } from "./playwright-observed-get-forms.js";
+import { assertPublicReadInput, traceFormEvidence } from "./playwright-observed-get-forms.js";
 import { PlaywrightResponseObserver } from "./playwright-response-observer.js";
 import { PlaywrightControlRegistry, waitForPageSettled, pageBusySelectors, interactiveState, activateObservedControl, observedLinkCovered } from "./playwright-browser-controls.js";
 
@@ -141,10 +141,10 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     await this.run(async () => {
       const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
-      if (locator) this.networkGuard?.forms.beforeClick(this.page, locator);
+      if (locator) await this.networkGuard?.forms.beforeClick(this.page, locator);
       // Only BrowserTaskExecutor passes opaque `dom:` references. Existing deterministic
       // adapter and local-fixture code keeps its explicit, code-owned locator capability.
-      if (locator) await activateObservedControl(locator, timeout);
+      if (locator) await traceFormEvidence("CLICK", () => activateObservedControl(locator, timeout));
       else await this.page.locator(target).click({ timeout });
     });
   }

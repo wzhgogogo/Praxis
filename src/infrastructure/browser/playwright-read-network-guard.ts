@@ -1,6 +1,6 @@
 import { browserTransportError, type BrowserTransportError } from "./browser-runtime-errors.js";
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
-import { PlaywrightObservedGetForms, type ObservedGetFormSubmission } from "./playwright-observed-get-forms.js";
+import { traceFormEvidence, PlaywrightObservedGetForms, type ObservedGetFormSubmission } from "./playwright-observed-get-forms.js";
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
 import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
@@ -365,7 +365,7 @@ export class PlaywrightReadNetworkGuard {
           const formNavigation = !isRedirect ? formNavigations.get(formKey) : undefined;
           formNavigations.delete(formKey);
           const inherited = !isRedirect && event.frameId === rootFrameId ? this.formAdmissions.get(page)?.get(requestKey(url.toString())) : undefined;
-          const formSubmission = formNavigation ? await formNavigation.evidence : inherited?.evidence;
+          const formSubmission = formNavigation ? await traceFormEvidence("GUARD_EVIDENCE", () => formNavigation.evidence) : inherited?.evidence;
           const formAdmitted = Boolean(formSubmission && method === "GET" && type === "document"
             && !this.prohibitedRead(url) && !this.sensitiveWorkflow(url) && !url.username && !url.password
             && (this.policy.documentOrigins.includes(url.origin) || this.policy.genericPublicRead && this.genericOrigins.has(url.origin)));

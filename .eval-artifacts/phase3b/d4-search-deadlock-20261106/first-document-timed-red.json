@@ -1,0 +1,3482 @@
+{
+  "mode": "COMPONENT_REAL_RECORDING_REPLAY",
+  "transport": "RECORDED_FETCH",
+  "originalDocument": "snapshot-0001.html",
+  "error": {
+    "name": "BrowserRuntimeError",
+    "message": "Local Playwright Chromium operation failed",
+    "cause": {
+      "log": [
+        "  - attempting click action",
+        "    - waiting for element to be visible, enabled and stable",
+        "    - element is visible, enabled and stable",
+        "    - scrolling into view if needed",
+        "    - done scrolling",
+        "    - performing click action",
+        "    - click action done",
+        "    - waiting for scheduled navigations to finish"
+      ],
+      "name": "TimeoutError"
+    }
+  },
+  "trace": [
+    {
+      "kind": "REQUEST_TIMELINE_READY",
+      "detail": {
+        "pageId": "capture:1:page:1",
+        "observationPoint": "BROWSER_CDP_AND_GUARD_ROUTE",
+        "at": "2026-11-06T02:14:22.326Z",
+        "monotonicMs": 464.488167
+      },
+      "at": 464.773625
+    },
+    {
+      "kind": "NAVIGATION_START",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "url": "https://tabelog.com/en/",
+        "urlSha256": "c7c19bc899ef57843cfa47ce3476da2935ed4d9638881c36ec42dce40d7eea07",
+        "method": "GOTO",
+        "remainingReadBudgetMs": null,
+        "navigationAllowanceMs": 20000,
+        "configuredTimeoutMs": 20000,
+        "timeoutSource": "EXPLICIT",
+        "waitUntil": "domcontentloaded",
+        "at": "2026-11-06T02:14:22.326Z",
+        "monotonicMs": 465.208042
+      },
+      "at": 465.44275
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/en/",
+        "urlSha256": "c7c19bc899ef57843cfa47ce3476da2935ed4d9638881c36ec42dce40d7eea07",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-06T02:14:22.334Z",
+        "startedMonotonicMs": 472.51325,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.333Z",
+        "browserTimestamp": 626242.901892,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "cdpTimestamp": 626242.901892,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 472.667584
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.341Z",
+        "monotonicMs": 479.64575,
+        "cdpTimestamp": 626242.908065,
+        "browserHeadersAt": "2026-11-06T02:14:22.339Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 479.678834
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+        "urlSha256": "fe3120d3d850fe7d7831fc53f0bd0f3aa3ccce0c782fcc00e86d29a31d3f0864",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.451584,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910522,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.2",
+        "cdpTimestamp": 626242.910522,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.504959
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+        "urlSha256": "2188c44f61afffe26bb2b8a4276c0a3aa887e7e917f84a0527b2fc5d3e2c9ed7",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.511584,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910614,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.3",
+        "cdpTimestamp": 626242.910614,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.536542
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:4",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+        "urlSha256": "5855877381c48aa38c62f4034fdec6c2bc7ef1228185531bee0ef0b6e2878b99",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.541542,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910635,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.4",
+        "cdpTimestamp": 626242.910635,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.563834
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:5",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+        "urlSha256": "4a4a01bb3ad643217d6b014e42e0038d0f195206b7d1df1553cbbe1abec9ae82",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.56975,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910662,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.5",
+        "cdpTimestamp": 626242.910662,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.591417
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:6",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+        "urlSha256": "ff509739f7545dead5f8fb9c3ddfd22464940cf4f0b2202a9574abee55aa7015",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.595875,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910686,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.6",
+        "cdpTimestamp": 626242.910686,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.616375
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:7",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+        "urlSha256": "fd2d2eefda119d4561e4ae4677ffd0f42defee4b153789e286928125d8b85cd0",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.62375,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910704,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.7",
+        "cdpTimestamp": 626242.910704,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.650667
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:8",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+        "urlSha256": "0cfb5e752ee81bc7596656539444bb55c72b8c798c395b5a41775b0f8e416160",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.656459,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910727,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.8",
+        "cdpTimestamp": 626242.910727,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.689209
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:9",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+        "urlSha256": "cc3bb595b3966a73a7e377e809e87431a45f29fa34f41ecdf3b0b7dafc111cf1",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.693875,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910755,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.9",
+        "cdpTimestamp": 626242.910755,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.716
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:10",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "15c0cef14184310093e7be11069527a56092d5640060141cbeb312cfb9778e27",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.722584,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910777,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.10",
+        "cdpTimestamp": 626242.910777,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.746625
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:11",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+        "urlSha256": "70004e9cb9dd8f101d774ec4ca2997324024fe1bcdba6e6f8543b94d779da8ed",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.753292,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910795,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.11",
+        "cdpTimestamp": 626242.910795,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.772667
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:12",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+        "urlSha256": "d19ccc02a9fa6b44100c5db4b25e21d33f9a13573df1ee0d2d0fe1f1f7967bcb",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.785542,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910808,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.12",
+        "cdpTimestamp": 626242.910808,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.809667
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:13",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_washoku_re1.jpg",
+        "urlSha256": "047b07d76a5dfefc0873ac8565c0e98134670aa12128b0d3f639aae898e06502",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.815292,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910829,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.13",
+        "cdpTimestamp": 626242.910829,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.835875
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:14",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_sushi_re1.jpg",
+        "urlSha256": "e285f2a8706eb745b7a99410eb67ee34971e69db6f0ab672daed67ad1954b63e",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.839834,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910847,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.14",
+        "cdpTimestamp": 626242.910847,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.856084
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:15",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_yakiniku_re1.jpg",
+        "urlSha256": "dec058f6542833b5b111e1e3be771341e8ef8634d7586c18da3ca141b5032eee",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.859542,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910861,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.15",
+        "cdpTimestamp": 626242.910861,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.875084
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:16",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_izakaya_re1.jpg",
+        "urlSha256": "dc5c0ca5baeeefce45b65f0b19897d611d9c6b439608a734dfc593260323df70",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.8785,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910876,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.16",
+        "cdpTimestamp": 626242.910876,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.893834
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:17",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_ramen_re1.jpg",
+        "urlSha256": "376cda41b251544eddc53fd7017107f98d26edc106b0448bcc91283c40921d02",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.897167,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910892,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.17",
+        "cdpTimestamp": 626242.910892,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.912125
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:18",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_cafe_re1.jpg",
+        "urlSha256": "15e5b1bd8dcc0456344ada07bad76d049185829d0ff6eea0a722eda6bb3d7729",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.916667,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910909,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.18",
+        "cdpTimestamp": 626242.910909,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.931375
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:19",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/javascripts/s_code.js",
+        "urlSha256": "b925608a3c3f084f52d00330e44827d589ba37e69bf3ae24fa2c16b9a59c3acf",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.934667,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910925,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.19",
+        "cdpTimestamp": 626242.910925,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 488.949917
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/en/",
+        "urlSha256": "c7c19bc899ef57843cfa47ce3476da2935ed4d9638881c36ec42dce40d7eea07",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-06T02:14:22.334Z",
+        "startedMonotonicMs": 472.51325,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.333Z",
+        "browserTimestamp": 626242.901892,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.350Z",
+        "endedMonotonicMs": 489.065584,
+        "elapsedMs": 16.552333999999973,
+        "browserEndedAt": "2026-11-06T02:14:22.338Z",
+        "browserElapsedMs": 5.808999994769692,
+        "browserEndTimestamp": 626242.907701,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 489.089792
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:13",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_washoku_re1.jpg",
+        "urlSha256": "047b07d76a5dfefc0873ac8565c0e98134670aa12128b0d3f639aae898e06502",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.815292,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910829,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.359Z",
+        "endedMonotonicMs": 497.8585,
+        "elapsedMs": 9.043207999999993,
+        "browserEndedAt": "2026-11-06T02:14:22.345Z",
+        "browserElapsedMs": 3.385000047273934,
+        "browserEndTimestamp": 626242.914214,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 497.885542
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:14",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_sushi_re1.jpg",
+        "urlSha256": "e285f2a8706eb745b7a99410eb67ee34971e69db6f0ab672daed67ad1954b63e",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.839834,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910847,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.359Z",
+        "endedMonotonicMs": 497.905875,
+        "elapsedMs": 9.066040999999984,
+        "browserEndedAt": "2026-11-06T02:14:22.345Z",
+        "browserElapsedMs": 3.4100000048056245,
+        "browserEndTimestamp": 626242.914257,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 497.924584
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:15",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_yakiniku_re1.jpg",
+        "urlSha256": "dec058f6542833b5b111e1e3be771341e8ef8634d7586c18da3ca141b5032eee",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.859542,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910861,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.386Z",
+        "endedMonotonicMs": 524.901875,
+        "elapsedMs": 36.04233300000004,
+        "browserEndedAt": "2026-11-06T02:14:22.383Z",
+        "browserElapsedMs": 41.62999999243766,
+        "browserEndTimestamp": 626242.952491,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 525.002584
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:16",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_izakaya_re1.jpg",
+        "urlSha256": "dc5c0ca5baeeefce45b65f0b19897d611d9c6b439608a734dfc593260323df70",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.8785,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910876,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.386Z",
+        "endedMonotonicMs": 525.089625,
+        "elapsedMs": 36.21112499999998,
+        "browserEndedAt": "2026-11-06T02:14:22.383Z",
+        "browserElapsedMs": 41.65800008922815,
+        "browserEndTimestamp": 626242.952534,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 525.112917
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.386Z",
+        "monotonicMs": 525.161334,
+        "cdpTimestamp": 626242.952618,
+        "browserHeadersAt": "2026-11-06T02:14:22.384Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 525.178334
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.386Z",
+        "monotonicMs": 525.2045,
+        "cdpTimestamp": 626242.952796,
+        "browserHeadersAt": "2026-11-06T02:14:22.384Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 525.2115
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:4",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.386Z",
+        "monotonicMs": 525.231959,
+        "cdpTimestamp": 626242.952845,
+        "browserHeadersAt": "2026-11-06T02:14:22.384Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 525.237084
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:5",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.387Z",
+        "monotonicMs": 525.68875,
+        "cdpTimestamp": 626242.952963,
+        "browserHeadersAt": "2026-11-06T02:14:22.384Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 525.694834
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:6",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.387Z",
+        "monotonicMs": 525.72225,
+        "cdpTimestamp": 626242.953156,
+        "browserHeadersAt": "2026-11-06T02:14:22.384Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 525.726625
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:7",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.387Z",
+        "monotonicMs": 525.745542,
+        "cdpTimestamp": 626242.953197,
+        "browserHeadersAt": "2026-11-06T02:14:22.384Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 525.749417
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:8",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.387Z",
+        "monotonicMs": 525.771375,
+        "cdpTimestamp": 626242.953234,
+        "browserHeadersAt": "2026-11-06T02:14:22.384Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 525.776125
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:11",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.387Z",
+        "monotonicMs": 525.79575,
+        "cdpTimestamp": 626242.95328,
+        "browserHeadersAt": "2026-11-06T02:14:22.384Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 525.799292
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+        "urlSha256": "fe3120d3d850fe7d7831fc53f0bd0f3aa3ccce0c782fcc00e86d29a31d3f0864",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.451584,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910522,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.391Z",
+        "endedMonotonicMs": 529.477625,
+        "elapsedMs": 41.026040999999964,
+        "browserEndedAt": "2026-11-06T02:14:22.372Z",
+        "browserElapsedMs": 30.937999952584505,
+        "browserEndTimestamp": 626242.94146,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 529.504625
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:3",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+        "urlSha256": "2188c44f61afffe26bb2b8a4276c0a3aa887e7e917f84a0527b2fc5d3e2c9ed7",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.511584,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910614,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.391Z",
+        "endedMonotonicMs": 529.562417,
+        "elapsedMs": 41.050832999999955,
+        "browserEndedAt": "2026-11-06T02:14:22.373Z",
+        "browserElapsedMs": 31.54899994842708,
+        "browserEndTimestamp": 626242.942163,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 529.576625
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:4",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+        "urlSha256": "5855877381c48aa38c62f4034fdec6c2bc7ef1228185531bee0ef0b6e2878b99",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.541542,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910635,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.392Z",
+        "endedMonotonicMs": 530.423125,
+        "elapsedMs": 41.881583000000035,
+        "browserEndedAt": "2026-11-06T02:14:22.374Z",
+        "browserElapsedMs": 32.41300000809133,
+        "browserEndTimestamp": 626242.943048,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 530.4365
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:5",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+        "urlSha256": "4a4a01bb3ad643217d6b014e42e0038d0f195206b7d1df1553cbbe1abec9ae82",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.56975,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910662,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.392Z",
+        "endedMonotonicMs": 530.456375,
+        "elapsedMs": 41.88662499999998,
+        "browserEndedAt": "2026-11-06T02:14:22.374Z",
+        "browserElapsedMs": 32.47400000691414,
+        "browserEndTimestamp": 626242.943136,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 530.469375
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:6",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+        "urlSha256": "ff509739f7545dead5f8fb9c3ddfd22464940cf4f0b2202a9574abee55aa7015",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.595875,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910686,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.392Z",
+        "endedMonotonicMs": 530.80325,
+        "elapsedMs": 42.20737500000007,
+        "browserEndedAt": "2026-11-06T02:14:22.374Z",
+        "browserElapsedMs": 32.62199996970594,
+        "browserEndTimestamp": 626242.943308,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 530.872667
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:7",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+        "urlSha256": "fd2d2eefda119d4561e4ae4677ffd0f42defee4b153789e286928125d8b85cd0",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.62375,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910704,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.392Z",
+        "endedMonotonicMs": 531.035209,
+        "elapsedMs": 42.411459000000036,
+        "browserEndedAt": "2026-11-06T02:14:22.374Z",
+        "browserElapsedMs": 32.66599995549768,
+        "browserEndTimestamp": 626242.94337,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 531.047959
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:8",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+        "urlSha256": "0cfb5e752ee81bc7596656539444bb55c72b8c798c395b5a41775b0f8e416160",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.656459,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910727,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.392Z",
+        "endedMonotonicMs": 531.065584,
+        "elapsedMs": 42.40912499999996,
+        "browserEndedAt": "2026-11-06T02:14:22.374Z",
+        "browserElapsedMs": 32.88099996279925,
+        "browserEndTimestamp": 626242.943608,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 531.076584
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:11",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+        "urlSha256": "70004e9cb9dd8f101d774ec4ca2997324024fe1bcdba6e6f8543b94d779da8ed",
+        "method": "GET",
+        "resourceType": "Stylesheet",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.753292,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910795,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.392Z",
+        "endedMonotonicMs": 531.093709,
+        "elapsedMs": 42.340417,
+        "browserEndedAt": "2026-11-06T02:14:22.383Z",
+        "browserElapsedMs": 41.33699997328222,
+        "browserEndTimestamp": 626242.952132,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 531.107084
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:17",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_ramen_re1.jpg",
+        "urlSha256": "376cda41b251544eddc53fd7017107f98d26edc106b0448bcc91283c40921d02",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.897167,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910892,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.393Z",
+        "endedMonotonicMs": 531.325709,
+        "elapsedMs": 42.428541999999936,
+        "browserEndedAt": "2026-11-06T02:14:22.391Z",
+        "browserElapsedMs": 49.31800009217113,
+        "browserEndTimestamp": 626242.96021,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 531.343125
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:12",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.393Z",
+        "monotonicMs": 531.384125,
+        "cdpTimestamp": 626242.96029,
+        "browserHeadersAt": "2026-11-06T02:14:22.391Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 531.394125
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:12",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+        "urlSha256": "d19ccc02a9fa6b44100c5db4b25e21d33f9a13573df1ee0d2d0fe1f1f7967bcb",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.785542,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910808,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.393Z",
+        "endedMonotonicMs": 531.401584,
+        "elapsedMs": 42.616041999999936,
+        "browserEndedAt": "2026-11-06T02:14:22.383Z",
+        "browserElapsedMs": 41.46999993827194,
+        "browserEndTimestamp": 626242.952278,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 531.412
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:9",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.393Z",
+        "monotonicMs": 531.439709,
+        "cdpTimestamp": 626242.960351,
+        "browserHeadersAt": "2026-11-06T02:14:22.391Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 531.444875
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:9",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+        "urlSha256": "cc3bb595b3966a73a7e377e809e87431a45f29fa34f41ecdf3b0b7dafc111cf1",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.693875,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910755,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.393Z",
+        "endedMonotonicMs": 531.450167,
+        "elapsedMs": 42.75629199999997,
+        "browserEndedAt": "2026-11-06T02:14:22.375Z",
+        "browserElapsedMs": 33.183000050485134,
+        "browserEndTimestamp": 626242.943938,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 531.461584
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:20",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://sentry.io/api/1728946/envelope/",
+        "urlSha256": "0cf79ca023f3864dedf2a9da02b1ab7d349197ce7025264628d9c90beb1118a3",
+        "method": "POST",
+        "resourceType": "Fetch",
+        "startedAt": "2026-11-06T02:14:22.397Z",
+        "startedMonotonicMs": 535.923292,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.396Z",
+        "browserTimestamp": 626242.964902,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.28",
+        "cdpTimestamp": 626242.964902,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 535.960667
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:19",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.397Z",
+        "monotonicMs": 535.993917,
+        "cdpTimestamp": 626242.965155,
+        "browserHeadersAt": "2026-11-06T02:14:22.396Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 535.999959
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:19",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/javascripts/s_code.js",
+        "urlSha256": "b925608a3c3f084f52d00330e44827d589ba37e69bf3ae24fa2c16b9a59c3acf",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.934667,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910925,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.397Z",
+        "endedMonotonicMs": 536.147667,
+        "elapsedMs": 47.212999999999965,
+        "browserEndedAt": "2026-11-06T02:14:22.388Z",
+        "browserElapsedMs": 46.1310000391677,
+        "browserEndTimestamp": 626242.957056,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 536.159625
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:20",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://sentry.io/api/1728946/envelope/",
+        "urlSha256": "0cf79ca023f3864dedf2a9da02b1ab7d349197ce7025264628d9c90beb1118a3",
+        "method": "POST",
+        "resourceType": "Fetch",
+        "startedAt": "2026-11-06T02:14:22.397Z",
+        "startedMonotonicMs": 535.923292,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.396Z",
+        "browserTimestamp": 626242.964902,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.398Z",
+        "endedMonotonicMs": 536.851042,
+        "elapsedMs": 0.92775000000006,
+        "browserEndedAt": "2026-11-06T02:14:22.397Z",
+        "browserElapsedMs": 1.2250000145286322,
+        "browserEndTimestamp": 626242.966127,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 536.868917
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:18",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/images/inbound/restaurant/image/rsttop_condition_cafe_re1.jpg",
+        "urlSha256": "15e5b1bd8dcc0456344ada07bad76d049185829d0ff6eea0a722eda6bb3d7729",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.916667,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910909,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.398Z",
+        "endedMonotonicMs": 536.888417,
+        "elapsedMs": 47.971749999999986,
+        "browserEndedAt": "2026-11-06T02:14:22.397Z",
+        "browserElapsedMs": 55.30800006818026,
+        "browserEndTimestamp": 626242.966217,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 536.901125
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:10",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:22.405Z",
+        "monotonicMs": 544.159292,
+        "cdpTimestamp": 626242.973414,
+        "browserHeadersAt": "2026-11-06T02:14:22.404Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 544.170792
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:10",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "15c0cef14184310093e7be11069527a56092d5640060141cbeb312cfb9778e27",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-06T02:14:22.350Z",
+        "startedMonotonicMs": 488.722584,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.342Z",
+        "browserTimestamp": 626242.910777,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.405Z",
+        "endedMonotonicMs": 544.178542,
+        "elapsedMs": 55.45595800000001,
+        "browserEndedAt": "2026-11-06T02:14:22.382Z",
+        "browserElapsedMs": 40.76300002634525,
+        "browserEndTimestamp": 626242.95154,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 544.198542
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:21",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/images/inbound/logo/logo_tabelog_inbound.svg",
+        "urlSha256": "417271bdb6ddde14ded6111c95a5b3b8b1764e985b9a216fc3acbb07dc7ed24f",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.446Z",
+        "startedMonotonicMs": 585.252584,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.422Z",
+        "browserTimestamp": 626242.99023,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.41",
+        "cdpTimestamp": 626242.99023,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 585.407209
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:22",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/images/inbound/restaurant/web_to_app/footer_webtoapp_bg.png",
+        "urlSha256": "da72f52d5f991207c2f5fcd1097641b81a8fe9aca61a334a6ae0eaaf85b923aa",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.447Z",
+        "startedMonotonicMs": 585.426417,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.428Z",
+        "browserTimestamp": 626242.996237,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.42",
+        "cdpTimestamp": 626242.996237,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 585.47625
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:23",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/images/shared/webfonts/tabelog_glyphs/tabelog_glyphs.woff",
+        "urlSha256": "bc21beb9a831ce1550684d0d4b1b418b900a6fc82e3e76170e4e8417894010aa",
+        "method": "GET",
+        "resourceType": "Font",
+        "startedAt": "2026-11-06T02:14:22.447Z",
+        "startedMonotonicMs": 585.484959,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.428Z",
+        "browserTimestamp": 626242.996635,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.39",
+        "cdpTimestamp": 626242.996635,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 585.517542
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:21",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/images/inbound/logo/logo_tabelog_inbound.svg",
+        "urlSha256": "417271bdb6ddde14ded6111c95a5b3b8b1764e985b9a216fc3acbb07dc7ed24f",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.446Z",
+        "startedMonotonicMs": 585.252584,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.422Z",
+        "browserTimestamp": 626242.99023,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.447Z",
+        "endedMonotonicMs": 585.668042,
+        "elapsedMs": 0.41545800000005784,
+        "browserEndedAt": "2026-11-06T02:14:22.445Z",
+        "browserElapsedMs": 23.313999990932643,
+        "browserEndTimestamp": 626243.013544,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 585.700875
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:22",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/images/inbound/restaurant/web_to_app/footer_webtoapp_bg.png",
+        "urlSha256": "da72f52d5f991207c2f5fcd1097641b81a8fe9aca61a334a6ae0eaaf85b923aa",
+        "method": "GET",
+        "resourceType": "Image",
+        "startedAt": "2026-11-06T02:14:22.447Z",
+        "startedMonotonicMs": 585.426417,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.428Z",
+        "browserTimestamp": 626242.996237,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.447Z",
+        "endedMonotonicMs": 585.744875,
+        "elapsedMs": 0.31845799999996416,
+        "browserEndedAt": "2026-11-06T02:14:22.445Z",
+        "browserElapsedMs": 17.411999986507,
+        "browserEndTimestamp": 626243.013649,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 585.864167
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:24",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/images/shared/webfonts/tabelog_glyphs/tabelog_glyphs.ttf",
+        "urlSha256": "f651e0bba95f79a62ee9ed7a7a30fb4fd2f7d8fe3d7fe1710e26b18b11152df4",
+        "method": "GET",
+        "resourceType": "Font",
+        "startedAt": "2026-11-06T02:14:22.447Z",
+        "startedMonotonicMs": 585.950084,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.445Z",
+        "browserTimestamp": 626243.013687,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.40",
+        "cdpTimestamp": 626243.013687,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 585.987209
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:23",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/images/shared/webfonts/tabelog_glyphs/tabelog_glyphs.woff",
+        "urlSha256": "bc21beb9a831ce1550684d0d4b1b418b900a6fc82e3e76170e4e8417894010aa",
+        "method": "GET",
+        "resourceType": "Font",
+        "startedAt": "2026-11-06T02:14:22.447Z",
+        "startedMonotonicMs": 585.484959,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.428Z",
+        "browserTimestamp": 626242.996635,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.447Z",
+        "endedMonotonicMs": 586.022625,
+        "elapsedMs": 0.5376659999999447,
+        "browserEndedAt": "2026-11-06T02:14:22.445Z",
+        "browserElapsedMs": 17.110000015236437,
+        "browserEndTimestamp": 626243.013745,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 586.04425
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:24",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tblg.k-img.com/images/shared/webfonts/tabelog_glyphs/tabelog_glyphs.ttf",
+        "urlSha256": "f651e0bba95f79a62ee9ed7a7a30fb4fd2f7d8fe3d7fe1710e26b18b11152df4",
+        "method": "GET",
+        "resourceType": "Font",
+        "startedAt": "2026-11-06T02:14:22.447Z",
+        "startedMonotonicMs": 585.950084,
+        "status": null,
+        "blocked": true,
+        "blockReason": "inspector",
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:22.445Z",
+        "browserTimestamp": 626243.013687,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:22.452Z",
+        "endedMonotonicMs": 590.622709,
+        "elapsedMs": 4.672625000000039,
+        "browserEndedAt": "2026-11-06T02:14:22.449Z",
+        "browserElapsedMs": 4.268000018782914,
+        "browserEndTimestamp": 626243.017955,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FAILED",
+        "endReason": "inspector"
+      },
+      "at": 590.653917
+    },
+    {
+      "kind": "NAVIGATION_END",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "startedAt": "2026-11-06T02:14:22.326Z",
+        "endedAt": "2026-11-06T02:14:22.452Z",
+        "startedMonotonicMs": 465.208042,
+        "endedMonotonicMs": 590.805292,
+        "elapsedMs": 125.59725000000003,
+        "endReason": "COMPLETED"
+      },
+      "at": 590.81675
+    },
+    {
+      "kind": "OBSERVED_CONTROLS",
+      "detail": {
+        "controls": [
+          {
+            "id": "dom:1:1",
+            "label": "About Tabelog",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:2",
+            "label": "FAQ",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:3",
+            "label": "Japanese Culture and Etiquette Guide",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:4",
+            "label": "English",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:5",
+            "label": "简体中文",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:6",
+            "label": "繁體中文",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:7",
+            "label": "한국어",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:8",
+            "label": "ไทย",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:9",
+            "label": "日本語",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:10",
+            "label": "Tabelog",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:11",
+            "label": "Tokyo139,461",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:12",
+            "label": "Osaka72,790",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:13",
+            "label": "Kyoto23,403",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:14",
+            "label": "Fukuoka37,482",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:15",
+            "label": "Hokkaido41,236",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:16",
+            "label": "Aichi48,137",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:17",
+            "label": "Hokkaido",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:18",
+            "label": "Aomori",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:19",
+            "label": "Iwate",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:20",
+            "label": "Miyagi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:21",
+            "label": "Akita",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:22",
+            "label": "Yamagata",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:23",
+            "label": "Fukushima",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:24",
+            "label": "Ibaraki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:25",
+            "label": "Tochigi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:26",
+            "label": "Gunma",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:27",
+            "label": "Saitama",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:28",
+            "label": "Chiba",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:29",
+            "label": "Tokyo",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:30",
+            "label": "Kanagawa",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:31",
+            "label": "Niigata",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:32",
+            "label": "Toyama",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:33",
+            "label": "Ishikawa",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:34",
+            "label": "Fukui",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:35",
+            "label": "Yamanashi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:36",
+            "label": "Nagano",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:37",
+            "label": "Gifu",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:38",
+            "label": "Shizuoka",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:39",
+            "label": "Aichi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:40",
+            "label": "Mie",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:41",
+            "label": "Shiga",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:42",
+            "label": "Kyoto",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:43",
+            "label": "Osaka",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:44",
+            "label": "Hyogo",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:45",
+            "label": "Nara",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:46",
+            "label": "Wakayama",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:47",
+            "label": "Tottori",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:48",
+            "label": "Shimane",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:49",
+            "label": "Okayama",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:50",
+            "label": "Hiroshima",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:51",
+            "label": "Yamaguchi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:52",
+            "label": "Tokushima",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:53",
+            "label": "Kagawa",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:54",
+            "label": "Ehime",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:55",
+            "label": "Kochi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:56",
+            "label": "Fukuoka",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:57",
+            "label": "Saga",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:58",
+            "label": "Nagasaki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:59",
+            "label": "Kumamoto",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:60",
+            "label": "Oita",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:61",
+            "label": "Miyazaki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:62",
+            "label": "Kagoshima",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:63",
+            "label": "Okinawa",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:64",
+            "label": "Washoku (Japanese cuisine) 236,398",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:65",
+            "label": "Sushi 31,256",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:66",
+            "label": "Yakiniku (Japanese BBQ) 28,884",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:67",
+            "label": "Izakaya (Japanese style tavern) 137,014",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:68",
+            "label": "Ramen, Tsukemen (Dipping noodles) 52,109",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:69",
+            "label": "Cafe, Kissa (Japanese coffee shop) 131,898",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:70",
+            "label": "Bar",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:71",
+            "label": "Bistro",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:72",
+            "label": "Cake",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:73",
+            "label": "Chinese",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:74",
+            "label": "Curry",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:75",
+            "label": "Dumpling",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:76",
+            "label": "Hamburger",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:77",
+            "label": "Hamburger steak",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:78",
+            "label": "Japanese Cuisine",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:79",
+            "label": "Kushi-age (Deep-fried skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:80",
+            "label": "Monjyayaki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:81",
+            "label": "Motsu-nabe",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:82",
+            "label": "Nabe (Japanese hot pot)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:83",
+            "label": "Okonomiyaki (Japanese savory pancake)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:84",
+            "label": "Bread, Sandwich",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:85",
+            "label": "Pasta",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:86",
+            "label": "Restaurants",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:87",
+            "label": "Kaiten sushi (Conveyor belt sushi)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:88",
+            "label": "Sukiyaki (Japanese sweet soy hotpot)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:89",
+            "label": "Crab",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:90",
+            "label": "Beef cutlet",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:91",
+            "label": "Gyutan (Beef tongue)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:92",
+            "label": "Teppanyaki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:93",
+            "label": "Omurice (Omelette rice)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:94",
+            "label": "Ryokan (Traditional Japanese inn)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:95",
+            "label": "Crepe, Galette",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:96",
+            "label": "Pancake",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:97",
+            "label": "Seafood",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:98",
+            "label": "Soba (Buckwheat noodles)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:99",
+            "label": "Steak",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:100",
+            "label": "Sweets",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:101",
+            "label": "Shabu shabu (Japanese hotpot)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:102",
+            "label": "Cafeteria",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:103",
+            "label": "Tempura",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:104",
+            "label": "Tonkatsu (Pork cutlet)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:105",
+            "label": "Udon (Wheat noodles)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:106",
+            "label": "Unagi (Eel)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:107",
+            "label": "Buffet",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:108",
+            "label": "Yakitori (Grilled chicken skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:109",
+            "label": "FAQ",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:110",
+            "label": "Terms of Use",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:111",
+            "label": "Terms of Use for Tabelog Reservation Service",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:112",
+            "label": "Privacy Policy",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:113",
+            "label": "Inquiry",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:114",
+            "label": "Tabelog Multilingual App",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:115",
+            "label": "Japanese Culture and Etiquette Guide",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:116",
+            "label": "English",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:117",
+            "label": "简体中文",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:118",
+            "label": "繁體中文",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:119",
+            "label": "한국어",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:120",
+            "label": "ไทย",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:121",
+            "label": "日本語",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:122",
+            "label": "Tabelog",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:123",
+            "label": "ページの先頭へ",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:1:124",
+            "label": "Search",
+            "kind": "BUTTON"
+          },
+          {
+            "id": "dom:1:125",
+            "label": "10:00 AM 10:30 AM 11:00 AM 11:30 AM 12:00 PM 12:30 PM 1:00 PM 1:30 PM 2:00 PM 2:30 PM 3:00 PM 3:30 PM 4:00 PM 4:30 PM 5:00 PM 5:30 PM 6:00 PM 6:30 PM 7:00 PM 7:30 PM 8:00 PM 8:30 PM 9:00 PM 9:30 PM 10:00 PM 10:30 PM 11:00 PM 11:30 PM 12:00 ",
+            "kind": "SELECT"
+          },
+          {
+            "id": "dom:1:126",
+            "label": "1 person 2 people 3 people 4 people 5 people 6 people 7 people 8 people 9 people 10 people 11 people 12 people 13 people 14 people 15 people 16 people 17 people 18 people 19 people 20 people 21 people 22 people 23 people 24 people 25 people",
+            "kind": "SELECT"
+          },
+          {
+            "id": "dom:1:127",
+            "label": "Location, cuisine, restaurant name, etc.",
+            "kind": "INPUT"
+          },
+          {
+            "id": "dom:1:128",
+            "label": "November 6, 2026 (Fri)",
+            "kind": "INPUT"
+          }
+        ],
+        "target": {
+          "ref": "observation:1:target:178",
+          "formObservation": {
+            "owner": "0",
+            "visibleLines": []
+          },
+          "kind": "INPUT",
+          "role": "textbox",
+          "label": "Location, cuisine, restaurant name, etc.",
+          "controlGroupLabel": "Unlabelled group",
+          "formMethod": "GET",
+          "type": "text",
+          "availableActions": [
+            "FILL_AUTHORITATIVE:RETRIEVAL",
+            "FILL_AUTHORITATIVE:LOCATION"
+          ]
+        }
+      },
+      "at": 1071.7565
+    },
+    {
+      "kind": "ORIGINAL_ACTION",
+      "detail": {
+        "action": "FILL_AUTHORITATIVE",
+        "label": "Location, cuisine, restaurant name, etc.",
+        "field": "RETRIEVAL"
+      },
+      "at": 4623.220625
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:25",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/en/suggest/keyword_suggest",
+        "urlSha256": "1a06f18a1ed6ba16fce0c2c8c2f22de08cf6f8e42dd0117cbb67770fe1c15cb1",
+        "method": "GET",
+        "resourceType": "XHR",
+        "startedAt": "2026-11-06T02:14:26.897Z",
+        "startedMonotonicMs": 4960.173542,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:26.896Z",
+        "browserTimestamp": 626247.388412,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "98318.43",
+        "cdpTimestamp": 626247.388412,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 4960.376709
+    },
+    {
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:25",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "at": "2026-11-06T02:14:26.907Z",
+        "monotonicMs": 4970.014875,
+        "cdpTimestamp": 626247.39486,
+        "browserHeadersAt": "2026-11-06T02:14:26.902Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      },
+      "at": 4970.063
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:25",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "8AEE545A9F8E081F66171F9CF3912D4F",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/en/suggest/keyword_suggest",
+        "urlSha256": "1a06f18a1ed6ba16fce0c2c8c2f22de08cf6f8e42dd0117cbb67770fe1c15cb1",
+        "method": "GET",
+        "resourceType": "XHR",
+        "startedAt": "2026-11-06T02:14:26.897Z",
+        "startedMonotonicMs": 4960.173542,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-06T02:14:26.896Z",
+        "browserTimestamp": 626247.388412,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:26.907Z",
+        "endedMonotonicMs": 4970.080417,
+        "elapsedMs": 9.906874999999673,
+        "browserEndedAt": "2026-11-06T02:14:26.901Z",
+        "browserElapsedMs": 5.8169999392703176,
+        "browserEndTimestamp": 626247.394229,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      },
+      "at": 4970.140459
+    },
+    {
+      "kind": "OBSERVED_CONTROLS",
+      "detail": {
+        "controls": [
+          {
+            "id": "dom:2:1",
+            "label": "About Tabelog",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:2",
+            "label": "FAQ",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:3",
+            "label": "Japanese Culture and Etiquette Guide",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:4",
+            "label": "English",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:5",
+            "label": "简体中文",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:6",
+            "label": "繁體中文",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:7",
+            "label": "한국어",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:8",
+            "label": "ไทย",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:9",
+            "label": "日本語",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:10",
+            "label": "Tabelog",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:11",
+            "label": "asom marata n kushikatsu [Tokyo] Shin Koiwa Sta. / Chinese",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:12",
+            "label": "All you can eat and drink Taishu Sakaba Kushikatsu to Obanzai no Rasshai Se Togano Machi Ten[Osaka] Higashi Umeda Sta. / Kushi-age (Deep-fried skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:13",
+            "label": "Kushi Katsu Sakaba tsukamoto ten[Osaka] Tsukamoto Sta. / Izakaya (Japanese style tavern)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:14",
+            "label": "Kushi Katsu[Aichi] Toyota City / Izakaya (Japanese style tavern)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:15",
+            "label": "Kushi Katsu A-bon[Hyogo] Uchide Sta. / Kushi-age (Deep-fried skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:16",
+            "label": "kushikatsu daibon [Osaka] Naniwabashi Sta. / Kushi-age (Deep-fried skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:17",
+            "label": "Kitashinchi Kushikatsu Bon[Osaka] Kitashinchi Sta. / Kushi-age (Deep-fried skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:18",
+            "label": "marbrade[Aichi] Shinsakae Machi Sta. / Izakaya (Japanese style tavern)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:19",
+            "label": "Ginza Kushikatsu Bon[Tokyo] Uchisaiwaicho Sta. / Kushi-age (Deep-fried skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:20",
+            "label": "Kushi Katsu Hitokuchi[Hiroshima] Onomichi City / Kushi-age (Deep-fried skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:21",
+            "label": "Tokyo139,461",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:22",
+            "label": "Osaka72,790",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:23",
+            "label": "Kyoto23,403",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:24",
+            "label": "Fukuoka37,482",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:25",
+            "label": "Hokkaido41,236",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:26",
+            "label": "Aichi48,137",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:27",
+            "label": "Hokkaido",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:28",
+            "label": "Aomori",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:29",
+            "label": "Iwate",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:30",
+            "label": "Miyagi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:31",
+            "label": "Akita",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:32",
+            "label": "Yamagata",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:33",
+            "label": "Fukushima",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:34",
+            "label": "Ibaraki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:35",
+            "label": "Tochigi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:36",
+            "label": "Gunma",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:37",
+            "label": "Saitama",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:38",
+            "label": "Chiba",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:39",
+            "label": "Tokyo",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:40",
+            "label": "Kanagawa",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:41",
+            "label": "Niigata",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:42",
+            "label": "Toyama",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:43",
+            "label": "Ishikawa",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:44",
+            "label": "Fukui",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:45",
+            "label": "Yamanashi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:46",
+            "label": "Nagano",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:47",
+            "label": "Gifu",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:48",
+            "label": "Shizuoka",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:49",
+            "label": "Aichi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:50",
+            "label": "Mie",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:51",
+            "label": "Shiga",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:52",
+            "label": "Kyoto",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:53",
+            "label": "Osaka",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:54",
+            "label": "Hyogo",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:55",
+            "label": "Nara",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:56",
+            "label": "Wakayama",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:57",
+            "label": "Tottori",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:58",
+            "label": "Shimane",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:59",
+            "label": "Okayama",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:60",
+            "label": "Hiroshima",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:61",
+            "label": "Yamaguchi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:62",
+            "label": "Tokushima",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:63",
+            "label": "Kagawa",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:64",
+            "label": "Ehime",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:65",
+            "label": "Kochi",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:66",
+            "label": "Fukuoka",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:67",
+            "label": "Saga",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:68",
+            "label": "Nagasaki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:69",
+            "label": "Kumamoto",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:70",
+            "label": "Oita",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:71",
+            "label": "Miyazaki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:72",
+            "label": "Kagoshima",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:73",
+            "label": "Okinawa",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:74",
+            "label": "Washoku (Japanese cuisine) 236,398",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:75",
+            "label": "Sushi 31,256",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:76",
+            "label": "Yakiniku (Japanese BBQ) 28,884",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:77",
+            "label": "Izakaya (Japanese style tavern) 137,014",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:78",
+            "label": "Ramen, Tsukemen (Dipping noodles) 52,109",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:79",
+            "label": "Cafe, Kissa (Japanese coffee shop) 131,898",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:80",
+            "label": "Bar",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:81",
+            "label": "Bistro",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:82",
+            "label": "Cake",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:83",
+            "label": "Chinese",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:84",
+            "label": "Curry",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:85",
+            "label": "Dumpling",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:86",
+            "label": "Hamburger",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:87",
+            "label": "Hamburger steak",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:88",
+            "label": "Japanese Cuisine",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:89",
+            "label": "Kushi-age (Deep-fried skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:90",
+            "label": "Monjyayaki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:91",
+            "label": "Motsu-nabe",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:92",
+            "label": "Nabe (Japanese hot pot)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:93",
+            "label": "Okonomiyaki (Japanese savory pancake)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:94",
+            "label": "Bread, Sandwich",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:95",
+            "label": "Pasta",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:96",
+            "label": "Restaurants",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:97",
+            "label": "Kaiten sushi (Conveyor belt sushi)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:98",
+            "label": "Sukiyaki (Japanese sweet soy hotpot)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:99",
+            "label": "Crab",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:100",
+            "label": "Beef cutlet",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:101",
+            "label": "Gyutan (Beef tongue)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:102",
+            "label": "Teppanyaki",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:103",
+            "label": "Omurice (Omelette rice)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:104",
+            "label": "Ryokan (Traditional Japanese inn)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:105",
+            "label": "Crepe, Galette",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:106",
+            "label": "Pancake",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:107",
+            "label": "Seafood",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:108",
+            "label": "Soba (Buckwheat noodles)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:109",
+            "label": "Steak",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:110",
+            "label": "Sweets",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:111",
+            "label": "Shabu shabu (Japanese hotpot)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:112",
+            "label": "Cafeteria",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:113",
+            "label": "Tempura",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:114",
+            "label": "Tonkatsu (Pork cutlet)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:115",
+            "label": "Udon (Wheat noodles)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:116",
+            "label": "Unagi (Eel)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:117",
+            "label": "Buffet",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:118",
+            "label": "Yakitori (Grilled chicken skewers)",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:119",
+            "label": "FAQ",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:120",
+            "label": "Terms of Use",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:121",
+            "label": "Terms of Use for Tabelog Reservation Service",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:122",
+            "label": "Privacy Policy",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:123",
+            "label": "Inquiry",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:124",
+            "label": "Tabelog Multilingual App",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:125",
+            "label": "Japanese Culture and Etiquette Guide",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:126",
+            "label": "English",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:127",
+            "label": "简体中文",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:128",
+            "label": "繁體中文",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:129",
+            "label": "한국어",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:130",
+            "label": "ไทย",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:131",
+            "label": "日本語",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:132",
+            "label": "Tabelog",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:133",
+            "label": "ページの先頭へ",
+            "kind": "LINK"
+          },
+          {
+            "id": "dom:2:134",
+            "label": "Search",
+            "kind": "BUTTON"
+          },
+          {
+            "id": "dom:2:135",
+            "label": "10:00 AM 10:30 AM 11:00 AM 11:30 AM 12:00 PM 12:30 PM 1:00 PM 1:30 PM 2:00 PM 2:30 PM 3:00 PM 3:30 PM 4:00 PM 4:30 PM 5:00 PM 5:30 PM 6:00 PM 6:30 PM 7:00 PM 7:30 PM 8:00 PM 8:30 PM 9:00 PM 9:30 PM 10:00 PM 10:30 PM 11:00 PM 11:30 PM 12:00 ",
+            "kind": "SELECT"
+          },
+          {
+            "id": "dom:2:136",
+            "label": "1 person 2 people 3 people 4 people 5 people 6 people 7 people 8 people 9 people 10 people 11 people 12 people 13 people 14 people 15 people 16 people 17 people 18 people 19 people 20 people 21 people 22 people 23 people 24 people 25 people",
+            "kind": "SELECT"
+          },
+          {
+            "id": "dom:2:137",
+            "label": "Location, cuisine, restaurant name, etc.",
+            "kind": "INPUT"
+          },
+          {
+            "id": "dom:2:138",
+            "label": "November 6, 2026 (Fri)",
+            "kind": "INPUT"
+          }
+        ],
+        "target": {
+          "ref": "observation:2:target:137",
+          "formObservation": {
+            "owner": "0",
+            "visibleLines": [
+              "asom marata n kushikatsu",
+              "[Tokyo] Shin Koiwa Sta. / Chinese",
+              "All you can eat and drink Taishu Sakaba Kushikatsu to Obanzai no Rasshai Se Togano Machi Ten",
+              "[Osaka] Higashi Umeda Sta. / Kushi-age (Deep-fried skewers)",
+              "Kushi Katsu Sakaba tsukamoto ten",
+              "[Osaka] Tsukamoto Sta. / Izakaya (Japanese style tavern)",
+              "Kushi Katsu",
+              "[Aichi] Toyota City / Izakaya (Japanese style tavern)",
+              "Kushi Katsu A-bon",
+              "[Hyogo] Uchide Sta. / Kushi-age (Deep-fried skewers)",
+              "kushikatsu daibon",
+              "[Osaka] Naniwabashi Sta. / Kushi-age (Deep-fried skewers)",
+              "Kitashinchi Kushikatsu Bon",
+              "[Osaka] Kitashinchi Sta. / Kushi-age (Deep-fried skewers)",
+              "marbrade",
+              "[Aichi] Shinsakae Machi Sta. / Izakaya (Japanese style tavern)",
+              "Ginza Kushikatsu Bon",
+              "[Tokyo] Uchisaiwaicho Sta. / Kushi-age (Deep-fried skewers)",
+              "Kushi Katsu Hitokuchi",
+              "[Hiroshima] Onomichi City / Kushi-age (Deep-fried skewers)"
+            ]
+          },
+          "kind": "BUTTON",
+          "role": "button",
+          "label": "Search",
+          "controlGroupLabel": "Unlabelled group",
+          "formMethod": "GET",
+          "type": "button",
+          "availableActions": [
+            "CLICK"
+          ]
+        }
+      },
+      "at": 6128.300334
+    },
+    {
+      "kind": "ORIGINAL_ACTION",
+      "detail": {
+        "action": "CLICK",
+        "label": "Search",
+        "field": "NONE"
+      },
+      "at": 8509.796459
+    },
+    {
+      "kind": "FORM_EVIDENCE",
+      "detail": {
+        "id": 1,
+        "stage": "CLICK",
+        "phase": "START",
+        "monotonicMs": 8522.433417,
+        "elapsedMs": 0.06499999999869033
+      },
+      "at": 8522.500292
+    },
+    {
+      "kind": "FORM_EVIDENCE",
+      "detail": {
+        "id": 2,
+        "stage": "DOCUMENT_CURRENT",
+        "phase": "START",
+        "monotonicMs": 8569.787542,
+        "elapsedMs": 0.017250000000785803
+      },
+      "at": 8569.818709
+    },
+    {
+      "kind": "NAVIGATION_START",
+      "detail": {
+        "navigationId": "capture:1:navigation:2",
+        "pageId": "capture:1:page:1",
+        "url": "https://tabelog.com/en/rstLst/",
+        "urlSha256": "614e3eba8238055dc68be63fdb77afb096f497fca3a64422b5aaffb18312e664",
+        "remainingReadBudgetMs": null,
+        "configuredTimeoutMs": null,
+        "waitUntil": "NOT_REQUESTED",
+        "method": "IMPLICIT_DOCUMENT",
+        "at": "2026-11-06T02:14:30.534Z",
+        "monotonicMs": 8596.90075
+      },
+      "at": 8597.005167
+    },
+    {
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:26",
+        "navigationId": "capture:1:navigation:2",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "1C133CACB790F7917D47609EB12FC4B5",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/en/rstLst/",
+        "urlSha256": "614e3eba8238055dc68be63fdb77afb096f497fca3a64422b5aaffb18312e664",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-06T02:14:30.534Z",
+        "startedMonotonicMs": 8597.014334,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": true,
+        "browserStartedAt": "2026-11-06T02:14:30.534Z",
+        "browserTimestamp": 626251.026255,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "1C133CACB790F7917D47609EB12FC4B5",
+        "cdpTimestamp": 626251.026255,
+        "observationPoint": "BROWSER_CDP"
+      },
+      "at": 8597.077167
+    },
+    {
+      "kind": "FORM_EVIDENCE",
+      "detail": {
+        "id": 2,
+        "stage": "DOCUMENT_CURRENT",
+        "phase": "END",
+        "monotonicMs": 8597.289375,
+        "elapsedMs": 27.519000000000233
+      },
+      "at": 8597.297042
+    },
+    {
+      "kind": "FORM_EVIDENCE",
+      "detail": {
+        "id": 3,
+        "stage": "INPUT_EVENTS",
+        "phase": "START",
+        "monotonicMs": 8597.311167,
+        "elapsedMs": 0.008957999998528976
+      },
+      "at": 8597.314125
+    },
+    {
+      "kind": "FORM_EVIDENCE",
+      "detail": {
+        "id": 4,
+        "stage": "GUARD_EVIDENCE",
+        "phase": "START",
+        "monotonicMs": 8597.715625,
+        "elapsedMs": 0.0033750000002328306
+      },
+      "at": 8597.722959
+    },
+    {
+      "kind": "FORM_EVIDENCE",
+      "detail": {
+        "id": 1,
+        "stage": "CLICK",
+        "phase": "ERROR",
+        "monotonicMs": 28529.855917,
+        "elapsedMs": 20007.478791
+      },
+      "at": 28529.897834
+    },
+    {
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:26",
+        "navigationId": "capture:1:navigation:2",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "1C133CACB790F7917D47609EB12FC4B5",
+        "frameId": "DA88656D6EBAE0606AC548E4721E779B",
+        "url": "https://tabelog.com/en/rstLst/",
+        "urlSha256": "614e3eba8238055dc68be63fdb77afb096f497fca3a64422b5aaffb18312e664",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-06T02:14:30.534Z",
+        "startedMonotonicMs": 8597.014334,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": true,
+        "browserStartedAt": "2026-11-06T02:14:30.534Z",
+        "browserTimestamp": 626251.026255,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:50.492Z",
+        "endedMonotonicMs": 28554.44125,
+        "elapsedMs": 19957.426916,
+        "browserEndedAt": "2026-11-06T02:14:50.490Z",
+        "browserElapsedMs": 19956.119999988005,
+        "browserEndTimestamp": 626270.982375,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "CANCELLED",
+        "endReason": "net::ERR_ABORTED"
+      },
+      "at": 28554.549084
+    },
+    {
+      "kind": "NAVIGATION_END",
+      "detail": {
+        "navigationId": "capture:1:navigation:2",
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-06T02:14:50.492Z",
+        "elapsedMs": 19957.426916,
+        "endReason": "CANCELLED",
+        "observationPoint": "DOCUMENT_NETWORK_ONLY"
+      },
+      "at": 28554.567917
+    },
+    {
+      "kind": "FORM_EVIDENCE",
+      "detail": {
+        "id": 3,
+        "stage": "INPUT_EVENTS",
+        "phase": "ERROR",
+        "monotonicMs": 28562.388584,
+        "elapsedMs": 19965.086708000003
+      },
+      "at": 28562.405084
+    },
+    {
+      "kind": "FORM_EVIDENCE",
+      "detail": {
+        "id": 4,
+        "stage": "GUARD_EVIDENCE",
+        "phase": "END",
+        "monotonicMs": 28562.431542,
+        "elapsedMs": 19964.719417
+      },
+      "at": 28562.438417
+    }
+  ],
+  "fetches": [
+    {
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "found": true
+    },
+    {
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "found": true
+    }
+  ],
+  "misses": [],
+  "browserErrors": []
+}

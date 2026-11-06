@@ -13,6 +13,7 @@ import {GooglePlacesClient} from '../../../../integrations/google/google-places-
 import {discoveryPackNetworkPolicy} from '../../../../integrations/restaurant-search/source-packs.js';
 import {runG6Batch,loadG6Pack,type G6TransportHooks} from '../g6/runner.js';
 import {chargeG6} from '../g6/budget.js';
+import {observeOutgoingRequest} from '../g6/request-observation.js';
 import {BrowserReadRecording} from './browser-read-recording.js';
 import {traceBrowserRuntime,safeRecord,safeUrl} from './browser-case-slice-evidence.js';
 
@@ -31,12 +32,25 @@ function browser(hooks?:G6TransportHooks,probe=false){
   const launched=await chromium.launch(options),newContext=launched.newContext.bind(launched);
   launched.newContext=async options=>{
    const context=await newContext(options),route=context.route.bind(context);
+   const preflightReady=new WeakMap<import('playwright-core').Page,Promise<void>>();
+   const observePreflight=(page:import('playwright-core').Page)=>{const prior=preflightReady.get(page);if(prior)return prior;const ready=(async()=>{
+    const cdp=await context.newCDPSession(page),pending=new Map<string,import('../g6/evaluator.js').G6EvaluationInput['requests'][number]>();
+    cdp.on('Network.requestWillBeSent',event=>{if(event.request.method!=='OPTIONS')return;
+     const url=new URL(event.request.url),headers=Object.fromEntries(Object.entries(event.request.headers).map(([key,value])=>[key.toLowerCase(),String(value)]));
+     const row={ref:'C-preflight:'+String(++sequence),url:url.origin+url.pathname,method:'OPTIONS',reachedSource:false,queryKeys:[...url.searchParams.keys()],preflight:{requestOrigin:headers.origin??'',method:headers['access-control-request-method']??'',headerNames:(headers['access-control-request-headers']??'').split(',').map(value=>value.trim().toLowerCase()).filter(Boolean),bodyBytes:Buffer.byteLength(event.request.postData??'')}};
+     pending.set(event.requestId,row);hooks?.observeRequest(row);
+    });
+    cdp.on('Network.responseReceived',event=>{const row=pending.get(event.requestId);if(row){row.reachedSource=true;pending.delete(event.requestId);}});
+    await cdp.send('Network.enable');
+   })();preflightReady.set(page,ready);return ready;};
+   context.on('page',page=>{void observePreflight(page).catch(()=>context.close());});
+   const newPage=context.newPage.bind(context);context.newPage=async()=>{const page=await newPage();await observePreflight(page);return page;};
    context.route=(pattern,handler,options)=>route(pattern,async(actual,request)=>{
     const wrapped=new Proxy(actual,{get(target,key){
      if(key==='fetch')return async(options:Parameters<typeof actual.fetch>[0])=>{
-      const row={ref:'C-source:'+String(++sequence),url:request.url(),method:request.method(),reachedSource:false,queryKeys:[...new URL(request.url()).searchParams.keys()]};
+      const row=await observeOutgoingRequest('C-source:'+String(++sequence),request);
       hooks?.observeRequest(row);
-      const response=await target.fetch(options);row.reachedSource=true;
+      const response=await target.fetch(options);
       // The one-page connectivity check cannot follow a redirect into a
       // second public page. Live itself retains the unchanged Guard policy.
       if(probe&&request.resourceType()==='document'&&response.status()>=300&&response.status()<400)throw Error('CONNECTIVITY_REDIRECT_NOT_REQUESTED');

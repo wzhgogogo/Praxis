@@ -124,7 +124,7 @@ export interface BrowserGenericReadResult {
   controls: BrowserPageControl[];
 }
 
-interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
+interface ObservedTarget extends BrowserReadActionTarget { controlId: string; stableKey: string; controlGroupKey?: string; nativeTag?: string; readOnly?: boolean; inputName?: string; optionNative?: boolean; optionOwnerId?: string; ownerStableKey?: string; radioGroupKey?: string; retrievalValue?: string; }
 
 interface Observation {
   revision: number;
@@ -234,7 +234,7 @@ function toObservedTargets(controls: BrowserPageControl[], revision: number): Ma
       ...(control.kind === "RADIO" && control.structure?.radioGroupKey ? { radioGroupKey: control.structure.radioGroupKey } : {}),
       ...(control.value ? { value: control.value } : {}), ...(control.href ? { href: control.href } : {}), ...(control.formMethod ? { formMethod: control.formMethod } : {}), ...(control.type ? { type: control.type } : {}), ...(control.selected ? { selected: true } : {}),
       ...(control.calendarDate ? { calendarDate: control.calendarDate } : {}),
-      ...(control.disabled ? { disabled: true } : {}), ...(control.optionOwnerId ? { optionOwnerId: control.optionOwnerId } : {}),
+      ...(control.readOnly ? { readOnly: true } : {}), ...(control.disabled ? { disabled: true } : {}), ...(control.optionOwnerId ? { optionOwnerId: control.optionOwnerId } : {}),
       ...(control.outsideViewport ? { outsideViewport: true } : {}), ...(control.checked !== undefined ? { checked: control.checked } : {}), ...(control.min ? { min: control.min } : {}), ...(control.max ? { max: control.max } : {}), ...(control.valueText ? { valueText: control.valueText } : {}), ...(control.scrollable !== undefined ? { scrollable: control.scrollable } : {}), ...(control.scrollTop !== undefined ? { scrollTop: control.scrollTop } : {}), ...(control.blockedByActiveLayer ? { blockedByActiveLayer: true } : {}), ...(control.options ? { options: control.options } : {}),
     });
     if (control.kind === "SELECT" && !control.disabled) {
@@ -717,7 +717,7 @@ export class BrowserTaskExecutor {
             ...(month ? { displayedCalendarMonth: month } : {}),
             controlGroups: observedControlGroups(observation),
             pageActions: input.session.pressEscape && input.session.metadata.readNetworkBoundary === "INSTALLED" ? ["WAIT", "PRESS_ESCAPE"] : ["WAIT"],
-            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
+            targets: actionTargets.map(({ controlId: _controlId, stableKey: _stableKey, controlGroupKey: _groupKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, radioGroupKey: _radioGroupKey, ...target }) => ({
               ...target, ...this.actionHints(input, observation, observation.targets.get(target.ref)!, pendingOption !== undefined || pendingRadio !== undefined),
             })),
           },
@@ -1105,6 +1105,7 @@ export class BrowserTaskExecutor {
         }
       }
     } else if (target.kind === "INPUT") {
+      if (target.readOnly && this.guardedReadControl(input, target)) availableActions.push("CLICK");
       if (input.goal.date && this.boundInputField(target, "DATE")) availableActions.push("FILL_AUTHORITATIVE:DATE");
       if (input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
       if (input.goal.retrievalExpression && input.goal.retrievalSource && this.boundInputField(target, "RETRIEVAL") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
@@ -1128,7 +1129,7 @@ export class BrowserTaskExecutor {
   }
 
   private boundInputField(target: ObservedTarget, field: "DATE" | "PARTY_SIZE" | "RETRIEVAL" | "LOCATION"): boolean {
-    if (target.kind !== "INPUT" || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
+    if (target.kind !== "INPUT" || target.readOnly || !["INPUT", "TEXTAREA"].includes(target.nativeTag ?? "")) return false;
     // Native types limit what can be entered. Meaning comes from the model's
     // current observation, rather than a search/date/guest label dictionary.
     const type = target.type?.toLowerCase();
@@ -1152,7 +1153,7 @@ export class BrowserTaskExecutor {
     return {
       title: safeText(observation.snapshot.title, 240),
       visibleTextExcerpt: safeText(observation.snapshot.text, 1_000),
-      targets: [...observation.targets.values()].slice(0, 40).map(({ formObservation: _formObservation, controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
+      targets: [...observation.targets.values()].slice(0, 40).map(({ formObservation: _formObservation, controlId: _controlId, stableKey: _stableKey, nativeTag: _nativeTag, readOnly: _readOnly, optionNative: _optionNative, optionOwnerId: _optionOwnerId, ownerStableKey: _ownerStableKey, value: _value, formMethod: _formMethod, selected: _selected, ...target }) => ({
         ...target,
         ...(target.href ? { href: this.diagnosticUrl(target.href) } : {}),
       })),
@@ -1372,7 +1373,7 @@ export class BrowserTaskExecutor {
   private guardedReadControl(input: BrowserSkillReadInput, target: ObservedTarget): boolean {
     if (input.session.metadata.readNetworkBoundary !== "INSTALLED") return false;
     if (!["BUTTON", "CHECKBOX", "RADIO", "RANGE", "REGION", "OPTION", "INPUT"].includes(target.kind)) return false;
-    if (target.kind === "INPUT" && !this.boundInputField(target, "RETRIEVAL") && !this.boundInputField(target, "LOCATION")) return false;
+    if (target.kind === "INPUT" && !target.readOnly && !this.boundInputField(target, "RETRIEVAL") && !this.boundInputField(target, "LOCATION")) return false;
     return !/\b(?:login|sign\s*in|register|reserve|book|checkout|pay|purchase|cancel|delete|confirm)\b/i.test(target.label);
   }
 

@@ -1,3 +1,4 @@
+import {normalizedTextKey} from "../../core/text-key.js";
 import {restaurantReserveCancelled} from "../../domains/restaurant/read-time-reserve.js";
 import type {DiscoveryRetrievalPlanner} from "./discovery-retrieval-planner.js";
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
@@ -87,10 +88,13 @@ function retainedPendingEntries(
   });
 }
 
-export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, _controls: readonly BrowserPageControl[], _expression: string) {
+export function sourceListingCompletion(pack: DiscoverySourcePack, current: BrowserSnapshot, _controls: readonly BrowserPageControl[], _expression: string, locationName: string) {
   const listing = pack.parseListing(current), empty = pack.browser!.isExplicitEmptyListing(current);
-  return { complete: listing.outlets.length > 0 || empty, resultBusy: pack.browser!.resultBusy(current),
-    reason: "Read stable source-owned public results; the observation model confirms their relevance.",
+  const words = (text: string) => [...new Intl.Segmenter(undefined, { granularity: "word" }).segment(normalizedTextKey(text))].filter(segment => segment.isWordLike).map(segment => segment.segment);
+  const required = words(locationName), observed = words(current.text);
+  const locationBound = !locationName || required.length > 0 && observed.some((_, offset) => required.every((word, index) => observed[offset + index] === word));
+  return { complete: locationBound && (listing.outlets.length > 0 || empty), resultBusy: pack.browser!.resultBusy(current),
+    reason: locationBound ? "Read stable source-owned public results for the requested location." : "Requested location is not confirmed in visible result text; an input value does not establish location.",
     resultKey: JSON.stringify([current.url, listing.outlets.map(outlet => outlet.sourceUrl).sort(), empty]) };
 }
 
@@ -286,12 +290,12 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           const result=await executor.runSkill({taskId:request.readRunId??`native-discovery:${source}`,source,stage:"DISCOVERY",signal,session,allowedOrigins:pack.documentOrigins,
             ...(pack.skillPath?{sourceSkillPath:pack.skillPath}:{}),requireModelConfirmation:true,
             goal:{outlet:{name:request.intent.target?.query??""},location:{...location,name:location.label},...(expression?{retrievalExpression:expression,retrievalSource:"CUISINE" as const}:{}),hardCriteria:request.intent.criteria.filter(c=>c.polarity==="POSITIVE"&&c.strength==="HARD").map(c=>c.text)},
-            objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; complete only when the current list is relevant. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
+            objective:"Find the current public restaurant list for the authoritative location and criteria. Choose each page action from the observation; If the page offers a location setting, establish and confirm the authoritative location in visible page state before submitting. Complete only when the current list visibly confirms that location and is relevant. Do not construct URLs. Source-provided merchant links will be read and independently checked for identity and exact distance.",
             completion:(page,controls)=>{
               raw=Math.max(raw,rawSourceLinks(page,pack));
               const current=pack.parseListing(page);
               if(current.outlets.length)locatedListing=true;
-              return sourceListingCompletion(pack,page,controls,expression??"");
+              return sourceListingCompletion(pack,page,controls,expression??"",location.label);
             },
           });
           if(result.status!=="COMPLETED"){throw Object.assign(Error("No confirmed current source list"),{code:pack.parseListing(result.snapshot).outlets.length?"DISCOVERY_SOURCE_LOCATION_UNGROUNDED":"DISCOVERY_SOURCE_INCOMPLETE"});}

@@ -201,6 +201,7 @@ export class PlaywrightControlRegistry {
         formOwner: form ? `${form.id || formIndex}` : "", radioGroupKey,
         formVisibleLines,
         formMethodOverride: node.getAttribute("formmethod"), formTarget: node.getAttribute("formtarget"),
+        readOnly: (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) && node.readOnly,
         disabled: (node as HTMLElement).matches(":disabled") || node.getAttribute("aria-disabled") === "true" || node.getAttribute("data-state") === "disabled",
         selectionAttributes: Object.fromEntries(["aria-selected", "aria-pressed", "aria-checked", "aria-current"].map(name => [name, node.getAttribute(name)])),
         expanded: node.getAttribute("aria-expanded"), controls: node.getAttribute("aria-controls"),
@@ -244,7 +245,7 @@ export class PlaywrightControlRegistry {
     tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
     associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
     controlGroupLabel?: string; controlGroupKey?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
-    disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
+    readOnly?: boolean; disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
     calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
     rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
     formOwner?: string; formVisibleLines?: string[]; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
@@ -254,7 +255,7 @@ export class PlaywrightControlRegistry {
       tag: string; classes?: string[]; role?: string | null; type?: string | null; label?: string | null; title?: string | null; text?: string;
       associatedLabel?: string; value?: string; href?: string | null; name?: string | null; placeholder?: string | null;
       controlGroupLabel?: string; controlGroupKey?: string; calendarMonth?: import("./browser-runtime.js").BrowserCalendarMonth; linkAlternativeText?: string;
-      disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
+      readOnly?: boolean; disabled?: boolean; selected?: boolean; expanded?: string | null; checked?: boolean | string;
       calendarDate?: string; dataDate?: string | null; dataValue?: string | null; dateParts?: Array<string | null>; min?: string | null; max?: string | null;
       rangeValue?: string | null; valueText?: string | null; selectedOptions?: Array<[string, string, boolean, boolean]>; listboxId?: string; controls?: string | null;
       formOwner?: string; formVisibleLines?: string[]; formMethodOverride?: string | null; formMethod?: string; formClass?: string; dialogLabel?: string; sliderCount?: number;
@@ -411,6 +412,7 @@ export class PlaywrightControlRegistry {
           ...(method ? { formMethod: method === "GET" ? "GET" : "POST" } : {}),
           ...(projection.formOwner ? { formObservation: { owner: projection.formOwner, visibleLines: projection.formVisibleLines ?? [] } } : {}),
           ...(type ? { type } : {}),
+          ...(projection.readOnly ? { readOnly: true } : {}),
           disabled,
           visible: true,
           ...(optionState?.clipped ? { outsideViewport: true } : {}),
