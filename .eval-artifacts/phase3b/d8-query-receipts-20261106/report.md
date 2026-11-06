@@ -31,3 +31,10 @@ Adapter unit pages historically start with a supplied source result and have no 
 ## Verification / remaining work
 
 Final clean-tree five gates + strictG2/G6 and scan pending in this checkpoint. No promotion to main or Live. Model validation and complete recorded chain remain unverified; source gaps and NETWORK failure are explicit. Shared STATUS/DEVLOG/TEST-LOG updates deferred to merge per Nov5 working rules; capability matrix marks this draft only.
+
+
+### First full gate and fixture migration
+
+Candidate40108165: typecheck and architecture PASS with clean statuses; default1397/1429,32fail. Build/browser/G2 not started after that failure. All32 concerned mock transports lacking current GET receipts, rather than an exemption to grant. A test-only helper now emits Mock receipt data only after a currently observed GET-form click, from the next same-origin document's actual URL multiset; it grants no boundary metadata, URL or identity. It is used only by constructed fake sessions. Real Chromium in the booking fixture remains untouched. The fixture model submits a query when it has no current receipt; the shared sequence fixture no longer advances to a different payload merely because the seeded page URL already contains a keyword. Business/safety assertions preserved. Targeted143 tests initially139/143; focused remaining fixture corrections green in the affected source files; the second full matrix follows. No product rule relaxed. TableCheck early next-term switching is limited to REQUESTED_HUMAN_HELP; NO_SAFE_ACTION can still hand current source material to its unchanged parser/identity path.
+
+Hardcoded scan985f456e..40108165: one hit on the existing TableCheck allowedOrigins line now carrying querySource. The same previously approved origin string is unchanged; this is a safety-scope check, no new destination/action rule or platform configuration. Scanner script and exact output retained. Shared STATUS/DEVLOG/TEST-LOG are still untouched under the user Nov5 merge rule.

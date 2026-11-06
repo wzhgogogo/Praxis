@@ -1,3 +1,4 @@
+import {fixtureGetRuntime,fixtureGetSession} from "../../harness/fixtures/observed-get-session.js";
 import {scriptedBrowserObservation} from "../../harness/fixtures/restaurant-observation-model.js";
 import assert from "node:assert/strict";
 import test from "node:test";
@@ -38,8 +39,8 @@ function request(name:string):RestaurantAvailabilityRequest{
 }
 test("one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions",async()=>{
   const sessions:SearchSession[]=[];
-  const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();sessions.push(s);return s;}};
-  const availability=new LiveBrowserAvailability(runtime,{complete:async(request)=>scriptedBrowserObservation(request)!},{...limits,alternativeSearch:async()=>undefined});
+  const runtime:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();sessions.push(s);return fixtureGetSession(s);}};
+  const availability=new LiveBrowserAvailability(fixtureGetRuntime(runtime),{complete:async(request)=>scriptedBrowserObservation(request)!},{...limits,alternativeSearch:async()=>undefined});
   availability.beginReadRun();
   const results=[];
   try{for(const name of ["Alpha Sushi","Beta Sushi","Gamma Sushi"]){const r=await availability.check(request(name),new AbortController().signal,"read-one");results.push(r);assert.equal(r.availabilityChecks[name]?.status,"UNKNOWN");assert.deepEqual(r.offers,[]);}}
@@ -53,7 +54,7 @@ test("one read reuses each source search form across candidate checkpoints, with
 
 test("missing observed search controls never construct a query URL and retain honest no-result conclusions",async()=>{
   const sessions:SearchSession[]=[];
-  const availability=new LiveBrowserAvailability({readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();s.observeControls=async()=>[];sessions.push(s);return s;}},
+  const availability=new LiveBrowserAvailability({readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();s.observeControls=async()=>[];sessions.push(s);return fixtureGetSession(s);}},
     {complete:async(request)=>scriptedBrowserObservation(request)!},{...limits,alternativeSearch:async()=>undefined});
   availability.beginReadRun();
   try{for(const name of ["Alpha Sushi","Beta Sushi","Gamma Sushi"]){const r=await availability.check(request(name),new AbortController().signal);assert.equal(r.availabilityChecks[name]?.status,"UNKNOWN");}}
@@ -87,7 +88,7 @@ test("a failed reused session retires without retry; the next candidate gets a f
 
 test("a completed run never lends its source contexts to a later run; cancellation still closes every context",async()=>{
   const sessions:SearchSession[]=[];
-  const availability=new LiveBrowserAvailability({readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();sessions.push(s);return s;}},
+  const availability=new LiveBrowserAvailability({readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new SearchSession();sessions.push(s);return fixtureGetSession(s);}},
     {complete:async(request)=>scriptedBrowserObservation(request)!},{...limits,alternativeSearch:async()=>undefined});
   availability.beginReadRun();await availability.check(request("Alpha Sushi"),new AbortController().signal);await availability.endReadRun();
   assert.equal(sessions.length,2);assert.ok(sessions.every(s=>s.closed===1));
@@ -120,7 +121,7 @@ test("ordinary assembly retains correct source identities while a reused search 
   const sessions:IdentitySession[]=[];let sourceModelCalls=0;
   const assembly=createLiveReadAssembly({...LIVE_READ_DEBUG_INVESTIGATION_BUDGET,packs:[tabelogDiscoveryPack]}, {
     model:{complete:async(request)=>{const observed=scriptedBrowserObservation(request);if(observed)return observed;sourceModelCalls++;return {invocationId:"declined-fragment",provider:"FIXTURE",model:"fixture",outputText:'{"field":"name","fragment":""}',finishReason:"STOP",latencyMs:0};}},
-    browser:{readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new IdentitySession();sessions.push(s);return s;}},
+    browser:{readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession:async()=>{const s=new IdentitySession();sessions.push(s);return fixtureGetSession(s);}},
     google:new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async()=>{throw new Error("Google not authorized");}}),
     clock:{now:()=>new Date()},
   });

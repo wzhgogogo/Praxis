@@ -1,3 +1,4 @@
+import {fixtureGetSession} from "../../../harness/fixtures/observed-get-session.js";
 import type { ModelGateway, ModelRequest, ModelResponse } from "../../../core/model/contracts.js";
 import { LIVE_READ_DEBUG_INVESTIGATION_BUDGET, type LiveReadInvestigationBudget } from "../../../application/live-read-investigation-budget.js";
 import { createLiveReadAssembly } from "../../../integrations/restaurant-search/live-read-assembly.js";
@@ -300,7 +301,7 @@ export function createCurrentDevelopmentFixedSources(
       screenshot: async () => new Uint8Array(), close: async () => {},
     };return session;
   } };
-  const browser: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async (input) => traceBrowserSession(await rawBrowser.openSession(input), "TABLECHECK", recordBrowserTrace) };
+  const browser: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async (input) => traceBrowserSession(fixtureGetSession(await rawBrowser.openSession(input)), "TABLECHECK", recordBrowserTrace) };
   const assembly = createLiveReadAssembly({ ...limits, packs: [googlePlacesDiscoveryPack] }, {
     google: client, browser, model, clock: { now: () => new Date(asIso(clock)) },
     onBrowserDiagnostic: diagnostic => {sourceStage=diagnostic.stage;recordBrowserTrace("EXECUTOR_DIAGNOSTIC", diagnostic);},

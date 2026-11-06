@@ -1,3 +1,4 @@
+import {fixtureGetRuntime,fixtureGetSession} from "../../harness/fixtures/observed-get-session.js";
 import {scriptedBrowserObservation} from "../../harness/fixtures/restaurant-observation-model.js";
 import assert from "node:assert/strict";
 import { test } from "node:test";
@@ -25,7 +26,7 @@ test("production composition shares one literal-fragment model proposal across b
   ];
   const session=new Session(pages.slice(0,2)),other=new Session(pages.slice(2));let opens=0;
   const budget = { totalModelCalls: 0, maxModelCalls: 120 }; let calls = 0,browserCalls=0;
-  const availability = new LiveBrowserAvailability({ readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async () => [session,other][opens++]! }, { async complete(request) {
+  const availability = new LiveBrowserAvailability({ readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async () => fixtureGetSession([session,other][opens++]!) }, { async complete(request) {
     const browser=scriptedBrowserObservation(request);if(browser){browserCalls++;return browser;}
     calls++; assert.equal(request.purpose, "restaurant_named_source_query");
     assert.deepEqual(JSON.parse(request.messages[1]!.content), { name: subject.restaurant.outletName, address: subject.restaurant.address });
@@ -49,12 +50,12 @@ class Session implements BrowserSession {
   readonly queriesObserved:string[]=[];
   closed = 0;
   private page = -1;
-  private currentUrl="";private query="";private submitted=false;
+  private currentUrl="";private query="";private submittedQuery:string|undefined;
   constructor(private readonly pages: BrowserSnapshot[]) {}
-  async navigate(url: string): Promise<void> { this.openedPages.push(url); this.page = Math.min(this.page + 1, this.pages.length - 1);this.currentUrl=this.pages[this.page]!.url;this.submitted=new URL(this.currentUrl).searchParams.has("sw")||new URL(this.currentUrl).searchParams.has("search_text"); }
+  async navigate(url: string): Promise<void> { this.openedPages.push(url); this.page = Math.min(this.page + 1, this.pages.length - 1);this.currentUrl=this.pages[this.page]!.url;this.submittedQuery=undefined; }
   async snapshot(): Promise<BrowserSnapshot> {const u=new URL(this.currentUrl),q=u.searchParams.get("search_text")??u.searchParams.get("sw");if(q&&this.queriesObserved.at(-1)!==q)this.queriesObserved.push(q);return {...this.pages[this.page]!,url:this.currentUrl}; }
   async observeControls():Promise<import("../../infrastructure/browser/browser-runtime.js").BrowserPageControl[]>{const form={owner:"public-search",visibleLines:["Restaurant name","Search"]};const html=this.pages[this.page]!.html;const selected:import("../../infrastructure/browser/browser-runtime.js").BrowserPageControl[]= [...html.matchAll(/<select name="(party|date)"><option(?: selected)? value="([^"]+)"/g)].map(m=>({id:m[1]!,stableKey:m[1]!,kind:"SELECT",role:"combobox",label:m[1]==="date"?"Date":"Guests",value:m[2]!,options:[{value:m[2]!,label:m[2]!,selected:true,disabled:false}],visible:true,disabled:false}));return[...selected,{id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Restaurant name",type:"search",value:this.query,structure:{tag:"INPUT",name:this.currentUrl.includes("tablecheck")?"search_text":"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0},formMethod:"GET",formObservation:form,visible:true,disabled:false},{id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:form,visible:true,disabled:false}];}
-  async click(): Promise<void> {if(this.submitted||!/(?:japan\/search|rstLst)/.test(new URL(this.pages[this.page]!.url).pathname))this.page=Math.min(this.page+1,this.pages.length-1);this.submitted=true;const u=new URL(new URL(this.currentUrl).hostname.includes("tablecheck")?"https://www.tablecheck.com/en/japan/search":"https://tabelog.com/en/rstLst/");u.searchParams.set(u.hostname.includes("tablecheck")?"search_text":"sw",this.query);this.currentUrl=u.toString();this.openedPages.push(this.currentUrl);}
+  async click(): Promise<void> {if(this.submittedQuery!==undefined&&this.submittedQuery!==this.query||!/(?:japan\/search|rstLst)/.test(new URL(this.pages[this.page]!.url).pathname))this.page=Math.min(this.page+1,this.pages.length-1);this.submittedQuery=this.query;const u=new URL(new URL(this.currentUrl).hostname.includes("tablecheck")?"https://www.tablecheck.com/en/japan/search":"https://tabelog.com/en/rstLst/");u.searchParams.set(u.hostname.includes("tablecheck")?"search_text":"sw",this.query);this.currentUrl=u.toString();this.openedPages.push(this.currentUrl);}
   async fill(_id:string,value:string): Promise<void> {this.query=value;}
   async select(_selector: string, value: string): Promise<string[]> { return [value]; }
   async waitFor(): Promise<void> {}
@@ -81,7 +82,7 @@ test("one-shot Live composition initializes each source context and closes both 
   let opens = 0;
   const runtime: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async () => { opens += 1; return [empty,session][opens-1]!; } };
   const diagnostics: BrowserExecutionDiagnostic[] = [];
-  const result = await new LiveBrowserAvailability(runtime, neverCalledModel, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80,
+  const result = await new LiveBrowserAvailability(fixtureGetRuntime(runtime), neverCalledModel, { maxAutomaticElapsedMs: 300_000, maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80,
     onBrowserDiagnostic: (diagnostic) => diagnostics.push(diagnostic),
   }).check(request, new AbortController().signal);
   assert.equal(opens, 2,"Each source requires its own first observed source seed");
@@ -125,7 +126,7 @@ test("Live composition reuses a source-observed Hajime entrance across candidate
   ]);
   let opens = 0;
   const runtime: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async () => [first, second][opens++]! };
-  const availability = new LiveBrowserAvailability(runtime, neverCalledModel, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80,alternativeSearch:async()=>undefined });
+  const availability = new LiveBrowserAvailability(fixtureGetRuntime(runtime), neverCalledModel, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80,alternativeSearch:async()=>undefined });
   const toRequest = (item: typeof teppen): RestaurantAvailabilityRequest => ({ candidateIds: [item.restaurant.id], candidates: [item], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: [] });
   availability.beginReadRun();
   await availability.check(toRequest(teppen), new AbortController().signal);
@@ -162,7 +163,7 @@ test("Live composition clears observed TableCheck entrances when a read run ends
   const challenge = () => new Session([{url:"https://tabelog.com/en/rstLst/",title:"Just a moment...",text:"verify you are human",html:""}]);
   const sourceSessions=[first,challenge(),second,challenge()];
   const runtime: BrowserRuntime = { readNetworkBoundaryCapability:"ISOLATED_CONTEXT",openSession: async () => sourceSessions[opens++]! };
-  const availability = new LiveBrowserAvailability(runtime, neverCalledModel, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80 });
+  const availability = new LiveBrowserAvailability(fixtureGetRuntime(runtime), neverCalledModel, { maxAutomaticElapsedMs: 300_000,  maxModelCallsPerCandidate: 20, maxModelCallsTotal: 120, maxOperationsPerCandidate: 80 });
   const toRequest = (item: typeof teppen): RestaurantAvailabilityRequest => ({ candidateIds: [item.restaurant.id], candidates: [item], date: fixtureIntent.date, timeWindow: fixtureIntent.timeWindow, partySize: fixtureIntent.partySize, hardCriteria: [] });
   availability.beginReadRun();
   await availability.check(toRequest(teppen), new AbortController().signal);

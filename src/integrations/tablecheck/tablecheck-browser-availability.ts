@@ -499,7 +499,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           // whether a public control or a bounded wait is appropriate; no URL
           // parameter is treated as a universal loading selector.
           discovery = await this.executor.snapshot({ source: "TABLECHECK", stage: "DISCOVERY", signal, session });
-          if ((searched.status === "REQUESTED_HUMAN_HELP" || searched.status === "NO_SAFE_ACTION")
+          if (searched.status === "REQUESTED_HUMAN_HELP"
             && searched.reasonCode !== "OBSERVED_QUERY_CONFLICT" && !hasTableCheckBotChallenge(discovery)
             && !inspectTableCheckPageUnavailable(discovery).pageUnavailable && await nextSearch()) continue;
           discovery = await this.resumeAfterUserIntervention(candidate, request, session, discovery, "DISCOVERY", signal);

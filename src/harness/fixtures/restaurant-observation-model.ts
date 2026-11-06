@@ -10,7 +10,7 @@ export function scriptedBrowserObservation(request: ModelRequest): ModelResponse
   const query = targets.find(t => t.kind === "INPUT" && t.formObservation && t.availableActions?.includes("FILL_AUTHORITATIVE:RETRIEVAL"));
   if (input.stage === "DISCOVERY" && query && query.value !== input.goal.retrievalExpression) {
     action = "FILL_AUTHORITATIVE"; targetRef = query.ref; authoritativeField = "RETRIEVAL";
-  } else if (input.stage === "DISCOVERY" && query && ![...new URL(input.observation.url).searchParams.values()].includes(input.goal.retrievalExpression ?? "")) {
+  } else if (input.stage === "DISCOVERY" && query && (input.progress?.includes("No positive source result binding") || ![...new URL(input.observation.url).searchParams.values()].includes(input.goal.retrievalExpression ?? ""))) {
     const submit = targets.find(t => t.kind === "BUTTON" && t.formObservation?.owner === query.formObservation?.owner && t.formMethod === "GET");
     if (submit) { action = "CLICK"; targetRef = submit.ref; }
   } else if (input.stage !== "DISCOVERY") {

@@ -1,3 +1,4 @@
+import {fixtureGetRuntime} from "../harness/fixtures/observed-get-session.js";
 import {scriptedBrowserObservation} from "../harness/fixtures/restaurant-observation-model.js";
 import { prepareBookingHandoff, type BookingHandoffContext, type BookingHandoffSource, type PreparedBookingHandoff } from "../domains/restaurant/booking-handoff.js";
 import { groundTabelogAvailability } from "../domains/restaurant/read-grounding.js";
@@ -1958,7 +1959,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
         async observeControls(){return new URL(currentUrl).pathname===new URL(pageUrl).pathname?[]:[{id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Name",type:"search",value:query,structure:{tag:"INPUT",name:"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0},formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false},{id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:{owner:"search",visibleLines:["Name","Search"]},visible:true,disabled:false}];},async select(_selector,value) {return [value];},async click() {currentUrl="https://tabelog.com/en/rstLst/?sw="+encodeURIComponent(query);navigations.push(currentUrl);},async fill(_id,value){query=value;},async waitFor(){},async waitForSettled(){return true;},async screenshot(){return new Uint8Array();},async close(){}};
     }};
     const readAssembly = createLiveReadAssembly({...readLimits,packs:[googlePlacesDiscoveryPack]}, {
-      google,browser,model,clock,currentTaskId:()=>model.currentTaskId(),
+      google,browser:fixtureGetRuntime(browser),model,clock,currentTaskId:()=>model.currentTaskId(),
     });
     let running = await startServer(database,clock,{model,modelRunBudget:model,readAssembly,mode:"LIVE_READ",liveReadLimits:readAssembly.runCeilings});
     try {
@@ -2017,7 +2018,7 @@ test("B1 ordinary assembly exposes only the exact G3 source link", async t => {
       const before=opens;
       const current=(await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(last.case.caseId))).payload.view as RestaurantCaseView;
       assert.equal(current.restaurant.bookingHandoffs?.[0]?.url,original,"other Cases with identical clocks/evidence IDs cannot replace this Case cache");
-      const freshAssembly=createLiveReadAssembly({...readLimits,packs:[googlePlacesDiscoveryPack]}, {google,browser,model,clock,currentTaskId:()=>model.currentTaskId()});
+      const freshAssembly=createLiveReadAssembly({...readLimits,packs:[googlePlacesDiscoveryPack]}, {google,browser:fixtureGetRuntime(browser),model,clock,currentTaskId:()=>model.currentTaskId()});
       await running.close();
       running=await startServer(database,clock,{model,modelRunBudget:model,readAssembly:freshAssembly,mode:"LIVE_READ"});
       const restarted=(await api(running.baseUrl,cookie,"/api/cases/"+encodeURIComponent(last.case.caseId))).payload.view as RestaurantCaseView;

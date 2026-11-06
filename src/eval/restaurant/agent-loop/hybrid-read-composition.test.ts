@@ -1,3 +1,4 @@
+import {fixtureGetRuntime,fixtureGetSession} from "../../../harness/fixtures/observed-get-session.js";
 import {scriptedBrowserObservation} from "../../../harness/fixtures/restaurant-observation-model.js";
 import { fixtureGoalBasis } from "../../../harness/restaurant-read-test-fixtures.js";
 import { createGoogleReadComposition, response, strictAction, ScriptedExternalModel, scriptedRetrieval, googleFixture, now, clock } from "../../../harness/restaurant-read-test-fixtures.js";
@@ -887,7 +888,7 @@ test("Google fact exhaustion must leave a separately executable browser investig
     clock,
     model,
     google: google,
-    browser: browser,
+    browser: fixtureGetRuntime(browser),
     config: { maxAgentSteps: 7, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -974,7 +975,7 @@ test("source text handoff reaches request-bound availability and presentation th
     clock,
     model,
     google: google,
-    browser: tracedBrowser,
+    browser: fixtureGetRuntime(tracedBrowser),
     onBrowserDiagnostic: diagnostic => { browserTrace.push({ sequence: ++browserTraceSequence, at: now.toISOString(), kind: "EXECUTOR_DIAGNOSTIC", detail: diagnostic }); },
     config: { maxAgentSteps: 6, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
@@ -1034,7 +1035,7 @@ test("a website observation for another candidate cannot revive an unknown Googl
     clock,
     model,
     google: google,
-    browser: browser,
+    browser: fixtureGetRuntime(browser),
     onBrowserDiagnostic: diagnostic => browserDiagnostics.push(diagnostic),
     config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
@@ -1091,7 +1092,7 @@ test("a failed compound refresh invalidates prior facts and independent evaluati
     clock: { now: () => time },
     model,
     google: google,
-    browser: browser,
+    browser: fixtureGetRuntime(browser),
     config: { maxAgentSteps: 5, maxRejectedActions: 3, maxAutomaticBrowserMs: 500_000, maxStructuredReadMs: 8_000 }
   });
   await composition.interpretAndDispatch({ taskId, message: "Find cafes nearby tomorrow afternoon for two.", referenceTime: now.toISOString(), timezone: "Asia/Tokyo" }, HIGASHI_GINZA_EVALUATION_LOCATION);
@@ -1264,7 +1265,7 @@ async function runScopedFailureComposition(mode: "local" | "option" | "model-bud
     clock,
     model,
     google: google,
-    browser: {readNetworkBoundaryCapability:"ISOLATED_CONTEXT", openSession: async input => traceBrowserSession(await browser.openSession(input), "TABELOG", (kind, detail) => {
+    browser: {readNetworkBoundaryCapability:"ISOLATED_CONTEXT", openSession: async input => traceBrowserSession(fixtureGetSession(await browser.openSession(input)), "TABELOG", (kind, detail) => {
       const sequence = browserTrace.length + 1;
       browserTrace.push({ sequence, at: now.toISOString(), kind, detail }); return sequence;
     }) },

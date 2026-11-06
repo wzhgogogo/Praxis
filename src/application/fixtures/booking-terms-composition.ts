@@ -1,3 +1,4 @@
+import {fixtureGetSession} from "../../harness/fixtures/observed-get-session.js";
 import {scriptedBrowserObservation} from "../../harness/fixtures/restaurant-observation-model.js";
 import assert from "node:assert/strict";
 import {readFile,mkdtemp,writeFile,rm} from "node:fs/promises";
@@ -273,7 +274,7 @@ if(options.namedWithoutArea){
       if(originalNavigate)await originalNavigate(pageUrl);
     };
     if(session){const snapshot=session.snapshot.bind(session);session.navigate=navigate;session.snapshot=async()=>{const original=await snapshot();const p=omit?{...original,text:original.text.replace(cancellationQuote,"").replace(cardQuote,"")}:original;sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;};return session;}
-    return {metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime,readNetworkBoundary:"INSTALLED"},navigate,
+    return fixtureGetSession({metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime,readNetworkBoundary:"INSTALLED"},navigate,
       async snapshot(){
         if(d3&&stage==="FACTS"){
           const jp=pageUrl===ja;const p={...structuredClone(jp?d3Japanese!:d3English!),url:pageUrl,
@@ -296,7 +297,7 @@ if(options.namedWithoutArea){
         const p={url:pageUrl,title:name,text:d2?text.replaceAll("19:00","20:00"):text,html,responses:stage==="FACTS"?[]:[{url:source.vacancy.url.replaceAll("13123456",otherId??"13123456"),status:200,observedAt:clock.now().toISOString(),sequence:1,body:otherId?JSON.parse(JSON.stringify(source.vacancy.body).replaceAll("13123456",otherId)):source.vacancy.body}]};sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;},
       async observeControls(){if(stage==="DISCOVERY")return [{id:"query",stableKey:"query",kind:"INPUT",role:"searchbox",label:"Restaurant name",type:"search",structure:{tag:"INPUT",name:"sw",classes:[],dialogLabel:"",formClass:"",sliderCount:0},value:query,formMethod:"GET",formObservation:{owner:"source-search",visibleLines:["Restaurant name","Search"]},visible:true,disabled:false},{id:"submit",stableKey:"submit",kind:"BUTTON",role:"button",label:"Search",type:"submit",formMethod:"GET",formObservation:{owner:"source-search",visibleLines:["Restaurant name","Search"]},visible:true,disabled:false}];const controls=d3&&stage==="FACTS"&&pageUrl===url?structuredClone(d3.controls):options.conflict&&pageUrl===url?[{id:"lang-ja",stableKey:"lang-ja",kind:"LINK" as const,role:"link",label:"日本語",href:ja,visible:true,disabled:false}]:[];
         if(stage==="FACTS"){mark("FACTS_CONTROLS_END",{url:pageUrl});options.afterFactControls?.(pageUrl);}return controls;},
-      async select(_selector,value){return [value];},async click(id){assert.equal(id,"submit");await navigate((new URL(pageUrl).hostname.includes("tablecheck")?"https://www.tablecheck.com/en/japan/search":"https://tabelog.com/en/")+"?sw="+encodeURIComponent(query));},async fill(id,value){assert.equal(id,"query");query=value;},async waitFor(){},async waitForSettled(){return !(d3&&stage==="FACTS"&&pageUrl===url);},async screenshot(){return new Uint8Array();},async close(){}};
+      async select(_selector,value){return [value];},async click(id){assert.equal(id,"submit");await navigate((new URL(pageUrl).hostname.includes("tablecheck")?"https://www.tablecheck.com/en/japan/search":"https://tabelog.com/en/")+"?sw="+encodeURIComponent(query));},async fill(id,value){assert.equal(id,"query");query=value;},async waitFor(){},async waitForSettled(){return !(d3&&stage==="FACTS"&&pageUrl===url);},async screenshot(){return new Uint8Array();},async close(){}});
   }};
   const google=new GooglePlacesClient({apiKey:"fixture",fetchImplementation:async(target,init)=>{
     sourceCalls.push({turn,url:String(target),kind:"GOOGLE_FIXTURE"});
