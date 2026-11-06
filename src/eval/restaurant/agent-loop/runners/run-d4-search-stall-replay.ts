@@ -10,8 +10,9 @@ import {LocalPlaywrightChromium} from '../../../../infrastructure/browser/local-
 import {discoveryPackNetworkPolicy} from '../../../../integrations/restaurant-search/source-packs.js';
 import {withRequestTimeline} from './browser-request-timeline.js';
 import {safeRecord,safeUrl} from './browser-case-slice-evidence.js';
-const [folder,output,transport='RECORDED_FETCH']=process.argv.slice(2);assert.ok(folder&&output);
+const [folder,output,transport='RECORDED_FETCH',competition='NONE']=process.argv.slice(2);assert.ok(folder&&output);
 assert.ok(['RECORDED_FETCH','HAR_FALLBACK'].includes(transport));
+assert.ok(['NONE','SNAPSHOT'].includes(competition));
 const root=resolve(folder),recording=JSON.parse(await readFile(join(root,'recording.json'),'utf8'));
 const har=JSON.parse(await readFile(join(root,'replay.har'),'utf8'));
 const originalDocument=process.env.D4_REPLAY_DOCUMENT;
@@ -20,7 +21,16 @@ const decisions=(await readFile(join(root,'../../execution.decisions.jsonl'),'ut
 const steps=decisions.filter(d=>d.sequence===4||d.sequence===5).map(d=>({decision:JSON.parse(d.outputText),context:JSON.parse(d.messages.find((m:any)=>m.role==='user').content),latencyMs:d.latencyMs}));
 const trace:any[]=[],misses:any[]=[],fetches:any[]=[],browserErrors:any[]=[];
 const emit=(kind:string,detail:unknown)=>trace.push({kind,detail:safeRecord(detail),at:performance.now()});
-const listener=(value:unknown)=>emit('FORM_EVIDENCE',value);channel('praxis.browser.form-evidence').subscribe(listener);
+let competingSnapshot:Promise<void>|undefined;
+const competitionResult:{startedAt?:number;finishedAt?:number;outcome?:string;error?:unknown}={};
+const listener=(value:unknown)=>{
+ emit('FORM_EVIDENCE',value);
+ const event=value as {stage?:string;phase?:string};
+ if(competition==='SNAPSHOT'&&!competingSnapshot&&event.stage==='SUBMISSION_SNAPSHOT'&&event.phase==='START'){
+  competitionResult.startedAt=performance.now();
+  competingSnapshot=session!.snapshot().then(()=>{competitionResult.outcome='COMPLETED';},error=>{competitionResult.outcome='FAILED';competitionResult.error=safeRecord(error instanceof Error?{name:error.name,message:error.message,cause:error.cause}:error);}).finally(()=>{competitionResult.finishedAt=performance.now();});
+ }
+};channel('praxis.browser.form-evidence').subscribe(listener);
 const temp=await mkdtemp(join(tmpdir(),'d4-search-stall-'));
 const runtime=new LocalPlaywrightChromium({proxyServer:'http://127.0.0.1:9',browserType:{async launch(options){
  const browser=await chromium.launch(options),create=browser.newContext.bind(browser);
@@ -52,6 +62,6 @@ try{
   else await session.click(matches[0]!.id,{timeoutMs:20_000});
  }
 }catch(e){error=safeRecord(e instanceof Error?{name:e.name,message:e.message,cause:e.cause}:e);}
-finally{guardRequests=await session?.snapshot().then(snapshot=>snapshot.networkRequests).catch(()=>undefined);await session?.close();channel('praxis.browser.form-evidence').unsubscribe(listener);await rm(temp,{recursive:true,force:true});}
-await writeFile(output,JSON.stringify({mode:'COMPONENT_REAL_RECORDING_REPLAY',transport,originalDocument,error,guardRequests,trace,fetches,misses,browserErrors},null,2)+'\n');
+finally{guardRequests=await session?.snapshot().then(snapshot=>snapshot.networkRequests).catch(()=>undefined);await session?.close();await competingSnapshot;channel('praxis.browser.form-evidence').unsubscribe(listener);await rm(temp,{recursive:true,force:true});}
+await writeFile(output,JSON.stringify({mode:'COMPONENT_REAL_RECORDING_REPLAY',transport,competition,competitionResult,originalDocument,error,guardRequests,trace,fetches,misses,browserErrors},null,2)+'\n');
 console.log(JSON.stringify({transport,error,fetches:fetches.length,misses:misses.length}));
