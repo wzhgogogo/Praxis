@@ -1,0 +1,318 @@
+{
+  "status": "HISTORICAL_ONLY; current raw evidence and independent review required",
+  "originalCase": "D8",
+  "priorOracle": {
+    "qualificationOracles": [
+      {
+        "name": "Specializing in Nodoguro Ginza Nakamata",
+        "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+        "phone": "03-6264-3229",
+        "hardCriteriaMet": true,
+        "withinArea": true,
+        "evidenceRefs": [
+          ".eval-artifacts/phase3b/g6-development-live/84f4c1f9-certification/13186922/001-detail.body",
+          ".eval-artifacts/phase3b/g6-development-live/split-resume-20261102/user-w2-identity.json"
+        ]
+      },
+      {
+        "name": "のどぐろ専門 銀座 中俣",
+        "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+        "phone": "03-6264-3229",
+        "hardCriteriaMet": true,
+        "withinArea": true,
+        "evidenceRefs": [
+          ".eval-artifacts/phase3b/g6-development-live/84f4c1f9-certification/13186922/001-detail.body",
+          ".eval-artifacts/phase3b/g6-development-live/split-resume-20261102/user-w2-identity.json"
+        ]
+      },
+      {
+        "name": "Nodoguro Senmon Ginza Nakamata",
+        "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+        "phone": "03-6264-3229",
+        "hardCriteriaMet": true,
+        "withinArea": true,
+        "evidenceRefs": [
+          ".eval-artifacts/phase3b/g6-development-live/84f4c1f9-certification/13186922/001-detail.body",
+          ".eval-artifacts/phase3b/g6-development-live/split-resume-20261102/user-w2-identity.json"
+        ]
+      }
+    ],
+    "pages": [],
+    "reviewedReadRules": [
+      {
+        "ref": "reviewed-public-reads:0",
+        "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+        "methods": [
+          "GET"
+        ],
+        "queryKeys": [],
+        "pathname": "/catalog.json",
+        "corsPreflight": {
+          "requestOrigin": "https://www.tablecheck.com",
+          "requestedHeaderNames": [
+            "x-api-key"
+          ]
+        },
+        "requiredQueryKeys": []
+      },
+      {
+        "ref": "reviewed-public-reads:1",
+        "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+        "methods": [
+          "GET"
+        ],
+        "queryKeys": [
+          "queryProfile",
+          "hits",
+          "scope",
+          "lat",
+          "lng",
+          "radius_km",
+          "party_size",
+          "cuisine",
+          "sort",
+          "offset",
+          "id",
+          "open_day",
+          "service_mode"
+        ],
+        "pathname": "/search/",
+        "corsPreflight": {
+          "requestOrigin": "https://www.tablecheck.com",
+          "requestedHeaderNames": [
+            "x-api-key"
+          ]
+        },
+        "requiredQueryKeys": [
+          "queryProfile"
+        ]
+      },
+      {
+        "ref": "reviewed-public-reads:2",
+        "origin": "https://production.tablecheck.com",
+        "methods": [
+          "POST"
+        ],
+        "queryKeys": [],
+        "pathname": "/v2/hub/availability_calendar_v2",
+        "bodyFields": {
+          "locale": "string",
+          "start_at": "string",
+          "shop_id": "string",
+          "num_people": "string"
+        },
+        "corsPreflight": {
+          "requestOrigin": "https://www.tablecheck.com",
+          "requestedHeaderNames": [
+            "content-type"
+          ]
+        },
+        "requiredQueryKeys": []
+      },
+      {
+        "ref": "reviewed-public-reads:3",
+        "origin": "https://tabelog.com",
+        "methods": [
+          "GET"
+        ],
+        "queryKeys": [
+          "sw",
+          "vac_net",
+          "svd",
+          "svt",
+          "svps"
+        ],
+        "pathnamePattern": "^/en/tokyo/.*$",
+        "requiredQueryKeys": []
+      },
+      {
+        "ref": "reviewed-public-reads:4",
+        "origin": "https://www.tablecheck.com",
+        "methods": [
+          "GET"
+        ],
+        "queryKeys": [
+          "service_mode",
+          "sort_by",
+          "venue_type",
+          "geo_latitude",
+          "geo_longitude",
+          "geo_distance",
+          "auto_geolocate",
+          "search_text",
+          "date",
+          "time",
+          "num_people",
+          "availability_mode"
+        ],
+        "pathname": "/en/japan/search",
+        "requiredQueryKeys": [
+          "service_mode",
+          "sort_by",
+          "venue_type",
+          "geo_latitude",
+          "geo_longitude",
+          "geo_distance",
+          "auto_geolocate"
+        ]
+      },
+      {
+        "ref": "reviewed-public-reads:5",
+        "origin": "https://production.tablecheck.com",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "queryKeys": [],
+        "pathname": "/v2/geolocation",
+        "corsPreflight": {
+          "requestOrigin": "https://www.tablecheck.com",
+          "requestedHeaderNames": [
+            "x-api-key"
+          ]
+        },
+        "requiredQueryKeys": []
+      },
+      {
+        "ref": "reviewed-public-reads:6",
+        "origin": "https://production.tablecheck.com",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "queryKeys": [
+          "locale",
+          "shop_universe_id",
+          "text"
+        ],
+        "pathname": "/v2/autocomplete",
+        "corsPreflight": {
+          "requestOrigin": "https://www.tablecheck.com",
+          "requestedHeaderNames": [
+            "x-api-key"
+          ]
+        },
+        "requiredQueryKeys": [
+          "locale",
+          "shop_universe_id",
+          "text"
+        ]
+      },
+      {
+        "ref": "reviewed-public-reads:7",
+        "origin": "https://production.tablecheck.com",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "queryKeys": [
+          "limit",
+          "sort_by",
+          "shop_ids[]"
+        ],
+        "pathname": "/v2/hub/public_shop_lists",
+        "corsPreflight": {
+          "requestOrigin": "https://www.tablecheck.com",
+          "requestedHeaderNames": [
+            "x-api-key"
+          ]
+        },
+        "requiredQueryKeys": [
+          "limit",
+          "sort_by"
+        ]
+      },
+      {
+        "ref": "reviewed-public-reads:8",
+        "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "queryKeys": [
+          "shop_universe_id",
+          "include_ids",
+          "service_mode",
+          "sort_by",
+          "venue_type",
+          "search_text",
+          "geo_latitude",
+          "geo_longitude",
+          "geo_distance",
+          "auto_geolocate",
+          "cuisines[]",
+          "budget_dinner_avg_min",
+          "budget_dinner_avg_max",
+          "search_after",
+          "per_page",
+          "randomize_geo"
+        ],
+        "pathname": "/ai_search",
+        "corsPreflight": {
+          "requestOrigin": "https://www.tablecheck.com",
+          "requestedHeaderNames": [
+            "x-api-key"
+          ]
+        },
+        "requiredQueryKeys": [
+          "shop_universe_id",
+          "include_ids"
+        ]
+      },
+      {
+        "ref": "reviewed-public-reads:9",
+        "origin": "https://production.tablecheck.com",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "queryKeys": [
+          "shop_universe_id",
+          "include_ids",
+          "service_mode",
+          "sort_by",
+          "venue_type",
+          "search_text",
+          "geo_latitude",
+          "geo_longitude",
+          "geo_distance",
+          "auto_geolocate",
+          "cuisines[]",
+          "budget_dinner_avg_min",
+          "budget_dinner_avg_max",
+          "search_after",
+          "per_page",
+          "randomize_geo"
+        ],
+        "pathname": "/v2/shop_search",
+        "corsPreflight": {
+          "requestOrigin": "https://www.tablecheck.com",
+          "requestedHeaderNames": [
+            "x-api-key"
+          ]
+        },
+        "requiredQueryKeys": [
+          "shop_universe_id",
+          "include_ids"
+        ]
+      },
+      {
+        "ref": "reviewed-public-reads:10",
+        "origin": "https://cdn0.tablecheck.com",
+        "methods": [
+          "GET",
+          "HEAD"
+        ],
+        "queryKeys": [],
+        "pathnamePattern": "^/common/.*$",
+        "corsPreflight": {
+          "requestOrigin": "https://www.tablecheck.com",
+          "requestedHeaderNames": [
+            "x-api-key"
+          ]
+        },
+        "requiredQueryKeys": []
+      }
+    ]
+  }
+}

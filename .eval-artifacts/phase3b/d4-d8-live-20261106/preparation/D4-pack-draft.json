@@ -1,0 +1,382 @@
+{
+  "schemaVersion": "phase3b-g6-pack@1",
+  "mode": "LIVE_READ",
+  "recording": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  },
+  "cases": [
+    {
+      "id": "D4",
+      "request": "Could you find a kushikatsu place near Akabane with a table for 2 on Wednesday, November 11, 2026 at 7 PM?",
+      "followups": [
+        {
+          "id": "PRIVATE_ROOM",
+          "trigger": "DISPLAYED_RESULTS",
+          "kind": "PAGE_QUESTION",
+          "text": "Does this restaurant have a private room?"
+        }
+      ],
+      "oracle": {
+        "request": {
+          "dates": [
+            "2026-11-11"
+          ],
+          "partySize": 2,
+          "time": "19:00"
+        },
+        "pages": [],
+        "reviewedReadRules": [
+          {
+            "ref": "independent-approved-public-read:1",
+            "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+            "pathname": "/catalog.json",
+            "methods": [
+              "GET"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:2",
+            "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+            "pathname": "/search/",
+            "methods": [
+              "GET"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "queryProfile",
+              "hits",
+              "scope",
+              "lat",
+              "lng",
+              "radius_km",
+              "party_size",
+              "cuisine",
+              "sort",
+              "offset",
+              "id",
+              "open_day",
+              "service_mode"
+            ],
+            "requiredQueryKeys": [
+              "queryProfile"
+            ]
+          },
+          {
+            "ref": "ADR-0035-public-calendar-contract-e90dc94e-independent-g6-ddffe9a0:3",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/hub/availability_calendar_v2",
+            "methods": [
+              "POST"
+            ],
+            "bodyFields": {
+              "locale": "string",
+              "start_at": "string",
+              "shop_id": "string",
+              "num_people": "string"
+            },
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "content-type"
+              ]
+            },
+            "queryKeys": [],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:4",
+            "origin": "https://tabelog.com",
+            "pathnamePattern": "^/en/tokyo/.*$",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "sw",
+              "vac_net",
+              "svd",
+              "svt",
+              "svps"
+            ],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:5",
+            "origin": "https://www.tablecheck.com",
+            "pathname": "/en/japan/search",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate",
+              "search_text",
+              "date",
+              "time",
+              "num_people",
+              "availability_mode"
+            ],
+            "requiredQueryKeys": [
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:6",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/geolocation",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:7",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/autocomplete",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "locale",
+              "shop_universe_id",
+              "text"
+            ],
+            "requiredQueryKeys": [
+              "locale",
+              "shop_universe_id",
+              "text"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:8",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/hub/public_shop_lists",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "limit",
+              "sort_by",
+              "shop_ids[]"
+            ],
+            "requiredQueryKeys": [
+              "limit",
+              "sort_by"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:9",
+            "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+            "pathname": "/ai_search",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "shop_universe_id",
+              "include_ids",
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "search_text",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate",
+              "cuisines[]",
+              "budget_dinner_avg_min",
+              "budget_dinner_avg_max",
+              "search_after",
+              "per_page",
+              "randomize_geo"
+            ],
+            "requiredQueryKeys": [
+              "shop_universe_id",
+              "include_ids"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:10",
+            "origin": "https://production.tablecheck.com",
+            "pathname": "/v2/shop_search",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [
+              "shop_universe_id",
+              "include_ids",
+              "service_mode",
+              "sort_by",
+              "venue_type",
+              "search_text",
+              "geo_latitude",
+              "geo_longitude",
+              "geo_distance",
+              "auto_geolocate",
+              "cuisines[]",
+              "budget_dinner_avg_min",
+              "budget_dinner_avg_max",
+              "search_after",
+              "per_page",
+              "randomize_geo"
+            ],
+            "requiredQueryKeys": [
+              "shop_universe_id",
+              "include_ids"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:11",
+            "origin": "https://cdn0.tablecheck.com",
+            "pathnamePattern": "^/common/.*$",
+            "methods": [
+              "GET",
+              "HEAD"
+            ],
+            "corsPreflight": {
+              "requestOrigin": "https://www.tablecheck.com",
+              "requestedHeaderNames": [
+                "x-api-key"
+              ]
+            },
+            "queryKeys": [],
+            "requiredQueryKeys": []
+          },
+          {
+            "ref": "independent-approved-public-read:12",
+            "origin": "https://tabelog.com",
+            "pathname": "/en/booking/calendar/initial_vacancy",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "rst_id",
+              "plan_id",
+              "seat_only",
+              "exclude_unavailable_time"
+            ],
+            "requiredQueryKeys": [
+              "rst_id"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:13",
+            "origin": "https://tabelog.com",
+            "pathname": "/en/booking/calendar/find_vacancy_date_with_status/",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "rst_id",
+              "plan_id",
+              "seat_only"
+            ],
+            "requiredQueryKeys": [
+              "rst_id"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:14",
+            "origin": "https://tabelog.com",
+            "pathname": "/en/booking/calendar/find_vacancy_member_by_date/",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "rst_id",
+              "svd",
+              "plan_id",
+              "seat_only"
+            ],
+            "requiredQueryKeys": [
+              "rst_id",
+              "svd"
+            ]
+          },
+          {
+            "ref": "independent-approved-public-read:15",
+            "origin": "https://tabelog.com",
+            "pathname": "/en/booking/calendar/find_vacancy/",
+            "methods": [
+              "GET"
+            ],
+            "queryKeys": [
+              "rst_id",
+              "svd",
+              "svps",
+              "svt",
+              "plan_id",
+              "seat_only",
+              "exclude_unavailable_time"
+            ],
+            "requiredQueryKeys": [
+              "rst_id",
+              "svd",
+              "svps"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
