@@ -12,13 +12,15 @@ import {browserTransportError} from '../../../../infrastructure/browser/browser-
 import {GooglePlacesClient} from '../../../../integrations/google/google-places-client.js';
 import {discoveryPackNetworkPolicy} from '../../../../integrations/restaurant-search/source-packs.js';
 import {runG6Batch,loadG6Pack,type G6TransportHooks} from '../g6/runner.js';
+import {runG6SourceReadCheck} from '../g6/source-read-check.js';
+import {setTimeout as wait} from 'node:timers/promises';
 import {chargeG6} from '../g6/budget.js';
 import {observeOutgoingRequest} from '../g6/request-observation.js';
 import {BrowserReadRecording} from './browser-read-recording.js';
 import {traceBrowserRuntime,safeRecord,safeUrl} from './browser-case-slice-evidence.js';
 
 const [mode,rootArgument,expectedSHA]=process.argv.slice(2);
-assert.ok(mode&&['TC','D4','D8'].includes(mode));assert.ok(rootArgument&&expectedSHA);
+assert.ok(mode&&['TC','TC_SEARCH','D4','D8'].includes(mode));assert.ok(rootArgument&&expectedSHA);
 assert.equal(process.env.PRAXIS_RUN_C_CLOSEOUT_LIVE,'1','Network execution must be explicitly enabled after the frozen gates');
 assert.equal(execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),expectedSHA);
 assert.equal(execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim(),'','Tracked inputs must remain unchanged');
@@ -27,11 +29,30 @@ const sha=(bytes:Uint8Array)=>createHash('sha256').update(bytes).digest('hex');
 const stamp=()=>new Date(Date.now()+3_600_000).toISOString().replace('Z','+01:00');
 const policy=discoveryPackNetworkPolicy();
 let sequence=0;
+let sourceReadPhase='START',sourceReadPages=0,sourceReadLastAt=0;
+const sourceReadHeaders:Array<Record<string,unknown>>=[];
 function browser(hooks?:G6TransportHooks,probe=false){
  return new LocalPlaywrightChromium({headless:true,browserType:{async launch(options){
   const launched=await chromium.launch(options),newContext=launched.newContext.bind(launched);
   launched.newContext=async options=>{
    const context=await newContext(options),route=context.route.bind(context);
+   if(mode==='TC_SEARCH'){
+    const originalCDP=context.newCDPSession.bind(context);
+    context.newCDPSession=async target=>{
+     const cdp=await originalCDP(target),send=cdp.send.bind(cdp),paused=new Map<string,any>();let rootFrame='';
+     cdp.on('Fetch.requestPaused',event=>{paused.set(event.requestId,event);});
+     cdp.send=(async(method:any,params:any)=>{
+      const event=method==='Fetch.continueRequest'?paused.get(params.requestId):undefined;
+      if(event&&event.request.method==='POST')throw Error('Source-read authorization excludes POST');
+      if(event&&/^https?:/.test(event.request.url)&&event.resourceType==='Document'&&event.request.method==='GET'&&event.frameId===rootFrame&&sourceReadPhase==='SELECT_MATCH'){
+       if(sourceReadPages!==1)throw Error('Conditional source document allowance exhausted');
+       await wait(Math.max(0,5000-(Date.now()-sourceReadLastAt)));
+       await chargeG6(ledger,'C-closeout:TC_SEARCH:conditional-document','evaluationPublicGET','Approved only after observed selected-shop new main-document navigation, before continuation');sourceReadPages++;sourceReadLastAt=Date.now();
+      }
+      const result=await send(method,params);if(method==='Page.getFrameTree')rootFrame=(result as any).frameTree.frame.id;return result;
+     }) as typeof cdp.send;return cdp;
+    };
+   }
    const preflightReady=new WeakMap<import('playwright-core').Page,Promise<void>>();
    const observePreflight=(page:import('playwright-core').Page)=>{const prior=preflightReady.get(page);if(prior)return prior;const ready=(async()=>{
     const cdp=await context.newCDPSession(page),pending=new Map<string,import('../g6/evaluator.js').G6EvaluationInput['requests'][number]>();
@@ -51,6 +72,7 @@ function browser(hooks?:G6TransportHooks,probe=false){
       const row=await observeOutgoingRequest('C-source:'+String(++sequence),request);
       hooks?.observeRequest(row);
       const response=await target.fetch(options);
+      if(mode==='TC_SEARCH'){const u=new URL(request.url());sourceReadHeaders.push({origin:u.origin,pathname:u.pathname,method:request.method(),resourceType:request.resourceType(),queryKeys:[...u.searchParams.keys()],requestHeaderNames:Object.keys(await request.allHeaders()).sort(),responseHeaderNames:Object.keys(response.headers()).sort(),status:response.status()});}
       // The one-page connectivity check cannot follow a redirect into a
       // second public page. Live itself retains the unchanged Guard policy.
       if(probe&&request.resourceType()==='document'&&response.status()>=300&&response.status()<400)throw Error('CONNECTIVITY_REDIRECT_NOT_REQUESTED');
@@ -62,7 +84,30 @@ function browser(hooks?:G6TransportHooks,probe=false){
   };return launched;
  }}});
 }
-if(mode==='TC'){
+if(mode==='TC_SEARCH'){
+ const spec=JSON.parse(await readFile(join(root,'source-read-spec.json'),'utf8'));
+ assert.equal(spec.minimumIntervalMs,5000);assert.equal(spec.maximumMs,120000);
+ assert.equal(spec.models,0);assert.equal(spec.Live,0);
+ if(process.argv.includes('--validate-only')){console.log(JSON.stringify({mode,validated:true,network:0,models:0,uses:'original closeout browser factory and discoveryPackNetworkPolicy'}));process.exit(0);}
+ const directory=join(root,'source-read');await mkdir(directory,{recursive:false});
+ const ownCredentials=[process.env.DEEPSEEK_API_KEY??'',process.env.GOOGLE_MAPS_API_KEY??''].filter(Boolean);
+ const recording=new BrowserReadRecording({directory,runId:'recording',reviewedReads:policy.dynamicReads,reviewedStaticResources:policy.staticResources,ownCredentials});
+ const trace:Array<{sequence:number;kind:string;detail:unknown}>=[];let resolveCatalog!:(value:boolean)=>void;
+ const catalogTerminal=new Promise<boolean>(resolve=>{resolveCatalog=resolve;});
+ const runtime=traceBrowserRuntime(browser(undefined,true),'TABLECHECK',(kind,detail)=>{
+  const fields=detail as Record<string,unknown>;
+  if(kind==='NETWORK_REQUEST_END'&&typeof fields.url==='string'&&new URL(fields.url).hostname.startsWith('search-v4.')&&new URL(fields.url).pathname==='/catalog.json'&&fields.method==='GET')resolveCatalog(fields.status===200&&fields.outcome==='FINISHED');
+  trace.push({sequence:trace.length+1,kind,detail:safeRecord(detail)});return trace.length;
+ },recording.traceSink());
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),spec.maximumMs);
+ await writeFile(join(directory,'started.json'),JSON.stringify({sourceSHA:expectedSHA,atCET:stamp(),spec,configuration:{factory:'run-c-closeout-live/browser (same D8 path)',headless:true,transport:'NODE_FETCH default',proxy:'NOT_CONFIGURED',context:{serviceWorkers:'block',userAgent:'DEFAULT',locale:'DEFAULT',timezoneId:'DEFAULT'},policy:'discoveryPackNetworkPolicy()',genericPublicRead:policy.genericPublicRead},model:0,Live:0},null,2)+'\n',{flag:'wx'});
+ let result:unknown;
+ try{result=await runG6SourceReadCheck({browser:runtime,policy,spec,signal:controller.signal,catalogTerminal,
+  beforeEntry:async()=>{await chargeG6(ledger,'C-closeout:TC_SEARCH:entry','evaluationPublicGET','User network-repaired approval: one source page through original Live runner; no models/Live');sourceReadPages++;sourceReadLastAt=Date.now();},
+  phase:value=>{sourceReadPhase=value;},record:(kind,detail)=>{trace.push({sequence:trace.length+1,kind,detail:safeRecord(detail)});recording.record(kind,detail);}});
+ }finally{clearTimeout(timer);const captured=await recording.finish();await writeFile(join(directory,'receipt.json'),JSON.stringify({sourceSHA:expectedSHA,atCET:stamp(),result,pagesCharged:sourceReadPages,model:0,Live:0,recording:captured},null,2)+'\n',{flag:'wx'});await writeFile(join(directory,'events.json'),JSON.stringify(trace,null,2)+'\n',{flag:'wx'});await writeFile(join(directory,'header-names.json'),JSON.stringify(sourceReadHeaders,null,2)+'\n',{flag:'wx'});await writeFile(join(directory,'decisions.json'),'[]\n',{flag:'wx'});await writeFile(join(directory,'google-responses.json'),'[]\n',{flag:'wx'});}
+ console.log(JSON.stringify({mode,result,pagesCharged:sourceReadPages,model:0,Live:0}));
+}else if(mode==='TC'){
  const directory=join(root,'connectivity');await mkdir(directory,{recursive:false});
  const recording=new BrowserReadRecording({directory,runId:'tablecheck-connectivity',reviewedReads:policy.dynamicReads,reviewedStaticResources:policy.staticResources});
  const trace:Array<{kind:string;detail:unknown}>=[],runtime=traceBrowserRuntime(browser(undefined,true),'TABLECHECK',(kind,detail)=>{trace.push({kind,detail:safeRecord(detail)});return trace.length;},recording.traceSink());
