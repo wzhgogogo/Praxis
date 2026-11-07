@@ -88,6 +88,12 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
 export class PlaywrightReadNetworkGuard {
   readonly forms = new PlaywrightObservedGetForms();
   private readonly queryObservations=new WeakMap<URL,BrowserQueryValueObservation[]>();
+  private readonly requestQueryObservations=new WeakMap<Request,BrowserQueryValueObservation[]>();
+  private recordNativeFailure(request:Request,error:unknown):void {
+    const url=new URL(request.url()),observed=this.requestQueryObservations.get(request);
+    if(observed)this.queryObservations.set(url,observed);
+    this.blocked("READ_REQUEST_FAILED",url,request.method(),request.resourceType(),error);
+  }
   private async inspectQuery(url:URL,page:Page):Promise<void> {
     const inputs=url.search?await this.forms.authoritativeInputs(page):[];
     this.queryObservations.set(url,observeQueryValues(url,inputs));
@@ -139,7 +145,7 @@ export class PlaywrightReadNetworkGuard {
     void task.catch(error => {
       if (!this.context?.pages().some(page => !page.isClosed())) return;
       const request = response.request();
-      this.blocked("READ_REQUEST_FAILED", new URL(response.url()), request.method(), request.resourceType(), error);
+      this.recordNativeFailure(request,error);
       void this.context?.close().catch(() => {});
     }).finally(() => this.recordingTasks.delete(task));
   }
@@ -180,7 +186,7 @@ export class PlaywrightReadNetworkGuard {
       });
       context.on("requestfailed", request => {
         const timer = this.nativeTimers.get(request); if (timer) { clearTimeout(timer); this.redirectTimers.delete(timer); }
-        if (this.nativeRequest(request) && request.failure()) this.blocked("READ_REQUEST_FAILED", new URL(request.url()), request.method(), request.resourceType(), new Error(request.failure()!.errorText));
+        if (this.nativeRequest(request) && request.failure()) this.recordNativeFailure(request,new Error(request.failure()!.errorText));
       });
     }
     context.on?.("close", () => { for (const timer of this.redirectTimers) clearTimeout(timer); this.redirectTimers.clear(); });
@@ -502,7 +508,7 @@ export class PlaywrightReadNetworkGuard {
   private blocked(code: NetworkDiagnosticCode, url: URL, method: string, resourceType: string, error?: unknown): void {
     const request = { origin: url.origin, pathname: url.pathname, method, resourceType, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(error === undefined ? {} : { error: browserTransportError(error) }) };
     this.diagnostics.push({ code, ...request });
-    this.requests.push({ outcome: code === "BLOCKED_REDIRECT" ? "REDIRECT_BLOCKED" : "BLOCKED", ...request });
+    this.requests.push({ outcome: code === "BLOCKED_REDIRECT" ? "REDIRECT_BLOCKED" : code === "READ_REQUEST_FAILED" ? "FAILED" : code === "READ_TIMEOUT" ? "TIMED_OUT" : "BLOCKED", ...request });
   }
 
   /** Suppression is evaluated only after admission; an exception cannot grant permission. */
@@ -524,6 +530,7 @@ export class PlaywrightReadNetworkGuard {
     const method = request.method();
     const url = new URL(request.url());
     await this.inspectQuery(url,request.frame().page());
+    this.requestQueryObservations.set(request,this.queryMetadata(url).queryValues);
     const type = request.resourceType();
     if (this.prohibitedRead(url)) {
       this.blocked("BLOCKED_ENDPOINT", url, method, type);

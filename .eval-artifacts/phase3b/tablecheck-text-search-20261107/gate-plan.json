@@ -1,0 +1,15 @@
+{
+  "status": "offline verification after user-mandated source stop",
+  "model": 0,
+  "website": 0,
+  "Live": 0,
+  "commands": [
+    "npm run typecheck",
+    "npm run arch:check",
+    "npm test",
+    "npm run build",
+    "npm run test:browser:fixture",
+    "PRAXIS_G2_REQUIRE_PASS=1 npm run test:dom-change"
+  ],
+  "stop": "No further source actions. No guard relaxation or dynamic-binding implementation without successful source evidence. All gates require clean pre/post tree; preserve any failure."
+}
