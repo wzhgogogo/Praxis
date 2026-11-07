@@ -10,7 +10,7 @@ import {chromium} from 'playwright-core';
 import {DeepSeekModelGateway} from '../../../../infrastructure/deepseek/deepseek-model-gateway.js';
 import {LocalPlaywrightChromium} from '../../../../infrastructure/browser/local-playwright-chromium.js';
 import {browserTransportError} from '../../../../infrastructure/browser/browser-runtime-errors.js';
-import {GooglePlacesClient} from '../../../../integrations/google/google-places-client.js';
+import {createEvalGooglePlacesClient} from './google-places-recording.js';
 import {discoveryPackNetworkPolicy} from '../../../../integrations/restaurant-search/source-packs.js';
 import {runG6Batch,loadG6Pack,type G6TransportHooks} from '../g6/runner.js';
 import {runG6SourceReadCheck,installSourceReadPageLimit} from '../g6/source-read-check.js';
@@ -148,7 +148,7 @@ if(mode==='TC_SEARCH'){
    await writeFile(join(directory,record.invocationId+'.json'),raw+'\n',{flag:'wx'});
   }}});
   return{model,browser:browser(hooks),clock:{now:()=>new Date()},
-   google:new GooglePlacesClient({apiKey:process.env.GOOGLE_MAPS_API_KEY!,fetchImplementation:hooks.googleFetch(fetch),timeoutMs:30_000,...(process.env.PRAXIS_GOOGLE_API_PROXY_SERVER?{proxyServer:process.env.PRAXIS_GOOGLE_API_PROXY_SERVER}:{})})};
+   google:createEvalGooglePlacesClient({apiKey:process.env.GOOGLE_MAPS_API_KEY!,timeoutMs:30_000,...(process.env.PRAXIS_GOOGLE_API_PROXY_SERVER?{proxyServer:process.env.PRAXIS_GOOGLE_API_PROXY_SERVER}:{})},hooks.googleFetch)};
  }};
  const outcome=await runG6Batch(pack,dependencies,join(root,'runs',mode));
  await writeFile(join(root,mode+'-receipt.json'),JSON.stringify({sourceSHA:expectedSHA,inputSHA:sha(bytes),atCET:stamp(),credentials:'LOADED_IN_NODE_PROCESS_ONLY',outcome},null,2)+'\n',{flag:'wx'});
