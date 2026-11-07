@@ -4,7 +4,7 @@ import {createServer} from 'node:http';
 import {once} from 'node:events';
 import {LocalPlaywrightChromium} from '../../infrastructure/browser/local-playwright-chromium.js';
 import {traceBrowserRuntime} from '../../eval/restaurant/agent-loop/runners/browser-case-slice-evidence.js';
-import {runG6SourceReadCheck} from '../../eval/restaurant/agent-loop/g6/source-read-check.js';
+import {runG6SourceReadCheck,installSourceReadPageLimit} from '../../eval/restaurant/agent-loop/g6/source-read-check.js';
 
 for(const catalogStatus of [503,200])test(`Live source-read path gates authoritative text on browser catalog${catalogStatus}`,async()=>{
  const arrivals:Array<{path:string;queryKeys:string[]}>=[];const query='Public Named Outlet';
@@ -25,4 +25,14 @@ for(const catalogStatus of [503,200])test(`Live source-read path gates authorita
   if(catalogStatus!==200){assert.equal(result.status,'STOP_CATALOG_NOT_200');assert.equal(arrivals.filter(r=>r.path==='/search/').length,0);}
   else{assert.equal(result.status,'STOP_VALUE_REVIEW');assert.ok(events.some(e=>e.detail.violations.some((v:any)=>v.queryKey==='destination'&&v.valueClass==='OTHER')));assert.deepEqual(events.flatMap(e=>e.detail.violations).map((v:any)=>v.queryKey),['destination']);assert.deepEqual(arrivals.filter(r=>r.path==='/search/').map(r=>r.queryKeys).sort((a,b)=>a.join().localeCompare(b.join())),[['lat','service_mode'],['q']]);}
  }finally{server.close();server.closeAllConnections();await once(server,'close');}
+});
+
+
+test('selected-shop document is stopped by the real CDP boundary before receiver transmission',async()=>{
+ const {chromium}=await import('playwright-core');let shopArrivals=0,phase='',blocked=false;
+ const server=createServer((request,response)=>{const u=new URL(request.url!,'http://localhost');if(u.pathname==='/shop')shopArrivals++;response.setHeader('Content-Type',u.pathname==='/'?'text/html':'application/json');response.end(u.pathname==='/'?`<button onclick="document.querySelector('input').hidden=false">Destination</button><input hidden aria-label="Destination" oninput="document.querySelector('a').hidden=false"><a hidden href="/shop">Public Named Outlet</a>`:'{}');});
+ server.listen(0,'127.0.0.1');await once(server,'listening');const origin=`http://127.0.0.1:${(server.address() as import('node:net').AddressInfo).port}`;
+ const browser=new LocalPlaywrightChromium({browserType:{async launch(options){const b=await chromium.launch(options),create=b.newContext.bind(b);b.newContext=async options=>{const c=await create(options);installSourceReadPageLimit(c,()=>phase,()=>{blocked=true;});return c;};return b;}}});
+ try{await runG6SourceReadCheck({browser,policy:{documentOrigins:[origin],staticResources:[],dynamicReads:[]},spec:{startUrl:origin+'/',query:'Public Named Outlet',minimumIntervalMs:1},signal:new AbortController().signal,beforeEntry:async()=>{},catalogTerminal:Promise.resolve(true),phase:value=>{phase=value;},record:()=>{}});assert.equal(blocked,true);assert.equal(shopArrivals,0);}
+ finally{server.close();server.closeAllConnections();await once(server,'close');}
 });

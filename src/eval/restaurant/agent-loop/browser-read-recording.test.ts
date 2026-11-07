@@ -374,3 +374,17 @@ test('Guard-admitted public document origin can record its own script without a 
   const har=JSON.parse(await readFile(result.replay.harPath,'utf8'));assert.ok(har.log.entries.find((e:any)=>e.request.url===page).response.content.text.includes(url));
  }finally{await rm(root,{recursive:true,force:true});}
 });
+
+
+test('recording omission reasons and safe components preserve privacy without claiming full Replay',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'response-components-'));
+ try{
+  const recording=new BrowserReadRecording({directory:root,runId:'partial'});
+  recording.recordSnapshot({url:'https://public.example/menu',title:'Public',text:'',html:'<h1>Public</h1>',networkRequests:[{outcome:'ADMITTED',origin:'https://public.example',pathname:'/v2/results',method:'GET',resourceType:'fetch',queryKeys:[]}]});
+  await recording.recordResponse({url:'https://public.example/v2/results',method:'GET',resourceType:'fetch',status:200,contentType:'application/json',body:Buffer.from('{"email":"private-marker@example.com"}')});
+  await recording.recordResponse({url:'https://public.example/v2/metadata',method:'GET',resourceType:'fetch',status:200,contentType:'application/json',body:Buffer.from('{"available":true}')});
+  const result=await recording.finish();assert.equal(result.replay.status,'NOT_REPLAYABLE');
+  const metadata=await readFile(join(result.path,'recording.json'),'utf8');assert.match(metadata,/JSON_SENSITIVE_KEY/);assert.doesNotMatch(metadata,/private-marker|@example/);
+  const component=await readFile(join(result.path,'components.har'),'utf8');assert.match(component,/available/);assert.doesNotMatch(component,/private-marker|@example|v2\/results/);
+ }finally{await rm(root,{recursive:true,force:true});}
+});

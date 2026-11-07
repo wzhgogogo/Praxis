@@ -2,7 +2,7 @@ import {createHash} from "node:crypto";
 import {normalizedTextKey} from "../../core/text-key.js";
 import {assertPublicReadInput} from "./playwright-observed-get-forms.js";
 
-export type BrowserQueryValueClass = "EQUALS_AUTHORITATIVE_INPUT" | "PREFIX_OF_AUTHORITATIVE_INPUT" | "NUMERIC" | "SHORT_TOKEN" | "SENSITIVE_FORMAT" | "OTHER" | "PAGE_OBSERVED_VALUE";
+export type BrowserQueryValueClass = "EQUALS_AUTHORITATIVE_INPUT" | "PREFIX_OF_AUTHORITATIVE_INPUT" | "NUMERIC" | "SHORT_TOKEN" | "SENSITIVE_FORMAT" | "OTHER" | "PAGE_OBSERVED_VALUE" | "NAMESPACED_TOKEN";
 export interface BrowserQueryValueObservation { queryKey: string; valueClass: BrowserQueryValueClass; characterDescription?: {lengthRange:string; letters:boolean; digits:boolean; whitespace:boolean; comma:boolean; period:boolean; colon:boolean; brackets:boolean; quotes:boolean; otherPunctuation:boolean}; }
 const hash=(value:string)=>createHash("sha256").update(normalizedTextKey(value)).digest("hex");
 /** Observational only: no raw query or inserted values leave this function. */
@@ -16,6 +16,7 @@ export function observeQueryValues(url:URL, authoritativeInputs:readonly string[
   else if(normalized.length>0&&authoritativeInputs.some(input=>normalizedTextKey(input).startsWith(normalized)))valueClass="PREFIX_OF_AUTHORITATIVE_INPUT";
   else if(/^-?\d+(?:\.\d+)?$/.test(value))valueClass="NUMERIC";
   else if(/^[A-Za-z0-9_-]+$/.test(value))valueClass="SHORT_TOKEN";
+  else if(key==="destination"&&value.length<=32&&/^[A-Za-z0-9]+(?::[A-Za-z0-9]+)*$/.test(value))valueClass="NAMESPACED_TOKEN";
   else valueClass="OTHER";
   if(valueClass!=="OTHER")return {queryKey:key,valueClass};
   const length=[...value].length;

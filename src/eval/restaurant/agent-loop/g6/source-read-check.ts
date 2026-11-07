@@ -1,3 +1,4 @@
+import type {BrowserContext} from 'playwright-core';
 import {setTimeout as wait} from 'node:timers/promises';
 import {normalizedTextKey} from '../../../../core/text-key.js';
 import type {BrowserRuntime,BrowserReadNetworkPolicy,BrowserSnapshot} from '../../../../infrastructure/browser/browser-runtime.js';
@@ -45,4 +46,23 @@ export async function runG6SourceReadCheck(input:{browser:BrowserRuntime;policy:
   return {status:later.length?'STOP_VALUE_REVIEW':'SELECTED_RESULT_OBSERVED',phase,catalog200:true,violations:later,currentQueryKeys:[...new URL(snapshot.url).searchParams.keys()]};
  }catch(error){return {status:'STOP_OPERATION_FAILURE',phase,error:{name:error instanceof Error?error.name:'Error',message:error instanceof Error?error.message:'Unknown'}};}
  finally{await session.flushRecordedResponses?.();await session.close();}
+}
+
+/** Diagnostic authorization is narrower than the production Guard. Never dispatch a second page. */
+export function installSourceReadPageLimit(context:BrowserContext,phase:()=>string,blocked:(request:{origin:string;pathname:string;queryKeys:string[];phase:string})=>void){
+ let mainDocumentSeen=false;
+ const originalCDP=context.newCDPSession.bind(context);
+ context.newCDPSession=async target=>{
+  const cdp=await originalCDP(target),send=cdp.send.bind(cdp),paused=new Map<string,any>();let rootFrame='';
+  cdp.on('Fetch.requestPaused',event=>{paused.set(event.requestId,event);});
+  cdp.send=(async(method:any,params:any)=>{
+   const event=method==='Fetch.continueRequest'?paused.get(params.requestId):undefined;
+   if(event&&event.request.method==='POST')throw Error('Source-read authorization excludes POST');
+   if(event&&/^https?:/.test(event.request.url)&&event.resourceType==='Document'&&event.request.method==='GET'&&event.frameId===rootFrame){
+    if(mainDocumentSeen){const url=new URL(event.request.url);blocked({origin:url.origin,pathname:url.pathname,queryKeys:[...url.searchParams.keys()],phase:phase()});throw Error('SOURCE_READ_NEW_DOCUMENT_REQUIRES_APPROVAL');}
+    mainDocumentSeen=true;
+   }
+   const result=await send(method,params);if(method==='Page.getFrameTree')rootFrame=(result as any).frameTree.frame.id;return result;
+  }) as typeof cdp.send;return cdp;
+ };
 }

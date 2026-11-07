@@ -558,7 +558,7 @@ test("read transport diagnostics retain failure cause without query values, head
 test('TableCheck text search uses four exact query shapes and current authoritative text only',async t=>{
  const origin='https://search-v4.production.ap-northeast-1.aws.tablecheck.net';
  const shapes:Record<string,string>[]=[{country:'jp',hits:'10',queryProfile:'destination'},{country:'jp',hits:'10',kind:'shop',queryProfile:'destination'},{country:'jp',hits:'10',q:'Blue Restaurant',queryProfile:'destination'},{destination:'jp',hits:'10',name:'Blue Restaurant',queryProfile:'destination'}];
- const cases:Array<{name:string;query:Record<string,string>;admitted:boolean;method?:string;type?:string;origin?:string;path?:string;old?:boolean}>=[
+ const cases:Array<{name:string;query:Record<string,string>;admitted:boolean;method?:string;type?:string;origin?:string;path?:string;old?:boolean;authority?:string}>=[
   ...shapes.map((query,i)=>({name:'valid-shape-'+(i+1),query,admitted:true})),
   {name:'extra',query:{...shapes[2],extra:'x'},admitted:false},
   {name:'missing',query:{q:'Blue Restaurant',queryProfile:'destination'},admitted:false},
@@ -572,10 +572,17 @@ test('TableCheck text search uses four exact query shapes and current authoritat
   {name:'country-other',query:{...shapes[0],country:'unapproved country'},admitted:false},
   {name:'kind-sensitive',query:{...shapes[1],kind:'token=secret'},admitted:false},
   {name:'destination-other',query:{...shapes[3],destination:'unapproved destination'},admitted:false},
+  {name:'namespaced-letter-colon',query:{...shapes[3],destination:'region:jp'},admitted:true},
+  {name:'namespaced-segments',query:{...shapes[3],destination:'A1:B2:c3'},admitted:true},
+  {name:'namespaced-32',query:{...shapes[3],destination:'a:'.padEnd(32,'b')},admitted:true},
+  ...['region jp','region.jp','region/jp','a:'.padEnd(33,'b'),'a::b','a:jp_x','a:jp-x','ns:0123456789',':ab','ab:','a:日本','ns:+81 90 1234 5678','ns:person@example.com','token=secret','Blue Restaurant','Blue Rest'].map(value=>({name:'destination-invalid-'+value,query:{...shapes[3],destination:value},admitted:false})),
+  {name:'namespace-authority-equal',query:{...shapes[3],destination:'region:jp'},authority:'region:jp',admitted:false},
+  {name:'namespace-authority-prefix',query:{...shapes[3],destination:'region:jp'},authority:'region:jp restaurant',admitted:false},
+  ...['country','kind','hits'].map(key=>({name:'namespace-other-field-'+key,query:{...(key==='kind'?shapes[1]:shapes[0]),[key]:'region:jp'},admitted:false})),
  ];
  for(const c of cases)await t.test(c.name,async()=>{
   const guard=new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);let handler:any;
-  guard.forms.authoritativeInputs=async()=>c.old?[]:['Blue Restaurant'];
+  guard.forms.authoritativeInputs=async()=>c.old?[]:['Blue Restaurant',...(c.authority?[c.authority]:[])];
   guard.forms.observedPageValueHashes=()=>new Set([createHashForTest('unapproved destination'),createHashForTest('Other Person')]);
   await guard.install(fakeContext({route:async(_p:string,h:any)=>{handler=h;},routeWebSocket:async()=>{}}));
   const url=new URL(c.path??'/search/',c.origin??origin);for(const [key,value]of Object.entries(c.query))url.searchParams.set(key,value);

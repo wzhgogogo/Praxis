@@ -79,12 +79,14 @@ export class BrowserReadRecording {
       ? publicStylesheetRecordingRule(response.url) : undefined;
     const staticResources = [...(this.options.reviewedStaticResources ?? []), ...(stylesheetRule ? [stylesheetRule] : [])];
     const url = safeReplayUrl(response.url, staticResources, this.options.reviewedReads);
-    if (!url || !/^(?:GET|HEAD)$/.test(response.method)) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
+    const responseMetadata = {responseUrlSha256:createHash("sha256").update(response.url).digest("hex"),...(url?{origin:new URL(url).origin,pathname:new URL(url).pathname,queryKeys:[...new URL(url).searchParams.keys()]}:{}),method:response.method,resourceType:response.resourceType,status:response.status,mimeType,bytes:response.body.byteLength};
+    const omit=(reason:string)=>{this.uncapturedResponsePaths.add(responsePath(response.url));this.record("RESPONSE_OMITTED",{...responseMetadata,reason});};
+    if (!url || !/^(?:GET|HEAD)$/.test(response.method)) { omit("UNREVIEWED_RECORDING_URL_OR_METHOD"); return; }
     if(response.resourceType==="document"&&response.status>=200&&response.status<300&&/^(?:text\/html|application\/xhtml\+xml)$/.test(mimeType))this.documentOrigins.add(new URL(response.url).origin);
     let text: string;
     // Keep a CSS UTF-8 BOM as content so the existing byte-length/hash check remains exact.
     try { text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: Boolean(stylesheetRule) }).decode(response.body); }
-    catch { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
+    catch { omit("INVALID_UTF8"); return; }
     this.google.observeOwnCredentials(text);
     const redirectLocation = response.redirectLocation
       ? safeReplayUrl(response.redirectLocation, this.options.reviewedStaticResources, this.options.reviewedReads)
@@ -94,13 +96,15 @@ export class BrowserReadRecording {
     // navigation. Keep its approved status and Location even when it is empty.
     const isRecordedRedirect = response.status >= 300 && response.status < 400 && Boolean(redirectLocation);
     const publicSourceScript=response.resourceType==="script"&&(reviewedStaticScriptUrl(response.url,this.options.reviewedStaticResources)||this.documentOrigins.has(new URL(response.url).origin));
-    const sanitized = isRecordedRedirect ? "" : mimeType.includes("json") ? (tabelogSuggestionRecordingUrl(response.url) ? sanitizeTabelogSuggestions(text) : sanitizePublicJson(text))
+    let rejectionReason="PUBLIC_BODY_SANITIZER_REJECTED";
+    const sanitized = isRecordedRedirect ? "" : mimeType.includes("json") ? (tabelogSuggestionRecordingUrl(response.url) ? sanitizeTabelogSuggestions(text) : sanitizePublicJson(text,reason=>{rejectionReason=reason;}))
       : /^(?:text\/(?:html|plain)|application\/(?:xhtml\+xml))$/.test(mimeType) ? sanitizePublicHtml(text, response.url, this.options.reviewedStaticResources, this.options.reviewedReads)
       : /^(?:application|text)\/(?:javascript|ecmascript)$/.test(mimeType)
         ? (publicSourceScript ? sanitizePublicSourceScript(text,response.body.byteLength) : reviewedStaticScriptUrl(response.url,this.options.reviewedStaticResources)&&safePublicStaticCode(text,response.body.byteLength)?text:undefined)
       : mimeType === "text/css" ? (stylesheetRule && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
       : undefined;
-    if (sanitized === undefined || !this.google.accept([url,sanitized,redirectLocation])) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
+    if (sanitized === undefined || !this.google.accept([url,sanitized,redirectLocation])) { omit(sanitized===undefined?rejectionReason:"OWN_CREDENTIAL_CHECK"); return; }
+    this.record("RESPONSE_CAPTURED",{...responseMetadata,sanitizedBytes:Buffer.byteLength(sanitized)});
     if (stylesheetRule && response.status === 200) {
       if (!this.stylesheets.has(url)) this.loadedStylesheetRules.push(stylesheetRule);
       this.stylesheets.set(url, sanitized);
@@ -180,7 +184,15 @@ export class BrowserReadRecording {
       const completeHar = { ...har, log: { ...har.log, entries: [...har.log.entries, ...this.google.entries] } };
       if (!await this.google.writeHar(harPath, completeHar)) replay = { status: "NOT_REPLAYABLE", reason: "UNSAFE_DOCUMENT" };
     }
+    // Diagnostic components never turn an incomplete page into a full Replay.
+    // Keep only bodies that already passed the unchanged sanitizer and final credential scan.
+    let componentCapture: {harPath:string;scope:string}|undefined;
+    if(!this.google.rejectsRecording&&!qualified.length){
+      const components=new Map([...this.responses].filter(([,response])=>!/html/.test(response.mimeType)));
+      if(components.size&&await this.google.writeHar(resolve(path,"components.har"),sanitizedHar(new Map(),components)))componentCapture={harPath:"components.har",scope:"SANITIZED_NON_DOCUMENT_RESPONSES_ONLY"};
+    }
     if (this.google.rejectsRecording) {
+      componentCapture=undefined;
       replay = {status:"NOT_REPLAYABLE",reason:"UNSAFE_DOCUMENT"};qualified = [];
       pages = pages.map(page => ({snapshot:page.snapshot,status:"NOT_REPLAYABLE",reason:"UNSAFE_DOCUMENT",diagnostic:{status:"OMITTED",reason:"UNSAFE_DOCUMENT"}}));
       this.documents.clear();this.stylesheets.clear();this.screenshotImages.length=0;this.screenshots.length=0;
@@ -203,7 +215,7 @@ export class BrowserReadRecording {
       await writeFile(resolve(path, file), css, { flag: "wx" });
       stylesheets.push({ url, file, sha256: createHash("sha256").update(css).digest("hex"), bytes: Buffer.byteLength(css) });
     }
-    const recording = { schemaVersion: BROWSER_READ_RECORDING_SCHEMA_VERSION, stylesheets, status: "RECORDED", entries: this.entries, pages, documents: qualified.map(snapshot => ({ snapshot: snapshot.snapshot, url: snapshot.url, file: `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html` })), screenshot, screenshots: this.screenshots, replay: replay.status !== "NOT_REPLAYABLE" ? { ...replay, harPath: "replay.har" } : replay, contentSha256: createHash("sha256").update(JSON.stringify(this.entries)).digest("hex") };
+    const recording = { schemaVersion: BROWSER_READ_RECORDING_SCHEMA_VERSION, ...(componentCapture?{componentCapture}:{}), stylesheets, status: "RECORDED", entries: this.entries, pages, documents: qualified.map(snapshot => ({ snapshot: snapshot.snapshot, url: snapshot.url, file: `snapshot-${String(snapshot.snapshot).padStart(4, "0")}.html` })), screenshot, screenshots: this.screenshots, replay: replay.status !== "NOT_REPLAYABLE" ? { ...replay, harPath: "replay.har" } : replay, contentSha256: createHash("sha256").update(JSON.stringify(this.entries)).digest("hex") };
     await writeFile(resolve(path, "recording.json"), JSON.stringify(recording, null, 2), { flag: "wx" }); return { path, screenshot, replay, pages };
   }
 }
@@ -506,17 +518,17 @@ function safePublicStaticCode(script: string, originalByteLength: number): boole
     && !/\u0000/.test(script)
     && !/(?:\bBearer\s+[A-Za-z0-9._~-]{8,}|\bsk-[A-Za-z0-9_-]{8,})/i.test(script);
 }
-function sanitizePublicJson(text: string): string | undefined {
-  if (text.length > 200_000) return undefined;
+function sanitizePublicJson(text: string,rejected?:(reason:string)=>void): string | undefined {
+  if (text.length > 200_000) {rejected?.("JSON_SIZE_LIMIT");return undefined;}
   try { const value = JSON.parse(text); const clean = (item: unknown, key = ""): unknown => {
-    if (/(?:cookie|token|secret|password|csrf|authorization|email|phone|address|name)/i.test(key)) throw new Error("sensitive key");
+    if (/(?:cookie|token|secret|password|csrf|authorization|email|phone|address|name)/i.test(key)) throw new Error("JSON_SENSITIVE_KEY");
     if (item === null || typeof item === "boolean" || typeof item === "number") return item;
     const isoDateOrTime = /^\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:?\d{2})?)?$/.test(item as string);
     if (typeof item === "string" && item.length <= 160 && !/(?:@|Bearer\s|sk-)/i.test(item) && (isoDateOrTime || !/\+?\d[\d()\s-]{8,}\d/.test(item))) return item;
     if (Array.isArray(item) && item.length <= 100) return item.map(value => clean(value, key));
     if (item && typeof item === "object") return Object.fromEntries(Object.entries(item).map(([name, value]) => [name, clean(value, name)]));
-    throw new Error("unsafe value");
-  }; return JSON.stringify(clean(value)); } catch { return undefined; }
+    throw new Error("JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT");
+  }; return JSON.stringify(clean(value)); } catch(error) {rejected?.(error instanceof Error&&["JSON_SENSITIVE_KEY","JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT"].includes(error.message)?error.message:"JSON_PARSE_FAILED");return undefined; }
 }
 function sanitizedHar(documents: ReadonlyMap<string, string>, responses: ReadonlyMap<string, { method: "GET" | "HEAD"; status: number; mimeType: string; text: string; redirectLocation?: string }>) { const entries: Array<[string, string | { method: "GET" | "HEAD"; status: number; mimeType: string; text: string; redirectLocation?: string }]> = [...documents].filter(([url]) => !responses.has(url)); entries.push(...responses); return { log: { version: "1.2", creator: { name: "Praxis sanitized browser recorder", version: "1" }, entries: entries.map(([url, item]) => { const html = typeof item === "string" ? item : item.text; const mimeType = typeof item === "string" ? "text/html" : item.mimeType; const method = typeof item === "string" ? "GET" : item.method; const status = typeof item === "string" ? 200 : item.status; const redirectLocation = typeof item === "string" ? undefined : item.redirectLocation; return ({ startedDateTime: "1970-01-01T00:00:00.000Z", time: 0, request: { method, url, httpVersion: "HTTP/1.1", headers: [], queryString: [], cookies: [], headersSize: -1, bodySize: -1 }, response: { status, statusText: status === 200 ? "OK" : "RECORDED", httpVersion: "HTTP/1.1", headers: [{ name: "content-type", value: `${mimeType}; charset=utf-8` }, ...(redirectLocation ? [{ name: "location", value: redirectLocation }] : [])], cookies: [], content: { size: Buffer.byteLength(html), mimeType, text: html }, redirectURL: redirectLocation ?? "", headersSize: -1, bodySize: Buffer.byteLength(html) }, cache: {}, timings: { send: 0, wait: 0, receive: 0 } }); }) } }; }
 function sensitiveKey(key: string): boolean { return /(?:cookie|authorization|api[_-]?key|access[_-]?token|csrf|session[_-]?id|secret|password)/i.test(key); }

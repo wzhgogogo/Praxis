@@ -1,0 +1,96 @@
+✔ observed same-origin GET forms keep their public queryless action without an endpoint exception (19.689584ms)
+✔ browser recording writes only an in-memory sanitized public document HAR (2.0695ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (8.300333ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (1.843083ms)
+✔ browser recording keeps reviewed GET form actions and removes unreviewed destinations (2.639333ms)
+✖ browser recording refuses replay when a dynamic response was admitted without a safe captured body (3.074125ms)
+✔ browser recording refuses a snapshot-only replay when an admitted external script was not captured (1.310958ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (2.382083ms)
+✔ browser recording masks a reviewed public script credential at equal length under the approved contract (1.905291ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (2.254416ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (1.735875ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (2.857125ms)
+✔ browser recording preserves form methods while deleting unsafe destinations (2.685083ms)
+✔ browser recording preserves an admitted public document redirect for replay (1.758541ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (4.268792ms)
+✔ observed Tabelog keyword response retains public source names only at its exact recording endpoint (2.422333ms)
+✔ recording preserves a partial public SPA document route and masks only credential carriers (2.083583ms)
+✔ source public scripts up to12MB mask known credentials without changing length or syntax (230.145542ms)
+✔ Guard-admitted public document origin can record its own script without a CDN exception (53.747875ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 18
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 689.773292
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/browser-read-recording.test.ts:1:8252
+✖ browser recording refuses replay when a dynamic response was admitted without a safe captured body (3.074125ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /JSON_SENSITIVE_KEY/. Input:
+  
+  '{\n' +
+    '  "schemaVersion": "browser-read-recording@6",\n' +
+    '  "stylesheets": [],\n' +
+    '  "status": "RECORDED",\n' +
+    '  "entries": [\n' +
+    '    {\n' +
+    '      "sequence": 1,\n' +
+    '      "kind": "NETWORK",\n' +
+    '      "detail": [\n' +
+    '        {\n' +
+    '          "outcome": "ADMITTED",\n' +
+    '          "origin": "https://public.example/",\n' +
+    '          "pathname": "/v2/results",\n' +
+    '          "method": "GET",\n' +
+    '          "resourceType": "fetch",\n' +
+    '          "queryKeys": []\n' +
+    '        }\n' +
+    '      ]\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "sequence": 2,\n' +
+    '      "kind": "DOCUMENT_SANITIZATION",\n' +
+    '      "detail": {\n' +
+    '        "urlAccepted": true,\n' +
+    '        "documentAccepted": true,\n' +
+    '        "inputBytes": 15,\n' +
+    '        "queryKeys": [],\n' +
+    '        "reason": "SANITIZED"\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ],\n' +
+    '  "pages": [\n' +
+    '    {\n' +
+    '      "snapshot": 1,\n' +
+    '      "url": "https://public.example/menu",\n' +
+    '      "status": "NOT_REPLAYABLE",\n' +
+    '      "reason": "UNCAPTURED_DYNAMIC_RESPONSE",\n' +
+    '      "diagnostic": {\n' +
+    '        "status": "SAVED",\n' +
+    '        "file": "diagnostic/snapshot-0001.html"\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ],\n' +
+    '  "documents": [],\n' +
+    '  "screenshot": "NOT_CAPTURED_NO_SANITIZER",\n' +
+    '  "screenshots": [],\n' +
+    '  "replay": {\n' +
+    '    "status": "NOT_REPLAYABLE",\n' +
+    '    "reason": "UNCAPTURED_DYNAMIC_RESPONSE"\n' +
+    '  },\n' +
+    '  "contentSha256": "55cbcd2a32a144945be2c979a8ef369997be94ef926fcd2f20c6c2bd77c23b07"\n' +
+    '}'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/eval/restaurant/agent-loop/browser-read-recording.test.ts:139:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '{\n  "schemaVersion": "browser-read-recording@6",\n  "stylesheets": [],\n  "status": "RECORDED",\n  "entries": [\n    {\n      "sequence": 1,\n      "kind": "NETWORK",\n      "detail": [\n        {\n          "outcome": "ADMITTED",\n          "origin": "https://public.example/",\n          "pathname": "/v2/results",\n          "method": "GET",\n          "resourceType": "fetch",\n          "queryKeys": []\n        }\n      ]\n    },\n    {\n      "sequence": 2,\n      "kind": "DOCUMENT_SANITIZATION",\n      "detail": {\n        "urlAccepted": true,\n        "documentAccepted": true,\n        "inputBytes": 15,\n        "queryKeys": [],\n        "reason": "SANITIZED"\n      }\n    }\n  ],\n  "pages": [\n    {\n      "snapshot": 1,\n      "url": "https://public.example/menu",\n      "status": "NOT_REPLAYABLE",\n      "reason": "UNCAPTURED_DYNAMIC_RESPONSE",\n      "diagnostic": {\n        "status": "SAVED",\n        "file": "diagnostic/snapshot-0001.html"\n      }\n    }\n  ],\n  "documents": [],\n  "screenshot": "NOT_CAPTURED_NO_SANITIZER",\n  "screenshots": [],\n  "replay": {\n    "status": "NOT_REPLAYABLE",\n    "reason": "UNCAPTURED_DYNAMIC_RESPONSE"\n  },\n  "contentSha256": "55cbcd2a32a144945be2c979a8ef369997be94ef926fcd2f20c6c2bd77c23b07"\n}',
+    expected: /JSON_SENSITIVE_KEY/,
+    operator: 'match'
+  }

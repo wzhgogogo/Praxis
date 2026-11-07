@@ -14,7 +14,7 @@ export const tableCheckPublicSearchReads: readonly BrowserReadNetworkRequestRule
   ].map(queryKeys=>({origin:TABLECHECK_PUBLIC_SEARCH_ORIGIN,pathname:"/search/",methods:["GET"] as const,resourceTypes:["fetch","xhr"] as const,
     queryKeys,corsPreflight:tableCheckGetPreflight,
     queryValueClasses:{q:["EQUALS_AUTHORITATIVE_INPUT"] as const,name:["EQUALS_AUTHORITATIVE_INPUT"] as const,
-      country:["SHORT_TOKEN","NUMERIC"] as const,kind:["SHORT_TOKEN","NUMERIC"] as const,destination:["SHORT_TOKEN","NUMERIC"] as const,hits:["NUMERIC"] as const},
+      country:["SHORT_TOKEN","NUMERIC"] as const,kind:["SHORT_TOKEN","NUMERIC"] as const,destination:["SHORT_TOKEN","NUMERIC","NAMESPACED_TOKEN"] as const,hits:["NUMERIC"] as const},
   })),
   { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/catalog.json", methods: ["GET"], resourceTypes: ["fetch", "xhr"], queryKeys: [], corsPreflight: tableCheckGetPreflight },
   { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/search/", methods: ["GET"], resourceTypes: ["fetch", "xhr"],
