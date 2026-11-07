@@ -1,0 +1,136 @@
+{
+  "status": "STOP_DESTINATION_OTHER_REVIEW",
+  "frozenSHA": "1c57b13ede163625c3d87e92d2ffa41dc65e880b",
+  "atCET": "2026-11-07T12:23:14.106+01:00",
+  "path": "original run-c-closeout-live.ts TC_SEARCH -> same browser() as D8 + discoveryPackNetworkPolicy",
+  "catalogBrowser200": true,
+  "qAuthoritativeResponse200": true,
+  "sourceHTTP200": {
+    "/catalog.json": 1,
+    "/search/": 7
+  },
+  "corsErrorEventCount": 0,
+  "observedTextRequests": [
+    {
+      "method": "OPTIONS",
+      "outcome": "ADMITTED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "q",
+          "valueClass": "EQUALS_AUTHORITATIVE_INPUT"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ]
+    },
+    {
+      "method": "OPTIONS",
+      "outcome": "BLOCKED",
+      "queryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "name",
+          "valueClass": "EQUALS_AUTHORITATIVE_INPUT"
+        },
+        {
+          "queryKey": "destination",
+          "valueClass": "OTHER",
+          "characterDescription": {
+            "lengthRange": "1_16",
+            "letters": true,
+            "digits": false,
+            "whitespace": false,
+            "comma": false,
+            "period": false,
+            "colon": true,
+            "brackets": false,
+            "quotes": false,
+            "otherPunctuation": false
+          }
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "outcome": "ADMITTED",
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "queryProfile",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "q",
+          "valueClass": "EQUALS_AUTHORITATIVE_INPUT"
+        },
+        {
+          "queryKey": "country",
+          "valueClass": "SHORT_TOKEN"
+        },
+        {
+          "queryKey": "hits",
+          "valueClass": "NUMERIC"
+        }
+      ]
+    }
+  ],
+  "options": 0,
+  "selected": false,
+  "conditionalDocumentGETUsed": false,
+  "dynamicBinding": "NOT_IMPLEMENTED; stop for destination decision",
+  "replay": {
+    "status": "NOT_REPLAYABLE",
+    "reason": "UNCAPTURED_DYNAMIC_RESPONSE"
+  },
+  "diagnosticDocumentsSaved": 3,
+  "newPageGET": 1,
+  "newModel": 0,
+  "newLive": 0,
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 653,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 351,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11224
+  },
+  "reserved": {
+    "fullLive": 18,
+    "evaluationPublicGET": 108
+  },
+  "diagnosticNoise": "Original receipt also lists OTHER/SENSITIVE_FORMAT observations from legacy geography/id requests outside the four new text contracts. They did not reject those legacy requests. Exact destination rejection independently triggers the stop; raw receipt remains unchanged."
+}
