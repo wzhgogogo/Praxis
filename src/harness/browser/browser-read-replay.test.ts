@@ -93,7 +93,9 @@ test("guarded dynamic TableCheck recording replays through the same production A
     staticResources: [{ origin: "https://cdn.public.example", pathnamePrefix: "/assets/", resourceTypes: ["script"], queryKeyRules: { required: [], allowedPatterns: ["^rst-v1-[A-Za-z0-9._-]+$"] } }],
     dynamicReads: [{ origin: "https://www.tablecheck.com", pathname: "/slots", resourceTypes: ["fetch"], queryKeys: [] }] } as const;
   const directory = await mkdtemp(join(tmpdir(), "praxis-dynamic-recording-")); const recording = new BrowserReadRecording({ directory, runId: "dynamic", reviewedStaticResources: policy.staticResources });
-  const sourceRaw = new LocalPlaywrightChromium({ browserType });
+  // The canonical-origin fixture maps route.fetch to its local receiver. Keep
+  // that explicit Node control; native capture parity is covered by native-static-transport.
+  const sourceRaw = new LocalPlaywrightChromium({ browserType, admittedGetTransport: "NODE_FETCH" });
   const sourceRuntime: BrowserRuntime = { readNetworkBoundaryCapability: "ISOLATED_CONTEXT", openSession: input => sourceRaw.openSession({ ...input, networkPolicy: policy, recordResponse: response => recording.recordResponse(response) }) };
   const candidate = { restaurant: { id: "tablecheck:fixture", outletName: "Fixture restaurant", address: "1-1 Tokyo Fixture Street", sourceIds: { tablecheck: "fixture", tablecheckNativeGuideUri: guide }, provenance: { fixture: "guarded-dynamic-record" } }, matchReasons: [], warnings: [], executionConfidence: "HIGH" as const };
   const request = { candidates: [candidate], candidateIds: [candidate.restaurant.id], date: "2026-10-08", partySize: 2, timeWindow: { earliest: "19:00", latest: "19:00" }, hardCriteria: [] };

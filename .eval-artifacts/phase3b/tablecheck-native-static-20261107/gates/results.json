@@ -1,0 +1,74 @@
+{
+  "sha": "3c7c8e1e2d7e485e57eae779c73a1ed910baa7b8",
+  "results": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sha": "3c7c8e1e2d7e485e57eae779c73a1ed910baa7b8",
+      "startCET": "2026-11-07T14:57:04.617948+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "architecture",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sha": "3c7c8e1e2d7e485e57eae779c73a1ed910baa7b8",
+      "startCET": "2026-11-07T14:57:05.160432+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "default-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sha": "3c7c8e1e2d7e485e57eae779c73a1ed910baa7b8",
+      "startCET": "2026-11-07T14:57:05.429956+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sha": "3c7c8e1e2d7e485e57eae779c73a1ed910baa7b8",
+      "startCET": "2026-11-07T14:58:02.196462+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "chromium-fixtures",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sha": "3c7c8e1e2d7e485e57eae779c73a1ed910baa7b8",
+      "startCET": "2026-11-07T14:58:02.812779+01:00",
+      "exitCode": 1,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    }
+  ]
+}

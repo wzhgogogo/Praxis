@@ -21,7 +21,9 @@ test("D8 real unnamed search box and script-populated hidden query reach a guard
  const originals=decisions.filter(row=>row.sequence===7||row.sequence===8);
  assert.equal(originals.length,2);
  const missing:string[]=[];
- const runtime=new LocalPlaywrightChromium({proxyServer:"http://127.0.0.1:9",browserType:{async launch(options){
+ // This frozen component supplies recorded responses at route.fetch; the explicit
+ // Node control keeps those source legs offline. Native transport has its own real receiver coverage.
+ const runtime=new LocalPlaywrightChromium({admittedGetTransport:"NODE_FETCH",proxyServer:"http://127.0.0.1:9",browserType:{async launch(options){
   const browser=await chromium.launch(options),newContext=browser.newContext.bind(browser);
   browser.newContext=async options=>{
    const context=await newContext(options),route=context.route.bind(context),newPage=context.newPage.bind(context);
