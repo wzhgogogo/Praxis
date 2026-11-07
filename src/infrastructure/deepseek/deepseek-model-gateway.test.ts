@@ -353,3 +353,16 @@ test("DeepSeek gateway preserves safe transport causes without retries or body m
     assert.equal(JSON.stringify(records).includes("must-not-log"), false);
   }
 });
+
+test("DeepSeek environment proxy reaches only the local CONNECT receiver with no provider call", {timeout:5000}, async () => {
+  const {createServer}=await import("node:http");const targets:string[]=[];
+  const proxy=createServer();proxy.on("connect",(req,socket)=>{targets.push(req.url??"");socket.end("HTTP/1.1 502 Bad Gateway\r\nContent-Length: 0\r\n\r\n");});
+  await new Promise<void>(resolve=>proxy.listen(0,"127.0.0.1",resolve));
+  try {
+    const address=proxy.address();assert.ok(address&&typeof address!=="string");
+    const gateway=DeepSeekModelGateway.fromEnvironment({DEEPSEEK_API_KEY:"test-only-key",DEEPSEEK_MODEL:"test-model",PRAXIS_DEEPSEEK_API_PROXY_SERVER:`http://127.0.0.1:${address.port}`});
+    await assert.rejects(gateway.complete({...request,timeoutMs:1000}), (error:unknown)=>error instanceof ModelGatewayError&&error.code==="NETWORK");
+    assert.deepEqual(targets,["api.deepseek.com:443"]);
+    assert.throws(()=>DeepSeekModelGateway.fromEnvironment({DEEPSEEK_API_KEY:"test-only-key",DEEPSEEK_MODEL:"test-model",PRAXIS_DEEPSEEK_API_PROXY_SERVER:"socks5://localhost:1"}), (error:unknown)=>error instanceof ModelGatewayError&&error.code==="CONFIGURATION");
+  } finally {proxy.closeAllConnections();await new Promise<void>(resolve=>proxy.close(()=>resolve()));}
+});

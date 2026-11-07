@@ -1,0 +1,10 @@
+LOCAL_PROXY_SPLIT {"proxyHosts":["proxied.fixture.invalid"],"receiver":[{"host":"127.0.0.1:55050","path":"/"},{"host":"127.0.0.1:55050","path":"/assets/app.js"},{"host":"localhost:55050","path":"/assets/app.js"},{"host":"proxied.fixture.invalid:55050","path":"/assets/app.js"},{"host":"127.0.0.1:55050","path":"/data"},{"host":"127.0.0.1:55050","path":"/redirect-out"},{"host":"proxied.fixture.invalid:55050","path":"/data"},{"host":"proxied.fixture.invalid:55050","path":"/redirect-in"},{"host":"localhost:55050","path":"/arrived-direct"},{"host":"proxied.fixture.invalid:55050","path":"/arrived-proxy"},{"host":"localhost:55050","path":"/data"}]}
+✔ local browser proxy splits native, Node data and redirects by the target host (1163.984541ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1487.230708

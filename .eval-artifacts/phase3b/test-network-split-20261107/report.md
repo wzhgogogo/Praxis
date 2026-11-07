@@ -1,0 +1,9 @@
+# Local test network split
+
+Status: draft / not integrated. User2026-11-07 explicitly requested this current test-environment routing change. Baseline57f292e5. TableCheck/Tabelog + their observed first-party API/CDN hosts direct; remaining browser destinations and Google/DeepSeek APIs via configured local proxy. All provider/Guard/authorization/identity/time/budget boundaries unchanged. No external website, API or model called in this slice.
+
+The private current-worktree.env reuses existing local credentials without logging them; mode0600, ignored, no primary checkout/system proxy/VPN changes. Newly created config keeps real-call gates0. Exact nonsecret activation settings are inactivation.json. Normal Node invocation must load.env as documented; plainnode without.env continues using its provided process environment. Prior exact57f292e5 push approval does not authorize a new push.
+
+Evidence: red.log has the intended old-code failure: proxy receiver sees both supposedly direct hosts. First implementation retained fixture failures: localhost native/redirect requests hit Chromium LocalNetworkAccessPermissionDenied; Node direct requests arrived. DNS/dualstack attempts did not fix it, original outputs retained. As in existing read-network-redirect.test.ts, the local fixture alone now grants loopback-network permission scoped to its source origin. Production permissions untouched; green-verified.log passes actual direct/proxy script/data and both redirect directions. provider-contracts.log41/41, including existing Google and new DeepSeek local CONNECT502 receivers: only local proxy contacted, never remote provider. Full gates follow on a clean frozen commit.
+
+STATUS/DEVLOG/TEST-LOG main-publication updates remain deferred to approved main integration under the earlier user instruction; configuration docs/capability matrix and this branch report are updated now.

@@ -1,3 +1,4 @@
+import { browserProxyForUrl } from "../../../../infrastructure/browser/local-browser-proxy.js";
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { browserRuntimeFromEnvironment } from "../../../../infrastructure/browser/browser-runtime-factory.js";
@@ -24,8 +25,8 @@ const provider = probeProvider(values.url);
 if (values["capture-query-state"] && provider !== "TABELOG") throw new Error("--capture-query-state currently applies only to Tabelog");
 const effectiveNetwork = resolveEffectiveLiveNetworkConfiguration(process.env, process.argv);
 const effectiveEnvironment = environmentWithEffectiveLiveNetwork(process.env, effectiveNetwork);
-if (values["capture-query-state"] && (effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM" || effectiveEnvironment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER)) {
-  throw new Error("Tabelog query-state capture requires LOCAL_CHROMIUM on the default browser network");
+if (values["capture-query-state"] && (effectiveEnvironment.PRAXIS_BROWSER_ENGINE !== "LOCAL_CHROMIUM" || browserProxyForUrl(values.url, { ...(effectiveNetwork.browserProxyServer ? { proxyServer: effectiveNetwork.browserProxyServer } : {}), ...(effectiveNetwork.browserDirectHosts ? { directHosts: effectiveNetwork.browserDirectHosts } : {}) }))) {
+  throw new Error("Tabelog query-state capture requires LOCAL_CHROMIUM with this source host routed directly");
 }
 if (!["DIRECT", "PROXY", "UNKNOWN"].includes(values["network-path"])) throw new Error("--network-path must be DIRECT, PROXY or UNKNOWN (operator-reported only)");
 const timeoutMs = Number(values["timeout-ms"]);

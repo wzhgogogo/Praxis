@@ -1,3 +1,4 @@
+import {localBrowserProxyFromEnvironment} from "../../../../infrastructure/browser/local-browser-proxy.js";
 // User-approved D4/D8 branch verification. Real business capabilities come
 // only from the ordinary G6 / createLiveReadAssembly composition.
 import assert from 'node:assert/strict';
@@ -28,12 +29,13 @@ const root=resolve(rootArgument),ledger=join(root,'budget-C-live.json');
 const sha=(bytes:Uint8Array)=>createHash('sha256').update(bytes).digest('hex');
 const stamp=()=>new Date(Date.now()+3_600_000).toISOString().replace('Z','+01:00');
 const policy=discoveryPackNetworkPolicy();
+const browserNetwork=localBrowserProxyFromEnvironment(process.env);
 let sequence=0;
 let sourceReadPhase='START',sourceReadPages=0;
 let sourceReadBlockedDocument:Record<string,unknown>|undefined;
 const sourceReadHeaders:Array<Record<string,unknown>>=[];
 function browser(hooks?:G6TransportHooks,probe=false){
- return new LocalPlaywrightChromium({headless:true,browserType:{async launch(options){
+ return new LocalPlaywrightChromium({...browserNetwork,headless:true,browserType:{async launch(options){
   const launched=await chromium.launch(options),newContext=launched.newContext.bind(launched);
   launched.newContext=async options=>{
    const context=await newContext(options),route=context.route.bind(context);
@@ -88,7 +90,7 @@ if(mode==='TC_SEARCH'){
   trace.push({sequence:trace.length+1,kind,detail:safeRecord(detail)});return trace.length;
  },recording.traceSink());
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),spec.maximumMs);
- await writeFile(join(directory,'started.json'),JSON.stringify({sourceSHA:expectedSHA,atCET:stamp(),spec,configuration:{factory:'run-c-closeout-live/browser (same D8 path)',headless:true,transport:'REVIEWED_STATIC_BROWSER default; document/data NODE_FETCH',proxy:'NOT_CONFIGURED',context:{serviceWorkers:'block',userAgent:'DEFAULT',locale:'DEFAULT',timezoneId:'DEFAULT'},policy:'discoveryPackNetworkPolicy()',genericPublicRead:policy.genericPublicRead},model:0,Live:0},null,2)+'\n',{flag:'wx'});
+ await writeFile(join(directory,'started.json'),JSON.stringify({sourceSHA:expectedSHA,atCET:stamp(),spec,configuration:{factory:'run-c-closeout-live/browser (same D8 path)',headless:true,transport:'REVIEWED_STATIC_BROWSER default; document/data NODE_FETCH',proxy:browserNetwork.proxyServer?'CONFIGURED':'NOT_CONFIGURED',directHosts:browserNetwork.directHosts??[],context:{serviceWorkers:'block',userAgent:'DEFAULT',locale:'DEFAULT',timezoneId:'DEFAULT'},policy:'discoveryPackNetworkPolicy()',genericPublicRead:policy.genericPublicRead},model:0,Live:0},null,2)+'\n',{flag:'wx'});
  let result:unknown;
  try{result=await runG6SourceReadCheck({browser:runtime,policy,spec,signal:controller.signal,catalogTerminal,
   beforeEntry:async()=>{await chargeG6(ledger,spec.attemptId+':entry','evaluationPublicGET','Approved reviewed-static transport source entry through original Live path; user +1 GET464->465; no extra document, models or Live');sourceReadPages++;},

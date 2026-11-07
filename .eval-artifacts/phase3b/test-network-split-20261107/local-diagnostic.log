@@ -1,0 +1,34 @@
+LOCAL_CONSOLE Access to script at 'http://localhost:54804/assets/app.js' from origin 'http://127.0.0.1:54804' has been blocked by CORS policy: Permission was denied for this request to access the `loopback` address space.
+LOCAL_CONSOLE Failed to load resource: net::ERR_FAILED
+LOCAL_LOADING_FAILED {"requestId":"83296.3","timestamp":709853.76364,"type":"Script","errorText":"net::ERR_FAILED","canceled":false,"corsErrorStatus":{"corsError":"LocalNetworkAccessPermissionDenied","failedParameter":""}}
+LOCAL_CONSOLE Access to fetch at 'http://localhost:54804/arrived-direct' (redirected from 'http://proxied.fixture.invalid:54804/redirect-in') from origin 'http://127.0.0.1:54804' has been blocked by CORS policy: Permission was denied for this request to access the `loopback` address space.
+LOCAL_CONSOLE Failed to load resource: net::ERR_FAILED
+LOCAL_LOADING_FAILED {"requestId":"83296.12","timestamp":709853.863284,"type":"Fetch","errorText":"net::ERR_FAILED","canceled":false,"corsErrorStatus":{"corsError":"LocalNetworkAccessPermissionDenied","failedParameter":""}}
+SPLIT_DIAGNOSTIC {"seen":[{"host":"127.0.0.1:54804","path":"/"},{"host":"127.0.0.1:54804","path":"/assets/app.js"},{"host":"proxied.fixture.invalid:54804","path":"/assets/app.js"},{"host":"127.0.0.1:54804","path":"/data"},{"host":"localhost:54804","path":"/data"},{"host":"127.0.0.1:54804","path":"/redirect-out"},{"host":"proxied.fixture.invalid:54804","path":"/data"},{"host":"proxied.fixture.invalid:54804","path":"/redirect-in"},{"host":"proxied.fixture.invalid:54804","path":"/arrived-proxy"}],"proxied":["proxied.fixture.invalid","proxied.fixture.invalid","proxied.fixture.invalid","proxied.fixture.invalid"],"failures":[{"outcome":"FAILED","origin":"http://localhost:54804","pathname":"/assets/app.js","method":"GET","resourceType":"script","queryKeys":[],"queryValues":[],"error":{"name":"Error","message":"net::ERR_FAILED"}}]}
+✖ local browser proxy splits native, Node data and redirects by the target host (850.739292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1131.678875
+
+✖ failing tests:
+
+test at src/harness/browser/local-proxy-routing.test.ts:1:386
+✖ local browser proxy splits native, Node data and redirects by the target host (850.739292ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Done/. Input:
+  
+  'Local splitPendingRead'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/local-proxy-routing.test.ts:59:191)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'Local splitPendingRead',
+    expected: /Done/,
+    operator: 'match'
+  }

@@ -1,3 +1,4 @@
+import { localBrowserProxyFromEnvironment, playwrightProxy, type LocalBrowserProxySettings } from "./local-browser-proxy.js";
 import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
 
@@ -16,14 +17,12 @@ function actionTimeout(options: BrowserActionOptions): number {
   return options.timeoutMs ?? INTERACTIVE_ACTION_TIMEOUT_MS;
 }
 
-export interface LocalPlaywrightChromiumConfig {
+export interface LocalPlaywrightChromiumConfig extends LocalBrowserProxySettings {
   browserType?: Pick<typeof chromium, "launch"> & Partial<Pick<typeof chromium, "launchPersistentContext">>;
   /** Defaults to headless; interactive eval explicitly opts into headed Chromium. */
   headless?: boolean;
   /** Production defaults to the reviewed-static browser profile; explicit profiles support regression controls. */
   admittedGetTransport?: BrowserReadTransportProfile;
-  /** Explicit local/eval proxy; otherwise use Chromium's normal network path. */
-  proxyServer?: string;
   /** A dedicated, gitignored eval profile makes cookies persist across local eval sessions. */
   userDataDir?: string;
 }
@@ -263,9 +262,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     const interactive = environment.PRAXIS_LOCAL_CHROMIUM_INTERACTIVE === "1";
     const persistent = interactive && environment.PRAXIS_EVAL_ALLOW_BROWSER_MANUAL_INTERVENTION === "1";
     return new LocalPlaywrightChromium({
-      ...(environment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER?.trim()
-        ? { proxyServer: environment.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER.trim() }
-        : {}),
+      ...localBrowserProxyFromEnvironment(environment),
       ...(interactive ? {
           headless: false,
           // This directory is gitignored and deliberately never points to a user Chrome profile.
@@ -288,9 +285,10 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
         throw new BrowserRuntimeError("BROWSER_RUNTIME_UNAVAILABLE", "Browser replay requires an installed read network boundary");
       }
       const browserType = this.config.browserType ?? chromium;
+      const proxy = playwrightProxy(this.config);
       const launchOptions = {
         headless: this.config.headless ?? true,
-        ...(this.config.proxyServer ? { proxy: { server: this.config.proxyServer } } : {}),
+        ...(proxy ? { proxy } : {}),
       };
       if (this.config.userDataDir) {
         if (!browserType.launchPersistentContext) {

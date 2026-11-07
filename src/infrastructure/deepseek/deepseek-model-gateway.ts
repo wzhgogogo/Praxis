@@ -1,3 +1,4 @@
+import { ProxyAgent } from "undici";
 import {
   type ModelFinishReason,
   type ModelGateway,
@@ -18,6 +19,7 @@ export interface DeepSeekGatewayConfig {
   apiKey: string;
   model: string;
   fetchImplementation?: typeof fetch;
+  proxyServer?: string | undefined;
   observer?: ModelInvocationObserver;
   now?: () => number;
 }
@@ -270,7 +272,18 @@ export class DeepSeekModelGateway implements ModelGateway {
   constructor(private readonly config: DeepSeekGatewayConfig) {
     requireNonBlank(config.apiKey, "DeepSeek API key");
     requireNonBlank(config.model, "DeepSeek model");
-    this.fetchImplementation = config.fetchImplementation ?? fetch;
+    let transport = fetch;
+    if (config.proxyServer?.trim()) {
+      try {
+        const proxy = new URL(config.proxyServer);
+        if (!["http:", "https:"].includes(proxy.protocol)) throw new Error();
+        if (!config.fetchImplementation) {
+          const dispatcher = new ProxyAgent(proxy.toString());
+          transport = (url, init) => fetch(url, { ...init, dispatcher } as RequestInit);
+        }
+      } catch { throw new ModelGatewayError("DeepSeek proxy must be a valid HTTP(S) URL", "CONFIGURATION", false); }
+    }
+    this.fetchImplementation = config.fetchImplementation ?? transport;
     this.now = config.now ?? Date.now;
   }
 
@@ -281,6 +294,7 @@ export class DeepSeekModelGateway implements ModelGateway {
     return new DeepSeekModelGateway({
       apiKey: nonBlankEnvironmentValue(environment, "DEEPSEEK_API_KEY"),
       model: nonBlankEnvironmentValue(environment, "DEEPSEEK_MODEL"),
+      proxyServer: environment.PRAXIS_DEEPSEEK_API_PROXY_SERVER,
       ...dependencies,
     });
   }

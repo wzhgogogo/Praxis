@@ -254,3 +254,20 @@ test("the actual hybrid runner validates frozen input before source/provider pre
     await rm(directory, { recursive: true, force: true });
   }
 });
+
+test("split routing preflight keeps the source direct and Google's scoped proxy active", async () => {
+  await withArtifacts(async directory => {
+    const env = { ...environment, PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER:"http://127.0.0.1:9", PRAXIS_GOOGLE_API_PROXY_SERVER:"http://127.0.0.1:10808", PRAXIS_DEEPSEEK_API_PROXY_SERVER:"http://127.0.0.1:10808", PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS:"tablecheck.com,tablecheck.net,tabelog.com,tblg.k-img.com" };
+    const network=resolveEffectiveLiveNetworkConfiguration(env,[]), effective=environmentWithEffectiveLiveNetwork(env,network);
+    assert.equal(effective.PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS,env.PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS);
+    const connections:string[]=[], routes:Array<{host:string;proxy:boolean}>=[];
+    const result=await runLivePreflight({runner:"HYBRID_LIVE_READ",targets:["TABLECHECK","TABELOG","GOOGLE","DEEPSEEK"],network,timeoutMs:1000},effective,{
+      artifactDirectory:directory,connectProxy:async origin=>{connections.push(origin);},fetchImplementation:async(url,init)=>{routes.push({host:new URL(String(url)).hostname,proxy:Boolean((init as RequestInit&{dispatcher?:unknown}).dispatcher)});return new Response("",{status:200});},
+    });
+    assert.deepEqual(connections,["http://127.0.0.1:10808/"]);
+    assert.deepEqual(routes,[{host:"www.tablecheck.com",proxy:false},{host:"tabelog.com",proxy:false},{host:"places.googleapis.com",proxy:true},{host:"api.deepseek.com",proxy:true}]);
+    assert.equal(result.attempts.filter(a=>a.request.method==='GET').length,4);
+    const disabled=resolveEffectiveLiveNetworkConfiguration(env,["--no-proxy"]);assert.deepEqual(disabled,{proxyMode:"DISABLED_BY_CLI"});
+    const direct=environmentWithEffectiveLiveNetwork(env,disabled);assert.equal(direct.PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS,"");assert.equal(direct.PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER,"");assert.equal(direct.PRAXIS_GOOGLE_API_PROXY_SERVER,"");assert.equal(direct.PRAXIS_DEEPSEEK_API_PROXY_SERVER,"");
+  });
+});
