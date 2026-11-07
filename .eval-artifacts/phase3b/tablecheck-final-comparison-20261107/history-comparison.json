@@ -1,0 +1,85 @@
+{
+  "status": "OPTION_B_NO_CONFIRMED_FIX_DIFFERENCE",
+  "history": [
+    {
+      "sha": "a60d27b71f8148b1a95b6429fda99728d289449b",
+      "atCET": "2026-10-19T04:11:56+01:00",
+      "subject": "fix(browser): admit only reviewed GET browser CORS preflights",
+      "relevance": "Admit only source-bound browser GET preflights; no synthetic response in Guard"
+    },
+    {
+      "sha": "b6ac60c51db66457ecb28707363365013234e4af",
+      "atCET": "2026-10-23T11:29:24+01:00",
+      "subject": "fix: bind TableCheck preflights to approved GETs and gate eval Live sources",
+      "relevance": "Catalog source-bound preflight and optional hits; current source rule scope"
+    },
+    {
+      "sha": "28963ca8407dede9ac574148cc1eee094d14ca55",
+      "atCET": "2026-10-25T23:42:35+01:00",
+      "subject": "fix: unify script read types and bind browser preflights to approved read rules",
+      "relevance": "Unify fetch/xhr and project approved read contract into preflight"
+    },
+    {
+      "sha": "dd98b783d03bbef08a7be4f425766f63d247f2a5",
+      "atCET": "2026-11-05T08:03:58+01:00",
+      "subject": "feat: prepare explicit browser transport experiment with equivalent Guard checks",
+      "relevance": "Add explicit experimental native continuation; production default remains Node"
+    },
+    {
+      "sha": "0244450a7ed61999f60a1cb5faf8bf0246d86e96",
+      "atCET": "2026-11-06T03:34:25+01:00",
+      "subject": "fix: atomically verify observed GET form submissions before navigation",
+      "relevance": "Observed GET-form verification and read receipts, not API response synthesis"
+    },
+    {
+      "sha": "1c32a45f5b188fd1f6a7ea185dda65bffdfff7a9",
+      "atCET": "2026-11-07T10:09:35+01:00",
+      "subject": "feat: record current-read query value classes without changing source admission",
+      "relevance": "Diagnostic query value classes; no original-value persistence"
+    },
+    {
+      "sha": "7a95ee7d7773e9bc02bf0ef580430a2d00683ac4",
+      "atCET": "2026-11-07T10:15:55+01:00",
+      "subject": "fix: constrain TableCheck text reads to exact current-input query contracts",
+      "relevance": "User-approved exact text shapes/current-authoritative-value admission"
+    },
+    {
+      "sha": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:36:18+01:00",
+      "subject": "fix: keep request observation out of paused document execution",
+      "relevance": "Avoid page JS at paused navigation, preserve diagnostic snapshots"
+    },
+    {
+      "sha": "c48ef60caf737292f2dbef0322f906d19fde181e",
+      "atCET": "2026-11-07T11:25:14+01:00",
+      "subject": "feat: observe page-owned query values and capture source scripts within12MB",
+      "relevance": "PAGE diagnostics and public source script recorder cap/redaction"
+    },
+    {
+      "sha": "5afe1d4a01f8f6df144d00ed1e448630aea945cd",
+      "atCET": "2026-11-07T11:40:56+01:00",
+      "subject": "fix: restrict the enlarged public recording cap to script responses",
+      "relevance": "Require actual script type for enlarged cap"
+    }
+  ],
+  "dependency": {
+    "package": "playwright-core",
+    "version": "1.62.1",
+    "sameLockedIntegritySinceOct20": true,
+    "installedModule": "node_modules/playwright-core/lib/coreBundle.js",
+    "installedModuleSHA256": "9393fa79e1c67c74edc26b610d65a4f7ed73d345a762465cc88340a33a2454ac",
+    "referenceLines": "36015-36032",
+    "behavior": "Intercepted browser preflight is locally fulfilled204 by Playwright when interception is enabled. Guard admission is separate and does not synthesize this response. Existing behavior in old successful runs; no newly introduced cause established."
+  },
+  "transportModes": {
+    "OCT20_PRODUCTION": "NODE_FETCH/route.fetch for admitted GETs",
+    "OCT20_GUARDED": "NODE_FETCH/route.fetch for admitted GETs",
+    "OCT20_PLAIN": "route.continue with independent read-only route filter; not untouched un-routed browser",
+    "OCT23_GUARDED": "existing Guard route.fetch; derived from source and archived report",
+    "D8_NOV06": "GUARD_ROUTE_FETCH observed in trace;21 GET200 terminals",
+    "PROBE1_NOV06": "explicit BROWSER_GET_HEAD",
+    "PROBE2_NOV07": "explicit BROWSER_GET_HEAD",
+    "PROBE3_NOV07": "NODE_FETCH; did not reach search-v4"
+  },
+  "attribution": "Transport/time/source query shapes differ simultaneously; header sets/egress facts missing. No local causal regression or current upstream WAF demonstrated. No fix, no conditional GET."
+}

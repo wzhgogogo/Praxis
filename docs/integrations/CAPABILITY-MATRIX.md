@@ -549,3 +549,15 @@ Only four exact observed search-v4 GET shapes gain current-authoritative-input a
 ## 2026-11-07 CET TableCheck transport / third probe — draft / not integrated
 
 Local conditional-Origin Chromium comparison passes native/Guard Node/Guard continuation; wire header-name differences are disclosed, no header-fidelity patch or authorization change. PAGE observation refines OTHER only and grants no query access. Guard-admitted source/reviewed script responses alone may record12MB with equal-byte-length credential masking; constructed10.28MB and rejection controls pass. Final Recorder script-type omission was caught with an actual red and corrected; other-type limits remain. Third guarded source read on4b68893f returned entry200 but exhausted the unchanged20s navigation bound while its main script Node fetch had no response; no Destination/CORS/query result or replayable DOM was reached. This does not certify the actual large script, binding, region search or D8. Final5afe1d4a clean gates1458/235/fullG675/strictG2 all12 pass. GET+1,model0,Live0; stop before another source read or D8. [Evidence and limits](../../.eval-artifacts/phase3b/tablecheck-transport-20261107/report.md).
+
+
+## 2026-11-07 CET — B integration candidate / TableCheck deferred after3b
+
+Status: draft / not integrated; this is the current candidate's qualification, not a main release. The reviewed72b18bee throughcfe3aa87 safety/Recorder series is retained. No product or Guard behavior changes in the final historical-comparison slice.
+
+| Capability | Current source verification | After3b todo |
+| --- | --- | --- |
+| TableCheck text search | **未验证**。search-v4在最近原生探查环境无可用响应，根因未定；第三次Node探查在入口20秒超时，未到接口。旧D8 Node曾catalog5/search16 GET200，不能据此认证当前全名文字搜索。 | After3b, diagnose with fresh explicit authorization and replayable evidence; retain exact source/query/authority/identity boundaries. No bypass or speculative transport change. |
+| TableCheck B1 | **未验证**。当前search-v4来源链未闭合；旧离线B1接线不证明当前真实查找、身份、来源交接。 | After3b, validate the actual source-bound identity/availability/B1 chain after search compatibility is established. Keep both B1 checks and source-selection UNKNOWN semantics. |
+
+[Offline comparison, evidence limits and decision B](../../.eval-artifacts/phase3b/tablecheck-final-comparison-20261107/report.md). No definite locally testable regression was found, so the conditional new GET was unused. Full candidate gates and freeze are reported there. Main integration and its STATUS/DEVLOG/TEST-LOG publication updates wait for reviewer approval. D8 and held-out remain unrun; their reserved calls are unchanged.
