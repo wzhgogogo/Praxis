@@ -1,3 +1,5 @@
+export type BrowserReadTransportProfile = "NODE_FETCH" | "BROWSER_GET_HEAD" | "REVIEWED_STATIC_BROWSER";
+
 import type { BrowserTransportError } from "./browser-runtime-errors.js";
 export type BrowserRuntimeProvider = "CLOUDFLARE_BROWSER_RUN" | "LOCAL_PLAYWRIGHT_CHROMIUM";
 export type BrowserEngine = "KITESURF" | "CHROMIUM";
@@ -71,6 +73,9 @@ export interface BrowserReadResourceTypeObservation {
 
 /** A value-free request shape captured by an installed read boundary. */
 export interface BrowserReadNetworkObservation {
+  /** Actual initial transport after unchanged admission; diagnostic only. */
+  transport?: "NODE_FETCH" | "BROWSER_GET_HEAD";
+  admissionRule?: {collection:"staticResources";index:number};
   /** Value categories only; observational metadata does not grant admission. */
   queryValues?: import("./browser-query-values.js").BrowserQueryValueObservation[];
   /** Native GET submission evidence, with value hashes only; never a model input. */

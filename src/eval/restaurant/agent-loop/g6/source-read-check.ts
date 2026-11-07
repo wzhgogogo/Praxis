@@ -39,8 +39,7 @@ export async function runG6SourceReadCheck(input:{browser:BrowserRuntime;policy:
   if(rejected.length)return {status:'STOP_VALUE_REVIEW',phase,catalog200:true,violations:rejected,options:options.length};
   if(options.length!==1)return {status:'STOP_NO_UNIQUE_SUGGESTION',phase,catalog200:true,options:options.length};
   setPhase('SELECT_MATCH');const selected=options[0]!;
-  if(selected.kind==='LINK'&&selected.href){await session.prepareObservedNavigation!(selected.href,{timeoutMs:20000});await session.openLink!(selected.id,selected.href,{timeoutMs:20000});}
-  else await session.click!(selected.id,{timeoutMs:5000});
+  await session.click!(selected.id,{timeoutMs:5000});
   await wait(spec.minimumIntervalMs,undefined,{signal});await session.waitForSettled?.(snapshot,5000);snapshot=await session.snapshot();await session.observeControls!();
   const later=violations(snapshot,boundary);
   return {status:later.length?'STOP_VALUE_REVIEW':'SELECTED_RESULT_OBSERVED',phase,catalog200:true,violations:later,currentQueryKeys:[...new URL(snapshot.url).searchParams.keys()]};
@@ -70,5 +69,5 @@ export function installSourceReadPageLimit(context:BrowserContext,phase:()=>stri
 
 /** Source-owned controls only; exported for frozen-observation component regression. */
 export function sourceReadSuggestionOptions(controls:readonly BrowserPageControl[],query:string,policy:BrowserReadNetworkPolicy){
- return controls.filter(c=>c.visible&&!c.disabled&&['LINK','BUTTON'].includes(c.kind)&&c.formMethod!=='POST'&&normalizedTextKey(c.label)===normalizedTextKey(query)&&(!c.href||!isBrowserReadPathProhibited(policy,c.href)));
+ return controls.filter(c=>c.visible&&!c.disabled&&c.kind==='BUTTON'&&c.formMethod!=='POST'&&normalizedTextKey(c.label)===normalizedTextKey(query)&&(!c.href||!isBrowserReadPathProhibited(policy,c.href)));
 }

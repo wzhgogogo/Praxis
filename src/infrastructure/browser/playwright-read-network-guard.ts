@@ -4,7 +4,7 @@ import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import { traceFormEvidence, PlaywrightObservedGetForms, type ObservedGetFormSubmission } from "./playwright-observed-get-forms.js";
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
-import type { BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
+import type { BrowserReadTransportProfile, BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
 
 type NetworkDiagnosticCode = "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT" | "RESOURCE_POLICY_BLOCKED";
 type NetworkDiagnostic = { code: NetworkDiagnosticCode; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[]; error?: BrowserTransportError };
@@ -125,6 +125,9 @@ export class PlaywrightReadNetworkGuard {
   /** Records are observational and never confer network permission. */
   async flushRecordedResponses(): Promise<void> { await Promise.allSettled([...this.recordingTasks]); }
   private nativeRequest(request: Request): boolean {
+    // The strict static profile records its ordinary native leg here; native
+    // redirect legs retain the existing CDP body-capture path below.
+    if(this.admittedGetTransport==="REVIEWED_STATIC_BROWSER")return this.nativeRequests.has(request);
     for (let current: Request | null = request, hops = 0; current && hops < 11; current = current.redirectedFrom(), hops++) {
       if (this.nativeRequests.has(current)) return true;
     }
@@ -175,11 +178,11 @@ export class PlaywrightReadNetworkGuard {
   private readonly popupBootstraps = new Set<string>();
   private readonly redirectTimers = new Set<ReturnType<typeof setTimeout>>();
 
-  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void, private readonly admittedGetTransport: "NODE_FETCH" | "BROWSER_GET_HEAD" = "NODE_FETCH") { this.requestTimeoutMs = requestTimeoutMs; }
+  constructor(private readonly policy: BrowserReadNetworkPolicy, requestTimeoutMs = 5_000, private readonly recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void, private readonly admittedGetTransport: BrowserReadTransportProfile = "NODE_FETCH") { this.requestTimeoutMs = requestTimeoutMs; }
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
     this.context = context;
-    if (this.admittedGetTransport === "BROWSER_GET_HEAD" && !options.replay) {
+    if (this.admittedGetTransport !== "NODE_FETCH" && !options.replay) {
       context.on("response", response => this.captureNativeResponse(response));
       context.on("requestfinished", request => {
         const timer = this.nativeTimers.get(request); if (timer) { clearTimeout(timer); this.redirectTimers.delete(timer); }
@@ -561,8 +564,10 @@ export class PlaywrightReadNetworkGuard {
     }
     const preparedDocument = type === "document" && (method === "GET" || method === "HEAD") && this.documents.delete(key);
     const rules = [...this.policy.staticResources, ...this.policy.dynamicReads];
-    const sourceRule = (await Promise.all(rules
-      .map(rule => allows(rule, request, url, method, type,this.queryMetadata(url).queryValues)))).some(Boolean);
+    const ruleMatches=await Promise.all(rules.map(rule=>allows(rule,request,url,method,type,this.queryMetadata(url).queryValues)));
+    const sourceRule=ruleMatches.some(Boolean);
+    const staticRuleIndex=ruleMatches.slice(0,this.policy.staticResources.length).findIndex(Boolean);
+    const staticAdmission=staticRuleIndex<0?{}:{admissionRule:{collection:"staticResources" as const,index:staticRuleIndex}};
     const document = preparedDocument && (!this.sensitiveGenericRead(url) || sourceRule);
     const genericRead = this.policy.genericPublicRead === true
       && this.genericOrigins.has(url.origin)
@@ -590,9 +595,12 @@ export class PlaywrightReadNetworkGuard {
       await route.fallback();
       return;
     }
+    const reviewedStaticNative=this.admittedGetTransport==="REVIEWED_STATIC_BROWSER"&&["GET","HEAD"].includes(method)&&["script","stylesheet","font","image"].includes(type)&&staticRuleIndex>=0
+      &&!this.queryMetadata(url).queryValues.some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT"].includes(field.valueClass));
+    const native=reviewedStaticNative||this.admittedGetTransport==="BROWSER_GET_HEAD"&&["GET","HEAD"].includes(method);
     try {
-      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(formSubmission ? { formSubmission } : {}) });
-      if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method)) {
+      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, transport:native?"BROWSER_GET_HEAD":"NODE_FETCH",...staticAdmission,resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(formSubmission ? { formSubmission } : {}) });
+      if (native) {
         this.nativeRequests.add(request);
         // A native request has no Route.abort capability after continue(). Keep
         // the same transport deadline and fail closed by retiring this context.
@@ -632,7 +640,7 @@ export class PlaywrightReadNetworkGuard {
     } catch (error) {
       const code = error instanceof Error && error.name === "TimeoutError" ? "READ_TIMEOUT" : "READ_REQUEST_FAILED";
       this.blocked(code, url, method, type, error);
-      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", error: browserTransportError(error), origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url) };
+      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", error: browserTransportError(error), origin: url.origin, pathname: url.pathname, method, resourceType: type, transport:native?"BROWSER_GET_HEAD":"NODE_FETCH",...staticAdmission,resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url) };
       await route.abort("failed");
     }
   }

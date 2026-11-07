@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 import { chromium, type Browser, type BrowserContext, type Page } from "playwright-core";
 
-import type { BrowserActionOptions, BrowserReadNetworkPolicy, BrowserResponseRule, BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
+import type { BrowserReadTransportProfile, BrowserActionOptions, BrowserReadNetworkPolicy, BrowserResponseRule, BrowserControlHint, BrowserPageControl, BrowserRuntime, BrowserSession, BrowserSessionMetadata, BrowserSnapshot } from "./browser-runtime.js";
 import { BrowserRuntimeError } from "./browser-runtime-errors.js";
 import { PlaywrightReadNetworkGuard } from "./playwright-read-network-guard.js";
 import { assertPublicReadInput, traceFormEvidence } from "./playwright-observed-get-forms.js";
@@ -20,8 +20,8 @@ export interface LocalPlaywrightChromiumConfig {
   browserType?: Pick<typeof chromium, "launch"> & Partial<Pick<typeof chromium, "launchPersistentContext">>;
   /** Defaults to headless; interactive eval explicitly opts into headed Chromium. */
   headless?: boolean;
-  /** Explicit experiment only; ordinary startup retains Node forwarding. */
-  admittedGetTransport?: "NODE_FETCH" | "BROWSER_GET_HEAD";
+  /** Production defaults to the reviewed-static browser profile; explicit profiles support regression controls. */
+  admittedGetTransport?: BrowserReadTransportProfile;
   /** Explicit local/eval proxy; otherwise use Chromium's normal network path. */
   proxyServer?: string;
   /** A dedicated, gitignored eval profile makes cookies persist across local eval sessions. */
@@ -302,7 +302,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
         browser = await browserType.launch(launchOptions);
         context = await browser.newContext((input.networkPolicy || input.replayHarPath) ? { serviceWorkers: "block" } : {});
       }
-      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse, this.config.admittedGetTransport) : undefined;
+      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse, this.config.admittedGetTransport??"REVIEWED_STATIC_BROWSER") : undefined;
       if (input.replayHarPath) await context.routeFromHAR(input.replayHarPath, { notFound: "abort" });
       if (networkGuard) await networkGuard.install(context, { replay: input.replayHarPath !== undefined });
       page = await context.newPage();

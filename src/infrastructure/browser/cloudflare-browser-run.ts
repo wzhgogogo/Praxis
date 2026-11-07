@@ -86,7 +86,7 @@ class CloudflareBrowserSession implements BrowserSession {
     try {
       context = networkPolicy ? await browser.newContext({ serviceWorkers: "block" }) : browser.contexts()[0];
       if (!context) throw new BrowserRuntimeError("BROWSER_RUNTIME_FAILED", "Browser Run did not create a browser context");
-      const networkGuard = networkPolicy ? new PlaywrightReadNetworkGuard(networkPolicy, 5_000, recordResponse) : undefined;
+      const networkGuard = networkPolicy ? new PlaywrightReadNetworkGuard(networkPolicy, 5_000, recordResponse,"REVIEWED_STATIC_BROWSER") : undefined;
       if (networkGuard) await networkGuard.install(context);
       const page = networkPolicy ? await context.newPage() : context.pages()[0] ?? await context.newPage();
       if (networkGuard) await networkGuard.preparePage(context, page);
@@ -226,11 +226,14 @@ class CloudflareBrowserSession implements BrowserSession {
 
   isClosed(): boolean { return this.closed || this.page.isClosed() || !this.browser.isConnected(); }
 
+  async flushRecordedResponses():Promise<void>{await this.networkGuard?.flushRecordedResponses();}
+
   async close(): Promise<void> {
     if (this.closed) return;
     this.closed = true;
     await this.controls.dispose();
     await closeQuietly(this.browser);
+    await this.networkGuard?.flushRecordedResponses();
   }
 
   private async run<Value>(operation: () => Promise<Value>): Promise<Value> {

@@ -1,0 +1,32 @@
+✖ reviewed static default preserves admission and recording while documents data and authority URLs stay Node (857.057416ms)
+STATIC_10MB_TIMING [{"profile":"NODE_FETCH","transport":"NODE_FETCH","bytes":10284255,"dclMs":127.79437499999995,"bodyAvailableMs":29.181583000000046},{"profile":"DEFAULT","transport":"BROWSER_GET_HEAD","bytes":10284255,"dclMs":30.965791999999965,"bodyAvailableMs":85.51187499999992}]
+✔ 10MB local public script reports native and Node DCL/body arrival without a speed threshold (456.781417ms)
+✔ native static body still triggers whole-recording own-credential rejection (124.214833ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 2
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1774.10725
+
+✖ failing tests:
+
+test at src/harness/browser/native-static-transport.test.ts:1:708
+✖ reviewed static default preserves admission and recording while documents data and authority URLs stay Node (857.057416ms)
+  AssertionError [ERR_ASSERTION]: /assets/font.woff2
+  + actual - expected
+  
+  + undefined
+  - 'BROWSER_GET_HEAD'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/native-static-transport.test.ts:45:77)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'BROWSER_GET_HEAD',
+    operator: 'strictEqual'
+  }
