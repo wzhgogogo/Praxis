@@ -57,7 +57,7 @@ function matchesReadProjection(rule: BrowserReadNetworkRequestRule, url: URL, me
 function matchesQueryValues(rule:BrowserReadNetworkRequestRule,url:URL,fields:readonly BrowserQueryValueObservation[]):boolean {
   if(!rule.queryValueClasses)return true;
   if(fields.length!==[...url.searchParams].length || fields.some(field=>field.valueClass==="SENSITIVE_FORMAT"))return false;
-  return fields.every(field=>!rule.queryValueClasses![field.queryKey] || rule.queryValueClasses![field.queryKey]!.includes(field.valueClass));
+  return fields.every(field=>!rule.queryValueClasses![field.queryKey] || rule.queryValueClasses![field.queryKey]!.includes(field.valueClass==="PAGE_OBSERVED_VALUE"?"OTHER":field.valueClass));
 }
 async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string, fields:readonly BrowserQueryValueObservation[]): Promise<boolean> {
   if (!matchesReadProjection(rule, url, method, resourceType) || !matchesQueryValues(rule,url,fields)) return false;
@@ -96,7 +96,7 @@ export class PlaywrightReadNetworkGuard {
   }
   private async inspectQuery(url:URL,page:Page|undefined):Promise<void> {
     const inputs=url.search&&page?await this.forms.authoritativeInputs(page):[];
-    this.queryObservations.set(url,observeQueryValues(url,inputs));
+    this.queryObservations.set(url,observeQueryValues(url,inputs,page?this.forms.observedPageValueHashes(page):new Set()));
   }
   private queryMetadata(url:URL) {return {queryValues:this.queryObservations.get(url)??observeQueryValues(url,[])};}
 
@@ -278,6 +278,7 @@ export class PlaywrightReadNetworkGuard {
     const session = await context.newCDPSession(page);
     await session.send("Page.enable");
     const rootFrameId = (await session.send("Page.getFrameTree")).frameTree.frame.id;
+    session.on("Page.frameNavigated",event=>{if(event.frame.id===rootFrameId)this.forms.clearObservedPageValues(page);});
     session.on("Page.windowOpen", event => {
       const startedAt = Date.now();
       this.popupForms.set(requestKey(event.url), this.observedPopupSubmission(page, new URL(event.url), event.windowName)
@@ -631,7 +632,7 @@ export class PlaywrightReadNetworkGuard {
     } catch (error) {
       const code = error instanceof Error && error.name === "TimeoutError" ? "READ_TIMEOUT" : "READ_REQUEST_FAILED";
       this.blocked(code, url, method, type, error);
-      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", error: browserTransportError(error), origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort() };
+      this.requests[this.requests.length - 1] = { outcome: code === "READ_TIMEOUT" ? "TIMED_OUT" : "FAILED", error: browserTransportError(error), origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url) };
       await route.abort("failed");
     }
   }

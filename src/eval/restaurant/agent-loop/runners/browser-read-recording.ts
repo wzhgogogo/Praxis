@@ -44,6 +44,7 @@ export class BrowserReadRecording {
   private readonly stylesheets = new Map<string, string>();
   /** Recording-only exact URLs; these never change the Runtime or Guard policy. */
   private readonly loadedStylesheetRules: BrowserReadNetworkRequestRule[] = [];
+  private readonly documentOrigins=new Set<string>();
   private readonly documents = new Map<string, string>();
   private readonly documentSnapshots: Array<{ snapshot: number; url?: string; html?: string; failure?: ReplayFailure; requests: readonly BrowserReadNetworkObservation[] }> = [];
   private readonly responses = new Map<string, { method: "GET" | "HEAD"; status: number; mimeType: string; text: string; redirectLocation?: string }>();
@@ -79,6 +80,7 @@ export class BrowserReadRecording {
     const staticResources = [...(this.options.reviewedStaticResources ?? []), ...(stylesheetRule ? [stylesheetRule] : [])];
     const url = safeReplayUrl(response.url, staticResources, this.options.reviewedReads);
     if (!url || !/^(?:GET|HEAD)$/.test(response.method)) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
+    if(response.resourceType==="document"&&response.status>=200&&response.status<300&&/^(?:text\/html|application\/xhtml\+xml)$/.test(mimeType))this.documentOrigins.add(new URL(response.url).origin);
     let text: string;
     // Keep a CSS UTF-8 BOM as content so the existing byte-length/hash check remains exact.
     try { text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: Boolean(stylesheetRule) }).decode(response.body); }
@@ -91,10 +93,11 @@ export class BrowserReadRecording {
     // A public redirect's response body is not needed to faithfully preserve
     // navigation. Keep its approved status and Location even when it is empty.
     const isRecordedRedirect = response.status >= 300 && response.status < 400 && Boolean(redirectLocation);
+    const publicSourceScript=reviewedStaticScriptUrl(response.url,this.options.reviewedStaticResources)||this.documentOrigins.has(new URL(response.url).origin);
     const sanitized = isRecordedRedirect ? "" : mimeType.includes("json") ? (tabelogSuggestionRecordingUrl(response.url) ? sanitizeTabelogSuggestions(text) : sanitizePublicJson(text))
       : /^(?:text\/(?:html|plain)|application\/(?:xhtml\+xml))$/.test(mimeType) ? sanitizePublicHtml(text, response.url, this.options.reviewedStaticResources, this.options.reviewedReads)
       : /^(?:application|text)\/(?:javascript|ecmascript)$/.test(mimeType)
-        ? (reviewedStaticScriptUrl(response.url, this.options.reviewedStaticResources) && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
+        ? (publicSourceScript ? sanitizePublicSourceScript(text,response.body.byteLength) : undefined)
       : mimeType === "text/css" ? (stylesheetRule && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
       : undefined;
     if (sanitized === undefined || !this.google.accept([url,sanitized,redirectLocation])) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
@@ -332,11 +335,12 @@ function redactThirdPartyUrlCredentials(html: string, sourceUrl: string): string
 function sanitizePublicHtml(html: string, sourceUrl: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined {
   if (Buffer.byteLength(html) > MAX_PUBLIC_DOCUMENT_BYTES) return undefined;
   const preservedJsonLd: string[] = [];
+  const ownScriptUrls=new Set<string>();
   let result = redactThirdPartyUrlCredentials(html,sourceUrl).replace(/<!--[\s\S]*?-->|<(template|iframe|object|embed|svg)\b[\s\S]*?<\/\1\s*>/gi, "")
   result = result.replace(/<style\b[^>]*>([\s\S]*?)<\/style\s*>/gi, (whole, css) => safeReplayCss(css) ? whole : "");
   result = result.replace(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi, (whole, attrs, script) => {
     const src = String(attrs).match(/\bsrc=(['"])([^'"]+)\1/i)?.[2];
-    if (src) return reviewedStaticScriptUrl(new URL(src.replace(/&amp;/gi, "&"), sourceUrl).toString(), staticResources) ? whole : "";
+    if(src){const url=new URL(src.replace(/&amp;/gi,"&"),sourceUrl).toString();const own=new URL(url).origin===new URL(sourceUrl).origin&&Boolean(safeReplayUrl(url,staticResources,reviewedReads));if(own)ownScriptUrls.add(url);return own||reviewedStaticScriptUrl(url,staticResources)?whole:"";}
     if (/\btype=(['"])application\/ld\+json\1/i.test(String(attrs))) {
       const sanitized = sanitizePublicJsonLd(script);
       if (sanitized === undefined) return "";
@@ -374,7 +378,7 @@ function sanitizePublicHtml(html: string, sourceUrl: string, staticResources?: r
     const url = new URL(value.replace(/&amp;/gi, "&"), sourceUrl);
     const safe = safeReplayUrl(url.toString(), staticResources, reviewedReads);
     const sameDocumentOrigin = new URL(safe ?? sourceUrl).origin === new URL(sourceUrl).origin;
-    const approvedStaticScript = name.toLowerCase() === "src" && reviewedStaticScriptUrl(url.toString(), staticResources)
+    const approvedStaticScript = name.toLowerCase() === "src" && (reviewedStaticScriptUrl(url.toString(), staticResources)||ownScriptUrls.has(url.toString()))
       || name.toLowerCase() === "href" && reviewedStaticStylesheetUrl(url.toString(), staticResources);
     if (!safe || (!sameDocumentOrigin && !approvedStaticScript)) return "";
     if (approvedStaticScript) {
@@ -484,6 +488,14 @@ function safeReplayScript(script: string): boolean {
     && !/\b(?:form\.submit|location\s*=|window\.open)\b/i.test(script);
 }
 /** Admitted public CSS or reviewed JavaScript is retained byte-for-byte, without session or credential material. */
+/** Only Guard-admitted source/reviewed public JavaScript gets the user-approved cap.
+ * ASCII replacement preserves code-unit/byte length and quote/newline structure. */
+function sanitizePublicSourceScript(script:string,originalByteLength:number):string|undefined {
+  if(!script.length||originalByteLength>12_000_000||Buffer.byteLength(script)!==originalByteLength||/\u0000/.test(script))return undefined;
+  const fieldMasked=script.replace(/((?:["']?(?:api[_-]?key|x-api-key|access[_-]?token|token|authorization|cookie|session[_-]?id|secret|password|private[_-]?key)["']?)\s*[:=]\s*)("(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*')/gi,(_all,prefix,literal)=>prefix+literal[0]+literal.slice(1,-1).replace(/\\\r?\n|[^\r\n]/g,(value:string)=>value.startsWith("\\")&&/[\r\n]/.test(value)?value:"x".repeat(Buffer.byteLength(value)))+literal.at(-1));
+  const masked=fieldMasked.replace(/-----BEGIN (?:RSA )?PRIVATE KEY-----[\s\S]*?-----END (?:RSA )?PRIVATE KEY-----|\bAIza[0-9A-Za-z_-]{30,}|\bAKIA[A-Z0-9]{16}|\bBearer\s+[A-Za-z0-9._~-]{8,}|\bsk-[A-Za-z0-9_-]{8,}/gi,value=>value.replace(/[^\r\n]/g,"x"));
+  return Buffer.byteLength(masked)===originalByteLength?masked:undefined;
+}
 function safePublicStaticCode(script: string, originalByteLength: number): boolean {
   // The admitted public static response is retained byte-for-byte only if it is
   // valid bounded UTF-8 public code and has no literal credential material.

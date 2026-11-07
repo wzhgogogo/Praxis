@@ -1,0 +1,72 @@
+✔ observed same-origin GET forms keep their public queryless action without an endpoint exception (14.569542ms)
+✔ browser recording writes only an in-memory sanitized public document HAR (2.081792ms)
+✔ browser recording retains a Pack-reviewed public query document within the measured bounded size (8.43125ms)
+✔ browser recording preserves valid JSON-LD geo numbers while redacting its telephone (3.433791ms)
+✔ browser recording keeps reviewed GET form actions and removes unreviewed destinations (2.769625ms)
+✔ browser recording refuses replay when a dynamic response was admitted without a safe captured body (1.235667ms)
+✖ browser recording refuses a snapshot-only replay when an admitted external script was not captured (2.289375ms)
+✔ browser recording keeps a captured safe external script in the replay HAR (2.500833ms)
+✖ browser recording masks a reviewed public script credential at equal length under the approved contract (1.981333ms)
+✔ browser recording persists each runtime-masked screenshot with its snapshot (2.354458ms)
+✔ browser recording adds a sanitized admitted public dynamic response to replay only in memory (1.801958ms)
+✔ browser recording rejects HTTP failures and preserves safe CSS visibility in replay documents (2.6855ms)
+✔ browser recording preserves form methods while deleting unsafe destinations (2.414417ms)
+✔ browser recording preserves an admitted public document redirect for replay (1.5785ms)
+✔ recorder retains loaded Guard-admitted public stylesheets, including generic GET, byte-for-byte (6.44075ms)
+✔ observed Tabelog keyword response retains public source names only at its exact recording endpoint (2.29125ms)
+✔ recording preserves a partial public SPA document route and masks only credential carriers (2.129625ms)
+✔ source public scripts up to12MB mask known credentials without changing length or syntax (167.097ms)
+✔ slot1 public map URL is redacted while residual key patterns omit only their page or response (12.253958ms)
+✔ an owned credential in a document rejects the whole recording before any content file is published (1.9345ms)
+✔ pre-registered model credentials and owned Google response/trace leaks all reject the complete recording (2.944708ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 19
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 578.518833
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/browser-read-recording.test.ts:1:8955
+✖ browser recording refuses a snapshot-only replay when an admitted external script was not captured (2.289375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NOT_REPLAYABLE'
+  - 'REPLAYABLE'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/eval/restaurant/agent-loop/browser-read-recording.test.ts:148:50)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NOT_REPLAYABLE',
+    expected: 'REPLAYABLE',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/browser-read-recording.test.ts:1:11500
+✖ browser recording masks a reviewed public script credential at equal length under the approved contract (1.981333ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+    {
+  +   harPath: '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-browser-recording-6TdTd5/run-static-secret/replay.har',
+  +   reason: 'SANITIZED_NETWORK_AND_DOM_CAPTURE',
+  +   status: 'REPLAYABLE'
+  -   reason: 'UNCAPTURED_STATIC_DEPENDENCY',
+  -   status: 'NOT_REPLAYABLE'
+    }
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/eval/restaurant/agent-loop/browser-read-recording.test.ts:179:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { status: 'REPLAYABLE', reason: 'SANITIZED_NETWORK_AND_DOM_CAPTURE', harPath: '/var/folders/0l/rsqwl77s0nx_zv61cxvg9x7h0000gn/T/praxis-browser-recording-6TdTd5/run-static-secret/replay.har' },
+    expected: { status: 'NOT_REPLAYABLE', reason: 'UNCAPTURED_STATIC_DEPENDENCY' },
+    operator: 'deepStrictEqual'
+  }

@@ -1,4 +1,6 @@
 import { createHash } from "node:crypto";
+import {normalizedTextKey} from "../../core/text-key.js";
+import type {BrowserPageControl} from "./browser-runtime.js";
 import { channel } from "node:diagnostics_channel";
 import type { ElementHandle, JSHandle, Page } from "playwright-core";
 
@@ -46,10 +48,26 @@ export function assertPublicReadInput(value: string, source?: BrowserPublicInput
 export class PlaywrightObservedGetForms {
   private readonly documents = new WeakMap<Page, { url: string; document: JSHandle<Document>; forms: ElementHandle<HTMLFormElement>[]; inputEvents: JSHandle<Array<{ node: HTMLInputElement | HTMLTextAreaElement; value: string; approved?: boolean }>> }>();
   private readonly insertions = new WeakMap<Page, Array<{ element: ElementHandle; value: string; source: BrowserPublicInputSource }>>();
+  private readonly observedPageValues=new WeakMap<Page,{text:Set<string>;controls:Set<string>}>();
+  private readonly insertedValueHashes=new WeakMap<Page,Set<string>>();
+  private valueHash(value:string):string {return createHash("sha256").update(normalizedTextKey(value)).digest("hex");}
+  private observedHashes(page:Page,values:readonly string[]):Set<string> {
+    const hashes=new Set<string>();
+    for(const value of values){try{assertPublicReadInput(value,"G4_SOURCE_TERM");}catch{continue;}const key=this.valueHash(value);if(!this.insertedValueHashes.get(page)?.has(key))hashes.add(key);}
+    return hashes;
+  }
+  clearObservedPageValues(page:Page):void {this.observedPageValues.delete(page);}
+  observePageText(page:Page,text:string):void {this.observedPageValues.set(page,{text:this.observedHashes(page,[text,...text.split(/\r?\n/)]),controls:new Set()});}
+  observePageControls(page:Page,controls:readonly BrowserPageControl[]):void {
+    const previous=this.observedPageValues.get(page)??{text:new Set<string>(),controls:new Set<string>()};
+    const values=controls.flatMap(control=>[control.label,...(typeof control.value==="string"?[control.value]:[]),...(control.options??[]).flatMap(option=>[option.label,option.value])]);
+    previous.controls=this.observedHashes(page,values);this.observedPageValues.set(page,previous);
+  }
+  observedPageValueHashes(page:Page):ReadonlySet<string> {const values=this.observedPageValues.get(page);return new Set([...(values?.text??[]),...(values?.controls??[])].filter(key=>!this.insertedValueHashes.get(page)?.has(key)));}
   private readonly readGenerations=new WeakMap<Page,number>();
   private readonly readInputs = new WeakMap<Page, string[]>();
   private readonly pendingInsertions = new WeakMap<Page, Promise<void>>();
-  beginReadScope(page:Page):void { this.readInputs.delete(page);this.readGenerations.set(page,(this.readGenerations.get(page)??0)+1); }
+  beginReadScope(page:Page):void { this.readInputs.delete(page);this.clearObservedPageValues(page);this.readGenerations.set(page,(this.readGenerations.get(page)??0)+1); }
   async authoritativeInputs(page:Page):Promise<readonly string[]> {
     await this.pendingInsertions.get(page);
     // Never evaluate page JS while a document request is paused. Authority
@@ -105,6 +123,7 @@ export class PlaywrightObservedGetForms {
       const event = events.at(-1);
       if (event?.node === input.element && event.value === input.value) event.approved = true;
     }, { element, value });
+    const hashes=this.insertedValueHashes.get(page)??new Set<string>();hashes.add(this.valueHash(value));this.insertedValueHashes.set(page,hashes);
     if(generation===(this.readGenerations.get(page)??0))this.readInputs.set(page,[...this.readInputs.get(page)??[],value]);
     const previous = this.insertions.get(page) ?? [];
     // Keep the handle until the document changes; the registry's next

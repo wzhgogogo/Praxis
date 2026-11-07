@@ -122,7 +122,7 @@ class CloudflareBrowserSession implements BrowserSession {
   async snapshot(): Promise<BrowserSnapshot> {
     return this.run(async () => {
       const state = await interactiveState(this.page).catch(() => undefined);
-      return {
+      const snapshot:BrowserSnapshot = {
         settlement: this.lastSettlement ? "SETTLED" : "PENDING",
         ...(this.lastSettlementDiagnostic ? { settlementDiagnostics: { ...this.lastSettlementDiagnostic, url: this.page.url(), busySelectors: await pageBusySelectors(this.page) } } : {}),
         url: this.page.url(),
@@ -136,10 +136,12 @@ class CloudflareBrowserSession implements BrowserSession {
         ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: this.networkGuard.snapshotRequests() } : {}),
         ...(this.networkGuard?.snapshotResourceTypes().length ? { networkResourceTypes: this.networkGuard.snapshotResourceTypes() } : {}),
       };
+      this.networkGuard?.forms.observePageText(this.page,snapshot.text);
+      return snapshot;
     });
   }
 
-  async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(async()=>{const controls=await this.controls.observe(this.page,hints);await this.networkGuard?.forms.observe(this.page);return controls;}); }
+  async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(async()=>{const controls=await this.controls.observe(this.page,hints);await this.networkGuard?.forms.observe(this.page);this.networkGuard?.forms.observePageControls(this.page,controls);return controls;}); }
   async click(target: string, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
       const timeout = actionTimeout(options);

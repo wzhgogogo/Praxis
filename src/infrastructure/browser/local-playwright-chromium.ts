@@ -88,7 +88,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   async snapshot(): Promise<BrowserSnapshot> {
     return this.run(async () => {
       const state = await interactiveState(this.page).catch(() => undefined);
-      return {
+      const snapshot:BrowserSnapshot = {
         settlement: this.lastSettlement ? "SETTLED" : "PENDING",
         ...(this.lastSettlementDiagnostic ? { settlementDiagnostics: { ...this.lastSettlementDiagnostic, url: this.page.url(), busySelectors: await pageBusySelectors(this.page) } } : {}),
         url: this.page.url(),
@@ -129,6 +129,8 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: this.networkGuard.snapshotRequests() } : {}),
         ...(this.networkGuard?.snapshotResourceTypes().length ? { networkResourceTypes: this.networkGuard.snapshotResourceTypes() } : {}),
       };
+      this.networkGuard?.forms.observePageText(this.page,snapshot.text);
+      return snapshot;
     });
   }
 
@@ -136,6 +138,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     return this.run(async () => {
       const controls = await this.controls.observe(this.page, hints);
       await this.networkGuard?.forms.observe(this.page);
+      this.networkGuard?.forms.observePageControls(this.page,controls);
       return controls;
     });
   }

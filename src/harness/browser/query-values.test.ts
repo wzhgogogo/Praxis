@@ -63,3 +63,29 @@ test('real Chromium CORS preflights share exact text-value contracts while non-p
   assert.equal(received.filter(r=>r.method==='GET'&&r.q==='Blue Restaurant').length,3,'No old-read authoritative text request reaches the receiver');
  }finally{await session.close();source.close();api.close();await Promise.all([once(source,'close'),once(api,'close')]);}
 });
+
+test('page-observed values and OTHER character descriptions never add authority',async()=>{
+ const {createHash}=await import('node:crypto');const {normalizedTextKey}=await import('../../core/text-key.js');
+ const source='Visible station, platform: 2.';const hashes=new Set([createHash('sha256').update(normalizedTextKey(source)).digest('hex')]);
+ const u=new URL('https://public.example/query');u.searchParams.set('destination',source);
+ const row=observeQueryValues(u,[],hashes)[0]!;assert.equal(row.valueClass,'PAGE_OBSERVED_VALUE');assert.deepEqual(row.characterDescription,{lengthRange:'17_64',letters:true,digits:true,whitespace:true,comma:true,period:true,colon:true,brackets:false,quotes:false,otherPunctuation:false});assert.ok(!JSON.stringify(row).includes(source));
+ assert.equal(observeQueryValues(u,[])[0]?.valueClass,'OTHER');
+ const {PlaywrightReadNetworkGuard}=await import('../../infrastructure/browser/playwright-read-network-guard.js');
+ const {tableCheckPublicReadNetworkPolicy}=await import('../../integrations/tablecheck/tablecheck-public-query.js');
+ const guard=new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);const rule=tableCheckPublicReadNetworkPolicy.dynamicReads.find(r=>r.pathname==='/search/'&&r.queryKeys?.includes('name'))!;assert.ok(rule);
+ // This scalar remains rejected under the independently approved OTHER contract.
+ assert.ok(!rule.queryValueClasses?.destination?.includes(row.valueClass));
+});
+
+test('real page text yields diagnostic PAGE_OBSERVED_VALUE but cannot authorize destination',async()=>{
+ const arrivals:string[]=[];const literal='Visible station, platform: 2.';
+ const server=createServer((request,response)=>{const url=new URL(request.url!,'http://localhost');if(url.pathname==='/'){response.setHeader('Content-Type','text/html');response.end(`<body><p>${literal}</p><input aria-label="Query"><button onclick="fetch('/only-page?destination='+encodeURIComponent('${literal}')).catch(()=>{})">Send page value</button></body>`);}else{arrivals.push(url.pathname);response.end('ok');}});
+ server.listen(0,'127.0.0.1');await once(server,'listening');const origin=`http://127.0.0.1:${(server.address() as import('node:net').AddressInfo).port}`;
+ const session=await new LocalPlaywrightChromium().openSession({signal:new AbortController().signal,networkPolicy:{documentOrigins:[origin],staticResources:[],dynamicReads:[{origin,pathname:'/only-page',methods:['GET'],resourceTypes:['fetch'],queryKeys:['destination'],queryValueClasses:{destination:['SHORT_TOKEN','NUMERIC']}}]}});
+ try{
+  session.beginReadScope?.();await session.prepareNavigation?.(origin+'/');await session.navigate(origin+'/');let snapshot=await session.snapshot();let controls=await session.observeControls!();await session.click(controls.find(c=>c.label==='Send page value')!.id);await session.waitForSettled?.(snapshot,2000);snapshot=await session.snapshot();
+  assert.ok(snapshot.networkRequests?.some(r=>r.pathname==='/only-page'&&r.outcome==='BLOCKED'&&r.queryValues?.[0]?.valueClass==='PAGE_OBSERVED_VALUE'));assert.deepEqual(arrivals,[]);
+  session.beginReadScope?.();controls=await session.observeControls!();await session.click(controls.find(c=>c.label==='Send page value')!.id);await session.waitForSettled?.(snapshot,2000);snapshot=await session.snapshot();
+  assert.equal(snapshot.networkRequests?.filter(r=>r.pathname==='/only-page').at(-1)?.queryValues?.[0]?.valueClass,'OTHER','Prior read text observation is retired');assert.deepEqual(arrivals,[]);
+ }finally{await session.close();server.close();await once(server,'close');}
+});

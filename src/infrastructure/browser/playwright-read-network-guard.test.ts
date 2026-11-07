@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import {createHash} from "node:crypto";
+const createHashForTest=(value:string)=>createHash("sha256").update(value.toLowerCase()).digest("hex");
 import { test } from "node:test";
 
 import type { BrowserContext } from "playwright-core";
@@ -574,6 +576,7 @@ test('TableCheck text search uses four exact query shapes and current authoritat
  for(const c of cases)await t.test(c.name,async()=>{
   const guard=new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);let handler:any;
   guard.forms.authoritativeInputs=async()=>c.old?[]:['Blue Restaurant'];
+  guard.forms.observedPageValueHashes=()=>new Set([createHashForTest('unapproved destination'),createHashForTest('Other Person')]);
   await guard.install(fakeContext({route:async(_p:string,h:any)=>{handler=h;},routeWebSocket:async()=>{}}));
   const url=new URL(c.path??'/search/',c.origin??origin);for(const [key,value]of Object.entries(c.query))url.searchParams.set(key,value);
   const request=fakeRoute({url:url.toString(),type:c.type??'fetch',method:c.method??'GET'});await handler(request.route);

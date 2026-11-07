@@ -1,0 +1,13 @@
+{
+  "status": "draft / not integrated",
+  "baseline": "0e275216",
+  "sourceQueryPolicySHA256": "0fd6d8b638376ce80464276eb7dff4df2aef5842b59fffaa2f9989fab037c3cc",
+  "querySourcePolicyUnchanged": true,
+  "transportOriginComparison": "all3 PASS; no forwarding patch",
+  "valueObservation": "PAGE refines only OTHER, all admission treats PAGE as OTHER; only hashes of observed page values cached, user fill hashes excluded, no JS at request pause",
+  "classAndGuardTests": 50,
+  "localBrowserTests": 6,
+  "scriptAndCredentialTests": 22,
+  "scriptRedRetained": true,
+  "scriptTestMigration": "Original missing-script rejection retained; approved public-script credential case now tests equal-length redaction, own-credential refusal unchanged. Initial test-edit placement error logs retained separately."
+}

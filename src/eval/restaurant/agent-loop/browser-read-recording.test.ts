@@ -166,14 +166,17 @@ test("browser recording keeps a captured safe external script in the replay HAR"
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
-test("browser recording refuses a reviewed script response containing a literal credential", async () => {
+test("browser recording masks a reviewed public script credential at equal length under the approved contract", async () => {
   const root = await mkdtemp(join(tmpdir(), "praxis-browser-recording-"));
   try {
     const recording = new BrowserReadRecording({ directory: root, runId: "run-static-secret", reviewedStaticResources: reviewedStaticScript });
     recording.recordSnapshot({ url: "https://public.example/menu", title: "Public", text: "", html: '<div></div>',
       networkRequests: [{ outcome: "ADMITTED", origin: "https://cdn.public.example/", pathname: "/assets/calendar.js", method: "GET", resourceType: "script", queryKeys: ["rst-v1-public"] }] });
     await recording.recordResponse({ url: "https://cdn.public.example/assets/calendar.js?rst-v1-public", method: "GET", resourceType: "script", status: 200, contentType: "application/javascript", body: new TextEncoder().encode('const key = "Bearer secretvalue";') });
-    assert.deepEqual((await recording.finish()).replay, { status: "NOT_REPLAYABLE", reason: "UNCAPTURED_STATIC_DEPENDENCY" });
+    const result=await recording.finish();assert.equal(result.replay.status,"REPLAYABLE");
+    if(result.replay.status!=="REPLAYABLE")throw Error("Expected masked public script replay");
+    const har=JSON.parse(await readFile(result.replay.harPath,"utf8"));const script=har.log.entries.find((e:any)=>e.request.url.includes("calendar.js")).response.content.text;
+    assert.equal(script.length,'const key = "Bearer secretvalue";'.length);assert.ok(!script.includes("Bearer secretvalue"));
   } finally { await rm(root, { recursive: true, force: true }); }
 });
 
@@ -335,5 +338,39 @@ test('recording preserves a partial public SPA document route and masks only cre
   recorder.recordSnapshot({url:'https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc',title:'Public list',text:'Public list',html:'<body><h1>Public list</h1><input aria-label="Destination"><meta name="api-key" content="private-marker"><p>person@example.com</p><div data-access-token="private-marker">Results</div></body>'});
   const result=await recorder.finish();assert.equal(result.replay.status,'REPLAYABLE');
   const document=await readFile(join(result.path,'snapshot-0001.html'),'utf8');assert.match(document,/Public list/);assert.match(document,/Destination/);assert.match(document,/Results/);assert.doesNotMatch(document,/private-marker|person@example.com|data-access-token/);
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('source public scripts up to12MB mask known credentials without changing length or syntax',async()=>{
+ const {runInNewContext}=await import('node:vm');const root=await mkdtemp(join(tmpdir(),'source-script-limit-'));
+ const url='https://cdn.public.example/assets/large.js',page='https://public.example/menu';
+ const secrets=['Bearer fakeCredentialOnly','sk-'+ 'a'.repeat(24),'AIza'+'b'.repeat(35),'AKIA'+'C'.repeat(16)];
+ const prefix=`globalThis.completed=41;const config={api_key:"opaque-fixture-credential"};const credentials=${JSON.stringify(secrets)};/*`,size=10_284_255,script=prefix+'x'.repeat(size-Buffer.byteLength(prefix)-2)+'*/';
+ try{
+  const recorder=new BrowserReadRecording({directory:root,runId:'large',reviewedStaticResources:reviewedStaticScript});
+  recorder.recordSnapshot({url:page,title:'Public',text:'Public',html:`<script src="${url}"></script>`,networkRequests:[{outcome:'ADMITTED',origin:'https://cdn.public.example',pathname:'/assets/large.js',method:'GET',resourceType:'script',queryKeys:[]}]});
+  await recorder.recordResponse({url,method:'GET',resourceType:'script',status:200,contentType:'application/javascript',body:Buffer.from(script)});
+  const result=await recorder.finish();assert.equal(result.replay.status,'REPLAYABLE');if(result.replay.status!=='REPLAYABLE')throw Error('Expected public script replay');
+  const har=JSON.parse(await readFile(result.replay.harPath,'utf8'));const captured=har.log.entries.find((e:any)=>e.request.url===url).response.content.text;
+  assert.equal(Buffer.byteLength(captured),size);for(const secret of [...secrets,'opaque-fixture-credential'])assert.ok(!captured.includes(secret));
+  const context:any={};runInNewContext(captured,context,{timeout:2000});assert.equal(context.completed,41);
+  for(const [id,source,bytes,type]of [['too-large',url,12_000_001,'script'],['foreign','https://foreign.example/large.js',2_500_001,'script'],['stylesheet','https://cdn.public.example/assets/large.css',2_500_001,'stylesheet']] as const){
+   const other=new BrowserReadRecording({directory:root,runId:id,reviewedStaticResources:reviewedStaticScript});
+   other.recordSnapshot({url:page,title:'Public',text:'',html:'<body>Public</body>',networkRequests:[{outcome:'ADMITTED',origin:new URL(source).origin,pathname:new URL(source).pathname,method:'GET',resourceType:type,queryKeys:[]}]});
+   await other.recordResponse({url:source,method:'GET',resourceType:type,status:200,contentType:type==='script'?'application/javascript':'text/css',body:Buffer.from('x'.repeat(bytes))});
+   assert.equal((await other.finish()).replay.status,'NOT_REPLAYABLE',id);
+  }
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('Guard-admitted public document origin can record its own script without a CDN exception',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'own-source-script-'));const page='https://source.example/public',url='https://source.example/assets/main.js';
+ try{
+  const recorder=new BrowserReadRecording({directory:root,runId:'own'}),html=`<body><script src="${url}"></script></body>`;
+  await recorder.recordResponse({url:page,method:'GET',resourceType:'document',status:200,contentType:'text/html',body:Buffer.from(html)});
+  await recorder.recordResponse({url,method:'GET',resourceType:'script',status:200,contentType:'application/javascript',body:Buffer.from('/*'+'x'.repeat(3_000_000)+'*/')});
+  recorder.recordSnapshot({url:page,title:'Public',text:'',html,networkRequests:[{outcome:'ADMITTED',origin:'https://source.example',pathname:'/assets/main.js',method:'GET',resourceType:'script',queryKeys:[]}]});
+  const result=await recorder.finish();assert.equal(result.replay.status,'REPLAYABLE');if(result.replay.status!=='REPLAYABLE')throw Error('Expected admitted source script');
+  const har=JSON.parse(await readFile(result.replay.harPath,'utf8'));assert.ok(har.log.entries.find((e:any)=>e.request.url===page).response.content.text.includes(url));
  }finally{await rm(root,{recursive:true,force:true});}
 });
