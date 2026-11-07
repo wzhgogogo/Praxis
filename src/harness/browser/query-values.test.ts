@@ -21,7 +21,7 @@ test('query classification is observational, tracks a successful current fill an
   let controls=await session.observeControls!();const input=controls.find(c=>c.label==='Public keyword')!;
   await session.fill(input.id,'Blue Restaurant',{inputSource:'SPECIFIC_OUTLET'});await session.waitForSettled?.({url:origin+'/',title:'',text:''},2000);
   let snapshot=await session.snapshot();
-  for(const outcome of ['ADMITTED','BLOCKED'])assert.ok(snapshot.networkRequests?.some(r=>r.outcome===outcome&&r.queryValues?.some(f=>f.key==='q'&&f.valueClass==='EQUALS_AUTHORITATIVE_INPUT')),outcome);
+  for(const outcome of ['ADMITTED','BLOCKED'])assert.ok(snapshot.networkRequests?.some(r=>r.outcome===outcome&&r.queryValues?.some(f=>f.queryKey==='q'&&f.valueClass==='EQUALS_AUTHORITATIVE_INPUT')),outcome);
   assert.deepEqual(arrivals,['/query'],'Only the original admitted endpoint reaches the receiver');
   session.beginReadScope?.();controls=await session.observeControls!();await session.click(controls.find(c=>c.label==='Search')!.id);await session.waitForSettled?.(snapshot,2000);snapshot=await session.snapshot();
   const latest=snapshot.networkRequests?.filter(r=>r.pathname==='/query'&&r.outcome==='ADMITTED').at(-1);
@@ -35,7 +35,7 @@ test('query categories redact all values and use the existing sensitive-format r
  for(const [key,value] of Object.entries({same:'Ｂｌｕｅ   Restaurant',prefix:'Blue Rest',count:'12',token:'en_US-2',phone:'+81 90 1234 5678',email:'someone@example.com',credential:'token=private',other:'unrelated person'}))url.searchParams.set(key,value);
  const observed=observeQueryValues(url,['Blue Restaurant']);
  assert.deepEqual(observed.map(r=>r.valueClass),['EQUALS_AUTHORITATIVE_INPUT','PREFIX_OF_AUTHORITATIVE_INPUT','NUMERIC','SHORT_TOKEN','SENSITIVE_FORMAT','SENSITIVE_FORMAT','SENSITIVE_FORMAT','OTHER']);
- assert.deepEqual(Object.keys(observed[0]!),['key','valueClass']);
+ assert.deepEqual(Object.keys(observed[0]!),['queryKey','valueClass']);
  assert.equal(JSON.stringify(observed).includes('Blue Restaurant'),false);
 });
 

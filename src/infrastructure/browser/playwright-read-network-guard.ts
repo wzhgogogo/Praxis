@@ -57,7 +57,7 @@ function matchesReadProjection(rule: BrowserReadNetworkRequestRule, url: URL, me
 function matchesQueryValues(rule:BrowserReadNetworkRequestRule,url:URL,fields:readonly BrowserQueryValueObservation[]):boolean {
   if(!rule.queryValueClasses)return true;
   if(fields.length!==[...url.searchParams].length || fields.some(field=>field.valueClass==="SENSITIVE_FORMAT"))return false;
-  return fields.every(field=>!rule.queryValueClasses![field.key] || rule.queryValueClasses![field.key]!.includes(field.valueClass));
+  return fields.every(field=>!rule.queryValueClasses![field.queryKey] || rule.queryValueClasses![field.queryKey]!.includes(field.valueClass));
 }
 async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string, fields:readonly BrowserQueryValueObservation[]): Promise<boolean> {
   if (!matchesReadProjection(rule, url, method, resourceType) || !matchesQueryValues(rule,url,fields)) return false;

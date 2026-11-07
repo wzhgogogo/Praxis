@@ -46,9 +46,10 @@ export function assertPublicReadInput(value: string, source?: BrowserPublicInput
 export class PlaywrightObservedGetForms {
   private readonly documents = new WeakMap<Page, { url: string; document: JSHandle<Document>; forms: ElementHandle<HTMLFormElement>[]; inputEvents: JSHandle<Array<{ node: HTMLInputElement | HTMLTextAreaElement; value: string; approved?: boolean }>> }>();
   private readonly insertions = new WeakMap<Page, Array<{ element: ElementHandle; value: string; source: BrowserPublicInputSource }>>();
+  private readonly readGenerations=new WeakMap<Page,number>();
   private readonly readInputs = new WeakMap<Page, string[]>();
   private readonly pendingInsertions = new WeakMap<Page, Promise<void>>();
-  beginReadScope(page:Page):void { this.readInputs.delete(page); }
+  beginReadScope(page:Page):void { this.readInputs.delete(page);this.readGenerations.set(page,(this.readGenerations.get(page)??0)+1); }
   async authoritativeInputs(page:Page):Promise<readonly string[]> {
     await this.pendingInsertions.get(page);
     const observed=this.documents.get(page);
@@ -58,10 +59,10 @@ export class PlaywrightObservedGetForms {
   /** Pause query observation until the actual fill succeeds or fails. */
   async fill(page:Page,element:ElementHandle,value:string,source:BrowserPublicInputSource,perform:()=>Promise<void>):Promise<void> {
     assertPublicReadInput(value,source);
-    let release!:()=>void;
-    this.pendingInsertions.set(page,new Promise<void>(resolve=>{release=resolve;}));
-    try { await perform(); await this.inserted(page,element,value,source); }
-    finally { release();this.pendingInsertions.delete(page); }
+    let release!:()=>void;const generation=this.readGenerations.get(page)??0;
+    const pending=new Promise<void>(resolve=>{release=resolve;});this.pendingInsertions.set(page,pending);
+    try { await perform(); await this.inserted(page,element,value,source,generation); }
+    finally { release();if(this.pendingInsertions.get(page)===pending)this.pendingInsertions.delete(page); }
   }
   private readonly submitters = new WeakMap<Page, ElementHandle>();
 
@@ -97,7 +98,7 @@ export class PlaywrightObservedGetForms {
     await Promise.all((previous?.forms ?? []).map(form => form.dispose().catch(() => {})));
   }
 
-  async inserted(page: Page, element: ElementHandle, value: string, source: BrowserPublicInputSource): Promise<void> {
+  async inserted(page: Page, element: ElementHandle, value: string, source: BrowserPublicInputSource,generation=this.readGenerations.get(page)??0): Promise<void> {
     assertPublicReadInput(value, source);
     const observed = this.documents.get(page);
     if (!observed || observed.url !== page.url()) throw new Error("Public read input document was not observed");
@@ -105,7 +106,7 @@ export class PlaywrightObservedGetForms {
       const event = events.at(-1);
       if (event?.node === input.element && event.value === input.value) event.approved = true;
     }, { element, value });
-    this.readInputs.set(page,[...this.readInputs.get(page)??[],value]);
+    if(generation===(this.readGenerations.get(page)??0))this.readInputs.set(page,[...this.readInputs.get(page)??[],value]);
     const previous = this.insertions.get(page) ?? [];
     // Keep the handle until the document changes; the registry's next
     // observation disposes its own refs, so take an independent handle.

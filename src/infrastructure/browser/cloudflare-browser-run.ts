@@ -139,7 +139,7 @@ class CloudflareBrowserSession implements BrowserSession {
     });
   }
 
-  async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(() => this.controls.observe(this.page, hints)); }
+  async observeControls(hints?: readonly BrowserControlHint[]): Promise<BrowserPageControl[]> { return this.run(async()=>{const controls=await this.controls.observe(this.page,hints);await this.networkGuard?.forms.observe(this.page);return controls;}); }
   async click(target: string, options: BrowserActionOptions = {}): Promise<void> {
     await this.run(async () => {
       const timeout = actionTimeout(options);
