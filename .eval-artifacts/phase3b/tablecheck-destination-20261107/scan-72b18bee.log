@@ -1,0 +1,11 @@
+src/infrastructure/browser/browser-query-values.ts:17 [ REGEX ]   else if(/^-?\d+(?:\.\d+)?$/.test(value))valueClass="NUMERIC";
+src/infrastructure/browser/browser-query-values.ts:18 [ REGEX ]   else if(/^[A-Za-z0-9_-]+$/.test(value))valueClass="SHORT_TOKEN";
+src/infrastructure/browser/browser-query-values.ts:19 [ REGEX ]   else if(key==="destination"&&value.length<=32&&/^[A-Za-z0-9]+(?::[A-Za-z0-9]+)*$/.test(value))valueClass="NAMESPACED_TOKEN";
+src/infrastructure/browser/browser-query-values.ts:24 [ REGEX ]    letters:/\p{L}/u.test(value),digits:/\p{N}/u.test(value),whitespace:/\s/u.test(value),comma:/,/.test(value),period:/\./.test(value),colon:/:/.test(value),brackets:/[\[\]{}()]/.t
+src/infrastructure/browser/playwright-observed-get-forms.ts:60 [ REGEX ]   observePageText(page:Page,text:string):void {this.observedPageValues.set(page,{text:this.observedHashes(page,[text,...text.split(/\r?\n/)]),controls:new Set()});}
+src/integrations/tablecheck/tablecheck-public-query.ts:10 [ WORDLIST ]     ["country","hits","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:11 [ WORDLIST ]     ["country","hits","kind","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:12 [ WORDLIST ]     ["country","hits","q","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:13 [ WORDLIST ]     ["destination","hits","name","queryProfile"],
+src/integrations/tablecheck/tablecheck-public-query.ts:14 [ WORDLIST URL/PATH ]   ].map(queryKeys=>({origin:TABLECHECK_PUBLIC_SEARCH_ORIGIN,pathname:"/search/",methods:["GET"] as const,resourceTypes:["fetch","xhr"] as const,
+src/integrations/tablecheck/tablecheck-public-query.ts:17 [ WORDLIST ]       country:["SHORT_TOKEN","NUMERIC"] as const,kind:["SHORT_TOKEN","NUMERIC"] as const,destination:["SHORT_TOKEN","NUMERIC","NAMESPACED_TOKEN"] as const,hits:["NUMERIC"] as const

@@ -1,0 +1,89 @@
+{
+  "sha": "664f8ad28c76c82ad476c10b329ef16a6a3bdba5",
+  "reason": "Destination contract, privacy-preserving component capture and exact suggestion fix; actual source runs retained; all checks offline",
+  "results": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "sha": "664f8ad28c76c82ad476c10b329ef16a6a3bdba5",
+      "startCET": "2026-11-07T13:45:42.974555+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "architecture",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "sha": "664f8ad28c76c82ad476c10b329ef16a6a3bdba5",
+      "startCET": "2026-11-07T13:45:43.579862+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "default-tests",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "sha": "664f8ad28c76c82ad476c10b329ef16a6a3bdba5",
+      "startCET": "2026-11-07T13:45:43.907841+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "sha": "664f8ad28c76c82ad476c10b329ef16a6a3bdba5",
+      "startCET": "2026-11-07T13:46:42.802668+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "chromium-fixtures",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "sha": "664f8ad28c76c82ad476c10b329ef16a6a3bdba5",
+      "startCET": "2026-11-07T13:46:43.458946+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "sha": "664f8ad28c76c82ad476c10b329ef16a6a3bdba5",
+      "startCET": "2026-11-07T13:49:15.781334+01:00",
+      "exitCode": 0,
+      "cleanBefore": true,
+      "cleanAfter": true,
+      "shaUnchanged": true
+    }
+  ]
+}
