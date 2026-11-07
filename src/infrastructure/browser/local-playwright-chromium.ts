@@ -74,6 +74,8 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
 
+  beginReadScope():void { this.networkGuard?.forms.beginReadScope(this.page); }
+
   async prepareNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareNavigation(url, options.timeoutMs); }
   async prepareObservedNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareObservedNavigation(url, options.timeoutMs); }
 
@@ -173,8 +175,8 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
       if (this.networkGuard) assertPublicReadInput(value, options.inputSource);
       const element = await this.controls.target(target) ?? await this.page.locator(target).elementHandle();
       if (!element) throw new Error("Observed input is no longer available");
-      await element.fill(value, { timeout: actionTimeout(options) });
-      if (this.networkGuard) await this.networkGuard.forms.inserted(this.page, element, value, options.inputSource!);
+      if(this.networkGuard) await this.networkGuard.forms.fill(this.page,element,value,options.inputSource!,()=>element.fill(value,{timeout:actionTimeout(options)}));
+      else await element.fill(value, { timeout: actionTimeout(options) });
     });
   }
   async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }

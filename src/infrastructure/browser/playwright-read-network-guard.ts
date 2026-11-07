@@ -1,3 +1,4 @@
+import {observeQueryValues,type BrowserQueryValueObservation} from "./browser-query-values.js";
 import { browserTransportError, type BrowserTransportError } from "./browser-runtime-errors.js";
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import { traceFormEvidence, PlaywrightObservedGetForms, type ObservedGetFormSubmission } from "./playwright-observed-get-forms.js";
@@ -81,6 +82,13 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
  */
 export class PlaywrightReadNetworkGuard {
   readonly forms = new PlaywrightObservedGetForms();
+  private readonly queryObservations=new WeakMap<URL,BrowserQueryValueObservation[]>();
+  private async inspectQuery(url:URL,page:Page):Promise<void> {
+    const inputs=url.search?await this.forms.authoritativeInputs(page):[];
+    this.queryObservations.set(url,observeQueryValues(url,inputs));
+  }
+  private queryMetadata(url:URL) {return {queryValues:this.queryObservations.get(url)??observeQueryValues(url,[])};}
+
   private readonly formAdmissions = new WeakMap<Page, Map<string, { evidence: ObservedGetFormSubmission; startedAt: number }>>();
   private readonly popupForms = new Map<string, Promise<{ evidence?: ObservedGetFormSubmission; startedAt: number; opener: Page } | undefined>>();
   private readonly preparedPopups = new WeakSet<Page>();
@@ -316,6 +324,7 @@ export class PlaywrightReadNetworkGuard {
       on("Fetch.requestPaused", event => {
         const process = async () => {
           const url = new URL(event.request.url), method = event.request.method;
+          await this.inspectQuery(url,page);
           const network = networkTypes.get(event.networkId);
           const type = String(network ?? event.resourceType).toLowerCase();
           const resourceTypeDetails = { selectedFrom: network ? "NETWORK" as const : "FETCH" as const,
@@ -396,7 +405,7 @@ export class PlaywrightReadNetworkGuard {
             this.blocked("BLOCKED_REDIRECT", url, method, type);
             await send("Fetch.failRequest", { requestId: event.requestId, errorReason: "BlockedByClient" }); return;
           }
-          this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...(corsPreflight ? { corsPreflight } : {}) });
+          this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(corsPreflight ? { corsPreflight } : {}) });
           const timer = setTimeout(() => {
             this.redirectTimers.delete(timer);
             this.blocked("READ_TIMEOUT", url, method, type, Object.assign(new Error("Guard redirect read timed out"), { name: "TimeoutError" }));
@@ -486,7 +495,7 @@ export class PlaywrightReadNetworkGuard {
   snapshotResourceTypes(): BrowserReadResourceTypeObservation[] { return [...this.resourceTypes]; }
 
   private blocked(code: NetworkDiagnosticCode, url: URL, method: string, resourceType: string, error?: unknown): void {
-    const request = { origin: url.origin, pathname: url.pathname, method, resourceType, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...(error === undefined ? {} : { error: browserTransportError(error) }) };
+    const request = { origin: url.origin, pathname: url.pathname, method, resourceType, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(error === undefined ? {} : { error: browserTransportError(error) }) };
     this.diagnostics.push({ code, ...request });
     this.requests.push({ outcome: code === "BLOCKED_REDIRECT" ? "REDIRECT_BLOCKED" : "BLOCKED", ...request });
   }
@@ -509,6 +518,7 @@ export class PlaywrightReadNetworkGuard {
     const request = route.request();
     const method = request.method();
     const url = new URL(request.url());
+    await this.inspectQuery(url,request.frame().page());
     const type = request.resourceType();
     if (this.prohibitedRead(url)) {
       this.blocked("BLOCKED_ENDPOINT", url, method, type);
@@ -562,12 +572,12 @@ export class PlaywrightReadNetworkGuard {
     // admission preserves the same policy in replay and lets routeFromHAR abort
     // every missing entry without a route.fetch network escape.
     if (replay) {
-      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...(formSubmission ? { formSubmission } : {}) });
+      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(formSubmission ? { formSubmission } : {}) });
       await route.fallback();
       return;
     }
     try {
-      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...(formSubmission ? { formSubmission } : {}) });
+      this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(formSubmission ? { formSubmission } : {}) });
       if (this.admittedGetTransport === "BROWSER_GET_HEAD" && ["GET", "HEAD"].includes(method)) {
         this.nativeRequests.add(request);
         // A native request has no Route.abort capability after continue(). Keep

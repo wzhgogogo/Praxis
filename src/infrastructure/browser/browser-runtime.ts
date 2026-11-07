@@ -69,6 +69,8 @@ export interface BrowserReadResourceTypeObservation {
 
 /** A value-free request shape captured by an installed read boundary. */
 export interface BrowserReadNetworkObservation {
+  /** Value categories only; observational metadata does not grant admission. */
+  queryValues?: import("./browser-query-values.js").BrowserQueryValueObservation[];
   /** Native GET submission evidence, with value hashes only; never a model input. */
   formSubmission?: import("./playwright-observed-get-forms.js").ObservedGetFormSubmission;
   outcome: "ADMITTED" | "BLOCKED" | "REDIRECT_BLOCKED" | "FAILED" | "TIMED_OUT";
@@ -224,6 +226,8 @@ export interface BrowserSession {
   prepareNavigation?(url: string, options?: BrowserActionOptions): Promise<void>;
   /** Admit one Executor-observed public link after its source code allowed the origin. */
   prepareObservedNavigation?(url: string, options?: BrowserActionOptions): Promise<void>;
+  /** Runtime boundary: a new read cannot reuse authority from a previous read. */
+  beginReadScope?(): void;
   snapshot(): Promise<BrowserSnapshot>;
   /** Drain already-observed guarded responses for recording; never navigates. */
   flushRecordedResponses?(): Promise<void>;

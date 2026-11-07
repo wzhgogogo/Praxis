@@ -108,6 +108,8 @@ class CloudflareBrowserSession implements BrowserSession {
     });
   }
 
+  beginReadScope():void { this.networkGuard?.forms.beginReadScope(this.page); }
+
   async prepareNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareNavigation(url, options.timeoutMs); }
   async prepareObservedNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareObservedNavigation(url, options.timeoutMs); }
 
@@ -168,7 +170,12 @@ class CloudflareBrowserSession implements BrowserSession {
       await next.waitForLoadState("domcontentloaded", { timeout: Math.min(2_500, timeout) }).catch(() => undefined);
     });
   }
-  async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).fill(value, { timeout: actionTimeout(options) })); }
+  async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => {
+    const element=await this.controls.target(target)??await this.page.locator(target).elementHandle();
+    if(!element)throw new Error("Observed input is no longer available");
+    if(this.networkGuard)await this.networkGuard.forms.fill(this.page,element,value,options.inputSource!,()=>element.fill(value,{timeout:actionTimeout(options)}));
+    else await element.fill(value,{timeout:actionTimeout(options)});
+  }); }
   async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
   async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
   async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }

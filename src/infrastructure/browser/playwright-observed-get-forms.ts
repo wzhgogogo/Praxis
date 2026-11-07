@@ -46,6 +46,23 @@ export function assertPublicReadInput(value: string, source?: BrowserPublicInput
 export class PlaywrightObservedGetForms {
   private readonly documents = new WeakMap<Page, { url: string; document: JSHandle<Document>; forms: ElementHandle<HTMLFormElement>[]; inputEvents: JSHandle<Array<{ node: HTMLInputElement | HTMLTextAreaElement; value: string; approved?: boolean }>> }>();
   private readonly insertions = new WeakMap<Page, Array<{ element: ElementHandle; value: string; source: BrowserPublicInputSource }>>();
+  private readonly readInputs = new WeakMap<Page, string[]>();
+  private readonly pendingInsertions = new WeakMap<Page, Promise<void>>();
+  beginReadScope(page:Page):void { this.readInputs.delete(page); }
+  async authoritativeInputs(page:Page):Promise<readonly string[]> {
+    await this.pendingInsertions.get(page);
+    const observed=this.documents.get(page);
+    if(!observed || !await observed.document.evaluate(node=>node===document).catch(()=>false))return [];
+    return this.readInputs.get(page)??[];
+  }
+  /** Pause query observation until the actual fill succeeds or fails. */
+  async fill(page:Page,element:ElementHandle,value:string,source:BrowserPublicInputSource,perform:()=>Promise<void>):Promise<void> {
+    assertPublicReadInput(value,source);
+    let release!:()=>void;
+    this.pendingInsertions.set(page,new Promise<void>(resolve=>{release=resolve;}));
+    try { await perform(); await this.inserted(page,element,value,source); }
+    finally { release();this.pendingInsertions.delete(page); }
+  }
   private readonly submitters = new WeakMap<Page, ElementHandle>();
 
   async observe(page: Page): Promise<void> {
@@ -69,6 +86,7 @@ export class PlaywrightObservedGetForms {
       }, true);
       return events;
     });
+    if (!sameDocument) this.readInputs.delete(page);
     if (previous && previous.inputEvents !== inputEvents) {
       await previous.inputEvents.dispose().catch(() => {});
       await previous.document.dispose().catch(() => {});
@@ -87,6 +105,7 @@ export class PlaywrightObservedGetForms {
       const event = events.at(-1);
       if (event?.node === input.element && event.value === input.value) event.approved = true;
     }, { element, value });
+    this.readInputs.set(page,[...this.readInputs.get(page)??[],value]);
     const previous = this.insertions.get(page) ?? [];
     // Keep the handle until the document changes; the registry's next
     // observation disposes its own refs, so take an independent handle.

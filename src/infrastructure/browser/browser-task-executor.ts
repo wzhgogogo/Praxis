@@ -569,6 +569,7 @@ export class BrowserTaskExecutor {
   }
 
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
+    input.session.beginReadScope?.();
     let modelConfirmed = false;
     const assess = async (current: BrowserSnapshot, controls: BrowserPageControl[]) => {
       if (this.disabledRequestedParty(input, {snapshot: current, controls, targets: toObservedTargets(controls, 0), revision: 0})) return {complete: false as const, reason: "PARTY_SIZE_NOT_SELECTABLE"};
