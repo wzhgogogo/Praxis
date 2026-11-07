@@ -12,7 +12,11 @@ export async function runG6SourceReadCheck(input:{browser:BrowserRuntime;policy:
  const {browser,policy,spec,signal}=input;
  const session=await browser.openSession({signal,networkPolicy:policy});let phase='ENTRY';
  const setPhase=(next:string)=>{phase=next;input.phase(next);};
- const violations=(snapshot:BrowserSnapshot,from:number)=>(snapshot.networkRequests??[]).slice(from).filter(r=>r.pathname==='/search/').flatMap(r=>(r.queryValues??[]).filter(f=>['OTHER','PAGE_OBSERVED_VALUE','PREFIX_OF_AUTHORITATIVE_INPUT','SENSITIVE_FORMAT'].includes(f.valueClass)).map(f=>({method:r.method,outcome:r.outcome,...f})));
+ const violations=(snapshot:BrowserSnapshot,from:number)=>(snapshot.networkRequests??[]).slice(from).flatMap(r=>{
+  const rule=policy.dynamicReads.find(rule=>rule.queryValueClasses&&rule.origin===r.origin&&rule.pathname===r.pathname&&rule.queryKeys?.length===r.queryKeys.length&&rule.queryKeys.every(key=>r.queryKeys.includes(key)));
+  if(!rule?.queryValueClasses)return [];
+  return (r.queryValues??[]).filter(f=>rule.queryValueClasses![f.queryKey]&&!rule.queryValueClasses![f.queryKey]!.includes(f.valueClass==='PAGE_OBSERVED_VALUE'?'OTHER':f.valueClass)).map(f=>({method:r.method,outcome:r.outcome,...f}));
+ });
  try{
   session.beginReadScope?.();await input.beforeEntry();setPhase('ENTRY');
   await session.prepareNavigation!(spec.startUrl,{timeoutMs:20000});await session.navigate(spec.startUrl,{waitUntil:'domcontentloaded',timeoutMs:20000});

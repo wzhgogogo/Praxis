@@ -59,3 +59,8 @@ GATE_RESULT_PENDING
 本轮GET0/model0/Live0。累计350次公开GET、653模型、23Live；批准GET上限463中的新增入口1仍有“明确可测修复”条件，原条件文档1只限选店后新文档。D8 Live1及见证/后验GET3、留出18Live/108GET全部未动。详见[预算与决定](decision-budget.json)。
 
 停下等复核：不合main，不运行D8，不消耗条件GET；等待复核者确认进入held-out，不自行启动。
+
+
+## Subsequent user steering — network repaired / one actual Live-path read
+
+The user subsequently confirmed network repair and explicitly authorized a source entry regardless of the earlier conditional-fix test. This supersedes this report's no-new-read B decision. The interrupted B gate invocation did not start (no gate files/process were created); no passing matrix is claimed for896a4d42. The reviewed safety bundle/history remains retained. The actual read uses the original Live runner and stops at destination OTHER after catalog and authoritative q return200; see [the current source report](../tablecheck-live-path-read-20261107/report.md). Current full gates cover the later frozen candidate including the source-only runner mode. No main merge, D8 or held-out run was authorized by that steering.
