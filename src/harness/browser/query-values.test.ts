@@ -38,3 +38,25 @@ test('query categories redact all values and use the existing sensitive-format r
  assert.deepEqual(Object.keys(observed[0]!),['key','valueClass']);
  assert.equal(JSON.stringify(observed).includes('Blue Restaurant'),false);
 });
+
+test('real Chromium CORS preflights share exact text-value contracts while non-preflight Other remains refused',async()=>{
+ const {tableCheckPublicSearchReads}=await import('../../integrations/tablecheck/tablecheck-public-query.js');
+ const received:Array<{method:string;keys:string[];q:string|null}>=[];let documentOrigin='';
+ const api=createServer((request,response)=>{
+  const u=new URL(request.url!,'http://localhost');received.push({method:request.method!,keys:[...u.searchParams.keys()].sort(),q:u.searchParams.get('q')??u.searchParams.get('name')});
+  response.setHeader('Access-Control-Allow-Origin',documentOrigin);response.setHeader('Access-Control-Allow-Headers','x-api-key');response.setHeader('Access-Control-Allow-Methods','GET');response.end('{}');
+ });api.listen(0,'127.0.0.1');await once(api,'listening');const apiOrigin=`http://127.0.0.1:${(api.address() as import('node:net').AddressInfo).port}`;
+ const source=createServer((_request,response)=>{response.setHeader('Content-Type','text/html');response.end(`<body><input aria-label="Public keyword"><button onclick="search()">Search</button><script>function search(){const q=document.querySelector('input').value;for(const fields of [{country:'jp',hits:'10',queryProfile:'destination'},{country:'jp',hits:'10',kind:'shop',queryProfile:'destination'},{country:'jp',hits:'10',q,queryProfile:'destination'},{destination:'jp',hits:'10',name:q,queryProfile:'destination'},{country:'jp',hits:'10',q:q.slice(0,4),queryProfile:'destination'},{country:'jp',hits:'10',q,queryProfile:'destination',extra:'x'}])fetch('${apiOrigin}/search/?'+new URLSearchParams(fields),{headers:{'x-api-key':'public-fixture'}}).catch(()=>{});}document.querySelector('input').addEventListener('input',search);</script></body>`);});
+ source.listen(0,'127.0.0.1');await once(source,'listening');documentOrigin=`http://127.0.0.1:${(source.address() as import('node:net').AddressInfo).port}`;
+ const session=await new LocalPlaywrightChromium({admittedGetTransport:'BROWSER_GET_HEAD'}).openSession({signal:new AbortController().signal,networkPolicy:{documentOrigins:[documentOrigin],staticResources:[],dynamicReads:tableCheckPublicSearchReads.map(r=>({...r,origin:apiOrigin,...(r.corsPreflight?{corsPreflight:{...r.corsPreflight,requestOrigin:documentOrigin}}:{})}))}});
+ try{
+  session.beginReadScope?.();await session.prepareNavigation?.(documentOrigin+'/');await session.navigate(documentOrigin+'/');const controls=await session.observeControls!();
+  await session.fill(controls.find(c=>c.label==='Public keyword')!.id,'Blue Restaurant',{inputSource:'SPECIFIC_OUTLET'});await session.waitForSettled?.({url:documentOrigin+'/',title:'',text:''},3000);
+  const snapshot=await session.snapshot();const actual=received.filter(r=>r.method==='GET');assert.equal(actual.length,4,JSON.stringify(received));
+  assert.deepEqual(actual.map(r=>r.keys).sort(),[['country','hits','queryProfile'],['country','hits','kind','queryProfile'],['country','hits','q','queryProfile'],['destination','hits','name','queryProfile']].sort());
+  assert.equal(actual.filter(r=>r.q==='Blue Restaurant').length,2);assert.ok(!received.some(r=>r.q==='Blue'),'Prefix preflight never reaches the independent receiver');
+  assert.ok(snapshot.networkRequests?.some(r=>r.method==='OPTIONS'&&r.outcome==='ADMITTED'&&r.corsPreflight?.requestedMethod==='GET'));
+  session.beginReadScope?.();const current=await session.observeControls!();await session.click(current.find(c=>c.label==='Search')!.id);await session.waitForSettled?.(snapshot,3000);
+  assert.equal(received.filter(r=>r.method==='GET'&&r.q==='Blue Restaurant').length,2,'No old-read authoritative text request reaches the receiver');
+ }finally{await session.close();source.close();api.close();await Promise.all([once(source,'close'),once(api,'close')]);}
+});

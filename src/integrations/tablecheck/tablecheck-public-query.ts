@@ -4,6 +4,18 @@ const tableCheckGetPreflight = { requestOrigin: "https://www.tablecheck.com", re
 export const TABLECHECK_PUBLIC_SEARCH_ORIGIN = "https://search-v4.production.ap-northeast-1.aws.tablecheck.net";
 /** Observed public, unauthenticated GET JSON transports; no wildcard origin/path/method. */
 export const tableCheckPublicSearchReads: readonly BrowserReadNetworkRequestRule[] = [
+  // Four observed public text-search projections; exact keys, current-fill
+  // text only, existing endpoint/method/CORS header contract unchanged.
+  ...[
+    ["country","hits","queryProfile"],
+    ["country","hits","kind","queryProfile"],
+    ["country","hits","q","queryProfile"],
+    ["destination","hits","name","queryProfile"],
+  ].map(queryKeys=>({origin:TABLECHECK_PUBLIC_SEARCH_ORIGIN,pathname:"/search/",methods:["GET"] as const,resourceTypes:["fetch","xhr"] as const,
+    queryKeys,corsPreflight:tableCheckGetPreflight,
+    queryValueClasses:{q:["EQUALS_AUTHORITATIVE_INPUT"] as const,name:["EQUALS_AUTHORITATIVE_INPUT"] as const,
+      country:["SHORT_TOKEN","NUMERIC"] as const,kind:["SHORT_TOKEN","NUMERIC"] as const,destination:["SHORT_TOKEN","NUMERIC"] as const,hits:["NUMERIC"] as const},
+  })),
   { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/catalog.json", methods: ["GET"], resourceTypes: ["fetch", "xhr"], queryKeys: [], corsPreflight: tableCheckGetPreflight },
   { origin: TABLECHECK_PUBLIC_SEARCH_ORIGIN, pathname: "/search/", methods: ["GET"], resourceTypes: ["fetch", "xhr"],
     corsPreflight: tableCheckGetPreflight,

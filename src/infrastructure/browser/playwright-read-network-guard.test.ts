@@ -552,3 +552,31 @@ test("read transport diagnostics retain failure cause without query values, head
   assert.equal((guard.snapshotRequests().find(row => row.outcome === "FAILED") as any).error?.cause?.code, "ECONNRESET");
   assert.doesNotMatch(JSON.stringify(guard.snapshotDiagnostics()), /QUERY_PRIVATE|COOKIE_PRIVATE|AUTH_PRIVATE|BODY_PRIVATE/);
 });
+
+test('TableCheck text search uses four exact query shapes and current authoritative text only',async t=>{
+ const origin='https://search-v4.production.ap-northeast-1.aws.tablecheck.net';
+ const shapes:Record<string,string>[]=[{country:'jp',hits:'10',queryProfile:'destination'},{country:'jp',hits:'10',kind:'shop',queryProfile:'destination'},{country:'jp',hits:'10',q:'Blue Restaurant',queryProfile:'destination'},{destination:'jp',hits:'10',name:'Blue Restaurant',queryProfile:'destination'}];
+ const cases:Array<{name:string;query:Record<string,string>;admitted:boolean;method?:string;type?:string;origin?:string;path?:string;old?:boolean}>=[
+  ...shapes.map((query,i)=>({name:'valid-shape-'+(i+1),query,admitted:true})),
+  {name:'extra',query:{...shapes[2],extra:'x'},admitted:false},
+  {name:'missing',query:{q:'Blue Restaurant',queryProfile:'destination'},admitted:false},
+  {name:'wrong-origin',query:shapes[2]!,origin:'https://elsewhere.example',admitted:false},
+  {name:'wrong-path',query:shapes[2]!,path:'/unreviewed/',admitted:false},
+  {name:'post',query:shapes[2]!,method:'POST',admitted:false},
+  {name:'other-type',query:shapes[2]!,type:'other',admitted:false},
+  {name:'old-read',query:shapes[2]!,old:true,admitted:false},
+  ...['q','name'].flatMap(key=>['Other Person','Blue Rest','+81 90 1234 5678','person@example.com','token=secret'].map(value=>({name:key+'-'+value,query:{...(key==='q'?shapes[2]:shapes[3]),[key]:value},admitted:false}))),
+  {name:'hits-not-number',query:{...shapes[0],hits:'many'},admitted:false},
+  {name:'country-other',query:{...shapes[0],country:'unapproved country'},admitted:false},
+  {name:'kind-sensitive',query:{...shapes[1],kind:'token=secret'},admitted:false},
+  {name:'destination-other',query:{...shapes[3],destination:'unapproved destination'},admitted:false},
+ ];
+ for(const c of cases)await t.test(c.name,async()=>{
+  const guard=new PlaywrightReadNetworkGuard(tableCheckPublicReadNetworkPolicy);let handler:any;
+  guard.forms.authoritativeInputs=async()=>c.old?[]:['Blue Restaurant'];
+  await guard.install(fakeContext({route:async(_p:string,h:any)=>{handler=h;},routeWebSocket:async()=>{}}));
+  const url=new URL(c.path??'/search/',c.origin??origin);for(const [key,value]of Object.entries(c.query))url.searchParams.set(key,value);
+  const request=fakeRoute({url:url.toString(),type:c.type??'fetch',method:c.method??'GET'});await handler(request.route);
+  assert.equal(request.calls.includes('fulfill'),c.admitted,c.name);assert.equal(request.calls.includes('abort'),!c.admitted,c.name);
+ });
+});

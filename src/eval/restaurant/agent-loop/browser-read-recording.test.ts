@@ -325,3 +325,15 @@ test('observed Tabelog keyword response retains public source names only at its 
     assert.equal((await denied.finish()).replay.status,'NOT_REPLAYABLE');
   }finally{await rm(root,{recursive:true,force:true});}
 });
+
+test('recording preserves a partial public SPA document route and masks only credential carriers',async()=>{
+ const {tableCheckPublicReadNetworkPolicy:policy}=await import('../../../integrations/tablecheck/tablecheck-public-query.js');
+ const root=await mkdtemp(join(tmpdir(),'public-spa-route-'));
+ try{
+  const recorder=new BrowserReadRecording({directory:root,runId:'partial',reviewedReads:policy.dynamicReads,reviewedStaticResources:policy.staticResources});
+  // Controlled query projection/privacy mutation, not reconstructed old probe bytes.
+  recorder.recordSnapshot({url:'https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc',title:'Public list',text:'Public list',html:'<body><h1>Public list</h1><input aria-label="Destination"><meta name="api-key" content="private-marker"><p>person@example.com</p><div data-access-token="private-marker">Results</div></body>'});
+  const result=await recorder.finish();assert.equal(result.replay.status,'REPLAYABLE');
+  const document=await readFile(join(result.path,'snapshot-0001.html'),'utf8');assert.match(document,/Public list/);assert.match(document,/Destination/);assert.match(document,/Results/);assert.doesNotMatch(document,/private-marker|person@example.com|data-access-token/);
+ }finally{await rm(root,{recursive:true,force:true});}
+});

@@ -1,0 +1,90 @@
+{
+  "status": "draft / not integrated; exact old raw bytes unavailable",
+  "DOM": {
+    "allPagesLackURL": true,
+    "htmlBytes": [
+      102127,
+      103603,
+      103067
+    ],
+    "firstNecessaryRejection": "safeReplayUrl rejected the current URL; recordSnapshot requires URL acceptance before retaining HTML. UNSAFE_DOCUMENT conflates URL and content failures. No recorded evidence identifies a sensitive-content hit.",
+    "controlledFix": "Preserve exact safe partial public document routes composed only of declared public fields; does not change Guard request admission. Remove API-key carriers locally and retain sanitized diagnostic DOM even if URL remains unreplayable.",
+    "oldProbeRawDOM": "Not retained. No reconstructed historical page used. Fresh probe compares baseline and current recorder on identical in-memory real inputs."
+  },
+  "catalog": {
+    "terminalEvents": [
+      {
+        "sequence": 64,
+        "kind": "NETWORK_REQUEST_END",
+        "detail": {
+          "requestId": "capture:1:page:1:request:19",
+          "navigationId": "capture:1:navigation:1",
+          "navigationAssociation": "DOCUMENT_LOADER",
+          "loaderId": "7EA743D78824D64A7BF9E2CF4AF22BEC",
+          "frameId": "7F94BDC8A214C98A6D7140E6EF976B34",
+          "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+          "urlSha256": "e8f91efdd13bd9e52a7b1ce5b44f6582fee5a3b4c4d52f7922d57549cf212455",
+          "method": "GET",
+          "resourceType": "Fetch",
+          "startedAt": "2026-11-06T17:06:47.145Z",
+          "startedMonotonicMs": 3815.521666,
+          "status": null,
+          "blocked": false,
+          "blockReason": null,
+          "implicit": false,
+          "browserStartedAt": "2026-11-06T17:06:47.142Z",
+          "browserTimestamp": 679093.797856,
+          "redirectedFromRequestId": null,
+          "pageId": "capture:1:page:1",
+          "endedAt": "2026-11-06T17:06:51.204Z",
+          "endedMonotonicMs": 7874.121833,
+          "elapsedMs": 4058.600167,
+          "browserEndedAt": "2026-11-06T17:06:51.201Z",
+          "browserElapsedMs": 4059.633999946527,
+          "browserEndTimestamp": 679097.85749,
+          "endObservation": "CDP_NETWORK_TERMINAL",
+          "outcome": "FAILED",
+          "endReason": "net::ERR_FAILED"
+        }
+      },
+      {
+        "sequence": 91,
+        "kind": "NETWORK_REQUEST_END",
+        "detail": {
+          "requestId": "capture:1:page:1:request:28",
+          "navigationId": "capture:1:navigation:1",
+          "navigationAssociation": "DOCUMENT_LOADER",
+          "loaderId": "7EA743D78824D64A7BF9E2CF4AF22BEC",
+          "frameId": "7F94BDC8A214C98A6D7140E6EF976B34",
+          "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+          "urlSha256": "e8f91efdd13bd9e52a7b1ce5b44f6582fee5a3b4c4d52f7922d57549cf212455",
+          "method": "GET",
+          "resourceType": "Fetch",
+          "startedAt": "2026-11-06T17:06:52.043Z",
+          "startedMonotonicMs": 8713.109916,
+          "status": null,
+          "blocked": false,
+          "blockReason": null,
+          "implicit": false,
+          "browserStartedAt": "2026-11-06T17:06:52.041Z",
+          "browserTimestamp": 679098.696916,
+          "redirectedFromRequestId": null,
+          "pageId": "capture:1:page:1",
+          "endedAt": "2026-11-06T17:06:52.744Z",
+          "endedMonotonicMs": 9413.633875,
+          "elapsedMs": 700.5239590000001,
+          "browserEndedAt": "2026-11-06T17:06:52.742Z",
+          "browserElapsedMs": 701.0729999747127,
+          "browserEndTimestamp": 679099.397989,
+          "endObservation": "CDP_NETWORK_TERMINAL",
+          "outcome": "FAILED",
+          "endReason": "net::ERR_FAILED"
+        }
+      }
+    ],
+    "responseHeadersInOldTrace": false,
+    "corsErrorDetailsInOldTrace": false,
+    "finding": "Two actual browser failures, about4059ms and701ms, no HTTP status. No Guard timeout or explicit catalog policy refusal. Exact CORS versus upstream transport cause NOT_EVALUATED. No transport/admission fix is justified from old evidence.",
+    "freshInstrumentation": "CORS enum and derived allow-origin class only; never stores request/response headers, cookies or header values."
+  }
+}

@@ -121,7 +121,8 @@ export class BrowserReadRecording {
     const challenge = restaurantDiscoveryPacks.some(pack => pack.documentOrigins.some(origin => { try { return new URL(snapshot.url).origin === origin; } catch { return false; } }) && pack.browser?.hasChallenge(snapshot));
     const sanitized = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);
     const html = sanitized !== undefined && this.google.accept(sanitized) ? sanitized : undefined;
-    this.documentSnapshots.push({ snapshot: this.snapshotCount, ...(url ? { url } : {}), ...(url && html && !challenge ? { html } : {}),
+    this.record("DOCUMENT_SANITIZATION",{urlAccepted:Boolean(url),documentAccepted:Boolean(html),inputBytes:Buffer.byteLength(snapshot.html),queryKeys:[...new Set(new URL(snapshot.url).searchParams.keys())].sort(),reason:!url?"UNREVIEWED_DOCUMENT_QUERY_SHAPE":!html?"DOCUMENT_PRIVACY_OR_SIZE":"SANITIZED"});
+    this.documentSnapshots.push({ snapshot: this.snapshotCount, ...(url ? { url } : {}), ...(html && !challenge ? { html } : {}),
       ...(challenge ? { failure: "CHALLENGE_DOCUMENT" as const } : !url || !html ? { failure: Buffer.byteLength(snapshot.html) > MAX_PUBLIC_DOCUMENT_BYTES ? "DOCUMENT_SIZE_LIMIT" as const : "UNSAFE_DOCUMENT" as const } : {}), requests: structuredClone(requests) });
   }
   async captureScreenshot(png: Uint8Array, disposition?: "LAYOUT_ONLY_CONTENT_MASKED"): Promise<void> {
@@ -286,7 +287,19 @@ function sanitizeTabelogSuggestions(text: string): string | undefined {
     return text;
   } catch { return undefined; }
 }
-function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined { try { const u = new URL(value); const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (!tabelogSuggestionRecordingUrl(value) && ![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
+/** A history route can omit network-required defaults. Recording it never
+ * grants a request: keep only declared public document fields, no sensitive values. */
+function publicDocumentRouteUrl(url:URL,reads:readonly BrowserReadNetworkRequestRule[]|undefined):boolean {
+ return (reads??[]).some(rule=>{
+  if(!rule.resourceTypes.includes("document")||rule.origin!==url.origin||rule.pathname!==url.pathname)return false;
+  const allowed=new Set([...(rule.queryKeys??[]),...(rule.queryKeyRules?.required??[]),...(rule.queryKeyRules?.allowed??[]),...(rule.queryKeyRules?.repeatable??[])]);
+  const counts=new Map<string,number>();for(const key of url.searchParams.keys())counts.set(key,(counts.get(key)??0)+1);
+  return [...counts].every(([key,count])=>allowed.has(key)&&(count===1||rule.queryKeyRules?.repeatable?.includes(key)))
+   &&[...url.searchParams].every(([key,value])=>!sensitiveKey(key)&&!/(?:@|Bearer\s|\bsk-|(?:token|password|cookie|authorization)\s*[:=])/i.test(value)
+    && (/^\d{4}-\d{2}-\d{2}$/.test(value)||!/\+?\d[\d()\s-]{8,}\d/.test(value)));
+ });
+}
+function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined { try { const u = new URL(value); const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (!tabelogSuggestionRecordingUrl(value) && ![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads) && !publicDocumentRouteUrl(u,reviewedReads))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
 /** Public third-party asset credentials are not replay permissions. Mask their
  * values before either diagnostic or replay HTML can be published. */
 function redactThirdPartyUrlCredentials(html: string, sourceUrl: string): string {
@@ -335,7 +348,7 @@ function sanitizePublicHtml(html: string, sourceUrl: string, staticResources?: r
   });
   // A DOM snapshot may contain hidden auth/challenge elements. Remove the
   // whole element before any artifact exists; keep public date/party/time fields.
-  const sensitiveValue = String.raw`(?:csrf|token|password|turnstile|recaptcha|session|authorization|cookie)`;
+  const sensitiveValue = String.raw`(?:csrf|token|password|turnstile|recaptcha|session|authorization|cookie|api[_-]?key|secret|private[_-]?key)`;
   // Attribute markers can occur on a useful public container. Remove only
   // the marker there; form fields and meta/textarea token carriers are removed
   // as complete elements so their hidden value never reaches an artifact.

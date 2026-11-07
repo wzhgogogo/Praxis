@@ -54,8 +54,13 @@ function matchesReadProjection(rule: BrowserReadNetworkRequestRule, url: URL, me
   return true;
 }
 
-async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string): Promise<boolean> {
-  if (!matchesReadProjection(rule, url, method, resourceType)) return false;
+function matchesQueryValues(rule:BrowserReadNetworkRequestRule,url:URL,fields:readonly BrowserQueryValueObservation[]):boolean {
+  if(!rule.queryValueClasses)return true;
+  if(fields.length!==[...url.searchParams].length || fields.some(field=>field.valueClass==="SENSITIVE_FORMAT"))return false;
+  return fields.every(field=>!rule.queryValueClasses![field.key] || rule.queryValueClasses![field.key]!.includes(field.valueClass));
+}
+async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string, fields:readonly BrowserQueryValueObservation[]): Promise<boolean> {
+  if (!matchesReadProjection(rule, url, method, resourceType) || !matchesQueryValues(rule,url,fields)) return false;
   if (method !== "POST") return true;
   if (!rule.bodyFields || !/application\/json/i.test(await request.headerValue("content-type") ?? "")) return false;
   try {
@@ -427,7 +432,7 @@ export class PlaywrightReadNetworkGuard {
   }
 
   private async admitsPreflight(url: URL, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
-    if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol) || !["other", "fetch", "xhr"].includes(type)
+    if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol)
       || !facts || facts.secFetchMode !== "cors" || !["GET", "HEAD", "POST"].includes(facts.requestedMethod) || facts.bodyBytes !== 0) return false;
     for (const rule of [...this.policy.staticResources, ...this.policy.dynamicReads]) {
       const cors = rule.corsPreflight;
@@ -435,14 +440,14 @@ export class PlaywrightReadNetworkGuard {
         || facts.requestedHeaderNames.some(name => !name || !cors.requestedHeaderNames.includes(name))) continue;
       // Only the approved actual read's projection is available now. Its full
       // body is checked separately when the actual POST reaches this boundary.
-      if (matchesReadProjection(rule, url, facts.requestedMethod, "fetch")) return true;
+      if (matchesReadProjection(rule, url, facts.requestedMethod, "fetch") && matchesQueryValues(rule,url,this.queryMetadata(url).queryValues)) return true;
     }
     return false;
   }
 
   private async admitsRedirectRequest(url: URL, request: Pick<Request, "headerValue" | "postData">, method: string, type: string): Promise<boolean> {
     if (this.prohibitedRead(url) || url.username || url.password || !/^https?:$/.test(url.protocol)) return false;
-    const sourceRule = (await Promise.all([...this.policy.staticResources, ...this.policy.dynamicReads].map(rule => allows(rule, request, url, method, type)))).some(Boolean);
+    const sourceRule = (await Promise.all([...this.policy.staticResources, ...this.policy.dynamicReads].map(rule => allows(rule, request, url, method, type,this.queryMetadata(url).queryValues)))).some(Boolean);
     if (type === "document" && ["GET", "HEAD"].includes(method) && (!this.sensitiveGenericRead(url) || sourceRule)
       && (this.policy.documentOrigins.includes(url.origin) || this.policy.genericPublicRead && this.genericOrigins.has(url.origin))) return true;
     if (sourceRule) return true;
@@ -548,7 +553,7 @@ export class PlaywrightReadNetworkGuard {
     const preparedDocument = type === "document" && (method === "GET" || method === "HEAD") && this.documents.delete(key);
     const rules = [...this.policy.staticResources, ...this.policy.dynamicReads];
     const sourceRule = (await Promise.all(rules
-      .map(rule => allows(rule, request, url, method, type)))).some(Boolean);
+      .map(rule => allows(rule, request, url, method, type,this.queryMetadata(url).queryValues)))).some(Boolean);
     const document = preparedDocument && (!this.sensitiveGenericRead(url) || sourceRule);
     const genericRead = this.policy.genericPublicRead === true
       && this.genericOrigins.has(url.origin)
