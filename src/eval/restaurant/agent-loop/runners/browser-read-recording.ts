@@ -93,11 +93,11 @@ export class BrowserReadRecording {
     // A public redirect's response body is not needed to faithfully preserve
     // navigation. Keep its approved status and Location even when it is empty.
     const isRecordedRedirect = response.status >= 300 && response.status < 400 && Boolean(redirectLocation);
-    const publicSourceScript=reviewedStaticScriptUrl(response.url,this.options.reviewedStaticResources)||this.documentOrigins.has(new URL(response.url).origin);
+    const publicSourceScript=response.resourceType==="script"&&(reviewedStaticScriptUrl(response.url,this.options.reviewedStaticResources)||this.documentOrigins.has(new URL(response.url).origin));
     const sanitized = isRecordedRedirect ? "" : mimeType.includes("json") ? (tabelogSuggestionRecordingUrl(response.url) ? sanitizeTabelogSuggestions(text) : sanitizePublicJson(text))
       : /^(?:text\/(?:html|plain)|application\/(?:xhtml\+xml))$/.test(mimeType) ? sanitizePublicHtml(text, response.url, this.options.reviewedStaticResources, this.options.reviewedReads)
       : /^(?:application|text)\/(?:javascript|ecmascript)$/.test(mimeType)
-        ? (publicSourceScript ? sanitizePublicSourceScript(text,response.body.byteLength) : undefined)
+        ? (publicSourceScript ? sanitizePublicSourceScript(text,response.body.byteLength) : reviewedStaticScriptUrl(response.url,this.options.reviewedStaticResources)&&safePublicStaticCode(text,response.body.byteLength)?text:undefined)
       : mimeType === "text/css" ? (stylesheetRule && safePublicStaticCode(text, response.body.byteLength) ? text : undefined)
       : undefined;
     if (sanitized === undefined || !this.google.accept([url,sanitized,redirectLocation])) { this.uncapturedResponsePaths.add(responsePath(response.url)); return; }
@@ -487,7 +487,6 @@ function safeReplayScript(script: string): boolean {
     && !/(?:cookie|token|secret|password|csrf|authorization|localStorage|sessionStorage|document\.write|eval\s*\(|Function\s*\(|fetch\s*\(\s*["']https?:\/\/)/i.test(script)
     && !/\b(?:form\.submit|location\s*=|window\.open)\b/i.test(script);
 }
-/** Admitted public CSS or reviewed JavaScript is retained byte-for-byte, without session or credential material. */
 /** Only Guard-admitted source/reviewed public JavaScript gets the user-approved cap.
  * ASCII replacement preserves code-unit/byte length and quote/newline structure. */
 function sanitizePublicSourceScript(script:string,originalByteLength:number):string|undefined {

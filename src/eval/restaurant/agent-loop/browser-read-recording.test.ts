@@ -354,10 +354,10 @@ test('source public scripts up to12MB mask known credentials without changing le
   const har=JSON.parse(await readFile(result.replay.harPath,'utf8'));const captured=har.log.entries.find((e:any)=>e.request.url===url).response.content.text;
   assert.equal(Buffer.byteLength(captured),size);for(const secret of [...secrets,'opaque-fixture-credential'])assert.ok(!captured.includes(secret));
   const context:any={};runInNewContext(captured,context,{timeout:2000});assert.equal(context.completed,41);
-  for(const [id,source,bytes,type]of [['too-large',url,12_000_001,'script'],['foreign','https://foreign.example/large.js',2_500_001,'script'],['stylesheet','https://cdn.public.example/assets/large.css',2_500_001,'stylesheet']] as const){
+  for(const [id,source,bytes,type]of [['too-large',url,12_000_001,'script'],['foreign','https://foreign.example/large.js',2_500_001,'script'],['stylesheet','https://cdn.public.example/assets/large.css',2_500_001,'stylesheet'],['fetch-js',url,2_500_001,'fetch']] as const){
    const other=new BrowserReadRecording({directory:root,runId:id,reviewedStaticResources:reviewedStaticScript});
    other.recordSnapshot({url:page,title:'Public',text:'',html:'<body>Public</body>',networkRequests:[{outcome:'ADMITTED',origin:new URL(source).origin,pathname:new URL(source).pathname,method:'GET',resourceType:type,queryKeys:[]}]});
-   await other.recordResponse({url:source,method:'GET',resourceType:type,status:200,contentType:type==='script'?'application/javascript':'text/css',body:Buffer.from('x'.repeat(bytes))});
+   await other.recordResponse({url:source,method:'GET',resourceType:type,status:200,contentType:type==='stylesheet'?'text/css':'application/javascript',body:Buffer.from('x'.repeat(bytes))});
    assert.equal((await other.finish()).replay.status,'NOT_REPLAYABLE',id);
   }
  }finally{await rm(root,{recursive:true,force:true});}
