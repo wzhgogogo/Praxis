@@ -122,7 +122,7 @@ export class BrowserReadRecording {
     const sanitized = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);
     const html = sanitized !== undefined && this.google.accept(sanitized) ? sanitized : undefined;
     this.record("DOCUMENT_SANITIZATION",{urlAccepted:Boolean(url),documentAccepted:Boolean(html),inputBytes:Buffer.byteLength(snapshot.html),queryKeys:[...new Set(new URL(snapshot.url).searchParams.keys())].sort(),reason:!url?"UNREVIEWED_DOCUMENT_QUERY_SHAPE":!html?"DOCUMENT_PRIVACY_OR_SIZE":"SANITIZED"});
-    this.documentSnapshots.push({ snapshot: this.snapshotCount, ...(url ? { url } : {}), ...(html && !challenge ? { html } : {}),
+    this.documentSnapshots.push({ snapshot: this.snapshotCount, ...(url ? { url } : {}), ...(url && html && !challenge ? { html } : {}),
       ...(challenge ? { failure: "CHALLENGE_DOCUMENT" as const } : !url || !html ? { failure: Buffer.byteLength(snapshot.html) > MAX_PUBLIC_DOCUMENT_BYTES ? "DOCUMENT_SIZE_LIMIT" as const : "UNSAFE_DOCUMENT" as const } : {}), requests: structuredClone(requests) });
   }
   async captureScreenshot(png: Uint8Array, disposition?: "LAYOUT_ONLY_CONTENT_MASKED"): Promise<void> {

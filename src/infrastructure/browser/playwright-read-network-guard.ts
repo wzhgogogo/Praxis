@@ -94,8 +94,8 @@ export class PlaywrightReadNetworkGuard {
     if(observed)this.queryObservations.set(url,observed);
     this.blocked("READ_REQUEST_FAILED",url,request.method(),request.resourceType(),error);
   }
-  private async inspectQuery(url:URL,page:Page):Promise<void> {
-    const inputs=url.search?await this.forms.authoritativeInputs(page):[];
+  private async inspectQuery(url:URL,page:Page|undefined):Promise<void> {
+    const inputs=url.search&&page?await this.forms.authoritativeInputs(page):[];
     this.queryObservations.set(url,observeQueryValues(url,inputs));
   }
   private queryMetadata(url:URL) {return {queryValues:this.queryObservations.get(url)??observeQueryValues(url,[])};}
@@ -529,7 +529,8 @@ export class PlaywrightReadNetworkGuard {
     const request = route.request();
     const method = request.method();
     const url = new URL(request.url());
-    await this.inspectQuery(url,request.frame().page());
+    let requestPage:Page|undefined;try{requestPage=request.frame().page();}catch{ /* Unowned requests have no fill authority. */ }
+    await this.inspectQuery(url,requestPage);
     this.requestQueryObservations.set(request,this.queryMetadata(url).queryValues);
     const type = request.resourceType();
     if (this.prohibitedRead(url)) {

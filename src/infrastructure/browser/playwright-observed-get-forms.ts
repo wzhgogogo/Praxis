@@ -52,8 +52,8 @@ export class PlaywrightObservedGetForms {
   beginReadScope(page:Page):void { this.readInputs.delete(page);this.readGenerations.set(page,(this.readGenerations.get(page)??0)+1); }
   async authoritativeInputs(page:Page):Promise<readonly string[]> {
     await this.pendingInsertions.get(page);
-    const observed=this.documents.get(page);
-    if(!observed || !await observed.document.evaluate(node=>node===document).catch(()=>false))return [];
+    // Never evaluate page JS while a document request is paused. Authority
+    // is owned by this read, and is retired by beginReadScope, not by a route.
     return this.readInputs.get(page)??[];
   }
   /** Pause query observation until the actual fill succeeds or fails. */
@@ -87,7 +87,6 @@ export class PlaywrightObservedGetForms {
       }, true);
       return events;
     });
-    if (!sameDocument) this.readInputs.delete(page);
     if (previous && previous.inputEvents !== inputEvents) {
       await previous.inputEvents.dispose().catch(() => {});
       await previous.document.dispose().catch(() => {});
