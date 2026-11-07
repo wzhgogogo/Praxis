@@ -539,3 +539,8 @@ G1 capture-only mode reuses bounded executor stability observation for PENDING p
 ## 2026-11-06 CET TableCheck SPA probe — draft / not integrated
 
 One guarded public entry read succeeded (HTTP200) and the authoritative full name was filled. Current search-v4 /search/ preflight query shapes include unreviewed country/kind/q/destination/name; Guard refused them. Catalog GET failed separately. No successful full-name suggestion, destination, current-query binding, area result or inventory was verified. DOM sanitizer rejected all3 snapshots, so there is no replayable DOM/HAR red-green. No admission rule or product code changed. [Probe and precise evidence limits](../../.eval-artifacts/phase3b/tablecheck-spa-20261106/report.md).
+
+
+## 2026-11-07 CET TableCheck text query — draft / not integrated
+
+Only four exact observed search-v4 GET shapes gain current-authoritative-input and value-category checks, shared with browser-reserved CORS preflight; no origin/path/method/header/budget/identity expansion. Real probe admitted q=EQUAL then saw MissingAllowOriginHeader; destination=OTHER was refused and triggered the explicit user stop. No successful full-name result or binding/identity/availability capability is claimed. Same-input Recorder comparison saves3 sanitized DOMs vs0, but the10,284,255-byte script exceeds the unchanged2,500,000-byte recorder limit, so full Replay remains unavailable. Candidate d32c604e all offline gates1456/232/G675/strictG2 pass; no new D8 Live. [Evidence and limits](../../.eval-artifacts/phase3b/tablecheck-text-search-20261107/report.md).

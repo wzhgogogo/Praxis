@@ -5846,3 +5846,8 @@ Frozen c708493d/900 source-input SHAs: fresh first-pass type/arch/default1439/bu
 ## 2026-11-06 CET — TableCheck SPA 诊断切片
 
 Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送且ls-remote一致。一次Guard探查HTTP200、Destination完整店名已填，但search-v4 /search/的country/kind/q/destination/name查询键不在当前审核范围，预检被拒；catalog另有net::ERR_FAILED。联想/后续跳转未到达，不能当作无匹配。三通道开启但3份DOM被UNSAFE_DOCUMENT拒录、未产HAR，不能做真实录制红绿。产品/Guard不改，新增GET1/model0/Live0，累计GET348/460/model653/1600/Live23/42，预留18Live/108GET不动；尚余1探查页与原D8三次GET。先复核来源请求形状及录制缺口，不启动D8 Live。[报告](../../.eval-artifacts/phase3b/tablecheck-spa-20261106/report.md)。
+
+
+## 2026-11-07 CET — TableCheck text query explicit stop
+
+2026-11-07 CET：TableCheck文字搜索候选（draft / not integrated）已实现六类查询观测、四种精确键集合及当前权威文本约束。第二次真实探查1页后destination=OTHER拒绝并按用户停止；q预检/GET实际EQUAL获准后CORS MissingAllowOriginHeader，旧失败侧OTHER单独更正、不覆盖。真实新旧Recorder同输入0→3份清洗DOM，但10,284,255字节脚本超过原2,500,000上限，完整Replay仍不可用。绑定/地区动态验收未到达，D8 Live未启动。d32c604e第二轮全门禁1456/232/完整G675/严格G2五项及12页配对全绿；首轮4红保留。新增GET1/model0/Live0，累计GET349/461、model653/1600、Live23/42；备用1及D8三GET、留出18Live/108GET不动。 [报告](../../.eval-artifacts/phase3b/tablecheck-text-search-20261107/report.md)。

@@ -1,0 +1,145 @@
+{
+  "status": "draft / not integrated; STOP_REQUIRED_BY_USER; exposed development diagnostic",
+  "atCET": "2026-11-07T10:44:42.888174+01:00",
+  "baselineSource": "72b18beed6ae774a8c73a00abaf3cd2ae64c9356",
+  "mergedArtifacts": "4511476aec1b83049a8a27c863db951b173073c1",
+  "workingBranch": "codex/fix-tablecheck-text-search",
+  "sourceCandidate": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+  "probeCandidate": "82ac67fbceb6732e676f0515ce13c3983acd5937",
+  "confirmedBlocker": "destination OTHER rejected by exact current-input contract",
+  "q": "EQUAL on preflight and actual GET; admitted, then CORS failure. Failure-side OTHER was a diagnostic defect, retained and separately corrected.",
+  "modelCalls": 0,
+  "fullLive": 0,
+  "probePagesCharged": 1,
+  "spareGETUsed": false,
+  "remainingSpareGET": 1,
+  "D8WitnessGETReservedUnused": 3,
+  "modelOnlyBudgetStillUsed": 15,
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 653,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 349,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11222
+  },
+  "approved": {
+    "evaluationPublicGET": 461,
+    "fullLive": 42,
+    "realModelCalls": 1600
+  },
+  "heldOutReserved": {
+    "fullLive": 18,
+    "evaluationPublicGET": 108
+  },
+  "gateCounts": {
+    "default": 1456,
+    "Chromium": 232,
+    "G6": 75,
+    "strictG2Tests": 5,
+    "strictG2PagePairs": 12
+  },
+  "gates": [
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:37:25.751638+01:00",
+      "elapsedMs": 597,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "architecture",
+      "command": [
+        "npm",
+        "run",
+        "arch:check"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:37:26.394312+01:00",
+      "elapsedMs": 275,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "default",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:37:26.714404+01:00",
+      "elapsedMs": 57774,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:38:24.534819+01:00",
+      "elapsedMs": 600,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "browser-and-g6",
+      "command": [
+        "npm",
+        "run",
+        "test:browser:fixture"
+      ],
+      "environment": {},
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:38:25.201753+01:00",
+      "elapsedMs": 150605,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    },
+    {
+      "name": "strict-g2",
+      "command": [
+        "npm",
+        "run",
+        "test:dom-change"
+      ],
+      "environment": {
+        "PRAXIS_G2_REQUIRE_PASS": "1"
+      },
+      "sourceSHA": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+      "atCET": "2026-11-07T10:40:55.853829+01:00",
+      "elapsedMs": 25769,
+      "exitCode": 0,
+      "gitStatusBefore": "",
+      "gitStatusAfter": ""
+    }
+  ],
+  "hardcodedScan": {
+    "base": "72b18bee",
+    "head": "d32c604eafd9f8135f910f797c0b82f09fa13d98",
+    "hits": 8,
+    "classification": "2 generic format regexes +6 exact source contract/value-list lines explicitly authorized by user; no private UI selector, restaurant alias/name branch, special candidate path or fixed product action sequence"
+  },
+  "binding": "NOT_REACHED; no successful source result, no dynamic or suggestion destination receipt implemented",
+  "recorder": "Actual same-input old0/new3 sanitized DOMs saved; full Replay still blocked by10,284,255-byte static script vs2,500,000 existing cap and failed dynamic responses. No cap increase.",
+  "sourceImprovementAccepted": false,
+  "D8Live": "NOT_STARTED; review and new scope decision needed because explicit stop condition occurred"
+}
