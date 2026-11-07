@@ -1,0 +1,75 @@
+{
+  "sourceSHA": "4fe5c039c4a001d577d37788ac143e31de54bdf4",
+  "startedAtCET": "2026-11-07T16:17:34.742+01:00",
+  "endedAtCET": "2026-11-07T16:17:52.581+01:00",
+  "entryMs": 4168.238917000001,
+  "mainScript": {
+    "status": 200,
+    "bytes": 10284255,
+    "sanitizedBytes": 10284255,
+    "transport": "BROWSER_GET_HEAD / route.continue",
+    "browserTerminalMs": 2778.2085829999996
+  },
+  "catalog": 200,
+  "searchGET200": 8,
+  "queryKeys200": [
+    "q",
+    "name"
+  ],
+  "uniqueExactButton": [
+    {
+      "id": "dom:3:183",
+      "label": "Specializing in Nodoguro Ginza Nakamata",
+      "kind": "BUTTON",
+      "href": null
+    }
+  ],
+  "corsErrors": 0,
+  "mainDocuments": 1,
+  "postSelectionURL": "https://www.tablecheck.com/en/not-found",
+  "shopRequestContractGap": [
+    {
+      "outcome": "BLOCKED",
+      "origin": "https://production.tablecheck.com/",
+      "pathname": "/v2/shops/nakamata-nodoguro-ginza",
+      "method": "GET",
+      "resourceType": "xhr",
+      "queryKeys": [
+        "locale"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "locale",
+          "valueClass": "SHORT_TOKEN"
+        }
+      ]
+    },
+    {
+      "outcome": "BLOCKED",
+      "origin": "https://production.tablecheck.com/",
+      "pathname": "/v2/shops/nakamata-nodoguro-ginza",
+      "method": "GET",
+      "resourceType": "fetch",
+      "queryKeys": [
+        "locale"
+      ],
+      "queryValues": [
+        {
+          "queryKey": "locale",
+          "valueClass": "SHORT_TOKEN"
+        }
+      ]
+    }
+  ],
+  "omittedReasons": {
+    "JSON_SENSITIVE_KEY": 4,
+    "UNREVIEWED_RECORDING_URL_OR_METHOD": 8,
+    "INVALID_UTF8": 1,
+    "JSON_SIZE_LIMIT": 4
+  },
+  "rawActorStatus": "SELECTED_RESULT_OBSERVED",
+  "independentDiagnostic": "ENTRY_AND_AUTOCOMPLETE_PASS; SHOP_DETAIL_GUARD_BLOCKED; NO_SUCCESSFUL_SHOP_RESULT",
+  "sourceGETAdded": 1,
+  "modelAdded": 0,
+  "LiveAdded": 0
+}
