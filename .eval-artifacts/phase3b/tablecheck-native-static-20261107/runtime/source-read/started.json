@@ -1,0 +1,32 @@
+{
+  "sourceSHA": "c3361d2c756277bc6f9e6d1af2a5a4e1b11d28b9",
+  "atCET": "2026-11-07T15:07:42.339+01:00",
+  "spec": {
+    "attemptId": "C-tablecheck-native-static-20261107",
+    "startUrl": "https://www.tablecheck.com/en/japan/search",
+    "query": "Specializing in Nodoguro Ginza Nakamata",
+    "minimumIntervalMs": 5000,
+    "maximumMs": 120000,
+    "models": 0,
+    "Live": 0,
+    "entryReads": 1,
+    "additionalDocumentReads": 0,
+    "stop": "Only unique exact visible enabled full-name BUTTON. Any second main document blocked before dispatch requires approval. No result, noncontract value, entry timeout, extra GET/model/Live: stop without retry."
+  },
+  "configuration": {
+    "factory": "run-c-closeout-live/browser (same D8 path)",
+    "headless": true,
+    "transport": "REVIEWED_STATIC_BROWSER default; document/data NODE_FETCH",
+    "proxy": "NOT_CONFIGURED",
+    "context": {
+      "serviceWorkers": "block",
+      "userAgent": "DEFAULT",
+      "locale": "DEFAULT",
+      "timezoneId": "DEFAULT"
+    },
+    "policy": "discoveryPackNetworkPolicy()",
+    "genericPublicRead": true
+  },
+  "model": 0,
+  "Live": 0
+}
