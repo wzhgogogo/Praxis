@@ -1,0 +1,5 @@
+# Additional entry after preserved selection failure
+
+Status: draft / not integrated. CET UTC+1. User explicitly approved the new allowance and direct rerun after the report that the actor closed the first session by confusing suffixed branches and REGION with the sole exact full-name action. Approve1 new entry, total464; no other credit or timeout change. First frozen93965f14 result remains unchanged. Real-observation component test fails4 vs1 with original selector, then passes after exact actionable matching; original Live browser factory and Guard retained. No identity inference.
+
+Reopen once, fill the same accepted full name, choose only the unique exact current LINK/BUTTON. A second main document is stopped before dispatch, with its observed target reported for approval. No model, Google, D8, held-out or POST work. After actual result implement only evidence-supported binding; source component HAR/DOM stay explicitly partial while private/oversize JSON remains omitted. Full offline gates and scan, then stop before D8/main.

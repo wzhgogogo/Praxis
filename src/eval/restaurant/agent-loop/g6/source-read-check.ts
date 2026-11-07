@@ -1,7 +1,7 @@
 import type {BrowserContext} from 'playwright-core';
 import {setTimeout as wait} from 'node:timers/promises';
 import {normalizedTextKey} from '../../../../core/text-key.js';
-import type {BrowserRuntime,BrowserReadNetworkPolicy,BrowserSnapshot} from '../../../../infrastructure/browser/browser-runtime.js';
+import type {BrowserRuntime,BrowserReadNetworkPolicy,BrowserSnapshot,BrowserPageControl} from '../../../../infrastructure/browser/browser-runtime.js';
 import {isBrowserReadPathProhibited} from '../../../../infrastructure/browser/browser-read-policy.js';
 
 export interface G6SourceReadSpec {startUrl:string;query:string;minimumIntervalMs:number;}
@@ -34,7 +34,7 @@ export async function runG6SourceReadCheck(input:{browser:BrowserRuntime;policy:
   setPhase('FILL_FULL_NAME');await session.fill!(fields[0]!.id,spec.query,{timeoutMs:5000,inputSource:'SPECIFIC_OUTLET'});
   await wait(spec.minimumIntervalMs,undefined,{signal});await session.waitForSettled?.(snapshot,5000);snapshot=await session.snapshot();controls=await session.observeControls!();
   const rejected=violations(snapshot,boundary);
-  const options=controls.filter(c=>c.visible&&!c.disabled&&c.kind!=='INPUT'&&c.formMethod!=='POST'&&normalizedTextKey(c.label).includes(normalizedTextKey(spec.query))&&(!c.href||!isBrowserReadPathProhibited(policy,c.href)));
+  const options=sourceReadSuggestionOptions(controls,spec.query,policy);
   input.record('OBSERVED_QUERY_OPTIONS',{options:options.map(c=>({id:c.id,label:c.label,kind:c.kind,href:c.href??null})),violations:rejected});
   if(rejected.length)return {status:'STOP_VALUE_REVIEW',phase,catalog200:true,violations:rejected,options:options.length};
   if(options.length!==1)return {status:'STOP_NO_UNIQUE_SUGGESTION',phase,catalog200:true,options:options.length};
@@ -65,4 +65,10 @@ export function installSourceReadPageLimit(context:BrowserContext,phase:()=>stri
    const result=await send(method,params);if(method==='Page.getFrameTree')rootFrame=(result as any).frameTree.frame.id;return result;
   }) as typeof cdp.send;return cdp;
  };
+}
+
+
+/** Source-owned controls only; exported for frozen-observation component regression. */
+export function sourceReadSuggestionOptions(controls:readonly BrowserPageControl[],query:string,policy:BrowserReadNetworkPolicy){
+ return controls.filter(c=>c.visible&&!c.disabled&&['LINK','BUTTON'].includes(c.kind)&&c.formMethod!=='POST'&&normalizedTextKey(c.label)===normalizedTextKey(query)&&(!c.href||!isBrowserReadPathProhibited(policy,c.href)));
 }
