@@ -50,7 +50,7 @@ Status: **draft / not integrated**。时间 CET（UTC+1）。复核基线`cfe3aa
 
 ## 验证、冻结与停止
 
-GATE_RESULT_PENDING
+INTERRUPTED_BEFORE_START: user steering arrived before the B gate process started. No896a4d42 full-gate pass claimed. The subsequent source-read candidate gates are linked in the addendum below.
 
 完整门禁按Test唯一矩阵：typecheck、arch:check、npm test、build、test:browser:fixture（含完整G6）、严格G2。每项前后必须净树且SHA相同。不新增行为测试：本轮没有产品逻辑改动，既有有效红绿与安全断言全部复用；新提取器另核对原输入SHA、D8独立21个ID及反例分类。
 
