@@ -77,7 +77,7 @@ if(mode==='TC_SEARCH'){
  assert.equal(spec.minimumIntervalMs,5000);assert.equal(spec.maximumMs,120000);
  assert.equal(spec.models,0);assert.equal(spec.Live,0);assert.equal(spec.entryReads,1);assert.equal(spec.additionalDocumentReads,0);
  assert.ok(typeof spec.attemptId==='string'&&spec.attemptId.length>0);
- const sourceBudget=JSON.parse(await readFile(ledger,'utf8'));assert.ok(!sourceBudget.entries.some((row:{id:string})=>row.id===spec.attemptId+':entry'),'Attempt already charged');
+ const sourceBudget=JSON.parse(await readFile(ledger,'utf8'));assert.ok(typeof sourceBudget.authorization==='string'&&sourceBudget.authorization.trim(),'Frozen source-read authorization required');assert.ok(!sourceBudget.entries.some((row:{id:string})=>row.id===spec.attemptId+':entry'),'Attempt already charged');
  if(process.argv.includes('--validate-only')){console.log(JSON.stringify({mode,validated:true,network:0,models:0,uses:'original closeout browser factory and discoveryPackNetworkPolicy'}));process.exit(0);}
  const directory=join(root,'source-read');await mkdir(directory,{recursive:false});
  const ownCredentials=[process.env.DEEPSEEK_API_KEY??'',process.env.GOOGLE_MAPS_API_KEY??''].filter(Boolean);
@@ -93,7 +93,7 @@ if(mode==='TC_SEARCH'){
  await writeFile(join(directory,'started.json'),JSON.stringify({sourceSHA:expectedSHA,atCET:stamp(),spec,configuration:{factory:'run-c-closeout-live/browser (same D8 path)',headless:true,transport:'REVIEWED_STATIC_BROWSER default; document/data NODE_FETCH',proxy:browserNetwork.proxyServer?'CONFIGURED':'NOT_CONFIGURED',directHosts:browserNetwork.directHosts??[],context:{serviceWorkers:'block',userAgent:'DEFAULT',locale:'DEFAULT',timezoneId:'DEFAULT'},policy:'discoveryPackNetworkPolicy()',genericPublicRead:policy.genericPublicRead},model:0,Live:0},null,2)+'\n',{flag:'wx'});
  let result:unknown;
  try{result=await runG6SourceReadCheck({browser:runtime,policy,spec,signal:controller.signal,catalogTerminal,
-  beforeEntry:async()=>{await chargeG6(ledger,spec.attemptId+':entry','evaluationPublicGET','Approved reviewed-static transport source entry through original Live path; user +1 GET464->465; no extra document, models or Live');sourceReadPages++;},
+  beforeEntry:async()=>{await chargeG6(ledger,spec.attemptId+':entry','evaluationPublicGET',sourceBudget.authorization);sourceReadPages++;},
   phase:value=>{sourceReadPhase=value;trace.push({sequence:trace.length+1,kind:'SOURCE_READ_PHASE',detail:{phase:value,atMs:Date.now()}});},record:(kind,detail)=>{trace.push({sequence:trace.length+1,kind,detail:safeRecord(detail)});recording.record(kind,detail);}});
   if(sourceReadBlockedDocument)result={status:'STOP_NEW_DOCUMENT_REQUIRES_APPROVAL',attempt:result,request:sourceReadBlockedDocument};
  }finally{clearTimeout(timer);const captured=await recording.finish();await writeFile(join(directory,'receipt.json'),JSON.stringify({sourceSHA:expectedSHA,atCET:stamp(),result,pagesCharged:sourceReadPages,model:0,Live:0,recording:captured},null,2)+'\n',{flag:'wx'});await writeFile(join(directory,'events.json'),JSON.stringify(trace,null,2)+'\n',{flag:'wx'});await writeFile(join(directory,'header-names.json'),JSON.stringify(sourceReadHeaders,null,2)+'\n',{flag:'wx'});await writeFile(join(directory,'decisions.json'),'[]\n',{flag:'wx'});await writeFile(join(directory,'google-responses.json'),'[]\n',{flag:'wx'});}

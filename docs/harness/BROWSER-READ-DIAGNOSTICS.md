@@ -1,7 +1,7 @@
 # Browser Read Diagnostics
 
 - Status: Accepted
-- Document revision: 0.20
+- Document revision: 0.21
 - Last updated: 2026-11-07
 - Source of truth for: 单页浏览器只读诊断操作与证据范围
 - Related ADRs: [ADR-0015](../decisions/0015-supported-source-search-evidence.md)、[ADR-0016](../decisions/0016-local-eval-browser-profile-lifecycle.md)
@@ -111,12 +111,12 @@ PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM
 PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER=http://127.0.0.1:10808
 PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS=tablecheck.com,tablecheck.net,tabelog.com,tblg.k-img.com,localhost,127.0.0.1
 PRAXIS_GOOGLE_API_PROXY_SERVER=http://127.0.0.1:10808
-PRAXIS_DEEPSEEK_API_PROXY_SERVER=http://127.0.0.1:10808
+PRAXIS_DEEPSEEK_API_PROXY_SERVER= # DeepSeek直连
 ```
 
-直连名单只接受逗号分隔主机名，同时匹配本域及其子域；不接受URL、路径、端口或通配符。TableCheck包含来源CDN及search-v4的`tablecheck.net`，Tabelog包含已审核`tblg.k-img.com`。不在名单的浏览器目标使用配置代理。Google/DeepSeek API各自使用服务端显式代理，不受浏览器名单影响。所有请求仍须通过各自原有权限/授权检查。
+直连名单只接受逗号分隔主机名，同时匹配本域及其子域；不接受URL、路径、端口或通配符。TableCheck包含来源CDN及search-v4的`tablecheck.net`，Tabelog包含已审核`tblg.k-img.com`。不在名单的浏览器目标使用配置代理。Google API使用服务端显式代理；DeepSeek代理留空，使用直连。两者不受浏览器名单影响。所有请求仍须通过各自原有权限/授权检查。
 
-普通Web/诊断运行器从同一有效环境读配置；D8 closeout自定义浏览器工厂也复用该网络配置并记录代理是否配置及直连名单。直接构造Local运行时时使用`proxyServer`和`directHosts`。网络预检按目标域名采用同一分流，直连的餐厅目标不因无关浏览器代理不可用而失败；Google/DeepSeek仍检查各自代理。支持`--no-proxy`的标准诊断入口会在副本环境同时清除三种代理及直连名单，不改.env；自定义冻结D8编排消费其显式提供的Node环境，不额外声明CLI开关。
+普通Web/诊断运行器从同一有效环境读配置；D8 closeout自定义浏览器工厂也复用该网络配置并记录代理是否配置及直连名单。直接构造Local运行时时使用`proxyServer`和`directHosts`。网络预检按目标域名采用同一分流，直连的餐厅目标不因无关浏览器代理不可用而失败；Google仍检查其代理；DeepSeek按直连检查。支持`--no-proxy`的标准诊断入口会在副本环境同时清除三种代理及直连名单，不改.env；自定义冻结D8编排消费其显式提供的Node环境，不额外声明CLI开关。
 
 配置存在于当前工作区私有.env；Node入口需按现有命令加载，例如`node --env-file-if-exists=.env ...`（npm现有开发/真实诊断命令已带此参数）。离线测试不加载.env、不调用真实服务。重跑前仍须按既有流程冻结环境/编排并核对额度；配置成功与本地分流通过不等于来源页面已完整加载。
 
