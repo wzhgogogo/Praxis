@@ -1,0 +1,150 @@
+{
+  "mode": "REAL_SOURCE_COMPONENT_RECORDING",
+  "fullReplay": {
+    "status": "NOT_REPLAYABLE",
+    "reason": "UNCAPTURED_DYNAMIC_RESPONSE"
+  },
+  "componentCapture": {
+    "harPath": "components.har",
+    "scope": "SANITIZED_NON_DOCUMENT_RESPONSES_ONLY"
+  },
+  "responseGaps": [
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/catalog.json",
+      "queryKeys": [],
+      "status": 200,
+      "responseUrlSha256": "e8f91efdd13bd9e52a7b1ce5b44f6582fee5a3b4c4d52f7922d57549cf212455",
+      "recordingResult": "JSON_SENSITIVE_KEY",
+      "bodyBytes": 64793
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ],
+      "status": 200,
+      "responseUrlSha256": "7ea1ba3689a902f9cb3a9a4e2138d4b1f57b68c7ee7516711466de5272f76ca0",
+      "recordingResult": "JSON_SENSITIVE_KEY",
+      "bodyBytes": 8263
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ],
+      "status": 200,
+      "responseUrlSha256": "75394cf09ba8708cff03e18d58cf63a8db6a8ff95522c240a59fca0a9e5cbb2b",
+      "recordingResult": "JSON_SENSITIVE_KEY",
+      "bodyBytes": 7794
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ],
+      "status": 200,
+      "responseUrlSha256": "a653603b3e22c7094bfefbdf2f71119cb20937877f4ce9bc3fc9bd68e1198a2f",
+      "recordingResult": "JSON_SIZE_LIMIT",
+      "bodyBytes": 329946
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "status": 200,
+      "responseUrlSha256": "75c9bb0b3ac7ce5d1d0a7f44504dd2f176a526afbf49a8b723e7527a203f8de7",
+      "recordingResult": "UNREVIEWED_RECORDING_URL_OR_METHOD",
+      "bodyBytes": 0
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "status": 200,
+      "responseUrlSha256": "809978b0fe0afdb1b98d28eccfbc8da651a17fa7c42bfc4feec0496b8f85767c",
+      "recordingResult": "JSON_SIZE_LIMIT",
+      "bodyBytes": 380389
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ],
+      "status": 200,
+      "responseUrlSha256": "3059335b2c50139f4469bbbd19fcefecd7558b2b7ca58cfb9a60517dd224a132",
+      "recordingResult": "JSON_SIZE_LIMIT",
+      "bodyBytes": 213845
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "status": 200,
+      "responseUrlSha256": "a5247273fc9fbe1e2819db0f18583bb235f260dbe4ef8ed7b9a623c6791046ae",
+      "recordingResult": "JSON_SIZE_LIMIT",
+      "bodyBytes": 562099
+    },
+    {
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "pathname": "/search/",
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ],
+      "status": 200,
+      "responseUrlSha256": "29d899741f6618bbbd4ebcb43d4fda5407fa324b1371b38c061b04d43e1c2485",
+      "recordingResult": "JSON_SENSITIVE_KEY",
+      "bodyBytes": 29606
+    }
+  ],
+  "OPTIONS": "Eight admitted preflight responses omitted by unchanged GET/HEAD-only recording; not GET failures or upstream-source proof.",
+  "privacy": "Original JSON sensitive-key and200000-character size limits unchanged. Rejected response bodies are absent; only endpoint/key names, hashes, counts and fixed reason categories persist. No fabricated replacement bodies.",
+  "selectorRedGreen": "selection-real-red.log (4vs1) -> selection-real-green.log (unique exact BUTTON). This is suggestion selection, not production query binding, identity, availability or post-selection navigation.",
+  "binding": "NOT_IMPLEMENTED: actual selection routing unavailable; no manufactured positive binding from component responses."
+}

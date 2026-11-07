@@ -1,0 +1,85 @@
+{
+  "status": "STOP_ENTRY_NAVIGATION_TIMEOUT_NO_RETRY",
+  "frozenSHA": "92e985bcd3aa776af004bb207ac52da2ab3b3501",
+  "atCET": "2026-11-07T13:36:22.089+01:00",
+  "actualOutcome": {
+    "status": "STOP_OPERATION_FAILURE",
+    "phase": "ENTRY",
+    "error": {
+      "name": "BrowserRuntimeError",
+      "message": "Local Playwright Chromium operation failed"
+    }
+  },
+  "entryHTTP200": true,
+  "errors": [
+    {
+      "sequence": 36,
+      "kind": "SESSION_ERROR",
+      "detail": {
+        "method": "navigate",
+        "error": {
+          "name": "BrowserRuntimeError",
+          "message": "Local Playwright Chromium operation failed",
+          "code": "BROWSER_RUNTIME_FAILED",
+          "cause": {
+            "name": "TimeoutError",
+            "message": "page.goto: Timeout 20000ms exceeded."
+          },
+          "networkFailures": []
+        }
+      }
+    }
+  ],
+  "scriptTransportTermination": [
+    {
+      "sequence": 38,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:3",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "urlSha256": "a5b8932ee960a8ba808fac3f114cacbbdca014f327bcfe2c928739ece1b36077",
+        "method": "GET",
+        "resourceType": "script",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-07T12:36:04.189Z",
+        "endedAt": "2026-11-07T12:36:22.043Z",
+        "elapsedMs": 17853.445917,
+        "status": null,
+        "outcome": "CANCELLED",
+        "endReason": "CONTEXT_CLOSED",
+        "endObservation": "LIFECYCLE_CANCELLATION_NOT_WIRE_FINISH"
+      }
+    }
+  ],
+  "attribution": "Unchanged20s navigation expired while main script route.fetch had no response. Closure cancelled the pending request after~17.85s; not a wire finish. Network/source/transport cause not proven.",
+  "destinationReached": false,
+  "selected": false,
+  "afterSelectionRouting": "NOT_OBSERVED",
+  "newPageGET": 1,
+  "newModel": 0,
+  "newLive": 0,
+  "cumulative": {
+    "fullLive": 23,
+    "realModelCalls": 653,
+    "environmentReruns": 0,
+    "evaluationPublicGET": 353,
+    "googleRequests": 95,
+    "restaurantWebsiteRequests": 11226
+  },
+  "approvedCeiling": {
+    "evaluationPublicGET": 464,
+    "fullLive": 42,
+    "realModelCalls": 1600
+  },
+  "reserved": {
+    "fullLive": 18,
+    "evaluationPublicGET": 108
+  },
+  "D8GETUntouched": 3,
+  "D8LiveUntouched": 1,
+  "noExtraDocument": true,
+  "firstRunPreserved": "93965f14; destination and name/q accepted, exact full-name suggestion exists; diagnostic substring failure independently corrected offline"
+}
