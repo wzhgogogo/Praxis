@@ -198,9 +198,9 @@ export class PlaywrightReadNetworkGuard {
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
     this.context = context;
-    context.on("response",response=>{const current=this.dynamicReads.get(response.request());if(current)current.status=response.status();});
-    context.on("requestfinished",request=>{const current=this.dynamicReads.get(request);if(current?.status===200)current.observation.dynamicRead={...current.receipt,status:current.status,completedAt:Date.now()};this.dynamicReads.delete(request);});
-    context.on("requestfailed",request=>{this.dynamicReads.delete(request);});
+    context.on?.("response",response=>{const current=this.dynamicReads.get(response.request());if(current)current.status=response.status();});
+    context.on?.("requestfinished",request=>{const current=this.dynamicReads.get(request);if(current?.status===200)current.observation.dynamicRead={...current.receipt,status:current.status,completedAt:Date.now()};this.dynamicReads.delete(request);});
+    context.on?.("requestfailed",request=>{this.dynamicReads.delete(request);});
     if (this.admittedGetTransport !== "NODE_FETCH" && !options.replay) {
       context.on("response", response => this.captureNativeResponse(response));
       context.on("requestfinished", request => {

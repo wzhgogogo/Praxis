@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {test} from 'node:test';
+import {ModelBrowserReadActionDecision} from '../../infrastructure/browser/browser-action-decision.js';
 import {BrowserTaskExecutor} from '../../infrastructure/browser/browser-task-executor.js';
 import {discoveryPackNetworkPolicy} from '../../integrations/restaurant-search/source-packs.js';
 import {tableCheckNameSearchCompletion} from '../../integrations/tablecheck/tablecheck-browser-availability.js';
@@ -34,10 +35,14 @@ test('recorded exact suggestion and completed same-page shop GET bind a generic 
    async click(){const wasOption=frame===2;frame=frame===0?1:3;if(wasOption&&mode==='CLICK_FAILED')throw Error('Constructed click failure');},async fill(){frame=2;},async select(){return [];},async screenshot(){return new Uint8Array();},async close(){},async waitForSettled(){return true;},
   };
   const executor=new BrowserTaskExecutor({openSession:async()=>session},{maxAutomaticElapsedMs:10000,maxModelCallsPerCandidate:7,maxModelCallsTotal:7,maxOperationsPerCandidate:90,onDiagnostic:d=>diagnostics.push(d),modelDecision:{async decide(input){
+   const choose=()=>{
    calls++;if(frame===0)return {type:'CLICK',targetRef:input.observation.targets.find(t=>t.kind==='BUTTON'&&t.label.startsWith('Destination'))!.ref,reason:'Recorded Destination opening'};
    if(frame===1)return {type:'FILL_AUTHORITATIVE',field:'RETRIEVAL',targetRef:input.observation.targets.find(t=>t.kind==='INPUT'&&t.label.includes('Destination'))!.ref,reason:'Recorded full-name fill'};
    if(frame===2){const target=input.observation.targets.find(t=>t.label===selected.label+(mode==='SUFFIX'?' Kiwami':''));if(!target)return {type:'REQUEST_HUMAN_HELP',reason:'No unique exact actionable source suggestion'};assert.ok(target.availableActions?.includes('CLICK'));return {type:'CLICK',targetRef:target.ref,reason:'Observed suggestion'};}
    return {type:'COMPLETE',reason:'Code verifies the observed handoff'};
+   };
+   const action=choose();
+   return new ModelBrowserReadActionDecision({async complete(){return {invocationId:'local-wire-'+calls,provider:'FIXTURE',model:'MODEL_SUBSTITUTE',outputText:JSON.stringify({action:action.type,targetRef:'targetRef' in action?action.targetRef:'',authoritativeField:'field' in action?action.field:'NONE',requestedState:'NONE',reason:action.reason}),finishReason:'TOOL_CALLS',latencyMs:0};}}).decide(input);
   }}});
   try{
    const signal=new AbortController().signal;await executor.acquire(signal,'SOURCE','DISCOVERY',discoveryPackNetworkPolicy());

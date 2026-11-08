@@ -1,0 +1,10 @@
+{
+  "frozenSHA": "b9fefb1d9973fbc7ce2a43aa96eef314475ec21c",
+  "status": "FAILED_THEN_INTERRUPTED",
+  "exitCode": 130,
+  "firstFailure": "native-discovery-components.test.ts Router final assertion: no TableCheck navigation",
+  "isolatedFailure": "same original assertion85 reproduced without fixture edits",
+  "cause": "new context.on listeners assumed full BrowserContext; fixed-source transport ports intentionally omit event emitter",
+  "decision": "stop failed matrix; keep logs, make listeners optional for such eventless test ports (they receive no receipts), then freeze and rerun full clean matrix",
+  "externalCalls": 0
+}
