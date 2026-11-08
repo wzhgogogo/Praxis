@@ -289,7 +289,7 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
   documentOrigins: ["https://www.tablecheck.com"], staticResources: tableCheckPublicReadNetworkPolicy.staticResources, reviewedReads: tableCheckPublicReadNetworkPolicy.dynamicReads,
   publicDocumentRoutes: [{
     origin: "https://www.tablecheck.com", resourceTypes: ["document"],
-    pathnamePattern: "^/(?:en|ja)/(?!(?:not-found|404|error|login|signin|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
+    pathnamePattern: "^/(?:en|ja)/(?![0-9-]{10,}$)(?!(?:not-found|404|error|login|signin|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
     queryKeyRules: { required: [], allowed: ["service_mode", "sort_by", "venue_type"] },
     queryValueClasses: {service_mode:["SHORT_TOKEN"],sort_by:["SHORT_TOKEN"],venue_type:["SHORT_TOKEN"]},
   }],

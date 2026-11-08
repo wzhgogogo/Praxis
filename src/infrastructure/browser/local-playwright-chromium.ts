@@ -128,7 +128,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         pageId: this.pageId(this.page),
         responses: await this.responses.snapshot(this.page),
         ...(this.networkGuard?.snapshotDiagnostics().length ? { networkDiagnostics: this.networkGuard.snapshotDiagnostics() } : {}),
-        ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: this.networkGuard.snapshotRequests() } : {}),
+        ...(this.networkGuard?.snapshotRequests().length ? { networkRequests: structuredClone(this.networkGuard.snapshotRequests()) } : {}),
         ...(this.networkGuard?.snapshotResourceTypes().length ? { networkResourceTypes: this.networkGuard.snapshotResourceTypes() } : {}),
       };
       this.networkGuard?.forms.observePageText(this.page,snapshot.text);

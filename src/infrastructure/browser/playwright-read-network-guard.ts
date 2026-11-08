@@ -526,7 +526,7 @@ export class PlaywrightReadNetworkGuard {
 
   snapshotDiagnostics(): NetworkDiagnostic[] { return [...this.diagnostics]; }
   async observeUrlQueryValues(page:Page,value:string) { return observeQueryValues(new URL(value),await this.forms.authoritativeInputs(page)); }
-  snapshotRequests(): BrowserReadNetworkObservation[] { return structuredClone(this.requests); }
+  snapshotRequests(): BrowserReadNetworkObservation[] { return [...this.requests]; }
   snapshotResourceTypes(): BrowserReadResourceTypeObservation[] { return [...this.resourceTypes]; }
 
   private blocked(code: NetworkDiagnosticCode, url: URL, method: string, resourceType: string, error?: unknown): void {

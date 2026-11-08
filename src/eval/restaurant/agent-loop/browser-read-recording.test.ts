@@ -422,9 +422,9 @@ test('recorded SPA detail URL accepts only declared short-token route fields and
  assert.equal(rows.filter((r:any)=>r.kind==='DOCUMENT_SANITIZATION').at(-1).detail.reason,'UNREVIEWED_DOCUMENT_QUERY_SHAPE');
  const url=last.url+'?service_mode=dining&sort_by=relevance&venue_type=tc',root=await mkdtemp(join(tmpdir(),'spa-detail-recorder-'));
  try{
-  for(const variant of ['PUBLIC','AUTHORITY','UNDECLARED','SENSITIVE','LONG_TEXT']){
+  for(const variant of ['PUBLIC','AUTHORITY','UNDECLARED','SENSITIVE','LONG_TEXT','PHONE_ROUTE']){
    const recorder=new BrowserReadRecording({directory:root,runId:variant,reviewedReads:policy.dynamicReads});
-   const target=variant==='UNDECLARED'?url.replace('/en/nakamata-nodoguro-ginza','/en/unknown/nested'):variant==='SENSITIVE'?url+'&email=person%40example.com':variant==='LONG_TEXT'?url.replace('venue_type=tc','venue_type=Some%20Person'):url;
+   const target=variant==='PHONE_ROUTE'?url.replace('/en/nakamata-nodoguro-ginza','/en/090-1234-5678'):variant==='UNDECLARED'?url.replace('/en/nakamata-nodoguro-ginza','/en/unknown/nested'):variant==='SENSITIVE'?url+'&email=person%40example.com':variant==='LONG_TEXT'?url.replace('venue_type=tc','venue_type=Some%20Person'):url;
    // LOCAL_CONSTRUCTION body; actual final DOM was omitted. Authority category is a deliberate negative mutation.
    recorder.recordSnapshot({url:target,title:last.title,text:'Public detail',html:'<body><h1>Public detail</h1></body>',...(variant==='AUTHORITY'?{urlQueryValues:[{queryKey:'service_mode',valueClass:'EQUALS_AUTHORITATIVE_INPUT'}]}:{})} as any);
    const result=await recorder.finish(),recording=JSON.parse(await readFile(join(result.path,'recording.json'),'utf8'));
