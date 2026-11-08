@@ -1,0 +1,153 @@
+{
+  "scope": "METHOD/BODY/PREFLIGHT: frozen G6 raw outer evidence; GET/HEAD/provenance: independent diagnostic audit. Not a Guard verdict.",
+  "rulesSHA256": "8b1dcdfddda16179b7a7f1adf43071a35c20309a827cb255ad5b245d5773a259",
+  "recordingRefs": [
+    {
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-b1-closeout-20261108/live-runtime/runs/D8/D8/recordings/g6-D8-1794146949337-0/recording.json",
+      "sha256": "d54a2252325622fe9dd75390d4284108f662d3c7473b7d89afeec67281f7eaef",
+      "status": "RECORDED",
+      "replay": {
+        "status": "NOT_REPLAYABLE",
+        "reason": "UNCAPTURED_STATIC_DEPENDENCY"
+      }
+    }
+  ],
+  "rawTraceDecodeIssues": [
+    {
+      "path": "external.trace[172].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[191].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[210].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[228].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[242].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[333].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[566].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[607].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[672].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[789].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[802].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[815].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[825].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[842].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[863].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[930].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[958].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[977].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[996].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1014].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1031].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1087].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1106].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1125].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1143].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1157].detail",
+      "reason": "INVALID_TYPE"
+    }
+  ],
+  "decodeClassification": {
+    "metadataOnlyKind": "NETWORK_RESOURCE_TYPES",
+    "classified": 26,
+    "excludedRequestEvidence": 0
+  },
+  "traceDecodeIssues": [],
+  "getHead": {
+    "status": "ABSENT",
+    "reasons": [
+      "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+    ],
+    "evidenceRefs": [
+      "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-b1-closeout-20261108/preparation/reviewed-public-reads.json#sha256=8b1dcdfddda16179b7a7f1adf43071a35c20309a827cb255ad5b245d5773a259",
+      "docs/decisions/0036-generic-public-read-network-policy.md",
+      "docs/decisions/0035-browser-read-network-boundary.md"
+    ],
+    "gaps": []
+  },
+  "outerRequestBoundary": {
+    "checked": 37,
+    "passed": 37,
+    "allPassed": true
+  },
+  "originalG6Verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "combinedSafeToContinue": true
+}
