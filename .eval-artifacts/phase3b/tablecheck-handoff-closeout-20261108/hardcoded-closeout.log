@@ -1,0 +1,8 @@
+src/infrastructure/browser/browser-task-executor.ts:536 [ REGEX ]           &&page.settlement!=="PENDING"&&!assessment.resultBusy&&!/(?:^|\/)(?:not-found|404|error)(?:\/|$)/i.test(current.pathname)){
+src/infrastructure/browser/browser-task-executor.ts:539 [ WORDLIST ]             if(!receipt||!rule||request.outcome!=="ADMITTED"||request.method!=="GET"||!["fetch","xhr"].includes(request.resourceType)
+src/infrastructure/browser/browser-task-executor.ts:543 [ REGEX ]               ?rule.pathnamePattern.startsWith("^")&&rule.pathnamePattern.endsWith("$")&&new RegExp(rule.pathnamePattern).test(request.pathname)
+src/infrastructure/browser/browser-task-executor.ts:1085 [ WORDLIST ]         &&["DIV","LI","SPAN"].includes(control.structure?.tag??"")&&normalizedTextKey(control.label)===normalizedTextKey(input.goal.retrievalExpression!)):[];
+src/infrastructure/browser/playwright-read-network-guard.ts:618 [ WORDLIST ]       if(boundary&&ruleIndex>=0&&method==="GET"&&["fetch","xhr"].includes(type))this.dynamicReads.set(request,{observation:this.requests[this.requests.length-1]!,receipt:{...bounda
+src/infrastructure/browser/playwright-read-network-guard.ts:628 [ WORDLIST ]       if(boundary&&ruleIndex>=0&&method==="GET"&&["fetch","xhr"].includes(type))this.dynamicReads.set(request,{observation:this.requests[this.requests.length-1]!,receipt:{...bounda
+src/integrations/restaurant-search/source-packs.ts:291 [ URL/PATH ]     origin: "https://www.tablecheck.com", resourceTypes: ["document"],
+src/integrations/restaurant-search/source-packs.ts:293 [ WORDLIST ]     queryKeyRules: { required: [], allowed: ["service_mode", "sort_by", "venue_type"] },
