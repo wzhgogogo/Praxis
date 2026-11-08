@@ -17,7 +17,7 @@ try{
  try{session=await traced.openSession({signal:abort.signal,networkPolicy:policy});await session.prepareNavigation(origin+'/',{timeoutMs:20000});await session.navigate(origin+'/',{waitUntil:'domcontentloaded',timeoutMs:20000});await session.snapshot();}
  catch(e){operationError={name:e.name,message:'STATIC_DIAGNOSTIC_DID_NOT_COMPLETE'};}
  finally{clearTimeout(deadline);await session?.flushRecordedResponses?.();await session?.close();server.closeAllConnections();await new Promise(r=>server.close(r));}
- const captured=await recording.finish();const data=JSON.parse(await readFile(captured.path));const responses=data.entries.filter(e=>e.kind==='RESPONSE_RECORDED');
+ const captured=await recording.finish();const data=JSON.parse(await readFile(captured.path));const responses=data.entries.filter(e=>e.kind==='RESPONSE_CAPTURED');
  const elapsedMs=timing.finishedMs===null||timing.requestStartMs===null?null:timing.finishedMs-timing.requestStartMs;result.commons={url:target,sourceRequests,timing,elapsedMs,within5000ms:elapsedMs!==null&&elapsedMs<=5000,status:timing.status,operationError,launchMetadata,recording:captured,recordedResponses:responses.map(e=>e.detail),scope:'Loopback diagnostic document; one real admitted browser-native CDN GET only. Not a restaurant page or a whole-site/Live success.'};
 }catch(e){result.error={name:e.name,code:e.code??'DIAGNOSTIC_FAILED',artifactPath:e.artifactPath??null};}
 finally{result.finishedAt=stamp();result.GET=getCount;await writeFile(out+'/result.json',JSON.stringify(result,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(result));}

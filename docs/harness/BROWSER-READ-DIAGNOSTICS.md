@@ -109,12 +109,12 @@ npm run probe:restaurant:browser:read -- --url 'https://www.tablecheck.com/实�
 ```dotenv
 PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM
 PRAXIS_LOCAL_CHROMIUM_PROXY_SERVER=http://127.0.0.1:10808
-PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS=tablecheck.com,tablecheck.net,tabelog.com,tblg.k-img.com,localhost,127.0.0.1
+PRAXIS_LOCAL_CHROMIUM_DIRECT_HOSTS=localhost,127.0.0.1
 PRAXIS_GOOGLE_API_PROXY_SERVER=http://127.0.0.1:10808
 PRAXIS_DEEPSEEK_API_PROXY_SERVER= # DeepSeek直连
 ```
 
-直连名单只接受逗号分隔主机名，同时匹配本域及其子域；不接受URL、路径、端口或通配符。TableCheck包含来源CDN及search-v4的`tablecheck.net`，Tabelog包含已审核`tblg.k-img.com`。不在名单的浏览器目标使用配置代理。Google API使用服务端显式代理；DeepSeek代理留空，使用直连。两者不受浏览器名单影响。所有请求仍须通过各自原有权限/授权检查。
+当前本机测试配置只在应用层绕过本地回环；公网站点、CDN和API全部先进入现有xray10808，由其现有规则决定direct/proxy，不修改系统或xray规则。若以后明确选择应用层直连，可将对应域名加入名单；名单只接受逗号分隔主机名，同时匹配本域及其子域，不接受URL、路径、端口或通配符。不要把需要xray分流的CDN加入应用直连名单，否则会在进入xray前被绕过。Google API仍使用服务端显式代理；DeepSeek代理留空、保持直连，两者不受浏览器名单影响。所有请求仍须通过各自原有权限/授权检查。
 
 普通Web/诊断运行器从同一有效环境读配置；D8 closeout自定义浏览器工厂也复用该网络配置并记录代理是否配置及直连名单。直接构造Local运行时时使用`proxyServer`和`directHosts`。网络预检按目标域名采用同一分流，直连的餐厅目标不因无关浏览器代理不可用而失败；Google仍检查其代理；DeepSeek按直连检查。支持`--no-proxy`的标准诊断入口会在副本环境同时清除三种代理及直连名单，不改.env；自定义冻结D8编排消费其显式提供的Node环境，不额外声明CLI开关。
 
