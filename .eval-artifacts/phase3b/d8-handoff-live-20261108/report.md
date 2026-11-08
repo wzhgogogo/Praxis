@@ -51,4 +51,4 @@ TableCheck：模型打开 Destination、填写用户全名、点击唯一精确�
 
 本批认证1GET+后验2GET=3，Live1，模型19，Google1；餐厅传输累计+39（含独立GET3，站内受控请求另计36）。累计模型653→672、GET356→359、Live23→24、Google95→96、网站11250→11289。共享上限GET467、Live42，剩108GET/18Live全部为原held-out预留；本轮可用GET/Live均0，不再读或调模型。模型只调用验证15/30未动，不能与本轮Live19混算。
 
-完整门禁与源码冻结待本次离线修复冻结后附回执；main合入条件未达到。STATUS/DEVLOG/TEST-LOG按用户要求留到实际合入时更新，本轮能力边界已写入Capability Matrix。新失败分支产物尚未推送；本轮未满足用户给出的main合入/推送条件。
+源码冻结2e4e2fcb；净树同SHA门禁已返回：typecheck/arch/default1496/build、Chromium245+G6 78、严格G2全部12页通过，逐项回执见offline-repair/gates/results.json。用户随后要求不再花时间跑门禁、直接commit/push交复核；停止检查时运行器已结束，没有启动补跑。两份停止检查记录的进程列表为空，不表示杀掉了运行器。写死扫描相对已复核3726349f命中4条：2条原有解析器分派移动、2条TableCheck canonical名称关联分派；没有店名、目标URL、词表、选择器或Guard放宽，均逐行列在hardcoded-scan.log。main合入条件未达到。STATUS/DEVLOG/TEST-LOG按用户要求留到实际合入时更新，本轮能力边界已写入Capability Matrix。用户在本聊天最后明确要求「直接把本次commit and push，然后让复核者review」，据此正常推送当前工作分支，main不动；实际远端SHA以发布回执为准。

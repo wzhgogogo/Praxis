@@ -1,0 +1,4 @@
+src/integrations/restaurant-identity/observed-outlet-names.ts:27 [ SITE-BRANCH ]       const candidates=e.provider==="TABLECHECK"?[...pages.values()].reverse():[pages.get(e.sourceUrl)];
+src/integrations/restaurant-identity/observed-outlet-names.ts:30 [ SITE-BRANCH ]         if(e.provider==="TABLECHECK"){
+src/integrations/restaurant-identity/observed-outlet-names.ts:34 [ SITE-BRANCH ]         const parsed=e.provider==="TABELOG"?parseTabelogOutletIdentityWithEvidence(page,{sourceEntityId:e.sourceEntityId!,sourceUrl:e.sourceUrl!,outletName:""})
+src/integrations/restaurant-identity/observed-outlet-names.ts:35 [ SITE-BRANCH ]           :e.provider==="TABLECHECK"?parseTableCheckOutletIdentityWithEvidence(page,page.url):undefined;
