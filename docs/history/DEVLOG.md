@@ -1,5 +1,12 @@
 2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
 
+<a id="d8-positive-slot-repair-verified-20261108"></a>
+
+## 2026-11-08 CET — C positive-slot D8 offline fixes frozen for review
+
+2026-11-08 CET — C正向D8离线收尾（draft / not integrated）：源码8c9cae41净树同SHA全门禁PASS，默认1511、Chromium246+G6 78、严格G2全12及type/arch/build。真实B1控件/状态红绿与生产组合同目标重复检索红绿有效；首轮6bd75c29默认1510/1511抓出旧条款复用，原断言保留，现为新G1作用域、复用新鲜库存，过期及变更请求仍重查。写死扫描新增0。真实Live仍最终未交付；main ca0bd139不含新修复，工作分支提交证据交复核，不追加Live/GET/模型。[完整报告](../../.eval-artifacts/phase3b/d8-positive-slot-20261108/report.md)。
+
+
 <a id="d8-positive-slot-result-20261108"></a>
 
 ## 2026-11-08 CET — C positive-slot D8: availability reached, B1/followup failure preserved
