@@ -1,3 +1,9 @@
+<a id="d8-network-retry-20261108"></a>
+
+## 2026-11-08 CET — C one D8 rerun with intermittent native scripts
+
+2026-11-08 CET — C按用户“重跑一次d8”单次执行：原11/11 20:30/2见证仍有位，输入冻结f060d38c，产品仍等于main de503304/source8c9cae41。174.259秒、21模型全成功，最终NEEDS_INPUT，无B1/追问。主候选TC及Tabelog均HTML200、关键原生脚本入口20秒未完成；同一TC脚本随后两次约2.14秒成功，DNS错误本次0。后两候选上下文到主店但未产出可接纳来源身份；不据COMPLETE推HIGH。原评价NOT_EVALUATED保留、正向后验未交付能力缺口；独立69/69边界PASS/S0=0。23份DOM、2页qualified部分Replay，店铺JSON仍按隐私拒录。无源码/配置/预算内时限修改；仅工作分支证据、不推进main，停止不追加Live。累计Live27/45、GET368/476、模型748/1600余852，留出18Live/108GET不动。 [报告](../../.eval-artifacts/phase3b/d8-network-retry-20261108/report.md)。
+
 <a id="network-path-diagnosis-20261108"></a>
 
 ## 2026-11-08 CET — C direct routing and native static path diagnosis
