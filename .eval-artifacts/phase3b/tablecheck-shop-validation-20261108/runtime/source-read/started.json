@@ -1,0 +1,40 @@
+{
+  "sourceSHA": "8252b79c0494c35b4acb446d0f9011c01c1218b1",
+  "atCET": "2026-11-08T04:42:41.261+01:00",
+  "spec": {
+    "attemptId": "C-tablecheck-shop-validation-20261108",
+    "startUrl": "https://www.tablecheck.com/en/japan/search",
+    "query": "Specializing in Nodoguro Ginza Nakamata",
+    "minimumIntervalMs": 5000,
+    "maximumMs": 120000,
+    "models": 0,
+    "Live": 0,
+    "entryReads": 1,
+    "additionalDocumentReads": 0,
+    "stop": "One unique exact visible enabled full-name BUTTON only. Stop before any second document; no retries/models/Live. Source schema/auth/challenge/unreviewed dependency failure remains a diagnostic stop; do not broaden policy."
+  },
+  "configuration": {
+    "factory": "run-c-closeout-live/browser (same D8 path)",
+    "headless": true,
+    "transport": "REVIEWED_STATIC_BROWSER default; document/data NODE_FETCH",
+    "proxy": "CONFIGURED",
+    "directHosts": [
+      "tablecheck.com",
+      "tablecheck.net",
+      "tabelog.com",
+      "tblg.k-img.com",
+      "localhost",
+      "127.0.0.1"
+    ],
+    "context": {
+      "serviceWorkers": "block",
+      "userAgent": "DEFAULT",
+      "locale": "DEFAULT",
+      "timezoneId": "DEFAULT"
+    },
+    "policy": "discoveryPackNetworkPolicy()",
+    "genericPublicRead": true
+  },
+  "model": 0,
+  "Live": 0
+}
