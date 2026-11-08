@@ -1,3 +1,9 @@
+<a id="xray-single-listener-preflight-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — Tabelog preflight passes at original10s
+
+2026-11-09（Asia/Shanghai）— C按用户要求在重复xray消失后仅重跑一次Tabelog标准preflight：原孤儿50585已不在、只剩v2rayN管理的54155，本轮未停进程。原10秒限制下GET返回200/3069ms，PASS；没有触发条件放宽，TableCheck/浏览器入口20秒/Guard/重试/.env/xray规则均不改。只证明本次连接预检，不称D8或大脚本稳定。GET+1累计372/480、Live27/45、模型748/1600，留出18Live108GET不动，停止无Live。 [报告](../../.eval-artifacts/phase3b/xray-cleanup-preflight-20261109/report.md)。
+
 <a id="xray-browser-preflight-20261109"></a>
 
 ## 2026-11-09 Asia/Shanghai — Browser public requests delegated to xray
