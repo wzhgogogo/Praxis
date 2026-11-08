@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import {createHash} from "node:crypto";
 import {readFile} from "node:fs/promises";
 import {ObservedOutletNames} from "./observed-outlet-names.js";
 import type {BrowserRuntime,BrowserSession,BrowserSnapshot} from "../../infrastructure/browser/browser-runtime.js";
@@ -34,4 +35,20 @@ for(const mode of ["BOUND","OTHER_URL","OTHER_ENTITY","OTHER_PAGE","LOW","MISSIN
  assert.equal(namedOutletCandidateResolved(state,id),mode==="BOUND");
  if(mode==="BOUND")assert.equal(result.evidence[0]!.claims.observedOutletName,state.intentDraft!.target!.query);
  else if(mode!=="SUFFIX")assert.equal(result.evidence[0]!.claims.observedOutletName,undefined);
+});
+
+// All actual settled/detail observations from the diagnostic, including repeated
+// SPA frames, are frozen regression inputs; no unrecorded response is supplied.
+test("D8 actual snapshots 5–17 retain canonical source name through the unchanged unique-outlet check",async()=>{
+ const fixture=new URL("./fixtures/d8-spa-name-20261108/",import.meta.url),f=JSON.parse(await readFile(new URL("input.json",fixture),"utf8"));
+ assert.equal(f.snapshots.length,13);
+ for(const recorded of f.snapshots){
+  const bytes=await readFile(new URL(recorded.file,fixture));assert.equal(createHash("sha256").update(bytes).digest("hex"),recorded.sha256);
+  const state=structuredClone(f.state) as RestaurantTaskState,id=state.candidates[0]!.restaurant.id,identity=state.readEvidence.find(e=>e.provider==="TABLECHECK"&&e.kind==="ENTITY_MATCH"&&e.candidateId===id)!;
+  const page:BrowserSnapshot={...f.page,html:bytes.toString(),text:bytes.toString().replace(/<[^>]*>/g," ")};
+  const names=new ObservedOutletNames({openSession:async()=>({snapshot:async()=>page} as BrowserSession)} as BrowserRuntime);
+  const result=await names.capture(async()=>{await(await names.runtime.openSession({} as Parameters<BrowserRuntime["openSession"]>[0])).snapshot();return {evidence:[identity]};});
+  state.readEvidence=state.readEvidence.filter(e=>e.evidenceId!==identity.evidenceId).concat(result.evidence);
+  assert.equal(namedOutletCandidateResolved(state,id),true,recorded.file);
+ }
 });

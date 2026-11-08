@@ -1,5 +1,12 @@
 2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
 
+<a id="d8-positive-slot-main-20261108"></a>
+
+## 2026-11-08 CET — C reviewed safety integration and recorded components
+
+2026-11-08 CET — C按用户复核批准准备快进合入8ac9067f/source2e4e2fcb；最新origin/main f324f17b为祖先，无代码冲突。生产/Guard/身份/预算字节不变；将D4实际交付DOM/JSON/B1组件、TableCheck精确联想请求/路由组件、D8真实snapshot5–17名称关联组件接入既有门禁，缺失动态响应/构造信封均标明，未补造响应或改旧录制。TableCheck精确联想→店页→HIGH已Live验证；唯一性修复只经离线真实快照，查位/B1待新增1次有位时段D8。共享上限Live43/GET470，留出18Live/108GET保留；本条尚未消费新增额度。冻结净树完整验证与发布回执见[本轮](../../.eval-artifacts/phase3b/d8-positive-slot-20261108/plan.md)。
+
+
 2026-11-04 CET：B完成D6 Ito候选60.008s保存时间线诊断，按用户停止条件交复核；导航43.746s、稳定等待9.836s、模型2.165s、Google日文名1.527s，其余2.734s。十次候选导航均完成且完整URL哈希各异，最终详情在59.262s才DCL完成、快照时仅剩18ms，尚未查位；未证实可安全删除足够重复工作，检索顺序改进涉及C身份路径。产品/预算/版本/A-C文件不改，不宣称修复或提速。df27dc1d净树五门禁全绿：默认1417、Chromium189+main G6 18、严格G2全12页PASS；新增真实调用0，账本原字节保留。只推诊断分支，不合main。 [报告](../../.eval-artifacts/phase3b/candidate-budget-d6-20261104/report.md)。
 
 # Development Log

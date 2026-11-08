@@ -1,3 +1,5 @@
+2026-11-08 CET — C按用户复核批准准备快进合入8ac9067f/source2e4e2fcb；最新origin/main f324f17b为祖先，无代码冲突。生产/Guard/身份/预算字节不变；将D4实际交付DOM/JSON/B1组件、TableCheck精确联想请求/路由组件、D8真实snapshot5–17名称关联组件接入既有门禁，缺失动态响应/构造信封均标明，未补造响应或改旧录制。TableCheck精确联想→店页→HIGH已Live验证；唯一性修复只经离线真实快照，查位/B1待新增1次有位时段D8。共享上限Live43/GET470，留出18Live/108GET保留；本条尚未消费新增额度。冻结净树完整验证与发布回执见[本轮](../.eval-artifacts/phase3b/d8-positive-slot-20261108/plan.md)。
+
 ## 2026-11-07 CET — TableCheck transport / third-probe stop
 
 2026-11-07 CET：TableCheck第三探查停止，draft / not integrated。三模式本地条件Origin/CORS均PASS，未复现Origin丢失，无转发修补；PAGE仅观察且按OTHER准入，生产精确查询合同不变。仅来源/审核script录制上限12MB并等长遮盖，10.28MB构造红绿；复核发现非script MIME边界遗漏，真实红→收紧绿。冻结4b68893f的真实入口HTTP200，主脚本route.fetch未返回，既有20秒导航超时，未到Destination，无新CORS/destination/联想证据，Replay不可用、绑定未实施、D8未跑。最终5afe1d4a净树全门禁1458/235+完整G675/严格G2五项和12配对全绿；首轮全绿及后续类型反例保留。新增GET1/model0/Live0，累计350/462、653/1600、23/42；条件文档1与D8三GET及18Live/108GET预留不动。 [报告](../.eval-artifacts/phase3b/tablecheck-transport-20261107/report.md)。

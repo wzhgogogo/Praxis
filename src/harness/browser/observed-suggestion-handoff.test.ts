@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {test} from 'node:test';
 import {ModelBrowserReadActionDecision} from '../../infrastructure/browser/browser-action-decision.js';
@@ -10,6 +11,8 @@ import {tableCheckNameSearchCompletion} from '../../integrations/tablecheck/tabl
 // Missing final HTML and the new receipt envelope are LOCAL_CONSTRUCTION, never original-body Replay.
 test('recorded exact suggestion and completed same-page shop GET bind a generic source handoff',async()=>{
  const root='.eval-artifacts/phase3b/tablecheck-shop-validation-20261108/runtime/source-read';
+ const manifest=JSON.parse(await readFile(new URL('./fixtures/recorded-closeout/manifest.json',import.meta.url),'utf8'));
+ for(const [file,hash]of Object.entries(manifest.components.TABLECHECK_SUGGESTION.files))assert.equal(createHash('sha256').update(await readFile(root+'/'+file)).digest('hex'),hash);
  const events=JSON.parse(await readFile(root+'/events.json','utf8'));
  const pages=events.filter((r:any)=>r.kind==='SNAPSHOT').map((r:any)=>r.detail);
  const controls=events.filter((r:any)=>r.kind==='CONTROLS').map((r:any)=>r.detail.controls);
