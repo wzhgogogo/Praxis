@@ -1,0 +1,6 @@
+src/infrastructure/browser/local-browser-proxy.ts:12 [ URL/PATH ]     const parsed = new URL(`http://${host}`);
+src/infrastructure/browser/local-browser-proxy.ts:13 [ REGEX ]     if (!/^[a-z0-9.-]+$/.test(host) || host.split(".").some(part => !part) || parsed.hostname !== host || parsed.port || parsed.pathname !== "/") {
+src/infrastructure/browser/playwright-read-network-guard.ts:64 [ REGEX ]     return pattern===undefined || pattern.startsWith("^")&&pattern.endsWith("$")&&url.searchParams.getAll(field.queryKey).every(value=>new RegExp(pattern).test(value));
+src/infrastructure/deepseek/deepseek-model-gateway.ts:279 [ WORDLIST ]         if (!["http:", "https:"].includes(proxy.protocol)) throw new Error();
+src/integrations/tablecheck/tablecheck-public-query.ts:30 [ URL/PATH ]   origin: "https://production.tablecheck.com",
+src/integrations/tablecheck/tablecheck-public-query.ts:32 [ WORDLIST ]   methods: ["GET"], resourceTypes: ["fetch", "xhr"], queryKeys: ["locale"],
