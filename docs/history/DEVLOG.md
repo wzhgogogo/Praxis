@@ -1,3 +1,9 @@
+<a id="xray-browser-preflight-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — Browser public requests delegated to xray
+
+2026-11-09（Asia/Shanghai）— C按用户指令让当前工作区公网站点浏览器请求全部交给现有xray10808，应用DIRECT_HOSTS仅保留localhost/127.0.0.1；proxy行原已存在，xray规则/生产源码/Guard/入口20秒及重试策略未改。15项本地相关测试通过。实测Tabelog preflight10秒超时，TC206/1.85秒；唯一commons.js浏览器原生GET200/完整2,044,071字节，5.064秒，严格5秒条件未通过。只读发现两个xray监听10808、未停进程，不推断其运行内存规则一致。3GET/0模型/0Live，累计GET371/479、Live27/45、模型748/1600，留出18Live108GET不动。 [报告](../../.eval-artifacts/phase3b/xray-browser-preflight-20261108/report.md)。
+
 <a id="d8-network-retry-20261108"></a>
 
 ## 2026-11-08 CET — C one D8 rerun with intermittent native scripts

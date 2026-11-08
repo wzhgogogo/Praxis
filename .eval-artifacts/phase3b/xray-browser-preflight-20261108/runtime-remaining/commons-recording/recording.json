@@ -1,0 +1,502 @@
+{
+  "schemaVersion": "browser-read-recording@6",
+  "stylesheets": [],
+  "status": "RECORDED",
+  "entries": [
+    {
+      "sequence": 1,
+      "kind": "REQUEST_TIMELINE_READY",
+      "detail": {
+        "pageId": "capture:1:page:1",
+        "observationPoint": "BROWSER_CDP_AND_GUARD_ROUTE",
+        "at": "2026-11-08T15:58:13.361Z",
+        "monotonicMs": 2342.044
+      }
+    },
+    {
+      "sequence": 2,
+      "kind": "SESSION_OPENED",
+      "detail": {
+        "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+        "engine": "CHROMIUM",
+        "startedAt": "2026-11-08T15:58:13.362Z",
+        "readNetworkBoundary": "INSTALLED"
+      }
+    },
+    {
+      "sequence": 3,
+      "kind": "SESSION_CALL",
+      "detail": {
+        "method": "navigate",
+        "args": [
+          "http://127.0.0.1:56630/",
+          {
+            "waitUntil": "domcontentloaded",
+            "timeoutMs": 20000
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 4,
+      "kind": "NAVIGATION_START",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "url": "http://127.0.0.1:56630/",
+        "urlSha256": "6c499038fd011ed8ed1bb056b9334b49b33cfd220ff5aab540e62e937c76b7d9",
+        "method": "GOTO",
+        "remainingReadBudgetMs": null,
+        "navigationAllowanceMs": 20000,
+        "configuredTimeoutMs": 20000,
+        "timeoutSource": "EXPLICIT",
+        "waitUntil": "domcontentloaded",
+        "at": "2026-11-08T15:58:13.362Z",
+        "monotonicMs": 2343.371333
+      }
+    },
+    {
+      "sequence": 5,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "E38D0EDEC0F51EF5FD6EE14D6CFB345C",
+        "frameId": "D9EDA416129981B30E984EBA61F91B63",
+        "url": "http://127.0.0.1:56630/",
+        "urlSha256": "6c499038fd011ed8ed1bb056b9334b49b33cfd220ff5aab540e62e937c76b7d9",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-08T15:58:13.368Z",
+        "startedMonotonicMs": 2348.977833,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-08T15:58:13.367Z",
+        "browserTimestamp": 773736.022564,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "E38D0EDEC0F51EF5FD6EE14D6CFB345C",
+        "cdpTimestamp": 773736.022564,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 6,
+      "kind": "GUARD_TRANSPORT_START",
+      "detail": {
+        "transportId": "capture:1:transport:1",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:56630/",
+        "urlSha256": "6c499038fd011ed8ed1bb056b9334b49b33cfd220ff5aab540e62e937c76b7d9",
+        "method": "GET",
+        "resourceType": "document",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "at": "2026-11-08T15:58:13.371Z",
+        "monotonicMs": 2352.221917
+      }
+    },
+    {
+      "sequence": 7,
+      "kind": "GUARD_TRANSPORT_END",
+      "detail": {
+        "transportId": "capture:1:transport:1",
+        "pageId": "capture:1:page:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "CURRENT_PAGE_UNVERIFIED",
+        "url": "http://127.0.0.1:56630/",
+        "urlSha256": "6c499038fd011ed8ed1bb056b9334b49b33cfd220ff5aab540e62e937c76b7d9",
+        "method": "GET",
+        "resourceType": "document",
+        "observationPoint": "GUARD_ROUTE_FETCH",
+        "startedAt": "2026-11-08T15:58:13.371Z",
+        "endedAt": "2026-11-08T15:58:13.375Z",
+        "startedMonotonicMs": 2352.221917,
+        "endedMonotonicMs": 2355.995375,
+        "elapsedMs": 3.7734580000001188,
+        "status": 200,
+        "outcome": "RESPONSE_AVAILABLE"
+      }
+    },
+    {
+      "sequence": 8,
+      "kind": "RESPONSE_CAPTURED",
+      "detail": {
+        "responseUrlSha256": "6c499038fd011ed8ed1bb056b9334b49b33cfd220ff5aab540e62e937c76b7d9",
+        "origin": "http://127.0.0.1:56630/",
+        "pathname": "/",
+        "queryKeys": [],
+        "method": "GET",
+        "resourceType": "document",
+        "status": 200,
+        "mimeType": "text/html",
+        "bytes": 194,
+        "sanitizedBytes": 194
+      }
+    },
+    {
+      "sequence": 9,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "corsFacts": {
+          "allowOrigin": "ABSENT",
+          "allowsCredentials": false
+        },
+        "at": "2026-11-08T15:58:13.378Z",
+        "monotonicMs": 2359.497542,
+        "cdpTimestamp": 773736.032033,
+        "browserHeadersAt": "2026-11-08T15:58:13.376Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 10,
+      "kind": "NETWORK_REQUEST_START",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "E38D0EDEC0F51EF5FD6EE14D6CFB345C",
+        "frameId": "D9EDA416129981B30E984EBA61F91B63",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "aaaaefc208ca6955927894ac01989d0d67041da006a19c201c8a0eb88e268eba",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-08T15:58:13.380Z",
+        "startedMonotonicMs": 2361.362708,
+        "status": null,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-08T15:58:13.378Z",
+        "browserTimestamp": 773736.033487,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "cdpRequestId": "31890.2",
+        "cdpTimestamp": 773736.033487,
+        "observationPoint": "BROWSER_CDP"
+      }
+    },
+    {
+      "sequence": 11,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:1",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "E38D0EDEC0F51EF5FD6EE14D6CFB345C",
+        "frameId": "D9EDA416129981B30E984EBA61F91B63",
+        "url": "http://127.0.0.1:56630/",
+        "urlSha256": "6c499038fd011ed8ed1bb056b9334b49b33cfd220ff5aab540e62e937c76b7d9",
+        "method": "GET",
+        "resourceType": "Document",
+        "startedAt": "2026-11-08T15:58:13.368Z",
+        "startedMonotonicMs": 2348.977833,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-08T15:58:13.367Z",
+        "browserTimestamp": 773736.022564,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-08T15:58:13.380Z",
+        "endedMonotonicMs": 2361.754667,
+        "elapsedMs": 12.776834000000235,
+        "browserEndedAt": "2026-11-08T15:58:13.376Z",
+        "browserElapsedMs": 9.105000062845647,
+        "browserEndTimestamp": 773736.031669,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    },
+    {
+      "sequence": 12,
+      "kind": "GUARD_NATIVE_CONTINUE",
+      "detail": {
+        "transportId": "capture:1:transport:2",
+        "pageId": "capture:1:page:1",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "aaaaefc208ca6955927894ac01989d0d67041da006a19c201c8a0eb88e268eba",
+        "method": "GET",
+        "resourceType": "script",
+        "observationPoint": "GUARD_ROUTE_CONTINUE",
+        "at": "2026-11-08T15:58:13.382Z",
+        "monotonicMs": 2363.459292
+      }
+    },
+    {
+      "sequence": 13,
+      "kind": "NETWORK_RESPONSE_HEADERS",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "status": 200,
+        "corsFacts": {
+          "allowOrigin": "ABSENT",
+          "allowsCredentials": false
+        },
+        "at": "2026-11-08T15:58:18.443Z",
+        "monotonicMs": 7424.016417,
+        "cdpTimestamp": 773741.095947,
+        "browserHeadersAt": "2026-11-08T15:58:18.440Z",
+        "observationPoint": "BROWSER_CDP_NOT_ORIGIN_WIRE"
+      }
+    },
+    {
+      "sequence": 14,
+      "kind": "NETWORK_REQUEST_END",
+      "detail": {
+        "requestId": "capture:1:page:1:request:2",
+        "navigationId": "capture:1:navigation:1",
+        "navigationAssociation": "DOCUMENT_LOADER",
+        "loaderId": "E38D0EDEC0F51EF5FD6EE14D6CFB345C",
+        "frameId": "D9EDA416129981B30E984EBA61F91B63",
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "urlSha256": "aaaaefc208ca6955927894ac01989d0d67041da006a19c201c8a0eb88e268eba",
+        "method": "GET",
+        "resourceType": "Script",
+        "startedAt": "2026-11-08T15:58:13.380Z",
+        "startedMonotonicMs": 2361.362708,
+        "status": 200,
+        "blocked": false,
+        "blockReason": null,
+        "implicit": false,
+        "browserStartedAt": "2026-11-08T15:58:13.378Z",
+        "browserTimestamp": 773736.033487,
+        "redirectedFromRequestId": null,
+        "pageId": "capture:1:page:1",
+        "endedAt": "2026-11-08T15:58:18.444Z",
+        "endedMonotonicMs": 7425.140042,
+        "elapsedMs": 5063.777334,
+        "browserEndedAt": "2026-11-08T15:58:18.434Z",
+        "browserElapsedMs": 5056.184999994002,
+        "browserEndTimestamp": 773741.089672,
+        "endObservation": "CDP_NETWORK_TERMINAL",
+        "outcome": "FINISHED",
+        "endReason": null
+      }
+    },
+    {
+      "sequence": 15,
+      "kind": "RESPONSE_CAPTURED",
+      "detail": {
+        "responseUrlSha256": "aaaaefc208ca6955927894ac01989d0d67041da006a19c201c8a0eb88e268eba",
+        "origin": "https://tblg.k-img.com/",
+        "pathname": "/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "queryKeys": [],
+        "method": "GET",
+        "resourceType": "script",
+        "status": 200,
+        "mimeType": "application/javascript",
+        "bytes": 2044071,
+        "sanitizedBytes": 2044071
+      }
+    },
+    {
+      "sequence": 16,
+      "kind": "NAVIGATION_END",
+      "detail": {
+        "navigationId": "capture:1:navigation:1",
+        "pageId": "capture:1:page:1",
+        "startedAt": "2026-11-08T15:58:13.362Z",
+        "endedAt": "2026-11-08T15:58:18.548Z",
+        "startedMonotonicMs": 2343.371333,
+        "endedMonotonicMs": 7529.366792,
+        "elapsedMs": 5185.995459,
+        "endReason": "COMPLETED"
+      }
+    },
+    {
+      "sequence": 17,
+      "kind": "SESSION_RETURN",
+      "detail": {
+        "method": "navigate"
+      }
+    },
+    {
+      "sequence": 18,
+      "kind": "SNAPSHOT",
+      "detail": {
+        "url": "http://127.0.0.1:56630/",
+        "title": "Single reviewed script diagnostic",
+        "textSha256": "762caa75e7a0c8fe0be9fb1479a09a58bfb0ea887200e1d3dcc547b19a7114c2",
+        "textLength": 21,
+        "pageId": "page:1",
+        "htmlSha256": "771ecbf867eb1248f7253d3141f771ba4ffc485232376ad3643ae72ca6fa618f",
+        "htmlLength": 220,
+        "observedStateTags": [],
+        "queryRegions": [],
+        "priceRegions": [],
+        "urlQueryValues": [],
+        "responses": [],
+        "networkResourceTypes": [
+          {
+            "origin": "http://127.0.0.1:56630/",
+            "pathname": "/",
+            "method": "GET",
+            "resourceType": "document",
+            "resourceTypeDetails": {
+              "selectedFrom": "NETWORK",
+              "network": "Document",
+              "fetch": "Document"
+            }
+          },
+          {
+            "origin": "https://tblg.k-img.com/",
+            "pathname": "/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "method": "GET",
+            "resourceType": "script",
+            "resourceTypeDetails": {
+              "selectedFrom": "FETCH",
+              "fetch": "Script"
+            }
+          }
+        ],
+        "networkRequests": [
+          {
+            "outcome": "ADMITTED",
+            "origin": "http://127.0.0.1:56630/",
+            "pathname": "/",
+            "method": "GET",
+            "resourceType": "document",
+            "queryKeys": [],
+            "resourceTypeDetails": {
+              "selectedFrom": "PLAYWRIGHT",
+              "playwright": "document"
+            }
+          },
+          {
+            "outcome": "ADMITTED",
+            "origin": "https://tblg.k-img.com/",
+            "pathname": "/javascripts/assets/pepper/restaurant-pc/commons.js",
+            "method": "GET",
+            "resourceType": "script",
+            "queryKeys": [],
+            "resourceTypeDetails": {
+              "selectedFrom": "PLAYWRIGHT",
+              "playwright": "script"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 19,
+      "kind": "NETWORK",
+      "detail": [
+        {
+          "outcome": "ADMITTED",
+          "origin": "http://127.0.0.1:56630/",
+          "pathname": "/",
+          "method": "GET",
+          "resourceType": "document",
+          "transport": "NODE_FETCH",
+          "queryKeys": [],
+          "queryValues": [],
+          "resourceTypeDetails": {
+            "selectedFrom": "PLAYWRIGHT",
+            "playwright": "document"
+          }
+        },
+        {
+          "outcome": "ADMITTED",
+          "origin": "https://tblg.k-img.com/",
+          "pathname": "/javascripts/assets/pepper/restaurant-pc/commons.js",
+          "method": "GET",
+          "resourceType": "script",
+          "transport": "BROWSER_GET_HEAD",
+          "admissionRule": {
+            "collection": "staticResources",
+            "index": 0
+          },
+          "queryKeys": [],
+          "queryValues": [],
+          "resourceTypeDetails": {
+            "selectedFrom": "PLAYWRIGHT",
+            "playwright": "script"
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 20,
+      "kind": "NETWORK_RESOURCE_TYPES",
+      "detail": [
+        {
+          "origin": "http://127.0.0.1:56630/",
+          "pathname": "/",
+          "method": "GET",
+          "resourceType": "document",
+          "resourceTypeDetails": {
+            "selectedFrom": "NETWORK",
+            "network": "Document",
+            "fetch": "Document"
+          }
+        },
+        {
+          "origin": "https://tblg.k-img.com/",
+          "pathname": "/javascripts/assets/pepper/restaurant-pc/commons.js",
+          "method": "GET",
+          "resourceType": "script",
+          "resourceTypeDetails": {
+            "selectedFrom": "FETCH",
+            "fetch": "Script"
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 21,
+      "kind": "DOCUMENT_SANITIZATION",
+      "detail": {
+        "urlAccepted": true,
+        "documentAccepted": true,
+        "inputBytes": 220,
+        "queryKeys": [],
+        "reason": "SANITIZED"
+      }
+    }
+  ],
+  "pages": [
+    {
+      "snapshot": 1,
+      "url": "http://127.0.0.1:56630/",
+      "status": "REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "diagnostic": {
+        "status": "SAVED",
+        "file": "diagnostic/snapshot-0001.html"
+      }
+    }
+  ],
+  "documents": [
+    {
+      "snapshot": 1,
+      "url": "http://127.0.0.1:56630/",
+      "file": "snapshot-0001.html"
+    }
+  ],
+  "screenshot": "LAYOUT_ONLY_CONTENT_MASKED",
+  "screenshots": [
+    {
+      "snapshot": 1,
+      "status": "LAYOUT_ONLY_CONTENT_MASKED",
+      "file": "screenshot-0001.png"
+    }
+  ],
+  "replay": {
+    "status": "REPLAYABLE",
+    "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+    "harPath": "replay.har"
+  },
+  "contentSha256": "8f02a86c1fa7cd918f9ea59338b4cffe0ea9dbbe6c64cfffee3baffddd184e16"
+}

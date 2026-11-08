@@ -1,0 +1,64 @@
+{
+  "mode": "LIVE_NETWORK_PREFLIGHT",
+  "preflightVersion": "live-network-preflight@1",
+  "runner": "BROWSER_READ_PROBE",
+  "plannedTargets": [
+    "TABLECHECK"
+  ],
+  "timeoutMs": 10000,
+  "generationModelCalls": 0,
+  "restaurantDiscoveryRequests": 0,
+  "evaluator": {
+    "applicability": "NOT_APPLICABLE",
+    "reason": "NETWORK_ONLY_DIAGNOSTIC_HAS_NO_RESTAURANT_CLAIM"
+  },
+  "network": {
+    "proxyMode": "ENVIRONMENT",
+    "googleProxy": "http://127.0.0.1:10808/",
+    "browserProxy": "http://127.0.0.1:10808/",
+    "browserDirectHosts": [
+      "localhost",
+      "127.0.0.1"
+    ]
+  },
+  "status": "SUCCEEDED",
+  "stage": "NETWORK_READINESS",
+  "artifactPath": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/xray-browser-preflight-20261108/runtime-remaining/preflight/2026-11-08T15-58-11-367Z-9213e9bb-5310-482e-b209-5af43eeb90a8.result.json",
+  "attempts": [
+    {
+      "target": "BROWSER_PROXY",
+      "request": {
+        "method": "TCP_CONNECT",
+        "url": "http://127.0.0.1:10808/",
+        "range": "NONE",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 0,
+      "outcome": "REACHABLE",
+      "tls": "NOT_CHECKED"
+    },
+    {
+      "target": "TABLECHECK",
+      "request": {
+        "method": "GET",
+        "url": "https://www.tablecheck.com/en/",
+        "range": "BYTES_0_0",
+        "authorization": "ABSENT"
+      },
+      "elapsedMs": 1850,
+      "outcome": "REACHABLE",
+      "status": 206,
+      "tls": "ESTABLISHED"
+    }
+  ],
+  "elapsedMs": 1854,
+  "configuration": {
+    "proxyMode": "ENVIRONMENT",
+    "googleProxyConfigured": true,
+    "browserProxyConfigured": true
+  },
+  "schemaVersion": "1",
+  "runId": "9213e9bb-5310-482e-b209-5af43eeb90a8",
+  "startedAt": "2026-11-08T15:58:11.367Z",
+  "finishedAt": "2026-11-08T15:58:13.222Z"
+}
