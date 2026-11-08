@@ -1,5 +1,12 @@
 2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
 
+<a id="d8-b1-closeout-main-20261108"></a>
+
+## 2026-11-08 CET — C reviewed B1 and followup repair main integration
+
+2026-11-08 CET — C B1/追问修复已由用户复核批准合入：1fd2d296/source8c9cae41，复用该SHA全绿1511/246+G6 78/strictG2全12，生产源码不变。TableCheck精确联想→店页→HIGH→唯一→查位已在Live验证；B1入口与同目标新G1作用域连续性只经离线真实组件/生产组合，待本次单一D8确认。更新main并推送核对后，先重新认证11/11 20:30/2；1Live+3GET新额度，shared44/473，模型余额898如实计、不动15/30模型只调用余额，留出18Live/108GET保留。[本轮计划](../../.eval-artifacts/phase3b/d8-b1-closeout-20261108/plan.md)。
+
+
 <a id="d8-positive-slot-repair-verified-20261108"></a>
 
 ## 2026-11-08 CET — C positive-slot D8 offline fixes frozen for review
