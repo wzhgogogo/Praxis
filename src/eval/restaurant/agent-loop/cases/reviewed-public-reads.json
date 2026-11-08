@@ -324,5 +324,21 @@
         "x-api-key"
       ]
     }
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathnamePattern": "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "locale"
+      ]
+    }
   }
 ]

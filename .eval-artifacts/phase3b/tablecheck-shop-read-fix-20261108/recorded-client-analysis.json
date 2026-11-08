@@ -1,0 +1,33 @@
+{
+  "source": ".eval-artifacts/phase3b/tablecheck-direct-rerun-20261107/runtime/source-read/recording/components.har",
+  "scriptSHA256": "1a1fab993bfba912fec413ea8a524708738665279cc941116a252ff575ceafdc",
+  "requestComponent": {
+    "symbol": "V7e",
+    "sha256": "21491123071219e76fc7b34dba0bb55a6a4fa3a889924fdcccc8ebb50951c3a0",
+    "characters": 62,
+    "method": "GET",
+    "path": "v2/shops/<slug>?<locale-query>",
+    "extraHeadersInComponent": false
+  },
+  "responseSelector": {
+    "symbol": "EE.select",
+    "sha256": "93472d9769a395f489f0b871de6b7d0c34240a828f35bed54d933499ad4a25b8",
+    "characters": 1268,
+    "envelope": "shops[0], menu_categories",
+    "localeAddressSelection": true
+  },
+  "errorRoute": {
+    "symbol": "Oj",
+    "dataQuery": "EE(c)",
+    "gate": "shop status error, or success without shop",
+    "auxiliaryQueries": "menus/gallery are independent and default absent data to empty arrays"
+  },
+  "anonymousAuthHook": "uMn adds Authorization only when local auth token exists; fresh guarded anonymous contexts do not login",
+  "fullScriptReplay": "not claimed; standalone sanitized bundle has syntax error; extracted components parse and execute under local fixture dependencies",
+  "syntheticParts": [
+    "HTTP response",
+    "query library dependencies",
+    "DOM renderer"
+  ],
+  "newSourceModelCalls": 0
+}

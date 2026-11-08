@@ -1,0 +1,24 @@
+✖ TableCheck selection reads the recorded shop contract before a detail can appear (1417.729292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1714.139125
+
+✖ failing tests:
+
+test at src/harness/browser/tablecheck-shop-read.test.ts:1:861
+✖ TableCheck selection reads the recorded shop contract before a detail can appear (1417.729292ms)
+  AssertionError [ERR_ASSERTION]: The detail GET must actually reach the receiver before the fixture can render any identity
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/tablecheck-shop-read.test.ts:68:12)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

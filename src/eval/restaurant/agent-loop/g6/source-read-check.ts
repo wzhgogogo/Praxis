@@ -42,7 +42,7 @@ export async function runG6SourceReadCheck(input:{browser:BrowserRuntime;policy:
   await session.click!(selected.id,{timeoutMs:5000});
   await wait(spec.minimumIntervalMs,undefined,{signal});await session.waitForSettled?.(snapshot,5000);snapshot=await session.snapshot();await session.observeControls!();
   const later=violations(snapshot,boundary);
-  return {status:later.length?'STOP_VALUE_REVIEW':'SELECTED_RESULT_OBSERVED',phase,catalog200:true,violations:later,currentQueryKeys:[...new URL(snapshot.url).searchParams.keys()]};
+  return {status:later.length?'STOP_VALUE_REVIEW':'SELECT_ACTION_COMPLETED',phase,catalog200:true,violations:later,currentQueryKeys:[...new URL(snapshot.url).searchParams.keys()]};
  }catch(error){return {status:'STOP_OPERATION_FAILURE',phase,error:{name:error instanceof Error?error.name:'Error',message:error instanceof Error?error.message:'Unknown'}};}
  finally{await session.flushRecordedResponses?.();await session.close();}
 }
