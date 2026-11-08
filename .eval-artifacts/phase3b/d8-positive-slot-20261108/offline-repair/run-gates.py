@@ -1,6 +1,6 @@
 import subprocess,json,datetime
 from pathlib import Path
-root=Path('.eval-artifacts/phase3b/d8-positive-slot-20261108/offline-repair/gates');root.mkdir(exist_ok=True)
+root=Path('.eval-artifacts/phase3b/d8-positive-slot-20261108/offline-repair/gates-verified');root.mkdir(exist_ok=True)
 sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
 def clean():return subprocess.check_output(['git','status','--porcelain'],text=True)==''
 def now():return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=1))).isoformat()

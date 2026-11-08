@@ -276,7 +276,11 @@ function transition(
       // Reaffirming identical conditions does not refresh or erase source
       // evidence. Actual value/provenance changes still invalidate the read.
       if (state.phase === "PRESENT_RESULTS" && isDeepStrictEqual(intentDraft, state.intentDraft)
-        && assessRestaurantRead(state, context.now).presentation.some(item => item.eligible)) return { state: structuredClone(state), commands: [] };
+        && assessRestaurantRead(state, context.now).presentation.some(item => item.eligible)) {
+        // The new user turn still owns a new G1 document/terms scope. Reuse
+        // current inventory, never answers or terms from the previous run.
+        return { state: { ...structuredClone(state), investigationRevision: (state.investigationRevision ?? 0) + 1 }, commands: [] };
+      }
       return { state: resetForSemanticUpdate(state, intentDraft), commands: [] };
     }
     case "EVALUATION_LOCATION_BOUND": {

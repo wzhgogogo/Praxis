@@ -12,6 +12,10 @@ for(const mode of ['SAME','SAME_EXPIRED','DATE','TIME','PARTY','NAME'] as const)
  if(mode==='DATE')event.patch.date='2026-11-12';if(mode==='TIME')event.patch.timeWindow={earliest:'21:00',latest:'21:00'};if(mode==='PARTY')event.patch.partySize=3;if(mode==='NAME')event.patch.target.query+=' Hanare';
  const now=mode==='SAME_EXPIRED'?new Date(Date.parse(f.followup.occurredAt)+20*60_000).toISOString():f.followup.occurredAt;
  const next=definition.transition(state,event,{...ctx,now}).state;
- if(mode==='SAME')assert.deepEqual(next,state,'The actual unchanged TARGET must not reset identity, freshness or inventory');
+ if(mode==='SAME'){
+  const {investigationRevision:oldScope,...before}=state,{investigationRevision:newScope,...after}=next;
+  assert.deepEqual(after,before,'The actual unchanged TARGET must not reset identity, freshness or inventory');
+  assert.equal(newScope,(oldScope??0)+1,'A new user turn must not reuse old G1 terms/documents');
+ }
  else{assert.equal(next.phase,'UNDERSTANDING');assert.deepEqual(next.candidates,[]);assert.deepEqual(next.availability,{});assert.deepEqual(next.readEvidence,[]);}
 });
