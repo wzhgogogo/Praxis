@@ -1,0 +1,20 @@
+{
+  "settings": {
+    "proxyServer": "http://127.0.0.1:10808",
+    "directHosts": [
+      "tablecheck.com",
+      "tablecheck.net",
+      "tabelog.com",
+      "tblg.k-img.com",
+      "localhost",
+      "127.0.0.1"
+    ]
+  },
+  "routes": {
+    "tabelog.com": "DIRECT",
+    "www.tablecheck.com": "DIRECT",
+    "tblg.k-img.com": "DIRECT",
+    "search-v4.production.ap-northeast-1.aws.tablecheck.net": "DIRECT"
+  },
+  "desiredAllPublicThroughXray": false
+}

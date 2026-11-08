@@ -1,0 +1,24 @@
+✔ live preflight records only public endpoint shape and permits the actual hybrid dependencies (6.196333ms)
+✔ configured proxy refusal finishes a preflight artifact before any endpoint request (1.433083ms)
+✔ no-proxy resolves a copied environment and never probes an inherited 10808 proxy (0.825875ms)
+✔ a fixed-source model run ignores browser and Google proxies it does not use (1.032708ms)
+✔ a failed preflight keeps downstream startup at zero (1.474791ms)
+✔ a nested transport cause is classified without recording its provider error (0.95225ms)
+✔ an aborted endpoint probe is a timeout even when fetch reports DOM AbortError (101.280875ms)
+✔ a missing DeepSeek key is a configuration error before any fetch (0.870708ms)
+✔ public source endpoints require a readable HTTP success response (1.561833ms)
+✔ Google's unauthenticated root response proves only TLS transport while DeepSeek access still requires HTTP success (3.61225ms)
+✔ preflight cancels an unread response body after observing headers (0.881208ms)
+✔ the actual hybrid runner validates frozen input before source/provider preflight or a Live task (808.2895ms)
+✔ split routing preflight keeps the source direct and Google's scoped proxy active (2.168709ms)
+LOCAL_PROXY_SPLIT {"proxyHosts":["proxied.fixture.invalid"],"receiver":[{"host":"127.0.0.1:55978","path":"/"},{"host":"127.0.0.1:55978","path":"/assets/app.js"},{"host":"proxied.fixture.invalid:55978","path":"/assets/app.js"},{"host":"localhost:55978","path":"/assets/app.js"},{"host":"127.0.0.1:55978","path":"/data"},{"host":"127.0.0.1:55978","path":"/redirect-out"},{"host":"proxied.fixture.invalid:55978","path":"/data"},{"host":"proxied.fixture.invalid:55978","path":"/redirect-in"},{"host":"proxied.fixture.invalid:55978","path":"/arrived-proxy"},{"host":"localhost:55978","path":"/arrived-direct"},{"host":"localhost:55978","path":"/data"}]}
+✔ local browser proxy splits native, Node data and redirects by the target host (1424.478709ms)
+✔ local proxy configuration covers exact hosts and descendants without suffix lookalikes (0.769208ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1737.548125
