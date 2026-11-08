@@ -1,0 +1,93 @@
+{
+  "atCET": "2026-11-08T15:49:40.405+01:00",
+  "scope": "CURRENT DNS/OS configuration only; no HTTP, no historical DNS reconstruction",
+  "systemDNS": [
+    "nameserver[0] : 223.5.5.5",
+    "nameserver[0] : 223.5.5.5"
+  ],
+  "systemProxy": [
+    "HTTPEnable : 1",
+    "HTTPPort : 10808",
+    "HTTPProxy : 127.0.0.1",
+    "HTTPSEnable : 1",
+    "HTTPSPort : 10808",
+    "HTTPSProxy : 127.0.0.1",
+    "ProxyAutoConfigEnable : 0",
+    "SOCKSEnable : 1",
+    "SOCKSPort : 10808",
+    "SOCKSProxy : 127.0.0.1"
+  ],
+  "dns": [
+    {
+      "host": "www.tablecheck.com",
+      "results": [
+        {
+          "api": "OS_LOOKUP",
+          "values": [
+            {
+              "address": "52.69.138.170",
+              "family": 4
+            },
+            {
+              "address": "35.75.214.202",
+              "family": 4
+            },
+            {
+              "address": "52.197.14.3",
+              "family": 4
+            }
+          ]
+        },
+        {
+          "api": "DNS_A",
+          "error": "ETIMEOUT"
+        }
+      ]
+    },
+    {
+      "host": "tblg.k-img.com",
+      "results": [
+        {
+          "api": "OS_LOOKUP",
+          "values": [
+            {
+              "address": "103.70.240.213",
+              "family": 4
+            }
+          ]
+        },
+        {
+          "api": "DNS_A",
+          "values": [
+            "103.70.240.213"
+          ]
+        }
+      ]
+    },
+    {
+      "host": "tabelog.com",
+      "results": [
+        {
+          "api": "OS_LOOKUP",
+          "values": [
+            {
+              "address": "162.159.141.102",
+              "family": 4
+            },
+            {
+              "address": "172.66.1.98",
+              "family": 4
+            }
+          ]
+        },
+        {
+          "api": "DNS_A",
+          "values": [
+            "162.159.141.102",
+            "172.66.1.98"
+          ]
+        }
+      ]
+    }
+  ]
+}

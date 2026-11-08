@@ -1,0 +1,30 @@
+{
+  "atCET": "2026-11-08T15:45:55.430+01:00",
+  "settings": {
+    "proxyServer": "http://127.0.0.1:10808",
+    "directHosts": [
+      "tablecheck.com",
+      "tablecheck.net",
+      "tabelog.com",
+      "tblg.k-img.com",
+      "localhost",
+      "127.0.0.1"
+    ]
+  },
+  "playwrightOptions": {
+    "server": "http://127.0.0.1:10808",
+    "bypass": "tablecheck.com,.tablecheck.com,tablecheck.net,.tablecheck.net,tabelog.com,.tabelog.com,tblg.k-img.com,.tblg.k-img.com,localhost,.localhost,127.0.0.1,.127.0.0.1"
+  },
+  "routes": {
+    "www.tablecheck.com": "DIRECT",
+    "search-v4.production.ap-northeast-1.aws.tablecheck.net": "DIRECT",
+    "production.tablecheck.com": "DIRECT",
+    "tabelog.com": "DIRECT",
+    "tblg.k-img.com": "DIRECT",
+    "fonts.googleapis.com": "http://127.0.0.1:10808"
+  },
+  "deepseekProxyConfigured": false,
+  "googleProxyConfigured": true,
+  "nodeUseEnvProxy": "UNSET",
+  "liveStartedConfigCapture": "Historical D8 run did not persist effective per-process launch/proxy options; cannot reconstruct a per-socket route from configuration alone"
+}

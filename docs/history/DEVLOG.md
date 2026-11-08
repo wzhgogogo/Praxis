@@ -1,3 +1,9 @@
+<a id="network-path-diagnosis-20261108"></a>
+
+## 2026-11-08 CET — C direct routing and native static path diagnosis
+
+2026-11-08 CET — C按用户要求继续排查网络、不重跑Live。两次D8分流/Guard/工厂源码相同，当前.env早于两次运行；本地实际Chromium本域/子域绕过代理对照通过，静态仍原生、document/data仍Node，既有13/13通过。旧正向Live的同一TC脚本已4次200/2次未完成；本次1次200/2次未完成。旧Tabelog CDN15次200/2次未完成，本次4次DNS失败。当前系统名称查询有IP，但独立TC DNS A单次2秒查询ETIMEOUT；这是解析波动线索，不是旧超时的确定根因。旧录制缺DNS/IP/握手及有效进程代理信息，无法追溯逐连接；未发现分流回退，未修改产品或网络，不宣称修复。来源GET/模型/Live新增均0，原额度和留出预留不变。 [报告](../../.eval-artifacts/phase3b/network-path-diagnosis-20261108/report.md)。
+
 <a id="d8-b1-closeout-failed-20261108"></a>
 
 ## 2026-11-08 CET — C single D8 closeout blocked by recorded static dependencies
