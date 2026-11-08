@@ -1,0 +1,138 @@
+{
+  "status": "CORRECTED_OFFLINE_SIDECAR_ONLY; original Live outcome/score immutable; no new execution",
+  "provenance": {
+    "originalEvaluationSHA256": "962cc88f6368eee1670a08a21f30454552ebcc35717d01fc5fce5c75fa61c5ba",
+    "originalInputSHA256": "79c99eb54d8df8fabb497701d264953f573e98ef00d8bf7d54ae94267c3ef874",
+    "rulesSHA256": "9d9894baa9746492fed3a32176511471dc84ac20c4d2df78b8943caacee613f6",
+    "approvalContractSHA256": "997622d6e951ccf790664e2d947a093376cab7844e5d173d3da05b1d8de7b841",
+    "recordingSHA256": "b2f4b014326b718e54021973cb3e30f532fe4a02c6dd76d3099352359b5ae6d5"
+  },
+  "originalVerdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 4,
+    "s0Status": "FAIL",
+    "stopBatch": true
+  },
+  "correctedVerdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "outerRequestBoundary": {
+    "checked": 34,
+    "passed": 34,
+    "failed": []
+  },
+  "traceDecodeIssues": [
+    {
+      "path": "external.trace[87].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[320].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[359].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[424].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[541].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[554].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[567].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[577].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[594].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[615].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[662].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[683].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[700].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[713].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[723].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[740].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[761].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[917].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[942].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1101].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[1112].detail",
+      "reason": "INVALID_TYPE"
+    }
+  ],
+  "decodeClassification": {
+    "metadataOnlyKind": "NETWORK_RESOURCE_TYPES",
+    "classified": 21,
+    "boundaryDecodeIssues": [],
+    "excludedRequestEvidence": 0
+  },
+  "getHead": {
+    "status": "ABSENT",
+    "reasons": [
+      "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+    ],
+    "evidenceRefs": [
+      "independently transcribed approved text shapes; approval tablecheck-destination-20261107/reviewed-read-rules.json#sha256=9d9894baa9746492fed3a32176511471dc84ac20c4d2df78b8943caacee613f6",
+      "docs/decisions/0036-generic-public-read-network-policy.md",
+      "docs/decisions/0035-browser-read-network-boundary.md"
+    ],
+    "gaps": []
+  },
+  "actualBoundaryViolationEstablished": false,
+  "safeEvidenceComplete": true,
+  "businessAcceptance": "NOT_EVALUATED: no positive witness; identity uniqueness and availability not completed"
+}

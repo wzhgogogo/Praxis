@@ -1,0 +1,32 @@
+✖ D8 recorded SPA name reaches unchanged unique-outlet predicate: BOUND (7.591375ms)
+✔ D8 recorded SPA name reaches unchanged unique-outlet predicate: OTHER_URL (0.974542ms)
+✔ D8 recorded SPA name reaches unchanged unique-outlet predicate: OTHER_ENTITY (0.627708ms)
+✔ D8 recorded SPA name reaches unchanged unique-outlet predicate: LOW (0.553083ms)
+✔ D8 recorded SPA name reaches unchanged unique-outlet predicate: MISSING_NAME (0.542ms)
+✔ D8 recorded SPA name reaches unchanged unique-outlet predicate: SUFFIX (0.571625ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 105.456792
+
+✖ failing tests:
+
+test at src/integrations/restaurant-identity/observed-outlet-names.test.ts:1:635
+✖ D8 recorded SPA name reaches unchanged unique-outlet predicate: BOUND (7.591375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/integrations/restaurant-identity/observed-outlet-names.test.ts:33:9)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

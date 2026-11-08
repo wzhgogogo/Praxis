@@ -21,12 +21,25 @@ export class ObservedOutletNames {
     const pages=new Map<string,BrowserSnapshot>(),result=await this.pages.run(pages,read);
     return {...result,evidence:result.evidence.map(e=>{
       if(e.kind!=="ENTITY_MATCH"||e.entityMatch?.confidence!=="HIGH"||!e.sourceUrl||!e.sourceEntityId)return e;
-      const page=pages.get(e.sourceUrl);if(!page)return e;
-      const parsed=e.provider==="TABELOG"?parseTabelogOutletIdentityWithEvidence(page,{sourceEntityId:e.sourceEntityId,sourceUrl:e.sourceUrl,outletName:""})
-        :e.provider==="TABLECHECK"?parseTableCheckOutletIdentityWithEvidence(page,e.sourceUrl):undefined;
+      // A settled SPA page may retain routing parameters while its native
+      // identity uses the source canonical URL. Parse the observed page itself;
+      // do not assign the evidence URL as a fallback to an unrelated document.
+      const candidates=e.provider==="TABLECHECK"?[...pages.values()].reverse():[pages.get(e.sourceUrl)];
+      const bound=candidates.flatMap(page=>{
+        if(!page)return [];
+        if(e.provider==="TABLECHECK"){
+          const actual=new URL(page.url),source=new URL(e.sourceUrl!);
+          if(actual.origin!==source.origin||actual.pathname!==source.pathname)return [];
+        }
+        const parsed=e.provider==="TABELOG"?parseTabelogOutletIdentityWithEvidence(page,{sourceEntityId:e.sourceEntityId!,sourceUrl:e.sourceUrl!,outletName:""})
+          :e.provider==="TABLECHECK"?parseTableCheckOutletIdentityWithEvidence(page,page.url):undefined;
+        return parsed&&parsed.outlet.sourceEntityId===e.sourceEntityId&&parsed.outlet.sourceUrl===e.sourceUrl?[{page,parsed}]:[];
+      })[0];
+      if(!bound)return e;
+      const {parsed}=bound;
       const name=parsed?.fields.outletName;
       if(!parsed||!name||name.source==="ABSENT"||name.source==="SEARCH_RESULT"||!parsed.outlet.outletName.trim())return e;
-      return {...e,claims:{...e.claims,observedOutletName:parsed.outlet.outletName},sourceFieldQuotes:[...e.sourceFieldQuotes??[],{field:"NAME" as const,quote:parsed.outlet.outletName,sourceUrl:page.url}]};
+      return {...e,claims:{...e.claims,observedOutletName:parsed.outlet.outletName},sourceFieldQuotes:[...e.sourceFieldQuotes??[],{field:"NAME" as const,quote:parsed.outlet.outletName,sourceUrl:e.sourceUrl}]};
     })};
   }
 }

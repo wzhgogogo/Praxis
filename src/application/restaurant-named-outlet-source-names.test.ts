@@ -69,7 +69,7 @@ test("literal locality evidence permits extra geography but a building word, unk
 test("TableCheck's identity-bound observed page name also resolves the different Google name",async()=>{
   const source=JSON.parse(await readFile(new URL("../eval/restaurant/agent-loop/cases/g6-development/source.json",import.meta.url),"utf8"));
   const place={...await google(),displayName:{text:"Kushi Katsu"},websiteUri:source.tablecheck.pageUrl};
-  const f=await bookingTermsComposition({provider:"TABLECHECK",namedWithoutArea:{outputText:await original(),sourceNames:{google:place}}});
+  const f=await bookingTermsComposition({provider:"TABLECHECK",namedWithoutArea:{outputText:await original(),sourceNames:{google:place,twoCandidates:true,pageQuery:"?service_mode=dining&sort_by=relevance&venue_type=tc"}}});
   try{const v=await f.initial();await capture(f,"TABLECHECK_SOURCE_NAME");assert.equal(v.case.phase,"PRESENT_RESULTS");assert.equal(v.restaurant.bookingHandoffs?.[0]?.provider,"TABLECHECK");
     assert.ok(v.restaurant.readEvidence.some(e=>e.kind==="ENTITY_MATCH"&&e.provider==="TABLECHECK"&&e.claims.observedOutletName==="Kushi Katsu Dengana Akabane ten"&&e.entityMatch?.confidence==="HIGH"));
   }finally{await f.close();}

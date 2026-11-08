@@ -47,7 +47,7 @@ interface Options {
   savedD2Identity?:"ONE"|"NONE"|"TWO";
   unknownThirdIdentity?:boolean;
   namedWithoutArea?: {outputText:string;scenario?:"AMBIGUOUS"|"MISSING"|"UNRELATED"|"BRANCH"|"OUTSIDE_TOKYO";openEnded?:boolean;
-    sourceNames?:{google:Record<string,unknown>;identityConflict?:boolean;twoCandidates?:boolean;pageName?:string}};
+    sourceNames?:{google:Record<string,unknown>;identityConflict?:boolean;twoCandidates?:boolean;pageName?:string;pageQuery?:string}};
   beforeTerms?:(deadlineAt:string)=>void;
   afterFactControls?:(url:string)=>void;
   onFactNavigate?:(url:string,signal:AbortSignal)=>Promise<void>;
@@ -103,7 +103,7 @@ export async function bookingTermsComposition(options:Options={}){
   const ja=url.replace("/en/","/");
   const original=(await readFile(new URL("../../eval/restaurant/agent-loop/cases/g6-development/"+(provider==="TABELOG"?"outlet.html":"tablecheck.html"),import.meta.url),"utf8")).replaceAll(originalOutlet.name,source.outlet.name).replaceAll(originalOutlet.address,source.outlet.address).replaceAll(originalOutlet.phone,source.outlet.phone).replaceAll("13123456",d3?"13108466":"13123456");
   const prose=options.notStated?"No booking policy is stated here.":cancellationQuote+"</p><p>"+cardQuote;
-  const english=original.replace(source.merchantQuote,prose)+(options.conflict?`<a href="${ja}">日本語</a>`:"");
+  const english=(options.namedWithoutArea?.sourceNames?.pageQuery?original.replace("</head>",`<link rel="canonical" href="${url}"></head>`):original).replace(source.merchantQuote,prose)+(options.conflict?`<a href="${ja}">日本語</a>`:"");
   const japanese=original.replace(source.merchantQuote,japaneseQuote+"</p><p>"+cardQuote);
   const clock=new FakeClock(source.referenceTime),db=await PGlite.create(),database=new Database(db);await applyPostgresMigrations(database);
   const requests:Array<{turn:string;request:ModelRequest;response:ModelResponse}>=[],sourceCalls:Array<{turn:string;url:string;kind:string}>=[],sourcePages:unknown[]=[];
@@ -208,6 +208,7 @@ if(options.namedWithoutArea){
       }else if(options.namedWithoutArea){
         if(context.missingBlockingFields.length)body={...strictAction("ASK_USER"),question:"Which area?",relatedFields:context.missingBlockingFields};
         else if(!id)body=strictAction(context.legalActions.search?"SEARCH_RESTAURANTS":"END_READ");
+        else if(options.namedWithoutArea.sourceNames?.pageQuery&&context.factInvestigableCandidateIds?.length)body=strictAction("INVESTIGATE_CANDIDATE_FACTS",context.factInvestigableCandidateIds.slice(0,1));
         else if(!context.availability[id]?.length&&!context.checkableCandidateIds?.length){
           if(options.namedWithoutArea.scenario==="AMBIGUOUS"&&!duplicateSent){duplicateSent=true;body={...strictAction("SELECT_CANDIDATE"),candidateId:id};}
           else body={...strictAction("ASK_USER"),question:"Which branch or area do you mean?",relatedFields:["area"]};
@@ -258,7 +259,8 @@ if(options.namedWithoutArea){
   const model=new DeliveryReservedModelGateway(counted);
   const folder=provider==="TABLECHECK"?await mkdtemp(join(tmpdir(),"b1-terms-source-")):undefined;
   const harPath=folder?join(folder,"source.har"):undefined;
-  if(harPath)await writeFile(harPath,replayHarPages({[url]:english}));
+  const observedUrl=url+(options.namedWithoutArea?.sourceNames?.pageQuery??"");
+  if(harPath)await writeFile(harPath,replayHarPages({[url]:english,[observedUrl]:english}));
   const chrome=folder?new LocalPlaywrightChromium():undefined;
   const browser:BrowserRuntime={readNetworkBoundaryCapability:"ISOLATED_CONTEXT",async openSession(input){
     if(stage==="FACTS"){termsSignal=input.signal;mark("FACTS_SESSION_BEGIN");input.signal.addEventListener("abort",()=>{mark("FACTS_ABORT",{reasonCode:input.signal.reason?.code??"CANCELLED"});},{once:true});}
@@ -271,7 +273,7 @@ if(options.namedWithoutArea){
       sourceCalls.push({turn,url:target,kind:"BROWSER_NAVIGATE"});pageUrl=target;
       if(stage==="FACTS"&&options.wrongPage)pageUrl=options.wrongPage==="CHANNEL"?"https://www.tablecheck.com/en/shops/other-channel/reserve":url.replace("13123456","13999999");
       if(stage==="FACTS")await options.onFactNavigate?.(target,input.signal);
-      if(originalNavigate)await originalNavigate(pageUrl);
+      if(originalNavigate)await originalNavigate(pageUrl===url?observedUrl:pageUrl);
     };
     if(session){const snapshot=session.snapshot.bind(session);session.navigate=navigate;session.snapshot=async()=>{const original=await snapshot();const p=omit?{...original,text:original.text.replace(cancellationQuote,"").replace(cardQuote,"")}:original;sourcePages.push({turn,observedAt:clock.now().toISOString(),page:structuredClone(p)});return p;};return session;}
     return fixtureGetSession({metadata:{runtimeProvider:"LOCAL_PLAYWRIGHT_CHROMIUM",engine:"CHROMIUM",startedAt:source.referenceTime,readNetworkBoundary:"INSTALLED"},navigate,

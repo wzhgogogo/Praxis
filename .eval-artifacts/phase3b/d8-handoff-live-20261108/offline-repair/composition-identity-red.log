@@ -1,0 +1,29 @@
+✖ TableCheck's identity-bound observed page name also resolves the different Google name (3165.687291ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3607.112125
+
+✖ failing tests:
+
+test at src/application/restaurant-named-outlet-source-names.test.ts:1:6003
+✖ TableCheck's identity-bound observed page name also resolves the different Google name (3165.687291ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NEEDS_INPUT'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/application/restaurant-named-outlet-source-names.test.ts:73:82)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NEEDS_INPUT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }
