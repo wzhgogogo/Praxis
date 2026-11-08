@@ -1,5 +1,12 @@
 2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
 
+<a id="d8-positive-slot-main-verified-20261108"></a>
+
+## 2026-11-08 CET — C main recorded-regression clean matrix
+
+2026-11-08 CET — C复核通过的TableCheck安全/身份修复按用户批准快进纳入main发布。源码保持2e4e2fcb；新增真实录制组件回归后8b14d8d6净树全门禁PASS：默认1497、Chromium246+完整G6 78、严格G2全部12页及type/arch/build。独立冻结清单21条覆盖全部20条已批准动态读取合同（含4文字形状和店铺GET）。TableCheck精确联想→店页→HIGH身份已Live验证；唯一性修复仅离线真实snapshot5–17，查位/B1待新时段D8。D4交付和联想到店页按缺失响应标COMPONENT_REPLAY，原录制/NOT_EVALUATED不改；本次合入未新增外部调用。后续预算只用新批1Live/3GET，留出18Live/108GET保留。[合入及验证](../../.eval-artifacts/phase3b/d8-positive-slot-20261108/integration-report.md)。
+
+
 <a id="d8-positive-slot-main-20261108"></a>
 
 ## 2026-11-08 CET — C recorded-regression integration verification
