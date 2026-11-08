@@ -1,0 +1,26 @@
+{
+  "scope": "Offline saved observations only; routing correlation, no causal proof or fresh direct-vs-proxy test",
+  "before": {
+    "runId": "g6-D8-1794150124159-0",
+    "browserPath": "Application direct-host bypass included tablecheck.net",
+    "requestCount": 24,
+    "statusCounts": {
+      "200": 24
+    }
+  },
+  "after": {
+    "runId": "g6-D8-1794154891375-0",
+    "browserPath": "All public browser targets handed to existing xray",
+    "api": {
+      "requests": 16,
+      "statusCounts": {
+        "403": 16
+      },
+      "paths": [
+        "/catalog.json",
+        "/search/"
+      ],
+      "corsErrors": 0
+    }
+  }
+}

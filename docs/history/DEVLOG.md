@@ -1,3 +1,9 @@
+<a id="d8-xray-rerun-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — D8 static entry recovers, search API403 and audit pending
+
+2026-11-09（Asia/Shanghai）— C按用户单次D8重跑，输入2aeae98f/产品8c9cae41=main de503304。94.849秒、23模型全成功，仍NEEDS_INPUT/无B1/追问未触发。静态入口完成（TC主JS2.325s，Tabelog commons多次200），新阻断为search-v4.tablecheck.net的16GET全部403，不能视为无匹配或Guard拒绝；路由相关性待核，不改出口/Guard。原G6S0=0与外层40/40PASS保留，但独立总项PRESENT未签收，已停新读；离线指出规则find首条遮蔽精确合同/name提前敏感拒绝及日志双斜杠非实际路径，不擅改为绿。原失败保留，未合main/推送。累计Live28/46、GET375/483、模型771/1600余829，留出18Live108GET不动。 [报告](../../.eval-artifacts/phase3b/d8-xray-rerun-20261109/report.md)。
+
 <a id="xray-single-listener-preflight-20261109"></a>
 
 ## 2026-11-09 Asia/Shanghai — Tabelog preflight passes at original10s
