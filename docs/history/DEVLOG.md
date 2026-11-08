@@ -1,5 +1,12 @@
 2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
 
+<a id="d8-positive-slot-result-20261108"></a>
+
+## 2026-11-08 CET — C positive-slot D8: availability reached, B1/followup failure preserved
+
+2026-11-08 CET — draft / not integrated：正向D8已在main ca0bd139实际运行一次（20:30/2人；认证1+后验2GET）。初回合TableCheck已HIGH且唯一，模型选日期后代码读到20:30 AVAILABLE；B1因全页PENDING过滤入口未生成。随后完全相同TARGET补丁重置已展示结果，第二回合来源超时，最终NO_VERIFIED_RESULT；30模型全成功，独立边界无S0。原失败冻结7c8732c4。工作分支正在离线修复B1被动入口与保留新鲜相同请求，不改Guard/身份/G1完整性，不追加Live；main仍停已审阅冻结，不将新修复自动合入。累计GET362/470、Live25/43、模型702/1600；留出108GET/18Live未动。[本次报告](../../.eval-artifacts/phase3b/d8-positive-slot-20261108/report.md)。
+
+
 <a id="d8-positive-slot-main-verified-20261108"></a>
 
 ## 2026-11-08 CET — C reviewed TableCheck safety integration verified for main

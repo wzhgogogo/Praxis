@@ -74,3 +74,19 @@ test("TableCheck's identity-bound observed page name also resolves the different
     assert.ok(v.restaurant.readEvidence.some(e=>e.kind==="ENTITY_MATCH"&&e.provider==="TABLECHECK"&&e.claims.observedOutletName==="Kushi Katsu Dengana Akabane ten"&&e.entityMatch?.confidence==="HIGH"));
   }finally{await f.close();}
 });
+
+// LOCAL_CONSTRUCTION source stock/terms + actual persistent Live assembly.
+// Tests the same-target semantic update's wiring, not model behavior or Live B1.
+test("an unchanged named booking followup retains the current B1 without another search or stock investigation",async()=>{
+ const source=JSON.parse(await readFile(new URL("../eval/restaurant/agent-loop/cases/g6-development/source.json",import.meta.url),"utf8"));
+ const place={...await google(),displayName:{text:"Kushi Katsu"},websiteUri:source.tablecheck.pageUrl};
+ const f=await bookingTermsComposition({provider:"TABLECHECK",namedWithoutArea:{outputText:await original(),reaffirmTargetOnSelection:true,sourceNames:{google:place}}});
+ try{
+  const first=await f.initial(),handoff=first.restaurant.bookingHandoffs![0]!;assert.ok(handoff);const before=f.requests.length;
+  const next=await f.select();const later=f.requests.slice(before);
+  assert.equal(later.some(r=>r.request.purpose==="restaurant_agent_decide"&&JSON.parse(r.response.outputText).type==="SEARCH_RESTAURANTS"),false);
+  assert.equal(later.filter(r=>r.request.purpose==="browser_read_decide").length,0,"Source questions may read settled documents; inventory investigation must not restart");
+  assert.equal(next.restaurant.bookingHandoffs?.[0]?.url,handoff.url);assert.equal(next.restaurant.bookingHandoffs?.[0]?.checkedAt,handoff.checkedAt);
+  assert.equal(next.case.phase,"PRESENT_RESULTS");
+ }finally{await f.close();}
+});

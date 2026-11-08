@@ -46,7 +46,7 @@ interface Options {
   savedD3Terms?:"PENDING"|"BUSY";
   savedD2Identity?:"ONE"|"NONE"|"TWO";
   unknownThirdIdentity?:boolean;
-  namedWithoutArea?: {outputText:string;scenario?:"AMBIGUOUS"|"MISSING"|"UNRELATED"|"BRANCH"|"OUTSIDE_TOKYO";openEnded?:boolean;
+  namedWithoutArea?: {outputText:string;scenario?:"AMBIGUOUS"|"MISSING"|"UNRELATED"|"BRANCH"|"OUTSIDE_TOKYO";openEnded?:boolean;reaffirmTargetOnSelection?:boolean;
     sourceNames?:{google:Record<string,unknown>;identityConflict?:boolean;twoCandidates?:boolean;pageName?:string;pageQuery?:string}};
   beforeTerms?:(deadlineAt:string)=>void;
   afterFactControls?:(url:string)=>void;
@@ -163,6 +163,7 @@ export async function bookingTermsComposition(options:Options={}){
         {field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Shibuya"}}]};
 if(options.namedWithoutArea){
         body=JSON.parse(options.namedWithoutArea.outputText);
+        if(turn==="SELECTED"&&options.namedWithoutArea.reaffirmTargetOnSelection){const target=(body as {facts:Array<{field:string;value:Record<string,unknown>}>}).facts.find(f=>f.field==="TARGET")!;target.value.goalBasis={type:"BOOKING_WORDING",reason:"Constructed selection reaffirms the same target",quotes:[raw]};body={schemaVersion:"4",facts:[target]};}
         if(turn==="AREA_UPDATE")body={schemaVersion:"4",facts:[{field:"AREA",operation:"ASSERT",value:{kind:"AREA",query:"Akabane"}}]};
         else if(options.namedWithoutArea.openEnded){const target=(body as {facts:Array<{field:string;value:Record<string,unknown>}>}).facts.find(f=>f.field==="TARGET")!.value;target.selectionScope="OPEN_ENDED";target.query="restaurant";}
       }

@@ -1,6 +1,7 @@
 import {RESTAURANT_READ_ADMISSION_MS} from "./read-time-reserve.js";
 import { assessRestaurantConditions } from "./condition-states.js";
 import { createHash } from "node:crypto";
+import { isDeepStrictEqual } from "node:util";
 
 import type { ActionProposal } from "../../core/policy/contracts.js";
 import type {
@@ -271,7 +272,12 @@ function transition(
     case "SEMANTIC_PROPOSAL_COMPILED": {
       requireSemanticMutablePhase(state, event.type);
       if (!restaurantIntentPatchHasChanges(event.patch)) return { state: structuredClone(state), commands: [] };
-      return { state: resetForSemanticUpdate(state, applyRestaurantIntentPatch(state.intentDraft, event.patch)), commands: [] };
+      const intentDraft = applyRestaurantIntentPatch(state.intentDraft, event.patch);
+      // Reaffirming identical conditions does not refresh or erase source
+      // evidence. Actual value/provenance changes still invalidate the read.
+      if (state.phase === "PRESENT_RESULTS" && isDeepStrictEqual(intentDraft, state.intentDraft)
+        && assessRestaurantRead(state, context.now).presentation.some(item => item.eligible)) return { state: structuredClone(state), commands: [] };
+      return { state: resetForSemanticUpdate(state, intentDraft), commands: [] };
     }
     case "EVALUATION_LOCATION_BOUND": {
       requirePhase(state, ["UNDERSTANDING", "NEEDS_INPUT"], event.type);

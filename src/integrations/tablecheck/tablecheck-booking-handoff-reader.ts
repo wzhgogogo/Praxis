@@ -47,19 +47,23 @@ export class TableCheckBookingHandoffReader {
       ...(runtime.readNetworkBoundaryCapability ? { readNetworkBoundaryCapability: runtime.readNetworkBoundaryCapability } : {}),
       openSession: async input => {
         const session = await runtime.openSession(input);
-        let pageUrl: string | undefined, settled = false;
+        let pageUrl: string | undefined;
         return new Proxy(session, { get: (target, key) => {
           if (key === "snapshot") return async () => {
             const page = await target.snapshot();
-            pageUrl = page.url; settled = page.settlement !== "PENDING";
-            if (!settled) this.reads.getStore()?.pages.delete(page.url);
+            pageUrl = page.url;
+            // Invalidate the previous tap; only controls actually observed for
+            // this snapshot can supply an entrance. Global network settlement
+            // is not a B1 inventory verdict. The completed read below must
+            // independently ground current HIGH identity and AVAILABLE stock.
+            this.reads.getStore()?.pages.delete(page.url);
             return page;
           };
           if (key === "observeControls" && target.observeControls) {
             const observe = target.observeControls.bind(target);
             return async (hints?: readonly BrowserControlHint[]) => {
               const controls = await observe(hints), scope = this.reads.getStore();
-              if (scope && pageUrl && settled) scope.pages.set(pageUrl, { observedAt: this.now(), entrances: entrances(pageUrl, controls) });
+              if (scope && pageUrl) scope.pages.set(pageUrl, { observedAt: this.now(), entrances: entrances(pageUrl, controls) });
               return controls;
             };
           }

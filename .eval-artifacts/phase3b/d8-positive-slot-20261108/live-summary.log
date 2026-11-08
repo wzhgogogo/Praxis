@@ -1,0 +1,101 @@
+{
+  "elapsedMs": 235813.44820800002,
+  "turns": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794120568781,
+      "deadlineAtMs": 1794121068781,
+      "elapsedMs": 187238.600917,
+      "modelCalls": 26,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "BOOK_THIS_OUTLET",
+      "startedAtMs": 1794120756022,
+      "deadlineAtMs": 1794121256022,
+      "elapsedMs": 47811.49604200001,
+      "modelCalls": 4,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    }
+  ],
+  "models": {
+    "count": 30,
+    "purposes": {
+      "restaurant_semantic_interpret": 2,
+      "restaurant_agent_decide": 7,
+      "browser_read_decide": 19,
+      "restaurant_named_source_query": 2
+    },
+    "outcomes": {
+      "SUCCEEDED": 30
+    }
+  },
+  "recording": {
+    "status": "RECORDED",
+    "replay": {
+      "status": "PARTIALLY_REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "harPath": "replay.har"
+    },
+    "totalPages": 33,
+    "qualifiedPages": 2,
+    "admissions": {
+      "SANITIZED": 29,
+      "UNREVIEWED_DOCUMENT_QUERY_SHAPE": 4
+    },
+    "omissions": {
+      "JSON_SENSITIVE_KEY": 14,
+      "UNREVIEWED_RECORDING_URL_OR_METHOD": 32,
+      "JSON_SIZE_LIMIT": 11,
+      "INVALID_UTF8": 7,
+      "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT": 3
+    },
+    "shopResponses": [
+      {
+        "responseUrlSha256": "0b3596d34e219e4a7273aeb676f6e1747d3897ccdc84375542f58f021f890f7b",
+        "origin": "https://production.tablecheck.com/",
+        "pathname": "/v2/shops/nakamata-nodoguro-ginza",
+        "queryKeys": [
+          "locale"
+        ],
+        "method": "GET",
+        "resourceType": "fetch",
+        "status": 200,
+        "mimeType": "application/json",
+        "bytes": 11152,
+        "reason": "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT"
+      }
+    ]
+  },
+  "budget": {
+    "before": {
+      "fullLive": 24,
+      "realModelCalls": 672,
+      "evaluationPublicGET": 359,
+      "googleRequests": 96,
+      "restaurantWebsiteRequests": 11289
+    },
+    "after": {
+      "fullLive": 25,
+      "realModelCalls": 702,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 362,
+      "googleRequests": 98,
+      "restaurantWebsiteRequests": 11384
+    },
+    "limits": {
+      "evaluationPublicGET": 470,
+      "fullLive": 43,
+      "realModelCalls": 1600
+    },
+    "reserved": {
+      "fullLive": 18,
+      "evaluationPublicGET": 108
+    },
+    "availableLive": 0,
+    "availableGET": 0,
+    "modelsRemaining": 898
+  }
+}
