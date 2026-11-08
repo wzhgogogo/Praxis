@@ -163,3 +163,18 @@ for(const askedField of ["date","partySize"] as const)test(`G6 Runner authoritat
     else assert.equal(execution.view.restaurant.intentDraft.date,undefined);
   }finally{await rm(dir,{recursive:true,force:true});}
 });
+
+test('G6 known-unavailable witness stops by default and only an explicit diagnostic admission can start',async()=>{
+ for(const diagnostic of [false,true]){
+  const root=resolve('.eval-artifacts');await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,'g6-negative-witness-')),f=await g6Fixture(),s=f.source,budgetPath=join(dir,'budget.json');let modelCalls=0;
+  await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:2},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}}));
+  const target={candidateId:'witness-local',name:s.outlet.name,address:s.outlet.address,phone:s.outlet.phone,provider:'TABELOG' as const,sourceEntityId:'13123456',date:s.date,time:s.time,partySize:2,detailUrl:s.pageUrl,identityText:[s.outlet.name],...(diagnostic?{allowKnownUnavailableCertificate:true as const}:{})};
+  const pack:G6Pack={schemaVersion:'phase3b-g6-pack@1',mode:'FIXTURE',recording:{browser:true,decisions:true,googleResponses:true},cases:[{id:'negative',request:s.initialRequest,followups:[],witness:target,oracle:{request:{dates:[s.date],partySize:2,time:s.time},pages:[]}}]};
+  const negative={checkedAt:f.clock.now().toISOString(),kind:'BEFORE',target,exists:false,responseSHA256:'local-construction',vacancy:{ref:'local-negative',phase:'BEFORE' as const,url:s.vacancy.url,candidateId:target.candidateId,body:{...(s.vacancy.body as any),selection:{}}}};
+  try{
+   const result=await runG6Batch(pack,{budgetPath,now:()=>f.clock.now().valueOf(),initialWitnesses:[negative],witnessFetch:async()=>new Response(JSON.stringify(s.vacancy.body)),async transports(_c,_r,hooks){return {model:{async complete(request){modelCalls++;return f.model.complete(request);}},browser:f.browser,clock:f.clock,google:new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:hooks.googleFetch(f.googleFetch)})};}},join(dir,'runs'));
+   if(!diagnostic){assert.match(result.stopReason!,/WITNESS_NO_LONGER_EXISTS/);assert.equal(modelCalls,0);}
+   else{assert.ok(modelCalls>0,'Explicit diagnostic must exercise the real assembly');const raw=JSON.parse(await readFile(join(dir,'runs/negative/execution.result.json'),'utf8'));assert.equal(raw.certificationMode,'NO_POSITIVE_WITNESS_DIAGNOSTIC');const input=JSON.parse(await readFile(join(dir,'runs/negative/evaluation.input.json'),'utf8'));assert.equal(input.witnesses,undefined,'Negative certificate cannot count as a positive known-feasible witness');assert.ok(input.vacancy.some((row:any)=>row.ref==='local-negative'));}
+  }finally{await rm(dir,{recursive:true,force:true});}
+ }
+});

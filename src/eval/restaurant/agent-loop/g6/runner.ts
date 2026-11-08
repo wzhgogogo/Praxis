@@ -172,7 +172,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       if(spec.witness){
         const w=spec.witness,key=JSON.stringify([w.sourceEntityId,w.date,w.time,w.partySize]),cached=certifications.get(key);
         const before=cached&&now()-Date.parse(cached.checkedAt)<86_400_000?cached:await witness.read(w,"BEFORE",true);
-        witnesses.push(before);if(before.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Availability certification is required for this witness");if(before.exists===false)throw Error("WITNESS_NO_LONGER_EXISTS: no Live was started");certifications.set(key,before);
+        witnesses.push(before);if(before.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Availability certification is required for this witness");if(before.exists===false&&w.allowKnownUnavailableCertificate!==true)throw Error("WITNESS_NO_LONGER_EXISTS: no Live was started");certifications.set(key,before);
       }
       wallStart=monotonicNow();
       if(pack.mode==="LIVE_READ")await chargeG6(dependencies.budgetPath,runId+":LIVE","fullLive","Frozen G6 serial slot; browser, decisions and Google recording on");
@@ -233,7 +233,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       })})));
       const evaluation=evaluateG6(input),{named:_named,...request}=input.request;
       input.request={...request,...(evaluation.namedOutletBinding.named?{named:evaluation.namedOutletBinding.named}:{})};
-      await writeFile(join(slot,"execution.result.json"),JSON.stringify({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,runId,view,execution:result,turns,witnesses,recordingConfig:pack.recording},null,2)+"\n",{flag:"wx"});
+      await writeFile(join(slot,"execution.result.json"),JSON.stringify({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,certificationMode:spec.witness?.allowKnownUnavailableCertificate===true?"NO_POSITIVE_WITNESS_DIAGNOSTIC":"STANDARD_G6",runId,view,execution:result,turns,witnesses,recordingConfig:pack.recording},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"boundary-observation.json"),JSON.stringify({...reserveObservations(0,elapsedMs,readStarts,input.requests.map(r=>({...r,forbidden:/yoyaku|payment|checkout|confirmation/iu.test(new URL(r.url).pathname)}))),exceeded500Seconds:turnBudgets.some(t=>t.exceeded500Seconds),limits:{perTurn:{milliseconds:500_000,models:50,google:40},slot:{turns:3,models:150,google:120}},turnBudgets,googleRequests:googleCalls,modelCalls,semanticAttemptsByTurn:Object.fromEntries(semanticAttempts),semanticSchemaRetries:[...semanticAttempts.values()].reduce((n,c)=>n+Math.max(0,c-1),0)},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"evaluation.input.json"),JSON.stringify(input,null,2)+"\n",{flag:"wx"});await writeFile(join(slot,"evaluation.json"),JSON.stringify(evaluation,null,2)+"\n",{flag:"wx"});
       receipts.push({id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":evaluation.verdict.status==="NOT_EVALUATED"?"RECORDED_NOT_EVALUATED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
@@ -256,5 +256,6 @@ export async function loadG6Pack(path:string,sha256:string):Promise<G6Pack>{
   const raw=await readFile(path);if(createHash("sha256").update(raw).digest("hex")!==sha256)throw Error("Frozen G6 pack SHA mismatch; no execution");
   const pack=JSON.parse(raw.toString()) as G6Pack;if(pack.schemaVersion!=="phase3b-g6-pack@1"||!["FIXTURE","LIVE_READ"].includes(pack.mode)||!pack.recording?.browser||!pack.recording.decisions||!pack.recording.googleResponses||!Array.isArray(pack.cases)||!pack.cases.length||pack.cases.length>26)throw Error("Unsupported or incomplete frozen G6 pack");
   for(const c of pack.cases)if(!c.id||!c.request?.trim()||!Array.isArray(c.followups)||c.followups.length>2||!Array.isArray(c.oracle?.pages)||!Array.isArray(c.oracle.request?.dates)||c.followups.some(f=>!["DISPLAYED_RESULTS","DISPLAYED_AVAILABLE","ASKED_FOR_DATE","ASKED_FOR_PARTY"].includes(f.trigger)||!["MESSAGE","PAGE_QUESTION"].includes(f.kind)||!f.text?.trim()||f.allowOtherOutlets!==undefined&&f.allowOtherOutlets!==true))throw Error("Invalid frozen G6 case");
+  if(pack.cases.some(c=>c.witness?.allowKnownUnavailableCertificate!==undefined&&c.witness.allowKnownUnavailableCertificate!==true))throw Error("Unavailable-witness admission must be explicit diagnostic true");
   return pack;
 }

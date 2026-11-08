@@ -13,6 +13,7 @@ import {browserTransportError} from '../../../../infrastructure/browser/browser-
 import {createEvalGooglePlacesClient} from './google-places-recording.js';
 import {discoveryPackNetworkPolicy} from '../../../../integrations/restaurant-search/source-packs.js';
 import {runG6Batch,loadG6Pack,type G6TransportHooks} from '../g6/runner.js';
+import {independentVacancy} from '../g6/evaluator.js';
 import {runG6SourceReadCheck,installSourceReadPageLimit} from '../g6/source-read-check.js';
 import {normalizedTextKey} from '../../../../core/text-key.js';
 import {chargeG6} from '../g6/budget.js';
@@ -125,13 +126,14 @@ if(mode==='TC_SEARCH'){
  assert.equal(connectivity.reachable,true,'No Live begins without the approved connectivity check');
  const packPath=join(root,mode+'-pack.json'),bytes=await readFile(packPath),pack=await loadG6Pack(packPath,sha(bytes));
  assert.equal(pack.mode,'LIVE_READ');assert.equal(pack.cases.length,1);assert.equal(pack.cases[0]!.id,mode);
- const review=JSON.parse(await readFile(join(root,'certification/reviewed.json'),'utf8')) as {reviewed:boolean;reviewer:string;identityChecks:Record<string,boolean>;packSHA256:Record<string,string>;rawFiles:Record<string,string>;certificates:import('../g6/witness.js').WitnessReceipt[]};
+ const review=JSON.parse(await readFile(join(root,'certification/reviewed.json'),'utf8')) as {reviewed:boolean;reviewer:string;identityChecks:Record<string,boolean>;negativeWitnessDiagnostic?:true;packSHA256:Record<string,string>;rawFiles:Record<string,string>;certificates:import('../g6/witness.js').WitnessReceipt[]};
  assert.ok(review.reviewed&&review.reviewer&&['name','address','phone'].every(key=>review.identityChecks[key]));
  assert.equal(review.packSHA256[mode],sha(bytes),'Current independently certified pack binding');
  for(const [path,expected]of Object.entries(review.rawFiles))assert.equal(sha(await readFile(path)),expected);
  const target=pack.cases[0]!.witness;assert.ok(target,'Live requires a current independently qualified witness');
  const receipt=review.certificates.find(row=>row.target.sourceEntityId===target.sourceEntityId&&row.target.date===target.date&&row.target.time===target.time&&row.target.partySize===target.partySize);
- assert.ok(receipt?.exists===true&&receipt.detailRef&&receipt.detailSHA256&&receipt.vacancy);
+ assert.ok((receipt?.exists===true||target.allowKnownUnavailableCertificate===true&&review.negativeWitnessDiagnostic===true&&receipt?.exists===false)&&receipt.detailRef&&receipt.detailSHA256&&receipt.vacancy);
+ if(receipt.exists===false){const observed=independentVacancy(receipt.vacancy!,target);assert.ok(observed.known&&!observed.slots.includes(target.time),'Diagnostic admission requires an independently bound known-unavailable certificate');}
  assert.ok(Date.now()-Date.parse(receipt.checkedAt)>=0&&Date.now()-Date.parse(receipt.checkedAt)<86400000,'Certificate outside24h');
  assert.equal(sha(await readFile(receipt.detailRef)),receipt.detailSHA256);
  assert.equal(sha(await readFile(receipt.vacancy.ref)),receipt.responseSHA256);

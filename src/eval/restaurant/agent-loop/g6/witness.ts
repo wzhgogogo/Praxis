@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { chargeG6 } from "./budget.js";
 import { independentVacancy,type G6Delivered,type G6Vacancy } from "./evaluator.js";
 
-export interface G6Witness extends G6Delivered {detailUrl:string;identityText:string[];allowDetailOnlyCertificate?:boolean;}
+export interface G6Witness extends G6Delivered {detailUrl:string;identityText:string[];allowDetailOnlyCertificate?:boolean;/** Explicit exposed diagnostic only; never a positive feasibility witness. */allowKnownUnavailableCertificate?:true;}
 export interface WitnessReceipt {checkedAt:string;kind:string;target:G6Witness;exists:boolean|null;vacancy?:G6Vacancy;evidenceMode?:"AVAILABILITY"|"DETAIL_ONLY";detailRef?:string;detailSHA256?:string;responseSHA256:string;}
 export function witnessURL(w:G6Delivered){
   const id=w.sourceEntityId.match(/(?:^|\/)(\d+)\/?$/u)?.[1];if(!id)throw Error("Witness must use an observed numeric Tabelog source identity");
