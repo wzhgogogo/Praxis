@@ -30,7 +30,7 @@ export const tableCheckPublicShopRead: BrowserReadNetworkRequestRule = {
   origin: "https://production.tablecheck.com",
   pathnamePattern: "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
   methods: ["GET"], resourceTypes: ["fetch", "xhr"], queryKeys: ["locale"],
-  queryValueClasses: { locale: ["SHORT_TOKEN"] },
+  queryValuePatterns: { locale: "^[a-z]{2}(?:-[A-Z]{2})?$" },
 };
 
 /** Only document hits count. Catalog metadata and grouped facet nodes are not venues. */

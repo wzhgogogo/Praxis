@@ -55,9 +55,14 @@ function matchesReadProjection(rule: BrowserReadNetworkRequestRule, url: URL, me
 }
 
 function matchesQueryValues(rule:BrowserReadNetworkRequestRule,url:URL,fields:readonly BrowserQueryValueObservation[]):boolean {
-  if(!rule.queryValueClasses)return true;
+  if(!rule.queryValueClasses&&!rule.queryValuePatterns)return true;
   if(fields.length!==[...url.searchParams].length || fields.some(field=>field.valueClass==="SENSITIVE_FORMAT"))return false;
-  return fields.every(field=>!rule.queryValueClasses![field.queryKey] || rule.queryValueClasses![field.queryKey]!.includes(field.valueClass==="PAGE_OBSERVED_VALUE"?"OTHER":field.valueClass));
+  return fields.every(field=>{
+    const classes=rule.queryValueClasses?.[field.queryKey];
+    if(classes&&!classes.includes(field.valueClass==="PAGE_OBSERVED_VALUE"?"OTHER":field.valueClass))return false;
+    const pattern=rule.queryValuePatterns?.[field.queryKey];
+    return pattern===undefined || pattern.startsWith("^")&&pattern.endsWith("$")&&url.searchParams.getAll(field.queryKey).every(value=>new RegExp(pattern).test(value));
+  });
 }
 async function allows(rule: BrowserReadNetworkRequestRule, request: Pick<Request, "headerValue" | "postData">, url: URL, method: string, resourceType: string, fields:readonly BrowserQueryValueObservation[]): Promise<boolean> {
   if (!matchesReadProjection(rule, url, method, resourceType) || !matchesQueryValues(rule,url,fields)) return false;

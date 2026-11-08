@@ -24,6 +24,8 @@ export interface BrowserReadNetworkRequestRule {
   queryKeyRules?: { required: readonly string[]; allowed?: readonly string[]; repeatable?: readonly string[]; allowedPatterns?: readonly string[] };
   /** Extra value contract for an exact reviewed query; never widens key/type admission. */
   queryValueClasses?: Readonly<Record<string,readonly import("./browser-query-values.js").BrowserQueryValueClass[]>>;
+  /** Anchored lexical format, independent of observational input provenance. Sensitive values still fail. */
+  queryValuePatterns?: Readonly<Record<string,string>>;
   /** Presence of one of these fields requires the full reviewed query grammar,
    * including under generic public GET admission. Values stay source-owned. */
   strictQueryKeys?: readonly string[];

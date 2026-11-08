@@ -30,7 +30,7 @@ test("TableCheck selection reads the recorded shop contract before a detail can 
   const sourceRequest = publicScript.match(/\bV7e=(async\(e,n\)=>oi\.get\("v2\/shops\/"\.concat\(e,"\?"\)\.concat\(n\)\)\.json\(\))/)?.[1];
   const sourceSelect = publicScript.match(/\bEE=e=>\{[\s\S]*?select:(t=>\{[\s\S]*?\})\}\)\},nFn=/)?.[1];
   assert.ok(sourceRequest && sourceSelect, "Use the actual frozen request builder and response selector, without executing the complete sanitized bundle");
-  const query = "Public Fixture Venue", slug = "fixture-venue2";
+  let query = "Public Fixture Venue"; const slug = "fixture-venue2";
   const mainOrigin = "https://www.tablecheck.com", apiOrigin = "https://production.tablecheck.com";
   const forbiddenReads = [
     {url: apiOrigin + "/v2/shops/fixture-venue?locale=en&extra=1"},
@@ -38,7 +38,7 @@ test("TableCheck selection reads the recorded shop contract before a detail can 
     {url: apiOrigin + "/v2/shops/fixture-venue?locale=en&locale=ja"},
     {url: "https://production.tablecheck.com.attacker.invalid/v2/shops/fixture-venue?locale=en"},
     ...["fixture-venue/shop_memos", "fixture-venue/reserve", "fixture-venue%2Freserve", "login", "booking", "fixture_venue", "Fixture-venue", "fixture--venue", "-fixture", "fixture-", "090-1234-5678", ""].map(slug => ({url: apiOrigin + "/v2/shops/" + slug + "?locale=en"})),
-    ...["person@example.com", "+81 90 1234 5678", "123", "Someone Person", "token=fixture", query, "Public"].map(locale => ({url: apiOrigin + "/v2/shops/fixture-venue?locale=" + encodeURIComponent(locale)})),
+    ...["person@example.com", "+81 90 1234 5678", "123", "Someone Person", "token=fixture", "sk-EN", query, "Public"].map(locale => ({url: apiOrigin + "/v2/shops/fixture-venue?locale=" + encodeURIComponent(locale)})),
     {url: apiOrigin + "/v2/shops/fixture-venue?locale=en", method:"HEAD"},
     {url: apiOrigin + "/v2/shops/fixture-venue?locale=en", method:"POST"},
     {url: apiOrigin + "/v2/hub/menu_items", method:"POST"},
@@ -116,14 +116,19 @@ test("TableCheck selection reads the recorded shop contract before a detail can 
       assert.ok(stopped.networkRequests?.some(row => row.method === "POST" && row.outcome === "BLOCKED"));
       assert.ok(stopped.networkRequests?.some(row => row.resourceType === "script" && row.outcome === "BLOCKED"));
     } finally {await boundary.close();}
+    for (const name of ["Public Fixture Venue", "En Dining Fixture", "En"]) {
+    query = name; const beforeDetail = received.filter(path => path === "/v2/shops/" + slug).length;
     let charged = 0;
     const result = await runG6SourceReadCheck({ browser, policy: tableCheckPublicReadNetworkPolicy, spec: { startUrl: mainOrigin + "/en/japan/search", query, minimumIntervalMs: 1 }, signal: new AbortController().signal, beforeEntry: async () => { charged++; }, catalogTerminal: Promise.resolve(true), phase: () => {}, record: () => {} });
     assert.equal(charged, 1); assert.equal(result.phase, "SELECT_MATCH"); assert.equal(result.status, "SELECT_ACTION_COMPLETED");
-    assert.ok(received.includes("/v2/shops/" + slug), "The detail GET must actually reach the receiver before the fixture can render any identity");
+    assert.equal(received.filter(path => path === "/v2/shops/" + slug).length, beforeDetail + 1, "Each current read must reach the receiver; an earlier success cannot stand in for this detail");
     const final = snapshots.at(-1)!; assert.equal(final.url, mainOrigin + "/en/" + slug);
     const identity = parseTableCheckOutletIdentityWithEvidence(final, final.url);
     assert.equal(identity?.outlet.outletName, query); assert.equal(identity?.outlet.address, "1-1 Fixture Street, Tokyo"); assert.equal(identity?.outlet.phone, "03-1111-2222");
     assert.ok(final.networkRequests?.some(row => row.origin === apiOrigin && row.pathname === "/v2/shops/" + slug && row.outcome === "ADMITTED"));
+    if (name.startsWith("En ")) assert.ok(final.networkRequests?.some(row => row.origin === apiOrigin && row.pathname === "/v2/shops/" + slug && row.outcome === "ADMITTED" && row.queryValues?.some(field => field.queryKey === "locale" && field.valueClass === "PREFIX_OF_AUTHORITATIVE_INPUT")), "Original provenance metadata remains truthful while the locale format independently admits en");
+    if (name === "En") assert.ok(final.networkRequests?.some(row => row.origin === apiOrigin && row.pathname === "/v2/shops/" + slug && row.outcome === "ADMITTED" && row.queryValues?.some(field => field.queryKey === "locale" && field.valueClass === "EQUALS_AUTHORITATIVE_INPUT")), "An equal public restaurant name also cannot corrupt independent language validation");
     console.log("SHOP_FIXTURE_CHAIN " + JSON.stringify({ receiver: received, finalURL: final.url, parsedName: identity?.outlet.outletName, realSourceResponse: false }));
+    }
   } finally { receiver.closeAllConnections(); await new Promise<void>(resolve => receiver.close(() => resolve())); }
 });
