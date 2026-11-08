@@ -1,0 +1,7 @@
+# TableCheck shop-detail source validation
+
+Status: draft / not integrated; exposed diagnostic. Timezone CET (UTC+1). Direct human reply explicitly approves +1 entryGET466→467 after frozen repair66df8182 and evidence3c286519. This is a one-page source validation using run-c-closeout-live.ts TC_SEARCH and its original D8 browser factory, discovery policy, current direct restaurant routing and native static transport. No product code change. Reuse clean full gates from66df8182 because source/tests/config implementation bytes are unchanged. Freeze this spec, authorization ledger seed and hashes before execution. Runtime copies are mutable outputs; preserve old355GET ledger unchanged.
+
+Acceptance: catalog200, exact authorized name fill, unique exact suggestion selection, observe new shop GET status/schema and same-document detail render vs not-found. Inspect actual sanitized DOM/network/body, not actor click status. No automatic HIGH/identity/B1/binding/availability success. Planned1/started tracked; no full Live business acceptance. Four-layer diagnostic and budget sidecar afterward.
+
+GET1, model0, fullLive0, Google0; entry20s, interval5s, outer120s unchanged. CDP limiter blocks second main document before dispatch; no retry. Do not click reserve/date confirmation/login or POST. Preserve all first failures; do not broaden Guard/recording/privacy. On failure, stop and report. D8 and held-out allocations untouched. No push/main merge. STATUS/history remain deferred to approved main integration; capability matrix and this batch record source result.
