@@ -8,3 +8,7 @@ Original request stays: Check whether Specializing in Nodoguro Ginza Nakamata ha
 Acceptance: HIGH and unique target, exact11/11/20:30/2 availability+B1, originalfollowup preserves result/newG1 terms scope, dualchannel links; or evidential bounded failure. S0/missing safety evidence stops batch. Posterior at most2GET after certification, independent sidecar before any complement. Any failure: offline report, no extra Live. Previous network failure remains unresolved unless this exact run proves its scope; do not call one success stable connectivity. No unredacted netlog/headers/cookies or fabricated source output. Freeze wrapper/config, model-only/Live results separate.
 
 Baseline26Live/727models/365GET/99Google/11426source; all old ledger rows retained, no reset. New charged attempts counted even failed. Stop/report with first deviation, each source/candidate calls+timing, original eval plus independent boundary and recording qualification/omissions, all budgets. No automatic held-out.
+
+## Actual certification before Live freeze
+
+2026-11-08T16:00:37.686+01:00 CET: certification singleGET200/exists=true; original11/11/20:30/2/full name unchanged, SHA256 63763e087c6b5e663d2646adaf541e9601907f36e0cfd9cd45f7935f0a988e9e. GET now366/476; Live26/45/models727 unchanged. Freeze selected inputs now, no fallback. First offline validation caught a mistyped CLI SHA before any network; corrected to actual ca38194453414c1029a0cd5f97161b5dea61865a, validation passed. This was not a source retry.
