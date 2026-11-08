@@ -12,3 +12,7 @@ Record actual selected time/date/request/certificate/hash in plan.md and certifi
 Exactly1Live, independent evaluation + saved-artifact audit; S0/evidence gap stops batch. Report first path deviation/blocker, source reach, candidate/provider calls/timing, initial/followup B1/terms/new G1 context, recordings/omissions, original outputs, all budgets, both-channel link list with observation vs delivery separated. Success stops for held-out review; failure only offline repair from this recording, no additional Live. Main starts at approved source; later unreviewed repairs stay on work branch.
 
 Ledger baseline: Live25/43,GET362/470,models702/1600,Google98,site11384. New shared caps44/473; C per-session ceilingLive26/GET365. All historical rows preserved.
+
+## Actual certificate before final Live freeze
+
+Main integrationccb70473 published/ls-remote verified. At 2026-11-08T15:05:06.569+01:00 CET the single certification GET returnedHTTP200, exact11/11/20:30/2 request known and exists=true; returned slots 20:30, 20:45, 21:00. Selected time remains20:30, source bodySHA256 63763e087c6b5e663d2646adaf541e9601907f36e0cfd9cd45f7935f0a988e9e; no fallback or oracle/Guard change. Final request: Check whether Specializing in Nodoguro Ginza Nakamata has a table for two on November 11, 2026 at 8:30 PM. Same followup BOOK_THIS_OUTLET. Certificate and selection frozen before Live; no negative witness allowance. GET363/473 after certification,2posterior remain; Live25/44 with1authorized, holdout18Live/108GET untouched, models702 before Live.
