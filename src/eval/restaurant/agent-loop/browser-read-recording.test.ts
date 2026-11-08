@@ -388,3 +388,49 @@ test('recording omission reasons and safe components preserve privacy without cl
   const component=await readFile(join(result.path,'components.har'),'utf8');assert.match(component,/available/);assert.doesNotMatch(component,/private-marker|@example|v2\/results/);
  }finally{await rm(root,{recursive:true,force:true});}
 });
+
+
+test('recorded shop metadata permits the reviewed path grammar before unchanged JSON privacy checks',async()=>{
+ const {tableCheckPublicReadNetworkPolicy:policy}=await import('../../../integrations/tablecheck/tablecheck-public-query.js');
+ const source='.eval-artifacts/phase3b/tablecheck-shop-validation-20261108/runtime/source-read';
+ const header=JSON.parse(await readFile(source+'/header-names.json','utf8')).find((r:any)=>r.pathname.startsWith('/v2/shops/'));
+ assert.equal(header.status,200);const url=header.origin+header.pathname+'?locale=en';
+ const {createHash}=await import('node:crypto');assert.equal(createHash('sha256').update(url).digest('hex'),header.responseUrlSha256);
+ const root=await mkdtemp(join(tmpdir(),'shop-recorder-'));
+ try{
+  for(const variant of ['PUBLIC','PRIVATE','LARGE','BAD_LOCALE','SENSITIVE_LOCALE','UNDECLARED']){
+   const recorder=new BrowserReadRecording({directory:root,runId:variant,reviewedReads:policy.dynamicReads});
+   // LOCAL_CONSTRUCTION: the real source body was never retained. Only shape/status/hash are recorded facts.
+   const body=variant==='PRIVATE'?'{"phone":"private-value"}':variant==='LARGE'?JSON.stringify({public:'x'.repeat(210_000)}):'{"available":true}';
+   const target=variant==='BAD_LOCALE'?url.replace('locale=en','locale=arbitrary%20person'):variant==='SENSITIVE_LOCALE'?url.replace('locale=en','locale=sk-EN'):variant==='UNDECLARED'?url.replace('/v2/shops/','/v2/private/') :url;
+   await recorder.recordResponse({url:target,method:'GET',resourceType:'fetch',status:200,contentType:'application/json',body:Buffer.from(body)});
+   const result=await recorder.finish(),recording=JSON.parse(await readFile(join(result.path,'recording.json'),'utf8'));
+   const captured=recording.entries.filter((r:any)=>r.kind==='RESPONSE_CAPTURED');
+   assert.equal(captured.length,variant==='PUBLIC'?1:0,variant);
+   const omission=recording.entries.find((r:any)=>r.kind==='RESPONSE_OMITTED')?.detail;
+   if(variant==='PRIVATE')assert.equal(omission.reason,'JSON_SENSITIVE_KEY');
+   if(variant==='LARGE')assert.equal(omission.reason,'JSON_SIZE_LIMIT');
+  }
+ }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('recorded SPA detail URL accepts only declared short-token route fields and no input authority',async()=>{
+ const {tableCheckPublicReadNetworkPolicy:policy}=await import('../../../integrations/tablecheck/tablecheck-public-query.js');
+ const source='.eval-artifacts/phase3b/tablecheck-shop-validation-20261108/runtime/source-read';
+ const events=JSON.parse(await readFile(source+'/events.json','utf8')),last=events.filter((r:any)=>r.kind==='SNAPSHOT').at(-1).detail;
+ const rows=JSON.parse(await readFile(source+'/recording/recording.json','utf8')).entries;
+ assert.equal(rows.filter((r:any)=>r.kind==='DOCUMENT_SANITIZATION').at(-1).detail.reason,'UNREVIEWED_DOCUMENT_QUERY_SHAPE');
+ const url=last.url+'?service_mode=dining&sort_by=relevance&venue_type=tc',root=await mkdtemp(join(tmpdir(),'spa-detail-recorder-'));
+ try{
+  for(const variant of ['PUBLIC','AUTHORITY','UNDECLARED','SENSITIVE','LONG_TEXT']){
+   const recorder=new BrowserReadRecording({directory:root,runId:variant,reviewedReads:policy.dynamicReads});
+   const target=variant==='UNDECLARED'?url.replace('/en/nakamata-nodoguro-ginza','/en/unknown/nested'):variant==='SENSITIVE'?url+'&email=person%40example.com':variant==='LONG_TEXT'?url.replace('venue_type=tc','venue_type=Some%20Person'):url;
+   // LOCAL_CONSTRUCTION body; actual final DOM was omitted. Authority category is a deliberate negative mutation.
+   recorder.recordSnapshot({url:target,title:last.title,text:'Public detail',html:'<body><h1>Public detail</h1></body>',...(variant==='AUTHORITY'?{urlQueryValues:[{queryKey:'service_mode',valueClass:'EQUALS_AUTHORITATIVE_INPUT'}]}:{})} as any);
+   const result=await recorder.finish(),recording=JSON.parse(await readFile(join(result.path,'recording.json'),'utf8'));
+   const diagnostic=recording.entries.find((r:any)=>r.kind==='DOCUMENT_SANITIZATION').detail;
+   assert.equal(diagnostic.urlAccepted,variant==='PUBLIC',variant);assert.equal(diagnostic.documentAccepted,true);
+   if(variant==='PUBLIC')assert.match(await readFile(join(result.path,'diagnostic/snapshot-0001.html'),'utf8'),/Public detail/);
+  }
+ }finally{await rm(root,{recursive:true,force:true});}
+});

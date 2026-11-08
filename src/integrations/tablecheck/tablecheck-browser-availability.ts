@@ -483,6 +483,7 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       };
       for (;;) {
         let currentOutletUrls: string[] = [];
+        let handoffPage:BrowserSnapshot|undefined;
         if (directIdentityVerified && directPage && listedOutletUrl) {
           // A Google-listed merchant page that passes the same identity gate is
           // a normal entrance.  Do not let a later search challenge erase it.
@@ -533,7 +534,8 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
             return this.ground(candidate, request, { candidate, observedAt, entityMatch: { confidence: "LOW", matchedBy: [] },
               pageState: "EXTRACTION_FAILED", failureCode: "TABLECHECK_DISCOVERY_INCOMPLETE" }, browser);
           }
-          currentOutletUrls = parseTableCheckDiscoveryOutletUrls(discovery, searchName).slice(0, 5);
+          if(searched.sourceHandoff&&searched.sourceHandoff.url===discovery.url&&searched.sourceHandoff.pageId===discovery.pageId)handoffPage=discovery;
+          currentOutletUrls = handoffPage ? [diagnosticUrl(handoffPage.url)] : parseTableCheckDiscoveryOutletUrls(discovery, searchName).slice(0, 5);
           for (const url of currentOutletUrls) this.options.entryLedger?.observe(url);
         }
         outletUrls = [...new Set([
@@ -578,6 +580,10 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
           let page: BrowserSnapshot;
           if (cached) {
             page = cached.page;
+          } else if(handoffPage&&sourceUrlKey(handoffPage.url)===sourceUrlKey(outletUrl)) {
+            // The source just rendered this page; inspect it through the same
+            // extraction/comparison below without a redundant document read.
+            page=handoffPage;
           } else {
             await this.executor.navigate({
               source: "TABLECHECK", stage: "IDENTITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session, url: outletUrl, observed: true,

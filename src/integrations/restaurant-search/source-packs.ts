@@ -82,6 +82,8 @@ export interface DiscoverySourcePack {
   retainedResources?: readonly BrowserReadNetworkRequestRule[];
   staticResources: readonly BrowserReadNetworkRequestRule[];
   reviewedReads: readonly BrowserReadNetworkRequestRule[];
+  /** Recording-only public SPA document projections; never network admission. */
+  publicDocumentRoutes?: readonly BrowserReadNetworkRequestRule[];
   skillPath?: string;
   /** Source-owned availability binding reused by its existing adapter and resolver. */
   availability?: {
@@ -285,6 +287,12 @@ export const tabelogDiscoveryPack: DiscoverySourcePack = {
 export const tableCheckDiscoveryPack: DiscoverySourcePack = {
   meta: { id: "tablecheck", capabilities: ["DISCOVERY", "FACTS", "AVAILABILITY"], reservationOnly: true, supportsGroups: true, supportsSameDay: true, basePriority: 20 },
   documentOrigins: ["https://www.tablecheck.com"], staticResources: tableCheckPublicReadNetworkPolicy.staticResources, reviewedReads: tableCheckPublicReadNetworkPolicy.dynamicReads,
+  publicDocumentRoutes: [{
+    origin: "https://www.tablecheck.com", resourceTypes: ["document"],
+    pathnamePattern: "^/(?:en|ja)/(?!(?:not-found|404|error|login|signin|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
+    queryKeyRules: { required: [], allowed: ["service_mode", "sort_by", "venue_type"] },
+    queryValueClasses: {service_mode:["SHORT_TOKEN"],sort_by:["SHORT_TOKEN"],venue_type:["SHORT_TOKEN"]},
+  }],
   skillPath: "web-skills/tablecheck/SKILL.md",
   availability: {
     provider: "TABLECHECK",

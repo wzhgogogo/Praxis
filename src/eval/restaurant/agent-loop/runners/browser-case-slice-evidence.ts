@@ -366,6 +366,7 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
     htmlLength: snapshot.html.length, observedStateTags: observedStateTags(snapshot.html),
     queryRegions,
     priceRegions: captureRawPriceRegions(snapshot.html, snapshot.text),
+    ...(snapshot.urlQueryValues?{urlQueryValues:structuredClone(snapshot.urlQueryValues)}:{}),
     responses: passiveResponses(snapshot),
     ...(snapshot.networkDiagnostics?.length ? { networkDiagnostics: snapshot.networkDiagnostics.map(item => ({
       code: item.code, origin: item.origin, pathname: item.pathname,
@@ -380,6 +381,7 @@ export function snapshotRecord(snapshot: BrowserSnapshot): Record<string, unknow
       ...(item.resourceTypeDetails ? { resourceTypeDetails: item.resourceTypeDetails } : {}),
       ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}),
       ...(item.formSubmission ? { formSubmission: structuredClone(item.formSubmission) } : {}),
+      ...(item.dynamicRead ? {dynamicRead:structuredClone(item.dynamicRead)} : {}),
       ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}),
       ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}),
     })) } : {}) };

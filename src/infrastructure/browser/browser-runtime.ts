@@ -73,6 +73,12 @@ export interface BrowserReadResourceTypeObservation {
   resourceTypeDetails: { selectedFrom: "PLAYWRIGHT" | "NETWORK" | "FETCH"; playwright?: string; network?: string; fetch?: string; policyBlock?: "NONESSENTIAL_RESOURCE" };
 }
 
+/** Guard-owned action cut: includes in-flight request starts, not just completed observations. */
+export interface BrowserReadBoundary { readScopeId:string;pageId:string;requestSequence:number; }
+export interface BrowserDynamicReadReceipt extends BrowserReadBoundary {
+  startedAt:number;completedAt:number;status:number;ruleIndex:number;
+  fields:readonly {key:string;normalizedValueSha256:string}[];
+}
 /** A value-free request shape captured by an installed read boundary. */
 export interface BrowserReadNetworkObservation {
   /** Actual initial transport after unchanged admission; diagnostic only. */
@@ -82,6 +88,8 @@ export interface BrowserReadNetworkObservation {
   queryValues?: import("./browser-query-values.js").BrowserQueryValueObservation[];
   /** Native GET submission evidence, with value hashes only; never a model input. */
   formSubmission?: import("./playwright-observed-get-forms.js").ObservedGetFormSubmission;
+  /** Reviewed dynamic GET that finished in the browser; values are hashes only. */
+  dynamicRead?: BrowserDynamicReadReceipt;
   outcome: "ADMITTED" | "BLOCKED" | "REDIRECT_BLOCKED" | "FAILED" | "TIMED_OUT";
   origin: string;
   pathname: string;
@@ -108,6 +116,8 @@ export interface BrowserSettlementDiagnostics {
 export interface BrowserSnapshot {
   /** Runtime-owned loading feedback; PENDING is never inventory completion evidence. */
   settlement?: "SETTLED" | "PENDING";
+  /** Current URL categories from this read, including authoritative-value collisions. */
+  urlQueryValues?: import("./browser-query-values.js").BrowserQueryValueObservation[];
   url: string;
   html: string;
   /** Browser-rendered evidence, excluding non-visible subtrees; never model supplied. */
@@ -237,6 +247,7 @@ export interface BrowserSession {
   prepareObservedNavigation?(url: string, options?: BrowserActionOptions): Promise<void>;
   /** Runtime boundary: a new read cannot reuse authority from a previous read. */
   beginReadScope?(): void;
+  readBoundary?(): BrowserReadBoundary | undefined;
   snapshot(): Promise<BrowserSnapshot>;
   /** Drain already-observed guarded responses for recording; never navigates. */
   flushRecordedResponses?(): Promise<void>;

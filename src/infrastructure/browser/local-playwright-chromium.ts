@@ -56,6 +56,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
   }
 
   private pageId(page: Page): string {
+    if(this.networkGuard)return this.networkGuard.pageId(page);
     const existing = this.pageIds.get(page);
     if (existing) return existing;
     const created = `page:${++this.pageSequence}`;
@@ -73,7 +74,8 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
 
-  beginReadScope():void { this.networkGuard?.forms.beginReadScope(this.page); }
+  beginReadScope():void { this.networkGuard?.beginReadScope(this.page); }
+  readBoundary() {return this.networkGuard?.readBoundary(this.page); }
 
   async prepareNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareNavigation(url, options.timeoutMs); }
   async prepareObservedNavigation(url: string, options: BrowserActionOptions = {}): Promise<void> { this.networkGuard?.prepareObservedNavigation(url, options.timeoutMs); }
@@ -91,6 +93,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
         settlement: this.lastSettlement ? "SETTLED" : "PENDING",
         ...(this.lastSettlementDiagnostic ? { settlementDiagnostics: { ...this.lastSettlementDiagnostic, url: this.page.url(), busySelectors: await pageBusySelectors(this.page) } } : {}),
         url: this.page.url(),
+        ...(this.networkGuard ? {urlQueryValues:await this.networkGuard.observeUrlQueryValues(this.page,this.page.url())} : {}),
         html: await this.page.content(),
         visibleHtml: await this.page.locator("body").evaluate(body => {
           // Cloning an img can trigger a second request even while detached.

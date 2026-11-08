@@ -45,11 +45,13 @@ test("TableCheck selection reads the recorded shop contract before a detail can 
     {url: apiOrigin + "/v2/shops/fixture-venue?locale=en", type:"script"},
     {url: apiOrigin + "/v2/shops/fixture-venue?locale=en", headers:{"x-api-key":"local-fixture"}},
   ];
+  let heldShop:Promise<void>|undefined,shopStatus=200;
   const received: string[] = [], snapshots: import("../../infrastructure/browser/browser-runtime.js").BrowserSnapshot[] = [];
-  const receiver = createServer((request, response) => {
+  const receiver = createServer(async (request, response) => {
     const url = new URL(request.url!, mainOrigin); received.push(url.pathname);
     response.setHeader("Access-Control-Allow-Origin", mainOrigin);
     if (url.pathname === "/v2/shops/" + slug || url.pathname === new URL(recordedURL).pathname) {
+      await heldShop;response.statusCode=shopStatus;
       response.setHeader("Content-Type", "application/json"); response.end(JSON.stringify({ shops: [{ _id: "fixture-public-id", slug, name_translations: [{locale:"en",translation:query}], locale:"en", address:"1-1 Fixture Street, Tokyo", phone:"03-1111-2222", stations:[], cuisines:[], geocode:{lat:35.1,lon:139.1}, service_modes:["dining"] }], menu_categories:[] })); return;
     }
     response.setHeader("Content-Type", "text/html");
@@ -96,12 +98,29 @@ test("TableCheck selection reads the recorded shop contract before a detail can 
     // First replay the exact recorded denied shape through the real browser Guard.
     const component = await runtime.openSession({ signal: new AbortController().signal, networkPolicy: tableCheckPublicReadNetworkPolicy });
     try {
+      component.beginReadScope?.();
       await component.prepareNavigation!(mainOrigin + "/en/japan/search"); await component.navigate(mainOrigin + "/en/japan/search");
       const controls = await component.observeControls!(); await component.click(controls.find(c => c.label === "Recorded request")!.id);
       await component.waitForSettled?.({ url: mainOrigin + "/en/japan/search", title: "", text: "" }, 2000);
       const observedRead = await component.snapshot();
       assert.ok(received.includes(new URL(recordedURL).pathname), "The exact recorded request must reach the local receiver under the repaired contract");
       assert.ok(observedRead.networkRequests?.some(row => row.origin === apiOrigin && row.pathname === new URL(recordedURL).pathname && row.outcome === "ADMITTED"));
+      const completed=observedRead.networkRequests?.find(row=>row.dynamicRead)?.dynamicRead;
+      assert.ok(completed);assert.equal(completed.status,200);assert.equal(completed.pageId,observedRead.pageId);
+      assert.equal(completed.fields[0]?.normalizedValueSha256,createHash("sha256").update("en").digest("hex"));
+      let release!:()=>void;heldShop=new Promise<void>(resolve=>{release=resolve;});const before=received.length;
+      let freshControls=await component.observeControls!();await component.click(freshControls.find(c=>c.label==="Recorded request")!.id);
+      const deadline=Date.now()+2000;while(received.length===before&&Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,10));assert.ok(received.length>before);
+      const afterStart=component.readBoundary!()!;const pending=await component.snapshot();
+      assert.equal(pending.networkRequests?.filter(row=>row.dynamicRead).length,1,"An in-flight request is not a completed receipt");
+      release();heldShop=undefined;await component.waitForSettled?.(pending,2000);
+      const late=await component.snapshot(),lateReceipt=late.networkRequests?.filter(row=>row.dynamicRead).at(-1)?.dynamicRead;
+      assert.ok(lateReceipt);assert.ok(lateReceipt.requestSequence<=afterStart.requestSequence,"Late response retains its pre-action start order");
+      assert.equal(observedRead.networkRequests?.filter(row=>row.dynamicRead).length,1,"Old snapshots cannot acquire later receipts retroactively");
+      component.beginReadScope?.();assert.notEqual(component.readBoundary!()?.readScopeId,lateReceipt.readScopeId);
+      shopStatus=503;freshControls=await component.observeControls!();await component.click(freshControls.find(c=>c.label==="Recorded request")!.id);await component.waitForSettled?.(late,2000);
+      const failed=await component.snapshot();assert.equal(failed.networkRequests?.filter(row=>row.dynamicRead).length,2,"HTTP failure produces no success receipt");shopStatus=200;
+
     } finally { await component.close(); }
     const boundary = await runtime.openSession({ signal: new AbortController().signal, networkPolicy: tableCheckPublicReadNetworkPolicy });
     try {
@@ -126,9 +145,34 @@ test("TableCheck selection reads the recorded shop contract before a detail can 
     const identity = parseTableCheckOutletIdentityWithEvidence(final, final.url);
     assert.equal(identity?.outlet.outletName, query); assert.equal(identity?.outlet.address, "1-1 Fixture Street, Tokyo"); assert.equal(identity?.outlet.phone, "03-1111-2222");
     assert.ok(final.networkRequests?.some(row => row.origin === apiOrigin && row.pathname === "/v2/shops/" + slug && row.outcome === "ADMITTED"));
+    assert.ok(final.networkRequests?.some(row=>row.dynamicRead?.pageId===final.pageId&&row.dynamicRead?.status===200));
     if (name.startsWith("En ")) assert.ok(final.networkRequests?.some(row => row.origin === apiOrigin && row.pathname === "/v2/shops/" + slug && row.outcome === "ADMITTED" && row.queryValues?.some(field => field.queryKey === "locale" && field.valueClass === "PREFIX_OF_AUTHORITATIVE_INPUT")), "Original provenance metadata remains truthful while the locale format independently admits en");
     if (name === "En") assert.ok(final.networkRequests?.some(row => row.origin === apiOrigin && row.pathname === "/v2/shops/" + slug && row.outcome === "ADMITTED" && row.queryValues?.some(field => field.queryKey === "locale" && field.valueClass === "EQUALS_AUTHORITATIVE_INPUT")), "An equal public restaurant name also cannot corrupt independent language validation");
     console.log("SHOP_FIXTURE_CHAIN " + JSON.stringify({ receiver: received, finalURL: final.url, parsedName: identity?.outlet.outletName, realSourceResponse: false }));
+    }
+    // Production adapter integration with LOCAL_CONSTRUCTION body; the identity
+    // comparison remains independent of the exact-suggestion handoff itself.
+    const {BrowserTaskExecutor}=await import("../../infrastructure/browser/browser-task-executor.js");
+    const {TableCheckBrowserAvailability}=await import("../../integrations/tablecheck/tablecheck-browser-availability.js");
+    const {fixtureCandidates}=await import("../restaurant-fixtures.js");
+    for(const conflict of [false,true]){
+      query="Public Fixture Venue";const candidate=structuredClone(fixtureCandidates[0]!);
+      candidate.restaurant.outletName=query;candidate.restaurant.address=conflict?"9-9 Other Street, Tokyo":"1-1 Fixture Street, Tokyo";
+      candidate.restaurant.sourceIds={phone:conflict?"03-9999-8888":"03-1111-2222"};
+      const before=received.length;
+      const executor=new BrowserTaskExecutor(runtime,{maxAutomaticElapsedMs:20000,maxOperationsPerCandidate:100,maxModelCallsPerCandidate:6,maxModelCallsTotal:6,modelDecision:{async decide(input){
+        const targets=input.observation.targets;
+        if(!input.observation.url.includes("/japan/search"))return {type:"COMPLETE",reason:"Code checks settled source handoff"};
+        const option=targets.find(t=>t.label===query);if(option)return {type:"CLICK",targetRef:option.ref,reason:"Unique exact observed suggestion"};
+        const field=targets.find(t=>t.kind==="INPUT"&&t.label==="Destination");if(field)return {type:"FILL_AUTHORITATIVE",field:"RETRIEVAL",targetRef:field.ref,reason:"Accepted full name"};
+        return {type:"CLICK",targetRef:targets.find(t=>t.label==="Destination")!.ref,reason:"Open source search"};
+      }}});
+      try{
+        const result=await new TableCheckBrowserAvailability(executor,()=>"2026-11-08T00:00:00Z",{identityOnly:true,targetQuery:query,networkPolicy:tableCheckPublicReadNetworkPolicy}).check({candidates:[candidate],candidateIds:[candidate.restaurant.id],date:"2026-11-11",partySize:2,timeWindow:{earliest:"19:00",latest:"19:00"},hardCriteria:[]},new AbortController().signal);
+        const identity=result.evidence.find(e=>e.kind==="ENTITY_MATCH");
+        assert.equal(identity?.entityMatch?.confidence==="HIGH",!conflict,JSON.stringify({conflict,result}));
+        assert.deepEqual(received.slice(before),["/en/japan/search","/v2/shops/"+slug],"Source handoff is inspected without another document navigation");
+      }finally{await executor.closeAll();}
     }
   } finally { receiver.closeAllConnections(); await new Promise<void>(resolve => receiver.close(() => resolve())); }
 });

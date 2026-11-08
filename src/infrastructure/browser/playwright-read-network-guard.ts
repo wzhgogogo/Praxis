@@ -1,10 +1,12 @@
+import {createHash} from "node:crypto";
+import {normalizedTextKey} from "../../core/text-key.js";
 import {observeQueryValues,type BrowserQueryValueObservation} from "./browser-query-values.js";
 import { browserTransportError, type BrowserTransportError } from "./browser-runtime-errors.js";
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import { traceFormEvidence, PlaywrightObservedGetForms, type ObservedGetFormSubmission } from "./playwright-observed-get-forms.js";
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
-import type { BrowserReadTransportProfile, BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
+import type { BrowserReadBoundary, BrowserDynamicReadReceipt, BrowserReadTransportProfile, BrowserReadCorsPreflightObservation, BrowserReadNetworkObservation, BrowserReadResourceTypeObservation, BrowserReadNetworkPolicy, BrowserReadNetworkRequestRule } from "./browser-runtime.js";
 
 type NetworkDiagnosticCode = "BLOCKED_ENDPOINT" | "BLOCKED_FIELDS" | "BLOCKED_METHOD" | "BLOCKED_REDIRECT" | "READ_REQUEST_FAILED" | "READ_TIMEOUT" | "RESOURCE_POLICY_BLOCKED";
 type NetworkDiagnostic = { code: NetworkDiagnosticCode; origin: string; pathname: string; method: string; resourceType: string; queryKeys: string[]; error?: BrowserTransportError };
@@ -157,6 +159,15 @@ export class PlaywrightReadNetworkGuard {
       void this.context?.close().catch(() => {});
     }).finally(() => this.recordingTasks.delete(task));
   }
+  private pageSequence=0;
+  private readSequence=0;
+  private requestSequence=0;
+  private readonly pageIds=new WeakMap<Page,string>();
+  private readonly readScopes=new WeakMap<Page,string>();
+  private readonly dynamicReads=new WeakMap<Request,{observation:BrowserReadNetworkObservation;receipt:Omit<BrowserDynamicReadReceipt,"completedAt"|"status">;status?:number}>();
+  pageId(page:Page):string { let id=this.pageIds.get(page);if(!id){id=`page:${++this.pageSequence}`;this.pageIds.set(page,id);}return id; }
+  beginReadScope(page:Page):void {this.forms.beginReadScope(page);this.readScopes.set(page,`read:${++this.readSequence}`);}
+  readBoundary(page:Page):BrowserReadBoundary|undefined {const readScopeId=this.readScopes.get(page);return readScopeId?{readScopeId,pageId:this.pageId(page),requestSequence:this.requestSequence}:undefined;}
   private readonly pending = new Map<Request, number>();
   private activityRevision = 0;
   settlementActivity(): { pending: number; revision: number; pendingByType: Record<string, number>; oldestPendingMs: number } {
@@ -187,6 +198,9 @@ export class PlaywrightReadNetworkGuard {
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
     this.context = context;
+    context.on("response",response=>{const current=this.dynamicReads.get(response.request());if(current)current.status=response.status();});
+    context.on("requestfinished",request=>{const current=this.dynamicReads.get(request);if(current?.status===200)current.observation.dynamicRead={...current.receipt,status:current.status,completedAt:Date.now()};this.dynamicReads.delete(request);});
+    context.on("requestfailed",request=>{this.dynamicReads.delete(request);});
     if (this.admittedGetTransport !== "NODE_FETCH" && !options.replay) {
       context.on("response", response => this.captureNativeResponse(response));
       context.on("requestfinished", request => {
@@ -511,7 +525,8 @@ export class PlaywrightReadNetworkGuard {
   }
 
   snapshotDiagnostics(): NetworkDiagnostic[] { return [...this.diagnostics]; }
-  snapshotRequests(): BrowserReadNetworkObservation[] { return [...this.requests]; }
+  async observeUrlQueryValues(page:Page,value:string) { return observeQueryValues(new URL(value),await this.forms.authoritativeInputs(page)); }
+  snapshotRequests(): BrowserReadNetworkObservation[] { return structuredClone(this.requests); }
   snapshotResourceTypes(): BrowserReadResourceTypeObservation[] { return [...this.resourceTypes]; }
 
   private blocked(code: NetworkDiagnosticCode, url: URL, method: string, resourceType: string, error?: unknown): void {
@@ -539,6 +554,8 @@ export class PlaywrightReadNetworkGuard {
     const method = request.method();
     const url = new URL(request.url());
     let requestPage:Page|undefined;try{requestPage=request.frame().page();}catch{ /* Unowned requests have no fill authority. */ }
+    const requestSequence=++this.requestSequence,startedAt=Date.now();
+    const boundary=requestPage?this.readBoundary(requestPage):undefined;
     await this.inspectQuery(url,requestPage);
     this.requestQueryObservations.set(request,this.queryMetadata(url).queryValues);
     const type = request.resourceType();
@@ -597,6 +614,8 @@ export class PlaywrightReadNetworkGuard {
     // every missing entry without a route.fetch network escape.
     if (replay) {
       this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(formSubmission ? { formSubmission } : {}) });
+      const ruleIndex=ruleMatches.slice(this.policy.staticResources.length).findIndex(Boolean);
+      if(boundary&&ruleIndex>=0&&method==="GET"&&["fetch","xhr"].includes(type))this.dynamicReads.set(request,{observation:this.requests[this.requests.length-1]!,receipt:{...boundary,requestSequence,startedAt,ruleIndex,fields:[...url.searchParams].map(([key,value])=>({key,normalizedValueSha256:createHash("sha256").update(normalizedTextKey(value)).digest("hex")}))}});
       await route.fallback();
       return;
     }
@@ -605,6 +624,8 @@ export class PlaywrightReadNetworkGuard {
     const native=reviewedStaticNative||this.admittedGetTransport==="BROWSER_GET_HEAD"&&["GET","HEAD"].includes(method);
     try {
       this.requests.push({ outcome: "ADMITTED", origin: url.origin, pathname: url.pathname, method, resourceType: type, transport:native?"BROWSER_GET_HEAD":"NODE_FETCH",...staticAdmission,resourceTypeDetails: { selectedFrom: "PLAYWRIGHT", playwright: type }, queryKeys: [...new Set(url.searchParams.keys())].sort(), ...this.queryMetadata(url), ...(formSubmission ? { formSubmission } : {}) });
+      const ruleIndex=ruleMatches.slice(this.policy.staticResources.length).findIndex(Boolean);
+      if(boundary&&ruleIndex>=0&&method==="GET"&&["fetch","xhr"].includes(type))this.dynamicReads.set(request,{observation:this.requests[this.requests.length-1]!,receipt:{...boundary,requestSequence,startedAt,ruleIndex,fields:[...url.searchParams].map(([key,value])=>({key,normalizedValueSha256:createHash("sha256").update(normalizedTextKey(value)).digest("hex")}))}});
       if (native) {
         this.nativeRequests.add(request);
         // A native request has no Route.abort capability after continue(). Keep

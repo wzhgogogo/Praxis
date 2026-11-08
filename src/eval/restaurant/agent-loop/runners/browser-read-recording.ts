@@ -1,3 +1,4 @@
+import {observeQueryValues, type BrowserQueryValueObservation} from "../../../../infrastructure/browser/browser-query-values.js";
 import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
@@ -68,7 +69,8 @@ export class BrowserReadRecording {
   traceSink(): BrowserTraceRecordingSink { return { record: (kind, detail) => this.record(kind, detail), recordSnapshot: (snapshot) => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
   /** Lets a runner retain its single canonical trace while supplying captured documents to this recorder. */
   snapshotSink(): BrowserTraceRecordingSink { return { record: () => undefined, recordSnapshot: snapshot => this.recordSnapshot(snapshot), recordResponse: response => this.recordResponse(response), captureScreenshot: (png, disposition) => this.captureScreenshot(png, disposition) }; }
-  recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, ...(item.transport?{transport:item.transport}:{}),...(item.admissionRule?{admissionRule:{...item.admissionRule}}:{}), queryKeys: [...item.queryKeys], ...(item.queryValues ? {queryValues:structuredClone(item.queryValues)} : {}), ...(item.error ? { error: item.error } : {}), ...(item.resourceTypeDetails ? { resourceTypeDetails: { ...item.resourceTypeDetails } } : {}), ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}), ...(item.formSubmission ? { formSubmission: structuredClone(item.formSubmission) } : {}), ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}), ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}) }))); }
+  recordNetwork(requests: readonly BrowserReadNetworkObservation[]): void { this.record("NETWORK", requests.map(item => ({ outcome: item.outcome, origin: item.origin, pathname: item.pathname, method: item.method, resourceType: item.resourceType, ...(item.transport?{transport:item.transport}:{}),...(item.admissionRule?{admissionRule:{...item.admissionRule}}:{}), queryKeys: [...item.queryKeys], ...(item.queryValues ? {queryValues:structuredClone(item.queryValues)} : {}), ...(item.error ? { error: item.error } : {}), ...(item.resourceTypeDetails ? { resourceTypeDetails: { ...item.resourceTypeDetails } } : {}), ...(item.outerRequestId ? { outerRequestId: item.outerRequestId } : {}), ...(item.formSubmission ? { formSubmission: structuredClone(item.formSubmission) } : {}),
+      ...(item.dynamicRead ? {dynamicRead:structuredClone(item.dynamicRead)} : {}), ...(item.bodyObservation ? { bodyObservation: structuredClone(item.bodyObservation) } : {}), ...(item.corsPreflight ? { corsPreflight: { ...item.corsPreflight, requestedHeaderNames: [...item.corsPreflight.requestedHeaderNames] } } : {}) }))); }
   async recordResponse(response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }): Promise<void> {
     if (this.finished) throw new Error("Browser recording is already finalized");
     this.google.observeOwnCredentials([response.url,response.redirectLocation]);
@@ -124,7 +126,7 @@ export class BrowserReadRecording {
     const requests = snapshot.networkRequests ?? [];
     this.recordNetwork(requests);
     if (snapshot.networkResourceTypes?.length) this.record("NETWORK_RESOURCE_TYPES", snapshot.networkResourceTypes);
-    const url = safeReplayUrl(snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads);
+    const url = safeReplayUrl(snapshot.url, this.options.reviewedStaticResources, this.options.reviewedReads, snapshot.urlQueryValues);
     const challenge = restaurantDiscoveryPacks.some(pack => pack.documentOrigins.some(origin => { try { return new URL(snapshot.url).origin === origin; } catch { return false; } }) && pack.browser?.hasChallenge(snapshot));
     const sanitized = sanitizePublicHtml(snapshot.html, snapshot.url, [...(this.options.reviewedStaticResources ?? []), ...this.loadedStylesheetRules], this.options.reviewedReads);
     const html = sanitized !== undefined && this.google.accept(sanitized) ? sanitized : undefined;
@@ -242,7 +244,8 @@ function observedRequestPath(origin: string, pathname: string): string | undefin
   } catch { return undefined; }
 }
 function staticRuleMatchesUrl(rule: BrowserReadNetworkRequestRule, url: URL, resourceType: "script" | "stylesheet" = "script"): boolean {
-  if (url.origin !== rule.origin || (rule.pathname ? url.pathname !== rule.pathname : !rule.pathnamePrefix || !url.pathname.startsWith(rule.pathnamePrefix))) return false;
+  if (url.origin !== rule.origin || !recordingPathMatches(rule,url)) return false;
+      if(rule.queryValuePatterns && (observeQueryValues(url,[]).some(field=>field.valueClass==="SENSITIVE_FORMAT") || Object.entries(rule.queryValuePatterns).some(([key,pattern])=>!pattern.startsWith("^")||!pattern.endsWith("$")||url.searchParams.getAll(key).some(value=>!new RegExp(pattern).test(value)))))return false;
   if (!rule.resourceTypes.includes(resourceType)) return false;
   const counts = new Map<string, number>(); for (const key of url.searchParams.keys()) counts.set(key, (counts.get(key) ?? 0) + 1);
   const required = new Set(rule.queryKeyRules?.required ?? rule.queryKeys ?? []);
@@ -259,11 +262,17 @@ function reviewedStaticScriptUrl(value: string, staticResources: readonly Browse
 function reviewedStaticStylesheetUrl(value: string, staticResources: readonly BrowserReadNetworkRequestRule[] | undefined): boolean {
   try { const url = new URL(value); return !url.username && !url.password && (staticResources ?? []).some(rule => staticRuleMatchesUrl(rule, url, "stylesheet")); } catch { return false; }
 }
+function recordingPathMatches(rule:BrowserReadNetworkRequestRule,url:URL):boolean {
+ return rule.pathname!==undefined ? url.pathname===rule.pathname : rule.pathnamePattern!==undefined
+  ? rule.pathnamePattern.startsWith("^")&&rule.pathnamePattern.endsWith("$")&&new RegExp(rule.pathnamePattern).test(url.pathname)
+  : rule.pathnamePrefix!==undefined&&url.pathname.startsWith(rule.pathnamePrefix);
+}
 function reviewedPublicReadUrl(value: string, reviewedReads: readonly BrowserReadNetworkRequestRule[] | undefined): boolean {
   try {
     const url = new URL(value);
     return !url.username && !url.password && (reviewedReads ?? []).some((rule) => {
-      if (url.origin !== rule.origin || (rule.pathname ? url.pathname !== rule.pathname : !rule.pathnamePrefix || !url.pathname.startsWith(rule.pathnamePrefix))) return false;
+      if (url.origin !== rule.origin || !recordingPathMatches(rule,url)) return false;
+      if(rule.queryValuePatterns && (observeQueryValues(url,[]).some(field=>field.valueClass==="SENSITIVE_FORMAT") || Object.entries(rule.queryValuePatterns).some(([key,pattern])=>!pattern.startsWith("^")||!pattern.endsWith("$")||url.searchParams.getAll(key).some(value=>!new RegExp(pattern).test(value)))))return false;
       const counts = new Map<string, number>(); for (const key of url.searchParams.keys()) counts.set(key, (counts.get(key) ?? 0) + 1);
       const required = new Set(rule.queryKeyRules?.required ?? rule.queryKeys ?? []);
       const allowed = new Set(rule.queryKeyRules?.allowed ?? []);
@@ -304,7 +313,12 @@ function sanitizeTabelogSuggestions(text: string): string | undefined {
 }
 /** A history route can omit network-required defaults. Recording it never
  * grants a request: keep only declared public document fields, no sensitive values. */
-function publicDocumentRouteUrl(url:URL,reads:readonly BrowserReadNetworkRequestRule[]|undefined):boolean {
+function publicDocumentRouteUrl(url:URL,reads:readonly BrowserReadNetworkRequestRule[]|undefined,queryValues?:readonly BrowserQueryValueObservation[]):boolean {
+ const routes=restaurantDiscoveryPacks.flatMap(pack=>pack.publicDocumentRoutes??[]);
+ if(routes.some(rule=>rule.origin===url.origin&&recordingPathMatches(rule,url)
+   && [...url.searchParams].every(([key])=>rule.queryKeyRules?.allowed?.includes(key)&&url.searchParams.getAll(key).length===1)
+   && observeQueryValues(url,[]).every(field=>rule.queryValueClasses?.[field.queryKey]?.includes(field.valueClass))
+   && !(queryValues??[]).some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT","SENSITIVE_FORMAT"].includes(field.valueClass))))return true;
  return (reads??[]).some(rule=>{
   if(!rule.resourceTypes.includes("document")||rule.origin!==url.origin||rule.pathname!==url.pathname)return false;
   const allowed=new Set([...(rule.queryKeys??[]),...(rule.queryKeyRules?.required??[]),...(rule.queryKeyRules?.allowed??[]),...(rule.queryKeyRules?.repeatable??[])]);
@@ -314,7 +328,7 @@ function publicDocumentRouteUrl(url:URL,reads:readonly BrowserReadNetworkRequest
     && (/^\d{4}-\d{2}-\d{2}$/.test(value)||!/\+?\d[\d()\s-]{8,}\d/.test(value)));
  });
 }
-function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[]): string | undefined { try { const u = new URL(value); const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (!tabelogSuggestionRecordingUrl(value) && ![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads) && !publicDocumentRouteUrl(u,reviewedReads))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
+function safeReplayUrl(value: string, staticResources?: readonly BrowserReadNetworkRequestRule[], reviewedReads?: readonly BrowserReadNetworkRequestRule[],queryValues?:readonly BrowserQueryValueObservation[]): string | undefined { try { const u = new URL(value); if(queryValues?.some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT","SENSITIVE_FORMAT"].includes(field.valueClass))&&restaurantDiscoveryPacks.some(pack=>pack.publicDocumentRoutes?.some(rule=>rule.origin===u.origin&&recordingPathMatches(rule,u))))return undefined; const protocolAllowed = u.protocol === "https:" || (u.protocol === "http:" && /^(?:127\.0\.0\.1|localhost|::1)$/.test(u.hostname)); if (!protocolAllowed || u.username || u.password || (!tabelogSuggestionRecordingUrl(value) && ![...u.searchParams.keys()].every(key => safeQueryKeys.has(key)) && !reviewedStaticScriptUrl(u.toString(), staticResources) && !reviewedStaticStylesheetUrl(u.toString(), staticResources) && !reviewedPublicReadUrl(u.toString(), reviewedReads) && !publicDocumentRouteUrl(u,reviewedReads,queryValues))) return undefined; u.hash = ""; return u.toString(); } catch { return undefined; } }
 /** Public third-party asset credentials are not replay permissions. Mask their
  * values before either diagnostic or replay HTML can be published. */
 function redactThirdPartyUrlCredentials(html: string, sourceUrl: string): string {
