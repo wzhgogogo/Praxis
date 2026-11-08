@@ -1,0 +1,101 @@
+{
+  "status": "OFFLINE_RECORDING_DIAGNOSIS_ONLY; no production repair claimed",
+  "sourceSHA": "de5033047cd6f0ab190a5541e512ef1efa95cb7c",
+  "recordingSHA256": "d54a2252325622fe9dd75390d4284108f662d3c7473b7d89afeec67281f7eaef",
+  "firstTableCheckEntry": {
+    "navigationId": "capture:1:navigation:1",
+    "configuredTimeoutMs": 20000,
+    "htmlStatus": 200,
+    "htmlMs": 1026.5362920000007,
+    "entryOutcome": "TIMEOUT",
+    "entryMs": 20004.597875,
+    "scriptAttempts": [
+      {
+        "requestId": "capture:1:page:1:request:3",
+        "pageId": "capture:1:page:1",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "nativeContinue": true,
+        "headersStatus": null,
+        "outcome": "CANCELLED",
+        "elapsedMs": 18956.279167,
+        "reason": "PAGE_OR_CONTEXT_CLOSED",
+        "wireFinish": "LIFECYCLE_CANCELLATION_NOT_WIRE_FINISH"
+      },
+      {
+        "requestId": "capture:3:page:1:request:3",
+        "pageId": "capture:3:page:1",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "nativeContinue": true,
+        "headersStatus": 200,
+        "outcome": "FINISHED",
+        "elapsedMs": 1840.7568749999991,
+        "reason": null,
+        "wireFinish": "CDP_NETWORK_TERMINAL"
+      },
+      {
+        "requestId": "capture:4:page:1:request:3",
+        "pageId": "capture:4:page:1",
+        "url": "https://www.tablecheck.com/portal/assets/index-KCcaxOlR.js",
+        "nativeContinue": true,
+        "headersStatus": null,
+        "outcome": "CANCELLED",
+        "elapsedMs": 19694.845333000005,
+        "reason": "PAGE_OR_CONTEXT_CLOSED",
+        "wireFinish": "LIFECYCLE_CANCELLATION_NOT_WIRE_FINISH"
+      }
+    ]
+  },
+  "tabelog": {
+    "firstFourScripts": [
+      {
+        "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+        "requestId": "capture:2:page:1:request:9",
+        "status": null,
+        "outcome": "FAILED",
+        "elapsedMs": 3043.390166000001,
+        "reason": "net::ERR_NAME_NOT_RESOLVED"
+      },
+      {
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+        "requestId": "capture:2:page:1:request:10",
+        "status": null,
+        "outcome": "FAILED",
+        "elapsedMs": 3043.517167000002,
+        "reason": "net::ERR_NAME_NOT_RESOLVED"
+      },
+      {
+        "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+        "requestId": "capture:2:page:1:request:12",
+        "status": null,
+        "outcome": "FAILED",
+        "elapsedMs": 3043.619999999999,
+        "reason": "net::ERR_NAME_NOT_RESOLVED"
+      },
+      {
+        "url": "https://tblg.k-img.com/javascripts/s_code.js",
+        "requestId": "capture:2:page:1:request:30",
+        "status": null,
+        "outcome": "FAILED",
+        "elapsedMs": 3090.7847079999992,
+        "reason": "net::ERR_NAME_NOT_RESOLVED"
+      }
+    ],
+    "allRecordedScriptRequestCount": 4,
+    "DNSFailureCount": 4,
+    "firstClick": {
+      "sequence": 199,
+      "kind": "BUTTON",
+      "role": "button",
+      "label": "Search",
+      "type": "button",
+      "visible": true,
+      "disabled": false,
+      "afterClickDocumentRequests": 0
+    }
+  },
+  "conclusion": {
+    "proven": "HTML200 does not prove executable static dependencies arrived. First native TableCheck main script had no response headers before entry timeout; first Tabelog four source scripts failed browser DNS. Search click completed without starting a document request.",
+    "notProven": "TableCheck native-script lack of response cannot be narrowed to DNS/TCP/server from this recording. No exact source JS response exists for the DNS failures, so do not fabricate its callback or claim whole Replay.",
+    "repair": "No demonstrated admission/implementation defect to patch offline. Do not change Guard, proxy, DNS, timing or retry policy speculatively; next external verification requires user decision and quota."
+  }
+}

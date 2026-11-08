@@ -1,3 +1,9 @@
+<a id="d8-b1-closeout-failed-20261108"></a>
+
+## 2026-11-08 CET — C single D8 closeout blocked by recorded static dependencies
+
+2026-11-08 CET — C B1/追问修复已合入并发布 main de503304（产品8c9cae41不变）。新有位见证冻结后单次D8用25模型/138.432秒，全部模型成功，但主候选TableCheck原生主脚本20秒无响应头；Tabelog四个JS浏览器DNS失败。最终NEEDS_INPUT，无B1、追问未触发；原评价NOT_EVALUATED保留，正向后验未交付是能力缺口；独立37/37边界PASS/S0=0。26份DOM清洗保存，静态缺失使完整Replay不可用，店铺JSON仍按隐私拒录。离线完成归因，无已证明可修的产品缺陷，不猜改网络/Guard/时限；失败证据仅工作分支复核。累计Live26/44、GET365/473、模型727/1600（余873），18Live/108GET留出预留不动，无额外读取/Live。 [完整报告](../../.eval-artifacts/phase3b/d8-b1-closeout-20261108/report.md)。
+
 2026-11-04 CET：B按用户批准仅将候选浏览器maxCandidateBrowserMs60→90秒，整读500/provider45/单导航20/收尾保留20秒及其余预算不变。D6最小时间fixture有效红灯（旧配置快照FAILED）→5项绿；构造快照60.008秒完成，不称真实D6查位成功。原切换22.903秒时provider仍会在累计67.903秒先到期，留复核。2db49629净树五门禁：默认1422、Chromium189+main G6 18、严格G2全12页PASS，type/arch/build通过；新鲜main be84674e无变化，输入SHA不变。A/C/Guard/版本不改，账本原字节保留、真实调用0；按批准正常FF发布main并通知A/C，最终SHA见发布回执。 [报告](../../.eval-artifacts/phase3b/candidate-browser-budget-90s-20261104/report.md)。
 
 <a id="d8-b1-closeout-main-20261108"></a>
