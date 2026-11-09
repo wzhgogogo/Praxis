@@ -58,3 +58,16 @@ test('certify-only CLI rejects incompatible formal modes before reading private 
  for(const mode of ['--resume','--output','--review','--validate-only'])await assert.rejects(main(['--certify-only',mode,'unused']),/HOLDOUT_CERTIFICATION_MODE_CONFLICT/);
  await assert.rejects(main(['--certify-output','unused']),/HOLDOUT_CERTIFICATION_MODE_CONFLICT/);
 });
+
+test('fictional full manifest selects only requested IDs in manifest order; unknown/duplicate/empty selection rejects without GETs or charges',async()=>{
+ const f=await fixture();try{
+  const full=manifest(6),deps={budgetPath:f.budgetPath,wait:async(_ms:number)=>{},fetch:async()=>{requests++;return new Response(JSON.stringify(body));}};let requests=0;
+  const result=await certifyPrivateHoldout(full,audit,join(f.root,'selected'),{...deps,caseIds:['fictional-4','fictional-0','fictional-2']});
+  assert.deepEqual(result.results.map(r=>r.id),['fictional-0','fictional-2','fictional-4']);assert.equal(requests,3);assert.equal(result.GETs,3);assert.equal((await f.ledger()).cumulative.evaluationPublicGET,3);
+  const hashes=JSON.parse(await readFile(join(f.root,'selected','certification-hashes.json'),'utf8'));assert.equal(hashes.manifestSHA256,audit.manifestSHA256);assert.deepEqual(hashes.selectedCaseIds,['fictional-0','fictional-2','fictional-4']);
+  for(const caseIds of [['missing'],['fictional-0','fictional-0'],[],['']])await assert.rejects(certifyPrivateHoldout(full,audit,join(f.root,'rejected'),{...deps,caseIds}),/HOLDOUT_CERTIFICATION_CASE_SELECTION_INVALID/);
+  assert.equal(requests,3);assert.equal((await f.ledger()).cumulative.evaluationPublicGET,3);
+  await assert.rejects(main(['--cases','fictional-0']),/HOLDOUT_CERTIFICATION_CASES_MODE_INVALID/);
+  await assert.rejects(main(['--certify-only','--cases','a','--cases','b']),/HOLDOUT_CERTIFICATION_CASES_MODE_INVALID/);
+ }finally{await f.close();}
+});

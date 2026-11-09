@@ -13,6 +13,8 @@ export async function main(args:string[]){
  const flag=(name:string)=>{const i=args.indexOf(name);if(i<0||!args[i+1])throw Error('MISSING_ARGUMENT');return args[i+1]!;};
  const certifyOnly=args.includes('--certify-only');
  if(certifyOnly&&['--resume','--output','--review','--validate-only'].some(f=>args.includes(f))||!certifyOnly&&args.includes('--certify-output'))throw Error('HOLDOUT_CERTIFICATION_MODE_CONFLICT');
+ if(args.includes('--cases')&&!certifyOnly||args.indexOf('--cases')!==args.lastIndexOf('--cases'))throw Error('HOLDOUT_CERTIFICATION_CASES_MODE_INVALID');
+ const caseIds=args.includes('--cases')?flag('--cases').split(','):undefined;
  const reviewIndex=args.indexOf('--review');
  if(reviewIndex>=0&&(!args.includes('--resume')||!args[reviewIndex+1]||!args[reviewIndex+2]||args[reviewIndex+2]!.startsWith('--')))throw Error('HOLDOUT_REVIEW_ARGUMENTS_INVALID');
  if(args.includes('--resume')&&args.includes('--output'))throw Error('HOLDOUT_OUTPUT_MODE_CONFLICT');
@@ -31,7 +33,7 @@ export async function main(args:string[]){
  if(ledger.status!=='APPROVED_FOR_EXECUTION'||!Number.isSafeInteger(ledger.cumulative?.realModelCalls)||ledger.cumulative.realModelCalls<849||ledger.limits?.realModelCalls!==2500||ledger.limits?.evaluationPublicGET!==126||ledger.limits?.fullLive!==22||ledger.limits?.environmentReruns!==4)throw Error('HELDOUT_BUDGET_SCOPE_MISMATCH');
  if(certifyOnly){
   const result=await certifyPrivateHoldout(checked.manifest,{...checked.audit,sourceSHA},resolve(flag('--certify-output')),{budgetPath,fetch,
-   ownCredentials:[process.env.GOOGLE_MAPS_API_KEY??'',process.env.DEEPSEEK_API_KEY??'']});
+   ...(caseIds?{caseIds}:{}),ownCredentials:[process.env.GOOGLE_MAPS_API_KEY??'',process.env.DEEPSEEK_API_KEY??'']});
   console.log(JSON.stringify({status:'CERTIFIED_ONLY',GETs:result.GETs,models:0,fullLive:0}));return;
  }
  const dependencies=liveG6Dependencies(process.env,budgetPath);

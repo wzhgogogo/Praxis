@@ -6729,3 +6729,11 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 认证6GET，间隔5.002/5.005/5.003/5.003/5.004秒；2true、3false、1null。01为HTTP400，正文按现有规则拒录、原响应SHA保留，未检查未清洗响应或猜测原因；其余5份HTTP200正文清洗保存，校验savedSHA256一致、自有凭据扫描PASS。报告列全部来源时段，按CET输出并另存JST原值；false不等于全天无位。没有重试/追加认证、没有产品会话/模型/Live，未绑定正式输出。
 
 私有账本追加后cumulative为fullLive0/evaluationPublicGET6/realModelCalls849/environmentReruns0/googleRequests0/restaurantWebsiteRequests6；认证已用6/12，GET总范围6/126。完整私有账本不入库，只记录计数、间隔及前后SHA。输出目录.eval-artifacts/phase3b/heldout-certification-first；原响应副本只有已清洗部分，私有原文与清单不入库。无源码修改，不额外运行门禁或真实请求；按用户授权提交推送main并ls-remote核对，随后停下等复核者定最终清单。
+
+
+<a id="heldout-certification-selection-20261109"></a>
+## 2026-11-09 CET — 部分用例认证与条件开跑授权（draft / not integrated）
+
+用户复核af681696通过，纠正空位响应时段为JST原值；本轮不再换算，历史输出不改。仅src/eval增加--cases，只有certify-only可用，完整清单校验不变；ID未知/重复/空拒绝，认证在清单顺序执行所选子集，审计保留整份manifest SHA和selectedCaseIds，仍全清单私有回合遮盖。12次累计/126总额/5秒间隔不变。虚构六例选三准确3GET，其他反例无额外扣费；针对性5项及typecheck通过，待全门禁。尚无真实调用。
+
+用户授权发布main后v2仅补认证01/03/05三次，任一非true即停；全部true则同一净树main SHA/同一v2清单和外部账本正式六例各三次，运行期间不改代码、不读取私有文件、不干预。环境失败/需补评/S0等照原batch停并等复核，只有体检失败恢复可resume最多2次。v2只用sha256sum核对为0967a9dc…，原文与清单仅路径交运行器。正式原模型/时限/Guard/G1/录制/预算不改，结束逐次报告而不汇总通过率。
