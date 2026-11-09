@@ -1,0 +1,2711 @@
+{
+  "runId": "g6-D8-1794193392450-0",
+  "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+  "mode": "LIVE_READ",
+  "artifactRefs": [
+    "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-direct-outlet-live-20261109/live-runtime/runs/D8/D8/execution.result.json"
+  ],
+  "request": {
+    "dates": [
+      "2026-11-11"
+    ],
+    "partySize": 2,
+    "time": "20:30",
+    "requiresIndependentQualification": true,
+    "named": {
+      "name": "Nakamata",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "googlePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+      "sourceIds": {
+        "TABLECHECK": "nakamata-nodoguro-ginza"
+      },
+      "phone": "050-5385-3420",
+      "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+      "selectionEventId": "event:user:8373b30388c667d4c4185b1aa6e3131d"
+    }
+  },
+  "namedReferences": {
+    "initial": {
+      "name": "Specializing in Nodoguro Ginza Nakamata",
+      "phone": "03-6264-3229",
+      "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+      "sourceIds": {
+        "TABELOG": "13186922",
+        "TABLECHECK": "nakamata-nodoguro-ginza"
+      }
+    },
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "Check whether Specializing in Nodoguro Ginza Nakamata has a table for two on November 11, 2026 at 8:30 PM.",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:399b940d8930096624424dba",
+                "outletName": "Nakamata",
+                "sourceIds": {
+                  "phone": "050-5385-3420",
+                  "googlePlaces": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+                  "googleMapsUri": "https://maps.google.com/?cid=17854767023255268637&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/ginza/"
+                },
+                "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+                "outletName": "Nodoguro, Ginza Nakamata Hanare",
+                "sourceIds": {
+                  "phone": "050-5385-3421",
+                  "googlePlaces": "ChIJU2773eCLGGARq3ervhbV3po",
+                  "googleMapsUri": "https://maps.google.com/?cid=11159591220335572907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/hanare/"
+                },
+                "address": "3-chōme-12-17 Ginza, Chuo City, Tokyo 104-0061, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:94d9715550e9ca87d301b895",
+                "outletName": "Nodoguro Nakamata",
+                "sourceIds": {
+                  "phone": "050-5385-3418",
+                  "googlePlaces": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+                  "googleMapsUri": "https://maps.google.com/?cid=4576417412335647661&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/tsukiji/"
+                },
+                "address": "Central Higashi-Ginza, 2-chōme-15-15-1F Tsukiji, Chuo City, Tokyo 104-0045, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:1f763627d8ed49192a8b912d",
+                "outletName": "Sakananonakamata Ginza",
+                "sourceIds": {
+                  "phone": "050-5385-3419",
+                  "googlePlaces": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+                  "googleMapsUri": "https://maps.google.com/?cid=10336165721659673191&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/sakananonakamata/"
+                },
+                "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−14−１７ ｋｏｂｉｋｉｓｓＧＩＮＺａ２階"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "SPECIFIC_OUTLET"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJU2773eCLGGARq3ervhbV3po",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:1f763627d8ed49192a8b912d",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABLECHECK",
+              "sourceEntityId": "nakamata-nodoguro-ginza",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABLECHECK",
+              "sourceEntityId": "nakamata-nodoguro-ginza",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "userBookingSelection": {},
+              "patch": {
+                "target": {
+                  "selectionScope": "SPECIFIC_OUTLET"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:3a05f62d-964e-4fdf-9822-42e2a3c93a6e",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:efe88aaa-8113-4194-9ec3-c9a3cf8dfea9",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:4b719e0f-9b4e-4617-839f-a25393b844fd",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "CANDIDATE_SELECTED",
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:69076bfa-3e17-4492-8dd9-750bacfe6587",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:52e1fd46-c8af-4560-ae04-e806b6670cf9",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "RESULTS_PRESENTED",
+              "candidateIds": [
+                "praxis:restaurant:399b940d8930096624424dba"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "turnId": "BOOK_THIS_OUTLET",
+        "userMessage": "Please help me book this restaurant for that date and time.",
+        "before": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:399b940d8930096624424dba",
+                "outletName": "Nakamata",
+                "sourceIds": {
+                  "phone": "050-5385-3420",
+                  "googlePlaces": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+                  "googleMapsUri": "https://maps.google.com/?cid=17854767023255268637&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/ginza/"
+                },
+                "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+                "outletName": "Nodoguro, Ginza Nakamata Hanare",
+                "sourceIds": {
+                  "phone": "050-5385-3421",
+                  "googlePlaces": "ChIJU2773eCLGGARq3ervhbV3po",
+                  "googleMapsUri": "https://maps.google.com/?cid=11159591220335572907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/hanare/"
+                },
+                "address": "3-chōme-12-17 Ginza, Chuo City, Tokyo 104-0061, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:94d9715550e9ca87d301b895",
+                "outletName": "Nodoguro Nakamata",
+                "sourceIds": {
+                  "phone": "050-5385-3418",
+                  "googlePlaces": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+                  "googleMapsUri": "https://maps.google.com/?cid=4576417412335647661&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/tsukiji/"
+                },
+                "address": "Central Higashi-Ginza, 2-chōme-15-15-1F Tsukiji, Chuo City, Tokyo 104-0045, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:1f763627d8ed49192a8b912d",
+                "outletName": "Sakananonakamata Ginza",
+                "sourceIds": {
+                  "phone": "050-5385-3419",
+                  "googlePlaces": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+                  "googleMapsUri": "https://maps.google.com/?cid=10336165721659673191&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/sakananonakamata/"
+                },
+                "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−14−１７ ｋｏｂｉｋｉｓｓＧＩＮＺａ２階"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "SPECIFIC_OUTLET"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJU2773eCLGGARq3ervhbV3po",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:1f763627d8ed49192a8b912d",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABLECHECK",
+              "sourceEntityId": "nakamata-nodoguro-ginza",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABLECHECK",
+              "sourceEntityId": "nakamata-nodoguro-ginza",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:399b940d8930096624424dba",
+                "outletName": "Nakamata",
+                "sourceIds": {
+                  "phone": "050-5385-3420",
+                  "googlePlaces": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+                  "googleMapsUri": "https://maps.google.com/?cid=17854767023255268637&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/ginza/"
+                },
+                "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+                "outletName": "Nodoguro, Ginza Nakamata Hanare",
+                "sourceIds": {
+                  "phone": "050-5385-3421",
+                  "googlePlaces": "ChIJU2773eCLGGARq3ervhbV3po",
+                  "googleMapsUri": "https://maps.google.com/?cid=11159591220335572907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/hanare/"
+                },
+                "address": "3-chōme-12-17 Ginza, Chuo City, Tokyo 104-0061, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:94d9715550e9ca87d301b895",
+                "outletName": "Nodoguro Nakamata",
+                "sourceIds": {
+                  "phone": "050-5385-3418",
+                  "googlePlaces": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+                  "googleMapsUri": "https://maps.google.com/?cid=4576417412335647661&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/tsukiji/"
+                },
+                "address": "Central Higashi-Ginza, 2-chōme-15-15-1F Tsukiji, Chuo City, Tokyo 104-0045, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:1f763627d8ed49192a8b912d",
+                "outletName": "Sakananonakamata Ginza",
+                "sourceIds": {
+                  "phone": "050-5385-3419",
+                  "googlePlaces": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+                  "googleMapsUri": "https://maps.google.com/?cid=10336165721659673191&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://nakamata-nodoguro.com/sakananonakamata/"
+                },
+                "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 3-chōme−14−１７ ｋｏｂｉｋｉｓｓＧＩＮＺａ２階"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "SPECIFIC_OUTLET"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJU2773eCLGGARq3ervhbV3po",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJX_LmUt6LGGARrbstvmOzgj8",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:1f763627d8ed49192a8b912d",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ6eMSipuLGGARZwoY4_VvcY8",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABLECHECK",
+              "sourceEntityId": "nakamata-nodoguro-ginza",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABLECHECK",
+              "sourceEntityId": "nakamata-nodoguro-ginza",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:8373b30388c667d4c4185b1aa6e3131d",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "userBookingSelection": {
+                "candidateId": "praxis:restaurant:399b940d8930096624424dba"
+              },
+              "patch": {
+                "target": {
+                  "selectionScope": "SPECIFIC_OUTLET"
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "delivered": [
+    {
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "name": "Nakamata",
+      "address": "Japan, 〒104-0061 Tokyo, Chuo City, Ginza, 4-chōme−10−１２ 銀座サマリヤビル B1F",
+      "phone": "050-5385-3420",
+      "googlePlaceId": "ChIJkX0WJ-eLGGARHS19UALgyPc",
+      "sourceIds": {
+        "TABLECHECK": "nakamata-nodoguro-ginza"
+      },
+      "provider": "TABLECHECK",
+      "sourceEntityId": "nakamata-nodoguro-ginza",
+      "date": "2026-11-11",
+      "time": "20:30",
+      "partySize": 2
+    }
+  ],
+  "handoffs": [
+    {
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "offerId": "offer:tablecheck:praxis:restaurant:399b940d8930096624424dba:2026-11-11:20:30:2",
+      "provider": "TABLECHECK",
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza/reserve/landing?utm_source=tablecheck_portal&start_date=2026-11-11&num_people=2&start_time=20%3A30",
+      "directLabel": "Book on TableCheck",
+      "continueLabel": "Continue on TableCheck — date, time, 2 guests filled in",
+      "verificationHint": "Check date and guests",
+      "checkedAt": "2026-11-09T03:06:08.407Z",
+      "displayExpiresAt": "2026-11-09T03:16:08.407Z",
+      "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+      "linkCarries": [
+        "DATE",
+        "TIME",
+        "PARTY_SIZE"
+      ],
+      "sourceSelection": "UNKNOWN",
+      "terms": []
+    }
+  ],
+  "answers": [],
+  "pages": [
+    {
+      "ref": "source-snapshot:4:html-sha256:d39e9d915f7df283728b18fe2e05122f5718901ed6850f369f10dfb9d932f5d8:text-sha256:b2ea515adb72473507e363b660fad6e21d3b31ab51146a126417b5753cfdcfd5",
+      "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "runId": "g6-D8-1794193392450-0",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "readAt": "2026-11-09T03:03:41.140Z",
+      "merchantText": "Nakamata",
+      "merchantScope": "EXCERPTS",
+      "name": "UNBOUND_SOURCE_IDENTITY",
+      "observedLinks": []
+    },
+    {
+      "ref": "source-snapshot:5:html-sha256:62ab1d56a10a40e610e0a37f85a6c799a3a9a2e3c746c3a73e8deea9ab0035a1:text-sha256:999868bba2b3a49e9bf76f177bdb85c4aba0209de7ea3b77fc504a7970499197",
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+      "runId": "g6-D8-1794193392450-0",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "readAt": "2026-11-09T03:03:48.810Z",
+      "merchantText": "Nakamata",
+      "merchantScope": "EXCERPTS",
+      "name": "UNBOUND_SOURCE_IDENTITY",
+      "observedLinks": []
+    },
+    {
+      "ref": "source-snapshot:18:html-sha256:6de02e3053bf2227df0c5f8d1566599b5d0bc48ee5aed6342846798a54d98934:text-sha256:ccb5ab3633783424fb4d62b36bcf43bcbbce8a2c72840a2d071a652938d9b0ea",
+      "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nodoguro%2C+Ginza+Nakamata+Hanare&search_mode=",
+      "runId": "g6-D8-1794193392450-0",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "readAt": "2026-11-09T03:04:55.178Z",
+      "merchantText": "Nakamata",
+      "merchantScope": "EXCERPTS",
+      "name": "UNBOUND_SOURCE_IDENTITY",
+      "observedLinks": []
+    },
+    {
+      "ref": "source-snapshot:35:html-sha256:cdbd7c9986ca8b1a30f80e8280cfbfc9b231fb4b86f78083ae141b79920dbdfe:text-sha256:077cb7f7fe16f94c4ac57af757cc004c695e8f1c5ece74c76618a405c110a5f8",
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+      "runId": "g6-D8-1794193392450-0",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "readAt": "2026-11-09T03:05:54.944Z",
+      "merchantText": "Nakamata",
+      "merchantScope": "EXCERPTS",
+      "name": "UNBOUND_SOURCE_IDENTITY",
+      "observedLinks": []
+    }
+  ],
+  "qualificationClaims": [
+    {
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "quotes": [
+        {
+          "text": "Nakamata",
+          "url": "https://www.tablecheck.com/en/japan/search?service_mode=dining&sort_by=relevance&venue_type=tc",
+          "readAt": "2026-11-09T03:03:41.140Z"
+        },
+        {
+          "text": "Nakamata",
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza?service_mode=dining&sort_by=relevance&venue_type=tc",
+          "readAt": "2026-11-09T03:03:48.810Z"
+        },
+        {
+          "text": "Nakamata",
+          "url": "https://tabelog.com/en/rstLst/?utf8=%E2%9C%93&pal=&LstPrf=&LstAre=&station_id=&area_datatype=&area_id=&genre_name=&sw=Nodoguro%2C+Ginza+Nakamata+Hanare&search_mode=",
+          "readAt": "2026-11-09T03:04:55.178Z"
+        },
+        {
+          "text": "Nakamata",
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+          "readAt": "2026-11-09T03:05:54.944Z"
+        }
+      ]
+    }
+  ],
+  "vacancy": [
+    {
+      "ref": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-direct-outlet-live-20261109/certification-runtime/certification/001-vacancy.body",
+      "phase": "BEFORE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13186922&svd=20261111&svps=2&svt=2030",
+      "candidateId": "witness-W2",
+      "body": {
+        "selection": {
+          "0": {
+            "time": "20:30",
+            "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2030"
+          },
+          "1": {
+            "time": "20:45",
+            "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2045"
+          },
+          "2": {
+            "time": "21:00",
+            "url": "/en/booking/form_course/new?member=2&rcd=13186922&visit_date=20261111&visit_time=2100"
+          }
+        },
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 11,
+          "dow": "Wed"
+        },
+        "members": 2,
+        "time": "20:30"
+      }
+    }
+  ],
+  "requests": [
+    {
+      "ref": "C-source:1",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:2",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:3",
+      "url": "https://production.tablecheck.com/v2/geolocation",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:4",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:5",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-preflight:6",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:7",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:8",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ]
+    },
+    {
+      "ref": "C-source:9",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:10",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:11",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:12",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:13",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:14",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:15",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:16",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:17",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:18",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:19",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:20",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:21",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:22",
+      "url": "https://production.tablecheck.com/v2/hub/menu_items",
+      "method": "OPTIONS",
+      "reachedSource": false,
+      "queryKeys": [],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "POST",
+        "headerNames": [
+          "content-type"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:23",
+      "url": "https://production.tablecheck.com/v2/hub/menu_items",
+      "method": "OPTIONS",
+      "reachedSource": false,
+      "queryKeys": [],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "POST",
+        "headerNames": [
+          "content-type"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:24",
+      "url": "https://production.tablecheck.com/v2/shops/nakamata-nodoguro-ginza",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "locale"
+      ]
+    },
+    {
+      "ref": "C-preflight:25",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:26",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "POST",
+        "headerNames": [
+          "content-type"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:27",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:28",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:29",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:30",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "POST",
+      "reachedSource": true,
+      "queryKeys": [],
+      "contentType": "application/json",
+      "bodySHA256": "84bd052cdd3688de59b30308bf3461b8314a32a960b84bee650691d7af332290",
+      "bodyFields": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      }
+    },
+    {
+      "ref": "C-source:31",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:32",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-preflight:33",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:34",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:35",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:36",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:37",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:38",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "C-source:39",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "C-source:40",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:41",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:42",
+      "url": "https://production.tablecheck.com/v2/geolocation",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:43",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:44",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-preflight:45",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:46",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:47",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ]
+    },
+    {
+      "ref": "C-source:48",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:49",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:50",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:51",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:52",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:53",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:54",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:55",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:56",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:57",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:58",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:59",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:60",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-preflight:61",
+      "url": "https://production.tablecheck.com/v2/hub/menu_items",
+      "method": "OPTIONS",
+      "reachedSource": false,
+      "queryKeys": [],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "POST",
+        "headerNames": [
+          "content-type"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:62",
+      "url": "https://production.tablecheck.com/v2/hub/menu_items",
+      "method": "OPTIONS",
+      "reachedSource": false,
+      "queryKeys": [],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "POST",
+        "headerNames": [
+          "content-type"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:63",
+      "url": "https://production.tablecheck.com/v2/shops/nakamata-nodoguro-ginza",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "locale"
+      ]
+    },
+    {
+      "ref": "C-preflight:64",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:65",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "POST",
+        "headerNames": [
+          "content-type"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:66",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:67",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:68",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:69",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "POST",
+      "reachedSource": true,
+      "queryKeys": [],
+      "contentType": "application/json",
+      "bodySHA256": "84bd052cdd3688de59b30308bf3461b8314a32a960b84bee650691d7af332290",
+      "bodyFields": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      }
+    },
+    {
+      "ref": "C-source:70",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:71",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:72",
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-preflight:73",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:74",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "POST",
+        "headerNames": [
+          "content-type"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:75",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:76",
+      "url": "https://production.tablecheck.com/v2/geolocation",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:77",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:78",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:79",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:80",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:81",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:82",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "POST",
+      "reachedSource": true,
+      "queryKeys": [],
+      "contentType": "application/json",
+      "bodySHA256": "84bd052cdd3688de59b30308bf3461b8314a32a960b84bee650691d7af332290",
+      "bodyFields": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      }
+    },
+    {
+      "ref": "C-preflight:83",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:84",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:85",
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-preflight:86",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:87",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "POST",
+        "headerNames": [
+          "content-type"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:88",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:89",
+      "url": "https://production.tablecheck.com/v2/geolocation",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:90",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:91",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:92",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:93",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:94",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:95",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "POST",
+      "reachedSource": true,
+      "queryKeys": [],
+      "contentType": "application/json",
+      "bodySHA256": "84bd052cdd3688de59b30308bf3461b8314a32a960b84bee650691d7af332290",
+      "bodyFields": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      }
+    },
+    {
+      "ref": "C-preflight:96",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:97",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:98",
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-preflight:99",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-preflight:100",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "POST",
+        "headerNames": [
+          "content-type"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:101",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:102",
+      "url": "https://production.tablecheck.com/v2/geolocation",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:103",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:104",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:105",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:106",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "C-source:107",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ]
+    },
+    {
+      "ref": "C-source:108",
+      "url": "https://production.tablecheck.com/v2/hub/availability_calendar_v2",
+      "method": "POST",
+      "reachedSource": true,
+      "queryKeys": [],
+      "contentType": "application/json",
+      "bodySHA256": "84bd052cdd3688de59b30308bf3461b8314a32a960b84bee650691d7af332290",
+      "bodyFields": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      }
+    },
+    {
+      "ref": "C-preflight:109",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "C-source:110",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "cuisine",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "sort",
+        "party_size",
+        "hits"
+      ]
+    }
+  ],
+  "qualificationOracles": [
+    {
+      "name": "Specializing in Nodoguro Ginza Nakamata",
+      "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+      "phone": "03-6264-3229",
+      "hardCriteriaMet": true,
+      "withinArea": true,
+      "evidenceRefs": [
+        ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/03-W2_DETAIL.body",
+        ".eval-artifacts/phase3b/d4-d8-live-20261106/preparation/historical-provenance.json",
+        ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/05-W2_TABLECHECK_IDENTITY.body"
+      ]
+    },
+    {
+      "name": "のどぐろ専門 銀座 中俣",
+      "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+      "phone": "03-6264-3229",
+      "hardCriteriaMet": true,
+      "withinArea": true,
+      "evidenceRefs": [
+        ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/03-W2_DETAIL.body",
+        ".eval-artifacts/phase3b/d4-d8-live-20261106/preparation/historical-provenance.json",
+        ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/05-W2_TABLECHECK_IDENTITY.body"
+      ]
+    },
+    {
+      "name": "Nodoguro Senmon Ginza Nakamata",
+      "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+      "phone": "03-6264-3229",
+      "hardCriteriaMet": true,
+      "withinArea": true,
+      "evidenceRefs": [
+        ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/03-W2_DETAIL.body",
+        ".eval-artifacts/phase3b/d4-d8-live-20261106/preparation/historical-provenance.json",
+        ".eval-artifacts/phase3b/d4-d8-live-20261106/certification/05-W2_TABLECHECK_IDENTITY.body"
+      ]
+    }
+  ],
+  "reviewedReadRules": [
+    {
+      "ref": "independent-approved-literal-0",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/catalog.json",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-1",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "queryProfile",
+        "hits",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "offset",
+        "id",
+        "open_day",
+        "service_mode"
+      ],
+      "requiredQueryKeys": [
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-2",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-3",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-4",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-5",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-6",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "POST"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/v2/hub/availability_calendar_v2",
+      "bodyFields": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      },
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "content-type"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-7",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "sw",
+        "vac_net",
+        "svd",
+        "svt",
+        "svps"
+      ],
+      "requiredQueryKeys": [],
+      "pathnamePattern": "^/en/tokyo/.*$"
+    },
+    {
+      "ref": "independent-approved-literal-8",
+      "origin": "https://www.tablecheck.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "search_text",
+        "date",
+        "time",
+        "num_people",
+        "availability_mode"
+      ],
+      "requiredQueryKeys": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate"
+      ],
+      "pathname": "/en/japan/search"
+    },
+    {
+      "ref": "independent-approved-literal-9",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/v2/geolocation",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-10",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "locale",
+        "shop_universe_id",
+        "text"
+      ],
+      "requiredQueryKeys": [
+        "locale",
+        "shop_universe_id",
+        "text"
+      ],
+      "pathname": "/v2/autocomplete",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-11",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "limit",
+        "sort_by",
+        "shop_ids[]"
+      ],
+      "requiredQueryKeys": [
+        "limit",
+        "sort_by"
+      ],
+      "pathname": "/v2/hub/public_shop_lists",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-12",
+      "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "shop_universe_id",
+        "include_ids",
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "requiredQueryKeys": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "pathname": "/ai_search",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-13",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "shop_universe_id",
+        "include_ids",
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "requiredQueryKeys": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "pathname": "/v2/shop_search",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-14",
+      "origin": "https://cdn0.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathnamePattern": "^/common/.*$",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-15",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "locale"
+      ],
+      "requiredQueryKeys": [
+        "locale"
+      ],
+      "pathnamePattern": "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    {
+      "ref": "independent-approved-literal-16",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ],
+      "requiredQueryKeys": [
+        "rst_id"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/initial_vacancy/?$"
+    },
+    {
+      "ref": "independent-approved-literal-17",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "plan_id",
+        "seat_only"
+      ],
+      "requiredQueryKeys": [
+        "rst_id"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy_date_with_status/?$"
+    },
+    {
+      "ref": "independent-approved-literal-18",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "plan_id",
+        "seat_only"
+      ],
+      "requiredQueryKeys": [
+        "rst_id",
+        "svd"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy_member_by_date/?$"
+    },
+    {
+      "ref": "independent-approved-literal-19",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ],
+      "requiredQueryKeys": [
+        "rst_id",
+        "svd",
+        "svps"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy/?$"
+    },
+    {
+      "ref": "independent-approved-literal-20",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "requiredQueryKeys": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "pathname": "/contents/reserve_date_status_list"
+    }
+  ],
+  "witnesses": [
+    {
+      "candidateId": "witness-W2",
+      "name": "Nodoguro Senmon Ginza Nakamata",
+      "address": "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+      "phone": "03-6264-3229",
+      "provider": "TABELOG",
+      "sourceEntityId": "13186922",
+      "date": "2026-11-11",
+      "time": "20:30",
+      "partySize": 2,
+      "detailUrl": "https://tabelog.com/en/tokyo/A1301/A130101/13186922/",
+      "identityText": [
+        "Nodoguro Senmon Ginza Nakamata",
+        "東京都中央区銀座4-10-12 銀座サマリアビル B1",
+        "03-6264-3229"
+      ]
+    }
+  ],
+  "boundedNoResult": false,
+  "deadline": {
+    "elapsedMs": 204191.42525,
+    "turns": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794193393289,
+        "deadlineAtMs": 1794193893289,
+        "elapsedMs": 189148.936708,
+        "modelCalls": 29,
+        "googleRequests": 1,
+        "exceeded500Seconds": false
+      },
+      {
+        "id": "BOOK_THIS_OUTLET",
+        "startedAtMs": 1794193582439,
+        "deadlineAtMs": 1794194082439,
+        "elapsedMs": 14200.125834000006,
+        "modelCalls": 1,
+        "googleRequests": 0,
+        "exceeded500Seconds": false
+      }
+    ],
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "priceClaims": [],
+  "softClaims": []
+}
