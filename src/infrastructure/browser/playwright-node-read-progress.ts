@@ -13,15 +13,23 @@ channel('http.client.request.start').subscribe(value=>{
  const scope=scopes.getStore(),request=(value as {request:ClientRequest}).request;
  if(!scope||request.method!=='GET'||request.getHeader('host')!==scope.url.host
   ||![scope.url.pathname+scope.url.search,scope.url.href].includes(request.path))return;
- const publish=()=>scope.observe({...scope.progress});
+ const publish=()=>{try{scope.observe({...scope.progress});}catch{/* Diagnostics cannot change transport. */}};
  scope.progress.tracked=true;publish();
  const abort=()=>request.destroy(Object.assign(new Error('Document transport aborted'),{name:'AbortError'}));
  if(scope.signal.aborted)abort();else scope.signal.addEventListener('abort',abort,{once:true});
  request.once('close',()=>scope.signal.removeEventListener('abort',abort));
  request.once('response',(response:IncomingMessage)=>{
   if(response.statusCode!==undefined)scope.progress.status=response.statusCode;publish();
-  response.on('data',(chunk:Buffer)=>{scope.progress.receivedBodyBytes+=chunk.byteLength;publish();});
-  response.once('end',()=>{scope.progress.finished=true;publish();});
+  // A data listener would start flowing before cookie/redirect handling. Tap
+  // the parser's existing push instead: count even buffered, unread body bytes,
+  // consume nothing and preserve the original backpressure/return value.
+  const push=response.push;
+  response.push=function(chunk:unknown,encoding?:BufferEncoding):boolean{
+   if(Buffer.isBuffer(chunk)||typeof chunk==='string'){scope.progress.receivedBodyBytes+=Buffer.byteLength(chunk);publish();}
+   if(chunk===null){scope.progress.finished=true;publish();}
+   return push.call(this,chunk,encoding);
+  };
+  response.once('close',()=>{response.push=push;});
  });
 });
 

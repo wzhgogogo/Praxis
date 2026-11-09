@@ -12,7 +12,7 @@ import {tmpdir} from 'node:os';
 
 // Replaces the superseded partial-static-response whole-entry reload contract.
 // Actual Chromium and local HTTP, no source network/model/credentials.
-for(const mode of ['ZERO_SUCCESS','ZERO_200_SUCCESS','PARTIAL','HTTP403','HTTP500','GUARD_BLOCKED','NETWORK_ERROR','SECOND_TIMEOUT','CANCEL'] as const){
+for(const mode of ['ZERO_SUCCESS','ZERO_NODE_FETCH','ZERO_200_SUCCESS','PARTIAL','HTTP403','HTTP500','GUARD_BLOCKED','NETWORK_ERROR','SECOND_TIMEOUT','CANCEL'] as const){
  test(`document zero-byte retry boundary: ${mode}`,{timeout:26_000},async()=>{
   let requests=0,firstClosedAt=0,secondStartedAt=0,resolveFirst=()=>{};
   const first=new Promise<void>(r=>{resolveFirst=r;});
@@ -30,7 +30,7 @@ for(const mode of ['ZERO_SUCCESS','ZERO_200_SUCCESS','PARTIAL','HTTP403','HTTP50
   });server.listen(0,'127.0.0.1');await once(server,'listening');
   const origin='http://127.0.0.1:'+(server.address() as import('node:net').AddressInfo).port,url=origin+'/detail?observed=one';
   const root=await mkdtemp(join(tmpdir(),'zero-document-'));const recording=new BrowserReadRecording({directory:root,runId:mode});
-  const physicalCalls:unknown[]=[];const browser=mode==='ZERO_SUCCESS'?createG6LiveBrowser({}, {googleFetch:transport=>transport,observeRequest:r=>{if(r.method==='GET'&&new URL(r.url).pathname==='/detail')physicalCalls.push(r);}}):new LocalPlaywrightChromium();
+  const physicalCalls:unknown[]=[];const browser=mode==='ZERO_SUCCESS'?createG6LiveBrowser({}, {googleFetch:transport=>transport,observeRequest:r=>{if(r.method==='GET'&&new URL(r.url).pathname==='/detail')physicalCalls.push(r);}}):new LocalPlaywrightChromium(mode==='ZERO_NODE_FETCH'?{admittedGetTransport:'NODE_FETCH'}:{});
   const runtime=traceBrowserRuntime(browser,'TABELOG',()=>0,recording.traceSink()),controller=new AbortController();
   const session=await runtime.openSession({signal:controller.signal,networkPolicy:{documentOrigins:[mode==='GUARD_BLOCKED'?origin+'/invalid':origin],genericPublicRead:true,staticResources:[],dynamicReads:[]}});
   try{
@@ -38,9 +38,9 @@ for(const mode of ['ZERO_SUCCESS','ZERO_200_SUCCESS','PARTIAL','HTTP403','HTTP50
    const started=performance.now();const navigation=session.navigate(url,{timeoutMs:20_000}).then(()=>true,()=>false);
    if(mode==='CANCEL'){await first;controller.abort();}
    const success=await navigation,events=session.entryNavigationEvents?.()??[];
-   assert.equal(requests,['ZERO_SUCCESS','ZERO_200_SUCCESS','SECOND_TIMEOUT'].includes(mode)?2:mode==='GUARD_BLOCKED'?0:1);
+   assert.equal(requests,['ZERO_SUCCESS','ZERO_NODE_FETCH','ZERO_200_SUCCESS','SECOND_TIMEOUT'].includes(mode)?2:mode==='GUARD_BLOCKED'?0:1);
    if(mode==='ZERO_SUCCESS')assert.equal(physicalCalls.length,2,'independent Live transport accounting retains each physical attempt');
-   if(mode==='ZERO_SUCCESS'||mode==='ZERO_200_SUCCESS'){
+   if(mode==='ZERO_SUCCESS'||mode==='ZERO_NODE_FETCH'||mode==='ZERO_200_SUCCESS'){
     assert.equal(success,true);assert.ok(firstClosedAt>0&&firstClosedAt<secondStartedAt,'original transport closed before second request');
     assert.match((await session.snapshot()).text,/Recovered same document/);
     assert.equal(events.filter(e=>e.event==='ZERO_BYTE_TIMEOUT').length,1);assert.equal(events.filter(e=>e.event==='STARTED').length,2);

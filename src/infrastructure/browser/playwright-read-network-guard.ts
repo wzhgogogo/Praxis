@@ -324,7 +324,7 @@ export class PlaywrightReadNetworkGuard {
     const session = await context.newCDPSession(page);
     await session.send("Page.enable");
     const rootFrameId = (await session.send("Page.getFrameTree")).frameTree.frame.id;
-    const entry=!replay&&this.admittedGetTransport==="REVIEWED_STATIC_BROWSER"
+    const entry=!replay
       ?new PlaywrightEntryNavigation(page,session,()=>this.abortEntryTransports(page),(url,remaining)=>this.prepareNavigation(url,remaining),timeout=>{this.documentAttemptTimeouts.set(page,timeout);}):undefined;
     if(entry)this.entries.set(page,entry);
     session.on("Page.frameNavigated",event=>{if(event.frame.id===rootFrameId)this.forms.clearObservedPageValues(page);});
@@ -339,7 +339,7 @@ export class PlaywrightReadNetworkGuard {
     type Send = CDPSession["send"];
     type On = (method: string, handler: (params: any) => void) => void;
     let sequence = 0;
-    const configure = async (send: Send, on: On, sendRoot=false): Promise<void> => {
+    const configure = async (send: Send, on: On): Promise<void> => {
       const formNavigations = new Map<string, { evidence: Promise<ObservedGetFormSubmission | undefined>; startedAt: number }>();
       on("Page.frameRequestedNavigation", event => {
         if (event.reason !== "formSubmissionGet" && event.reason !== "formSubmissionPost") return;
@@ -490,7 +490,7 @@ export class PlaywrightReadNetworkGuard {
       await send("Fetch.enable", { patterns: [{ urlPattern: "*", requestStage: "Request" }] });
       await send("Target.setAutoAttach", { autoAttach: true, waitForDebuggerOnStart: true, flatten: false });
     };
-    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); },true);
+    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); });
   }
 
   private async admitsPreflight(url: URL, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {

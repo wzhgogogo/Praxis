@@ -1,6 +1,6 @@
 # 2026-11-09 — held-out paused / offline reliability repair
 
-Status: draft / not integrated; full frozen gates pending. Base4256303d; no sourceGET/model/Live. Original held-out checkout,871 files and external ledger fingerprinted and preserved.01/02 are now exposed development regressions; old results remain baseline, no rescoring or resume.
+Status: draft / not integrated; corrected source freeze/full gates pending. First freeze414c3831 passed type/arch/default1558/build; browser gate257/262 failed. The5 failures remain in gates/414c3831:3 old direct-widget fixtures lacked explicit named scope,2 cookie/redirect cases exposed an observer that started flowing too early. Corrected with parser-push observation (including unread buffered bytes), original redirect assertions retained; targeted80 controls pass and a buffered-byte/no-consumption control is added. No first failure overwritten. Base4256303d; no sourceGET/model/Live. Original held-out checkout,871 files and external ledger fingerprinted and preserved.01/02 are now exposed development regressions; old results remain baseline, no rescoring or resume.
 
 | Repair | Evidence / red-green | Boundary |
 |---|---|---|

@@ -1,0 +1,5 @@
+src/infrastructure/browser/browser-read-policy.ts:5 [ REGEX ]   return [...url.searchParams.keys()].some(key => /(?:email|e-mail|phone|tel|address|name|password|passcode|token|secret|cookie|api_?key|card|payment|credit)/i.test(key));
+src/infrastructure/browser/playwright-entry-navigation.ts:21 [ WORDLIST ]   cdp.on('Network.requestWillBeSent',e=>{if(!this.active)return;this.pending.add(e.requestId);if(!['GET','HEAD','OPTIONS'].includes(e.request.method)||e.redirectResponse)this.unsaf
+src/infrastructure/browser/playwright-entry-navigation.ts:27 [ REGEX ]   if(!this.active||url!==this.currentUrl||!(error instanceof Error)||!/TimeoutError|Timeout .*exceeded|timed out/i.test(error.name+' '+error.message))return;
+src/integrations/restaurant-identity/observed-outlet-names.ts:40 [ SITE-BRANCH ]       if(websitePage&&e.provider!=="TABELOG"&&e.provider!=="TABLECHECK"&&e.provider!=="MODEL_JUDGMENT")return {...e,claims:{...e.claims,observedSourceLinks:observedLinks(websitePag
+src/integrations/restaurant-search/source-packs.ts:99 [ SITE-BRANCH ]     areaEvidenceRequired?: {notEvidencedReason: 'TABLECHECK_NOT_EVIDENCED'};
