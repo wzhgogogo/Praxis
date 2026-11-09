@@ -61,7 +61,11 @@ class NativeFixtureSession implements BrowserSession {
     await this.admitDocument?.(url);
     try { this.current = this.lookup(url); } catch (error) { this.navigationUnusable = true; throw error; }
   }
-  async snapshot(): Promise<BrowserSnapshot> { if (!this.current) throw new Error("No source page navigated"); return this.current; }
+  async snapshot(): Promise<BrowserSnapshot> {
+    // Match the real isolated Chromium page before its first navigation. A
+    // current-page check must not make the fixture throw instead of observing blank.
+    return this.current ?? {url:"about:blank",title:"",html:"<html><head></head><body></body></html>",text:""};
+  }
   async observeControls(): Promise<BrowserPageControl[]> {
     if (!this.current) return [];
     const controls: BrowserPageControl[] = [];
