@@ -7,3 +7,5 @@ Status: exposed development / not held-out。2026-11-09 Asia/Shanghai（用户�
 原run-c-closeout-live.ts D8、三录制、凭据只env-file。旧人工身份原始证据不冒充新读取；复用有哈希的连接历史原日期，不另做探查。冻结20动态/21独立合同；旧评分与录制保留，旧独立审计缺陷不凭当前ABSENT判关闭。修复在main发布后冻结证据SHA；BOOK_THIS_OUTLET仍仅首回合有位交付后发。
 
 先首个卡点，不做多层延伸诊断。任何S0或证据缺失停下来源工作并离线修复；无S0则记录B1是否验证、准备held-out清单，不读取或公开Clean Holdout原文，不运行held-out，不追加D8。报告最多一页，原始完整日志分开保留。
+
+认证实际2026-11-09T02:59:58.539Z：原20:30/2仍有位，1GET；累计GET382/492、Live30/model819。响应SHA256 63763e087c6b5e663d2646adaf541e9601907f36e0cfd9cd45f7935f0a988e9e，时段未改选。合入main并远端确认的源码在本次冻结后不变，完整门禁仅复用相同产品字节。

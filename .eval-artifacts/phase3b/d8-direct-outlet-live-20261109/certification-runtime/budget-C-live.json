@@ -14,9 +14,9 @@
     "fullLive": 30,
     "realModelCalls": 819,
     "environmentReruns": 0,
-    "evaluationPublicGET": 381,
+    "evaluationPublicGET": 382,
     "googleRequests": 104,
-    "restaurantWebsiteRequests": 11686
+    "restaurantWebsiteRequests": 11687
   },
   "limits": {
     "evaluationPublicGET": 384,
@@ -35,7 +35,7 @@
     "postDeliveryGETs": 2,
     "connectivityPages": 0
   },
-  "authorization": "Direct user instruction 2026-11-09: \u4fee\u6389\u67e5\u4f4d\u7ed5\u884c\uff0c\u8dd11\u6b21D8\uff0c\u7136\u540e\u8fdb\u5165held-out\u51c6\u5907. Model total1600->1800; current819. One additionalD8+3GET: shared48->49Live/489->492GET, C31/384, reserve18Live108GET unchanged. Perturn50/500s, provider45s and entry20s unchanged. Merge main after full offline gates, one positive-certified D8, then stop regardless result; no extra D8. NoS0 permits preparation only, not held-out execution.",
+  "authorization": "Direct user instruction 2026-11-09: 修掉查位绕行，跑1次D8，然后进入held-out准备. Model total1600->1800; current819. One additionalD8+3GET: shared48->49Live/489->492GET, C31/384, reserve18Live108GET unchanged. Perturn50/500s, provider45s and entry20s unchanged. Merge main after full offline gates, one positive-certified D8, then stop regardless result; no extra D8. NoS0 permits preparation only, not held-out execution.",
   "entries": [
     {
       "id": "C-model-only:1",
@@ -2070,7 +2070,7 @@
       "evaluationPublicGET": 1,
       "environmentReruns": 0,
       "restaurantWebsiteRequests": 1,
-      "note": "2026-11-08 direct human approval in current chat, reply to request_user_input_async call_46eeb0990e6b4e1a960336bca4eadf03: \u6279\u51c6\u8ffd\u52a0 1 \u6b21 GET \u5e76\u9a8c\u8bc1. Exactly one TC_SEARCH entry GET466->467 for shop-detail validation; model0/fullLive0, no retry or second document; held-out108GET/18Live and D8 GET3/Live1 untouched. Exact message time not exposed."
+      "note": "2026-11-08 direct human approval in current chat, reply to request_user_input_async call_46eeb0990e6b4e1a960336bca4eadf03: 批准追加 1 次 GET 并验证. Exactly one TC_SEARCH entry GET466->467 for shop-detail validation; model0/fullLive0, no retry or second document; held-out108GET/18Live and D8 GET3/Live1 untouched. Exact message time not exposed."
     },
     {
       "id": "C-tablecheck-shop-validation-20261108:observed-source-io",
@@ -4378,6 +4378,18 @@
       "googleRequests": 1,
       "restaurantWebsiteRequests": 120,
       "note": "Actual source transport starts; no quotas charged twice; witness GETs have their own rows."
+    },
+    {
+      "id": "C-D8-DIRECT-OUTLET-20261109-CERT:GET:1",
+      "conversation": "C",
+      "recordedAtUTC": "2026-11-09T02:59:57.463Z",
+      "mode": "G6_CONTROLLED_ATTEMPT",
+      "fullLive": 0,
+      "realModelCalls": 0,
+      "evaluationPublicGET": 1,
+      "environmentReruns": 0,
+      "restaurantWebsiteRequests": 1,
+      "note": "vacancy; public credential-free GET, no retry"
     }
   ],
   "sharedApprovedLimits": {
