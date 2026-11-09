@@ -63,9 +63,17 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
     const beforeRead=()=>this.beforeBookingRead(input,signal);
     beforeRead();
     const model:ModelGateway={complete:request=>{beforeRead();return this.model.complete(request);}};
-    const facts=this.createFacts(this.observe,this.browserBudget,model,undefined,beforeRead);
-    await facts.inspectFacts({capturePagesOnly:true,reobservePageOnce:true,candidateIds:[input.candidate.restaurant.id],
-      candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},signal);
+    const capture=async(refresh:boolean)=>{
+      const facts=this.createFacts(this.observe,this.browserBudget,model,undefined,beforeRead);
+      await facts.inspectFacts({capturePagesOnly:true,...(refresh?{reobservePageOnce:true as const}:{captureLinkedTranslation:true as const}),candidateIds:[input.candidate.restaurant.id],
+        candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},signal);
+    };
+    const incomplete=()=>this.currentPages(input.readContext,input.candidate.restaurant.id).some(page=>page.snapshot.settlement==="PENDING");
+    // Initial acquisition retains its existing observed language-link route.
+    // Only incomplete captures get the one extra exact-page observation.
+    if(incomplete())await capture(true);
+    else {await capture(false);if(incomplete())await capture(true);}
+
     beforeRead();
   }
 

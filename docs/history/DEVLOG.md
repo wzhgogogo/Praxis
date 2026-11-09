@@ -6001,3 +6001,5 @@ No transport behavior changed: local Origin match passes in all three modes; wir
 G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确切页直接采样，否则绑定URL导航并重核实体；PENDING不回答。真实D4 snapshot24、D8 snapshot41的DOM原文组件由createLiveReadAssembly驱动，刷新状态/时钟/模型为LOCAL_CONSTRUCTION。D4引用Private rooms/Unavailable，D8完整文档NOT_STATED；仍PENDING拒答、不循环。新旧同输入红绿证明续跑与导航承诺，不宣称原Live已重演成功。旧INCOMPLETE_PAGE/NO_PAGES不覆盖，真实问答/条款仍待实际运行验证。首轮测试夹具绑定/采样计数差异与测试入口架构检查已修正，未放宽产品边界。
 
 虚构续跑四组反例及真实G6异常产物接线已通过；全套门禁待冻结后运行。真实模型/源站/Live均0，未读取或复制私有留出原文。证据目录：.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/。
+
+首轮冻结6bef873b全量默认门禁拦出条款初次采集误走刷新分支，影响语言链接和预留时间回归；原失败完整保留first-freeze-6bef873b。已恢复初次采集原路线，只对已有或初次留下的不完整页增加一次原页观察；NO_PAGES的旧诊断断言改为已捕获但INCOMPLETE_PAGE拒答，零回答、保留B1、deadline/reserve和翻译禁越界等行为断言全部保留。针对性29项通过，待新SHA全门禁。

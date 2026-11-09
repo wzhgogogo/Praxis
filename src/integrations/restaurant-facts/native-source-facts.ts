@@ -317,7 +317,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           return {page:ready.snapshot,controls:ready.controls??[],ready:ready.status==="COMPLETED"&&ready.snapshot.settlement!=="PENDING"};
         };
         const first=await capturePage();
-        if(!first.ready){factChecks[candidate.restaurant.id]={status:"UNKNOWN",checkedAt,evidenceIds:[],reasonCode:"NATIVE_SOURCE_PAGE_UNSETTLED"};continue;}
+        if(!first.ready){if(request.capturePagesOnly)retainNativePage(first.page,first.controls);factChecks[candidate.restaurant.id]={status:"UNKNOWN",checkedAt,evidenceIds:[],reasonCode:"NATIVE_SOURCE_PAGE_UNSETTLED"};continue;}
         const initial=first.page,initialControls=first.controls;
         tableCheckServiceControls = initialControls;
         if (!retainNativePage(initial, initialControls)) {

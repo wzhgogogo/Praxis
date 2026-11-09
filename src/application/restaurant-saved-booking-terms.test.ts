@@ -34,8 +34,8 @@ test("D3 current source data still loading is omitted with a reason and never be
     assert.equal(view.case.phase,"PRESENT_RESULTS");assert.ok(view.restaurant.bookingHandoffs?.length);
     assert.deepEqual(view.restaurant.bookingHandoffs![0]!.terms,[]);
     assert.equal(f.requests.filter(q=>q.request.purpose==="restaurant_page_question").length,0);
-    const diagnostics=a.execution.bookingTermsDiagnostics as Array<{reason:string;rootTaskId:string}>;
-    assert.ok(diagnostics.some(d=>d.reason==="NO_PAGES"));
+    const diagnostics=a.execution.bookingTermsDiagnostics as Array<{reason:string;answerReason?:string;rootTaskId:string}>;
+    assert.ok(diagnostics.some(d=>d.reason==="QUESTION_UNVERIFIED"&&d.answerReason==="INCOMPLETE_PAGE"),"The fresh captured page is still incomplete; retain it for an explicit G1 refusal instead of losing all pages");
     assert.ok(diagnostics.every(d=>d.rootTaskId===view.case.rootTaskId));
     const snapshot=a.execution.finalSnapshot as {domainState:Record<string,unknown>;definitionVersion:string};
     assert.equal(snapshot.domainState.schemaVersion,"25");assert.equal(snapshot.definitionVersion,"24");
