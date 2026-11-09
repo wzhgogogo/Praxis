@@ -25,6 +25,8 @@ export type FixedGoogleObservation = {
   coordinates: { latitude: number; longitude: number };
   phone: string;
   websiteUri: string;
+  /** LOCAL_CONSTRUCTION: independently observed search-listing link, when different from Details. */
+  discoveryWebsiteUri?:string;
   /** Google Maps deep link; it is never a provider website URL. */
   googleMapsUri: string;
   /** A configured provider 404 is an observed source result, not a gap. */

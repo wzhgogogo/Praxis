@@ -95,6 +95,8 @@ export interface DiscoverySourcePack {
     candidatePath(candidate: RestaurantOutlet): "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE";
     /** Stable default order among otherwise neutral current providers. */
     availabilityPriority: number;
+    /** Area candidates require an observed outlet entrance; named identity lookup is unchanged. */
+    areaEvidenceRequired?: {notEvidencedReason: 'TABLECHECK_NOT_EVIDENCED'};
     /** Public source congestion, not an identity failure or bot challenge. */
     sourceBusy?: { matches(page: BrowserSnapshot): boolean; retryDelayMs: number };
     /** Construct this Pack's existing availability adapter for one shared read run. */
@@ -296,6 +298,7 @@ export const tableCheckDiscoveryPack: DiscoverySourcePack = {
   skillPath: "web-skills/tablecheck/SKILL.md",
   availability: {
     provider: "TABLECHECK",
+    areaEvidenceRequired: {notEvidencedReason:'TABLECHECK_NOT_EVIDENCED'},
     candidateBinding: tableCheckAvailabilityBinding,
     candidatePath: candidate => tableCheckAvailabilityBinding(candidate) === "INAPPLICABLE" ? "NONE"
       : [candidate.sourceIds.tablecheckNativeGuideUri, candidate.sourceIds.googleListedTableCheckUri, candidate.sourceIds.googleWebsiteUri].some(isTableCheckOutletUrl)

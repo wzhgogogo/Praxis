@@ -35,7 +35,7 @@ class SearchSession implements BrowserSession {
 const limits={maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:20,maxModelCallsTotal:120,maxOperationsPerCandidate:80};
 function request(name:string):RestaurantAvailabilityRequest{
   const c=structuredClone(fixtureCandidates[0]!);c.restaurant.id=name;c.restaurant.outletName=name;c.restaurant.sourceIds={googlePlaces:name};
-  return {candidateIds:[name],candidates:[c],date:fixtureIntent.date,timeWindow:fixtureIntent.timeWindow,partySize:fixtureIntent.partySize,hardCriteria:[]};
+  return {selectionScope:"SPECIFIC_OUTLET",candidateIds:[name],candidates:[c],date:fixtureIntent.date,timeWindow:fixtureIntent.timeWindow,partySize:fixtureIntent.partySize,hardCriteria:[]};
 }
 test("one read reuses each source search form across candidate checkpoints, with identical bound no-result conclusions",async()=>{
   const sessions:SearchSession[]=[];

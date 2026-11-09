@@ -1,3 +1,8 @@
+<a id="heldout-read-reliability-20261109"></a>
+## 2026-11-09 — paused held-out read reliability (CET)
+
+User explicitly pauses the original4256303d batch without invalidating it; code changes occur in a separate worktree. Source/ledger hashes retained, no original/manifest viewing, no Live/model/sourceGET.01/02 are exposed development regressions, original evaluations remain baseline. Health observes phases/statuses and races startup against10s. Node HTTP diagnostics scope each actual route.fetch request and count body bytes without changing headers/permissions. A zero-body document transport timeout may retry the same URL once,10s per attempt/20s total; abort the original paused navigation before failing its route to retain the CDP boundary. Supersedes old partial-static whole-entry reload; ordinary static limits remain. Area TableCheck requires current source-bound entrance evidence using existing pack metadata; skips are not provider failures. Named outlet path and identity/G1/Guard unchanged. Local component failures preserved and corrected; full gates pending. [Plan/report](../../.eval-artifacts/phase3b/heldout-read-reliability-20261109/report.md).
+
 <a id="d8-direct-outlet-live-20261109"></a>
 
 ## 2026-11-09 Asia/Shanghai — direct availability produces B1, independent review pending

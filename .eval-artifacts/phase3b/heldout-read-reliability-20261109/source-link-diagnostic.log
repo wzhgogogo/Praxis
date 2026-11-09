@@ -1,0 +1,29 @@
+✖ source text handoff reaches request-bound availability and presentation through the production composition (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000) (37.363292ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 410.318333
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:1:49317
+✖ source text handoff reaches request-bound availability and presentation through the production composition (packs=Google; maxAgentSteps=6, maxRejectedActions=3, maxAutomaticBrowserMs=50000000, maxStructuredReadMs=8000) (37.363292ms)
+  AssertionError [ERR_ASSERTION]: {"actions":["SEARCH_RESTAURANTS","INVESTIGATE_CANDIDATE_FACTS","CHECK_AVAILABILITY","END_READ"],"factChecks":{"praxis:restaurant:cd1c393055726de03fe66068":{"status":"COMPLETED","checkedAt":"2026-09-16T03:00:00.000Z","evidenceIds":["evidence:restaurant:google-entity:6a723e595aaad52f11e55b15","evidence:restaurant:google-facts:afd974b27c87091b3d88f1e4","evidence:restaurant:website-entity:a9ab1cabb2653ba4d139b6b5","website-document:cc6e0f76b4d637170435401e67e4f5a4c3c63281b52aca3a8fca07fc3cdcbc87","fact-judgment:praxis:restaurant:cd1c393055726de03fe66068:2026-09-16T03:00:00.000Z:website-document:cc6e0f76b4d637170435401e67e4f5a4c3c63281b52aca3a8fca07fc3cdcbc87"],"sourceAttempts":[{"source":"GOOGLE_PLACES","outcome":"COMPLETED"},{"source":"RESTAURANT_WEBSITE","outcome":"COMPLETED"}],"supersededEvidenceIds":[]}},"availability":{"praxis:restaurant:cd1c393055726de03fe66068":{"status":"UNKNOWN","checkedAt":"2026-09-16T03:00:00.000Z","evidenceIds":[],"reasonCode":"ENTITY_MATCH_UNCERTAIN","sourceAttempts":[{"source":"TABLECHECK","outcome":"NOT_EVIDENCED","reasonCode":"TABLECHECK_NOT_EVIDENCED"},{"source":"TABELOG","outcome":"FAILED","reasonCode":"ENTITY_MATCH_UNCERTAIN"}],"sourceProvider":"TABELOG","requestFingerprint":"{\"date\":\"2026-09-17\",\"timeWindow\":{\"earliest\":\"13:00\",\"latest\":\"13:00\"},\"partySize\":2}"}},"identities":[{"evidenceId":"evidence:restaurant:google-entity:6a723e595aaad52f11e55b15","kind":"ENTITY_MATCH","provider":"GOOGLE_PLACES","candidateId":"praxis:restaurant:cd1c393055726de03fe66068","sourceEntityId":"source-prose","observedAt":"2026-09-16T03:00:00.000Z","requestFingerprint":"8cfb7d947e931b1a01c5b5bc759b734941b727dae98d22c14412228873bfb0c8","claims":{"placeId":"source-prose","outletName":"Source Kitchen","address":"1 Ginza, Tokyo"},"entityMatch":{"confidence":"HIGH","matchedBy":["GOOGLE_PLACE_ID"]}},{"evidenceId":"evidence:restaurant:website-entity:a9ab1cabb2653ba4d139b6b5","kind":"ENTITY_MATCH","provider":"RESTAURANT_WEBSITE","candidateId":"praxis:restaurant:cd1c393055726de03fe66068","sourceEntityId":"website:183a6c0fd82bf8b9aa8ec7dd","sourceUrl":"https://source.example/menu","observedAt":"2026-09-16T03:00:00.000Z","requestFingerprint":"294a1f07320bf18408d83b7eda26cfe67606b4b6711cb19c3eb4b3a8a0bc8a1c","claims":{"observationKind":"PUBLIC_PAGE","outletName":"Source Kitchen","sourceAssociation":"GOOGLE_LISTED_WEBSITE_URI","officialWebsiteVerified":false,"observedSourceLinks":[]},"entityMatch":{"confidence":"HIGH","matchedBy":["GOOGLE_LISTED_WEBSITE_EXACT_PHONE"]},"artifactRef":{"kind":"DOM_EXCERPT","reference":"website-visible:79f8f8141f9306475bb55bbe867a9723812d74664ef31f1d0ae6e0aadab2c41f"}}]}
+  + actual - expected
+  
+  + 'NO_VERIFIED_RESULT'
+  - 'PRESENT_RESULTS'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/hybrid-read-composition.test.ts:986:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_VERIFIED_RESULT',
+    expected: 'PRESENT_RESULTS',
+    operator: 'strictEqual'
+  }

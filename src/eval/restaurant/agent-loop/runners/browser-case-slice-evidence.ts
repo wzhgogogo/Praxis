@@ -307,7 +307,7 @@ export function traceBrowserSession(
         trace("SESSION_RETURN", { method: property, result });
         return result;
       } catch (error) { trace("SESSION_ERROR", { method: property, error: errorRecord(error) }); throw error; }
-      finally {if(property==="navigate"){const events=target.entryNavigationEvents?.()??[];for(const event of events.slice(recordedEntryEvents))trace("ENTRY_NAVIGATION",event);recordedEntryEvents=events.length;}}
+      finally {if(property==="navigate"||property==="openLink"){const events=target.entryNavigationEvents?.()??[];for(const event of events.slice(recordedEntryEvents))trace("ENTRY_NAVIGATION",event);recordedEntryEvents=events.length;}}
     };
     return typeof value === "function" ? value.bind(target) : value;
   } });

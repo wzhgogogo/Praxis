@@ -49,7 +49,8 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   const runCeilings = Object.freeze({ ...ceilings });
   const now = () => transports.clock.now().toISOString();
   const taskId = transports.currentTaskId ?? (() => undefined);
-  const sourceNames=new ObservedOutletNames(transports.browser);
+  const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
+  const sourceNames=new ObservedOutletNames(transports.browser,availabilityPacks.flatMap(pack=>pack.availability?.areaEvidenceRequired?pack.documentOrigins:[]));
   const tabelogHandoffs = new TabelogBookingHandoffReader(sourceNames.runtime, taskId, now);
   const tablecheckHandoffs = new TableCheckBookingHandoffReader(tabelogHandoffs.runtime, taskId, now);
   const bookingLinks = {
@@ -78,7 +79,6 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     transports.remainingModelCalls ?? (()=>undefined), now, config.maxAutomaticBrowserMs);
   const bookingHandoffs = {...bookingLinks,readPrepared:terms.readPrepared};
   const questions=Object.assign(native.questions,{readBookingTerms:terms.readBookingTerms.bind(terms),readBookingTermsDiagnostics:terms.readBookingTermsDiagnostics});
-  const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
   const sourceAvailability = new LiveBrowserAvailability(bookingHandoffs.runtime, transports.model, {
     now, browserBudget,
     japaneseName: google.japaneseName.bind(google),
@@ -166,6 +166,8 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     inspectFacts:(request,signal,identityOnly)=>sourceNames.capture(()=>{
       const {date,timeWindow,partySize}=request.intent;
       return identityOnly&&date&&timeWindow&&partySize!==undefined?sourceAvailability.identify({candidateIds:request.candidateIds,candidates:request.candidates,
+        ...(request.sourceEvidence?{sourceEvidence:request.sourceEvidence}:{}),
+        ...(request.intent.target?{selectionScope:request.intent.target.selectionScope}:{}),
         date,timeWindow,partySize,
         hardCriteria:[]},signal,request.readRunId,request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?request.intent.target.query:undefined):native.facts.inspectFacts(request,signal);
     })};

@@ -168,6 +168,13 @@
       "category": "组件评测",
       "proves": "保存资料上的排序/同店判断模拟及 named-retrieval-simulation.test.ts 的正常和冲突对照。",
       "cannotSignOff": "不能签收生产搜索/详情取得、Google 日文名接线或 G4 整组装。"
+    },
+    {
+      "file": "src/eval/restaurant/agent-loop/heldout-read-reliability.test.ts",
+      "core": "src/integrations/restaurant-availability/availability-source-resolver.ts",
+      "category": "组件评测",
+      "proves": "已暴露01/02真实候选及来源观察的路由组件红绿和原始耗时/模型计数投影。",
+      "cannotSignOff": "不签收完整held-out重跑、实际网络恢复、真实重试成功或当前库存。"
     }
   ]
 }

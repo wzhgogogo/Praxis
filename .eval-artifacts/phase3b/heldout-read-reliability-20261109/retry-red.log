@@ -1,0 +1,27 @@
+✖ document zero-byte retry boundary: ZERO_SUCCESS (20156.80525ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20464.333708
+
+✖ failing tests:
+
+test at src/harness/browser/entry-idle-retry.test.ts:1:797
+✖ document zero-byte retry boundary: ZERO_SUCCESS (20156.80525ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/entry-idle-retry.test.ts:39:11)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual'
+  }

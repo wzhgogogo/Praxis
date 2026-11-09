@@ -1,0 +1,48 @@
+✖ src/eval/restaurant/agent-loop/g6/holdout-health.test.ts (77496.562875ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 0
+ℹ cancelled 1
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 77499.2965
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:1:1
+✖ src/eval/restaurant/agent-loop/g6/holdout-health.test.ts (77496.562875ms)
+  'Promise resolution is still pending but the event loop has already resolved'
+ual:
+  + actual - expected
+  
+  + undefined
+  - 'NAVIGATE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:28:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'NAVIGATE',
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:1:331
+✖ health phase diagnostics: NAVIGATION_ERROR (0.239917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'NAVIGATE'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:28:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'NAVIGATE',
+    operator: 'strictEqual'
+  }

@@ -1,3 +1,5 @@
+2026-11-09 — held-out 暂停、不作废：原4256303d工作区/运行目录/账本保持，01/02结果作为改进前基线且标为已暴露开发回归。独立工作区实现体检阶段/HTTP诊断、仅零正文文档超时同URL最多重试一次（10秒×2、总20秒）、地区候选缺来源TableCheck证据则NOT_EVIDENCED跳过；指定店名、身份/Guard/G1及45秒/500秒/50模型上限不变。真实超时没有Node字节证据，恢复测试为录制DOM/JSON组件加构造传输，不宣称Live恢复；401仅虚构测试。全套冻结门禁待执行，之后按用户批准合入main并停下，旧批次不续跑。[报告](../.eval-artifacts/phase3b/heldout-read-reliability-20261109/report.md)。
+
 2026-11-09 CET — 显式已知无位见证源码a002b037全门禁PASS：默认1546、Chromium260+G6 83、strictG2全12及type/arch/build，写死扫描新增0，源码仅src/eval。实际false+标记诊断、实际true标准；负见证不作正向可行证据，独立评分/身份/Guard/G1/时限均不改。内外batch标声明与实际模式，计划仍18次。按用户授权发布main后v3只认证03一次，true才同SHA完整运行，所有非体检停批等复核，体检恢复最多2次。实现真实调用0，原文/清单未查看。[报告](../.eval-artifacts/phase3b/heldout-known-unavailable-20261109/report.md)。
 
 2026-11-09 CET — draft / not integrated：显式已知无位见证候选，仅src/eval变化；清单允许true标记，详情页认证仍拒绝，未标记false仍拒开跑。实际false+标记记NO_POSITIVE_WITNESS_DIAGNOSTIC，实际true记STANDARD_G6，负见证不作正向可行证据，原评分不变。内外batch/执行/失败区分声明策略与实际结果；针对性29通过，待全门禁后发布main。v3仅核SHA未查看，用户授权仅认证03一次，true才同SHA完整18次正式运行；其他停批等待，体检恢复最多2次。[计划](../.eval-artifacts/phase3b/heldout-known-unavailable-20261109/plan.md)。

@@ -1,0 +1,129 @@
+{
+  "status": "frozen regression / exposed components",
+  "sourceCommit": "445603c7",
+  "documents": {
+    "outlet": {
+      "url": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+      "sha256": "f24ff132344ea175789335047311ecebd9b22d304c05e5f4060e3a3a08514c66",
+      "originalPath": "p3b-holdout-01-r3/p3b-holdout-01-r3/recordings/g6-p3b-holdout-01-r3-1794216733695-0/diagnostic/snapshot-0024.html",
+      "snapshot": 24
+    },
+    "directory": {
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+      "sha256": "854c90c6e2401c6ca90762ef846919d38d66c5872885998471e4a3d8c15fbf49",
+      "originalPath": "p3b-holdout-02-r1/p3b-holdout-02-r1/recordings/g6-p3b-holdout-02-r1-1794221288783-0/diagnostic/snapshot-0007.html",
+      "snapshot": 7
+    }
+  },
+  "vacancy": {
+    "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13198396&svd=20261118&svps=2&svt=1900&exclude_unavailable_time=1",
+    "status": 200,
+    "sha256": "044a803f7882375500a08159683cf6cff77ce00f46f277ec236be142ce814a3c",
+    "originalHAR": "p3b-holdout-01-r3/p3b-holdout-01-r3/recordings/g6-p3b-holdout-01-r3-1794216733695-0/replay.har"
+  },
+  "cases": [
+    {
+      "case": "01-r1-retry1",
+      "document": "outlet",
+      "historicalNodeBodyBytes": "UNKNOWN",
+      "traceSHA256": "6c9721b462ea3efdf749569de1211813d8a7ab2c11dae51b3f83cf700ea544f2",
+      "navigation": {
+        "startSequence": 961,
+        "endSequence": 964,
+        "start": {
+          "navigationId": "capture:3:navigation:1",
+          "pageId": "capture:3:page:1",
+          "url": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+          "urlSha256": "2d0f0af3e86bbb7e3fad49c2b8250bfa68e7626fbe888722a5e7047310dfbb5e",
+          "method": "GOTO",
+          "remainingReadBudgetMs": 410313,
+          "navigationAllowanceMs": 19999,
+          "configuredTimeoutMs": 19999,
+          "timeoutSource": "EXPLICIT",
+          "waitUntil": "domcontentloaded",
+          "at": "2026-11-09T09:26:01.762Z",
+          "monotonicMs": 113939.186792
+        },
+        "end": {
+          "navigationId": "capture:3:navigation:1",
+          "pageId": "capture:3:page:1",
+          "startedAt": "2026-11-09T09:26:01.762Z",
+          "endedAt": "2026-11-09T09:26:21.763Z",
+          "startedMonotonicMs": 113939.186792,
+          "endedMonotonicMs": 133940.145459,
+          "elapsedMs": 20000.958667,
+          "endReason": "TIMEOUT"
+        }
+      }
+    },
+    {
+      "case": "01-r2",
+      "document": "outlet",
+      "historicalNodeBodyBytes": "UNKNOWN",
+      "traceSHA256": "f931dff5748b1a1e12ab5abbe19f6b9382687958e9a4efcc1859189bfbc3d7fc",
+      "navigation": {
+        "startSequence": 1569,
+        "endSequence": 1572,
+        "start": {
+          "navigationId": "capture:9:navigation:1",
+          "pageId": "capture:9:page:1",
+          "url": "https://tabelog.com/en/tokyo/A1305/A130503/13198396/",
+          "urlSha256": "2d0f0af3e86bbb7e3fad49c2b8250bfa68e7626fbe888722a5e7047310dfbb5e",
+          "method": "GOTO",
+          "remainingReadBudgetMs": 387785,
+          "navigationAllowanceMs": 19999,
+          "configuredTimeoutMs": 19999,
+          "timeoutSource": "EXPLICIT",
+          "waitUntil": "domcontentloaded",
+          "at": "2026-11-09T09:30:27.734Z",
+          "monotonicMs": 379900.531667
+        },
+        "end": {
+          "navigationId": "capture:9:navigation:1",
+          "pageId": "capture:9:page:1",
+          "startedAt": "2026-11-09T09:30:27.734Z",
+          "endedAt": "2026-11-09T09:30:47.736Z",
+          "startedMonotonicMs": 379900.531667,
+          "endedMonotonicMs": 399902.585625,
+          "elapsedMs": 20002.053958000033,
+          "endReason": "TIMEOUT"
+        }
+      }
+    },
+    {
+      "case": "02-r1",
+      "document": "directory",
+      "historicalNodeBodyBytes": "UNKNOWN",
+      "traceSHA256": "35209b09af20e2ebcf87647b6373618ffd3d925069fe1feaf2e2311fc64d7f0f",
+      "navigation": {
+        "startSequence": 936,
+        "endSequence": 939,
+        "start": {
+          "navigationId": "capture:1:navigation:7",
+          "pageId": "capture:1:page:1",
+          "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+          "urlSha256": "a03248d3bd09dd8cce2624082cd3edc6f7e10287400f49fa47227720fcab38b8",
+          "method": "GOTO",
+          "remainingReadBudgetMs": 428880,
+          "navigationAllowanceMs": 20000,
+          "configuredTimeoutMs": 20000,
+          "timeoutSource": "EXPLICIT",
+          "waitUntil": "domcontentloaded",
+          "at": "2026-11-09T10:49:22.788Z",
+          "monotonicMs": 97570.460209
+        },
+        "end": {
+          "navigationId": "capture:1:navigation:7",
+          "pageId": "capture:1:page:1",
+          "startedAt": "2026-11-09T10:49:22.788Z",
+          "endedAt": "2026-11-09T10:49:42.790Z",
+          "startedMonotonicMs": 97570.460209,
+          "endedMonotonicMs": 117573.010375,
+          "elapsedMs": 20002.550166,
+          "endReason": "TIMEOUT"
+        }
+      }
+    }
+  ],
+  "construction": "The historical timeout and exact saved DOM/JSON are real. Historical Node body bytes UNKNOWN. First transport zero-body stall, second-response HTTP envelope and CSP are LOCAL_CONSTRUCTION; original DOM/JSON bytes unchanged. This is component recovery, not an actual retry or held-out score."
+}

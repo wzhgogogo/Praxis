@@ -1,8 +1,8 @@
 # Agent Orchestration
 
 - Status: Accepted
-- Document revision: 3.32
-- Last updated: 2026-11-02
+- Document revision: 3.33
+- Last updated: 2026-11-09
 - Source of truth for: Agent Workspace中的模型职责、有界Loop、前后台运行与Multi-Agent边界
 - Related ADRs: [ADR-0002](../decisions/0002-deepseek-model-runtime.md), [ADR-0003](../decisions/0003-single-agent-orchestration.md), [ADR-0006](../decisions/0006-web-first-agent-workspace.md), [ADR-0010](../decisions/0010-restaurant-agent-loop-action-validation.md), [ADR-0011](../decisions/0011-restaurant-agent-loop-control-refinement.md), [ADR-0012](../decisions/0012-migration-and-agent-loop-hardening.md), [ADR-0013](../decisions/0013-agent-loop-final-hardening.md), [ADR-0021](../decisions/0021-cited-source-fact-investigation.md)
 - Related documents: [Agent Gateway and Workspace](AGENT-GATEWAY-AND-WORKSPACE.md), [Task Runtime](TASK-RUNTIME.md), [Policy & Execution](POLICY-EXECUTION-VERIFICATION.md)
@@ -63,6 +63,8 @@ Restaurant Agent Decision使用同一服务端Gateway和受限JSON Schema，purp
 - Browser Interpretation：只能在允许域名内观察并走到提交前Checkpoint；最终提交不在模型Loop内。Hybrid Live Read可通过`PRAXIS_BROWSER_ENGINE=LOCAL_CHROMIUM`显式选择只用于开发/eval的本地Playwright backend；该选择不访问Cloudflare、不改变AUTO的Kitesurf→Chromium顺序。仅当`PRAXIS_LOCAL_CHROMIUM_INTERACTIVE=1`与`PRAXIS_EVAL_ALLOW_TABELOG_MANUAL_INTERVENTION=1`同时开启时，它会启动headed Chromium和gitignored持久profile，允许人手验证后在同一Session恢复；不属于Desktop/Mobile产品Surface或通用challenge bypass。
 
 ## Browser操作边界
+
+2026-11-09用户批准的文档入口合同：单次GET文档传输最多10秒，仅实际Node请求观测证明正文0字节且发生传输超时时，先终止旧请求，再对同一确切URL重试1次；两次合计含清理不超过原20秒。4xx/5xx、已收到正文、Guard拒绝、取消和语义失败不重试；每次物理请求和录制分开保留。此规则替代先前静态资源无数据时整页重载；静态资源、provider45秒、回合500秒和每回合50模型不变。地区候选只有本次读取中已绑定身份的TableCheck来源/Google官网链接或页面链接才能进入该来源；缺证记录NOT_EVIDENCED跳过，指定店名路径保持。
 
 无API来源的浏览与受控操作是产品建设方向；当前两个Restaurant Adapter的确定性方法和受限模型提议均经一个共享Browser Executor，不能据此声称已有任意页面Browser Agent。网页不作为指令或授权；旧观察引用、POST/预约/支付/取消/PII控件、非来源URL、非权威日期/人数和父级取消后的动作均被拒绝。正常页面就绪等待、同页重新观察、失败重试和业务重复提交分别设限；Router取消会等待关闭收束，人工接管后继续前重验门店、请求与Evidence。
 

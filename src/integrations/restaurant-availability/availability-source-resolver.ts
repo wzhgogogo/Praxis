@@ -1,3 +1,4 @@
+import {observedSourceEntrance} from './observed-source-entrance.js';
 import { restaurantFailureCode, type RestaurantFailureCode } from "../../domains/restaurant/failure-codes.js";
 import type {
   RestaurantAvailabilityCheck,
@@ -12,7 +13,7 @@ import type { DiscoverySourcePack } from "../restaurant-search/source-packs.js";
 
 /** A pack owns its provider label and candidate affinity; the resolver only orders bindings. */
 export interface AvailabilitySourceBinding {
-  pack: Pick<DiscoverySourcePack, "meta" | "availability">;
+  pack: Pick<DiscoverySourcePack, "meta" | "availability" | "documentOrigins">;
   provider: RestaurantAvailabilityProvider;
 }
 
@@ -57,7 +58,7 @@ export class AvailabilitySourceResolver {
   readonly executionRoute = "GENERIC_BROWSER" as const;
   constructor(
     private readonly bindings: readonly AvailabilitySourceBinding[],
-    private readonly options: { afterRead?: () => Promise<void>;identityOnly?:boolean } = {},
+    private readonly options: { afterRead?: () => Promise<void>;identityOnly?:boolean;observedAfter?:string } = {},
   ) {
     if (!bindings.length || bindings.some(({ pack, provider }) => !pack.availability || pack.availability.provider !== provider.provider)) {
       throw new Error("Availability source resolver requires each provider to be bound by its Pack metadata");
@@ -81,7 +82,9 @@ export class AvailabilitySourceResolver {
         let lastCheck: RestaurantAvailabilityCheck | undefined;
         const candidateEvidence: RestaurantReadEvidence[] = [];
         const accumulatedCandidateFactUpdates: RestaurantCandidateFactUpdate[] = [];
-        for (const provider of hintedProviderOrder(candidateRequest, this.bindings)) {
+        const skipped=this.bindings.filter(binding=>binding.pack.availability?.areaEvidenceRequired&&candidateRequest.selectionScope!=="SPECIFIC_OUTLET"&&!observedSourceEntrance(candidateRequest,binding,this.options.observedAfter??'1970-01-01T00:00:00Z'));
+        for(const binding of skipped)attempts.push({candidateId,provider:binding.provider.provider,outcome:'NOT_EVIDENCED',failureCode:binding.pack.availability!.areaEvidenceRequired!.notEvidencedReason});
+        for (const provider of hintedProviderOrder(candidateRequest, this.bindings.filter(binding=>!skipped.includes(binding)))) {
           try {
             const read = await provider.check(candidateRequest, signal);
             const check = read.availabilityChecks[candidateId];
@@ -141,7 +144,7 @@ export class AvailabilitySourceResolver {
           resultCandidateFactUpdates.push(...accumulatedCandidateFactUpdates);
           availabilityChecks[candidateId] = {
             ...(lastCheck ? structuredClone(lastCheck) : {}),
-            status: attempts.filter(a => a.candidateId === candidateId).every(a => a.outcome === "SOURCE_UNSUPPORTED") && lastCheck?.status === "SOURCE_UNSUPPORTED" ? "SOURCE_UNSUPPORTED" : "UNKNOWN",
+            status: attempts.filter(a => a.candidateId === candidateId&&a.outcome!=="NOT_EVIDENCED").every(a => a.outcome === "SOURCE_UNSUPPORTED") && lastCheck?.status === "SOURCE_UNSUPPORTED" ? "SOURCE_UNSUPPORTED" : "UNKNOWN",
             checkedAt: lastCheck?.checkedAt ?? new Date().toISOString(),
             evidenceIds: [...new Set(candidateEvidence.map((item) => item.evidenceId))],
             reasonCode: lastCheck?.reasonCode ?? "AVAILABILITY_SOURCES_EXHAUSTED",
@@ -157,9 +160,10 @@ export class AvailabilitySourceResolver {
       }
       const allFailed = request.candidateIds.every((candidateId) => {
         const check = availabilityChecks[candidateId];
-        const expectedSources = hintedProviderOrder(singleCandidateRequest(request, candidateId), this.bindings).length;
-        return expectedSources > 0 && check?.status === "UNKNOWN" && (check.sourceAttempts?.length ?? 0) >= expectedSources &&
-          check?.sourceAttempts?.every((attempt) => attempt.outcome === "FAILED");
+        const one=singleCandidateRequest(request,candidateId);
+        const expectedSources = hintedProviderOrder(one, this.bindings.filter(b=>!b.pack.availability?.areaEvidenceRequired||one.selectionScope==='SPECIFIC_OUTLET'||observedSourceEntrance(one,b,this.options.observedAfter??'1970-01-01T00:00:00Z'))).length;
+        return expectedSources > 0 && check?.status === "UNKNOWN" && (check.sourceAttempts?.filter(a=>a.outcome!=='NOT_EVIDENCED').length ?? 0) >= expectedSources &&
+          check?.sourceAttempts?.filter(a=>a.outcome!=='NOT_EVIDENCED').every((attempt) => attempt.outcome === "FAILED");
       });
       return {
         offers,

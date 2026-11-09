@@ -52,6 +52,7 @@ export class LiveBrowserAvailability {
   private readonly networkPolicy: BrowserReadNetworkPolicy | undefined;
   private tableCheckEntryLedger = new TableCheckEntryLedger();
   private readonly namedQueries: ModelNamedSourceQuery;
+  private readStartedAt:string|undefined;
   private readExecutor: BrowserTaskExecutor | undefined;
 
   constructor(
@@ -73,6 +74,7 @@ export class LiveBrowserAvailability {
   /** Called by the Router once per Agent loop, not once per candidate batch. */
   beginReadRun(): void {
     if (this.readExecutor) throw new Error("A browser read run is already active");
+    this.readStartedAt=this.options.now?.()??new Date().toISOString();
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
     this.namedQueries.clear();
@@ -81,7 +83,7 @@ export class LiveBrowserAvailability {
 
   /** Session ownership ends at the Agent read boundary, never at a candidate checkpoint. */
   async endReadRun(): Promise<void> {
-    const executor=this.readExecutor;this.readExecutor=undefined;
+    const executor=this.readExecutor;this.readExecutor=undefined;this.readStartedAt=undefined;
     this.browserBudget.totalModelCalls = 0;
     this.tableCheckEntryLedger = new TableCheckEntryLedger();
     this.namedQueries.clear();
@@ -120,6 +122,7 @@ export class LiveBrowserAvailability {
 
   private async read(request:RestaurantAvailabilityRequest,signal:AbortSignal,readRunId:string|undefined,identityOnly:boolean,targetQuery?:string):Promise<RestaurantAvailabilityRead>{
     const executor=this.readExecutor??this.createExecutor(true);
+    if(identityOnly&&targetQuery)request={...request,selectionScope:"SPECIFIC_OUTLET"};
     const providerContext = {
       executor,
       ...(identityOnly?{identityOnly:true}:{}),
@@ -139,7 +142,7 @@ export class LiveBrowserAvailability {
     };
     const bindings = (this.options.packs ?? restaurantDiscoveryPacks)
       .flatMap((pack) => pack.availability ? [{ pack, provider: pack.availability.createProvider(providerContext) }] : []);
-    return new AvailabilitySourceResolver(bindings, { afterRead: async () => {
+    return new AvailabilitySourceResolver(bindings, { observedAfter:this.readStartedAt??this.options.now?.()??new Date().toISOString(),afterRead: async () => {
       if (this.readExecutor === executor) executor.endReadScope();
       else await executor.closeAll();
     },...(identityOnly?{identityOnly:true}:{}) }).check(request, signal);

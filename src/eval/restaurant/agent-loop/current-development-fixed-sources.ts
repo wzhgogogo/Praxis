@@ -111,7 +111,7 @@ function matchesSelector(html: string, selector: string): boolean {
   return false;
 }
 
-function googlePlace(observation: FixedSourceObservation) {
+function googlePlace(observation: FixedSourceObservation,discovery=false) {
   const source = observation.google;
   return {
     id: source.placeId,
@@ -120,7 +120,10 @@ function googlePlace(observation: FixedSourceObservation) {
     location: source.coordinates,
     types: ["restaurant"],
     nationalPhoneNumber: source.phone,
-    websiteUri: source.websiteUri,
+    // LOCAL_CONSTRUCTION: when no official-site document exists, Google
+    // explicitly lists this fixture merchant's configured source entrance.
+    websiteUri: discovery&&source.discoveryWebsiteUri?source.discoveryWebsiteUri:!observation.websiteFacts&&observation.tableCheck&&observation.availability
+      ? "https://www.tablecheck.com"+observation.tableCheck.reservationEntryPath : source.websiteUri,
     googleMapsUri: source.googleMapsUri,
   };
 }
@@ -175,7 +178,7 @@ export function createCurrentDevelopmentFixedSources(
         const dx=(point.longitude-circle.center.longitude)*111_320*Math.cos(circle.center.latitude*Math.PI/180);
         return body.includedTypes?.includes('restaurant') && Math.hypot(dx,dy)<=circle.radius;
       }) : observations.filter(item=>discoverable(item,query));
-      return new Response(JSON.stringify({ places: matches.map(googlePlace) }), { status: 200 });
+      return new Response(JSON.stringify({ places: matches.map(observation=>googlePlace(observation,true)) }), { status: 200 });
     }
     const placeId = decodeURIComponent(String(url).split("/").at(-1) ?? "");
     const source = byId.get(placeId);
@@ -222,8 +225,10 @@ export function createCurrentDevelopmentFixedSources(
           });
           calls.website++;
           observed("WEBSITE", "FACTS", { candidateId: websiteSource.google.placeId, sampleCapturedAt: websiteSource.websiteFacts.sampleCapturedAt });
+          // LOCAL_CONSTRUCTION: the same fixture merchant explicitly publishes
+          // its independent TableCheck entrance; area routing cannot infer one.
           page = { url: target, title: websiteSource.google.displayName, text: websiteSource.google.displayName,
-            html: "<main id=\"restaurant-facts\"><script type=\"application/ld+json\">" + JSON.stringify({ "@type": "Restaurant", name: websiteSource.google.displayName, address: websiteSource.google.address, servesCuisine: websiteSource.websiteFacts.types, openingHours: websiteSource.websiteFacts.hours }) + "</script></main>" };
+            html: "<main id=\"restaurant-facts\"><script type=\"application/ld+json\">" + JSON.stringify({ "@type": "Restaurant", name: websiteSource.google.displayName, address: websiteSource.google.address, servesCuisine: websiteSource.websiteFacts.types, openingHours: websiteSource.websiteFacts.hours }) + "</script>" + (websiteSource.tableCheck ? '<a href="https://www.tablecheck.com'+websiteSource.tableCheck.reservationEntryPath+'">Reservation entrance</a>' : '') + "</main>" };
           return;
         }
         if (url.hostname !== "www.tablecheck.com") throw sourceGap({

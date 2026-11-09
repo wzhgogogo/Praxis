@@ -167,17 +167,19 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
       if (!locator) throw new Error("Observed link reference is no longer available");
       if (observedHref && await observedLinkCovered(locator, observedHref, timeout)) {
         this.responses.reset();
-        await this.page.goto(observedHref, { waitUntil: "domcontentloaded", timeout });
+        if(this.networkGuard)await this.networkGuard.navigateEntry(this.page,observedHref,{waitUntil:"domcontentloaded",timeoutMs:timeout});
+        else await this.page.goto(observedHref,{waitUntil:"domcontentloaded",timeout});
         return;
       }
-      const opener = this.page;
-      const popup = opener.waitForEvent("popup", { timeout: Math.min(1_000, timeout) }).catch(() => undefined);
-      await locator.click({ timeout });
-      const next = await popup;
-      if (!next) return;
-      this.page = next;
-      this.pageId(next);
-      await next.waitForLoadState("domcontentloaded", { timeout: Math.min(2_500, timeout) }).catch(() => undefined);
+      const clickObserved=async(timeoutMs:number)=>{
+        const opener=this.page;
+        const popup=opener.waitForEvent("popup",{timeout:Math.min(1_000,timeoutMs)}).catch(()=>undefined);
+        await locator.click({timeout:timeoutMs});const next=await popup;
+        if(!next)return;this.page=next;this.pageId(next);
+        await next.waitForLoadState("domcontentloaded",{timeout:Math.min(2_500,timeoutMs)}).catch(()=>undefined);
+      };
+      if(observedHref&&this.networkGuard)await this.networkGuard.navigateEntry(this.page,observedHref,{timeoutMs:timeout},clickObserved);
+      else await clickObserved(timeout);
     });
   }
   async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> {
@@ -286,7 +288,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
     });
   }
 
-  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void; replayHarPath?: string }): Promise<BrowserSession> {
+  async openSession(input: { signal: AbortSignal; networkPolicy?: BrowserReadNetworkPolicy; recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void; onResponseHeaders?: Parameters<BrowserRuntime["openSession"]>[0]["onResponseHeaders"]; replayHarPath?: string }): Promise<BrowserSession> {
     if (input.signal.aborted) throw new BrowserRuntimeError("BROWSER_ABORTED", "Local browser session creation was aborted");
     let browser: Browser | undefined;
     let context: BrowserContext | undefined;
@@ -315,7 +317,7 @@ export class LocalPlaywrightChromium implements BrowserRuntime {
         browser = await browserType.launch(launchOptions);
         context = await browser.newContext((input.networkPolicy || input.replayHarPath) ? { serviceWorkers: "block" } : {});
       }
-      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse, this.config.admittedGetTransport??"REVIEWED_STATIC_BROWSER") : undefined;
+      const networkGuard = input.networkPolicy ? new PlaywrightReadNetworkGuard(input.networkPolicy, 5_000, input.recordResponse, this.config.admittedGetTransport??"REVIEWED_STATIC_BROWSER",input.onResponseHeaders) : undefined;
       if (input.replayHarPath) await context.routeFromHAR(input.replayHarPath, { notFound: "abort" });
       if (networkGuard) await networkGuard.install(context, { replay: input.replayHarPath !== undefined });
       page = await context.newPage();

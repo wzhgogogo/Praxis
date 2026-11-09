@@ -238,13 +238,14 @@ export interface BrowserActionOptions { timeoutMs?: number; inputSource?: Browse
 
 export interface BrowserEntryNavigationEvent {
   attempt:1|2;retryCount:0|1;
-  event:"STARTED"|"IDLE_ABORT"|"ABORTED"|"SUCCEEDED"|"FAILED";
-  elapsedMs:number;idleMs?:number;status?:number;resourceType?:string;
+  event:"STARTED"|"ZERO_BYTE_TIMEOUT"|"ABORTED"|"SUCCEEDED"|"FAILED";
+  elapsedMs:number;status?:number;resourceType?:string;
+  receivedBodyBytes?:number;bytesObserved?:boolean;attemptTimeoutMs?:number;
 }
 
 export interface BrowserSession {
   readonly metadata: BrowserSessionMetadata;
-  /** Value-free first-entry attempts, including failures before any snapshot. */
+  /** Value-free document attempts, including failures before any snapshot. */
   entryNavigationEvents?(): readonly BrowserEntryNavigationEvent[];
   /** Runtime-owned lifecycle fact; a failed page control does not imply this. */
   isClosed?(): boolean;
@@ -295,6 +296,8 @@ export interface BrowserRuntime {
     networkPolicy?: BrowserReadNetworkPolicy;
     /** Receives an in-memory admitted public response for an optional sanitized Record artifact. */
     recordResponse?: (response: { url: string; method: string; resourceType: string; status: number; contentType: string; body: Uint8Array; redirectLocation?: string }) => Promise<void> | void;
+    /** Passive status at headers, before body completion; never an admission input. */
+    onResponseHeaders?: (response: {url:string;resourceType:string;status:number;mainDocument:boolean}) => void;
     /** A caller-provided, already sanitized HAR. Local replay never falls back to live network. */
     replayHarPath?: string;
   }): Promise<BrowserSession>;
