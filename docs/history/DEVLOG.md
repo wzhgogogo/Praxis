@@ -2,7 +2,7 @@
 
 ## 2026-11-09 Asia/Shanghai — confirmed outlet direct availability
 
-2026-11-09（Asia/Shanghai）— C按用户批准修查位绕行（draft / not integrated）：Router仅从既有HIGH且唯一身份投影来源确切URL/实体，TableCheck在当前同店页原地继续，其他页仅导航绑定URL并重核HIGH/实体。真实20份DOM与原决策组件红灯已复现旧DISCOVERY绕行，当前页还发现SPA查询串触发canonical重复导航，现仅独立LINKED_PAGE导航。身份/Guard/时限不变，模型上限新批1800；本轮仅离线，下一门槛全门禁→合main→1次D8（新批Live49/GET492、留出不动）。 [计划](../../.eval-artifacts/phase3b/d8-direct-outlet-20261109/plan.md)。
+2026-11-09（Asia/Shanghai）— C查位直达修复fc62b663同SHA净树全绿：默认1512、Chromium260+G6 78、strictG2全12、type/arch/build；真实店页旧DISCOVERY红→当前页零导航/异页仅绑定URL、模型首步日期选择绿，LOW/歧义/冲突实体拒绝。Router派生HIGH唯一来源绑定，店页实时重核，Guard/身份/时限不变；Mock空白页修正保留原业务断言。用户已授权合main后1次D8，模型1800、Live49/GET492，留出18/108不动；尚未新增外部调用。 [离线结论](../../.eval-artifacts/phase3b/d8-direct-outlet-20261109/offline-result.md)。
 
 <a id="d8-entry-idle-retry-live-20261109"></a>
 
