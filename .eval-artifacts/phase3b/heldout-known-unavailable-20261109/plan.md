@@ -1,6 +1,6 @@
 # Explicit known-unavailable witness and conditional v3 execution
 
-Status: draft / not integrated. Baseline24a87ef4. Source only src/eval; no product, identity, Guard, G1, budget or deadline changes. Private originals/manifests are passed only as paths, never read by the agent.
+Status: verified integration candidate, source a002b037, full gates PASS. Baseline24a87ef4. Source only src/eval; no product, identity, Guard, G1, budget or deadline changes. Private originals/manifests are passed only as paths, never read by the agent.
 
 Promise: full manifest validator accepts only explicit allowKnownUnavailableCertificate:true (or absence); detail-only admission remains forbidden. Existing witness gating unchanged: false without flag refuses before Live; false with flag runs NO_POSITIVE_WITNESS_DIAGNOSTIC, is never a positive witness; true even with flag uses STANDARD_G6 and existing positive witness handling. Independent grading unchanged. Mark declared witness policy for every planned case in outer batch, actual mode/exists per attempt, and inner batch/execution/failure. Recover these observation fields from original execution/failure on resume, without affecting eligibility or retry logic.
 

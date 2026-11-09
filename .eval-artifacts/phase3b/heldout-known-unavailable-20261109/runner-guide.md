@@ -1,6 +1,6 @@
 # v3 witness policy and run boundary
 
-Status: draft / not integrated until gates and main freeze. Use the published main SHA, no private original/manifest copies in repository.
+Status: verified integration candidate, source a002b037, full gates PASS; use published main SHA. Use the published main SHA, no private original/manifest copies in repository.
 
 Manifest witness may carry `allowKnownUnavailableCertificate:true`; false or other values are invalid, absence retains positive-only gate. `allowDetailOnlyCertificate` remains refused. Unknown vacancy never starts a required certification. Actual false with explicit flag admits NO_POSITIVE_WITNESS_DIAGNOSTIC; actual true uses STANDARD_G6 even with flag. Negative witnesses never become positive known-feasible evidence, and product claims still pass original independent evaluation.
 

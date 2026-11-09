@@ -6053,3 +6053,5 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 用户复核24a87ef4并批准05照常运行，使用已知无位见证；诚实无结果或另找到真正合格有位店按原独立规则判断，仍18计划运行。仅src/eval放行allowKnownUnavailableCertificate:true，未标记保持正向准入，详情页认证仍拒绝；实际false标诊断、实际true恢复STANDARD_G6，负见证不注入正向witnesses。原身份/Guard/G1/评分/时限/预算无变化。root batch记录全清单witnessPolicies，尝试恢复实际certificationMode/witnessExists；inner slots/执行/失败也保存对应字段，不用模型标签推断见证。
 
 虚构清单true通过、无标记不变、非法值/detail拒绝；实际G6夹具覆盖未标记无位拒绝/标记无位诊断/标记有位标准，外层三次调度分别记录策略与模式。针对性29项通过，测试元组类型初错保留并修正，待全门禁。v3文件只sha256sum核对2a91aef4…；原文未查看。发布main后只认证03一GET；true即同一净树SHA/全v3/同账本正式6x3，运行期不改代码/不读私有文件/不干预。非体检停批原样报告等复核，体检恢复允许最多2次resume；来源时段JST原值，无通过率汇总。实现阶段真实调用0。
+
+源码a002b037同SHA净树全门禁PASS：type/arch/default1546/build/Chromium260+G6 83/strictG2全12，写死扫描新增0。实现源文件仅src/eval，业务、安全、评分不改，后续发布文档/证据不变已验证代码。用户授权同步main快进推送ls-remote，再v3仅认证03一次；true后同净树SHA正式运行、原停批边界。实现阶段真实GET/模型/Live0，实际执行另存报告，来源时间JST原值、操作时间CET、不汇总通过率。
