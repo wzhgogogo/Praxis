@@ -1,6 +1,6 @@
 # Selective certification, then conditional held-out execution
 
-Status: draft / not integrated. Baseline af681696. Source edits restricted to src/eval; no product/Guard/identity/G1/time-limit changes. Private files are passed only as paths, never opened or copied by the agent.
+Status: verified integration candidate, source d8d413a2, full gates PASS. Baseline af681696. Source edits restricted to src/eval; no product/Guard/identity/G1/time-limit changes. Private files are passed only as paths, never opened or copied by the agent.
 
 Promise: --cases id,id is valid only with --certify-only. Full original commitment and full manifest validation still precede selection. Unknown/duplicate/empty selections reject before GET/charge; preserve manifest order and all-case private redaction. Only selected cases consume quota, same ledger cap12/total126, same5s pacing.
 

@@ -1,6 +1,6 @@
 # Selective pre-certification and authorized next step
 
-Status: draft / not integrated until full gates/main freeze. Use published full main SHA. Private original and manifests never copied into repository or read directly by agent.
+Status: verified integration candidate, source d8d413a2, full gates PASS; use published main SHA. Use published full main SHA. Private original and manifests never copied into repository or read directly by agent.
 
 The existing certify-only command additionally accepts `--cases id,id,...`. It is forbidden without --certify-only, including formal --output/--resume/--validate-only. Full manifest still validates first; unknown, duplicate or empty IDs reject. Selection runs in manifest order. certification-hashes.json retains full input hashes and selectedCaseIds. Only selected cases precharge GET; same canonical ledger/cap12/total126/5s spacing and no retry. No automatic fallback changes.
 

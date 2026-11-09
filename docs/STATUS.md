@@ -1,3 +1,5 @@
+2026-11-09 CET — --certify-only --cases源码d8d413a2净树全门禁PASS：默认1544、Chromium260+G6 83、strictG2全12及type/arch/build，写死扫描新增0，仅src/eval三文件。整份清单先校验、选中ID执行，未知/重复/空拒绝，原12/126与5秒间隔不变。按用户授权发布main后补认证01/03/05，三家全true才在同一净树SHA正式开跑；实现阶段真实调用0，v2只核SHA。来源时段JST原值，旧CET表为已更正历史，不修改原证据。[报告](../.eval-artifacts/phase3b/heldout-certification-selection-20261109/report.md)。
+
 2026-11-09 CET — draft / not integrated：--certify-only --cases选择候选，仅src/eval源码变化；完整清单先验证，所选ID未知/重复/空拒绝，按清单顺序只扣选中GET，原12/126与5秒规则不变。虚构5项与typecheck通过，待全门禁和main发布。用户纠正来源时段必须逐字JST，旧CET展示只作历史；后续只补认证01/03/05，三家全true才在同一净树SHA执行全清单，停批按原原因报告，只有体检失败恢复最多2次。私有v2仅核对SHA、不查看原文。[计划](../.eval-artifacts/phase3b/heldout-certification-selection-20261109/plan.md)。
 
 2026-11-09 CET — 首轮held-out见证预认证已在main4fdf866e净树执行一次：6GET、模型0、Live0，2 true/3 false/1 null；01 HTTP400正文按规则OMITTED、保留SHA，其余5份HTTP200清洗正文SAVED。全部响应时段保留，false只指指定时段未命中。账本GET6/126、认证6/12，cumulative模型849、Live0、环境重跑0、Google0、餐厅GET6；5个间隔均>=5秒。三份私有文件初始SHA与用户提供一致，原文/清单仅路径交运行器，未人工读取打印复制；只提交清洗产物与派生摘要，无代码改动、不追加认证、不运行正式held-out。等复核者定稿。[报告](../.eval-artifacts/phase3b/heldout-certification-first/report.md)。
