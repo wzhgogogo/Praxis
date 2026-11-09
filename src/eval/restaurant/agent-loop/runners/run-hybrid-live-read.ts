@@ -106,7 +106,7 @@ async function waitForManualTabelogIntervention(input: TabelogUserInterventionRe
 }
 
 /** Eval-only capture; importing this Runner never starts providers or Live preflight. */
-export function createHybridDecisionCapture(resultPath: string, recording?: BrowserReadRecording) {
+export function createHybridDecisionCapture(resultPath: string, recording?: BrowserReadRecording, artifactTransform?: (value:unknown)=>unknown) {
   const path = resultPath.replace(/\.result\.json$/, "") + ".decisions.jsonl";
   const insideArtifacts = relative(resolve(".eval-artifacts"), resolve(path));
   if (!insideArtifacts || insideArtifacts.startsWith("..")) throw new Error("Decision capture must stay below .eval-artifacts");
@@ -145,7 +145,7 @@ export function createHybridDecisionCapture(resultPath: string, recording?: Brow
     const row = { ...attempt.record, latencyMs: Math.max(0, Date.now() - attempt.startedAtMs), ...result };
     writes = writes.then(async () => {
       if (!writable) return;
-      try { await appendFile(path, JSON.stringify(row) + "\n"); rowsWritten += 1; }
+      try { await appendFile(path, JSON.stringify(artifactTransform?artifactTransform(row):row) + "\n"); rowsWritten += 1; }
       catch (error) { report("APPEND", error); }
     });
   };

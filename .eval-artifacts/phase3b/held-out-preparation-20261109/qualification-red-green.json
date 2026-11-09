@@ -1,0 +1,70 @@
+{
+  "mode": "COMPONENT_REPLAY",
+  "privateHoldoutRead": false,
+  "originalsUnchanged": true,
+  "receipts": [
+    {
+      "id": "D8",
+      "source": ".eval-artifacts/phase3b/d8-direct-outlet-live-20261109/live-runtime/runs/D8/D8",
+      "originalEvaluationSHA256": "8d6c5dd0292f7fce0dcaf6601991fec39e892bb53b740ee5a9ad41b8c1cbbaeb",
+      "originalVerdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "NOT_EVALUATED",
+        "stopBatch": true
+      },
+      "supplementVerdict": {
+        "status": "EVALUATED",
+        "qualified": true,
+        "outcome": "QUALIFIED_DELIVERY",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "capture": {
+        "frames": 39,
+        "googleResponses": 6,
+        "annotations": 30
+      },
+      "remaining": []
+    },
+    {
+      "id": "D4",
+      "source": ".eval-artifacts/phase3b/d4-d8-live-20261106/snapshot-fix-D4-runtime/runs/D4/D4",
+      "originalEvaluationSHA256": "bf3203242c61bda11d97a3a7d2344144f4dbf9e4d260770d9dd1982790aa7bd7",
+      "originalVerdict": {
+        "status": "NOT_EVALUATED",
+        "qualified": null,
+        "outcome": null,
+        "s0": 0,
+        "s0Status": "NOT_EVALUATED",
+        "stopBatch": true
+      },
+      "supplementVerdict": {
+        "status": "EVALUATED",
+        "qualified": false,
+        "outcome": "DELIVERED_UNQUALIFIED",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "capture": {
+        "frames": 30,
+        "googleResponses": 1,
+        "annotations": 2
+      },
+      "remaining": [
+        {
+          "rule": "G1_ANSWER",
+          "status": "FAIL",
+          "severity": "CAPABILITY",
+          "subject": "tabelog:en/tokyo/A1323/A132305/13108466",
+          "reason": "Question was not answered or bounded as page-not-stated",
+          "evidenceRefs": []
+        }
+      ]
+    }
+  ]
+}

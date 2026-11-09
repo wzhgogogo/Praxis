@@ -1,42 +1,54 @@
-import { createHash } from "node:crypto";
-import { chromium } from "playwright-core";
-import { LocalPlaywrightChromium } from "../../../../infrastructure/browser/local-playwright-chromium.js";
-import { DeepSeekModelGateway } from "../../../../infrastructure/deepseek/deepseek-model-gateway.js";
-import { createEvalGooglePlacesClient } from "../runners/google-places-recording.js";
-import type { G6RunnerDependencies,G6TransportHooks } from "./runner.js";
+import {chromium,type BrowserContext,type Page} from 'playwright-core';
+import {LocalPlaywrightChromium} from '../../../../infrastructure/browser/local-playwright-chromium.js';
+import {localBrowserProxyFromEnvironment} from '../../../../infrastructure/browser/local-browser-proxy.js';
+import {DeepSeekModelGateway} from '../../../../infrastructure/deepseek/deepseek-model-gateway.js';
+import {createEvalGooglePlacesClient} from '../runners/google-places-recording.js';
+import {observeOutgoingRequest} from './request-observation.js';
+import type {G6RunnerDependencies,G6TransportHooks} from './runner.js';
 
-function shape(body:string|undefined):Record<string,string>{
-  if(!body)return {};try{const parsed=JSON.parse(body);if(!parsed||typeof parsed!=="object"||Array.isArray(parsed))return {UNCLASSIFIED:"non-object"};
-    return Object.fromEntries(Object.entries(parsed).map(([k,v])=>[k,v===null?"null":Array.isArray(v)?"array":typeof v]));
-  }catch{return {UNCLASSIFIED:"non-JSON"};}
+/** Same isolated Chromium/Guard/static transport and local network split for
+ * health and Live. CDP observes native responses; route.fetch observes Node I/O.
+ * Neither observer can grant Guard admission. */
+export function createG6LiveBrowser(environment:NodeJS.ProcessEnv,hooks?:G6TransportHooks){
+ let sequence=0;
+ return new LocalPlaywrightChromium({...localBrowserProxyFromEnvironment(environment),headless:true,browserType:{async launch(options){
+  const browser=await chromium.launch(options),newContext=browser.newContext.bind(browser);
+  browser.newContext=async options=>{
+   const context=await newContext(options),route=context.route.bind(context),nodeReads=new Set<string>();
+   const attached=new WeakMap<Page,Promise<void>>();
+   const observe=(page:Page)=>{let ready=attached.get(page);if(ready)return ready;
+    ready=observeNative(context,page,hooks,()=>++sequence,nodeReads);attached.set(page,ready);return ready;
+   };
+   context.on('page',page=>{void observe(page).catch(()=>context.close());});
+   const newPage=context.newPage.bind(context);context.newPage=async()=>{const page=await newPage();await observe(page);return page;};
+   context.route=(pattern,handler,options)=>route(pattern,async(actual,request)=>{
+    const wrapped=new Proxy(actual,{get(target,key){
+     if(key==='fetch')return async(options:Parameters<typeof actual.fetch>[0])=>{
+      nodeReads.add(request.method()+' '+request.url());hooks?.observeRequest(await observeOutgoingRequest('g6-node:'+String(++sequence),request));
+      return target.fetch(options);
+     };
+     const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;
+    }});return handler(wrapped,request);
+   },options);return context;
+  };return browser;
+ }}});
 }
-function observer(hooks:G6TransportHooks,namespace:string){let n=0;return (url:string,method:string,body?:string,headers:Record<string,string>={})=>{
-  const u=new URL(url);hooks.observeRequest({ref:`${namespace}:wire:${++n}`,url:u.origin+u.pathname,method,reachedSource:true,queryKeys:[...u.searchParams.keys()],bodyFields:shape(body),...(body?{bodySHA256:createHash("sha256").update(body).digest("hex")}:{}),contentType:headers["content-type"]??"",...(method==="OPTIONS"?{preflight:{requestOrigin:headers.origin??"",method:headers["access-control-request-method"]??"",headerNames:(headers["access-control-request-headers"]??"").split(",").map(h=>h.trim().toLowerCase()).filter(Boolean),bodyBytes:Buffer.byteLength(body??"")}}:{})});
-};}
-
-/** No env file loader: only an authorized Node --env-file invocation supplies credentials. */
+async function observeNative(context:BrowserContext,page:Page,hooks:G6TransportHooks|undefined,next:()=>number,nodeReads:Set<string>){
+ const cdp=await context.newCDPSession(page),pending=new Map<string,{key:string;row:Parameters<G6TransportHooks['observeRequest']>[0]}>();
+ cdp.on('Network.requestWillBeSent',e=>{
+  let u:URL;try{u=new URL(e.request.url);if(!['http:','https:'].includes(u.protocol))return;}catch{return;}
+  const h=Object.fromEntries(Object.entries(e.request.headers).map(([k,v])=>[k.toLowerCase(),String(v)]));
+  pending.set(e.requestId,{key:e.request.method+' '+e.request.url,row:{ref:'g6-native:'+next(),url:u.origin+u.pathname,method:e.request.method,reachedSource:true,queryKeys:[...u.searchParams.keys()],...(e.request.method==='OPTIONS'?{preflight:{requestOrigin:h.origin??'',method:h['access-control-request-method']??'',headerNames:(h['access-control-request-headers']??'').split(',').map(v=>v.trim().toLowerCase()).filter(Boolean),bodyBytes:Buffer.byteLength(e.request.postData??'')}}:{})}});
+ });
+ cdp.on('Network.responseReceived',e=>{const r=pending.get(e.requestId);if(r&&!nodeReads.has(r.key))hooks?.observeRequest(r.row);pending.delete(e.requestId);});
+ cdp.on('Network.loadingFailed',e=>pending.delete(e.requestId));await cdp.send('Network.enable');
+}
+/** No env loader. Credentials are supplied only by an authorized --env-file. */
 export function liveG6Dependencies(environment:NodeJS.ProcessEnv,budgetPath:string):G6RunnerDependencies{
-  const apiKey=environment.GOOGLE_MAPS_API_KEY;if(!apiKey)throw Error("GOOGLE_MAPS_API_KEY must be configured on the server");
-  const model=DeepSeekModelGateway.fromEnvironment(environment);
-  return {budgetPath,witnessFetch:fetch,ownCredentials:[apiKey,environment.DEEPSEEK_API_KEY??""],
-    async transports(_spec,_recording,hooks){
-      const browserObserved=observer(hooks,"browser");
-      const google=createEvalGooglePlacesClient({apiKey,fetchImplementation:async(url,init)=>{
-        return fetch(url,init);
-      }},hooks.googleFetch);
-      const browser=new LocalPlaywrightChromium({headless:true,browserType:{async launch(options){
-        const browser=await chromium.launch(options),newContext=browser.newContext.bind(browser);
-        browser.newContext=async opts=>{const context=await newContext(opts),route=context.route.bind(context);
-          context.route=async(pattern,handler,options)=>route(pattern,async(original,request)=>{
-            const wrapped=new Proxy(original,{get(target,key){
-              if(key==="fetch")return (options:Parameters<typeof original.fetch>[0])=>{
-                browserObserved(options?.url??target.request().url(),options?.method??target.request().method(),typeof options?.postData==="string"?options.postData:target.request().postData()??undefined,target.request().headers());
-                return target.fetch(options);
-              };
-              const value=Reflect.get(target,key,target);return typeof value==="function"?value.bind(target):value;
-            }});await handler(wrapped,request);
-          },options);return context;};return browser;
-      }}});
-      return {model,google,browser,clock:{now:()=>new Date()}};
-    }};
+ const apiKey=environment.GOOGLE_MAPS_API_KEY;if(!apiKey)throw Error('GOOGLE_MAPS_API_KEY must be configured on the server');
+ const model=DeepSeekModelGateway.fromEnvironment(environment);
+ return {budgetPath,witnessFetch:fetch,ownCredentials:[apiKey,environment.DEEPSEEK_API_KEY??''],async transports(_spec,_recording,hooks){
+  const google=createEvalGooglePlacesClient({apiKey,timeoutMs:30_000,...(environment.PRAXIS_GOOGLE_API_PROXY_SERVER?{proxyServer:environment.PRAXIS_GOOGLE_API_PROXY_SERVER}:{})},hooks.googleFetch);
+  return {model,google,browser:createG6LiveBrowser(environment,hooks),clock:{now:()=>new Date()}};
+ }};
 }

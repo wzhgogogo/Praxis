@@ -23,6 +23,8 @@ export interface RecordingPage {
 export interface BrowserReadRecordingResult { path: string; screenshot: "LAYOUT_ONLY_CONTENT_MASKED" | "NOT_CAPTURED_NO_SANITIZER"; replay: Replay; pages: RecordingPage[]; }
 export interface BrowserReadRecordingOptions {
   directory: string; runId: string;
+  /** Eval-only private-input omission; applied before wire metadata is retained. */
+  artifactTransform?: (value:unknown)=>unknown;
   /**
    * Public JavaScript may be replayed only when the source Pack already
    * admitted its origin, path grammar and cache-buster keys. Guard-admitted
@@ -62,7 +64,7 @@ export class BrowserReadRecording {
   record(kind: string, detail: unknown): void {
     if (this.finished) throw new Error("Browser recording is already finalized");
     this.google.observeOwnCredentials(detail);
-    this.entries.push({ sequence: this.entries.length + 1, kind, detail: safeRecordingDetail(detail) });
+    this.entries.push({ sequence: this.entries.length + 1, kind, detail: safeRecordingDetail(this.options.artifactTransform?this.options.artifactTransform(detail):detail) });
   }
   recordWire(wire: BrowserActionWireRecord): void { this.record("MODEL_WIRE", wire); }
   captureGoogleFetch(transport: typeof fetch): typeof fetch { return this.google.wrap(transport); }

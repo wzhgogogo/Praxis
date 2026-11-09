@@ -1,3 +1,4 @@
+import {readIndependentSource,sourceAddressMatches,type IndependentSourceIdentity} from "./source-document.js";
 import { createHash } from "node:crypto";
 import type { RestaurantCaseView } from "../../../../application/agent-workspace.js";
 import type { BrowserSnapshot } from "../../../../infrastructure/browser/browser-runtime.js";
@@ -50,20 +51,34 @@ export function observedQualificationEvidence(view:RestaurantCaseView,runId:stri
       const matches=frames.map((f,index)=>({...f,index})).filter(f=>f.page.url===s.sourceUrl);if(!matches.length)continue;
       const frame=matches.find(f=>f.page.text.includes(s.quote))??matches.at(-1)!;
       const alias=google.find(i=>i.name===candidate.outletName&&Boolean(i.phone&&phone(i.phone)===phone(candidate.sourceIds.phone)||i.address&&i.address===candidate.address));
+      const rawSource=readIndependentSource(frame.page);
       const sourceIdentities=jsonLDIdentity(frame.page);
+      const native=rawSource.identity;
+      const independentAlias=native&&google.find(g=>g.name===candidate.outletName&&Boolean(g.address&&sourceAddressMatches(native,g.address,g.websiteUrl)));
+
       const direct=sourceIdentities.find(i=>Boolean(i.phone&&phone(i.phone)===phone(candidate.sourceIds.phone)||i.address&&i.address===candidate.address)&&(i.name===candidate.outletName||Boolean(alias&&i.phone&&phone(i.phone)===phone(alias.phone))));
       const listing=google.find(i=>i.websiteUrl===s.sourceUrl&&i.name===candidate.outletName&&Boolean(i.phone&&phone(i.phone)===phone(candidate.sourceIds.phone)||i.address&&i.address===candidate.address));
       const other=sourceIdentities.find(i=>i.name!==candidate.outletName&&i.phone&&phone(i.phone)!==phone(candidate.sourceIds.phone)&&google.some(g=>g.name===i.name&&phone(g.phone)===phone(i.phone)));
-      const identity=direct?(direct.name!==candidate.outletName&&alias?alias:direct):other??(sourceIdentities.length?undefined:listing);
+      const nativeDirect=native&&native.name===candidate.outletName&&sourceAddressMatches(native,candidate.address??"",candidate.sourceIds.TABLECHECK??candidate.sourceIds.TABELOG)?native:undefined;
+      const identity=(nativeDirect?{...nativeDirect,address:candidate.address}:undefined)??independentAlias??(direct?(direct.name!==candidate.outletName&&alias?alias:direct):other??(sourceIdentities.length?undefined:listing));
       // Keep an unmatched captured page as unmatched evidence so a wrong-shop
       // quote is rejected, rather than disappearing as a recording omission.
       // Persist only the claimed public excerpt plus hashes. Do not create a
       // second unrestricted full-page recorder or bypass its sanitization.
       const merchantText=frame.page.text.includes(s.quote)?s.quote:"";
-      const bridge=direct&&direct.name!==candidate.outletName?alias:other?google.find(g=>g.name===other.name&&phone(g.phone)===phone(other.phone)):!sourceIdentities.length?listing:undefined;
+      const bridge=independentAlias??(direct&&direct.name!==candidate.outletName?alias:other?google.find(g=>g.name===other.name&&phone(g.phone)===phone(other.phone)):!sourceIdentities.length?listing:undefined);
       const ref=`${frame.ref??`source-snapshot:${frame.index+1}`}:html-sha256:${sha(frame.page.html)}:text-sha256:${sha(frame.page.text)}`+(bridge?`:identity:${bridge.ref}:${bridge.bodySHA256}`:"");
-      pages.push({ref,url:frame.page.url,runId,candidateId,readAt:frame.at,merchantText,merchantScope:"EXCERPTS",name:identity?.name??"UNBOUND_SOURCE_IDENTITY",...(identity?.address?{address:identity.address}:{}),...(identity?.phone?{phone:identity.phone}:{}),observedLinks:[]});
+      pages.push({ref,url:frame.page.url,runId,candidateId,readAt:frame.at,merchantText,merchantScope:"EXCERPTS",name:identity?.name??"UNBOUND_SOURCE_IDENTITY",...(identity?.address?{address:identity.address}:{}),...(identity?.phone?{phone:identity.phone}:{}),observedLinks:rawSource.links,...(native?{sourceIdentity:native}:{}),...(native&&rawSource.widget?{observedAvailability:rawSource.widget}:{})});
       quotes.push({text:s.quote,url:s.sourceUrl,readAt:frame.at});
+    }
+    for(const frame of frames){
+      const raw=readIndependentSource(frame.page),native=raw.identity;
+      const alias=native&&google.find(g=>g.name===candidate.outletName&&Boolean(g.address&&sourceAddressMatches(native,g.address,g.websiteUrl)));
+      if(!native||!alias)continue;
+      if(pages.some(p=>p.url===frame.page.url&&p.readAt===frame.at&&p.sourceIdentity))continue;
+      pages.push({ref:frame.ref??`independent-frame:${pages.length+1}`,url:frame.page.url,runId,candidateId,readAt:frame.at,
+        merchantText:frame.page.text,merchantScope:"FULL",name:alias.name,...(alias.address?{address:alias.address}:{}),...(alias.phone?{phone:alias.phone}:{}),
+        observedLinks:raw.links,sourceIdentity:native,...(raw.widget?{observedAvailability:raw.widget}:{})});
     }
     claims.push({candidateId,quotes});
   }return {pages,claims};

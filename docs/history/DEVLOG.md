@@ -5961,3 +5961,13 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-11-07 CET：TableCheck第三探查停止，draft / not integrated。三模式本地条件Origin/CORS均PASS，未复现Origin丢失，无转发修补；PAGE仅观察且按OTHER准入，生产精确查询合同不变。仅来源/审核script录制上限12MB并等长遮盖，10.28MB构造红绿；复核发现非script MIME边界遗漏，真实红→收紧绿。冻结4b68893f的真实入口HTTP200，主脚本route.fetch未返回，既有20秒导航超时，未到Destination，无新CORS/destination/联想证据，Replay不可用、绑定未实施、D8未跑。最终5afe1d4a净树全门禁1458/235+完整G675/严格G2五项和12配对全绿；首轮全绿及后续类型反例保留。新增GET1/model0/Live0，累计350/462、653/1600、23/42；条件文档1与D8三GET及18Live/108GET预留不动。
 
 No transport behavior changed: local Origin match passes in all three modes; wire header-name differences remain disclosed. The earlier82ac67fb source read used native continuation, so its CORS failure cannot be explained by Node forwarding alone. PAGE observation uses cached normalized hashes, excludes user fill values, and cannot grant permission. Final Recorder-only type tightening follows the actual probe and does not imply the source was rerun. [Report](../../.eval-artifacts/phase3b/tablecheck-transport-20261107/report.md).
+
+
+<a id="heldout-preparation-20261109"></a>
+## 2026-11-09 CET — held-out 离线准备（draft / not integrated）
+
+从c06e9bec仅导入承诺JSON/校验器/测试，JSON字节保持不变；p3b-holdout-* 是用例ID。复核者2026-11-09在真实原文中核对：前言只有列首#注释和空行，全文哈希仍含前言，6段用例哈希不含前言；校验器修复，不读取私有原文。私有manifest先承诺再日期还原和逐字子串、ID/顺序校验；只记哈希/填写值。G6运行器扩展同一结构化目标触发，不额外检索、不新增模型调用；三次/例串行、每回合50/500秒、provider45/entry20不变，体检4页/两轮≤10秒在Live之前，认证1+后验≤2，立即评测/S0停批。明确环境错误另记4次额度并停止，不自动重跑。
+
+独立来源解析采用离线缓存parse5，不导入生产parser/Guard。JSON-LD与同表单控件独立绑定原生实体/地址/日期/人数/可用按钮和实际链接；Tabelog缺失JSON-LD街道用唯一Address语义行补齐，保留门牌/楼层。跨语言Gold原生关联从冻结公开原文的名称+电话/完整地址提取，当前源还须相同实体/canonical路径/完整来源地址，不依赖用户引用的产品身份ID。G6 evaluator@4；D8与D4原NOT_EVALUATED不改，侧车补评分别合格/不合格（G1未回答），S0均0。用户04:31 CET核对真实TableCheck B1正确字段且未预订，记入矩阵。
+
+条款NO_PAGES定位到两次FACTS capturePagesOnly均COMPLETION_RESULT_BUSY/PENDING，采集在retainNativePage之前结束；保留非阻塞缺口，无产品/G1/Guard规则放宽。隐私路径省略决策messages正文、完整私有回合以哈希替换；三类公开来源录制清洗不变。GET体检额度用户在本聊天另批+18（108→126），模板未激活；模型上限2500，继承849。无源站/模型/Live调用，不合main、不推送，等复核。报告 `.eval-artifacts/phase3b/held-out-preparation-20261109/report.md`。

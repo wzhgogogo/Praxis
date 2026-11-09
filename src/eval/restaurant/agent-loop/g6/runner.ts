@@ -1,3 +1,6 @@
+import {bindFrozenOracleSources} from "./oracle-source-binding.js";
+import {browserTransportError} from "../../../../infrastructure/browser/browser-runtime-errors.js";
+import {holdoutConditionMet} from "../holdout-protocol.js";
 import { mkdir,writeFile,readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { resolve,join } from "node:path";
@@ -17,8 +20,8 @@ import { createWitnessReader,type G6Witness,type WitnessReceipt } from "./witnes
 import { observedGoogleIdentities,observedQualificationEvidence,type ObservedGoogleIdentity } from "./qualification-evidence.js";
 import { namedIdentityFromState,type G6NamedState,type G6NamedTurn,type G6AuthorityEvent } from "./named-outlet-binding.js";
 
-export type G6Trigger="DISPLAYED_RESULTS"|"DISPLAYED_AVAILABLE"|"ASKED_FOR_DATE"|"ASKED_FOR_PARTY";
-export interface G6Followup {id:string;trigger:G6Trigger;kind:"MESSAGE"|"PAGE_QUESTION";text:string;allowOtherOutlets?:true;}
+export type G6Trigger="DISPLAYED_RESULTS"|"DISPLAYED_AVAILABLE"|"ASKED_FOR_DATE"|"ASKED_FOR_PARTY"|"TARGET_PRESENTED_WITH_SLOT";
+export interface G6Followup {target?:{provider:"TABELOG"|"TABLECHECK";sourceEntityId:string};time?:string;id:string;trigger:G6Trigger;kind:"MESSAGE"|"PAGE_QUESTION";text:string;allowOtherOutlets?:true;}
 export interface G6Case {
   id:string;request:string;followups:G6Followup[];witness?:G6Witness;
   /** Independent frozen request/source/answer annotations, never State/eligibility. */
@@ -30,14 +33,19 @@ export interface G6RunnerDependencies {
   transports:(spec:G6Case,recording:BrowserReadRecording,hooks:G6TransportHooks)=>Promise<Omit<LiveReadTransports,"currentTaskId"|"remainingModelCalls">>;
   witnessFetch:typeof fetch;budgetPath:string;ownCredentials?:readonly string[];
   initialWitnesses?:WitnessReceipt[];initialWitnessGETs?:number;
+  maximumWitnessGETs?:number;artifactTransform?:(value:unknown)=>unknown;
+  /** Held-out certification is one vacancy GET with independently frozen identity. */
+  witnessDetailRead?:boolean;
   now?:()=>number;wait?:(ms:number)=>Promise<void>;witnessIntervalMs?:number;
   /** Monotonic elapsed-time seam; Live always uses performance.now. */
   monotonicNow?:()=>number;
 }
 export interface G6TransportHooks {googleFetch:(transport:typeof fetch)=>typeof fetch;observeRequest:(request:G6EvaluationInput["requests"][number])=>void;}
-async function hasTrigger(view:RestaurantCaseView,trigger:G6Trigger,readState:()=>Promise<Record<string,unknown>>){
+async function hasTrigger(view:RestaurantCaseView,step:G6Followup,readState:()=>Promise<Record<string,unknown>>,at:number){
+  const trigger=step.trigger;
+  if(trigger==="TARGET_PRESENTED_WITH_SLOT")return Boolean(step.target&&holdoutConditionMet(view,{type:trigger,target:step.target,...(step.time?{time:step.time}:{})},at));
   if(trigger==="DISPLAYED_RESULTS")return Boolean(view.restaurant.presentedCandidateIds?.length);
-  if(trigger==="DISPLAYED_AVAILABLE")return (view.restaurant.presentedCandidateIds??[]).some(id=>view.restaurant.availabilityChecks[id]?.status==="AVAILABLE");
+  if(trigger==="DISPLAYED_AVAILABLE")return holdoutConditionMet(view,{type:"PRESENTED_WITH_SLOT"},at);
   const field=trigger==="ASKED_FOR_DATE"?"date":"partySize";
   if(view.case.phase!=="NEEDS_INPUT"||!view.restaurant.missingRequiredFields.includes(field))return false;
   const artifact=await readState(),state=(artifact.finalSnapshot as {domainState?:{pendingUserQuestion?:{relatedFields?:string[]}}}|undefined)?.domainState;
@@ -83,17 +91,18 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
   if(pack.schemaVersion!=="phase3b-g6-pack@1"||!pack.recording.browser||!pack.recording.decisions||!pack.recording.googleResponses)throw Error("Frozen G6 pack must enable all three recordings");
   if(new Set(pack.cases.map(c=>c.id)).size!==pack.cases.length||pack.cases.some(c=>!/^[-\w]+$/u.test(c.id)))throw Error("Unsafe or duplicate G6 case id");
   if(pack.cases.some(c=>c.followups.length>2))throw Error("G6 slot permits at most three user turns");
+  const serialize=(value:unknown)=>JSON.stringify(dependencies.artifactTransform?dependencies.artifactTransform(value):value,null,2);
   const output=resolve(directory);await mkdir(output,{recursive:true});
   const policy=discoveryPackNetworkPolicy(),receipts:Array<{id:string;status:string;path:string;reason?:string}>=[],certifications=new Map<string,WitnessReceipt>();
   for(const receipt of dependencies.initialWitnesses??[]){const w=receipt.target;if(receipt.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Detail-only receipt cannot replace a required availability witness");certifications.set(JSON.stringify([w.sourceEntityId,w.date,w.time,w.partySize]),receipt);}
   let witnessGETs=dependencies.initialWitnessGETs??0;
-  const beforeGET=()=>{if(witnessGETs>=(pack.witnessGETLimit??Infinity))throw Error("Frozen development witness GET ceiling reached before charging or transmission");witnessGETs++;};
+  const beforeGET=()=>{if(witnessGETs>=(dependencies.maximumWitnessGETs??pack.witnessGETLimit??Infinity))throw Error("Frozen development witness GET ceiling reached before charging or transmission");witnessGETs++;};
   const now=dependencies.now??Date.now,monotonicNow=dependencies.monotonicNow??(()=>performance.now());let stopReason:string|undefined;const requestTiming={last:-Infinity};
   for(const [index,spec] of pack.cases.entries()){
     if(stopReason){receipts.push({id:spec.id,status:"NOT_SENT",path:"",reason:stopReason});continue;}
     const slot=join(output,spec.id);await mkdir(slot,{recursive:false});const runId=`g6-${spec.id}-${now()}-${index}`;
-    const recording=new BrowserReadRecording({directory:join(slot,"recordings"),runId,reviewedReads:policy.dynamicReads,reviewedStaticResources:policy.staticResources,ownCredentials:dependencies.ownCredentials??[]});
-    const capture=createHybridDecisionCapture(join(slot,"execution.result.json"),recording);
+    const recording=new BrowserReadRecording({directory:join(slot,"recordings"),runId,reviewedReads:policy.dynamicReads,reviewedStaticResources:policy.staticResources,ownCredentials:dependencies.ownCredentials??[],...(dependencies.artifactTransform?{artifactTransform:dependencies.artifactTransform}:{})});
+    const capture=createHybridDecisionCapture(join(slot,"execution.result.json"),recording,dependencies.artifactTransform);
     let googleCalls=0,modelCalls=0;const identities:ObservedGoogleIdentity[]=[];
     const turnBudgets:Array<{id:string;startedAtMs:number;deadlineAtMs:number;elapsedMs:number;modelCalls:number;googleRequests:number;exceeded500Seconds:boolean}>=[];
     let activeBudget:typeof turnBudgets[number]|undefined,turnWallStart=0,turnFinished=true;
@@ -171,7 +180,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
     try{
       if(spec.witness){
         const w=spec.witness,key=JSON.stringify([w.sourceEntityId,w.date,w.time,w.partySize]),cached=certifications.get(key);
-        const before=cached&&now()-Date.parse(cached.checkedAt)<86_400_000?cached:await witness.read(w,"BEFORE",true);
+        const before=cached&&now()-Date.parse(cached.checkedAt)<86_400_000?cached:await witness.read(w,"BEFORE",dependencies.witnessDetailRead??true);
         witnesses.push(before);if(before.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Availability certification is required for this witness");if(before.exists===false&&w.allowKnownUnavailableCertificate!==true)throw Error("WITNESS_NO_LONGER_EXISTS: no Live was started");certifications.set(key,before);
       }
       wallStart=monotonicNow();
@@ -192,7 +201,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       }});beginTurn("INITIAL");
       view=await session.create(spec.request);endTurn();await rememberTurn("INITIAL",spec.request);
       for(const step of spec.followups){
-        if(!await hasTrigger(view,step.trigger,()=>session!.application.exportReadArtifact(view!.case.caseId))){turns.push({id:step.id,status:"NOT_SENT",reason:"AUTHORITATIVE_STATE_TRIGGER_NOT_MET"});continue;}
+        if(!await hasTrigger(view,step,()=>session!.application.exportReadArtifact(view!.case.caseId),clock.now().valueOf())){turns.push({id:step.id,status:"NOT_SENT",reason:"AUTHORITATIVE_STATE_TRIGGER_NOT_MET"});continue;}
         const current=view;
         activeTurn=step.kind==="PAGE_QUESTION"?"FOLLOWUP_QUESTION":"FOLLOWUP_MESSAGE";
         if(step.kind==="PAGE_QUESTION"){
@@ -213,7 +222,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
         if(!page)throw Error("No public source detail URL for independent delivered-store check");
         witnesses.push(await witness.read({...d,detailUrl:page,identityText:[d.name,...(d.address?[d.address]:[])]},"AFTER",false));
       }
-      if(!deliveries.length&&spec.witness)witnesses.push(witnesses[0]?.exists===null?await witness.readDetail(spec.witness,"NO_DELIVERY_AFTER"):await witness.read(spec.witness,"NO_DELIVERY_AFTER",true));
+      if(!deliveries.length&&spec.witness)witnesses.push(witnesses[0]?.exists===null?await witness.readDetail(spec.witness,"NO_DELIVERY_AFTER"):await witness.read(spec.witness,"NO_DELIVERY_AFTER",dependencies.witnessDetailRead??true));
       const result=lastArtifact!;
       const question=view.restaurant.pageQuestion?.result;
       const qualification=observedQualificationEvidence(view,runId,snapshots,identities);
@@ -231,31 +240,33 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
         const evidence=view!.restaurant.readEvidence.find(e=>c.evidenceIds.includes(e.evidenceId)&&e.sourceUrl===s.sourceUrl);
         return evidence?[{text:s.quote,url:s.sourceUrl,readAt:evidence.observedAt}]:[];
       })})));
+      if(input.qualificationOracles)await bindFrozenOracleSources(input.qualificationOracles);
       const evaluation=evaluateG6(input),{named:_named,...request}=input.request;
       input.request={...request,...(evaluation.namedOutletBinding.named?{named:evaluation.namedOutletBinding.named}:{})};
-      await writeFile(join(slot,"execution.result.json"),JSON.stringify({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,certificationMode:spec.witness?.allowKnownUnavailableCertificate===true?"NO_POSITIVE_WITNESS_DIAGNOSTIC":"STANDARD_G6",runId,view,execution:result,turns,witnesses,recordingConfig:pack.recording},null,2)+"\n",{flag:"wx"});
+      await writeFile(join(slot,"execution.result.json"),serialize({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,certificationMode:spec.witness?.allowKnownUnavailableCertificate===true?"NO_POSITIVE_WITNESS_DIAGNOSTIC":"STANDARD_G6",runId,view,execution:result,turns,witnesses,recordingConfig:pack.recording})+"\n",{flag:"wx"});
       await writeFile(join(slot,"boundary-observation.json"),JSON.stringify({...reserveObservations(0,elapsedMs,readStarts,input.requests.map(r=>({...r,forbidden:/yoyaku|payment|checkout|confirmation/iu.test(new URL(r.url).pathname)}))),exceeded500Seconds:turnBudgets.some(t=>t.exceeded500Seconds),limits:{perTurn:{milliseconds:500_000,models:50,google:40},slot:{turns:3,models:150,google:120}},turnBudgets,googleRequests:googleCalls,modelCalls,semanticAttemptsByTurn:Object.fromEntries(semanticAttempts),semanticSchemaRetries:[...semanticAttempts.values()].reduce((n,c)=>n+Math.max(0,c-1),0)},null,2)+"\n",{flag:"wx"});
-      await writeFile(join(slot,"evaluation.input.json"),JSON.stringify(input,null,2)+"\n",{flag:"wx"});await writeFile(join(slot,"evaluation.json"),JSON.stringify(evaluation,null,2)+"\n",{flag:"wx"});
+      await writeFile(join(slot,"evaluation.input.json"),serialize(input)+"\n",{flag:"wx"});await writeFile(join(slot,"evaluation.json"),serialize(evaluation)+"\n",{flag:"wx"});
       receipts.push({id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":evaluation.verdict.status==="NOT_EVALUATED"?"RECORDED_NOT_EVALUATED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
     }catch(error){failure=error instanceof Error?error.message:"G6_RUN_FAILED";stopReason=failure;receipts.push({id:spec.id,status:"FAILED",path:slot,reason:failure});
-      endTurn();await writeFile(join(slot,"failure.json"),JSON.stringify({failure,turns,turnBudgets,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})},null,2)+"\n",{flag:"wx"});
+      endTurn();await writeFile(join(slot,"failure.json"),serialize({failure,transportError:browserTransportError(error),turns,turnBudgets,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})})+"\n",{flag:"wx"});
     }finally{
       if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();
-      await writeFile(join(slot,"user-turns.json"),JSON.stringify({schemaVersion:"phase3b-g6-user-turns@2",runId,turns:userTurns,budgets:turnBudgets,namedReferences:{initial:spec.oracle.request.named??null,turns:namedReferences}},null,2)+"\n",{flag:"wx"});
+      await writeFile(join(slot,"user-turns.json"),serialize({schemaVersion:"phase3b-g6-user-turns@2",runId,turns:userTurns,budgets:turnBudgets,namedReferences:{initial:spec.oracle.request.named??null,turns:namedReferences}})+"\n",{flag:"wx"});
       if(pack.mode==="LIVE_READ")await recordG6SourceCounts(dependencies.budgetPath,runId+":SOURCE_IO",googleCalls,forwarded.length);const decisions=await capture.finish(failure),recorded=await recording.finish();
       await writeFile(join(slot,"browser-diagnostics.json"),JSON.stringify({schemaVersion:"phase3b-g6-browser-diagnostics@1",runId,events:browserDiagnostics},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"browser-trace.json"),JSON.stringify({schemaVersion:"phase3b-g6-browser-trace@1",runId,events:trace},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"recording-observation.json"),JSON.stringify({recordingConfig:pack.recording,decisions,...recordingQualification(recorded)},null,2)+"\n",{flag:"wx"});
     }
-    await writeFile(join(output,"batch.json"),JSON.stringify({schemaVersion:"phase3b-g6-batch@1",serial:true,witnessGETs,stopReason:stopReason??null,slots:receipts},null,2)+"\n");
+    await writeFile(join(output,"batch.json"),serialize({schemaVersion:"phase3b-g6-batch@1",serial:true,witnessGETs,stopReason:stopReason??null,slots:receipts})+"\n");
   }
-  const result={schemaVersion:"phase3b-g6-batch@1",serial:true,witnessGETs,stopReason:stopReason??null,slots:receipts};await writeFile(join(output,"batch.json"),JSON.stringify(result,null,2)+"\n");return result;
+  const result={schemaVersion:"phase3b-g6-batch@1",serial:true,witnessGETs,stopReason:stopReason??null,slots:receipts};await writeFile(join(output,"batch.json"),serialize(result)+"\n");return result;
 }
 
 export async function loadG6Pack(path:string,sha256:string):Promise<G6Pack>{
   const raw=await readFile(path);if(createHash("sha256").update(raw).digest("hex")!==sha256)throw Error("Frozen G6 pack SHA mismatch; no execution");
   const pack=JSON.parse(raw.toString()) as G6Pack;if(pack.schemaVersion!=="phase3b-g6-pack@1"||!["FIXTURE","LIVE_READ"].includes(pack.mode)||!pack.recording?.browser||!pack.recording.decisions||!pack.recording.googleResponses||!Array.isArray(pack.cases)||!pack.cases.length||pack.cases.length>26)throw Error("Unsupported or incomplete frozen G6 pack");
-  for(const c of pack.cases)if(!c.id||!c.request?.trim()||!Array.isArray(c.followups)||c.followups.length>2||!Array.isArray(c.oracle?.pages)||!Array.isArray(c.oracle.request?.dates)||c.followups.some(f=>!["DISPLAYED_RESULTS","DISPLAYED_AVAILABLE","ASKED_FOR_DATE","ASKED_FOR_PARTY"].includes(f.trigger)||!["MESSAGE","PAGE_QUESTION"].includes(f.kind)||!f.text?.trim()||f.allowOtherOutlets!==undefined&&f.allowOtherOutlets!==true))throw Error("Invalid frozen G6 case");
+  for(const c of pack.cases)if(!c.id||!c.request?.trim()||!Array.isArray(c.followups)||c.followups.length>2||!Array.isArray(c.oracle?.pages)||!Array.isArray(c.oracle.request?.dates)||c.followups.some(f=>!["DISPLAYED_RESULTS","DISPLAYED_AVAILABLE","ASKED_FOR_DATE","ASKED_FOR_PARTY","TARGET_PRESENTED_WITH_SLOT"].includes(f.trigger)||!["MESSAGE","PAGE_QUESTION"].includes(f.kind)||!f.text?.trim()||f.allowOtherOutlets!==undefined&&f.allowOtherOutlets!==true))throw Error("Invalid frozen G6 case");
+  for(const c of pack.cases)for(const f of c.followups)if(f.trigger==="TARGET_PRESENTED_WITH_SLOT"&&(!f.target||!["TABLECHECK","TABELOG"].includes(f.target.provider)||!f.target.sourceEntityId||f.time!==undefined&&!/^([01]\d|2[0-3]):[0-5]\d$/u.test(f.time)))throw Error("Invalid structured target trigger");
   if(pack.cases.some(c=>c.witness?.allowKnownUnavailableCertificate!==undefined&&c.witness.allowKnownUnavailableCertificate!==true))throw Error("Unavailable-witness admission must be explicit diagnostic true");
   return pack;
 }

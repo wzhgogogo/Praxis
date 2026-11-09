@@ -1,0 +1,22 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/g6/runner.ts(100,46): error TS2379: Argument of type '{ directory: string; runId: string; reviewedReads: readonly BrowserReadNetworkRequestRule[]; reviewedStaticResources: readonly BrowserReadNetworkRequestRule[]; ownCredentials: readonly string[]; artifactTransform: ((value: unknown) => unknown) | undefined; }' is not assignable to parameter of type 'BrowserReadRecordingOptions' with 'exactOptionalPropertyTypes: true'. Consider adding 'undefined' to the types of the target's properties.
+  Types of property 'artifactTransform' are incompatible.
+    Type '((value: unknown) => unknown) | undefined' is not assignable to type '(value: unknown) => unknown'.
+      Type 'undefined' is not assignable to type '(value: unknown) => unknown'.
+src/eval/restaurant/agent-loop/holdout-protocol.ts(59,33): error TS2339: Property 'target' does not exist on type 'HoldoutCondition'.
+  Property 'target' does not exist on type '{ type: "ASKED_FOR_DATE" | "PRESENTED_ANY" | "PRESENTED_WITH_SLOT"; }'.
+src/eval/restaurant/agent-loop/holdout-protocol.ts(60,46): error TS2339: Property 'target' does not exist on type 'HoldoutCondition'.
+  Property 'target' does not exist on type '{ type: "ASKED_FOR_DATE" | "PRESENTED_ANY" | "PRESENTED_WITH_SLOT"; }'.
+src/eval/restaurant/agent-loop/holdout-protocol.ts(60,92): error TS2339: Property 'target' does not exist on type 'HoldoutCondition'.
+  Property 'target' does not exist on type '{ type: "ASKED_FOR_DATE" | "PRESENTED_ANY" | "PRESENTED_WITH_SLOT"; }'.
+src/eval/restaurant/agent-loop/holdout-protocol.ts(60,110): error TS2339: Property 'target' does not exist on type 'HoldoutCondition'.
+  Property 'target' does not exist on type '{ type: "ASKED_FOR_DATE" | "PRESENTED_ANY" | "PRESENTED_WITH_SLOT"; }'.
+src/eval/restaurant/agent-loop/holdout-protocol.ts(61,34): error TS2339: Property 'target' does not exist on type 'HoldoutCondition'.
+  Property 'target' does not exist on type '{ type: "ASKED_FOR_DATE" | "PRESENTED_ANY" | "PRESENTED_WITH_SLOT"; }'.
+src/eval/restaurant/agent-loop/holdout-protocol.ts(61,55): error TS2339: Property 'time' does not exist on type 'HoldoutCondition'.
+  Property 'time' does not exist on type '{ type: "ASKED_FOR_DATE" | "PRESENTED_ANY" | "PRESENTED_WITH_SLOT"; }'.
+src/eval/restaurant/agent-loop/holdout-protocol.ts(61,89): error TS2339: Property 'time' does not exist on type 'HoldoutCondition'.
+  Property 'time' does not exist on type '{ type: "ASKED_FOR_DATE" | "PRESENTED_ANY" | "PRESENTED_WITH_SLOT"; }'.

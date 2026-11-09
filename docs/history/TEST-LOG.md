@@ -6663,3 +6663,15 @@ Status: draft / not integrated；已暴露诊断。模型验证434d445b已推送
 2026-11-07 CET：TableCheck第三探查停止，draft / not integrated。三模式本地条件Origin/CORS均PASS，未复现Origin丢失，无转发修补；PAGE仅观察且按OTHER准入，生产精确查询合同不变。仅来源/审核script录制上限12MB并等长遮盖，10.28MB构造红绿；复核发现非script MIME边界遗漏，真实红→收紧绿。冻结4b68893f的真实入口HTTP200，主脚本route.fetch未返回，既有20秒导航超时，未到Destination，无新CORS/destination/联想证据，Replay不可用、绑定未实施、D8未跑。最终5afe1d4a净树全门禁1458/235+完整G675/严格G2五项和12配对全绿；首轮全绿及后续类型反例保留。新增GET1/model0/Live0，累计350/462、653/1600、23/42；条件文档1与D8三GET及18Live/108GET预留不动。
 
 Frozen5afe1d4a final type/arch/build, default1458, Chromium235 plus completeG675, strictG2 5/all12 pass with each pre/post status empty and sameSHA. Earlierbbb7f0db green matrix retained. Extra fetch-js counterexample failed REPLAYABLE vs NOT_REPLAYABLE, then passes after script-type tightening;22 Recorder controls pass. The10.28MB test is constructed; actual bundle not captured. Real run4b68893f: entry200, pending main script~17.9s, navigation20s timeout, lifecycle cancellation only. No DOM/HAR/current CORS or destination evidence. Component and real diagnostic results are separate; D8 end-to-end/S0 NOT_EVALUATED. [Report](../../.eval-artifacts/phase3b/tablecheck-transport-20261107/report.md).
+
+
+<a id="heldout-preparation-20261109"></a>
+## 2026-11-09 CET — held-out 离线准备（draft / not integrated）
+
+模式：COMPONENT_REPLAY（D8/D4真实保存源DOM/JSON）、LOCAL_CONSTRUCTION（虚构私有清单）、真实本地Chromium；本次Live/模型/源站请求均0。用户2026-11-09 04:31 CET自己的浏览器核对B1店名/2Guests/WedNov11/8:30PM，未确认预订，此为用户报告的真实浏览器核对，不计本代理调用。
+
+红绿：旧D8/D4评分保持原样，补评分别QUALIFIED_DELIVERY与DELIVERED_UNQUALIFIED（仅G1未回答），S0均0、独立资格不再因地址/电话/时段/入口注释缺失停止。默认npm test纳入两份真实录制及错实体/日期/人数/旧run/缺时段/禁用隐藏按钮/无表单作用域/缺冻结源绑定/异城市等反例；不读取Guard或生产HIGH/AVAILABLE作为真值。源电话被清洗时使用独立完整地址，绝不补造电话。完整请求语义Gold仍来自独立复核者，不能由机械注释推断。
+
+承诺JSON SHA256=d0400e6d6be2b6b7825023de66f74f31370f2e4ffd8c43cd4fa931397e9b3565，与c06e9bec blob逐字节一致。前言解释来自复核者2026-11-09用原文核对：全文哈希覆盖前言、注释/空白前言不计用例段；虚构文件覆盖有/空前言、非注释拒绝、多/少段、每字节改动拒绝。未读取真实原文。
+
+离线虚构manifest覆盖哈希/日期还原/未承诺回合/ID顺序拒绝、四类条件正反例、过期时段拒绝、健康失败未启动Live、S0第一例即停、三次串行；普通createLiveReadAssembly真实组装Fixture跑三次并验证追问发送/不发送、全部产物不含完整私有请求、模型messages仅哈希。真实本地Chromium验证静态原生与文档/数据NODE_FETCH各独立记录一次、POST未到源站；明确网络错误才计环境，HTTP403/语义错误不能改归因。完整冻结门禁及scan结果在报告与gate日志，本条不提前宣称门禁通过。
