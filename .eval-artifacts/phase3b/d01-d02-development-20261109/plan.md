@@ -1,0 +1,11 @@
+# 2026-11-09 CET — D01/D02 exposed development checks
+
+Decision: compare accepted three repairs against exposed01/02 baseline (1/3,0/3); no clean holdout claim. Product0 changes. Test adds blocked POST during same-page NO_HEADERS and successful static stall, verifies Guard BLOCKED and no recovery. Preserve first failed construction logs.
+
+Retirement clarification: intermediate65ba2bc9 added observedSourceEntrance() in src/integrations/restaurant-availability/observed-source-entrance.ts and observedLinks() in src/integrations/restaurant-identity/observed-outlet-names.ts;723191af removed both and their exclusive test branch. These were unaccepted intermediate candidate code, not capabilities of original4256303d. Synthetic chain data was separately changed to explicit Google entrance pointers.
+
+Frozen public packs contain exact user D01/D02 request/followup, witness1 vacancy GET each, no detail GET, user-approved21 literal read contracts matching20 dynamic source rules. G6 development runG6Batch/createLiveReadAssembly only, not private held-out runner or manifest. All three recordings; per-turn50 models/500s, provider45s/entry20s unchanged. Two rounds per source health10s, four GET per case, at least5s between evaluation GET starts; health fail cancels without Live. Post GET<=2 (maximumWitnessGETs3), S0/independent safety stop retained, serial no extraLive.
+
+D02 G6 exact-time field omitted because its evaluator has no interval field; frozen acceptance.json independently requires18:00..20:00 JST,6 guests, source-backed robatayaki and<=1000m from resolved Nakano. English menu SOFT only. D01 exact19:00,2,Spanish,<=1000m from resolved Takadanobaba; conditional DISPLAYED_AVAILABLE followup only. Unknown independent qualification stays unknown; do not substitute product eligibility as oracle.
+
+Original4256303d workspace/run/ledger remain immutable. Runtime takes hashed current ledger snapshot (Live6/GET37/models1140), creates an authorized descendant ledger26/126/2500 and charges all new work there. Snapshot lineage retained, original ledger not mutated. This child ledger becomes current accounting for new checks. Freeze test+pack+orchestration before any real call; gates/scan, publish main/ls-remote; then clean sourceSHA freeze and run once. No private original/manifest reading.
