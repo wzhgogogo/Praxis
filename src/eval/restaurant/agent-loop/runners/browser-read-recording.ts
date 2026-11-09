@@ -539,7 +539,7 @@ function safePublicStaticCode(script: string, originalByteLength: number): boole
     && !/\u0000/.test(script)
     && !/(?:\bBearer\s+[A-Za-z0-9._~-]{8,}|\bsk-[A-Za-z0-9_-]{8,})/i.test(script);
 }
-function sanitizePublicJson(text: string,rejected?:(reason:string)=>void): string | undefined {
+export function sanitizePublicJson(text: string,rejected?:(reason:string)=>void): string | undefined {
   if (text.length > 200_000) {rejected?.("JSON_SIZE_LIMIT");return undefined;}
   try { const value = JSON.parse(text); const clean = (item: unknown, key = ""): unknown => {
     if (/(?:cookie|token|secret|password|csrf|authorization|email|phone|address|name)/i.test(key)) throw new Error("JSON_SENSITIVE_KEY");

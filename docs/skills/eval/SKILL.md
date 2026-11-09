@@ -5,7 +5,7 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.17
+- Document revision: 2.18
 - Last updated: 2026-11-09
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
@@ -247,6 +247,7 @@ G6原生来源的机械资格注释只能从同次原始公开DOM/JSON提取，�
 | 语义开发回归 | `npm run eval:restaurant:semantic:fixture` / `...:deepseek` | 前者是离线契约，后者是授权真实模型诊断；均非Clean Baseline |
 | 私有Holdout准备 | `npm run eval:restaurant:semantic:holdout:preflight` | 标注与状态检查 |
 | 固定来源或Hybrid只读 | `npm run eval:restaurant:agent-loop:fixed-source-model` / `...:hybrid-live-read` | 前者受控来源，后者本次真实只读；都不证明预约成功 |
+| 私有held-out预认证 | `run-holdout.ts --certify-only` | 清单定稿前的独立空位见证；不绑定正式输出，不替代正式逐次认证，不启动产品/模型/Live |
 | 已有artifact补评 | `npm run eval:restaurant:agent-loop:artifact` | 结论支持性与终止行为 |
 | 决策回放 | `run-decision-replay.ts`（原样、注入、history模式） | 单步决策在冻结输入上的表现 |
 

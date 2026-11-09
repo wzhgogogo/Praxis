@@ -13,8 +13,8 @@ export async function atomicJSON(path:string,value:unknown){
 }
 /** One live orchestrator per directory. A dead process's lock can be reclaimed;
  * a live/unknown process cannot be treated as an interrupted attempt. */
-export async function holdoutLock(root:string){
- const path=join(root,'run.lock'),token=randomUUID();
+export async function holdoutLock(root:string,name="run.lock"){
+ const path=join(root,name),token=randomUUID();
  const prior=await readJSON<{pid:number;token:string}>(path);
  if(prior){let alive=true;try{process.kill(prior.pid,0);}catch(e){if((e as NodeJS.ErrnoException).code==='ESRCH')alive=false;}
   if(alive)throw Error('HOLDOUT_ALREADY_RUNNING');await unlink(path);

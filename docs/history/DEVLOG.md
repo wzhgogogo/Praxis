@@ -6005,3 +6005,11 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 首轮冻结6bef873b全量默认门禁拦出条款初次采集误走刷新分支，影响语言链接和预留时间回归；原失败完整保留first-freeze-6bef873b。已恢复初次采集原路线，只对已有或初次留下的不完整页增加一次原页观察；NO_PAGES的旧诊断断言改为已捕获但INCOMPLETE_PAGE拒答，零回答、保留B1、deadline/reserve和翻译禁越界等行为断言全部保留。针对性29项通过，待新SHA全门禁。
 
 最终源码c0b5e4f4同SHA净树全门禁PASS：type/arch/default1539/build/Chromium260+G6 83/strict G2全12。生产写死扫描新增0，D4/D8原录制、原评价和commitment均未改。首轮6bef873b失败完整保留，语言/预留时间回归修复；忙碌页NO_PAGES诊断改为已捕获INCOMPLETE_PAGE的明确拒答，零模型、不猜条款等断言保留。后续只提交文档与门禁证据，不改已验证源码。按用户本轮授权同步main快进合入并推送、ls-remote核对；具体发布SHA见聊天回执。真实模型/GET/Live为0，来源问答和条款尚无新Live验收；held-out待复核后私有文件/清单/账本。本轮报告位于.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/report.md。
+
+
+<a id="heldout-certify-only-20261109"></a>
+## 2026-11-09 — held-out清单冻结前只做见证认证（draft / not integrated）
+
+用户批准新增--certify-only，不做真实调用。CLI沿用原承诺、私有清单SHA与逐字校验、净树固定SHA、env-file和已激活同一账本；在创建模型/Google客户端前独立返回。每例witness.read(..., false)只做1次空位GET，无详情/产品会话/模型/Live。true/false/null、checkedAt、原响应SHA、HTTP状态与清洗副本分别保存；源失败继续，预算/结构错误拒绝。不调用正式目录绑定逻辑、不写正式input-hashes，认证文件只记独立哈希审计；正式每次见证保持原流程。
+
+复用原公开JSON清洗、凭据检查和私有回合遮盖，清洗前不写任何原响应；不合规明确OMITTED。普通见证仍按原字节保存、原方法/路径/20s/8MB/无重试边界不改。认证12次上限按同一规范账本累计，预算作用域进程锁阻止多个认证目录并发抢额度；总GET126不变，跨调用间隔从现有账本恢复。虚构案例有位/无位/失败后成功、503不重试、未知JSON、敏感键与自有凭据拒录、清单变化不绑定和跨目录12次封顶，19项针对性通过。type/arch通过，待净树全门禁。真实模型/GET/Live均0，私有原文未读取，复核者后续认证与定稿后才正式开跑。
