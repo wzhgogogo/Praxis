@@ -1,0 +1,7 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/holdout-resume.test.ts(102,3): error TS2322: Type '(ms: any) => Promise<void>' is not assignable to type '() => Promise<void>'.
+  Target signature provides too few arguments. Expected 1 or more, but got 0.
+src/eval/restaurant/agent-loop/holdout-resume.test.ts(102,21): error TS7006: Parameter 'ms' implicitly has an 'any' type.

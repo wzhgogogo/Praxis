@@ -15,7 +15,7 @@ async function control(){
  let healthFail=false,mode:'PASS'|'ENV'|'S0'|'CRASH_AFTER_EVALUATION'|'CHARGED_UNKNOWN'|'CRASH_AFTER_TICKET'='PASS',healths=0,execs=0;
  let selector:((n:number)=>typeof mode)|undefined;
  const seen:string[]=[];
- const deps={g6:{budgetPath,witnessFetch:async()=>{throw Error('No live transport');},transports:async()=>{throw Error('No live transport');}},wait:async()=>{},health:async(_spec:unknown,beforeGET:(s:string,r:number)=>Promise<void>)=>{healths++;for(const round of [1,2])for(const source of ['tablecheck','tabelog'])await beforeGET(source,round);return {passed:!healthFail,observations:[]};},
+ const deps={g6:{budgetPath,witnessFetch:async()=>{throw Error('No live transport');},transports:async()=>{throw Error('No live transport');}},wait:async(_ms:number)=>{},health:async(_spec:unknown,beforeGET:(s:string,r:number)=>Promise<void>)=>{healths++;for(const round of [1,2])for(const source of ['tablecheck','tabelog'])await beforeGET(source,round);return {passed:!healthFail,observations:[]};},
   execute:async(pack:Parameters<NonNullable<import('./g6/holdout-runner.js').HoldoutDependencies['execute']>>[0],d:import('./g6/runner.js').G6RunnerDependencies,out:string)=>{
    execs++;if(selector)mode=selector(execs);const spec=pack.cases[0]!;seen.push(spec.id);assert.equal(spec.oracle.reviewedReadRules?.length,21);
    await d.beforeLive?.();if(mode==='CRASH_AFTER_TICKET')throw Error('LOCAL_CRASH_AFTER_TICKET');await chargeG6(d.budgetPath,`g6-${spec.id}-fixture:LIVE`,'fullLive','LOCAL_CONSTRUCTION only');
@@ -99,7 +99,7 @@ test('a ledger symlink resolves to one canonical file for health, Live charges a
 test('resume restores the last charged GET time before sending its first health request',async()=>{
  const c=await control();try{
   c.setHealthFail(true);await c.run();const events:string[]=[];
-  c.deps.wait=async ms=>{assert.ok(ms>0);events.push('WAIT');};
+  c.deps.wait=async(ms:number)=>{assert.ok(ms>0);events.push('WAIT');};
   c.deps.health=async(_spec,beforeGET)=>{events.push('BEFORE');await beforeGET('tablecheck',1);events.push('GET_SENT');return {passed:true,observations:[]};};
   await c.run(true);assert.ok(events.indexOf('WAIT')>=0&&events.indexOf('WAIT')<events.indexOf('GET_SENT'));
  }finally{await c.close();}
