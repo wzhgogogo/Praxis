@@ -6681,3 +6681,15 @@ Frozen5afe1d4a final type/arch/build, default1458, Chromium235 plus completeG675
 最终隐私范围补充：模型消息整体哈希，产品会话的用户原文遮盖但保留ASSISTANT声明/交付文案，避免独立审计丢证。回归验证原文不泄露且回答仍存在；原文承诺先验证成功才读运行JSON，同时记录承诺原段与填写后JSON两种用例哈希。明确其他实体指针会否决地址桥接，aria-busy表单不提供时段注释。源码改动后最终冻结重跑全矩阵，前两冻结日志独立保留。
 
 最终源码5bb04c63同SHA净树全矩阵PASS：typecheck、arch:check、默认1521、build、完整Chromium260+G6 82、strict G2全12；生产写死扫描新增0，补充非测试eval开发店名/时段字面量审计0。gates.json逐项记录SHA/exitCode/净树；最终仅追加文档和证据，源码不变。当前CET报告、独立补评、GET+18来源/原评分SHA回执已归档；未推送/合main/触碰私有原文或执行真实调用，停下等复核。
+
+
+<a id="heldout-resume-review-20261109"></a>
+## 2026-11-09 — held-out 续跑/预算/合同复核（draft / not integrated）
+
+用户要求三处离线修正：--resume按原文件/清单/源码SHA及同一账本恢复、跳过已有评价；原失败证据另存、环境重跑在开始替代Live前计一次environmentReruns（限4），S0拒绝恢复。检查点原子写/进程锁、账本ID+canonical路径+前缀哈希/累计值防回滚，新目录不能重用同账本重开计划。已写评价但编排异常时恢复评价；已扣Live却无评价且非明确环境故障则停止复核，不盲耗额度。环境票据与Live之间中断可恢复，不重复扣票。G6仅增加beforeLive评测记账钩子，不改产品组装。
+
+体检改为每用例r1前一次、失败恢复前重做；规则仍两站两轮<=10秒/GET间隔>=5秒。用户明确18计划+4替代，fullLive22、GET126、模型2500。正常78GET，环境四次最多28，余20。21条独立合同从既有冻结D8 pack注入，私有JSON带reviewedReadRules一律拒绝。旧承诺JSON和历史产物保持不变。
+
+虚构清单/本地模拟账本验证SHA/账本变化拒绝、已评跳过、健康取消续接、原始失败保留、四次环境票/第五次拒绝、S0拒绝、评价落盘后异常恢复、无证已扣Live拒盲跑、并发锁、六例18计划+4替代实计22；普通createLiveReadAssembly三次Fixture继续验证生产接线。模型/源站/Live真实调用0，无私有原文。
+
+页面问答限定一轮：D4原checkedPages时间2026-11-06T09:26:16.927Z对应初次ASYNC_WAIT未结算；D8两次scope均busy拒绝后采集为空。旧录制缺settlementDiagnostics，不能证明哪条源请求/忙碌标记/文字变化有误。当前Map/最后快照逻辑已经替换旧页，非可直接修掉的旧快照遮蔽；需要更细结算重现和浏览器运行时工作，按用户停止条件保留非阻塞known gap。无伪造SETTLED、引用或模型回答，不放宽PENDING/完整文档缺省回答规则。证据在page-question-diagnosis.json；不是新Replay验收通过。

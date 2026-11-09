@@ -1,0 +1,7 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/eval/restaurant/agent-loop/g6/holdout-runner.test.ts(24,49): error TS2739: Type '{ manifestSHA256: string; }' is missing the following properties from type 'HoldoutRunAudit': originalSHA256, sourceSHA
+src/eval/restaurant/agent-loop/g6/holdout-runner.test.ts(26,79): error TS2339: Property 'evaluation' does not exist on type 'HoldoutAttempt'.
+src/eval/restaurant/agent-loop/holdout-protocol.test.ts(42,53): error TS2739: Type '{ manifestSHA256: string; }' is missing the following properties from type 'HoldoutRunAudit': originalSHA256, sourceSHA

@@ -33,6 +33,7 @@ export interface G6RunnerDependencies {
   transports:(spec:G6Case,recording:BrowserReadRecording,hooks:G6TransportHooks)=>Promise<Omit<LiveReadTransports,"currentTaskId"|"remainingModelCalls">>;
   witnessFetch:typeof fetch;budgetPath:string;ownCredentials?:readonly string[];
   initialWitnesses?:WitnessReceipt[];initialWitnessGETs?:number;
+  beforeLive?:()=>Promise<void>;
   maximumWitnessGETs?:number;artifactTransform?:(value:unknown)=>unknown;
   /** Held-out certification is one vacancy GET with independently frozen identity. */
   witnessDetailRead?:boolean;
@@ -184,7 +185,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
         witnesses.push(before);if(before.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Availability certification is required for this witness");if(before.exists===false&&w.allowKnownUnavailableCertificate!==true)throw Error("WITNESS_NO_LONGER_EXISTS: no Live was started");certifications.set(key,before);
       }
       wallStart=monotonicNow();
-      if(pack.mode==="LIVE_READ")await chargeG6(dependencies.budgetPath,runId+":LIVE","fullLive","Frozen G6 serial slot; browser, decisions and Google recording on");
+      if(pack.mode==="LIVE_READ"){await dependencies.beforeLive?.();await chargeG6(dependencies.budgetPath,runId+":LIVE","fullLive","Frozen G6 serial slot; browser, decisions and Google recording on");}
       const boundedModel:ModelGateway={async complete(request){
         if(!activeBudget||turnFinished||activeBudget.modelCalls>=50||modelCalls>=150)throw Error("G6 turn/slot model ceiling reached before transmission");
         if(monotonicNow()-turnWallStart>=500_000)throw Error("G6 user-turn deadline reached before model transmission");

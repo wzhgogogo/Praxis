@@ -8,7 +8,7 @@ export type HoldoutCondition={type:'PRESENTED_ANY'|'PRESENTED_WITH_SLOT'|'ASKED_
 export interface PrivateHoldoutCase {
  id:string;fillings:Record<string,string>;request:string;
  followups:Array<{id:string;kind:'MESSAGE'|'PAGE_QUESTION';text:string;condition:HoldoutCondition;allowOtherOutlets?:true}>;
- witness:NonNullable<G6Case['witness']>;oracle:G6Case['oracle'];
+ witness:NonNullable<G6Case['witness']>;oracle:Omit<G6Case['oracle'],'reviewedReadRules'>;
  /** Reviewer-provided backup information stays private and is never auto-sent. */
  fallback?:{location?:string;outlet?:string};
 }
@@ -21,6 +21,7 @@ export function validatePrivateManifest(original:Uint8Array,commitment:HoldoutCo
  const cases=manifest.cases.map((c,i)=>{
   if(c.id!==commitment.cases[i]!.id)refuse('HOLDOUT_MANIFEST_ORDER_MISMATCH');
   if(!c.fillings||typeof c.fillings!=='object'||Array.isArray(c.fillings)||!Array.isArray(c.followups)||c.followups.length>2||!c.oracle||!c.witness||c.witness.allowKnownUnavailableCertificate||c.witness.allowDetailOnlyCertificate)refuse('HOLDOUT_MANIFEST_INVALID');
+  if(Object.hasOwn(c.oracle,'reviewedReadRules'))refuse('HOLDOUT_MANIFEST_READ_RULES_FORBIDDEN');
   const substitutions=Object.entries(c.fillings);
   if(substitutions.some(([key,value])=>!/^\{[A-Z][A-Z0-9_]*\}$/u.test(key)||typeof value!=='string'||!value.length||!documents[i]!.includes(key))||new Set(substitutions.map(([,v])=>v)).size!==substitutions.length)refuse('HOLDOUT_FILLINGS_INVALID');
   const restored=(message:string)=>{

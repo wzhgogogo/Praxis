@@ -19,6 +19,7 @@ test('private manifest is verified against exact original, dates, turn substring
   if(change==='TURN')m.cases[0]!.followups[0]!.text='Uncommitted new request';if(change==='PLACEHOLDER')m.cases[0]!.fillings={'{WRONG}':'2030-12-01'};
   assert.throws(()=>validatePrivateManifest(Buffer.from(raw),commitment,bytes(m)),/HOLDOUT_/);
  }
+ const duplicateRules=structuredClone(manifest);Object.assign(duplicateRules.cases[0]!.oracle,{reviewedReadRules:[]});assert.throws(()=>validatePrivateManifest(Buffer.from(original),commitment,bytes(duplicateRules)),/HOLDOUT_MANIFEST_READ_RULES_FORBIDDEN/);
  const redact=privateInputRedactor([manifest.cases[0]!.request]);const output=JSON.stringify(redact({messages:[{role:'user',content:'private request'}],request:manifest.cases[0]!.request,wrapped:JSON.stringify({request:manifest.cases[0]!.request})}));
  assert.ok(!output.includes('Find Fiction Harbor'));assert.ok(!output.includes('private request'));assert.ok(output.includes('SHA256'));
  const conversation=redact({messages:[{role:'USER',content:manifest.cases[0]!.request},{role:'ASSISTANT',content:'Public source result shown.'}]})as {messages:Array<{role:string;content:string}>};assert.ok(Array.isArray(conversation.messages));assert.equal(conversation.messages[1]!.content,'Public source result shown.');assert.ok(!conversation.messages[0]!.content.includes('Find Fiction Harbor'));
@@ -38,8 +39,8 @@ test('all four follow-up conditions use structured results, with both satisfied 
 test('offline schedule cancels before Live on health failure, immediately stops S0, and schedules exactly three serial repetitions',async()=>{
  const base=resolve('.eval-artifacts');await mkdir(base,{recursive:true});
  for(const mode of ['HEALTH_FAIL','S0','PASS']as const){const dir=await mkdtemp(join(base,'fictional-holdout-')),budgetPath=join(dir,'budget.json');let active=0,started=0;
-  await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:126,fullLive:18,realModelCalls:2500,environmentReruns:4},cumulative:{evaluationPublicGET:0,fullLive:0,realModelCalls:849,environmentReruns:0,restaurantWebsiteRequests:0}}));
-  try{const result=await runPrivateHoldout(manifest,{manifestSHA256:holdoutHash(bytes(manifest))},join(dir,'runs'),{g6:{budgetPath,witnessFetch:async()=>{throw Error('Not used');},transports:async()=>{throw Error('Not used');}},wait:async()=>{},health:async(_spec,beforeGET)=>{await beforeGET('tablecheck',1);return {passed:mode!=='HEALTH_FAIL',observations:[]};},execute:async(pack,_deps,out)=>{
+  await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:126,fullLive:22,realModelCalls:2500,environmentReruns:4},cumulative:{evaluationPublicGET:0,fullLive:0,realModelCalls:849,environmentReruns:0,restaurantWebsiteRequests:0}}));
+  try{const result=await runPrivateHoldout(manifest,{manifestSHA256:holdoutHash(bytes(manifest)),originalSHA256:holdoutHash(original),sourceSHA:holdoutHash('fictional-source')},join(dir,'runs'),{g6:{budgetPath,witnessFetch:async()=>{throw Error('Not used');},transports:async()=>{throw Error('Not used');}},wait:async()=>{},health:async(_spec,beforeGET)=>{await beforeGET('tablecheck',1);return {passed:mode!=='HEALTH_FAIL',observations:[]};},execute:async(pack,_deps,out)=>{
    assert.equal(active,0);active++;started++;assert.equal(pack.recording.googleResponses,true);const path=join(out,pack.cases[0]!.id);await mkdir(path,{recursive:true});
    const evaluation={verdict:{s0:mode==='S0'?1:0,stopBatch:mode==='S0'}};await writeFile(join(path,'evaluation.json'),JSON.stringify(evaluation));active--;
    return {schemaVersion:'phase3b-g6-batch@1',serial:true,witnessGETs:1,stopReason:mode==='S0'?'S0_STOP':null,slots:[{id:pack.cases[0]!.id,status:'EVALUATED',path}]};

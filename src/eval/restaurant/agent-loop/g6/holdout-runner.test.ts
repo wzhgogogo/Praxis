@@ -14,16 +14,16 @@ test('fictional held-out schedule runs three real Live-assembly fixture slots wi
  // LOCAL_CONSTRUCTION. Runtime, interpreter, budgets and evaluator are real;
  // only source/model transports and network health observations are replaced.
  const base=resolve('.eval-artifacts');await mkdir(base,{recursive:true});const dir=await mkdtemp(join(base,'g6-private-assembly-')),seed=await g6Fixture(),s=seed.source,budgetPath=join(dir,'budget.json');
- await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:126,fullLive:18,realModelCalls:2500,environmentReruns:4},cumulative:{evaluationPublicGET:0,fullLive:0,realModelCalls:849,environmentReruns:0,restaurantWebsiteRequests:0,googleRequests:0}}));
+ await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:126,fullLive:22,realModelCalls:2500,environmentReruns:4},cumulative:{evaluationPublicGET:0,fullLive:0,realModelCalls:849,environmentReruns:0,restaurantWebsiteRequests:0,googleRequests:0}}));
  const id='witness-fiction',manifest:PrivateHoldoutManifest={schema:'phase3b-private-run-manifest@1',cases:[{id:'fictional-assembly',fillings:{},request:s.initialRequest,
   followups:[{id:'room',kind:'PAGE_QUESTION',text:s.question,condition:{type:'PRESENTED_WITH_SLOT'}},{id:'date',kind:'MESSAGE',text:'2030-12-01',condition:{type:'ASKED_FOR_DATE'}}],
   witness:{candidateId:id,name:s.outlet.name,address:s.outlet.address,phone:s.outlet.phone,provider:'TABELOG',sourceEntityId:new URL(s.pageUrl).pathname.split("/").filter(Boolean).at(-1)!,date:s.date,time:s.time,partySize:2,detailUrl:s.pageUrl,identityText:[s.outlet.name]},
   oracle:{request:{dates:[s.date],time:s.time,partySize:2},qualificationOracles:[{name:s.outlet.name,address:s.outlet.address,hardCriteriaMet:true,withinArea:true,evidenceRefs:['LOCAL_CONSTRUCTION']}],pages:[{ref:'local-source',candidateId:id,url:s.pageUrl,name:s.outlet.name,address:s.outlet.address,phone:s.outlet.phone,merchantText:s.merchantQuote,observedLinks:[]}],questions:[{candidateId:id,expected:'ANSWERED',approvedAnswers:[s.merchantQuote]}]}}]};
  let sessions=0;
  try{
-  const result=await runPrivateHoldout(manifest,{manifestSHA256:'local-construction'},join(dir,'runs'),{wait:async()=>{},health:async(_spec,beforeGET)=>{for(const round of [1,2])for(const source of ['tablecheck','tabelog'])await beforeGET(source,round);return {passed:true,observations:[]};},
+  const result=await runPrivateHoldout(manifest,{manifestSHA256:'local-construction',originalSHA256:'local-original',sourceSHA:'local-source'},join(dir,'runs'),{wait:async()=>{},health:async(_spec,beforeGET)=>{for(const round of [1,2])for(const source of ['tablecheck','tabelog'])await beforeGET(source,round);return {passed:true,observations:[]};},
    g6:{budgetPath,witnessIntervalMs:0,wait:async()=>{},witnessFetch:async()=>new Response(JSON.stringify(s.vacancy.body)),async transports(_spec,_recording,hooks){sessions++;const f=await g6Fixture();return {...f,google:new GooglePlacesClient({apiKey:'local-only',fetchImplementation:hooks.googleFetch(f.googleFetch)})};}}});
-  assert.equal(result.stopReason,null,JSON.stringify(result.receipts.map(r=>r.evaluation)));assert.equal(sessions,3);assert.equal(result.receipts.length,3);
+  assert.equal(result.stopReason,null,JSON.stringify(result.receipts));assert.equal(sessions,3);assert.equal(result.receipts.length,3);
   for(let n=1;n<=3;n++){
    const slot=join(dir,'runs',`fictional-assembly-r${n}`,`fictional-assembly-r${n}`),run=JSON.parse(await readFile(join(slot,'execution.result.json'),'utf8'));
    assert.deepEqual(run.turns.map((t:{status:string})=>t.status),['SENT','NOT_SENT']);
