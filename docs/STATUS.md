@@ -1,3 +1,5 @@
+2026-11-09 CET — 首轮held-out见证预认证已在main4fdf866e净树执行一次：6GET、模型0、Live0，2 true/3 false/1 null；01 HTTP400正文按规则OMITTED、保留SHA，其余5份HTTP200清洗正文SAVED。全部响应时段保留，false只指指定时段未命中。账本GET6/126、认证6/12，cumulative模型849、Live0、环境重跑0、Google0、餐厅GET6；5个间隔均>=5秒。三份私有文件初始SHA与用户提供一致，原文/清单仅路径交运行器，未人工读取打印复制；只提交清洗产物与派生摘要，无代码改动、不追加认证、不运行正式held-out。等复核者定稿。[报告](../.eval-artifacts/phase3b/heldout-certification-first/report.md)。
+
 2026-11-09 — held-out --certify-only候选源码7d6880d2净树全门禁PASS：默认1543、Chromium260+G6 83、strictG2全12及type/arch/build，写死扫描新增0；按用户授权快进发布main后停止。清单冻结前每例1次空位GET、5秒间隔，记录true/false/null/响应SHA/清洗副本；不绑定正式目录和清单，不启动产品/模型/Live。认证按同一账本跨目录最多12GET、从126内扣，正式逐次认证不改。全部新增源码在src/eval，真实GET/模型/Live为0，未读私有原文。等待复核者预认证与定稿。[报告](../.eval-artifacts/phase3b/heldout-certify-only-20261109/report.md)。
 
 2026-11-09 — draft / not integrated：新增held-out --certify-only候选，复用原承诺/清单/净树固定SHA/env-file/激活账本校验，只读每例1次空位GET；有位/无位/失败均记录继续、间隔5秒、清洗后响应及SHA；不建立正式目录/清单绑定，不启动产品/模型/Live。跨目录认证最多12GET，仍从126中扣；正式运行各次认证不改。虚构19项、type/arch通过，待冻结全门禁后按用户授权合入推送main。真实调用0。[计划](../.eval-artifacts/phase3b/heldout-certify-only-20261109/plan.md)。

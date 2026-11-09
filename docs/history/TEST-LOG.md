@@ -6719,3 +6719,13 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 复用原公开JSON清洗、凭据检查和私有回合遮盖，清洗前不写任何原响应；不合规明确OMITTED。普通见证仍按原字节保存、原方法/路径/20s/8MB/无重试边界不改。认证12次上限按同一规范账本累计，预算作用域进程锁阻止多个认证目录并发抢额度；总GET126不变，跨调用间隔从现有账本恢复。虚构案例有位/无位/失败后成功、503不重试、未知JSON、敏感键与自有凭据拒录、清单变化不绑定和跨目录12次封顶，19项针对性通过。type/arch通过，待净树全门禁。真实模型/GET/Live均0，私有原文未读取，复核者后续认证与定稿后才正式开跑。
 
 最终源码7d6880d2同SHA净树全门禁PASS：type/arch/default1543/build/Chromium260+G6 83/strictG2全12，写死扫描新增0。实际源码只改src/eval；原正式承诺/清单冻结、见证逐次认证与产品路径不改。文档/证据提交不改变已验证源码，按用户本轮授权同步main、快进合入推送并ls-remote核对，发布SHA见聊天。真实模型/GET/Live0，私有原文未读；停止等复核者认证与最终清单，不执行真实认证。证据目录.eval-artifacts/phase3b/heldout-certify-only-20261109/。
+
+
+<a id="heldout-certification-first-20261109"></a>
+## 2026-11-09 CET — 首轮真实见证预认证（非产品Live/非成绩）
+
+用户明确授权只在4fdf866e净树执行一次--validate-only和一次--certify-only。三份仓库外私有文件经sha256sum与用户提供哈希完全一致；原文/清单只以路径交运行器，未人工打开读取打印复制。原承诺、ID顺序、日期回填逐字校验通过，仅哈希审计落盘。凭据只通过工作树.env的--env-file，未打印或复制凭据。
+
+认证6GET，间隔5.002/5.005/5.003/5.003/5.004秒；2true、3false、1null。01为HTTP400，正文按现有规则拒录、原响应SHA保留，未检查未清洗响应或猜测原因；其余5份HTTP200正文清洗保存，校验savedSHA256一致、自有凭据扫描PASS。报告列全部来源时段，按CET输出并另存JST原值；false不等于全天无位。没有重试/追加认证、没有产品会话/模型/Live，未绑定正式输出。
+
+私有账本追加后cumulative为fullLive0/evaluationPublicGET6/realModelCalls849/environmentReruns0/googleRequests0/restaurantWebsiteRequests6；认证已用6/12，GET总范围6/126。完整私有账本不入库，只记录计数、间隔及前后SHA。输出目录.eval-artifacts/phase3b/heldout-certification-first；原响应副本只有已清洗部分，私有原文与清单不入库。无源码修改，不额外运行门禁或真实请求；按用户授权提交推送main并ls-remote核对，随后停下等复核者定最终清单。
