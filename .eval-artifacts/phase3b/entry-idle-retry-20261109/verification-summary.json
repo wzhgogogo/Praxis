@@ -1,0 +1,362 @@
+{
+  "mode": "REAL_LOCAL_CHROMIUM_FIXTURE",
+  "sourceSha": "6ce1a6bc5428122530f804ab52a4ab85ba2af335",
+  "gates": [
+    {
+      "name": "arch",
+      "sha": "6ce1a6bc5428122530f804ab52a4ab85ba2af335",
+      "exitCode": 0,
+      "elapsedSeconds": 0.23289549999999992,
+      "before": "",
+      "after": ""
+    },
+    {
+      "name": "build",
+      "sha": "6ce1a6bc5428122530f804ab52a4ab85ba2af335",
+      "exitCode": 0,
+      "elapsedSeconds": 0.5638755840000016,
+      "before": "",
+      "after": ""
+    },
+    {
+      "name": "chromium-g6",
+      "sha": "6ce1a6bc5428122530f804ab52a4ab85ba2af335",
+      "exitCode": 0,
+      "elapsedSeconds": 176.101710834,
+      "before": "",
+      "after": ""
+    },
+    {
+      "name": "default",
+      "sha": "6ce1a6bc5428122530f804ab52a4ab85ba2af335",
+      "exitCode": 0,
+      "elapsedSeconds": 57.447458667,
+      "before": "",
+      "after": ""
+    },
+    {
+      "name": "strict-g2",
+      "sha": "6ce1a6bc5428122530f804ab52a4ab85ba2af335",
+      "exitCode": 0,
+      "elapsedSeconds": 24.824078582999988,
+      "before": "",
+      "after": ""
+    },
+    {
+      "name": "typecheck",
+      "sha": "6ce1a6bc5428122530f804ab52a4ab85ba2af335",
+      "exitCode": 0,
+      "elapsedSeconds": 0.562383292,
+      "before": "",
+      "after": ""
+    }
+  ],
+  "recovery": {
+    "requests": 2,
+    "documents": 2,
+    "closedBeforeSecond": true,
+    "events": [
+      {
+        "attempt": 1,
+        "retryCount": 0,
+        "event": "STARTED",
+        "elapsedMs": 0
+      },
+      {
+        "attempt": 1,
+        "retryCount": 0,
+        "event": "IDLE_ABORT",
+        "elapsedMs": 5067,
+        "idleMs": 5043,
+        "status": 200,
+        "resourceType": "stylesheet"
+      },
+      {
+        "attempt": 1,
+        "retryCount": 0,
+        "event": "ABORTED",
+        "elapsedMs": 5079
+      },
+      {
+        "attempt": 2,
+        "retryCount": 1,
+        "event": "STARTED",
+        "elapsedMs": 5079
+      },
+      {
+        "attempt": 2,
+        "retryCount": 1,
+        "event": "SUCCEEDED",
+        "elapsedMs": 5094
+      }
+    ]
+  },
+  "boundaries": [
+    {
+      "mode": "HTTP403",
+      "cssRequests": 1,
+      "documents": 1,
+      "posts": 0,
+      "completed": false,
+      "elapsedMs": 8001,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "FAILED",
+          "elapsedMs": 8001
+        }
+      ]
+    },
+    {
+      "mode": "HTTP500",
+      "cssRequests": 1,
+      "documents": 1,
+      "posts": 0,
+      "completed": false,
+      "elapsedMs": 7999,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "FAILED",
+          "elapsedMs": 7999
+        }
+      ]
+    },
+    {
+      "mode": "NO_HEADERS",
+      "cssRequests": 1,
+      "documents": 1,
+      "posts": 0,
+      "completed": false,
+      "elapsedMs": 8000,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "FAILED",
+          "elapsedMs": 8000
+        }
+      ]
+    },
+    {
+      "mode": "STEADY",
+      "cssRequests": 1,
+      "documents": 1,
+      "posts": 0,
+      "completed": true,
+      "elapsedMs": 6538,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "SUCCEEDED",
+          "elapsedMs": 6538
+        }
+      ]
+    },
+    {
+      "mode": "POST",
+      "cssRequests": 1,
+      "documents": 1,
+      "posts": 0,
+      "completed": false,
+      "elapsedMs": 8001,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "FAILED",
+          "elapsedMs": 8000
+        }
+      ]
+    },
+    {
+      "mode": "INTERACTION",
+      "cssRequests": 1,
+      "documents": 1,
+      "posts": 0,
+      "completed": false,
+      "elapsedMs": 8000,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "FAILED",
+          "elapsedMs": 8000
+        }
+      ]
+    },
+    {
+      "mode": "SECOND_STALL",
+      "cssRequests": 2,
+      "documents": 2,
+      "posts": 0,
+      "completed": false,
+      "elapsedMs": 8002,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "IDLE_ABORT",
+          "elapsedMs": 5057,
+          "idleMs": 5036,
+          "status": 200,
+          "resourceType": "stylesheet"
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "ABORTED",
+          "elapsedMs": 5070
+        },
+        {
+          "attempt": 2,
+          "retryCount": 1,
+          "event": "STARTED",
+          "elapsedMs": 5070
+        },
+        {
+          "attempt": 2,
+          "retryCount": 1,
+          "event": "FAILED",
+          "elapsedMs": 8001
+        }
+      ]
+    },
+    {
+      "mode": "CANCEL",
+      "cssRequests": 1,
+      "documents": 1,
+      "posts": 0,
+      "completed": false,
+      "elapsedMs": 22,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "FAILED",
+          "elapsedMs": 21
+        }
+      ]
+    },
+    {
+      "mode": "ENTRY_ONLY",
+      "cssRequests": 2,
+      "documents": 2,
+      "posts": 0,
+      "completed": false,
+      "elapsedMs": 6015,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "SUCCEEDED",
+          "elapsedMs": 13
+        }
+      ]
+    },
+    {
+      "mode": "NODE_ABORT",
+      "cssRequests": 2,
+      "documents": 2,
+      "posts": 0,
+      "completed": true,
+      "elapsedMs": 5072,
+      "attempts": [
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "STARTED",
+          "elapsedMs": 0
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "IDLE_ABORT",
+          "elapsedMs": 5024,
+          "idleMs": 5005,
+          "status": 200,
+          "resourceType": "stylesheet"
+        },
+        {
+          "attempt": 1,
+          "retryCount": 0,
+          "event": "ABORTED",
+          "elapsedMs": 5044
+        },
+        {
+          "attempt": 2,
+          "retryCount": 1,
+          "event": "STARTED",
+          "elapsedMs": 5044
+        },
+        {
+          "attempt": 2,
+          "retryCount": 1,
+          "event": "SUCCEEDED",
+          "elapsedMs": 5072
+        }
+      ]
+    }
+  ],
+  "websiteValidation": "NOT_RUN",
+  "newExternalGET": 0,
+  "newLive": 0,
+  "newModel": 0
+}

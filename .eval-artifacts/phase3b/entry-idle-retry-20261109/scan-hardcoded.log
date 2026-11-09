@@ -1,0 +1,4 @@
+src/infrastructure/browser/playwright-entry-navigation.ts:18 [ WORDLIST ]       if(!['GET','HEAD','OPTIONS'].includes(e.request.method))this.unsafe=true;
+src/infrastructure/browser/playwright-read-network-guard.ts:387 [ WORDLIST ]           if(!["GET","HEAD","OPTIONS"].includes(method))entry?.disallow();
+src/infrastructure/browser/playwright-read-network-guard.ts:462 [ WORDLIST ]             if(sendRoot && entry && event.networkId && method==="GET" && ["script","stylesheet","font","image"].includes(type)
+src/infrastructure/browser/playwright-read-network-guard.ts:463 [ WORDLIST ]               &&!this.queryMetadata(url).queryValues.some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT"].includes(field.valueClass))

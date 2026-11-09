@@ -2,7 +2,7 @@
 
 ## 2026-11-09 Asia/Shanghai — bounded first-entry reload
 
-2026-11-09（Asia/Shanghai）— C按用户明确批准实现首次入口一次重载候选（draft / not integrated）：仅已审核原生静态GET的成功响应5秒无进度触发，先实际中止并确认旧请求终止，再用原导航剩余预算重开；4xx/5xx、未知连接、POST/交互/独立子目标不恢复。Recorder保留attempt/retryCount和首次失败；原Guard/网络/身份/时限不变。本地恢复约5.1秒，完整离线门禁待冻结；无新来源GET/模型/Live，真实连接稳定性及旧无响应头CSS不据此判修复。 [实施计划](../../.eval-artifacts/phase3b/entry-idle-retry-20261109/implementation-plan.md)。
+2026-11-09（Asia/Shanghai）— C首次入口一次重载候选已离线完成（draft / not integrated）：源码6ce1a6bc同SHA净树门禁PASS，默认1511、Chromium257+完整G6 78、严格G2全部12页及type/arch/build。已审核原生静态GET的2xx响应5秒无数据才触发，确认旧网络终止后重开一次、共用原预算；4xx/5xx、未知连接、POST/交互/独立子目标不恢复，Recorder保留attempt/retryCount及首次停顿。本地恢复约5.1秒，真实站点/D8未跑；旧无响应头CSS、DNS和403不宣称修复。Guard准入/代理/.env/身份不变；外部GET/模型/Live均0，留出预留不动，未推送/合main。 [报告](../../.eval-artifacts/phase3b/entry-idle-retry-20261109/implementation-report.md)。
 
 <a id="d8-connectivity-restored-20261109"></a>
 
