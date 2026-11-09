@@ -598,6 +598,14 @@ export class BrowserTaskExecutor {
     return this.operation(input, "OBSERVE_CONTROLS", () => input.session.observeControls!());
   }
 
+  /** One bounded readiness observation, using the unchanged browser settlement
+   * predicate and provider deadline. A still-pending page remains pending. */
+  async reobservePageOnce(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & {session:BrowserSession}):Promise<BrowserSnapshot> {
+    const previous=await this.snapshot(input);
+    await this.waitForSettled(input,previous);
+    return this.snapshot(input);
+  }
+
   async runSkill(input: BrowserSkillReadInput): Promise<BrowserGenericReadResult> {
     input.session.beginReadScope?.();
     let modelConfirmed = false;

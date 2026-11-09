@@ -10,6 +10,8 @@ import {liveG6Dependencies,createG6LiveBrowser} from './live-transports.js';
 /** Importing/--validate-only never starts Chromium or constructs API clients. */
 export async function main(args:string[]){
  const flag=(name:string)=>{const i=args.indexOf(name);if(i<0||!args[i+1])throw Error('MISSING_ARGUMENT');return args[i+1]!;};
+ const reviewIndex=args.indexOf('--review');
+ if(reviewIndex>=0&&(!args.includes('--resume')||!args[reviewIndex+1]||!args[reviewIndex+2]||args[reviewIndex+2]!.startsWith('--')))throw Error('HOLDOUT_REVIEW_ARGUMENTS_INVALID');
  if(args.includes('--resume')&&args.includes('--output'))throw Error('HOLDOUT_OUTPUT_MODE_CONFLICT');
  const originalPath=resolve(flag('--original')),manifestPath=resolve(flag('--manifest'));
  for(const path of [originalPath,manifestPath]){const r=relative(process.cwd(),path);if(!r.startsWith('..'))throw Error('PRIVATE_INPUT_MUST_STAY_OUTSIDE_REPOSITORY');}
@@ -26,7 +28,7 @@ export async function main(args:string[]){
  if(ledger.status!=='APPROVED_FOR_EXECUTION'||!Number.isSafeInteger(ledger.cumulative?.realModelCalls)||ledger.cumulative.realModelCalls<849||ledger.limits?.realModelCalls!==2500||ledger.limits?.evaluationPublicGET!==126||ledger.limits?.fullLive!==22||ledger.limits?.environmentReruns!==4)throw Error('HELDOUT_BUDGET_SCOPE_MISMATCH');
  const dependencies=liveG6Dependencies(process.env,budgetPath);
  const result=await runPrivateHoldout(checked.manifest,{...checked.audit,sourceSHA},resolve(flag(args.includes('--resume')?'--resume':'--output')),{g6:dependencies,
-  health:(spec,beforeGET)=>checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:spec.witness!.detailUrl,beforeGET})},{resume:args.includes('--resume')});
+  health:(spec,beforeGET)=>checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:spec.witness!.detailUrl,beforeGET})},{resume:args.includes('--resume'),...(reviewIndex>=0?{review:{key:args[reviewIndex+1]!,file:args[reviewIndex+2]!}}:{})});
  console.log(JSON.stringify({status:result.stopReason?'STOPPED':'COMPLETED',stopReason:result.stopReason,attempts:result.receipts.length}));
  if(result.stopReason)process.exitCode=1;
 }

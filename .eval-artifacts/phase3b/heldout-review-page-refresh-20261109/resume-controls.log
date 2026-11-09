@@ -1,0 +1,23 @@
+✔ resume preserves evaluated slots, only one health per case, and refuses original/manifest/source/ledger mismatches (25.986584ms)
+✔ health cancellation resumes the same planned slot with fresh health, no duplicate Live, original health evidence retained (11.48325ms)
+✔ environment failure replacement is charged on resumed Live only, stored separately and stops before a fifth replacement (23.057125ms)
+✔ successful environment replacement completes later slots, without rerunning prior Live or repeating case health (11.480041ms)
+✔ S0 forbids resume even if a checkpoint did not record the stop; evaluation after a crash is recovered without another Live (12.382875ms)
+✔ already charged unknown interruption cannot silently spend another Live; plan and append-only ledger guards reject before transmission (6.953042ms)
+✔ resume denies simultaneous writers; independent cases each get one health, and rules cannot be supplied privately (11.822125ms)
+✔ a prepaid environment ticket survives interruption before Live without being charged twice (13.644875ms)
+✔ six cases keep eighteen planned slots and admit four replacements within fullLive22 and GET126 (56.435167ms)
+✔ a ledger symlink resolves to one canonical file for health, Live charges and resume (8.877375ms)
+✔ resume restores the last charged GET time before sending its first health request (9.992958ms)
+✔ STOPPED independent evidence can be supplemented, original stays immutable, reviewed slot counts once and review hash cannot change (32.676667ms)
+✔ supplement S0 remains stopped and is sticky even without another --review (11.185958ms)
+✔ charged product failure is independently audited and graded as one failed plan, with no replacement or environment ticket (11.160542ms)
+✔ ungraded failure with independent boundary violation or missing evidence cannot be supplemented past the stop (16.136209ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 674.196625

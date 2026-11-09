@@ -1,3 +1,4 @@
+import {reviewHoldoutAttempt,checkSavedReview,type HoldoutReviewOption} from './holdout-review.js';
 import {holdoutHash} from '../holdout-protocol.js';
 import {holdoutLock,bindHoldoutLedger,checkResumeIdentity,readJSON,saveHoldoutCheckpoint,holdoutLiveCharged,type HoldoutRunAudit,type HoldoutAttempt,type HoldoutCheckpoint} from './holdout-checkpoint.js';
 import {mkdir,readFile,writeFile,realpath} from 'node:fs/promises';
@@ -34,9 +35,10 @@ export async function frozenHoldoutReadRules(){
 }
 /** Serial immutable attempts. Resume reuses completed scores, not their Live.
  * Only explicit environmental failures authorize replacement attempts. */
-export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:HoldoutRunAudit,directory:string,deps:HoldoutDependencies,options:{resume?:boolean}={}){
+export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:HoldoutRunAudit,directory:string,deps:HoldoutDependencies,options:{resume?:boolean;review?:HoldoutReviewOption}={}){
  if(manifest.cases.length*3>18||new Set(manifest.cases.map(c=>c.id)).size!==manifest.cases.length)throw Error('HOLDOUT_PLANNED_SLOT_LIMIT');
  if(manifest.cases.some(c=>Object.hasOwn(c.oracle,'reviewedReadRules')))throw Error('HOLDOUT_MANIFEST_READ_RULES_FORBIDDEN');
+ if(options.review&&!options.resume)throw Error('HOLDOUT_REVIEW_REQUIRES_RESUME');
  const rules=await frozenHoldoutReadRules();await mkdir(resolve(directory),{recursive:true});const root=await realpath(resolve(directory)),unlock=await holdoutLock(root);
  const privacy=privateInputRedactor(manifest.cases.flatMap(c=>[c.request,...c.followups.map(f=>f.text)]));
  let state:HoldoutCheckpoint={schema:'phase3b-holdout-batch@2',serial:true,stopReason:null,receipts:[],healthyCases:[]};
@@ -55,17 +57,29 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
     if(!value.verdict||!Number.isFinite(value.verdict.s0)||typeof value.verdict.stopBatch!=='boolean')throw Error('HOLDOUT_EVALUATION_INVALID');
    }return value;
   };
+  if(options.review&&!state.receipts.some(a=>a.key===options.review!.key))throw Error('HOLDOUT_REVIEW_ATTEMPT_UNKNOWN');
   // Recover an evaluation written just before an orchestrator interruption.
   // Any S0 found on disk blocks resume even when its checkpoint was not saved.
   for(const a of state.receipts){
    const e=await evaluation(a);if(e?.verdict.s0)throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');
+   let reviewed=await checkSavedReview(a);
+   if(options.review?.key===a.key){
+    if(e&&!e.verdict.stopBatch&&a.status!=='EVALUATED_BY_REVIEW')throw Error('HOLDOUT_REVIEW_ATTEMPT_NOT_STOPPED');
+    if(!e&&!await holdoutLiveCharged(budget.path,a.key))throw Error('HOLDOUT_REVIEW_ATTEMPT_NOT_CHARGED');
+    reviewed=await reviewHoldoutAttempt(a,options.review,privacy,save);
+   }
+   if(reviewed){
+    if(reviewed.verdict.s0)throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');
+    if(reviewed.verdict.stopBatch||reviewed.verdict.status!=='EVALUATED')throw Error('HOLDOUT_INDEPENDENT_EVIDENCE_REVIEW_REQUIRED');
+    a.status='EVALUATED_BY_REVIEW';continue;
+   }
    const environmental=(!e||e.verdict.qualified===false)&&await recordedEnvironmentFailure(join(a.path,a.key));
    if(environmental||a.status==='ENVIRONMENT_FAILURE')a.status='ENVIRONMENT_FAILURE';
    else if(e)a.status=e.verdict.stopBatch?'STOPPED':'EVALUATED';
    else if(await holdoutLiveCharged(budget.path,a.key))throw Error('HOLDOUT_CHARGED_ATTEMPT_NEEDS_REVIEW');
    else if(a.status==='STARTED')a.status='INTERRUPTED';
   }
-  for(const a of state.receipts)if(a.status!=='EVALUATED'&&!state.receipts.some(b=>b.id===a.id&&b.repetition===a.repetition&&b.status==='EVALUATED'))state.healthyCases=state.healthyCases.filter(id=>id!==a.id);
+  for(const a of state.receipts)if(!['EVALUATED','EVALUATED_BY_REVIEW'].includes(a.status)&&!state.receipts.some(b=>b.id===a.id&&b.repetition===a.repetition&&['EVALUATED','EVALUATED_BY_REVIEW'].includes(b.status)))state.healthyCases=state.healthyCases.filter(id=>id!==a.id);
   if(state.stopReason==='S0_STOP')throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');
   if(state.receipts.some(a=>a.status==='STOPPED'))throw Error('HOLDOUT_INDEPENDENT_EVIDENCE_REVIEW_REQUIRED');
   state.stopReason=null;
@@ -79,7 +93,7 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
    // at a later slot performs health again after an interruption.
    for(const repetition of [1,2,3]){
     const prior=state.receipts.filter(a=>a.id===item.id&&a.repetition===repetition);
-    if(prior.some(a=>a.status==='EVALUATED'))continue;
+    if(prior.some(a=>['EVALUATED','EVALUATED_BY_REVIEW'].includes(a.status)))continue;
     const previous=prior.at(-1),replacement=prior.some(a=>a.status==='ENVIRONMENT_FAILURE');
     const planKey=`${item.id}-r${repetition}`;
     const environmentIndex=state.receipts.filter(a=>a.id===item.id&&a.repetition===repetition&&a.environmentReplacement).length+1;

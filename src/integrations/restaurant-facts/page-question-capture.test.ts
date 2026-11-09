@@ -93,7 +93,7 @@ test("G1 refreshes a pending fact-cache page before answering",async()=>{
  f.page.settlement="SETTLED";
  const answer=await f.assembly.questions.answerQuestion(f.input,new AbortController().signal);
  assert.equal(answer.status,"ANSWERED","A pending cache is a reason to acquire a complete page within the existing question budget");
- assert.equal(f.seen.navigations.length,2,"The question acquired one fresh page");
+ assert.equal(f.seen.navigations.length,1,"The current exact outlet page is reobserved without navigation");
  assert.equal(f.seen.requests.filter(r=>r.purpose==="restaurant_page_question").length,1);
 });
 
@@ -105,5 +105,5 @@ test("G1 a still-busy refreshed page stays incomplete with no answer model call"
  const answer=await f.assembly.questions.answerQuestion(f.input,new AbortController().signal);
  assert.ok(answer.status==="UNVERIFIED"&&answer.reason==="INCOMPLETE_PAGE");
  assert.equal(f.seen.requests.filter(r=>r.purpose==="restaurant_page_question").length,0);
- assert.equal(f.seen.navigations.length,2,"Refresh has its existing page limit; no implicit retry loop");
+ assert.equal(f.seen.navigations.length,1,"The still-pending current exact page is observed once without navigation or loops");
 });

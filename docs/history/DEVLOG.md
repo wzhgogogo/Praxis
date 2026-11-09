@@ -5991,3 +5991,13 @@ No transport behavior changed: local Origin match passes in all three modes; wir
 页面问答限定一轮：D4原checkedPages时间2026-11-06T09:26:16.927Z对应初次ASYNC_WAIT未结算；D8两次scope均busy拒绝后采集为空。旧录制缺settlementDiagnostics，不能证明哪条源请求/忙碌标记/文字变化有误。当前Map/最后快照逻辑已经替换旧页，非可直接修掉的旧快照遮蔽；需要更细结算重现和浏览器运行时工作，按用户停止条件保留非阻塞known gap。无伪造SETTLED、引用或模型回答，不放宽PENDING/完整文档缺省回答规则。证据在page-question-diagnosis.json；不是新Replay验收通过。
 
 最终源码04d4e9a8净树同SHA完整验证PASS：typecheck、arch:check、默认1532、build、Chromium260+G6 82、strictG2全12，生产写死扫描新增0。首轮测试替身类型标注错误被typecheck拦下并保留；后补“体检取消→成功重试→再次resume”真实控制反例揭出前缀ID误匹配，修为精确runID后红转绿，原日志和被中止门禁回执保留。最终全门禁另存gates.json，未用局部通过冒充整套验证。远端main仍8a658179、是候选祖先；当前工作树干净，确认其他main注册已失效无.git后在本树快进合入，未改其他目录、无冲突或行为变更。发布SHA及ls-remote核对见本聊天交付回执；后续文档/证据提交不改变已门禁源码。真实源站/模型/Live均0，页面问答明确未关闭，停下等复核。
+
+
+<a id="heldout-review-page-refresh-20261109"></a>
+## 2026-11-09 — 补评续跑与一次原页观察（draft / not integrated）
+
+用户本轮授权：补评文件留仓库外，原录制+注释重算、原评价不变；无评价且已扣Live先重算独立边界，0违规/无缺证才补评，产品异常计一次失败不重跑不扣环境票。实现--resume --review、文件SHA/证据树/输出SHA固定、EVALUATED_BY_REVIEW；S0/NOT_EVALUATED拒绝续跑。新增evaluation@5失败结论，成功/失败共用完整声明投影，异常也保存原始外层方法/正文/预检形状。
+
+G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确切页直接采样，否则绑定URL导航并重核实体；PENDING不回答。真实D4 snapshot24、D8 snapshot41的DOM原文组件由createLiveReadAssembly驱动，刷新状态/时钟/模型为LOCAL_CONSTRUCTION。D4引用Private rooms/Unavailable，D8完整文档NOT_STATED；仍PENDING拒答、不循环。新旧同输入红绿证明续跑与导航承诺，不宣称原Live已重演成功。旧INCOMPLETE_PAGE/NO_PAGES不覆盖，真实问答/条款仍待实际运行验证。首轮测试夹具绑定/采样计数差异与测试入口架构检查已修正，未放宽产品边界。
+
+虚构续跑四组反例及真实G6异常产物接线已通过；全套门禁待冻结后运行。真实模型/源站/Live均0，未读取或复制私有留出原文。证据目录：.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/。

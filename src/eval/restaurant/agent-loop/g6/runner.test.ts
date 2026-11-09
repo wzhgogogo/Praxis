@@ -178,3 +178,17 @@ test('G6 known-unavailable witness stops by default and only an explicit diagnos
   }finally{await rm(dir,{recursive:true,force:true});}
  }
 });
+
+test('G6 product/outer exception preserves partial claims and complete raw request observations for independent review',async()=>{
+ const root=resolve('.eval-artifacts');await mkdir(root,{recursive:true});const dir=await mkdtemp(join(root,'g6-review-failure-')),f=await g6Fixture(),s=f.source,budgetPath=join(dir,'budget.json');
+ await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:3},cumulative:{evaluationPublicGET:0,restaurantWebsiteRequests:0}}));
+ const pack:G6Pack={schemaVersion:'phase3b-g6-pack@1',mode:'FIXTURE',recording:{browser:true,decisions:true,googleResponses:true},cases:[{id:'exception',request:s.initialRequest,followups:[],oracle:{request:{dates:[s.date],time:s.time,partySize:2},pages:[]}}]};
+ try{
+  const result=await runG6Batch(pack,{budgetPath,witnessFetch:async()=>{throw Error('LOCAL_POSTERIOR_FAILURE');},async transports(_c,_r,hooks){return {model:f.model,browser:f.browser,clock:f.clock,google:new GooglePlacesClient({apiKey:'local-only',fetchImplementation:hooks.googleFetch(f.googleFetch)})};}},join(dir,'runs'));
+  assert.equal(result.slots[0]?.status,'FAILED');const slot=join(dir,'runs','exception');
+  const failure=JSON.parse(await readFile(join(slot,'failure.json'),'utf8')),input=JSON.parse(await readFile(join(slot,'failure.evaluation.input.json'),'utf8')),outer=JSON.parse(await readFile(join(slot,'outer-requests.json'),'utf8'));
+  assert.equal(failure.failure,'LOCAL_POSTERIOR_FAILURE');assert.ok(input.delivered.length>0,'A crash must not erase already observed product claims');
+  assert.deepEqual(input.handoffs,failure.view.restaurant.bookingHandoffs??[]);assert.ok(Array.isArray(input.priceClaims)&&Array.isArray(input.softClaims));
+  assert.equal(outer.complete,true);assert.equal(outer.runId,input.runId);assert.deepEqual(outer.requests,input.requests);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});

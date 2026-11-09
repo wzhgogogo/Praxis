@@ -8,9 +8,9 @@ import{evaluateG6,type G6EvaluationInput}from'./evaluator.js';
 import type{RestaurantCaseView}from'../../../../application/agent-workspace.js';
 /** Supplement saved artifacts only. Original evaluation, Guard rows and product
  * HIGH/AVAILABLE decisions are never sources for the new source annotations. */
-export async function supplementRecordedQualification(slot:string){
- const input=JSON.parse(await readFile(join(slot,'evaluation.input.json'),'utf8'))as G6EvaluationInput;
- const execution=JSON.parse(await readFile(join(slot,'execution.result.json'),'utf8'))as {view:RestaurantCaseView};
+export async function supplementRecordedQualification(slot:string, supplied?:G6EvaluationInput){
+ const input=supplied?structuredClone(supplied):JSON.parse(await readFile(join(slot,'evaluation.input.json'),'utf8'))as G6EvaluationInput;
+ const execution=JSON.parse(await readFile(join(slot,supplied?.executionFailure?'failure.json':'execution.result.json'),'utf8'))as {view:RestaurantCaseView};
  const trace=JSON.parse(await readFile(join(slot,'browser-trace.json'),'utf8'))as {events:Array<{kind:string;at:string}>};
  const times=trace.events.filter(e=>e.kind==='SNAPSHOT').map(e=>e.at),frames:Array<{page:{url:string;html:string;text:string;title:string};at:string;ref:string}>=[],google:ObservedGoogleIdentity[]=[];
  for(const dir of await readdir(join(slot,'recordings'))){
@@ -22,7 +22,7 @@ export async function supplementRecordedQualification(slot:string){
   const har=JSON.parse(await readFile(join(folder,'replay.har'),'utf8'))as {log:{entries:Array<{request:{url:string};response:{content:{text?:string}}}>}};
   for(const [i,entry]of har.log.entries.entries())if(new URL(entry.request.url).hostname==='places.googleapis.com'&&entry.response.content.text)google.push(...observedGoogleIdentities(entry.response.content.text,`recorded-google:${i}`));
  }
- const extracted=observedQualificationEvidence(execution.view,input.runId,frames,google);
+ const extracted=execution.view?observedQualificationEvidence(execution.view,input.runId,frames,google):{pages:[],claims:[]};
  // Existing literal product claims remain claims. Recover their source text and
  // read times through independent recorded frames; never invent a missing quote.
  input.pages=extracted.pages;input.qualificationClaims=extracted.claims;

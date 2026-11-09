@@ -112,7 +112,10 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         executor.beginCandidate(candidate.restaurant.id);
         executor.beginProvider(candidate.restaurant.id, provider, "FACTS");
         const session = await executor.acquire(signal, provider, "FACTS", this.networkPolicy);
-        await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: sourceUrl, observed:true });
+        const current=request.reobservePageOnce?await executor.snapshot({source:provider,stage:"FACTS",signal,session}):undefined;
+        // A newly acquired session may already hold this exact bound page. Do
+        // not reload it; otherwise only the source-bound URL may be opened.
+        if(!current||current.url!==sourceUrl)await executor.navigate({ source: provider, stage: "FACTS", signal, allowedOrigins: [new URL(sourceUrl).origin], session, url: sourceUrl, observed:true });
         const documents: RestaurantFactSourceDocument[] = [];
         const retained = new Map<string, {page: BrowserSnapshot; identity: RestaurantReadEvidence; readAt: string; frames: Array<{document: RestaurantFactSourceDocument; text: string}>; processed: boolean}>();
         const identities: RestaurantReadEvidence[] = [];
@@ -297,9 +300,9 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
           }
         };
         const capturePage = async () => {
-          const page=await executor.snapshot({source:provider,stage:"FACTS",signal,session});
+          const page=request.reobservePageOnce?await executor.reobservePageOnce({source:provider,stage:"FACTS",signal,session}):await executor.snapshot({source:provider,stage:"FACTS",signal,session});
           const controls=await executor.observeControls({source:provider,stage:"FACTS",signal,session});
-          if(!request.capturePagesOnly||page.settlement!=="PENDING")return {page,controls,ready:true};
+          if(request.reobservePageOnce||!request.capturePagesOnly||page.settlement!=="PENDING")return {page,controls,ready:true};
           // A short navigation sample is not a complete G1 document. Reuse
           // the executor's bounded, text-stability observation; never clear
           // PENDING by assertion or ask a browser model to manufacture it.
@@ -323,7 +326,7 @@ export class NativeSourceFactRead implements RestaurantCandidateFactPort {
         }
         retainOfficialOrigins(initialControls);
         if(request.capturePagesOnly){
-          if(request.captureLinkedTranslation){
+          if(request.captureLinkedTranslation&&!request.reobservePageOnce){
             const english=new URL(initial.url).pathname.startsWith("/en/");
             const translation=initialControls.find(control=>{
               if(control.kind!=="LINK"||!control.visible||control.disabled||control.blockedByActiveLayer||!control.href)return false;

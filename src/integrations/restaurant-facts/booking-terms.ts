@@ -152,7 +152,7 @@ export class RestaurantBookingTerms implements RestaurantBookingTermsRead {
       const input:RestaurantPageQuestionRequest={requestId:"b1-terms",question:cancellationQuestion,candidate,intent,
         readContext:{...context,deadlineAt:new Date(readDeadline).toISOString()}};
       let pages=this.pages(view,source);
-      if(!pages.length){await this.questions.captureBookingPages(input,signal);pages=this.pages(view,source);}
+      if(!pages.length||pages.some(page=>page.snapshot.settlement==="PENDING")){await this.questions.captureBookingPages(input,signal);pages=this.pages(view,source);}
       if(!pages.length){const count=this.questions.currentPages(context,selected).length;return this.record(view,count?"PAGE_FILTERED":"NO_PAGES",{pageCount:count,boundPageCount:0});}
       const ask=async(question:string,documents=pages):Promise<Answer>=>{
         requireAvailable();

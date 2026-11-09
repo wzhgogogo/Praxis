@@ -178,6 +178,30 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       if(activeBudget&&!turnFinished){activeBudget.elapsedMs=monotonicNow()-turnWallStart;activeBudget.exceeded500Seconds=activeBudget.elapsedMs>500_000;turnFinished=true;}
       if(deadlineTimer){clearTimeout(deadlineTimer);deadlineTimer=undefined;}
     };
+    // One projection for success and failure: partial failures retain every
+    // claim observed by this outer runner, including price/soft assertions.
+    const evaluationInput=():G6EvaluationInput=>{
+      if(!view)return {runId,caseId:spec.id,mode:pack.mode,artifactRefs:[join(slot,"failure.json")],request:{...spec.oracle.request},
+        delivered:[],handoffs:[],answers:[],pages:[],vacancy:[],requests:forwarded,...(spec.oracle.reviewedReadRules?{reviewedReadRules:spec.oracle.reviewedReadRules}:{})};
+      const deliveries=displayed(view);
+      const question=view.restaurant.pageQuestion?.result;
+      const qualification=observedQualificationEvidence(view,runId,snapshots,identities);
+      const input:G6EvaluationInput={runId,caseId:view.case.caseId,mode:pack.mode,artifactRefs:[join(slot,"execution.result.json")],request:{...spec.oracle.request},namedReferences:{initial:spec.oracle.request.named??null,turns:namedReferences},
+        delivered:deliveries,handoffs:view.restaurant.bookingHandoffs??[],answers:question?[{...question,citations:question.status==="UNVERIFIED"?[]:question.citations}]:[],pages:[...bindOraclePages(spec,view,runId,snapshots),...qualification.pages],qualificationClaims:qualification.claims,vacancy:[...capturedVacancies(snapshots,deliveries),...witnesses.flatMap(w=>w.vacancy?[w.vacancy]:[])],
+        requests:forwarded,
+        ...(spec.oracle.questions?{questions:spec.oracle.questions.flatMap(q=>{const candidateId=oracleCandidateId(spec,q.candidateId,view!);return candidateId?[{...q,candidateId}]:[];})}:{}),...(spec.oracle.qualificationOracles?{qualificationOracles:spec.oracle.qualificationOracles}:{}),...(spec.oracle.priceOracles?{priceOracles:spec.oracle.priceOracles}:{}),
+        ...(spec.oracle.reviewedReadRules?{reviewedReadRules:spec.oracle.reviewedReadRules}:{}),
+        ...(spec.witness&&witnesses[0]?.exists===true?{witnesses:[spec.witness]}:{}),boundedNoResult:hasBoundedNoResultConclusion(view.conversation.messages.filter(m=>m.role==="ASSISTANT").at(-1)?.content??""),
+        deadline:{elapsedMs,turns:turnBudgets,readStartsInReserve:readStarts.filter(r=>r.kind!=="CONCLUSION_MODEL"&&r.atMs>=r.deadlineAtMs-20_000).length,termsStartsInReserve:readStarts.filter(r=>(r.kind==="TERMS_READ"||r.kind==="TERMS_MODEL")&&r.atMs>=r.deadlineAtMs-20_000).length}};
+      const presentedConditions=Object.entries(view.restaurant.conditionStates??{}).filter(([id])=>deliveries.some(d=>d.candidateId===id));
+      input.priceClaims=presentedConditions.flatMap(([candidateId,conditions])=>conditions.filter(c=>c.strength==="HARD"&&(c.sources.some(s=>s.field==="PRICE")||/yen|jpy|円|¥|budget|price/iu.test(c.text))).map(c=>({candidateId,hardStatus:c.status,
+        quoteRefs:(spec.oracle.priceOracles??[]).filter(o=>o.candidateId===candidateId&&c.sources.some(s=>s.quote===o.quote)).map(o=>o.ref)})));
+      input.softClaims=presentedConditions.flatMap(([candidateId,conditions])=>conditions.filter(c=>c.strength==="SOFT").map(c=>({candidateId,state:c.status,citations:c.sources.flatMap(s=>{
+        const evidence=view!.restaurant.readEvidence.find(e=>c.evidenceIds.includes(e.evidenceId)&&e.sourceUrl===s.sourceUrl);
+        return evidence?[{text:s.quote,url:s.sourceUrl,readAt:evidence.observedAt}]:[];
+      })})));
+      return input;
+    };
     try{
       if(spec.witness){
         const w=spec.witness,key=JSON.stringify([w.sourceEntityId,w.date,w.time,w.partySize]),cached=certifications.get(key);
@@ -225,22 +249,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       }
       if(!deliveries.length&&spec.witness)witnesses.push(witnesses[0]?.exists===null?await witness.readDetail(spec.witness,"NO_DELIVERY_AFTER"):await witness.read(spec.witness,"NO_DELIVERY_AFTER",dependencies.witnessDetailRead??true));
       const result=lastArtifact!;
-      const question=view.restaurant.pageQuestion?.result;
-      const qualification=observedQualificationEvidence(view,runId,snapshots,identities);
-      const input:G6EvaluationInput={runId,caseId:view.case.caseId,mode:pack.mode,artifactRefs:[join(slot,"execution.result.json")],request:{...spec.oracle.request},namedReferences:{initial:spec.oracle.request.named??null,turns:namedReferences},
-        delivered:deliveries,handoffs:view.restaurant.bookingHandoffs??[],answers:question?[{...question,citations:question.status==="UNVERIFIED"?[]:question.citations}]:[],pages:[...bindOraclePages(spec,view,runId,snapshots),...qualification.pages],qualificationClaims:qualification.claims,vacancy:[...capturedVacancies(snapshots,deliveries),...witnesses.flatMap(w=>w.vacancy?[w.vacancy]:[])],
-        requests:forwarded,
-        ...(spec.oracle.questions?{questions:spec.oracle.questions.flatMap(q=>{const candidateId=oracleCandidateId(spec,q.candidateId,view!);return candidateId?[{...q,candidateId}]:[];})}:{}),...(spec.oracle.qualificationOracles?{qualificationOracles:spec.oracle.qualificationOracles}:{}),...(spec.oracle.priceOracles?{priceOracles:spec.oracle.priceOracles}:{}),
-        ...(spec.oracle.reviewedReadRules?{reviewedReadRules:spec.oracle.reviewedReadRules}:{}),
-        ...(spec.witness&&witnesses[0]?.exists===true?{witnesses:[spec.witness]}:{}),boundedNoResult:hasBoundedNoResultConclusion(view.conversation.messages.filter(m=>m.role==="ASSISTANT").at(-1)?.content??""),
-        deadline:{elapsedMs,turns:turnBudgets,readStartsInReserve:readStarts.filter(r=>r.kind!=="CONCLUSION_MODEL"&&r.atMs>=r.deadlineAtMs-20_000).length,termsStartsInReserve:readStarts.filter(r=>(r.kind==="TERMS_READ"||r.kind==="TERMS_MODEL")&&r.atMs>=r.deadlineAtMs-20_000).length}};
-      const presentedConditions=Object.entries(view.restaurant.conditionStates??{}).filter(([id])=>deliveries.some(d=>d.candidateId===id));
-      input.priceClaims=presentedConditions.flatMap(([candidateId,conditions])=>conditions.filter(c=>c.strength==="HARD"&&(c.sources.some(s=>s.field==="PRICE")||/yen|jpy|円|¥|budget|price/iu.test(c.text))).map(c=>({candidateId,hardStatus:c.status,
-        quoteRefs:(spec.oracle.priceOracles??[]).filter(o=>o.candidateId===candidateId&&c.sources.some(s=>s.quote===o.quote)).map(o=>o.ref)})));
-      input.softClaims=presentedConditions.flatMap(([candidateId,conditions])=>conditions.filter(c=>c.strength==="SOFT").map(c=>({candidateId,state:c.status,citations:c.sources.flatMap(s=>{
-        const evidence=view!.restaurant.readEvidence.find(e=>c.evidenceIds.includes(e.evidenceId)&&e.sourceUrl===s.sourceUrl);
-        return evidence?[{text:s.quote,url:s.sourceUrl,readAt:evidence.observedAt}]:[];
-      })})));
+      const input=evaluationInput();
       if(input.qualificationOracles)await bindFrozenOracleSources(input.qualificationOracles);
       const evaluation=evaluateG6(input),{named:_named,...request}=input.request;
       input.request={...request,...(evaluation.namedOutletBinding.named?{named:evaluation.namedOutletBinding.named}:{})};
@@ -249,9 +258,13 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       await writeFile(join(slot,"evaluation.input.json"),serialize(input)+"\n",{flag:"wx"});await writeFile(join(slot,"evaluation.json"),serialize(evaluation)+"\n",{flag:"wx"});
       receipts.push({id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":evaluation.verdict.status==="NOT_EVALUATED"?"RECORDED_NOT_EVALUATED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
     }catch(error){failure=error instanceof Error?error.message:"G6_RUN_FAILED";stopReason=failure;receipts.push({id:spec.id,status:"FAILED",path:slot,reason:failure});
-      endTurn();await writeFile(join(slot,"failure.json"),serialize({failure,transportError:browserTransportError(error),turns,turnBudgets,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})})+"\n",{flag:"wx"});
+      endTurn();
+      elapsedMs=monotonicNow()-wallStart;
+      await writeFile(join(slot,"failure.evaluation.input.json"),serialize(evaluationInput())+"\n",{flag:"wx"});
+      await writeFile(join(slot,"failure.json"),serialize({failure,transportError:browserTransportError(error),turns,turnBudgets,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})})+"\n",{flag:"wx"});
     }finally{
       if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();
+      await writeFile(join(slot,"outer-requests.json"),serialize({runId,complete:true,requests:forwarded})+"\n",{flag:"wx"});
       await writeFile(join(slot,"user-turns.json"),serialize({schemaVersion:"phase3b-g6-user-turns@2",runId,turns:userTurns,budgets:turnBudgets,namedReferences:{initial:spec.oracle.request.named??null,turns:namedReferences}})+"\n",{flag:"wx"});
       if(pack.mode==="LIVE_READ")await recordG6SourceCounts(dependencies.budgetPath,runId+":SOURCE_IO",googleCalls,forwarded.length);const decisions=await capture.finish(failure),recorded=await recording.finish();
       await writeFile(join(slot,"browser-diagnostics.json"),JSON.stringify({schemaVersion:"phase3b-g6-browser-diagnostics@1",runId,events:browserDiagnostics},null,2)+"\n",{flag:"wx"});

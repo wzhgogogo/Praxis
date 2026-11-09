@@ -12,7 +12,7 @@ async function control(){
  await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:126,fullLive:22,environmentReruns:4,realModelCalls:2500},cumulative:{evaluationPublicGET:0,fullLive:0,environmentReruns:0,realModelCalls:849,restaurantWebsiteRequests:0}}));
  const manifest:PrivateHoldoutManifest={schema:'phase3b-private-run-manifest@1',cases:[{id:'fictional',fillings:{},request:'LOCAL_CONSTRUCTION initial request',followups:[],oracle:{request:{dates:['2030-01-01']},pages:[]},witness:{provider:'TABELOG',candidateId:'local',sourceEntityId:'10000001',name:'Fictional source',date:'2030-01-01',time:'19:00',partySize:2,detailUrl:'https://tabelog.com/en/tokyo/A0000/A000000/10000001/',identityText:['Fictional source']}}]};
  const audit={sourceSHA:holdoutHash('fictional source'),originalSHA256:holdoutHash('fictional original'),manifestSHA256:holdoutHash(JSON.stringify(manifest))};
- let healthFail=false,mode:'PASS'|'ENV'|'S0'|'CRASH_AFTER_EVALUATION'|'CHARGED_UNKNOWN'|'CRASH_AFTER_TICKET'='PASS',healths=0,execs=0;
+ let healthFail=false,mode:'PASS'|'ENV'|'S0'|'CRASH_AFTER_EVALUATION'|'CHARGED_UNKNOWN'|'CRASH_AFTER_TICKET'|'REVIEW_NEEDED'|'REVIEW_S0'='PASS',healths=0,execs=0;
  let selector:((n:number)=>typeof mode)|undefined;
  const seen:string[]=[];
  const deps={g6:{budgetPath,witnessFetch:async()=>{throw Error('No live transport');},transports:async()=>{throw Error('No live transport');}},wait:async(_ms:number)=>{},health:async(_spec:unknown,beforeGET:(s:string,r:number)=>Promise<void>)=>{healths++;for(const round of [1,2])for(const source of ['tablecheck','tabelog'])await beforeGET(source,round);return {passed:!healthFail,observations:[]};},
@@ -20,13 +20,24 @@ async function control(){
    execs++;if(selector)mode=selector(execs);const spec=pack.cases[0]!;seen.push(spec.id);assert.equal(spec.oracle.reviewedReadRules?.length,21);
    await d.beforeLive?.();if(mode==='CRASH_AFTER_TICKET')throw Error('LOCAL_CRASH_AFTER_TICKET');await chargeG6(d.budgetPath,`g6-${spec.id}-1-0:LIVE`,'fullLive','LOCAL_CONSTRUCTION only');
    const path=join(out,spec.id);await mkdir(path);await writeFile(join(path,'unchanged-original.txt'),'ORIGINAL_FAILURE_OR_RESULT');
+   if(['REVIEW_NEEDED','REVIEW_S0','CHARGED_UNKNOWN'].includes(mode)){
+    const runId=`g6-${spec.id}-1-0`,view={restaurant:{presentedCandidateIds:[],candidates:[],currentFactEvidence:[],conditionStates:{}}};
+    const input={runId,caseId:spec.id,mode:'LIVE_READ',artifactRefs:[],request:{dates:['2030-01-01']},delivered:[],handoffs:[],answers:[],pages:[],vacancy:[],requests:mode==='REVIEW_S0'?[{ref:'unsafe',url:'https://www.tablecheck.com/payment',method:'POST',reachedSource:true}]:[],boundedNoResult:true};
+    await writeFile(join(path,mode==='CHARGED_UNKNOWN'?'failure.evaluation.input.json':'evaluation.input.json'),JSON.stringify(input));
+    await writeFile(join(path,mode==='CHARGED_UNKNOWN'?'failure.json':'execution.result.json'),JSON.stringify({runId,view,failure:'LOCAL_PRODUCT_ERROR'}));
+    await writeFile(join(path,'browser-trace.json'),JSON.stringify({events:[]}));
+    await writeFile(join(path,'outer-requests.json'),JSON.stringify({runId,complete:true,requests:input.requests}));
+    const folder=join(path,'recordings',runId);await mkdir(folder,{recursive:true});
+    await writeFile(join(folder,'recording.json'),JSON.stringify({pages:[],entries:[{sequence:1,kind:'SESSION_OPENED',detail:{readNetworkBoundary:'INSTALLED'}},{sequence:2,kind:'NETWORK',detail:[{outcome:'ADMITTED',origin:'https://www.tablecheck.com',pathname:'/en/japan/search',method:'GET',resourceType:'document',queryKeys:[]}]}]}));
+    await writeFile(join(folder,'replay.har'),JSON.stringify({log:{entries:[]}}));
+   }
    if(mode==='ENV')await writeFile(join(path,'failure.json'),JSON.stringify({transportError:{code:'ENOTFOUND'}}));
    else if(mode==='CHARGED_UNKNOWN')throw Error('LOCAL_UNKNOWN_FAILURE');
-   else await writeFile(join(path,'evaluation.json'),JSON.stringify({verdict:{s0:mode==='S0'?1:0,stopBatch:mode==='S0',qualified:true}}));
+   else await writeFile(join(path,'evaluation.json'),JSON.stringify({verdict:{s0:mode==='S0'?1:0,stopBatch:['S0','REVIEW_NEEDED','REVIEW_S0'].includes(mode),qualified:true,status:['REVIEW_NEEDED','REVIEW_S0'].includes(mode)?'NOT_EVALUATED':'EVALUATED'}}));
    if(mode==='CRASH_AFTER_EVALUATION')throw Error('LOCAL_CRASH_AFTER_EVALUATION');
    return {schemaVersion:'phase3b-g6-batch@1',serial:true,witnessGETs:0,stopReason:mode==='ENV'?'net::ERR_NAME_NOT_RESOLVED':mode==='S0'?'S0_STOP':null,slots:[{id:spec.id,status:'EVALUATED',path}]};
   }};
- return {root,budgetPath,output,manifest,audit,deps,get healths(){return healths;},get execs(){return execs;},seen,setSelector(v:(n:number)=>typeof mode){selector=v;},setHealthFail(v:boolean){healthFail=v;},setMode(v:typeof mode){mode=v;},async run(resume=false,overrides:Partial<typeof audit>={}){return runPrivateHoldout(manifest,{...audit,...overrides},output,deps,{resume});},async ledger(){return JSON.parse(await readFile(budgetPath,'utf8'));},async close(){await rm(root,{recursive:true,force:true});}};
+ return {root,budgetPath,output,manifest,audit,deps,get healths(){return healths;},get execs(){return execs;},seen,setSelector(v:(n:number)=>typeof mode){selector=v;},setHealthFail(v:boolean){healthFail=v;},setMode(v:typeof mode){mode=v;},async run(resume=false,overrides:Partial<typeof audit>={},review?:{key:string;file:string}){return runPrivateHoldout(manifest,{...audit,...overrides},output,deps,{resume,...(review?{review}:{})});},async ledger(){return JSON.parse(await readFile(budgetPath,'utf8'));},async close(){await rm(root,{recursive:true,force:true});}};
 }
 test('resume preserves evaluated slots, only one health per case, and refuses original/manifest/source/ledger mismatches',async()=>{
  const c=await control();try{
@@ -103,4 +114,46 @@ test('resume restores the last charged GET time before sending its first health 
   c.deps.health=async(_spec,beforeGET)=>{events.push('BEFORE');await beforeGET('tablecheck',1);events.push('GET_SENT');return {passed:true,observations:[]};};
   await c.run(true);assert.ok(events.indexOf('WAIT')>=0&&events.indexOf('WAIT')<events.indexOf('GET_SENT'));
  }finally{await c.close();}
+});
+
+// Reviewer documents stay outside the repository even in the offline controls.
+async function reviewerFile(key:string){
+ const {tmpdir}=await import('node:os');const folder=await mkdtemp(join(tmpdir(),'fictional-holdout-review-')),file=join(folder,'annotations.json');
+ await writeFile(file,JSON.stringify({schema:'phase3b-holdout-review@1',attemptKey:key,annotations:{}}));
+ return {file,async close(){await rm(folder,{recursive:true,force:true});}};
+}
+test('STOPPED independent evidence can be supplemented, original stays immutable, reviewed slot counts once and review hash cannot change',async()=>{
+ const c=await control(),r=await reviewerFile('fictional-r1');try{
+  c.setMode('REVIEW_NEEDED');const first=await c.run(),a=first.receipts[0]!,original=await readFile(join(a.path,a.key,'evaluation.json'));
+  await assert.rejects(c.run(true),/HOLDOUT_INDEPENDENT_EVIDENCE_REVIEW_REQUIRED/);
+  c.setMode('PASS');const done=await c.run(true,{}, {key:a.key,file:r.file});
+  assert.equal(done.receipts[0]!.status,'EVALUATED_BY_REVIEW');assert.equal(c.execs,3);assert.equal(done.stopReason,null);assert.deepEqual(await readFile(join(a.path,a.key,'evaluation.json')),original);
+  const supplement=JSON.parse(await readFile(join(a.path,a.key,'evaluation.supplement.json'),'utf8'));assert.equal(supplement.verdict.status,'EVALUATED');
+  await c.run(true);assert.equal(c.execs,3);await writeFile(r.file,(await readFile(r.file,'utf8'))+' ');
+  await assert.rejects(c.run(true),/HOLDOUT_REVIEW_FILE_CHANGED/);assert.equal(c.execs,3);
+ }finally{await c.close();await r.close();}
+});
+test('supplement S0 remains stopped and is sticky even without another --review',async()=>{
+ const c=await control(),r=await reviewerFile('fictional-r1');try{
+  c.setMode('REVIEW_S0');await c.run();await assert.rejects(c.run(true,{}, {key:'fictional-r1',file:r.file}),/HOLDOUT_S0_RESUME_FORBIDDEN/);
+  await assert.rejects(c.run(true),/HOLDOUT_S0_RESUME_FORBIDDEN/);assert.equal(c.execs,1);
+ }finally{await c.close();await r.close();}
+});
+test('charged product failure is independently audited and graded as one failed plan, with no replacement or environment ticket',async()=>{
+ const c=await control(),r=await reviewerFile('fictional-r1');try{
+  c.setMode('CHARGED_UNKNOWN');await assert.rejects(c.run(),/LOCAL_UNKNOWN_FAILURE/);
+  c.setMode('PASS');const result=await c.run(true,{}, {key:'fictional-r1',file:r.file});
+  assert.equal(result.receipts[0]!.status,'EVALUATED_BY_REVIEW');const a=result.receipts[0]!;
+  const score=JSON.parse(await readFile(join(a.path,a.key,'evaluation.supplement.json'),'utf8'));
+  assert.equal(score.verdict.qualified,false);assert.equal(score.verdict.outcome,'PLANNED_RUN_FAILED');assert.equal(c.execs,3);
+  assert.equal((await c.ledger()).cumulative.environmentReruns,0);assert.equal(c.seen.filter(k=>k==='fictional-r1').length,1);
+ }finally{await c.close();await r.close();}
+});
+test('ungraded failure with independent boundary violation or missing evidence cannot be supplemented past the stop',async()=>{
+ for(const violation of [true,false]){const c=await control(),r=await reviewerFile('fictional-r1');try{
+  c.setMode('CHARGED_UNKNOWN');await assert.rejects(c.run());const slot=join(c.output,'fictional-r1','fictional-r1');
+  if(violation){const path=join(slot,'outer-requests.json'),outer=JSON.parse(await readFile(path,'utf8'));outer.requests=[{ref:'forbidden',url:'https://www.tablecheck.com/payment',method:'POST',reachedSource:true}];await writeFile(path,JSON.stringify(outer));}
+  else await rm(join(slot,'outer-requests.json'));
+  await assert.rejects(c.run(true,{}, {key:'fictional-r1',file:r.file}),/HOLDOUT_REVIEW_BOUNDARY_(?:NOT_CLEAR|EVIDENCE_MISSING)/);assert.equal(c.execs,1);
+ }finally{await c.close();await r.close();}}
 });

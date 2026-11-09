@@ -64,7 +64,7 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
     beforeRead();
     const model:ModelGateway={complete:request=>{beforeRead();return this.model.complete(request);}};
     const facts=this.createFacts(this.observe,this.browserBudget,model,undefined,beforeRead);
-    await facts.inspectFacts({capturePagesOnly:true,captureLinkedTranslation:true,candidateIds:[input.candidate.restaurant.id],
+    await facts.inspectFacts({capturePagesOnly:true,reobservePageOnce:true,candidateIds:[input.candidate.restaurant.id],
       candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},signal);
     beforeRead();
   }
@@ -110,7 +110,7 @@ export class RestaurantPageQuestionReader implements RestaurantPageQuestionPort 
         if (!pages.length || pages.some(page => page.snapshot.settlement === "PENDING")) {
           // The same identity-producing source chain, with fresh question-only counters.
           const reader = this.createFacts(this.observe, {totalModelCalls:0,maxModelCalls:this.limits.maxModelCalls}, model, visits);
-          await reader.inspectFacts({capturePagesOnly:true,candidateIds:[id],candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},combined);
+          await reader.inspectFacts({capturePagesOnly:true,...(pages.length?{reobservePageOnce:true as const}:{}),candidateIds:[id],candidates:[structuredClone(input.candidate)],intent:structuredClone(input.intent),readRunId:input.readContext.runId},combined);
           combined.throwIfAborted();
           pages = cached();
         }

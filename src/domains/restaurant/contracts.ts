@@ -453,6 +453,8 @@ export interface RestaurantAvailabilityRequest {
 export interface RestaurantCandidateFactRequest {
   /** G1 source acquisition only; no HARD/menu interpretation and no original-state write. */
   capturePagesOnly?: true;
+  /** One fresh observation of the exact bound page; no capture skill loop. */
+  reobservePageOnce?: true;
   /** B1 may read one actually observed same-outlet language link via the same fact reader. */
   captureLinkedTranslation?: true;
   candidateIds: string[];

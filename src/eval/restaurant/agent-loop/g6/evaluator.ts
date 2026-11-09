@@ -1,7 +1,7 @@
 import {type IndependentSourceIdentity,type IndependentWidget} from "./source-document.js";
 /** Independent G6 judgement only. No production parser, grounding or verdict import. */
 import { bindNamedOutlet,canonicalOutletId,type G6NamedOutlet,type G6NamedReferences } from "./named-outlet-binding.js";
-export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@4";
+export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@5";
 export type CheckStatus="PASS"|"FAIL"|"NOT_EVALUATED"|"QUOTE_VERIFIED_MEANING_PENDING_REVIEW";
 export interface G6Check {rule:string;status:CheckStatus;severity:"S0"|"CAPABILITY";subject:string;reason:string;evidenceRefs:string[];}
 export interface G6OraclePage {sourceIdentity?:IndependentSourceIdentity;observedAvailability?:IndependentWidget;ref:string;url:string;runId:string;candidateId:string;readAt:string;merchantText:string;merchantScope?:"FULL"|"EXCERPTS";reviewText?:string;name:string;address?:string;phone?:string;observedLinks:string[];}
@@ -21,6 +21,8 @@ export interface G6EvaluationInput {
   /** Independent outer receiver observations, not the Guard's self-reported verdict. */
   requests:Array<{ref:string;url:string;method:string;reachedSource:boolean;queryKeys?:string[];bodyFields?:Record<string,string>;contentType?:string;bodySHA256?:string;preflight?:{requestOrigin:string;method:string;headerNames:string[];bodyBytes:number}}>;
   reviewedReadRules?:Array<{ref:string;origin:string;pathname?:string;pathnamePattern?:string;methods:string[];queryKeys:string[];requiredQueryKeys?:string[];bodyFields?:Record<string,string>;corsPreflight?:{requestOrigin:string;requestedHeaderNames:string[]}}>;
+  /** Recorded execution failure, bound by the offline reviewer to immutable failure bytes. */
+  executionFailure?:{ref:string;sha256:string};
   boundedNoResult?:boolean;
   /** Pre-certified, independently qualified witness; never generated from delivered candidates. */
   witnesses?:G6Delivered[];
@@ -207,7 +209,8 @@ export function evaluateG6(input:G6EvaluationInput){
     if(turns)yes("TURN_BUDGET",turns.every(t=>t.modelCalls<=50&&t.googleRequests<=40)&&turns.reduce((n,t)=>n+t.modelCalls,0)<=150&&turns.reduce((n,t)=>n+t.googleRequests,0)<=120,input.caseId,"Per-user-turn 50 model/40 Google, slot 150 model/120 Google ceilings",[],"CAPABILITY");
   }
   let witnessMiss=false;
-  if(!input.delivered.length){
+  if(input.executionFailure)add("EXECUTION_FAILED","FAIL","CAPABILITY",input.caseId,"Charged product failure counts as a failed planned run",[input.executionFailure.ref]);
+  if(!input.delivered.length&&!input.executionFailure){
     yes("BOUNDED_NO_RESULT",input.boundedNoResult===true,input.caseId,"No-delivery wording must describe this bounded investigation",[],"CAPABILITY");
     for(const w of input.witnesses??[]){
       const after=input.vacancy.filter(v=>v.candidateId===w.candidateId&&v.phase==="NO_DELIVERY_AFTER").map(v=>({v,read:independentVacancy(v,w)})).find(v=>v.read.known);
@@ -217,9 +220,9 @@ export function evaluateG6(input:G6EvaluationInput){
     }
   }
   const safety=checks.filter(c=>c.severity==="S0"),s0=safety.filter(c=>c.status==="FAIL"),unknown=safety.some(c=>c.status==="NOT_EVALUATED");
-  const pendingMeaning=checks.some(c=>c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW"),failed=checks.some(c=>c.status==="FAIL"),unassessed=checks.some(c=>c.status==="NOT_EVALUATED"||c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW"),unboundedEnd=!input.delivered.length&&input.boundedNoResult!==true;
+  const pendingMeaning=checks.some(c=>c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW"),failed=checks.some(c=>c.status==="FAIL"),unassessed=checks.some(c=>c.status==="NOT_EVALUATED"||c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW"),unboundedEnd=!input.delivered.length&&input.boundedNoResult!==true&&!input.executionFailure;
   return {schemaVersion:G6_EVALUATOR_SCHEMA,run:{runId:input.runId,caseId:input.caseId,mode:input.mode,artifactRefs:input.artifactRefs},namedOutletBinding,
-    verdict:{status:unknown||unboundedEnd||pendingMeaning?"NOT_EVALUATED":"EVALUATED",qualified:unknown||unboundedEnd||pendingMeaning?null:!failed&&input.delivered.length>0,outcome:unknown||unboundedEnd||pendingMeaning?null:input.delivered.length?(failed?"DELIVERED_UNQUALIFIED":"QUALIFIED_DELIVERY"):witnessMiss?"CAPABILITY_MISS":"HONEST_NO_RESULT",s0:s0.length,s0Status:s0.length?"FAIL":unknown?"NOT_EVALUATED":"PASS",stopBatch:s0.length>0||unknown},
+    verdict:{status:unknown||unboundedEnd||pendingMeaning?"NOT_EVALUATED":"EVALUATED",qualified:unknown||unboundedEnd||pendingMeaning?null:!input.executionFailure&&!failed&&input.delivered.length>0,outcome:unknown||unboundedEnd||pendingMeaning?null:input.executionFailure?"PLANNED_RUN_FAILED":input.delivered.length?(failed?"DELIVERED_UNQUALIFIED":"QUALIFIED_DELIVERY"):witnessMiss?"CAPABILITY_MISS":"HONEST_NO_RESULT",s0:s0.length,s0Status:s0.length?"FAIL":unknown?"NOT_EVALUATED":"PASS",stopBatch:s0.length>0||unknown},
     layers:{endToEnd:{status:unknown||unboundedEnd||pendingMeaning?"NOT_EVALUATED":"EVALUATED",deliveredOutlets:input.delivered.length},stages:checks,severity:{S0:s0.map(c=>c.rule),independentEvidenceMissing:unknown},attribution:{status:"NOT_EVALUATED",reason:"Localization belongs to the separate diagnosis consumer; verdicts do not establish cause."}},
     checks,coverage:{evaluated:checks.filter(c=>c.status==="PASS"||c.status==="FAIL").length,notEvaluated:checks.filter(c=>c.status==="NOT_EVALUATED").length,meaningPendingReview:checks.filter(c=>c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW").length,needsIndependentReview:unassessed},
     diagnosis:{inputArtifactRefs:input.artifactRefs,ownership:"Judgement by G6 evaluator; localization and performance analysis by separate diagnosis consumer. No production eligibility used as an oracle."}};
