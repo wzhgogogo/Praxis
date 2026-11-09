@@ -1,0 +1,450 @@
+{
+  "sourceSHA": "bd0da528424bca74988d3d791b8f484675065e75",
+  "runId": "g6-D8-1794193392450-0",
+  "mode": "STANDARD_G6",
+  "elapsedMs": 204191.42525,
+  "turnBudgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794193393289,
+      "deadlineAtMs": 1794193893289,
+      "elapsedMs": 189148.936708,
+      "modelCalls": 29,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    },
+    {
+      "id": "BOOK_THIS_OUTLET",
+      "startedAtMs": 1794193582439,
+      "deadlineAtMs": 1794194082439,
+      "elapsedMs": 14200.125834000006,
+      "modelCalls": 1,
+      "googleRequests": 0,
+      "exceeded500Seconds": false
+    }
+  ],
+  "models": {
+    "count": 30,
+    "purposes": {
+      "restaurant_semantic_interpret": 2,
+      "restaurant_agent_decide": 4,
+      "browser_read_decide": 22,
+      "restaurant_named_source_query": 2
+    },
+    "outcomes": {
+      "SUCCEEDED": 30
+    }
+  },
+  "turns": [
+    {
+      "id": "INITIAL",
+      "phase": "PRESENT_RESULTS",
+      "selectedCandidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "presentedCandidateIds": [
+        "praxis:restaurant:399b940d8930096624424dba"
+      ],
+      "handoffs": [
+        {
+          "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+          "offerId": "offer:tablecheck:praxis:restaurant:399b940d8930096624424dba:2026-11-11:20:30:2",
+          "provider": "TABLECHECK",
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza/reserve/landing?utm_source=tablecheck_portal&start_date=2026-11-11&num_people=2&start_time=20%3A30",
+          "directLabel": "Book on TableCheck",
+          "continueLabel": "Continue on TableCheck \u2014 date, time, 2 guests filled in",
+          "verificationHint": "Check date and guests",
+          "checkedAt": "2026-11-09T03:06:08.407Z",
+          "displayExpiresAt": "2026-11-09T03:16:08.407Z",
+          "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+          "linkCarries": [
+            "DATE",
+            "TIME",
+            "PARTY_SIZE"
+          ],
+          "sourceSelection": "UNKNOWN",
+          "terms": []
+        }
+      ],
+      "availabilityChecks": {
+        "praxis:restaurant:399b940d8930096624424dba": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-11-09T03:06:08.407Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:4f88ca399211e825e0731216",
+            "evidence:restaurant:tablecheck-availability:999d552ffa56a56cbfc21007"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "displayExpiresAt": "2026-11-09T03:16:08.407Z",
+          "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":2}",
+          "timeWindowCoverage": {
+            "date": "2026-11-11",
+            "covered": [
+              {
+                "latest": "20:30",
+                "status": "AVAILABLE",
+                "earliest": "20:30"
+              }
+            ],
+            "partySize": 2,
+            "uncovered": [],
+            "stopReason": "RESULT_FOUND",
+            "requestedWindow": {
+              "latest": "20:30",
+              "earliest": "20:30"
+            }
+          },
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      }
+    },
+    {
+      "id": "BOOK_THIS_OUTLET",
+      "phase": "PRESENT_RESULTS",
+      "selectedCandidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "presentedCandidateIds": [
+        "praxis:restaurant:399b940d8930096624424dba"
+      ],
+      "handoffs": [
+        {
+          "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+          "offerId": "offer:tablecheck:praxis:restaurant:399b940d8930096624424dba:2026-11-11:20:30:2",
+          "provider": "TABLECHECK",
+          "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza/reserve/landing?utm_source=tablecheck_portal&start_date=2026-11-11&num_people=2&start_time=20%3A30",
+          "directLabel": "Book on TableCheck",
+          "continueLabel": "Continue on TableCheck \u2014 date, time, 2 guests filled in",
+          "verificationHint": "Check date and guests",
+          "checkedAt": "2026-11-09T03:06:08.407Z",
+          "displayExpiresAt": "2026-11-09T03:16:08.407Z",
+          "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+          "linkCarries": [
+            "DATE",
+            "TIME",
+            "PARTY_SIZE"
+          ],
+          "sourceSelection": "UNKNOWN",
+          "terms": []
+        }
+      ],
+      "availabilityChecks": {
+        "praxis:restaurant:399b940d8930096624424dba": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-11-09T03:06:08.407Z",
+          "evidenceIds": [
+            "evidence:restaurant:tablecheck-entity-match:4f88ca399211e825e0731216",
+            "evidence:restaurant:tablecheck-availability:999d552ffa56a56cbfc21007"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABLECHECK",
+          "displayExpiresAt": "2026-11-09T03:16:08.407Z",
+          "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":2}",
+          "timeWindowCoverage": {
+            "date": "2026-11-11",
+            "covered": [
+              {
+                "latest": "20:30",
+                "status": "AVAILABLE",
+                "earliest": "20:30"
+              }
+            ],
+            "partySize": 2,
+            "uncovered": [],
+            "stopReason": "RESULT_FOUND",
+            "requestedWindow": {
+              "latest": "20:30",
+              "earliest": "20:30"
+            }
+          },
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      }
+    }
+  ],
+  "providers": [
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-09T03:03:52.580Z",
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 29387,
+      "providerElapsedMs": 29387,
+      "candidateModelCalls": 4,
+      "providerModelCalls": 4,
+      "candidateRuntimeOperations": 22,
+      "providerRuntimeOperations": 22,
+      "runModelCalls": 4,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-09T03:04:37.598Z",
+      "outcome": "ABANDONED",
+      "candidateElapsedMs": 45017,
+      "providerElapsedMs": 45017,
+      "candidateModelCalls": 6,
+      "providerModelCalls": 6,
+      "candidateRuntimeOperations": 25,
+      "providerRuntimeOperations": 25,
+      "runModelCalls": 11,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:083eb6605d4a82e97dc952d5",
+      "provider": "TABELOG",
+      "atUTC": "2026-11-09T03:04:59.686Z",
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 67105,
+      "providerElapsedMs": 22072,
+      "candidateModelCalls": 10,
+      "providerModelCalls": 4,
+      "candidateRuntimeOperations": 40,
+      "providerRuntimeOperations": 15,
+      "runModelCalls": 15,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-09T03:05:44.689Z",
+      "outcome": "ABANDONED",
+      "candidateElapsedMs": 45002,
+      "providerElapsedMs": 45002,
+      "candidateModelCalls": 6,
+      "providerModelCalls": 6,
+      "candidateRuntimeOperations": 31,
+      "providerRuntimeOperations": 31,
+      "runModelCalls": 22,
+      "reason": "DEADLINE_EXCEEDED"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:94d9715550e9ca87d301b895",
+      "provider": "TABELOG",
+      "atUTC": "2026-11-09T03:05:47.619Z",
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 47932,
+      "providerElapsedMs": 2922,
+      "candidateModelCalls": 7,
+      "providerModelCalls": 1,
+      "candidateRuntimeOperations": 34,
+      "providerRuntimeOperations": 3,
+      "runModelCalls": 23,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-09T03:06:08.407Z",
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 18298,
+      "providerElapsedMs": 18298,
+      "candidateModelCalls": 1,
+      "providerModelCalls": 1,
+      "candidateRuntimeOperations": 16,
+      "providerRuntimeOperations": 16,
+      "runModelCalls": 24,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "turn": "INITIAL",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-09T03:06:22.402Z",
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 11978,
+      "providerElapsedMs": 11978,
+      "candidateModelCalls": 0,
+      "providerModelCalls": 0,
+      "candidateRuntimeOperations": 8,
+      "providerRuntimeOperations": 8,
+      "runModelCalls": 0,
+      "reason": "ADAPTER_RETURNED"
+    },
+    {
+      "turn": "BOOK_THIS_OUTLET",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "provider": "TABLECHECK",
+      "atUTC": "2026-11-09T03:06:36.603Z",
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 12243,
+      "providerElapsedMs": 12243,
+      "candidateModelCalls": 0,
+      "providerModelCalls": 0,
+      "candidateRuntimeOperations": 8,
+      "providerRuntimeOperations": 8,
+      "runModelCalls": 0,
+      "reason": "ADAPTER_RETURNED"
+    }
+  ],
+  "verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "NOT_EVALUATED",
+    "stopBatch": true
+  },
+  "nonpass": [
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Source outlet identity lacks independent address/phone binding; this is not proof of another shop",
+      "evidenceRefs": [
+        "source-snapshot:4:html-sha256:d39e9d915f7df283728b18fe2e05122f5718901ed6850f369f10dfb9d932f5d8:text-sha256:b2ea515adb72473507e363b660fad6e21d3b31ab51146a126417b5753cfdcfd5"
+      ]
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Source outlet identity lacks independent address/phone binding; this is not proof of another shop",
+      "evidenceRefs": [
+        "source-snapshot:5:html-sha256:62ab1d56a10a40e610e0a37f85a6c799a3a9a2e3c746c3a73e8deea9ab0035a1:text-sha256:999868bba2b3a49e9bf76f177bdb85c4aba0209de7ea3b77fc504a7970499197"
+      ]
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Source outlet identity lacks independent address/phone binding; this is not proof of another shop",
+      "evidenceRefs": [
+        "source-snapshot:18:html-sha256:6de02e3053bf2227df0c5f8d1566599b5d0bc48ee5aed6342846798a54d98934:text-sha256:ccb5ab3633783424fb4d62b36bcf43bcbbce8a2c72840a2d071a652938d9b0ea"
+      ]
+    },
+    {
+      "rule": "QUALIFICATION_QUOTE",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Source outlet identity lacks independent address/phone binding; this is not proof of another shop",
+      "evidenceRefs": [
+        "source-snapshot:35:html-sha256:cdbd7c9986ca8b1a30f80e8280cfbfc9b231fb4b86f78083ae141b79920dbdfe:text-sha256:077cb7f7fe16f94c4ac57af757cc004c695e8f1c5ece74c76618a405c110a5f8"
+      ]
+    },
+    {
+      "rule": "TABLECHECK_SLOT",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "Need independent same-shop exact-date/party/slot public observation",
+      "evidenceRefs": []
+    },
+    {
+      "rule": "B1_SOURCE_URL",
+      "status": "NOT_EVALUATED",
+      "severity": "S0",
+      "subject": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "No source-observed same-shop reserve entrance",
+      "evidenceRefs": []
+    }
+  ],
+  "recording": {
+    "status": "RECORDED",
+    "replay": {
+      "status": "PARTIALLY_REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "harPath": "replay.har"
+    },
+    "totalPages": 46,
+    "qualifiedPages": 2,
+    "admissions": {
+      "SANITIZED": 39,
+      "UNREVIEWED_DOCUMENT_QUERY_SHAPE": 7
+    },
+    "omissions": {
+      "INVALID_UTF8": 10,
+      "JSON_SENSITIVE_KEY": 16,
+      "UNREVIEWED_RECORDING_URL_OR_METHOD": 39,
+      "JSON_SIZE_LIMIT": 14,
+      "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT": 2
+    },
+    "shopResponses": [
+      {
+        "responseUrlSha256": "0b3596d34e219e4a7273aeb676f6e1747d3897ccdc84375542f58f021f890f7b",
+        "origin": "https://production.tablecheck.com/",
+        "pathname": "/v2/shops/nakamata-nodoguro-ginza",
+        "queryKeys": [
+          "locale"
+        ],
+        "method": "GET",
+        "resourceType": "fetch",
+        "status": 200,
+        "mimeType": "application/json",
+        "bytes": 11139,
+        "reason": "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT"
+      },
+      {
+        "responseUrlSha256": "0b3596d34e219e4a7273aeb676f6e1747d3897ccdc84375542f58f021f890f7b",
+        "origin": "https://production.tablecheck.com/",
+        "pathname": "/v2/shops/nakamata-nodoguro-ginza",
+        "queryKeys": [
+          "locale"
+        ],
+        "method": "GET",
+        "resourceType": "fetch",
+        "status": 200,
+        "mimeType": "application/json",
+        "bytes": 11139,
+        "reason": "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT"
+      }
+    ]
+  },
+  "boundary": {
+    "forbiddenRequestsReachedSource": 0,
+    "sourceReadsStartedInReserve": 0,
+    "termsWorkStartedInReserve": 0
+  },
+  "budget": {
+    "before": {
+      "fullLive": 30,
+      "realModelCalls": 819,
+      "evaluationPublicGET": 381,
+      "googleRequests": 104,
+      "restaurantWebsiteRequests": 11686
+    },
+    "after": {
+      "fullLive": 31,
+      "realModelCalls": 849,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 382,
+      "googleRequests": 105,
+      "restaurantWebsiteRequests": 11797
+    },
+    "limits": {
+      "evaluationPublicGET": 492,
+      "fullLive": 49,
+      "realModelCalls": 1800
+    },
+    "reserved": {
+      "fullLive": 18,
+      "evaluationPublicGET": 108
+    },
+    "availableLive": 0,
+    "availableGET": 0,
+    "modelsRemaining": 951,
+    "unusedAuthorizedPosteriorGETs": 2,
+    "financialGETAboveHeldOutReserve": 2,
+    "budgetAvailabilityMeaning": "No further source reads while independent qualification remains unsigned; unused quota is not permission to continue"
+  }
+}

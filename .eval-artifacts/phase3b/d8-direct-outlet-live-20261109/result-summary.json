@@ -1,0 +1,180 @@
+{
+  "sourceSHA": "bd0da528424bca74988d3d791b8f484675065e75",
+  "runId": "g6-D8-1794193392450-0",
+  "recordingSHA256": "b0cb52bfa3bad512502e84a87a72284834958fb6641ed71de3ece5a47c30969b",
+  "result": "B1_PRODUCED_PENDING_INDEPENDENT_QUALIFICATION",
+  "elapsedMs": 204191.42525,
+  "models": {
+    "count": 30,
+    "purposes": {
+      "restaurant_semantic_interpret": 2,
+      "restaurant_agent_decide": 4,
+      "browser_read_decide": 22,
+      "restaurant_named_source_query": 2
+    },
+    "outcomes": {
+      "SUCCEEDED": 30
+    }
+  },
+  "dateAction": {
+    "sequence": 428,
+    "at": "2026-11-09T03:06:02.758Z",
+    "source": "TABLECHECK",
+    "stage": "AVAILABILITY",
+    "event": "MODEL_ACTION",
+    "elapsedMs": 165870,
+    "lifecycle": {
+      "outcome": "FINISHED",
+      "candidateElapsedMs": 12649,
+      "providerElapsedMs": 12649,
+      "candidateModelCalls": 1,
+      "providerModelCalls": 1,
+      "candidateRuntimeOperations": 9,
+      "providerRuntimeOperations": 9,
+      "runModelCalls": 24
+    },
+    "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+    "page": {
+      "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza"
+    },
+    "operation": "MODEL_CLICK_AUTHORITATIVE"
+  },
+  "dateDecision": 28,
+  "dateSnapshot": 38,
+  "availability": {
+    "status": "AVAILABLE",
+    "checkedAt": "2026-11-09T03:06:08.407Z",
+    "evidenceIds": [
+      "evidence:restaurant:tablecheck-entity-match:4f88ca399211e825e0731216",
+      "evidence:restaurant:tablecheck-availability:999d552ffa56a56cbfc21007"
+    ],
+    "receptionMode": "RESERVATION_SUPPORTED",
+    "sourceAttempts": [
+      {
+        "source": "TABLECHECK",
+        "outcome": "AVAILABLE"
+      }
+    ],
+    "sourceProvider": "TABLECHECK",
+    "displayExpiresAt": "2026-11-09T03:16:08.407Z",
+    "requestFingerprint": "{\"date\":\"2026-11-11\",\"timeWindow\":{\"latest\":\"20:30\",\"earliest\":\"20:30\"},\"partySize\":2}",
+    "timeWindowCoverage": {
+      "date": "2026-11-11",
+      "covered": [
+        {
+          "latest": "20:30",
+          "status": "AVAILABLE",
+          "earliest": "20:30"
+        }
+      ],
+      "partySize": 2,
+      "uncovered": [],
+      "stopReason": "RESULT_FOUND",
+      "requestedWindow": {
+        "latest": "20:30",
+        "earliest": "20:30"
+      }
+    },
+    "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+  },
+  "bookingTerms": [
+    {
+      "at": "2026-11-09T03:06:22.429Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "NO_PAGES",
+      "pageCount": 0,
+      "boundPageCount": 0
+    },
+    {
+      "at": "2026-11-09T03:06:36.632Z",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+      "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+      "reason": "NO_PAGES",
+      "pageCount": 0,
+      "boundPageCount": 0
+    }
+  ],
+  "handoff": {
+    "candidateId": "praxis:restaurant:399b940d8930096624424dba",
+    "offerId": "offer:tablecheck:praxis:restaurant:399b940d8930096624424dba:2026-11-11:20:30:2",
+    "provider": "TABLECHECK",
+    "url": "https://www.tablecheck.com/en/nakamata-nodoguro-ginza/reserve/landing?utm_source=tablecheck_portal&start_date=2026-11-11&num_people=2&start_time=20%3A30",
+    "directLabel": "Book on TableCheck",
+    "continueLabel": "Continue on TableCheck \u2014 date, time, 2 guests filled in",
+    "verificationHint": "Check date and guests",
+    "checkedAt": "2026-11-09T03:06:08.407Z",
+    "displayExpiresAt": "2026-11-09T03:16:08.407Z",
+    "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+    "linkCarries": [
+      "DATE",
+      "TIME",
+      "PARTY_SIZE"
+    ],
+    "sourceSelection": "UNKNOWN",
+    "terms": []
+  },
+  "turnPhases": [
+    {
+      "id": "INITIAL",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1
+    },
+    {
+      "id": "BOOK_THIS_OUTLET",
+      "phase": "PRESENT_RESULTS",
+      "handoffs": 1
+    }
+  ],
+  "safety": {
+    "actualS0": 0,
+    "s0Status": "NOT_EVALUATED",
+    "outerRequestBoundary": {
+      "checked": 106,
+      "passed": 106,
+      "allPassed": true
+    },
+    "getHead": "ABSENT",
+    "combinedSafeToContinue": false,
+    "stopReason": "INDEPENDENT_EVIDENCE_REVIEW_REQUIRED"
+  },
+  "network": {
+    "dns": 0,
+    "cors": 0,
+    "http403": 0
+  },
+  "budget": {
+    "before": {
+      "fullLive": 30,
+      "realModelCalls": 819,
+      "evaluationPublicGET": 381,
+      "googleRequests": 104,
+      "restaurantWebsiteRequests": 11686
+    },
+    "after": {
+      "fullLive": 31,
+      "realModelCalls": 849,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 382,
+      "googleRequests": 105,
+      "restaurantWebsiteRequests": 11797
+    },
+    "limits": {
+      "evaluationPublicGET": 492,
+      "fullLive": 49,
+      "realModelCalls": 1800
+    },
+    "reserved": {
+      "fullLive": 18,
+      "evaluationPublicGET": 108
+    },
+    "availableLive": 0,
+    "availableGET": 0,
+    "modelsRemaining": 951,
+    "unusedAuthorizedPosteriorGETs": 2,
+    "financialGETAboveHeldOutReserve": 2,
+    "budgetAvailabilityMeaning": "No further source reads while independent qualification remains unsigned; unused quota is not permission to continue"
+  }
+}

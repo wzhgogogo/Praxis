@@ -1,3 +1,9 @@
+<a id="d8-direct-outlet-live-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — direct availability produces B1, independent review pending
+
+2026-11-09（Asia/Shanghai）— C查位直达修复已合远端main，产品fc62b663全门禁1512/260+G6 78/strictG2全12。main bd0da528单次D8：30模型全成功/204.191秒，决策#28快照38在provider12.649秒选日、18.298秒核到11/11 20:30/2 AVAILABLE，B1已生成；追问后结果和B1保留，条款两次NO_PAGES仍未验证。实际S0=0、106/106边界PASS、GETHEAD ABSENT，但独立资格注释缺失，原s0Status NOT_EVALUATED/stopBatch=true保留，不能签收合格交付。仅用1Live/1GET，累计31/49、382/492、849/1800余951；后验2未用，留出18/108不动。停止D8，进入held-out准备清单，独立资格签收前不执行留出。 [一页报告](../../.eval-artifacts/phase3b/d8-direct-outlet-live-20261109/report.md)。
+
 <a id="d8-direct-outlet-20261109"></a>
 
 ## 2026-11-09 Asia/Shanghai — confirmed outlet direct availability
