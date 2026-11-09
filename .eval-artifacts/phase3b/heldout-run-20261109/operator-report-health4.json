@@ -1,0 +1,37 @@
+{
+  "sourceSHA": "4256303de2cf8cf1921420e3318db5ce443d3c6d",
+  "stopReason": "NETWORK_HEALTH_FAILED",
+  "latestAttempt": "p3b-holdout-03-r1-retry3",
+  "latestStatus": "CANCELLED_BEFORE_LIVE",
+  "networkHealth": {
+    "passed": false,
+    "observations": [
+      {
+        "source": "tablecheck",
+        "round": 1,
+        "complete": false,
+        "elapsedMs": 10002.001875000002
+      }
+    ]
+  },
+  "healthResumesUsed": 4,
+  "healthResumesLimit": 5,
+  "healthResumesRemaining": 1,
+  "nextResumeNotBeforeCET": "2026-11-09T13:37:20.599+01:00",
+  "newCosts": {
+    "fullLive": 0,
+    "evaluationPublicGET": 1,
+    "realModelCalls": 0
+  },
+  "cumulative": {
+    "fullLive": 6,
+    "evaluationPublicGET": 36,
+    "realModelCalls": 1140,
+    "environmentReruns": 0,
+    "googleRequests": 15,
+    "restaurantWebsiteRequests": 1463
+  },
+  "originalFilesCopied": 870,
+  "evidenceBranch": "codex/heldout-run-evidence-04",
+  "approvalSource": "User 2026-11-09 CET authorized five total health resumes. User later shortened this fourth-resume wait to three minutes; three minutes elapsed before execution. Original20min spacing remains for the next resume."
+}
