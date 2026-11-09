@@ -1,3 +1,4 @@
+import {PlaywrightEntryNavigation} from "./playwright-entry-navigation.js";
 import {createHash} from "node:crypto";
 import {normalizedTextKey} from "../../core/text-key.js";
 import {observeQueryValues,type BrowserQueryValueObservation} from "./browser-query-values.js";
@@ -94,6 +95,23 @@ function matchesEndpoint(rule: BrowserReadNetworkRequestRule, url: URL, resource
  */
 export class PlaywrightReadNetworkGuard {
   readonly forms = new PlaywrightObservedGetForms();
+  private readonly entries=new WeakMap<Page,PlaywrightEntryNavigation>();
+  private readonly abortedForEntry=new WeakSet<Request>();
+  private readonly nodeTransports=new Map<Request,AbortController>();
+  entryNavigationEvents(page:Page) {return this.entries.get(page)?.events??[];}
+  entryInteraction(page:Page):void {this.entries.get(page)?.interaction();}
+  async navigateEntry(page:Page,url:string,options:{waitUntil?:"domcontentloaded"|"load";timeoutMs?:number}):Promise<void> {
+    const entry=this.entries.get(page);
+    if(entry)await entry.navigate(url,options);
+    else await page.goto(url,{waitUntil:options.waitUntil??"domcontentloaded",...(options.timeoutMs===undefined?{}:{timeout:options.timeoutMs})});
+  }
+  private abortEntryTransports(page:Page):void {
+    for(const request of this.pending.keys()){
+      try{if(request.frame().page()!==page)continue;}catch{continue;}
+      this.abortedForEntry.add(request);this.nodeTransports.get(request)?.abort();
+    }
+  }
+
   private readonly queryObservations=new WeakMap<URL,BrowserQueryValueObservation[]>();
   private readonly requestQueryObservations=new WeakMap<Request,BrowserQueryValueObservation[]>();
   private recordNativeFailure(request:Request,error:unknown):void {
@@ -147,7 +165,9 @@ export class PlaywrightReadNetworkGuard {
       const headers = response.headers(), status = response.status();
       const location = headers.location ? new URL(headers.location, url) : undefined;
       const allowedLocation = location && await this.admitsRedirectRequest(location, request, method, type);
-      const body = method === "HEAD" || status === 204 || status === 304 || status >= 300 && status < 400 ? new Uint8Array() : await response.body();
+      let body:Uint8Array;
+      try{body=method === "HEAD" || status === 204 || status === 304 || status >= 300 && status < 400 ? new Uint8Array() : await response.body();}
+      catch(error){if(this.abortedForEntry.has(request))return;throw error;}
       await this.recordResponse!({ url: url.toString(), method, resourceType: type, status, contentType: headers["content-type"] ?? "", body,
         ...(allowedLocation ? { redirectLocation: location!.toString() } : {}) });
     })();
@@ -198,7 +218,7 @@ export class PlaywrightReadNetworkGuard {
 
   async install(context: BrowserContext, options: { replay?: boolean } = {}): Promise<void> {
     this.context = context;
-    context.on?.("response",response=>{const current=this.dynamicReads.get(response.request());if(current)current.status=response.status();});
+    context.on?.("response",response=>{const current=this.dynamicReads.get(response.request());if(current)current.status=response.status();try{this.entries.get(response.request().frame().page())?.responseStatus(response.status());}catch{/* worker without an owning frame */}});
     context.on?.("requestfinished",request=>{const current=this.dynamicReads.get(request);if(current?.status===200)current.observation.dynamicRead={...current.receipt,status:current.status,completedAt:Date.now()};this.dynamicReads.delete(request);});
     context.on?.("requestfailed",request=>{this.dynamicReads.delete(request);});
     if (this.admittedGetTransport !== "NODE_FETCH" && !options.replay) {
@@ -300,6 +320,9 @@ export class PlaywrightReadNetworkGuard {
     const session = await context.newCDPSession(page);
     await session.send("Page.enable");
     const rootFrameId = (await session.send("Page.getFrameTree")).frameTree.frame.id;
+    const entry=!replay&&this.admittedGetTransport==="REVIEWED_STATIC_BROWSER"
+      ?new PlaywrightEntryNavigation(page,session,()=>this.abortEntryTransports(page),(url,remaining)=>this.prepareNavigation(url,remaining)):undefined;
+    if(entry)this.entries.set(page,entry);
     session.on("Page.frameNavigated",event=>{if(event.frame.id===rootFrameId)this.forms.clearObservedPageValues(page);});
     session.on("Page.windowOpen", event => {
       const startedAt = Date.now();
@@ -312,7 +335,7 @@ export class PlaywrightReadNetworkGuard {
     type Send = CDPSession["send"];
     type On = (method: string, handler: (params: any) => void) => void;
     let sequence = 0;
-    const configure = async (send: Send, on: On): Promise<void> => {
+    const configure = async (send: Send, on: On, sendRoot=false): Promise<void> => {
       const formNavigations = new Map<string, { evidence: Promise<ObservedGetFormSubmission | undefined>; startedAt: number }>();
       on("Page.frameRequestedNavigation", event => {
         if (event.reason !== "formSubmissionGet" && event.reason !== "formSubmissionPost") return;
@@ -340,6 +363,9 @@ export class PlaywrightReadNetworkGuard {
         } else childEvents.get(event.sessionId)?.get(value.method)?.(value.params);
       });
       on("Target.attachedToTarget", event => {
+        // Page.stopLoading cannot prove termination of a separate target's loaders.
+        // Leave such an entry to its original deadline rather than replay it.
+        entry?.disallow();
         const handlers = new Map<string, (params: any) => void>(); childEvents.set(event.sessionId, handlers);
         const childSend: Send = (method, params) => new Promise((resolve, reject) => {
           const id = ++sequence; pending.set(id, { resolve, reject });
@@ -358,6 +384,7 @@ export class PlaywrightReadNetworkGuard {
       on("Fetch.requestPaused", event => {
         const process = async () => {
           const url = new URL(event.request.url), method = event.request.method;
+          if(!["GET","HEAD","OPTIONS"].includes(method))entry?.disallow();
           await this.inspectQuery(url,page);
           const network = networkTypes.get(event.networkId);
           const type = String(network ?? event.resourceType).toLowerCase();
@@ -431,7 +458,12 @@ export class PlaywrightReadNetworkGuard {
           const previous = event.redirectedRequestId ? chains.get(event.redirectedRequestId) : undefined;
           chains.set(event.requestId, expected ?? { hops: previous ? previous.hops + 1 : isRedirect ? 1 : 0, started: previous?.started ?? Date.now() });
           // An admitted unrecognized/initial request also traverses the normal route.
-          if (!isRedirect && method !== "OPTIONS") { await send("Fetch.continueRequest", { requestId: event.requestId }); return; }
+          if (!isRedirect && method !== "OPTIONS") {
+            if(sendRoot && entry && event.networkId && method==="GET" && ["script","stylesheet","font","image"].includes(type)
+              &&!this.queryMetadata(url).queryValues.some(field=>["EQUALS_AUTHORITATIVE_INPUT","PREFIX_OF_AUTHORITATIVE_INPUT"].includes(field.valueClass))
+              &&(await Promise.all(this.policy.staticResources.map(rule=>allows(rule,request,url,method,type,this.queryMetadata(url).queryValues)))).some(Boolean))entry.eligible(event.networkId);
+            await send("Fetch.continueRequest", { requestId: event.requestId }); return;
+          }
           const chain = chains.get(event.requestId)!;
           // HAR never gets a live-network fallback for a redirect it did not
           // fulfill itself. Every request that reaches this branch is native.
@@ -457,7 +489,7 @@ export class PlaywrightReadNetworkGuard {
       await send("Fetch.enable", { patterns: [{ urlPattern: "*", requestStage: "Request" }] });
       await send("Target.setAutoAttach", { autoAttach: true, waitForDebuggerOnStart: true, flatten: false });
     };
-    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); });
+    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); },true);
   }
 
   private async admitsPreflight(url: URL, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
@@ -639,7 +671,11 @@ export class PlaywrightReadNetworkGuard {
         await route.continue();
         return;
       }
-      const response = await route.fetch({ maxRedirects: 0, timeout: remainingRequestMs });
+      const controller=new AbortController();this.nodeTransports.set(request,controller);
+      let response: Awaited<ReturnType<Route["fetch"]>>;
+      try{response=await route.fetch({ maxRedirects: 0, timeout: remainingRequestMs,signal:controller.signal });}
+      finally{this.nodeTransports.delete(request);}
+      try{this.entries.get(request.frame().page())?.responseStatus(response.status());}catch{/* detached frame */}
       if (response.status() >= 300 && response.status() < 400) {
         let target: URL | undefined;
         try { if (response.headers()["location"]) target = new URL(response.headers()["location"]!, url); } catch { /* rejected below */ }

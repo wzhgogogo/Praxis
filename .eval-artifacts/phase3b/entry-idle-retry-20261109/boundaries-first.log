@@ -1,0 +1,59 @@
+ENTRY_RECOVERY {"requests":2,"documents":2,"closedBeforeSecond":true,"events":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"IDLE_ABORT","elapsedMs":5028,"idleMs":5000,"status":200,"resourceType":"stylesheet"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":5041},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":5041},{"attempt":2,"retryCount":1,"event":"SUCCEEDED","elapsedMs":5075}]}
+✔ entry aborts a successful stalled native response before its one reload, preserving both attempts in recording (5280.333667ms)
+ENTRY_BOUNDARY {"mode":"HTTP403","cssRequests":1,"documents":1,"posts":0,"completed":false,"elapsedMs":8002,"attempts":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":8001}]}
+✔ entry retry boundary: HTTP403 (8141.58175ms)
+ENTRY_BOUNDARY {"mode":"HTTP500","cssRequests":1,"documents":1,"posts":0,"completed":false,"elapsedMs":8003,"attempts":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":8003}]}
+✔ entry retry boundary: HTTP500 (8137.95ms)
+ENTRY_BOUNDARY {"mode":"NO_HEADERS","cssRequests":1,"documents":1,"posts":0,"completed":false,"elapsedMs":8002,"attempts":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":8001}]}
+✔ entry retry boundary: NO_HEADERS (8155.950208ms)
+ENTRY_BOUNDARY {"mode":"STEADY","cssRequests":1,"documents":1,"posts":0,"completed":true,"elapsedMs":6549,"attempts":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"SUCCEEDED","elapsedMs":6548}]}
+✔ entry retry boundary: STEADY (6702.353917ms)
+✖ entry retry boundary: POST (8133.431167ms)
+ENTRY_BOUNDARY {"mode":"INTERACTION","cssRequests":1,"documents":1,"posts":0,"completed":false,"elapsedMs":8002,"attempts":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":8002}]}
+✔ entry retry boundary: INTERACTION (8140.504667ms)
+ENTRY_BOUNDARY {"mode":"SECOND_STALL","cssRequests":2,"documents":2,"posts":0,"completed":false,"elapsedMs":8004,"attempts":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"IDLE_ABORT","elapsedMs":5067,"idleMs":5051,"status":200,"resourceType":"stylesheet"},{"attempt":1,"retryCount":0,"event":"ABORTED","elapsedMs":5079},{"attempt":2,"retryCount":1,"event":"STARTED","elapsedMs":5079},{"attempt":2,"retryCount":1,"event":"FAILED","elapsedMs":8003}]}
+✔ entry retry boundary: SECOND_STALL (8155.116292ms)
+ENTRY_BOUNDARY {"mode":"CANCEL","cssRequests":1,"documents":1,"posts":0,"completed":false,"elapsedMs":10,"attempts":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"FAILED","elapsedMs":10}]}
+✔ entry retry boundary: CANCEL (113.287083ms)
+ENTRY_BOUNDARY {"mode":"ENTRY_ONLY","cssRequests":2,"documents":2,"posts":0,"completed":false,"elapsedMs":6014,"attempts":[{"attempt":1,"retryCount":0,"event":"STARTED","elapsedMs":0},{"attempt":1,"retryCount":0,"event":"SUCCEEDED","elapsedMs":12}]}
+✔ entry retry boundary: ENTRY_ONLY (6113.703792ms)
+✖ entry retry boundary: NODE_ABORT (5168.077834ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 72621.054167
+
+✖ failing tests:
+
+test at src/harness/browser/entry-idle-retry.test.ts:1:3476
+✖ entry retry boundary: POST (8133.431167ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  2 !== 1
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/entry-idle-retry.test.ts:71:95)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 2,
+    expected: 1,
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/entry-idle-retry.test.ts:1:3476
+✖ entry retry boundary: NODE_ABORT (5168.077834ms)
+  AssertionError [ERR_ASSERTION]: Node transfer must also terminate before reloading
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/entry-idle-retry.test.ts:70:97)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }

@@ -64,13 +64,16 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     return created;
   }
 
+  entryNavigationEvents() {return this.networkGuard?.entryNavigationEvents(this.page)??[];}
+
   async navigate(url: string, options: { waitUntil?: "domcontentloaded" | "load"; timeoutMs?: number } = {}): Promise<void> {
     await this.run(() => {
       this.responses.reset();
+      if(this.networkGuard)return this.networkGuard.navigateEntry(this.page,url,options);
       return this.page.goto(url, {
       waitUntil: options.waitUntil ?? "domcontentloaded",
       ...(options.timeoutMs !== undefined ? { timeout: options.timeoutMs } : {}),
-      });
+      }).then(()=>undefined);
     });
   }
 
@@ -145,6 +148,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
   async click(target: string, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page);
     await this.run(async () => {
       const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
@@ -156,6 +160,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
   async openLink(target: string, observedHref?: string, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page);
     await this.run(async () => {
       const timeout = actionTimeout(options);
       const locator = await this.controls.target(target);
@@ -176,6 +181,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
   async fill(target: string, value: string, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page);
     await this.run(async () => {
       if (this.networkGuard) assertPublicReadInput(value, options.inputSource);
       const element = await this.controls.target(target) ?? await this.page.locator(target).elementHandle();
@@ -184,11 +190,16 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
       else await element.fill(value, { timeout: actionTimeout(options) });
     });
   }
-  async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> { return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
-  async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
-  async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> { await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }
-  async pressEscape(_options: BrowserActionOptions = {}): Promise<void> { await this.run(() => this.page.keyboard.press("Escape")); }
+  async select(target: string, value: string, options: BrowserActionOptions = {}): Promise<string[]> {
+    this.networkGuard?.entryInteraction(this.page); return this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).selectOption(value, { timeout: actionTimeout(options) })); }
+  async setChecked(target: string, checked: boolean, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page); await this.run(async () => { if (await this.controls.setChecked(target, checked, actionTimeout(options))) return; await this.page.locator(target).setChecked(checked, { timeout: actionTimeout(options) }); }); }
+  async press(target: string, key: "ArrowLeft" | "ArrowRight", options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page); await this.run(async () => (await this.controls.target(target) ?? this.page.locator(target)).press(key, { timeout: actionTimeout(options) })); }
+  async pressEscape(_options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page); await this.run(() => this.page.keyboard.press("Escape")); }
   async scroll(target: string, deltaY: number, options: BrowserActionOptions = {}): Promise<void> {
+    this.networkGuard?.entryInteraction(this.page);
     await this.run(async () => {
       const observed = await this.controls.target(target);
       if (observed) await observed.evaluate((element, delta) => (element as HTMLElement).scrollBy(0, delta), deltaY);
@@ -196,6 +207,7 @@ class LocalPlaywrightChromiumSession implements BrowserSession {
     });
   }
   async dismissTransientObstruction(target: string, options: BrowserActionOptions = {}): Promise<{ occluder: string }> {
+    this.networkGuard?.entryInteraction(this.page);
     return this.run(async () => {
       void actionTimeout(options);
       const observed = await this.controls.target(target);

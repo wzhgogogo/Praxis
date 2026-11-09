@@ -1,0 +1,14 @@
+
+> praxis-zhixing@0.1.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+src/infrastructure/browser/cloudflare-browser-run.ts(104,20): error TS2345: Argument of type '() => Promise<void> | Promise<Response | null>' is not assignable to parameter of type '() => Promise<void | null>'.
+  Type 'Promise<void> | Promise<Response | null>' is not assignable to type 'Promise<void | null>'.
+    Type 'Promise<Response | null>' is not assignable to type 'Promise<void | null>'.
+      Type 'Response | null' is not assignable to type 'void | null'.
+        Type 'Response' is not assignable to type 'void'.
+src/infrastructure/browser/local-playwright-chromium.ts(70,20): error TS2345: Argument of type '() => Promise<void> | Promise<Response | null>' is not assignable to parameter of type '() => Promise<void | null>'.
+  Type 'Promise<void> | Promise<Response | null>' is not assignable to type 'Promise<void | null>'.
+    Type 'Promise<Response | null>' is not assignable to type 'Promise<void | null>'.
+      Type 'Response | null' is not assignable to type 'void | null'.
+        Type 'Response' is not assignable to type 'void'.

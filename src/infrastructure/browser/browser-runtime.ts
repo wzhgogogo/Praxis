@@ -236,8 +236,16 @@ export interface BrowserSessionMetadata {
 export type BrowserPublicInputSource = "AREA" | "CUISINE" | "DATE" | "TIME" | "PARTY_SIZE" | "SPECIFIC_OUTLET" | "G4_SOURCE_TERM";
 export interface BrowserActionOptions { timeoutMs?: number; inputSource?: BrowserPublicInputSource; }
 
+export interface BrowserEntryNavigationEvent {
+  attempt:1|2;retryCount:0|1;
+  event:"STARTED"|"IDLE_ABORT"|"ABORTED"|"SUCCEEDED"|"FAILED";
+  elapsedMs:number;idleMs?:number;status?:number;resourceType?:string;
+}
+
 export interface BrowserSession {
   readonly metadata: BrowserSessionMetadata;
+  /** Value-free first-entry attempts, including failures before any snapshot. */
+  entryNavigationEvents?(): readonly BrowserEntryNavigationEvent[];
   /** Runtime-owned lifecycle fact; a failed page control does not imply this. */
   isClosed?(): boolean;
   navigate(url: string, options?: { waitUntil?: "domcontentloaded" | "load"; timeoutMs?: number }): Promise<void>;

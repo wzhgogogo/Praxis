@@ -1,3 +1,9 @@
+<a id="entry-idle-retry-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — bounded first-entry reload
+
+2026-11-09（Asia/Shanghai）— C按用户明确批准实现首次入口一次重载候选（draft / not integrated）：仅已审核原生静态GET的成功响应5秒无进度触发，先实际中止并确认旧请求终止，再用原导航剩余预算重开；4xx/5xx、未知连接、POST/交互/独立子目标不恢复。Recorder保留attempt/retryCount和首次失败；原Guard/网络/身份/时限不变。本地恢复约5.1秒，完整离线门禁待冻结；无新来源GET/模型/Live，真实连接稳定性及旧无响应头CSS不据此判修复。 [实施计划](../../.eval-artifacts/phase3b/entry-idle-retry-20261109/implementation-plan.md)。
+
 <a id="d8-connectivity-restored-20261109"></a>
 
 ## 2026-11-09 Asia/Shanghai — D8 font stylesheet pending after completed main JS
