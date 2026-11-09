@@ -5975,3 +5975,5 @@ No transport behavior changed: local Origin match passes in all three modes; wir
 离线自检另发现外层观察漏计：同URL先Node Fetch后原生script，真实本地源站2次而外层仅1次；旧去重改为待结算计数，红绿2/1→2/2，重用真实Chromium用例覆盖。Google请求如果完整包含私有回合文本，也只存哈希，公开响应仍保留；自有凭据检查仍整份拒绝，补默认回归。第一冻结14a75d6d全门禁通过但不作为最终签收，源码变动后另冻结并重跑全套；无外部调用。
 
 最终隐私范围补充：模型消息整体哈希，产品会话的用户原文遮盖但保留ASSISTANT声明/交付文案，避免独立审计丢证。回归验证原文不泄露且回答仍存在；原文承诺先验证成功才读运行JSON，同时记录承诺原段与填写后JSON两种用例哈希。明确其他实体指针会否决地址桥接，aria-busy表单不提供时段注释。源码改动后最终冻结重跑全矩阵，前两冻结日志独立保留。
+
+最终源码5bb04c63同SHA净树全矩阵PASS：typecheck、arch:check、默认1521、build、完整Chromium260+G6 82、strict G2全12；生产写死扫描新增0，补充非测试eval开发店名/时段字面量审计0。gates.json逐项记录SHA/exitCode/净树；最终仅追加文档和证据，源码不变。当前CET报告、独立补评、GET+18来源/原评分SHA回执已归档；未推送/合main/触碰私有原文或执行真实调用，停下等复核。
