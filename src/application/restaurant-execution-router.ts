@@ -170,7 +170,6 @@ function authoritativeAvailabilityRequest(
   return {
     candidateIds: [...candidateIds],
     ...(intent.target?.selectionScope?{selectionScope:intent.target.selectionScope}:{}),
-    ...(state.readEvidence.some(e=>candidateIds.includes(e.candidateId??''))?{sourceEvidence:state.readEvidence.filter(e=>candidateIds.includes(e.candidateId??'')).map(e=>structuredClone(e))}:{}),
     ...(verifiedOutletPages.length?{verifiedOutletPages}:{}),
     candidates: candidateIds.map((candidateId) => {
       const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);
@@ -326,7 +325,6 @@ export class RestaurantExecutionRouter {
         const intent = completeRestaurantSearchIntent(state.intentDraft);
         if (!intent) throw new Error("Validated candidate fact read requires a complete authoritative search intent");
         const request: RestaurantCandidateFactRequest = {
-          ...(state.readEvidence.some(e=>action.candidateIds.includes(e.candidateId??''))?{sourceEvidence:state.readEvidence.filter(e=>action.candidateIds.includes(e.candidateId??'')).map(e=>structuredClone(e))}:{}),
           candidateIds: [...action.candidateIds],
           candidates: action.candidateIds.map((candidateId) => {
             const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);

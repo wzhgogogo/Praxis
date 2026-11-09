@@ -238,7 +238,7 @@ export interface BrowserActionOptions { timeoutMs?: number; inputSource?: Browse
 
 export interface BrowserEntryNavigationEvent {
   attempt:1|2;retryCount:0|1;
-  event:"STARTED"|"ZERO_BYTE_TIMEOUT"|"ABORTED"|"SUCCEEDED"|"FAILED";
+  event:"STARTED"|"IDLE_ABORT"|"ZERO_BYTE_TIMEOUT"|"ABORTED"|"SUCCEEDED"|"FAILED";
   elapsedMs:number;status?:number;resourceType?:string;
   receivedBodyBytes?:number;bytesObserved?:boolean;attemptTimeoutMs?:number;
 }

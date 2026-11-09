@@ -95,7 +95,7 @@ export interface DiscoverySourcePack {
     candidatePath(candidate: RestaurantOutlet): "DIRECT_SOURCE_PAGE" | "NAME_RESOLUTION" | "NONE";
     /** Stable default order among otherwise neutral current providers. */
     availabilityPriority: number;
-    /** Area candidates require an observed outlet entrance; named identity lookup is unchanged. */
+    /** Area candidates skip NAME_RESOLUTION; existing bound outlet paths and named requests are unchanged. */
     areaEvidenceRequired?: {notEvidencedReason: 'TABLECHECK_NOT_EVIDENCED'};
     /** Public source congestion, not an identity failure or bot challenge. */
     sourceBusy?: { matches(page: BrowserSnapshot): boolean; retryDelayMs: number };

@@ -98,7 +98,8 @@ const trajectory = object({ stepNumber: number, occurredAt: text, stateVersionAf
   actionValidation: object({ status: text }), observation,
   executionMetadata: object({ provider: text, failureCode: text, recheckReason: text,
     nativeDiscoveryFunnel: object({ pagesRead: number, listingObservations: array(object({ sourceUrl: text, resultCount: number, parsedOutlets: number })) }),
-    providerAttempts: array(object({ candidateId: text, provider: text, outcome: text, failureCode: text })) }) });
+    providerAttempts: array(object({ candidateId: text, provider: text, outcome: text, failureCode: text })),
+    skippedSources: array(object({candidateId:text,provider:text,reason:text})) }) });
 const control = object({ structure: object({ name: text, radioGroupKey: text }), name: text, label: text, kind: text,
   checked: boolean, selected: boolean, calendarDate: text, visible: boolean, disabled: boolean, value: text, options: array(object({ selected: boolean, value: text, label: text })) });
 const tabelogSelection = object({ time: text, link: object({ rcd: text, member: text, visit_date: text, visit_time: text }) });

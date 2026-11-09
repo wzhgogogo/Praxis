@@ -3,7 +3,7 @@ import {channel} from 'node:diagnostics_channel';
 import type {ClientRequest,IncomingMessage} from 'node:http';
 
 export interface NodeReadProgress {tracked:boolean;receivedBodyBytes:number;status?:number;finished:boolean;}
-interface Scope {url:URL;signal:AbortSignal;progress:NodeReadProgress;observe:(value:NodeReadProgress)=>void;}
+interface Scope {url:URL;signal:AbortSignal;progress:NodeReadProgress;observe:(value:NodeReadProgress)=>void;headersTimeoutMs?:number;}
 const scopes=new AsyncLocalStorage<Scope>();
 
 // Passive Node HTTP observations: no headers/body values are retained or
@@ -17,8 +17,10 @@ channel('http.client.request.start').subscribe(value=>{
  scope.progress.tracked=true;publish();
  const abort=()=>request.destroy(Object.assign(new Error('Document transport aborted'),{name:'AbortError'}));
  if(scope.signal.aborted)abort();else scope.signal.addEventListener('abort',abort,{once:true});
- request.once('close',()=>scope.signal.removeEventListener('abort',abort));
+ const timer=scope.headersTimeoutMs===undefined?undefined:setTimeout(()=>request.destroy(Object.assign(new Error('Document headers timed out'),{name:'TimeoutError'})),scope.headersTimeoutMs);
+ request.once('close',()=>{clearTimeout(timer);scope.signal.removeEventListener('abort',abort);});
  request.once('response',(response:IncomingMessage)=>{
+  clearTimeout(timer);
   if(response.statusCode!==undefined)scope.progress.status=response.statusCode;publish();
   // A data listener would start flowing before cookie/redirect handling. Tap
   // the parser's existing push instead: count even buffered, unread body bytes,
@@ -33,6 +35,6 @@ channel('http.client.request.start').subscribe(value=>{
  });
 });
 
-export function observeNodeRead<T>(url:URL,signal:AbortSignal,observe:Scope['observe'],operation:()=>Promise<T>):Promise<T>{
- return scopes.run({url,signal,observe,progress:{tracked:false,receivedBodyBytes:0,finished:false}},operation);
+export function observeNodeRead<T>(url:URL,signal:AbortSignal,observe:Scope['observe'],operation:()=>Promise<T>,headersTimeoutMs?:number):Promise<T>{
+ return scopes.run({url,signal,observe,progress:{tracked:false,receivedBodyBytes:0,finished:false},...(headersTimeoutMs===undefined?{}:{headersTimeoutMs})},operation);
 }

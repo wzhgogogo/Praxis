@@ -4,7 +4,7 @@ import {createHash} from "node:crypto";
 import {normalizedTextKey} from "../../core/text-key.js";
 import {observeQueryValues,type BrowserQueryValueObservation} from "./browser-query-values.js";
 import { browserTransportError, type BrowserTransportError } from "./browser-runtime-errors.js";
-import {isBrowserReadPathProhibited,hasSensitiveBrowserReadQuery} from "./browser-read-policy.js";
+import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import { traceFormEvidence, PlaywrightObservedGetForms, type ObservedGetFormSubmission } from "./playwright-observed-get-forms.js";
 import type { BrowserContext, CDPSession, Page, Request, Route } from "playwright-core";
 
@@ -339,7 +339,7 @@ export class PlaywrightReadNetworkGuard {
     type Send = CDPSession["send"];
     type On = (method: string, handler: (params: any) => void) => void;
     let sequence = 0;
-    const configure = async (send: Send, on: On): Promise<void> => {
+    const configure = async (send: Send, on: On, root = false): Promise<void> => {
       const formNavigations = new Map<string, { evidence: Promise<ObservedGetFormSubmission | undefined>; startedAt: number }>();
       on("Page.frameRequestedNavigation", event => {
         if (event.reason !== "formSubmissionGet" && event.reason !== "formSubmissionPost") return;
@@ -463,6 +463,10 @@ export class PlaywrightReadNetworkGuard {
           chains.set(event.requestId, expected ?? { hops: previous ? previous.hops + 1 : isRedirect ? 1 : 0, started: previous?.started ?? Date.now() });
           // An admitted unrecognized/initial request also traverses the normal route.
           if (!isRedirect && method !== "OPTIONS") {
+            if(root&&entry&&event.networkId&&method==='GET'&&['script','stylesheet','font','image'].includes(type)
+              &&!this.queryMetadata(url).queryValues.some(f=>['EQUALS_AUTHORITATIVE_INPUT','PREFIX_OF_AUTHORITATIVE_INPUT'].includes(f.valueClass))
+              &&(await Promise.all(this.policy.staticResources.map(rule=>allows(rule,request,url,method,type,this.queryMetadata(url).queryValues)))).some(Boolean))entry.eligible(event.networkId);
+
             await send("Fetch.continueRequest", { requestId: event.requestId }); return;
           }
           const chain = chains.get(event.requestId)!;
@@ -490,7 +494,7 @@ export class PlaywrightReadNetworkGuard {
       await send("Fetch.enable", { patterns: [{ urlPattern: "*", requestStage: "Request" }] });
       await send("Target.setAutoAttach", { autoAttach: true, waitForDebuggerOnStart: true, flatten: false });
     };
-    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); });
+    await configure(session.send.bind(session), (method, handler) => { session.on(method as any, handler); }, true);
   }
 
   private async admitsPreflight(url: URL, type: string, facts?: BrowserReadCorsPreflightObservation): Promise<boolean> {
@@ -613,7 +617,7 @@ export class PlaywrightReadNetworkGuard {
     }
     const observedForm = Boolean(formSubmission && !this.sensitiveWorkflow(url));
     const documentAttemptMs=type==='document'&&method==='GET'&&requestPage?this.documentAttemptTimeouts.get(requestPage):undefined;
-    const requestTimeoutMs=documentAttemptMs===undefined?this.requestTimeoutMs:Math.min(this.requestTimeoutMs,documentAttemptMs);
+    const requestTimeoutMs=this.requestTimeoutMs;
     const remainingRequestMs = formStartedAt === undefined ? requestTimeoutMs : requestTimeoutMs - (Date.now() - formStartedAt);
     if (remainingRequestMs <= 0) {
       this.blocked("READ_TIMEOUT", url, method, type);
@@ -681,7 +685,7 @@ export class PlaywrightReadNetworkGuard {
         if(mainDocument)response=await observeNodeRead(url,controller.signal,progress=>{
           this.entries.get(requestPage!)?.documentProgress(url.toString(),progress);
           if(progress.status!==undefined&&progress.receivedBodyBytes===0&&!progress.finished)this.onResponseHeaders?.({url:url.toString(),resourceType:type,status:progress.status,mainDocument:true});
-        },()=>route.fetch({maxRedirects:0,timeout:remainingRequestMs,signal:controller.signal}));
+        },()=>route.fetch({maxRedirects:0,timeout:remainingRequestMs,signal:controller.signal}),documentAttemptMs);
         else response=await route.fetch({maxRedirects:0,timeout:remainingRequestMs,signal:controller.signal});
       }catch(error){if(type==="document"&&requestPage)await this.entries.get(requestPage)?.documentFailure(url.toString(),error);throw error;}
       finally{this.nodeTransports.delete(request);}
@@ -726,7 +730,7 @@ export class PlaywrightReadNetworkGuard {
   private sensitiveGenericRead(url: URL): boolean {
     if(this.policy.dynamicReads.some(rule=>url.origin===rule.origin&&matchesPath(rule,url)
       &&rule.strictQueryKeys?.some(key=>url.searchParams.has(key))))return true;
-    return this.sensitiveWorkflow(url) || hasSensitiveBrowserReadQuery(url);
+    return this.sensitiveWorkflow(url) || [...url.searchParams.keys()].some(key => /(?:email|e-mail|phone|tel|address|name|password|passcode|token|secret|cookie|api_?key|card|payment|credit)/i.test(key));
   }
 
   private sensitiveWorkflow(url: URL): boolean {

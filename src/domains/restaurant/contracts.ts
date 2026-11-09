@@ -189,7 +189,7 @@ export interface RestaurantAvailabilityCheck {
   /** Bounded source attempts, including an otherwise useful partial observation. */
   sourceAttempts?: Array<{
     source: Exclude<RestaurantReadEvidenceProvider, "MODEL_JUDGMENT">;
-    outcome: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN" | "SOURCE_UNSUPPORTED" | "FAILED" | "NOT_EVIDENCED";
+    outcome: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN" | "SOURCE_UNSUPPORTED" | "FAILED";
     reasonCode?: string;
   }>;
   reasonCode?: string;
@@ -430,7 +430,6 @@ export function restaurantSearchIntentFingerprint(intent: RestaurantSearchIntent
 export interface RestaurantAvailabilityRequest {
   /** Router-owned navigation context; never supplied by the Agent. */
   selectionScope?: NonNullable<RestaurantSearchIntent['target']>['selectionScope'];
-  sourceEvidence?: readonly RestaurantReadEvidence[];
   /** Router-derived HIGH/unique source identities. Navigation hints only; every live page is reverified. */
   verifiedOutletPages?: readonly {candidateId:string;provider:RestaurantReadEvidenceProvider;sourceEntityId:string;sourceUrl:string}[];
   candidateIds: string[];
@@ -454,8 +453,6 @@ export interface RestaurantAvailabilityRequest {
 
 /** A bounded read of source facts for an already-discovered outlet; never an availability query. */
 export interface RestaurantCandidateFactRequest {
-  /** Router-owned current source observations for navigation cost gating. */
-  sourceEvidence?: readonly RestaurantReadEvidence[];
   /** G1 source acquisition only; no HARD/menu interpretation and no original-state write. */
   capturePagesOnly?: true;
   /** One fresh observation of the exact bound page; no capture skill loop. */
@@ -555,10 +552,11 @@ export interface RestaurantReadExecutionMetadata {
     }>;
   };
   /** Internal read-only source chain trace; never projected into Agent context. */
+  skippedSources?: Array<{candidateId:string;provider:'TABLECHECK'|'TABELOG';reason:'TABLECHECK_NOT_EVIDENCED'}>;
   providerAttempts?: Array<{
     candidateId: string;
     provider: "TABLECHECK" | "TABELOG";
-    outcome: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN" | "SOURCE_UNSUPPORTED" | "PROVIDER_FAILURE" | "NOT_EVIDENCED";
+    outcome: "AVAILABLE" | "UNAVAILABLE" | "UNKNOWN" | "SOURCE_UNSUPPORTED" | "PROVIDER_FAILURE";
     failureCode?: RestaurantFailureCode;
   }>;
   /** Candidate-scoped native discovery failures; other observed outlets in the batch remain usable. */

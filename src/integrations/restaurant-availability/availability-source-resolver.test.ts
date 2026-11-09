@@ -174,14 +174,9 @@ test("group-window: one unsupported source does not erase another source's UNKNO
  assert.deepEqual(calls,["TABLECHECK","TABELOG"]);assert.equal(result.availabilityChecks[candidate.restaurant.id]!.status,"UNKNOWN");assert.equal(result.offers.length,0);
 });
 
-for(const mode of ['NONE','GOOGLE_LINK','SOURCE_LINK','OLD','OTHER_CANDIDATE','LOW','SEARCH_URL','WRONG_HOST','NAMED'] as const)test(`area TableCheck evidence gate: ${mode}`,async()=>{
- const calls:string[]=[],copy=structuredClone(candidate),at='2030-01-01T00:00:01Z',url='https://www.tablecheck.com/en/observed-venue';
- copy.restaurant.sourceIds={googlePlaces:'actual-place'};copy.restaurant.provenance.sourceIds='current-google-discovery';
- if(mode==='GOOGLE_LINK')copy.restaurant.sourceIds.googleWebsiteUri=url;
- const sourceEvidence:NonNullable<RestaurantAvailabilityRequest['sourceEvidence']>=[{evidenceId:'current-google-discovery',kind:mode==='GOOGLE_LINK'?'DISCOVERY':'ENTITY_MATCH',provider:mode==='GOOGLE_LINK'?'GOOGLE_PLACES':'RESTAURANT_WEBSITE',candidateId:mode==='OTHER_CANDIDATE'?'other':copy.restaurant.id,sourceEntityId:'actual-place',sourceUrl:'https://merchant.example/',observedAt:mode==='OLD'?'2029-12-31T00:00:00Z':at,requestFingerprint:'fixture',entityMatch:{confidence:mode==='LOW'?'LOW':'HIGH',matchedBy:['fixture']},claims:{observedSourceLinks:mode==='NONE'?[]:[mode==='WRONG_HOST'?'https://www.tablecheck.com.evil.example/en/observed-venue':mode==='SEARCH_URL'?'https://www.tablecheck.com/en/japan/search':url]}}];
- const tc=provider('TABLECHECK',{status:'AVAILABLE'},calls),tl=provider('TABELOG',{status:'AVAILABLE'},calls);
- const read=await new AvailabilitySourceResolver([{pack:tableCheckDiscoveryPack,provider:tc},{pack:tabelogDiscoveryPack,provider:tl}],{observedAfter:'2030-01-01T00:00:00Z'}).check({...request,candidates:[copy],selectionScope:mode==='NAMED'?'SPECIFIC_OUTLET':'OPEN_ENDED',sourceEvidence},new AbortController().signal);
- const enters=['GOOGLE_LINK','SOURCE_LINK','NAMED'].includes(mode);assert.deepEqual(calls,[enters?'TABLECHECK':'TABELOG']);
- assert.equal(read.metadata.providerAttempts?.some(a=>a.outcome==='NOT_EVIDENCED'),!enters);
- assert.ok(!read.metadata.providerAttempts?.some(a=>a.provider==='TABLECHECK'&&a.outcome==='PROVIDER_FAILURE'));
+for(const mode of ['NONE','DIRECT','NAMED','SEARCH'] as const)test(`TableCheck path-cost skip is not a failed attempt: ${mode}`,async()=>{
+ const calls:string[]=[],copy=structuredClone(candidate);copy.restaurant.sourceIds=mode==='DIRECT'?{googleWebsiteUri:'https://www.tablecheck.com/en/observed-venue'}:mode==='SEARCH'?{googleWebsiteUri:'https://www.tablecheck.com/en/japan/search'}:{};
+ const result=await resolver(provider('TABLECHECK',{status:'AVAILABLE'},calls),provider('TABELOG',{status:'AVAILABLE'},calls)).check({...request,candidates:[copy],selectionScope:mode==='NAMED'?'SPECIFIC_OUTLET':'OPEN_ENDED'},new AbortController().signal);
+ const skip=mode!=='DIRECT'&&mode!=='NAMED';assert.deepEqual(calls,[skip?'TABELOG':'TABLECHECK']);assert.equal(result.metadata.providerAttempts!.length,1);assert.equal(result.metadata.skippedSources!.length,skip?1:0);
+ assert.ok(!result.metadata.providerAttempts?.some(a=>a.outcome==='PROVIDER_FAILURE'));assert.equal(result.metadata.failureCode,undefined);
 });

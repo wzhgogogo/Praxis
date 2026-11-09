@@ -52,11 +52,3 @@ test("D8 actual snapshots 5–17 retain canonical source name through the unchan
   assert.equal(namedOutletCandidateResolved(state,id),true,recorded.file);
  }
 });
-
-for(const confidence of ['HIGH','LOW'] as const)test(`source-page availability links require identity and keep only reviewed origins/public queries: ${confidence}`,async()=>{
- const {tableCheckDiscoveryPack}=await import('../restaurant-search/source-packs.js'),origin=tableCheckDiscoveryPack.documentOrigins[0]!,url=origin+'/en/current-outlet';
- const page:BrowserSnapshot={url:'https://merchant.example/about',title:'Merchant',text:'Merchant',html:`<a href="${url}">Reserve</a><a href="${url}?token=opaque">Private</a><a href="${url}?email=a@example.com">Personal</a><a href="https://unrelated.example/en/current-outlet">Other</a><div hidden><a href="${origin}/en/hidden-outlet">Hidden</a></div>`};
- const names=new ObservedOutletNames({openSession:async()=>({snapshot:async()=>page} as BrowserSession)},tableCheckDiscoveryPack.documentOrigins);
- const result=await names.capture(async()=>{await(await names.runtime.openSession({signal:new AbortController().signal})).snapshot();return {evidence:[{evidenceId:'source-page',kind:'ENTITY_MATCH' as const,provider:'RESTAURANT_WEBSITE' as const,candidateId:'merchant',sourceEntityId:'merchant-entity',sourceUrl:page.url,observedAt:'2030-01-01T00:00:00Z',requestFingerprint:'fixture',entityMatch:{confidence,matchedBy:['fixture']},claims:{}}]};});
- assert.deepEqual((result.evidence[0]!.claims as Record<string,unknown>).observedSourceLinks,confidence==='HIGH'?[url]:undefined);
-});

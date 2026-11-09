@@ -50,7 +50,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   const now = () => transports.clock.now().toISOString();
   const taskId = transports.currentTaskId ?? (() => undefined);
   const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
-  const sourceNames=new ObservedOutletNames(transports.browser,availabilityPacks.flatMap(pack=>pack.availability?.areaEvidenceRequired?pack.documentOrigins:[]));
+  const sourceNames=new ObservedOutletNames(transports.browser);
   const tabelogHandoffs = new TabelogBookingHandoffReader(sourceNames.runtime, taskId, now);
   const tablecheckHandoffs = new TableCheckBookingHandoffReader(tabelogHandoffs.runtime, taskId, now);
   const bookingLinks = {
@@ -166,7 +166,6 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
     inspectFacts:(request,signal,identityOnly)=>sourceNames.capture(()=>{
       const {date,timeWindow,partySize}=request.intent;
       return identityOnly&&date&&timeWindow&&partySize!==undefined?sourceAvailability.identify({candidateIds:request.candidateIds,candidates:request.candidates,
-        ...(request.sourceEvidence?{sourceEvidence:request.sourceEvidence}:{}),
         ...(request.intent.target?{selectionScope:request.intent.target.selectionScope}:{}),
         date,timeWindow,partySize,
         hardCriteria:[]},signal,request.readRunId,request.intent.target?.selectionScope==="SPECIFIC_OUTLET"?request.intent.target.query:undefined):native.facts.inspectFacts(request,signal);

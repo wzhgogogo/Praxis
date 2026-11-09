@@ -1,10 +1,5 @@
 import type {BrowserReadNetworkPolicy} from "./browser-runtime.js";
 
-/** Shared existing query-key privacy rejection; observational consumers cannot relax it. */
-export function hasSensitiveBrowserReadQuery(url:URL):boolean {
-  return [...url.searchParams.keys()].some(key => /(?:email|e-mail|phone|tel|address|name|password|passcode|token|secret|cookie|api_?key|card|payment|credit)/i.test(key));
-}
-
 /** Explicit source revocations apply before planning and again before dispatch. */
 export function isBrowserReadPathProhibited(policy: BrowserReadNetworkPolicy | undefined, value: string | URL): boolean {
   try {

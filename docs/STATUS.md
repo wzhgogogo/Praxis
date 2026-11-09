@@ -1,3 +1,5 @@
+2026-11-09 CET — 修复2/3补充候选：首10秒只等文档响应头，已获头部不截断；NO_HEADERS与既有静态IDLE_ABORT共用一次重试、总20秒，初始资源prepareNavigation仍20秒。地区候选仅按Pack candidatePath=NAME_RESOLUTION跳过TableCheck；跳过只入skippedSources、不算attempt/失败，本轮不采集页面链接，有意降低TableCheck按名字查找的覆盖率。01/02逐一19条无仅TC可订的已证明候选，UNKNOWN不当无位；本地针对性通过，待同SHA全门禁。原4256303d及账本不动，真实调用0。[补充报告](../.eval-artifacts/phase3b/heldout-refinement-20261109/report.md)。此条替代下列cfd5a5ce实现中的重试/页面链接描述，历史验证原样保留。
+
 2026-11-09 — held-out三处离线修复完成，源码cfd5a5ce净树全门禁PASS：默认1559、Chromium263+G6 89、严格G2全部12页及type/arch/build；扫描5条均为既有通用边界或批准元数据，无业务写死。原4256303d工作区、871份运行文件与账本哈希不变，未执行新来源GET/模型/Live。按批准发布main后停下，等待复核者决定下一轮组成与时间。
 
 2026-11-09 — held-out 暂停、不作废：原4256303d工作区/运行目录/账本保持，01/02结果作为改进前基线且标为已暴露开发回归。独立工作区实现体检阶段/HTTP诊断、仅零正文文档超时同URL最多重试一次（10秒×2、总20秒）、地区候选缺来源TableCheck证据则NOT_EVIDENCED跳过；指定店名、身份/Guard/G1及45秒/500秒/50模型上限不变。真实超时没有Node字节证据，恢复测试为录制DOM/JSON组件加构造传输，不宣称Live恢复；401仅虚构测试。全套冻结门禁待执行，之后按用户批准合入main并停下，旧批次不续跑。[报告](../.eval-artifacts/phase3b/heldout-read-reliability-20261109/report.md)。
