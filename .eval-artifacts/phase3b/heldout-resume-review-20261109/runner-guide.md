@@ -1,6 +1,6 @@
 # Held-out execution/resume guide
 
-Status: current executable candidate, pending final gates/main integration. No private original or real runs in this preparation. Prior preparation artifacts remain frozen; use this guide and budget template for the reviewed changes.
+Status: current executable on main after full gates; actual held-out execution remains pending reviewer clearance. No private original or real runs in this preparation. Prior preparation artifacts remain frozen; use this guide and budget template for the reviewed changes.
 
 1. Reviewer provides private JSON outside the repository; user supplies original only after clearance. Original commitment, comment-only preamble, ordered case hashes, filled-placeholder restoration and exact turn substring validation remain unchanged. `oracle.reviewedReadRules` is forbidden, including an empty list. Runtime injects exactly21 independently frozen D8-pack rules (20 approved dynamic contracts); do not duplicate them in private cases.
 2. Activate a fresh copy of budget-template.json after reviewer clearance: global model cap2500 with inherited849; scope fullLive22 (planned slots<=18 plus four environment replacements), GET126, environmentReruns4. Six initial health checks cost24 GET, planned certification/posterior maximum54, four environment retries maximum28: total106; remaining20 covers failed health. Every actual GET is precharged, at least5s apart. Models/provider/entry remain50 per turn /500s /45s /20s.

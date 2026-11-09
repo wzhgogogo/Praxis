@@ -6693,3 +6693,5 @@ Frozen5afe1d4a final type/arch/build, default1458, Chromium235 plus completeG675
 虚构清单/本地模拟账本验证SHA/账本变化拒绝、已评跳过、健康取消续接、原始失败保留、四次环境票/第五次拒绝、S0拒绝、评价落盘后异常恢复、无证已扣Live拒盲跑、并发锁、六例18计划+4替代实计22；普通createLiveReadAssembly三次Fixture继续验证生产接线。模型/源站/Live真实调用0，无私有原文。
 
 页面问答限定一轮：D4原checkedPages时间2026-11-06T09:26:16.927Z对应初次ASYNC_WAIT未结算；D8两次scope均busy拒绝后采集为空。旧录制缺settlementDiagnostics，不能证明哪条源请求/忙碌标记/文字变化有误。当前Map/最后快照逻辑已经替换旧页，非可直接修掉的旧快照遮蔽；需要更细结算重现和浏览器运行时工作，按用户停止条件保留非阻塞known gap。无伪造SETTLED、引用或模型回答，不放宽PENDING/完整文档缺省回答规则。证据在page-question-diagnosis.json；不是新Replay验收通过。
+
+最终源码04d4e9a8净树同SHA完整验证PASS：typecheck、arch:check、默认1532、build、Chromium260+G6 82、strictG2全12，生产写死扫描新增0。首轮测试替身类型标注错误被typecheck拦下并保留；后补“体检取消→成功重试→再次resume”真实控制反例揭出前缀ID误匹配，修为精确runID后红转绿，原日志和被中止门禁回执保留。最终全门禁另存gates.json，未用局部通过冒充整套验证。远端main仍8a658179、是候选祖先；当前工作树干净，确认其他main注册已失效无.git后在本树快进合入，未改其他目录、无冲突或行为变更。发布SHA及ls-remote核对见本聊天交付回执；后续文档/证据提交不改变已门禁源码。真实源站/模型/Live均0，页面问答明确未关闭，停下等复核。
