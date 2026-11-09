@@ -5971,3 +5971,5 @@ No transport behavior changed: local Origin match passes in all three modes; wir
 独立来源解析采用离线缓存parse5，不导入生产parser/Guard。JSON-LD与同表单控件独立绑定原生实体/地址/日期/人数/可用按钮和实际链接；Tabelog缺失JSON-LD街道用唯一Address语义行补齐，保留门牌/楼层。跨语言Gold原生关联从冻结公开原文的名称+电话/完整地址提取，当前源还须相同实体/canonical路径/完整来源地址，不依赖用户引用的产品身份ID。G6 evaluator@4；D8与D4原NOT_EVALUATED不改，侧车补评分别合格/不合格（G1未回答），S0均0。用户04:31 CET核对真实TableCheck B1正确字段且未预订，记入矩阵。
 
 条款NO_PAGES定位到两次FACTS capturePagesOnly均COMPLETION_RESULT_BUSY/PENDING，采集在retainNativePage之前结束；保留非阻塞缺口，无产品/G1/Guard规则放宽。隐私路径省略决策messages正文、完整私有回合以哈希替换；三类公开来源录制清洗不变。GET体检额度用户在本聊天另批+18（108→126），模板未激活；模型上限2500，继承849。无源站/模型/Live调用，不合main、不推送，等复核。报告 `.eval-artifacts/phase3b/held-out-preparation-20261109/report.md`。
+
+离线自检另发现外层观察漏计：同URL先Node Fetch后原生script，真实本地源站2次而外层仅1次；旧去重改为待结算计数，红绿2/1→2/2，重用真实Chromium用例覆盖。Google请求如果完整包含私有回合文本，也只存哈希，公开响应仍保留；自有凭据检查仍整份拒绝，补默认回归。第一冻结14a75d6d全门禁通过但不作为最终签收，源码变动后另冻结并重跑全套；无外部调用。

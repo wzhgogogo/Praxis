@@ -45,11 +45,11 @@ test('health requires two consecutive complete browser script downloads per sour
  reads=0;closed=0;charges.length=0;const bad=await run(fake(true));assert.equal(bad.passed,false);assert.equal(reads,2);assert.equal(closed,2);assert.equal(bad.observations.at(-1)?.status,503);
 });
 
-test('shared held-out browser observes native static and Node document/data requests in real local Chromium, while Guard blocks POST',async()=>{
+test('shared held-out browser counts the same URL as Node Fetch then native script, observes document/data, and Guard blocks POST',async()=>{
  const {createServer}=await import('node:http');const {createG6LiveBrowser}=await import('./live-transports.js');
  const arrivals:Array<{path:string;method:string}>=[],observed:Array<{url:string;method:string;reachedSource:boolean}>=[],bodies:string[]=[];
  const server=createServer((req,res)=>{arrivals.push({path:req.url!,method:req.method!});
-  if(req.url==='/'){res.setHeader('content-type','text/html');res.end('<html><body>LOCAL_CONSTRUCTION<script src="/main.js"></script></body></html>');}
+  if(req.url==='/'){res.setHeader('content-type','text/html');res.end('<html><body>LOCAL_CONSTRUCTION<script>fetch("/main.js").then(r=>r.text()).then(()=>{const s=document.createElement("script");s.src="/main.js";document.body.append(s)})</script></body></html>');}
   else if(req.url==='/main.js'){res.setHeader('content-type','text/javascript');res.end("fetch('/data').catch(()=>{});fetch('/confirmation',{method:'POST',body:'{}'}).catch(()=>{});");}
   else{res.setHeader('content-type','application/json');res.end('{}');}
  });server.listen(0,'127.0.0.1');await once(server,'listening');const address=server.address()as{port:number},origin='http://127.0.0.1:'+address.port;
@@ -60,7 +60,7 @@ test('shared held-out browser observes native static and Node document/data requ
   const deadline=performance.now()+3000;while(!bodies.includes('/data')&&performance.now()<deadline)await new Promise(r=>setTimeout(r,10));
   assert.ok(bodies.includes('/main.js'));assert.ok(bodies.includes('/data'));
   assert.equal(arrivals.some(r=>r.method==='POST'),false);assert.equal(observed.some(r=>r.method==='POST'),false);
-  for(const path of ['/','/main.js','/data'])assert.equal(observed.filter(r=>r.url===origin+path&&r.reachedSource).length,1,path+' independently observed exactly once');
+  for(const path of ['/','/main.js','/data'])assert.equal(observed.filter(r=>r.url===origin+path&&r.reachedSource).length,path==='/main.js'?2:1,path+' independently observed for every actual request');
   const snapshot=await session.snapshot();assert.ok(snapshot.networkRequests?.some(r=>r.pathname==='/main.js'&&r.transport==='BROWSER_GET_HEAD'));
   assert.ok(snapshot.networkRequests?.some(r=>r.pathname==='/data'&&r.transport==='NODE_FETCH'));
  }finally{await session.close();const closed=once(server,'close');server.close();server.closeAllConnections();await closed;}

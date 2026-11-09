@@ -67,7 +67,7 @@ export function holdoutConditionMet(view:RestaurantCaseView,c:HoldoutCondition,a
  * request messages are replaced wholesale, while public source observations and
  * decision output retain the existing sanitized recording path. */
 export function privateInputRedactor(texts:readonly string[]){
- const variants=[...new Set(texts.flatMap(t=>[t,JSON.stringify(t).slice(1,-1)]))].filter(Boolean).sort((a,b)=>b.length-a.length);
+ const variants=[...new Set(texts.flatMap(t=>[t,JSON.stringify(t).slice(1,-1),encodeURIComponent(t)]))].filter(Boolean).sort((a,b)=>b.length-a.length);
  const visit=(value:unknown,key=''):unknown=>{
   if(key==='messages')return {privateMessagesSHA256:holdoutHash(JSON.stringify(value))};
   if(typeof value==='string'){let s=value;for(const raw of variants)s=s.replaceAll(raw,'[PRIVATE_TURN_SHA256:'+holdoutHash(raw)+']');return s;}

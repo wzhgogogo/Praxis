@@ -185,7 +185,12 @@ export class BrowserReadRecording {
       const responses = new Map([...this.responses].filter(([url, response]) => !/html/.test(response.mimeType) || this.documents.has(url) || response.redirectLocation && this.documents.has(response.redirectLocation)));
       const harPath = resolve(path, "replay.har");
       const har = sanitizedHar(this.documents, responses);
-      const completeHar = { ...har, log: { ...har.log, entries: [...har.log.entries, ...this.google.entries] } };
+      const googleEntries=this.google.entries.map(entry=>{
+        if(!this.options.artifactTransform||!entry||typeof entry!=="object")return entry;
+        const row=entry as {request:unknown},request=this.options.artifactTransform(row.request);
+        return JSON.stringify(request)===JSON.stringify(row.request)?entry:{...row,request,_privateInputOmitted:{requestSHA256:createHash("sha256").update(JSON.stringify(row.request)).digest("hex")}};
+      });
+      const completeHar = { ...har, log: { ...har.log, entries: [...har.log.entries, ...googleEntries] } };
       if (!await this.google.writeHar(harPath, completeHar)) replay = { status: "NOT_REPLAYABLE", reason: "UNSAFE_DOCUMENT" };
     }
     // Diagnostic components never turn an incomplete page into a full Replay.

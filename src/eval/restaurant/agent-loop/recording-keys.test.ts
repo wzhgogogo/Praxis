@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {access,mkdtemp,readFile,readdir,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
-import {join} from 'node:path';
+import {join,resolve} from 'node:path';
 import test from 'node:test';
 import {BrowserReadRecording} from './runners/browser-read-recording.js';
 
@@ -77,4 +77,24 @@ test('pre-registered model credentials and owned Google response/trace leaks all
    assert.deepEqual(await readdir(result.path),['recording.json'],location);assert.ok(!(await persisted(result.path)).includes(owned),location);
   }
  }finally{await rm(root,{recursive:true,force:true});}
+});
+
+test('private held-out Google request text is hashed while public response remains captured and own credentials still reject all recording',async()=>{
+ const {privateInputRedactor}=await import('./holdout-protocol.js');
+ for(const owned of [false,true]){
+  const root=await mkdtemp(join(resolve('.eval-artifacts'),'private-google-request-'));
+  const secret='synthetic-heldout-own-credential',privateText='LOCAL_CONSTRUCTION private query '+(owned?secret:'with a fictional date');
+  const recorder=new BrowserReadRecording({directory:root,runId:'private',ownCredentials:owned?[secret]:[],artifactTransform:privateInputRedactor([privateText])});
+  try{
+   const request=JSON.stringify({textQuery:privateText});
+   await recorder.captureGoogleFetch(async()=>new Response('{"places":[{"displayName":{"text":"Public Merchant"}}]}',{headers:{'content-type':'application/json'}}))('https://places.googleapis.com/v1/places:searchText',{method:'POST',body:request});
+   recorder.recordSnapshot({url:'https://public.example/page',html:'<h1>Public</h1>',text:'Public',title:'Public'});
+   const captured=await recorder.finish();
+   if(owned){assert.equal(captured.replay.status,'NOT_REPLAYABLE');assert.ok(captured.pages.every(p=>p.diagnostic.status==='OMITTED'));}
+   else{assert.notEqual(captured.replay.status,'NOT_REPLAYABLE');
+    const raw=await readFile(join(captured.path,'replay.har'),'utf8');assert.ok(!raw.includes(privateText));const har=JSON.parse(raw),entry=har.log.entries.find((e:any)=>e.request.url.includes('places.googleapis.com'));
+    assert.ok(entry._privateInputOmitted.requestSHA256);assert.ok(entry.request.postData.text.includes('PRIVATE_TURN_SHA256'));assert.equal(JSON.parse(entry.response.content.text).places[0].displayName.text,'Public Merchant');
+   }
+  }finally{await rm(root,{recursive:true,force:true});}
+ }
 });
