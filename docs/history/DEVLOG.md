@@ -6003,3 +6003,5 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 虚构续跑四组反例及真实G6异常产物接线已通过；全套门禁待冻结后运行。真实模型/源站/Live均0，未读取或复制私有留出原文。证据目录：.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/。
 
 首轮冻结6bef873b全量默认门禁拦出条款初次采集误走刷新分支，影响语言链接和预留时间回归；原失败完整保留first-freeze-6bef873b。已恢复初次采集原路线，只对已有或初次留下的不完整页增加一次原页观察；NO_PAGES的旧诊断断言改为已捕获但INCOMPLETE_PAGE拒答，零回答、保留B1、deadline/reserve和翻译禁越界等行为断言全部保留。针对性29项通过，待新SHA全门禁。
+
+最终源码c0b5e4f4同SHA净树全门禁PASS：type/arch/default1539/build/Chromium260+G6 83/strict G2全12。生产写死扫描新增0，D4/D8原录制、原评价和commitment均未改。首轮6bef873b失败完整保留，语言/预留时间回归修复；忙碌页NO_PAGES诊断改为已捕获INCOMPLETE_PAGE的明确拒答，零模型、不猜条款等断言保留。后续只提交文档与门禁证据，不改已验证源码。按用户本轮授权同步main快进合入并推送、ls-remote核对；具体发布SHA见聊天回执。真实模型/GET/Live为0，来源问答和条款尚无新Live验收；held-out待复核后私有文件/清单/账本。本轮报告位于.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/report.md。

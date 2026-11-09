@@ -1,6 +1,6 @@
 # Reviewer supplement and one-shot G1 observation
 
-Status: draft / not integrated. Development recordings are contaminated regression evidence, not Clean Holdout. Private originals remain outside repository.
+Status: verified integration candidate, source c0b5e4f4; full gates PASS. Development recordings are contaminated regression evidence, not Clean Holdout. Private originals remain outside repository.
 
 Slice: resume a stopped charged attempt only through independent re-evaluation of immutable recorded evidence plus external reviewer annotations; count reviewed product failures as failed planned runs. Original evaluations remain immutable, review SHA and source evidence are pinned. S0 and missing independent evidence fail closed. No transport, Guard, identity, G1 settlement, time or quota changes.
 

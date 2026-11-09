@@ -1,6 +1,6 @@
 # Held-out review continuation
 
-Status: draft / not integrated until verified main freeze. Prior resume guide/budget remain frozen. This guide supplements them; no real execution authorized here.
+Status: verified integration candidate, source c0b5e4f4; use the published main SHA after reviewer clearance. Prior resume guide/budget remain frozen. This guide supplements them; no real execution authorized here.
 
 Start/resume original, manifest, frozen main SHA and ledger identity/prefix requirements are unchanged. Keep external originals, manifest, budget and every reviewer annotation file available at the same canonical paths for all resumes. Budget remains 22 Live / 126 GET / 4 environment replacements / 2500 model calls (849 inherited). No private original was read in this change.
 

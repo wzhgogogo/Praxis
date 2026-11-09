@@ -1,3 +1,5 @@
+2026-11-09 — 补评续跑与G1一次观察候选c0b5e4f4净树全门禁PASS：默认1539、Chromium260+G6 83、strictG2全12及type/arch/build，写死扫描新增0；按用户授权快进发布main后停止。--resume --review外部注释SHA/原证据绑定，原评分不改；未评价产品异常先独立边界再计失败计划运行，无环境票。D4/D8真实DOM组件通过，PENDING仍拒答；完整性/回答为LOCAL_CONSTRUCTION，实际问答/条款仍未Live验证。首轮门禁失败保留并修复初次语言/预留时间接线，原录制不改。真实模型/GET/Live均0，待复核后接收私有清单与账本。[一页报告](../.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/report.md)。
+
 2026-11-09 — draft / not integrated：补评续跑候选增加--resume --review，外部注释SHA/原证据绑定、原评价保留、已扣Live产品失败先独立边界再计一次失败；G6 evaluation@5。G1不完整缓存只重新观察一次，当前确切页不导航，否则仅已绑定URL并重核实体；D4真实DOM组件有引用、D8条款组件NOT_STATED、仍PENDING拒答；刷新完整性和模型响应为LOCAL_CONSTRUCTION，未证明真实问答成功。待全门禁/写死扫描后按用户授权合main推送；真实调用0，私有原文未读取。[计划](../.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/plan.md)。
 
 2026-11-09 — held-out续跑复核已快进合入main，源码04d4e9a8同SHA净树全门禁PASS：默认1532、Chromium260+G6 82、strict G2全12及type/arch/build，写死扫描新增0。--resume核对原文件/清单/源码SHA和同一追加账本，已评槽位跳过，健康取消后恢复；环境失败另存替代、最多4票、S0拒绝续跑，精确尝试ID红绿已覆盖。健康每例一次及恢复前、22Live上限含18计划+4替代，GET126/模型2500（已849）不变；21冻结合同注入，私有清单禁止重写。页面问答完成限定一轮定位但未修复，保留PENDING/NO_PAGES非阻塞缺口与完整性规则。真实调用0、未读留出原文，合main发布后停下等复核。[一页报告](../.eval-artifacts/phase3b/heldout-resume-review-20261109/report.md)。

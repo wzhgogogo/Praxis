@@ -1,3 +1,5 @@
+2026-11-09 — G1一次观察修复c0b5e4f4全门禁通过，按本轮授权纳入main；初次语言读取与reserve规则保留，未完成采集保留PENDING再观察一次，随后G1按原规则拒答或引用。真实D4/D8 DOM仅组件回归，刷新完整性与模型是LOCAL_CONSTRUCTION；真实问答/条款能力仍未验证，历史失败保留。[报告](../../.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/report.md)。
+
 2026-11-09 — draft / not integrated：G1页面提问与条款现在可对不完整的原生店页缓存重新观察一次；同页零导航，否则只读取绑定URL并重新核对实体，不改变Guard、时限和完整性判定。D4 PRIVATE_ROOM真实DOM组件给出逐字引用，D8条款真实DOM组件完整时NOT_STATED，仍PENDING无模型答复；完整性刷新/时钟/会话/回答均LOCAL_CONSTRUCTION，实际来源问答/条款Live仍未验证，不关闭历史失败。待全门禁。[本轮计划](../../.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/plan.md)。
 
 2026-11-09 — G1页面问答已知缺口保留：D4 PRIVATE_ROOM来源在短入口结算后仍PENDING、旧G1返回INCOMPLETE_PAGE；D8条款两次COMPLETION_RESULT_BUSY导致采集前结束/NO_PAGES。录制没有完整结算诊断，无法确认具体阻断请求或忙碌标记；保存HTML不等于完整文档证据，当前缓存已按新快照替换，没有据此放宽G1。按用户限定一轮后停止，非阻塞held-out，不声明真实问答已修复。详情见[诊断](../../.eval-artifacts/phase3b/heldout-resume-review-20261109/page-question-diagnosis.json)。
