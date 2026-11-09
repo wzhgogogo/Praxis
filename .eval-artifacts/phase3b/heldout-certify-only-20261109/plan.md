@@ -1,6 +1,6 @@
 # Certify-only slice
 
-Status: draft / not integrated. No private original and no real source/model/Live calls in this change.
+Status: verified integration candidate, source 7d6880d2; full gates PASS. No private original and no real source/model/Live calls in this change.
 
 Promise: a validated private manifest can get one vacancy-only witness GET per case before formal output/manifest binding. Report true/false/null, time, original response SHA and sanitized response artifact; a source failure does not stop later cases. Never create product sessions or model clients, never charge Live. Reuse createWitnessReader(detail=false), original GET contract and 20s/8MB/no-retry bounds; preserve private turn redaction, existing public JSON and own-credential checks. Do not cache these certificates for formal runs.
 

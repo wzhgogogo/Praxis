@@ -1,6 +1,6 @@
 # Vacancy-only witness certification before manifest freeze
 
-Status: draft / not integrated until full gates and main publication. This change ran no real certification. Private original/manifest remain outside repository.
+Status: verified integration candidate, source 7d6880d2, full gates PASS; use the published main SHA after reviewer clearance. This change ran no real certification. Private original/manifest remain outside repository.
 
 Use the same committed original, validated filled manifest, activated held-out ledger, clean fixed source SHA and --env-file as the formal runner. The execution authorization flag is still required even though this mode never starts Live. It does not require constructing Google/DeepSeek clients or browser sessions.
 
