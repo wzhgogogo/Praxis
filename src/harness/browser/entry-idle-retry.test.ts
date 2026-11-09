@@ -70,7 +70,7 @@ for(const mode of ['HTTP403','HTTP500','NO_HEADERS','STEADY','POST','INTERACTION
    else if(mode==='NODE_ABORT'){assert.equal(completed,true);assert.equal(cssRequests,2);assert.ok(oldDataClosedAt>0&&oldDataClosedAt<secondCssAt,'Node transfer must also terminate before reloading');}
    else {assert.ok(failure,'must retain actual failure');assert.equal(completed,false);assert.equal(cssRequests,mode==='SECOND_STALL'||mode==='ENTRY_ONLY'?2:1);}
    assert.equal(posts,0,'Guard must still reject POST');
-   if(mode==='POST'){const snapshot=await session.snapshot().catch(()=>undefined);assert.ok(snapshot?.networkRequests?.some(r=>r.method==='POST'&&r.outcome==='BLOCKED'),'the POST must actually be attempted and rejected');}
+   if(mode==='POST')assert.ok(events.some(r=>r.kind==='NETWORK_REQUEST_END'&&r.detail.method==='POST'&&r.detail.blocked===true),'the independent browser timeline must observe the attempted, blocked POST');
    assert.equal(documents,mode==='SECOND_STALL'||mode==='ENTRY_ONLY'||mode==='NODE_ABORT'?2:1);
    assert.equal(attempts.filter(e=>e.event==='IDLE_ABORT').length,mode==='SECOND_STALL'||mode==='NODE_ABORT'?1:0);
    assert.ok(performance.now()-start<(mode==='ENTRY_ONLY'?9000:timeoutMs+1500),'one shared navigation budget, not a fresh budget per attempt');
