@@ -1,3 +1,9 @@
+<a id="d8-connectivity-restored-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — D8 font stylesheet pending after completed main JS
+
+2026-11-09（Asia/Shanghai）— C按用户“通了再跑D8”只跑一次，输入a63e1ce9/产品仍8c9cae41=main de503304。154.021秒、13模型全成功，仍NEEDS_INPUT无B1/追问；TC三入口HTML和主JS均200完成，但cdn0/common/css/tablekit-font-faces.v1.min.css三次无响应头至20秒截止，未发搜索API，不能证明旧403已修复或复现。Tabelog commons四次200/0.65–3.35s，主候选详情provider到期。本轮独立11/11边界PASS/GETHEAD ABSENT，原S0=0；旧文字查询审计缺陷本轮未覆盖，不宣布关闭。旧原件保留、不改Guard/CSS/路由/时限，不合main/推送，停止无额外Live。累计Live29/47、GET378/486、模型784/1600余816，留出18Live108GET不动。 [报告](../../.eval-artifacts/phase3b/d8-connectivity-restored-20261109/report.md)。
+
 <a id="d8-xray-rerun-20261109"></a>
 
 ## 2026-11-09 Asia/Shanghai — D8 static entry recovers, search API403 and audit pending
