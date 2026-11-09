@@ -1,0 +1,153 @@
+{
+  "schema": "phase3b-holdout-batch@2",
+  "serial": true,
+  "stopReason": "NETWORK_HEALTH_FAILED",
+  "witnessPolicies": [
+    {
+      "id": "p3b-holdout-01",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-02",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-03",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-04b",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-05",
+      "policy": "ALLOW_KNOWN_UNAVAILABLE"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "p3b-holdout-01",
+      "repetition": 1,
+      "key": "p3b-holdout-01-r1",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-01-r1",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "environmentReplacement": false
+    },
+    {
+      "id": "p3b-holdout-01",
+      "repetition": 1,
+      "key": "p3b-holdout-01-r1-retry1",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-01-r1-retry1",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "5f2d9fef99245824fc171878cb9bec1f061cb6e73747accda40dd785aaf375b6"
+    },
+    {
+      "id": "p3b-holdout-01",
+      "repetition": 2,
+      "key": "p3b-holdout-01-r2",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-01-r2",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "a1f48ac27ef1b6528d8768f290393e504e371c758cbde50a353c1170bb9a80e8"
+    },
+    {
+      "id": "p3b-holdout-01",
+      "repetition": 3,
+      "key": "p3b-holdout-01-r3",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-01-r3",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "508c1420279c76dbfd665d6fe50717a9f26b01ac5f4ec5e991de77e7bc6e6d25",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-01-r3.json",
+        "sha256": "df3f0bd30c181ee86e04277983811545fa9639130ebab5856f7209226ce2d27e",
+        "evidenceSHA256": "16fabb0d64ec6fe787fa8eccd983850d9f6b8cb5ef5fb44630a129d1f409a400",
+        "evaluationSHA256": "25a677b499948daab9b9055abc5487eed7f55f30bc83e2e23f4b68c4d2fce90a"
+      }
+    },
+    {
+      "id": "p3b-holdout-02",
+      "repetition": 1,
+      "key": "p3b-holdout-02-r1",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-02-r1",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "874aa26710f23d26679d8af52df13c9a26a3cc2166e80ca8db63ebc0b35fb22b"
+    },
+    {
+      "id": "p3b-holdout-02",
+      "repetition": 2,
+      "key": "p3b-holdout-02-r2",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-02-r2",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "8442d6a2f34691dc6f966bbc948ef2dbefd440807af097878d8212b45e242f9a"
+    },
+    {
+      "id": "p3b-holdout-02",
+      "repetition": 3,
+      "key": "p3b-holdout-02-r3",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-02-r3",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "5d3528bb450a914ef3fd3b5db29b7b03f21744d89329b948b5be40ba9d5350ee"
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 1,
+      "key": "p3b-holdout-03-r1",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-03-r1",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "environmentReplacement": false
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 1,
+      "key": "p3b-holdout-03-r1-retry1",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-03-r1-retry1",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "environmentReplacement": false
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 1,
+      "key": "p3b-holdout-03-r1-retry2",
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-03-r1-retry2",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "environmentReplacement": false
+    }
+  ],
+  "healthyCases": [
+    "p3b-holdout-01",
+    "p3b-holdout-02"
+  ],
+  "budgetCheckpoint": {
+    "entries": 339,
+    "sha256": "59cd29dacac7f057aa2b8a79c79838223d8b13c80998cf5b81df4985a99dbe32",
+    "cumulative": {
+      "fullLive": 6,
+      "evaluationPublicGET": 35,
+      "realModelCalls": 1140,
+      "environmentReruns": 0,
+      "googleRequests": 15,
+      "restaurantWebsiteRequests": 1462
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "sourceSHA": "4256303de2cf8cf1921420e3318db5ce443d3c6d",
+  "stopReason": "NETWORK_HEALTH_FAILED",
+  "latestAttempt": "p3b-holdout-03-r1-retry2",
+  "latestStatus": "CANCELLED_BEFORE_LIVE",
+  "networkHealth": {
+    "passed": false,
+    "observations": [
+      {
+        "source": "tablecheck",
+        "round": 1,
+        "complete": true,
+        "elapsedMs": 4469.855750000001,
+        "status": 200,
+        "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+      },
+      {
+        "source": "tabelog",
+        "round": 1,
+        "complete": false,
+        "elapsedMs": 10002.148083
+      }
+    ]
+  },
+  "healthResumesUsed": 3,
+  "healthResumesLimit": 5,
+  "healthResumesRemaining": 2,
+  "nextResumeNotBeforeCET": "2026-11-09T13:25:52.123+01:00",
+  "newCosts": {
+    "fullLive": 0,
+    "evaluationPublicGET": 2,
+    "realModelCalls": 0
+  },
+  "cumulative": {
+    "fullLive": 6,
+    "evaluationPublicGET": 35,
+    "realModelCalls": 1140,
+    "environmentReruns": 0,
+    "googleRequests": 15,
+    "restaurantWebsiteRequests": 1462
+  },
+  "originalFilesCopied": 869,
+  "evidenceBranch": "codex/heldout-run-evidence-03",
+  "approvalSource": "User 2026-11-09 CET authorized three additional health resumes (five total), at least20min between resumes; GET126 unchanged."
+}
