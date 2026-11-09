@@ -1,0 +1,550 @@
+[
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/catalog.json",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": []
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "queryProfile"
+      ],
+      "allowed": [
+        "hits",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "offset",
+        "id",
+        "open_day",
+        "service_mode"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "country",
+        "hits",
+        "queryProfile"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+    "pathname": "/search/",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/hub/availability_calendar_v2",
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "methods": [
+      "POST"
+    ],
+    "bodyFields": {
+      "locale": "string",
+      "start_at": "string",
+      "shop_id": "string",
+      "num_people": "string"
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "content-type"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/tokyo/.*$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "document"
+    ],
+    "queryKeyRules": {
+      "required": [],
+      "allowed": [
+        "sw",
+        "vac_net",
+        "svd",
+        "svt",
+        "svps"
+      ]
+    },
+    "strictQueryKeys": [
+      "vac_net",
+      "svd",
+      "svt",
+      "svps"
+    ]
+  },
+  {
+    "origin": "https://www.tablecheck.com",
+    "pathname": "/en/japan/search",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "document"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate"
+      ],
+      "allowed": [
+        "search_text",
+        "date",
+        "time",
+        "num_people",
+        "availability_mode"
+      ]
+    },
+    "strictQueryKeys": [
+      "date",
+      "time",
+      "num_people",
+      "availability_mode"
+    ]
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/geolocation",
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": []
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/autocomplete",
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "locale",
+        "shop_universe_id",
+        "text"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/hub/public_shop_lists",
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "limit",
+        "sort_by"
+      ],
+      "allowed": [
+        "shop_ids[]"
+      ],
+      "repeatable": [
+        "shop_ids[]"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+    "pathname": "/ai_search",
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "allowed": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "repeatable": [
+        "cuisines[]"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathname": "/v2/shop_search",
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "allowed": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "repeatable": [
+        "cuisines[]"
+      ]
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://cdn0.tablecheck.com",
+    "pathnamePattern": "^/common/.*$",
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "resourceTypes": [
+      "script",
+      "stylesheet",
+      "font",
+      "image",
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": []
+    },
+    "corsPreflight": {
+      "requestOrigin": "https://www.tablecheck.com",
+      "requestedHeaderNames": [
+        "x-api-key"
+      ]
+    }
+  },
+  {
+    "origin": "https://production.tablecheck.com",
+    "pathnamePattern": "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "locale"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/booking/calendar/initial_vacancy/?$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "rst_id"
+      ],
+      "allowed": [
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/booking/calendar/find_vacancy_date_with_status/?$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "rst_id"
+      ],
+      "allowed": [
+        "plan_id",
+        "seat_only"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/booking/calendar/find_vacancy_member_by_date/?$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "rst_id",
+        "svd"
+      ],
+      "allowed": [
+        "plan_id",
+        "seat_only"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathnamePattern": "^/en/booking/calendar/find_vacancy/?$",
+    "methods": [
+      "GET"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "rst_id",
+        "svd",
+        "svps"
+      ],
+      "allowed": [
+        "svt",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ]
+    }
+  },
+  {
+    "origin": "https://tabelog.com",
+    "pathname": "/contents/reserve_date_status_list",
+    "methods": [
+      "GET",
+      "HEAD"
+    ],
+    "resourceTypes": [
+      "fetch",
+      "xhr"
+    ],
+    "queryKeyRules": {
+      "required": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "repeatable": [
+        "rst_id_list[]"
+      ]
+    }
+  }
+]
