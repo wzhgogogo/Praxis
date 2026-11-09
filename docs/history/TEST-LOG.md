@@ -6739,3 +6739,13 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 用户授权发布main后v2仅补认证01/03/05三次，任一非true即停；全部true则同一净树main SHA/同一v2清单和外部账本正式六例各三次，运行期间不改代码、不读取私有文件、不干预。环境失败/需补评/S0等照原batch停并等复核，只有体检失败恢复可resume最多2次。v2只用sha256sum核对为0967a9dc…，原文与清单仅路径交运行器。正式原模型/时限/Guard/G1/录制/预算不改，结束逐次报告而不汇总通过率。
 
 源码d8d413a2同SHA净树全门禁PASS：type/arch/default1544/build/Chromium260+G6 83/strictG2全12，写死扫描新增0。实现源码仅src/eval三文件；发布文档/门禁证据不改已验证源码。真实实现阶段GET/模型/Live0。用户授权同步main、快进推送ls-remote后补认证三例，若全true同一SHA/v2/账本正式执行；运行期间禁止修改，直到停批/完成才报告和提交输出。
+
+
+<a id="heldout-certification-second-20261109"></a>
+## 2026-11-09 CET — 三例补认证，条件未满足，正式运行未启动
+
+选择功能d8d413a2全门禁通过，main9ac4d8f81657e3e641dbd5ffd4606ae9c0640a3c快进发布并ls-remote一致。原文件与v2清单仅sha256sum核对及路径交运行器；v2 SHA0967a9dc…匹配，完整验证保持。第一次命令完整source-sha抄写错误，固定SHA校验拒绝，输出目录未创建、账本仍6GET/849模型/0Live；没有源请求。用实际完整SHA执行一次授权选择认证，未改代码。
+
+只发3GET，01 true/HTTP200，时段JST17:30、17:45、18:00、18:15、18:30、18:45、19:00、19:15、19:30、19:45、20:00、20:15、20:30；03/05均null/HTTP400，正文按规则OMITTED、SHA保留，不把未知判无位，不看原响应/猜测原因/重试。01保存清洗副本及哈希验证；待提交11份清洗/派生产物自有凭据扫描PASS。来源时间原值JST，操作时间CET，原始旧证据不覆盖。
+
+三家未全true，严格按条件未调用正式运行器，heldout-run-20261109目录不存在、无receipts或独立资格成绩，不汇总通过率。真实增量GET3/模型0/Live0；认证累计9/12、剩3由复核者决定，GET9/126；cumulative fullLive0/evaluationPublicGET9/realModelCalls849/environmentReruns0/googleRequests0/restaurantWebsiteRequests9，无正式目录绑定。间隔5.436/5.002秒。结果目录.eval-artifacts/phase3b/heldout-certification-second；仅清洗输出/派生摘要与文档提交main，不提交私有原文、清单、账本或凭据。停止等待复核，不动剩余认证额度。

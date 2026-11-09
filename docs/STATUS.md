@@ -1,3 +1,5 @@
+2026-11-09 CET — 选择功能已全门禁合入发布main9ac4d8f8；在该净树SHA用v2只补认证01/03/05共3GET：01 true/HTTP200，03与05 null/HTTP400。响应时段逐字JST原值，01正文清洗SAVED，另两份OMITTED保留状态/SHA，未查看原响应或重试。未满足三家全true条件，正式held-out未启动、无batch/receipts，模型/Live增量0；认证累计9/12、剩3等复核，GET9/126，cumulative模型849/Live0/环境0/Google0/餐厅请求9。首次完整SHA抄写错误被校验拒绝、零扣费，实际仅3GET，证据保留。源码未再修改，等待复核者换店。[结果](../.eval-artifacts/phase3b/heldout-certification-second/report.md)。
+
 2026-11-09 CET — --certify-only --cases源码d8d413a2净树全门禁PASS：默认1544、Chromium260+G6 83、strictG2全12及type/arch/build，写死扫描新增0，仅src/eval三文件。整份清单先校验、选中ID执行，未知/重复/空拒绝，原12/126与5秒间隔不变。按用户授权发布main后补认证01/03/05，三家全true才在同一净树SHA正式开跑；实现阶段真实调用0，v2只核SHA。来源时段JST原值，旧CET表为已更正历史，不修改原证据。[报告](../.eval-artifacts/phase3b/heldout-certification-selection-20261109/report.md)。
 
 2026-11-09 CET — draft / not integrated：--certify-only --cases选择候选，仅src/eval源码变化；完整清单先验证，所选ID未知/重复/空拒绝，按清单顺序只扣选中GET，原12/126与5秒规则不变。虚构5项与typecheck通过，待全门禁和main发布。用户纠正来源时段必须逐字JST，旧CET展示只作历史；后续只补认证01/03/05，三家全true才在同一净树SHA执行全清单，停批按原原因报告，只有体检失败恢复最多2次。私有v2仅核对SHA、不查看原文。[计划](../.eval-artifacts/phase3b/heldout-certification-selection-20261109/plan.md)。
