@@ -5973,3 +5973,5 @@ No transport behavior changed: local Origin match passes in all three modes; wir
 条款NO_PAGES定位到两次FACTS capturePagesOnly均COMPLETION_RESULT_BUSY/PENDING，采集在retainNativePage之前结束；保留非阻塞缺口，无产品/G1/Guard规则放宽。隐私路径省略决策messages正文、完整私有回合以哈希替换；三类公开来源录制清洗不变。GET体检额度用户在本聊天另批+18（108→126），模板未激活；模型上限2500，继承849。无源站/模型/Live调用，不合main、不推送，等复核。报告 `.eval-artifacts/phase3b/held-out-preparation-20261109/report.md`。
 
 离线自检另发现外层观察漏计：同URL先Node Fetch后原生script，真实本地源站2次而外层仅1次；旧去重改为待结算计数，红绿2/1→2/2，重用真实Chromium用例覆盖。Google请求如果完整包含私有回合文本，也只存哈希，公开响应仍保留；自有凭据检查仍整份拒绝，补默认回归。第一冻结14a75d6d全门禁通过但不作为最终签收，源码变动后另冻结并重跑全套；无外部调用。
+
+最终隐私范围补充：模型消息整体哈希，产品会话的用户原文遮盖但保留ASSISTANT声明/交付文案，避免独立审计丢证。回归验证原文不泄露且回答仍存在；原文承诺先验证成功才读运行JSON，同时记录承诺原段与填写后JSON两种用例哈希。明确其他实体指针会否决地址桥接，aria-busy表单不提供时段注释。源码改动后最终冻结重跑全矩阵，前两冻结日志独立保留。

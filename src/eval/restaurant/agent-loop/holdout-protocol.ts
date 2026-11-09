@@ -38,7 +38,7 @@ export function validatePrivateManifest(original:Uint8Array,commitment:HoldoutCo
   // A positive independent public witness is supplied by the reviewer, never
   // selected from a product result or silently changed after the run.
   if(c.witness.provider!=='TABELOG'||!/^https:\/\/tabelog\.com\/en\//u.test(c.witness.detailUrl)||!c.witness.identityText?.length)refuse('HOLDOUT_WITNESS_INVALID');
-  return {id:c.id,sha256:holdoutHash(JSON.stringify(c)),fillings:{...c.fillings}};
+  return {id:c.id,sha256:commitment.cases[i]!.sha256,runSHA256:holdoutHash(JSON.stringify(c)),fillings:{...c.fillings}};
  });
  return {manifest,audit:{schema:'phase3b-holdout-input-hashes@1',manifestSHA256:holdoutHash(manifestBytes),originalSHA256:holdoutHash(original),cases}};
 }
@@ -69,7 +69,7 @@ export function holdoutConditionMet(view:RestaurantCaseView,c:HoldoutCondition,a
 export function privateInputRedactor(texts:readonly string[]){
  const variants=[...new Set(texts.flatMap(t=>[t,JSON.stringify(t).slice(1,-1),encodeURIComponent(t)]))].filter(Boolean).sort((a,b)=>b.length-a.length);
  const visit=(value:unknown,key=''):unknown=>{
-  if(key==='messages')return {privateMessagesSHA256:holdoutHash(JSON.stringify(value))};
+  if(key==='messages'&&Array.isArray(value)&&value.length>0&&value.every(m=>m&&typeof m==='object'&&['system','user','assistant'].includes(m.role)))return {privateMessagesSHA256:holdoutHash(JSON.stringify(value))};
   if(typeof value==='string'){let s=value;for(const raw of variants)s=s.replaceAll(raw,'[PRIVATE_TURN_SHA256:'+holdoutHash(raw)+']');return s;}
   if(Array.isArray(value))return value.map(v=>visit(v));
   if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([k,v])=>[k,visit(v,k)]));

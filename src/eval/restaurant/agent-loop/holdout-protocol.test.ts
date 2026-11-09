@@ -13,14 +13,15 @@ const manifest:PrivateHoldoutManifest={schema:'phase3b-private-run-manifest@1',c
 const bytes=(v:unknown)=>Buffer.from(JSON.stringify(v));
 test('private manifest is verified against exact original, dates, turn substrings and ID order, with hash-only audit',()=>{
  const r=validatePrivateManifest(Buffer.from(original),commitment,bytes(manifest));assert.equal(r.manifest.cases[0]!.request,manifest.cases[0]!.request);
- const audit=JSON.stringify(r.audit);assert.ok(!audit.includes('Fiction Harbor'));assert.ok(audit.includes('2030-12-01'));assert.equal(r.audit.manifestSHA256,holdoutHash(bytes(manifest)));
+ const audit=JSON.stringify(r.audit);assert.ok(!audit.includes('Fiction Harbor'));assert.ok(audit.includes('2030-12-01'));assert.equal(r.audit.manifestSHA256,holdoutHash(bytes(manifest)));assert.equal(r.audit.cases[0]!.sha256,commitment.cases[0]!.sha256);assert.equal(r.audit.cases[0]!.runSHA256,holdoutHash(JSON.stringify(manifest.cases[0])));
  for(const change of ['ORIGINAL','ID','DATE','TURN','PLACEHOLDER']as const){const m=structuredClone(manifest),raw=change==='ORIGINAL'?original+'\n':original;
   if(change==='ID')m.cases[0]!.id='wrong';if(change==='DATE')m.cases[0]!.fillings['{DATE}']='2030-12-02';
   if(change==='TURN')m.cases[0]!.followups[0]!.text='Uncommitted new request';if(change==='PLACEHOLDER')m.cases[0]!.fillings={'{WRONG}':'2030-12-01'};
   assert.throws(()=>validatePrivateManifest(Buffer.from(raw),commitment,bytes(m)),/HOLDOUT_/);
  }
- const redact=privateInputRedactor([manifest.cases[0]!.request]);const output=JSON.stringify(redact({messages:[{content:'private request'}],request:manifest.cases[0]!.request,wrapped:JSON.stringify({request:manifest.cases[0]!.request})}));
+ const redact=privateInputRedactor([manifest.cases[0]!.request]);const output=JSON.stringify(redact({messages:[{role:'user',content:'private request'}],request:manifest.cases[0]!.request,wrapped:JSON.stringify({request:manifest.cases[0]!.request})}));
  assert.ok(!output.includes('Find Fiction Harbor'));assert.ok(!output.includes('private request'));assert.ok(output.includes('SHA256'));
+ const conversation=redact({messages:[{role:'USER',content:manifest.cases[0]!.request},{role:'ASSISTANT',content:'Public source result shown.'}]})as {messages:Array<{role:string;content:string}>};assert.ok(Array.isArray(conversation.messages));assert.equal(conversation.messages[1]!.content,'Public source result shown.');assert.ok(!conversation.messages[0]!.content.includes('Find Fiction Harbor'));
 });
 test('all four follow-up conditions use structured results, with both satisfied and unsatisfied controls',()=>{
  const view={case:{phase:'PRESENT_RESULTS'},restaurant:{presentedCandidateIds:['a'],missingRequiredFields:[],candidates:[{restaurant:{id:'a',sourceIds:{tablecheck:'local-merchant'}}}],availabilityChecks:{a:{status:'AVAILABLE'}},availability:{a:[{source:'TABLECHECK',dateTime:'2030-12-01T19:00:00',partySize:2}]}}}as unknown as RestaurantCaseView;

@@ -3,7 +3,7 @@ import {readFile} from 'node:fs/promises';
 import {resolve,relative} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {validatePrivateManifest,holdoutHash} from '../holdout-protocol.js';
-import type {HoldoutCommitment} from '../holdout-commitment.js';
+import {verifyHoldoutCommitment,type HoldoutCommitment} from '../holdout-commitment.js';
 import {runPrivateHoldout} from './holdout-runner.js';
 import {checkHoldoutNetwork} from './holdout-health.js';
 import {liveG6Dependencies,createG6LiveBrowser} from './live-transports.js';
@@ -12,9 +12,10 @@ export async function main(args:string[]){
  const flag=(name:string)=>{const i=args.indexOf(name);if(i<0||!args[i+1])throw Error('MISSING_ARGUMENT');return args[i+1]!;};
  const originalPath=resolve(flag('--original')),manifestPath=resolve(flag('--manifest'));
  for(const path of [originalPath,manifestPath]){const r=relative(process.cwd(),path);if(!r.startsWith('..'))throw Error('PRIVATE_INPUT_MUST_STAY_OUTSIDE_REPOSITORY');}
- const original=await readFile(originalPath),manifestBytes=await readFile(manifestPath);
- if(holdoutHash(manifestBytes)!==flag('--manifest-sha256'))throw Error('HOLDOUT_MANIFEST_SHA_MISMATCH');
  const commitment=JSON.parse(await readFile(new URL('../../../../../.eval-artifacts/phase3b-holdout/commitment.json',import.meta.url),'utf8'))as HoldoutCommitment;
+ const original=await readFile(originalPath);verifyHoldoutCommitment(original,commitment);
+ const manifestBytes=await readFile(manifestPath);
+ if(holdoutHash(manifestBytes)!==flag('--manifest-sha256'))throw Error('HOLDOUT_MANIFEST_SHA_MISMATCH');
  const checked=validatePrivateManifest(original,commitment,manifestBytes);
  if(args.includes('--validate-only')){console.log(JSON.stringify(checked.audit));return;}
  if(process.env.PRAXIS_RUN_HOLDOUT_LIVE!=='1'||!process.execArgv.some(a=>a.startsWith('--env-file')))throw Error('HELDOUT_AUTHORIZATION_AND_ENV_FILE_REQUIRED');

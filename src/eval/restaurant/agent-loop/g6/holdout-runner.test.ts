@@ -28,6 +28,7 @@ test('fictional held-out schedule runs three real Live-assembly fixture slots wi
    const slot=join(dir,'runs',`fictional-assembly-r${n}`,`fictional-assembly-r${n}`),run=JSON.parse(await readFile(join(slot,'execution.result.json'),'utf8'));
    assert.deepEqual(run.turns.map((t:{status:string})=>t.status),['SENT','NOT_SENT']);
    assert.equal(run.view.restaurant.pageQuestion.result.status,'ANSWERED');
+   assert.ok(Array.isArray(run.view.conversation.messages),'Product conversation remains auditable');assert.ok(run.view.conversation.messages.some((m:{role:string})=>m.role==='ASSISTANT'));
    const rows=(await readFile(join(slot,'execution.decisions.jsonl'),'utf8')).trim().split('\n').map(l=>JSON.parse(l));
    assert.ok(rows.length>0);assert.ok(rows.every(r=>r.messages?.privateMessagesSHA256));
    const walk=async(path:string):Promise<void>=>{for(const e of await readdir(path,{withFileTypes:true})){const p=join(path,e.name);if(e.isDirectory())await walk(p);else if(!e.name.endsWith('.png')){

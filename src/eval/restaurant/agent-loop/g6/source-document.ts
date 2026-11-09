@@ -27,6 +27,7 @@ export function civicAddress(value:string){
 }
 export function sameCivicAddress(a:string,b:string){const x=civicAddress(a),y=civicAddress(b);return Boolean(x.street&&x.street===y.street&&JSON.stringify(x.floors)===JSON.stringify(y.floors));}
 export function sourceAddressMatches(identity:IndependentSourceIdentity,address:string,pointer?:string){
+ const reference=pointer&&sourceEntity(pointer);if(reference&&(reference.provider!==identity.provider||reference.id!==identity.sourceEntityId))return false;
  if(norm(identity.address)===norm(address)||identity.postalCode&&[identity.postalCode+' '+identity.address,identity.address+' '+identity.postalCode].some(a=>norm(a)===norm(address)))return true;
  if(!sameCivicAddress(identity.address,address))return false;
  const words=[identity.region,identity.locality?.split(/[-\s]/u)[0]].filter((s):s is string=>Boolean(s&&/[a-z]{3}/iu.test(s)));
@@ -69,7 +70,7 @@ export function readIndependentSource(page:Pick<BrowserSnapshot,'url'|'html'|'vi
  const widgets:Array<Aggregate>=[];
  const scan=(n:Node,hidden=false,disabled=false):Aggregate=>{
   hidden ||=attr(n,'hidden')!==undefined||attr(n,'aria-hidden')==='true'||/(?:display\s*:\s*none|visibility\s*:\s*hidden)/iu.test(attr(n,'style')??'')||isElement(n)&&['script','style','template','noscript'].includes(n.tagName);
-  disabled ||=attr(n,'disabled')!==undefined||attr(n,'aria-disabled')==='true'||attr(n,'data-is-disabled')==='true'||attr(n,'data-disabled')==='true';
+  disabled ||=attr(n,'aria-busy')==='true'||attr(n,'disabled')!==undefined||attr(n,'aria-disabled')==='true'||attr(n,'data-is-disabled')==='true'||attr(n,'data-disabled')==='true';
   const result:Aggregate={dates:new Set(),parties:new Set(),slots:new Set(),size:1};if(hidden)return result;
   const date=attr(n,'data-date');if(date&&/^\d{4}-\d{2}-\d{2}$/u.test(date)&&attr(n,'aria-selected')==='true')result.dates.add(date);
   if(isElement(n)&&!disabled){

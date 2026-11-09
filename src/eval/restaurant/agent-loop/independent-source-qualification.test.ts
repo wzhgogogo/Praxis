@@ -46,6 +46,8 @@ test('independent DOM parser rejects disabled/hidden slots, conflicting identiti
  assert.equal(readIndependentSource({...page,html:script([identity,{...identity,address:'9-9-9 Wrong'}])+widget}).identity,undefined);
  assert.equal(readIndependentSource({...page,html:script(identity)+widget.replace('>19:00',' disabled>19:00')}).widget,undefined);
  assert.equal(readIndependentSource({...page,html:script(identity)+widget.replace('<form>','<section>').replace('</form>','</section>')}).widget,undefined,'Unrelated page controls cannot form a booking scope');
+ assert.equal(readIndependentSource({...page,html:script(identity)+widget.replace('<form>','<form aria-busy="true">')}).widget,undefined);
+ assert.equal(sourceAddressMatches(r.identity!,r.identity!.address,url+'-other'),false,'Explicit other-outlet pointer vetoes an otherwise equal address');
  assert.equal(sourceAddressMatches(r.identity!,'9-2-3 Fiction B1 Tokyo Local'),false);
  assert.equal(sourceAddressMatches(r.identity!,'1-2-3 Fiction F1 Tokyo Local'),false);
  assert.equal(sourceAddressMatches(r.identity!,'1000000 1-2-3 Fiction B1 Local-ku Tokyo 1000000'),true);
