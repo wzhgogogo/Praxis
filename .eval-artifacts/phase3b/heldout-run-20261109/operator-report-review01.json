@@ -1,0 +1,287 @@
+{
+  "sourceSHA": "4256303de2cf8cf1921420e3318db5ce443d3c6d",
+  "manifestSHA256": "2a91aef4ba68520f0b66b56c288ada0751b3f4180d30b20977b0446e40e794cf",
+  "stopReason": "NETWORK_HEALTH_FAILED",
+  "batchSHA256": "a46deed4aa8e9f50d3b8e61ce4c405aec2ab6b88bc10aeab1303c059a47a2573",
+  "review": {
+    "key": "p3b-holdout-01-r3",
+    "fileSHA256": "df3f0bd30c181ee86e04277983811545fa9639130ebab5856f7209226ce2d27e",
+    "originalEvaluationSHA256": "508c1420279c76dbfd665d6fe50717a9f26b01ac5f4ec5e991de77e7bc6e6d25",
+    "supplementEvaluationSHA256": "25a677b499948daab9b9055abc5487eed7f55f30bc83e2e23f4b68c4d2fce90a",
+    "verdict": {
+      "status": "EVALUATED",
+      "qualified": true,
+      "outcome": "QUALIFIED_DELIVERY",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    }
+  },
+  "receipts": [
+    {
+      "key": "p3b-holdout-01-r1",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "evaluationFile": null,
+      "verdict": null,
+      "certificationMode": null,
+      "witnessExists": null,
+      "elapsedMs": null,
+      "modelCalls": 0,
+      "health": {
+        "passed": false,
+        "observations": [
+          {
+            "source": "tablecheck",
+            "round": 1,
+            "complete": false,
+            "elapsedMs": 10001.532291
+          }
+        ]
+      }
+    },
+    {
+      "key": "p3b-holdout-01-r1-retry1",
+      "status": "EVALUATED",
+      "evaluationFile": "p3b-holdout-01-r1-retry1/p3b-holdout-01-r1-retry1/evaluation.json",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": false,
+        "outcome": "CAPABILITY_MISS",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "elapsedMs": 235962.01025,
+      "modelCalls": 47,
+      "health": {
+        "passed": true,
+        "observations": [
+          {
+            "source": "tablecheck",
+            "round": 1,
+            "complete": true,
+            "elapsedMs": 5990.225834,
+            "status": 200,
+            "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+          },
+          {
+            "source": "tabelog",
+            "round": 1,
+            "complete": true,
+            "elapsedMs": 5585.398333,
+            "status": 200,
+            "responseSHA256": "1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+          },
+          {
+            "source": "tablecheck",
+            "round": 2,
+            "complete": true,
+            "elapsedMs": 3502.8234169999996,
+            "status": 200,
+            "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+          },
+          {
+            "source": "tabelog",
+            "round": 2,
+            "complete": true,
+            "elapsedMs": 3732.199833999999,
+            "status": 200,
+            "responseSHA256": "1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+          }
+        ]
+      }
+    },
+    {
+      "key": "p3b-holdout-01-r2",
+      "status": "EVALUATED",
+      "evaluationFile": "p3b-holdout-01-r2/p3b-holdout-01-r2/evaluation.json",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": false,
+        "outcome": "CAPABILITY_MISS",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "elapsedMs": 212053.33391700004,
+      "modelCalls": 47,
+      "health": null
+    },
+    {
+      "key": "p3b-holdout-01-r3",
+      "status": "EVALUATED_BY_REVIEW",
+      "evaluationFile": "p3b-holdout-01-r3/p3b-holdout-01-r3/evaluation.supplement.json",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": true,
+        "outcome": "QUALIFIED_DELIVERY",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "elapsedMs": 252486.913833,
+      "modelCalls": 56,
+      "health": null
+    },
+    {
+      "key": "p3b-holdout-02-r1",
+      "status": "EVALUATED",
+      "evaluationFile": "p3b-holdout-02-r1/p3b-holdout-02-r1/evaluation.json",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": false,
+        "outcome": "CAPABILITY_MISS",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "elapsedMs": 233694.798584,
+      "modelCalls": 47,
+      "health": {
+        "passed": true,
+        "observations": [
+          {
+            "source": "tablecheck",
+            "round": 1,
+            "complete": true,
+            "elapsedMs": 3183.7778749999998,
+            "status": 200,
+            "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+          },
+          {
+            "source": "tabelog",
+            "round": 1,
+            "complete": true,
+            "elapsedMs": 7153.513125,
+            "status": 200,
+            "responseSHA256": "1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+          },
+          {
+            "source": "tablecheck",
+            "round": 2,
+            "complete": true,
+            "elapsedMs": 3623.3667079999996,
+            "status": 200,
+            "responseSHA256": "dc365d0a8ab3eb9f890ef935b719fa418aae859146424c5869ff3879f95b3abb"
+          },
+          {
+            "source": "tabelog",
+            "round": 2,
+            "complete": true,
+            "elapsedMs": 4777.98475,
+            "status": 200,
+            "responseSHA256": "1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+          }
+        ]
+      }
+    },
+    {
+      "key": "p3b-holdout-02-r2",
+      "status": "EVALUATED",
+      "evaluationFile": "p3b-holdout-02-r2/p3b-holdout-02-r2/evaluation.json",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": false,
+        "outcome": "CAPABILITY_MISS",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "elapsedMs": 188130.516375,
+      "modelCalls": 47,
+      "health": null
+    },
+    {
+      "key": "p3b-holdout-02-r3",
+      "status": "EVALUATED",
+      "evaluationFile": "p3b-holdout-02-r3/p3b-holdout-02-r3/evaluation.json",
+      "verdict": {
+        "status": "EVALUATED",
+        "qualified": false,
+        "outcome": "CAPABILITY_MISS",
+        "s0": 0,
+        "s0Status": "PASS",
+        "stopBatch": false
+      },
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "elapsedMs": 210655.36679099995,
+      "modelCalls": 47,
+      "health": null
+    },
+    {
+      "key": "p3b-holdout-03-r1",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "evaluationFile": null,
+      "verdict": null,
+      "certificationMode": null,
+      "witnessExists": null,
+      "elapsedMs": null,
+      "modelCalls": 0,
+      "health": {
+        "passed": false,
+        "observations": [
+          {
+            "source": "tablecheck",
+            "round": 1,
+            "complete": false,
+            "elapsedMs": 10000.48904200003
+          }
+        ]
+      }
+    },
+    {
+      "key": "p3b-holdout-03-r1-retry1",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "evaluationFile": null,
+      "verdict": null,
+      "certificationMode": null,
+      "witnessExists": null,
+      "elapsedMs": null,
+      "modelCalls": 0,
+      "health": {
+        "passed": false,
+        "observations": [
+          {
+            "source": "tablecheck",
+            "round": 1,
+            "complete": false,
+            "elapsedMs": 10002.708874999998
+          }
+        ]
+      }
+    }
+  ],
+  "healthResumesUsedTotal": 2,
+  "healthResumesRemaining": 0,
+  "liveAddedThisContinuation": 3,
+  "modelCallsAddedThisContinuation": 141,
+  "GETsAddedThisContinuation": 12,
+  "cumulative": {
+    "fullLive": 6,
+    "evaluationPublicGET": 33,
+    "realModelCalls": 1140,
+    "environmentReruns": 0,
+    "googleRequests": 15,
+    "restaurantWebsiteRequests": 1460
+  },
+  "limits": {
+    "fullLive": 22,
+    "evaluationPublicGET": 126,
+    "realModelCalls": 2500,
+    "environmentReruns": 4
+  },
+  "passRateCalculated": false,
+  "originalWorkspaceModified": false,
+  "reportWrittenOnlyInEvidenceWorktree": true
+}

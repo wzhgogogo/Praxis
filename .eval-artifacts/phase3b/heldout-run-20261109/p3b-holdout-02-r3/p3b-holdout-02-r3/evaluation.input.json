@@ -1,0 +1,3241 @@
+{
+  "runId": "g6-p3b-holdout-02-r3-1794221733339-0",
+  "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+  "mode": "LIVE_READ",
+  "artifactRefs": [
+    "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-02-r3/p3b-holdout-02-r3/execution.result.json"
+  ],
+  "request": {
+    "dates": [
+      "2026-11-19"
+    ],
+    "partySize": 6,
+    "meal": "DINNER",
+    "requiresIndependentQualification": true
+  },
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "[PRIVATE_TURN_SHA256:46049a7eddd83d26cdc7fff582727bf5729aac25e96be22bc1bdf15428d1b1d1]",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+                "outletName": "Nakano Robata Sumika",
+                "sourceIds": {
+                  "phone": "03-4400-3404",
+                  "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                  "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−55−６ 1FA"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+                "outletName": "Okajoki",
+                "sourceIds": {
+                  "phone": "03-3228-1230",
+                  "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                  "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-59-3 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+                "outletName": "中野製作所 まんてん別館",
+                "sourceIds": {
+                  "phone": "03-5942-6711",
+                  "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                  "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒164-0001 Tokyo, Nakano City, Nakano, 5-chōme−48−５ 相互アパート 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+                "outletName": "Guttsu",
+                "sourceIds": {
+                  "phone": "03-5318-2538",
+                  "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                  "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "5-chōme-32-17 Nakano, Nakano City, Tokyo 164-0001, Japan"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:8e3a09511d095d01aa3a3746",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b306abb541c5b3e9d61e122d",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131902/13309182",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:968f9148-2946-4e7f-a16a-12a5a8d04628",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:f288bbee-cd93-4e58-876b-95e55177b431",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:a4cb1969-d001-4669-bf3e-35d4034f1fa0",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:fecff043-450f-478c-a5d1-79f093c5f01d",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:50876d79-b6e9-4138-b03c-f6b03416a101",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_END_WINDOW_OPENED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:f140e291-1258-46a2-a10e-b4495a794573",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_ENDED_NO_VERIFIED_RESULT"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "delivered": [],
+  "handoffs": [],
+  "answers": [],
+  "pages": [],
+  "qualificationClaims": [],
+  "vacancy": [
+    {
+      "ref": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-02-r3/p3b-holdout-02-r3/witness/001-vacancy.body",
+      "phase": "BEFORE",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13287727&svd=20261119&svps=6&svt=1900",
+      "candidateId": "witness-02",
+      "body": {
+        "selection": {
+          "0": {
+            "time": "17:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1700"
+          },
+          "1": {
+            "time": "17:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1715"
+          },
+          "2": {
+            "time": "17:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1730"
+          },
+          "3": {
+            "time": "17:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1745"
+          },
+          "4": {
+            "time": "18:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1800"
+          },
+          "5": {
+            "time": "18:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1815"
+          },
+          "6": {
+            "time": "18:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1830"
+          },
+          "7": {
+            "time": "18:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1845"
+          },
+          "8": {
+            "time": "19:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1900"
+          },
+          "9": {
+            "time": "19:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1915"
+          },
+          "10": {
+            "time": "19:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1930"
+          },
+          "11": {
+            "time": "19:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1945"
+          },
+          "12": {
+            "time": "20:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2000"
+          },
+          "13": {
+            "time": "20:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2015"
+          },
+          "14": {
+            "time": "20:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2030"
+          },
+          "15": {
+            "time": "20:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2045"
+          },
+          "16": {
+            "time": "21:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2100"
+          },
+          "17": {
+            "time": "21:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2115"
+          },
+          "18": {
+            "time": "21:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2130"
+          },
+          "19": {
+            "time": "21:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2145"
+          },
+          "20": {
+            "time": "22:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2200"
+          }
+        },
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 19,
+          "dow": "Thu"
+        },
+        "members": 6,
+        "time": "19:00"
+      }
+    },
+    {
+      "ref": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-02-r3/p3b-holdout-02-r3/witness/002-vacancy.body",
+      "phase": "NO_DELIVERY_AFTER",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13287727&svd=20261119&svps=6&svt=1900",
+      "candidateId": "witness-02",
+      "body": {
+        "selection": {
+          "0": {
+            "time": "17:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1700"
+          },
+          "1": {
+            "time": "17:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1715"
+          },
+          "2": {
+            "time": "17:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1730"
+          },
+          "3": {
+            "time": "17:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1745"
+          },
+          "4": {
+            "time": "18:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1800"
+          },
+          "5": {
+            "time": "18:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1815"
+          },
+          "6": {
+            "time": "18:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1830"
+          },
+          "7": {
+            "time": "18:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1845"
+          },
+          "8": {
+            "time": "19:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1900"
+          },
+          "9": {
+            "time": "19:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1915"
+          },
+          "10": {
+            "time": "19:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1930"
+          },
+          "11": {
+            "time": "19:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=1945"
+          },
+          "12": {
+            "time": "20:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2000"
+          },
+          "13": {
+            "time": "20:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2015"
+          },
+          "14": {
+            "time": "20:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2030"
+          },
+          "15": {
+            "time": "20:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2045"
+          },
+          "16": {
+            "time": "21:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2100"
+          },
+          "17": {
+            "time": "21:15",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2115"
+          },
+          "18": {
+            "time": "21:30",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2130"
+          },
+          "19": {
+            "time": "21:45",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2145"
+          },
+          "20": {
+            "time": "22:00",
+            "url": "/en/booking/form_course/new?member=6&rcd=13287727&visit_date=20261119&visit_time=2200"
+          }
+        },
+        "base_date": {
+          "year": 2026,
+          "month": 11,
+          "day": 19,
+          "dow": "Thu"
+        },
+        "members": 6,
+        "time": "19:00"
+      }
+    }
+  ],
+  "requests": [
+    {
+      "ref": "g6-node:2",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:3",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:5",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:4",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:6",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:8",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:7",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:9",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:12",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:10",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:13",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:31",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:11",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:43",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:45",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:47",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:50",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:52",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:54",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:51",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:53",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:56",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:57",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:55",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:60",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:65",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:58",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:61",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:59",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:72",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:73",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:74",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:75",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:76",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:80",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:77",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:78",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:79",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:83",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:84",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:81",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:82",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-native:89",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:118",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:123",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:124",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:125",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:128",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:126",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:127",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:130",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:133",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:131",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:129",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:134",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:132",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-native:139",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:171",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:176",
+      "url": "https://tabelog.com/en/tokyo/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:177",
+      "url": "https://tabelog.com/en/tokyo/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:178",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:179",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:180",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:182",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:183",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:181",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:184",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:188",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:185",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:187",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:193",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:186",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:227",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:229",
+      "url": "https://tabelog.com/en/tokyo/A1319/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:230",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:231",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:232",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:234",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:235",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:236",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:233",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:240",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:237",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:239",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:238",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-native:245",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:274",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:279",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:280",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:281",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:284",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:283",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:282",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:286",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:285",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:287",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:289",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:290",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:288",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-native:295",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:323",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:327",
+      "url": "https://tabelog.com/en/search_form",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "use_es6",
+        "trailing_slash",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "source_controller",
+        "source_action"
+      ]
+    },
+    {
+      "ref": "g6-node:334",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:339",
+      "url": "https://www.tablecheck.com/portal/assets/index-Cb92phg4.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:337",
+      "url": "https://www.tablecheck.com/portal/assets/react-sySUN5R7.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:338",
+      "url": "https://www.tablecheck.com/portal/assets/dist-f_J5W_KP.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:335",
+      "url": "https://cdn0.tablecheck.com/common/css/tablekit-font-faces.v1.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:336",
+      "url": "https://www.tablecheck.com/portal/assets/index-CKtOCJ3M.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:357",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:358",
+      "url": "https://production.tablecheck.com/v2/geolocation",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:359",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:360",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:364",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-native:367",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:368",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ]
+    },
+    {
+      "ref": "g6-node:369",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:371",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:372",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:374",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:375",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:462",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-native:463",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:464",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-node:465",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:468",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-native:469",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:470",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-node:471",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:498",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:504",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id"
+      ]
+    },
+    {
+      "ref": "g6-node:508",
+      "url": "https://www.tablecheck.com/en/japan/search",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:513",
+      "url": "https://www.tablecheck.com/portal/assets/index-Cb92phg4.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:511",
+      "url": "https://www.tablecheck.com/portal/assets/react-sySUN5R7.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:512",
+      "url": "https://www.tablecheck.com/portal/assets/dist-f_J5W_KP.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:509",
+      "url": "https://cdn0.tablecheck.com/common/css/tablekit-font-faces.v1.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:510",
+      "url": "https://www.tablecheck.com/portal/assets/index-CKtOCJ3M.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:531",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/catalog.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:532",
+      "url": "https://production.tablecheck.com/v2/geolocation",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:533",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.json",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-node:534",
+      "url": "https://cdn0.tablecheck.com/common/images/apps/din/map/sprites/light.png",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:538",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-native:541",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:542",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits",
+        "offset"
+      ]
+    },
+    {
+      "ref": "g6-node:543",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:545",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:546",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "open_day",
+        "party_size",
+        "cuisine",
+        "service_mode",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:548",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:549",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:635",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-native:636",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:637",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-node:638",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "country",
+        "kind",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:639",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-native:642",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:643",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-node:644",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:699",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-native:702",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:703",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "q",
+        "country",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-node:704",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "name",
+        "destination",
+        "hits"
+      ]
+    },
+    {
+      "ref": "g6-native:719",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "OPTIONS",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id"
+      ],
+      "preflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "method": "GET",
+        "headerNames": [
+          "x-api-key"
+        ],
+        "bodyBytes": 0
+      }
+    },
+    {
+      "ref": "g6-node:725",
+      "url": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net/search/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "queryProfile",
+        "id"
+      ]
+    },
+    {
+      "ref": "g6-node:729",
+      "url": "https://tabelog.com/en/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:730",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:731",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:732",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:733",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:736",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:734",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:735",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:739",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7112157367e35c5c7b56bfaa5df995e1793df7563743eea89999e1192168a075"
+      ]
+    },
+    {
+      "ref": "g6-native:740",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_top/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-116ac515329c7247b66105a2f34f40c19ace124d08b6bc93ebee97a961a2040f"
+      ]
+    },
+    {
+      "ref": "g6-native:737",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:758",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-native:738",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-node:770",
+      "url": "https://tabelog.com/en/suggest/keyword_suggest",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "keyword"
+      ]
+    },
+    {
+      "ref": "g6-node:773",
+      "url": "https://tabelog.com/en/rstLst/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "utf8",
+        "pal",
+        "LstPrf",
+        "LstAre",
+        "station_id",
+        "area_datatype",
+        "area_id",
+        "genre_name",
+        "sw",
+        "search_mode"
+      ]
+    },
+    {
+      "ref": "g6-native:774",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:775",
+      "url": "https://tblg.k-img.com/stylesheets/inbound/desktop/object.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-7d826142ecde9ac774d5131d7ee6762b36684b1b48d2d1b00af8bb6f3efa7d98"
+      ]
+    },
+    {
+      "ref": "g6-native:776",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/list/list_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-9902ffa7f36079a6e2d5e5ade15816a9ac61d671bb16e38ad3ed780c1d840a85"
+      ]
+    },
+    {
+      "ref": "g6-native:778",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:777",
+      "url": "https://tblg.k-img.com/stylesheets/css/restaurant/desktop/list/list_common_noscript.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f023e4d3b009df7585fe9d9cd876558abd98602594a2a231066e63fdd03f10d7"
+      ]
+    },
+    {
+      "ref": "g6-native:780",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:779",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:784",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_list/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-d35e14d692854e7d94b616abdafd8e6975614e98c270a169975a827d597ab14e"
+      ]
+    },
+    {
+      "ref": "g6-native:783",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound_restaurant_list.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-12f466f85ddb973727bbe12260ce8e9db028d07e6ecf95bb27b3853cb9c44bd2"
+      ]
+    },
+    {
+      "ref": "g6-native:781",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:782",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-native:789",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:797",
+      "url": "https://tabelog.com/contents/reserve_date_status_list",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id_list[]",
+        "inbound_flag"
+      ]
+    },
+    {
+      "ref": "g6-node:802",
+      "url": "https://tabelog.com/en/tokyo/A1319/A131902/13309182/",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": []
+    },
+    {
+      "ref": "g6-native:804",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_calendar.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-49303cb3275832d9df95353fda32b8e0b4c90a66edff7a284ff5304f3705d468"
+      ]
+    },
+    {
+      "ref": "g6-native:803",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/application.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-86cebb7e3b9fb564dbb294f2f68e9421e64453e28f8afd11f00b2adfaa402df0"
+      ]
+    },
+    {
+      "ref": "g6-native:806",
+      "url": "https://tblg.k-img.com/stylesheets/lib/colorbox.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f4cec0ed48e7e3432e067401c68ea1a23d8b239c132f3ab90e4e940e24efb1ee"
+      ]
+    },
+    {
+      "ref": "g6-native:805",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery-ui-1.12.1.smoothness.custom.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-c5c60f20207a5470c978a2855615ae604b3b20f88b7a4841de1711c46339e78d"
+      ]
+    },
+    {
+      "ref": "g6-native:807",
+      "url": "https://tblg.k-img.com/stylesheets/lib/jquery.mCustomScrollbar-3.1.5.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e92d6afe5992a919cd673773f06f980339b555174cf0d205d80fe181bd4be6ce"
+      ]
+    },
+    {
+      "ref": "g6-native:808",
+      "url": "https://tblg.k-img.com/stylesheets/lib/swiper.min.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f07d43571a20235b2506061c9729d91179d32b8b3c75123aa8fcd45e60d7541"
+      ]
+    },
+    {
+      "ref": "g6-native:815",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_top.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-18d8594190e8670ef056e95043ec163ab1a3f3fb9e2448825d14625cd6a1d861"
+      ]
+    },
+    {
+      "ref": "g6-native:813",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/index.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-8971468bb93b1f9b696d439be9f8a927d1693b8a195125ba8fd9cd44fd0593f9"
+      ]
+    },
+    {
+      "ref": "g6-native:814",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/rstdtl/rstdtl_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-342225b5f1794d1977901dada1c4380cf27317327eb9300e4d30f5a0f0e74979"
+      ]
+    },
+    {
+      "ref": "g6-native:816",
+      "url": "https://tblg.k-img.com/stylesheets/css/inbound/desktop/booking/booking_common.css",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-e76c553b7a2dc206324fa9bacad16d3fa141e80968988fbf7384088b73b5808d"
+      ]
+    },
+    {
+      "ref": "g6-native:809",
+      "url": "https://tblg.k-img.com/javascripts/assets/sentry_initializer.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-219749f56d338b94281d59057b1da8b315e6868922ca5bf0f683b306baa04cc0"
+      ]
+    },
+    {
+      "ref": "g6-native:817",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/rst/inbound/inbound_restaurant_detail/top.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-f07e60cc5749e40ed464c969cd23184387e6957ebd1a7be24677615438ce0e33"
+      ]
+    },
+    {
+      "ref": "g6-native:811",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery-3.4.1.min.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+      ]
+    },
+    {
+      "ref": "g6-native:812",
+      "url": "https://tblg.k-img.com/javascripts/lib/jquery_ujs-3.4.1.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5df057aa313b547fea43e52ef641a01a3421e8780749985498e0c9314cb56740"
+      ]
+    },
+    {
+      "ref": "g6-native:810",
+      "url": "https://tblg.k-img.com/javascripts/assets/pepper/restaurant-pc/commons.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-1231a1f1f62fd0a43694f70383a4d5b5ae51b4a20d9c2629cc596ab023e9c892"
+      ]
+    },
+    {
+      "ref": "g6-native:876",
+      "url": "https://tblg.k-img.com/javascripts/s_code.js",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst-v1-202611091815-5f98cbc49e82af7712fe6266c7ead785b20676e5406c2920c67a39f9a1220acf"
+      ]
+    },
+    {
+      "ref": "g6-node:890",
+      "url": "https://tabelog.com/internal_api/restaurant_tel_call_available",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id"
+      ]
+    },
+    {
+      "ref": "g6-node:892",
+      "url": "https://tabelog.com/en/booking/calendar/initial_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:896",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy_member_by_date",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd"
+      ]
+    },
+    {
+      "ref": "g6-node:897",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "exclude_unavailable_time"
+      ]
+    },
+    {
+      "ref": "g6-node:901",
+      "url": "https://tabelog.com/en/booking/calendar/find_vacancy",
+      "method": "GET",
+      "reachedSource": true,
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "exclude_unavailable_time"
+      ]
+    }
+  ],
+  "reviewedReadRules": [
+    {
+      "ref": "independent-approved-literal-0",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/catalog.json",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-1",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "queryProfile",
+        "hits",
+        "scope",
+        "lat",
+        "lng",
+        "radius_km",
+        "party_size",
+        "cuisine",
+        "sort",
+        "offset",
+        "id",
+        "open_day",
+        "service_mode"
+      ],
+      "requiredQueryKeys": [
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-2",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-3",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "kind",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-4",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "country",
+        "hits",
+        "q",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-5",
+      "origin": "https://search-v4.production.ap-northeast-1.aws.tablecheck.net",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "requiredQueryKeys": [
+        "destination",
+        "hits",
+        "name",
+        "queryProfile"
+      ],
+      "pathname": "/search/",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-6",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "POST"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/v2/hub/availability_calendar_v2",
+      "bodyFields": {
+        "locale": "string",
+        "start_at": "string",
+        "shop_id": "string",
+        "num_people": "string"
+      },
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "content-type"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-7",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "sw",
+        "vac_net",
+        "svd",
+        "svt",
+        "svps"
+      ],
+      "requiredQueryKeys": [],
+      "pathnamePattern": "^/en/tokyo/.*$"
+    },
+    {
+      "ref": "independent-approved-literal-8",
+      "origin": "https://www.tablecheck.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "search_text",
+        "date",
+        "time",
+        "num_people",
+        "availability_mode"
+      ],
+      "requiredQueryKeys": [
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate"
+      ],
+      "pathname": "/en/japan/search"
+    },
+    {
+      "ref": "independent-approved-literal-9",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathname": "/v2/geolocation",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-10",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "locale",
+        "shop_universe_id",
+        "text"
+      ],
+      "requiredQueryKeys": [
+        "locale",
+        "shop_universe_id",
+        "text"
+      ],
+      "pathname": "/v2/autocomplete",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-11",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "limit",
+        "sort_by",
+        "shop_ids[]"
+      ],
+      "requiredQueryKeys": [
+        "limit",
+        "sort_by"
+      ],
+      "pathname": "/v2/hub/public_shop_lists",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-12",
+      "origin": "https://search-api.ai.ingress.production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "shop_universe_id",
+        "include_ids",
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "requiredQueryKeys": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "pathname": "/ai_search",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-13",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "shop_universe_id",
+        "include_ids",
+        "service_mode",
+        "sort_by",
+        "venue_type",
+        "search_text",
+        "geo_latitude",
+        "geo_longitude",
+        "geo_distance",
+        "auto_geolocate",
+        "cuisines[]",
+        "budget_dinner_avg_min",
+        "budget_dinner_avg_max",
+        "search_after",
+        "per_page",
+        "randomize_geo"
+      ],
+      "requiredQueryKeys": [
+        "shop_universe_id",
+        "include_ids"
+      ],
+      "pathname": "/v2/shop_search",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-14",
+      "origin": "https://cdn0.tablecheck.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [],
+      "requiredQueryKeys": [],
+      "pathnamePattern": "^/common/.*$",
+      "corsPreflight": {
+        "requestOrigin": "https://www.tablecheck.com",
+        "requestedHeaderNames": [
+          "x-api-key"
+        ]
+      }
+    },
+    {
+      "ref": "independent-approved-literal-15",
+      "origin": "https://production.tablecheck.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "locale"
+      ],
+      "requiredQueryKeys": [
+        "locale"
+      ],
+      "pathnamePattern": "^/v2/shops/(?![0-9-]{10,}$)(?!(?:login|signin|sign-in|account|checkout|payment|purchase|cancel|delete|confirm|booking|reserve|form|submit)$)[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    {
+      "ref": "independent-approved-literal-16",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ],
+      "requiredQueryKeys": [
+        "rst_id"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/initial_vacancy/?$"
+    },
+    {
+      "ref": "independent-approved-literal-17",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "plan_id",
+        "seat_only"
+      ],
+      "requiredQueryKeys": [
+        "rst_id"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy_date_with_status/?$"
+    },
+    {
+      "ref": "independent-approved-literal-18",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "plan_id",
+        "seat_only"
+      ],
+      "requiredQueryKeys": [
+        "rst_id",
+        "svd"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy_member_by_date/?$"
+    },
+    {
+      "ref": "independent-approved-literal-19",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET"
+      ],
+      "queryKeys": [
+        "rst_id",
+        "svd",
+        "svps",
+        "svt",
+        "plan_id",
+        "seat_only",
+        "exclude_unavailable_time"
+      ],
+      "requiredQueryKeys": [
+        "rst_id",
+        "svd",
+        "svps"
+      ],
+      "pathnamePattern": "^/en/booking/calendar/find_vacancy/?$"
+    },
+    {
+      "ref": "independent-approved-literal-20",
+      "origin": "https://tabelog.com",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "queryKeys": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "requiredQueryKeys": [
+        "inbound_flag",
+        "rst_id_list[]"
+      ],
+      "pathname": "/contents/reserve_date_status_list"
+    }
+  ],
+  "witnesses": [
+    {
+      "candidateId": "witness-02",
+      "name": "炉端居酒屋 中野製作所 まんてん別館",
+      "provider": "TABELOG",
+      "sourceEntityId": "13287727",
+      "date": "2026-11-19",
+      "time": "19:00",
+      "partySize": 6,
+      "detailUrl": "https://tabelog.com/en/tokyo/A1319/A131902/13287727/",
+      "identityText": [
+        "中野製作所"
+      ],
+      "address": "東京都中野区中野5-48-5 相互アパート 1F"
+    }
+  ],
+  "boundedNoResult": true,
+  "deadline": {
+    "elapsedMs": 210655.36679099995,
+    "turns": [
+      {
+        "id": "INITIAL",
+        "startedAtMs": 1794221734618,
+        "deadlineAtMs": 1794222234618,
+        "elapsedMs": 210142.58212500002,
+        "modelCalls": 47,
+        "googleRequests": 2,
+        "exceeded500Seconds": false
+      }
+    ],
+    "readStartsInReserve": 0,
+    "termsStartsInReserve": 0
+  },
+  "priceClaims": [],
+  "softClaims": []
+}
