@@ -1,0 +1,28 @@
+{
+  "observedAt": "2026-11-09T02:05:09.263Z",
+  "browserProxy": "http://127.0.0.1:10808",
+  "browserDirectHosts": "localhost,127.0.0.1",
+  "googleProxy": "http://127.0.0.1:10808",
+  "deepseekProxyConfigured": false,
+  "nodeUseEnvProxy": null,
+  "xrayConfigSHA256": "3486708470232972041193c8afdaa1e824b9bcf89ef1ec0be308e96e8243c05a",
+  "sourceDomainRules": [
+    {
+      "type": "field",
+      "domain": [
+        "full:cdn0.tablecheck.com"
+      ],
+      "outboundTag": "proxy"
+    },
+    {
+      "type": "field",
+      "domain": [
+        "domain:tabelog.com",
+        "domain:tablecheck.com",
+        "domain:tablecheck.net"
+      ],
+      "outboundTag": "direct"
+    }
+  ],
+  "claim": "Selected current nonsecret configuration only; no per-connection outbound proof, no network or settings changes"
+}
