@@ -18,7 +18,7 @@ async function control(){
  const deps={g6:{budgetPath,witnessFetch:async()=>{throw Error('No live transport');},transports:async()=>{throw Error('No live transport');}},wait:async(_ms:number)=>{},health:async(_spec:unknown,beforeGET:(s:string,r:number)=>Promise<void>)=>{healths++;for(const round of [1,2])for(const source of ['tablecheck','tabelog'])await beforeGET(source,round);return {passed:!healthFail,observations:[]};},
   execute:async(pack:Parameters<NonNullable<import('./g6/holdout-runner.js').HoldoutDependencies['execute']>>[0],d:import('./g6/runner.js').G6RunnerDependencies,out:string)=>{
    execs++;if(selector)mode=selector(execs);const spec=pack.cases[0]!;seen.push(spec.id);assert.equal(spec.oracle.reviewedReadRules?.length,21);
-   await d.beforeLive?.();if(mode==='CRASH_AFTER_TICKET')throw Error('LOCAL_CRASH_AFTER_TICKET');await chargeG6(d.budgetPath,`g6-${spec.id}-fixture:LIVE`,'fullLive','LOCAL_CONSTRUCTION only');
+   await d.beforeLive?.();if(mode==='CRASH_AFTER_TICKET')throw Error('LOCAL_CRASH_AFTER_TICKET');await chargeG6(d.budgetPath,`g6-${spec.id}-1-0:LIVE`,'fullLive','LOCAL_CONSTRUCTION only');
    const path=join(out,spec.id);await mkdir(path);await writeFile(join(path,'unchanged-original.txt'),'ORIGINAL_FAILURE_OR_RESULT');
    if(mode==='ENV')await writeFile(join(path,'failure.json'),JSON.stringify({transportError:{code:'ENOTFOUND'}}));
    else if(mode==='CHARGED_UNKNOWN')throw Error('LOCAL_UNKNOWN_FAILURE');
@@ -40,7 +40,7 @@ test('health cancellation resumes the same planned slot with fresh health, no du
  const c=await control();try{
   c.setHealthFail(true);const first=await c.run();assert.equal(first.receipts[0]!.status,'CANCELLED_BEFORE_LIVE');assert.equal((await c.ledger()).cumulative.fullLive,0);
   const old=join(first.receipts[0]!.path,'network-health.json'),raw=await readFile(old,'utf8');c.setHealthFail(false);const next=await c.run(true);
-  assert.equal(next.stopReason,null);assert.equal(c.execs,3);assert.equal(c.healths,2);assert.ok(c.seen[0]!.startsWith('fictional-r1-retry'));assert.equal(await readFile(old,'utf8'),raw);assert.equal((await c.ledger()).cumulative.environmentReruns,0);
+  assert.equal(next.stopReason,null);assert.equal(c.execs,3);assert.equal(c.healths,2);assert.ok(c.seen[0]!.startsWith('fictional-r1-retry'));assert.equal(await readFile(old,'utf8'),raw);assert.equal((await c.ledger()).cumulative.environmentReruns,0);await c.run(true);assert.equal(c.execs,3);
  }finally{await c.close();}
 });
 test('environment failure replacement is charged on resumed Live only, stored separately and stops before a fifth replacement',async()=>{

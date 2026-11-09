@@ -46,5 +46,6 @@ export async function saveHoldoutCheckpoint(root:string,state:HoldoutCheckpoint,
 }
 export async function holdoutLiveCharged(budgetPath:string,key:string){
  const ledger=(await readJSON<{entries:Array<{id:string;fullLive?:number}>}>(budgetPath))!;
- return ledger.entries.some(e=>e.fullLive===1&&e.id.startsWith('g6-'+key+'-')&&e.id.endsWith(':LIVE'));
+ const prefix='g6-'+key+'-';
+ return ledger.entries.some(e=>e.fullLive===1&&e.id.startsWith(prefix)&&/^\d+-\d+:LIVE$/u.test(e.id.slice(prefix.length)));
 }
