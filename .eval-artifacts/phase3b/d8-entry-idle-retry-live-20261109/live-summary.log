@@ -1,0 +1,106 @@
+{
+  "elapsedMs": 198914.10241599998,
+  "turns": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794190000106,
+      "deadlineAtMs": 1794190500106,
+      "elapsedMs": 198063.44483300002,
+      "modelCalls": 35,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    }
+  ],
+  "models": {
+    "count": 35,
+    "purposes": {
+      "restaurant_semantic_interpret": 1,
+      "restaurant_agent_decide": 4,
+      "browser_read_decide": 27,
+      "restaurant_named_source_query": 3
+    },
+    "outcomes": {
+      "SUCCEEDED": 35
+    }
+  },
+  "recording": {
+    "status": "RECORDED",
+    "replay": {
+      "status": "PARTIALLY_REPLAYABLE",
+      "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+      "harPath": "replay.har"
+    },
+    "totalPages": 46,
+    "qualifiedPages": 2,
+    "admissions": {
+      "SANITIZED": 34,
+      "UNREVIEWED_DOCUMENT_QUERY_SHAPE": 12
+    },
+    "omissions": {
+      "INVALID_UTF8": 9,
+      "JSON_SENSITIVE_KEY": 19,
+      "UNREVIEWED_RECORDING_URL_OR_METHOD": 44,
+      "JSON_SIZE_LIMIT": 15,
+      "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT": 5
+    },
+    "shopResponses": [
+      {
+        "responseUrlSha256": "0b3596d34e219e4a7273aeb676f6e1747d3897ccdc84375542f58f021f890f7b",
+        "origin": "https://production.tablecheck.com/",
+        "pathname": "/v2/shops/nakamata-nodoguro-ginza",
+        "queryKeys": [
+          "locale"
+        ],
+        "method": "GET",
+        "resourceType": "fetch",
+        "status": 200,
+        "mimeType": "application/json",
+        "bytes": 11139,
+        "reason": "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT"
+      },
+      {
+        "responseUrlSha256": "0b3596d34e219e4a7273aeb676f6e1747d3897ccdc84375542f58f021f890f7b",
+        "origin": "https://production.tablecheck.com/",
+        "pathname": "/v2/shops/nakamata-nodoguro-ginza",
+        "queryKeys": [
+          "locale"
+        ],
+        "method": "GET",
+        "resourceType": "fetch",
+        "status": 200,
+        "mimeType": "application/json",
+        "bytes": 11139,
+        "reason": "JSON_VALUE_PRIVACY_OR_SHAPE_LIMIT"
+      }
+    ]
+  },
+  "budget": {
+    "before": {
+      "fullLive": 29,
+      "realModelCalls": 784,
+      "evaluationPublicGET": 378,
+      "googleRequests": 103,
+      "restaurantWebsiteRequests": 11563
+    },
+    "after": {
+      "fullLive": 30,
+      "realModelCalls": 819,
+      "environmentReruns": 0,
+      "evaluationPublicGET": 381,
+      "googleRequests": 104,
+      "restaurantWebsiteRequests": 11686
+    },
+    "limits": {
+      "evaluationPublicGET": 489,
+      "fullLive": 48,
+      "realModelCalls": 1600
+    },
+    "reserved": {
+      "fullLive": 18,
+      "evaluationPublicGET": 108
+    },
+    "availableLive": 0,
+    "availableGET": 0,
+    "modelsRemaining": 781
+  }
+}

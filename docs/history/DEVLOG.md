@@ -1,3 +1,9 @@
+<a id="d8-entry-idle-retry-live-20261109"></a>
+
+## 2026-11-09 Asia/Shanghai — D8 entry succeeds, availability deadline miss
+
+2026-11-09（Asia/Shanghai）— C按用户“重试一次d8”在6a832abb输入/6ce1a6bc源码单次运行：198.914秒、35模型全成功，DNS/CORS/403均0，入口重载0；TableCheck正确店页HIGH且唯一，查位前再检索/等待至provider40.968秒才选日期，45.031秒超时，最终NO_VERIFIED_RESULT/库存UNKNOWN，无B1与追问。独立114/114边界PASS、GETHEAD ABSENT、原S0=0；旧审计缺陷不由本轮关闭。46份DOM/34清洗保存/2页qualified部分Replay，店铺JSON200仍隐私拒录；原评分NOT_EVALUATED与两条能力FAIL保留，补充CAPABILITY_MISS/S2。累计Live30/48、GET381/489、模型819/1600余781；留出18Live108GET不动，无再读/Live/源码修复/推送/合main。 [报告](../../.eval-artifacts/phase3b/d8-entry-idle-retry-live-20261109/report.md)。
+
 <a id="entry-idle-retry-20261109"></a>
 
 ## 2026-11-09 Asia/Shanghai — bounded first-entry reload
