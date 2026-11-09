@@ -944,7 +944,8 @@ test("source text handoff reaches request-bound availability and presentation th
   } };
   const place = { id: "source-prose", displayName: { text: "Source Kitchen" }, formattedAddress: "1 Ginza, Tokyo", nationalPhoneNumber: "03-1111-1003", types: ["restaurant"],
     websiteUri: "https://source.example/menu", location: { latitude: 35.6697, longitude: 139.767 } };
-  const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [place] } : place), { status: 200 }) });
+  // LOCAL_CONSTRUCTION: Text Search explicitly lists the booking source; Details independently supplies the menu website.
+  const google = new GooglePlacesClient({ apiKey: "fixture", fetchImplementation: async (_url, init) => new Response(JSON.stringify(init?.method === "POST" ? { places: [{...place,websiteUri:"https://www.tablecheck.com/en/source-kitchen"}] } : place), { status: 200 }) });
   const browser: BrowserRuntime = {readNetworkBoundaryCapability:"ISOLATED_CONTEXT", async openSession() {
     let url = "",query="";
     return {

@@ -147,7 +147,7 @@ test("source observation time advances with the controlled business clock while 
   assert.equal(availability.availabilityChecks[discovery.candidates[0]!.restaurant.id]?.displayExpiresAt, "2026-08-19T08:20:00.000Z", "the display window is derived from the actual availability observation, not the historical fixture capture time");
   assert.deepEqual(
     sources.calls.observations.filter((event) => ["SEARCH", "DETAILS", "AVAILABILITY"].includes(event.stage)).map((event) => [event.stage, event.observedAt]),
-    [["SEARCH", "2026-08-19T08:00:00.000Z"], ["DETAILS", "2026-08-19T08:05:00.000Z"], ["AVAILABILITY", "2026-08-19T08:10:00.000Z"]],
+    [["SEARCH", "2026-08-19T08:00:00.000Z"], ["DETAILS", "2026-08-19T08:05:00.000Z"], ["AVAILABILITY", "2026-08-19T08:10:00.000Z"], ["AVAILABILITY", "2026-08-19T08:10:00.000Z"]],
   );
   assert.equal(sources.calls.observations.find((event) => event.stage === "AVAILABILITY")?.sampleCapturedAt, "2026-08-01T00:00:00.000Z");
 });

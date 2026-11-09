@@ -120,9 +120,9 @@ function googlePlace(observation: FixedSourceObservation,discovery=false) {
     location: source.coordinates,
     types: ["restaurant"],
     nationalPhoneNumber: source.phone,
-    // LOCAL_CONSTRUCTION: when no official-site document exists, Google
-    // explicitly lists this fixture merchant's configured source entrance.
-    websiteUri: discovery&&source.discoveryWebsiteUri?source.discoveryWebsiteUri:!observation.websiteFacts&&observation.tableCheck&&observation.availability
+    // LOCAL_CONSTRUCTION: availability-positive controls explicitly publish
+    // the configured source entrance in Text Search; Details keeps the website.
+    websiteUri: discovery&&source.discoveryWebsiteUri?source.discoveryWebsiteUri:(discovery&&!source.websiteUri.startsWith("https://www.tablecheck.com/")||!observation.websiteFacts)&&observation.tableCheck&&observation.availability
       ? "https://www.tablecheck.com"+observation.tableCheck.reservationEntryPath : source.websiteUri,
     googleMapsUri: source.googleMapsUri,
   };

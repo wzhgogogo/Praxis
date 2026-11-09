@@ -432,7 +432,7 @@ test("current H001-H005 raw requests complete through the real offline Hybrid co
       assert.equal(loop.status, "TERMINAL"); assert.equal(state.phase, "PRESENT_RESULTS");
     } else {
       assert.equal(sources.calls.facts, ["h001", "h002", "h005"].includes(plan.id) ? 3 : 0);
-      assert.equal(sources.calls.availability, scenario.observations.reduce((n,row)=>n+(!row.websiteFacts&&row.tableCheck&&row.availability?2:1),0), "Source-native Google entrances include an independent identity read before widget acquisition");
+      assert.equal(sources.calls.availability, scenario.observations.reduce((n,row)=>n+(row.tableCheck&&row.availability?2:1),0), "Source-native Google entrances include an independent identity read before widget acquisition");
     }
     if (plan.id !== "h004" && plan.id !== "h005") {
       assert.equal(state.phase, "PRESENT_RESULTS");
@@ -466,7 +466,7 @@ test("a new task and new source scenario reuse the fixed Hybrid composition (max
   assert.deepEqual(state.intentDraft?.timeWindow, { earliest: "12:30", latest: "12:30" });
   assert.equal(sources.calls.search, 1);
   assert.equal(sources.calls.facts, 1);
-  assert.equal(sources.calls.availability, 1);
+  assert.equal(sources.calls.availability, 2, "Google-listed source entrance is independently identified before widget acquisition");
   assert.ok(model.requests.some((request) => request.purpose === "restaurant_fact_judgment"), "non-verbatim HARD evidence must pass through the bounded cited judgment boundary");
   const candidateId = state.presentedResults?.candidateIds[0]!;
   const judgment = state.readEvidence.find((evidence) => evidence.provider === "MODEL_JUDGMENT" && evidence.candidateId === candidateId);
