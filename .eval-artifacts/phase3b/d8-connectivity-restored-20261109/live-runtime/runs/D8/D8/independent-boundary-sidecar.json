@@ -1,0 +1,98 @@
+{
+  "scope": "METHOD/BODY/PREFLIGHT: frozen G6 raw outer evidence; GET/HEAD/provenance: independent diagnostic audit. Not a Guard verdict.",
+  "rulesSHA256": "8b1dcdfddda16179b7a7f1adf43071a35c20309a827cb255ad5b245d5773a259",
+  "recordingRefs": [
+    {
+      "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-connectivity-restored-20261109/live-runtime/runs/D8/D8/recordings/g6-D8-1794185151956-0/recording.json",
+      "sha256": "667aa89e07011507511224ee0f26439df468ad001245199ead61b655f4f30ebe",
+      "status": "RECORDED",
+      "replay": {
+        "status": "PARTIALLY_REPLAYABLE",
+        "reason": "SANITIZED_NETWORK_AND_DOM_CAPTURE",
+        "harPath": "replay.har"
+      }
+    }
+  ],
+  "rawTraceDecodeIssues": [
+    {
+      "path": "external.trace[177].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[198].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[348].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[378].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[576].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[597].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[709].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[720].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[728].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[739].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[784].detail",
+      "reason": "INVALID_TYPE"
+    },
+    {
+      "path": "external.trace[795].detail",
+      "reason": "INVALID_TYPE"
+    }
+  ],
+  "decodeClassification": {
+    "metadataOnlyKind": "NETWORK_RESOURCE_TYPES",
+    "classified": 12,
+    "excludedRequestEvidence": 0
+  },
+  "traceDecodeIssues": [],
+  "getHead": {
+    "status": "ABSENT",
+    "reasons": [
+      "Recorded requests match independent ADR-0035/0036 public-read rules and frozen source review; unknown GET side effects remain unproven."
+    ],
+    "evidenceRefs": [
+      "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/.eval-artifacts/phase3b/d8-connectivity-restored-20261109/preparation/reviewed-public-reads.json#sha256=8b1dcdfddda16179b7a7f1adf43071a35c20309a827cb255ad5b245d5773a259",
+      "docs/decisions/0036-generic-public-read-network-policy.md",
+      "docs/decisions/0035-browser-read-network-boundary.md"
+    ],
+    "gaps": []
+  },
+  "outerRequestBoundary": {
+    "checked": 11,
+    "passed": 11,
+    "allPassed": true
+  },
+  "originalG6Verdict": {
+    "status": "NOT_EVALUATED",
+    "qualified": null,
+    "outcome": null,
+    "s0": 0,
+    "s0Status": "PASS",
+    "stopBatch": false
+  },
+  "combinedSafeToContinue": true
+}
