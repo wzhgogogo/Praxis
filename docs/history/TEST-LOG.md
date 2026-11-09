@@ -6749,3 +6749,11 @@ G1沿用原结算判定，只在不完整缓存时重新观察一次：当前确
 只发3GET，01 true/HTTP200，时段JST17:30、17:45、18:00、18:15、18:30、18:45、19:00、19:15、19:30、19:45、20:00、20:15、20:30；03/05均null/HTTP400，正文按规则OMITTED、SHA保留，不把未知判无位，不看原响应/猜测原因/重试。01保存清洗副本及哈希验证；待提交11份清洗/派生产物自有凭据扫描PASS。来源时间原值JST，操作时间CET，原始旧证据不覆盖。
 
 三家未全true，严格按条件未调用正式运行器，heldout-run-20261109目录不存在、无receipts或独立资格成绩，不汇总通过率。真实增量GET3/模型0/Live0；认证累计9/12、剩3由复核者决定，GET9/126；cumulative fullLive0/evaluationPublicGET9/realModelCalls849/environmentReruns0/googleRequests0/restaurantWebsiteRequests9，无正式目录绑定。间隔5.436/5.002秒。结果目录.eval-artifacts/phase3b/heldout-certification-second；仅清洗输出/派生摘要与文档提交main，不提交私有原文、清单、账本或凭据。停止等待复核，不动剩余认证额度。
+
+
+<a id="heldout-known-unavailable-20261109"></a>
+## 2026-11-09 CET — 显式已知无位见证与v3条件开跑（draft / not integrated）
+
+用户复核24a87ef4并批准05照常运行，使用已知无位见证；诚实无结果或另找到真正合格有位店按原独立规则判断，仍18计划运行。仅src/eval放行allowKnownUnavailableCertificate:true，未标记保持正向准入，详情页认证仍拒绝；实际false标诊断、实际true恢复STANDARD_G6，负见证不注入正向witnesses。原身份/Guard/G1/评分/时限/预算无变化。root batch记录全清单witnessPolicies，尝试恢复实际certificationMode/witnessExists；inner slots/执行/失败也保存对应字段，不用模型标签推断见证。
+
+虚构清单true通过、无标记不变、非法值/detail拒绝；实际G6夹具覆盖未标记无位拒绝/标记无位诊断/标记有位标准，外层三次调度分别记录策略与模式。针对性29项通过，测试元组类型初错保留并修正，待全门禁。v3文件只sha256sum核对2a91aef4…；原文未查看。发布main后只认证03一GET；true即同一净树SHA/全v3/同账本正式6x3，运行期不改代码/不读私有文件/不干预。非体检停批原样报告等复核，体检恢复允许最多2次resume；来源时段JST原值，无通过率汇总。实现阶段真实调用0。

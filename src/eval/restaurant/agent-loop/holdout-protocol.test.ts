@@ -51,3 +51,22 @@ test('offline schedule cancels before Live on health failure, immediately stops 
   }finally{await rm(dir,{recursive:true,force:true});}
  }
 });
+
+test('fictional manifest explicitly admits known-unavailable witness only with true; detail-only remains forbidden',()=>{
+ const m=structuredClone(manifest);m.cases[0]!.witness.allowKnownUnavailableCertificate=true;
+ const checked=validatePrivateManifest(Buffer.from(original),commitment,bytes(m));assert.equal(checked.manifest.cases[0]!.witness.allowKnownUnavailableCertificate,true);
+ assert.equal(validatePrivateManifest(Buffer.from(original),commitment,bytes(manifest)).manifest.cases[0]!.witness.allowKnownUnavailableCertificate,undefined);
+ m.cases[0]!.witness.allowDetailOnlyCertificate=true;assert.throws(()=>validatePrivateManifest(Buffer.from(original),commitment,bytes(m)),/HOLDOUT_MANIFEST_INVALID/);
+ delete m.cases[0]!.witness.allowDetailOnlyCertificate;Object.assign(m.cases[0]!.witness,{allowKnownUnavailableCertificate:false});assert.throws(()=>validatePrivateManifest(Buffer.from(original),commitment,bytes(m)),/HOLDOUT_MANIFEST_INVALID/);
+});
+
+test('fictional held-out batch separates allowed negative policy from actual negative/positive certification modes',async()=>{
+ const base=resolve('.eval-artifacts');await mkdir(base,{recursive:true});const dir=await mkdtemp(join(base,'fictional-negative-policy-')),budgetPath=join(dir,'budget.json'),m=structuredClone(manifest);m.cases[0]!.witness.allowKnownUnavailableCertificate=true;let n=0;
+ await writeFile(budgetPath,JSON.stringify({entries:[],limits:{evaluationPublicGET:126,fullLive:22,realModelCalls:2500,environmentReruns:4},cumulative:{evaluationPublicGET:0,fullLive:0,realModelCalls:849,environmentReruns:0,restaurantWebsiteRequests:0}}));
+ try{const result=await runPrivateHoldout(m,{manifestSHA256:holdoutHash(bytes(m)),originalSHA256:holdoutHash(original),sourceSHA:holdoutHash('fictional')},join(dir,'runs'),{g6:{budgetPath,witnessFetch:async()=>{throw Error('No network');},transports:async()=>{throw Error('No clients');}},wait:async()=>{},health:async()=>({passed:true,observations:[]}),execute:async(pack,_deps,out)=>{
+  n++;const id=pack.cases[0]!.id,path=join(out,id);await mkdir(path);
+  await writeFile(join(path,'execution.result.json'),JSON.stringify({certificationMode:n===1?'NO_POSITIVE_WITNESS_DIAGNOSTIC':'STANDARD_G6',witnessExists:n!==1}));
+  await writeFile(join(path,'evaluation.json'),JSON.stringify({verdict:{s0:0,stopBatch:false}}));return {schemaVersion:'phase3b-g6-batch@1',serial:true,witnessGETs:0,stopReason:null,slots:[{id,status:'EVALUATED',path}]};
+ }});assert.deepEqual(result.witnessPolicies,[{id:m.cases[0]!.id,policy:'ALLOW_KNOWN_UNAVAILABLE'}]);assert.equal(result.receipts.length,3);assert.equal(result.receipts[0]!.certificationMode,'NO_POSITIVE_WITNESS_DIAGNOSTIC');assert.equal(result.receipts[0]!.witnessExists,false);assert.equal(result.receipts[1]!.certificationMode,'STANDARD_G6');assert.equal(result.receipts[1]!.witnessExists,true);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});

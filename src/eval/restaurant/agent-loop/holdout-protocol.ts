@@ -20,7 +20,7 @@ export function validatePrivateManifest(original:Uint8Array,commitment:HoldoutCo
  if(manifest.schema!=='phase3b-private-run-manifest@1'||!Array.isArray(manifest.cases)||manifest.cases.length!==commitment.cases.length)refuse('HOLDOUT_MANIFEST_CASES_MISMATCH');
  const cases=manifest.cases.map((c,i)=>{
   if(c.id!==commitment.cases[i]!.id)refuse('HOLDOUT_MANIFEST_ORDER_MISMATCH');
-  if(!c.fillings||typeof c.fillings!=='object'||Array.isArray(c.fillings)||!Array.isArray(c.followups)||c.followups.length>2||!c.oracle||!c.witness||c.witness.allowKnownUnavailableCertificate||c.witness.allowDetailOnlyCertificate)refuse('HOLDOUT_MANIFEST_INVALID');
+  if(!c.fillings||typeof c.fillings!=='object'||Array.isArray(c.fillings)||!Array.isArray(c.followups)||c.followups.length>2||!c.oracle||!c.witness||(c.witness.allowKnownUnavailableCertificate!==undefined&&c.witness.allowKnownUnavailableCertificate!==true)||c.witness.allowDetailOnlyCertificate)refuse('HOLDOUT_MANIFEST_INVALID');
   if(Object.hasOwn(c.oracle,'reviewedReadRules'))refuse('HOLDOUT_MANIFEST_READ_RULES_FORBIDDEN');
   const substitutions=Object.entries(c.fillings);
   if(substitutions.some(([key,value])=>!/^\{[A-Z][A-Z0-9_]*\}$/u.test(key)||typeof value!=='string'||!value.length||!documents[i]!.includes(key))||new Set(substitutions.map(([,v])=>v)).size!==substitutions.length)refuse('HOLDOUT_FILLINGS_INVALID');
@@ -36,7 +36,8 @@ export function validatePrivateManifest(original:Uint8Array,commitment:HoldoutCo
    restored(f.text);validateHoldoutCondition(f.condition);
   }
   if(!Array.isArray(c.oracle.request?.dates)||!c.oracle.request.dates.every(d=>/^\d{4}-\d{2}-\d{2}$/u.test(d))||!Array.isArray(c.oracle.pages))refuse('HOLDOUT_ORACLE_INVALID');
-  // A positive independent public witness is supplied by the reviewer, never
+  // An independent public witness (positive by default; explicitly allowed
+  // known-unavailable when marked) is supplied by the reviewer, never
   // selected from a product result or silently changed after the run.
   if(c.witness.provider!=='TABELOG'||!/^https:\/\/tabelog\.com\/en\//u.test(c.witness.detailUrl)||!c.witness.identityText?.length)refuse('HOLDOUT_WITNESS_INVALID');
   return {id:c.id,sha256:commitment.cases[i]!.sha256,runSHA256:holdoutHash(JSON.stringify(c)),fillings:{...c.fillings}};

@@ -5,7 +5,7 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.18
+- Document revision: 2.19
 - Last updated: 2026-11-09
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
@@ -239,6 +239,8 @@ R6对无结果记录同时要求：终态failure、search failure或remainingGap
 G6原生来源的机械资格注释只能从同次原始公开DOM/JSON提取，不读取生产HIGH/AVAILABLE/Guard结论。名称与完整地址/电话、原生实体和canonical路径、同一表单的选中日期/人数及可用时段、实际观察的预约入口分别保留来源引用。跨语言Gold绑定须有独立冻结公开来源的名称+电话或完整地址，并要求当前来源实体/canonical路径/完整来源地址连续；不能从执行候选临时生成别名。机械注释不推断HARD/范围语义，缺语义Gold仍明确未评价；旧评价文件不覆盖，补评另存。私有留出输入的公开审计仅存承诺/清单/用例哈希和占位符填写值；三类录制继续原隐私清洗，私有请求正文省略，复算权威引用时需同一私有清单。
 
 私有held-out的人工补评只提供独立标注，不替换原始请求、交付、引用或网络证据。`--resume --review <attempt-key> <external-file>`绑定原录制与补评文件SHA，另存`evaluation.supplement.json`，原评价不可覆盖；补评仍NOT_EVALUATED或S0则停批。无原评价的已计费产品失败，须先用原录制和完整外层方法/正文/预检观察重新计算独立边界，零违规且无证据缺口才补评。G6 evaluation@5将已核实的这种失败计为`PLANNED_RUN_FAILED`、qualified=false的一次计划运行，不冒充诚实无结果、不中止已有S0检查、不获得环境重跑；缺原始边界/声明材料仍停批。
+
+显式允许已知无位的见证仍须读取当前空位，未知不能冒充无位。实际false的运行单列NO_POSITIVE_WITNESS_DIAGNOSTIC，不将其作为正向KNOWN_FEASIBLE见证；重新认证为true按STANDARD_G6处理。声明的允许策略和每次实际认证模式分别记录；产品交付或诚实无结果仍按原独立条件判定，不因标记获得合格结论，报告不混同正向与无正向见证的运行。
 
 ## 8 当前评价入口与覆盖
 

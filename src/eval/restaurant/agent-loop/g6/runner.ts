@@ -94,13 +94,16 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
   if(pack.cases.some(c=>c.followups.length>2))throw Error("G6 slot permits at most three user turns");
   const serialize=(value:unknown)=>JSON.stringify(dependencies.artifactTransform?dependencies.artifactTransform(value):value,null,2);
   const output=resolve(directory);await mkdir(output,{recursive:true});
-  const policy=discoveryPackNetworkPolicy(),receipts:Array<{id:string;status:string;path:string;reason?:string}>=[],certifications=new Map<string,WitnessReceipt>();
+  const policy=discoveryPackNetworkPolicy(),receipts:Array<{id:string;status:string;path:string;reason?:string;witnessPolicy?:string;certificationMode?:string;witnessExists?:boolean|null}>=[],certifications=new Map<string,WitnessReceipt>();
   for(const receipt of dependencies.initialWitnesses??[]){const w=receipt.target;if(receipt.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Detail-only receipt cannot replace a required availability witness");certifications.set(JSON.stringify([w.sourceEntityId,w.date,w.time,w.partySize]),receipt);}
   let witnessGETs=dependencies.initialWitnessGETs??0;
   const beforeGET=()=>{if(witnessGETs>=(dependencies.maximumWitnessGETs??pack.witnessGETLimit??Infinity))throw Error("Frozen development witness GET ceiling reached before charging or transmission");witnessGETs++;};
   const now=dependencies.now??Date.now,monotonicNow=dependencies.monotonicNow??(()=>performance.now());let stopReason:string|undefined;const requestTiming={last:-Infinity};
   for(const [index,spec] of pack.cases.entries()){
-    if(stopReason){receipts.push({id:spec.id,status:"NOT_SENT",path:"",reason:stopReason});continue;}
+    const witnessPolicy=spec.witness?.allowKnownUnavailableCertificate===true?"ALLOW_KNOWN_UNAVAILABLE":"POSITIVE_REQUIRED";
+    let certificationMode:"STANDARD_G6"|"NO_POSITIVE_WITNESS_DIAGNOSTIC"|undefined=spec.witness?undefined:"STANDARD_G6",witnessExists:boolean|null|undefined;
+    const certification=()=>({witnessPolicy,...(certificationMode?{certificationMode}:{}),...(witnessExists!==undefined?{witnessExists}:{})});
+    if(stopReason){receipts.push({...certification(),id:spec.id,status:"NOT_SENT",path:"",reason:stopReason});continue;}
     const slot=join(output,spec.id);await mkdir(slot,{recursive:false});const runId=`g6-${spec.id}-${now()}-${index}`;
     const recording=new BrowserReadRecording({directory:join(slot,"recordings"),runId,reviewedReads:policy.dynamicReads,reviewedStaticResources:policy.staticResources,ownCredentials:dependencies.ownCredentials??[],...(dependencies.artifactTransform?{artifactTransform:dependencies.artifactTransform}:{})});
     const capture=createHybridDecisionCapture(join(slot,"execution.result.json"),recording,dependencies.artifactTransform);
@@ -206,6 +209,8 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       if(spec.witness){
         const w=spec.witness,key=JSON.stringify([w.sourceEntityId,w.date,w.time,w.partySize]),cached=certifications.get(key);
         const before=cached&&now()-Date.parse(cached.checkedAt)<86_400_000?cached:await witness.read(w,"BEFORE",dependencies.witnessDetailRead??true);
+        witnessExists=before.exists;
+        certificationMode=before.exists===false&&w.allowKnownUnavailableCertificate===true?"NO_POSITIVE_WITNESS_DIAGNOSTIC":"STANDARD_G6";
         witnesses.push(before);if(before.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Availability certification is required for this witness");if(before.exists===false&&w.allowKnownUnavailableCertificate!==true)throw Error("WITNESS_NO_LONGER_EXISTS: no Live was started");certifications.set(key,before);
       }
       wallStart=monotonicNow();
@@ -253,15 +258,15 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       if(input.qualificationOracles)await bindFrozenOracleSources(input.qualificationOracles);
       const evaluation=evaluateG6(input),{named:_named,...request}=input.request;
       input.request={...request,...(evaluation.namedOutletBinding.named?{named:evaluation.namedOutletBinding.named}:{})};
-      await writeFile(join(slot,"execution.result.json"),serialize({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,certificationMode:spec.witness?.allowKnownUnavailableCertificate===true?"NO_POSITIVE_WITNESS_DIAGNOSTIC":"STANDARD_G6",runId,view,execution:result,turns,witnesses,recordingConfig:pack.recording})+"\n",{flag:"wx"});
+      await writeFile(join(slot,"execution.result.json"),serialize({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,...certification(),runId,view,execution:result,turns,witnesses,recordingConfig:pack.recording})+"\n",{flag:"wx"});
       await writeFile(join(slot,"boundary-observation.json"),JSON.stringify({...reserveObservations(0,elapsedMs,readStarts,input.requests.map(r=>({...r,forbidden:/yoyaku|payment|checkout|confirmation/iu.test(new URL(r.url).pathname)}))),exceeded500Seconds:turnBudgets.some(t=>t.exceeded500Seconds),limits:{perTurn:{milliseconds:500_000,models:50,google:40},slot:{turns:3,models:150,google:120}},turnBudgets,googleRequests:googleCalls,modelCalls,semanticAttemptsByTurn:Object.fromEntries(semanticAttempts),semanticSchemaRetries:[...semanticAttempts.values()].reduce((n,c)=>n+Math.max(0,c-1),0)},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"evaluation.input.json"),serialize(input)+"\n",{flag:"wx"});await writeFile(join(slot,"evaluation.json"),serialize(evaluation)+"\n",{flag:"wx"});
-      receipts.push({id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":evaluation.verdict.status==="NOT_EVALUATED"?"RECORDED_NOT_EVALUATED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
-    }catch(error){failure=error instanceof Error?error.message:"G6_RUN_FAILED";stopReason=failure;receipts.push({id:spec.id,status:"FAILED",path:slot,reason:failure});
+      receipts.push({...certification(),id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":evaluation.verdict.status==="NOT_EVALUATED"?"RECORDED_NOT_EVALUATED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
+    }catch(error){failure=error instanceof Error?error.message:"G6_RUN_FAILED";stopReason=failure;receipts.push({...certification(),id:spec.id,status:"FAILED",path:slot,reason:failure});
       endTurn();
       elapsedMs=monotonicNow()-wallStart;
       await writeFile(join(slot,"failure.evaluation.input.json"),serialize(evaluationInput())+"\n",{flag:"wx"});
-      await writeFile(join(slot,"failure.json"),serialize({failure,transportError:browserTransportError(error),turns,turnBudgets,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})})+"\n",{flag:"wx"});
+      await writeFile(join(slot,"failure.json"),serialize({...certification(),failure,transportError:browserTransportError(error),turns,turnBudgets,witnesses,...(view?{view}:{}),...(view&&session?{execution:await session.application.exportReadArtifact(view.case.caseId)}:{})})+"\n",{flag:"wx"});
     }finally{
       if(deadlineTimer)clearTimeout(deadlineTimer);await session?.close();
       await writeFile(join(slot,"outer-requests.json"),serialize({runId,complete:true,requests:forwarded})+"\n",{flag:"wx"});

@@ -41,7 +41,7 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
  if(options.review&&!options.resume)throw Error('HOLDOUT_REVIEW_REQUIRES_RESUME');
  const rules=await frozenHoldoutReadRules();await mkdir(resolve(directory),{recursive:true});const root=await realpath(resolve(directory)),unlock=await holdoutLock(root);
  const privacy=privateInputRedactor(manifest.cases.flatMap(c=>[c.request,...c.followups.map(f=>f.text)]));
- let state:HoldoutCheckpoint={schema:'phase3b-holdout-batch@2',serial:true,stopReason:null,receipts:[],healthyCases:[]};
+ let state:HoldoutCheckpoint={schema:'phase3b-holdout-batch@2',serial:true,stopReason:null,witnessPolicies:manifest.cases.map(c=>({id:c.id,policy:c.witness.allowKnownUnavailableCertificate===true?'ALLOW_KNOWN_UNAVAILABLE':'POSITIVE_REQUIRED'})),receipts:[],healthyCases:[]};
  let bound=false,ledgerPath=deps.g6.budgetPath;
  try{
   if(!options.resume&&await readJSON(join(root,'input-hashes.json')))throw Error('HOLDOUT_RESUME_REQUIRED');
@@ -51,6 +51,13 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
   else await writeFile(join(root,'input-hashes.json'),JSON.stringify({...audit,budget},null,2)+'\n',{flag:'wx',mode:0o600});
   bound=true;const save=()=>saveHoldoutCheckpoint(root,state,budget.path,privacy);
   if(!options.resume)await save();
+  const recordCertification=async(attempt:HoldoutAttempt)=>{
+   const slot=join(attempt.path,attempt.key);
+   const value=await readJSON<{certificationMode?:HoldoutAttempt['certificationMode'];witnessExists?:boolean|null}>(join(slot,'execution.result.json'))
+     ??await readJSON<{certificationMode?:HoldoutAttempt['certificationMode'];witnessExists?:boolean|null}>(join(slot,'failure.json'));
+   if(value?.certificationMode)attempt.certificationMode=value.certificationMode;
+   if(typeof value?.witnessExists==='boolean'||value?.witnessExists===null)attempt.witnessExists=value.witnessExists;
+  };
   const evaluation=async(attempt:HoldoutAttempt)=>{
    const file=join(attempt.path,attempt.key,'evaluation.json'),value=await readJSON<{verdict:{s0:number;stopBatch:boolean;qualified?:boolean|null}}>(file);
    if(value){const hash=holdoutHash(await readFile(file));if(attempt.evaluationSHA256&&hash!==attempt.evaluationSHA256)throw Error('HOLDOUT_EVALUATION_CHANGED');attempt.evaluationSHA256=hash;
@@ -61,6 +68,7 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
   // Recover an evaluation written just before an orchestrator interruption.
   // Any S0 found on disk blocks resume even when its checkpoint was not saved.
   for(const a of state.receipts){
+   await recordCertification(a);
    const e=await evaluation(a);if(e?.verdict.s0)throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');
    let reviewed=await checkSavedReview(a);
    if(options.review?.key===a.key){
@@ -114,6 +122,7 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
     await interval();
     const pack:G6Pack={schemaVersion:'phase3b-g6-pack@1',mode:'LIVE_READ',recording:{browser:true,decisions:true,googleResponses:true},cases:[spec]};
     const batch=await (deps.execute??runG6Batch)(pack,{...deps.g6,budgetPath:budget.path,maximumWitnessGETs:3,witnessDetailRead:false,artifactTransform:privateInputRedactor([item.request,...item.followups.map(f=>f.text)]),beforeLive:async()=>{if(environmentChargeId&&!(await ticketPaid()).paid)await chargeG6(budget.path,environmentChargeId,'environmentReruns','Approved replacement Live after explicit environment failure; original retained');}},attempt.path);
+    await recordCertification(attempt);
     const e=await evaluation(attempt);
     if(e?.verdict.s0){attempt.status='STOPPED';state.stopReason='S0_STOP';await save();break outer;}
     const environmental=(!e||e.verdict.qualified===false)&&await recordedEnvironmentFailure(join(attempt.path,key));
