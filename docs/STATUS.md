@@ -1,3 +1,5 @@
+2026-11-09 CET — 修复2/3最终冻结52f6a11c净树全门禁PASS：默认1553、Chromium268+G6 89、严格G2全12及type/arch/build；扫描6条通用边界/批准元数据，无业务写死。文档首10秒只等头，15秒/10MB资源完整收到，静态IDLE与NO_HEADERS共用一次重试、总20秒。地区NAME_RESOLUTION只记skippedSources，不算失败/attempt；页面链接本轮不做，有意降低TableCheck按名字查找的覆盖率。逐条19候选无已证明仅TC可订者，未知不当无位。原4256303d/871文件/账本未变，真实GET/模型/Live0，发布main后停下。[最终报告](../.eval-artifacts/phase3b/heldout-refinement-20261109/report.md)。下列draft/cfd描述为已替代历史。
+
 2026-11-09 CET — 修复2/3补充候选：首10秒只等文档响应头，已获头部不截断；NO_HEADERS与既有静态IDLE_ABORT共用一次重试、总20秒，初始资源prepareNavigation仍20秒。地区候选仅按Pack candidatePath=NAME_RESOLUTION跳过TableCheck；跳过只入skippedSources、不算attempt/失败，本轮不采集页面链接，有意降低TableCheck按名字查找的覆盖率。01/02逐一19条无仅TC可订的已证明候选，UNKNOWN不当无位；本地针对性通过，待同SHA全门禁。原4256303d及账本不动，真实调用0。[补充报告](../.eval-artifacts/phase3b/heldout-refinement-20261109/report.md)。此条替代下列cfd5a5ce实现中的重试/页面链接描述，历史验证原样保留。
 
 2026-11-09 — held-out三处离线修复完成，源码cfd5a5ce净树全门禁PASS：默认1559、Chromium263+G6 89、严格G2全部12页及type/arch/build；扫描5条均为既有通用边界或批准元数据，无业务写死。原4256303d工作区、871份运行文件与账本哈希不变，未执行新来源GET/模型/Live。按批准发布main后停下，等待复核者决定下一轮组成与时间。

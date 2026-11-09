@@ -1,6 +1,6 @@
 # 01/02 original candidate-channel audit
 
-Only recorded source conclusions; UNKNOWN or NOT_CHECKED never means unavailable.
+Only recorded source conclusions; UNKNOWN, FAILED or NOT_CHECKED never means unavailable. Source branch codex/heldout-run-evidence-05 @ 445603c7; six execution file hashes in candidate-audit-provenance.json.
 
 | run | candidate | TableCheck | Tabelog | only-TC proven |
 |---|---|---|---|---|
