@@ -157,3 +157,18 @@ export function namedOutletCandidateResolved(state:NamedState,candidateId:string
   const localities=record.claims.namedOutletLocalities;
   return namedOutletContainment(target.query,sole.outletName,sole.address,Array.isArray(localities)?localities:[],boundNameSupport(state,candidateId),boundNameSupport(state,candidateId,false));
 }
+
+/** Project existing authoritative identity evidence, never an Agent URL or a guessed route. */
+export function verifiedOutletPagesForAvailability(state:NamedState,candidateIds:readonly string[]) {
+  return candidateIds.flatMap(candidateId=>{
+    if(!namedOutletCandidateResolved(state,candidateId))return [];
+    const evidence=state.readEvidence.filter(e=>e.candidateId===candidateId&&e.kind==="ENTITY_MATCH"
+      &&e.entityMatch?.confidence==="HIGH"&&e.sourceEntityId&&e.sourceUrl);
+    return [...new Set(evidence.map(e=>e.provider))].flatMap(provider=>{
+      const rows=evidence.filter(e=>e.provider===provider);
+      if(new Set(rows.map(e=>JSON.stringify([e.sourceEntityId,e.sourceUrl]))).size!==1)return [];
+      const latest=rows.at(-1)!;
+      return [{candidateId,provider,sourceEntityId:latest.sourceEntityId!,sourceUrl:latest.sourceUrl!}];
+    });
+  });
+}

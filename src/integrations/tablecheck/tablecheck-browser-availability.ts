@@ -394,6 +394,31 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       session = await this.executor.acquire(signal, "TABLECHECK", "DISCOVERY", this.options.networkPolicy);
       const browser = { ...session.metadata };
       let discoveryUrl = tableCheckDiscoveryUrl(candidate);
+      const boundPages=request.verifiedOutletPages?.filter(p=>p.candidateId===candidate.restaurant.id&&p.provider===this.provider)??[];
+      if(!this.options.identityOnly&&boundPages.length===1){
+        const bound=boundPages[0]!;
+        if(!listedTableCheckOutletUrl(bound.sourceUrl))return this.ground(candidate,request,{candidate,observedAt,
+          entityMatch:{confidence:"LOW",matchedBy:[]},pageState:"EXTRACTION_FAILED",failureCode:"TABLECHECK_ENTITY_MATCH_UNCERTAIN"},browser);
+        let page=await this.executor.snapshot({source:this.provider,stage:"AVAILABILITY",signal,session});
+        if(sourceUrlKey(page.url)!==sourceUrlKey(bound.sourceUrl)){
+          await this.executor.navigate({source:this.provider,stage:"AVAILABILITY",signal,session,
+            allowedOrigins:["https://www.tablecheck.com"],url:bound.sourceUrl,observed:true});
+          page=await this.executor.snapshot({source:this.provider,stage:"AVAILABILITY",signal,session});
+        }
+        const extraction=parseTableCheckOutletIdentityWithEvidence(page,bound.sourceUrl);
+        const inspection=extraction&&inspectCandidateOutlet(candidate,extraction,page);
+        const reservation=extraction&&resolveTableCheckReservationTarget(page,extraction.outlet,this.options.networkPolicy);
+        if(!extraction||inspection?.resolution.confidence!=="HIGH"||!reservation
+          ||extraction.outlet.sourceEntityId!==bound.sourceEntityId
+          ||sourceUrlKey(extraction.outlet.sourceUrl)!==sourceUrlKey(bound.sourceUrl)
+          ||hasTableCheckBotChallenge(page)||inspectTableCheckPageUnavailable(page).pageUnavailable){
+          return this.ground(candidate,request,{candidate,observedAt,entityMatch:{confidence:"LOW",matchedBy:[]},
+            pageState:"EXTRACTION_FAILED",failureCode:"TABLECHECK_ENTITY_MATCH_UNCERTAIN"},browser);
+        }
+        retainedIdentity={extraction,inspection};
+        return await this.readMatchedOutlet(candidate,request,session,signal,observedAt,browser,
+          {extraction,inspection,reservation,page,observedOutletUrls:[bound.sourceUrl]});
+      }
 
       // A Google-listed TableCheck URL is an observed entrance, not identity
       // proof. Keep it for later candidates only as a lead; every use below
@@ -777,7 +802,9 @@ export class TableCheckBrowserAvailability implements RestaurantAvailabilityProv
       const availabilityResponseRule = tableCheckAvailabilityResponseRule(activeSelected.reservation);
       if (availabilityResponseRule) await session.captureResponses?.([availabilityResponseRule]);
       const requestedReservationUrl = activeSelected.reservation.url;
-      if (requestedReservationUrl !== page.url) {
+      // Embedded controls belong to this freshly reverified page. Its public
+      // routing query does not require a canonical-URL navigation.
+      if (activeSelected.reservation.kind === "LINKED_PAGE" && requestedReservationUrl !== page.url) {
         await this.executor.navigate({
           source: "TABLECHECK", stage: "AVAILABILITY", signal, allowedOrigins: ["https://www.tablecheck.com"], session,
           url: requestedReservationUrl, observed: true,

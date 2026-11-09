@@ -23,7 +23,7 @@ import {restaurantReserveCancelled,RESTAURANT_READ_CANCEL_SETTLE_MS} from "../do
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
 import { restaurantUnverifiedReadSummary } from "../domains/restaurant/read-loop-termination.js";
 import type {NamedOutletReference} from "../domains/restaurant/named-outlet-resolution.js";
-import {namedOutletIdentityPrefix,namedOutletCandidateResolved} from "../domains/restaurant/named-outlet-resolution.js";
+import {verifiedOutletPagesForAvailability,namedOutletIdentityPrefix,namedOutletCandidateResolved} from "../domains/restaurant/named-outlet-resolution.js";
 
 export interface RestaurantSearchPort {
   readonly executionRoute: "STRUCTURED_ADAPTER" | "GENERIC_BROWSER";
@@ -166,8 +166,10 @@ function authoritativeAvailabilityRequest(
   const previousEvidenceIds = [...new Set(state.readEvidence
     .filter((evidence) => evidence.kind === "AVAILABILITY" && candidateIds.includes(evidence.candidateId ?? ""))
     .map((evidence) => evidence.evidenceId))];
+  const verifiedOutletPages=verifiedOutletPagesForAvailability(state,candidateIds);
   return {
     candidateIds: [...candidateIds],
+    ...(verifiedOutletPages.length?{verifiedOutletPages}:{}),
     candidates: candidateIds.map((candidateId) => {
       const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);
       if (!candidate) throw new Error(`Validated availability request cannot bind unknown candidate ${candidateId}`);

@@ -428,6 +428,8 @@ export function restaurantSearchIntentFingerprint(intent: RestaurantSearchIntent
 }
 
 export interface RestaurantAvailabilityRequest {
+  /** Router-derived HIGH/unique source identities. Navigation hints only; every live page is reverified. */
+  verifiedOutletPages?: readonly {candidateId:string;provider:RestaurantReadEvidenceProvider;sourceEntityId:string;sourceUrl:string}[];
   candidateIds: string[];
   /** Bound by Router from authoritative State; never supplied by the Agent. */
   candidates: RestaurantCandidate[];

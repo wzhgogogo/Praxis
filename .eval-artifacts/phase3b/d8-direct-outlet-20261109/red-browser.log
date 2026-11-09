@@ -1,0 +1,49 @@
+✖ confirmed outlet availability starts at recorded date controls; alreadyCurrent=true (5917.94325ms)
+✖ confirmed outlet availability starts at recorded date controls; alreadyCurrent=false (98.886417ms)
+✔ recorded twenty-page corpus retains outlet identity and the original search detour decisions (13.252833ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6376.405417
+
+✖ failing tests:
+
+test at src/harness/browser/bound-outlet-availability.test.ts:1:745
+✖ confirmed outlet availability starts at recorded date controls; alreadyCurrent=true (5917.94325ms)
+  AssertionError [ERR_ASSERTION]: [{"stage":"DISCOVERY","action":"REQUEST_HUMAN_HELP"}]
+  + actual - expected
+  
+  + 'DISCOVERY'
+  - 'AVAILABILITY'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/bound-outlet-availability.test.ts:35:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'DISCOVERY',
+    expected: 'AVAILABILITY',
+    operator: 'strictEqual'
+  }
+
+test at src/harness/browser/bound-outlet-availability.test.ts:1:745
+✖ confirmed outlet availability starts at recorded date controls; alreadyCurrent=false (98.886417ms)
+  AssertionError [ERR_ASSERTION]: []
+  + actual - expected
+  
+  + undefined
+  - 'AVAILABILITY'
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/bound-outlet-availability.test.ts:35:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'AVAILABILITY',
+    operator: 'strictEqual'
+  }

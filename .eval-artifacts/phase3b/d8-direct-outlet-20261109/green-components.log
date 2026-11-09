@@ -1,0 +1,34 @@
+✔ availability source page is projected only for HIGH and uniquely resolved identity (2.426417ms)
+✖ confirmed outlet availability starts at recorded date controls; alreadyCurrent=true (11353.164292ms)
+✔ confirmed outlet availability starts at recorded date controls; alreadyCurrent=false (10368.9345ms)
+✔ recorded twenty-page corpus retains outlet identity and the original search detour decisions (8.680875ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 22102.991834
+
+✖ failing tests:
+
+test at src/harness/browser/bound-outlet-availability.test.ts:1:745
+✖ confirmed outlet availability starts at recorded date controls; alreadyCurrent=true (11353.164292ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + [
+  +   'https://www.tablecheck.com/en/nakamata-nodoguro-ginza'
+  + ]
+  - []
+  
+      at TestContext.<anonymous> (/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/Praxis-Zhixing/src/harness/browser/bound-outlet-availability.test.ts:36:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [ 'https://www.tablecheck.com/en/nakamata-nodoguro-ginza' ],
+    expected: [],
+    operator: 'deepStrictEqual'
+  }
