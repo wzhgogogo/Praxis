@@ -1,6 +1,6 @@
 <a id="calendar-day-normalization-20261110"></a>
 
-2026-11-10 CET — draft / not integrated：用户确认跨午夜含义并授权转换，eval认证保留营业日/原始时间并派生实际日期时间，24:30→次日00:30，不能算原日00:30。07原录制正常同日19:00离线认证true，六证书离线重解释符合05=false其余true，旧证书不改，不冒充新GET。62项转换/反例/真实回归绿，Evaluator@9；待完整门禁/新SHA。仅eval、真实调用0，原a91执行工作区/425和账本保持。[报告](../../.eval-artifacts/phase3b/calendar-day-normalization-20261110/report.md)。
+2026-11-10 CET — 源码50bd3349全门禁通过：用户确认跨午夜含义并授权转换，eval认证保留营业日/原始时间并派生实际日期时间，24:30→次日00:30，不能算原日00:30。07原录制正常同日19:00离线认证true，六证书离线重解释符合05=false其余true，旧证书不改，不冒充新GET。62项转换/反例/真实回归绿，Evaluator@9；type/arch/default1572/build/Chromium274+G6 126/strictG2全12通过，scan0，产品diff0。仅eval、真实调用0，原a91执行工作区/425和账本保持。[报告](../../.eval-artifacts/phase3b/calendar-day-normalization-20261110/report.md)。
 
 2026-11-10 CET — R2准备源码3eb7bea2净树全门禁PASS：type/arch/default1572/build/Chromium274+G6 115/strictG2全12，scan0，产品diff0。仅eval核对用户新额度36Live/220GET/2800模型/4环境；后续批准的轮间随机120–240秒外层等待已日志化/持久化，产品时限不变。D02补评QUALIFIED_DELIVERY/s0=0、用户D01/D02浏览器B1均核对正确。main发布后新私有R2账本继承12/86/1410，6GET预认证符合（05=false其余true）则立即正式开跑，用户已撤销等11-11；私有原文只交运行器，不人工读，原425/旧账本不动。当前新增真实调用0。[计划](../../.eval-artifacts/phase3b/heldout-r2-preparation-20261110/preflight-plan.md)。
 
