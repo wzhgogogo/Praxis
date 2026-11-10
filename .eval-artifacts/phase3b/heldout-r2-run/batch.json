@@ -1,0 +1,85 @@
+{
+  "schema": "phase3b-holdout-batch@2",
+  "serial": true,
+  "stopReason": "INDEPENDENT_EVIDENCE_REVIEW_REQUIRED",
+  "witnessPolicies": [
+    {
+      "id": "p3b-holdout-03",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-04b",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-05",
+      "policy": "ALLOW_KNOWN_UNAVAILABLE"
+    },
+    {
+      "id": "p3b-holdout-06",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-07",
+      "policy": "POSITIVE_REQUIRED"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 1,
+      "key": "p3b-holdout-03-r1",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-03-r1",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "finishedAtMs": 1794302638836,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "ed9fb445cc12043ffe5e069e71e7d62c50e7cddd6a1291254c8551aa370c2cd1",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-r2-03-r1.json",
+        "sha256": "9860f15eb735d9e6878317bc78ce4892f1e0c395577cc53ca6780eb4178a4ae3",
+        "evidenceSHA256": "65676e9cf04f2b167bb3c818edee9eb0f51d48fd961bd63c0375828ac9a9dd67",
+        "evaluationSHA256": "58e0036e0532620d738194ef879b7c1e62a8bb1dc1845be9000d5b21a1a56add"
+      }
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 2,
+      "key": "p3b-holdout-03-r2",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-03-r2",
+      "status": "STOPPED",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 214650,
+        "waitedMs": 0,
+        "previousFinishedAtMs": 1794302638836
+      },
+      "finishedAtMs": 1794303419770,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "27cecf4426b27ba9bccb766d314dbb66c3fbb2d0366e7e6d09bd6322823313f1"
+    }
+  ],
+  "healthyCases": [
+    "p3b-holdout-03"
+  ],
+  "pendingReviewCount": 0,
+  "passRateReportable": false,
+  "budgetCheckpoint": {
+    "entries": 116,
+    "sha256": "5ddc66a2ac58a50183f1466c6ed4843e67cfd51970a959de25ccfbf09a332b8e",
+    "cumulative": {
+      "fullLive": 14,
+      "evaluationPublicGET": 100,
+      "realModelCalls": 1508,
+      "environmentReruns": 0,
+      "googleRequests": 61,
+      "restaurantWebsiteRequests": 3366
+    }
+  }
+}
