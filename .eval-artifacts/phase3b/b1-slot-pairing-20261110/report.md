@@ -8,6 +8,6 @@
 
 D02只使用原failure输入/实际offer记录、原来源响应及已录18:00/18:30两份后验，SHA/URL/正文核对；另存evaluation.offline-recovery-2.input.json与evaluation.offline-recovery-2.json。结果 **PENDING_REVIEW / qualified=null / s0=0 / stopBatch=false**；只有5条COMPLETE_REQUEST_QUALIFICATION待资格注释。此前s0=9文件与原failure均保留，不覆盖。
 
-确认：svt=1900且svps=6的原来源响应里，5个B1均存在；原相对链接只按既有规则补固定来源origin，之后完整URL逐字比较，未改参数/顺序。详见recovery-provenance.json。D01/D8回归通过；完整门禁/扫描待冻结。
+确认：svt=1900且svps=6的原来源响应里，5个B1均存在；原相对链接只按既有规则补固定来源origin，之后完整URL逐字比较，未改参数/顺序。详见recovery-provenance.json。D01/D8回归通过；源码冻结e373d557净树全门禁通过：type/arch/default1571/build/Chromium274+G6 115/strictG2全12；写死扫描新增0、产品diff0。
 
 之后按用户提供的Wang/Git/commitment-r2.json原样入库，只核JSON字节/哈希和4个沿用用例，不读新题原文，不运行held-out。11-11 CET开跑安排仍由后续授权执行。
