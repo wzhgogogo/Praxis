@@ -1,7 +1,7 @@
 import {type IndependentSourceIdentity,type IndependentWidget} from "./source-document.js";
 /** Independent G6 judgement only. No production parser, grounding or verdict import. */
 import { bindNamedOutlet,canonicalOutletId,type G6NamedOutlet,type G6NamedReferences } from "./named-outlet-binding.js";
-export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@6";
+export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@7";
 export type CheckStatus="PASS"|"FAIL"|"NOT_EVALUATED"|"QUOTE_VERIFIED_MEANING_PENDING_REVIEW";
 export interface G6Check {reviewReason?:"INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING";rule:string;status:CheckStatus;severity:"S0"|"CAPABILITY";subject:string;reason:string;evidenceRefs:string[];}
 export interface G6OraclePage {sourceIdentity?:IndependentSourceIdentity;observedAvailability?:IndependentWidget;ref:string;url:string;runId:string;candidateId:string;readAt:string;merchantText:string;merchantScope?:"FULL"|"EXCERPTS";reviewText?:string;name:string;address?:string;phone?:string;observedLinks:string[];}
@@ -17,6 +17,7 @@ export interface G6EvaluationInput {
   qualificationOracles?:Array<{nativeIdentity?:IndependentSourceIdentity;name:string;address?:string;phone?:string;hardCriteriaMet:boolean;withinArea:boolean;evidenceRefs:string[]}>;
   /** Product quotations to verify, never its eligibility/meaning judgement. */
   qualificationClaims?:Array<{candidateId:string;quotes:Array<{text:string;url:string;readAt:string;evidenceId?:string;provider?:string;observedAt?:string}>}>;
+  postDeliveryChecks?:import('./post-delivery-witness.js').PostDeliveryCheck[];
   delivered:G6Delivered[];handoffs:G6Handoff[];answers:G6QuestionAnswer[];pages:G6OraclePage[];vacancy:G6Vacancy[];
   /** Independent outer receiver observations, not the Guard's self-reported verdict. */
   requests:Array<{ref:string;url:string;method:string;reachedSource:boolean;queryKeys?:string[];bodyFields?:Record<string,string>;contentType?:string;bodySHA256?:string;preflight?:{requestOrigin:string;method:string;headerNames:string[];bodyBytes:number}}>;
@@ -62,7 +63,7 @@ function readVacancy(value:G6Vacancy,expected:G6Delivered,sourceCapture:boolean)
     ||!fieldSet(url,["rst_id","svd","svps","svt",...(sourceCapture?["exclude_unavailable_time"]:[])])
     ||sourceCapture&&url.searchParams.has("exclude_unavailable_time")&&url.searchParams.get("exclude_unavailable_time")!=="1")return {known:false,slots:[],links:[],reason:"MISSING_FOUR_PARAMETER_WITNESS_BINDING"};
   const id=expected.sourceEntityId.match(/(?:^|\/)(\d+)\/?$/u)?.[1],date=expected.date.replaceAll("-","");
-  if(!id||url.searchParams.get("rst_id")!==id||url.searchParams.get("svd")!==date||url.searchParams.get("svps")!==String(expected.partySize)||url.searchParams.get("svt")!==expected.time.replace(":",""))return {known:false,slots:[],links:[],reason:"WITNESS_REQUEST_MISMATCH"};
+  if(!id||url.searchParams.get("rst_id")!==id||url.searchParams.get("svd")!==date||url.searchParams.get("svps")!==String(expected.partySize)||(value.phase==="AFTER"?/^(?:[01]\d|2[0-3])[0-5]\d$/u.test(url.searchParams.get("svt")??"")===false:url.searchParams.get("svt")!==expected.time.replace(":","")))return {known:false,slots:[],links:[],reason:"WITNESS_REQUEST_MISMATCH"};
   if(!body||!base||String(base.year)!==expected.date.slice(0,4)||String(base.month).padStart(2,"0")!==expected.date.slice(5,7)||String(base.day).padStart(2,"0")!==expected.date.slice(8,10)||body.members!==expected.partySize)return {known:false,slots:[],links:[],reason:"WITNESS_RESPONSE_BINDING_UNKNOWN"};
   const selection=rows(body.selection);if(!selection)return {known:false,slots:[],links:[],reason:"WITNESS_STRUCTURE_UNKNOWN"};
   const slots:string[]=[],links:string[]=[];
@@ -151,8 +152,9 @@ export function evaluateG6(input:G6EvaluationInput){
       &&window.earliest<=window.latest&&d.time>=window.earliest&&d.time<=window.latest);
     yes("PARTY_TIME",inWindow&&(input.request.partySize===undefined||d.partySize===input.request.partySize)&&(input.request.time===undefined||d.time===input.request.time),d.candidateId,"Displayed guests/slot must match the independent request");
     if(d.provider==="TABELOG"){
-      const candidates=input.vacancy.filter(w=>w.phase==="AFTER"&&w.candidateId===d.candidateId),known=candidates.map(w=>({w,read:independentVacancy(w,d)})).find(x=>x.read.known);
-      if(!known)add("POST_DELIVERY_SLOT","NOT_EVALUATED","S0",d.candidateId,"No independently bound immediate post-run four-parameter response",candidates.map(w=>w.ref));
+      const candidates=input.vacancy.filter(w=>w.phase==="AFTER"),known=candidates.map(w=>({w,read:independentVacancy(w,d)})).find(x=>x.read.known);
+      const skipped=input.postDeliveryChecks?.some(c=>c.status==="NOT_EXECUTED"&&c.target.provider===d.provider&&canonicalOutletId("TABELOG",c.target.sourceEntityId)===canonicalOutletId("TABELOG",d.sourceEntityId)&&c.target.date===d.date&&c.target.partySize===d.partySize);
+      if(!known)add("POST_DELIVERY_SLOT","NOT_EVALUATED","S0",d.candidateId,skipped?"Post-delivery group not executed: POST_DELIVERY_GET_LIMIT; no inventory judgement":"No independently bound immediate post-run four-parameter response",candidates.map(w=>w.ref));
       else yes("POST_DELIVERY_SLOT",known.read.slots.includes(d.time),d.candidateId,"Displayed slot must occur in the independent post-run response",[known.w.ref]);
     }else if(d.provider==="TABLECHECK"){
       const page=input.pages.find(p=>p.candidateId===d.candidateId&&p.runId===input.runId&&p.sourceIdentity?.provider==="TABLECHECK"

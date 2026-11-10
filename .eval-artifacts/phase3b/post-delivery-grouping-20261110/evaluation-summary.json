@@ -1,0 +1,73 @@
+{
+  "D01": {
+    "status": "EVALUATED_BY_REVIEW",
+    "verdict": {
+      "status": "EVALUATED",
+      "qualified": true,
+      "outcome": "QUALIFIED_DELIVERY",
+      "s0": 0,
+      "s0Status": "PASS",
+      "stopBatch": false
+    },
+    "reviewSHA256": "072ddab54056a3581b1ed7aef20ec08bae5be08ead3506a2ee751ca382641502",
+    "originalEvaluationSHA256": "770239bd4e95049e9bc6a314d70c246030149eb33754acdd4fd06d3769370991",
+    "supplementSHA256": "f54486335f8adbb8e6d118216e5f9271034fb62ad3109100f98c0a125d20963c",
+    "reviewKey": "D01-20261110",
+    "recordedSlot": "D01",
+    "keyBinding": "Byte-identical temporary evidence copy; supplied review unchanged; resulting supplemental files copied next to original score. Original batch/evaluation unchanged."
+  },
+  "D02": {
+    "verdict": {
+      "status": "NOT_EVALUATED",
+      "qualified": null,
+      "outcome": null,
+      "s0": 9,
+      "s0Status": "FAIL",
+      "stopBatch": true
+    },
+    "checks": {
+      "REQUEST_BOUNDARY": {
+        "PASS": 200
+      },
+      "QUALIFICATION_QUOTE": {
+        "PASS": 5
+      },
+      "COMPLETE_REQUEST_QUALIFICATION": {
+        "QUOTE_VERIFIED_MEANING_PENDING_REVIEW": 5
+      },
+      "DATE": {
+        "PASS": 5
+      },
+      "PARTY_TIME": {
+        "PASS": 5
+      },
+      "POST_DELIVERY_SLOT": {
+        "PASS": 5
+      },
+      "B1_COPY": {
+        "PASS": 5
+      },
+      "B1_SOURCE_URL": {
+        "FAIL": 5
+      },
+      "B1_LINK": {
+        "PASS": 1,
+        "FAIL": 4
+      },
+      "F6_RESERVE": {
+        "PASS": 1
+      },
+      "DEADLINE": {
+        "PASS": 1
+      },
+      "TURN_BUDGET": {
+        "PASS": 1
+      }
+    },
+    "originalFailureSHA256": "961cd1aef67ad6da67365b3bf641a6c768f95c067b069db4cc00736adaa4bd59",
+    "sourceInputSHA256": "99a011f66c0d86e9a9dd98a8af3428376bbb9957b221b6f28e0d9fbf92dcc05d",
+    "offlineRecoverySHA256": "87dfd76ac10cacf9b8305f0efc9e86f9b7dbcc1c2f4e04eca0ec2f14ee3498bb",
+    "stoppedAt": "Existing B1 multi-slot evaluation binding, not post calendar verification",
+    "noAdditionalReads": true
+  }
+}

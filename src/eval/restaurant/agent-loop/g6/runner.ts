@@ -1,3 +1,4 @@
+import {readPostDeliveryWitnesses,type PostDeliveryCheck} from './post-delivery-witness.js';
 import {readJSON} from "./holdout-checkpoint.js";
 import {checkSavedReview} from "./holdout-review.js";
 import {bindFrozenOracleSources} from "./oracle-source-binding.js";
@@ -155,6 +156,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
     const sink={...capture.snapshotSink,recordSnapshot:(page:BrowserSnapshot,sanitized:unknown)=>{snapshots.push({page:structuredClone(page),at:clock.now().toISOString()});capture.snapshotSink.recordSnapshot?.(page,sanitized);}};
     const browserDiagnostics:Array<Record<string,unknown>>=[];
     let session:Awaited<ReturnType<typeof createG6Session>>|undefined,view:RestaurantCaseView|undefined;
+    let postDeliveryChecks:PostDeliveryCheck[]=[];
     let activeTurn="INITIAL",activeTurnId="INITIAL";const semanticAttempts=new Map<string,number>();const readStarts:ReadStartObservation[]=[];
     const start=(kind:ReadStartObservation["kind"],purpose:string)=>{
       const task=session?.budget.currentTaskId(),usage=task?session?.budget.usage(task):undefined;
@@ -210,6 +212,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       const input:G6EvaluationInput={runId,caseId:view.case.caseId,mode:pack.mode,artifactRefs:[join(slot,"execution.result.json")],request:{...spec.oracle.request},namedReferences:{initial:spec.oracle.request.named??null,turns:namedReferences},
         delivered:deliveries,handoffs:view.restaurant.bookingHandoffs??[],answers:question?[{...question,citations:question.status==="UNVERIFIED"?[]:question.citations}]:[],pages:[...bindOraclePages(spec,view,runId,snapshots),...qualification.pages],qualificationClaims:qualification.claims,vacancy:[...capturedVacancies(snapshots,deliveries),...witnesses.flatMap(w=>w.vacancy?[w.vacancy]:[])],
         requests:forwarded,
+        postDeliveryChecks,
         ...(spec.oracle.questions?{questions:spec.oracle.questions.flatMap(q=>{const candidateId=oracleCandidateId(spec,q.candidateId,view!);return candidateId?[{...q,candidateId}]:[];})}:{}),...(spec.oracle.qualificationOracles?{qualificationOracles:spec.oracle.qualificationOracles}:{}),...(spec.oracle.priceOracles?{priceOracles:spec.oracle.priceOracles}:{}),
         ...(spec.oracle.reviewedReadRules?{reviewedReadRules:spec.oracle.reviewedReadRules}:{}),
         ...(spec.witness&&witnesses[0]?.exists===true?{witnesses:[spec.witness]}:{}),boundedNoResult:hasBoundedNoResultConclusion(view.conversation.messages.filter(m=>m.role==="ASSISTANT").at(-1)?.content??""),
@@ -265,18 +268,19 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       const deliveries=displayed(view);
       // Each delivered Tabelog store is checked immediately and independently;
       // this precedes evaluation and the next slot, never opens the B1 link.
-      for(const d of deliveries.filter(d=>d.provider==="TABELOG")){
-        const page=view.restaurant.readEvidence.find(e=>e.kind==="AVAILABILITY"&&e.candidateId===d.candidateId&&e.provider==="TABELOG")?.sourceUrl;
+      postDeliveryChecks=await readPostDeliveryWitnesses(deliveries,async d=>{
+        const page=view!.restaurant.readEvidence.find(e=>e.kind==="AVAILABILITY"&&e.candidateId===d.candidateId&&e.provider==="TABELOG")?.sourceUrl;
         if(!page)throw Error("No public source detail URL for independent delivered-store check");
-        witnesses.push(await witness.read({...d,detailUrl:page,identityText:[d.name,...(d.address?[d.address]:[])]},"AFTER",false));
-      }
+        const receipt=await witness.read({...d,detailUrl:page,identityText:[d.name,...(d.address?[d.address]:[])]},"AFTER",false);
+        witnesses.push(receipt);return receipt;
+      });
       if(!deliveries.length&&spec.witness)witnesses.push(witnesses[0]?.exists===null?await witness.readDetail(spec.witness,"NO_DELIVERY_AFTER"):await witness.read(spec.witness,"NO_DELIVERY_AFTER",dependencies.witnessDetailRead??true));
       const result=lastArtifact!;
       const input=evaluationInput();
       if(input.qualificationOracles)await bindFrozenOracleSources(input.qualificationOracles);
       const evaluation=evaluateG6(input),{named:_named,...request}=input.request;
       input.request={...request,...(evaluation.namedOutletBinding.named?{named:evaluation.namedOutletBinding.named}:{})};
-      await writeFile(join(slot,"execution.result.json"),serialize({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,...certification(),runId,view,execution:result,turns,witnesses,recordingConfig:pack.recording})+"\n",{flag:"wx"});
+      await writeFile(join(slot,"execution.result.json"),serialize({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,...certification(),runId,view,execution:result,turns,witnesses,postDeliveryChecks,recordingConfig:pack.recording})+"\n",{flag:"wx"});
       await writeFile(join(slot,"boundary-observation.json"),JSON.stringify({...reserveObservations(0,elapsedMs,readStarts,input.requests.map(r=>({...r,forbidden:/yoyaku|payment|checkout|confirmation/iu.test(new URL(r.url).pathname)}))),exceeded500Seconds:turnBudgets.some(t=>t.exceeded500Seconds),limits:{perTurn:{milliseconds:500_000,models:50,google:40},slot:{turns:3,models:150,google:120}},turnBudgets,googleRequests:googleCalls,modelCalls,semanticAttemptsByTurn:Object.fromEntries(semanticAttempts),semanticSchemaRetries:[...semanticAttempts.values()].reduce((n,c)=>n+Math.max(0,c-1),0)},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"evaluation.input.json"),serialize(input)+"\n",{flag:"wx"});await writeFile(join(slot,"evaluation.json"),serialize(evaluation)+"\n",{flag:"wx"});
       receipts.push({...certification(),id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":evaluation.verdict.status==="PENDING_REVIEW"?"PENDING_REVIEW":evaluation.verdict.status==="NOT_EVALUATED"?"RECORDED_NOT_EVALUATED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
