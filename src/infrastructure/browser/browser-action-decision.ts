@@ -5,8 +5,8 @@ import { ModelGatewayError } from "../../core/model/errors.js";
 import type { BrowserCalendarMonth } from "./browser-runtime.js";
 
 /** Current observable controls and native public form ownership; no scripted site flow. */
-export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "4" } as const;
-export const BROWSER_READ_DECISION_PROMPT_VERSION = "22";
+export const BROWSER_READ_CONTEXT_SCHEMA = { name: "browser_read_context", version: "5" } as const;
+export const BROWSER_READ_DECISION_PROMPT_VERSION = "23";
 
 export const BROWSER_ACTION_DECISION_SCHEMA = {
   name: "browser_read_action",
@@ -140,6 +140,8 @@ export interface BrowserReadHistoryStep {
   outcome: "EXECUTED" | "REJECTED" | "NO_CHANGE" | "PAGE_CHANGED";
   reason?: string;
   urlChanged: boolean;
+  /** Actual URL/visible-control state change, independent of incidental prose. */
+  stateChanged?: boolean;
 }
 
 export interface BrowserReadActionDecisionPort {

@@ -773,7 +773,7 @@ test("BrowserTaskExecutor binds model-controlled fields to the Router authority 
 test("BrowserTaskExecutor binds a public retrieval field by observed native name without admitting PII entries", async () => {
   const session = new FixtureSession([{ url: "https://www.tablecheck.com/en/japan/search", title: "search", text: "Search", html: "" }], false, true);
   const controls: BrowserPageControl[] = [
-    { id: "search", stableKey: "input|search_text", kind: "INPUT", role: "textbox", label: "Sushi tonight for 2 in Ginza", value: "omakase",
+    { id: "search", stableKey: "input|search_text", kind: "INPUT", role: "textbox", label: "Sushi tonight for 2 in Ginza", value: "",
       disabled: false, visible: true, structure: { tag: "INPUT", name: "search_text", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },
     { id: "email", stableKey: "input|email", kind: "INPUT", role: "textbox", label: "Restaurant contact", value: "",
       type: "email", disabled: false, visible: true, structure: { tag: "INPUT", name: "customer_email", classes: [], dialogLabel: "", formClass: "", sliderCount: 0 } },

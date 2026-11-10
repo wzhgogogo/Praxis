@@ -1,0 +1,40 @@
+✔ C3 settles delayed date results before asking the model and never completes from stale loading stock (6581.872083ms)
+✔ C3 visible-state fallback settles attribute-only carousel and rejects changing text or skeleton (11860.467334ms)
+✔ C4 blocks repeated toggle state but allows the same Next control on changed pages (2929.496875ms)
+✔ C3b rotating suggestions accept identical bound results but changing results and skeleton remain pending (15420.571167ms)
+✔ C3b Chromium ignores an outstanding image once data has completed (535.929334ms)
+✔ model full-page OPEN_LINK allows slow DOMContentLoaded and times out only within the remaining navigation budget (13080.447875ms)
+✔ recorded DIRECTORY components stop on second equivalent visible-state/action stall, despite changing refs/prose (22.102917ms)
+ℹ {"run":"D01","oldCalls":17,"used":12,"avoided":5,"noProgress":2}
+ℹ {"run":"p3b-holdout-01-r1-retry1","oldCalls":7,"used":6,"avoided":0,"noProgress":0}
+ℹ {"run":"p3b-holdout-02-r2","oldCalls":18,"used":10,"avoided":8,"noProgress":2}
+✔ changing controls through exact suggestion, outlet and date/party has no stall; hidden/opaque refs/prose aren't progress (0.194292ms)
+✖ executor closes a source after two no-effect actions, exposes factual stateChanged history and preserves filled inputs (2231.427417ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 50784.793958
+
+✖ failing tests:
+
+test at src/harness/browser/browser-visible-progress.test.ts:1:2922
+✖ executor closes a source after two no-effect actions, exposes factual stateChanged history and preserves filled inputs (2231.427417ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'NO_SAFE_ACTION'
+  - 'REQUESTED_HUMAN_HELP'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/harness/browser/browser-visible-progress.test.ts:59:17)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'NO_SAFE_ACTION',
+    expected: 'REQUESTED_HUMAN_HELP',
+    operator: 'strictEqual'
+  }

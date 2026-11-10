@@ -1,3 +1,4 @@
+import {BrowserVisibleProgress, visibleProgressKey, visibleActionKey, filledAuthoritativeField} from "./browser-visible-progress.js";
 import {createHash} from "node:crypto";
 import {isBrowserReadPathProhibited} from "./browser-read-policy.js";
 import {normalizedTextKey} from "../../core/text-key.js";
@@ -669,19 +670,11 @@ export class BrowserTaskExecutor {
     let lastRejectedProposal: string | undefined;
     let repeatedRejectedProposals = 0;
     const recoveredObstructions = new Set<string>();
-    const executedStateActions = new Set<string>();
-    let consecutiveStateRepeats = 0;
+    const visibleProgress = new BrowserVisibleProgress();
     const recordRejectedProposal = (key: string) => {
       repeatedRejectedProposals = key === lastRejectedProposal ? repeatedRejectedProposals + 1 : 1;
       lastRejectedProposal = key;
       return repeatedRejectedProposals >= 2;
-    };
-    const pageVisits = new Map<string, number>();
-    const recordPageVisit = (value: BrowserSnapshot, controls: BrowserPageControl[]) => {
-      const key = observationKey(value, controls);
-      const count = (pageVisits.get(key) ?? 0) + 1;
-      pageVisits.set(key, count);
-      return count;
     };
     const pendingControlKeys = new Set<string>();
     for (;;) {
@@ -722,7 +715,6 @@ export class BrowserTaskExecutor {
       if (completion.complete && !pendingOption && !pendingRadio && !pendingParty) return { status: "COMPLETED", snapshot, controls: observation.controls };
       if (!this.options.modelDecision) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       if (!postAction) {
-        recordPageVisit(snapshot, observation.controls);
         this.record({
           source: input.source,
           stage: input.stage,
@@ -791,7 +783,6 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: rejectionDetail });
         if (error instanceof BrowserRuntimeError || (error && typeof error === "object" && "code" in error && error.code === "MODEL_CALL_BUDGET_EXHAUSTED")) throw error;
         if (error instanceof BrowserReadDecisionError && error.code === "INVALID_MODEL_OUTPUT") {
-          consecutiveStateRepeats = 0;
           remember({ action: "MODEL_OUTPUT", outcome: "REJECTED", reason: rejectionDetail, urlChanged: false });
           if (recordRejectedProposal(`${observationKey(snapshot, observation.controls)}|${rejectionDetail}`)) {
             this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_REJECTED_ACTION" });
@@ -821,7 +812,6 @@ export class BrowserTaskExecutor {
       }
       if (action.type === "COMPLETE") {
         modelConfirmed = true;
-        consecutiveStateRepeats = 0;
         if (this.disabledRequestedParty(input, observation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: observation.controls};
         completion = await assess(snapshot, observation.controls);
         if (pendingOption || pendingRadio) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
@@ -859,17 +849,21 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "STALE_OR_UNKNOWN_TARGET_REF" });
         return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
       }
-      const stateActionKey = `${observationKey(snapshot, observation.controls)}|${action.type}|${target?.stableKey ?? "PAGE"}`;
-      if (executedStateActions.has(stateActionKey)) {
-        consecutiveStateRepeats++;
-        remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
-          ...("field" in action ? { field: action.field } : {}), outcome: "REJECTED", reason: "REPEATED_FROM_SAME_STATE", urlChanged: false });
-        progress = "REPEATED_FROM_SAME_STATE: this action and target were already executed from the current visible state. Choose another current observed target that advances the goal. Wait only if the result is actually still loading.";
-        this.record({ source: input.source, stage: input.stage, event: "REJECTED", url: snapshot.url, detail: "REPEATED_FROM_SAME_STATE" });
-        if (consecutiveStateRepeats >= 2) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
+      const visibleBefore = visibleProgressKey(snapshot.url, observation.controls);
+      const actionValue = "field" in action ? this.authoritativeValues(input)[action.field] : action;
+      const stateActionKey = visibleActionKey(action.type, target, action.type === "FILL_AUTHORITATIVE" ? actionValue
+        : Object.fromEntries(Object.entries(action).filter(([key]) => !["targetRef", "reason"].includes(key))));
+      if (visibleProgress.repeated(visibleBefore, stateActionKey)) {
+        remember({action:action.type,...(target ? {targetLabel:safeText(target.label,160),targetKind:target.kind}:{}),
+          ...("field" in action ? {field:action.field}:{}),outcome:"REJECTED",reason:"REPEATED_FROM_SAME_STATE",urlChanged:false,stateChanged:false});
+        this.record({source:input.source,stage:input.stage,event:"REJECTED",url:snapshot.url,detail:"REPEATED_FROM_SAME_STATE"});
+        if (visibleProgress.noProgress()) {
+          this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:snapshot.url,detail:"NO_PROGRESS"});
+          return {status:"NO_SAFE_ACTION",reasonCode:"NO_PROGRESS",snapshot,controls:observation.controls};
+        }
+        progress = "REPEATED_FROM_SAME_STATE: this action and value already ran on equivalent visible controls. Choose a different observed action that advances the goal.";
         continue;
       }
-      consecutiveStateRepeats = 0;
       const confirmationOperations = 2 + (input.session.observeControls ? 1 : 0);
       if (this.operationCount + confirmationOperations > (this.options.maxOperationsPerCandidate)) {
         this.recordBudgetExhausted(input, "OPERATION_BUDGET_EXHAUSTED");
@@ -880,7 +874,7 @@ export class BrowserTaskExecutor {
           throw new Error("A previous option is still unconfirmed; WAIT for its selected value before choosing another option");
         }
         await this.applyGenericAction(input, observation, target, action);
-        executedStateActions.add(stateActionKey);
+        visibleProgress.executed(visibleBefore, stateActionKey);
       } catch (error) {
         const obstruction = target !== undefined && pointerObstruction(error);
         remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
@@ -938,6 +932,7 @@ export class BrowserTaskExecutor {
       if (action.type !== "WAIT") await this.waitForSettled(input, priorSnapshot);
       snapshot = await this.snapshot(input);
       const postActionObservation = await this.observe(input, snapshot);
+      const visibleStateChanged = visibleBefore !== visibleProgressKey(snapshot.url, postActionObservation.controls);
       const observedControlChange = controlsChanged(observation.controls, postActionObservation.controls);
       const changed = !sameObservation(priorSnapshot, snapshot) || observedControlChange;
       const publicQueryWaitChanged = changed && snapshot.settlement !== "PENDING";
@@ -956,7 +951,7 @@ export class BrowserTaskExecutor {
       remember({ action: action.type, ...(target ? { targetLabel: safeText(target.label, 160), targetKind: target.kind } : {}),
         ...("field" in action ? { field: action.field } : {}), outcome: effectVerified ? "PAGE_CHANGED" : "NO_CHANGE",
         ...(partyUnconfirmed ? { reason: "PARTY_SIZE_NOT_CONFIRMED" } : monthUnconfirmed ? { reason: "CALENDAR_MONTH_UNCHANGED" } : {}),
-        urlChanged: priorSnapshot.url !== snapshot.url });
+        urlChanged: priorSnapshot.url !== snapshot.url, stateChanged:visibleStateChanged });
       this.record({
         source: input.source,
         stage: input.stage,
@@ -967,6 +962,10 @@ export class BrowserTaskExecutor {
       });
       completion = await assess(snapshot, postActionObservation.controls);
       if (completion.complete && optionConfirmed && !monthUnconfirmed && !pendingParty) return { status: "COMPLETED", snapshot, controls: postActionObservation.controls };
+      if (!visibleStateChanged && visibleProgress.noProgress()) {
+        this.record({source:input.source,stage:input.stage,event:"METHOD_INCOMPLETE",url:snapshot.url,detail:"NO_PROGRESS"});
+        return {status:"NO_SAFE_ACTION",reasonCode:"NO_PROGRESS",snapshot,controls:postActionObservation.controls};
+      }
       if (partyUnconfirmed) {
         if (target) pendingControlKeys.add(target.stableKey);
         unchangedPageKey = observationKey(snapshot);
@@ -996,10 +995,6 @@ export class BrowserTaskExecutor {
         this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "OPTION_VALUE_NOT_CONFIRMED" });
         postAction = true;
         continue;
-      }
-      if (recordPageVisit(snapshot, postActionObservation.controls) >= 3) {
-        this.record({ source: input.source, stage: input.stage, event: "METHOD_INCOMPLETE", url: snapshot.url, detail: "NO_PROGRESS_PAGE_CYCLE" });
-        return { status: "NO_SAFE_ACTION", snapshot, controls: postActionObservation.controls };
       }
       if (!effectVerified && sameObservation(priorSnapshot, snapshot)) {
         unchangedPageKey = observationKey(snapshot);
@@ -1166,11 +1161,12 @@ export class BrowserTaskExecutor {
       }
     } else if (target.kind === "INPUT") {
       if (target.readOnly && this.guardedReadControl(input, target)) availableActions.push("CLICK");
-      if (input.goal.date && this.boundInputField(target, "DATE")) availableActions.push("FILL_AUTHORITATIVE:DATE");
-      if (input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
-      if (input.goal.retrievalExpression && input.goal.retrievalSource && this.boundInputField(target, "RETRIEVAL") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
-      if (input.stage === "DISCOVERY" && input.goal.location?.name && this.boundInputField(target, "LOCATION") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:LOCATION");
-      if (!availableActions.length) rejectionReason = "NO_BOUND_INPUT_FIELD";
+      const filled = filledAuthoritativeField(target.value, this.authoritativeValues(input));
+      if (!filled && input.goal.date && this.boundInputField(target, "DATE")) availableActions.push("FILL_AUTHORITATIVE:DATE");
+      if (!filled && input.goal.partySize !== undefined && this.boundInputField(target, "PARTY_SIZE")) availableActions.push("FILL_AUTHORITATIVE:PARTY_SIZE");
+      if (!filled && input.goal.retrievalExpression && input.goal.retrievalSource && this.boundInputField(target, "RETRIEVAL") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:RETRIEVAL");
+      if (!filled && input.stage === "DISCOVERY" && input.goal.location?.name && this.boundInputField(target, "LOCATION") && this.guardedReadControl(input, target)) availableActions.push("FILL_AUTHORITATIVE:LOCATION");
+      if (!availableActions.length) rejectionReason = filled ? `AUTHORITATIVE_INPUT_PRESENT:${filled}: replacing this input would replace its current value, not add a second condition` : "NO_BOUND_INPUT_FIELD";
     } else if (target.kind === "CHECKBOX" || target.kind === "RADIO" || target.kind === "RANGE") {
       const action = target.kind === "RANGE" ? "ADJUST_RANGE" : "SET_CHECKED";
       if (pendingSelection) rejectionReason = "PREVIOUS_OPTION_UNCONFIRMED";
@@ -1354,6 +1350,8 @@ export class BrowserTaskExecutor {
       : action.field === "PARTY_SIZE" ? input.goal.partySize : action.field === "LOCATION" && input.stage === "DISCOVERY" ? input.goal.location?.name : action.field === "RETRIEVAL" ? input.goal.retrievalExpression : undefined;
     if (authoritative === undefined) throw this.rejected(input.source, input.stage, `The current read has no authoritative ${action.field.toLowerCase()} value`);
     const value = String(authoritative);
+    const filled = filledAuthoritativeField(target.value, this.authoritativeValues(input));
+    if (filled) throw this.rejected(input.source,input.stage,`AUTHORITATIVE_INPUT_PRESENT:${filled}: one input retains one value; use a current observed option or a different input`);
     if (!this.boundInputField(target, action.field) || (action.field === "RETRIEVAL" || action.field === "LOCATION") && !this.guardedReadControl(input, target)) {
       throw new Error(`${action.type} target has the wrong control kind`);
     }
@@ -1363,6 +1361,10 @@ export class BrowserTaskExecutor {
     await this.operation(input, "FILL_AUTHORITATIVE", () => input.session.fill(target.controlId, value, { ...this.actionOptions(), inputSource }));
     // A new observation revision invalidates every prior reference, including this one.
     void observation;
+  }
+
+  private authoritativeValues(input: BrowserSkillReadInput): Record<string, string | number | undefined> {
+    return {DATE:input.goal.date,PARTY_SIZE:input.goal.partySize,LOCATION:input.stage === "DISCOVERY" ? input.goal.location?.name : undefined,RETRIEVAL:input.goal.retrievalExpression};
   }
 
   private async waitForSettled(input: Pick<BrowserSkillReadInput, "source" | "stage" | "signal"> & { session: BrowserSession }, previous: BrowserSnapshot, countOperation = true): Promise<boolean> {

@@ -347,7 +347,7 @@ test("H001 native first batch presents three source-bound Tabelog results withou
     factChecks: result.state.factChecks, continuation: result.state.searchContinuation, navigations: result.navigations, purposes: result.model.purposes }));
   assert.equal(result.state.presentedResults?.candidateIds.every((id) => id.startsWith("tabelog:")), true);
   assert.equal(result.navigations.some((url) => url.includes("tablecheck.com")), false);
-  assert.deepEqual(result.state.searchContinuation?.discoveryPlan?.entries.map((entry) => entry.sourceId), ["tabelog", "tablecheck", "google-places"], "the production composition retains the full three-pack plan while the first pack delivers");
+  assert.deepEqual(result.state.searchContinuation?.discoveryPlan?.entries.map((entry) => entry.sourceId), ["tabelog", "google-places", "tablecheck"], "the production composition retains the full three-pack plan while the first pack delivers");
   assert.equal(new Set(result.navigations.slice(0, 4).map((_url, index) => result.navigationSessionIds[index])).size, 1,
     "a healthy Tabelog list and its three details share one browser session");
   assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
@@ -910,7 +910,7 @@ test("P21 failed model calls count toward the shared probe ceiling; later source
    browser:sourcePages("TABELOG_DELIVERS",[],[],[],[],{guardedReadBoundary:true}),clock:{now:()=>reference}});
  assert.equal(result.resources.modelCalls,1);assert.equal(calls,1);
  assert.equal(result.terminationReason,"MODEL_CALL_BUDGET_EXHAUSTED");
- assert.deepEqual(result.unattemptedSourceIds,["tablecheck","google-places"]);
+ assert.deepEqual(result.unattemptedSourceIds,["google-places","tablecheck"]);
  assert.equal(result.witnessInListing,false);
 });
 
@@ -946,7 +946,7 @@ test('P21 native venue and Google entries reuse one initial text retrieval propo
  assert.equal(googleRequests.length,1);
  assert.ok(googleRequests[0]!.url.endsWith('/places:searchText'),'shared keyword must select the text transport');
  assert.equal(googleRequests[0]!.body.textQuery,'omakase Shibuya');
- assert.deepEqual(result.attemptedSourceIds,['tabelog','tablecheck','google-places']);
+ assert.deepEqual(result.attemptedSourceIds,['tabelog','google-places','tablecheck']);
  const initialTextPlans=model.requests.filter(r=>r.purpose==='restaurant_discovery_retrieval'&&JSON.parse(r.messages.find(m=>m.role==='user')!.content).observation===null);
  assert.equal(initialTextPlans.length,1);assert.ok(result.resources.modelCalls<=15);
 });
@@ -1006,7 +1006,7 @@ test('H002 without positive HARD uses general shared retrieval and Google nearby
 
 // Full production interpreter -> compiler -> Router -> events/Reducer -> output.
 // Only model and source transport are local constructed; no prefilled evidence.
-test("F5c observed source choice precedes TableCheck 2 and Google 26 pending candidates", async () => {
+test("F5c observed source correction precedes Google26 pending candidates and defers reservation-only discovery", async () => {
   const directory=await mkdtemp(resolve('.eval-artifacts','flow-decision-capture-'));
   const recording=new BrowserReadRecording({directory,runId:'browser'});
   const capture=createHybridDecisionCapture(resolve(directory,'offline.result.json'),recording);
@@ -1014,15 +1014,15 @@ test("F5c observed source choice precedes TableCheck 2 and Google 26 pending can
   const result = await runScenario("F5_PENDING_CORRECTION", {packs: restaurantDiscoveryPacks,decisionCapture:capture});
   const decisions = result.model.requests.filter(request => request.purpose === "restaurant_agent_decide")
     .map(request => JSON.parse(request.messages.find(message => message.role === "user")!.content).context);
-  const pending = decisions.find(context => context.candidates?.length === 28);
-  assert.ok(pending, "the real Agent must observe all 2 TableCheck + 26 Google candidates");
-  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.id.startsWith("tablecheck:")).length, 2);
+  const pending = decisions.find(context => context.candidates?.length === 26);
+  assert.ok(pending, "the real Agent observes all26 Google candidates before reservation-only fallback");
+  assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.id.startsWith("tablecheck:")).length, 0);
   assert.equal(result.state.candidates.filter(candidate => candidate.restaurant.sourceIds.googlePlaces).length, 26);
   assert.equal(pending.searchAvailability.reason, "NATIVE_FIRST_BATCH_PENDING");
   assert.equal(pending.legalActions.search, false, "retain production SEARCH gating rather than bypassing it");
   const alternate = result.navigations.indexOf("https://tabelog.com/en/tokyo/A1323/");
   assert.ok(alternate >= 0, "F5c: correction must happen before the root Agent can queue other sources");
-  assert.ok(alternate < result.navigations.findIndex(url => url.includes("tablecheck.com")), "correction belongs to the first Tabelog source invocation");
+  assert.equal(result.navigations.some(url=>url.includes("tablecheck.com")),false,"Pending primary candidates must be investigated before reservation-only discovery");
   const firstCall = result.trajectories[0]!.executionMetadata!.nativeDiscoveryFunnel!;
   assert.equal(firstCall.sourceDetailAttempts,3,"the fixture model chose the alternate's three actual merchant links; no fixed two-sample correction remains");
   assert.ok(firstCall.retrieval!.regionPages<=4);

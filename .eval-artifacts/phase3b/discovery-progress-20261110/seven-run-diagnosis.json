@@ -1,0 +1,2961 @@
+[
+  {
+    "run": "D01",
+    "path": "/private/tmp/praxis-heldout-read-reliability/.eval-artifacts/phase3b/d01-d02-development-20261109/runtime/D01/D01",
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 17,
+        "elapsedMs": 68214
+      },
+      "VENUE_SEARCH": {
+        "modelCalls": 8,
+        "elapsedMs": 36480
+      },
+      "TABELOG": {
+        "modelCalls": 3,
+        "elapsedMs": 151613
+      }
+    },
+    "candidates": [
+      {
+        "name": "LA CEPA",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-3371-9633",
+          "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+          "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "バル014 馬場ワイン食堂",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-6205-6517",
+          "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+          "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+          "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/"
+        }
+      },
+      {
+        "name": "vivo daily stand 高田馬場店",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-6380-3501",
+          "googlePlaces": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+          "googleMapsUri": "https://maps.google.com/?cid=10870037893060367767&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "http://blog.livedoor.jp/vivodailystand-takadanobaba/",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "ESTASI",
+        "source": "google-places",
+        "ids": {
+          "phone": "080-9531-5700",
+          "googlePlaces": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+          "googleMapsUri": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "http://estasi.tokyo/",
+          "discoverySourceId": "google-places"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [
+            "40597affc87ea13ab47f70eb954da176e1fdd234d8ead9d17a7b873f5693e7d9"
+          ],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 71413,
+          "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 4,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation or supplied categories yet; retrieve by the hard criterion keyword for Spanish restaurants in Takadanobaba.",
+                "keyword": "Spanish",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 3
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 18,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 70099,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABLECHECK",
+          "latencyMs": 36528,
+          "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABLECHECK",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 1,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation or supplied categories yet; retrieve by the hard criterion keyword for Spanish restaurants in Takadanobaba.",
+                "keyword": "Spanish",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 0
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 3,
+            "rawSourceLinks": 22,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 36480,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "4 candidates discovered; 4 newly accepted",
+          "evidenceIds": [
+            "evidence:restaurant:google-discovery:0cc984c7be4e90a1a926173d",
+            "evidence:restaurant:google-entity:0cc984c7be4e90a1a926173d",
+            "evidence:restaurant:google-facts:b20e6adb4636f4e99fba8111",
+            "evidence:restaurant:google-discovery:e93a53ff6509aa0203e8988e",
+            "evidence:restaurant:google-entity:e93a53ff6509aa0203e8988e",
+            "evidence:restaurant:google-facts:31d5b4122aa83e08c7a179cf",
+            "evidence:restaurant:google-discovery:d208635f945ed44cc99d1267",
+            "evidence:restaurant:google-entity:d208635f945ed44cc99d1267",
+            "evidence:restaurant:google-facts:d8f0bb15974f5861d8f0c2ea",
+            "evidence:restaurant:google-discovery:6945a82cf598f8e070939115",
+            "evidence:restaurant:google-entity:6945a82cf598f8e070939115",
+            "evidence:restaurant:google-facts:eaa9b4e6942e82196c3bb394"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1773,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "center": {
+              "latitude": 35.7121396,
+              "longitude": 139.7026251
+            },
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                "distanceMeters": 230.68816086368454,
+                "sourceCoordinates": {
+                  "latitude": 35.7126334,
+                  "longitude": 139.7001464
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "distanceMeters": 234.84365935473394,
+                "sourceCoordinates": {
+                  "latitude": 35.712308,
+                  "longitude": 139.70521499999998
+                }
+              },
+              {
+                "accepted": false,
+                "reasonCode": "GOOGLE_PLACE_TYPE_UNUSABLE",
+                "sourcePlaceId": "ChIJP9JceTmNGGARkWu-1Q2yEOU",
+                "distanceMeters": 143.24115319602086,
+                "sourceCoordinates": {
+                  "latitude": 35.7120023,
+                  "longitude": 139.7042008
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ715wMzmNGGARlxXmLt8h2pY",
+                "distanceMeters": 392.53366588277606,
+                "sourceCoordinates": {
+                  "latitude": 35.713992499999996,
+                  "longitude": 139.70632
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                "distanceMeters": 323.99914971598963,
+                "sourceCoordinates": {
+                  "latitude": 35.714491100000004,
+                  "longitude": 139.7047374
+                }
+              }
+            ],
+            "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "exactRadiusGate": "ENFORCED"
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY",
+          "detail": "1 offers observed",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:5fb28ab34f46faf24d3b9be2",
+            "evidence:restaurant:tabelog-hard-criteria:8d5895000c5cdd3d20ee54c8",
+            "evidence:restaurant:tabelog-availability:f20708dc7d77214abac2e04d"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:0f85d272-c963-4b2e-bbc9-1a530ebbe972",
+            "startedAt": "2026-11-09T15:02:06.328Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "TABELOG",
+          "latencyMs": 19139,
+          "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "skippedSources": [
+            {
+              "reason": "TABLECHECK_NOT_EVIDENCED",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0"
+            }
+          ],
+          "providerAttempts": [
+            {
+              "outcome": "AVAILABLE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "failureCode": "ENTITY_MATCH_UNCERTAIN"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0",
+              "failureCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY",
+          "detail": "0 offers observed",
+          "evidenceIds": [],
+          "candidateIds": [
+            "praxis:restaurant:b1471ffa1b7a3a7550d225ae"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:0f85d272-c963-4b2e-bbc9-1a530ebbe972",
+            "startedAt": "2026-11-09T15:02:06.328Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "TABELOG",
+          "latencyMs": 2350,
+          "failureCode": "AVAILABILITY_SOURCES_EXHAUSTED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "skippedSources": [
+            {
+              "reason": "TABLECHECK_NOT_EVIDENCED",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae"
+            }
+          ],
+          "providerAttempts": [
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+              "failureCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "CANDIDATE_FACTS",
+          "detail": "3 candidate fact read(s) completed",
+          "evidenceIds": [
+            "evidence:restaurant:google-entity:742497a1bffb5a3e99c1f210",
+            "evidence:restaurant:google-facts:97ee8c5d58f0f5fc190a7263",
+            "fact-judgment:praxis:restaurant:cbc86e1eaefc621c16ec39b1:2026-11-09T15:02:32.979Z:evidence:restaurant:google-facts:97ee8c5d58f0f5fc190a7263",
+            "evidence:restaurant:google-entity:5a05dfc54bb5261e90785394",
+            "evidence:restaurant:google-facts:8810d9bf2ec5c53c5691e6f0",
+            "fact-judgment:praxis:restaurant:b1471ffa1b7a3a7550d225ae:2026-11-09T15:02:34.591Z:evidence:restaurant:google-facts:8810d9bf2ec5c53c5691e6f0",
+            "evidence:restaurant:google-entity:828169bfc4a9524582b10f16",
+            "evidence:restaurant:google-facts:c3e240b578d010e2f67cd50a",
+            "fact-judgment:praxis:restaurant:f99903343f3a6b510d078be0:2026-11-09T15:02:35.865Z:evidence:restaurant:google-facts:c3e240b578d010e2f67cd50a"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:b1471ffa1b7a3a7550d225ae",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ],
+          "factSourceAttempts": [
+            {
+              "source": "GOOGLE_PLACES",
+              "outcome": "COMPLETED",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1"
+            },
+            {
+              "source": "GOOGLE_PLACES",
+              "outcome": "COMPLETED",
+              "candidateId": "praxis:restaurant:b1471ffa1b7a3a7550d225ae"
+            },
+            {
+              "source": "GOOGLE_PLACES",
+              "outcome": "COMPLETED",
+              "candidateId": "praxis:restaurant:f99903343f3a6b510d078be0"
+            }
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 4745,
+          "modelUsage": {
+            "calls": 3,
+            "inputTokens": 0,
+            "totalTokens": 0,
+            "outputTokens": 0
+          },
+          "googleRequests": {
+            "limit": 40,
+            "total": 5,
+            "discovery": 1,
+            "placeDetails": 3,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "CANDIDATE_FACTS",
+          "detail": "1 candidate fact read(s) completed",
+          "evidenceIds": [
+            "evidence:restaurant:google-entity:054c6f01aa7434063499bf2e",
+            "evidence:restaurant:google-facts:77093a223075583c62201a76",
+            "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-09T15:02:38.552Z:evidence:restaurant:google-facts:77093a223075583c62201a76"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ],
+          "factSourceAttempts": [
+            {
+              "source": "GOOGLE_PLACES",
+              "outcome": "COMPLETED",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            }
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1384,
+          "modelUsage": {
+            "calls": 1,
+            "inputTokens": 0,
+            "totalTokens": 0,
+            "outputTokens": 0
+          },
+          "googleRequests": {
+            "limit": 40,
+            "total": 6,
+            "discovery": 1,
+            "placeDetails": 4,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "RESULTS_PRESENTED",
+          "detail": "1 grounded restaurant result(s) presented"
+        },
+        "metadata": {}
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "1 candidates discovered; 1 newly accepted",
+          "evidenceIds": [
+            "de4931984a041b3ef7b51dfac8447c9aa6c51dd1e87d54a23ba760e90cdb6f5e",
+            "evidence:restaurant:google-discovery:259a863c58322b60643e9205",
+            "evidence:restaurant:google-entity:259a863c58322b60643e9205",
+            "evidence:restaurant:google-facts:9fe29b954e969963a9a808a9"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ]
+        },
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1424,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 0,
+            "placeDetails": 1,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "NAMED_OUTLET_UNIQUE",
+                "sourcePlaceId": "ChIJgTwGXjmNGGARl-LhNGEAQtc"
+              }
+            ],
+            "requestMode": "UNRESTRICTED",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "exactRadiusGate": "NOT_APPLICABLE"
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "CANDIDATE_SELECTED",
+          "detail": "USER_MESSAGE: praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY",
+          "detail": "1 offers observed",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:d5f95cef2f377f3eca3f278a",
+            "evidence:restaurant:tabelog-hard-criteria:08ac062946cde94456bc5b8d",
+            "evidence:restaurant:tabelog-availability:c5e7a4a3fe03399883348441"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:f61bd81d-7211-447d-b8d8-73dfeefbb431",
+            "startedAt": "2026-11-09T15:02:46.905Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "TABELOG",
+          "latencyMs": 13643,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 0,
+            "placeDetails": 1,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "skippedSources": [],
+          "providerAttempts": [
+            {
+              "outcome": "AVAILABLE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "CANDIDATE_FACTS",
+          "detail": "1 candidate fact read(s) completed",
+          "evidenceIds": [
+            "evidence:restaurant:google-entity:6386899b5f1b87a7f0d8db53",
+            "evidence:restaurant:google-facts:005156c2c3f643098f5ff0b7",
+            "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-09T15:03:04.775Z:evidence:restaurant:google-facts:005156c2c3f643098f5ff0b7"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ],
+          "factSourceAttempts": [
+            {
+              "source": "GOOGLE_PLACES",
+              "outcome": "COMPLETED",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            }
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 2331,
+          "modelUsage": {
+            "calls": 1,
+            "inputTokens": 0,
+            "totalTokens": 0,
+            "outputTokens": 0
+          },
+          "googleRequests": {
+            "limit": 40,
+            "total": 3,
+            "discovery": 0,
+            "placeDetails": 2,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "RESULTS_PRESENTED",
+          "detail": "1 grounded restaurant result(s) presented"
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "run": "p3b-holdout-01-r1-retry1",
+    "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/heldout-evidence-05/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-01-r1-retry1/p3b-holdout-01-r1-retry1",
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 7,
+        "elapsedMs": 50412
+      },
+      "VENUE_SEARCH": {
+        "modelCalls": 5,
+        "elapsedMs": 24118
+      },
+      "TABELOG": {
+        "modelCalls": 3,
+        "elapsedMs": 231744
+      },
+      "TABLECHECK": {
+        "modelCalls": 22,
+        "elapsedMs": 196286
+      }
+    },
+    "candidates": [
+      {
+        "name": "LA CEPA",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-3371-9633",
+          "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+          "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "バル014 馬場ワイン食堂",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-6205-6517",
+          "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+          "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "ESTASI",
+        "source": "google-places",
+        "ids": {
+          "phone": "080-9531-5700",
+          "googlePlaces": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+          "googleMapsUri": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "http://estasi.tokyo/",
+          "discoverySourceId": "google-places"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [
+            "5827559ead00691e335f63dc5ad437dcc1a69138174027ab22e4d3cb8bfb1452"
+          ],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 52816,
+          "failureCode": "BROWSER_TIMEOUT",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 4,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation or supplied categories yet; retrieve by the hard criterion keyword for Spanish restaurants in Takadanobaba.",
+                "keyword": "Spanish",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 3
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 20,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 51621,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABLECHECK",
+          "latencyMs": 24148,
+          "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABLECHECK",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 1,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation or supplied categories yet; retrieve by the hard criterion keyword for Spanish restaurants in Takadanobaba.",
+                "keyword": "Spanish",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 0
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 3,
+            "rawSourceLinks": 22,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 24118,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "3 candidates discovered; 3 newly accepted",
+          "evidenceIds": [
+            "evidence:restaurant:google-discovery:e8d8e78e649bc25eba17056c",
+            "evidence:restaurant:google-entity:e8d8e78e649bc25eba17056c",
+            "evidence:restaurant:google-facts:642f664328fd9513e3fad46c",
+            "evidence:restaurant:google-discovery:76faae59e38a068c4ac4b30c",
+            "evidence:restaurant:google-entity:76faae59e38a068c4ac4b30c",
+            "evidence:restaurant:google-facts:1f32cc499c018755aa4335c3",
+            "evidence:restaurant:google-discovery:102dc56dfa449266b340eb81",
+            "evidence:restaurant:google-entity:102dc56dfa449266b340eb81",
+            "evidence:restaurant:google-facts:17654c1acc91139e0b9cd7a8"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 2538,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "center": {
+              "latitude": 35.7121396,
+              "longitude": 139.7026251
+            },
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                "distanceMeters": 230.68816086368454,
+                "sourceCoordinates": {
+                  "latitude": 35.7126334,
+                  "longitude": 139.7001464
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "distanceMeters": 234.84365935473394,
+                "sourceCoordinates": {
+                  "latitude": 35.712308,
+                  "longitude": 139.70521499999998
+                }
+              },
+              {
+                "accepted": false,
+                "reasonCode": "GOOGLE_PLACE_TYPE_UNUSABLE",
+                "sourcePlaceId": "ChIJP9JceTmNGGARkWu-1Q2yEOU",
+                "distanceMeters": 143.24115319602086,
+                "sourceCoordinates": {
+                  "latitude": 35.7120023,
+                  "longitude": 139.7042008
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                "distanceMeters": 323.99914971598963,
+                "sourceCoordinates": {
+                  "latitude": 35.714491100000004,
+                  "longitude": 139.7047374
+                }
+              }
+            ],
+            "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "exactRadiusGate": "ENFORCED"
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY_UNKNOWN",
+          "detail": "BUDGET_RESERVED_FOR_DELIVERY",
+          "evidenceIds": [],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:355700c9-6932-4096-b195-a5f07718b96b",
+            "startedAt": "2026-11-09T09:26:21.877Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "latencyMs": 65140,
+          "failureCode": "BUDGET_RESERVED_FOR_DELIVERY",
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "reserveReached": {
+            "reason": "MODEL_CALL",
+            "completedCandidateIds": [
+              "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            ]
+          },
+          "providerAttempts": [
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "failureCode": "BROWSER_TIMEOUT"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "failureCode": "BROWSER_TIMEOUT"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "READ_ENDED",
+          "detail": "Bounded read ended without a grounded result",
+          "candidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ],
+          "unresolvedCandidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "run": "p3b-holdout-01-r2",
+    "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/heldout-evidence-05/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-01-r2/p3b-holdout-01-r2",
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 20,
+        "elapsedMs": 71153
+      },
+      "VENUE_SEARCH": {
+        "modelCalls": 7,
+        "elapsedMs": 28865
+      },
+      "TABELOG": {
+        "modelCalls": 1,
+        "elapsedMs": 209096
+      },
+      "TABLECHECK": {
+        "modelCalls": 13,
+        "elapsedMs": 201085
+      }
+    },
+    "candidates": [
+      {
+        "name": "LA CEPA",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-3371-9633",
+          "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+          "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "バル014 馬場ワイン食堂",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-6205-6517",
+          "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+          "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "ESTASI",
+        "source": "google-places",
+        "ids": {
+          "phone": "080-9531-5700",
+          "googlePlaces": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+          "googleMapsUri": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "http://estasi.tokyo/",
+          "discoverySourceId": "google-places"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [
+            "32457a51067650ecb1448303fd66dd4ba5d31da69f67e51a11ecf46700119941"
+          ],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 73477,
+          "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 4,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation or supplied categories yet; retrieve by the hard criterion keyword for Spanish restaurants in Takadanobaba.",
+                "keyword": "Spanish",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 3
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 18,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 72314,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABLECHECK",
+          "latencyMs": 28911,
+          "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABLECHECK",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 1,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation or supplied categories yet; retrieve by the hard criterion keyword for Spanish restaurants in Takadanobaba.",
+                "keyword": "Spanish",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 0
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 3,
+            "rawSourceLinks": 22,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 28865,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "3 candidates discovered; 3 newly accepted",
+          "evidenceIds": [
+            "evidence:restaurant:google-discovery:fa4246940b8efe2a2d65e78c",
+            "evidence:restaurant:google-entity:fa4246940b8efe2a2d65e78c",
+            "evidence:restaurant:google-facts:e07c83e04cda97c900d23069",
+            "evidence:restaurant:google-discovery:c3b86ceea9b53af3f1409dfe",
+            "evidence:restaurant:google-entity:c3b86ceea9b53af3f1409dfe",
+            "evidence:restaurant:google-facts:e5599d517b42beadc6b52a60",
+            "evidence:restaurant:google-discovery:22ee917e324635c3b6399558",
+            "evidence:restaurant:google-entity:22ee917e324635c3b6399558",
+            "evidence:restaurant:google-facts:0fdceeb6fbe79c74cb8e74b6"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1156,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "center": {
+              "latitude": 35.7121396,
+              "longitude": 139.7026251
+            },
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                "distanceMeters": 230.68816086368454,
+                "sourceCoordinates": {
+                  "latitude": 35.7126334,
+                  "longitude": 139.7001464
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "distanceMeters": 234.84365935473394,
+                "sourceCoordinates": {
+                  "latitude": 35.712308,
+                  "longitude": 139.70521499999998
+                }
+              },
+              {
+                "accepted": false,
+                "reasonCode": "GOOGLE_PLACE_TYPE_UNUSABLE",
+                "sourcePlaceId": "ChIJP9JceTmNGGARkWu-1Q2yEOU",
+                "distanceMeters": 143.24115319602086,
+                "sourceCoordinates": {
+                  "latitude": 35.7120023,
+                  "longitude": 139.7042008
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                "distanceMeters": 323.99914971598963,
+                "sourceCoordinates": {
+                  "latitude": 35.714491100000004,
+                  "longitude": 139.7047374
+                }
+              }
+            ],
+            "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "exactRadiusGate": "ENFORCED"
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY_UNKNOWN",
+          "detail": "BUDGET_RESERVED_FOR_DELIVERY",
+          "evidenceIds": [],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:5d974c34-3ff4-4061-871a-19c0cfeedb36",
+            "startedAt": "2026-11-09T09:30:47.855Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "latencyMs": 65147,
+          "failureCode": "BUDGET_RESERVED_FOR_DELIVERY",
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "reserveReached": {
+            "reason": "MODEL_CALL",
+            "completedCandidateIds": [
+              "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            ]
+          },
+          "providerAttempts": [
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "failureCode": "BROWSER_TIMEOUT"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "failureCode": "BROWSER_TIMEOUT"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "READ_ENDED",
+          "detail": "Bounded read ended without a grounded result",
+          "candidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ],
+          "unresolvedCandidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "run": "p3b-holdout-01-r3",
+    "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/heldout-evidence-05/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-01-r3/p3b-holdout-01-r3",
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 15,
+        "elapsedMs": 56063
+      },
+      "VENUE_SEARCH": {
+        "modelCalls": 8,
+        "elapsedMs": 32089
+      },
+      "TABELOG": {
+        "modelCalls": 2,
+        "elapsedMs": 208997
+      },
+      "TABLECHECK": {
+        "modelCalls": 15,
+        "elapsedMs": 206971
+      }
+    },
+    "candidates": [
+      {
+        "name": "LA CEPA",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-3371-9633",
+          "googlePlaces": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+          "googleMapsUri": "https://maps.google.com/?cid=14666649207223155815&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "バル014 馬場ワイン食堂",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-6205-6517",
+          "googlePlaces": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+          "googleMapsUri": "https://maps.google.com/?cid=15510960484116456087&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+          "googleWebsiteUri": "https://tabelog.com/tokyo/A1305/A130503/13198396/"
+        }
+      },
+      {
+        "name": "ESTASI",
+        "source": "google-places",
+        "ids": {
+          "phone": "080-9531-5700",
+          "googlePlaces": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+          "googleMapsUri": "https://maps.google.com/?cid=10734175401335474503&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "http://estasi.tokyo/",
+          "discoverySourceId": "google-places"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [
+            "ed0c54c043976c29877d3171952f51fdba64ea0497555d9221594181370e9328"
+          ],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 58361,
+          "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 4,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation or supplied categories yet; retrieve by the hard criterion keyword for Spanish restaurants in Takadanobaba.",
+                "keyword": "Spanish",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 3
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 18,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 57210,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABLECHECK",
+          "latencyMs": 32135,
+          "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABLECHECK",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 1,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation or supplied categories yet; retrieve by the hard criterion keyword for Spanish restaurants in Takadanobaba.",
+                "keyword": "Spanish",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 0
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 3,
+            "rawSourceLinks": 22,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 32088,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "3 candidates discovered; 3 newly accepted",
+          "evidenceIds": [
+            "evidence:restaurant:google-discovery:5d8b3119a4bd797b1ae44519",
+            "evidence:restaurant:google-entity:5d8b3119a4bd797b1ae44519",
+            "evidence:restaurant:google-facts:2fd887d29b7897cb739ae84b",
+            "evidence:restaurant:google-discovery:bafb14c9ace3d3c21d12982e",
+            "evidence:restaurant:google-entity:bafb14c9ace3d3c21d12982e",
+            "evidence:restaurant:google-facts:94edf7e800bd11b8e5ed67c6",
+            "evidence:restaurant:google-discovery:682a9d56b7a47db8a13e739b",
+            "evidence:restaurant:google-entity:682a9d56b7a47db8a13e739b",
+            "evidence:restaurant:google-facts:4d5690b692afc546e3e75160"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1233,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "center": {
+              "latitude": 35.7121396,
+              "longitude": 139.7026251
+            },
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ_dqWmDeNGGARZ_zMKb9niss",
+                "distanceMeters": 230.68816086368454,
+                "sourceCoordinates": {
+                  "latitude": 35.7126334,
+                  "longitude": 139.7001464
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJgTwGXjmNGGARl-LhNGEAQtc",
+                "distanceMeters": 234.84365935473394,
+                "sourceCoordinates": {
+                  "latitude": 35.712308,
+                  "longitude": 139.70521499999998
+                }
+              },
+              {
+                "accepted": false,
+                "reasonCode": "GOOGLE_PLACE_TYPE_UNUSABLE",
+                "sourcePlaceId": "ChIJP9JceTmNGGARkWu-1Q2yEOU",
+                "distanceMeters": 143.24115319602086,
+                "sourceCoordinates": {
+                  "latitude": 35.7120023,
+                  "longitude": 139.7042008
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ8dms_DiNGGARR0lWyadz95Q",
+                "distanceMeters": 323.99914971598963,
+                "sourceCoordinates": {
+                  "latitude": 35.714491100000004,
+                  "longitude": 139.7047374
+                }
+              }
+            ],
+            "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "exactRadiusGate": "ENFORCED"
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY_UNKNOWN",
+          "detail": "BUDGET_RESERVED_FOR_DELIVERY",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:7286551a0b35073dd74c2e5a",
+            "evidence:restaurant:tabelog-hard-criteria:d39d31e9f0dc03129c9606dd",
+            "evidence:restaurant:tabelog-availability:5864a561f64ea0f493428c3a"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+            "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+            "praxis:restaurant:f99903343f3a6b510d078be0"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:789e4a88-911f-49e9-9d74-9918c140cb3f",
+            "startedAt": "2026-11-09T09:33:54.993Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "latencyMs": 64089,
+          "failureCode": "BUDGET_RESERVED_FOR_DELIVERY",
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "reserveReached": {
+            "reason": "MODEL_CALL",
+            "completedCandidateIds": [
+              "praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+              "praxis:restaurant:cbc86e1eaefc621c16ec39b1"
+            ]
+          },
+          "providerAttempts": [
+            {
+              "outcome": "AVAILABLE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "failureCode": "BROWSER_TIMEOUT"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:cbc86e1eaefc621c16ec39b1",
+              "failureCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "RESULTS_PRESENTED",
+          "detail": "1 grounded restaurant result(s) presented"
+        },
+        "metadata": {}
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "1 candidates discovered; 1 newly accepted",
+          "evidenceIds": [
+            "9e3b37ee8ca7890a1753fe6bd97ea458fc7067c1699e5e527ea80132ba708054",
+            "evidence:restaurant:google-discovery:e156a6ed3b621bd986f30228",
+            "evidence:restaurant:google-entity:e156a6ed3b621bd986f30228",
+            "evidence:restaurant:google-facts:b8b7dc8e9b29a5a9f895021d"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ]
+        },
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1351,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 0,
+            "placeDetails": 1,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "NAMED_OUTLET_UNIQUE",
+                "sourcePlaceId": "ChIJgTwGXjmNGGARl-LhNGEAQtc"
+              }
+            ],
+            "requestMode": "UNRESTRICTED",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "exactRadiusGate": "NOT_APPLICABLE"
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "CANDIDATE_SELECTED",
+          "detail": "USER_MESSAGE: praxis:restaurant:f5bcca1e7bf7ddde44fe5925",
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ]
+        },
+        "metadata": {}
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY",
+          "detail": "1 offers observed",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:f8728397be80d8d113bd03d0",
+            "evidence:restaurant:tabelog-hard-criteria:087e0f13289ca85589c31efa",
+            "evidence:restaurant:tabelog-availability:ddbc6264e74603bb8b646e33"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:08591d3a-0900-4602-8df7-6d6d13ca019a",
+            "startedAt": "2026-11-09T09:35:51.644Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "TABELOG",
+          "latencyMs": 18725,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 0,
+            "placeDetails": 1,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "providerAttempts": [
+            {
+              "outcome": "AVAILABLE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "CANDIDATE_FACTS",
+          "detail": "1 candidate fact read(s) completed",
+          "evidenceIds": [
+            "evidence:restaurant:google-entity:32959815e98ab8b0b92e18e3",
+            "evidence:restaurant:google-facts:1dd96429fe46c11c9fcc0fed",
+            "fact-judgment:praxis:restaurant:f5bcca1e7bf7ddde44fe5925:2026-11-09T09:36:14.154Z:evidence:restaurant:google-facts:1dd96429fe46c11c9fcc0fed"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+          ],
+          "factSourceAttempts": [
+            {
+              "source": "GOOGLE_PLACES",
+              "outcome": "COMPLETED",
+              "candidateId": "praxis:restaurant:f5bcca1e7bf7ddde44fe5925"
+            }
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 2269,
+          "modelUsage": {
+            "calls": 1,
+            "inputTokens": 0,
+            "totalTokens": 0,
+            "outputTokens": 0
+          },
+          "googleRequests": {
+            "limit": 40,
+            "total": 3,
+            "discovery": 0,
+            "placeDetails": 2,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "RESULTS_PRESENTED",
+          "detail": "1 grounded restaurant result(s) presented"
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "run": "p3b-holdout-02-r1",
+    "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/heldout-evidence-05/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-02-r1/p3b-holdout-02-r1",
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 13,
+        "elapsedMs": 84489
+      },
+      "VENUE_SEARCH": {
+        "modelCalls": 0,
+        "elapsedMs": 20121
+      },
+      "TABLECHECK": {
+        "modelCalls": 18,
+        "elapsedMs": 227538
+      },
+      "TABELOG": {
+        "modelCalls": 5,
+        "elapsedMs": 230255
+      }
+    },
+    "candidates": [
+      {
+        "name": "Nakano Robata Sumika",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-4400-3404",
+          "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+          "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "Okajoki",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-3228-1230",
+          "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+          "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "中野製作所 まんてん別館",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-5942-6711",
+          "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+          "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "Guttsu",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-5318-2538",
+          "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+          "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [
+            "7f799aa34cea2738e667a4b462e21684b7696ee2795b659fe14155e00cb1c5a1"
+          ],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 87105,
+          "failureCode": "BROWSER_TIMEOUT",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 4,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation yet; retrieve by the single HARD criterion keyword for Nakano City.",
+                "keyword": "robatayaki",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 3
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 20,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 85729,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABLECHECK",
+          "latencyMs": 20122,
+          "failureCode": "BROWSER_TIMEOUT",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABLECHECK",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 1,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation yet; retrieve by the single HARD criterion keyword for Nakano City.",
+                "keyword": "robatayaki",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 0
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 3,
+            "rawSourceLinks": 0,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 20121,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "4 candidates discovered; 4 newly accepted",
+          "evidenceIds": [
+            "evidence:restaurant:google-discovery:70d69848a34adaa65f4507ce",
+            "evidence:restaurant:google-entity:70d69848a34adaa65f4507ce",
+            "evidence:restaurant:google-facts:51f0855c2352196b15ea811c",
+            "evidence:restaurant:google-discovery:87924a314f158fa2603de315",
+            "evidence:restaurant:google-entity:87924a314f158fa2603de315",
+            "evidence:restaurant:google-facts:452f32caf8f930e1b4ad0aa0",
+            "evidence:restaurant:google-discovery:531b1c6c20c60afe5ecbc2cb",
+            "evidence:restaurant:google-entity:531b1c6c20c60afe5ecbc2cb",
+            "evidence:restaurant:google-facts:c80df1f0f82383bf55df3497",
+            "evidence:restaurant:google-discovery:ab24c6e8eeea1bcc679e1b91",
+            "evidence:restaurant:google-entity:ab24c6e8eeea1bcc679e1b91",
+            "evidence:restaurant:google-facts:44886f510eb394b349c3666b"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ]
+        },
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1212,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "center": {
+              "latitude": 35.7075331,
+              "longitude": 139.6637591
+            },
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "distanceMeters": 259.9341280743706,
+                "sourceCoordinates": {
+                  "latitude": 35.708869,
+                  "longitude": 139.6661176
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "distanceMeters": 211.63278941904514,
+                "sourceCoordinates": {
+                  "latitude": 35.707592999999996,
+                  "longitude": 139.6660992
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                "distanceMeters": 340.2038488650291,
+                "sourceCoordinates": {
+                  "latitude": 35.7092966,
+                  "longitude": 139.6668329
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                "distanceMeters": 313.89280238283413,
+                "sourceCoordinates": {
+                  "latitude": 35.70658280000001,
+                  "longitude": 139.6670285
+                }
+              }
+            ],
+            "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "exactRadiusGate": "ENFORCED"
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY_UNKNOWN",
+          "detail": "BUDGET_RESERVED_FOR_DELIVERY",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:1b53a4012da78a5757727cee"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:888e0acb-a1fc-4db2-950b-1cb5f10f1f27",
+            "startedAt": "2026-11-09T10:50:54.718Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "latencyMs": 108921,
+          "failureCode": "BUDGET_RESERVED_FOR_DELIVERY",
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "reserveReached": {
+            "reason": "MODEL_CALL",
+            "completedCandidateIds": [
+              "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "praxis:restaurant:c3ac690aea8a7ef8076ac19b"
+            ]
+          },
+          "providerAttempts": [
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "failureCode": "BROWSER_TIMEOUT"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "failureCode": "BROWSER_OPERATION_BUDGET_EXCEEDED"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "failureCode": "TABLECHECK_DISCOVERY_INCOMPLETE"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "failureCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "READ_ENDED",
+          "detail": "Bounded read ended without a grounded result",
+          "candidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ],
+          "unresolvedCandidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ]
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "run": "p3b-holdout-02-r2",
+    "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/heldout-evidence-05/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-02-r2/p3b-holdout-02-r2",
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 18,
+        "elapsedMs": 75935
+      },
+      "VENUE_SEARCH": {
+        "modelCalls": 5,
+        "elapsedMs": 21716
+      },
+      "TABLECHECK": {
+        "modelCalls": 11,
+        "elapsedMs": 181832
+      },
+      "TABELOG": {
+        "modelCalls": 5,
+        "elapsedMs": 184424
+      }
+    },
+    "candidates": [
+      {
+        "name": "Nakano Robata Sumika",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-4400-3404",
+          "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+          "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "Okajoki",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-3228-1230",
+          "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+          "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "中野製作所 まんてん別館",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-5942-6711",
+          "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+          "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "Guttsu",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-5318-2538",
+          "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+          "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [
+            "e48aadf0dd96301a17c2a91b3a3a3ffbdd7070294fe3bebbe48daf549d425cea"
+          ],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 78708,
+          "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 4,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation yet; retrieve by the single HARD criterion keyword (robatayaki) in Nakano City.",
+                "keyword": "robatayaki",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 3
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 20,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 77505,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABLECHECK",
+          "latencyMs": 21761,
+          "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABLECHECK",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 1,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation yet; retrieve by the single HARD criterion keyword (robatayaki) in Nakano City.",
+                "keyword": "robatayaki",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 0
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 3,
+            "rawSourceLinks": 22,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 21716,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "4 candidates discovered; 4 newly accepted",
+          "evidenceIds": [
+            "evidence:restaurant:google-discovery:ba814d24b6cb359ad32f4a93",
+            "evidence:restaurant:google-entity:ba814d24b6cb359ad32f4a93",
+            "evidence:restaurant:google-facts:4984bc236ce3122bcfec3a74",
+            "evidence:restaurant:google-discovery:4eb65c6d151825b55e15877f",
+            "evidence:restaurant:google-entity:4eb65c6d151825b55e15877f",
+            "evidence:restaurant:google-facts:4bea2a7ef4767aea1543ac7e",
+            "evidence:restaurant:google-discovery:bb5239ca1597758ff664effc",
+            "evidence:restaurant:google-entity:bb5239ca1597758ff664effc",
+            "evidence:restaurant:google-facts:18501819b9ef9cb06ac33539",
+            "evidence:restaurant:google-discovery:72a9f10c0a44d358468c06a6",
+            "evidence:restaurant:google-entity:72a9f10c0a44d358468c06a6",
+            "evidence:restaurant:google-facts:28b0d6f4e3a3dbf55a762d99"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ]
+        },
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1280,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "center": {
+              "latitude": 35.7075331,
+              "longitude": 139.6637591
+            },
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "distanceMeters": 259.9341280743706,
+                "sourceCoordinates": {
+                  "latitude": 35.708869,
+                  "longitude": 139.6661176
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "distanceMeters": 211.63278941904514,
+                "sourceCoordinates": {
+                  "latitude": 35.707592999999996,
+                  "longitude": 139.6660992
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                "distanceMeters": 340.2038488650291,
+                "sourceCoordinates": {
+                  "latitude": 35.7092966,
+                  "longitude": 139.6668329
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                "distanceMeters": 313.89280238283413,
+                "sourceCoordinates": {
+                  "latitude": 35.70658280000001,
+                  "longitude": 139.6670285
+                }
+              }
+            ],
+            "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "exactRadiusGate": "ENFORCED"
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY_UNKNOWN",
+          "detail": "BUDGET_RESERVED_FOR_DELIVERY",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:d19e67ed92acbafba5fede63"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:5d23ecf2-0c87-412d-8df7-0151c5674982",
+            "startedAt": "2026-11-09T10:54:43.153Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "latencyMs": 73447,
+          "failureCode": "BUDGET_RESERVED_FOR_DELIVERY",
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "reserveReached": {
+            "reason": "MODEL_CALL",
+            "completedCandidateIds": [
+              "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "praxis:restaurant:b8153abad1f84fa5c19c239f"
+            ]
+          },
+          "providerAttempts": [
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "failureCode": "TABLECHECK_DISCOVERY_INCOMPLETE"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+              "failureCode": "REQUEST_SELECTION_UNCONFIRMED"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "failureCode": "TABLECHECK_DISCOVERY_INCOMPLETE"
+            },
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "failureCode": "ENTITY_MATCH_UNCERTAIN"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "READ_ENDED",
+          "detail": "Bounded read ended without a grounded result",
+          "candidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ],
+          "unresolvedCandidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ]
+        },
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "run": "p3b-holdout-02-r3",
+    "path": "/Users/wangzhour/.codex/worktrees/d8-recorded-model-validation/heldout-evidence-05/.eval-artifacts/phase3b/heldout-run-20261109/p3b-holdout-02-r3/p3b-holdout-02-r3",
+    "discovery": {
+      "DIRECTORY": {
+        "modelCalls": 15,
+        "elapsedMs": 89054
+      },
+      "VENUE_SEARCH": {
+        "modelCalls": 5,
+        "elapsedMs": 23855
+      },
+      "TABLECHECK": {
+        "modelCalls": 14,
+        "elapsedMs": 204397
+      },
+      "TABELOG": {
+        "modelCalls": 4,
+        "elapsedMs": 207008
+      }
+    },
+    "candidates": [
+      {
+        "name": "Nakano Robata Sumika",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-4400-3404",
+          "googlePlaces": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+          "googleMapsUri": "https://maps.google.com/?cid=1634481854204385363&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://babytattoo.jp/robata?_src=gbp",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "Okajoki",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-3228-1230",
+          "googlePlaces": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+          "googleMapsUri": "https://maps.google.com/?cid=5505628021740649816&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "中野製作所 まんてん別館",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-5942-6711",
+          "googlePlaces": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+          "googleMapsUri": "https://maps.google.com/?cid=10660355078292605381&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "googleWebsiteUri": "https://horumon-manten.jp/shops/nakanoseisakujo.html",
+          "discoverySourceId": "google-places"
+        }
+      },
+      {
+        "name": "Guttsu",
+        "source": "google-places",
+        "ids": {
+          "phone": "03-5318-2538",
+          "googlePlaces": "ChIJBQKil5byGGARTDeel5M4Mq0",
+          "googleMapsUri": "https://maps.google.com/?cid=12480099723952142156&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "discoverySourceId": "google-places"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [
+            "158f7e89853b43bebfc90408b28433a73d79c46a79aa99e215831f67f5007813"
+          ],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABELOG",
+          "latencyMs": 91762,
+          "failureCode": "DISCOVERY_SOURCE_LOCATION_UNGROUNDED",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABELOG",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 4,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation yet; retrieve by the single HARD criterion keyword (robatayaki) in Nakano City.",
+                "keyword": "robatayaki",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 3
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 7,
+            "rawSourceLinks": 20,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 90108,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": true
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "0 candidates discovered; 0 newly accepted",
+          "evidenceIds": [],
+          "candidateIds": [],
+          "newCandidateIds": []
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "provider": "TABLECHECK",
+          "latencyMs": 23909,
+          "failureCode": "DISCOVERY_SOURCE_INCOMPLETE",
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 0,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "nativeDiscoveryFunnel": {
+            "source": "TABLECHECK",
+            "accepted": 0,
+            "batchCap": 5,
+            "rejected": [],
+            "pagesRead": 1,
+            "retrieval": {
+              "history": [],
+              "rewrites": 0,
+              "selection": {
+                "reason": "No observation yet; retrieve by the single HARD criterion keyword (robatayaki) in Nakano City.",
+                "keyword": "robatayaki",
+                "accepted": true,
+                "criterionRef": "criterion:0"
+              },
+              "regionPages": 1,
+              "retrievalPages": 0
+            },
+            "batchEnded": true,
+            "sourceEnded": true,
+            "parsedOutlets": 0,
+            "sourcePageCap": 3,
+            "rawSourceLinks": 22,
+            "sourceDetailCap": 10,
+            "sourceElapsedMs": 23855,
+            "sourceExhausted": "UNKNOWN",
+            "inspectedOutlets": 0,
+            "batchLimitReached": false,
+            "progressionReason": "SOURCE_FAILURE",
+            "deferredByBatchCap": [],
+            "sourceElapsedCapMs": 90000,
+            "listingObservations": [],
+            "sourceDetailAttempts": 0,
+            "sourceTimeLimitReached": false
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "4 candidates discovered; 4 newly accepted",
+          "evidenceIds": [
+            "evidence:restaurant:google-discovery:4a18d6805fe12a5b95d47d59",
+            "evidence:restaurant:google-entity:4a18d6805fe12a5b95d47d59",
+            "evidence:restaurant:google-facts:96e781af6dcad4b4e4797960",
+            "evidence:restaurant:google-discovery:4bc62351be3d7d73a81a3b9a",
+            "evidence:restaurant:google-entity:4bc62351be3d7d73a81a3b9a",
+            "evidence:restaurant:google-facts:bccbb07729e1a342626a06a7",
+            "evidence:restaurant:google-discovery:046c56c26d6b762b51a30b09",
+            "evidence:restaurant:google-entity:046c56c26d6b762b51a30b09",
+            "evidence:restaurant:google-facts:9bc513297749410ba1b63cf6",
+            "evidence:restaurant:google-discovery:08164ab908a34bf6a6ff13e8",
+            "evidence:restaurant:google-entity:08164ab908a34bf6a6ff13e8",
+            "evidence:restaurant:google-facts:d50737b10b975e0d94e463c7"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ]
+        },
+        "metadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 1772,
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "center": {
+              "latitude": 35.7075331,
+              "longitude": 139.6637591
+            },
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJ0ZqAJnfzGGARU5isJ5bYrhY",
+                "distanceMeters": 259.9341280743706,
+                "sourceCoordinates": {
+                  "latitude": 35.708869,
+                  "longitude": 139.6661176
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJo4391pbyGGARWL1JBYTrZ0w",
+                "distanceMeters": 211.63278941904514,
+                "sourceCoordinates": {
+                  "latitude": 35.707592999999996,
+                  "longitude": 139.6660992
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJYcceosjzGGARxYkpdXYw8ZM",
+                "distanceMeters": 340.2038488650291,
+                "sourceCoordinates": {
+                  "latitude": 35.7092966,
+                  "longitude": 139.6668329
+                }
+              },
+              {
+                "accepted": true,
+                "reasonCode": "ACCEPTED",
+                "sourcePlaceId": "ChIJBQKil5byGGARTDeel5M4Mq0",
+                "distanceMeters": 313.89280238283413,
+                "sourceCoordinates": {
+                  "latitude": 35.70658280000001,
+                  "longitude": 139.6670285
+                }
+              }
+            ],
+            "requestMode": "LOCATION_RESTRICTION_RECTANGLE",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "exactRadiusGate": "ENFORCED"
+          }
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "AVAILABILITY_UNKNOWN",
+          "detail": "BUDGET_RESERVED_FOR_DELIVERY",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:3579eb8ef24edc35fe8ba523",
+            "evidence:restaurant:tabelog-hard-criteria:dc497fb2e727afbb48b634a9",
+            "evidence:restaurant:tabelog-availability:04c415d7a25c0299d53f1123"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ]
+        },
+        "metadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:1a56ae94-1ff7-40db-9690-2fadf79ce0b0",
+            "startedAt": "2026-11-09T10:58:25.888Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "latencyMs": 78273,
+          "failureCode": "BUDGET_RESERVED_FOR_DELIVERY",
+          "googleRequests": {
+            "limit": 40,
+            "total": 2,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 1,
+            "reverseAddressObservation": 0
+          },
+          "reserveReached": {
+            "reason": "MODEL_CALL",
+            "completedCandidateIds": [
+              "praxis:restaurant:b8153abad1f84fa5c19c239f"
+            ]
+          },
+          "providerAttempts": [
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f",
+              "failureCode": "TABLECHECK_DISCOVERY_INCOMPLETE"
+            },
+            {
+              "outcome": "AVAILABLE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:b8153abad1f84fa5c19c239f"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      {
+        "step": null,
+        "observation": {
+          "type": "READ_ENDED",
+          "detail": "Bounded read ended without a grounded result",
+          "candidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ],
+          "unresolvedCandidateIds": [
+            "praxis:restaurant:b8153abad1f84fa5c19c239f",
+            "praxis:restaurant:c3ac690aea8a7ef8076ac19b",
+            "praxis:restaurant:8e3a09511d095d01aa3a3746",
+            "praxis:restaurant:b306abb541c5b3e9d61e122d"
+          ]
+        },
+        "metadata": {}
+      }
+    ]
+  }
+]

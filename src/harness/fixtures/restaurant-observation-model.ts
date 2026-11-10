@@ -7,8 +7,8 @@ export function scriptedBrowserObservation(request: ModelRequest): ModelResponse
   const input = JSON.parse(request.messages.find(m => m.role === "user")!.content) as BrowserReadDecisionInput;
   const targets = input.observation.targets;
   let action = "COMPLETE", targetRef = "", authoritativeField = "NONE";
-  const query = targets.find(t => t.kind === "INPUT" && t.formObservation && t.availableActions?.includes("FILL_AUTHORITATIVE:RETRIEVAL"));
-  if (input.stage === "DISCOVERY" && query && query.value !== input.goal.retrievalExpression) {
+  const query = targets.find(t => t.kind === "INPUT" && t.formObservation && (t.availableActions?.includes("FILL_AUTHORITATIVE:RETRIEVAL") || t.value === input.goal.retrievalExpression));
+  if (input.stage === "DISCOVERY" && query && query.availableActions?.includes("FILL_AUTHORITATIVE:RETRIEVAL") && query.value !== input.goal.retrievalExpression) {
     action = "FILL_AUTHORITATIVE"; targetRef = query.ref; authoritativeField = "RETRIEVAL";
   } else if (input.stage === "DISCOVERY" && query && (input.progress?.includes("No positive source result binding") || ![...new URL(input.observation.url).searchParams.values()].includes(input.goal.retrievalExpression ?? ""))) {
     const submit = targets.find(t => t.kind === "BUTTON" && t.formObservation?.owner === query.formObservation?.owner && t.formMethod === "GET");
