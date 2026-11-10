@@ -2,10 +2,10 @@ import type {BrowserRuntime,BrowserSession} from '../../../../infrastructure/bro
 import {discoveryPackNetworkPolicy,restaurantDiscoveryPacks} from '../../../../integrations/restaurant-search/source-packs.js';
 import {browserTransportError,type BrowserTransportError} from '../../../../infrastructure/browser/browser-runtime-errors.js';
 import {holdoutHash} from '../holdout-protocol.js';
-const HEALTH_WINDOW_MS=20_000;
+const HEALTH_WINDOW_MS=60_000;
 export interface HoldoutHealthObservation {windowMs:number;source:'tablecheck'|'tabelog';round:1|2;complete:boolean;elapsedMs:number;phase:'SESSION_OPEN'|'NAVIGATE'|'SCRIPT_WAIT';phaseElapsedMs:number;documentStatus?:number;scriptStatus?:number;navigationError?:BrowserTransportError;status?:number;responseSHA256?:string;}
 /** Browser path only: isolated source pages under the unchanged Guard. The
- * 20-second health cutoff is external; product entry/provider limits stay put. */
+ * 60-second health cutoff is external; product entry/provider limits stay put. */
 export async function checkHoldoutNetwork(input:{browser:BrowserRuntime;tabelogDetailUrl:string;beforeGET:(source:string,round:number)=>Promise<void>;now?:()=>number;continueOnFailure?:boolean}){
  const now=input.now??(()=>performance.now()),observations:HoldoutHealthObservation[]=[];
  const tc=restaurantDiscoveryPacks.find(p=>p.meta.id==='tablecheck')!.browser!.startupUrl!;
