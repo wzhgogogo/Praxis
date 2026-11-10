@@ -1,0 +1,2111 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-D01-1794280733449-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "Could you find a Spanish restaurant near Takadanobaba with a table for 2 on Wednesday, November 18 at 7 PM?",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "Could you find a Spanish restaurant near Takadanobaba with a table fo…",
+          "status": "COMPLETED",
+          "phase": "NO_VERIFIED_RESULT",
+          "taskVersion": 8,
+          "updatedAt": "2026-11-10T03:22:05.911Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "Could you find a Spanish restaurant near Takadanobaba with a table for 2 on Wednesday, November 18 at 7 PM?",
+              "createdAt": "2026-11-10T03:18:58.755Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Takadanobaba.\nThis bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable.\nTakadanobaba Ristorante En: availability AVAILABLE (no request-bound slot established); facts UNKNOWN (BROWSER_OPERATION_BUDGET_EXCEEDED)\nSake Tokidoki Teppan Tsudoiba 46 Takadanobaba Ten: availability AVAILABLE (no request-bound slot established); facts UNKNOWN (BROWSER_OPERATION_BUDGET_EXCEEDED)\nToyoda Cheese Steak &amp; BBQ Takadanobaba: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)\nSteak Raisu to Curry no Mise Center Beef Takadanobaba ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)\nIsland Burgers Takadanobaba ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)\nCandidate tabelog:en/tokyo/A1305/A130503/13149621 has no evidence for HARD criterion Spanish restaurant\nCandidate tabelog:en/tokyo/A1305/A130504/13269907 has no evidence for HARD criterion Spanish restaurant\nCandidate tabelog:en/tokyo/A1305/A130502/13252368 lacks fresh evidenced availability for the authoritative request\nCandidate tabelog:en/tokyo/A1305/A130503/13285523 lacks fresh evidenced availability for the authoritative request\nCandidate tabelog:en/tokyo/A1305/A130503/13246665 lacks fresh evidenced availability for the authoritative request\nAGENT_LOOP_NO_PROGRESS: The remaining read budget is reserved for an honest conclusion or qualified presentation\nSources with recorded reads or attempts: GOOGLE_PLACES, TABELOG; unread discovery entries: google-places, tablecheck. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats.\nYou can refine the request to start a new investigation.",
+              "createdAt": "2026-11-10T03:22:05.953Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "near Takadanobaba"
+            },
+            "date": "2026-11-18",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Spanish restaurant near Takadanobaba with a table for 2",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "criteria": [
+              {
+                "text": "Spanish restaurant",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "19:00",
+              "earliest": "19:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Wednesday, November 18",
+                "resolvedDate": "2026-11-18"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "at 7 PM",
+                "resolvedTimeWindow": {
+                  "latest": "19:00",
+                  "earliest": "19:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T03:18:56.186Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Takadanobaba",
+            "latitude": 35.7121396,
+            "longitude": 139.7026251,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "longText": "Takadanobaba",
+                "shortText": "Takadanobaba"
+              },
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Shinjuku City",
+                "shortText": "Shinjuku City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              },
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              },
+              {
+                "types": [
+                  "postal_code"
+                ],
+                "longText": "169-0075",
+                "shortText": "169-0075"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 1,
+          "readyCandidateIds": [],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 5,
+            "checkedCount": 5
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130503/13149621",
+                "address": "1690075 東京都新宿区高田馬場2‐14‐5 サンエスビル １F",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130503/13149621",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/"
+                },
+                "outletName": "Takadanobaba Ristorante En",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:d5233d906b1811cd748a4662",
+                  "sourceIds": "evidence:restaurant:native-discovery:d5233d906b1811cd748a4662",
+                  "outletName": "evidence:restaurant:native-discovery:d5233d906b1811cd748a4662"
+                },
+                "coordinates": {
+                  "lat": 35.7128837886769,
+                  "lng": 139.706719164746
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Takadanobaba"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 379,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130504/13269907",
+                "address": "1690075 東京都新宿区高田馬場1-3-13 第二天台ビル 102",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130504/13269907",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/"
+                },
+                "outletName": "Sake Tokidoki Teppan Tsudoiba 46 Takadanobaba Ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:7217e965833d6796222dc9bd",
+                  "sourceIds": "evidence:restaurant:native-discovery:7217e965833d6796222dc9bd",
+                  "outletName": "evidence:restaurant:native-discovery:7217e965833d6796222dc9bd"
+                },
+                "coordinates": {
+                  "lat": 35.710344668679404,
+                  "lng": 139.7095149747184
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Takadanobaba"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 654,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130502/13252368",
+                "address": "1710033 東京都豊島区高田3-22-11",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130502/13252368",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                },
+                "outletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:f5b17db380b4177bac253d99",
+                  "sourceIds": "evidence:restaurant:native-discovery:f5b17db380b4177bac253d99",
+                  "outletName": "evidence:restaurant:native-discovery:f5b17db380b4177bac253d99"
+                },
+                "coordinates": {
+                  "lat": 35.71457566187596,
+                  "lng": 139.71036326061744
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Takadanobaba"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 750,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130503/13285523",
+                "address": "1690075 東京都新宿区高田馬場1-26-12 高田馬場ビル 1F",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130503/13285523",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                },
+                "outletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:3b570e589a857e5a012df3df",
+                  "sourceIds": "evidence:restaurant:native-discovery:3b570e589a857e5a012df3df",
+                  "outletName": "evidence:restaurant:native-discovery:3b570e589a857e5a012df3df"
+                },
+                "coordinates": {
+                  "lat": 35.71294025416891,
+                  "lng": 139.70549946987825
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Takadanobaba"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 275,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130503/13246665",
+                "address": "1690075 東京都新宿区高田馬場4-10-13",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130503/13246665",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                "outletName": "Island Burgers Takadanobaba ten",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:cbdb63907c629fce23ee7064",
+                  "sourceIds": "evidence:restaurant:native-discovery:cbdb63907c629fce23ee7064",
+                  "outletName": "evidence:restaurant:native-discovery:cbdb63907c629fce23ee7064"
+                },
+                "coordinates": {
+                  "lat": 35.71313613787021,
+                  "lng": 139.70306618358936
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Takadanobaba"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 118,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            }
+          ],
+          "availability": {
+            "tabelog:en/tokyo/A1305/A130502/13252368": [],
+            "tabelog:en/tokyo/A1305/A130503/13149621": [
+              {
+                "id": "offer:tabelog:tabelog:en/tokyo/A1305/A130503/13149621:2026-11-18:19:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-18T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T03:19:46.407Z",
+                "expiresAt": "2026-11-10T03:19:46.407Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "tabelog:en/tokyo/A1305/A130503/13149621",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T03:29:46.407Z",
+                "bookingRecheckRequired": true
+              }
+            ],
+            "tabelog:en/tokyo/A1305/A130503/13246665": [],
+            "tabelog:en/tokyo/A1305/A130503/13285523": [],
+            "tabelog:en/tokyo/A1305/A130504/13269907": [
+              {
+                "id": "offer:tabelog:tabelog:en/tokyo/A1305/A130504/13269907:2026-11-18:19:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-18T19:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T03:19:55.012Z",
+                "expiresAt": "2026-11-10T03:19:55.012Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "tabelog:en/tokyo/A1305/A130504/13269907",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T03:29:55.012Z",
+                "bookingRecheckRequired": true
+              }
+            ]
+          },
+          "availabilityChecks": {
+            "tabelog:en/tokyo/A1305/A130502/13252368": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T03:20:01.090Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:a054d74bd25dd8eec82d7a05",
+                "evidence:restaurant:tabelog-entity-match:042adbce8da38b89e1f9479e",
+                "evidence:restaurant:tabelog-hard-criteria:de4431a46f6f7ce341f13bf8"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            },
+            "tabelog:en/tokyo/A1305/A130503/13149621": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-10T03:19:46.407Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:da6e32f7c06a4bf9b412edff",
+                "evidence:restaurant:tabelog-hard-criteria:ecb57141f5b2dbdb47690b0c",
+                "evidence:restaurant:tabelog-availability:dfe36c60fc97ede6d39e1c3f"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T03:29:46.407Z",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "tabelog:en/tokyo/A1305/A130503/13246665": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T03:21:26.371Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:ef6dd4888b6cd7873b3c2024"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            },
+            "tabelog:en/tokyo/A1305/A130503/13285523": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T03:21:19.722Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:3fa71b5c043d281f41db3ac8",
+                "evidence:restaurant:tabelog-entity-match:4221fde7726700a95f176901",
+                "evidence:restaurant:tabelog-hard-criteria:f32eec8b06c126d876a2973c"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}"
+            },
+            "tabelog:en/tokyo/A1305/A130504/13269907": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-10T03:19:55.012Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:1420e9f584ff9b3633d2b7cd",
+                "evidence:restaurant:tabelog-hard-criteria:b03ae1c5b2b46f99998e0e14",
+                "evidence:restaurant:tabelog-availability:442d0e551851355e0584764d"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T03:29:55.012Z",
+              "requestFingerprint": "{\"date\":\"2026-11-18\",\"timeWindow\":{\"latest\":\"19:00\",\"earliest\":\"19:00\"},\"partySize\":2}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.7121396,
+                "longitude": 139.7026251,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "ChIJkRf-6jmNGGAR1DA2OocB2h8",
+                "resolvedPlaceName": "Takadanobaba",
+                "resolvedPlaceTypes": [
+                  "sublocality_level_2",
+                  "sublocality",
+                  "political"
+                ],
+                "locationNameExactMatch": true,
+                "locationResolutionQuery": "Takadanobaba",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "8b73c1d54b4d1ba5eea7c12dad9738687546c26ab543c97f1d31ac3b2a2011ba",
+              "observedAt": "2026-11-10T03:19:01.739Z",
+              "sourceEntityId": "ChIJkRf-6jmNGGAR1DA2OocB2h8",
+              "requestFingerprint": "44baf685aed9140df30116268ce8e6d6648d45c078f3485e2330c2d2d04b1218"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1690075 東京都新宿区高田馬場2‐14‐5 サンエスビル １F",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "Takadanobaba Ristorante En",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 379,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Takadanobaba Sta. 239m / Italian, Organic"
+                ],
+                "evaluationLocationLabel": "Takadanobaba"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/",
+              "evidenceId": "evidence:restaurant:native-discovery:d5233d906b1811cd748a4662",
+              "observedAt": "2026-11-10T03:19:26.529Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13149621",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13149621",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Spanish restaurant near Takadanobaba with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-18\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Takadanobaba\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Spanish restaurant\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7121396,\"longitude\":139.7026251,\"radiusMeters\":1000,\"label\":\"Takadanobaba\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Takadanobaba\",\"shortText\":\"Takadanobaba\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Shinjuku City\",\"shortText\":\"Shinjuku City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"169-0075\",\"shortText\":\"169-0075\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1690075 東京都新宿区高田馬場1-3-13 第二天台ビル 102",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "Sake Tokidoki Teppan Tsudoiba 46 Takadanobaba Ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 654,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Nishi Waseda Sta. 248m / Izakaya (Japanese style tavern), Teppanyaki, Okonomiyaki (Japanese savory pancake)"
+                ],
+                "evaluationLocationLabel": "Takadanobaba"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/",
+              "evidenceId": "evidence:restaurant:native-discovery:7217e965833d6796222dc9bd",
+              "observedAt": "2026-11-10T03:19:28.441Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130504/13269907",
+              "sourceEntityId": "en/tokyo/A1305/A130504/13269907",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Spanish restaurant near Takadanobaba with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-18\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Takadanobaba\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Spanish restaurant\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7121396,\"longitude\":139.7026251,\"radiusMeters\":1000,\"label\":\"Takadanobaba\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Takadanobaba\",\"shortText\":\"Takadanobaba\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Shinjuku City\",\"shortText\":\"Shinjuku City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"169-0075\",\"shortText\":\"169-0075\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1710033 東京都豊島区高田3-22-11",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 750,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Gakushuinshita Sta. 280m / Bread, American"
+                ],
+                "evaluationLocationLabel": "Takadanobaba"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+              "evidenceId": "evidence:restaurant:native-discovery:f5b17db380b4177bac253d99",
+              "observedAt": "2026-11-10T03:19:30.157Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Spanish restaurant near Takadanobaba with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-18\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Takadanobaba\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Spanish restaurant\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7121396,\"longitude\":139.7026251,\"radiusMeters\":1000,\"label\":\"Takadanobaba\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Takadanobaba\",\"shortText\":\"Takadanobaba\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Shinjuku City\",\"shortText\":\"Shinjuku City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"169-0075\",\"shortText\":\"169-0075\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1690075 東京都新宿区高田馬場1-26-12 高田馬場ビル 1F",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 275,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Takadanobaba Sta. 132m / Steak, Curry"
+                ],
+                "evaluationLocationLabel": "Takadanobaba"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+              "evidenceId": "evidence:restaurant:native-discovery:3b570e589a857e5a012df3df",
+              "observedAt": "2026-11-10T03:19:31.858Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Spanish restaurant near Takadanobaba with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-18\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Takadanobaba\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Spanish restaurant\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7121396,\"longitude\":139.7026251,\"radiusMeters\":1000,\"label\":\"Takadanobaba\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Takadanobaba\",\"shortText\":\"Takadanobaba\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Shinjuku City\",\"shortText\":\"Shinjuku City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"169-0075\",\"shortText\":\"169-0075\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1690075 東京都新宿区高田馬場4-10-13",
+                "areaMatch": true,
+                "areaQuery": "near Takadanobaba",
+                "outletName": "Island Burgers Takadanobaba ten",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 118,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "sourceCategories": [
+                  "Takadanobaba Sta. 104m / Hamburger, Dining bar, Cafe"
+                ],
+                "evaluationLocationLabel": "Takadanobaba"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+              "evidenceId": "evidence:restaurant:native-discovery:cbdb63907c629fce23ee7064",
+              "observedAt": "2026-11-10T03:19:33.572Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13246665",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13246665",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Spanish restaurant near Takadanobaba with a table for 2\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-18\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"19:00\\\",\\\"earliest\\\":\\\"19:00\\\"},\\\"partySize\\\":2,\\\"area\\\":{\\\"query\\\":\\\"near Takadanobaba\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Spanish restaurant\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}]}\",\"location\":{\"latitude\":35.7121396,\"longitude\":139.7026251,\"radiusMeters\":1000,\"label\":\"Takadanobaba\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Takadanobaba\",\"shortText\":\"Takadanobaba\",\"types\":[\"sublocality_level_2\",\"sublocality\",\"political\"]},{\"longText\":\"Shinjuku City\",\"shortText\":\"Shinjuku City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]},{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"169-0075\",\"shortText\":\"169-0075\",\"types\":[\"postal_code\"]}]}}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Takadanobaba Ristorante En",
+                "observedOutletName": "Takadanobaba Ristorante En"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:da6e32f7c06a4bf9b412edff",
+              "observedAt": "2026-11-10T03:19:46.407Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13149621",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13149621",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Takadanobaba Ristorante En",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/"
+                }
+              ],
+              "requestFingerprint": "171b57e950c23e73560e0803eacb6160e311e111b8ea871ea26b640199cf26a9"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:ecb57141f5b2dbdb47690b0c",
+              "observedAt": "2026-11-10T03:19:46.407Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13149621",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13149621",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Italian, Organic",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/"
+                }
+              ],
+              "requestFingerprint": "9a68e563776cfb7eb3b76644d799968b8821e54808cece654a797872cf3b7c69"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-18",
+                "partySize": 2,
+                "visibleSlots": [
+                  "19:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:dfe36c60fc97ede6d39e1c3f",
+              "observedAt": "2026-11-10T03:19:46.407Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:d1d01e5bd563bb5d3bd209f2e2c0e3ae11392d0471881dadf63faf6fc426bf07"
+              },
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13149621",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13149621",
+              "displayExpiresAt": "2026-11-10T03:29:46.407Z",
+              "requestFingerprint": "d6154d580a3faa4ff071d5ed7efd354daca610ea4183ed8f5b85f22cc42ec76f",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Sake Tokidoki Teppan Tsudoiba 46 Takadanobaba Ten",
+                "observedOutletName": "Sake Tokidoki Teppan Tsudoiba 46 Takadanobaba Ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:1420e9f584ff9b3633d2b7cd",
+              "observedAt": "2026-11-10T03:19:55.012Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130504/13269907",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130504/13269907",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Sake Tokidoki Teppan Tsudoiba 46 Takadanobaba Ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/"
+                }
+              ],
+              "requestFingerprint": "7317719ab2f26f532e2cbce2b508c069bf70a0f6be8ab6fde65518c40330bcc8"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:b03ae1c5b2b46f99998e0e14",
+              "observedAt": "2026-11-10T03:19:55.012Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130504/13269907",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130504/13269907",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Izakaya (Japanese style tavern), Teppanyaki, Okonomiyaki (Japanese savory pancake)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/"
+                }
+              ],
+              "requestFingerprint": "119a7d05540e99ed636fe3276a3ccf152c2de0d96f398a428332176ea8055b5e"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-18",
+                "partySize": 2,
+                "visibleSlots": [
+                  "19:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:442d0e551851355e0584764d",
+              "observedAt": "2026-11-10T03:19:55.012Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:82c3b5101d8966744c0e9dad210dcb9f38bb93c7916584a97ce6b7cf0cbec92a"
+              },
+              "candidateId": "tabelog:en/tokyo/A1305/A130504/13269907",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130504/13269907",
+              "displayExpiresAt": "2026-11-10T03:29:55.012Z",
+              "requestFingerprint": "d9b1aa2d6ed069f29abe4922323c2af94b8ffc41377b6acd99e9950c712dd16d",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                "observedOutletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:a054d74bd25dd8eec82d7a05",
+              "observedAt": "2026-11-10T03:20:01.090Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                }
+              ],
+              "requestFingerprint": "67c0ad722c3e87f864bf13298bcf0b62ea55c8a569843c171741bd427edb3f34"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                "observedOutletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:042adbce8da38b89e1f9479e",
+              "observedAt": "2026-11-10T03:19:57.173Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                }
+              ],
+              "requestFingerprint": "67c0ad722c3e87f864bf13298bcf0b62ea55c8a569843c171741bd427edb3f34"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:de4431a46f6f7ce341f13bf8",
+              "observedAt": "2026-11-10T03:19:57.173Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nBread\nAmerican",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories\tBread, American",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                }
+              ],
+              "requestFingerprint": "cd7a9dfdf6594bfe8bf105845b9e805193c64f8b5769ffa5cd66ef291b2681cf"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1710033 東京都豊島区高田3-22-11",
+                "outletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:d7cbe2c85aa25c988fff01a6",
+              "observedAt": "2026-11-10T03:20:54.004Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1305/A130502/13252368\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130502/13252368/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1305/A130502/13252368:statement:19",
+                  "tabelog:en/tokyo/A1305/A130502/13252368:statement:20"
+                ],
+                "restaurantTypeFacts": [
+                  "Bread",
+                  "American"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+              "evidenceId": "tabelog:en/tokyo/A1305/A130502/13252368:document:cc5aa9b88e1e3bf1",
+              "observedAt": "2026-11-10T03:20:54.004Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1305/A130502/13252368:document:cc5aa9b88e1e3bf1"
+              },
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Bread",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "American",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1305/A130502/13252368:document:cc5aa9b88e1e3bf1\",\"statementIds\":[\"tabelog:en/tokyo/A1305/A130502/13252368:statement:19\",\"tabelog:en/tokyo/A1305/A130502/13252368:statement:20\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                "observedOutletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:3fa71b5c043d281f41db3ac8",
+              "observedAt": "2026-11-10T03:21:19.722Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                }
+              ],
+              "requestFingerprint": "c4538b9f780b2b2925da6942033a6343ffa41d94f95cab9fa02fe37e62daada0"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                "observedOutletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:4221fde7726700a95f176901",
+              "observedAt": "2026-11-10T03:21:15.407Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                }
+              ],
+              "requestFingerprint": "c4538b9f780b2b2925da6942033a6343ffa41d94f95cab9fa02fe37e62daada0"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:f32eec8b06c126d876a2973c",
+              "observedAt": "2026-11-10T03:21:15.407Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nSteak\nCurry",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories\tSteak, Curry",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                }
+              ],
+              "requestFingerprint": "29fe0848523b510543553aa6c5bd8de61d9f50569dd247925a4146d44c1fbe2f"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Island Burgers Takadanobaba ten",
+                "observedOutletName": "Island Burgers Takadanobaba ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:ef6dd4888b6cd7873b3c2024",
+              "observedAt": "2026-11-10T03:21:26.371Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13246665",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13246665",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Island Burgers Takadanobaba ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                }
+              ],
+              "requestFingerprint": "e29841eb65f9d82117ce69face73e009fae2e7fc26e5099ab270f2f4c25697ef"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1690075 東京都新宿区高田馬場1-26-12 高田馬場ビル 1F",
+                "outletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:129a215ab3d7ef08efb2f85c",
+              "observedAt": "2026-11-10T03:21:28.295Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1305/A130503/13285523\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13285523/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+              "evidenceId": "quoted-source:02def7178e994fcbe4b20ce6",
+              "observedAt": "2026-11-10T03:21:32.135Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nSteak\nCurry",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories\tSteak, Curry",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                }
+              ],
+              "requestFingerprint": "{\"identity\":\"evidence:restaurant:native-fact-identity:129a215ab3d7ef08efb2f85c\",\"facts\":{\"readAt\":\"2026-11-10T03:21:32.135Z\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13285523/\",\"listedCourseDetails\":[],\"sourceFieldQuotes\":[{\"field\":\"CATEGORY\",\"quote\":\"Categories：\\nSteak\\nCurry\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13285523/\"},{\"field\":\"CATEGORY\",\"quote\":\"Categories\\tSteak, Curry\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13285523/\"}]}}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1305/A130503/13285523:statement:1",
+                  "tabelog:en/tokyo/A1305/A130503/13285523:statement:19",
+                  "tabelog:en/tokyo/A1305/A130503/13285523:statement:20"
+                ],
+                "restaurantTypeFacts": [
+                  "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten - Takadanobaba(Steak)",
+                  "Steak",
+                  "Curry"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+              "evidenceId": "tabelog:en/tokyo/A1305/A130503/13285523:document:00a1b9c7e467571e",
+              "observedAt": "2026-11-10T03:21:28.295Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1305/A130503/13285523:document:00a1b9c7e467571e"
+              },
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten - Takadanobaba(Steak)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Curry",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1305/A130503/13285523:document:00a1b9c7e467571e\",\"statementIds\":[\"tabelog:en/tokyo/A1305/A130503/13285523:statement:1\",\"tabelog:en/tokyo/A1305/A130503/13285523:statement:19\",\"tabelog:en/tokyo/A1305/A130503/13285523:statement:20\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1690075 東京都新宿区高田馬場4-10-13",
+                "outletName": "Island Burgers Takadanobaba ten",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Island Burgers Takadanobaba ten"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:de93d7297d255e09d3f0c525",
+              "observedAt": "2026-11-10T03:21:46.982Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13246665",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13246665",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Island Burgers Takadanobaba ten",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1305/A130503/13246665\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13246665/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+              "evidenceId": "quoted-source:5fa643d937b9918de932ba49",
+              "observedAt": "2026-11-10T03:21:50.797Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13246665",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13246665",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nHamburger\nDining bar\nCafe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories\tHamburger, Dining bar, Cafe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                }
+              ],
+              "requestFingerprint": "{\"identity\":\"evidence:restaurant:native-fact-identity:de93d7297d255e09d3f0c525\",\"facts\":{\"readAt\":\"2026-11-10T03:21:50.797Z\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13246665/\",\"listedCourseDetails\":[],\"sourceFieldQuotes\":[{\"field\":\"CATEGORY\",\"quote\":\"Categories：\\nHamburger\\nDining bar\\nCafe\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13246665/\"},{\"field\":\"CATEGORY\",\"quote\":\"Categories\\tHamburger, Dining bar, Cafe\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13246665/\"}]}}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1305/A130503/13246665:statement:1",
+                  "tabelog:en/tokyo/A1305/A130503/13246665:statement:19",
+                  "tabelog:en/tokyo/A1305/A130503/13246665:statement:20"
+                ],
+                "restaurantTypeFacts": [
+                  "Island Burgers Takadanobaba ten - Takadanobaba(Hamburger)",
+                  "Hamburger",
+                  "Dining bar"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+              "evidenceId": "tabelog:en/tokyo/A1305/A130503/13246665:document:328810c81398b473",
+              "observedAt": "2026-11-10T03:21:46.982Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1305/A130503/13246665:document:328810c81398b473"
+              },
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13246665",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13246665",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Island Burgers Takadanobaba ten - Takadanobaba(Hamburger)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "NAME",
+                  "quote": "Hamburger",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Dining bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nHamburger\nDining bar\nCafe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nHamburger\nDining bar\nCafe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Dining bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1305/A130503/13246665:document:328810c81398b473\",\"statementIds\":[\"tabelog:en/tokyo/A1305/A130503/13246665:statement:1\",\"tabelog:en/tokyo/A1305/A130503/13246665:statement:19\",\"tabelog:en/tokyo/A1305/A130503/13246665:statement:20\"]}"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1305/A130502/13252368:statement:19",
+                  "tabelog:en/tokyo/A1305/A130502/13252368:statement:20"
+                ],
+                "restaurantTypeFacts": [
+                  "Bread",
+                  "American"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+              "evidenceId": "tabelog:en/tokyo/A1305/A130502/13252368:document:cc5aa9b88e1e3bf1",
+              "observedAt": "2026-11-10T03:20:54.004Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1305/A130502/13252368:document:cc5aa9b88e1e3bf1"
+              },
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Bread",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "American",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1305/A130502/13252368:document:cc5aa9b88e1e3bf1\",\"statementIds\":[\"tabelog:en/tokyo/A1305/A130502/13252368:statement:19\",\"tabelog:en/tokyo/A1305/A130502/13252368:statement:20\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+              "evidenceId": "quoted-source:02def7178e994fcbe4b20ce6",
+              "observedAt": "2026-11-10T03:21:32.135Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nSteak\nCurry",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories\tSteak, Curry",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                }
+              ],
+              "requestFingerprint": "{\"identity\":\"evidence:restaurant:native-fact-identity:129a215ab3d7ef08efb2f85c\",\"facts\":{\"readAt\":\"2026-11-10T03:21:32.135Z\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13285523/\",\"listedCourseDetails\":[],\"sourceFieldQuotes\":[{\"field\":\"CATEGORY\",\"quote\":\"Categories：\\nSteak\\nCurry\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13285523/\"},{\"field\":\"CATEGORY\",\"quote\":\"Categories\\tSteak, Curry\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13285523/\"}]}}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1305/A130503/13285523:statement:1",
+                  "tabelog:en/tokyo/A1305/A130503/13285523:statement:19",
+                  "tabelog:en/tokyo/A1305/A130503/13285523:statement:20"
+                ],
+                "restaurantTypeFacts": [
+                  "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten - Takadanobaba(Steak)",
+                  "Steak",
+                  "Curry"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+              "evidenceId": "tabelog:en/tokyo/A1305/A130503/13285523:document:00a1b9c7e467571e",
+              "observedAt": "2026-11-10T03:21:28.295Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1305/A130503/13285523:document:00a1b9c7e467571e"
+              },
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten - Takadanobaba(Steak)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Steak",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Curry",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1305/A130503/13285523:document:00a1b9c7e467571e\",\"statementIds\":[\"tabelog:en/tokyo/A1305/A130503/13285523:statement:1\",\"tabelog:en/tokyo/A1305/A130503/13285523:statement:19\",\"tabelog:en/tokyo/A1305/A130503/13285523:statement:20\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "observationKind": "PUBLIC_PAGE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+              "evidenceId": "quoted-source:5fa643d937b9918de932ba49",
+              "observedAt": "2026-11-10T03:21:50.797Z",
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13246665",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13246665",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nHamburger\nDining bar\nCafe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories\tHamburger, Dining bar, Cafe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                }
+              ],
+              "requestFingerprint": "{\"identity\":\"evidence:restaurant:native-fact-identity:de93d7297d255e09d3f0c525\",\"facts\":{\"readAt\":\"2026-11-10T03:21:50.797Z\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13246665/\",\"listedCourseDetails\":[],\"sourceFieldQuotes\":[{\"field\":\"CATEGORY\",\"quote\":\"Categories：\\nHamburger\\nDining bar\\nCafe\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13246665/\"},{\"field\":\"CATEGORY\",\"quote\":\"Categories\\tHamburger, Dining bar, Cafe\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1305/A130503/13246665/\"}]}}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1305/A130503/13246665:statement:1",
+                  "tabelog:en/tokyo/A1305/A130503/13246665:statement:19",
+                  "tabelog:en/tokyo/A1305/A130503/13246665:statement:20"
+                ],
+                "restaurantTypeFacts": [
+                  "Island Burgers Takadanobaba ten - Takadanobaba(Hamburger)",
+                  "Hamburger",
+                  "Dining bar"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+              "evidenceId": "tabelog:en/tokyo/A1305/A130503/13246665:document:328810c81398b473",
+              "observedAt": "2026-11-10T03:21:46.982Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1305/A130503/13246665:document:328810c81398b473"
+              },
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13246665",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1305/A130503/13246665",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Island Burgers Takadanobaba ten - Takadanobaba(Hamburger)",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "NAME",
+                  "quote": "Hamburger",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Dining bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nHamburger\nDining bar\nCafe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Categories：\nHamburger\nDining bar\nCafe",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                {
+                  "field": "CATEGORY",
+                  "quote": "Dining bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1305/A130503/13246665:document:328810c81398b473\",\"statementIds\":[\"tabelog:en/tokyo/A1305/A130503/13246665:statement:1\",\"tabelog:en/tokyo/A1305/A130503/13246665:statement:19\",\"tabelog:en/tokyo/A1305/A130503/13246665:statement:20\"]}"
+            }
+          ],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-10T03:18:56.182Z"
+          },
+          "bookingHandoffs": []
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 8,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1305/A130503/13149621",
+                    "address": "1690075 東京都新宿区高田馬場2‐14‐5 サンエスビル １F",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1305/A130503/13149621",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/"
+                    },
+                    "outletName": "Takadanobaba Ristorante En",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:d5233d906b1811cd748a4662",
+                      "sourceIds": "evidence:restaurant:native-discovery:d5233d906b1811cd748a4662",
+                      "outletName": "evidence:restaurant:native-discovery:d5233d906b1811cd748a4662"
+                    },
+                    "coordinates": {
+                      "lat": 35.7128837886769,
+                      "lng": 139.706719164746
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Takadanobaba"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 379,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1305/A130504/13269907",
+                    "address": "1690075 東京都新宿区高田馬場1-3-13 第二天台ビル 102",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1305/A130504/13269907",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/"
+                    },
+                    "outletName": "Sake Tokidoki Teppan Tsudoiba 46 Takadanobaba Ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:7217e965833d6796222dc9bd",
+                      "sourceIds": "evidence:restaurant:native-discovery:7217e965833d6796222dc9bd",
+                      "outletName": "evidence:restaurant:native-discovery:7217e965833d6796222dc9bd"
+                    },
+                    "coordinates": {
+                      "lat": 35.710344668679404,
+                      "lng": 139.7095149747184
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Takadanobaba"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 654,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1305/A130502/13252368",
+                    "address": "1710033 東京都豊島区高田3-22-11",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1305/A130502/13252368",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                    },
+                    "outletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:f5b17db380b4177bac253d99",
+                      "sourceIds": "evidence:restaurant:native-discovery:f5b17db380b4177bac253d99",
+                      "outletName": "evidence:restaurant:native-discovery:f5b17db380b4177bac253d99"
+                    },
+                    "coordinates": {
+                      "lat": 35.71457566187596,
+                      "lng": 139.71036326061744
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Takadanobaba"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 750,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1305/A130503/13285523",
+                    "address": "1690075 東京都新宿区高田馬場1-26-12 高田馬場ビル 1F",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1305/A130503/13285523",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                    },
+                    "outletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:3b570e589a857e5a012df3df",
+                      "sourceIds": "evidence:restaurant:native-discovery:3b570e589a857e5a012df3df",
+                      "outletName": "evidence:restaurant:native-discovery:3b570e589a857e5a012df3df"
+                    },
+                    "coordinates": {
+                      "lat": 35.71294025416891,
+                      "lng": 139.70549946987825
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Takadanobaba"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 275,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1305/A130503/13246665",
+                    "address": "1690075 東京都新宿区高田馬場4-10-13",
+                    "sourceIds": {
+                      "tabelog": "en/tokyo/A1305/A130503/13246665",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                    },
+                    "outletName": "Island Burgers Takadanobaba ten",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:cbdb63907c629fce23ee7064",
+                      "sourceIds": "evidence:restaurant:native-discovery:cbdb63907c629fce23ee7064",
+                      "outletName": "evidence:restaurant:native-discovery:cbdb63907c629fce23ee7064"
+                    },
+                    "coordinates": {
+                      "lat": 35.71313613787021,
+                      "lng": 139.70306618358936
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Takadanobaba"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 118,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                }
+              ],
+              "availability": {
+                "tabelog:en/tokyo/A1305/A130502/13252368": [],
+                "tabelog:en/tokyo/A1305/A130503/13149621": [
+                  {
+                    "id": "offer:tabelog:tabelog:en/tokyo/A1305/A130503/13149621:2026-11-18:19:00:2",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-18T19:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T03:19:46.407Z",
+                    "expiresAt": "2026-11-10T03:19:46.407Z",
+                    "partySize": 2,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "tabelog:en/tokyo/A1305/A130503/13149621",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T03:29:46.407Z",
+                    "bookingRecheckRequired": true
+                  }
+                ],
+                "tabelog:en/tokyo/A1305/A130503/13246665": [],
+                "tabelog:en/tokyo/A1305/A130503/13285523": [],
+                "tabelog:en/tokyo/A1305/A130504/13269907": [
+                  {
+                    "id": "offer:tabelog:tabelog:en/tokyo/A1305/A130504/13269907:2026-11-18:19:00:2",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-18T19:00:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T03:19:55.012Z",
+                    "expiresAt": "2026-11-10T03:19:55.012Z",
+                    "partySize": 2,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "tabelog:en/tokyo/A1305/A130504/13269907",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T03:29:55.012Z",
+                    "bookingRecheckRequired": true
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "artifactId": "artifact:outcome:restaurant:adfd4a4bd5922ec763f289d8:8",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "OUTCOME",
+            "sourceVersion": 8,
+            "data": {
+              "outcome": {
+                "status": "NO_VERIFIED_RESULT",
+                "remainingGaps": [
+                  "Takadanobaba Ristorante En: availability AVAILABLE (no request-bound slot established); facts UNKNOWN (BROWSER_OPERATION_BUDGET_EXCEEDED)",
+                  "Sake Tokidoki Teppan Tsudoiba 46 Takadanobaba Ten: availability AVAILABLE (no request-bound slot established); facts UNKNOWN (BROWSER_OPERATION_BUDGET_EXCEEDED)",
+                  "Toyoda Cheese Steak &amp; BBQ Takadanobaba: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+                  "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+                  "Island Burgers Takadanobaba ten: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+                  "Candidate tabelog:en/tokyo/A1305/A130503/13149621 has no evidence for HARD criterion Spanish restaurant",
+                  "Candidate tabelog:en/tokyo/A1305/A130504/13269907 has no evidence for HARD criterion Spanish restaurant",
+                  "Candidate tabelog:en/tokyo/A1305/A130502/13252368 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate tabelog:en/tokyo/A1305/A130503/13285523 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate tabelog:en/tokyo/A1305/A130503/13246665 lacks fresh evidenced availability for the authoritative request",
+                  "AGENT_LOOP_NO_PROGRESS: The remaining read budget is reserved for an honest conclusion or qualified presentation",
+                  "Sources with recorded reads or attempts: GOOGLE_PLACES, TABELOG; unread discovery entries: google-places, tablecheck. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+                ],
+                "unresolvedCandidateIds": [
+                  "tabelog:en/tokyo/A1305/A130503/13149621",
+                  "tabelog:en/tokyo/A1305/A130504/13269907",
+                  "tabelog:en/tokyo/A1305/A130502/13252368",
+                  "tabelog:en/tokyo/A1305/A130503/13285523",
+                  "tabelog:en/tokyo/A1305/A130503/13246665"
+                ],
+                "investigatedCandidateIds": [
+                  "tabelog:en/tokyo/A1305/A130503/13149621",
+                  "tabelog:en/tokyo/A1305/A130504/13269907",
+                  "tabelog:en/tokyo/A1305/A130502/13252368",
+                  "tabelog:en/tokyo/A1305/A130503/13285523",
+                  "tabelog:en/tokyo/A1305/A130503/13246665"
+                ]
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-10T03:18:58.749Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:be07fd3b-0c0a-4a2a-ae0b-3f0fc0d1c857",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:be07fd3b-0c0a-4a2a-ae0b-3f0fc0d1c857"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "5 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T03:19:33.604Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:66bd6156-ceca-4bc7-a1f1-86c817d19b75",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:66bd6156-ceca-4bc7-a1f1-86c817d19b75"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "2 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T03:20:01.093Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:ca8f0032-d7d4-4ef6-86d6-b3acca3bc7e2",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:ca8f0032-d7d4-4ef6-86d6-b3acca3bc7e2"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T03:21:11.637Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:df76d229-8b27-4089-a6aa-b3c404bb7afd",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:df76d229-8b27-4089-a6aa-b3c404bb7afd"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "0 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T03:21:26.373Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:250654be-06e1-43d0-b41b-1190f20782d0",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:250654be-06e1-43d0-b41b-1190f20782d0"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T03:22:03.336Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:d1df45e4-aa1d-4569-a6e2-0c94f344e870",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:d1df45e4-aa1d-4569-a6e2-0c94f344e870"
+            },
+            "type": "READ_END_WINDOW_OPENED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T03:22:05.893Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:96a726ac-e4a5-4291-93b4-31f51d52ef65",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:96a726ac-e4a5-4291-93b4-31f51d52ef65"
+            },
+            "type": "AGENT_LOOP_TERMINATED",
+            "display": {
+              "title": "Agent loop stopped",
+              "detail": "NO_PROGRESS: The remaining read budget is reserved for an honest conclusion or qualified presentation"
+            },
+            "occurredAt": "2026-11-10T03:22:05.911Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794280736182,
+      "deadlineAtMs": 1794281236182,
+      "elapsedMs": 189781.176291,
+      "modelCalls": 46,
+      "googleRequests": 1,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "Could you find a Spanish restaurant near Takadanobaba with a table for 2 on Wednesday, November 18 at 7 PM?",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130503/13149621",
+                "outletName": "Takadanobaba Ristorante En",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130503/13149621",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13149621/"
+                },
+                "address": "1690075 東京都新宿区高田馬場2‐14‐5 サンエスビル １F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130504/13269907",
+                "outletName": "Sake Tokidoki Teppan Tsudoiba 46 Takadanobaba Ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130504/13269907",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130504/13269907/"
+                },
+                "address": "1690075 東京都新宿区高田馬場1-3-13 第二天台ビル 102"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130502/13252368",
+                "outletName": "Toyoda Cheese Steak &amp; BBQ Takadanobaba",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130502/13252368",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130502/13252368/"
+                },
+                "address": "1710033 東京都豊島区高田3-22-11"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130503/13285523",
+                "outletName": "Steak Raisu to Curry no Mise Center Beef Takadanobaba ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130503/13285523",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13285523/"
+                },
+                "address": "1690075 東京都新宿区高田馬場1-26-12 高田馬場ビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1305/A130503/13246665",
+                "outletName": "Island Burgers Takadanobaba ten",
+                "sourceIds": {
+                  "tabelog": "en/tokyo/A1305/A130503/13246665",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1305/A130503/13246665/"
+                },
+                "address": "1690075 東京都新宿区高田馬場4-10-13"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13149621",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13149621",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130504/13269907",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130504/13269907",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130502/13252368",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130502/13252368",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13246665",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13246665",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13285523",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13285523",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1305/A130503/13246665",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1305/A130503/13246665",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:be07fd3b-0c0a-4a2a-ae0b-3f0fc0d1c857",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:66bd6156-ceca-4bc7-a1f1-86c817d19b75",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:ca8f0032-d7d4-4ef6-86d6-b3acca3bc7e2",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:df76d229-8b27-4089-a6aa-b3c404bb7afd",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:250654be-06e1-43d0-b41b-1190f20782d0",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:d1df45e4-aa1d-4569-a6e2-0c94f344e870",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_END_WINDOW_OPENED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:96a726ac-e4a5-4291-93b4-31f51d52ef65",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "AGENT_LOOP_TERMINATED"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

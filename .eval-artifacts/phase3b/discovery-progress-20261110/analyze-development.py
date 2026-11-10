@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 r=Path(__file__).parent;rows=[]
 for name in ['D01','D02']:
- p=r/'runtime'/name/name
+ p=r/'runtime-namespaced'/name/name
  if not (p/'execution.result.json').exists():continue
  d=json.loads((p/'execution.result.json').read_text());ex=d['execution'];diag=json.loads((p/'browser-diagnostics.json').read_text())['events'];stage={}
  for e in diag:
@@ -20,8 +20,8 @@ for name in ['D01','D02']:
  for t in ex['trajectories']:skips+=t.get('executionMetadata',{}).get('skippedSources',[])
  for e in ex['events']:
   if e['event']['type']=='AVAILABILITY_CHECKED':checks.update(e['event'].get('availabilityChecks',{}))
- trace=json.loads((p/'browser-trace.json').read_text())['events'];retry=[e for e in trace if e['kind']=='ENTRY_NAVIGATION' and e['detail'].get('event') in ['ZERO_BYTE_TIMEOUT','IDLE_ABORT']]
+ rec=json.loads(next((p/'recordings').rglob('recording.json')).read_text());retry=[e for e in rec['entries'] if isinstance(e.get('detail'),dict) and e['detail'].get('event') in ['ZERO_BYTE_TIMEOUT','IDLE_ABORT']]
  ev=json.loads((p/'evaluation.json').read_text());dec=[json.loads(l) for l in (p/'execution.decisions.jsonl').read_text().splitlines()]
- rows.append({'id':name,'discovery':stage,'checkedCandidates':{k:v['status'] for k,v in checks.items()},'skippedSources':len(skips),'NO_PROGRESS':sum(e.get('detail')=='NO_PROGRESS' for e in diag),'retryEvents':retry,'modelCalls':len(dec),'resourceUsage':ex.get('resourceUsage'),'resourceAccounting':ex.get('resourceAccounting'),'presented':ex['finalSnapshot']['domainState'].get('presentedResults'),'verdict':ev['verdict']})
-(r/'analysis.json').write_text(json.dumps(rows,ensure_ascii=False,indent=2)+'\n')
+ rows.append({'id':name,'discovery':stage,'checkedCandidates':{k:v['status'] for k,v in checks.items()},'skippedSources':len(skips),'NO_PROGRESS':sum(e.get('operation')=='NO_PROGRESS' for e in diag),'retryEvents':retry,'modelCalls':len(dec),'resourceUsage':ex.get('resourceUsage'),'resourceAccounting':ex.get('resourceAccounting'),'presented':ex['finalSnapshot']['domainState'].get('presentedResults'),'verdict':ev['verdict']})
+(r/'analysis-final.json').write_text(json.dumps(rows,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps(rows,ensure_ascii=False,indent=2))
