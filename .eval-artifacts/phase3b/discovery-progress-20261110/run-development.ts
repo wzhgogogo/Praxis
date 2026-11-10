@@ -15,7 +15,7 @@ const plan=JSON.parse(await readFile(join(root,'input-hashes.json'),'utf8'));
 for(const [p,h]of Object.entries(plan.files))if(hash(await readFile(join(root,p)))!==h)throw Error('FROZEN_INPUT_MISMATCH');
 if(process.argv.includes('--validate-only')){console.log(JSON.stringify({valid:true,sourceSHA,sourceGET:0,models:0,Live:0}));process.exit(0);}
 if(process.env.PRAXIS_RUN_DEVELOPMENT_LIVE!=='1'||!process.execArgv.some(x=>x.startsWith('--env-file')))throw Error('AUTHORIZATION_AND_ENV_FILE_REQUIRED');
-const runtime=join(root,'runtime');await mkdir(runtime,{recursive:false});
+const runtime=join(root,'runtime-namespaced');await mkdir(runtime,{recursive:false});
 const originalLedger=await readFile(flag('--budget-parent')),parent=JSON.parse(originalLedger.toString());
 if(hash(originalLedger)!==plan.parentLedgerSHA256||parent.cumulative.fullLive!==8||parent.cumulative.evaluationPublicGET!==49||parent.cumulative.realModelCalls!==1239)throw Error('BUDGET_PARENT_CHANGED');
 const ledger=join(runtime,'budget-development.json');parent.limits.fullLive=26;parent.authorization='User 2026-11-10 ordered discovery slice: D01/D02 one Live each, GET<=14 plus health-only<=12, per-turn50; total26/126/2500 unchanged; no further Live.';parent.parentLedgerSHA256=hash(originalLedger);parent.scope="D01/D02 development plus health monitoring; inherited8 Live/49 GET/1239 models; original425 preserved";
@@ -24,7 +24,7 @@ let lastGET=-Infinity;const pace=async()=>{const delay=5000-(Date.now()-lastGET)
 const receipts:unknown[]=[];let stopReason:string|undefined;
 for(const id of ['D01','D02']){
  const packBytes=await readFile(join(root,id+'-pack.json')),pack=await loadG6Pack(join(root,id+'-pack.json'),hash(packBytes));
- const health=await checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:pack.cases[0]!.witness!.detailUrl,beforeGET:async(source,round)=>{await pace();await chargeG6(ledger,id+':HEALTH:'+source+':'+round,'evaluationPublicGET','User-approved development health; source scripts two rounds,10s cutoff, no Live.');}});
+ const health=await checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:pack.cases[0]!.witness!.detailUrl,beforeGET:async(source,round)=>{await pace();await chargeG6(ledger,sourceSHA+':'+id+':HEALTH:'+source+':'+round,'evaluationPublicGET','User-approved development health; source scripts two rounds,10s cutoff, no Live.');}});
  await writeFile(join(runtime,id+'-network-health.json'),JSON.stringify(health,null,2)+'\n',{flag:'wx'});
  if(!health.passed){stopReason='HEALTH_FAILED';receipts.push({id,status:'CANCELLED_BEFORE_LIVE'});break;}
  const deps=liveG6Dependencies(process.env,ledger),transport=deps.witnessFetch;
