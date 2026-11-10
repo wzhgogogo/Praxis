@@ -70,7 +70,7 @@ export function observedQualificationEvidence(view:RestaurantCaseView,runId:stri
       const ref=`${frame.ref??`source-snapshot:${frame.index+1}`}:html-sha256:${sha(frame.page.html)}:text-sha256:${sha(frame.page.text)}`+(bridge?`:identity:${bridge.ref}:${bridge.bodySHA256}`:"");
       pages.push({ref,url:frame.page.url,runId,candidateId,readAt:frame.at,merchantText,merchantScope:"EXCERPTS",name:identity?.name??"UNBOUND_SOURCE_IDENTITY",...(identity?.address?{address:identity.address}:{}),...(identity?.phone?{phone:identity.phone}:{}),observedLinks:rawSource.links,...(native?{sourceIdentity:native}:{}),...(native&&rawSource.widget?{observedAvailability:rawSource.widget}:{})});
       const used=facts.find(e=>e.sourceFieldQuotes?.some(q=>q.sourceUrl===s.sourceUrl&&q.quote===s.quote));
-      quotes.push({text:s.quote,url:s.sourceUrl,readAt:used?.observedAt??frame.at,...(used?{evidenceId:used.evidenceId,provider:used.provider}:{})});
+      quotes.push({text:s.quote,url:s.sourceUrl,readAt:frame.at,...(used?{evidenceId:used.evidenceId,provider:used.provider,observedAt:used.observedAt}:{})});
     }
     for(const frame of frames){
       const raw=readIndependentSource(frame.page),native=raw.identity;

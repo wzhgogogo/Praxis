@@ -16,7 +16,7 @@ export interface G6EvaluationInput {
   /** Complete-request qualification is frozen by an independent reviewer, never copied from State. */
   qualificationOracles?:Array<{nativeIdentity?:IndependentSourceIdentity;name:string;address?:string;phone?:string;hardCriteriaMet:boolean;withinArea:boolean;evidenceRefs:string[]}>;
   /** Product quotations to verify, never its eligibility/meaning judgement. */
-  qualificationClaims?:Array<{candidateId:string;quotes:Array<{text:string;url:string;readAt:string;evidenceId?:string;provider?:string}>}>;
+  qualificationClaims?:Array<{candidateId:string;quotes:Array<{text:string;url:string;readAt:string;evidenceId?:string;provider?:string;observedAt?:string}>}>;
   delivered:G6Delivered[];handoffs:G6Handoff[];answers:G6QuestionAnswer[];pages:G6OraclePage[];vacancy:G6Vacancy[];
   /** Independent outer receiver observations, not the Guard's self-reported verdict. */
   requests:Array<{ref:string;url:string;method:string;reachedSource:boolean;queryKeys?:string[];bodyFields?:Record<string,string>;contentType?:string;bodySHA256?:string;preflight?:{requestOrigin:string;method:string;headerNames:string[];bodyBytes:number}}>;
