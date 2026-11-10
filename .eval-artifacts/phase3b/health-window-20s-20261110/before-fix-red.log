@@ -1,0 +1,181 @@
+✖ resume source transition uses actual Git diff: health (87.018542ms)
+✖ resume source transition uses actual Git diff: checkpoint (77.505667ms)
+✖ resume source transition uses actual Git diff: test (75.284917ms)
+✖ resume source transition uses actual Git diff: artifact (73.22325ms)
+✔ resume source transition uses actual Git diff: product (74.614584ms)
+✔ resume source transition uses actual Git diff: other-doc (73.58875ms)
+✔ resume source transition uses actual Git diff: artifact-code (75.022542ms)
+✖ health phase diagnostics: SUCCESS (2.256541ms)
+✖ health phase diagnostics: SCRIPT_15S (0.326959ms)
+✖ health phase diagnostics: SCRIPT_21S (0.192208ms)
+✖ health phase diagnostics: DOCUMENT_401 (0.128375ms)
+✖ health phase diagnostics: SCRIPT_TIMEOUT (0.15725ms)
+✖ health phase diagnostics: SESSION_OPEN (0.12675ms)
+✖ health phase diagnostics: NAVIGATION_ERROR (0.327958ms)
+✔ a session opened after the health cutoff closes without navigating (0.129167ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 4
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 633.854625
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/holdout-checkpoint.test.ts:1:528
+✖ resume source transition uses actual Git diff: health (87.018542ms)
+  Error: HOLDOUT_RESUME_INPUT_MISMATCH
+      at checkResumeIdentity (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-checkpoint.ts:35:191)
+      at async TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-checkpoint.test.ts:29:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3)
+
+test at src/eval/restaurant/agent-loop/g6/holdout-checkpoint.test.ts:1:528
+✖ resume source transition uses actual Git diff: checkpoint (77.505667ms)
+  Error: HOLDOUT_RESUME_INPUT_MISMATCH
+      at checkResumeIdentity (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-checkpoint.ts:35:191)
+      at async TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-checkpoint.test.ts:29:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/g6/holdout-checkpoint.test.ts:1:528
+✖ resume source transition uses actual Git diff: test (75.284917ms)
+  Error: HOLDOUT_RESUME_INPUT_MISMATCH
+      at checkResumeIdentity (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-checkpoint.ts:35:191)
+      at async TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-checkpoint.test.ts:29:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/g6/holdout-checkpoint.test.ts:1:528
+✖ resume source transition uses actual Git diff: artifact (73.22325ms)
+  Error: HOLDOUT_RESUME_INPUT_MISMATCH
+      at checkResumeIdentity (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-checkpoint.ts:35:191)
+      at async TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-checkpoint.test.ts:29:18)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)
+
+test at src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:1:357
+✖ health phase diagnostics: SUCCESS (2.256541ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 20000
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:33:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 20000,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:1:357
+✖ health phase diagnostics: SCRIPT_15S (0.326959ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:27:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:1:357
+✖ health phase diagnostics: SCRIPT_21S (0.192208ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 20000
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:33:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 20000,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:1:357
+✖ health phase diagnostics: DOCUMENT_401 (0.128375ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 20000
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:33:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 20000,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:1:357
+✖ health phase diagnostics: SCRIPT_TIMEOUT (0.15725ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 20000
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:33:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 20000,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:1:357
+✖ health phase diagnostics: SESSION_OPEN (0.12675ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 20000
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:33:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 20000,
+    operator: 'strictEqual'
+  }
+
+test at src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:1:357
+✖ health phase diagnostics: NAVIGATION_ERROR (0.327958ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 20000
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-health-window-20s/src/eval/restaurant/agent-loop/g6/holdout-health.test.ts:33:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 20000,
+    operator: 'strictEqual'
+  }
