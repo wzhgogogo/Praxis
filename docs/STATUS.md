@@ -1,4 +1,7 @@
 
+2026-11-10 CET — pending-review preparation freeze1ab409e8 clean full gates PASS: type/arch/default1557/build/Chromium270+G6 101/strictG2 all12; scan0. Eval@6 narrow qualification-only pending, no provisional qualification/S0 pass, missing other evidence/S0 stops; G6/private pending reuse and late S0 sticky FAILED_S0 verified. Custom commitment default/whole file/preamble/segments unchanged, commitment SHA bound on resume. D02 independent PARTY_TIME now checks frozen18:00..20:00 closed interval, exact-time unchanged. D01 review EVALUATED/qualified/s0=0 saved, original preserved. Product0 changes; publish main then one D02 only, no private original/manifest read.
+
+
 2026-11-10 CET — draft / not integrated: evaluator@6 narrow PENDING_REVIEW for only missing independent qualification annotation with all other checks PASS; pending slots completed/no replacement, late S0 marks whole batch FAILED_S0. Custom commitment optional with unchanged verifier and resume SHA binding; old private files not read. D01 user-supplied review bf1fc489… applied via existing immutable supplement path, qualified=true/s0=0, original unchanged. Fictional pending/resume/review/commitment tests pass; full gates pending. Then frozen-main D02 once, <=7GET/1Live, no D01 rerun, old425 state preserved.
 
 
