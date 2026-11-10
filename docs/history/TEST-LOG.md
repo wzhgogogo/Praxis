@@ -1,3 +1,5 @@
+2026-11-10 CET — eval后验分组源码f215d59d净树全门禁通过：type/arch/default1571/build/Chromium274+G6 107/strictG2全12，写死扫描0、产品diff0。店/日/人数每组1GET，最多2；第三NOT_EXECUTED而非异常，缺证仍不伪造PASS。D01审核072ddab5补评QUALIFIED_DELIVERY/s0=0；D02两份原响应离线恢复5后验PASS，但旧B1多时段绑定仍报9项S0检查，NOT_EVALUATED/stopBatch=true，原failure保留、未改合同消除报错，停止等待复核。新真实调用0，开发账本12/86/1410与原425/871文件均未变。[一页报告](../../.eval-artifacts/phase3b/post-delivery-grouping-20261110/report.md)。
+
 <a id="post-delivery-grouping-20261110"></a>
 
 ## 2026-11-10 CET — grouped post checks and immutable offline reviews

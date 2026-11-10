@@ -1,3 +1,5 @@
+2026-11-10 CET — eval后验分组源码f215d59d净树全门禁通过：type/arch/default1571/build/Chromium274+G6 107/strictG2全12，写死扫描0、产品diff0。店/日/人数每组1GET，最多2；第三NOT_EXECUTED而非异常，缺证仍不伪造PASS。D01审核072ddab5补评QUALIFIED_DELIVERY/s0=0；D02两份原响应离线恢复5后验PASS，但旧B1多时段绑定仍报9项S0检查，NOT_EVALUATED/stopBatch=true，原failure保留、未改合同消除报错，停止等待复核。新真实调用0，开发账本12/86/1410与原425/871文件均未变。[一页报告](../.eval-artifacts/phase3b/post-delivery-grouping-20261110/report.md)。
+
 2026-11-10 CET — draft / not integrated：eval后验按店/日/人数分组、首时间svt、最多2组，第三NOT_EXECUTED而非运行器异常；未执行库存仍缺证，认证/SOURCE_CAPTURE严格时段绑定不变。虚构分组与G6组装47+项绿，Evaluator@7。D01审核SHA072ddab5补评合格/s0=0，原评价保留；D02原响应离线恢复5后验PASS，但B1多时段配对/来源svt绑定使原检查s0=9、NOT_EVALUATED，独立边界200PASS；未放宽/伪造以消除，停止补评，不追加真实调用。待完整门禁/main。[报告](../.eval-artifacts/phase3b/post-delivery-grouping-20261110/report.md)。
 
 2026-11-10 CET — 三卡点修复后main38479f8b开发检查已结束：D01首轮22模型/66.9秒交付Bar014+B1、追问9/33.6保留，PENDING_REVIEW；D02决策22以Sumika自己的Robatayaki分类引用完成HARD，47/156.5秒交付同店5时段+B1，但后验循环第三时段触及每例3GET上限，发送前拒绝，FAILED/无正式评价。未补读/补评/重跑，不报通过率。独立边界128/128、200/200通过；原生候选均0，核对成本改善仅组件验证。新增2Live/13GET/78模型，累计12/26、86/126、1410/2500，原425/871文件/账本未变；停止不进held-out。[一页报告](../.eval-artifacts/phase3b/category-discovery-cost-20261110/report.md)。

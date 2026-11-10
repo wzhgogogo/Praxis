@@ -8,6 +8,6 @@ D01：提供的review SHA072ddab5…已核对，经现有reviewHoldoutAttempt得
 
 D02：原failure输入+已录18:00/18:30两份原响应（SHA/URL/JSON逐一核对），未改产品主张，另存 **evaluation.offline-recovery.json**。五个POST_DELIVERY_SLOT全部PASS、边界200/200 PASS；资格引用本身为待语义复核。但完整结果为 **NOT_EVALUATED / s0=9 / stopBatch=true**：原有B1多时段检查把每个同店链接配给第一个18:00，产生B1_LINK四项FAIL；B1_SOURCE_URL五项FAIL还受来源请求svt与该首时段严格绑定影响。未删除时段/链接、未改SOURCE_CAPTURE合同来消除这些项；不能把这次补评称为PENDING_REVIEW或合格。原failure保持，已停止该补评，不新增读取。
 
-这是本轮授权的后验问题之外、离线评测暴露的B1多时段绑定阻断。现有评分器要求的逐时段来源请求绑定，不能从未发生的请求补造；后续由复核者决定如何处理完整日历响应与逐链接的独立核对。本轮不扩展修复，不重跑D02。
+这是本轮授权的后验问题之外、离线评测暴露的B1多时段绑定阻断。原来源捕获svt仅1900（含已核6人响应）；现有评分器要求的其余逐时段来源请求绑定，不能从未发生的请求补造；后续由复核者决定如何处理完整日历响应与逐链接的独立核对。本轮不扩展修复，不重跑D02。
 
-完整门禁与写死扫描待冻结。完成main发布后停止，不进入新held-out。
+源码冻结 **f215d59d** 净树全门禁通过：type/arch/default1571/build/Chromium274+G6 107/strictG2全12。写死扫描新增0，产品diff0。全部证据随main发布，ls-remote核对后停止，不进入新held-out。
