@@ -173,3 +173,14 @@ for(const outcome of ['PENDING','PENDING_S0']as const)test(`pending slot complet
 test('commitment bytes SHA is part of resume identity',async()=>{
  const c=await control();try{Object.assign(c.audit,{commitmentSHA256:holdoutHash('fictional commitment one')});await c.run();Object.assign(c.audit,{commitmentSHA256:holdoutHash('fictional commitment two')});await assert.rejects(c.run(true),/HOLDOUT_RESUME_INPUT_MISMATCH/);assert.equal(c.execs,3);}finally{await c.close();}
 });
+
+test('outer 2–4 minute randomized cooldown is persisted, precedes next attempt, and completed slots do not wait on resume',async()=>{
+ const c=await control();let clock=1_000_000,draws=0;const requested=[120_000,240_000],waits:number[]=[];
+ const deps={...c.deps,now:()=>clock,wait:async(ms:number)=>{waits.push(ms);clock+=ms;},startDelayMs:()=>{draws++;return requested[draws-1]!;}};
+ try{
+  const result=await runPrivateHoldout(c.manifest,c.audit,c.output,deps);assert.equal(c.execs,3);assert.equal(draws,2);
+  assert.equal(result.receipts[0]!.startSpacing,undefined);
+  for(const [index,delay]of [[1,120_000],[2,240_000]]as const){const a=result.receipts[index]!;assert.equal(a.startSpacing?.delayMs,delay);assert.equal(a.startSpacing?.waitedMs,delay);assert.ok(a.finishedAtMs!>=a.startSpacing!.previousFinishedAtMs+delay);const file=JSON.parse(await readFile(join(a.path,'start-spacing.json'),'utf8'));assert.deepEqual(file,a.startSpacing);}
+  await runPrivateHoldout(c.manifest,c.audit,c.output,deps,{resume:true});assert.equal(c.execs,3);assert.equal(draws,2);assert.ok(waits.includes(120_000)&&waits.includes(240_000));
+ }finally{await c.close();}
+});

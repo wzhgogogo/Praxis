@@ -1,3 +1,7 @@
+<a id="heldout-r2-preparation-20261110"></a>
+
+2026-11-10 CET — R2准备draft：仅eval CLI额度核对改为用户批准2800模型/220GET/36Live/4环境，其他原规则不变；后续用户明确预认证符合后立即开跑，另批准轮间随机120–240秒外层冷却，首轮不等、完成时间/抽样/实际等待持久化，产品时限不变。25项CLI/认证/续跑/pacing夹具通过。D02 review bacd6391补评QUALIFIED_DELIVERY/s0=0，用户真实浏览器核对D01/D02两个B1正确。冻结门禁与main后新外部R2账本继承12/86/1410，以baseLedger/SHA保留旧审计，新R2 entries为空，原425/旧账本不改。私有原文/清单只核SHA未人工读取；下一步6GET预认证，05=false其余true才立即正式执行。[计划](../../.eval-artifacts/phase3b/heldout-r2-preparation-20261110/preflight-plan.md)。
+
 <a id="heldout-round2-commitment-20261110"></a>
 
 2026-11-10 CET — R2承诺已按用户提供JSON逐字节入库：`.eval-artifacts/phase3b-holdout/commitment-r2.json`，JSON SHAb81d83eee099a351fa24fc2efa942800eafd0cd84b6422596e353244206756ee。03/04a/04b/05沿用哈希不变，新增06/07只登记哈希，六例顺序固定；旧承诺保持，不读私有题目/清单。后续显式--commitment选R2，原默认不改；未认证/体检/运行，新增真实调用0、原425/账本不动。B1修复已在main69e0e5ed，D02待资格补评；停止等待。[登记报告](../../.eval-artifacts/phase3b/heldout-round2-commitment-20261110/report.md)。

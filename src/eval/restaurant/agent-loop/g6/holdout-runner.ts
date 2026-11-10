@@ -28,6 +28,8 @@ export interface HoldoutDependencies {
  health:(spec:G6Case,beforeGET:(source:string,round:number)=>Promise<void>)=>Promise<{passed:boolean;observations:HoldoutHealthObservation[]}>;
  execute?:typeof runG6Batch;
  now?:()=>number;wait?:(ms:number)=>Promise<void>;
+ /** User2026-11-10: outer cooldown only; production operation deadlines unchanged. */
+ startDelayMs?:()=>number;
 }
 export async function frozenHoldoutReadRules(){
  const pack=JSON.parse(await readFile(new URL('../../../../../.eval-artifacts/phase3b/d8-direct-outlet-live-20261109/D8-pack.json',import.meta.url),'utf8'))as G6Pack;
@@ -113,6 +115,15 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
     if(replacement){const ticket=await ticketPaid();if(!ticket.paid&&ticket.remaining<=0)throw Error('HOLDOUT_ENVIRONMENT_RETRY_LIMIT');}
     const attempt:HoldoutAttempt={id:item.id,repetition,key,path:join(root,key),status:'STARTED',environmentReplacement:replacement,...(environmentChargeId?{environmentChargeId}:{})};
     state.receipts.push(attempt);await save();await mkdir(attempt.path,{recursive:false});
+    const previousFinishedAtMs=Math.max(-Infinity,...state.receipts.filter(a=>a!==attempt&&a.finishedAtMs!==undefined).map(a=>a.finishedAtMs!));
+    if(deps.startDelayMs&&Number.isFinite(previousFinishedAtMs)){
+     const delayMs=deps.startDelayMs();if(!Number.isSafeInteger(delayMs)||delayMs<120_000||delayMs>240_000)throw Error('HOLDOUT_START_SPACING_INVALID');
+     const waitMs=Math.max(0,previousFinishedAtMs+delayMs-now()),started=now();
+     attempt.startSpacing={delayMs,waitedMs:0,previousFinishedAtMs};await save();
+     if(waitMs>0)await wait(waitMs);
+     attempt.startSpacing.waitedMs=now()-started;
+     await writeFile(join(attempt.path,'start-spacing.json'),JSON.stringify(attempt.startSpacing,null,2)+'\n',{flag:'wx'});await save();
+    }
     const spec:G6Case={id:key,request:item.request,oracle:{...structuredClone(item.oracle),reviewedReadRules:structuredClone(rules)},witness:item.witness,followups:item.followups.map(f=>({id:f.id,kind:f.kind,text:f.text,trigger:f.condition.type==='PRESENTED_ANY'?'DISPLAYED_RESULTS':f.condition.type==='PRESENTED_WITH_SLOT'?'DISPLAYED_AVAILABLE':f.condition.type,...(f.condition.type==='TARGET_PRESENTED_WITH_SLOT'?{target:f.condition.target,...(f.condition.time?{time:f.condition.time}:{})}:{}),...(f.allowOtherOutlets?{allowOtherOutlets:true}:{})}))};
     if(!healthy||previous){
      const health=await deps.health(spec,async(source,round)=>{await interval();await chargeG6(budget.path,`${key}:HEALTH:${round}:${source}`,'evaluationPublicGET','Held-out health per case/recovery, two rounds, no Live/model');lastGET=now();});
@@ -123,6 +134,7 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
     await interval();
     const pack:G6Pack={schemaVersion:'phase3b-g6-pack@1',mode:'LIVE_READ',recording:{browser:true,decisions:true,googleResponses:true},cases:[spec]};
     const batch=await (deps.execute??runG6Batch)(pack,{...deps.g6,budgetPath:budget.path,maximumWitnessGETs:3,witnessDetailRead:false,artifactTransform:privateInputRedactor([item.request,...item.followups.map(f=>f.text)]),beforeLive:async()=>{if(environmentChargeId&&!(await ticketPaid()).paid)await chargeG6(budget.path,environmentChargeId,'environmentReruns','Approved replacement Live after explicit environment failure; original retained');}},attempt.path);
+    attempt.finishedAtMs=now();
     await recordCertification(attempt);
     const e=await evaluation(attempt);
     if(e?.verdict.s0){attempt.status='STOPPED';state.status='FAILED_S0';state.stopReason='S0_STOP';await save();break outer;}
