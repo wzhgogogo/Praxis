@@ -1,3 +1,5 @@
+2026-11-10 CET — R2承诺已按用户提供JSON逐字节入库：`.eval-artifacts/phase3b-holdout/commitment-r2.json`，JSON SHAb81d83eee099a351fa24fc2efa942800eafd0cd84b6422596e353244206756ee。03/04a/04b/05沿用哈希不变，新增06/07只登记哈希，六例顺序固定；旧承诺保持，不读私有题目/清单。后续显式--commitment选R2，原默认不改；未认证/体检/运行，新增真实调用0、原425/账本不动。B1修复已在main69e0e5ed，D02待资格补评；停止等待。[登记报告](../.eval-artifacts/phase3b/heldout-round2-commitment-20261110/report.md)。
+
 2026-11-10 CET — B1多时段评测修复e373d557净树全门禁PASS：type/arch/default1571/build/Chromium274+G6 115/strictG2全12、scan0、产品diff0。按offerId或精确日期/时间/人数唯一配对，重复/伪造原链接仍S0；来源日历按店/日/人数及原返回链接核对。D02离线recovery-2为PENDING_REVIEW/s0=0/stopBatch=false，仅资格注释待复核；5B1均逐字存在svt1900/6人原响应。D01/D8结论不变，旧failure/s0=9保留；真实调用0，原425/账本保持。先main发布再按用户文件原样入库R2承诺，停止不跑held-out。[报告](../.eval-artifacts/phase3b/b1-slot-pairing-20261110/report.md)。
 
 2026-11-10 CET — draft / not integrated：Evaluator@8修同店多时段B1一对一配对，优先真实offerId，历史缺ID用日期/时间/人数，重复/错配仍S0；来源响应店/日/人数绑定并逐字核对应时段原链接，svt不再逐offer相等。D02原录制+两后验重评PENDING_REVIEW/s0=0/stopBatch=false，原failure和s0=9保留；svt1900的6人响应确有5B1。D01/D8真实结论不变，虚构51项通过。仅eval代码、真实调用0，待完整门禁/main，再原样入库R2承诺，不读题目原文。[报告](../.eval-artifacts/phase3b/b1-slot-pairing-20261110/report.md)。
