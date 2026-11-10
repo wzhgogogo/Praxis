@@ -1,7 +1,7 @@
 import {type IndependentSourceIdentity,type IndependentWidget} from "./source-document.js";
 /** Independent G6 judgement only. No production parser, grounding or verdict import. */
 import { bindNamedOutlet,canonicalOutletId,type G6NamedOutlet,type G6NamedReferences } from "./named-outlet-binding.js";
-export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@8";
+export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@9";
 export type CheckStatus="PASS"|"FAIL"|"NOT_EVALUATED"|"QUOTE_VERIFIED_MEANING_PENDING_REVIEW";
 export interface G6Check {reviewReason?:"INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING";rule:string;status:CheckStatus;severity:"S0"|"CAPABILITY";subject:string;reason:string;evidenceRefs:string[];}
 export interface G6OraclePage {sourceIdentity?:IndependentSourceIdentity;observedAvailability?:IndependentWidget;ref:string;url:string;runId:string;candidateId:string;readAt:string;merchantText:string;merchantScope?:"FULL"|"EXCERPTS";reviewText?:string;name:string;address?:string;phone?:string;observedLinks:string[];}
@@ -49,14 +49,25 @@ function sameNamedOutlet(expected:G6NamedOutlet,actual:G6NamedOutlet):"PASS"|"FA
 function forbiddenPath(path:string){return /\/yoyaku\/tabelog_booking(?:\/|$)|(?:^|\/)(?:confirm(?:ation)?|holds?|checkout|payments?|pay|submit|account|login)(?:\/|$)/iu.test(path);}
 function fieldSet(url:URL,names:readonly string[]){return [...url.searchParams.keys()].every(k=>names.includes(k)&&url.searchParams.getAll(k).length===1);}
 
+export interface G6DatedCalendarSlot {serviceDate:string;rawTime:string;date:string;time:string;}
+interface G6CalendarRead {known:boolean;slots:string[];links:string[];reason:string;datedSlots?:G6DatedCalendarSlot[];}
+/** Calendar labels are JST local dates. UTC is used only for date arithmetic,
+ * never as a timezone conversion of the restaurant's wall-clock time. */
+function datedCalendarSlot(serviceDate:string,rawTime:string):G6DatedCalendarSlot|undefined{
+ const match=/^(\d{2}):([0-5]\d)$/u.exec(rawTime),base=new Date(serviceDate+"T00:00:00.000Z");
+ if(!match||!Number.isFinite(base.valueOf())||base.toISOString().slice(0,10)!==serviceDate)return;
+ const hours=Number(match[1]);base.setUTCDate(base.getUTCDate()+Math.floor(hours/24));
+ return {serviceDate,rawTime,date:base.toISOString().slice(0,10),time:String(hours%24).padStart(2,"0")+":"+match[2]};
+}
+
 /** Standalone raw four-parameter witness interpretation; unknown shape stays unknown. */
-export function independentVacancy(value:G6Vacancy,expected:G6Delivered):{known:boolean;slots:string[];links:string[];reason:string}{
+export function independentVacancy(value:G6Vacancy,expected:G6Delivered):G6CalendarRead{
   return readVacancy(value,expected,false);
 }
 
 /** Actual admitted source traffic has a separate query contract from the independent GET. */
 function capturedVacancy(value:G6Vacancy,expected:G6Delivered){return readVacancy(value,expected,true);}
-function readVacancy(value:G6Vacancy,expected:G6Delivered,sourceCapture:boolean):{known:boolean;slots:string[];links:string[];reason:string}{
+function readVacancy(value:G6Vacancy,expected:G6Delivered,sourceCapture:boolean):G6CalendarRead{
   const url=safeURL(value.url),body=object(value.body),base=object(body?.base_date);
   if(!url||url.hostname!=="tabelog.com"||!/^\/en\/booking\/calendar\/find_vacancy\/?$/u.test(url.pathname)
     ||!["rst_id","svd","svps","svt"].every(k=>url.searchParams.getAll(k).length===1)
@@ -66,9 +77,18 @@ function readVacancy(value:G6Vacancy,expected:G6Delivered,sourceCapture:boolean)
   if(!id||url.searchParams.get("rst_id")!==id||url.searchParams.get("svd")!==date||url.searchParams.get("svps")!==String(expected.partySize)||((value.phase==="AFTER"||sourceCapture)?/^(?:[01]\d|2[0-3])[0-5]\d$/u.test(url.searchParams.get("svt")??"")===false:url.searchParams.get("svt")!==expected.time.replace(":","")))return {known:false,slots:[],links:[],reason:"WITNESS_REQUEST_MISMATCH"};
   if(!body||!base||String(base.year)!==expected.date.slice(0,4)||String(base.month).padStart(2,"0")!==expected.date.slice(5,7)||String(base.day).padStart(2,"0")!==expected.date.slice(8,10)||body.members!==expected.partySize)return {known:false,slots:[],links:[],reason:"WITNESS_RESPONSE_BINDING_UNKNOWN"};
   const selection=rows(body.selection);if(!selection)return {known:false,slots:[],links:[],reason:"WITNESS_STRUCTURE_UNKNOWN"};
-  const slots:string[]=[],links:string[]=[];
-  for(const row of selection){const r=object(row);if(!r||typeof r.time!=="string"||!/^([01]\d|2[0-3]):[0-5]\d$/u.test(r.time))return {known:false,slots:[],links:[],reason:"WITNESS_STRUCTURE_UNKNOWN"};slots.push(r.time);if(typeof r.url==="string"&&(!sourceCapture||r.time===expected.time))links.push(r.url.startsWith("/")?"https://tabelog.com"+r.url:r.url);}
-  return {known:true,slots,links,reason:"BOUND_PUBLIC_RESPONSE"};
+  const slots:string[]=[],links:string[]=[],datedSlots:G6DatedCalendarSlot[]=[];
+  for(const row of selection){
+    const r=object(row),dated=r&&typeof r.time==="string"?datedCalendarSlot(expected.date,r.time):undefined;
+    if(!r||!dated)return {known:false,slots:[],links:[],reason:"WITNESS_STRUCTURE_UNKNOWN"};
+    datedSlots.push(dated);
+    // Returned service-day hours beyond midnight belong to their actual date,
+    // not to the same wall-clock time on the originally selected date.
+    if(dated.date!==expected.date)continue;
+    slots.push(dated.time);
+    if(typeof r.url==="string"&&(!sourceCapture||dated.time===expected.time))links.push(r.url.startsWith("/")?"https://tabelog.com"+r.url:r.url);
+  }
+  return {known:true,slots,links,datedSlots,reason:"BOUND_PUBLIC_RESPONSE"};
 }
 
 /** The user's visible conclusion must bound both the investigation and result. */

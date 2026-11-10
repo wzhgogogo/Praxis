@@ -1,0 +1,6 @@
+# Business-day calendar normalization — 2026-11-10 CET
+User explicitly requests conversion after screenshot: selected Nov18 business day, 24:30 shown as Nov19 00:30. Eval-only witness/calendar parser repair; no identity/Guard/G1/product/time/budget change. New dev worktree, frozen R2 a91 and original425 untouched. Source-only public witness response, no private question read or prompt tuning.
+
+Retain serviceDate/rawTime plus actual date/time for every returned row. Date-only arithmetic independent of host timezone; hours can roll to following calendar dates. Existing slots expose only actual-date matches to the bound request; a service-day24:30 must never establish same-day00:30. Invalid date/minute/shape remains unknown. Original raw URL/body/hash unchanged, no URL construction or response replacement. Recorded07 red (whole response unknown) -> normalized rows/19:00 positive; month/year/leap controls and wrong-date counterexample, D01/D8 standard regressions.
+
+Use original recorded response for offline re-certification, separately saved, zero new GET/model/Live. Full eval gates and new source freeze before any continuation; preserve original07=null certificate. Original requirement same-SHA certification/run must remain explicit; no additional source calls until their authorization is established. Do not alter manifest or date semantics.
