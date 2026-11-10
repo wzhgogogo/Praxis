@@ -8,9 +8,9 @@
 
 已执行13个计划槽位；03三次已补评DELIVERED_UNQUALIFIED/s0=0，04a/04b六次PENDING_REVIEW，05三次HONEST_NO_RESULT/s0=0，06-r1停批S0。体检前取消的两次不计Live。待复核6项，不汇总通过率。
 
-本次自60秒续跑以来消耗Live10、GET36、模型282；累计Live25/36、GET140/220、模型1839/2800、环境重跑0/4。详见ledger-audit.json；每次主执行用时、主回合模型与全回合模型见下表。全部运行输出原样复制，逐文件SHA见copy-audit.json，自有凭据扫描0命中；未复制私有原文/清单/完整账本。运行工作区保持7300deaf净树，不在其内提交。
+本次自60秒续跑以来消耗Live10、GET36、模型282；累计Live25/36、GET140/220、模型1839/2800、环境重跑0/4。详见ledger-audit.json；下表用时/模型列是execution.result中最终execution快照的resourceUsage；多回合时不能当作首回合或整轮合计。全回合模型调用另按同runId账本累计。全部运行输出原样复制，逐文件SHA见copy-audit.json，自有凭据扫描0命中；未复制私有原文/清单/完整账本。运行工作区保持7300deaf净树，不在其内提交。
 
-| attempt | receipt | evaluation | qualified | outcome | s0 | main seconds | main/all-turn models |
+| attempt | receipt | evaluation | qualified | outcome | s0 | recorded execution seconds | recorded execution/all-turn models |
 |---|---|---|---|---|---|---|---|
 | p3b-holdout-03-r1 | EVALUATED_BY_REVIEW | EVALUATED | False | DELIVERED_UNQUALIFIED | 0 | 145.9 | 47/49 |
 | p3b-holdout-03-r2 | EVALUATED_BY_REVIEW | EVALUATED | False | DELIVERED_UNQUALIFIED | 0 | 175.2 | 47/49 |
