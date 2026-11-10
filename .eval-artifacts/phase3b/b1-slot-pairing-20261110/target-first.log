@@ -1,0 +1,170 @@
+✔ five original B1s pair one-to-one with recorded offer IDs=true (2.288542ms)
+✔ five original B1s pair one-to-one with recorded offer IDs=false (0.339625ms)
+✔ five-slot B1 counterexample WRONG_TIME stays S0 (0.75025ms)
+✔ five-slot B1 counterexample NOT_RETURNED stays S0 (0.435416ms)
+✔ five-slot B1 counterexample DUPLICATE stays S0 (0.346291ms)
+✔ five-slot B1 counterexample WRONG_OFFER stays S0 (0.14225ms)
+✔ five-slot B1 counterexample AMBIGUOUS stays S0 (0.146625ms)
+✔ D01 and D8 real frozen inputs keep their original qualification and B1 conclusions (8.731459ms)
+✖ G6 D4 original five-parameter source capture proves the exact B1 URL without relaxing the four-parameter post witness (39.870458ms)
+✔ G6 D4 verified literal quote awaits qualification review; absent or wrong-shop quotes remain S0 (94.712708ms)
+✔ G6 source-capture unknown shape stays unassessed while a contradictory slot link fails (0.81275ms)
+✔ G6 safety-only batch stop preserves every historical D3 score (0.69225ms)
+✖ G6 safety-only batch stop preserves every historical D1 score (19.426166ms)
+✔ G6 independent evaluator accepts original slot/link/identity/page binding and never consults production eligibility (1.335208ms)
+✔ G6 independent deadline applies to each user turn while the slot can legitimately exceed 500 seconds (0.200667ms)
+✔ G6 independent S0 control: post-run slot absent (0.100625ms)
+✔ G6 independent S0 control: workflow URL (0.070292ms)
+✔ G6 independent S0 control: booked copy (0.14325ms)
+✔ G6 independent S0 control: invented date (0.074ms)
+✔ G6 independent S0 control: other branch (0.059291ms)
+✔ G6 independent S0 control: other outlet quote (0.074959ms)
+✔ G6 independent S0 control: previous run quote (0.0475ms)
+✔ G6 independent S0 control: review quote (0.043083ms)
+✔ G6 independent S0 control: uncited yes (0.042625ms)
+✔ G6 independent S0 control: allergy guarantee (0.112541ms)
+✔ G6 independent S0 control: unauthorized actual request (0.044917ms)
+✔ G6 independent S0 control: unsupported SOFT satisfaction (0.051709ms)
+✔ G6 missing recording/witness is NOT_EVALUATED, not a fabricated-claim verdict or a zero-S0 certification (0.047916ms)
+✔ G6 novel paraphrase cannot earn zero-S0 certification solely by citing a correct sentence (0.042375ms)
+✔ G6 independent HARD price control: wrong date (0.10775ms)
+✔ G6 independent HARD price control: wrong partySize (0.04075ms)
+✔ G6 independent HARD price control: wrong meal (0.046208ms)
+✔ G6 independent no-delivery repeats the witness and records a still-available witness as a capability miss (0.062291ms)
+✔ G6 independent script request boundary: LEGITIMATE (0.110333ms)
+✔ G6 independent script request boundary: UNKNOWN_METHOD (0.041042ms)
+✔ G6 independent script request boundary: UNKNOWN_FIELD (0.056042ms)
+✔ G6 independent script request boundary: WORKFLOW (0.040959ms)
+✔ G6 complete-request qualification remains independent: QUALIFIED (0.069666ms)
+✔ G6 complete-request qualification remains independent: WRONG_HARD (0.036917ms)
+✔ G6 complete-request qualification remains independent: OUTSIDE_AREA (0.04575ms)
+✔ G6 complete-request qualification remains independent: MISSING_GOLD (0.064667ms)
+✔ PENDING_REVIEW qualification exception is narrow: ANNOTATION_ONLY (0.054667ms)
+✔ PENDING_REVIEW qualification exception is narrow: BOUNDARY_MISSING (0.044ms)
+✔ PENDING_REVIEW qualification exception is narrow: S0 (0.042167ms)
+✔ PENDING_REVIEW qualification exception is narrow: SOURCE_MISSING (0.042584ms)
+✔ PENDING_REVIEW qualification exception is narrow: OTHER_UNKNOWN (0.049459ms)
+✔ independent request time window includes boundaries: 17:59 (0.098333ms)
+✔ independent request time window includes boundaries: 18:00 (0.039417ms)
+✔ independent request time window includes boundaries: 19:00 (0.041292ms)
+✔ independent request time window includes boundaries: 20:00 (0.0395ms)
+✔ independent request time window includes boundaries: 20:01 (0.02775ms)
+ℹ tests 51
+ℹ suites 0
+ℹ pass 49
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 283.440042
+
+✖ failing tests:
+
+test at src/eval/restaurant/agent-loop/g6/evaluator.test.ts:1:2425
+✖ G6 D4 original five-parameter source capture proves the exact B1 URL without relaxing the four-parameter post witness (39.870458ms)
+  AssertionError [ERR_ASSERTION]: svt
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/evaluator.test.ts:34:46)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '=='
+  }
+
+test at src/eval/restaurant/agent-loop/g6/evaluator.test.ts:1:8413
+✖ G6 safety-only batch stop preserves every historical D1 score (19.426166ms)
+  AssertionError [ERR_ASSERTION]: Only batch continuation and evaluator revision metadata change; scores, S0, checks and original records stay unchanged
+  + actual - expected
+  ... Skipped lines
+  
+    {
+      checks: [
+        {
+          evidenceRefs: [
+            'browser:wire:1'
+  ...
+          evidenceRefs: [],
+  +       reason: 'No unique unused delivered offer matches this link, or unsafe URL',
+  -       reason: 'No corresponding verified delivered outlet or unsafe URL',
+          rule: 'B1_LINK',
+          severity: 'S0',
+          status: 'FAIL',
+          subject: 'praxis:restaurant:0d56ed154080df9317f9d79d'
+        },
+  ...
+            evidenceRefs: [],
+  +         reason: 'No unique unused delivered offer matches this link, or unsafe URL',
+  -         reason: 'No corresponding verified delivered outlet or unsafe URL',
+            rule: 'B1_LINK',
+            severity: 'S0',
+            status: 'FAIL',
+            subject: 'praxis:restaurant:0d56ed154080df9317f9d79d'
+          },
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/eval/restaurant/agent-loop/g6/evaluator.test.ts:95:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: {
+      schemaVersion: 'phase3b-g6-evaluation@8',
+      run: { runId: 'g6-D1-1793629850815-0', caseId: 'restaurant:adfd4a4bd5922ec763f289d8', mode: 'LIVE_READ', artifactRefs: [Array] },
+      namedOutletBinding: { named: undefined, history: [], presentations: [], issues: [] },
+      verdict: { status: 'EVALUATED', qualified: false, outcome: 'CAPABILITY_MISS', s0: 1, s0Status: 'FAIL', stopBatch: true },
+      layers: { endToEnd: [Object], stages: [Array], severity: [Object], attribution: [Object] },
+      checks: [
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object],
+        ... 1036 more items
+      ],
+      coverage: { evaluated: 1136, notEvaluated: 0, meaningPendingReview: 0, needsIndependentReview: false },
+      diagnosis: { inputArtifactRefs: [Array], ownership: 'Judgement by G6 evaluator; localization and performance analysis by separate diagnosis consumer. No production eligibility used as an oracle.' }
+    },
+    expected: {
+      schemaVersion: 'phase3b-g6-evaluation@8',
+      run: { runId: 'g6-D1-1793629850815-0', caseId: 'restaurant:adfd4a4bd5922ec763f289d8', mode: 'LIVE_READ', artifactRefs: [Array] },
+      verdict: { status: 'EVALUATED', qualified: false, outcome: 'CAPABILITY_MISS', s0: 1, s0Status: 'FAIL', stopBatch: true },
+      layers: { endToEnd: [Object], stages: [Array], severity: [Object], attribution: [Object] },
+      checks: [
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object], [Object], [Object],
+        [Object], [Object], [Object], [Object],
+        ... 1036 more items
+      ],
+      coverage: { evaluated: 1136, notEvaluated: 0, needsIndependentReview: false, meaningPendingReview: 0 },
+      diagnosis: { inputArtifactRefs: [Array], ownership: 'Judgement by G6 evaluator; localization and performance analysis by separate diagnosis consumer. No production eligibility used as an oracle.' },
+      namedOutletBinding: { named: undefined, history: [], presentations: [], issues: [] }
+    },
+    operator: 'deepStrictEqual'
+  }

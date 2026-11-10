@@ -30,9 +30,12 @@ test("G6 D4 original five-parameter source capture proves the exact B1 URL witho
   assert.equal(evaluateG6(x).checks.find(c=>c.rule==="B1_SOURCE_URL")?.status,"PASS");
   for(const key of ["rst_id","svd","svps","svt"]){
     const changed=structuredClone(x);
-    for(const s of changed.vacancy.filter(v=>v.phase==="SOURCE_CAPTURE")){const u=new URL(s.url);u.searchParams.set(key,key==="svd"?"20261112":key==="svt"?"2000":key==="svps"?"3":"99999999");s.url=u.href;}
+    for(const s of changed.vacancy.filter(v=>v.phase==="SOURCE_CAPTURE")){const u=new URL(s.url);u.searchParams.set(key,key==="svd"?"20261112":key==="svt"?"9999":key==="svps"?"3":"99999999");s.url=u.href;}
     const verdict=evaluateG6(changed);assert.ok(verdict.checks.some(c=>c.rule==="B1_SOURCE_URL"&&c.status==="FAIL"),key);assert.equal(verdict.verdict.stopBatch,true);
   }
+  // Approved calendar contract: svt selects the request, not every returned slot.
+  const otherTime=structuredClone(x);for(const row of otherTime.vacancy.filter(v=>v.phase==="SOURCE_CAPTURE")){const u=new URL(row.url);u.searchParams.set("svt","2000");row.url=u.href;}
+  assert.equal(evaluateG6(otherTime).checks.find(c=>c.rule==="B1_SOURCE_URL")?.status,"PASS");
   const forged=structuredClone(x);for(const s of forged.vacancy.filter(v=>v.phase==="SOURCE_CAPTURE"))for(const row of Object.values((s.body as {selection:Record<string,{time:string;url:string}>}).selection))if(row.time===x.delivered[0]!.time)row.url=x.handoffs[0]!.url+"&invented=1";
   assert.ok(evaluateG6(forged).checks.some(c=>c.rule==="B1_SOURCE_URL"&&c.status==="FAIL"));
 });

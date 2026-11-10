@@ -1,3 +1,9 @@
+<a id="b1-slot-pairing-20261110"></a>
+
+## 2026-11-10 CET — independent B1 multi-slot pairing
+
+2026-11-10 CET — draft / not integrated：Evaluator@8修同店多时段B1一对一配对，优先真实offerId，历史缺ID用日期/时间/人数，重复/错配仍S0；来源响应店/日/人数绑定并逐字核对应时段原链接，svt不再逐offer相等。D02原录制+两后验重评PENDING_REVIEW/s0=0/stopBatch=false，原failure和s0=9保留；svt1900的6人响应确有5B1。D01/D8真实结论不变，虚构51项通过。仅eval代码、真实调用0，待完整门禁/main，再原样入库R2承诺，不读题目原文。[报告](../../.eval-artifacts/phase3b/b1-slot-pairing-20261110/report.md)。
+
 2026-11-10 CET — eval后验分组源码f215d59d净树全门禁通过：type/arch/default1571/build/Chromium274+G6 107/strictG2全12，写死扫描0、产品diff0。店/日/人数每组1GET，最多2；第三NOT_EXECUTED而非异常，缺证仍不伪造PASS。D01审核072ddab5补评QUALIFIED_DELIVERY/s0=0；D02两份原响应离线恢复5后验PASS，但旧B1多时段绑定仍报9项S0检查，NOT_EVALUATED/stopBatch=true，原failure保留、未改合同消除报错，停止等待复核。新真实调用0，开发账本12/86/1410与原425/871文件均未变。[一页报告](../../.eval-artifacts/phase3b/post-delivery-grouping-20261110/report.md)。
 
 <a id="post-delivery-grouping-20261110"></a>

@@ -1,13 +1,13 @@
 import {type IndependentSourceIdentity,type IndependentWidget} from "./source-document.js";
 /** Independent G6 judgement only. No production parser, grounding or verdict import. */
 import { bindNamedOutlet,canonicalOutletId,type G6NamedOutlet,type G6NamedReferences } from "./named-outlet-binding.js";
-export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@7";
+export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@8";
 export type CheckStatus="PASS"|"FAIL"|"NOT_EVALUATED"|"QUOTE_VERIFIED_MEANING_PENDING_REVIEW";
 export interface G6Check {reviewReason?:"INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING";rule:string;status:CheckStatus;severity:"S0"|"CAPABILITY";subject:string;reason:string;evidenceRefs:string[];}
 export interface G6OraclePage {sourceIdentity?:IndependentSourceIdentity;observedAvailability?:IndependentWidget;ref:string;url:string;runId:string;candidateId:string;readAt:string;merchantText:string;merchantScope?:"FULL"|"EXCERPTS";reviewText?:string;name:string;address?:string;phone?:string;observedLinks:string[];}
 export interface G6Vacancy {ref:string;phase:"BEFORE"|"SOURCE_CAPTURE"|"AFTER"|"NO_DELIVERY_AFTER";url:string;candidateId:string;body:unknown;}
-export interface G6Delivered {candidateId:string;name:string;address?:string;phone?:string;googlePlaceId?:string;sourceIds?:G6NamedOutlet["sourceIds"];provider:string;sourceEntityId:string;date:string;time:string;partySize:number;}
-export interface G6Handoff {candidateId:string;provider:string;url:string;continueLabel:string;directLabel:string;selectionHint?:string;verificationHint?:string;}
+export interface G6Delivered {offerId?:string;candidateId:string;name:string;address?:string;phone?:string;googlePlaceId?:string;sourceIds?:G6NamedOutlet["sourceIds"];provider:string;sourceEntityId:string;date:string;time:string;partySize:number;}
+export interface G6Handoff {offerId?:string;candidateId:string;provider:string;url:string;continueLabel:string;directLabel:string;selectionHint?:string;verificationHint?:string;}
 export interface G6QuestionAnswer {candidateId:string;status:string;answer?:string|null;citations:Array<{text:string;url:string;readAt:string}>;sensitiveCategory?:string;confirmationRequired?:boolean;}
 export interface G6EvaluationInput {
   runId:string;caseId:string;mode:"FIXTURE"|"LIVE_READ";artifactRefs:string[];
@@ -63,7 +63,7 @@ function readVacancy(value:G6Vacancy,expected:G6Delivered,sourceCapture:boolean)
     ||!fieldSet(url,["rst_id","svd","svps","svt",...(sourceCapture?["exclude_unavailable_time"]:[])])
     ||sourceCapture&&url.searchParams.has("exclude_unavailable_time")&&url.searchParams.get("exclude_unavailable_time")!=="1")return {known:false,slots:[],links:[],reason:"MISSING_FOUR_PARAMETER_WITNESS_BINDING"};
   const id=expected.sourceEntityId.match(/(?:^|\/)(\d+)\/?$/u)?.[1],date=expected.date.replaceAll("-","");
-  if(!id||url.searchParams.get("rst_id")!==id||url.searchParams.get("svd")!==date||url.searchParams.get("svps")!==String(expected.partySize)||(value.phase==="AFTER"?/^(?:[01]\d|2[0-3])[0-5]\d$/u.test(url.searchParams.get("svt")??"")===false:url.searchParams.get("svt")!==expected.time.replace(":","")))return {known:false,slots:[],links:[],reason:"WITNESS_REQUEST_MISMATCH"};
+  if(!id||url.searchParams.get("rst_id")!==id||url.searchParams.get("svd")!==date||url.searchParams.get("svps")!==String(expected.partySize)||((value.phase==="AFTER"||sourceCapture)?/^(?:[01]\d|2[0-3])[0-5]\d$/u.test(url.searchParams.get("svt")??"")===false:url.searchParams.get("svt")!==expected.time.replace(":","")))return {known:false,slots:[],links:[],reason:"WITNESS_REQUEST_MISMATCH"};
   if(!body||!base||String(base.year)!==expected.date.slice(0,4)||String(base.month).padStart(2,"0")!==expected.date.slice(5,7)||String(base.day).padStart(2,"0")!==expected.date.slice(8,10)||body.members!==expected.partySize)return {known:false,slots:[],links:[],reason:"WITNESS_RESPONSE_BINDING_UNKNOWN"};
   const selection=rows(body.selection);if(!selection)return {known:false,slots:[],links:[],reason:"WITNESS_STRUCTURE_UNKNOWN"};
   const slots:string[]=[],links:string[]=[];
@@ -165,7 +165,18 @@ export function evaluateG6(input:G6EvaluationInput){
       else add("TABLECHECK_SLOT","NOT_EVALUATED","S0",d.candidateId,"Need independent same-shop exact-date/party/slot public observation");
     }else add("POST_DELIVERY_SLOT","NOT_EVALUATED","S0",d.candidateId,"No independent source-channel oracle supplied");
   }
-  for(const h of input.handoffs){const d=input.delivered.find(d=>d.candidateId===h.candidateId),u=safeURL(h.url);
+  const pairedDeliveries=new Set<number>();
+  for(const h of input.handoffs){
+    const u=safeURL(h.url),same=input.delivered.map((d,index)=>({d,index})).filter(({d})=>d.candidateId===h.candidateId&&d.provider===h.provider);
+    // Historical recorded rows can lack offer IDs. Never infer an ID by
+    // parsing its text; use the exact date/time/party tuple only in that case.
+    const matches=h.offerId&&same.some(({d})=>d.offerId!==undefined)
+      ?same.filter(({d})=>d.offerId===h.offerId)
+      :same.filter(({d})=>u&&(h.provider==="TABELOG"
+        ?u.searchParams.get("visit_date")===d.date.replaceAll("-","")&&u.searchParams.get("visit_time")===d.time.replace(":","")&&u.searchParams.get("member")===String(d.partySize)
+        :h.provider==="TABLECHECK"&&u.searchParams.get("start_date")===d.date&&u.searchParams.get("start_time")===d.time&&u.searchParams.get("num_people")===String(d.partySize)));
+    const pair=matches.length===1?matches[0]:undefined,d=pair&&!pairedDeliveries.has(pair.index)?pair.d:undefined;
+    if(d&&pair)pairedDeliveries.add(pair.index);
     yes("B1_COPY",! /\b(?:selected|booked)\b/iu.test([h.continueLabel,h.directLabel,h.selectionHint??"",h.verificationHint??""].join(" "))&&/filled in/u.test(h.continueLabel),h.candidateId,"Handoff describes fields carried, never a selected/booked result");
     if(!d||!u){add("B1_LINK","FAIL","S0",h.candidateId,"No corresponding verified delivered outlet or unsafe URL");continue;}
     let valid=!forbiddenPath(u.pathname)&&h.provider===d.provider;

@@ -58,7 +58,7 @@ async function hasTrigger(view:RestaurantCaseView,step:G6Followup,readState:()=>
 function displayed(view:RestaurantCaseView):G6Delivered[]{return (view.restaurant.presentedCandidateIds??[]).flatMap(candidateId=>{
   const c=view.restaurant.candidates.find(c=>c.restaurant.id===candidateId),offers=view.restaurant.availability[candidateId]??[];
   const identity=c?namedIdentityFromState(view.restaurant,candidateId):undefined;
-  return c?offers.map(o=>{const evidence=view.restaurant.readEvidence.find(e=>e.kind==="AVAILABILITY"&&e.candidateId===candidateId&&e.provider===o.source);return {candidateId,name:c.restaurant.outletName,...(c.restaurant.address?{address:c.restaurant.address}:{}),...(c.restaurant.sourceIds.phone?{phone:c.restaurant.sourceIds.phone}:{}),...(identity?.googlePlaceId?{googlePlaceId:identity.googlePlaceId}:{}),...(identity?.sourceIds?{sourceIds:identity.sourceIds}:{}),provider:o.source,sourceEntityId:evidence?.sourceEntityId??"",date:o.dateTime.slice(0,10),time:o.dateTime.slice(11,16),partySize:o.partySize};}):[];
+  return c?offers.map(o=>{const evidence=view.restaurant.readEvidence.find(e=>e.kind==="AVAILABILITY"&&e.candidateId===candidateId&&e.provider===o.source);return {candidateId,offerId:o.id,name:c.restaurant.outletName,...(c.restaurant.address?{address:c.restaurant.address}:{}),...(c.restaurant.sourceIds.phone?{phone:c.restaurant.sourceIds.phone}:{}),...(identity?.googlePlaceId?{googlePlaceId:identity.googlePlaceId}:{}),...(identity?.sourceIds?{sourceIds:identity.sourceIds}:{}),provider:o.source,sourceEntityId:evidence?.sourceEntityId??"",date:o.dateTime.slice(0,10),time:o.dateTime.slice(11,16),partySize:o.partySize};}):[];
 });}
 
 function namedState(artifact:Record<string,unknown>):G6NamedState{
