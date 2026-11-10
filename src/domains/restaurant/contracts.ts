@@ -613,7 +613,7 @@ export interface RestaurantReadExecutionMetadata {
     batchEnded: boolean;
     /** True only when this source's observed work or configured source ceiling ended. */
     sourceEnded: boolean;
-    progressionReason: "FIRST_SOURCE_BATCH" | "FIRST_SOURCE_BATCH_ENDED" | "SOURCE_FAILURE";
+    progressionReason: "FIRST_SOURCE_BATCH" | "FIRST_SOURCE_BATCH_ENDED" | "SOURCE_FAILURE" | "NO_PROGRESS";
   };
   browser?: {
     runtimeProvider: "CLOUDFLARE_BROWSER_RUN" | "LOCAL_PLAYWRIGHT_CHROMIUM";

@@ -105,3 +105,16 @@ test("coordinate-only discovery passes source-attributed address observations, i
     assert.equal(locality.googleRequestUsage(`coordinate-input-${failure}`).total, 1);
   }
 });
+
+import {BrowserTaskExecutor} from '../../../infrastructure/browser/browser-task-executor.js';
+test('two-stall source outcome advances its source scope without BUSINESS failure or requeue',async t=>{
+ t.mock.method(BrowserTaskExecutor.prototype,'runSkill',async()=>({status:'NO_SAFE_ACTION' as const,reasonCode:'NO_PROGRESS',snapshot:{url:tabelogDiscoveryPack.browser!.startupUrl!,title:'Observed incomplete list',text:'',html:''},controls:[]}));
+ const browser=sourcePages('BOTH_BOUNDED_EMPTY',[],undefined,undefined,undefined,{guardedReadBoundary:true});
+ const locality=new GooglePlacesRestaurantSearch(new GooglePlacesClient({apiKey:'fixture-only',fetchImplementation:async()=>{throw Error('Coordinates avoid external resolution');}}),()=>reference.toISOString(),10,{maxRequests:10});
+ const native=new NativeRestaurantSearch(browser,locality,fixtureRetrieval,()=>reference.toISOString(),undefined,undefined,undefined,undefined,{maxAutomaticElapsedMs:300_000,maxModelCallsPerCandidate:6,maxModelCallsTotal:12,maxOperationsPerCandidate:24},discoveryPackNetworkPolicy(),[tabelogDiscoveryPack]);
+ const result=await native.search({intent:{timezone:'Asia/Tokyo',target:{goal:'AVAILABILITY',query:'nearby'},area:{query:'Shibuya',coordinates:{...center,observedAt:reference.toISOString(),source:'MANUAL_PLACE'}},criteria:[]}},new AbortController().signal);
+ assert.equal(result.metadata.nativeDiscoveryFunnel?.progressionReason,'NO_PROGRESS');
+ assert.equal(result.metadata.failureCode,undefined);assert.equal(result.continuation?.lastFailureCode,undefined);
+ assert.equal(result.continuation?.discoveryPlan?.cursor,1);assert.equal(result.continuation?.exhausted,true);
+ assert.equal(result.metadata.nativeDiscoveryFunnel?.sourceExhausted,'UNKNOWN');
+});

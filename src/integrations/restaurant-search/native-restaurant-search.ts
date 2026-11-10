@@ -258,9 +258,9 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     const retrieval = structuredClone(previous?.retrieval ?? { rewrites: 0, regionPages: 0, retrievalPages: 0, history: [] });
     let pages = 0, detailAttempts = 0, raw = 0, parsed = 0, locatedListing = false;
     let nextNavigation: { detail: boolean; url?: string } | undefined;
-    let stopped = false;
+    let stopped = false, noProgress = false;
     const elapsed = () => elapsedBefore + Date.now() - startedAt;
-    const sourceEnded = () => stopped && ![...known.values()].some(entry => !inspected.has(entry.sourceEntityId))
+    const sourceEnded = () => noProgress || stopped && ![...known.values()].some(entry => !inspected.has(entry.sourceEntityId))
       || elapsed() >= NATIVE_SOURCE_ELAPSED_CAP_MS || (previous?.detailAttempts ?? 0) + detailAttempts >= NATIVE_DETAIL_SOURCE_CAP
       || (previous?.pagesRead ?? 0) + pages >= NATIVE_LISTING_PAGE_CAP[source];
     const progress = () => ({ sourceId: pack.meta.id, inspectedSourceIds: [...inspected],
@@ -277,7 +277,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
       rejected, accepted: admitted.size, pagesRead: pages, batchLimitReached: detailAttempts >= NATIVE_DETAIL_BATCH_CAP,
       // Finishing the retained links ends this bounded route, not the website's coverage.
       sourceExhausted: remainingEntries().length||nextListing ? false : "UNKNOWN", batchEnded: true, sourceEnded: sourceEnded(),
-      progressionReason: source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" : "FIRST_SOURCE_BATCH_ENDED", listingObservations: listings, retrieval,
+      progressionReason: noProgress ? "NO_PROGRESS" : source === "DIRECTORY" ? "FIRST_SOURCE_BATCH" : "FIRST_SOURCE_BATCH_ENDED", listingObservations: listings, retrieval,
     });
     let detailNavigation = false, paginationNavigation=false, nextListing = previous?.nextListing;
     const executor = new BrowserTaskExecutor(this.runtime, {
@@ -328,6 +328,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
               return queriedThisRead ? assessment : { ...assessment, complete: false, reason: "No current guarded form submission or model-driven document departure; homepage cards and suggestions are not search results." };
             },
           });
+          if(result.reasonCode === "NO_PROGRESS") { noProgress=true; stopped=true; break; }
           if(result.status!=="COMPLETED"){throw Object.assign(Error("No confirmed current source list"),{code:pack.parseListing(result.snapshot).outlets.length?"DISCOVERY_SOURCE_LOCATION_UNGROUNDED":"DISCOVERY_SOURCE_INCOMPLETE"});}
           const page=result.snapshot,listing=pack.parseListing(page);
           locatedListing=true;
