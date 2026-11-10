@@ -5,7 +5,7 @@ import {holdoutHash} from '../holdout-protocol.js';
 export interface HoldoutHealthObservation {source:'tablecheck'|'tabelog';round:1|2;complete:boolean;elapsedMs:number;phase:'SESSION_OPEN'|'NAVIGATE'|'SCRIPT_WAIT';phaseElapsedMs:number;documentStatus?:number;scriptStatus?:number;navigationError?:BrowserTransportError;status?:number;responseSHA256?:string;}
 /** Browser path only: isolated source pages under the unchanged Guard. The
  * 10-second health cutoff is external; product entry/provider limits stay put. */
-export async function checkHoldoutNetwork(input:{browser:BrowserRuntime;tabelogDetailUrl:string;beforeGET:(source:string,round:number)=>Promise<void>;now?:()=>number}){
+export async function checkHoldoutNetwork(input:{browser:BrowserRuntime;tabelogDetailUrl:string;beforeGET:(source:string,round:number)=>Promise<void>;now?:()=>number;continueOnFailure?:boolean}){
  const now=input.now??(()=>performance.now()),observations:HoldoutHealthObservation[]=[];
  const tc=restaurantDiscoveryPacks.find(p=>p.meta.id==='tablecheck')!.browser!.startupUrl!;
  for(const round of [1,2]as const)for(const source of ['tablecheck','tabelog']as const){
@@ -36,8 +36,8 @@ export async function checkHoldoutNetwork(input:{browser:BrowserRuntime;tabelogD
    await opened.navigate(url,{waitUntil:'domcontentloaded'});if(!done)transition('SCRIPT_WAIT');
   })().catch(error=>{if(done)return;navigationError=browserTransportError(error);finish();});
   void operation;
-  try{const observed=await result;observations.push(observed);if(!observed.complete)return {passed:false,observations};}
+  try{const observed=await result;observations.push(observed);if(!observed.complete&&!input.continueOnFailure)return {passed:false,observations};}
   finally{clearTimeout(timer);controller.abort();await session?.close();}
  }
- return {passed:true,observations};
+ return {passed:observations.every(o=>o.complete),observations};
 }

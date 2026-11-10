@@ -6,11 +6,22 @@ import {validatePrivateManifest,holdoutHash} from '../holdout-protocol.js';
 import {verifyHoldoutCommitment,type HoldoutCommitment} from '../holdout-commitment.js';
 import {certifyPrivateHoldout} from './holdout-certify.js';
 import {runPrivateHoldout} from './holdout-runner.js';
+import {runHealthOnly} from './health-only.js';
+import {restaurantDiscoveryPacks} from '../../../../integrations/restaurant-search/source-packs.js';
 import {checkHoldoutNetwork} from './holdout-health.js';
 import {liveG6Dependencies,createG6LiveBrowser} from './live-transports.js';
 /** Importing/--validate-only never starts Chromium or constructs API clients. */
 export async function main(args:string[]){
  const flag=(name:string)=>{const i=args.indexOf(name);if(i<0||!args[i+1])throw Error('MISSING_ARGUMENT');return args[i+1]!;};
+ const healthOnly=args.includes('--health-only');
+ if(!healthOnly&&['--rounds','--interval-minutes','--health-output','--tabelog-url'].some(f=>args.includes(f)))throw Error('HEALTH_ONLY_ARGUMENT_MODE_INVALID');
+ if(healthOnly){
+  if(['--original','--manifest','--manifest-sha256','--commitment','--resume','--review','--certify-only','--cases','--output','--validate-only'].some(f=>args.includes(f)))throw Error('HEALTH_ONLY_ARGUMENT_MODE_INVALID');
+  if(process.env.PRAXIS_RUN_HEALTH_ONLY!=='1'||!process.execArgv.some(a=>a.startsWith('--env-file')))throw Error('HEALTH_ONLY_AUTHORIZATION_AND_ENV_FILE_REQUIRED');
+  const sourceSHA=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();if(sourceSHA!==flag('--source-sha')||execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim())throw Error('FROZEN_CLEAN_SOURCE_REQUIRED');
+  const result=await runHealthOnly({sourceSHA,directory:resolve(flag('--health-output')),budgetPath:resolve(flag('--budget')),rounds:Number(flag('--rounds')),intervalMinutes:Number(flag('--interval-minutes')),tabelogUrl:args.includes('--tabelog-url')?flag('--tabelog-url'):restaurantDiscoveryPacks.find(p=>p.meta.id==='tabelog')!.browser!.startupUrl!},{browser:createG6LiveBrowser(process.env)});
+  console.log(JSON.stringify({status:'HEALTH_ONLY_COMPLETE',GETs:result.GETs,models:0,Live:0,rounds:result.rounds.length}));return;
+ }
  const certifyOnly=args.includes('--certify-only');
  if(certifyOnly&&['--resume','--output','--review','--validate-only'].some(f=>args.includes(f))||!certifyOnly&&args.includes('--certify-output'))throw Error('HOLDOUT_CERTIFICATION_MODE_CONFLICT');
  if(args.includes('--cases')&&!certifyOnly||args.indexOf('--cases')!==args.lastIndexOf('--cases'))throw Error('HOLDOUT_CERTIFICATION_CASES_MODE_INVALID');

@@ -1,0 +1,11 @@
+# 2026-11-10 CET — discovery progress slice
+
+Status: draft / not integrated; exposed development/replay, never clean holdout.
+
+Order per user: (1) finish eval-only PENDING_REVIEW/custom commitment (already accepted on c6df686e) plus health-only; full gates and main publication. (2) bounded recorded diagnosis of D01 and exposed01/02 six historical runs, four questions, reference actual decision/snapshot numbers, before any product edit. (3) generic action/state no-progress2, authoritative form stability, Pack-metadata ordering with area TableCheck last, reserve algorithm report only/no change. Optional qualification quote wiring limited30min. Actual recorded components for D01/01-r1/02-r2 + D4/D8 regressions, full gates/scan/publication. (4) freeze new main, one D01/one D02, then health-only3 rounds15minutes apart; report and stop regardless result.
+
+Health-only: no original/manifest, model, product session or Live. Each scheduled round observes both source scripts twice under existing Chromium/Guard/10s health cutoff, includes failures and continues the remaining scheduled diagnostics; no request retries.4GET/round, max3 rounds/12GET, >=5s between GET starts and >=15min between round starts. Only value-free status/phase/time/response hash saved. Same network split, credentials env-file only. CLI isolated from certify/resume/review/private modes. Fictional schedules/HTTP failure/budget accounting tests.
+
+Ledger correction: current authoritative descendant8 Live/49 GET/1239 models, not stale7/43. User explicitly approves+2 Live and <=26 GET, limits26/126/2500 unchanged, so new maximum10/26 Live and75/126 GET; don't rewind. Original4256303d workspace/871 files/paused original ledger unchanged, private original/manifest not read, no held-out resume. Source requests only after all offline phases and new main freeze; no extra Live.
+
+Authority and source-bound completion/identity/Guard/G1/45s provider/20s entry/500s turn/50 models unchanged. No site/control/text-specific loops or canned URLs. Any qualified delivery still uses existing product gates and independent evaluator; PENDING is not qualified. Do not reuse previous D01 review for a new run. Record all attempts/failures, no synthetic replacement for recorded responses. Component/local construction vs actual Live separated. No throughput inference from one development example.
