@@ -1,3 +1,5 @@
+2026-11-10 CET — category/discovery/cost final freeze8ca251f8: all six clean gates PASS, default1571/Chromium274+G6 103/strictG2 all12. Three scan hits generic text/phone normalization. First full gate d14ce131 caught D4 independent timestamp mismatch; frame readAt retained and source observedAt added separately, no assertion removed. Publish main before public developer D01/D02 exactly once; inherited10/73/1332, max +2Live/+14GET, original425 preserved. [Report](../../.eval-artifacts/phase3b/category-discovery-cost-20261110/offline-report.md).
+
 <a id="category-discovery-cost-20261110"></a>
 
 ## 2026-11-10 CET — source category, discovery scope and candidate fact cost

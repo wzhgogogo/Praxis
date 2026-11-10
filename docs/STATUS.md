@@ -1,3 +1,5 @@
+2026-11-10 CET — 源码8ca251f8净树全门禁PASS：默认1571、Chromium274+G6 103、strictG2全12及type/arch/build；D4/D8回归保持。CATEGORY同源HIGH逐字证明进入原语义判断，实际引用带evidenceId/provider/observedAt进入独立评测；独立frame readAt保持，首轮D4时间绑定失败原样保留并修复。可见列表范围引用、Google同批补充/保守去重/菜系线索优先、已有分类免重复FACTS及一次菜单交接已组件验证，真实改善待本轮D01/D02各一次。扫描3条通用归一化，无站点/菜系写死。预算/身份/Guard/G1不变，原425暂停状态保持；新增真实调用0。按授权main发布后冻结运行。[报告](../.eval-artifacts/phase3b/category-discovery-cost-20261110/offline-report.md)。
+
 2026-11-10 CET — draft / not integrated：同店同次读取HIGH且逐字存在于捕获页的CATEGORY进入同一语义判断，引用原evidenceId并进入独立qualificationClaims；无菜系词表。原生发现可引用当前可见范围控件，未引用仍可用但后排；原生批次后立即补计划中的Google来源，保守去重，代码按来源菜系线索排序。已有分类可免重复FACTS浏览；未核身份的菜单路由只交接、不产生事实并停止重复跳转。记录组件绿，预算/Guard/G1/身份不变；待冻结完整门禁与D01/D02各一次，原425暂停状态保持。[计划](../.eval-artifacts/phase3b/category-discovery-cost-20261110/plan.md)。
 
 

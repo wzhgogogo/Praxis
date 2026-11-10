@@ -12,3 +12,5 @@ Gate-related fixture changes preserve business/security checks: combined native+
 Remaining acceptance: full clean gates including D4/D8 recorded regression, publish frozen main, D01/D02 each once (<=14GET,50models/turn), then report and stop. No health monitor/no held-out/no extra model validation.
 
 First full gate d14ce131: type/arch/default1571/build/Chromium274 PASS; G6 102/103, D4 qualification quote timestamp regression detected. Source observedAt had overwritten the independent frame readAt; corrected by retaining frame readAt for independent binding and adding observedAt separately with source evidence metadata. Existing D4 exact quote and wrong-shop/S0 assertions unchanged. Focused D4/category test pass; re-freeze all gates required. No real calls.
+
+Final source8ca251f8: same-SHA clean type/arch/default1571/build/Chromium274 + G6 103/strictG2 all12 PASS. D4/D8 existing real-recorded regression stays green, first failure artifacts retained. Main publication/one D01+one D02 next, all real calls still0 at freeze.
