@@ -1,0 +1,2559 @@
+{
+  "schemaVersion": "phase3b-g6-user-turns@2",
+  "runId": "g6-p3b-holdout-05-r3-1794326324606-0",
+  "turns": [
+    {
+      "id": "INITIAL",
+      "message": "[PRIVATE_TURN_SHA256:79ffc23e534124cf277f83e28623cdc806780a9c271d86bebf88371331364b3d]",
+      "view": {
+        "mode": "LIVE_READ",
+        "case": {
+          "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+          "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+          "title": "We're 4 people looking for Neapolitan pizza near Nishi-Ogikubo on Sat…",
+          "status": "COMPLETED",
+          "phase": "NO_VERIFIED_RESULT",
+          "taskVersion": 7,
+          "updatedAt": "2026-11-10T16:02:00.856Z"
+        },
+        "conversation": {
+          "id": "conversation:adfd4a4bd5922ec763f289d8",
+          "messages": [
+            {
+              "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+              "role": "USER",
+              "content": "[PRIVATE_TURN_SHA256:79ffc23e534124cf277f83e28623cdc806780a9c271d86bebf88371331364b3d]",
+              "createdAt": "2026-11-10T15:58:47.349Z"
+            },
+            {
+              "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+              "role": "ASSISTANT",
+              "content": "Searching around Nishi-Ogikubo Station.\nThis bounded read-only investigation found no result with evidence strong enough to present. It does not mean every restaurant is unavailable.\nGINA: availability UNAVAILABLE (NO_MATCHING_SLOT); facts COMPLETED\nNishiogi Buan: availability AVAILABLE (source reported AVAILABLE; see current offers and evidence); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)\nCm2 Makers: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts NOT_CHECKED\nCICLO: availability NOT_CHECKED (no request-bound slot established); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)\nNishiogi RISE: availability UNAVAILABLE (NO_MATCHING_SLOT); facts NOT_CHECKED\nピッツェリア ダ マルコ Pizzeria da Marco: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts NOT_CHECKED\nPizzeria Bar 31: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts NOT_CHECKED\nDa Masa Pizza al Forno: availability NOT_CHECKED (no request-bound slot established); facts NOT_CHECKED\nCandidate tabelog:en/tokyo/A1319/A131907/13144645 lacks fresh evidenced availability for the authoritative request\nCandidate tabelog:en/tokyo/A1319/A131907/13295267 has no evidence for HARD criterion Neapolitan pizza\nCandidate tabelog:en/tokyo/A1319/A131907/13216918 lacks fresh evidenced availability for the authoritative request\nCandidate tabelog:en/tokyo/A1319/A131907/13300811 lacks fresh evidenced availability for the authoritative request\nCandidate tabelog:en/tokyo/A1319/A131907/13108788 lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:52d6c58a0f5b36c1509326e9 lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:6cd5ba27ab43da2167a67827 lacks fresh evidenced availability for the authoritative request\nCandidate praxis:restaurant:85691231c0cd9b05f971bf6e lacks fresh evidenced availability for the authoritative request\nAGENT_LOOP_NO_PROGRESS: The remaining read budget is reserved for an honest conclusion or qualified presentation\nSources with recorded reads or attempts: GOOGLE_PLACES, TABELOG, MODEL_JUDGMENT; unread discovery entries: tablecheck, tabelog. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats.\nYou can refine the request to start a new investigation.",
+              "createdAt": "2026-11-10T16:02:00.901Z"
+            }
+          ]
+        },
+        "restaurant": {
+          "intentDraft": {
+            "area": {
+              "query": "Nishi-Ogikubo"
+            },
+            "date": "2026-11-21",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Neapolitan pizza near Nishi-Ogikubo",
+              "selectionScope": "OPEN_ENDED"
+            },
+            "criteria": [
+              {
+                "text": "Neapolitan pizza",
+                "polarity": "POSITIVE",
+                "strength": "HARD"
+              }
+            ],
+            "timezone": "Asia/Tokyo",
+            "partySize": 4,
+            "timeWindow": {
+              "latest": "18:30",
+              "earliest": "18:30"
+            },
+            "schemaVersion": "3",
+            "budgetPerPerson": {
+              "max": 4000,
+              "currency": "JPY"
+            },
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Saturday, November 21",
+                "resolvedDate": "2026-11-21"
+              },
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "6:30 PM",
+                "resolvedTimeWindow": {
+                  "latest": "18:30",
+                  "earliest": "18:30"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T15:58:45.445Z"
+            }
+          },
+          "searchLocation": {
+            "label": "Nishi-Ogikubo Station",
+            "latitude": 35.7036961,
+            "longitude": 139.600182,
+            "radiusMeters": 1000,
+            "areaMatchBasis": "NAMED_PLACE_RADIUS",
+            "addressComponents": [
+              {
+                "types": [
+                  "country",
+                  "political"
+                ],
+                "longText": "Japan",
+                "shortText": "JP"
+              },
+              {
+                "types": [
+                  "locality",
+                  "political"
+                ],
+                "longText": "Suginami City",
+                "shortText": "Suginami City"
+              },
+              {
+                "types": [
+                  "administrative_area_level_1",
+                  "political"
+                ],
+                "longText": "Tokyo",
+                "shortText": "Tokyo"
+              }
+            ]
+          },
+          "missingRequiredFields": [],
+          "requestRevision": 1,
+          "readyCandidateIds": [],
+          "progress": {
+            "active": false,
+            "stopped": false,
+            "discoveredCount": 8,
+            "checkedCount": 6
+          },
+          "bookingFeedbackAvailable": false,
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13144645",
+                "address": "1670042 東京都杉並区西荻北2-26-3",
+                "sourceIds": {
+                  "phone": "03-3394-0012",
+                  "tabelog": "en/tokyo/A1319/A131907/13144645",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                },
+                "outletName": "GINA",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:9d2347f25066a25f23c83425",
+                  "sourceIds": "evidence:restaurant:native-discovery:9d2347f25066a25f23c83425",
+                  "outletName": "evidence:restaurant:native-discovery:9d2347f25066a25f23c83425"
+                },
+                "coordinates": {
+                  "lat": 35.70647489864744,
+                  "lng": 139.60145305475504
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 330,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13295267",
+                "address": "1670053 東京都杉並区西荻南3-10-9",
+                "sourceIds": {
+                  "phone": "03-5941-3577",
+                  "tabelog": "en/tokyo/A1319/A131907/13295267",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                },
+                "outletName": "Nishiogi Buan",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:4ff2ec9704b0dc3c807f9323",
+                  "sourceIds": "evidence:restaurant:native-discovery:4ff2ec9704b0dc3c807f9323",
+                  "outletName": "evidence:restaurant:native-discovery:4ff2ec9704b0dc3c807f9323"
+                },
+                "coordinates": {
+                  "lat": 35.70322708864903,
+                  "lng": 139.5999336847233
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 57,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13216918",
+                "address": "1670042 東京都杉並区西荻北3-17-4",
+                "sourceIds": {
+                  "phone": "03-3395-9800",
+                  "tabelog": "en/tokyo/A1319/A131907/13216918",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13216918/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13216918/"
+                },
+                "outletName": "Cm2 Makers",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:f6e599740875be11897e397e",
+                  "sourceIds": "evidence:restaurant:native-discovery:f6e599740875be11897e397e",
+                  "outletName": "evidence:restaurant:native-discovery:f6e599740875be11897e397e"
+                },
+                "coordinates": {
+                  "lat": 35.70463653784241,
+                  "lng": 139.59884398357656
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 160,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13300811",
+                "address": "1670053 東京都杉並区西荻南3-17-16 加藤ビル 1F",
+                "sourceIds": {
+                  "phone": "03-6755-9713",
+                  "tabelog": "en/tokyo/A1319/A131907/13300811",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                "outletName": "CICLO",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:801fcb5f9c0ac29f5a6e53f8",
+                  "sourceIds": "evidence:restaurant:native-discovery:801fcb5f9c0ac29f5a6e53f8",
+                  "outletName": "evidence:restaurant:native-discovery:801fcb5f9c0ac29f5a6e53f8"
+                },
+                "coordinates": {
+                  "lat": 35.70379438864963,
+                  "lng": 139.60294043472695
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 250,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13108788",
+                "address": "1670042 東京都杉並区西荻北3-20-8 1F",
+                "sourceIds": {
+                  "phone": "03-3395-9620",
+                  "tabelog": "en/tokyo/A1319/A131907/13108788",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/"
+                },
+                "outletName": "Nishiogi RISE",
+                "provenance": {
+                  "address": "evidence:restaurant:native-discovery:96ce4f911f9e3d8fa2fc9300",
+                  "sourceIds": "evidence:restaurant:native-discovery:96ce4f911f9e3d8fa2fc9300",
+                  "outletName": "evidence:restaurant:native-discovery:96ce4f911f9e3d8fa2fc9300"
+                },
+                "coordinates": {
+                  "lat": 35.7045939886482,
+                  "lng": 139.60006136473703
+                }
+              },
+              "matchReasons": [
+                "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+              ],
+              "executionConfidence": "MEDIUM",
+              "distanceObservation": {
+                "meters": 101,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "TABELOG"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F",
+                "sourceIds": {
+                  "phone": "03-6913-6276",
+                  "googlePlaces": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                  "googleMapsUri": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://pizzeria-da-marco.com/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:0f8637667a5ddee64d12351f",
+                  "sourceIds": "evidence:restaurant:google-discovery:0f8637667a5ddee64d12351f",
+                  "outletName": "evidence:restaurant:google-discovery:0f8637667a5ddee64d12351f"
+                },
+                "coordinates": {
+                  "lat": 35.7045773,
+                  "lng": 139.59725799999998
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: Nishi-Ogikubo"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 282,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+                "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan",
+                "sourceIds": {
+                  "googlePlaces": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                  "googleMapsUri": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "Pizzeria Bar 31",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:3dd1db8d0f781332fa33b625",
+                  "sourceIds": "evidence:restaurant:google-discovery:3dd1db8d0f781332fa33b625",
+                  "outletName": "evidence:restaurant:google-discovery:3dd1db8d0f781332fa33b625"
+                },
+                "coordinates": {
+                  "lat": 35.703680899999995,
+                  "lng": 139.6016546
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: Nishi-Ogikubo"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 133,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            },
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+                "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ",
+                "sourceIds": {
+                  "phone": "03-6913-9858",
+                  "googlePlaces": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                  "googleMapsUri": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                  "discoverySourceId": "google-places"
+                },
+                "outletName": "Da Masa Pizza al Forno",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:8525412165067d6451f412be",
+                  "sourceIds": "evidence:restaurant:google-discovery:8525412165067d6451f412be",
+                  "outletName": "evidence:restaurant:google-discovery:8525412165067d6451f412be"
+                },
+                "coordinates": {
+                  "lat": 35.7118507,
+                  "lng": 139.603996
+                }
+              },
+              "matchReasons": [
+                "Address explicitly matches requested area: Nishi-Ogikubo"
+              ],
+              "executionConfidence": "LOW",
+              "distanceObservation": {
+                "meters": 971,
+                "centerBasis": "NAMED_PLACE_RADIUS",
+                "source": "GOOGLE_PLACES"
+              }
+            }
+          ],
+          "availability": {
+            "tabelog:en/tokyo/A1319/A131907/13108788": [],
+            "tabelog:en/tokyo/A1319/A131907/13144645": [],
+            "tabelog:en/tokyo/A1319/A131907/13216918": [],
+            "tabelog:en/tokyo/A1319/A131907/13295267": [
+              {
+                "id": "offer:tabelog:tabelog:en/tokyo/A1319/A131907/13295267:2026-11-21:18:30:4",
+                "source": "TABELOG",
+                "dateTime": "2026-11-21T18:30:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T16:00:36.135Z",
+                "expiresAt": "2026-11-10T16:00:36.135Z",
+                "partySize": 4,
+                "bookingMode": "REQUEST",
+                "restaurantId": "tabelog:en/tokyo/A1319/A131907/13295267",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T16:10:36.135Z",
+                "bookingRecheckRequired": true
+              }
+            ],
+            "praxis:restaurant:52d6c58a0f5b36c1509326e9": [],
+            "praxis:restaurant:6cd5ba27ab43da2167a67827": []
+          },
+          "availabilityChecks": {
+            "tabelog:en/tokyo/A1319/A131907/13108788": {
+              "status": "UNAVAILABLE",
+              "checkedAt": "2026-11-10T16:01:58.505Z",
+              "reasonCode": "NO_MATCHING_SLOT",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:dc02df4b5859aec218116193",
+                "evidence:restaurant:tabelog-hard-criteria:c3ead77ace964778b0ce276f",
+                "evidence:restaurant:tabelog-availability:484d40f79c3f75b60e4beadb"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "UNAVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T16:11:58.505Z",
+              "requestFingerprint": "{\"date\":\"2026-11-21\",\"timeWindow\":{\"latest\":\"18:30\",\"earliest\":\"18:30\"},\"partySize\":4}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "tabelog:en/tokyo/A1319/A131907/13144645": {
+              "status": "UNAVAILABLE",
+              "checkedAt": "2026-11-10T16:01:36.315Z",
+              "reasonCode": "NO_MATCHING_SLOT",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:363c4333b759d61b9ea413c9",
+                "evidence:restaurant:tabelog-hard-criteria:6a55df3b4b139d0dd2ed2615",
+                "evidence:restaurant:tabelog-availability:308dbcb461abd145b255ec11"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "UNAVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T16:11:36.315Z",
+              "requestFingerprint": "{\"date\":\"2026-11-21\",\"timeWindow\":{\"latest\":\"18:30\",\"earliest\":\"18:30\"},\"partySize\":4}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "tabelog:en/tokyo/A1319/A131907/13216918": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T16:01:44.452Z",
+              "reasonCode": "REQUEST_SELECTION_UNCONFIRMED",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:3cfaab324316b34535d3e9c0"
+              ],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "REQUEST_SELECTION_UNCONFIRMED"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-21\",\"timeWindow\":{\"latest\":\"18:30\",\"earliest\":\"18:30\"},\"partySize\":4}"
+            },
+            "tabelog:en/tokyo/A1319/A131907/13295267": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-10T16:00:36.135Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:85e884ad0e544dc4ebec3daf",
+                "evidence:restaurant:tabelog-hard-criteria:e770db40d7a15bb40944ea55",
+                "evidence:restaurant:tabelog-availability:771214622bdc6d4bc4b793c4"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T16:10:36.135Z",
+              "requestFingerprint": "{\"date\":\"2026-11-21\",\"timeWindow\":{\"latest\":\"18:30\",\"earliest\":\"18:30\"},\"partySize\":4}",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            "praxis:restaurant:52d6c58a0f5b36c1509326e9": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T15:59:58.624Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-21\",\"timeWindow\":{\"latest\":\"18:30\",\"earliest\":\"18:30\"},\"partySize\":4}"
+            },
+            "praxis:restaurant:6cd5ba27ab43da2167a67827": {
+              "status": "UNKNOWN",
+              "checkedAt": "2026-11-10T16:00:18.054Z",
+              "reasonCode": "ENTITY_MATCH_UNCERTAIN",
+              "evidenceIds": [],
+              "sourceAttempts": [
+                {
+                  "source": "TABELOG",
+                  "outcome": "FAILED",
+                  "reasonCode": "ENTITY_MATCH_UNCERTAIN"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "requestFingerprint": "{\"date\":\"2026-11-21\",\"timeWindow\":{\"latest\":\"18:30\",\"earliest\":\"18:30\"},\"partySize\":4}"
+            }
+          },
+          "readEvidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "latitude": 35.7036961,
+                "longitude": 139.600182,
+                "radiusMeters": 1000,
+                "resolvedPlaceId": "ChIJ_TGT1A_uGGARr-etOu_Oe30",
+                "resolvedPlaceName": "Nishi-Ogikubo Station",
+                "resolvedPlaceTypes": [
+                  "transit_station",
+                  "point_of_interest",
+                  "transportation_service",
+                  "establishment"
+                ],
+                "locationNameExactMatch": false,
+                "locationResolutionQuery": "Nishi-Ogikubo",
+                "locationResolutionSource": "GOOGLE_TEXT_SEARCH"
+              },
+              "provider": "GOOGLE_PLACES",
+              "evidenceId": "1b44dd205fcd6c6b6af818149c7c2aec516e829dc70c7717c5602f96afedb2e4",
+              "observedAt": "2026-11-10T15:58:49.607Z",
+              "sourceEntityId": "ChIJ_TGT1A_uGGARr-etOu_Oe30",
+              "requestFingerprint": "226d3412d9f5adec5b582a9c49d094d1df74dd1a341d45dcb1a69b8f725976fb"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1670042 東京都杉並区西荻北2-26-3",
+                "areaMatch": true,
+                "areaQuery": "Nishi-Ogikubo",
+                "outletName": "GINA",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 330,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "discoveryScopeRef": "observation:12:target:16",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131907/rstLst/pasta/",
+                "discoveryScopeText": "Nishi Ogikubo Sta.",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+              "evidenceId": "evidence:restaurant:native-discovery:9d2347f25066a25f23c83425",
+              "observedAt": "2026-11-10T15:59:44.887Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Neapolitan pizza near Nishi-Ogikubo\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-21\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"18:30\\\",\\\"earliest\\\":\\\"18:30\\\"},\\\"partySize\\\":4,\\\"area\\\":{\\\"query\\\":\\\"Nishi-Ogikubo\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Neapolitan pizza\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}],\\\"budgetPerPerson\\\":{\\\"max\\\":4000,\\\"currency\\\":\\\"JPY\\\"}}\",\"location\":{\"latitude\":35.7036961,\"longitude\":139.600182,\"radiusMeters\":1000,\"label\":\"Nishi-Ogikubo Station\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"Suginami City\",\"shortText\":\"Suginami City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1670053 東京都杉並区西荻南3-10-9",
+                "areaMatch": true,
+                "areaQuery": "Nishi-Ogikubo",
+                "outletName": "Nishiogi Buan",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 57,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "discoveryScopeRef": "observation:12:target:16",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131907/rstLst/pasta/",
+                "discoveryScopeText": "Nishi Ogikubo Sta.",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+              "evidenceId": "evidence:restaurant:native-discovery:4ff2ec9704b0dc3c807f9323",
+              "observedAt": "2026-11-10T15:59:47.419Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13295267",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13295267",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Neapolitan pizza near Nishi-Ogikubo\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-21\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"18:30\\\",\\\"earliest\\\":\\\"18:30\\\"},\\\"partySize\\\":4,\\\"area\\\":{\\\"query\\\":\\\"Nishi-Ogikubo\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Neapolitan pizza\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}],\\\"budgetPerPerson\\\":{\\\"max\\\":4000,\\\"currency\\\":\\\"JPY\\\"}}\",\"location\":{\"latitude\":35.7036961,\"longitude\":139.600182,\"radiusMeters\":1000,\"label\":\"Nishi-Ogikubo Station\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"Suginami City\",\"shortText\":\"Suginami City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1670042 東京都杉並区西荻北3-17-4",
+                "areaMatch": true,
+                "areaQuery": "Nishi-Ogikubo",
+                "outletName": "Cm2 Makers",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 160,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "discoveryScopeRef": "observation:12:target:16",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131907/rstLst/pasta/",
+                "discoveryScopeText": "Nishi Ogikubo Sta.",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13216918/",
+              "evidenceId": "evidence:restaurant:native-discovery:f6e599740875be11897e397e",
+              "observedAt": "2026-11-10T15:59:49.834Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13216918",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13216918",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Neapolitan pizza near Nishi-Ogikubo\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-21\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"18:30\\\",\\\"earliest\\\":\\\"18:30\\\"},\\\"partySize\\\":4,\\\"area\\\":{\\\"query\\\":\\\"Nishi-Ogikubo\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Neapolitan pizza\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}],\\\"budgetPerPerson\\\":{\\\"max\\\":4000,\\\"currency\\\":\\\"JPY\\\"}}\",\"location\":{\"latitude\":35.7036961,\"longitude\":139.600182,\"radiusMeters\":1000,\"label\":\"Nishi-Ogikubo Station\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"Suginami City\",\"shortText\":\"Suginami City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1670053 東京都杉並区西荻南3-17-16 加藤ビル 1F",
+                "areaMatch": true,
+                "areaQuery": "Nishi-Ogikubo",
+                "outletName": "CICLO",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 250,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "discoveryScopeRef": "observation:12:target:16",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131907/rstLst/pasta/",
+                "discoveryScopeText": "Nishi Ogikubo Sta.",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/",
+              "evidenceId": "evidence:restaurant:native-discovery:801fcb5f9c0ac29f5a6e53f8",
+              "observedAt": "2026-11-10T15:59:52.786Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13300811",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13300811",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Neapolitan pizza near Nishi-Ogikubo\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-21\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"18:30\\\",\\\"earliest\\\":\\\"18:30\\\"},\\\"partySize\\\":4,\\\"area\\\":{\\\"query\\\":\\\"Nishi-Ogikubo\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Neapolitan pizza\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}],\\\"budgetPerPerson\\\":{\\\"max\\\":4000,\\\"currency\\\":\\\"JPY\\\"}}\",\"location\":{\"latitude\":35.7036961,\"longitude\":139.600182,\"radiusMeters\":1000,\"label\":\"Nishi-Ogikubo Station\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"Suginami City\",\"shortText\":\"Suginami City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "address": "1670042 東京都杉並区西荻北3-20-8 1F",
+                "areaMatch": true,
+                "areaQuery": "Nishi-Ogikubo",
+                "outletName": "Nishiogi RISE",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 101,
+                "availabilityPath": "DIRECT_SOURCE_PAGE",
+                "discoveryScopeRef": "observation:12:target:16",
+                "discoveryScopeUrl": "https://tabelog.com/en/tokyo/A1319/A131907/rstLst/pasta/",
+                "discoveryScopeText": "Nishi Ogikubo Sta.",
+                "discoveryScopeStatus": "OBSERVED",
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/",
+              "evidenceId": "evidence:restaurant:native-discovery:96ce4f911f9e3d8fa2fc9300",
+              "observedAt": "2026-11-10T15:59:55.334Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13108788",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13108788",
+              "requestFingerprint": "{\"intent\":\"{\\\"timezone\\\":\\\"Asia/Tokyo\\\",\\\"target\\\":{\\\"goal\\\":\\\"AVAILABILITY\\\",\\\"query\\\":\\\"Neapolitan pizza near Nishi-Ogikubo\\\",\\\"selectionScope\\\":\\\"OPEN_ENDED\\\"},\\\"date\\\":\\\"2026-11-21\\\",\\\"timeWindow\\\":{\\\"latest\\\":\\\"18:30\\\",\\\"earliest\\\":\\\"18:30\\\"},\\\"partySize\\\":4,\\\"area\\\":{\\\"query\\\":\\\"Nishi-Ogikubo\\\"},\\\"criteria\\\":[{\\\"text\\\":\\\"Neapolitan pizza\\\",\\\"polarity\\\":\\\"POSITIVE\\\",\\\"strength\\\":\\\"HARD\\\"}],\\\"budgetPerPerson\\\":{\\\"max\\\":4000,\\\"currency\\\":\\\"JPY\\\"}}\",\"location\":{\"latitude\":35.7036961,\"longitude\":139.600182,\"radiusMeters\":1000,\"label\":\"Nishi-Ogikubo Station\",\"areaMatchBasis\":\"NAMED_PLACE_RADIUS\",\"addressComponents\":[{\"longText\":\"Japan\",\"shortText\":\"JP\",\"types\":[\"country\",\"political\"]},{\"longText\":\"Suginami City\",\"shortText\":\"Suginami City\",\"types\":[\"locality\",\"political\"]},{\"longText\":\"Tokyo\",\"shortText\":\"Tokyo\",\"types\":[\"administrative_area_level_1\",\"political\"]}]}}"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "pizza_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F",
+                "placeId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                "areaMatch": true,
+                "areaQuery": "Nishi-Ogikubo",
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco",
+                "primaryType": "pizza_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 282,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Tuesday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Friday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:30 – 9:00 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:30 – 8:00 PM"
+                ],
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:0f8637667a5ddee64d12351f",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F",
+                "placeId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:0f8637667a5ddee64d12351f",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://pizzeria-da-marco.com/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Tuesday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Friday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:30 – 9:00 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:30 – 8:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "pizza restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:ffae6c22b30802daeaac332b",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "italian_restaurant",
+                  "european_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan",
+                "placeId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                "areaMatch": true,
+                "areaQuery": "Nishi-Ogikubo",
+                "outletName": "Pizzeria Bar 31",
+                "primaryType": "italian_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 133,
+                "availabilityPath": "NAME_RESOLUTION",
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:3dd1db8d0f781332fa33b625",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan",
+                "placeId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                "outletName": "Pizzeria Bar 31"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:3dd1db8d0f781332fa33b625",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:c146d5069a200e7649284215",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "italian_restaurant",
+                  "european_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ",
+                "placeId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                "areaMatch": true,
+                "areaQuery": "Nishi-Ogikubo",
+                "outletName": "Da Masa Pizza al Forno",
+                "primaryType": "italian_restaurant",
+                "areaMatchBasis": "NAMED_PLACE_RADIUS",
+                "distanceMeters": 971,
+                "availabilityPath": "NAME_RESOLUTION",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM"
+                ],
+                "evaluationLocationLabel": "Nishi-Ogikubo Station"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:8525412165067d6451f412be",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ",
+                "placeId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                "outletName": "Da Masa Pizza al Forno"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:8525412165067d6451f412be",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:166e51fab9a8c9ae3f0f5d7f",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Nishiogi Buan",
+                "observedOutletName": "Nishiogi Buan"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:85e884ad0e544dc4ebec3daf",
+              "observedAt": "2026-11-10T16:00:36.135Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13295267",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13295267",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Nishiogi Buan",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                }
+              ],
+              "requestFingerprint": "980a4d95cb7964275f839e5178f96b300178600ebe2ee07cc810d9a2fbe7ef67"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:e770db40d7a15bb40944ea55",
+              "observedAt": "2026-11-10T16:00:36.135Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13295267",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13295267",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Bistro, Pasta, Wine bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                }
+              ],
+              "requestFingerprint": "b141665aac50ac2f666485ff6024b22f9147f68df03408054606908324b317eb"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-21",
+                "partySize": 4,
+                "visibleSlots": [
+                  "18:30"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:771214622bdc6d4bc4b793c4",
+              "observedAt": "2026-11-10T16:00:36.135Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:790f1340f49fe0dfb732d616ab8b3c1e4a72cc62daf923947bf315227d553206"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13295267",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13295267",
+              "displayExpiresAt": "2026-11-10T16:10:36.135Z",
+              "requestFingerprint": "4e179db13992e52eb3c4107649b651aea138d48be734b9c31659d5c308b63627",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1670053 東京都杉並区西荻南3-10-9",
+                "outletName": "Nishiogi Buan",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "Nishiogi Buan"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:6c546bd7dc01fd8819a2a6b2",
+              "observedAt": "2026-11-10T16:00:39.393Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13295267",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13295267",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Nishiogi Buan",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131907/13295267\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131907/13295267/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13295267:statement:19",
+                  "tabelog:en/tokyo/A1319/A131907/13295267:statement:20",
+                  "tabelog:en/tokyo/A1319/A131907/13295267:statement:35"
+                ],
+                "restaurantTypeFacts": [
+                  "Bistro",
+                  "Pasta",
+                  "Welcome to Nishiogi Boan, a cozy spot where you can casually enjoy a variety of seasonal dishes and Japanese wine. With a focus on vegetable-based dishes, don't miss the popular \"Chicken Liver Pâté wi...Read more"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131907/13295267:document:8daddf2f4c8cfcd8",
+              "observedAt": "2026-11-10T16:00:39.393Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131907/13295267:document:8daddf2f4c8cfcd8"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13295267",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13295267",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Bistro",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Pasta",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Welcome to Nishiogi Boan, a cozy spot where you can casually enjoy a variety of seasonal dishes and Japanese wine. With a focus on vegetable-based dishes, don't miss the popular \"Chicken Liver Pâté wi...Read more",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131907/13295267:document:8daddf2f4c8cfcd8\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131907/13295267:statement:19\",\"tabelog:en/tokyo/A1319/A131907/13295267:statement:20\",\"tabelog:en/tokyo/A1319/A131907/13295267:statement:35\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1670042 東京都杉並区西荻北2-26-3",
+                "outletName": "GINA",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "GINA"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:8b9ca06fd7c1ce042a68cc3a",
+              "observedAt": "2026-11-10T16:00:52.045Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "GINA",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131907/13144645\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131907/13144645/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13144645:statement:11",
+                  "tabelog:en/tokyo/A1319/A131907/13144645:statement:36",
+                  "tabelog:en/tokyo/A1319/A131907/13144645:statement:37"
+                ],
+                "restaurantTypeFacts": [
+                  "Wood-fired Neapolitan pizza and Italian cuisine",
+                  "Crafted daily by skilled artisans, enjoy authentic Neapolitan pizza and Italian cuisine baked in a wood-fired oven. Relax in a comfortable and spacious setting.",
+                  "Indulge in our irresistible Neapolitan pizza, baked in a wood-fired oven that fills the air with a delightful aroma. We make our dough daily by hand, using only \"flour, water, salt, and yeast,\" and ba...Read more"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f",
+              "observedAt": "2026-11-10T16:00:52.045Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Wood-fired Neapolitan pizza and Italian cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Crafted daily by skilled artisans, enjoy authentic Neapolitan pizza and Italian cuisine baked in a wood-fired oven. Relax in a comfortable and spacious setting.",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Indulge in our irresistible Neapolitan pizza, baked in a wood-fired oven that fills the air with a delightful aroma. We make our dough daily by hand, using only \"flour, water, salt, and yeast,\" and ba...Read more",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131907/13144645:statement:11\",\"tabelog:en/tokyo/A1319/A131907/13144645:statement:36\",\"tabelog:en/tokyo/A1319/A131907/13144645:statement:37\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Neapolitan pizza"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1319/A131907/13144645:2026-11-10T16:00:57.983Z:tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f",
+              "observedAt": "2026-11-10T16:00:57.983Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131907/13144645\",\"criteria\":[\"Neapolitan pizza\"],\"cited\":[\"tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "1670053 東京都杉並区西荻南3-17-16 加藤ビル 1F",
+                "outletName": "CICLO",
+                "observationKind": "PUBLIC_PAGE",
+                "observedOutletName": "CICLO"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/",
+              "evidenceId": "evidence:restaurant:native-fact-identity:34fa11245cc43beb7027365f",
+              "observedAt": "2026-11-10T16:00:58.033Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13300811",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13300811",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "CICLO",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                }
+              ],
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131907/13300811\",\"sourceUrl\":\"https://tabelog.com/en/tokyo/A1319/A131907/13300811/\"}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13300811:statement:18",
+                  "tabelog:en/tokyo/A1319/A131907/13300811:statement:19",
+                  "tabelog:en/tokyo/A1319/A131907/13300811:statement:31"
+                ],
+                "restaurantTypeFacts": [
+                  "Italian",
+                  "Pasta",
+                  "Just 2 minutes from Nishi-Ogikubo Station, enjoy delicious Italian dishes made with seasonal ingredients and unique wines."
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131907/13300811:document:c5300133de44991f",
+              "observedAt": "2026-11-10T16:00:58.033Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131907/13300811:document:c5300133de44991f"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13300811",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13300811",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Pasta",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "NAME",
+                  "quote": "Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131907/13300811:document:c5300133de44991f\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131907/13300811:statement:18\",\"tabelog:en/tokyo/A1319/A131907/13300811:statement:19\",\"tabelog:en/tokyo/A1319/A131907/13300811:statement:31\"]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "GINA",
+                "observedOutletName": "GINA"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:363c4333b759d61b9ea413c9",
+              "observedAt": "2026-11-10T16:01:36.315Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "GINA",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                }
+              ],
+              "requestFingerprint": "663ae911473feb6b8d22a4f4f86b957927467d71faa5eb006d117a45d1236da3"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:6a55df3b4b139d0dd2ed2615",
+              "observedAt": "2026-11-10T16:01:36.315Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Pizza, Italian, Pasta",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                }
+              ],
+              "requestFingerprint": "a249d16c4fe011b9bc11050d8eb34084251657d9cb321bb078ff5940ee1c7207"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-21",
+                "partySize": 4,
+                "visibleSlots": [],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "UNAVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:308dbcb461abd145b255ec11",
+              "observedAt": "2026-11-10T16:01:36.315Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:63b659e81fa2e63660d2fa65f41bcabf9f581324cfb0987bf1d3446c78b1a57c"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "displayExpiresAt": "2026-11-10T16:11:36.315Z",
+              "requestFingerprint": "088e857b68cc2961eadd09778414ac0ebbf3331042bf59d50f3e60e21d421553",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Cm2 Makers",
+                "observedOutletName": "Cm2 Makers"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13216918/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:3cfaab324316b34535d3e9c0",
+              "observedAt": "2026-11-10T16:01:44.452Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13216918",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13216918",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Cm2 Makers",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13216918/"
+                }
+              ],
+              "requestFingerprint": "6c05a5475477063b9afccae3aef39f701ed698773c1277b19382a42cfe2a9279"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Nishiogi RISE",
+                "observedOutletName": "Nishiogi RISE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:dc02df4b5859aec218116193",
+              "observedAt": "2026-11-10T16:01:58.505Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13108788",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13108788",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Nishiogi RISE",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/"
+                }
+              ],
+              "requestFingerprint": "3b85e157f6461886a5de2487c6ce68e5f1267f78d61c9b2483541c5a469c14f3"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:c3ead77ace964778b0ce276f",
+              "observedAt": "2026-11-10T16:01:58.505Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13108788",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13108788",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Baru (Spanish style bar), Pasta, Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/"
+                }
+              ],
+              "requestFingerprint": "f0e2b8332185a4aea6021312daf90a89632aea834a3cc9614ff4452840082abc"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-21",
+                "partySize": 4,
+                "visibleSlots": [],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "UNAVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:484d40f79c3f75b60e4beadb",
+              "observedAt": "2026-11-10T16:01:58.505Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:40357923a2b34545eed617e6c719719536ead9754b206bb74bc673763f8aa84b"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13108788",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13108788",
+              "displayExpiresAt": "2026-11-10T16:11:58.505Z",
+              "requestFingerprint": "c6aff0b08c647ce0092e59da03ffe49960d04695476e697b513cad3aa4d9803d",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          ],
+          "currentFactEvidence": [
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13144645:statement:11",
+                  "tabelog:en/tokyo/A1319/A131907/13144645:statement:36",
+                  "tabelog:en/tokyo/A1319/A131907/13144645:statement:37"
+                ],
+                "restaurantTypeFacts": [
+                  "Wood-fired Neapolitan pizza and Italian cuisine",
+                  "Crafted daily by skilled artisans, enjoy authentic Neapolitan pizza and Italian cuisine baked in a wood-fired oven. Relax in a comfortable and spacious setting.",
+                  "Indulge in our irresistible Neapolitan pizza, baked in a wood-fired oven that fills the air with a delightful aroma. We make our dough daily by hand, using only \"flour, water, salt, and yeast,\" and ba...Read more"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f",
+              "observedAt": "2026-11-10T16:00:52.045Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "sourceFieldQuotes": [
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Wood-fired Neapolitan pizza and Italian cuisine",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Crafted daily by skilled artisans, enjoy authentic Neapolitan pizza and Italian cuisine baked in a wood-fired oven. Relax in a comfortable and spacious setting.",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Indulge in our irresistible Neapolitan pizza, baked in a wood-fired oven that fills the air with a delightful aroma. We make our dough daily by hand, using only \"flour, water, salt, and yeast,\" and ba...Read more",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131907/13144645:statement:11\",\"tabelog:en/tokyo/A1319/A131907/13144645:statement:36\",\"tabelog:en/tokyo/A1319/A131907/13144645:statement:37\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": [
+                  "Neapolitan pizza"
+                ],
+                "supportingEvidenceIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f"
+                ]
+              },
+              "provider": "MODEL_JUDGMENT",
+              "evidenceId": "fact-judgment:tabelog:en/tokyo/A1319/A131907/13144645:2026-11-10T16:00:57.983Z:tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f",
+              "observedAt": "2026-11-10T16:00:57.983Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "requestFingerprint": "{\"candidateId\":\"tabelog:en/tokyo/A1319/A131907/13144645\",\"criteria\":[\"Neapolitan pizza\"],\"cited\":[\"tabelog:en/tokyo/A1319/A131907/13144645:document:09913904bdc8943f\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:6a55df3b4b139d0dd2ed2615",
+              "observedAt": "2026-11-10T16:01:36.315Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Pizza, Italian, Pasta",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                }
+              ],
+              "requestFingerprint": "a249d16c4fe011b9bc11050d8eb34084251657d9cb321bb078ff5940ee1c7207"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13295267:statement:19",
+                  "tabelog:en/tokyo/A1319/A131907/13295267:statement:20",
+                  "tabelog:en/tokyo/A1319/A131907/13295267:statement:35"
+                ],
+                "restaurantTypeFacts": [
+                  "Bistro",
+                  "Pasta",
+                  "Welcome to Nishiogi Boan, a cozy spot where you can casually enjoy a variety of seasonal dishes and Japanese wine. With a focus on vegetable-based dishes, don't miss the popular \"Chicken Liver Pâté wi...Read more"
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131907/13295267:document:8daddf2f4c8cfcd8",
+              "observedAt": "2026-11-10T16:00:39.393Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131907/13295267:document:8daddf2f4c8cfcd8"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13295267",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13295267",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Bistro",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                },
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Pasta",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                },
+                {
+                  "field": "SOURCE_TEXT",
+                  "quote": "Welcome to Nishiogi Boan, a cozy spot where you can casually enjoy a variety of seasonal dishes and Japanese wine. With a focus on vegetable-based dishes, don't miss the popular \"Chicken Liver Pâté wi...Read more",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131907/13295267:document:8daddf2f4c8cfcd8\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131907/13295267:statement:19\",\"tabelog:en/tokyo/A1319/A131907/13295267:statement:20\",\"tabelog:en/tokyo/A1319/A131907/13295267:statement:35\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "sourceStatementIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13300811:statement:18",
+                  "tabelog:en/tokyo/A1319/A131907/13300811:statement:19",
+                  "tabelog:en/tokyo/A1319/A131907/13300811:statement:31"
+                ],
+                "restaurantTypeFacts": [
+                  "Italian",
+                  "Pasta",
+                  "Just 2 minutes from Nishi-Ogikubo Station, enjoy delicious Italian dishes made with seasonal ingredients and unique wines."
+                ]
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/",
+              "evidenceId": "tabelog:en/tokyo/A1319/A131907/13300811:document:c5300133de44991f",
+              "observedAt": "2026-11-10T16:00:58.033Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "tabelog:en/tokyo/A1319/A131907/13300811:document:c5300133de44991f"
+              },
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13300811",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13300811",
+              "sourceFieldQuotes": [
+                {
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Pasta",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "NAME",
+                  "quote": "Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CUSTOMER_REVIEW",
+                  "quote": "Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                }
+              ],
+              "requestFingerprint": "{\"documentId\":\"tabelog:en/tokyo/A1319/A131907/13300811:document:c5300133de44991f\",\"statementIds\":[\"tabelog:en/tokyo/A1319/A131907/13300811:statement:18\",\"tabelog:en/tokyo/A1319/A131907/13300811:statement:19\",\"tabelog:en/tokyo/A1319/A131907/13300811:statement:31\"]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:c3ead77ace964778b0ce276f",
+              "observedAt": "2026-11-10T16:01:58.505Z",
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13108788",
+              "entityMatch": {
+                "matchedBy": [
+                  "NATIVE_SOURCE_ID_AND_DETAIL"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1319/A131907/13108788",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Baru (Spanish style bar), Pasta, Italian",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/"
+                }
+              ],
+              "requestFingerprint": "f0e2b8332185a4aea6021312daf90a89632aea834a3cc9614ff4452840082abc"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://pizzeria-da-marco.com/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Tuesday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Friday: 11:30 AM – 2:00 PM, 6:00 – 8:00 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:30 – 9:00 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:30 – 8:00 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "pizza restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:ffae6c22b30802daeaac332b",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:c146d5069a200e7649284215",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                "openingHoursMatch": true,
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Wednesday: Closed",
+                  "Thursday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 5:00 – 9:30 PM",
+                  "Saturday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM",
+                  "Sunday: 11:30 AM – 2:00 PM, 5:00 – 9:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "italian restaurant",
+                  "european restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ],
+                "openingHoursMatchedWindow": [
+                  "18:30",
+                  "18:30"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:166e51fab9a8c9ae3f0f5d7f",
+              "observedAt": "2026-11-10T15:59:57.011Z",
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "requestFingerprint": "1cea8fadd9bde504f6177ca7259a304f6cfd15d35ccee174a04c9e4d15f3b235"
+            }
+          ],
+          "sourceReadContext": {
+            "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+            "startedAt": "2026-11-10T15:58:45.444Z"
+          },
+          "bookingHandoffs": []
+        },
+        "artifacts": [
+          {
+            "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:1",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "CANDIDATES",
+            "sourceVersion": 7,
+            "data": {
+              "candidates": [
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131907/13144645",
+                    "address": "1670042 東京都杉並区西荻北2-26-3",
+                    "sourceIds": {
+                      "phone": "03-3394-0012",
+                      "tabelog": "en/tokyo/A1319/A131907/13144645",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                    },
+                    "outletName": "GINA",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:9d2347f25066a25f23c83425",
+                      "sourceIds": "evidence:restaurant:native-discovery:9d2347f25066a25f23c83425",
+                      "outletName": "evidence:restaurant:native-discovery:9d2347f25066a25f23c83425"
+                    },
+                    "coordinates": {
+                      "lat": 35.70647489864744,
+                      "lng": 139.60145305475504
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 330,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131907/13295267",
+                    "address": "1670053 東京都杉並区西荻南3-10-9",
+                    "sourceIds": {
+                      "phone": "03-5941-3577",
+                      "tabelog": "en/tokyo/A1319/A131907/13295267",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                    },
+                    "outletName": "Nishiogi Buan",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:4ff2ec9704b0dc3c807f9323",
+                      "sourceIds": "evidence:restaurant:native-discovery:4ff2ec9704b0dc3c807f9323",
+                      "outletName": "evidence:restaurant:native-discovery:4ff2ec9704b0dc3c807f9323"
+                    },
+                    "coordinates": {
+                      "lat": 35.70322708864903,
+                      "lng": 139.5999336847233
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 57,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131907/13216918",
+                    "address": "1670042 東京都杉並区西荻北3-17-4",
+                    "sourceIds": {
+                      "phone": "03-3395-9800",
+                      "tabelog": "en/tokyo/A1319/A131907/13216918",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13216918/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13216918/"
+                    },
+                    "outletName": "Cm2 Makers",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:f6e599740875be11897e397e",
+                      "sourceIds": "evidence:restaurant:native-discovery:f6e599740875be11897e397e",
+                      "outletName": "evidence:restaurant:native-discovery:f6e599740875be11897e397e"
+                    },
+                    "coordinates": {
+                      "lat": 35.70463653784241,
+                      "lng": 139.59884398357656
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 160,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131907/13300811",
+                    "address": "1670053 東京都杉並区西荻南3-17-16 加藤ビル 1F",
+                    "sourceIds": {
+                      "phone": "03-6755-9713",
+                      "tabelog": "en/tokyo/A1319/A131907/13300811",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                    },
+                    "outletName": "CICLO",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:801fcb5f9c0ac29f5a6e53f8",
+                      "sourceIds": "evidence:restaurant:native-discovery:801fcb5f9c0ac29f5a6e53f8",
+                      "outletName": "evidence:restaurant:native-discovery:801fcb5f9c0ac29f5a6e53f8"
+                    },
+                    "coordinates": {
+                      "lat": 35.70379438864963,
+                      "lng": 139.60294043472695
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 250,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "tabelog:en/tokyo/A1319/A131907/13108788",
+                    "address": "1670042 東京都杉並区西荻北3-20-8 1F",
+                    "sourceIds": {
+                      "phone": "03-3395-9620",
+                      "tabelog": "en/tokyo/A1319/A131907/13108788",
+                      "discoverySourceId": "tabelog",
+                      "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/",
+                      "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/"
+                    },
+                    "outletName": "Nishiogi RISE",
+                    "provenance": {
+                      "address": "evidence:restaurant:native-discovery:96ce4f911f9e3d8fa2fc9300",
+                      "sourceIds": "evidence:restaurant:native-discovery:96ce4f911f9e3d8fa2fc9300",
+                      "outletName": "evidence:restaurant:native-discovery:96ce4f911f9e3d8fa2fc9300"
+                    },
+                    "coordinates": {
+                      "lat": 35.7045939886482,
+                      "lng": 139.60006136473703
+                    }
+                  },
+                  "matchReasons": [
+                    "Source coordinates within 1000 m of Nishi-Ogikubo Station"
+                  ],
+                  "executionConfidence": "MEDIUM",
+                  "distanceObservation": {
+                    "meters": 101,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "TABELOG"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                    "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F",
+                    "sourceIds": {
+                      "phone": "03-6913-6276",
+                      "googlePlaces": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                      "googleMapsUri": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://pizzeria-da-marco.com/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:0f8637667a5ddee64d12351f",
+                      "sourceIds": "evidence:restaurant:google-discovery:0f8637667a5ddee64d12351f",
+                      "outletName": "evidence:restaurant:google-discovery:0f8637667a5ddee64d12351f"
+                    },
+                    "coordinates": {
+                      "lat": 35.7045773,
+                      "lng": 139.59725799999998
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: Nishi-Ogikubo"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 282,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+                    "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan",
+                    "sourceIds": {
+                      "googlePlaces": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                      "googleMapsUri": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "Pizzeria Bar 31",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:3dd1db8d0f781332fa33b625",
+                      "sourceIds": "evidence:restaurant:google-discovery:3dd1db8d0f781332fa33b625",
+                      "outletName": "evidence:restaurant:google-discovery:3dd1db8d0f781332fa33b625"
+                    },
+                    "coordinates": {
+                      "lat": 35.703680899999995,
+                      "lng": 139.6016546
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: Nishi-Ogikubo"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 133,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                },
+                {
+                  "warnings": [],
+                  "restaurant": {
+                    "id": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+                    "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ",
+                    "sourceIds": {
+                      "phone": "03-6913-9858",
+                      "googlePlaces": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                      "googleMapsUri": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                      "googleWebsiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                      "discoverySourceId": "google-places"
+                    },
+                    "outletName": "Da Masa Pizza al Forno",
+                    "provenance": {
+                      "address": "evidence:restaurant:google-discovery:8525412165067d6451f412be",
+                      "sourceIds": "evidence:restaurant:google-discovery:8525412165067d6451f412be",
+                      "outletName": "evidence:restaurant:google-discovery:8525412165067d6451f412be"
+                    },
+                    "coordinates": {
+                      "lat": 35.7118507,
+                      "lng": 139.603996
+                    }
+                  },
+                  "matchReasons": [
+                    "Address explicitly matches requested area: Nishi-Ogikubo"
+                  ],
+                  "executionConfidence": "LOW",
+                  "distanceObservation": {
+                    "meters": 971,
+                    "centerBasis": "NAMED_PLACE_RADIUS",
+                    "source": "GOOGLE_PLACES"
+                  }
+                }
+              ],
+              "availability": {
+                "tabelog:en/tokyo/A1319/A131907/13108788": [],
+                "tabelog:en/tokyo/A1319/A131907/13144645": [],
+                "tabelog:en/tokyo/A1319/A131907/13216918": [],
+                "tabelog:en/tokyo/A1319/A131907/13295267": [
+                  {
+                    "id": "offer:tabelog:tabelog:en/tokyo/A1319/A131907/13295267:2026-11-21:18:30:4",
+                    "source": "TABELOG",
+                    "dateTime": "2026-11-21T18:30:00+09:00",
+                    "timezone": "Asia/Tokyo",
+                    "checkedAt": "2026-11-10T16:00:36.135Z",
+                    "expiresAt": "2026-11-10T16:00:36.135Z",
+                    "partySize": 4,
+                    "bookingMode": "REQUEST",
+                    "restaurantId": "tabelog:en/tokyo/A1319/A131907/13295267",
+                    "executionMode": "BROWSER",
+                    "displayExpiresAt": "2026-11-10T16:10:36.135Z",
+                    "bookingRecheckRequired": true
+                  }
+                ],
+                "praxis:restaurant:52d6c58a0f5b36c1509326e9": [],
+                "praxis:restaurant:6cd5ba27ab43da2167a67827": []
+              }
+            }
+          },
+          {
+            "artifactId": "artifact:outcome:restaurant:adfd4a4bd5922ec763f289d8:7",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "domain": "restaurant",
+            "type": "OUTCOME",
+            "sourceVersion": 7,
+            "data": {
+              "outcome": {
+                "status": "NO_VERIFIED_RESULT",
+                "remainingGaps": [
+                  "GINA: availability UNAVAILABLE (NO_MATCHING_SLOT); facts COMPLETED",
+                  "Nishiogi Buan: availability AVAILABLE (source reported AVAILABLE; see current offers and evidence); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+                  "Cm2 Makers: availability UNKNOWN (REQUEST_SELECTION_UNCONFIRMED); facts NOT_CHECKED",
+                  "CICLO: availability NOT_CHECKED (no request-bound slot established); facts UNKNOWN (NATIVE_HARD_FACTS_UNCONFIRMED)",
+                  "Nishiogi RISE: availability UNAVAILABLE (NO_MATCHING_SLOT); facts NOT_CHECKED",
+                  "ピッツェリア ダ マルコ Pizzeria da Marco: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts NOT_CHECKED",
+                  "Pizzeria Bar 31: availability UNKNOWN (ENTITY_MATCH_UNCERTAIN); facts NOT_CHECKED",
+                  "Da Masa Pizza al Forno: availability NOT_CHECKED (no request-bound slot established); facts NOT_CHECKED",
+                  "Candidate tabelog:en/tokyo/A1319/A131907/13144645 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate tabelog:en/tokyo/A1319/A131907/13295267 has no evidence for HARD criterion Neapolitan pizza",
+                  "Candidate tabelog:en/tokyo/A1319/A131907/13216918 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate tabelog:en/tokyo/A1319/A131907/13300811 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate tabelog:en/tokyo/A1319/A131907/13108788 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:52d6c58a0f5b36c1509326e9 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:6cd5ba27ab43da2167a67827 lacks fresh evidenced availability for the authoritative request",
+                  "Candidate praxis:restaurant:85691231c0cd9b05f971bf6e lacks fresh evidenced availability for the authoritative request",
+                  "AGENT_LOOP_NO_PROGRESS: The remaining read budget is reserved for an honest conclusion or qualified presentation",
+                  "Sources with recorded reads or attempts: GOOGLE_PLACES, TABELOG, MODEL_JUDGMENT; unread discovery entries: tablecheck, tabelog. Unread outlets and missing evidence remain unknown; this does not establish that all restaurants have no seats."
+                ],
+                "unresolvedCandidateIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13144645",
+                  "tabelog:en/tokyo/A1319/A131907/13295267",
+                  "tabelog:en/tokyo/A1319/A131907/13216918",
+                  "tabelog:en/tokyo/A1319/A131907/13300811",
+                  "tabelog:en/tokyo/A1319/A131907/13108788",
+                  "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                  "praxis:restaurant:6cd5ba27ab43da2167a67827",
+                  "praxis:restaurant:85691231c0cd9b05f971bf6e"
+                ],
+                "investigatedCandidateIds": [
+                  "tabelog:en/tokyo/A1319/A131907/13144645",
+                  "tabelog:en/tokyo/A1319/A131907/13295267",
+                  "tabelog:en/tokyo/A1319/A131907/13216918",
+                  "tabelog:en/tokyo/A1319/A131907/13300811",
+                  "tabelog:en/tokyo/A1319/A131907/13108788",
+                  "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                  "praxis:restaurant:6cd5ba27ab43da2167a67827"
+                ]
+              }
+            }
+          }
+        ],
+        "activities": [
+          {
+            "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+            },
+            "type": "SEMANTIC_PROPOSAL_COMPILED",
+            "display": {
+              "title": "Request updated",
+              "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+            },
+            "occurredAt": "2026-11-10T15:58:47.343Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:06af27ed-5ccd-44cb-9bcf-da3eb7b2fb0d",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:06af27ed-5ccd-44cb-9bcf-da3eb7b2fb0d"
+            },
+            "type": "SEARCH_COMPLETED",
+            "display": {
+              "title": "Restaurant search completed",
+              "detail": "8 discovery candidate(s) are ready for evidence checks."
+            },
+            "occurredAt": "2026-11-10T15:59:57.015Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:fc9217cb-d48a-43fe-9a56-d107879fa082",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:fc9217cb-d48a-43fe-9a56-d107879fa082"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "1 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T16:00:36.142Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:3536e827-d070-44d9-8c5c-bd57ff9f8a57",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:3536e827-d070-44d9-8c5c-bd57ff9f8a57"
+            },
+            "type": "CANDIDATE_FACTS_CHECKED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T16:01:09.905Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:cd776089-bf90-460a-ba3f-51468f970897",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:cd776089-bf90-460a-ba3f-51468f970897"
+            },
+            "type": "AVAILABILITY_CHECKED",
+            "display": {
+              "title": "Availability checked",
+              "detail": "0 evidence-grounded availability offer(s) were observed."
+            },
+            "occurredAt": "2026-11-10T16:01:58.512Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:c53e39fe-ae1d-490d-8ccb-36d5cf82141a",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:c53e39fe-ae1d-490d-8ccb-36d5cf82141a"
+            },
+            "type": "READ_END_WINDOW_OPENED",
+            "display": {
+              "title": "Recorded event",
+              "detail": "Recorded by the authoritative task runtime."
+            },
+            "occurredAt": "2026-11-10T16:02:00.841Z"
+          },
+          {
+            "activityId": "activity:event:restaurant-agent:23b909e6-481c-41e9-ab62-40e6cbb3484d",
+            "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+            "sourceRef": {
+              "kind": "EVENT",
+              "id": "event:restaurant-agent:23b909e6-481c-41e9-ab62-40e6cbb3484d"
+            },
+            "type": "AGENT_LOOP_TERMINATED",
+            "display": {
+              "title": "Agent loop stopped",
+              "detail": "NO_PROGRESS: The remaining read budget is reserved for an honest conclusion or qualified presentation"
+            },
+            "occurredAt": "2026-11-10T16:02:00.856Z"
+          }
+        ],
+        "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+      }
+    }
+  ],
+  "budgets": [
+    {
+      "id": "INITIAL",
+      "startedAtMs": 1794326325443,
+      "deadlineAtMs": 1794326825443,
+      "elapsedMs": 195466.68008299964,
+      "modelCalls": 46,
+      "googleRequests": 2,
+      "exceeded500Seconds": false
+    }
+  ],
+  "namedReferences": {
+    "initial": null,
+    "turns": [
+      {
+        "turnId": "INITIAL",
+        "userMessage": "[PRIVATE_TURN_SHA256:79ffc23e534124cf277f83e28623cdc806780a9c271d86bebf88371331364b3d]",
+        "before": {
+          "candidates": []
+        },
+        "after": {
+          "candidates": [
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13144645",
+                "outletName": "GINA",
+                "sourceIds": {
+                  "phone": "03-3394-0012",
+                  "tabelog": "en/tokyo/A1319/A131907/13144645",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13144645/"
+                },
+                "address": "1670042 東京都杉並区西荻北2-26-3"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13295267",
+                "outletName": "Nishiogi Buan",
+                "sourceIds": {
+                  "phone": "03-5941-3577",
+                  "tabelog": "en/tokyo/A1319/A131907/13295267",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13295267/"
+                },
+                "address": "1670053 東京都杉並区西荻南3-10-9"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13216918",
+                "outletName": "Cm2 Makers",
+                "sourceIds": {
+                  "phone": "03-3395-9800",
+                  "tabelog": "en/tokyo/A1319/A131907/13216918",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13216918/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13216918/"
+                },
+                "address": "1670042 東京都杉並区西荻北3-17-4"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13300811",
+                "outletName": "CICLO",
+                "sourceIds": {
+                  "phone": "03-6755-9713",
+                  "tabelog": "en/tokyo/A1319/A131907/13300811",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13300811/"
+                },
+                "address": "1670053 東京都杉並区西荻南3-17-16 加藤ビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "tabelog:en/tokyo/A1319/A131907/13108788",
+                "outletName": "Nishiogi RISE",
+                "sourceIds": {
+                  "phone": "03-3395-9620",
+                  "tabelog": "en/tokyo/A1319/A131907/13108788",
+                  "discoverySourceId": "tabelog",
+                  "discoveryDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/",
+                  "tabelogNativeDetailUri": "https://tabelog.com/en/tokyo/A1319/A131907/13108788/"
+                },
+                "address": "1670042 東京都杉並区西荻北3-20-8 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+                "outletName": "ピッツェリア ダ マルコ Pizzeria da Marco",
+                "sourceIds": {
+                  "phone": "03-6913-6276",
+                  "googlePlaces": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+                  "googleMapsUri": "https://maps.google.com/?cid=18217367679255851804&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://pizzeria-da-marco.com/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒167-0042 Tokyo, Suginami City, Nishiogikita, 3-chōme−13−５ M&Iビル 1F"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+                "outletName": "Pizzeria Bar 31",
+                "sourceIds": {
+                  "googlePlaces": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+                  "googleMapsUri": "https://maps.google.com/?cid=7888418045560171895&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "3-chōme-15-12 Nishiogiminami, Suginami City, Tokyo 167-0053, Japan"
+              }
+            },
+            {
+              "restaurant": {
+                "id": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+                "outletName": "Da Masa Pizza al Forno",
+                "sourceIds": {
+                  "phone": "03-6913-9858",
+                  "googlePlaces": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+                  "googleMapsUri": "https://maps.google.com/?cid=11571778617989233365&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://www.facebook.com/Da-Masa-Pizza-al-Forno-499764006852634/",
+                  "discoverySourceId": "google-places"
+                },
+                "address": "Japan, 〒167-0034 Tokyo, Suginami City, Momoi, 4-chōme−1−２ カサグランデ"
+              }
+            }
+          ],
+          "intentDraft": {
+            "target": {
+              "selectionScope": "OPEN_ENDED"
+            }
+          },
+          "readEvidence": [
+            {
+              "candidateId": "praxis:restaurant:52d6c58a0f5b36c1509326e9",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJncCTR_TvGGARHDO6cGIX0fw",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:6cd5ba27ab43da2167a67827",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJy1W1oQ_uGGARdy1l9WpKeW0",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "praxis:restaurant:85691231c0cd9b05f971bf6e",
+              "kind": "ENTITY_MATCH",
+              "provider": "GOOGLE_PLACES",
+              "sourceEntityId": "ChIJVcXTpQzuGGAR1Xq12Fc3l6A",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13295267",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13295267",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13295267",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13295267",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13300811",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13300811",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13144645",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13144645",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13216918",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13216918",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            },
+            {
+              "candidateId": "tabelog:en/tokyo/A1319/A131907/13108788",
+              "kind": "ENTITY_MATCH",
+              "provider": "TABELOG",
+              "sourceEntityId": "en/tokyo/A1319/A131907/13108788",
+              "entityMatch": {
+                "confidence": "HIGH"
+              }
+            }
+          ]
+        },
+        "events": [
+          {
+            "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "trace": {
+              "actor": "USER"
+            },
+            "event": {
+              "type": "SEMANTIC_PROPOSAL_COMPILED",
+              "patch": {
+                "target": {
+                  "selectionScope": "OPEN_ENDED"
+                }
+              }
+            }
+          },
+          {
+            "id": "event:restaurant-agent:06af27ed-5ccd-44cb-9bcf-da3eb7b2fb0d",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "SEARCH_COMPLETED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:fc9217cb-d48a-43fe-9a56-d107879fa082",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:3536e827-d070-44d9-8c5c-bd57ff9f8a57",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "CANDIDATE_FACTS_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:cd776089-bf90-460a-ba3f-51468f970897",
+            "trace": {
+              "actor": "ADAPTER"
+            },
+            "event": {
+              "type": "AVAILABILITY_CHECKED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:c53e39fe-ae1d-490d-8ccb-36d5cf82141a",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "READ_END_WINDOW_OPENED"
+            }
+          },
+          {
+            "id": "event:restaurant-agent:23b909e6-481c-41e9-ab62-40e6cbb3484d",
+            "trace": {
+              "actor": "SYSTEM"
+            },
+            "event": {
+              "type": "AGENT_LOOP_TERMINATED"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

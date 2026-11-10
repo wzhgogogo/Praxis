@@ -1,0 +1,347 @@
+{
+  "schema": "phase3b-holdout-batch@2",
+  "serial": true,
+  "stopReason": "S0_STOP",
+  "witnessPolicies": [
+    {
+      "id": "p3b-holdout-03",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-04b",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-05",
+      "policy": "ALLOW_KNOWN_UNAVAILABLE"
+    },
+    {
+      "id": "p3b-holdout-06",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-07",
+      "policy": "POSITIVE_REQUIRED"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 1,
+      "key": "p3b-holdout-03-r1",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-03-r1",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "finishedAtMs": 1794302638836,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "ed9fb445cc12043ffe5e069e71e7d62c50e7cddd6a1291254c8551aa370c2cd1",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-r2-03-r1.json",
+        "sha256": "9860f15eb735d9e6878317bc78ce4892f1e0c395577cc53ca6780eb4178a4ae3",
+        "evidenceSHA256": "65676e9cf04f2b167bb3c818edee9eb0f51d48fd961bd63c0375828ac9a9dd67",
+        "evaluationSHA256": "58e0036e0532620d738194ef879b7c1e62a8bb1dc1845be9000d5b21a1a56add"
+      }
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 2,
+      "key": "p3b-holdout-03-r2",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-03-r2",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 214650,
+        "waitedMs": 0,
+        "previousFinishedAtMs": 1794302638836
+      },
+      "finishedAtMs": 1794303419770,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "27cecf4426b27ba9bccb766d314dbb66c3fbb2d0366e7e6d09bd6322823313f1",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-r2-03-r2.json",
+        "sha256": "542cfb19bd29fb28fc37c3864ea6df962098fa09c92a41731c9da6ab04803ccd",
+        "evidenceSHA256": "cd7f911b30ddee550d3e1805aafb038232cfed20b276b47b3a53d0fccb753284",
+        "evaluationSHA256": "4386c4d3882609c1989c6fdc1df136a2c742dcabc2789657a63e58c8c4116d3a"
+      }
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 3,
+      "key": "p3b-holdout-03-r3",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-03-r3",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 214659,
+        "waitedMs": 1,
+        "previousFinishedAtMs": 1794303419770
+      },
+      "finishedAtMs": 1794306027058,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "824916b371ba208d5c061c691fc1f42ce65fb04244312efa88c0a31fc71386c2",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-r2-03-r3.json",
+        "sha256": "e91f63bfd8b2305d498ad751f0a485f98842c6e480a26d032538ccbb383cfcd4",
+        "evidenceSHA256": "9ca8f3d9f22b7543a7d8f47ef4f55cfe9d737ea2d56fa7ff8bdb1f4624ddf768",
+        "evaluationSHA256": "0bc19862ccb6933253888f58b857231326d7283f4fd2a5e0da6783a600611083"
+      }
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "repetition": 1,
+      "key": "p3b-holdout-04a-r1",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r1",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 199429,
+        "waitedMs": 1,
+        "previousFinishedAtMs": 1794306027058
+      }
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "repetition": 1,
+      "key": "p3b-holdout-04a-r1-retry1",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r1-retry1",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 229573,
+        "waitedMs": 2,
+        "previousFinishedAtMs": 1794306027058
+      }
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "repetition": 1,
+      "key": "p3b-holdout-04a-r1-retry2",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r1-retry2",
+      "status": "PENDING_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 232418,
+        "waitedMs": 2,
+        "previousFinishedAtMs": 1794306027058
+      },
+      "finishedAtMs": 1794323991576,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "392e45464d046806934a158be86cc7d20a5c18b3333a5a4ae9787741de31c8cc"
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "repetition": 2,
+      "key": "p3b-holdout-04a-r2",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r2",
+      "status": "PENDING_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 181109,
+        "waitedMs": 181076,
+        "previousFinishedAtMs": 1794323991576
+      },
+      "finishedAtMs": 1794324259139,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "8d5c8724817affab19655cc3b1588ad3b225507939281900dd0bb6e80cb02416"
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "repetition": 3,
+      "key": "p3b-holdout-04a-r3",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r3",
+      "status": "PENDING_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 198981,
+        "waitedMs": 198975,
+        "previousFinishedAtMs": 1794324259139
+      },
+      "finishedAtMs": 1794324546491,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "33e7f9471ac350b7fca6062743dec50b6f1542d4f8d1dee2d4a0c4f316e0f991"
+    },
+    {
+      "id": "p3b-holdout-04b",
+      "repetition": 1,
+      "key": "p3b-holdout-04b-r1",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04b-r1",
+      "status": "PENDING_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 203730,
+        "waitedMs": 203725,
+        "previousFinishedAtMs": 1794324546491
+      },
+      "finishedAtMs": 1794324863759,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "bb93ad1701f312f180eea3565da07860d810849313d78c907f0cd2559ea4724c"
+    },
+    {
+      "id": "p3b-holdout-04b",
+      "repetition": 2,
+      "key": "p3b-holdout-04b-r2",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04b-r2",
+      "status": "PENDING_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 194045,
+        "waitedMs": 194107,
+        "previousFinishedAtMs": 1794324863759
+      },
+      "finishedAtMs": 1794325141055,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "d188940a8e931ba0819f72cf5335622f453be2089de08954f1f2667e8240f8d8"
+    },
+    {
+      "id": "p3b-holdout-04b",
+      "repetition": 3,
+      "key": "p3b-holdout-04b-r3",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04b-r3",
+      "status": "PENDING_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 238440,
+        "waitedMs": 238437,
+        "previousFinishedAtMs": 1794325141055
+      },
+      "finishedAtMs": 1794325460541,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "6bb370919d58682a3599fab4a37c90b3f22e1736289f09b3013a21e4a7ea5f22"
+    },
+    {
+      "id": "p3b-holdout-05",
+      "repetition": 1,
+      "key": "p3b-holdout-05-r1",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-05-r1",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 207052,
+        "waitedMs": 207050,
+        "previousFinishedAtMs": 1794325460541
+      },
+      "finishedAtMs": 1794325828193,
+      "certificationMode": "NO_POSITIVE_WITNESS_DIAGNOSTIC",
+      "witnessExists": false,
+      "evaluationSHA256": "d59c661b6b480c3bae4e698a3536d3ceaffea12089a4145c702333f57f94980b"
+    },
+    {
+      "id": "p3b-holdout-05",
+      "repetition": 2,
+      "key": "p3b-holdout-05-r2",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-05-r2",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 208445,
+        "waitedMs": 208490,
+        "previousFinishedAtMs": 1794325828193
+      },
+      "finishedAtMs": 1794326146018,
+      "certificationMode": "NO_POSITIVE_WITNESS_DIAGNOSTIC",
+      "witnessExists": false,
+      "evaluationSHA256": "ffd54800407e3d31004433e7a8fd42c324fdae030f60012f6d280a82b1c1910a"
+    },
+    {
+      "id": "p3b-holdout-05",
+      "repetition": 3,
+      "key": "p3b-holdout-05-r3",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-05-r3",
+      "status": "EVALUATED",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 178565,
+        "waitedMs": 178562,
+        "previousFinishedAtMs": 1794326146018
+      },
+      "finishedAtMs": 1794326522053,
+      "certificationMode": "NO_POSITIVE_WITNESS_DIAGNOSTIC",
+      "witnessExists": false,
+      "evaluationSHA256": "05b3c199236a0b09ecf6a323336a4f35a0103b1952815bb75f7241b5c9357c8f"
+    },
+    {
+      "id": "p3b-holdout-06",
+      "repetition": 1,
+      "key": "p3b-holdout-06-r1",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-06-r1",
+      "status": "STOPPED",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 217586,
+        "waitedMs": 217579,
+        "previousFinishedAtMs": 1794326522053
+      },
+      "finishedAtMs": 1794326959128,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "2fc7bd7b55d23408327b62cabef6d57d9fd59896f85797291d94cafc606c3ad3"
+    }
+  ],
+  "healthyCases": [
+    "p3b-holdout-03",
+    "p3b-holdout-04a",
+    "p3b-holdout-04b",
+    "p3b-holdout-05",
+    "p3b-holdout-06"
+  ],
+  "pendingReviewCount": 6,
+  "passRateReportable": false,
+  "budgetCheckpoint": {
+    "entries": 509,
+    "sha256": "97447ee4ac2365b597922ea96d3528eb6efa60ef24d7440e9d6825b99cb5d8ec",
+    "cumulative": {
+      "fullLive": 25,
+      "evaluationPublicGET": 140,
+      "realModelCalls": 1839,
+      "environmentReruns": 0,
+      "googleRequests": 87,
+      "restaurantWebsiteRequests": 5386
+    }
+  },
+  "sourceSHAHistory": [
+    {
+      "sourceSHA": "64ea79f11eb11db7439380ebfb29c718687dfa0e",
+      "attemptKeys": [
+        "p3b-holdout-03-r1",
+        "p3b-holdout-03-r2",
+        "p3b-holdout-03-r3",
+        "p3b-holdout-04a-r1"
+      ]
+    },
+    {
+      "sourceSHA": "13c96c9bd44912529d076f62d73d07cc67467a5e",
+      "attemptKeys": [
+        "p3b-holdout-04a-r1-retry1"
+      ]
+    },
+    {
+      "sourceSHA": "7300deaf26b2dd70344a0ed635c410ea9b73a0a5",
+      "attemptKeys": [
+        "p3b-holdout-04a-r1-retry2",
+        "p3b-holdout-04a-r2",
+        "p3b-holdout-04a-r3",
+        "p3b-holdout-04b-r1",
+        "p3b-holdout-04b-r2",
+        "p3b-holdout-04b-r3",
+        "p3b-holdout-05-r1",
+        "p3b-holdout-05-r2",
+        "p3b-holdout-05-r3",
+        "p3b-holdout-06-r1"
+      ]
+    }
+  ],
+  "status": "FAILED_S0"
+}

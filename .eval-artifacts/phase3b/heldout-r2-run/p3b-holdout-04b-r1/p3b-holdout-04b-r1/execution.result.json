@@ -1,0 +1,3004 @@
+{
+  "schemaVersion": "phase3b-g6-run@1",
+  "mode": "LIVE_READ",
+  "witnessPolicy": "POSITIVE_REQUIRED",
+  "certificationMode": "STANDARD_G6",
+  "witnessExists": true,
+  "runId": "g6-p3b-holdout-04b-r1-1794324770994-0",
+  "view": {
+    "mode": "LIVE_READ",
+    "case": {
+      "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "conversationId": "conversation:adfd4a4bd5922ec763f289d8",
+      "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+      "title": "Does Daikanyama Sushi Takeuchi have a table for 2 at 6 PM sometime ne…",
+      "status": "NEEDS_YOU",
+      "phase": "PRESENT_RESULTS",
+      "taskVersion": 7,
+      "updatedAt": "2026-11-10T15:34:12.230Z"
+    },
+    "conversation": {
+      "id": "conversation:adfd4a4bd5922ec763f289d8",
+      "messages": [
+        {
+          "id": "message:0:0d0e34c1d72eef40fb5f7cd1",
+          "role": "USER",
+          "content": "[PRIVATE_TURN_SHA256:ecf369aa4b2eed492cbd13dc158d5ef5f5bb2a5e74965821640b851a6d968a39]",
+          "createdAt": "2026-11-10T15:32:54.040Z"
+        },
+        {
+          "id": "message:1:0d0e34c1d72eef40fb5f7cd1",
+          "role": "ASSISTANT",
+          "content": "Which date would you like to visit Daikanyama Sushi Takeuchi for 2 people at 6 PM?",
+          "createdAt": "2026-11-10T15:32:55.406Z"
+        },
+        {
+          "id": "message:0:11e7587685782b30924f4eeb",
+          "role": "USER",
+          "content": "[PRIVATE_TURN_SHA256:b8ee62f9b7fabde26b72c64188390e8ceceaa9b6a9d5a91ff0532a50efc58558]",
+          "createdAt": "2026-11-10T15:32:56.486Z"
+        },
+        {
+          "id": "message:1:11e7587685782b30924f4eeb",
+          "role": "ASSISTANT",
+          "content": "The case is now present results.",
+          "createdAt": "2026-11-10T15:34:22.404Z"
+        }
+      ]
+    },
+    "restaurant": {
+      "intentDraft": {
+        "date": "2026-11-17",
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Daikanyama Sushi Takeuchi",
+          "selectionScope": "SPECIFIC_OUTLET"
+        },
+        "criteria": [],
+        "timezone": "Asia/Tokyo",
+        "partySize": 2,
+        "timeWindow": {
+          "latest": "18:00",
+          "earliest": "18:00"
+        },
+        "schemaVersion": "3",
+        "partySizeSource": "EXPLICIT",
+        "temporalResolution": {
+          "date": {
+            "basis": "EXPLICIT_DATE",
+            "expression": "Tuesday, November 17",
+            "resolvedDate": "2026-11-17"
+          },
+          "timezone": "Asia/Tokyo",
+          "policyVersion": "restaurant-temporal-materialization@6",
+          "referenceTime": "2026-11-10T15:32:55.417Z"
+        }
+      },
+      "missingRequiredFields": [],
+      "requestRevision": 1,
+      "readyCandidateIds": [
+        "praxis:restaurant:f2d039bfc7458421e9681ac2"
+      ],
+      "progress": {
+        "active": false,
+        "stopped": false,
+        "discoveredCount": 1,
+        "checkedCount": 1
+      },
+      "bookingFeedbackAvailable": false,
+      "candidates": [
+        {
+          "warnings": [],
+          "restaurant": {
+            "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+            "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+            "sourceIds": {
+              "phone": "03-6455-0080",
+              "googlePlaces": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "googleMapsUri": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "googleWebsiteUri": "https://daikanyamasushitakeuchi.com/"
+            },
+            "outletName": "Daikanyama Sushi Takeuchi",
+            "provenance": {
+              "address": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+              "sourceIds": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+              "outletName": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626"
+            },
+            "coordinates": {
+              "lat": 35.65242,
+              "lng": 139.703894
+            }
+          },
+          "matchReasons": [
+            "Location from named outlet resolution: Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+          ],
+          "executionConfidence": "LOW"
+        }
+      ],
+      "availability": {
+        "praxis:restaurant:f2d039bfc7458421e9681ac2": [
+          {
+            "id": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-17:18:00:2",
+            "source": "TABELOG",
+            "dateTime": "2026-11-17T18:00:00+09:00",
+            "timezone": "Asia/Tokyo",
+            "checkedAt": "2026-11-10T15:34:10.606Z",
+            "expiresAt": "2026-11-10T15:34:10.606Z",
+            "partySize": 2,
+            "bookingMode": "REQUEST",
+            "restaurantId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+            "executionMode": "BROWSER",
+            "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+            "bookingRecheckRequired": true
+          }
+        ]
+      },
+      "availabilityChecks": {
+        "praxis:restaurant:f2d039bfc7458421e9681ac2": {
+          "status": "AVAILABLE",
+          "checkedAt": "2026-11-10T15:34:10.606Z",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:15f9d7284078e37610b31261",
+            "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+            "evidence:restaurant:tabelog-availability:b1f79cd021d276c591e8e917"
+          ],
+          "receptionMode": "RESERVATION_SUPPORTED",
+          "sourceAttempts": [
+            {
+              "source": "TABLECHECK",
+              "outcome": "FAILED",
+              "reasonCode": "BROWSER_BUDGET_EXHAUSTED"
+            },
+            {
+              "source": "TABELOG",
+              "outcome": "AVAILABLE"
+            }
+          ],
+          "sourceProvider": "TABELOG",
+          "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+          "requestFingerprint": "{\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2}",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      },
+      "readEvidence": [
+        {
+          "kind": "DISCOVERY",
+          "claims": {
+            "types": [
+              "sushi_restaurant",
+              "japanese_restaurant",
+              "restaurant",
+              "food",
+              "point_of_interest",
+              "establishment"
+            ],
+            "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+            "placeId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+            "outletName": "Daikanyama Sushi Takeuchi",
+            "primaryType": "sushi_restaurant",
+            "serviceArea": "Tokyo",
+            "locationBasis": "NAMED_OUTLET_RESOLUTION",
+            "availabilityPath": "NAME_RESOLUTION",
+            "namedOutletStatus": "UNIQUE",
+            "regularOpeningHours": [
+              "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+            ],
+            "requestedOutletName": "Daikanyama Sushi Takeuchi",
+            "namedOutletLocalities": [
+              "5",
+              "5",
+              "Sarugakuchō",
+              "Sarugakuchō",
+              "Shibuya",
+              "Shibuya",
+              "Tokyo",
+              "Tokyo"
+            ],
+            "namedOutletCandidateCount": 1,
+            "namedOutletSearchComplete": true
+          },
+          "provider": "GOOGLE_PLACES",
+          "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "evidenceId": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+          "observedAt": "2026-11-10T15:32:57.923Z",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+          "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+        },
+        {
+          "kind": "ENTITY_MATCH",
+          "claims": {
+            "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+            "placeId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+            "outletName": "Daikanyama Sushi Takeuchi"
+          },
+          "provider": "GOOGLE_PLACES",
+          "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "evidenceId": "evidence:restaurant:google-entity:5b55befc06b3b7d916a8d626",
+          "observedAt": "2026-11-10T15:32:57.923Z",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "entityMatch": {
+            "matchedBy": [
+              "GOOGLE_PLACE_ID"
+            ],
+            "confidence": "HIGH"
+          },
+          "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+          "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+        },
+        {
+          "kind": "RESTAURANT_FACT",
+          "claims": {
+            "websiteUri": "https://daikanyamasushitakeuchi.com/",
+            "regularOpeningHours": [
+              "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+            ],
+            "restaurantTypeFacts": [
+              "sushi restaurant",
+              "japanese restaurant",
+              "restaurant",
+              "food",
+              "point of interest",
+              "establishment"
+            ]
+          },
+          "provider": "GOOGLE_PLACES",
+          "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "evidenceId": "evidence:restaurant:google-facts:15582f02ccb79b85798303fa",
+          "observedAt": "2026-11-10T15:32:57.923Z",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+          "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+        },
+        {
+          "kind": "ENTITY_MATCH",
+          "claims": {
+            "outletName": "Daikanyama Sushi Takeuchi",
+            "observedOutletName": "Daikanyama Sushi Takeuchi"
+          },
+          "provider": "TABELOG",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+          "evidenceId": "evidence:restaurant:tabelog-entity-match:15f9d7284078e37610b31261",
+          "observedAt": "2026-11-10T15:34:10.606Z",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "entityMatch": {
+            "matchedBy": [
+              "EXACT_PHONE"
+            ],
+            "confidence": "HIGH"
+          },
+          "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+          "sourceFieldQuotes": [
+            {
+              "field": "NAME",
+              "quote": "Daikanyama Sushi Takeuchi",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+            }
+          ],
+          "requestFingerprint": "02bf7961beba35e5b7e6f0590ea74ba9eaf028beae5963cedcba2be764c77bdd"
+        },
+        {
+          "kind": "RESTAURANT_FACT",
+          "claims": {
+            "verifiedHardCriteria": []
+          },
+          "provider": "TABELOG",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+          "evidenceId": "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+          "observedAt": "2026-11-10T15:34:10.606Z",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "entityMatch": {
+            "matchedBy": [
+              "EXACT_PHONE"
+            ],
+            "confidence": "HIGH"
+          },
+          "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+          "sourceFieldQuotes": [
+            {
+              "meal": "UNSPECIFIED",
+              "field": "CATEGORY",
+              "quote": "Sushi, Seafood, Japanese sake bar",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+            }
+          ],
+          "requestFingerprint": "eb3db4405e9df25031f797b3782132b2ba12a63b959fd2f482c6c8d9e18c779d"
+        },
+        {
+          "kind": "AVAILABILITY",
+          "claims": {
+            "date": "2026-11-17",
+            "partySize": 2,
+            "visibleSlots": [
+              "18:00"
+            ],
+            "receptionMode": "RESERVATION_SUPPORTED",
+            "inventoryStatus": "AVAILABLE"
+          },
+          "provider": "TABELOG",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+          "evidenceId": "evidence:restaurant:tabelog-availability:b1f79cd021d276c591e8e917",
+          "observedAt": "2026-11-10T15:34:10.606Z",
+          "artifactRef": {
+            "kind": "DOM_EXCERPT",
+            "reference": "sha256:4bc6f0109d9c9db13af1e269ae6afebf6ab2b6512be923500c36768b2e7d56e2"
+          },
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "entityMatch": {
+            "matchedBy": [
+              "EXACT_PHONE"
+            ],
+            "confidence": "HIGH"
+          },
+          "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+          "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+          "requestFingerprint": "154da92d1b479417cdbcec90238322d1810f5b8ed7d3aaa5f64957b142c0575a",
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        }
+      ],
+      "currentFactEvidence": [
+        {
+          "kind": "RESTAURANT_FACT",
+          "claims": {
+            "websiteUri": "https://daikanyamasushitakeuchi.com/",
+            "regularOpeningHours": [
+              "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+              "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+            ],
+            "restaurantTypeFacts": [
+              "sushi restaurant",
+              "japanese restaurant",
+              "restaurant",
+              "food",
+              "point of interest",
+              "establishment"
+            ]
+          },
+          "provider": "GOOGLE_PLACES",
+          "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+          "evidenceId": "evidence:restaurant:google-facts:15582f02ccb79b85798303fa",
+          "observedAt": "2026-11-10T15:32:57.923Z",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+          "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+        },
+        {
+          "kind": "RESTAURANT_FACT",
+          "claims": {
+            "verifiedHardCriteria": []
+          },
+          "provider": "TABELOG",
+          "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+          "evidenceId": "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+          "observedAt": "2026-11-10T15:34:10.606Z",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "entityMatch": {
+            "matchedBy": [
+              "EXACT_PHONE"
+            ],
+            "confidence": "HIGH"
+          },
+          "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+          "sourceFieldQuotes": [
+            {
+              "meal": "UNSPECIFIED",
+              "field": "CATEGORY",
+              "quote": "Sushi, Seafood, Japanese sake bar",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+            }
+          ],
+          "requestFingerprint": "eb3db4405e9df25031f797b3782132b2ba12a63b959fd2f482c6c8d9e18c779d"
+        }
+      ],
+      "presentedCandidateIds": [
+        "praxis:restaurant:f2d039bfc7458421e9681ac2"
+      ],
+      "conditionStates": {
+        "praxis:restaurant:f2d039bfc7458421e9681ac2": []
+      },
+      "viewedCandidateIds": [],
+      "shortlistCandidateIds": [],
+      "sourceReadContext": {
+        "runId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+        "startedAt": "2026-11-10T15:32:51.839Z"
+      },
+      "selectedCandidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+      "bookingHandoffs": [
+        {
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "offerId": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-17:18:00:2",
+          "provider": "TABELOG",
+          "url": "https://tabelog.com/en/booking/form_course/new?member=2&rcd=13210936&visit_date=20261117&visit_time=1800",
+          "directLabel": "Book on Tabelog",
+          "continueLabel": "Continue on Tabelog — date, time, 2 guests filled in",
+          "checkedAt": "2026-11-10T15:34:10.606Z",
+          "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+          "platformFee": {
+            "provider": "TABELOG",
+            "channel": "ENGLISH_BOOKING",
+            "amountPerPersonJPY": 440,
+            "userCancellationRefund": false,
+            "restaurantCancellationRefund": true,
+            "label": "System usage fee: ¥440 per guest; not refunded if you cancel. Refunded if the restaurant cancels.",
+            "sourceUrl": "https://tabelog.com/en/help",
+            "checkedOn": "2026-10-29",
+            "documentSHA256": "f8d3583945fb819636854582432a10109a0d782cc2314b7088ccfa9cc2fc4b51",
+            "quotes": [
+              "Tabelog charges a system usage fee of JPY 440 per person* at the time of reservation.",
+              "Please note that no refunds will be issued for cancellations made for customer reasons.",
+              "However, if a restaurant initiates a cancellation, the system usage fee for that reservation will be refunded."
+            ]
+          },
+          "knowledge": "SOURCE_OBSERVED_AVAILABILITY",
+          "linkCarries": [
+            "DATE",
+            "TIME",
+            "PARTY_SIZE"
+          ],
+          "sourceSelection": "UNKNOWN",
+          "terms": [
+            {
+              "label": "The page states a 100% cancellation fee applies to cancellations made 2 days prior to the reservation; no separate Japanese-language policy text is given (the page notes it is an automatic translation).",
+              "citations": [
+                {
+                  "text": "A 100% cancellation fee will be charged for cancellations made 2 days prior to your reservation.",
+                  "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+                  "readAt": "2026-11-10T15:34:18.148Z",
+                  "identityEvidenceId": "evidence:restaurant:native-fact-identity:d872f57b142a6687f1d4b284"
+                },
+                {
+                  "text": "A cancellation fee of 100% will be charged for cancellations made 2 days prior.",
+                  "url": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+                  "readAt": "2026-11-10T15:34:18.148Z",
+                  "identityEvidenceId": "evidence:restaurant:native-fact-identity:d872f57b142a6687f1d4b284"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "artifacts": [
+      {
+        "artifactId": "artifact:candidates:restaurant:adfd4a4bd5922ec763f289d8:1",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "domain": "restaurant",
+        "type": "CANDIDATES",
+        "sourceVersion": 7,
+        "data": {
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+                "sourceIds": {
+                  "phone": "03-6455-0080",
+                  "googlePlaces": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                  "googleMapsUri": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://daikanyamasushitakeuchi.com/"
+                },
+                "outletName": "Daikanyama Sushi Takeuchi",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+                  "sourceIds": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+                  "outletName": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626"
+                },
+                "coordinates": {
+                  "lat": 35.65242,
+                  "lng": 139.703894
+                }
+              },
+              "matchReasons": [
+                "Location from named outlet resolution: Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+              ],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "availability": {
+            "praxis:restaurant:f2d039bfc7458421e9681ac2": [
+              {
+                "id": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-17:18:00:2",
+                "source": "TABELOG",
+                "dateTime": "2026-11-17T18:00:00+09:00",
+                "timezone": "Asia/Tokyo",
+                "checkedAt": "2026-11-10T15:34:10.606Z",
+                "expiresAt": "2026-11-10T15:34:10.606Z",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "restaurantId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+                "bookingRecheckRequired": true
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "activities": [
+      {
+        "activityId": "activity:event:user:5909354f22b62ab5d4a658f4cac942a6",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:user:5909354f22b62ab5d4a658f4cac942a6"
+        },
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "display": {
+          "title": "Request updated",
+          "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+        },
+        "occurredAt": "2026-11-10T15:32:54.031Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:9f669a71-aff0-4882-951c-172a820318e3",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:9f669a71-aff0-4882-951c-172a820318e3"
+        },
+        "type": "AGENT_ASKED_USER",
+        "display": {
+          "title": "Agent asks for input",
+          "detail": "Which date would you like to visit Daikanyama Sushi Takeuchi for 2 people at 6 PM?"
+        },
+        "occurredAt": "2026-11-10T15:32:55.393Z"
+      },
+      {
+        "activityId": "activity:event:user:ccc0053252a28ff06b1dc8aa179e5791",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:user:ccc0053252a28ff06b1dc8aa179e5791"
+        },
+        "type": "SEMANTIC_PROPOSAL_COMPILED",
+        "display": {
+          "title": "Request updated",
+          "detail": "A validated semantic proposal was compiled into the Restaurant state path."
+        },
+        "occurredAt": "2026-11-10T15:32:56.482Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:2f0b80ea-e8aa-4f87-81c0-9fba273ce2df",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:2f0b80ea-e8aa-4f87-81c0-9fba273ce2df"
+        },
+        "type": "SEARCH_COMPLETED",
+        "display": {
+          "title": "Restaurant search completed",
+          "detail": "1 discovery candidate(s) are ready for evidence checks."
+        },
+        "occurredAt": "2026-11-10T15:33:02.410Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:dcdb449d-213e-49f2-b2f2-0ff418dd01df",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:dcdb449d-213e-49f2-b2f2-0ff418dd01df"
+        },
+        "type": "CANDIDATE_SELECTED",
+        "display": {
+          "title": "Candidate selected",
+          "detail": "praxis:restaurant:f2d039bfc7458421e9681ac2"
+        },
+        "occurredAt": "2026-11-10T15:33:02.424Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:ca480f9c-36a8-406a-9973-2551ae334eeb",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:ca480f9c-36a8-406a-9973-2551ae334eeb"
+        },
+        "type": "AVAILABILITY_CHECKED",
+        "display": {
+          "title": "Availability checked",
+          "detail": "1 evidence-grounded availability offer(s) were observed."
+        },
+        "occurredAt": "2026-11-10T15:34:10.613Z"
+      },
+      {
+        "activityId": "activity:event:restaurant-agent:a36c6fe1-41b4-4171-bf0d-1b63294ac160",
+        "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "sourceRef": {
+          "kind": "EVENT",
+          "id": "event:restaurant-agent:a36c6fe1-41b4-4171-bf0d-1b63294ac160"
+        },
+        "type": "RESULTS_PRESENTED",
+        "display": {
+          "title": "Read-only results presented",
+          "detail": "1 evidence-grounded result(s) are ready."
+        },
+        "occurredAt": "2026-11-10T15:34:12.230Z"
+      }
+    ],
+    "note": "Live read-only mode. Results require current source evidence; no authorization, booking, payment, cancellation, or personal-data submission is available."
+  },
+  "execution": {
+    "schemaVersion": "1",
+    "mode": "WEB_READ",
+    "caseId": "restaurant:adfd4a4bd5922ec763f289d8",
+    "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+    "status": "SUCCEEDED",
+    "stage": "AGENT_LOOP",
+    "materializedCase": {
+      "semantic": {
+        "target": {
+          "goal": "AVAILABILITY",
+          "query": "Daikanyama Sushi Takeuchi",
+          "selectionScope": "SPECIFIC_OUTLET"
+        },
+        "date": {
+          "value": "2026-11-17"
+        },
+        "party_size": 2,
+        "party_size_source": "EXPLICIT",
+        "time": {
+          "value": "18:00"
+        },
+        "criteria": []
+      }
+    },
+    "requestMetadata": {
+      "sha256": "aabac5bb68562962ed5ed309ad8a1d6465f112e4d33962c8b36e2afa55a31ca9"
+    },
+    "events": [
+      {
+        "id": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "SEMANTIC_PROPOSAL_COMPILED",
+          "patch": {
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Daikanyama Sushi Takeuchi",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "18:00",
+              "earliest": "18:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "6 PM",
+                "resolvedTimeWindow": {
+                  "latest": "18:00",
+                  "earliest": "18:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T15:32:51.841Z"
+            }
+          },
+          "userBookingSelection": {},
+          "partySizeSourceMessageRequestId": "user:g6-create"
+        },
+        "occurredAt": "2026-11-10T15:32:54.031Z",
+        "trace": {
+          "actor": "USER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:9f669a71-aff0-4882-951c-172a820318e3",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "AGENT_ASKED_USER",
+          "question": "Which date would you like to visit Daikanyama Sushi Takeuchi for 2 people at 6 PM?",
+          "relatedFields": [
+            "date"
+          ]
+        },
+        "occurredAt": "2026-11-10T15:32:55.393Z",
+        "trace": {
+          "actor": "SYSTEM",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:restaurant-agent:9f669a71-aff0-4882-951c-172a820318e3",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:user:ccc0053252a28ff06b1dc8aa179e5791",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "SEMANTIC_PROPOSAL_COMPILED",
+          "patch": {
+            "date": "2026-11-17",
+            "schemaVersion": "3",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Tuesday, November 17",
+                "resolvedDate": "2026-11-17"
+              },
+              "timezone": "Asia/Tokyo",
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T15:32:55.417Z"
+            }
+          }
+        },
+        "occurredAt": "2026-11-10T15:32:56.482Z",
+        "trace": {
+          "actor": "USER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:user:ccc0053252a28ff06b1dc8aa179e5791",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:2f0b80ea-e8aa-4f87-81c0-9fba273ce2df",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "SEARCH_COMPLETED",
+          "request": {
+            "intent": {
+              "date": "2026-11-17",
+              "target": {
+                "goal": "AVAILABILITY",
+                "query": "Daikanyama Sushi Takeuchi",
+                "selectionScope": "SPECIFIC_OUTLET"
+              },
+              "criteria": [],
+              "timezone": "Asia/Tokyo",
+              "partySize": 2,
+              "timeWindow": {
+                "latest": "18:00",
+                "earliest": "18:00"
+              }
+            },
+            "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+            "retrievalHint": "Daikanyama Sushi Takeuchi"
+          },
+          "evidence": [
+            {
+              "kind": "DISCOVERY",
+              "claims": {
+                "types": [
+                  "sushi_restaurant",
+                  "japanese_restaurant",
+                  "restaurant",
+                  "food",
+                  "point_of_interest",
+                  "establishment"
+                ],
+                "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+                "placeId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                "outletName": "Daikanyama Sushi Takeuchi",
+                "primaryType": "sushi_restaurant",
+                "serviceArea": "Tokyo",
+                "locationBasis": "NAMED_OUTLET_RESOLUTION",
+                "availabilityPath": "NAME_RESOLUTION",
+                "namedOutletStatus": "UNIQUE",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+                ],
+                "requestedOutletName": "Daikanyama Sushi Takeuchi",
+                "namedOutletLocalities": [
+                  "5",
+                  "5",
+                  "Sarugakuchō",
+                  "Sarugakuchō",
+                  "Shibuya",
+                  "Shibuya",
+                  "Tokyo",
+                  "Tokyo"
+                ],
+                "namedOutletCandidateCount": 1,
+                "namedOutletSearchComplete": true
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+              "observedAt": "2026-11-10T15:32:57.923Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+                "placeId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                "outletName": "Daikanyama Sushi Takeuchi"
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-entity:5b55befc06b3b7d916a8d626",
+              "observedAt": "2026-11-10T15:32:57.923Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "entityMatch": {
+                "matchedBy": [
+                  "GOOGLE_PLACE_ID"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "websiteUri": "https://daikanyamasushitakeuchi.com/",
+                "regularOpeningHours": [
+                  "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                  "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+                ],
+                "restaurantTypeFacts": [
+                  "sushi restaurant",
+                  "japanese restaurant",
+                  "restaurant",
+                  "food",
+                  "point of interest",
+                  "establishment"
+                ]
+              },
+              "provider": "GOOGLE_PLACES",
+              "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+              "evidenceId": "evidence:restaurant:google-facts:15582f02ccb79b85798303fa",
+              "observedAt": "2026-11-10T15:32:57.923Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+            }
+          ],
+          "metadata": {
+            "route": "STRUCTURED_ADAPTER",
+            "provider": "GOOGLE_PLACES",
+            "latencyMs": 4486,
+            "googleRequests": {
+              "limit": 40,
+              "total": 1,
+              "discovery": 1,
+              "placeDetails": 0,
+              "namedPlaceResolution": 0,
+              "reverseAddressObservation": 0
+            },
+            "googleGeoDiagnostics": {
+              "candidates": [
+                {
+                  "accepted": true,
+                  "reasonCode": "NAMED_OUTLET_UNIQUE",
+                  "sourcePlaceId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY"
+                }
+              ],
+              "requestMode": "UNRESTRICTED",
+              "providerMode": "GOOGLE_TEXT_SEARCH",
+              "exactRadiusGate": "NOT_APPLICABLE"
+            }
+          },
+          "candidates": [
+            {
+              "warnings": [],
+              "restaurant": {
+                "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+                "sourceIds": {
+                  "phone": "03-6455-0080",
+                  "googlePlaces": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                  "googleMapsUri": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                  "googleWebsiteUri": "https://daikanyamasushitakeuchi.com/"
+                },
+                "outletName": "Daikanyama Sushi Takeuchi",
+                "provenance": {
+                  "address": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+                  "sourceIds": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+                  "outletName": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626"
+                },
+                "coordinates": {
+                  "lat": 35.65242,
+                  "lng": 139.703894
+                }
+              },
+              "matchReasons": [
+                "Location from named outlet resolution: Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+              ],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "continuation": {
+            "exhausted": true,
+            "pagesRead": 1,
+            "usedPageTokens": [],
+            "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}",
+            "sourceRequestContext": {
+              "textQuery": "Daikanyama Sushi Takeuchi Tokyo"
+            }
+          }
+        },
+        "occurredAt": "2026-11-10T15:33:02.410Z",
+        "trace": {
+          "actor": "ADAPTER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:restaurant-agent:2f0b80ea-e8aa-4f87-81c0-9fba273ce2df",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:dcdb449d-213e-49f2-b2f2-0ff418dd01df",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "CANDIDATE_SELECTED",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2"
+        },
+        "occurredAt": "2026-11-10T15:33:02.424Z",
+        "trace": {
+          "actor": "USER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "causationId": "event:user:5909354f22b62ab5d4a658f4cac942a6",
+          "correlationId": "event:restaurant-agent:dcdb449d-213e-49f2-b2f2-0ff418dd01df",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:ca480f9c-36a8-406a-9973-2551ae334eeb",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "AVAILABILITY_CHECKED",
+          "offers": [
+            {
+              "id": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-17:18:00:2",
+              "source": "TABELOG",
+              "dateTime": "2026-11-17T18:00:00+09:00",
+              "timezone": "Asia/Tokyo",
+              "checkedAt": "2026-11-10T15:34:10.606Z",
+              "expiresAt": "2026-11-10T15:34:10.606Z",
+              "partySize": 2,
+              "bookingMode": "REQUEST",
+              "restaurantId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "executionMode": "BROWSER",
+              "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+              "bookingRecheckRequired": true
+            }
+          ],
+          "request": {
+            "date": "2026-11-17",
+            "partySize": 2,
+            "candidates": [
+              {
+                "warnings": [],
+                "restaurant": {
+                  "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                  "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+                  "sourceIds": {
+                    "phone": "03-6455-0080",
+                    "googlePlaces": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                    "googleMapsUri": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                    "googleWebsiteUri": "https://daikanyamasushitakeuchi.com/"
+                  },
+                  "outletName": "Daikanyama Sushi Takeuchi",
+                  "provenance": {
+                    "address": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+                    "sourceIds": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+                    "outletName": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626"
+                  },
+                  "coordinates": {
+                    "lat": 35.65242,
+                    "lng": 139.703894
+                  }
+                },
+                "matchReasons": [
+                  "Location from named outlet resolution: Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+                ],
+                "executionConfidence": "LOW"
+              }
+            ],
+            "timeWindow": {
+              "latest": "18:00",
+              "earliest": "18:00"
+            },
+            "candidateIds": [
+              "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            ],
+            "hardCriteria": [],
+            "selectionScope": "SPECIFIC_OUTLET",
+            "verifiedOutletPages": [
+              {
+                "provider": "GOOGLE_PLACES",
+                "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY"
+              }
+            ]
+          },
+          "evidence": [
+            {
+              "kind": "ENTITY_MATCH",
+              "claims": {
+                "outletName": "Daikanyama Sushi Takeuchi",
+                "observedOutletName": "Daikanyama Sushi Takeuchi"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+              "evidenceId": "evidence:restaurant:tabelog-entity-match:15f9d7284078e37610b31261",
+              "observedAt": "2026-11-10T15:34:10.606Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+              "sourceFieldQuotes": [
+                {
+                  "field": "NAME",
+                  "quote": "Daikanyama Sushi Takeuchi",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+                }
+              ],
+              "requestFingerprint": "02bf7961beba35e5b7e6f0590ea74ba9eaf028beae5963cedcba2be764c77bdd"
+            },
+            {
+              "kind": "RESTAURANT_FACT",
+              "claims": {
+                "verifiedHardCriteria": []
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+              "evidenceId": "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+              "observedAt": "2026-11-10T15:34:10.606Z",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+              "sourceFieldQuotes": [
+                {
+                  "meal": "UNSPECIFIED",
+                  "field": "CATEGORY",
+                  "quote": "Sushi, Seafood, Japanese sake bar",
+                  "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+                }
+              ],
+              "requestFingerprint": "eb3db4405e9df25031f797b3782132b2ba12a63b959fd2f482c6c8d9e18c779d"
+            },
+            {
+              "kind": "AVAILABILITY",
+              "claims": {
+                "date": "2026-11-17",
+                "partySize": 2,
+                "visibleSlots": [
+                  "18:00"
+                ],
+                "receptionMode": "RESERVATION_SUPPORTED",
+                "inventoryStatus": "AVAILABLE"
+              },
+              "provider": "TABELOG",
+              "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+              "evidenceId": "evidence:restaurant:tabelog-availability:b1f79cd021d276c591e8e917",
+              "observedAt": "2026-11-10T15:34:10.606Z",
+              "artifactRef": {
+                "kind": "DOM_EXCERPT",
+                "reference": "sha256:4bc6f0109d9c9db13af1e269ae6afebf6ab2b6512be923500c36768b2e7d56e2"
+              },
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "entityMatch": {
+                "matchedBy": [
+                  "EXACT_PHONE"
+                ],
+                "confidence": "HIGH"
+              },
+              "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+              "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+              "requestFingerprint": "154da92d1b479417cdbcec90238322d1810f5b8ed7d3aaa5f64957b142c0575a",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          ],
+          "metadata": {
+            "route": "GENERIC_BROWSER",
+            "browser": {
+              "engine": "CHROMIUM",
+              "sessionId": "local:050f3903-3378-4d85-90a0-9505561fc5c5",
+              "startedAt": "2026-11-10T15:33:47.665Z",
+              "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+              "readNetworkBoundary": "INSTALLED"
+            },
+            "provider": "AVAILABILITY_SOURCE_RESOLVER",
+            "latencyMs": 66390,
+            "googleRequests": {
+              "limit": 40,
+              "total": 1,
+              "discovery": 1,
+              "placeDetails": 0,
+              "namedPlaceResolution": 0,
+              "reverseAddressObservation": 0
+            },
+            "skippedSources": [],
+            "providerAttempts": [
+              {
+                "outcome": "PROVIDER_FAILURE",
+                "provider": "TABLECHECK",
+                "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+                "failureCode": "BROWSER_BUDGET_EXHAUSTED"
+              },
+              {
+                "outcome": "AVAILABLE",
+                "provider": "TABELOG",
+                "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2"
+              }
+            ],
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:f2d039bfc7458421e9681ac2": {
+              "status": "AVAILABLE",
+              "checkedAt": "2026-11-10T15:34:10.606Z",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-entity-match:15f9d7284078e37610b31261",
+                "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+                "evidence:restaurant:tabelog-availability:b1f79cd021d276c591e8e917"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "sourceAttempts": [
+                {
+                  "source": "TABLECHECK",
+                  "outcome": "FAILED",
+                  "reasonCode": "BROWSER_BUDGET_EXHAUSTED"
+                },
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "sourceProvider": "TABELOG",
+              "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+              "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+            }
+          },
+          "candidateFactUpdates": [
+            {
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "evidenceIds": [
+                "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430"
+              ],
+              "matchReasons": []
+            }
+          ]
+        },
+        "occurredAt": "2026-11-10T15:34:10.613Z",
+        "trace": {
+          "actor": "ADAPTER",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:restaurant-agent:ca480f9c-36a8-406a-9973-2551ae334eeb",
+          "schemaVersion": "1"
+        }
+      },
+      {
+        "id": "event:restaurant-agent:a36c6fe1-41b4-4171-bf0d-1b63294ac160",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "event": {
+          "type": "RESULTS_PRESENTED",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:15f9d7284078e37610b31261",
+            "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+            "evidence:restaurant:tabelog-availability:b1f79cd021d276c591e8e917",
+            "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+            "evidence:restaurant:google-entity:5b55befc06b3b7d916a8d626",
+            "evidence:restaurant:google-facts:15582f02ccb79b85798303fa"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ]
+        },
+        "occurredAt": "2026-11-10T15:34:12.230Z",
+        "trace": {
+          "actor": "SYSTEM",
+          "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+          "correlationId": "event:restaurant-agent:a36c6fe1-41b4-4171-bf0d-1b63294ac160",
+          "schemaVersion": "1"
+        }
+      }
+    ],
+    "trajectories": [
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:1",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 1,
+        "occurredAt": "2026-11-10T15:32:55.392Z",
+        "stateVersionBefore": 1,
+        "stateHashBefore": "8e7126f19e4425a1b2b32849d3f342ce77162be8214bf21413e4da6b86f6c2fe",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:9f669a71-aff0-4882-951c-172a820318e3"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "17",
+        "decisionContext": {
+          "now": "2026-11-10T15:32:54.050Z",
+          "phase": "UNDERSTANDING",
+          "candidates": [],
+          "readBudget": {
+            "remainingMs": 497790,
+            "conclusionReserveMs": 20000
+          },
+          "intentDraft": {
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Daikanyama Sushi Takeuchi",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "18:00",
+              "earliest": "18:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "timezone": "Asia/Tokyo",
+              "timeWindow": {
+                "basis": "EXPLICIT_CLOCK",
+                "expression": "6 PM",
+                "resolvedTimeWindow": {
+                  "latest": "18:00",
+                  "earliest": "18:00"
+                }
+              },
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T15:32:51.841Z"
+            }
+          },
+          "availability": {},
+          "legalActions": {
+            "search": true,
+            "endRead": false,
+            "presentResults": [],
+            "checkAvailability": [],
+            "answerPageQuestion": false,
+            "investigateCandidateFacts": []
+          },
+          "presentation": [],
+          "schemaVersion": "17",
+          "readCompletion": {
+            "reason": "No actual source investigation is recorded",
+            "allowed": false,
+            "investigationRecorded": false,
+            "unresolvedCandidateIds": []
+          },
+          "availabilityChecks": {},
+          "searchAvailability": {
+            "available": true
+          },
+          "missingBlockingFields": [
+            "date"
+          ]
+        },
+        "agentAction": {
+          "type": "ASK_USER",
+          "question": "Which date would you like to visit Daikanyama Sushi Takeuchi for 2 people at 6 PM?",
+          "relatedFields": [
+            "date"
+          ]
+        },
+        "decisionSummary": "Date is a missing blocking field for the AVAILABILITY goal; ask before investigating.",
+        "modelAttempt": {
+          "model": "deepseek-flash",
+          "usage": {
+            "inputTokens": 3936,
+            "totalTokens": 4127,
+            "outputTokens": 191
+          },
+          "purpose": "restaurant_agent_decide",
+          "provider": "DEEPSEEK",
+          "latencyMs": 1336,
+          "finishReason": "TOOL_CALLS",
+          "invocationId": "08e5ab75-072c-476a-9734-e2dd5f271d8e",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "promptVersion": "30",
+          "providerRequestId": "b366b31c-5282-44ad-ad62-d3e40a937b33"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "observation": {
+          "type": "USER_QUESTION",
+          "detail": "Which date would you like to visit Daikanyama Sushi Takeuchi for 2 people at 6 PM?"
+        },
+        "stateVersionAfter": 2,
+        "stateHashAfter": "ee84f78d17c55ecc4b1fd1422ffb1f95388387fd7b8822512ad316b55aa77fd7",
+        "stepOutcome": "WAITING_USER"
+      },
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:2",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 2,
+        "occurredAt": "2026-11-10T15:32:57.922Z",
+        "stateVersionBefore": 3,
+        "stateHashBefore": "a0eee1ab8cd9a812a8edefac743431675cab7b90bf4875b8ac590bb7d0b588f3",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:2f0b80ea-e8aa-4f87-81c0-9fba273ce2df"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "17",
+        "decisionContext": {
+          "now": "2026-11-10T15:32:56.492Z",
+          "phase": "UNDERSTANDING",
+          "candidates": [],
+          "readBudget": {
+            "remainingMs": 498924,
+            "conclusionReserveMs": 20000
+          },
+          "intentDraft": {
+            "date": "2026-11-17",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Daikanyama Sushi Takeuchi",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "18:00",
+              "earliest": "18:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Tuesday, November 17",
+                "resolvedDate": "2026-11-17"
+              },
+              "timezone": "Asia/Tokyo",
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T15:32:55.417Z"
+            }
+          },
+          "availability": {},
+          "legalActions": {
+            "search": true,
+            "endRead": false,
+            "presentResults": [],
+            "checkAvailability": [],
+            "answerPageQuestion": false,
+            "investigateCandidateFacts": []
+          },
+          "presentation": [],
+          "schemaVersion": "17",
+          "readCompletion": {
+            "reason": "No actual source investigation is recorded",
+            "allowed": false,
+            "investigationRecorded": false,
+            "unresolvedCandidateIds": []
+          },
+          "availabilityChecks": {},
+          "searchAvailability": {
+            "available": true
+          },
+          "missingBlockingFields": []
+        },
+        "agentAction": {
+          "type": "SEARCH_RESTAURANTS",
+          "retrievalHint": "Daikanyama Sushi Takeuchi"
+        },
+        "decisionSummary": "Date resolved to 2026-11-17, 18:00, party of 2; no candidates known yet, so search for the named outlet.",
+        "modelAttempt": {
+          "model": "deepseek-flash",
+          "usage": {
+            "inputTokens": 3969,
+            "totalTokens": 4164,
+            "outputTokens": 195
+          },
+          "purpose": "restaurant_agent_decide",
+          "provider": "DEEPSEEK",
+          "latencyMs": 1425,
+          "finishReason": "TOOL_CALLS",
+          "invocationId": "d9c917a2-be5f-4ec3-8bfd-8d06d70cb067",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "promptVersion": "30",
+          "providerRequestId": "f8316011-ff78-4b14-932c-727f0d486f7d"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "route": "STRUCTURED_ADAPTER",
+          "provider": "GOOGLE_PLACES",
+          "latencyMs": 4486,
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 0,
+            "reverseAddressObservation": 0
+          },
+          "googleGeoDiagnostics": {
+            "candidates": [
+              {
+                "accepted": true,
+                "reasonCode": "NAMED_OUTLET_UNIQUE",
+                "sourcePlaceId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY"
+              }
+            ],
+            "requestMode": "UNRESTRICTED",
+            "providerMode": "GOOGLE_TEXT_SEARCH",
+            "exactRadiusGate": "NOT_APPLICABLE"
+          }
+        },
+        "observation": {
+          "type": "DISCOVERY",
+          "detail": "1 candidates discovered; 1 newly accepted",
+          "evidenceIds": [
+            "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+            "evidence:restaurant:google-entity:5b55befc06b3b7d916a8d626",
+            "evidence:restaurant:google-facts:15582f02ccb79b85798303fa"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ],
+          "newCandidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ]
+        },
+        "stateVersionAfter": 4,
+        "stateHashAfter": "6d6b37edc000984ba2862d93c27d6ab29718222615483e73b71bed714b71cfbe",
+        "stepOutcome": "EXECUTED"
+      },
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:3",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 3,
+        "occurredAt": "2026-11-10T15:33:02.424Z",
+        "stateVersionBefore": 4,
+        "stateHashBefore": "8fa8c9fb303aff56f292d3708ef913187ae7be4b0ba0d018977412cd9c437646",
+        "causalRefs": {
+          "eventIds": [
+            "event:user:5909354f22b62ab5d4a658f4cac942a6",
+            "event:restaurant-agent:dcdb449d-213e-49f2-b2f2-0ff418dd01df"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "decisionSummary": "USER_MESSAGE: explicit booking request uniquely resolved by code; no Agent action or booking authorization.",
+        "observation": {
+          "type": "CANDIDATE_SELECTED",
+          "detail": "USER_MESSAGE: praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "candidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ]
+        },
+        "stateVersionAfter": 5,
+        "stateHashAfter": "0a0b3f573cc21ba1e52328075b5dba6f8ddb623279f30da561fc4da714f2580c",
+        "stepOutcome": "EXECUTED"
+      },
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:4",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 4,
+        "occurredAt": "2026-11-10T15:33:04.218Z",
+        "stateVersionBefore": 5,
+        "stateHashBefore": "c45e832c703371777f6827dbab3a5c0eb9e0eeb86901ba45a864b8bca6914402",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:ca480f9c-36a8-406a-9973-2551ae334eeb"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "17",
+        "decisionContext": {
+          "now": "2026-11-10T15:33:02.430Z",
+          "phase": "SEARCHING",
+          "intent": {
+            "date": "2026-11-17",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Daikanyama Sushi Takeuchi",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "18:00",
+              "earliest": "18:00"
+            }
+          },
+          "candidates": [
+            {
+              "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+              "warnings": [],
+              "outletName": "Daikanyama Sushi Takeuchi",
+              "matchReasons": [
+                "Location from named outlet resolution: Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+              ],
+              "observedFacts": {
+                "commercialNotes": [],
+                "openingHoursMatch": false,
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": []
+              },
+              "sourceAttempts": [],
+              "availabilityPath": "NAME_RESOLUTION",
+              "sourceCategories": [
+                {
+                  "source": "GOOGLE_PLACES",
+                  "values": [
+                    "sushi_restaurant",
+                    "japanese_restaurant",
+                    "restaurant",
+                    "food",
+                    "point_of_interest",
+                    "establishment"
+                  ]
+                }
+              ],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "readBudget": {
+            "remainingMs": 492986,
+            "conclusionReserveMs": 20000
+          },
+          "intentDraft": {
+            "date": "2026-11-17",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Daikanyama Sushi Takeuchi",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "18:00",
+              "earliest": "18:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Tuesday, November 17",
+                "resolvedDate": "2026-11-17"
+              },
+              "timezone": "Asia/Tokyo",
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T15:32:55.417Z"
+            }
+          },
+          "availability": {},
+          "legalActions": {
+            "search": false,
+            "endRead": true,
+            "presentResults": [],
+            "checkAvailability": [
+              "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            ],
+            "answerPageQuestion": false,
+            "investigateCandidateFacts": [
+              "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            ]
+          },
+          "presentation": [
+            {
+              "eligible": false,
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "missingReason": "Candidate praxis:restaurant:f2d039bfc7458421e9681ac2 lacks fresh evidenced availability for the authoritative request"
+            }
+          ],
+          "schemaVersion": "17",
+          "readCompletion": {
+            "allowed": true,
+            "investigationRecorded": true,
+            "unresolvedCandidateIds": [
+              "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            ]
+          },
+          "availabilityChecks": {},
+          "searchAvailability": {
+            "reason": "DISCOVERY_PLAN_EXHAUSTED",
+            "available": false
+          },
+          "selectedCandidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "checkableCandidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ],
+          "missingBlockingFields": [],
+          "factInvestigableCandidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ]
+        },
+        "agentAction": {
+          "type": "CHECK_AVAILABILITY",
+          "candidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ]
+        },
+        "decisionSummary": "Named outlet with a checkable availability path; check request-bound availability for 2026-11-17 18:00, party of 2.",
+        "modelAttempt": {
+          "model": "deepseek-flash",
+          "usage": {
+            "inputTokens": 4619,
+            "totalTokens": 4821,
+            "outputTokens": 202
+          },
+          "purpose": "restaurant_agent_decide",
+          "provider": "DEEPSEEK",
+          "latencyMs": 1781,
+          "finishReason": "TOOL_CALLS",
+          "invocationId": "0cbcc732-a641-4a31-9a96-fc33a88c4bfe",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "promptVersion": "30",
+          "providerRequestId": "4b0f687c-5df4-45ca-82fd-56f276b740e6"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "executionRoute": "GENERIC_BROWSER",
+        "executionMetadata": {
+          "route": "GENERIC_BROWSER",
+          "browser": {
+            "engine": "CHROMIUM",
+            "sessionId": "local:050f3903-3378-4d85-90a0-9505561fc5c5",
+            "startedAt": "2026-11-10T15:33:47.665Z",
+            "runtimeProvider": "LOCAL_PLAYWRIGHT_CHROMIUM",
+            "readNetworkBoundary": "INSTALLED"
+          },
+          "provider": "AVAILABILITY_SOURCE_RESOLVER",
+          "latencyMs": 66390,
+          "googleRequests": {
+            "limit": 40,
+            "total": 1,
+            "discovery": 1,
+            "placeDetails": 0,
+            "namedPlaceResolution": 0,
+            "reverseAddressObservation": 0
+          },
+          "skippedSources": [],
+          "providerAttempts": [
+            {
+              "outcome": "PROVIDER_FAILURE",
+              "provider": "TABLECHECK",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "failureCode": "BROWSER_BUDGET_EXHAUSTED"
+            },
+            {
+              "outcome": "AVAILABLE",
+              "provider": "TABELOG",
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            }
+          ],
+          "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+        },
+        "observation": {
+          "type": "AVAILABILITY",
+          "detail": "1 offers observed",
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:15f9d7284078e37610b31261",
+            "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+            "evidence:restaurant:tabelog-availability:b1f79cd021d276c591e8e917"
+          ],
+          "candidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ]
+        },
+        "stateVersionAfter": 6,
+        "stateHashAfter": "2b326f2635f77300f2fec5b53f4c2deffb4a23f0e535371dbe2010c5bf79decc",
+        "stepOutcome": "EXECUTED"
+      },
+      {
+        "id": "trajectory:restaurant:adfd4a4bd5922ec763f289d8:5",
+        "taskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "stepNumber": 5,
+        "occurredAt": "2026-11-10T15:34:12.228Z",
+        "stateVersionBefore": 6,
+        "stateHashBefore": "c07fa02b0a51eb80d81448432d272d21cef2bd314cdaec57c919a6da5254f845",
+        "causalRefs": {
+          "eventIds": [
+            "event:restaurant-agent:a36c6fe1-41b4-4171-bf0d-1b63294ac160"
+          ],
+          "attemptIds": [],
+          "commandIds": [],
+          "evidenceIds": []
+        },
+        "capabilities": [
+          {
+            "name": "ANSWER_PAGE_QUESTION",
+            "purpose": "Answer the current explicit follow-up about a displayed restaurant.",
+            "inputSchema": "no business fields; code binds the user question, outlet, source and current run",
+            "resultMeaning": "A short cited answer, bounded not-stated, or unverified result; never eligibility or inventory.",
+            "importantConstraints": [
+              "Only an explicit pending user question permits this action; do not specify a venue, URL or question."
+            ]
+          },
+          {
+            "name": "ASK_USER",
+            "purpose": "Request a user clarification that is necessary or useful to proceed safely.",
+            "inputSchema": "question, optional relatedFields",
+            "resultMeaning": "The task waits for a new user message; no state constraint is changed.",
+            "importantConstraints": [
+              "Do not claim a booking or availability result."
+            ]
+          },
+          {
+            "name": "SEARCH_RESTAURANTS",
+            "purpose": "Discover matching restaurant outlets.",
+            "inputSchema": "optional retrievalHint; the router binds authoritative intent",
+            "resultMeaning": "Returns RestaurantCandidate records only, without availability claims.",
+            "importantConstraints": [
+              "Cannot modify, repeat, or loosen authoritative user constraints."
+            ]
+          },
+          {
+            "name": "INVESTIGATE_CANDIDATE_FACTS",
+            "purpose": "Read source-supported restaurant facts needed by the current request for known candidates.",
+            "inputSchema": "candidateIds; the router binds candidates and authoritative request conditions",
+            "resultMeaning": "Returns candidate-associated source facts or an explicit unknown result; it never asserts availability.",
+            "importantConstraints": [
+              "Only known candidates are valid; at most three candidates per bounded read; it does not itself claim a slot."
+            ]
+          },
+          {
+            "name": "CHECK_AVAILABILITY",
+            "purpose": "Read request-bound availability and any source-supported restaurant facts returned with it.",
+            "inputSchema": "candidateIds; the router binds authoritative date, time window, and party size",
+            "resultMeaning": "Returns fresh AvailabilityOffer records associated with candidate IDs.",
+            "importantConstraints": [
+              "Only known candidates are valid; schedule values are never Agent-supplied; at most three unchecked candidates per read batch."
+            ]
+          },
+          {
+            "name": "END_READ",
+            "purpose": "End a bounded read-only investigation when its recorded scope has no grounded result to present.",
+            "inputSchema": "no business fields; optional short decision summary is trajectory-only",
+            "resultMeaning": "Writes a scoped NO_VERIFIED_RESULT outcome from authoritative investigation records, never a global negative claim.",
+            "importantConstraints": [
+              "Only code may allow this after actual investigation; it cannot hide an internal failure, pending refresh, or grounded candidate."
+            ]
+          },
+          {
+            "name": "PRESENT_RESULTS",
+            "purpose": "Pause a read-only selection session with candidates whose required facts and availability are grounded.",
+            "inputSchema": "candidateIds; validator derives the required evidence from authoritative State",
+            "resultMeaning": "Writes an evidence-grounded result batch and waits for explicit user continuation; it does not select, authorize, or submit a booking.",
+            "importantConstraints": [
+              "Every task-critical fact, including each HARD criterion and availability, must have current trusted evidence."
+            ]
+          },
+          {
+            "name": "SELECT_CANDIDATE",
+            "purpose": "Choose a discovered candidate and optionally its known offer for a possible booking proposal.",
+            "inputSchema": "candidateId, optional offerId",
+            "resultMeaning": "Records the selection; it does not authorize or submit a booking.",
+            "importantConstraints": [
+              "A selected offer must belong to the selected candidate."
+            ]
+          },
+          {
+            "name": "BOOK_RESERVATION",
+            "purpose": "Request a booking proposal for one selected fresh offer.",
+            "inputSchema": "candidateId, offerId",
+            "resultMeaning": "Creates a deterministic ActionProposal and waits for valid user authorization.",
+            "importantConstraints": [
+              "Cannot authorize, commit, or claim success."
+            ]
+          }
+        ],
+        "contextSchemaVersion": "17",
+        "decisionContext": {
+          "now": "2026-11-10T15:34:10.619Z",
+          "phase": "SEARCHING",
+          "intent": {
+            "date": "2026-11-17",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Daikanyama Sushi Takeuchi",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "18:00",
+              "earliest": "18:00"
+            }
+          },
+          "candidates": [
+            {
+              "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+              "warnings": [],
+              "outletName": "Daikanyama Sushi Takeuchi",
+              "matchReasons": [
+                "Location from named outlet resolution: Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+              ],
+              "observedFacts": {
+                "commercialNotes": [],
+                "openingHoursMatch": false,
+                "verifiedHardCriteria": [],
+                "verifiedNegativeCriteria": [],
+                "violatedNegativeCriteria": []
+              },
+              "sourceAttempts": [
+                {
+                  "source": "TABLECHECK",
+                  "outcome": "FAILED",
+                  "reasonCode": "BROWSER_BUDGET_EXHAUSTED"
+                },
+                {
+                  "source": "TABELOG",
+                  "outcome": "AVAILABLE"
+                }
+              ],
+              "availabilityPath": "NAME_RESOLUTION",
+              "sourceCategories": [
+                {
+                  "source": "GOOGLE_PLACES",
+                  "values": [
+                    "sushi_restaurant",
+                    "japanese_restaurant",
+                    "restaurant",
+                    "food",
+                    "point_of_interest",
+                    "establishment"
+                  ]
+                }
+              ],
+              "executionConfidence": "LOW"
+            }
+          ],
+          "readBudget": {
+            "remainingMs": 424797,
+            "conclusionReserveMs": 20000
+          },
+          "intentDraft": {
+            "date": "2026-11-17",
+            "target": {
+              "goal": "AVAILABILITY",
+              "query": "Daikanyama Sushi Takeuchi",
+              "selectionScope": "SPECIFIC_OUTLET"
+            },
+            "criteria": [],
+            "timezone": "Asia/Tokyo",
+            "partySize": 2,
+            "timeWindow": {
+              "latest": "18:00",
+              "earliest": "18:00"
+            },
+            "schemaVersion": "3",
+            "partySizeSource": "EXPLICIT",
+            "temporalResolution": {
+              "date": {
+                "basis": "EXPLICIT_DATE",
+                "expression": "Tuesday, November 17",
+                "resolvedDate": "2026-11-17"
+              },
+              "timezone": "Asia/Tokyo",
+              "policyVersion": "restaurant-temporal-materialization@6",
+              "referenceTime": "2026-11-10T15:32:55.417Z"
+            }
+          },
+          "availability": {
+            "praxis:restaurant:f2d039bfc7458421e9681ac2": [
+              {
+                "id": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-17:18:00:2",
+                "dateTime": "2026-11-17T18:00:00+09:00",
+                "partySize": 2,
+                "bookingMode": "REQUEST",
+                "executionMode": "BROWSER",
+                "displayExpiresAt": "2026-11-10T15:44:10.606Z"
+              }
+            ]
+          },
+          "legalActions": {
+            "search": false,
+            "endRead": false,
+            "presentResults": [
+              "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            ],
+            "checkAvailability": [],
+            "answerPageQuestion": false,
+            "investigateCandidateFacts": [
+              "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            ]
+          },
+          "presentation": [
+            {
+              "eligible": true,
+              "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2"
+            }
+          ],
+          "schemaVersion": "17",
+          "readCompletion": {
+            "reason": "A grounded result is available and must not be ignored",
+            "allowed": false,
+            "investigationRecorded": true,
+            "unresolvedCandidateIds": []
+          },
+          "availabilityChecks": {
+            "praxis:restaurant:f2d039bfc7458421e9681ac2": {
+              "status": "AVAILABLE",
+              "receptionMode": "RESERVATION_SUPPORTED"
+            }
+          },
+          "searchAvailability": {
+            "reason": "DISCOVERY_PLAN_EXHAUSTED",
+            "available": false
+          },
+          "selectedCandidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "missingBlockingFields": [],
+          "factInvestigableCandidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ]
+        },
+        "agentAction": {
+          "type": "PRESENT_RESULTS",
+          "candidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ]
+        },
+        "decisionSummary": "Daikanyama Sushi Takeuchi has a fresh matching slot for 2026-11-17 18:00 for 2 (reservation supported) and is eligible; present it.",
+        "modelAttempt": {
+          "model": "deepseek-flash",
+          "usage": {
+            "inputTokens": 4873,
+            "totalTokens": 5084,
+            "outputTokens": 211
+          },
+          "purpose": "restaurant_agent_decide",
+          "provider": "DEEPSEEK",
+          "latencyMs": 1603,
+          "finishReason": "TOOL_CALLS",
+          "invocationId": "8309aab1-4eeb-4024-ad53-bed52199c7f3",
+          "outputSchema": {
+            "name": "restaurant_agent_action",
+            "version": "5"
+          },
+          "promptVersion": "30",
+          "providerRequestId": "d8676650-04ad-4d00-b4bd-12add9be1fb5"
+        },
+        "actionValidation": {
+          "status": "ALLOWED"
+        },
+        "observation": {
+          "type": "RESULTS_PRESENTED",
+          "detail": "1 grounded restaurant result(s) presented"
+        },
+        "stateVersionAfter": 7,
+        "stateHashAfter": "4e7f0db04dca4c5d4d8851e60cf06d1cc206a1335672569da9b0d7874d267532",
+        "stepOutcome": "TERMINAL"
+      }
+    ],
+    "finalSnapshot": {
+      "id": "restaurant:adfd4a4bd5922ec763f289d8",
+      "runId": "run:restaurant:adfd4a4bd5922ec763f289d8",
+      "taskType": "restaurant.booking",
+      "definitionVersion": "24",
+      "lifecycleState": "WAITING_USER",
+      "domainState": {
+        "phase": "PRESENT_RESULTS",
+        "intent": {
+          "date": "2026-11-17",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Daikanyama Sushi Takeuchi",
+            "selectionScope": "SPECIFIC_OUTLET"
+          },
+          "criteria": [],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "18:00",
+            "earliest": "18:00"
+          }
+        },
+        "candidates": [
+          {
+            "warnings": [],
+            "restaurant": {
+              "id": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+              "sourceIds": {
+                "phone": "03-6455-0080",
+                "googlePlaces": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+                "googleMapsUri": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+                "googleWebsiteUri": "https://daikanyamasushitakeuchi.com/"
+              },
+              "outletName": "Daikanyama Sushi Takeuchi",
+              "provenance": {
+                "address": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+                "sourceIds": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+                "outletName": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626"
+              },
+              "coordinates": {
+                "lat": 35.65242,
+                "lng": 139.703894
+              }
+            },
+            "matchReasons": [
+              "Location from named outlet resolution: Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+            ],
+            "executionConfidence": "LOW"
+          }
+        ],
+        "factChecks": {},
+        "intentDraft": {
+          "date": "2026-11-17",
+          "target": {
+            "goal": "AVAILABILITY",
+            "query": "Daikanyama Sushi Takeuchi",
+            "selectionScope": "SPECIFIC_OUTLET"
+          },
+          "criteria": [],
+          "timezone": "Asia/Tokyo",
+          "partySize": 2,
+          "timeWindow": {
+            "latest": "18:00",
+            "earliest": "18:00"
+          },
+          "schemaVersion": "3",
+          "partySizeSource": "EXPLICIT",
+          "temporalResolution": {
+            "date": {
+              "basis": "EXPLICIT_DATE",
+              "expression": "Tuesday, November 17",
+              "resolvedDate": "2026-11-17"
+            },
+            "timezone": "Asia/Tokyo",
+            "policyVersion": "restaurant-temporal-materialization@6",
+            "referenceTime": "2026-11-10T15:32:55.417Z"
+          }
+        },
+        "availability": {
+          "praxis:restaurant:f2d039bfc7458421e9681ac2": [
+            {
+              "id": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-17:18:00:2",
+              "source": "TABELOG",
+              "dateTime": "2026-11-17T18:00:00+09:00",
+              "timezone": "Asia/Tokyo",
+              "checkedAt": "2026-11-10T15:34:10.606Z",
+              "expiresAt": "2026-11-10T15:34:10.606Z",
+              "partySize": 2,
+              "bookingMode": "REQUEST",
+              "restaurantId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+              "executionMode": "BROWSER",
+              "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+              "bookingRecheckRequired": true
+            }
+          ]
+        },
+        "readEvidence": [
+          {
+            "kind": "DISCOVERY",
+            "claims": {
+              "types": [
+                "sushi_restaurant",
+                "japanese_restaurant",
+                "restaurant",
+                "food",
+                "point_of_interest",
+                "establishment"
+              ],
+              "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+              "placeId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "outletName": "Daikanyama Sushi Takeuchi",
+              "primaryType": "sushi_restaurant",
+              "serviceArea": "Tokyo",
+              "locationBasis": "NAMED_OUTLET_RESOLUTION",
+              "availabilityPath": "NAME_RESOLUTION",
+              "namedOutletStatus": "UNIQUE",
+              "regularOpeningHours": [
+                "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+              ],
+              "requestedOutletName": "Daikanyama Sushi Takeuchi",
+              "namedOutletLocalities": [
+                "5",
+                "5",
+                "Sarugakuchō",
+                "Sarugakuchō",
+                "Shibuya",
+                "Shibuya",
+                "Tokyo",
+                "Tokyo"
+              ],
+              "namedOutletCandidateCount": 1,
+              "namedOutletSearchComplete": true
+            },
+            "provider": "GOOGLE_PLACES",
+            "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+            "evidenceId": "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+            "observedAt": "2026-11-10T15:32:57.923Z",
+            "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+            "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+            "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+          },
+          {
+            "kind": "ENTITY_MATCH",
+            "claims": {
+              "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+              "placeId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+              "outletName": "Daikanyama Sushi Takeuchi"
+            },
+            "provider": "GOOGLE_PLACES",
+            "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+            "evidenceId": "evidence:restaurant:google-entity:5b55befc06b3b7d916a8d626",
+            "observedAt": "2026-11-10T15:32:57.923Z",
+            "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+            "entityMatch": {
+              "matchedBy": [
+                "GOOGLE_PLACE_ID"
+              ],
+              "confidence": "HIGH"
+            },
+            "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+            "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+          },
+          {
+            "kind": "RESTAURANT_FACT",
+            "claims": {
+              "websiteUri": "https://daikanyamasushitakeuchi.com/",
+              "regularOpeningHours": [
+                "Monday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Tuesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Wednesday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Thursday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Friday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Saturday: 12:00 – 2:00 PM, 6:00 – 10:30 PM",
+                "Sunday: 12:00 – 2:00 PM, 6:00 – 10:30 PM"
+              ],
+              "restaurantTypeFacts": [
+                "sushi restaurant",
+                "japanese restaurant",
+                "restaurant",
+                "food",
+                "point of interest",
+                "establishment"
+              ]
+            },
+            "provider": "GOOGLE_PLACES",
+            "sourceUrl": "https://maps.google.com/?cid=17753790264412763285&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+            "evidenceId": "evidence:restaurant:google-facts:15582f02ccb79b85798303fa",
+            "observedAt": "2026-11-10T15:32:57.923Z",
+            "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+            "sourceEntityId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+            "requestFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}"
+          },
+          {
+            "kind": "ENTITY_MATCH",
+            "claims": {
+              "outletName": "Daikanyama Sushi Takeuchi",
+              "observedOutletName": "Daikanyama Sushi Takeuchi"
+            },
+            "provider": "TABELOG",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+            "evidenceId": "evidence:restaurant:tabelog-entity-match:15f9d7284078e37610b31261",
+            "observedAt": "2026-11-10T15:34:10.606Z",
+            "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+            "entityMatch": {
+              "matchedBy": [
+                "EXACT_PHONE"
+              ],
+              "confidence": "HIGH"
+            },
+            "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+            "sourceFieldQuotes": [
+              {
+                "field": "NAME",
+                "quote": "Daikanyama Sushi Takeuchi",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+              }
+            ],
+            "requestFingerprint": "02bf7961beba35e5b7e6f0590ea74ba9eaf028beae5963cedcba2be764c77bdd"
+          },
+          {
+            "kind": "RESTAURANT_FACT",
+            "claims": {
+              "verifiedHardCriteria": []
+            },
+            "provider": "TABELOG",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+            "evidenceId": "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+            "observedAt": "2026-11-10T15:34:10.606Z",
+            "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+            "entityMatch": {
+              "matchedBy": [
+                "EXACT_PHONE"
+              ],
+              "confidence": "HIGH"
+            },
+            "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+            "sourceFieldQuotes": [
+              {
+                "meal": "UNSPECIFIED",
+                "field": "CATEGORY",
+                "quote": "Sushi, Seafood, Japanese sake bar",
+                "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/"
+              }
+            ],
+            "requestFingerprint": "eb3db4405e9df25031f797b3782132b2ba12a63b959fd2f482c6c8d9e18c779d"
+          },
+          {
+            "kind": "AVAILABILITY",
+            "claims": {
+              "date": "2026-11-17",
+              "partySize": 2,
+              "visibleSlots": [
+                "18:00"
+              ],
+              "receptionMode": "RESERVATION_SUPPORTED",
+              "inventoryStatus": "AVAILABLE"
+            },
+            "provider": "TABELOG",
+            "sourceUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+            "evidenceId": "evidence:restaurant:tabelog-availability:b1f79cd021d276c591e8e917",
+            "observedAt": "2026-11-10T15:34:10.606Z",
+            "artifactRef": {
+              "kind": "DOM_EXCERPT",
+              "reference": "sha256:4bc6f0109d9c9db13af1e269ae6afebf6ab2b6512be923500c36768b2e7d56e2"
+            },
+            "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+            "entityMatch": {
+              "matchedBy": [
+                "EXACT_PHONE"
+              ],
+              "confidence": "HIGH"
+            },
+            "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+            "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+            "requestFingerprint": "154da92d1b479417cdbcec90238322d1810f5b8ed7d3aaa5f64957b142c0575a",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+          }
+        ],
+        "schemaVersion": "25",
+        "searchRevision": 1,
+        "presentedResults": {
+          "evidenceIds": [
+            "evidence:restaurant:tabelog-entity-match:15f9d7284078e37610b31261",
+            "evidence:restaurant:google-discovery:5b55befc06b3b7d916a8d626",
+            "evidence:restaurant:tabelog-availability:b1f79cd021d276c591e8e917",
+            "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+            "evidence:restaurant:google-entity:5b55befc06b3b7d916a8d626",
+            "evidence:restaurant:google-facts:15582f02ccb79b85798303fa"
+          ],
+          "presentedAt": "2026-11-10T15:34:12.230Z",
+          "candidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ],
+          "conditionStates": {
+            "praxis:restaurant:f2d039bfc7458421e9681ac2": []
+          }
+        },
+        "selectionSession": {
+          "viewedCandidateIds": [],
+          "deliveredCandidateIds": [
+            "praxis:restaurant:f2d039bfc7458421e9681ac2"
+          ],
+          "shortlistCandidateIds": []
+        },
+        "availabilityChecks": {
+          "praxis:restaurant:f2d039bfc7458421e9681ac2": {
+            "status": "AVAILABLE",
+            "checkedAt": "2026-11-10T15:34:10.606Z",
+            "evidenceIds": [
+              "evidence:restaurant:tabelog-entity-match:15f9d7284078e37610b31261",
+              "evidence:restaurant:tabelog-hard-criteria:ab83e0da3e50d8dbc891f430",
+              "evidence:restaurant:tabelog-availability:b1f79cd021d276c591e8e917"
+            ],
+            "receptionMode": "RESERVATION_SUPPORTED",
+            "sourceAttempts": [
+              {
+                "source": "TABLECHECK",
+                "outcome": "FAILED",
+                "reasonCode": "BROWSER_BUDGET_EXHAUSTED"
+              },
+              {
+                "source": "TABELOG",
+                "outcome": "AVAILABLE"
+              }
+            ],
+            "sourceProvider": "TABELOG",
+            "displayExpiresAt": "2026-11-10T15:44:10.606Z",
+            "requestFingerprint": "{\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2}",
+            "freshnessPolicyVersion": "restaurant-availability-display-freshness@1"
+          }
+        },
+        "searchContinuation": {
+          "exhausted": true,
+          "pagesRead": 1,
+          "usedPageTokens": [],
+          "intentFingerprint": "{\"timezone\":\"Asia/Tokyo\",\"target\":{\"goal\":\"AVAILABILITY\",\"query\":\"Daikanyama Sushi Takeuchi\",\"selectionScope\":\"SPECIFIC_OUTLET\"},\"date\":\"2026-11-17\",\"timeWindow\":{\"latest\":\"18:00\",\"earliest\":\"18:00\"},\"partySize\":2,\"criteria\":[]}",
+          "sourceRequestContext": {
+            "textQuery": "Daikanyama Sushi Takeuchi Tokyo"
+          }
+        },
+        "selectedCandidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "investigationRevision": 2
+      },
+      "outcome": null,
+      "version": 7,
+      "createdAt": "2026-11-10T15:32:51.839Z",
+      "updatedAt": "2026-11-10T15:34:12.230Z"
+    },
+    "loop": {
+      "status": "TERMINAL"
+    },
+    "resourceUsage": {
+      "elapsedMs": 86996,
+      "agentDecisions": 4,
+      "googleRequests": {
+        "limit": 40,
+        "total": 1,
+        "discovery": 1,
+        "placeDetails": 0,
+        "namedPlaceResolution": 0,
+        "reverseAddressObservation": 0
+      },
+      "modelCallsStarted": 18
+    },
+    "resourceAccounting": {
+      "browserModelCalls": "UNKNOWN",
+      "cost": "UNKNOWN"
+    },
+    "bookingTermsDiagnostics": [
+      {
+        "at": "2026-11-10T15:32:55.406Z",
+        "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:1",
+        "reason": "NOT_SELECTED"
+      },
+      {
+        "at": "2026-11-10T15:34:21.181Z",
+        "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+        "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "ANSWERED",
+        "topic": "cancellation",
+        "pageCount": 1,
+        "boundPageCount": 1
+      },
+      {
+        "at": "2026-11-10T15:34:22.399Z",
+        "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+        "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "NOT_STATED",
+        "topic": "card",
+        "pageCount": 1,
+        "boundPageCount": 1
+      },
+      {
+        "at": "2026-11-10T15:34:22.401Z",
+        "rootTaskId": "restaurant:adfd4a4bd5922ec763f289d8",
+        "readRunId": "run:restaurant:adfd4a4bd5922ec763f289d8:investigation:2",
+        "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "reason": "COMPLETED",
+        "pageCount": 1,
+        "boundPageCount": 1
+      }
+    ],
+    "limits": {
+      "maxModelCalls": 50,
+      "maxDiscoveryCandidates": 10,
+      "maxGoogleRequests": 40,
+      "maxStructuredReadMs": 30000,
+      "maxAvailabilitySourceBrowserSessions": 3,
+      "maxAvailabilitySourceCandidateMatches": 3,
+      "maxAvailabilityReads": 20,
+      "maxBrowserRuntimeFallbacks": 1,
+      "maxBrowserModelCallsPerCandidate": 20,
+      "maxBrowserModelCallsTotal": 120,
+      "maxBrowserOperationsPerCandidate": 80,
+      "maxFactModelCallsPerCandidate": 4,
+      "maxFactBrowserOperationsPerCandidate": 24,
+      "maxFactBrowserMs": 45000,
+      "maxFactProviderMs": 30000,
+      "maxCandidateBrowserMs": 90000,
+      "maxProviderBrowserMs": 45000,
+      "maxAutomaticBrowserMs": 500000,
+      "maxAgentSteps": 30,
+      "maxRejectedActions": 5
+    },
+    "safety": {
+      "policy": "READ_ONLY_CODE_PATH",
+      "externalSideEffectCount": "NOT_MEASURED"
+    }
+  },
+  "turns": [
+    {
+      "id": "CLARIFY_DATE",
+      "status": "SENT"
+    },
+    {
+      "id": "BOOK_NAMED",
+      "status": "NOT_SENT",
+      "reason": "AUTHORITATIVE_STATE_TRIGGER_NOT_MET"
+    }
+  ],
+  "witnesses": [
+    {
+      "checkedAt": "2026-11-10T15:32:51.322Z",
+      "kind": "BEFORE",
+      "target": {
+        "candidateId": "witness-takeuchi",
+        "name": "Daikanyama Sushi Takeuchi",
+        "provider": "TABELOG",
+        "sourceEntityId": "13210936",
+        "date": "2026-11-17",
+        "time": "18:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+        "identityText": [
+          "Daikanyama Sushi Takeuchi",
+          "東京都渋谷区猿楽町5-8"
+        ],
+        "address": "東京都渋谷区猿楽町5-8",
+        "phone": "03-6455-0080"
+      },
+      "evidenceMode": "AVAILABILITY",
+      "exists": true,
+      "vacancy": {
+        "ref": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04b-r1/p3b-holdout-04b-r1/witness/001-vacancy.body",
+        "phase": "BEFORE",
+        "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13210936&svd=20261117&svps=2&svt=1800",
+        "candidateId": "witness-takeuchi",
+        "body": {
+          "selection": {
+            "0": {
+              "time": "18:00",
+              "url": "/en/booking/form_course/new?member=2&rcd=13210936&visit_date=20261117&visit_time=1800"
+            },
+            "1": {
+              "time": "20:30",
+              "url": "/en/booking/form_course/new?member=2&rcd=13210936&visit_date=20261117&visit_time=2030"
+            }
+          },
+          "base_date": {
+            "year": 2026,
+            "month": 11,
+            "day": 17,
+            "dow": "Tue"
+          },
+          "members": 2,
+          "time": "18:00"
+        }
+      },
+      "responseSHA256": "b7b21f4410e83e21b18079532b5d0db942e1e1d3e7a883266157021005d0103f"
+    },
+    {
+      "checkedAt": "2026-11-10T15:34:22.789Z",
+      "kind": "AFTER",
+      "target": {
+        "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "offerId": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-17:18:00:2",
+        "name": "Daikanyama Sushi Takeuchi",
+        "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+        "phone": "03-6455-0080",
+        "googlePlaceId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+        "sourceIds": {
+          "TABELOG": "13210936"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+        "date": "2026-11-17",
+        "time": "18:00",
+        "partySize": 2,
+        "detailUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+        "identityText": [
+          "Daikanyama Sushi Takeuchi",
+          "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+        ]
+      },
+      "evidenceMode": "AVAILABILITY",
+      "exists": true,
+      "vacancy": {
+        "ref": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04b-r1/p3b-holdout-04b-r1/witness/002-vacancy.body",
+        "phase": "AFTER",
+        "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13210936&svd=20261117&svps=2&svt=1800",
+        "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "body": {
+          "selection": {
+            "0": {
+              "time": "18:00",
+              "url": "/en/booking/form_course/new?member=2&rcd=13210936&visit_date=20261117&visit_time=1800"
+            },
+            "1": {
+              "time": "20:30",
+              "url": "/en/booking/form_course/new?member=2&rcd=13210936&visit_date=20261117&visit_time=2030"
+            }
+          },
+          "base_date": {
+            "year": 2026,
+            "month": 11,
+            "day": 17,
+            "dow": "Tue"
+          },
+          "members": 2,
+          "time": "18:00"
+        }
+      },
+      "responseSHA256": "b7b21f4410e83e21b18079532b5d0db942e1e1d3e7a883266157021005d0103f"
+    }
+  ],
+  "postDeliveryChecks": [
+    {
+      "target": {
+        "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+        "offerId": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-17:18:00:2",
+        "name": "Daikanyama Sushi Takeuchi",
+        "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+        "phone": "03-6455-0080",
+        "googlePlaceId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+        "sourceIds": {
+          "TABELOG": "13210936"
+        },
+        "provider": "TABELOG",
+        "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+        "date": "2026-11-17",
+        "time": "18:00",
+        "partySize": 2
+      },
+      "status": "READ",
+      "receipt": {
+        "checkedAt": "2026-11-10T15:34:22.789Z",
+        "kind": "AFTER",
+        "target": {
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "offerId": "offer:tabelog:praxis:restaurant:f2d039bfc7458421e9681ac2:2026-11-17:18:00:2",
+          "name": "Daikanyama Sushi Takeuchi",
+          "address": "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F",
+          "phone": "03-6455-0080",
+          "googlePlaceId": "ChIJ15Ea2FqLGGARlXQcjy4iYvY",
+          "sourceIds": {
+            "TABELOG": "13210936"
+          },
+          "provider": "TABELOG",
+          "sourceEntityId": "en/tokyo/A1303/A130303/13210936",
+          "date": "2026-11-17",
+          "time": "18:00",
+          "partySize": 2,
+          "detailUrl": "https://tabelog.com/en/tokyo/A1303/A130303/13210936/",
+          "identityText": [
+            "Daikanyama Sushi Takeuchi",
+            "Japan, 〒150-0033 Tokyo, Shibuya, Sarugakuchō, 5−８ MI代官山 1F"
+          ]
+        },
+        "evidenceMode": "AVAILABILITY",
+        "exists": true,
+        "vacancy": {
+          "ref": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04b-r1/p3b-holdout-04b-r1/witness/002-vacancy.body",
+          "phase": "AFTER",
+          "url": "https://tabelog.com/en/booking/calendar/find_vacancy?rst_id=13210936&svd=20261117&svps=2&svt=1800",
+          "candidateId": "praxis:restaurant:f2d039bfc7458421e9681ac2",
+          "body": {
+            "selection": {
+              "0": {
+                "time": "18:00",
+                "url": "/en/booking/form_course/new?member=2&rcd=13210936&visit_date=20261117&visit_time=1800"
+              },
+              "1": {
+                "time": "20:30",
+                "url": "/en/booking/form_course/new?member=2&rcd=13210936&visit_date=20261117&visit_time=2030"
+              }
+            },
+            "base_date": {
+              "year": 2026,
+              "month": 11,
+              "day": 17,
+              "dow": "Tue"
+            },
+            "members": 2,
+            "time": "18:00"
+          }
+        },
+        "responseSHA256": "b7b21f4410e83e21b18079532b5d0db942e1e1d3e7a883266157021005d0103f"
+      },
+      "slots": [
+        {
+          "time": "18:00",
+          "exists": true
+        }
+      ]
+    }
+  ],
+  "recordingConfig": {
+    "browser": true,
+    "decisions": true,
+    "googleResponses": true
+  }
+}
