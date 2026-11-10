@@ -1,3 +1,5 @@
+import {readJSON} from "./holdout-checkpoint.js";
+import {checkSavedReview} from "./holdout-review.js";
 import {bindFrozenOracleSources} from "./oracle-source-binding.js";
 import {browserTransportError} from "../../../../infrastructure/browser/browser-runtime-errors.js";
 import {holdoutConditionMet} from "../holdout-protocol.js";
@@ -94,17 +96,33 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
   if(pack.cases.some(c=>c.followups.length>2))throw Error("G6 slot permits at most three user turns");
   const serialize=(value:unknown)=>JSON.stringify(dependencies.artifactTransform?dependencies.artifactTransform(value):value,null,2);
   const output=resolve(directory);await mkdir(output,{recursive:true});
+  if((await readJSON<{status?:string}>(join(output,"batch.json")))?.status==="FAILED_S0")throw Error("G6_S0_RESUME_FORBIDDEN");
   const policy=discoveryPackNetworkPolicy(),receipts:Array<{id:string;status:string;path:string;reason?:string;witnessPolicy?:string;certificationMode?:string;witnessExists?:boolean|null}>=[],certifications=new Map<string,WitnessReceipt>();
   for(const receipt of dependencies.initialWitnesses??[]){const w=receipt.target;if(receipt.exists===null&&!w.allowDetailOnlyCertificate)throw Error("Detail-only receipt cannot replace a required availability witness");certifications.set(JSON.stringify([w.sourceEntityId,w.date,w.time,w.partySize]),receipt);}
   let witnessGETs=dependencies.initialWitnessGETs??0;
   const beforeGET=()=>{if(witnessGETs>=(dependencies.maximumWitnessGETs??pack.witnessGETLimit??Infinity))throw Error("Frozen development witness GET ceiling reached before charging or transmission");witnessGETs++;};
   const now=dependencies.now??Date.now,monotonicNow=dependencies.monotonicNow??(()=>performance.now());let stopReason:string|undefined;const requestTiming={last:-Infinity};
-  for(const [index,spec] of pack.cases.entries()){
+  for(const [index,caseInput] of pack.cases.entries()){
+    const spec=structuredClone(caseInput);
     const witnessPolicy=spec.witness?.allowKnownUnavailableCertificate===true?"ALLOW_KNOWN_UNAVAILABLE":"POSITIVE_REQUIRED";
     let certificationMode:"STANDARD_G6"|"NO_POSITIVE_WITNESS_DIAGNOSTIC"|undefined=spec.witness?undefined:"STANDARD_G6",witnessExists:boolean|null|undefined;
     const certification=()=>({witnessPolicy,...(certificationMode?{certificationMode}:{}),...(witnessExists!==undefined?{witnessExists}:{})});
     if(stopReason){receipts.push({...certification(),id:spec.id,status:"NOT_SENT",path:"",reason:stopReason});continue;}
-    const slot=join(output,spec.id);await mkdir(slot,{recursive:false});const runId=`g6-${spec.id}-${now()}-${index}`;
+    const slot=join(output,spec.id);
+    const inputHash=createHash('sha256').update(JSON.stringify(caseInput)).digest('hex'),binding=await readJSON<{sha256:string}>(join(slot,'case-input.json'));
+    const saved=await readJSON<import('./evaluator.js').G6Evaluation>(join(slot,'evaluation.json'));
+    if(saved){
+      if(!binding||binding.sha256!==inputHash)throw Error('G6_RESUME_CASE_INPUT_MISMATCH');
+      if(saved.verdict.s0)throw Error('G6_S0_RESUME_FORBIDDEN');
+      const review=await readJSON<import('./holdout-checkpoint.js').HoldoutAttempt>(join(output,spec.id+'-review-receipt.json'));
+      const supplemented=review?await checkSavedReview(review):undefined,effective=supplemented??saved;
+      if(effective.verdict.s0)throw Error('G6_S0_RESUME_FORBIDDEN');
+      const status=supplemented&&effective.verdict.status==='EVALUATED'&&!effective.verdict.stopBatch?'EVALUATED_BY_REVIEW':effective.verdict.stopBatch?'STOPPED':effective.verdict.status==='PENDING_REVIEW'?'PENDING_REVIEW':effective.verdict.status==='NOT_EVALUATED'?'RECORDED_NOT_EVALUATED':'EVALUATED';
+      receipts.push({id:spec.id,status,path:slot});if(effective.verdict.stopBatch)stopReason='INDEPENDENT_EVIDENCE_REVIEW_REQUIRED';continue;
+    }
+    if(binding)throw Error('G6_CHARGED_ATTEMPT_NEEDS_REVIEW');
+    await mkdir(slot,{recursive:false});await writeFile(join(slot,'case-input.json'),JSON.stringify({sha256:inputHash})+'\n',{flag:'wx'});
+    const runId=`g6-${spec.id}-${now()}-${index}`;
     const recording=new BrowserReadRecording({directory:join(slot,"recordings"),runId,reviewedReads:policy.dynamicReads,reviewedStaticResources:policy.staticResources,ownCredentials:dependencies.ownCredentials??[],...(dependencies.artifactTransform?{artifactTransform:dependencies.artifactTransform}:{})});
     const capture=createHybridDecisionCapture(join(slot,"execution.result.json"),recording,dependencies.artifactTransform);
     let googleCalls=0,modelCalls=0;const identities:ObservedGoogleIdentity[]=[];
@@ -261,7 +279,7 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       await writeFile(join(slot,"execution.result.json"),serialize({schemaVersion:"phase3b-g6-run@1",mode:pack.mode,...certification(),runId,view,execution:result,turns,witnesses,recordingConfig:pack.recording})+"\n",{flag:"wx"});
       await writeFile(join(slot,"boundary-observation.json"),JSON.stringify({...reserveObservations(0,elapsedMs,readStarts,input.requests.map(r=>({...r,forbidden:/yoyaku|payment|checkout|confirmation/iu.test(new URL(r.url).pathname)}))),exceeded500Seconds:turnBudgets.some(t=>t.exceeded500Seconds),limits:{perTurn:{milliseconds:500_000,models:50,google:40},slot:{turns:3,models:150,google:120}},turnBudgets,googleRequests:googleCalls,modelCalls,semanticAttemptsByTurn:Object.fromEntries(semanticAttempts),semanticSchemaRetries:[...semanticAttempts.values()].reduce((n,c)=>n+Math.max(0,c-1),0)},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"evaluation.input.json"),serialize(input)+"\n",{flag:"wx"});await writeFile(join(slot,"evaluation.json"),serialize(evaluation)+"\n",{flag:"wx"});
-      receipts.push({...certification(),id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":evaluation.verdict.status==="NOT_EVALUATED"?"RECORDED_NOT_EVALUATED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
+      receipts.push({...certification(),id:spec.id,status:evaluation.verdict.stopBatch?"STOPPED":evaluation.verdict.status==="PENDING_REVIEW"?"PENDING_REVIEW":evaluation.verdict.status==="NOT_EVALUATED"?"RECORDED_NOT_EVALUATED":"EVALUATED",path:slot});if(evaluation.verdict.stopBatch)stopReason=evaluation.verdict.s0?"S0_STOP":"INDEPENDENT_EVIDENCE_REVIEW_REQUIRED";
     }catch(error){failure=error instanceof Error?error.message:"G6_RUN_FAILED";stopReason=failure;receipts.push({...certification(),id:spec.id,status:"FAILED",path:slot,reason:failure});
       endTurn();
       elapsedMs=monotonicNow()-wallStart;
@@ -276,9 +294,9 @@ export async function runG6Batch(pack:G6Pack,dependencies:G6RunnerDependencies,d
       await writeFile(join(slot,"browser-trace.json"),JSON.stringify({schemaVersion:"phase3b-g6-browser-trace@1",runId,events:trace},null,2)+"\n",{flag:"wx"});
       await writeFile(join(slot,"recording-observation.json"),JSON.stringify({recordingConfig:pack.recording,decisions,...recordingQualification(recorded)},null,2)+"\n",{flag:"wx"});
     }
-    await writeFile(join(output,"batch.json"),serialize({schemaVersion:"phase3b-g6-batch@1",serial:true,witnessGETs,stopReason:stopReason??null,slots:receipts})+"\n");
+    await writeFile(join(output,"batch.json"),serialize({schemaVersion:"phase3b-g6-batch@1",serial:true,witnessGETs,pendingReviewCount:receipts.filter(r=>r.status==="PENDING_REVIEW").length,passRateReportable:!stopReason&&receipts.every(r=>["EVALUATED","EVALUATED_BY_REVIEW"].includes(r.status)),...(stopReason==="S0_STOP"?{status:"FAILED_S0"}:{}),stopReason:stopReason??null,slots:receipts})+"\n");
   }
-  const result={schemaVersion:"phase3b-g6-batch@1",serial:true,witnessGETs,stopReason:stopReason??null,slots:receipts};await writeFile(join(output,"batch.json"),serialize(result)+"\n");return result;
+  const result={schemaVersion:"phase3b-g6-batch@1",serial:true,witnessGETs,pendingReviewCount:receipts.filter(r=>r.status==="PENDING_REVIEW").length,passRateReportable:!stopReason&&receipts.every(r=>["EVALUATED","EVALUATED_BY_REVIEW"].includes(r.status)),...(stopReason==="S0_STOP"?{status:"FAILED_S0"}:{}),stopReason:stopReason??null,slots:receipts};await writeFile(join(output,"batch.json"),serialize(result)+"\n");return result;
 }
 
 export async function loadG6Pack(path:string,sha256:string):Promise<G6Pack>{

@@ -59,7 +59,7 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
    if(typeof value?.witnessExists==='boolean'||value?.witnessExists===null)attempt.witnessExists=value.witnessExists;
   };
   const evaluation=async(attempt:HoldoutAttempt)=>{
-   const file=join(attempt.path,attempt.key,'evaluation.json'),value=await readJSON<{verdict:{s0:number;stopBatch:boolean;qualified?:boolean|null}}>(file);
+   const file=join(attempt.path,attempt.key,'evaluation.json'),value=await readJSON<{verdict:{s0:number;stopBatch:boolean;qualified?:boolean|null;status?:string}}>(file);
    if(value){const hash=holdoutHash(await readFile(file));if(attempt.evaluationSHA256&&hash!==attempt.evaluationSHA256)throw Error('HOLDOUT_EVALUATION_CHANGED');attempt.evaluationSHA256=hash;
     if(!value.verdict||!Number.isFinite(value.verdict.s0)||typeof value.verdict.stopBatch!=='boolean')throw Error('HOLDOUT_EVALUATION_INVALID');
    }return value;
@@ -69,26 +69,27 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
   // Any S0 found on disk blocks resume even when its checkpoint was not saved.
   for(const a of state.receipts){
    await recordCertification(a);
-   const e=await evaluation(a);if(e?.verdict.s0)throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');
+   const e=await evaluation(a);if(e?.verdict.s0){state.status='FAILED_S0';state.stopReason='S0_STOP';await save();throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');}
    let reviewed=await checkSavedReview(a);
    if(options.review?.key===a.key){
-    if(e&&!e.verdict.stopBatch&&a.status!=='EVALUATED_BY_REVIEW')throw Error('HOLDOUT_REVIEW_ATTEMPT_NOT_STOPPED');
+    if(e&&!e.verdict.stopBatch&&e.verdict.status!=='PENDING_REVIEW'&&a.status!=='EVALUATED_BY_REVIEW')throw Error('HOLDOUT_REVIEW_ATTEMPT_NOT_STOPPED');
     if(!e&&!await holdoutLiveCharged(budget.path,a.key))throw Error('HOLDOUT_REVIEW_ATTEMPT_NOT_CHARGED');
     reviewed=await reviewHoldoutAttempt(a,options.review,privacy,save);
    }
    if(reviewed){
-    if(reviewed.verdict.s0)throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');
+    if(reviewed.verdict.s0){state.status='FAILED_S0';state.stopReason='S0_STOP';await save();throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');}
+    if(reviewed.verdict.status==='PENDING_REVIEW'&&!reviewed.verdict.stopBatch){a.status='PENDING_REVIEW';continue;}
     if(reviewed.verdict.stopBatch||reviewed.verdict.status!=='EVALUATED')throw Error('HOLDOUT_INDEPENDENT_EVIDENCE_REVIEW_REQUIRED');
     a.status='EVALUATED_BY_REVIEW';continue;
    }
    const environmental=(!e||e.verdict.qualified===false)&&await recordedEnvironmentFailure(join(a.path,a.key));
    if(environmental||a.status==='ENVIRONMENT_FAILURE')a.status='ENVIRONMENT_FAILURE';
-   else if(e)a.status=e.verdict.stopBatch?'STOPPED':'EVALUATED';
+   else if(e)a.status=e.verdict.stopBatch?'STOPPED':e.verdict.status==='PENDING_REVIEW'?'PENDING_REVIEW':'EVALUATED';
    else if(await holdoutLiveCharged(budget.path,a.key))throw Error('HOLDOUT_CHARGED_ATTEMPT_NEEDS_REVIEW');
    else if(a.status==='STARTED')a.status='INTERRUPTED';
   }
-  for(const a of state.receipts)if(!['EVALUATED','EVALUATED_BY_REVIEW'].includes(a.status)&&!state.receipts.some(b=>b.id===a.id&&b.repetition===a.repetition&&['EVALUATED','EVALUATED_BY_REVIEW'].includes(b.status)))state.healthyCases=state.healthyCases.filter(id=>id!==a.id);
-  if(state.stopReason==='S0_STOP')throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');
+  for(const a of state.receipts)if(!['EVALUATED','EVALUATED_BY_REVIEW','PENDING_REVIEW'].includes(a.status)&&!state.receipts.some(b=>b.id===a.id&&b.repetition===a.repetition&&['EVALUATED','EVALUATED_BY_REVIEW','PENDING_REVIEW'].includes(b.status)))state.healthyCases=state.healthyCases.filter(id=>id!==a.id);
+  if(state.status==='FAILED_S0'||state.stopReason==='S0_STOP')throw Error('HOLDOUT_S0_RESUME_FORBIDDEN');
   if(state.receipts.some(a=>a.status==='STOPPED'))throw Error('HOLDOUT_INDEPENDENT_EVIDENCE_REVIEW_REQUIRED');
   state.stopReason=null;
   const now=deps.now??Date.now,wait=deps.wait??(ms=>new Promise(r=>setTimeout(r,ms)));
@@ -101,7 +102,7 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
    // at a later slot performs health again after an interruption.
    for(const repetition of [1,2,3]){
     const prior=state.receipts.filter(a=>a.id===item.id&&a.repetition===repetition);
-    if(prior.some(a=>['EVALUATED','EVALUATED_BY_REVIEW'].includes(a.status)))continue;
+    if(prior.some(a=>['EVALUATED','EVALUATED_BY_REVIEW','PENDING_REVIEW'].includes(a.status)))continue;
     const previous=prior.at(-1),replacement=prior.some(a=>a.status==='ENVIRONMENT_FAILURE');
     const planKey=`${item.id}-r${repetition}`;
     const environmentIndex=state.receipts.filter(a=>a.id===item.id&&a.repetition===repetition&&a.environmentReplacement).length+1;
@@ -124,10 +125,10 @@ export async function runPrivateHoldout(manifest:PrivateHoldoutManifest,audit:Ho
     const batch=await (deps.execute??runG6Batch)(pack,{...deps.g6,budgetPath:budget.path,maximumWitnessGETs:3,witnessDetailRead:false,artifactTransform:privateInputRedactor([item.request,...item.followups.map(f=>f.text)]),beforeLive:async()=>{if(environmentChargeId&&!(await ticketPaid()).paid)await chargeG6(budget.path,environmentChargeId,'environmentReruns','Approved replacement Live after explicit environment failure; original retained');}},attempt.path);
     await recordCertification(attempt);
     const e=await evaluation(attempt);
-    if(e?.verdict.s0){attempt.status='STOPPED';state.stopReason='S0_STOP';await save();break outer;}
+    if(e?.verdict.s0){attempt.status='STOPPED';state.status='FAILED_S0';state.stopReason='S0_STOP';await save();break outer;}
     const environmental=(!e||e.verdict.qualified===false)&&await recordedEnvironmentFailure(join(attempt.path,key));
     if(environmental){state.healthyCases=state.healthyCases.filter(id=>id!==item.id);attempt.status='ENVIRONMENT_FAILURE';state.stopReason='ENVIRONMENT_FAILURE_AFTER_HEALTH';await save();break outer;}
-    if(e){attempt.status=e.verdict.stopBatch?'STOPPED':'EVALUATED';state.stopReason=e.verdict.stopBatch?'INDEPENDENT_EVIDENCE_REVIEW_REQUIRED':null;}
+    if(e){attempt.status=e.verdict.stopBatch?'STOPPED':e.verdict.status==='PENDING_REVIEW'?'PENDING_REVIEW':'EVALUATED';state.stopReason=e.verdict.stopBatch?'INDEPENDENT_EVIDENCE_REVIEW_REQUIRED':null;}
     else{attempt.status='INTERRUPTED';state.stopReason=privacy(batch.stopReason??'INDEPENDENT_EVALUATION_MISSING') as string;}
     await save();if(state.stopReason)break outer;lastGET=now();
    }

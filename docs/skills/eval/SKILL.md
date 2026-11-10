@@ -5,8 +5,8 @@ description: 为Praxis定义评测要支持的决定、四层评测结构（端�
 
 # Praxis Eval
 
-- Document revision: 2.19
-- Last updated: 2026-11-09
+- Document revision: 2.20
+- Last updated: 2026-11-10
 
 Eval负责：评测要回答的问题、每层的判定口径与独立oracle、必报指标、比较方法和预先固定的门槛。功能覆盖与故障关闭属于[Test](../test/SKILL.md)。产品语义和安全边界以Accepted ADR、Domain/Architecture为准；H001–H005当前输入、Gold与人工审查边界以[当前只读验收契约](../../../src/eval/restaurant/agent-loop/cases/README.md)为准；阶段性的签收条件以当期Playbook为准。
 
@@ -241,6 +241,16 @@ G6原生来源的机械资格注释只能从同次原始公开DOM/JSON提取，�
 私有held-out的人工补评只提供独立标注，不替换原始请求、交付、引用或网络证据。`--resume --review <attempt-key> <external-file>`绑定原录制与补评文件SHA，另存`evaluation.supplement.json`，原评价不可覆盖；补评仍NOT_EVALUATED或S0则停批。无原评价的已计费产品失败，须先用原录制和完整外层方法/正文/预检观察重新计算独立边界，零违规且无证据缺口才补评。G6 evaluation@5将已核实的这种失败计为`PLANNED_RUN_FAILED`、qualified=false的一次计划运行，不冒充诚实无结果、不中止已有S0检查、不获得环境重跑；缺原始边界/声明材料仍停批。
 
 显式允许已知无位的见证仍须读取当前空位，未知不能冒充无位。实际false的运行单列NO_POSITIVE_WITNESS_DIAGNOSTIC，不将其作为正向KNOWN_FEASIBLE见证；重新认证为true按STANDARD_G6处理。声明的允许策略和每次实际认证模式分别记录；产品交付或诚实无结果仍按原独立条件判定，不因标记获得合格结论，报告不混同正向与无正向见证的运行。
+
+### 2026-11-10：仅缺资格注释的待复核例外
+
+G6 evaluation@6：当唯一非PASS检查是COMPLETE_REQUEST_QUALIFICATION，且已有同次同店来源观察、缺失原因仅为独立资格注释时，标PENDING_REVIEW、qualified=null、stopBatch=false；已核实引用但尚待完整请求语义/地区独立注释同此。它不宣称S0不存在或合格，其他所有检查须PASS。没有来源捕获、任何其他NOT_EVALUATED或S0仍停批，不改变身份、Guard或G1。
+
+独立请求可携带timeWindow，PARTY_TIME按冻结HH:mm闭区间核对（精确time仍照旧）；D02不再只靠报告人工核对时段。
+
+开发G6与held-out均将待复核槽位作为已完成，不重跑、不扣环境额度；批次单列pendingReviewCount，所有待复核补评完成前不得报告通过率。外部--review仍只接受三类独立注释，原评价保留，另存evaluation.supplement.json并绑定文件/证据/结果SHA；补评清楚则EVALUATED_BY_REVIEW，晚发现S0则整批FAILED_S0（包括后来已完成的槽位），以后不得续跑。没有评价的已计费失败仍须原有独立边界补评流程，不获得此例外。
+
+run-holdout可用--commitment指定新的承诺JSON，省略仍读原承诺；格式及前言/原始全文件/每段哈希校验不变，承诺字节SHA也纳入续跑输入绑定。
 
 ## 8 当前评价入口与覆盖
 

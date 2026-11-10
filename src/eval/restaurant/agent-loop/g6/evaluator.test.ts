@@ -37,7 +37,7 @@ test("G6 D4 original five-parameter source capture proves the exact B1 URL witho
   assert.ok(evaluateG6(forged).checks.some(c=>c.rule==="B1_SOURCE_URL"&&c.status==="FAIL"));
 });
 
-test("G6 D4 non-witness literal quote is safe pending meaning review; absent or wrong-shop quotes remain S0",async()=>{
+test("G6 D4 verified literal quote awaits qualification review; absent or wrong-shop quotes remain S0",async()=>{
   const x=JSON.parse(await readFile(d4Root+"/evaluation.input.json","utf8")) as G6EvaluationInput;
   const recording=d4Root+"/recordings/g6-D4-1793636444457-0",html=await readFile(recording+"/diagnostic/snapshot-0078.html","utf8");
   assert.equal(createHash("sha256").update(html).digest("hex"),"d3e35ab277c44e43f552d9c6b40909f4dcbf3d1a289752378397122b26cd946f");
@@ -57,7 +57,7 @@ test("G6 D4 non-witness literal quote is safe pending meaning review; absent or 
   x.qualificationClaims=evidence.claims;
   const r=evaluateG6(x);
   assert.equal(r.checks.find(c=>c.rule==="COMPLETE_REQUEST_QUALIFICATION")?.status,"QUOTE_VERIFIED_MEANING_PENDING_REVIEW");
-  assert.equal(r.verdict.s0Status,"PASS");assert.equal(r.verdict.stopBatch,false);assert.equal(r.verdict.qualified,null);
+  assert.equal(r.verdict.status,"PENDING_REVIEW");assert.equal(r.verdict.s0Status,"NOT_EVALUATED");assert.equal(r.verdict.stopBatch,false);assert.equal(r.verdict.qualified,null);
   for(const defect of ["MISSING_QUOTE","OTHER_BRANCH","PREVIOUS_RUN"]){
     const bad=structuredClone(x);
     if(defect==="MISSING_QUOTE")bad.pages[0]!.merchantText="This fully captured source does not contain that quotation.";
@@ -150,5 +150,19 @@ for(const variant of ["QUALIFIED","WRONG_HARD","OUTSIDE_AREA","MISSING_GOLD"] as
   const x=normal();x.request.requiresIndependentQualification=true;
   if(variant!=="MISSING_GOLD")x.qualificationOracles=[{name:"Control Sushi",address:"1-2-3 Shibuya Tokyo",hardCriteriaMet:variant!=="WRONG_HARD",withinArea:variant!=="OUTSIDE_AREA",evidenceRefs:["independent-local-merchant-category-and-coordinates"]}];
   const r=evaluateG6(x),c=r.checks.find(c=>c.rule==="COMPLETE_REQUEST_QUALIFICATION");
-  assert.equal(c?.status,variant==="QUALIFIED"?"PASS":variant==="MISSING_GOLD"?"NOT_EVALUATED":"FAIL");assert.equal(r.verdict.stopBatch,variant!=="QUALIFIED");
+  assert.equal(c?.status,variant==="QUALIFIED"?"PASS":variant==="MISSING_GOLD"?"NOT_EVALUATED":"FAIL");assert.equal(r.verdict.stopBatch,variant==="WRONG_HARD"||variant==="OUTSIDE_AREA");if(variant==="MISSING_GOLD")assert.equal(r.verdict.status,"PENDING_REVIEW");
+});
+
+for(const defect of ['ANNOTATION_ONLY','BOUNDARY_MISSING','S0','SOURCE_MISSING','OTHER_UNKNOWN']as const)test(`PENDING_REVIEW qualification exception is narrow: ${defect}`,()=>{
+ const x=normal();x.request.requiresIndependentQualification=true;
+ if(defect==='BOUNDARY_MISSING')x.requests=[{ref:'unreviewed-method',url:'https://api.example.test/read',method:'OPTIONS',reachedSource:true}];
+ if(defect==='S0')x.requests=[{ref:'unsafe',url:'https://tablecheck.com/payment',method:'POST',reachedSource:true}];
+ if(defect==='SOURCE_MISSING')x.pages=[];
+ if(defect==='OTHER_UNKNOWN')x.questions=[{candidateId:'unbound',expected:'ANSWERED'}];
+ const r=evaluateG6(x);assert.equal(r.verdict.status==='PENDING_REVIEW',defect==='ANNOTATION_ONLY');assert.equal(r.verdict.stopBatch,defect!=='ANNOTATION_ONLY');assert.equal(r.verdict.qualified,null);
+});
+
+for(const time of ['17:59','18:00','19:00','20:00','20:01'])test(`independent request time window includes boundaries: ${time}`,()=>{
+ const x=normal();delete x.request.time;x.request.timeWindow={earliest:'18:00',latest:'20:00'};x.delivered[0]!.time=time;
+ assert.equal(evaluateG6(x).checks.find(c=>c.rule==='PARTY_TIME')?.status,time>='18:00'&&time<='20:00'?'PASS':'FAIL');
 });

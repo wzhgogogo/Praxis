@@ -1,4 +1,7 @@
-import { resolve } from "node:path";
+import {writeFile} from "node:fs/promises";
+import {reviewHoldoutAttempt} from "./holdout-review.js";
+import {readJSON,type HoldoutAttempt} from "./holdout-checkpoint.js";
+import { resolve,join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { loadG6Pack,runG6Batch } from "./runner.js";
 import { importDevelopmentEvidence } from "./development-evidence.js";
@@ -8,6 +11,13 @@ import { liveG6Dependencies } from "./live-transports.js";
 /** Prepared only in this batch. A future authorized invocation must provide every recording flag. */
 export async function main(args:string[]){
   const flag=(name:string)=>{const at=args.indexOf(name);if(at<0||!args[at+1])throw Error("Missing "+name);return args[at+1]!;};
+  if(args.includes("--review")){
+    const i=args.indexOf("--review"),key=args[i+1],file=args[i+2];if(!key||!/^[-\w]+$/u.test(key)||!file||file.startsWith('--'))throw Error('G6_REVIEW_ARGUMENTS_INVALID');
+    const path=resolve(flag('--output')),receipt=join(path,key+'-review-receipt.json');
+    const attempt=await readJSON<HoldoutAttempt>(receipt)??{id:key,key,path,repetition:1,status:'PENDING_REVIEW' as const,environmentReplacement:false};
+    const save=()=>writeFile(receipt,JSON.stringify(attempt,null,2)+'\n');
+    const result=await reviewHoldoutAttempt(attempt,{key,file},x=>x,save);if(result.verdict.s0)attempt.status='STOPPED';else if(result.verdict.status==='EVALUATED'&&!result.verdict.stopBatch)attempt.status='EVALUATED_BY_REVIEW';await save();console.log(JSON.stringify(result.verdict));return;
+  }
   if(!args.includes("--record-browser")||!args.includes("--record-decisions"))throw Error("G6 requires --record-browser --record-decisions and always records Google structured responses");
   let pack=await loadG6Pack(resolve(flag("--pack")),flag("--sha256"));if(pack.mode!=="LIVE_READ")throw Error("CLI only accepts a frozen LIVE_READ pack; fixture callers inject transports explicitly");
   let seed:Pick<import("./runner.js").G6RunnerDependencies,"initialWitnesses"|"initialWitnessGETs">={};

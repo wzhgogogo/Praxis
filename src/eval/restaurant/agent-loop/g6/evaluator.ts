@@ -1,9 +1,9 @@
 import {type IndependentSourceIdentity,type IndependentWidget} from "./source-document.js";
 /** Independent G6 judgement only. No production parser, grounding or verdict import. */
 import { bindNamedOutlet,canonicalOutletId,type G6NamedOutlet,type G6NamedReferences } from "./named-outlet-binding.js";
-export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@5";
+export const G6_EVALUATOR_SCHEMA="phase3b-g6-evaluation@6";
 export type CheckStatus="PASS"|"FAIL"|"NOT_EVALUATED"|"QUOTE_VERIFIED_MEANING_PENDING_REVIEW";
-export interface G6Check {rule:string;status:CheckStatus;severity:"S0"|"CAPABILITY";subject:string;reason:string;evidenceRefs:string[];}
+export interface G6Check {reviewReason?:"INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING";rule:string;status:CheckStatus;severity:"S0"|"CAPABILITY";subject:string;reason:string;evidenceRefs:string[];}
 export interface G6OraclePage {sourceIdentity?:IndependentSourceIdentity;observedAvailability?:IndependentWidget;ref:string;url:string;runId:string;candidateId:string;readAt:string;merchantText:string;merchantScope?:"FULL"|"EXCERPTS";reviewText?:string;name:string;address?:string;phone?:string;observedLinks:string[];}
 export interface G6Vacancy {ref:string;phase:"BEFORE"|"SOURCE_CAPTURE"|"AFTER"|"NO_DELIVERY_AFTER";url:string;candidateId:string;body:unknown;}
 export interface G6Delivered {candidateId:string;name:string;address?:string;phone?:string;googlePlaceId?:string;sourceIds?:G6NamedOutlet["sourceIds"];provider:string;sourceEntityId:string;date:string;time:string;partySize:number;}
@@ -11,7 +11,7 @@ export interface G6Handoff {candidateId:string;provider:string;url:string;contin
 export interface G6QuestionAnswer {candidateId:string;status:string;answer?:string|null;citations:Array<{text:string;url:string;readAt:string}>;sensitiveCategory?:string;confirmationRequired?:boolean;}
 export interface G6EvaluationInput {
   runId:string;caseId:string;mode:"FIXTURE"|"LIVE_READ";artifactRefs:string[];
-  request:{dates:string[];disclosedDates?:string[];partySize?:number;time?:string;named?:G6NamedOutlet;budgetJPY?:number;requiresIndependentQualification?:boolean;meal?:"LUNCH"|"DINNER"};
+  request:{dates:string[];disclosedDates?:string[];partySize?:number;time?:string;timeWindow?:{earliest:string;latest:string};named?:G6NamedOutlet;budgetJPY?:number;requiresIndependentQualification?:boolean;meal?:"LUNCH"|"DINNER"};
   namedReferences?:G6NamedReferences;
   /** Complete-request qualification is frozen by an independent reviewer, never copied from State. */
   qualificationOracles?:Array<{nativeIdentity?:IndependentSourceIdentity;name:string;address?:string;phone?:string;hardCriteriaMet:boolean;withinArea:boolean;evidenceRefs:string[]}>;
@@ -121,7 +121,14 @@ export function evaluateG6(input:G6EvaluationInput){
       if(q)yes("COMPLETE_REQUEST_QUALIFICATION",q.hardCriteriaMet&&q.withinArea,d.candidateId,"Independently reviewed complete-request HARD and area qualification",q.evidenceRefs);
       else {
         const claim=input.qualificationClaims?.find(c=>c.candidateId===d.candidateId);
-        if(!claim?.quotes.length)add("COMPLETE_REQUEST_QUALIFICATION","NOT_EVALUATED","S0",d.candidateId,"Need independent same-outlet evidence for all HARD/area requirements from the complete frozen request; partial mechanical checks cannot certify delivery");
+        if(!claim?.quotes.length){
+          add("COMPLETE_REQUEST_QUALIFICATION","NOT_EVALUATED","S0",d.candidateId,"Need independent same-outlet evidence for all HARD/area requirements from the complete frozen request; partial mechanical checks cannot certify delivery");
+          // Distinguish missing annotations from missing source capture. Neither
+          // product HIGH/eligibility nor a reviewer label supplies source identity.
+          const observed=input.pages.some(p=>p.runId===input.runId&&p.candidateId===d.candidateId&&p.name===d.name&&p.merchantText.trim()
+            &&Boolean(p.address&&p.address===d.address||p.phone&&canonicalPhone(p.phone)===canonicalPhone(d.phone)));
+          if(observed)checks.at(-1)!.reviewReason="INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING";
+        }
         else {
           let all=true;const refs:string[]=[];
           for(const quote of claim.quotes){
@@ -134,12 +141,15 @@ export function evaluateG6(input:G6EvaluationInput){
             all&&=valid;if(page)refs.push(page.ref);
             yes("QUALIFICATION_QUOTE",valid,d.candidateId,"Literal quotation must be on the same outlet's same-run public source, bound by name plus address or phone",pages.map(p=>p.ref));
           }
-          if(all)add("COMPLETE_REQUEST_QUALIFICATION","QUOTE_VERIFIED_MEANING_PENDING_REVIEW","CAPABILITY",d.candidateId,"Quotation and outlet binding verified; complete-request meaning and area await independent review, without stopping the batch",refs);
+          if(all){add("COMPLETE_REQUEST_QUALIFICATION","QUOTE_VERIFIED_MEANING_PENDING_REVIEW","CAPABILITY",d.candidateId,"Quotation and outlet binding verified; complete-request meaning and area await independent review, without stopping the batch",refs);checks.at(-1)!.reviewReason="INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING";}
         }
       }
     }
     yes("DATE",[...input.request.dates,...input.request.disclosedDates??[]].includes(d.date),d.candidateId,"Date must be user-supplied or explicitly disclosed, never silently chosen");
-    yes("PARTY_TIME",(input.request.partySize===undefined||d.partySize===input.request.partySize)&&(input.request.time===undefined||d.time===input.request.time),d.candidateId,"Displayed guests/slot must match the independent request");
+    const window=input.request.timeWindow;
+    const inWindow=!window||Boolean(/^(?:[01]\d|2[0-3]):[0-5]\d$/u.test(window.earliest)&&/^(?:[01]\d|2[0-3]):[0-5]\d$/u.test(window.latest)
+      &&window.earliest<=window.latest&&d.time>=window.earliest&&d.time<=window.latest);
+    yes("PARTY_TIME",inWindow&&(input.request.partySize===undefined||d.partySize===input.request.partySize)&&(input.request.time===undefined||d.time===input.request.time),d.candidateId,"Displayed guests/slot must match the independent request");
     if(d.provider==="TABELOG"){
       const candidates=input.vacancy.filter(w=>w.phase==="AFTER"&&w.candidateId===d.candidateId),known=candidates.map(w=>({w,read:independentVacancy(w,d)})).find(x=>x.read.known);
       if(!known)add("POST_DELIVERY_SLOT","NOT_EVALUATED","S0",d.candidateId,"No independently bound immediate post-run four-parameter response",candidates.map(w=>w.ref));
@@ -221,8 +231,11 @@ export function evaluateG6(input:G6EvaluationInput){
   }
   const safety=checks.filter(c=>c.severity==="S0"),s0=safety.filter(c=>c.status==="FAIL"),unknown=safety.some(c=>c.status==="NOT_EVALUATED");
   const pendingMeaning=checks.some(c=>c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW"),failed=checks.some(c=>c.status==="FAIL"),unassessed=checks.some(c=>c.status==="NOT_EVALUATED"||c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW"),unboundedEnd=!input.delivered.length&&input.boundedNoResult!==true&&!input.executionFailure;
+  const unresolved=checks.filter(c=>c.status!=="PASS");
+  const pendingReview=!input.executionFailure&&input.delivered.length>0&&unresolved.length>0&&unresolved.every(c=>c.rule==="COMPLETE_REQUEST_QUALIFICATION"
+    &&c.reviewReason==="INDEPENDENT_QUALIFICATION_ANNOTATION_MISSING"&&(c.status==="NOT_EVALUATED"||c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW"));
   return {schemaVersion:G6_EVALUATOR_SCHEMA,run:{runId:input.runId,caseId:input.caseId,mode:input.mode,artifactRefs:input.artifactRefs},namedOutletBinding,
-    verdict:{status:unknown||unboundedEnd||pendingMeaning?"NOT_EVALUATED":"EVALUATED",qualified:unknown||unboundedEnd||pendingMeaning?null:!input.executionFailure&&!failed&&input.delivered.length>0,outcome:unknown||unboundedEnd||pendingMeaning?null:input.executionFailure?"PLANNED_RUN_FAILED":input.delivered.length?(failed?"DELIVERED_UNQUALIFIED":"QUALIFIED_DELIVERY"):witnessMiss?"CAPABILITY_MISS":"HONEST_NO_RESULT",s0:s0.length,s0Status:s0.length?"FAIL":unknown?"NOT_EVALUATED":"PASS",stopBatch:s0.length>0||unknown},
+    verdict:{status:pendingReview?"PENDING_REVIEW":unknown||unboundedEnd||pendingMeaning?"NOT_EVALUATED":"EVALUATED",qualified:unknown||unboundedEnd||pendingMeaning?null:!input.executionFailure&&!failed&&input.delivered.length>0,outcome:unknown||unboundedEnd||pendingMeaning?null:input.executionFailure?"PLANNED_RUN_FAILED":input.delivered.length?(failed?"DELIVERED_UNQUALIFIED":"QUALIFIED_DELIVERY"):witnessMiss?"CAPABILITY_MISS":"HONEST_NO_RESULT",s0:s0.length,s0Status:s0.length?"FAIL":unknown||pendingReview?"NOT_EVALUATED":"PASS",stopBatch:s0.length>0||checks.some(c=>c.status==="NOT_EVALUATED")&&!pendingReview},
     layers:{endToEnd:{status:unknown||unboundedEnd||pendingMeaning?"NOT_EVALUATED":"EVALUATED",deliveredOutlets:input.delivered.length},stages:checks,severity:{S0:s0.map(c=>c.rule),independentEvidenceMissing:unknown},attribution:{status:"NOT_EVALUATED",reason:"Localization belongs to the separate diagnosis consumer; verdicts do not establish cause."}},
     checks,coverage:{evaluated:checks.filter(c=>c.status==="PASS"||c.status==="FAIL").length,notEvaluated:checks.filter(c=>c.status==="NOT_EVALUATED").length,meaningPendingReview:checks.filter(c=>c.status==="QUOTE_VERIFIED_MEANING_PENDING_REVIEW").length,needsIndependentReview:unassessed},
     diagnosis:{inputArtifactRefs:input.artifactRefs,ownership:"Judgement by G6 evaluator; localization and performance analysis by separate diagnosis consumer. No production eligibility used as an oracle."}};
