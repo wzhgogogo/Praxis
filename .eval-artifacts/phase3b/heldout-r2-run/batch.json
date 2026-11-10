@@ -1,0 +1,127 @@
+{
+  "schema": "phase3b-holdout-batch@2",
+  "serial": true,
+  "stopReason": "NETWORK_HEALTH_FAILED",
+  "witnessPolicies": [
+    {
+      "id": "p3b-holdout-03",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-04b",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-05",
+      "policy": "ALLOW_KNOWN_UNAVAILABLE"
+    },
+    {
+      "id": "p3b-holdout-06",
+      "policy": "POSITIVE_REQUIRED"
+    },
+    {
+      "id": "p3b-holdout-07",
+      "policy": "POSITIVE_REQUIRED"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 1,
+      "key": "p3b-holdout-03-r1",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-03-r1",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "finishedAtMs": 1794302638836,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "ed9fb445cc12043ffe5e069e71e7d62c50e7cddd6a1291254c8551aa370c2cd1",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-r2-03-r1.json",
+        "sha256": "9860f15eb735d9e6878317bc78ce4892f1e0c395577cc53ca6780eb4178a4ae3",
+        "evidenceSHA256": "65676e9cf04f2b167bb3c818edee9eb0f51d48fd961bd63c0375828ac9a9dd67",
+        "evaluationSHA256": "58e0036e0532620d738194ef879b7c1e62a8bb1dc1845be9000d5b21a1a56add"
+      }
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 2,
+      "key": "p3b-holdout-03-r2",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-03-r2",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 214650,
+        "waitedMs": 0,
+        "previousFinishedAtMs": 1794302638836
+      },
+      "finishedAtMs": 1794303419770,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "27cecf4426b27ba9bccb766d314dbb66c3fbb2d0366e7e6d09bd6322823313f1",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-r2-03-r2.json",
+        "sha256": "542cfb19bd29fb28fc37c3864ea6df962098fa09c92a41731c9da6ab04803ccd",
+        "evidenceSHA256": "cd7f911b30ddee550d3e1805aafb038232cfed20b276b47b3a53d0fccb753284",
+        "evaluationSHA256": "4386c4d3882609c1989c6fdc1df136a2c742dcabc2789657a63e58c8c4116d3a"
+      }
+    },
+    {
+      "id": "p3b-holdout-03",
+      "repetition": 3,
+      "key": "p3b-holdout-03-r3",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-03-r3",
+      "status": "EVALUATED_BY_REVIEW",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 214659,
+        "waitedMs": 1,
+        "previousFinishedAtMs": 1794303419770
+      },
+      "finishedAtMs": 1794306027058,
+      "certificationMode": "STANDARD_G6",
+      "witnessExists": true,
+      "evaluationSHA256": "824916b371ba208d5c061c691fc1f42ce65fb04244312efa88c0a31fc71386c2",
+      "review": {
+        "file": "/Users/wangzhour/Desktop/Wang/Git/review-r2-03-r3.json",
+        "sha256": "e91f63bfd8b2305d498ad751f0a485f98842c6e480a26d032538ccbb383cfcd4",
+        "evidenceSHA256": "9ca8f3d9f22b7543a7d8f47ef4f55cfe9d737ea2d56fa7ff8bdb1f4624ddf768",
+        "evaluationSHA256": "0bc19862ccb6933253888f58b857231326d7283f4fd2a5e0da6783a600611083"
+      }
+    },
+    {
+      "id": "p3b-holdout-04a",
+      "repetition": 1,
+      "key": "p3b-holdout-04a-r1",
+      "path": "/private/tmp/praxis-calendar-day-normalization/.eval-artifacts/phase3b/heldout-r2-run/p3b-holdout-04a-r1",
+      "status": "CANCELLED_BEFORE_LIVE",
+      "environmentReplacement": false,
+      "startSpacing": {
+        "delayMs": 199429,
+        "waitedMs": 1,
+        "previousFinishedAtMs": 1794306027058
+      }
+    }
+  ],
+  "healthyCases": [
+    "p3b-holdout-03"
+  ],
+  "pendingReviewCount": 0,
+  "passRateReportable": false,
+  "budgetCheckpoint": {
+    "entries": 170,
+    "sha256": "a19c461243adfecd91b010e58a1c257aac7020cb1f9e7b769a05c3dd1097cdb6",
+    "cumulative": {
+      "fullLive": 15,
+      "evaluationPublicGET": 103,
+      "realModelCalls": 1557,
+      "environmentReruns": 0,
+      "googleRequests": 65,
+      "restaurantWebsiteRequests": 3548
+    }
+  }
+}
