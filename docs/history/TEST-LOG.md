@@ -1,3 +1,5 @@
+2026-11-10 CET — R2准备源码3eb7bea2净树全门禁PASS：type/arch/default1572/build/Chromium274+G6 115/strictG2全12，scan0，产品diff0。仅eval核对用户新额度36Live/220GET/2800模型/4环境；后续批准的轮间随机120–240秒外层等待已日志化/持久化，产品时限不变。D02补评QUALIFIED_DELIVERY/s0=0、用户D01/D02浏览器B1均核对正确。main发布后新私有R2账本继承12/86/1410，6GET预认证符合（05=false其余true）则立即正式开跑，用户已撤销等11-11；私有原文只交运行器，不人工读，原425/旧账本不动。当前新增真实调用0。[计划](../../.eval-artifacts/phase3b/heldout-r2-preparation-20261110/preflight-plan.md)。
+
 <a id="heldout-r2-preparation-20261110"></a>
 
 2026-11-10 CET — R2准备draft：仅eval CLI额度核对改为用户批准2800模型/220GET/36Live/4环境，其他原规则不变；后续用户明确预认证符合后立即开跑，另批准轮间随机120–240秒外层冷却，首轮不等、完成时间/抽样/实际等待持久化，产品时限不变。25项CLI/认证/续跑/pacing夹具通过。D02 review bacd6391补评QUALIFIED_DELIVERY/s0=0，用户真实浏览器核对D01/D02两个B1正确。冻结门禁与main后新外部R2账本继承12/86/1410，以baseLedger/SHA保留旧审计，新R2 entries为空，原425/旧账本不改。私有原文/清单只核SHA未人工读取；下一步6GET预认证，05=false其余true才立即正式执行。[计划](../../.eval-artifacts/phase3b/heldout-r2-preparation-20261110/preflight-plan.md)。
