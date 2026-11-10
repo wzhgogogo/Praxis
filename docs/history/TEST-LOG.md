@@ -1,3 +1,7 @@
+<a id="heldout-r2-certification-stop-20261110"></a>
+
+2026-11-10 CET — R2预认证6GET后停止：03/04a/04b/06=true，05=false预期，07=null/HTTP200/SOURCE_UNVERIFIED（含24–27点时段，现语法拒绝整份selection）。正式held-out未启动，模型/Live增量0；累计12/92/1410。执行工作区a91fc60b保持净树同SHA，原425/账本保持；本证据分支仅复制清洗认证与计数/SHA摘要，无私有原文/清单/主账本。[停止报告](../../.eval-artifacts/phase3b/heldout-r2-stop-01/operator-report.md)。
+
 2026-11-10 CET — R2准备源码3eb7bea2净树全门禁PASS：type/arch/default1572/build/Chromium274+G6 115/strictG2全12，scan0，产品diff0。仅eval核对用户新额度36Live/220GET/2800模型/4环境；后续批准的轮间随机120–240秒外层等待已日志化/持久化，产品时限不变。D02补评QUALIFIED_DELIVERY/s0=0、用户D01/D02浏览器B1均核对正确。main发布后新私有R2账本继承12/86/1410，6GET预认证符合（05=false其余true）则立即正式开跑，用户已撤销等11-11；私有原文只交运行器，不人工读，原425/旧账本不动。当前新增真实调用0。[计划](../../.eval-artifacts/phase3b/heldout-r2-preparation-20261110/preflight-plan.md)。
 
 <a id="heldout-r2-preparation-20261110"></a>
