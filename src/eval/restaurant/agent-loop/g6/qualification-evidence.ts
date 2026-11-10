@@ -46,7 +46,7 @@ export function observedQualificationEvidence(view:RestaurantCaseView,runId:stri
     // With no HARD/category assertion, the displayed merchant name itself is
     // the literal claim. It cannot establish geographic/complete qualification.
     if(!unique.size)for(const frame of frames)if(frame.page.text.includes(candidate.outletName))unique.set(frame.page.url+"\0"+candidate.outletName,{sourceUrl:frame.page.url,quote:candidate.outletName,field:"CATEGORY",meal:"UNSPECIFIED"});
-    const quotes:Array<{text:string;url:string;readAt:string}>=[];
+    const quotes:NonNullable<G6EvaluationInput["qualificationClaims"]>[number]["quotes"]=[];
     for(const s of unique.values()){
       const matches=frames.map((f,index)=>({...f,index})).filter(f=>f.page.url===s.sourceUrl);if(!matches.length)continue;
       const frame=matches.find(f=>f.page.text.includes(s.quote))??matches.at(-1)!;
@@ -69,7 +69,8 @@ export function observedQualificationEvidence(view:RestaurantCaseView,runId:stri
       const bridge=independentAlias??(direct&&direct.name!==candidate.outletName?alias:other?google.find(g=>g.name===other.name&&phone(g.phone)===phone(other.phone)):!sourceIdentities.length?listing:undefined);
       const ref=`${frame.ref??`source-snapshot:${frame.index+1}`}:html-sha256:${sha(frame.page.html)}:text-sha256:${sha(frame.page.text)}`+(bridge?`:identity:${bridge.ref}:${bridge.bodySHA256}`:"");
       pages.push({ref,url:frame.page.url,runId,candidateId,readAt:frame.at,merchantText,merchantScope:"EXCERPTS",name:identity?.name??"UNBOUND_SOURCE_IDENTITY",...(identity?.address?{address:identity.address}:{}),...(identity?.phone?{phone:identity.phone}:{}),observedLinks:rawSource.links,...(native?{sourceIdentity:native}:{}),...(native&&rawSource.widget?{observedAvailability:rawSource.widget}:{})});
-      quotes.push({text:s.quote,url:s.sourceUrl,readAt:frame.at});
+      const used=facts.find(e=>e.sourceFieldQuotes?.some(q=>q.sourceUrl===s.sourceUrl&&q.quote===s.quote));
+      quotes.push({text:s.quote,url:s.sourceUrl,readAt:used?.observedAt??frame.at,...(used?{evidenceId:used.evidenceId,provider:used.provider}:{})});
     }
     for(const frame of frames){
       const raw=readIndependentSource(frame.page),native=raw.identity;

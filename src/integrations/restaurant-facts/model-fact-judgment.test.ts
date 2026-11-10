@@ -230,7 +230,7 @@ test("a locality-cuisine UNKNOWN remains unverified while receiving authoritativ
     evidence: [{ ...sourceEvidence[0]!, claims: { restaurantTypeFacts: ["Tokyo regional cuisine restaurant"] } }],
   });
   assert.deepEqual(result.evidence, []);
-  assert.equal(calls[0]?.promptVersion, "14");
+  assert.equal(calls[0]?.promptVersion, "15");
   assert.match(calls[0]?.messages[0]?.content ?? "", /direct textual entailment/i);
   assert.match(calls[0]?.messages[0]?.content ?? "", /destination's native culinary context/i);
   assert.match(calls[0]?.messages[0]?.content ?? "", /broader national or destination-compatible cuisine does not establish that narrower condition/i);

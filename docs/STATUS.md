@@ -1,3 +1,5 @@
+2026-11-10 CET — draft / not integrated：同店同次读取HIGH且逐字存在于捕获页的CATEGORY进入同一语义判断，引用原evidenceId并进入独立qualificationClaims；无菜系词表。原生发现可引用当前可见范围控件，未引用仍可用但后排；原生批次后立即补计划中的Google来源，保守去重，代码按来源菜系线索排序。已有分类可免重复FACTS浏览；未核身份的菜单路由只交接、不产生事实并停止重复跳转。记录组件绿，预算/Guard/G1/身份不变；待冻结完整门禁与D01/D02各一次，原425暂停状态保持。[计划](../.eval-artifacts/phase3b/category-discovery-cost-20261110/plan.md)。
+
 
 2026-11-10 CET — discovery-progress ordered slice draft: stage1 adds eval-only --health-only (PENDING/custom commitment already integrated), no product edits yet. Diagnostics monitor3 rounds/15min, each both scripts twice/10s, failure retained/remaining scheduled checks continue, <=12GET and0model/Live. Full gates/main before seven-run recorded diagnosis and product repair. Ledger starts8/49/1239, approved increments+2Live/<=26GET, no rollback to stale43; original425 preserved.
 

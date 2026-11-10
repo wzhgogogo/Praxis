@@ -266,6 +266,7 @@ test("Execution Router binds a fact-only read to known candidates and the author
   const execution = await router.execute({ type: "INVESTIGATE_CANDIDATE_FACTS", candidateIds: [fixtureCandidates[0]!.restaurant.id] }, searchedState);
   assert.equal(execution.event?.type, "CANDIDATE_FACTS_CHECKED");
   assert.deepEqual(received, {
+    sourceEvidence: [],
     candidateIds: [fixtureCandidates[0]!.restaurant.id],
     candidates: [fixtureCandidates[0]],
     intent: {

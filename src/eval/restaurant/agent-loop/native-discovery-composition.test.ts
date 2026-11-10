@@ -350,7 +350,7 @@ test("H001 native first batch presents three source-bound Tabelog results withou
   assert.deepEqual(result.state.searchContinuation?.discoveryPlan?.entries.map((entry) => entry.sourceId), ["tabelog", "google-places", "tablecheck"], "the production composition retains the full three-pack plan while the first pack delivers");
   assert.equal(new Set(result.navigations.slice(0, 4).map((_url, index) => result.navigationSessionIds[index])).size, 1,
     "a healthy Tabelog list and its three details share one browser session");
-  assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya"]);
+  assert.deepEqual(result.googleCalls.map((item) => item.query), ["Shibuya", "omakase Shibuya"]);
   assert.ok(result.state.readEvidence.some(item => item.kind === "DISCOVERY" && item.provider === "TABELOG" && Array.isArray(item.claims.sourceCategories) && item.claims.sourceCategories.includes("Sushi")));
   const observed = result.trajectories.find(step => step.decisionContext?.candidates.length)?.decisionContext?.candidates;
   assert.ok(observed?.length);

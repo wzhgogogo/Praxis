@@ -36,7 +36,7 @@ function gateway(output: Record<string, string>): ModelGateway {
   };
 }
 
-test("strict browser wire COMPLETE accepts only a current observed placeholder and restores target-free canonical action", async () => {
+test("strict browser wire COMPLETE retains only a current observed scope reference", async () => {
   const transport = gateway({
     action: "COMPLETE",
     targetRef: "observation:1:target:1",
@@ -49,7 +49,7 @@ test("strict browser wire COMPLETE accepts only a current observed placeholder a
     requestedTimeoutMs = request.timeoutMs;
     return transport.complete(request);
   } });
-  assert.deepEqual(await decision.decide(input), { type: "COMPLETE", reason: "The read-only page is ready." });
+  assert.deepEqual(await decision.decide(input), { type: "COMPLETE", reason: "The read-only page is ready.", scopeRef:"observation:1:target:1" });
   assert.equal(requestedTimeoutMs, 30_000, "Browser decision latency allowance; executor/Runner deadlines remain bounded");
 });
 

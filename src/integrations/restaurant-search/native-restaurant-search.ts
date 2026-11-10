@@ -146,6 +146,8 @@ function groundedNativeCandidate(input: {
   source: DiscoverySourcePack;
   sourceId: string;
   sourceCategories?: string[];
+  listingScope?: {ref:string;text:string;url:string};
+  phone?: string;
   sourceUrl: string;
   name: string;
   address: string;
@@ -164,6 +166,8 @@ function groundedNativeCandidate(input: {
     requestFingerprint: JSON.stringify({ intent: restaurantSearchIntentFingerprint(input.request.intent), location: input.location }),
     claims: {
       ...(input.sourceCategories?.length ? { sourceCategories: input.sourceCategories } : {}),
+      discoveryScopeStatus:input.listingScope?"OBSERVED":"UNVERIFIED",
+      ...(input.listingScope?{discoveryScopeRef:input.listingScope.ref,discoveryScopeText:input.listingScope.text,discoveryScopeUrl:input.listingScope.url}:{}),
       outletName: input.name, address: input.address, areaQuery: input.request.intent.area!.query,
       areaMatch: true, areaMatchBasis: input.location.areaMatchBasis,
       evaluationLocationLabel: input.location.label, distanceMeters: Math.round(geo.distanceMeters),
@@ -174,7 +178,7 @@ function groundedNativeCandidate(input: {
       restaurant: {
         id: candidateId, outletName: input.name, address: input.address,
         coordinates: { lat: input.coordinates.latitude, lng: input.coordinates.longitude },
-        sourceIds: input.source.browser!.candidateSourceIds(input.sourceId, input.sourceUrl),
+        sourceIds: {...input.source.browser!.candidateSourceIds(input.sourceId, input.sourceUrl),...(input.phone?{phone:input.phone}:{})},
         provenance: { outletName: evidenceId, address: evidenceId, sourceIds: evidenceId },
       },
       matchReasons: [`Source coordinates within ${input.location.radiusMeters} m of ${input.location.label}`],
@@ -182,6 +186,19 @@ function groundedNativeCandidate(input: {
     },
     evidence,
   };
+}
+
+/** Conservative dedup: an observed shared provider ID or full phone+address.
+ * A website pointer/name resemblance alone never merges two outlets. */
+export function mergeDiscoveryCandidates(primary:RestaurantCandidate[],supplement:RestaurantCandidate[]){
+  const candidates=structuredClone(primary),aliases=new Map<string,string>();
+  const text=(v:string|undefined)=>v?.normalize("NFKC").replace(/\s+/gu," ").trim().toLowerCase();
+  const phone=(c:RestaurantCandidate)=>c.restaurant.sourceIds.phone?.replace(/\D/gu,"");
+  for(const candidate of supplement){
+    const duplicate=candidates.find(c=>c.restaurant.id===candidate.restaurant.id||Boolean(c.restaurant.sourceIds.googlePlaces&&c.restaurant.sourceIds.googlePlaces===candidate.restaurant.sourceIds.googlePlaces)||Boolean(phone(c)&&phone(c)===phone(candidate)&&text(c.restaurant.address)&&text(c.restaurant.address)===text(candidate.restaurant.address)&&text(c.restaurant.outletName)===text(candidate.restaurant.outletName)));
+    if(duplicate){aliases.set(candidate.restaurant.id,duplicate.restaurant.id);continue;}
+    candidates.push(structuredClone(candidate));
+  }return {candidates,aliases};
 }
 
 /** Bounded browser-source discovery chunks scheduled by the request-owned pack plan. */
@@ -336,7 +353,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
           if(!visited.includes(page.url))visited.push(page.url);
           listings.push({sourceUrl:page.url,parsedOutlets:listing.outlets.length,...(listing.nextPage?{nextPageUrl:listing.nextPage}:{})});
           nextListing=listing.nextPage?{sourceUrl:listing.nextPage,observedOn:page.url,observedAt:this.now()}:undefined;
-          for(const outlet of listing.outlets)known.set(outlet.sourceUrl,pendingEntry(outlet.sourceEntityId,outlet.sourceUrl,this.now(),outlet));
+          for(const outlet of listing.outlets)known.set(outlet.sourceUrl,{...pendingEntry(outlet.sourceEntityId,outlet.sourceUrl,this.now(),outlet),...(result.scopeQuote?{listingScope:result.scopeQuote}:{})});
           if(!remainingEntries().length){if(nextListing)continue;stopped=true;break;}
         }
         for(const entry of remainingEntries()){
@@ -351,7 +368,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
             const identity=pack.browser!.parseDetailIdentity(page,{...entry,outletName:entry.outletName??entry.sourceEntityId});
             const coordinates=identity&&pageCoordinates(page,identity.outletName);
             if(!identity||!coordinates){rejected.push({sourceUrl:page.url,reasonCode:identity?"PAGE_COORDINATES_MISSING":"PAGE_IDENTITY_MISSING"});continue;}
-            const grounded=groundedNativeCandidate({source:pack,sourceId:identity.sourceEntityId,sourceUrl:identity.sourceUrl,name:identity.outletName,address:identity.address!,coordinates,location,request,observedAt:this.now(),...(entry.sourceCategories?{sourceCategories:entry.sourceCategories}:{})});
+            const grounded=groundedNativeCandidate({source:pack,sourceId:identity.sourceEntityId,sourceUrl:identity.sourceUrl,name:identity.outletName,address:identity.address!,coordinates,location,request,observedAt:this.now(),...(entry.sourceCategories?{sourceCategories:entry.sourceCategories}:{}),...(entry.listingScope?{listingScope:entry.listingScope}:{}),...(identity.phone?{phone:identity.phone}:{})});
             if(grounded)admitted.set(grounded.candidate.restaurant.id,grounded);
             else rejected.push({sourceUrl:page.url,reasonCode:"OUTSIDE_EXACT_RADIUS"});
           }catch(error){
@@ -485,7 +502,7 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
     }
     const sourceEnded = batch.funnel.sourceEnded;
     const nextPlan = advanceDiscoveryPlan(discoveryPlan, sourceEnded);
-    return {
+    const result:RestaurantSearchRead = {
       candidates: batch.candidates,
       evidence: [...(localityEvidence ? [localityEvidence] : []), ...batch.evidence],
       continuation: {
@@ -510,6 +527,19 @@ export class NativeRestaurantSearch implements RestaurantSearchPort {
         googleRequests: this.locality.googleRequestUsage(request.readRunId),
       },
     };
+    const next=currentDiscoveryPlanEntry(nextPlan),structured=this.packs.find(p=>p.meta.id===next?.sourceId);
+    if(request.intent.target?.selectionScope!=="SPECIFIC_OUTLET"&&next&&structured&&!structured.browser&&!signal.aborted){
+      try{
+        const extra=await this.search({...request,continuation:result.continuation!},signal);
+        const merged=mergeDiscoveryCandidates(result.candidates,extra.candidates);
+        return {...result,candidates:merged.candidates,evidence:[...result.evidence,...extra.evidence.map(e=>({...e,...(e.candidateId&&merged.aliases.has(e.candidateId)?{candidateId:merged.aliases.get(e.candidateId)!}:{})}))],
+          ...(extra.continuation?{continuation:{...extra.continuation,...(extra.continuation.currentDiscoveryBatch?{currentDiscoveryBatch:{...extra.continuation.currentDiscoveryBatch,candidateIds:extra.continuation.currentDiscoveryBatch.candidateIds.filter(id=>!merged.aliases.has(id))}}:{})}}:{}),metadata:{...result.metadata,latencyMs:Date.now()-startedAt,googleRequests:this.locality.googleRequestUsage(request.readRunId),supplementaryDiscovery:{sourceId:next.sourceId,status:"COMPLETED",candidateCount:extra.candidates.length}}};
+      }catch(error){
+        if(taskLevelFailure(error,signal))throw error;
+        return {...result,continuation:{...result.continuation!,discoveryPlan:advanceDiscoveryPlan(nextPlan,true)},metadata:{...result.metadata,googleRequests:this.locality.googleRequestUsage(request.readRunId),supplementaryDiscovery:{sourceId:next.sourceId,status:"INCOMPLETE",candidateCount:0,reason:restaurantFailureCode(error&&typeof error==="object"&&"code" in error?String(error.code):"SEARCH_FAILED","SEARCH_FAILED")}}};
+      }
+    }
+    return result;
   }
 
   private async searchGooglePack(

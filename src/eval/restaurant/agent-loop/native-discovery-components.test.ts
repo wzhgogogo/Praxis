@@ -69,20 +69,16 @@ test("the production Router advances the default three-pack cursor and reaches G
   const first = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(first.event?.type, "SEARCH_COMPLETED");
   if (first.event?.type !== "SEARCH_COMPLETED") throw new Error("expected first discovery result");
-  assert.equal(first.event.continuation?.discoveryPlan?.entries[first.event.continuation.discoveryPlan.cursor]?.sourceId, "google-places");
+  assert.equal(first.event.continuation?.discoveryPlan?.entries[first.event.continuation.discoveryPlan.cursor]?.sourceId, "tablecheck");
+  assert.equal(first.event.candidates.length,1,"Google supplements the native batch before candidate reads");
+  assert.equal(first.event.metadata?.supplementaryDiscovery?.sourceId,"google-places");
   state = { ...state, phase: "SEARCHING" as const, searchContinuation: first.event.continuation! };
   const second = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
   assert.equal(second.event?.type, "SEARCH_COMPLETED");
-  if (second.event?.type !== "SEARCH_COMPLETED") throw new Error("expected second discovery result");
-  assert.equal(second.event.continuation?.discoveryPlan?.entries[second.event.continuation.discoveryPlan.cursor]?.sourceId, "tablecheck");
-  assert.equal(second.event.candidates.length,1,"Google candidate arrives before reservation-only fallback");
-  state = { ...state, searchContinuation: second.event.continuation! };
-  const third = await router.execute({ type: "SEARCH_RESTAURANTS" }, state, reference.toISOString(), "phase2-router-pack");
-  assert.equal(third.event?.type, "SEARCH_COMPLETED");
-  if (third.event?.type !== "SEARCH_COMPLETED") throw new Error("expected Google discovery result");
-  assert.equal(third.event.candidates.length, 0, "Empty reservation-only fallback does not manufacture candidates");
+  if (second.event?.type !== "SEARCH_COMPLETED") throw new Error("expected reservation-only fallback");
+  assert.equal(second.event.candidates.length, 0, "Empty fallback does not manufacture candidates");
   assert.deepEqual(nearbyRequests, [{ includedTypes: ["restaurant"], maxResultCount: 20, locationRestriction: { circle: { center, radius: 1_000 } } }]);
-  assert.equal(third.event.continuation?.exhausted, true);
+  assert.equal(second.event.continuation?.exhausted, true);
   assert.equal(navigations.some((url) => url.includes("tablecheck.com")), true);
 });
 

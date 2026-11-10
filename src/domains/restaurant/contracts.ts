@@ -417,6 +417,7 @@ export interface RestaurantSearchContinuation {
       address?: string;
       phone?: string;
       sourceCategories?: string[];
+      listingScope?: {ref:string;text:string;url:string};
     }>;
     pendingSourceIds: string[];
   };
@@ -453,6 +454,8 @@ export interface RestaurantAvailabilityRequest {
 
 /** A bounded read of source facts for an already-discovered outlet; never an availability query. */
 export interface RestaurantCandidateFactRequest {
+  /** Router-bound current-request evidence; never supplied by the model. */
+  sourceEvidence?: RestaurantReadEvidence[];
   /** G1 source acquisition only; no HARD/menu interpretation and no original-state write. */
   capturePagesOnly?: true;
   /** One fresh observation of the exact bound page; no capture skill loop. */
@@ -571,6 +574,7 @@ export interface RestaurantReadExecutionMetadata {
     reason: string;
   }>;
   /** Observed native batch funnel; `exhausted` on the durable cursor includes the next source. */
+  supplementaryDiscovery?: {sourceId:string;status:"COMPLETED"|"INCOMPLETE";candidateCount:number;reason?:string};
   nativeDiscoveryFunnel?: {
     directoryRegion?: NonNullable<RestaurantSearchContinuation["sourceProgress"]>["directoryRegion"];
     regionEntrances?: NonNullable<RestaurantSearchContinuation["sourceProgress"]>["regionEntrances"];

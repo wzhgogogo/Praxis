@@ -17,7 +17,7 @@ import type {
   RestaurantTaskState,
 } from "../domains/restaurant/contracts.js";
 import { restaurantSearchIntentFingerprint } from "../domains/restaurant/contracts.js";
-import { assessRestaurantRead, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
+import { assessRestaurantRead, restaurantCurrentFactEvidence, restaurantPresentationEvidenceIds } from "../domains/restaurant/read-assessment.js";
 import { completeRestaurantIntent, completeRestaurantSearchIntent } from "../domains/restaurant/intent-state.js";
 import {restaurantReserveCancelled,RESTAURANT_READ_CANCEL_SETTLE_MS} from "../domains/restaurant/read-time-reserve.js";
 import { RESTAURANT_AVAILABILITY_DISPLAY_FRESHNESS } from "../domains/restaurant/availability-freshness.js";
@@ -325,6 +325,7 @@ export class RestaurantExecutionRouter {
         const intent = completeRestaurantSearchIntent(state.intentDraft);
         if (!intent) throw new Error("Validated candidate fact read requires a complete authoritative search intent");
         const request: RestaurantCandidateFactRequest = {
+          sourceEvidence: action.candidateIds.flatMap(id=>[...restaurantCurrentFactEvidence(state,id),...state.readEvidence.filter(e=>e.candidateId===id&&e.kind==="ENTITY_MATCH"&&e.entityMatch?.confidence==="HIGH")]).filter(e=>[e.expiresAt,e.displayExpiresAt,e.sourceExpiresAt].every(t=>!t||Date.parse(t)>Date.parse(now))),
           candidateIds: [...action.candidateIds],
           candidates: action.candidateIds.map((candidateId) => {
             const candidate = state.candidates.find((item) => item.restaurant.id === candidateId);

@@ -15,7 +15,7 @@ export function restaurantUnverifiedReadSummary(state: Readonly<RestaurantTaskSt
     || state.availabilityChecks[candidate.restaurant.id]).map(candidate => candidate.restaurant.id);
   const reasons = state.candidates.map(candidate => {
     const id = candidate.restaurant.id, availability = state.availabilityChecks[id], facts = state.factChecks?.[id];
-    return `${candidate.restaurant.outletName}: availability ${availability?.status ?? "NOT_CHECKED"} (${availability?.reasonCode ?? assessment.presentation.find(item => item.candidateId === id)?.recheckReason ?? "no request-bound slot established"}); facts ${facts?.status ?? "NOT_CHECKED"}${facts?.reasonCode ? ` (${facts.reasonCode})` : ""}`;
+    return `${candidate.restaurant.outletName}: availability ${availability?.status ?? "NOT_CHECKED"} (${availability?.reasonCode ?? assessment.presentation.find(item => item.candidateId === id)?.recheckReason ?? (availability?.status === "AVAILABLE" ? "source reported AVAILABLE; see current offers and evidence" : "no request-bound slot established")}); facts ${facts?.status ?? "NOT_CHECKED"}${facts?.reasonCode ? ` (${facts.reasonCode})` : ""}`;
   });
   const boundedNativeGap = state.searchContinuation?.discoveryPlan && state.searchContinuation.exhausted
     ? [`The bounded discovery plan ended without a grounded result; wider source coverage was not evaluated${state.searchContinuation.lastFailureCode ? `; last source failure: ${state.searchContinuation.lastFailureCode}` : ""}`] : [];

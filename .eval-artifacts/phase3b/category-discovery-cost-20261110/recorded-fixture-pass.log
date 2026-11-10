@@ -1,0 +1,54 @@
+✖ Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action (3.46625ms)
+✔ Restaurant Agent retries one synthetic non-placeholder format error within the same budgeted gateway (3.026917ms)
+✔ Restaurant Agent stops after a repeated synthetic format error and exposes only rejected field paths (0.176208ms)
+✔ Restaurant Agent supplies candidate commercial comparisons only as source-backed notes (0.429958ms)
+✔ ADR-0044 Agent output cannot introduce a goal or a semantic patch (0.228041ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: REAL_CATEGORY (60.446625ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: LOW (1.985583ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: WRONG_QUOTE (1.958375ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: REVIEW (1.775709ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: PARENT_UNKNOWN (1.144917ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: BAD_CITATION (1.747583ms)
+✔ D01 #16–19 real FACTS pages: one observed followup, no repeated navigation to recover missing identity (54.564333ms)
+✔ D01 #8 recorded broad scope, local session component: CITED (3.188208ms)
+✔ D01 #8 recorded broad scope, local session component: NO_REFERENCE (1.145292ms)
+✔ D01 #8 recorded broad scope, local session component: STALE (0.753125ms)
+✔ D01 #8 recorded broad scope, local session component: HIDDEN (1.357ms)
+✖ D01 recorded native and Google batches coexist; conservative dedup and cited-category ranking (6.173042ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 15
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 259.277791
+
+✖ failing tests:
+
+test at src/domains/restaurant/agent-decision.test.ts:1:1102
+✖ Restaurant Agent sends a DeepSeek-strict compatible wire schema and restores the canonical action (3.46625ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '30' !== '29'
+  
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/domains/restaurant/agent-decision.test.ts:58:10)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:332:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '30',
+    expected: '29',
+    operator: 'strictEqual'
+  }
+
+test at src/integrations/restaurant-search/discovery-landing-recorded.test.ts:1:2665
+✖ D01 recorded native and Google batches coexist; conservative dedup and cited-category ranking (6.173042ms)
+  TypeError [Error]: Cannot read properties of undefined (reading 'tabelog:en/tokyo/A1305/A130504/13269907')
+      at restaurantCurrentFactEvidence (/private/tmp/praxis-heldout-read-reliability/src/domains/restaurant/read-assessment.ts:64:45)
+      at restaurantCandidateReadPriority (/private/tmp/praxis-heldout-read-reliability/src/domains/restaurant/candidate-read-priority.ts:8:14)
+      at <anonymous> (/private/tmp/praxis-heldout-read-reliability/src/integrations/restaurant-search/discovery-landing-recorded.test.ts:26:49)
+      at Array.sort (<anonymous>)
+      at TestContext.<anonymous> (/private/tmp/praxis-heldout-read-reliability/src/integrations/restaurant-search/discovery-landing-recorded.test.ts:26:37)
+      at async Test.run (node:internal/test_runner/test:1069:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:752:7)

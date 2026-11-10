@@ -1,3 +1,9 @@
+<a id="category-discovery-cost-20261110"></a>
+
+## 2026-11-10 CET — source category, discovery scope and candidate fact cost
+
+Production CATEGORY proof is same candidate/source/read, HIGH, raw quote verified against captured page. Existing semantic judgment remains authoritative; citation evidenceId retained into qualification claims, independent source parsing unchanged. Discovery COMPLETE carries optional visible scope ref/raw text without asserting cuisine. Planned structured supplement no longer waits behind native candidate work, conservative exact identity dedup; source-evidenced candidates ordered first. Native missing-identity followup hands back one new route and preserves UNKNOWN; known captured category avoids repeated browser facts. Prompt browser24/action14, fact15, agent30; state/schema budgets and Guard/G1 unchanged.
+
 <a id="heldout-read-reliability-20261109"></a>
 ## 2026-11-09 — paused held-out read reliability (CET)
 

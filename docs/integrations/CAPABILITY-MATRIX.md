@@ -1,3 +1,5 @@
+2026-11-10 CET — draft / not integrated：同店同次读取HIGH且逐字存在于捕获页的CATEGORY进入同一语义判断，引用原evidenceId并进入独立qualificationClaims；无菜系词表。原生发现可引用当前可见范围控件，未引用仍可用但后排；原生批次后立即补计划中的Google来源，保守去重，代码按来源菜系线索排序。已有分类可免重复FACTS浏览；未核身份的菜单路由只交接、不产生事实并停止重复跳转。记录组件绿，预算/Guard/G1/身份不变；待冻结完整门禁与D01/D02各一次，原425暂停状态保持。[计划](../../.eval-artifacts/phase3b/category-discovery-cost-20261110/plan.md)。
+
 2026-11-09 — G1一次观察修复c0b5e4f4全门禁通过，按本轮授权纳入main；初次语言读取与reserve规则保留，未完成采集保留PENDING再观察一次，随后G1按原规则拒答或引用。真实D4/D8 DOM仅组件回归，刷新完整性与模型是LOCAL_CONSTRUCTION；真实问答/条款能力仍未验证，历史失败保留。[报告](../../.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/report.md)。
 
 2026-11-09 — draft / not integrated：G1页面提问与条款现在可对不完整的原生店页缓存重新观察一次；同页零导航，否则只读取绑定URL并重新核对实体，不改变Guard、时限和完整性判定。D4 PRIVATE_ROOM真实DOM组件给出逐字引用，D8条款真实DOM组件完整时NOT_STATED，仍PENDING无模型答复；完整性刷新/时钟/会话/回答均LOCAL_CONSTRUCTION，实际来源问答/条款Live仍未验证，不关闭历史失败。待全门禁。[本轮计划](../../.eval-artifacts/phase3b/heldout-review-page-refresh-20261109/plan.md)。

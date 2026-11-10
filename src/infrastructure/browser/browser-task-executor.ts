@@ -121,6 +121,7 @@ export interface BrowserSkillReadInput {
 }
 
 export interface BrowserGenericReadResult {
+  scopeQuote?: {ref:string;text:string;url:string};
   reasonCode?: string;
   /** Source handoff only; adapter must still inspect identity on this page. */
   sourceHandoff?: {url:string;pageId:string};
@@ -815,7 +816,11 @@ export class BrowserTaskExecutor {
         if (this.disabledRequestedParty(input, observation)) return {status: "NO_SAFE_ACTION", reasonCode: "PARTY_SIZE_NOT_SELECTABLE", snapshot, controls: observation.controls};
         completion = await assess(snapshot, observation.controls);
         if (pendingOption || pendingRadio) return { status: "NO_SAFE_ACTION", snapshot, controls: observation.controls };
-        if (completion.complete && !pendingParty) return { status: "COMPLETED", snapshot, controls: observation.controls };
+        if (completion.complete && !pendingParty) {
+          const scope=action.scopeRef?observation.targets.get(action.scopeRef):undefined;
+          const visible=scope&&observation.controls.some(c=>c.id===scope.controlId&&c.visible&&!c.blockedByActiveLayer);
+          return {status:"COMPLETED",snapshot,controls:observation.controls,...(visible&&scope.label.trim()&&scope.label.length<=1600?{scopeQuote:{ref:scope.ref,text:scope.label,url:snapshot.url}}:{})};
+        }
         // COMPLETE is a request to finish, never evidence that the source has
         // finished.  Keep the same browser session and give the concrete
         // missing predicate back to the model.  A second COMPLETE on the same

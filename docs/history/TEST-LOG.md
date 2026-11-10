@@ -1,3 +1,9 @@
+<a id="category-discovery-cost-20261110"></a>
+
+## 2026-11-10 CET — source category, discovery scope and candidate fact cost
+
+Recorded components: D02 Sumika old decision30 absent CATEGORY/UNKNOWN retained; current input includes own quote and original evidenceId, replacement judgment LOCAL_CONSTRUCTION, LOW/mismatch/review/wrong citation fail. D01 #8 real visible controls (DOM snapshot5 was privacy-omitted) scope ref observed, absent/stale/hidden unverified; prior native5 and Google4 pools merge conservatively. D01 #16–19 real DOM one navigation handoff, unknown identity remains UNKNOWN; browser calls4→1 in component. Production Router/native multi-source fixtures updated for intentional supplement; no safety assertion deleted. Exploratory failures retained. Full clean gates pending;0 real calls so far.
+
 <a id="heldout-read-reliability-20261109"></a>
 ## 2026-11-09 — paused held-out offline repair (CET)
 

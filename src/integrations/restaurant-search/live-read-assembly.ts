@@ -50,7 +50,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
   const now = () => transports.clock.now().toISOString();
   const taskId = transports.currentTaskId ?? (() => undefined);
   const availabilityPacks = packs?.some(pack => pack.availability) ? packs : restaurantDiscoveryPacks;
-  const sourceNames=new ObservedOutletNames(transports.browser);
+  const sourceNames=new ObservedOutletNames(transports.browser,now);
   const tabelogHandoffs = new TabelogBookingHandoffReader(sourceNames.runtime, taskId, now);
   const tablecheckHandoffs = new TableCheckBookingHandoffReader(tabelogHandoffs.runtime, taskId, now);
   const bookingLinks = {
@@ -74,7 +74,7 @@ export function createLiveReadAssembly(config: LiveReadAssemblyConfig, transport
       maxAutomaticElapsedMs: config.maxFactBrowserMs,
       maxElapsedMsPerCandidate: config.maxFactBrowserMs,
       maxElapsedMsPerProvider: config.maxFactProviderMs,
-    }, packs);
+    }, packs,sourceNames.categoryQuotes.bind(sourceNames));
   const terms = new RestaurantBookingTerms(native.questions, bookingLinks.readPrepared, taskId,
     transports.remainingModelCalls ?? (()=>undefined), now, config.maxAutomaticBrowserMs);
   const bookingHandoffs = {...bookingLinks,readPrepared:terms.readPrepared};

@@ -1,0 +1,38 @@
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: REAL_CATEGORY (47.964625ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: LOW (1.830584ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: WRONG_QUOTE (1.732333ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: REVIEW (1.773542ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: PARENT_UNKNOWN (1.14075ms)
+✔ D02 decision30 CATEGORY component, replacement judgment LOCAL_CONSTRUCTION: BAD_CITATION (1.62175ms)
+✔ positive model judgment checks source role: observed name explicitly includes type (2.184416ms)
+✔ positive model judgment checks source role: name without requested type (0.170958ms)
+✔ positive model judgment checks source role: review title (0.085458ms)
+✔ positive model judgment checks source role: review body (0.072292ms)
+✔ positive model judgment checks source role: merchant introduction (0.159125ms)
+✔ source roles survive statement truncation and public review regions cannot be relabelled by model selections (1.701625ms)
+✔ an exact source-observed identity name outside H1 cannot masquerade as merchant introduction (0.136708ms)
+✔ the non-price source-role filter leaves price judgment conversion and numeric budget authority unchanged (0.669875ms)
+✔ a cited model type judgment becomes auditable negative-condition evidence (0.747541ms)
+✔ a category conflict from a generic type needs a same-source HIGH grounded entity (0.167875ms)
+✔ a cited concrete type judgment can ground a positive HARD condition (0.094292ms)
+✔ a positive HARD criterion cannot be grounded by an uncited assertion or conflict label (0.050167ms)
+✔ an uncited model assertion cannot become a negative-condition fact (0.052541ms)
+✔ a broad source type cannot be promoted by the model into exclusion evidence (0.043125ms)
+✔ a cited restaurant-category UNKNOWN is auditable without becoming a verified-negative claim (0.062958ms)
+✔ a generic restaurant fact is sent only for the same negative category judgment and remains UNKNOWN (0.084083ms)
+✔ a venue name alone never becomes a fast-food fact, and non-category UNKNOWN stays fail-closed (0.0635ms)
+✔ a locality-cuisine UNKNOWN remains unverified while receiving authoritative locality context (0.188417ms)
+✔ candidate address and venue name alone never invoke or verify a locality-food criterion (0.032584ms)
+✔ a cited native-cuisine support remains a model judgment rather than a deterministic cuisine mapping (0.047041ms)
+✔ negative category raw judgments reach conversion and the current presentation gate without changing the source facts (1.592625ms)
+✔ website judgments preserve selected source statements and reject invented or cross-candidate citations (0.267958ms)
+✔ a selection spanning merchant and review fields preserves each complete field's own role (0.129291ms)
+✔ a model fact judgment keeps one cited service scope and rejects mixed scope citations (0.140875ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 30
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 164.777
