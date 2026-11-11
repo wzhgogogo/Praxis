@@ -26,6 +26,10 @@ export function d02vSpec(id:string):G6Case{return {id,request:'Looking for a rob
  oracle:{request:{dates:['2026-12-10'],time:'20:30',partySize:8,requiresIndependentQualification:true},pages:[],qualificationOracles:[]},
  witness:{candidateId:'witness-D02V',name:'Nakano Robata Sumika',provider:'TABELOG',sourceEntityId:'13309182',date:'2026-12-10',time:'20:30',partySize:8,
  detailUrl:'https://tabelog.com/en/tokyo/A1319/A131902/13309182/',identityText:['Sumika']}};}
+export function seedInvocation(mode:string,entries:readonly {recordedAtUTC?:string}[],previousFinishedAtMs:number,at=Date.now()){
+ const latestLedgerAtMs=Math.max(0,...entries.map(e=>Date.parse(e.recordedAtUTC??'')).filter(Number.isFinite));
+ return {attemptId:'seed:'+mode+':'+at,previousFinishedAtMs:Math.max(previousFinishedAtMs,latestLedgerAtMs)};
+}
 export async function main(args:string[]){
  const flag=(n:string)=>{const i=args.indexOf(n);if(i<0||!args[i+1])throw Error('MISSING_ARGUMENT');return args[i+1]!;};
  const mode=flag('--case');if(!['D02V-r1','D02V-r2'].includes(mode))throw Error('SEED_CASE_NOT_AUTHORIZED');
@@ -51,8 +55,10 @@ export async function main(args:string[]){
   if(previous.mode!=='D02V-r1'||previous.sourceSHA!==sourceSHA||previous.stopReason)throw Error('SEED_PREVIOUS_STOP_OR_MISMATCH');
   previousFinishedAtMs=Math.max(previousFinishedAtMs,previous.finishedAtMs);
  }
+ const invocation=seedInvocation(mode,ledger.entries,previousFinishedAtMs);
+ const {attemptId}=invocation;previousFinishedAtMs=invocation.previousFinishedAtMs;
  const directory=resolve(flag('--output'));await mkdir(directory,{recursive:false});
- await writeFile(join(directory,'input-hashes.json'),JSON.stringify(audit,null,2)+'\n',{flag:'wx'});
+ await writeFile(join(directory,'input-hashes.json'),JSON.stringify({...audit,attemptId},null,2)+'\n',{flag:'wx'});
  const delayMs=randomInt(120_000,240_001),waitedMs=Math.max(0,delayMs-(Date.now()-previousFinishedAtMs));
  await writeFile(join(directory,'start-spacing.json'),JSON.stringify({delayMs,waitedMs,previousFinishedAtMs})+'\n');
  if(waitedMs)await new Promise(r=>setTimeout(r,waitedMs));
@@ -61,13 +67,13 @@ export async function main(args:string[]){
  const initialWitnesses:WitnessReceipt[]=[];
  {
   const capture=new GooglePlacesHarCapture(()=>{});capture.registerCredentials(deps.ownCredentials??[]);
-  const reader=createWitnessReader({directory:join(directory,'certification'),budgetPath,runId:'seed:'+mode+':'+Date.now(),fetch:deps.witnessFetch,requestTiming:timing,
+  const reader=createWitnessReader({directory:join(directory,'certification'),budgetPath,runId:attemptId,fetch:deps.witnessFetch,requestTiming:timing,
    sanitizeResponse:text=>{if(!capture.accept(text,'RESPONSE')||capture.rejectsRecording)return;return sanitizePublicJson(text);}});
   const receipt=await reader.read(spec.witness!,'BEFORE',false);initialWitnesses.push(receipt);
   await writeFile(join(directory,'certified-selection.json'),JSON.stringify(receipt,null,2)+'\n',{flag:'wx'});
   if(receipt.exists!==true)throw Error('SEED_WITNESS_NOT_AVAILABLE');
  }
- const health=await checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:spec.witness!.detailUrl,beforeGET:async(source,round)=>{await pace();await chargeG6(budgetPath,'seed:'+mode+':HEALTH:'+source+':'+round,'evaluationPublicGET','User2026-11-11 development health, unchanged60s window');}});
+ const health=await checkHoldoutNetwork({browser:createG6LiveBrowser(process.env),tabelogDetailUrl:spec.witness!.detailUrl,beforeGET:async(source,round)=>{await pace();await chargeG6(budgetPath,attemptId+':HEALTH:'+source+':'+round,'evaluationPublicGET','User2026-11-11 development health, unchanged60s window');}});
  await writeFile(join(directory,'network-health.json'),JSON.stringify(health,null,2)+'\n',{flag:'wx'});
  if(!health.passed)throw Error('NETWORK_HEALTH_FAILED');
  const witnessFetch=deps.witnessFetch;deps.witnessFetch=async(...a)=>{await pace();return witnessFetch(...a);};
@@ -76,7 +82,7 @@ export async function main(args:string[]){
  const slot=join(directory,'runtime',spec.id),e=await readFile(join(slot,'evaluation.json'),'utf8').then(t=>JSON.parse(t)as G6Evaluation).catch(()=>null);
  const environment=await recordedEnvironmentFailure(slot),reviewOnly=!!e&&developmentReviewOnly(e);
  const stop=e?.verdict.s0?'S0_STOP':environment?'ENVIRONMENT_FAILURE_AFTER_HEALTH':!e?'INDEPENDENT_EVALUATION_MISSING':e.verdict.stopBatch&&!reviewOnly?'INDEPENDENT_EVIDENCE_REVIEW_REQUIRED':null;
- const summary={sourceSHA,mode,finishedAtMs:Date.now(),originalBatch:batch,developmentStatus:reviewOnly?'PENDING_REVIEW':e?.verdict.status??'MISSING',evaluationUnchanged:true,stopReason:stop,verdict:e?.verdict??null};
+ const summary={sourceSHA,mode,attemptId,finishedAtMs:Date.now(),originalBatch:batch,developmentStatus:reviewOnly?'PENDING_REVIEW':e?.verdict.status??'MISSING',evaluationUnchanged:true,stopReason:stop,verdict:e?.verdict??null};
  await writeFile(join(directory,'development-receipt.json'),JSON.stringify(summary,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(summary));if(stop)process.exitCode=1;
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)main(process.argv.slice(2)).catch(()=>{console.error('Seed development stopped. Inspect structured evidence; private input and credentials omitted.');process.exitCode=1;});
